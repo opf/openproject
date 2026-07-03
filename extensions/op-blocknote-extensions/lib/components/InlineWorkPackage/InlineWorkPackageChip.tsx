@@ -9,10 +9,13 @@ import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
-import { updateInlineChip } from '../../hooks/useInlineWpEvents';
 import type { InlineWpSize } from '../WorkPackage/types';
-import { wpBridge } from '../../services/wpBridge';
-import { selectInlineNode } from '../../utils/cursor';
+import {
+  findInlineChipAtDOM,
+  selectInlineChipAt,
+  removeInlineChipAt,
+  promoteInlineChipToBlockAt,
+} from '../../utils/inlineChipActions';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
@@ -21,10 +24,15 @@ import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
-  inlineContent:{ props:{ wpid:string; size:string; instanceId:string } };
+  inlineContent:{ props:{ wpid:string; size:string; displayId:string } };
   contentRef:(node:HTMLElement | null) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editor?:BlockNoteEditor<any, any, any>;
+  // Provided by BlockNote's node view; updates exactly this node instance.
+  updateInlineContent?:(update:{
+    type:'openProjectWorkPackageInline';
+    props:{ wpid:string; size:string; displayId:string };
+  }) => void;
 }
 
 const InlineChip = styled.span.attrs({
@@ -52,11 +60,10 @@ const InlineChip = styled.span.attrs({
     `}
 `;
 
-export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updateInlineContent }:InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? 's') as InlineWpSize;
-  const instanceId = inlineContent.props.instanceId;
 
   const pendingCallbacks = getPendingCallbacks(rawWpid);
   const wpid = pendingCallbacks === undefined && rawWpid ? Number(rawWpid) : undefined;
@@ -66,10 +73,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
   const { workPackage: wp, loading } = useWorkPackage(wpid);
 
   useEffect(() => {
-    if (!wp || !editor) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    if (wp.displayId === ((inlineContent.props as any).displayId ?? '')) return;
-    updateInlineChip(editor, instanceId, (chip) => ({ ...chip, props: { ...chip.props, displayId: wp.displayId } }));
+    if (!wp || !updateInlineContent) return;
+    if (wp.displayId === inlineContent.props.displayId) return;
+    updateInlineContent({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, displayId: wp.displayId } });
   }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [isSelected, setIsSelected] = useState(false);
@@ -101,11 +107,11 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
         <WorkPackageSearchPopover
           onSelect={(selectedWp) => {
             pendingCallbacks.onSelect(selectedWp.id, selectedWp.displayId);
-            clearInlineWpCallbacks(instanceId);
+            clearInlineWpCallbacks(rawWpid);
           }}
           onCancel={() => {
             pendingCallbacks.onCancel();
-            clearInlineWpCallbacks(instanceId);
+            clearInlineWpCallbacks(rawWpid);
           }}
           renderItem={(wp) => <BlockCard workPackage={wp} inDropdown />}
         />
@@ -137,8 +143,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
           e.preventDefault();
           e.stopPropagation();
           setIsSelected((prev) => !prev);
-          if (editor) {
-            selectInlineNode(editor, instanceId);
+          if (editor && chipRef.current) {
+            const chip = findInlineChipAtDOM(editor, chipRef.current);
+            if (chip) selectInlineChipAt(editor, chip.position);
             editor.getExtension('formattingToolbar')?.store?.setState(false);
           }
         }}
@@ -151,18 +158,21 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
           <WpOptionsPopover
             wp={wp}
             currentSize={size}
-            instanceId={instanceId}
             // eslint-disable-next-line react-hooks/refs
             anchorEl={chipRef.current}
             onClose={() => setIsSelected(false)}
             onResize={(newSize) => {
-              wpBridge.resize({ instanceId, wpid: wp.id, size: newSize });
+              updateInlineContent?.({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, size: newSize } });
             }}
             onConvertToBlock={(blockSize) => {
-              wpBridge.resize({ instanceId, wpid: wp.id, size: blockSize });
+              if (!editor || !chipRef.current) return;
+              const chip = findInlineChipAtDOM(editor, chipRef.current);
+              if (chip) promoteInlineChipToBlockAt(editor, chip.position, blockSize);
             }}
             onRemove={() => {
-              wpBridge.delete({ instanceId, wpid: wp.id });
+              if (!editor || !chipRef.current) return;
+              const chip = findInlineChipAtDOM(editor, chipRef.current);
+              if (chip) removeInlineChipAt(editor, chip.position);
             }}
           />
         )}

@@ -44,6 +44,20 @@ function createEditorWithContent(content:any[]) {
   });
 }
 
+// Position of the inline work package chip in the document, or -1 if absent.
+function findChipPosition(editor:BlockNoteEditor):number {
+  let found = -1;
+  editor.prosemirrorState.doc.descendants((node, position) => {
+    if (found !== -1) return false;
+    if (node.type.name === 'openProjectWorkPackageInline') {
+      found = position;
+      return false;
+    }
+    return true;
+  });
+  return found;
+}
+
 describe('getSizeFromCurrentBlock', () => {
   it('returns xxs for #', () => {
     const editor = createTestEditor('#foo');
@@ -80,11 +94,11 @@ describe('removeTriggerBeforeChip', () => {
       { type: 'text', text: 'Hello #', styles: {} },
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+        props: { wpid: '1', size: 'xxs' },
       },
     ]);
 
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].text).toBe('Hello ');
@@ -95,11 +109,11 @@ describe('removeTriggerBeforeChip', () => {
       { type: 'text', text: 'Hello ###', styles: {} },
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 's' },
+        props: { wpid: '1', size: 's' },
       },
     ]);
 
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].text).toBe('Hello ');
@@ -110,11 +124,11 @@ describe('removeTriggerBeforeChip', () => {
       { type: 'text', text: 'Pre #one #two #', styles: {} },
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+        props: { wpid: '1', size: 'xxs' },
       },
     ]);
 
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].text).toBe('Pre #one #two ');
@@ -128,11 +142,11 @@ describe('removeTriggerBeforeChip', () => {
       { type: 'text', text: 'See PR #42', styles: {} },
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+        props: { wpid: '1', size: 'xxs' },
       },
     ]);
 
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].text).toBe('See PR #42');
@@ -143,21 +157,21 @@ describe('removeTriggerBeforeChip', () => {
       { type: 'text', text: '#', styles: {} },
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+        props: { wpid: '1', size: 'xxs' },
       },
     ]);
 
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].type).toBe('openProjectWorkPackageInline');
   });
 
-  it('does nothing if the chip is not found', () => {
+  it('does nothing if the given position is not a chip', () => {
     const editor = createTestEditor('Hello #foo');
     const before = JSON.stringify(editor.document);
 
-    removeTriggerBeforeChip(editor as any, 'nonexistent-iid');
+    removeTriggerBeforeChip(editor as any, 0);
 
     expect(JSON.stringify(editor.document)).toBe(before);
   });
@@ -166,12 +180,12 @@ describe('removeTriggerBeforeChip', () => {
     const editor = createEditorWithContent([
       {
         type: 'openProjectWorkPackageInline',
-        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+        props: { wpid: '1', size: 'xxs' },
       },
     ]);
 
     const before = JSON.stringify(editor.document);
-    removeTriggerBeforeChip(editor as any, 'test-iid');
+    removeTriggerBeforeChip(editor as any, findChipPosition(editor));
 
     expect(JSON.stringify(editor.document)).toBe(before);
   });
@@ -195,7 +209,6 @@ describe('insertWpChip', () => {
     expect(chip).toBeDefined();
     expect(chip.props.wpid).toBe('1');
     expect(chip.props.size).toBe('xxs');
-    expect(chip.props.instanceId).toEqual(expect.any(String));
   });
 
   it('inserts a trailing space after the chip', () => {

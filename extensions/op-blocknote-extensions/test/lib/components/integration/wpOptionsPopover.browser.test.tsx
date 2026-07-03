@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
-import { wpBridge } from '../../../../lib/services/wpBridge';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineWorkPackageViaSlashMenu,
+  openInlineWorkPackagePopover,
   convertToCompactCard,
   openBlockCardPopover,
 } from '../../../helpers/editorHelpers';
@@ -15,25 +15,18 @@ afterEach(() => {
   cleanup();
 });
 
-function ChipWrapper({ initialSize, wpid = '123', instanceId = 'iid-test' }:{
+function ChipWrapper({ initialSize, wpid = '123' }:{
   initialSize:string;
   wpid?:string;
-  instanceId?:string;
 }) {
   const [size, setSize] = useState(initialSize);
 
-  useEffect(() => {
-    const off = wpBridge.onResize(({ instanceId: iid, size: newSize }) => {
-      if (iid === instanceId) setSize(newSize as string);
-    });
-    return off;
-  }, [instanceId]);
-  
   return (
     <div style={{ paddingTop: '200px', paddingLeft: '20px' }}>
       <InlineWorkPackageChip
-        inlineContent={{ props: { wpid, size, instanceId } }}
+        inlineContent={{ props: { wpid, size, displayId: wpid } }}
         contentRef={vi.fn()}
+        updateInlineContent={(update) => setSize(update.props.size)}
       />
     </div>
   );
@@ -100,18 +93,15 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
   });
 
-  it('removing a chip closes the popover', async () => {
-    render(<ChipWrapper initialSize="s" />);
-    await waitForResolvedChip();
-    await openPopover();
+  it('removing a chip deletes it from the document and closes the popover', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await openInlineWorkPackagePopover();
 
-    let deleteWasCalled = false;
-    const off = wpBridge.onDelete(() => { deleteWasCalled = true; });
     await userEvent.click(page.getByTitle('Remove'));
-    off();
 
-    expect(deleteWasCalled).toBe(true);
     await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+    await expect.element(page.getByText('#123')).not.toBeInTheDocument();
   });
 });
 
@@ -120,7 +110,7 @@ describe('Options popover portal', () => {
     render(
       <div data-testid="chip-wrapper">
         <InlineWorkPackageChip
-          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-portal' } }}
+          inlineContent={{ props: { wpid: '123', size: 's', displayId: '123' } }}
           contentRef={vi.fn()}
         />
       </div>,
@@ -159,7 +149,7 @@ describe('Options popover positioning', () => {
       <div style={{ width: '140px', paddingTop: '200px' }}>
         <span style={{ display: 'inline-block', width: '90px' }} />
         <InlineWorkPackageChip
-          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-wrap' } }}
+          inlineContent={{ props: { wpid: '123', size: 's', displayId: '123' } }}
           contentRef={vi.fn()}
         />
       </div>,
@@ -185,7 +175,7 @@ describe('Options popover positioning', () => {
       <div style={{ paddingTop: '200px' }}>
         <span style={{ display: 'inline-block', width: 'calc(100vw - 80px)' }} />
         <InlineWorkPackageChip
-          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-clamp' } }}
+          inlineContent={{ props: { wpid: '123', size: 's', displayId: '123' } }}
           contentRef={vi.fn()}
         />
       </div>,
@@ -232,7 +222,7 @@ describe('Inline chip popover UX', () => {
     render(
       <div style={{ paddingTop: '200px', paddingLeft: '20px' }}>
         <InlineWorkPackageChip
-          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-outside' } }}
+          inlineContent={{ props: { wpid: '123', size: 's', displayId: '123' } }}
           contentRef={vi.fn()}
         />
         <div data-testid="outside" style={{ marginTop: '20px' }}>Outside</div>

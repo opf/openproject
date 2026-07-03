@@ -17,7 +17,6 @@ export interface WpOptionsProps {
   wp:WorkPackage;
   currentSize?:InlineWpSize;
   currentBlockSize?:BlockWpSize;
-  instanceId?:string;
   anchorEl?:HTMLElement | null;
   onClose:() => void;
   onResize?:(size:InlineWpSize) => void;
@@ -161,7 +160,6 @@ export const WpOptionsPopover = ({
   wp,
   currentSize,
   currentBlockSize,
-  instanceId: _instanceId,
   anchorEl,
   onClose,
   onResize,

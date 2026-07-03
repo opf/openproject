@@ -15,7 +15,6 @@ import { linkToWorkPackage } from '../../services/openProjectApi';
 
 export interface WorkPackageBlockProps {
   wpid?:number | string;
-  instanceId?:string;
   size?:string;
   displayId?:string;
 }
@@ -24,7 +23,6 @@ export interface WorkPackageBlockExternalData {
   attrs:{
     'data-block-content-type':'openProjectWorkPackageBlock';
     'data-wpid':string;
-    'data-instance-id':string;
     'data-size':string;
     'data-display-id':string;
   };
@@ -43,7 +41,6 @@ export function computeWorkPackageBlockExternalData(
     attrs: {
       'data-block-content-type': 'openProjectWorkPackageBlock',
       'data-wpid': String(wpid),
-      'data-instance-id': props.instanceId ?? '',
       'data-size': props.size ?? 'm',
       'data-display-id': displayId,
     },
@@ -66,12 +63,10 @@ export function parseWorkPackageBlockExternalHTML(
     return undefined;
   }
   const wpid = element.getAttribute('data-wpid');
-  const instanceId = element.getAttribute('data-instance-id') ?? '';
   const size = element.getAttribute('data-size') ?? 'm';
   const displayId = element.getAttribute('data-display-id') ?? '';
   return {
     wpid: wpid ? Number(wpid) : undefined,
-    instanceId,
     size,
     displayId,
   };

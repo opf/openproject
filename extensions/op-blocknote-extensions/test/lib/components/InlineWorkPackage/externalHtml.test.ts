@@ -25,12 +25,11 @@ describe('computeWorkPackageInlineExternalData', () => {
   });
 
   it('returns correct attrs and link for a valid wpid with displayId', () => {
-    const result = computeWorkPackageInlineExternalData({ wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' });
+    const result = computeWorkPackageInlineExternalData({ wpid: '57', size: 'xs', displayId: 'PROJ-57' });
     expect(result).toEqual({
       attrs: {
         'data-inline-content-type': 'openProjectWorkPackageInline',
         'data-wpid': '57',
-        'data-instance-id': 'inst1',
         'data-size': 'xs',
         'data-display-id': 'PROJ-57',
       },
@@ -62,21 +61,19 @@ describe('computeWorkPackageInlineExternalData', () => {
     expect(result?.href).toBe('http://localhost:3000/wp/57');
   });
 
-  it('defaults size to "s" and instanceId to empty string when absent', () => {
+  it('defaults size to "s" when absent', () => {
     const result = computeWorkPackageInlineExternalData({ wpid: '1' });
     expect(result?.attrs['data-size']).toBe('s');
-    expect(result?.attrs['data-instance-id']).toBe('');
   });
 });
 
 describe('buildWorkPackageInlineExternalDOM', () => {
-  it('returns a <span> with all five data attributes', () => {
-    const data = computeWorkPackageInlineExternalData({ wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' })!;
+  it('returns a <span> with all data attributes', () => {
+    const data = computeWorkPackageInlineExternalData({ wpid: '57', size: 'xs', displayId: 'PROJ-57' })!;
     const el = buildWorkPackageInlineExternalDOM(data, document);
     expect(el.tagName.toLowerCase()).toBe('span');
     expect(el.getAttribute('data-inline-content-type')).toBe('openProjectWorkPackageInline');
     expect(el.getAttribute('data-wpid')).toBe('57');
-    expect(el.getAttribute('data-instance-id')).toBe('inst1');
     expect(el.getAttribute('data-size')).toBe('xs');
     expect(el.getAttribute('data-display-id')).toBe('PROJ-57');
   });
@@ -106,10 +103,9 @@ describe('parseWorkPackageInlineExternalHTML', () => {
     const el = document.createElement('span');
     el.setAttribute('data-inline-content-type', 'openProjectWorkPackageInline');
     el.setAttribute('data-wpid', '57');
-    el.setAttribute('data-instance-id', 'inst1');
     el.setAttribute('data-size', 'xs');
     el.setAttribute('data-display-id', 'PROJ-57');
-    expect(parseWorkPackageInlineExternalHTML(el)).toEqual({ wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' });
+    expect(parseWorkPackageInlineExternalHTML(el)).toEqual({ wpid: '57', size: 'xs', displayId: 'PROJ-57' });
   });
 
   it('falls back to size "s" and empty displayId when attrs are absent', () => {
@@ -123,9 +119,9 @@ describe('parseWorkPackageInlineExternalHTML', () => {
 });
 
 describe('round-trip: compute → build → parse', () => {
-  it('recovers wpid, instanceId, size, and displayId', () => {
-    const data = computeWorkPackageInlineExternalData({ wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' })!;
+  it('recovers wpid, size, and displayId', () => {
+    const data = computeWorkPackageInlineExternalData({ wpid: '57', size: 'xs', displayId: 'PROJ-57' })!;
     const el = buildWorkPackageInlineExternalDOM(data, document);
-    expect(parseWorkPackageInlineExternalHTML(el)).toEqual({ wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' });
+    expect(parseWorkPackageInlineExternalHTML(el)).toEqual({ wpid: '57', size: 'xs', displayId: 'PROJ-57' });
   });
 });

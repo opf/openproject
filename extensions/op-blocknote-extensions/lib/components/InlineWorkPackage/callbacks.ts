@@ -17,14 +17,21 @@ export interface PendingCallbacks {
 const PENDING_PREFIX = 'pending:' as const;
 const registry = new Map<string, PendingCallbacks>();
 
-export function makePendingWpid(instanceId:string):string {
-  return `${PENDING_PREFIX}${instanceId}`;
+// Generates a unique placeholder wpid. It doubles as the registry key, so
+// callbacks are keyed by the pending chip's own wpid prop rather than a
+// separate instanceId — the chip node needs no extra identifying attribute.
+export function makePendingWpid():string {
+  const token =
+    typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return `${PENDING_PREFIX}${token}`;
 }
 
 // Returns callbacks if wpid is a pending placeholder, undefined otherwise.
 export function getPendingCallbacks(wpid:string):PendingCallbacks | undefined {
   if (!wpid.startsWith(PENDING_PREFIX)) return undefined;
-  return registry.get(wpid.slice(PENDING_PREFIX.length));
+  return registry.get(wpid);
 }
 
 export function registerInlineWpCallbacks(

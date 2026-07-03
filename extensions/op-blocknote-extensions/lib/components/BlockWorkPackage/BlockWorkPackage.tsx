@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
-import { wpBridge } from '../../services/wpBridge';
+import { convertBlockToInlineChip } from '../../utils/inlineChipActions';
 import type { WorkPackage } from '../../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../WorkPackage/types';
 import type { BlockWorkPackageProps } from './types';
@@ -110,7 +110,7 @@ export const BlockWorkPackageComponent = ({
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!selectedWorkPackage) return;
-    wpBridge.convertToInline({ wpid: selectedWorkPackage.id, size, blockId: block.id });
+    convertBlockToInlineChip(editor, block.id, selectedWorkPackage.id, size);
   };
 
   const handleResizeBlock = (size:BlockWpSize) => {
@@ -186,7 +186,6 @@ export const BlockWorkPackageComponent = ({
                       wp={selectedWorkPackage}
                       currentSize={undefined}
                       currentBlockSize={cardSize}
-                      instanceId={undefined}
                       // eslint-disable-next-line react-hooks/refs
                       anchorEl={cardRef.current}
                       onClose={() => setIsOptionsOpen(false)}

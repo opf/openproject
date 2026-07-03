@@ -9,8 +9,6 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
-  useOpBlockNoteExtensions,
-  PasteDeduplicateInstanceIdsExtension,
 } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
@@ -26,9 +24,8 @@ const schema = BlockNoteSchema.create().extend({
 });
 
 function Editor({ onEditor }:{ onEditor?:(editor:any) => void }) {
-  const editor = useCreateBlockNote({ schema, extensions: [PasteDeduplicateInstanceIdsExtension] });
+  const editor = useCreateBlockNote({ schema });
   onEditor?.(editor);
-  useOpBlockNoteExtensions(editor as any);
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 

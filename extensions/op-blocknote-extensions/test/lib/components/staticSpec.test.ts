@@ -35,7 +35,7 @@ const reactInlineImpl = (openProjectWorkPackageInlineSpec as any).implementation
 
 describe('static block spec — toExternalHTML', () => {
   it('produces a DOM node whose innerHTML matches buildWorkPackageBlockExternalDOM', () => {
-    const props = { wpid: 42, instanceId: 'inst1', size: 'l', displayId: 'PROJ-42' };
+    const props = { wpid: 42, size: 'l', displayId: 'PROJ-42' };
      
     const specResult = blockImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageBlockExternalDOM(computeWorkPackageBlockExternalData(props)!, document);
@@ -55,7 +55,6 @@ describe('static block spec — parse', () => {
     const element = document.createElement('div');
     element.setAttribute('data-block-content-type', 'openProjectWorkPackageBlock');
     element.setAttribute('data-wpid', '42');
-    element.setAttribute('data-instance-id', 'inst1');
     element.setAttribute('data-size', 'l');
     element.setAttribute('data-display-id', 'PROJ-42');
     return element;
@@ -64,7 +63,7 @@ describe('static block spec — parse', () => {
   it('parses the HTML element', () => {
     const element = makeBlockElement();
      
-    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: 'inst1', size: 'l', 'displayId': 'PROJ-42' });
+    expect(blockImpl.parse(element)).toEqual({ wpid: 42, size: 'l', 'displayId': 'PROJ-42' });
   });
 
   it('parses the HTML element in the same way as the react block spec', () => {
@@ -81,7 +80,7 @@ describe('static block spec — parse', () => {
 
 describe('static inline spec — toExternalHTML', () => {
   it('produces a DOM node matching buildWorkPackageInlineExternalDOM', () => {
-    const props = { wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' };
+    const props = { wpid: '57', size: 'xs', displayId: 'PROJ-57' };
      
     const specResult = inlineImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageInlineExternalDOM(computeWorkPackageInlineExternalData(props)!, document);
@@ -104,7 +103,6 @@ describe('static inline spec — parse', () => {
     const element = document.createElement('span');
     element.setAttribute('data-inline-content-type', 'openProjectWorkPackageInline');
     element.setAttribute('data-wpid', '57');
-    element.setAttribute('data-instance-id', 'inst1');
     element.setAttribute('data-size', 'xs');
     element.setAttribute('data-display-id', 'PROJ-57');
     return element;
@@ -113,7 +111,7 @@ describe('static inline spec — parse', () => {
   it('parses the HTML element', () => {
     const element = makeInlineElement();
      
-    expect(inlineImpl.parse(element)).toEqual({ wpid: '57', instanceId: 'inst1', size: 'xs', 'displayId': 'PROJ-57' });
+    expect(inlineImpl.parse(element)).toEqual({ wpid: '57', size: 'xs', 'displayId': 'PROJ-57' });
   });
 
   it('parses the HTML element in the same way as the react inline spec', () => {

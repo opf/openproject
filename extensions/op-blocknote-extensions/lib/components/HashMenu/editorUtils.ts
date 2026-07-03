@@ -1,6 +1,5 @@
 import type { BlockNoteEditor } from '@blocknote/core';
 import type { InlineWpSize } from '../WorkPackage/types';
-import { makeInstanceId } from '../../utils/id.ts';
 import type { WorkPackage } from '../../openProjectTypes';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyEditor = BlockNoteEditor<any, any, any>;
@@ -55,14 +54,15 @@ export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
  * Relying on the natural post-insertion cursor sidesteps that entirely.
  */
 export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize):void {
-  const instanceId = makeInstanceId();
-
   (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: 'openProjectWorkPackageInline', props: { wpid: String(wp.id), instanceId, size, displayId: wp.displayId } },
+    { type: 'openProjectWorkPackageInline', props: { wpid: String(wp.id), size, displayId: wp.displayId } },
     { type: 'text', text: ' ', styles: {} },
   ]);
 
-  removeTriggerBeforeChip(editor, instanceId);
+  // The chip (nodeSize 1) and its trailing space (length 1) were just inserted;
+  // insertInlineContent leaves the cursor right after the space.
+  const chipPosition = editor.prosemirrorState.selection.from - 2;
+  removeTriggerBeforeChip(editor, chipPosition);
   editor.focus();
 }
 
@@ -70,28 +70,20 @@ export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize
  * Removes the leftover trigger hashes (`#`/`##`) that BlockNote's suggestion menu
  * leaves directly before the chip for `##`/`###` triggers.
  */
-export function removeTriggerBeforeChip(editor:AnyEditor, instanceId:string):void {
+export function removeTriggerBeforeChip(editor:AnyEditor, chipPosition:number):void {
   const { doc } = editor.prosemirrorState;
 
-  let chipStart = -1;
-  doc.descendants((node, position) => {
-    if (chipStart !== -1) return false;
-    if ((node.attrs as Record<string, unknown>)?.instanceId === instanceId) {
-      chipStart = position;
-      return false;
-    }
-    return true;
-  });
-  if (chipStart === -1) return;
+  const chipNode = doc.nodeAt(chipPosition);
+  if (chipNode?.type.name !== 'openProjectWorkPackageInline') return;
 
-  const nodeBeforeChip = doc.resolve(chipStart).nodeBefore;
+  const nodeBeforeChip = doc.resolve(chipPosition).nodeBefore;
   if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return;
 
   const match = /#+$/.exec(nodeBeforeChip.text);
   if (!match) return;
 
-  const triggerStart = chipStart - (nodeBeforeChip.text.length - match.index);
+  const triggerStart = chipPosition - (nodeBeforeChip.text.length - match.index);
   editor.transact((tr) => {
-    tr.delete(triggerStart, chipStart);
+    tr.delete(triggerStart, chipPosition);
   });
 }

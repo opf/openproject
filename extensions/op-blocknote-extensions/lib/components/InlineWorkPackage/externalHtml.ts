@@ -9,7 +9,6 @@ import { linkToWorkPackage } from '../../services/openProjectApi';
 
 export interface WorkPackageInlineProps {
   wpid?:string;
-  instanceId?:string;
   size?:string;
   displayId?:string;
 }
@@ -18,7 +17,6 @@ export interface WorkPackageInlineExternalData {
   attrs:{
     'data-inline-content-type':'openProjectWorkPackageInline';
     'data-wpid':string;
-    'data-instance-id':string;
     'data-size':string;
     'data-display-id':string;
   };
@@ -29,7 +27,7 @@ export interface WorkPackageInlineExternalData {
 export function computeWorkPackageInlineExternalData(
   props:WorkPackageInlineProps,
 ):WorkPackageInlineExternalData | null {
-  const { wpid, instanceId, size } = props;
+  const { wpid, size } = props;
   if (!wpid || wpid.startsWith('pending:')) return null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = props.displayId || wpid;
@@ -37,7 +35,6 @@ export function computeWorkPackageInlineExternalData(
     attrs: {
       'data-inline-content-type': 'openProjectWorkPackageInline',
       'data-wpid': wpid,
-      'data-instance-id': instanceId ?? '',
       'data-size': size ?? 's',
       'data-display-id': displayId,
     },
@@ -61,7 +58,6 @@ export function parseWorkPackageInlineExternalHTML(
   }
   return {
     wpid: element.getAttribute('data-wpid') ?? '',
-    instanceId: element.getAttribute('data-instance-id') ?? '',
     size: element.getAttribute('data-size') ?? 's',
     displayId: element.getAttribute('data-display-id') ?? '',
   };

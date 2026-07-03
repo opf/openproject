@@ -9,8 +9,13 @@ import {
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   inlineConfig,
   {
-    render: ({ inlineContent, contentRef, editor }) => (
-      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} editor={editor}/>
+    render: ({ inlineContent, contentRef, editor, updateInlineContent }) => (
+      <InlineWorkPackageChip
+        inlineContent={inlineContent}
+        contentRef={contentRef}
+        editor={editor}
+        updateInlineContent={updateInlineContent}
+      />
     ),
 
     // toExternalHTML is used by two paths:

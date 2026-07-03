@@ -1,29 +1,16 @@
-import type { BlockNoteEditor, InlineContentFromConfig } from '@blocknote/core';
-import type { Node as ProsemirrorNode } from 'prosemirror-model';
+import type { BlockNoteEditor } from '@blocknote/core';
 import { LinkIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { makeInstanceId } from '../utils/id.ts';
+import { findInlineChipByWpid } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { isCurrentBlockEmpty } from '../utils/blockContent.ts';
 import type { AnyEditor } from './HashMenu/editorUtils';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyInlineNode = InlineContentFromConfig<any, any>;
-
-function getBlockContent(
-  editor:AnyEditor,
-  blockId:string
-):{ blockId:string; content:AnyInlineNode[] } | null {
-  const block = editor.getBlock(blockId) as { id:string; content:AnyInlineNode[] } | null;
-  if (!block) return null;
-  return { blockId: block.id, content: block.content ?? [] };
-}
-
 function buildOnSelect(
   editor:AnyEditor,
-  instanceId:string
+  pendingWpid:string
 ):(wpid:number, displayId:string) => void {
   return (wpid:number, displayId:string) => {
     // Resolve the placeholder chip to its real work package by updating the node's
@@ -37,47 +24,28 @@ function buildOnSelect(
     // insertion leaves the editor in a state where the next native keyboard input
     // (e.g. Backspace) is silently dropped. Relying on the preserved selection
     // avoids that entirely.
-    const view = editor.prosemirrorView;
-    let chipPosition:number | null = null;
-    let chipNode:ProsemirrorNode | null = null;
-    view.state.doc.descendants((node, position) => {
-      if (chipPosition !== null) return false;
-      if ((node.attrs as Record<string, unknown>)?.instanceId === instanceId) {
-        chipPosition = position;
-        chipNode = node;
-        return false;
-      }
-      return true;
-    });
-    if (chipPosition === null || chipNode === null) return;
+    const found = findInlineChipByWpid(editor.prosemirrorState.doc, pendingWpid);
+    if (!found) return;
 
-    const position:number = chipPosition;
-    const existingAttributes = (chipNode as ProsemirrorNode).attrs;
     editor.focus();
     editor.transact((tr) => {
-      tr.setNodeMarkup(position, undefined, { ...existingAttributes, wpid: String(wpid), displayId });
+      tr.setNodeMarkup(found.position, undefined, { ...found.node.attrs, wpid: String(wpid), displayId });
     });
   };
 }
 
 function buildOnCancel(
   editor:AnyEditor,
-  blockId:string,
-  pendingWpid:string,
-  instanceId:string
+  pendingWpid:string
 ):() => void {
   return () => {
-    const current = getBlockContent(editor, blockId);
-    if (!current) return;
-
-    const updatedContent = current.content.filter((node) => {
-      const n = node as { type:string; props?:{ wpid?:string } };
-      return !(n.type === 'openProjectWorkPackageInline' && n.props?.wpid === pendingWpid);
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    editor.updateBlock(current.blockId, { content: updatedContent } as any);
-    clearInlineWpCallbacks(instanceId);
+    const found = findInlineChipByWpid(editor.prosemirrorState.doc, pendingWpid);
+    if (found) {
+      editor.transact((tr) => {
+        tr.delete(found.position, found.position + found.node.nodeSize);
+      });
+    }
+    clearInlineWpCallbacks(pendingWpid);
   };
 }
 
@@ -98,25 +66,21 @@ function insertBlockWorkPackage(editor:AnyEditor):void {
 }
 
 function insertInlineWorkPackage(editor:AnyEditor):void {
-  const instanceId = makeInstanceId();
-  const pendingWpid = makePendingWpid(instanceId);
+  const pendingWpid = makePendingWpid();
 
-  const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
-  if (!blockId) return;
+  const onSelect = buildOnSelect(editor, pendingWpid);
+  const onCancel = buildOnCancel(editor, pendingWpid);
 
-  const onSelect = buildOnSelect(editor, instanceId);
-  const onCancel = buildOnCancel(editor, blockId, pendingWpid, instanceId);
-
-  registerInlineWpCallbacks(instanceId, onSelect, onCancel);
+  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel);
 
   try {
     (editor.insertInlineContent as (content:unknown[]) => void)([
-      { type: 'openProjectWorkPackageInline', props: { wpid: pendingWpid, instanceId, size: 's' } },
+      { type: 'openProjectWorkPackageInline', props: { wpid: pendingWpid, size: 's' } },
       { type: 'text', text: ' ', styles: {} },
     ]);
   } catch (error) {
     console.error('[inline-wp] insertInlineContent failed:', error);
-    clearInlineWpCallbacks(instanceId);
+    clearInlineWpCallbacks(pendingWpid);
   }
 }
 
