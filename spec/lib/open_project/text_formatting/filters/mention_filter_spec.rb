@@ -64,6 +64,8 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(">##{work_package.id}<")
         expect(rendered).to include(%(href="/work_packages/#{work_package.id}"))
         expect(rendered).to include(%(data-hover-card-url="/work_packages/#{work_package.id}/hover_card"))
+        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
+        expect(rendered).not_to include(" title=")
       end
     end
 
@@ -101,6 +103,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="false"))
+        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
       end
     end
 
@@ -119,6 +122,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="true"))
+        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
       end
     end
 
@@ -268,6 +272,14 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
 
       def user_mention_tag(user)
         %(<mention class="mention" data-id="#{user.id}" data-type="user" data-text="@#{user.name}">@#{user.name}</mention>)
+      end
+
+      it "labels a user mention without rendering a title tooltip" do
+        user = create(:user, member_with_roles: { project => role })
+        rendered = format_text(user_mention_tag(user))
+
+        expect(rendered).to include(%(aria-label="A dynamic link to a user placed using a macro"))
+        expect(rendered).not_to include(" title=")
       end
 
       it "loads many mentioned users with a single users SELECT keyed by id" do

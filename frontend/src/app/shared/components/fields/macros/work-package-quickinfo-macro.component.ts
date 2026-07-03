@@ -66,10 +66,10 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  @HostBinding('attr.aria-label') hostAriaLabel = this.text.aria_label;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;

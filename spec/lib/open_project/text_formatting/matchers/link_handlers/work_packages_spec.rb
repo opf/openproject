@@ -174,7 +174,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       rendered = format_text("see ###{wp.display_id} here")
 
       expect(rendered).to include(
-        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="false">)
+        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="false" aria-label="A dynamic link to a work package placed using a macro">)
       )
     end
 
@@ -183,7 +183,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       rendered = format_text("see ####{wp.display_id} here")
 
       expect(rendered).to include(
-        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="true">)
+        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="true" aria-label="A dynamic link to a work package placed using a macro">)
       )
     end
 

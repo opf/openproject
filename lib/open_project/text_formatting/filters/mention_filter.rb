@@ -102,13 +102,15 @@ module OpenProject::TextFormatting
       def user_mention(user)
         link_to_user(user,
                      only_path: context[:only_path],
-                     class: "user-mention")
+                     class: "user-mention",
+                     aria: { label: resource_link_aria_label("user") })
       end
 
       def group_mention(group)
         link_to_group(group,
                       only_path: context[:only_path],
-                      class: "user-mention")
+                      class: "user-mention",
+                      aria: { label: resource_link_aria_label("group") })
       end
 
       def work_package_mention(work_package, mention)
@@ -134,7 +136,10 @@ module OpenProject::TextFormatting
                                                   "",
                                                   data: { id: work_package.id,
                                                           display_id: work_package.display_id,
-                                                          detailed: }
+                                                          detailed: },
+                                                  aria: {
+                                                    label: work_package_link_aria_label
+                                                  }
       end
 
       # Uses the WP's current `formatted_id` rather than the envelope text,
@@ -145,7 +150,16 @@ module OpenProject::TextFormatting
 
         link_to(label,
                 work_package_path_or_url(id: work_package.display_id, only_path: context[:only_path]),
-                class: "issue work_package")
+                class: "issue work_package",
+                aria: { label: work_package_link_aria_label })
+      end
+
+      def work_package_link_aria_label
+        I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_link")
+      end
+
+      def resource_link_aria_label(resource)
+        I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
       end
 
       def work_package_link(work_package)
@@ -153,6 +167,7 @@ module OpenProject::TextFormatting
         link_to(work_package.formatted_id,
                 work_package_path_or_url(id: display_id, only_path: context[:only_path]),
                 class: "issue work_package",
+                aria: { label: work_package_link_aria_label },
                 data: {
                   hover_card_trigger_target: "trigger",
                   hover_card_url: hover_card_work_package_path(display_id)
@@ -178,6 +193,12 @@ module OpenProject::TextFormatting
 
       # For link_to
       def controller; end
+
+      def link_to(name = nil, options = nil, html_options = nil, &)
+        html_options = (html_options || {}).except(:title, "title")
+
+        super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
+      end
 
       def mention_id(mention)
         value = mention.attributes["data-id"]&.value
