@@ -196,6 +196,34 @@ RSpec.describe DemoData::WorkPackageSeeder do
     end
   end
 
+  context "with work package data with remaining_hours and done_ratio" do
+    let(:work_packages_data) do
+      [
+        work_package_data(estimated_hours: 8, remaining_hours: 4, done_ratio: 50)
+      ]
+    end
+
+    it "sets remaining_hours and done_ratio to the given values" do
+      work_package = WorkPackage.first
+      expect(work_package.remaining_hours).to eq(4)
+      expect(work_package.done_ratio).to eq(50)
+    end
+  end
+
+  context "with work package data without remaining_hours and done_ratio" do
+    let(:work_packages_data) do
+      [
+        work_package_data(estimated_hours: 8)
+      ]
+    end
+
+    it "does not set remaining_hours or done_ratio" do
+      work_package = WorkPackage.first
+      expect(work_package.remaining_hours).to be_nil
+      expect(work_package.done_ratio).to be_nil
+    end
+  end
+
   context "with work package data with schedule_manually" do
     let(:work_packages_data) do
       [

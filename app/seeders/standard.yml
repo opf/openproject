@@ -416,6 +416,9 @@ projects:
                 status: :default_status_in_progress
                 type: :default_type_task
                 duration: 1
+                estimated_hours: 8
+                remaining_hours: 4
+                done_ratio: 50
               - start: 0
                 t_subject: Contact sponsoring partners
                 assigned_to: :department__finance_administration
@@ -423,6 +426,9 @@ projects:
                 status: :default_status_new
                 type: :default_type_task
                 duration: 2
+                estimated_hours: 16
+                remaining_hours: 16
+                done_ratio: 0
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
                 assigned_to: :user__marko_marketing
@@ -430,6 +436,9 @@ projects:
                 status: :default_status_new
                 type: :default_type_task
                 duration: 4
+                estimated_hours: 32
+                remaining_hours: 32
+                done_ratio: 0
           - start: 4
             t_subject: Invite attendees to conference
             reference: :invite_attendees_to_conference
@@ -438,6 +447,9 @@ projects:
             status: :default_status_new
             type: :default_type_task
             duration: 1
+            estimated_hours: 8
+            remaining_hours: 8
+            done_ratio: 0
             schedule_manually: false
             relations:
               - to: :set_date_and_location_of_conference
@@ -450,6 +462,9 @@ projects:
             status: :default_status_new
             type: :default_type_task
             duration: 11
+            estimated_hours: 88
+            remaining_hours: 88
+            done_ratio: 0
             schedule_manually: false
             relations:
               - to: :set_date_and_location_of_conference
@@ -461,6 +476,9 @@ projects:
         status: :default_status_new
         type: :default_type_task
         duration: 3
+        estimated_hours: 24
+        remaining_hours: 24
+        done_ratio: 0
         schedule_manually: false
         relations:
           - to: :setup_conference_website
@@ -493,6 +511,9 @@ projects:
             status: :default_status_new
             type: :default_type_task
             duration: 10
+            estimated_hours: 80
+            remaining_hours: 80
+            done_ratio: 0
           - start: 31
             t_subject: Party for conference supporters :-)
             assigned_to: :user__olga_ops
@@ -504,6 +525,9 @@ projects:
             status: :default_status_new
             type: :default_type_task
             duration: 1
+            estimated_hours: 8
+            remaining_hours: 8
+            done_ratio: 0
       - start: 32
         t_subject: End of project
         description:
