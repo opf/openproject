@@ -33,14 +33,10 @@ require "spec_helper"
 RSpec.describe WikiController do
   shared_let(:admin) { create(:admin) }
 
-  shared_let(:project) do
-    create(:project).tap(&:reload)
-  end
+  shared_let(:project) { create(:project, :with_internal_wiki).reload }
   shared_let(:wiki) { project.wiki }
 
-  shared_let(:existing_page) do
-    create(:wiki_page, wiki_id: project.wiki.id, title: "ExistingPage", author: admin)
-  end
+  shared_let(:existing_page) { create(:wiki_page, wiki_id: wiki.id, title: "ExistingPage", author: admin) }
 
   describe "actions" do
     before do
@@ -968,9 +964,7 @@ RSpec.describe WikiController do
   describe "view related stuff" do
     render_views
 
-    shared_let(:project) do
-      create(:public_project).tap(&:reload)
-    end
+    shared_let(:project) { create(:public_project, :with_internal_wiki).reload }
 
     # creating pages
     let!(:page_with_content) do
