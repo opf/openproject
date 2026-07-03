@@ -31,7 +31,6 @@
 require "spec_helper"
 
 RSpec.describe WikiPage do
-  shared_let(:internal_wiki_provider) { create(:internal_wiki_provider) }
   shared_let(:author) { create(:user) }
   shared_let(:project) { create(:project).reload }
 

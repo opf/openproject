@@ -42,6 +42,10 @@ FactoryBot.define do
     public { false }
     templated { false }
 
+    callback(:before_all) do
+      create(:internal_wiki_provider) unless Wikis::InternalProvider.any?
+    end
+
     callback(:after_build) do |project, evaluator|
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
@@ -57,6 +61,8 @@ FactoryBot.define do
           .new(user: User.system, contract_class: EmptyContract)
           .call(principal: user, project:, roles: Array(roles))
       end
+
+      project.reload
     end
 
     trait :with_status do

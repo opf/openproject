@@ -32,9 +32,8 @@ require "spec_helper"
 
 RSpec.describe WikiController do
   shared_let(:admin) { create(:admin) }
-  shared_let(:internal_wiki_provider) { create(:internal_wiki_provider) }
 
-  shared_let(:project) { create(:project).tap(&:reload) }
+  shared_let(:project) { create(:project) }
   shared_let(:wiki) { project.wiki }
 
   shared_let(:existing_page) do
