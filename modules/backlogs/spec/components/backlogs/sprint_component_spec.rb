@@ -124,19 +124,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
       end
 
-      context "when params[:all] is true" do
-        before do
-          vc_test_controller.params[:all] = "1"
-        end
-
-        it "propagates ?all=1 to the work package drop URL" do
-          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-            expect(row["data-drop-url"])
-              .to eq(move_project_backlogs_work_package_path(project, work_package1, all: "1"))
-          end
-        end
-      end
-
       it "renders the sprint kebab menu in the header" do
         expect(rendered_component).to have_element :"action-menu"
       end
@@ -314,10 +301,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             vc_test_controller.params[:all] = "1"
           end
 
-          it "preserves ?all=1 on the complete-sprint link" do
+          it "preserves ?all=true on the complete-sprint link" do
             expect(rendered_component).to have_link(
               "Complete sprint",
-              href: finish_project_backlogs_sprint_path(project, sprint, all: 1)
+              href: finish_project_backlogs_sprint_path(project, sprint, all: true)
             )
           end
         end

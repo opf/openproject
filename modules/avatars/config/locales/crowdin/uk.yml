@@ -19,24 +19,10 @@ uk:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Поточний avatar
     label_local_avatar: Довільний avatar
-    text_current_avatar: 'Наступне зображення відоброжає поточний avatar.
-
-      '
-    text_upload_instructions: 'Завантажте особистий avatar розміром 128х128 пікселів. Зображення більшого розміру будуть автоматично обрізані та змаштабовані. Як тількі ви оберете зображення, буде відображено попередній перегляд вашого avatar до завантаження.
-
-      '
-    text_change_gravatar_html: 'Для зміни або додавання Gravatar до вашої електронної адреси, перейдіть за наступним посиланням: %{gravatar_url}.'
-    text_your_local_avatar: 'OpenProject дозволяє користувачам завантажувати особисті довільні avatar.
-
-      '
-    text_local_avatar_over_gravatar: 'Якщо ви встановите особистий avatar, він буде застосований до вашого облікового запису незалежно від налаштунків gravatar.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject використовує ваше зображення gravatar, якщо ви зареєстровані у цьому сервісі, або буде використане зображення за замовчуванням, або ваш завантажений довільний avatar.
-      Ваше поточне зображення gravatar наступне:
+    text_avatar_gravatar_html: OpenProject використовує ваш Gravatar, якщо ви зареєстрували його на %{gravatar_url}, або зображення за замовчуванням чи значок, якщо вони доступні.
+    text_avatar_local: Ви також можете завантажити власний аватар, який замінить Gravatar, натиснувши на зображення. Рекомендований розмір зображення — 128 × 128 пікселів.
+    text_avatar_local_only: Ви можете завантажити власний аватар, натиснувши на зображення. Рекомендований розмір зображення — 128 × 128 пікселів.
     settings:
       enable_gravatars: Увімкнути gravatars
       gravatar_default: Зображення Gravatar за замовчуванням

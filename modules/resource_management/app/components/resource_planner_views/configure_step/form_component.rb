@@ -71,6 +71,25 @@ module ResourcePlannerViews
       def has_filter_query?
         @filter_query.present?
       end
+
+      # Filters the view withholds from configuration (e.g. the project filter
+      # for work-package views, which must not override the project scoping).
+      def excluded_filters
+        @view.try(:excluded_configuration_filters) || []
+      end
+
+      # ::ResourceUserCard disambiguates from the ResourcePlannerViews::ResourceUserCard contracts namespace.
+      def show_card_fields?
+        @view.is_a?(::ResourceUserCard)
+      end
+
+      def card_field_options
+        UserCardList::CardFieldCatalog.options
+      end
+
+      def selected_card_fields
+        UserCardList::CardFieldCatalog.selected_options(@view.card_fields)
+      end
     end
   end
 end

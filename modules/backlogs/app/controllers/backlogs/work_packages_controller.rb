@@ -31,11 +31,10 @@
 module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
-    include Backlogs::Concerns::ContainerLoading
 
     # Document event dispatched after a successful move so the frontend can refresh a
     # split view open on the moved work package (see backlogs.controller.ts).
-    WORK_PACKAGE_MOVED_EVENT = "op-dispatched:backlogs:work-package-moved"
+    WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
     before_action :load_work_package
 
@@ -55,7 +54,7 @@ module Backlogs
       respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
+        move_action: move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
       )
     end
 
@@ -63,19 +62,16 @@ module Backlogs
       respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
+        move_action: move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
       )
     end
 
     def move # rubocop:disable Metrics/AbcSize
-      # Capture the source before the call; the service reloads @work_package internally via #move_after.
-      source_sprint = @work_package.sprint
-
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
                                    .call(**move_params.to_h.symbolize_keys)
 
       if call.success?
-        move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint: call.result.sprint)
+        reload_frame_via_turbo_stream("backlogs_container")
 
         # A split view open on the moved work package caches its lock_version. Signal the
         # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
@@ -101,36 +97,6 @@ module Backlogs
     end
 
     private
-
-    def move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint:)
-      if source_sprint != target_sprint
-        replace_component_via_turbo_stream(sprint: source_sprint)
-      end
-
-      replace_component_via_turbo_stream(sprint: target_sprint)
-    end
-
-    def replace_component_via_turbo_stream(sprint:)
-      component = if sprint
-                    sprint_component(sprint:)
-                  else
-                    backlog_component
-                  end
-
-      replace_via_turbo_stream(component:, method: :morph)
-    end
-
-    def sprint_component(sprint:)
-      Backlogs::SprintComponent.new(sprint:, project: @project)
-    end
-
-    def backlog_component
-      load_backlog_data
-
-      Backlogs::BacklogComponent.new(buckets: @backlog_buckets,
-                                     work_packages_by_backlog_id: @work_packages_by_backlog_id,
-                                     project: @project)
-    end
 
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position

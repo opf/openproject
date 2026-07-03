@@ -1,3 +1,4 @@
+import { groupBy } from 'lodash-es';
 import { Injectable } from '@angular/core';
 
 import { Query } from '@datorama/akita';
@@ -17,7 +18,7 @@ export class UserPreferencesQuery extends Query<IUserPreference> {
     .notificationSettings$
     .pipe(
       map((settings) => settings.filter((setting) => setting._links.project.href)),
-      map((settings) => _.groupBy(settings, (setting) => setting._links.project.title)),
+      map((settings) => groupBy(settings, (setting) => setting._links.project.title)),
     );
 
   /** Notification settings grouped by Project */

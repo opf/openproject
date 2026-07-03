@@ -952,11 +952,12 @@ hu:
         relation_filters:
           filter_work_packages_by_relation_type: A munkacsomagok szűrése relációs típus szerint
       tabs:
-        overview: Áttekintés
         activity: Tevékenység
+        files: Fájlok
+        overview: Áttekintés
+        project_attributes: Project attributes
         relations: Kapcsolatok
         watchers: Megfigyelők
-        files: Fájlok
       time_relative:
         days: nap
         weeks: Hetek

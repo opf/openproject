@@ -75,10 +75,10 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
+    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
       const groups = (dataset.groups || []).map((group) => group.value) as any;
       return array.concat(groups);
-    }, [])) as string[];
+    }, []))) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
       const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
@@ -193,12 +193,12 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartDescription():string {
-    const chartDataDescriptions = _.map(this.chartLabels, (label, index) => {
+    const chartDataDescriptions = this.chartLabels.map((label, index) => {
       if (this.chartData.length === 1) {
         const allCount = this.chartData[0].data[index];
         return `${allCount} ${label}`;
       }
-      const labelCounts = _.map(this.chartData, (dataset) => `${dataset.data[index]} ${dataset.label}`);
+      const labelCounts = this.chartData.map((dataset) => `${dataset.data[index]} ${dataset.label}`);
       return `${label}: ${labelCounts.join(', ')}`;
     });
 

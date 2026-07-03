@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
@@ -135,14 +136,14 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public get isSecondSpacerVisible():boolean {
-    const hasSearch = !!_.find(this.filters, (f) => f.id === 'search');
-    const hasAvailableFilter = !!this.filters.find((f) => f.id !== 'search' && this.isFilterAvailable(f));
+    const hasSearch = this.filters.some((f) => f.id === 'search');
+    const hasAvailableFilter = this.filters.some((f) => f.id !== 'search' && this.isFilterAvailable(f));
 
     return hasSearch && hasAvailableFilter;
   }
 
   private updateRemainingFilters() {
-    this.remainingFilters = _.sortBy(this.wpTableFilters.remainingVisibleFilters(this.filters), 'name');
+    this.remainingFilters = sortBy(this.wpTableFilters.remainingVisibleFilters(this.filters), 'name');
   }
 
   private updateFilterFocus(index:number) {

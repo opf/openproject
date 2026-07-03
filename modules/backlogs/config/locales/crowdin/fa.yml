@@ -93,6 +93,18 @@ fa:
     administration_blankslate:
       title: تنظیمات مدیریتی بک‌لاگ در حال تکمیل است
       text: ما در حال بازطراحی ماژول بک‌لاگ هستیم. تنظیمات مدیریتی اسپرینت‌ها و بک‌لاگ‌ها به‌زودی در اینجا نمایش داده می‌شود. تنظیمات سطح پروژه همچنان در دسترس است.
+    backlog_component:
+      button_new_backlog_bucket: مخزن بک‌لاگ جدید
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: مخزن بک‌لاگ
+        other: مخزن‌های بک‌لاگ
+        zero: همه مخزن‌های بک‌لاگ
+      label_sprint_filter:
+        one: اسپرینت
+        other: اسپرینت‌ها
+        zero: همه اسپرینت‌ها
+      select_panel_title: انتخاب موارد
     bucket_destroy_modal_component:
       title: مخزن بک‌لاگ حذف شود؟
       details: مخزن بک‌لاگ «%{name}» حذف می‌شود و همه بسته‌های کاری به صندوق ورودی بک‌لاگ منتقل می‌شوند. هیچ بسته کاری حذف نخواهد شد.
@@ -172,6 +184,7 @@ fa:
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} امتیاز داستان"
       other: "%{count} امتیاز های داستان"

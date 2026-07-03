@@ -203,6 +203,30 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "hasProjectAttributes" do
+      let(:type_fields_exist) { false }
+
+      before do
+        fields = instance_double(ActiveRecord::Relation, any?: type_fields_exist)
+        allow(fields).to receive_messages(reject: [], joins: fields, where: fields)
+        allow(workspace).to receive(:available_custom_fields).and_return(fields)
+      end
+
+      context "when no custom fields are mapped to the type" do
+        it "renders as false" do
+          expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
+        end
+      end
+
+      context "when custom fields are mapped to the type" do
+        let(:type_fields_exist) { true }
+
+        it "renders as true" do
+          expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
+        end
+      end
+    end
+
     describe "startDate" do
       it_behaves_like "has ISO 8601 date only" do
         let(:date) { start_date }

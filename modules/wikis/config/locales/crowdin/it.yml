@@ -129,6 +129,8 @@ it:
       wiki_page: Pagina wiki
     create_new_wiki_page_dialog:
       title: Crea nuova pagina wiki
+    deferred_inline_page_link_macro_component:
+      loading: Caricamento…
     delete_relation_page_link_confirmation_dialog:
       heading: Eliminare il link relativo alla pagina wiki?
       title: Elimina il link relativo alla pagina wiki

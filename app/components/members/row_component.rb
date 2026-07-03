@@ -139,9 +139,24 @@ module Members
     end
 
     def groups
-      if user?
-        (principal.groups & project.groups).map(&:name).join(", ")
-      end
+      return unless user?
+
+      member_groups = principal.groups & project.groups
+      safe_join(member_groups.map { |group| group_label(group) }, ", ")
+    end
+
+    # Departments (organizational units) are marked with a briefcase icon, the same icon used to
+    # represent them elsewhere, to set them apart from regular groups in the list.
+    def group_label(group)
+      return group.name unless group.organizational_unit?
+
+      safe_join(
+        [
+          render(Primer::Beta::Octicon.new(icon: :briefcase, mr: 1,
+                                           "aria-label": Group.human_attribute_name(:organizational_unit))),
+          group.name
+        ]
+      )
     end
 
     def status

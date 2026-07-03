@@ -916,11 +916,12 @@ lt:
         relation_filters:
           filter_work_packages_by_relation_type: Filtruokite darbo paketus pagal sąryšio tipą
       tabs:
-        overview: Peržiūra
         activity: Veikla
+        files: Failai
+        overview: Peržiūra
+        project_attributes: Project attributes
         relations: Ryšiai
         watchers: Stebėtojai
-        files: Failai
       time_relative:
         days: dienos
         weeks: savaitės

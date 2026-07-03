@@ -15,11 +15,15 @@
     "src/turbo/setup.ts"
   ],
   "include": [
-    "src/stimulus/controllers/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "src/**/*.d.ts"
   ],
   "exclude": [
-    "src/stimulus/controllers/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "src/test-setup.ts",
+    "src/test-providers.ts",
+    "src/test-browser-polyfills.ts"
   ],
   "angularCompilerOptions": {
     "strictTemplates": false

@@ -93,6 +93,21 @@ ru:
           name: Высокое
         item_3:
           name: Срочно
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Демо-проект
@@ -182,21 +197,23 @@ ru:
                 item_2:
                   subject: Настройка сайта конференции
             item_2:
-              subject: Конференция
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Последующие задачи
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Загрузите презентации на веб-сайт
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Вечеринка для сторонников конференции :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *  [ ] Пиво
-                    *  [ ] Закуски
-                    *  [ ] Музыка
-                    *  [ ] Еще больше пива
-            item_4:
-              subject: Окончание проекта
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _В этой вики Вы можете совместно создавать и редактировать страницы и подстраницы для создания вики-проекта._
 

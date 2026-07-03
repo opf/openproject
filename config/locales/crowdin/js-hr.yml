@@ -915,11 +915,12 @@ hr:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Pregled
         activity: Aktivnost
+        files: Datoteke
+        overview: Pregled
+        project_attributes: Project attributes
         relations: Relacije
         watchers: Nadglednici
-        files: Datoteke
       time_relative:
         days: dani
         weeks: tjedana

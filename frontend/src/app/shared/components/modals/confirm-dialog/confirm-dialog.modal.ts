@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { defaults } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -100,17 +101,17 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
     this.options = (this.locals.options ?? {}) as ConfirmDialogOptions;
 
-    this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
-    this.showListData = _.defaultTo(this.options.showListData, false);
-    this.refreshOnCancel = _.defaultTo(this.options.refreshOnCancel, false);
-    this.listTitle = _.defaultTo(this.options.listTitle, '');
-    this.warningText = _.defaultTo(this.options.warningText, '');
-    this.passedData = _.defaultTo(this.options.passedData, []);
-    this.showClose = _.defaultTo(this.options.showClose, true);
-    this.divideContent = _.defaultTo(this.options.divideContent, false);
+    this.dangerHighlighting = (this.options.dangerHighlighting ?? false);
+    this.showListData = (this.options.showListData ?? false);
+    this.refreshOnCancel = (this.options.refreshOnCancel ?? false);
+    this.listTitle = (this.options.listTitle ?? '');
+    this.warningText = (this.options.warningText ?? '');
+    this.passedData = (this.options.passedData ?? []);
+    this.showClose = (this.options.showClose ?? true);
+    this.divideContent = (this.options.divideContent ?? false);
     // override default texts and icons if any
-    this.text = _.defaults(this.options.text, this.text);
-    this.icon = _.defaults(this.options.icon, this.icon);
+    this.text = defaults(this.options.text, this.text);
+    this.icon = defaults(this.options.icon, this.icon);
   }
 
   public confirmAndClose(evt:Event):void {

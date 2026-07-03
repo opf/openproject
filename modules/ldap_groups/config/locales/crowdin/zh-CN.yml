@@ -7,7 +7,7 @@ zh-CN:
         description: 与 OpenProject 组同步 LDAP 组以管理用户，更改他们的权限以便不同组的用户管理。
   plugin_openproject_ldap_groups:
     name: OpenProject LDAP 组
-    description: LDAP组成员同步。
+    description: LDAP 组成员同步。
   activerecord:
     attributes:
       ldap_groups/synchronized_group:

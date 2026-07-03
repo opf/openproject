@@ -12,12 +12,12 @@ export class WorkPackageCardViewService {
     return `wp-row-${wp.id}`;
   }
 
-  public get renderedCards() {
+  public get renderedCards():RenderedWorkPackage[] {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedCard(classIdentifier:string):number {
-    const index = _.findIndex(this.renderedCards, (card) => card.classIdentifier === classIdentifier);
+    const index = this.renderedCards.findIndex((card) => card.classIdentifier === classIdentifier);
 
     return index;
   }

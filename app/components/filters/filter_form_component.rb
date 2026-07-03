@@ -45,6 +45,9 @@
 #
 # Customise the set of advertised filters by passing `allowed_filters:` (used
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
+# To keep the default set but drop a few entries, pass `excluded_filters:` a
+# list of filter names (e.g. `%i[project_id]`); they are removed from the
+# advertised and active filters so they cannot be added in the UI.
 #
 # By default the component does *not* attach the `filter--filters-form` Stimulus
 # controller, because in the standard layout (e.g. `Projects::IndexSubHeaderComponent`)
@@ -82,6 +85,7 @@ class Filters::FilterFormComponent < ApplicationComponent
   def initialize(builder:,
                  query:,
                  allowed_filters: nil,
+                 excluded_filters: [],
                  wrap_with_controller: false,
                  hidden_input_name: nil,
                  output_format: nil,
@@ -90,7 +94,7 @@ class Filters::FilterFormComponent < ApplicationComponent
     super()
     @builder = builder
     @query = query
-    @allowed_filters = allowed_filters || query.available_advanced_filters
+    @allowed_filters = advertised_filters(allowed_filters, excluded_filters)
     @wrap_with_controller = wrap_with_controller
     @hidden_input_name = hidden_input_name
     @output_format = fetch_or_fallback(OUTPUT_FORMATS, output_format.to_sym) if output_format
@@ -115,6 +119,17 @@ class Filters::FilterFormComponent < ApplicationComponent
   private
 
   attr_reader :query, :allowed_filters
+
+  # The advertised set drives both the rendered filter rows and the "add filter"
+  # dropdown, so dropping the excluded names here keeps them out of the UI
+  # entirely (even if the query already has one active).
+  def advertised_filters(allowed_filters, excluded_filters)
+    filters = allowed_filters || query.available_advanced_filters
+    excluded = Array(excluded_filters).map(&:to_sym)
+    return filters if excluded.empty?
+
+    filters.reject { |filter| excluded.include?(filter.name.to_sym) }
+  end
 
   def form_list
     Primer::Forms::FormList.new(*sub_forms)

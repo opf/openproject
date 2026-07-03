@@ -133,6 +133,8 @@ zh-CN:
       wiki_page: Wiki 页面
     create_new_wiki_page_dialog:
       title: 新建 Wiki 页面
+    deferred_inline_page_link_macro_component:
+      loading: 正在加载…
     delete_relation_page_link_confirmation_dialog:
       heading: 是否删除相关 wiki 页面链接？
       title: 删除相关 wiki 页面链接

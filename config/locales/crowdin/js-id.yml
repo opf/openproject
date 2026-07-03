@@ -913,11 +913,12 @@ id:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Tinjauan
         activity: Activity
+        files: File
+        overview: Tinjauan
+        project_attributes: Project attributes
         relations: Relasi
         watchers: Pemantau
-        files: File
       time_relative:
         days: hari
         weeks: minggu

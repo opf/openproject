@@ -73,7 +73,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   public getSelectedWorkPackageIds():string[] {
     const selected:string[] = [];
 
-    _.each(this.current?.selected, (isSelected:boolean, wpId:string) => {
+    Object.entries(this.current?.selected ?? {}).forEach(([wpId, isSelected]) => {
       if (isSelected) {
         selected.push(wpId);
       }
@@ -97,7 +97,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * Return the number of selected rows.
    */
   public get selectionCount():number {
-    return _.size(this.current?.selected);
+    return Object.keys(this.current?.selected ?? {}).length;
   }
 
   /**

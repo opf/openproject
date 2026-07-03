@@ -43,7 +43,6 @@ class CostEntry < ApplicationRecord
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  after_initialize :after_initialize
   before_validation :before_validation
   before_save :before_save
   validate :validate
@@ -65,17 +64,6 @@ class CostEntry < ApplicationRecord
   include Entry::Costs
   include Entry::SplashedDates
   include Entry::DeprecatedAssociation
-
-  def after_initialize
-    return unless new_record?
-
-    # This belongs in a SetAttributesService, but cost_entries are not yet created as such
-    self.logged_by = User.current
-
-    if cost_type.nil? && default_cost_type = CostType.default
-      self.cost_type_id = default_cost_type.id
-    end
-  end
 
   def before_validation
     self.project = entity.project if entity && project.nil?

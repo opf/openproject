@@ -916,11 +916,12 @@ uk:
         relation_filters:
           filter_work_packages_by_relation_type: Фільтрувати пакети робіт за типом зв’язку
       tabs:
-        overview: Огляд
         activity: Активність
+        files: Файли
+        overview: Огляд
+        project_attributes: Project attributes
         relations: Зв'язки
         watchers: Спостерігачі
-        files: Файли
       time_relative:
         days: дня
         weeks: тижнів

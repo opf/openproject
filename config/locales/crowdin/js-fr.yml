@@ -914,11 +914,12 @@ fr:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer les lots de travaux par type de relation
       tabs:
-        overview: Vue globale
         activity: Activité
+        files: Fichiers
+        overview: Vue globale
+        project_attributes: Project attributes
         relations: Relations
         watchers: Observateurs
-        files: Fichiers
       time_relative:
         days: jours
         weeks: semaines

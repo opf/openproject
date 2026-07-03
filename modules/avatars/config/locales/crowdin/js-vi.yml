@@ -7,9 +7,6 @@ vi:
     avatars:
       label_choose_avatar: Chọn Avatar từ tập tin
       uploading_avatar: Đang tải hình đại diện của bạn
-      text_upload_instructions: |
-        Tải lên hình đại diện tùy chỉnh của riêng bạn có kích thước 128 x 128 pixel. Các tệp lớn hơn sẽ được thay đổi kích thước và cắt xén cho phù hợp.
-        Bản xem trước hình đại diện của bạn sẽ được hiển thị trước khi tải lên, sau khi bạn chọn hình ảnh.
       error_image_too_large: Hình ảnh quá lớn
       wrong_file_format: 'Định dạng ảnh được chấp nhận: jpg, png, gif'
       empty_file_error: Vui lòng tải lên hình ảnh hợp lệ (jpg, png, gif)

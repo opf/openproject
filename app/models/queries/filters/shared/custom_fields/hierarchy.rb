@@ -43,6 +43,11 @@ module Queries
               { name: path.last, id:, depth: path.length - 1 }
             end
 
+            # `values` are stored as strings while the item ids are integers, so
+            # compare as strings to pre-select the current values (e.g. when
+            # editing an existing filter).
+            selected_ids = Array(values).map(&:to_s)
+
             {
               component: "opce-autocompleter",
               bindValue: "id",
@@ -50,7 +55,7 @@ module Queries
               hideSelected: true,
               defaultData: false,
               items:,
-              model: items.select { |item| values.include?(item[:id]) }
+              model: items.select { |item| selected_ids.include?(item[:id].to_s) }
             }
           end
 

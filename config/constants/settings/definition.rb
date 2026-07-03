@@ -709,6 +709,10 @@ module Settings
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
         default: false
       },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
+        default: false
+      },
       ldap_users_disable_sync_job: {
         description: "Deactivate user attributes synchronization from LDAP",
         default: false
@@ -1343,6 +1347,11 @@ module Settings
       work_package_done_ratio: {
         default: "field",
         allowed: %w[field status]
+      },
+      work_package_multiple_versions: {
+        description: "Enable multiple version assignments on work packages.",
+        format: :boolean,
+        default: false
       },
       work_packages_projects_export_limit: {
         default: 500

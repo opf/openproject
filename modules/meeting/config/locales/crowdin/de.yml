@@ -23,8 +23,8 @@
 ---
 de:
   plugin_openproject_meeting:
-    name: OpenProject Besprechung
-    description: Besprechungen für OpenProject
+    name: OpenProject Besprechungen
+    description: Dieses Modul fügt Funktionen zur Unterstützung von Besprechungen zu OpenProject hinzu. Sie können Besprechungen planen und dabei Teilnehmende aus demselben Projekt auswählen, die an der Besprechung teilnehmen sollen. Es kann eine Tagesordnung erstellt und an die Eingeladenen gesendet werden. Nach der Besprechung können die Teilnehmenden ausgewählt und Protokolle auf der Grundlage der Tagesordnung erstellt werden. Schließlich kann das Protokoll an alle Teilnehmenden und Eingeladenen gesendet werden.
   activerecord:
     attributes:
       meeting:
@@ -93,7 +93,7 @@ de:
           section_not_belong_to_meeting: Die Sektion gehört nicht zur gleichen Besprechung.
           user_invalid: ist kein gültiger Teilnehmer.
         recurring_meeting_interim_response:
-          not_an_occurrence: ist keine gültige Uhrzeit für diese wiederkehrende Besprechung
+          not_an_occurrence: ist keine gültige Uhrzeit für dieses wiederkehrende Treffen
         recurring_meeting:
           must_cover_existing_meetings:
             one: Es gibt eine offene Besprechung in der Terminserie, die nicht durch den neuen Zeitplan abgedeckt ist. Passen Sie den Zeitplan an, um alle bestehenden Meetings einzuschließen.

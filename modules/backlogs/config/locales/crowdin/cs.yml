@@ -97,6 +97,18 @@ cs:
     administration_blankslate:
       title: Nastavení backlogu se vyvíjí
       text: V současné době přepracováváme modul Backlogů. V blízké budoucnosti zde budou viditelná administrátorská nastavení pro sprinty a backlogy. Nastavení na úrovni projektů zůstávají k dispozici.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Smazat sekci backlogu?
       details: Sekce backlogu '%{name}' bude smazána a všechny pracovní balíčky budou přesunuty do složky nevyřízených úkolů. Žádný pracovní balíček nebude odstraněn.
@@ -180,6 +192,7 @@ cs:
         create_description_text: Chcete-li začít plánovat sprint, vytvořte si ho zde.
         manage_description_html: Chcete-li začít plánovat sprint, přejděte na stránku %{settings_link} a získejte sprinty z jiného projektu.
         no_actions_description_text: Pro tento projekt zatím nejsou k dispozici žádné sprinty.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} story point"
       few: "%{count} story pointy"
