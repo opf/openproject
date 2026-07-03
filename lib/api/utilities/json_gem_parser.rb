@@ -1,5 +1,5 @@
 # Forces using the classic json gem when parsing.
-# This might be beneficial in cases where other parsers, orchestrated by MultiJson misbehave.
+# This might be beneficial in cases where other parsers, orchestrated by MultiJSON misbehave.
 # This is e.g. the case with oj which sometimes turns numbers into BigDecimal values.
 module API::Utilities::JsonGemParser
   def self.call(object, _)
