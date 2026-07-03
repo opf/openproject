@@ -36,10 +36,6 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
   let(:shared_version) { create(:version, project: parent_project, sharing: "descendants") }
   let!(:work_package) { create(:work_package, project: child_project, version: shared_version) }
 
-  before do
-    work_package.target_versions << shared_version
-  end
-
   def target_version_ids(work_package)
     work_package.work_package_versions.where(kind: "target").pluck(:version_id)
   end
