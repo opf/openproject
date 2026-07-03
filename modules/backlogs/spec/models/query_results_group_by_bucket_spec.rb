@@ -40,7 +40,7 @@ require "rails_helper"
 # pre-count, so the ORDER BY still referenced "projects.identifier" (the
 # semantic-id tiebreaker) instead of "projects_work_packages.identifier",
 # causing a PG::UndefinedTable error.
-RSpec.describe Query::Results, "group by backlog bucket" do
+RSpec.describe Query::Results, "group by bucket" do # rubocop:disable RSpec/SpecFilePathFormat
   shared_let(:project) do
     create(:project, enabled_module_names: %i[work_package_tracking backlogs])
   end

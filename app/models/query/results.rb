@@ -155,21 +155,12 @@ class Query::Results
     criteria.map_each { |c| c.map { |raw| Arel.sql raw } }
   end
 
-  def aliased_sorting_by_column_name
+  def aliased_sorting_by_column_name # rubocop:disable Metrics/AbcSize
     sorting_by_column_name = query.sortable_key_by_column_name
     aliases = include_aliases
     reflections = reflection_includes
 
-    # Build a table_name => alias_name map for substitution in non-association sorts.
-    # When Rails aliases an association table (e.g. "projects" -> "projects_work_packages"),
-    # non-association sortable strings that hardcode the table name (e.g. "projects.identifier"
-    # for the semantic id sort) must use the aliased name, too (-> "projects_work_packages.identifier").
-    table_to_alias = reflection_includes.filter_map do |inc|
-      reflection = WorkPackage.reflections[inc.to_s]
-      table_name = reflection.klass.table_name
-      alias_name = aliases[inc]
-      [table_name, alias_name] if alias_name != table_name
-    end.to_h
+    table_to_alias = table_to_alias_map(reflections, aliases)
 
     sorting_by_column_name.each_with_object({}) do |(column_key, sortable), hash|
       column_is_association = reflections.include?(column_key.to_sym)
@@ -275,7 +266,7 @@ class Query::Results
   # and counts such occurrences, which can cause it to alias the projects table
   # as "projects_work_packages". We pre-count the same way so our ORDER BY
   # expressions use the matching alias.
-  def include_aliases
+  def include_aliases # rubocop:disable Metrics/AbcSize
     counts = Hash.new do |h, key|
       h[key] = 0
     end
@@ -304,6 +295,19 @@ class Query::Results
         counts[table] += 1 if table
       end
     end
+  end
+
+  # Build a table_name => alias_name map for substitution in non-association sorts.
+  # When Rails aliases an association table (e.g. "projects" -> "projects_work_packages"),
+  # non-association sortable strings that hardcode the table name (e.g. "projects.identifier"
+  # for the semantic id sort) must use the aliased name, too (-> "projects_work_packages.identifier").
+  def table_to_alias_map(reflection_includes, aliases)
+    reflection_includes.filter_map do |inc|
+      reflection = WorkPackage.reflections[inc.to_s]
+      table_name = reflection.klass.table_name
+      alias_name = aliases[inc]
+      [table_name, alias_name] if alias_name != table_name
+    end.to_h
   end
 
   def reflection_includes
