@@ -273,6 +273,23 @@ RSpec.describe VersionsController do
       it "includes the work package in the related work packages" do
         expect(assigns(:issues)).to include work_package
       end
+
+      it "does not render the work packages graph, which still queries by the single-version filter" do
+        expect(response.body).not_to include("opce-wp-overview-graph")
+      end
+    end
+
+    context "with a work package carrying the version_id" do
+      let(:work_package) { create(:work_package, project:, version: version2) }
+
+      before do
+        work_package
+        get :show, params: { id: version2.id }
+      end
+
+      it "renders the work packages graph" do
+        expect(response.body).to include("opce-wp-overview-graph")
+      end
     end
   end
 
