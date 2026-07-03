@@ -296,7 +296,7 @@ class Query::Results
   # ActiveRecord::Associations::AliasTracker.initial_count_for, and increment
   # counts for each found table name.
   def raw_join_table_counts(counts)
-    raw_joins = [sort_criteria_joins, query.group_by_join_statement].flatten.compact
+    raw_joins = [sort_criteria_joins, query.group_by_join_statement, all_filter_joins].flatten.compact
 
     raw_joins.each do |join_sql|
       join_sql.to_s.scan(RAW_JOIN_TABLE_SCAN_REGEX) do |quoted, unquoted|
