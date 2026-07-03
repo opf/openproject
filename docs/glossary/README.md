@@ -416,7 +416,9 @@ Open the project home by navigating to "Project home" in the project menu on the
 
 ### Project identifier
 
-The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings).
+### Project identifier
+
+The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings). When a project identifier is changed, the previous identifier remains reserved to prevent conflicts. [System administrators](#admin) can release reserved project identifiers and make them available for reuse. [Read more about reserved project identifiers](../system-admin-guide/projects/reserved-project-identifiers/).
 
 ### Project initiation request
 
@@ -509,7 +511,7 @@ OpenProject offers the possibility to share work packages with external groups o
 
 ### Sprint
 
-A sprint is a time-boxed iteration used in agile project management to plan and execute work during a defined period. In OpenProject, sprints are managed through the [Backlogs](#backlogs) module and include attributes such as start and end dates. Sprint [boards](#board) are automatically created when a sprint is started.
+A sprint is a time-boxed iteration used in agile project management to plan and execute work during a defined period. In OpenProject, sprints are managed through the [Backlogs](#backlogs) module and include attributes such as start and end dates as well as sprint goals. Sprint [boards](#board) are automatically created when a sprint is started.
 
 ### Story points
 
@@ -565,9 +567,15 @@ A widget in OpenProject is defined as a small and customizable element that prov
 
 ### Wiki
 
-In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki pages. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin. [Read more about wikis in OpenProject](../user-guide/wiki/).
+In OpenProject, a wiki is defined as a [module](#module) that allows users to create and manage wiki pages within a project. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin.
 
-![A wiki module in OpenProject](glossary-openproject-wiki.png)
+For organizations requiring advanced documentation capabilities, OpenProject also supports external wiki systems through a [Wiki provider](#wiki-provider), such as the [XWiki integration](#xwiki-integration).
+
+[Read more about wikis in OpenProject](../user-guide/wiki/).
+
+### Wiki provider
+
+A Wiki provider is an external [wiki](#wiki) system that can be connected to OpenProject. [System administrators](#admin) configure wiki providers in the administration settings, making them available for projects and users. OpenProject currently supports the [XWiki integration](#xwiki-integration), which enables users to create, link, and reference wiki pages directly from work packages.
 
 ### Work, Remaining Work and % Complete
 
@@ -629,6 +637,12 @@ A list of work packages is considered a view. The containing work packages in an
 ### WYSIWYG editor
 
 WYSIWYG stands for 'What you see is what you get'. A WYSIWYG editor is a content editing interface that allows users to create and edit content so that it visually resembles the final result. In OpenProject, you can use WYSIWYG editors in [wikis](#wiki), [forums](#forum) and [work package](#work-package) descriptions and comments.
+
+## X
+
+### XWiki integration
+
+The XWiki integration is an [Enterprise add-on](#enterprise-add-on) that connects OpenProject with XWiki, an open source enterprise wiki. It enables users to create and link XWiki pages directly from work packages, view linked wiki pages in a dedicated Wiki tab, and navigate between related work packages and wiki pages through bidirectional references. This helps teams keep project work and documentation connected across both platforms. Read more about the XWiki integration of OpenProject.
 
 ## Z
 
