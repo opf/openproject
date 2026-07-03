@@ -33,6 +33,10 @@ module Backlogs
     include OpTurbo::ComponentStream
     include Backlogs::Concerns::ContainerLoading
 
+    # Document event dispatched after a successful move so the frontend can refresh a
+    # split view open on the moved work package (see backlogs.controller.ts).
+    WORK_PACKAGE_MOVED_EVENT = "op-dispatched:backlogs:work-package-moved"
+
     before_action :load_work_package
 
     # Deferred ActionMenu items (Primer include-fragment).
@@ -77,7 +81,7 @@ module Backlogs
         # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
         # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
         dispatch_event_via_turbo_stream(
-          "op-dispatched:backlogs:work-package-moved",
+          WORK_PACKAGE_MOVED_EVENT,
           detail: { work_package_id: call.result.id }
         )
 

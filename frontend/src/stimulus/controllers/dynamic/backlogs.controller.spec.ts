@@ -82,7 +82,8 @@ describe('Backlogs controller', () => {
 
   async function renderBacklogs() {
     await ctx.mount(`
-      <div data-controller="backlogs">
+      <div data-controller="backlogs"
+           data-action="op-dispatched:backlogs:work-package-moved@document->backlogs#onWorkPackageMoved">
         <turbo-frame id="backlogs_container"></turbo-frame>
       </div>
     `);
