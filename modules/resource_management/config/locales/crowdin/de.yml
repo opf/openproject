@@ -59,31 +59,31 @@ de:
       unfavorite: Aus Favoriten entfernen
     allocation:
       hours: "%{value}h"
-      no_work: No work planned on this work package
+      no_work: Keine Arbeit für dieses Arbeitspaket geplant
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          caption: Legen Sie Filterkriterien auf der Grundlage von Benutzerattributen fest, um einen Platzhalter zu erstellen.
           label: Filterkriterien
-        label: Allocation type
+        label: Typ
         principal:
-          caption: Allocate hours for a specific user.
+          caption: Arbeitszeit für einen bestimmten Benutzer zuweisen.
           label: Benutzer
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Die ausgewählten Zeiten (%{resource_dates}) liegen außerhalb der geplanten Zeiten des Arbeitspakets (%{work_package_dates}).
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        capacity_summary: "%{available} verfügbar · %{scheduled} geplant"
+        description: Der ausgewählte Benutzer, %{user}, würde in diesem Zeitraum über seine Arbeitszeit hinaus verplant werden.
+        hidden_work: Sonstige Zuweisungen
+        schedule_availability: "%{schedule} (%{factor}% für Projektarbeit verfügbar)"
         schedule_change: bis %{date}, dann %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        schedule_note: Dieser Benutzer arbeitet %{schedule}.
+        submit: Überstunden zuweisen
+        title: Möchten Sie dem Benutzer Überstunden zuweisen?
+      submit: Zuweisen
+      success_message: Ressource zugewiesen.
+      title: Ressourcen zuweisen
     blankslate:
       desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
       title: Keine Ressourcenplaner vorhanden
@@ -99,9 +99,9 @@ de:
           label: Manuell ausgewählt
       title: Ansicht konfigurieren
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Speichern
+      success_message: Ressourcenzuordnung aktualisiert.
+      title: Zuweisung bearbeiten
     favorite_caption: Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
     label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
@@ -123,22 +123,22 @@ de:
         caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
         label: Benutzer-Karten
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Ressourcen zuweisen
+      context_menu_label: Zuweisungsmaßnahmen
+      delete_confirmation: Sind Sie sicher, dass Sie diese Zuweisung löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden.
+      delete_success: Ressourcenzuweisung gelöscht.
+      hidden_user: Versteckte Benutzer
+      overbooked: Der Nutzer wird während dieses Zeitraums über seine Arbeitszeit hinaus eingesetzt.
+      title: Zuweisung
     work_package_list:
       add_work_package_dialog:
         title: Arbeitspaket hinzufügen
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} Benutzer"
+          other: "%{count} Benutzer"
+        unassigned: Nicht zugewiesen
       allocation_placeholder: "—"
       blank:
         description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.

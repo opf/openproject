@@ -277,7 +277,7 @@ it:
               label_info: Tieni presente che questo strumento di importazione è in versione beta e non può importare tutti i tipi di dati. Ecco un riepilogo di ciò che l'istanza host di Jira offre per l'importazione e di ciò che questo strumento è in grado di importare al momento.
               description: Seleziona i dati che desideri importare tra quelli disponibili recuperati dall'istanza host di Jira.
               label_supported_data: Dati supportati
-              label_coming_soon: In arrivo (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Disponibile prossimamente
               label_available_server_data: Dati disponibili su %{server_info}
               button_select_projects: Seleziona i progetti da importare
@@ -2803,7 +2803,7 @@ it:
   button_add_sub_item: Aggiungi sottoelemento
   button_add_member: Aggiungi membro
   button_add_watcher: Aggiungi osservatore
-  button_all_filters: All filters
+  button_all_filters: Tutti i filtri
   button_annotate: Annota
   button_apply: Applica
   button_apply_changes: Applica modifiche

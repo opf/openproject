@@ -99,8 +99,8 @@ eo:
       overview_per_user_day: 'Overview: Hours per user per day'
     cost_reports:
       title: Your Cost Reports XLS export
-      start_time: Start time
-      end_time: End time
+      start_time: Komenca tempo
+      end_time: Fina tempo
   reporting:
     group_by:
       selected_columns: Selected columns

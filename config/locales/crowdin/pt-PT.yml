@@ -277,7 +277,7 @@ pt-PT:
               label_info: Tenha em atenção que esta ferramenta de importação está em fase beta e não consegue importar todos os tipos de dados. Eis um resumo do que a instância do Jira anfitrião oferece para importação, e o que esta ferramenta consegue importar neste momento.
               description: Selecione os dados que pretende importar a partir dos dados disponíveis obtidos na instância anfitriã do Jira.
               label_supported_data: Dados suportados
-              label_coming_soon: Brevemente (segundo trimestre de 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Disponível mais tarde
               label_available_server_data: Dados disponíveis em %{server_info}
               button_select_projects: Selecionar projetos para importar

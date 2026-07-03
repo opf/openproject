@@ -277,7 +277,7 @@ de:
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               label_supported_data: Unterstützte Daten
-              label_coming_soon: Kommt bald (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Kommt später
               label_available_server_data: Verfügbare Daten auf %{server_info}
               button_select_projects: Projekte zum Importieren auswählen

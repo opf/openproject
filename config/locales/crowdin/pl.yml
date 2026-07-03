@@ -291,7 +291,7 @@ pl:
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               label_supported_data: Obsługiwane dane
-              label_coming_soon: Wkrótce (2. kwartał 2026 r.)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: W późniejszym terminie
               label_available_server_data: Dostępne dane — %{server_info}
               button_select_projects: Wybierz projekty do zaimportowania
