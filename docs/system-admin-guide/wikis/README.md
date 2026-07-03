@@ -19,9 +19,10 @@ provider is enabled, each project can have its own wiki. If disabled, no project
 which already had a wiki when the internal provider gets disabled, will lose access to their wiki as long as the
 internal provider is disabled. Permissions for the project's wiki are set by the member's role in the project.
 
-> *Insert screenshot of internal wiki configuration*
+![OpenProject administration showing internal wiki settings](openproject_system_admin_wikis_internal_wiki.png)
+
+
 
 ## External wikis
 
-Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their
-own user permissions, thus it is required to connect the OpenProject user to a user on the external provider's instance.
+Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their own user permissions, thus it is required to connect the OpenProject user to a user on the external provider's instance.
