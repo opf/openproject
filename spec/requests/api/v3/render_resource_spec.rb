@@ -95,6 +95,7 @@ RSpec.describe "API v3 Render resource" do
                   <a class="issue work_package op-uc-link"
                      data-hover-card-trigger-target="trigger"
                      data-hover-card-url="/work_packages/#{id}/hover_card"
+                     aria-label="A dynamic link to a work package placed using a macro"
                      target="_top"
                      href="#{href}">##{id}</a>
                 </p>
@@ -190,6 +191,7 @@ RSpec.describe "API v3 Render resource" do
                   <a class="issue work_package"
                      data-hover-card-trigger-target="trigger"
                      data-hover-card-url="/work_packages/1/hover_card"
+                     aria-label="A dynamic link to a work package placed using a macro"
                      href="/work_packages/1">#1</a>
                 </p>\n\n<p>with two lines.</p>
               HTML
