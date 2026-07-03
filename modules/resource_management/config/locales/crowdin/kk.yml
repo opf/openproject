@@ -39,7 +39,7 @@ kk:
       resource_user_card: User cards
       resource_work_package_list: Work packages list
   button_next: Next
-  label_resource_management: Resource planning
+  label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
   permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
   permission_assign_users_to_generic_allocations: Assign users to generic allocations
@@ -148,6 +148,23 @@ kk:
       success_message: User assigned.
       title: Staffing
     sub_views: Views in this resource planner
+    timeframe:
+      end_only: Until %{end}
+      full: From %{start} to %{end}
+      start_only: From %{start}
+    timeline:
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      subheader:
+        add: Add
+        allocate: Allocate
+        settings: Configure view
     user_allocations_dialog:
       allocate_work_package: Allocate work package
       blank: This user has no allocated work packages.
@@ -181,10 +198,26 @@ kk:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
         schedule_change_compact: until %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Add user
+        configure_view: Configure view
+        description: There are no users matching this view's filters yet.
+        manual_description: Add users to this view to see their allocation over time.
+        title: No users to display
+      no_work_schedule: No work schedule planned for this user
+      overbooked: This user is over-allocated in the selected period.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+      subheader:
+        add_user: Add user
     view_types:
       resource_user_card:
         caption: Create a view based on users and see their details and allocation in a list of user cards
         label: Users card list
+      resource_user_timeline:
+        caption: Create a view based on users and see their allocations over time on a timeline
+        label: Users timeline
       resource_work_package_list:
         caption: Create a view based on work packages and see its details and allocation in a list
         label: Work packages list
@@ -246,12 +279,6 @@ kk:
         description: There are no work packages matching this view's filters yet.
         manual_description: Add work packages to this view to plan their allocation over time.
         title: No work packages to display
-      granularity:
-        day: Day
-        month: Month
-        week: Calendar week
-      navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
       query_name: 'Resource management work package timeline: %{name}'
+      subheader:
+        add_work_package: Add work package

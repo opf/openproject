@@ -280,7 +280,7 @@ de:
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               label_supported_data: Unterstützte Daten
-              label_coming_soon: Kommt bald (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Kommt später
               label_available_server_data: Verfügbare Daten auf %{server_info}
               button_select_projects: Projekte zum Importieren auswählen
@@ -437,18 +437,18 @@ de:
         notification_text_default: "<p>Hallo,</p> <p>Ein neues Projekt wurde erstellt: projectValue:name</p> <p>Vielen Dank</p>\n"
       project_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: Der Abschnitt konnte nicht gelöscht werden.
         drop:
-          error: The section could not be reordered.
+          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
-          error: The section could not be reordered.
+          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
       user_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: Der Abschnitt konnte nicht gelöscht werden.
         drop:
-          error: The section could not be reordered.
+          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
         move:
-          error: The section could not be reordered.
+          error: Die Reihenfolge des Abschnitts konnte nicht geändert werden.
       work_packages_identifier:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
@@ -741,10 +741,10 @@ de:
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       visible_on_user_card:
-        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+        all: Wenn diese Option aktiviert ist, wird der Wert dieses Feldes in der Benutzerinformationskarte angezeigt, wenn Sie über einen Benutzer in der Anwendung bewegen.
     semantic_keys:
-      none: None
-      job_title: Job title
+      none: Keine
+      job_title: Stellenbezeichnung
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -775,7 +775,7 @@ de:
       add_button: Hinzufügen
       description: Fügen Sie Abteilungen oder Benutzer hinzu, um Unterelemente innerhalb einer anderen zu erstellen.
       heading: Diese Abteilung hat keine untergeordnete Hierarchiestufe
-      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_description: Die Unterabteilungen und Mitglieder werden über LDAP synchronisiert und können nicht manuell bearbeitet werden.
       managed_heading: Diese Abteilung wird über LDAP synchronisiert
     add_department_form:
       name_label: Name der Abteilung
@@ -2125,7 +2125,7 @@ de:
         version: Version
         watcher: Beobachter
       work_package_version:
-        kind: Kind
+        kind: Art
       work_package_semantic_alias:
         identifier: Kennung
         work_package: Arbeitspaket
@@ -5618,14 +5618,14 @@ de:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
         label_no_user_custom_fields: No user attributes defined in this section
-        label_section_actions: Section actions
+        label_section_actions: Abschnittsoptionen
     user_custom_fields:
       header_component:
         attribute_filter:
-          label: Filter by attribute name…
-        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
-      heading: User attributes
-      label_new_attribute: User attribute
+          label: Nach Attributnamen filtern…
+        heading_description: Diese Benutzerattribute werden in Benutzerprofilen und auf Informationskarten angezeigt. Sie können neue Attribute hinzufügen, diese in Abschnitte gruppieren und ihre Reihenfolge ändern.
+      heading: Benutzerattribute
+      label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
       label_untitled_section: Benutzerattribute
       new:

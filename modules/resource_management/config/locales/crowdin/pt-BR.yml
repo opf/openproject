@@ -39,7 +39,7 @@ pt-BR:
       resource_user_card: Cartões de usuário
       resource_work_package_list: Lista de Pacotes de trabalho
   button_next: Próximo
-  label_resource_management: Planejamento de recursos
+  label_resource_management: Resource management
   permission_allocate_user_resources: Alocar recursos do usuário
   permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
   permission_assign_users_to_generic_allocations: Assign users to generic allocations
@@ -148,6 +148,23 @@ pt-BR:
       success_message: User assigned.
       title: Staffing
     sub_views: Visualizações neste planejador de recursos
+    timeframe:
+      end_only: Until %{end}
+      full: From %{start} to %{end}
+      start_only: From %{start}
+    timeline:
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      subheader:
+        add: Add
+        allocate: Allocate
+        settings: Configure view
     user_allocations_dialog:
       allocate_work_package: Alocar pacote de trabalho
       blank: Este usuário não possui pacotes de trabalho alocados.
@@ -181,10 +198,26 @@ pt-BR:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
         schedule_change_compact: until %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Add user
+        configure_view: Configure view
+        description: There are no users matching this view's filters yet.
+        manual_description: Add users to this view to see their allocation over time.
+        title: No users to display
+      no_work_schedule: No work schedule planned for this user
+      overbooked: This user is over-allocated in the selected period.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+      subheader:
+        add_user: Add user
     view_types:
       resource_user_card:
         caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
+      resource_user_timeline:
+        caption: Create a view based on users and see their allocations over time on a timeline
+        label: Users timeline
       resource_work_package_list:
         caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
         label: Lista de pacotes de trabalho
@@ -246,12 +279,6 @@ pt-BR:
         description: Ainda não existem pacotes de trabalho que correspondam aos filtros desta visualização.
         manual_description: Adicione pacotes de trabalho a esta visualização para planejar sua alocação ao longo do tempo.
         title: Não há pacotes de trabalho para exibir
-      granularity:
-        day: Dia
-        month: Mês
-        week: Semana do calendário
-      navigation:
-        next: Próximo período
-        previous: Período anterior
-        today: Hoje
       query_name: 'Linha do tempo de gerenciamento de recursos dos pacotes de trabalho: %{name}'
+      subheader:
+        add_work_package: Add work package

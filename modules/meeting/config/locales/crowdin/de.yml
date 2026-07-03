@@ -432,7 +432,7 @@ de:
       action: Sie können immer noch vorangegangene Besprechungen dieser Serie anzeigen oder die Serie bearbeiten, um weitere Termine ergänzen.
     occurrence:
       error_no_next: Es gibt keinen nächsten Termin für diese Serie.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: Die Vorlage für die Terminserie ist noch ein Entwurf.
       first_already_exists: Das erste Vorkommen dieser Terminserie wurde bereits angelegt.
       first_created: 'Die erste Besprechung wurde erfolgreich aus der Vorlage erstellt. Weitere werden automatisch zu dem Zeitpunkt erstellt, wenn die vorhergehende Besprechung startet.
 

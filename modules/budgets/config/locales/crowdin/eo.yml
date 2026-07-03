@@ -28,7 +28,7 @@ eo:
       budget:
         author: Aŭtoro
         available: Disponebla
-        budget: Planned
+        budget: Planita
         budget_ratio: Spent (ratio)
         description: Priskribo
         spent: Spent
@@ -108,15 +108,15 @@ eo:
   label_budget_available: Budget available
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Nova budĝeto
-  label_budget_planned: Budget planned
+  label_budget_planned: Buĝeto planita
   label_budget_plural: Budĝetoj
-  label_budget_spent: Budget spent
+  label_budget_spent: Buĝeto elspezita
   label_budget_spent_ratio: Budget spent ratio
   label_deliverable: Budĝeto
   label_example_placeholder: ekz., %{decimal}
   label_view_all_budgets: Vidu ĉiujn budĝetojn
   label_yes: Jes
-  label_budget_totals: Totals
+  label_budget_totals: Sumoj
   label_budget_details: Budget details
   notice_budget_conflict: Laborpakaĵoj devas esti de la sama projekto.
   notice_no_budgets_available: No budgets available.

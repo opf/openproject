@@ -432,7 +432,7 @@ it:
       action: Può ancora visualizzare le occorrenze passate o modificare la serie di riunioni per estenderla.
     occurrence:
       error_no_next: Non ci sono ricorrenze successive per questa riunione.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: Il modello per la serie di riunioni è ancora in fase di bozza.
       first_already_exists: La prima occorrenza di questa serie di riunioni è già istanziata.
       first_created: 'La prima riunione è stata creata con successo dal modello. Tutte le riunioni future saranno create automaticamente al momento della ricorrenza precedente.
 
