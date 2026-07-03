@@ -121,6 +121,24 @@ RSpec.describe VersionsController do
       end
     end
 
+    context "with a work package targeting multiple versions" do
+      let!(:work_package) { create(:work_package, project:, version: version1) }
+
+      before do
+        work_package.work_package_versions.create!(version: version2, kind: "target")
+
+        login_as(user)
+        get :index, params: { project_id: project, completed: "1" }
+      end
+
+      it "lists the work package under every targeted version" do
+        wps_by_version = assigns(:wps_by_version)
+
+        expect(wps_by_version[version1]).to include work_package
+        expect(wps_by_version[version2]).to include work_package
+      end
+    end
+
     context "with showing completed versions" do
       before do
         login_as(user)
@@ -237,6 +255,25 @@ RSpec.describe VersionsController do
     subject { assigns(:version) }
 
     it { is_expected.to eq(version2) }
+
+    context "with a work package targeting the version without carrying its version_id" do
+      let(:work_package) do
+        create(:work_package, project:).tap do |wp|
+          wp.work_package_versions.create!(version: version2, kind: "target")
+        end
+      end
+
+      # The outer before block has already fired the request, so the work
+      # package needs a request of its own after it is created.
+      before do
+        work_package
+        get :show, params: { id: version2.id }
+      end
+
+      it "includes the work package in the related work packages" do
+        expect(assigns(:issues)).to include work_package
+      end
+    end
   end
 
   describe "#new" do
