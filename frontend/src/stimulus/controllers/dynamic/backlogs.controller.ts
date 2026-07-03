@@ -57,17 +57,26 @@ export default class BacklogsController extends Controller<HTMLElement> {
   }
 
   // Bound to the `op-dispatched:backlogs:work-package-moved` document event.
+  // Refreshes a work package already in the cache. The most likely reason for this is that the
+  // work package is or has been displayed in the split view. Refreshing prevents
+  // the lock version becoming stale after move and also reflects the change to the sprint and
+  // bucket property.
+  // The method currently does not check if the work package is still open in the split view. If it
+  // was ever opened, it will still be in the cache leading to a refresh request. The upside of this potentially
+  // wasteful refresh is that when the work package is later on reopened in the split view, its information
+  // is correct as well.
   onWorkPackageMoved(event:CustomEvent<{ work_package_id?:number }>):void {
     const workPackageId = event.detail?.work_package_id;
     // apiV3Service is wired asynchronously via useAngularServices, so it may be absent
     // if the event somehow fires before the services resolve.
     if (workPackageId === undefined || !this.apiV3Service) { return; }
 
-    // A split view open on the moved work package cached its lock_version on opening.
-    // Refresh the cached resource so it picks up the new lock_version and stays editable.
-    // The refresh only reaches a view actually subscribed to this id, so it is a no-op
-    // for any other open view.
-    void this.apiV3Service.work_packages.id(workPackageId.toString()).refresh();
+    const id = workPackageId.toString();
+    const { work_packages: workPackages } = this.apiV3Service;
+
+    if (workPackages.cache.state(id).hasValue()) {
+      void workPackages.id(id).refresh();
+    }
   }
 
   private refreshList() {

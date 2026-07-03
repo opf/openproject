@@ -45,12 +45,14 @@ describe('Backlogs controller', () => {
   let reload:Mock;
   let refresh:Mock;
   let id:Mock;
+  let hasValue:Mock;
+  let state:Mock;
   let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({
     services: {
       halEvents: { aggregated$ },
-      apiV3Service: { work_packages: { id } },
+      apiV3Service: { work_packages: { id, cache: { state } } },
     },
   });
 
@@ -64,6 +66,8 @@ describe('Backlogs controller', () => {
     reload = vi.fn(() => Promise.resolve());
     refresh = vi.fn(() => Promise.resolve());
     id = vi.fn(() => ({ refresh }));
+    hasValue = vi.fn(() => true);
+    state = vi.fn(() => ({ hasValue }));
     originalOpenProject = window.OpenProject;
     window.OpenProject = {
       getPluginContext: () => Promise.resolve(pluginContext()),
@@ -135,7 +139,7 @@ describe('Backlogs controller', () => {
     expect(reload).not.toHaveBeenCalled();
   });
 
-  it('refreshes the moved work package cache on a work-package-moved event', async () => {
+  it('refreshes the moved work package cache when it is loaded', async () => {
     await renderBacklogs();
     await waitFor(() => { expect(aggregated$).toHaveBeenCalled(); });
 
@@ -144,9 +148,24 @@ describe('Backlogs controller', () => {
     }));
 
     await waitFor(() => {
+      expect(state).toHaveBeenCalledWith('42');
       expect(id).toHaveBeenCalledWith('42');
       expect(refresh).toHaveBeenCalled();
     });
+  });
+
+  it('does not refresh when the moved work package is not loaded', async () => {
+    hasValue.mockReturnValue(false);
+    await renderBacklogs();
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalled(); });
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:backlogs:work-package-moved', {
+      detail: { work_package_id: 42 },
+    }));
+    await ctx.nextFrame();
+
+    expect(state).toHaveBeenCalledWith('42');
+    expect(refresh).not.toHaveBeenCalled();
   });
 
   it('ignores a work-package-moved event without a work package id', async () => {
