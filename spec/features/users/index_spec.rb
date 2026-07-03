@@ -52,13 +52,12 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(alice)
     end
 
-    it "allows changing the status filter away from the default active-only view" do
+    it "shows all users by default and allows filtering by status" do
       registered = create(:user, login: "charlie", status: User.statuses[:registered])
 
       index_page.visit!
-      # Default: only active users
-      index_page.expect_listed(current_user, alice, bob)
-      expect(page).to have_no_css("td.username a", text: registered.login)
+      # Default: all users, regardless of status
+      index_page.expect_listed(current_user, alice, bob, registered)
 
       index_page.filter_by_status(I18n.t(:status_registered))
       index_page.expect_listed(registered)
@@ -110,13 +109,12 @@ RSpec.describe "index users", :js do
     shared_let(:registered_user) { create(:user, status: User.statuses[:registered]) }
     shared_let(:invited_user) { create(:user, status: User.statuses[:invited]) }
 
-    it "shows active users by default and allows status filtering and manipulations",
+    it "shows all users by default and allows status filtering and manipulations",
        with_settings: { brute_force_block_after_failed_logins: 5,
                         brute_force_block_minutes: 10 } do
       index_page.visit!
 
-      # Default filter: active users only
-      index_page.expect_listed(current_user, active_user)
+      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
 
       index_page.lock_user(active_user)
       expect_and_dismiss_flash(message: "Successful update.")
@@ -143,8 +141,8 @@ RSpec.describe "index users", :js do
       # temporarily block user — reset via action, no filter needed
       active_user.update(failed_login_count: 6,
                          last_failed_login_on: 9.minutes.ago)
-      index_page.clear_filters
-      # after clear, default active filter is restored
+      index_page.clear_name_search
+      # clearing the name search leaves the active status filter set above in place
       index_page.expect_listed(current_user, active_user)
 
       index_page.reset_failed_logins(active_user)
@@ -187,7 +185,7 @@ RSpec.describe "index users", :js do
 
       it "can too visit the page" do
         index_page.visit!
-        index_page.expect_listed(admin, current_user, active_user)
+        index_page.expect_listed(admin, current_user, active_user, registered_user, invited_user)
       end
     end
   end
