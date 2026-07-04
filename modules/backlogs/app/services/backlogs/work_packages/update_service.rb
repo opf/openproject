@@ -40,9 +40,11 @@ class Backlogs::WorkPackages::UpdateService
     resolve_required_attributes(direction:, list_type:, list_id:)
       .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: story).call(**attrs) }
       .on_success do |call|
+        # A blank prev_id is meaningful (insert at the top of the list), a
+        # blank position is not: it would cast to nil and move to the top too.
         if prev_id
           call.result.move_after(prev_id:)
-        elsif position
+        elsif position.present?
           call.result.move_after(position:)
         end
       end

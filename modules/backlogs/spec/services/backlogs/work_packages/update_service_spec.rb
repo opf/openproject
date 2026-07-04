@@ -189,6 +189,26 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       end
     end
 
+    context "with a blank position" do
+      it "does not reorder the work package" do
+        allow(story).to receive(:move_after)
+
+        instance.call(list_type: "inbox", position: "")
+
+        expect(story).not_to have_received(:move_after)
+      end
+    end
+
+    context "with a blank prev_id" do
+      it "calls move_after so the work package moves to the top" do
+        allow(story).to receive(:move_after)
+
+        instance.call(list_type: "inbox", prev_id: "")
+
+        expect(story).to have_received(:move_after).with(prev_id: "")
+      end
+    end
+
     context "with both prev_id and position" do
       it "prefers prev_id over position" do
         allow(story).to receive(:move_after)
