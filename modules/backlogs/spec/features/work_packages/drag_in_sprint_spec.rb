@@ -143,7 +143,7 @@ RSpec.describe "Dragging work packages in and between sprints",
     end
 
     it "keeps drop indicators active after moving a bucket item into the sprint" do
-      backlogs_page.drag_work_package(bucket_wp2, before: sprint1_wp4)
+      backlogs_page.drag_work_package(bucket_wp2, before: sprint1_wp4, cross_list: true)
       backlogs_page.expect_work_packages_in_sprint_in_order(
         sprint1,
         work_packages: [sprint1_wp1, sprint1_wp2, sprint1_wp3, bucket_wp2, sprint1_wp4]

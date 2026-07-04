@@ -204,7 +204,7 @@ describe('sortable lists drag and drop helpers', () => {
 
   describe('buildMoveFormData', () => {
     it('builds a relative payload from the intent', () => {
-      const data = buildMoveFormData({ intent: intentFixture(), positionMode: 'relative' });
+      const data = buildMoveFormData({ intent: intentFixture(), positionMode: 'relative', optimistic: true });
       expect(data.get('list_type')).toBe('sprint');
       expect(data.get('list_id')).toBe('42');
       expect(data.get('prev_id')).toBe('a');
@@ -216,17 +216,27 @@ describe('sortable lists drag and drop helpers', () => {
       const data = buildMoveFormData({
         intent: intentFixture({ listId: null, previousItemId: null }),
         positionMode: 'relative',
+        optimistic: true,
       });
       expect(data.get('list_id')).toBe('');
       expect(data.get('prev_id')).toBe('');
     });
 
     it('builds an absolute payload with a computed position', () => {
-      const data = buildMoveFormData({ intent: intentFixture({ previousItemId: 'a' }), positionMode: 'absolute' });
+      const data = buildMoveFormData({
+        intent: intentFixture({ previousItemId: 'a' }),
+        positionMode: 'absolute',
+        optimistic: true,
+      });
       expect(data.get('target_id')).toBe('42');
       expect(data.get('position')).toBe('2');
       expect(data.get('optimistic')).toBe('true');
       expect(data.get('prev_id')).toBeNull();
+    });
+
+    it('omits the optimistic param when the move is not optimistic', () => {
+      const data = buildMoveFormData({ intent: intentFixture(), positionMode: 'relative', optimistic: false });
+      expect(data.get('optimistic')).toBeNull();
     });
   });
 

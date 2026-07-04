@@ -96,4 +96,34 @@ RSpec.describe "Editing a work package in the split view after moving it",
 
     it_behaves_like "editing works after the move"
   end
+
+  # A cross-list drag gets a server-dispatched WORK_PACKAGE_MOVED_EVENT (see
+  # the controller's #move), which is how the split view above learns to
+  # refresh its cached lock_version. A same-list drag is answered with a bare
+  # 204 and dispatches no such event; the split view instead relies on the
+  # client-side sortable-lists:moved event (see split-view-sync.controller.ts).
+  # This scenario exercises that client-only path.
+  context "when moving the work package within its own list by dragging it with the mouse", :selenium do
+    let!(:other_work_package_in_sprint) { create(:work_package, project:, sprint:) }
+    let!(:third_work_package_in_sprint) { create(:work_package, project:, sprint:) }
+
+    it "updates the work package without a conflict error" do
+      backlogs_page.visit!
+
+      split_view = backlogs_page.open_work_package_details(work_package)
+
+      backlogs_page.drag_work_package(work_package, before: third_work_package_in_sprint)
+
+      backlogs_page.expect_work_packages_in_sprint_in_order(
+        sprint,
+        work_packages: [other_work_package_in_sprint, work_package, third_work_package_in_sprint]
+      )
+      split_view.expect_attributes(sprint:)
+
+      split_view.edit_field(:subject).update("Updated after move")
+
+      backlogs_page.expect_and_dismiss_toaster(message: "Successful update")
+      expect(work_package.reload.subject).to eq("Updated after move")
+    end
+  end
 end

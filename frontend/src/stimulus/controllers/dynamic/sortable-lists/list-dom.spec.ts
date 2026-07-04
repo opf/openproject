@@ -26,8 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { vi } from 'vitest';
+
 import {
   captureRowPositions,
+  hasTruncationMarkerRow,
   reorderRows,
   resolveItemElement,
   resolveItemPosition,
@@ -201,6 +204,36 @@ describe('sortable lists DOM helpers', () => {
       const list = document.createElement('div');
       list.setAttribute('data-sortable-lists--list-rows-container-selector-value', ':scope > ul');
       expect(resolveRowsContainer(list)).toBe(list);
+    });
+
+    it('falls back to the list element and warns when the selector value is invalid', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      const list = document.createElement('div');
+      list.setAttribute('data-sortable-lists--list-rows-container-selector-value', '[[');
+
+      expect(resolveRowsContainer(list)).toBe(list);
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      const message = warnSpy.mock.calls[0]?.[0] as string;
+      expect(message).toContain('data-sortable-lists--list-rows-container-selector-value');
+      expect(message).toContain('[[');
+
+      warnSpy.mockRestore();
+    });
+  });
+
+  describe('hasTruncationMarkerRow', () => {
+    it('returns false for a container with only item rows', () => {
+      const container = listElement();
+      container.append(itemRow('1'), itemRow('2'));
+
+      expect(hasTruncationMarkerRow(container)).toBe(false);
+    });
+
+    it('returns true when the container holds a truncation marker row', () => {
+      const container = listElement();
+      container.append(itemRow('1'), showMoreRow(), itemRow('2'));
+
+      expect(hasTruncationMarkerRow(container)).toBe(true);
     });
   });
 

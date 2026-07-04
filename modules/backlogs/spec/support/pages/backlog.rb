@@ -167,6 +167,17 @@ module Pages
       wait_for_backlogs_network_idle
     end
 
+    # The truncation marker row's data-sortable-lists-prev-item-id names the
+    # last work package collapsed behind the "show more" row (the DOM contract
+    # sortable-lists relies on to anchor drops next to a hidden block). Reading
+    # it back lets specs assert the server recomputed the truncated window
+    # rather than trusting a stale client-side reorder.
+    def inbox_truncation_marker_previous_item_id
+      within_backlog_inbox do
+        find(".op-work-package-card-list--show-more-row", visible: :all)["data-sortable-lists-prev-item-id"]
+      end
+    end
+
     def expect_work_packages_in_inbox_in_order(work_packages: [])
       within_backlog_inbox do
         expect_work_packages_in_order work_packages:
@@ -546,17 +557,20 @@ module Pages
       end
     end
 
-    def drag_work_package(moved, before: nil, into: nil)
+    # A drag within one list is optimistic: the server answers 204 and no frame
+    # reload happens, so the settle signal is the sortable-lists:moved event. A
+    # cross-list drag still reloads the backlogs_container frame. Callers of
+    # drag_work_package(before:) must pass cross_list: true whenever the move
+    # takes the frame-reload response path: crossing lists, or staying within a
+    # truncated list (the client omits the optimistic param there, so the
+    # server streams a reload).
+    def drag_work_package(moved, before: nil, into: nil, cross_list: into.present?)
       raise ArgumentError, "You must specify either before or into" unless before.present? ^ into.present?
 
       moved_element = find(draggable_work_package_selector(moved))
-      target_element = if before
-                         find(work_package_selector(before))
-                       else
-                         find(sprint_selector(into))
-                       end
+      target_element = before ? find(work_package_selector(before)) : find(sprint_selector(into))
 
-      wait_for_backlogs_turbo_stream(frame_reload: true) do
+      wait_for_drag_work_package(cross_list:) do
         drag_backlogs_item(source: moved_element, target: target_element, edge: before ? :top : nil)
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
@@ -826,6 +840,19 @@ module Pages
         wait_for_turbo_frame(frame: "backlogs_container", wait:, &)
       else
         wait_for_turbo_stream(wait:, &)
+      end
+    end
+
+    # cross_list: true waits for the backlogs_container frame reload — used for
+    # genuine cross-list drags and for same-list drags in truncated lists, both
+    # of which take the stream-reload response. A plain same-list drag is
+    # optimistic (204, no reload) and only ever settles via the
+    # sortable-lists:moved event.
+    def wait_for_drag_work_package(cross_list:, &)
+      if cross_list
+        wait_for_backlogs_turbo_stream(frame_reload: true, &)
+      else
+        wait_for_sortable_lists_moved(&)
       end
     end
 

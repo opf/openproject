@@ -141,6 +141,46 @@ RSpec.describe "Dragging work packages in the inbox",
     end
   end
 
+  context "when the inbox is truncated" do
+    # tail_size = [TRUNCATE_MIDDLE / 5, 1].max = 1, so with TRUNCATE_MIDDLE
+    # stubbed to 2, the visible window is first(2) + last(1); the truncate
+    # threshold (TRUNCATE_MIDDLE + tail_size * 2 = 4) stays below the 5 work
+    # packages the outer example group already sets up, so the inbox truncates.
+    before do
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
+    end
+
+    it "keeps the server-rendered truncation window consistent after a same-list drag" do
+      backlogs_page.visit!
+
+      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1, inbox_wp2])
+      backlogs_page.expect_inbox_item(inbox_wp5)
+      backlogs_page.expect_no_inbox_item(inbox_wp3)
+      backlogs_page.expect_no_inbox_item(inbox_wp4)
+      backlogs_page.expect_inbox_show_more
+      expect(backlogs_page.inbox_truncation_marker_previous_item_id).to eq(inbox_wp4.id.to_s)
+
+      # Same list, but the drop target (the inbox) is truncated: the server
+      # must recompute the visible window rather than trust the optimistic
+      # client-side reorder, so this move settles via a turbo-stream frame
+      # reload rather than the 204/sortable-lists:moved path a plain same-list
+      # drag takes. `cross_list: true` steers drag_work_package to wait on
+      # that frame reload (see sortable-lists.controller.ts's `optimistic`
+      # gate and Backlogs::InboxComponent's TRUNCATE_MIDDLE window).
+      backlogs_page
+        .drag_work_package(inbox_wp1, before: inbox_wp5, cross_list: true)
+
+      # inbox_wp1 moved behind inbox_wp4 (the item the marker names), pushing
+      # it out of the visible head and pulling inbox_wp3 into view instead.
+      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp2, inbox_wp3])
+      backlogs_page.expect_inbox_item(inbox_wp5)
+      backlogs_page.expect_no_inbox_item(inbox_wp1)
+      backlogs_page.expect_no_inbox_item(inbox_wp4)
+      backlogs_page.expect_inbox_show_more
+      expect(backlogs_page.inbox_truncation_marker_previous_item_id).to eq(inbox_wp1.id.to_s)
+    end
+  end
+
   context "when lacking the permission to manage sprint items" do
     current_user do
       create(:user,

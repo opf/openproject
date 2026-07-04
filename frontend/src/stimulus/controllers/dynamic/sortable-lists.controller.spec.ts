@@ -118,6 +118,12 @@ describe('Sortable lists controller', () => {
     return { root, sourceList, targetList, firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')! };
   }
 
+  function truncationMarkerRow(previousItemId = 'hidden-item'):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-sortable-lists-prev-item-id', previousItemId);
+    return row;
+  }
+
   function renderScrollableFixture(values = '') {
     fixture.innerHTML = `
       <div data-controller="sortable-lists" ${values}>
@@ -289,6 +295,29 @@ describe('Sortable lists controller', () => {
     expect(options.body.get('list_type')).toEqual('sprint');
     expect(options.body.get('list_id')).toEqual('1');
     expect(options.body.get('prev_id')).toEqual('5');
+  });
+
+  it('marks the move optimistic when the target list has no truncation marker row', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+
+    expect(options.body.get('optimistic')).toEqual('true');
+  });
+
+  it('does not mark the move optimistic when the target list has a truncation marker row', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+    targetList.append(truncationMarkerRow());
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+
+    expect(options.body.get('optimistic')).toBeNull();
   });
 
   it('resolves the move url from the template matching the item type', async () => {

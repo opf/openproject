@@ -112,6 +112,22 @@ module WaitHelpers
     wait_for_browser_event("turbo:frame-load", target_id: frame&.to_s, wait:, &)
   end
 
+  # Executes the given block and waits for a sortable-lists move to settle.
+  #
+  # The sortable-lists Stimulus root dispatches `sortable-lists:moved` after a
+  # successful move request, strictly after its moving flag has been cleared —
+  # so when this returns, the list accepts the next drag. Same-list optimistic
+  # moves answer with 204 and never reload the frame, making this event the
+  # only reliable settle signal for them.
+  #
+  # @param wait [Integer, true, false, nil] seconds to wait; +true+ uses
+  #   Capybara's default wait time, a falsey value skips the wait and just runs the block
+  # @yield the actions that trigger the move
+  # @return [Object] the block's return value
+  def wait_for_sortable_lists_moved(wait: Capybara.default_max_wait_time, &)
+    wait_for_browser_event("sortable-lists:moved", wait:, &)
+  end
+
   private
 
   # Shared implementation for the +wait_for_turbo*+ helpers.

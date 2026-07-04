@@ -116,17 +116,24 @@ export function sortableListData({
 export type SortablePositionMode = 'relative'|'absolute';
 
 // One builder for both payload shapes so call sites hand over the whole drop
-// intent; every sortable-lists move is optimistic (the row has already been
-// reordered in the DOM), which the `optimistic` param signals to the server.
+// intent; the row has always already been reordered in the DOM, but the
+// server should only treat that reorder as final when `optimistic` is true —
+// truncated target lists opt out because the server must re-render the
+// visible window (which rows show, the truncation marker's metadata) rather
+// than trust the client's optimistic DOM order.
 export function buildMoveFormData({
   intent,
   positionMode,
+  optimistic,
 }:{
   intent:DropIntent;
   positionMode:SortablePositionMode;
+  optimistic:boolean;
 }):FormData {
   const data = new FormData();
-  data.append('optimistic', 'true');
+  if (optimistic) {
+    data.append('optimistic', 'true');
+  }
 
   if (positionMode === 'absolute') {
     data.append('target_id', intent.listData.listId ?? '');

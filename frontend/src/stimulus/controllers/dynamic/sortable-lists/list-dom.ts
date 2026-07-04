@@ -51,7 +51,21 @@ export function resolveRowsContainer(list:HTMLElement):HTMLElement {
     return list;
   }
 
-  return list.querySelector<HTMLElement>(selector) ?? list;
+  try {
+    return list.querySelector<HTMLElement>(selector) ?? list;
+  } catch (error) {
+    console.warn(`Invalid ${rowsContainerSelectorAttribute} selector "${selector}" on`, list, error);
+    return list;
+  }
+}
+
+// Whether a rows container holds a truncated list's "show more" marker row
+// (data-sortable-lists-prev-item-id on a non-item row). A truncated list's
+// visible window (which rows show, the marker's collapsed-item metadata) is
+// server-computed from the full ordering, so an optimistic client-side
+// reorder cannot be the final word there — the server must re-render it.
+export function hasTruncationMarkerRow(container:Element):boolean {
+  return container.querySelector(`[${sortablePreviousItemIdAttribute}]`) !== null;
 }
 
 // A row is the direct child of the rows container that contains the element.

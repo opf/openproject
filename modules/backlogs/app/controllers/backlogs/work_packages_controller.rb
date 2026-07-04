@@ -67,8 +67,20 @@ module Backlogs
     end
 
     def move # rubocop:disable Metrics/AbcSize
+      source_list = [@work_package.sprint_id, @work_package.backlog_bucket_id]
+
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
                                    .call(**move_service_params)
+
+      # An optimistic move (drag and drop) has already reordered the row in the
+      # client DOM. When the item stayed in its list there is nothing further to
+      # render — sprint totals and blank slates are unaffected — so an empty
+      # response leaves the optimistic order in place. Menu moves (no optimistic
+      # param) still need the frame reload to become visible at all.
+      if optimistic_same_list_move?(call, source_list)
+        head :no_content
+        return
+      end
 
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
@@ -105,6 +117,16 @@ module Backlogs
 
     def move_params
       params.permit(:prev_id, :position, :direction, :list_type, :list_id)
+    end
+
+    # NOT part of move_params: the service's keyword args do not accept it, and
+    # params.permit above already keeps it out of move_service_params.
+    def optimistic_move?
+      ActiveModel::Type::Boolean.new.cast(params[:optimistic])
+    end
+
+    def optimistic_same_list_move?(call, source_list)
+      call.success? && optimistic_move? && [call.result.sprint_id, call.result.backlog_bucket_id] == source_list
     end
 
     # A blank prev_id (drag or menu move to the top of a list) is kept so the

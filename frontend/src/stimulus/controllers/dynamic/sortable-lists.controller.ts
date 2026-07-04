@@ -46,6 +46,7 @@ import {
 } from './sortable-lists/drag-and-drop';
 import {
   captureRowPositions,
+  hasTruncationMarkerRow,
   reorderRows,
   resolveSourceRow,
   restoreRowPositions,
@@ -150,15 +151,18 @@ export default class SortableListsController extends Controller<HTMLElement> {
       return;
     }
 
-    // Move the row optimistically, then persist. A same-list move is answered
-    // with 204 and this DOM order is final; a cross-list move gets a
-    // turbo-stream frame reload that reconciles the list. A failure rolls the
-    // row back to where it started.
+    // Move the row optimistically, then persist. A same-list move into a
+    // non-truncated list is answered with 204 and this DOM order is final; a
+    // cross-list move, or a same-list move into a truncated list (whose
+    // visible window is server-computed), gets a turbo-stream frame reload
+    // that reconciles the list. A failure rolls the row back to where it
+    // started.
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, container: intent.rowsContainer, previousItemId: intent.previousItemId });
 
-    const result = await this.moveItem({ intent, moveUrl });
+    const optimistic = !hasTruncationMarkerRow(intent.rowsContainer);
+    const result = await this.moveItem({ intent, moveUrl, optimistic });
 
     if (result.ok) {
       // After moveItem's finally: moving is false again, so listeners resumed
@@ -213,9 +217,17 @@ export default class SortableListsController extends Controller<HTMLElement> {
     return /^[a-z][a-z\d+\-.]*:/i.test(moveUrl) ? url.toString() : `${url.pathname}${url.search}${url.hash}`;
   }
 
-  private async moveItem({ intent, moveUrl }:{ intent:DropIntent; moveUrl:string }):Promise<MoveResult> {
+  private async moveItem({
+    intent,
+    moveUrl,
+    optimistic,
+  }:{
+    intent:DropIntent;
+    moveUrl:string;
+    optimistic:boolean;
+  }):Promise<MoveResult> {
     const request = new FetchRequest('put', moveUrl, {
-      body: buildMoveFormData({ intent, positionMode: this.positionMode }),
+      body: buildMoveFormData({ intent, positionMode: this.positionMode, optimistic }),
       responseKind: 'turbo-stream',
     });
 
