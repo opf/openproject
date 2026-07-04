@@ -33,6 +33,11 @@ import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sorta
 const preservedAttributes = new Set([
   'data-dragging',
   'data-drop-target-for-element',
+  // Split view selection markers set by the backlogs work-package
+  // controller; the controller only re-syncs them on `turbo:visit`, so a
+  // morph would otherwise strip the highlight of the open work package.
+  'data-selected',
+  'aria-current',
 ]);
 
 let registered = false;

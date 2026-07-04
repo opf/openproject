@@ -76,6 +76,18 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
+  it('preserves the split view selection markers during Turbo morphs', () => {
+    ['data-selected', 'aria-current'].forEach((attributeName) => {
+      const element = appendSortableRow();
+      const event = beforeMorphAttributeEvent(attributeName);
+
+      element.setAttribute(attributeName, 'true');
+      element.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+    });
+  });
+
   it('lets marker attributes morph when the mutation is not a removal', () => {
     const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('data-dragging', 'updated');
