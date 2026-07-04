@@ -33,6 +33,7 @@ import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/type
 import {
   acceptsSortableItemType,
   buildMoveFormData,
+  type DropIntent,
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
@@ -160,32 +161,56 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('buildMoveFormData', () => {
-    it('serializes list data and previous item id for the move endpoint', () => {
-      const data = buildMoveFormData({ type: 'backlog_bucket', listId: '7', previousItemId: '12' });
+  function intentFixture({ listId = '42', previousItemId = 'a' }:{ listId?:string|null; previousItemId?:string|null } = {}):DropIntent {
+    const listElement = document.createElement('div');
+    const container = document.createElement('ul');
+    container.innerHTML = `
+      <li data-sortable-lists--item-id-value="a"></li>
+      <li data-sortable-lists--item-id-value="b"></li>`;
+    listElement.append(container);
 
-      expect(data.get('list_type')).toEqual('backlog_bucket');
-      expect(data.get('list_id')).toEqual('7');
-      expect(data.get('prev_id')).toEqual('12');
+    return {
+      listElement,
+      rowsContainer: container,
+      previousItemId,
+      listData: sortableListData({ type: 'sprint', listId, dropPosition: 'end' }),
+    };
+  }
+
+  describe('buildMoveFormData', () => {
+    it('builds a relative payload from the intent', () => {
+      const data = buildMoveFormData({ intent: intentFixture(), positionMode: 'relative' });
+      expect(data.get('list_type')).toBe('sprint');
+      expect(data.get('list_id')).toBe('42');
+      expect(data.get('prev_id')).toBe('a');
+      expect(data.get('optimistic')).toBe('true');
+      expect(data.get('position')).toBeNull();
     });
 
-    it('serializes a top-of-list move as an empty previous item id', () => {
-      const data = buildMoveFormData({ type: 'inbox', listId: null, previousItemId: null });
+    it('serializes a null list id and previous item as empty strings', () => {
+      const data = buildMoveFormData({
+        intent: intentFixture({ listId: null, previousItemId: null }),
+        positionMode: 'relative',
+      });
+      expect(data.get('list_id')).toBe('');
+      expect(data.get('prev_id')).toBe('');
+    });
 
-      expect(data.get('list_type')).toEqual('inbox');
-      expect(data.get('list_id')).toEqual('');
-      expect(data.get('prev_id')).toEqual('');
+    it('builds an absolute payload with a computed position', () => {
+      const data = buildMoveFormData({ intent: intentFixture({ previousItemId: 'a' }), positionMode: 'absolute' });
+      expect(data.get('target_id')).toBe('42');
+      expect(data.get('position')).toBe('2');
+      expect(data.get('optimistic')).toBe('true');
+      expect(data.get('prev_id')).toBeNull();
     });
   });
 
+  // The drop target Pragmatic DnD reports is always the item controller's own
+  // registered element, which itself carries data-sortable-lists--item-id-value
+  // (resolveItemElement resolves self-or-descendant only, never an ancestor) —
+  // so fixtures below pass the item row itself rather than a nested descendant.
   describe('resolvePreviousSortableItemId', () => {
     it('uses the target item as previous item when dropping on the bottom edge', () => {
-      const target = itemRow('3').querySelector<HTMLElement>('article')!;
-
-      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom' })).toEqual('3');
-    });
-
-    it('uses the row item as previous item when the drop target is the row', () => {
       const target = itemRow('3');
 
       expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom' })).toEqual('3');
@@ -193,17 +218,7 @@ describe('sortable lists drag and drop helpers', () => {
 
     it('uses the previous row item when dropping on the top edge', () => {
       const list = document.createElement('ul');
-      const first = itemRow('1');
-      const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      list.append(first, targetRow);
-
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('1');
-    });
-
-    it('uses the previous row item when dropping on the top edge of a row target', () => {
-      const list = document.createElement('ul');
+      list.setAttribute('data-controller', 'sortable-lists--list');
       const first = itemRow('1');
       const targetRow = itemRow('3');
 
@@ -214,40 +229,40 @@ describe('sortable lists drag and drop helpers', () => {
 
     it('treats a missing closest edge as dropping before the target item', () => {
       const list = document.createElement('ul');
+      list.setAttribute('data-controller', 'sortable-lists--list');
       const first = itemRow('1');
       const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
 
       list.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: null })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: null })).toEqual('1');
     });
 
     it('uses a truncation marker when dropping before a tail item', () => {
       const list = document.createElement('ul');
+      list.setAttribute('data-controller', 'sortable-lists--list');
       const first = itemRow('1');
       const targetRow = itemRow('6');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
 
       list.append(first, showMoreRow('5'), targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('5');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: 'top' })).toEqual('5');
     });
 
     it('skips the source item and uses a preceding truncation marker when resolving the previous item', () => {
       const list = document.createElement('ul');
+      list.setAttribute('data-controller', 'sortable-lists--list');
       const first = itemRow('1');
       const source = itemRow('2');
       const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
 
       list.append(first, showMoreRow(), source, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('hidden-item');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: 'top' })).toEqual('hidden-item');
     });
 
     it('returns null when dropping before the first item', () => {
-      const target = itemRow('1').querySelector<HTMLElement>('article')!;
+      const target = itemRow('1');
 
       expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toBeNull();
     });
@@ -356,6 +371,33 @@ describe('sortable lists drag and drop helpers', () => {
 
       expect(intent?.listElement).toBe(list);
       expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.previousItemId).toEqual('5');
+    });
+
+    it('resolves an end drop against the rows container rather than the list element itself', () => {
+      const { root, list } = buildList();
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+      const header = document.createElement('header');
+      const rowsContainer = document.createElement('ul');
+
+      list.setAttribute('data-sortable-lists--list-rows-container-selector-value', ':scope > ul');
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
+      sourceList.append(source);
+      rowsContainer.append(itemRow('4'), itemRow('5'));
+      list.append(header, rowsContainer);
+      root.append(sourceList);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.rowsContainer).toBe(rowsContainer);
       expect(intent?.previousItemId).toEqual('5');
     });
 

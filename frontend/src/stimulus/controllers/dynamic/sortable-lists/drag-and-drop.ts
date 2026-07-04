@@ -34,8 +34,10 @@ import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/type
 import {
   resolveItemElement,
   resolveItemId,
+  resolveItemPosition,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
+  resolveSourceRow,
   sortableListSelector,
 } from './list-dom';
 
@@ -126,20 +128,32 @@ export function sortableListData({
   };
 }
 
+export type SortablePositionMode = 'relative'|'absolute';
+
+// One builder for both payload shapes so call sites hand over the whole drop
+// intent; every sortable-lists move is optimistic (the row has already been
+// reordered in the DOM), which the `optimistic` param signals to the server.
 export function buildMoveFormData({
-  listId,
-  previousItemId,
-  type,
+  intent,
+  positionMode,
 }:{
-  listId:string|null;
-  previousItemId:string|null;
-  type:string;
+  intent:DropIntent;
+  positionMode:SortablePositionMode;
 }):FormData {
   const data = new FormData();
+  data.append('optimistic', 'true');
 
-  data.append('list_type', type);
-  data.append('list_id', listId ?? '');
-  data.append('prev_id', previousItemId ?? '');
+  if (positionMode === 'absolute') {
+    data.append('target_id', intent.listData.listId ?? '');
+    data.append('position', String(resolveItemPosition({
+      container: intent.rowsContainer,
+      previousItemId: intent.previousItemId,
+    })));
+  } else {
+    data.append('list_type', intent.listData.type);
+    data.append('list_id', intent.listData.listId ?? '');
+    data.append('prev_id', intent.previousItemId ?? '');
+  }
 
   return data;
 }
@@ -195,7 +209,7 @@ export function resolvePreviousSortableItemId({
     return targetItemId;
   }
 
-  const targetRow = (targetItemElement ?? targetItem).closest('li');
+  const targetRow = resolveSourceRow(targetItemElement ?? targetItem);
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
@@ -215,18 +229,18 @@ export function resolvePreviousSortableItemId({
 // (null previous item), 'end' appends after the last.
 function resolveListOnlyPreviousItemId({
   sourceItemId,
-  list,
+  container,
   dropPosition,
 }:{
   sourceItemId:string;
-  list:HTMLElement;
+  container:HTMLElement;
   dropPosition:SortableListDropPosition;
 }):string|null {
   if (dropPosition === 'start') {
     return null;
   }
 
-  return resolveListAppendPreviousItemId({ sourceItemId, list });
+  return resolveListAppendPreviousItemId({ sourceItemId, container });
 }
 
 export interface DropIntent {
@@ -270,6 +284,8 @@ export function resolveDropIntent({
     return null;
   }
 
+  const rowsContainer = resolveRowsContainer(listElement);
+
   const previousItemId = targetItem?.element instanceof HTMLElement
     ? resolvePreviousSortableItemId({
       sourceItemId: sourceData.itemId,
@@ -278,9 +294,14 @@ export function resolveDropIntent({
     })
     : resolveListOnlyPreviousItemId({
       sourceItemId: sourceData.itemId,
-      list: listElement,
+      container: rowsContainer,
       dropPosition: listData.dropPosition,
     });
 
-  return { listElement, listData, previousItemId };
+  return {
+    listElement,
+    listData,
+    rowsContainer,
+    previousItemId,
+  };
 }
