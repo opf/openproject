@@ -76,6 +76,18 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
+  it('preserves the drop indicator markers during Turbo morphs', () => {
+    ['data-drop-position', 'data-drop-position-owner', 'data-drop-container'].forEach((attributeName) => {
+      const element = appendSortableRow();
+      const event = beforeMorphAttributeEvent(attributeName);
+
+      element.setAttribute(attributeName, 'top');
+      element.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+    });
+  });
+
   it('preserves the split view selection markers during Turbo morphs', () => {
     ['data-selected', 'aria-current'].forEach((attributeName) => {
       const element = appendSortableRow();

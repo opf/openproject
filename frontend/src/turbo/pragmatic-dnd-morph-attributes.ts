@@ -33,6 +33,12 @@ import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sorta
 const preservedAttributes = new Set([
   'data-dragging',
   'data-drop-target-for-element',
+  // Drop indicator markers rendered by the sortable-lists item/list
+  // controllers; a list refresh morphing mid-drag must not strip the
+  // landing cue while the drag is still active.
+  'data-drop-position',
+  'data-drop-position-owner',
+  'data-drop-container',
   // Split view selection markers set by the backlogs work-package
   // controller; the controller only re-syncs them on `turbo:visit`, so a
   // morph would otherwise strip the highlight of the open work package.
