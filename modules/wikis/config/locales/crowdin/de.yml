@@ -169,7 +169,7 @@ de:
       remove: Seitenlink entfernen
     page_link_forms:
       labels:
-        page_title: Title
+        page_title: Titel
         parent: Parent wiki page
         wiki_page: Wiki page
       search:
