@@ -39,7 +39,7 @@ de:
       resource_user_card: Benutzerkarten
       resource_work_package_list: Liste von Arbeitspaketen
   button_next: Weiter
-  label_resource_management: Resource management
+  label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
   permission_assign_users_to_generic_allocations: Benutzer an generische Zuweisungen zuordnen
@@ -149,22 +149,22 @@ de:
       title: Ressourcenzuweisung
     sub_views: Ansichten in dieser Ressourcenplanung
     timeframe:
-      end_only: Until %{end}
-      full: From %{start} to %{end}
-      start_only: From %{start}
+      end_only: Bis %{end}
+      full: von %{start} bis %{end}
+      start_only: Ab %{start}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: Tag
+        month: Monat
+        week: Kalenderwoche
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Nächster Zeitraum
+        previous: Vorheriger Zeitraum
+        today: Heute
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Hinzufügen
+        allocate: Zuweisen
+        settings: Ansicht konfigurieren
     user_allocations_dialog:
       allocate_work_package: Arbeitspakete zuweisen
       blank: Diesem Benutzer wurden keine Arbeitspakete zugewiesen.
@@ -200,30 +200,30 @@ de:
         schedule_change_compact: bis %{date}, dann %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: Benutzer hinzufügen
+        configure_view: Ansicht konfigurieren
+        description: Es gibt noch keine Benutzer, die den Filtern dieser Ansicht entsprechen.
+        manual_description: Fügen Sie dieser Ansicht Benutzer hinzu, um deren Zuweisung über die Zeit zu sehen.
+        title: Keine Ergebnisse
+      no_work_schedule: Für den Benutzer ist kein Arbeitszeitplan hinterlegt
+      overbooked: Dieser Benutzer ist im ausgewählten Zeitraum überbucht.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} geplant, %{available} verfügbar"
       subheader:
-        add_user: Add user
+        add_user: Benutzer hinzufügen
     view_types:
       resource_user_card:
         caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
         label: Benutzer-Karten
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: Erstellen Sie eine Ansicht auf der Grundlage von Benutzern und verfolgen Sie deren Zuweisungen im Zeitverlauf auf einer Zeitachse
+        label: Benutzer-Zeitleiste
       resource_work_package_list:
         caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
         label: Liste von Arbeitspaketen
       resource_work_package_timeline:
         caption: Erstellen Sie eine Ansicht auf der Grundlage von Arbeitspaketen und verfolgen Sie deren Zuweisungen im Zeitverlauf auf einer Zeitachse
-        label: Arbeitspakete Zeitleiste
+        label: Arbeitspakete-Zeitleiste
       user_card:
         caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
         label: Benutzer-Karten
@@ -277,8 +277,8 @@ de:
         add_work_package: Arbeitspaket hinzufügen
         configure_view: Ansicht konfigurieren
         description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
-        manual_description: Add work packages to this view to plan their allocation over time.
-        title: No work packages to display
-      query_name: 'Resource management work package timeline: %{name}'
+        manual_description: Fügen Sie dieser Ansicht Arbeitspakete hinzu, um deren Zuweisung über die Zeit zu planen.
+        title: Keine Arbeitspakete anzuzeigen
+      query_name: 'Arbeitspakete-Zeitleiste für Ressourcenmanagement: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Arbeitspaket hinzufügen

@@ -3910,14 +3910,14 @@ cs:
         submit_button: Update alerts
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
-        title: Participating
-        submit_button: Update preferences
-        mentioned: Mentioned
-        watched: Watching
-        assignee: Assignee
-        responsible: Accountable
-        shared: Shared with me
+        description: Vždy dostanete oznámení, pokud vás někdo zmíní, a při změnách pracovních balíčků, které sledujete. Tato oznámení nelze vypnout. Můžete si však zapnout nebo vypnout oznámení o změnách pracovních balíčků, které se vás týkají (kde jste zodpovědnou osobou, přiřazenou osobou nebo se s vámi balíček sdílí).
+        title: Účast
+        submit_button: Upravit preference
+        mentioned: Zmíněn(a)
+        watched: Sledované
+        assignee: Přiřazen(a)
+        responsible: Zodpovědný(á)
+        shared: Sdíleno se mnou
       date_alerts:
         description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
@@ -3926,7 +3926,7 @@ cs:
         due_date: Finish date
         overdue: Overdue
         times:
-          same_day: On the same day
+          same_day: Ten samý den
           one_day_before: 1 den předem
           three_days_before: 3 dny předem
           seven_days_before: 7 dní předem
