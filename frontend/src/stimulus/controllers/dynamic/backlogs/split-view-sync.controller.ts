@@ -32,9 +32,12 @@ import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-an
 
 // A split view open on a moved work package caches the lock_version it fetched
 // on opening, so the next edit after a move would fail with a
-// conflicting-modifications error. The server signals every successful move via
-// a document event; this controller refreshes the moved work package in the
-// Angular cache so the split view stays editable.
+// conflicting-modifications error. Every successful move is signalled via a
+// document event, either dispatched by the server (cross-list moves) or by
+// the client-side sortable-lists controller (same-list moves, which resolve
+// with a 204 and never reach the server-dispatched event); this controller
+// refreshes the moved work package in the Angular cache so the split view
+// stays editable.
 export default class SplitViewSyncController extends Controller {
   static services:ServiceKey[] = ['apiV3Service'];
 
@@ -55,11 +58,25 @@ export default class SplitViewSyncController extends Controller {
   // is correct as well.
   onWorkPackageMoved(event:CustomEvent<{ work_package_id?:number }>):void {
     const workPackageId = event.detail?.work_package_id;
-    // apiV3Service is wired asynchronously via useAngularServices, so it may be absent
-    // if the event somehow fires before the services resolve.
-    if (workPackageId === undefined || !this.apiV3Service) { return; }
+    if (workPackageId === undefined) { return; }
+    this.refreshWorkPackage(workPackageId.toString());
+  }
 
-    const id = workPackageId.toString();
+  // Bound to the client-dispatched `sortable-lists:moved` document event. Same
+  // refresh as onWorkPackageMoved: optimistic same-list moves answer with 204,
+  // so no server-dispatched moved event exists on that path. On cross-list
+  // moves both events fire; the double refresh is idempotent.
+  onSortableListsMoved(event:CustomEvent<{ itemId?:string }>):void {
+    const itemId = event.detail?.itemId;
+    if (itemId === undefined) { return; }
+    this.refreshWorkPackage(itemId);
+  }
+
+  private refreshWorkPackage(id:string):void {
+    // apiV3Service is wired asynchronously via useAngularServices, so it may be
+    // absent if an event somehow fires before the services resolve.
+    if (!this.apiV3Service) { return; }
+
     const { work_packages: workPackages } = this.apiV3Service;
 
     if (workPackages.cache.state(id).hasValue()) {

@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
                       class: "op-backlogs-page",
                       data: {
                         controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
-                        action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
+                        action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved sortable-lists:moved@document->backlogs--split-view-sync#onSortableListsMoved",
                         sortable_lists_move_url_templates_value: { work_package: backlogs_move_url_template(@project) }.to_json
                       } %>
 <% end %>

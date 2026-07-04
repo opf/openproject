@@ -33,6 +33,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type SplitViewSyncControllerType from './split-view-sync.controller';
 
 const MOVED_EVENT = 'op-dispatched:backlogs:work-package-moved';
+const SORTABLE_MOVED_EVENT = 'sortable-lists:moved';
 
 describe('Backlogs split-view-sync controller', () => {
   let ctx:StimulusTestContext;
@@ -77,7 +78,7 @@ describe('Backlogs split-view-sync controller', () => {
   async function renderHost() {
     await ctx.mount(`
       <div data-controller="backlogs--split-view-sync"
-           data-action="${MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved"></div>
+           data-action="${MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved ${SORTABLE_MOVED_EVENT}@document->backlogs--split-view-sync#onSortableListsMoved"></div>
     `);
     const host = ctx.container.querySelector<HTMLElement>('[data-controller="backlogs--split-view-sync"]')!;
 
@@ -89,6 +90,10 @@ describe('Backlogs split-view-sync controller', () => {
 
   function dispatchMoved(detail:object) {
     document.dispatchEvent(new CustomEvent(MOVED_EVENT, { detail }));
+  }
+
+  function dispatchSortableMoved(detail:object) {
+    document.dispatchEvent(new CustomEvent(SORTABLE_MOVED_EVENT, { detail }));
   }
 
   it('refreshes the moved work package cache when it is loaded', async () => {
@@ -154,6 +159,27 @@ describe('Backlogs split-view-sync controller', () => {
     await ctx.nextFrame();
 
     dispatchMoved({ work_package_id: 42 });
+    await ctx.nextFrame();
+
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
+  it('refreshes a cached work package on sortable-lists:moved', async () => {
+    await renderHost();
+
+    dispatchSortableMoved({ itemId: '1234' });
+
+    await waitFor(() => {
+      expect(state).toHaveBeenCalledWith('1234');
+      expect(id).toHaveBeenCalledWith('1234');
+      expect(refresh).toHaveBeenCalled();
+    });
+  });
+
+  it('ignores a sortable-lists:moved event without an item id', async () => {
+    await renderHost();
+
+    dispatchSortableMoved({});
     await ctx.nextFrame();
 
     expect(refresh).not.toHaveBeenCalled();
