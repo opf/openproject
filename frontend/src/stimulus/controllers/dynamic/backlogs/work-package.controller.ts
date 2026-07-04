@@ -191,7 +191,6 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
       'a',
       'button',
       'clipboard-copy',
-      '[data-drag-handle]',
     ].some((selector) => target.closest(selector) !== null);
   }
 
