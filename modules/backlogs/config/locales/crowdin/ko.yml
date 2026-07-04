@@ -42,9 +42,9 @@ ko:
           completed: 완료됨
         work_packages: 작업 패키지
       sprint_goal:
-        text: Sprint goal
+        text: 스프린트 목표
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: 백로그 버킷
         backlogs_work_package_type: 백로그 유형
         position: 위치
         sprint: 스프린트
@@ -62,7 +62,7 @@ ko:
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: "- 이미 이 스프린트에 대한 목표가 있습니다."
         sprint:
           attributes:
             base:
@@ -86,23 +86,23 @@ ko:
               not_eligible_for_moving: "- 작업 패키지가 이동된 스프린트가 속한 프로젝트에서 활성 스프린트가 아닙니다."
     models:
       sprint:
-        other: Sprints
+        other: 스프린트
   backlogs:
     administration_blankslate:
       title: 백로그 관리자 설정을 개선하는 중입니다
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: 새로운 백로그 버킷
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: 백로그 버킷
+        other: 백로그 버킷
+        zero: 모든 백로그 버킷
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: 스프린트
+        other: 스프린트
+        zero: 모든 스프린트
+      select_panel_title: 항목 선택
     bucket_destroy_modal_component:
       title: 백로그 버킷을 삭제하시겠습니까?
       details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
@@ -165,11 +165,11 @@ ko:
         edit_sprint: 스프린트 편집
         add_work_package: 작업 패키지 추가
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: 이 스프린트 목표는 본 프로젝트에만 해당되며, 이 스프린트를 사용하는 다른 프로젝트와는 공유되지 않습니다.
+      goal_for_this_project_label: "%{attribute}(이 프로젝트용)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: 공유 스프린트입니다. 수정 사항은 이 스프린트를 사용하는 모든 프로젝트에 반영됩니다.
+      shared_sprint_warning_banner: 공유 스프린트입니다. 이 스프린트를 편집하는 데 필요한 권한이 없습니다.
     sprints_component:
       blankslate:
         title: 아직 스프린트 없음
@@ -180,7 +180,7 @@ ko:
         create_description_text: 스프린트 계획을 시작하려면 여기에서 스프린트를 생성하세요.
         manage_description_html: 스프린트 계획을 시작하려면 %{settings_link}(으)로 이동하여 다른 프로젝트의 스프린트를 받아보세요.
         no_actions_description_text: 아직 이 프로젝트에 사용할 수 있는 스프린트가 없습니다.
-      button_new_sprint: New sprint
+      button_new_sprint: 새로운 스프린트
     story_points:
       other: "%{count} 스토리 포인트"
     statuses_considered_closed_caption: '해당 워크플로에서 마감 또는 완료 상태를 나타내는 상태를 선택하세요. 이러한 상태는 보고(예: 번다운) 및 스프린트 계획 전반에서 "마감됨" 상태로 처리됩니다. 예를 들어, 완료됨, 해결됨 또는 수정 안 함 등의 상태는 모두 해당 프로세스에서 마감된 작업 항목을 나타낼 수 있습니다.
@@ -201,9 +201,9 @@ ko:
       action_menu:
         copy_url_to_clipboard: 클립보드에 URL 복사
         copy_work_package_id: 작업 패키지 ID 복사
-        move_menu: Move to position
+        move_menu: 위치로 이동
         move_to_backlog_bucket: 백로그 버킷으로 이동
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: 백로그 받은 편지함으로 이동
         move_to_sprint: 스프린트로 이동
     work_package_is_closed: 다음 경우에 작업 패키지가 완료됩니다.
   burndown:

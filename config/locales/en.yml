@@ -290,7 +290,7 @@ en:
               label_info: "Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now."
               description: "Select what data you want to import from the available data fetched from the host Jira instance."
               label_supported_data: "Supported data"
-              label_coming_soon: "Coming soon (Q2 2026)"
+              label_coming_soon: "Coming soon (Q3 2026)"
               label_coming_later: "Coming later"
               label_available_server_data: "Available data on %{server_info}"
               button_select_projects: "Select projects to import"
@@ -2624,6 +2624,8 @@ en:
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
                 must be empty when Work is empty and % Complete is 100%.
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
+          target_versions_only_allow_single_value: "Target Versions can only hold a single value."
+          version_and_target_versions_mutually_exclusive: "Version and target versions cannot both be changed at the same time."
         type:
           attributes:
             attribute_groups:
@@ -2958,6 +2960,7 @@ en:
   button_add_sub_item: "Add sub-item"
   button_add_member: Add member
   button_add_watcher: "Add watcher"
+  button_all_filters: "All filters"
   button_annotate: "Annotate"
   button_apply: "Apply"
   button_apply_changes: "Apply changes"
@@ -4446,6 +4449,7 @@ en:
     Setting a parent group will make this group a subgroup of the selected parent group.
     This will also inherit all memberships, including permissions of the parent group.
   label_part_of: "part of"
+  label_past: "Past"
   label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
@@ -4629,6 +4633,7 @@ en:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
+  label_upcoming: "Upcoming"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"

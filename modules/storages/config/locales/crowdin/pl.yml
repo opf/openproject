@@ -42,7 +42,7 @@ pl:
         storage_url: Adres URL magazynu
         tenant: Identyfikator katalogu (dzierżawcy)
       work_package:
-        file_links: File links
+        file_links: Linki do plików
     errors:
       messages:
         invalid_host_url: nie jest poprawnym adresem URL.

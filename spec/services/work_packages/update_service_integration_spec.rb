@@ -52,6 +52,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
              add_work_packages
              move_work_packages
              manage_subtasks
+             assign_versions
            ])
   end
   shared_let(:user) do
@@ -2093,6 +2094,163 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       expect(subject.errors.attribute_names).to contain_exactly(:parent)
       # the error message in this case is far from ideal
       expect(subject.errors.details).to include(parent: [{ error: :cant_link_a_work_package_with_a_descendant }])
+    end
+  end
+
+  describe "versions" do
+    let!(:version1) { create(:version, project:) }
+    let!(:version2) { create(:version, project:) }
+    let!(:version3) { create(:version, project:) }
+
+    context "with multiple target_versions" do
+      subject(:service) { instance.call(target_version_ids: [version1.id, version2.id, version3.id], send_notifications: false) }
+
+      it { expect(service).to be_failure }
+
+      it "fails with appropriate message" do
+        expect(service.message).to eq "Target Versions can only hold a single value."
+      end
+    end
+
+    context "when writing new target versions" do
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version1)
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to eq(version1)
+      end
+    end
+
+    context "when replacing existing target versions" do
+      subject(:service) { instance.call(target_version_ids: [version2.id], send_notifications: false) }
+
+      before do
+        WorkPackageVersion.create!(work_package:, version: version1, kind: "target")
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version2)
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to eq(version2)
+      end
+    end
+
+    context "when removing target versions" do
+      subject(:service) { instance.call(target_version_ids: [], send_notifications: false) }
+
+      before do
+        WorkPackageVersion.create!(work_package:, version: version1, kind: "target")
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to be_empty
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to be_nil
+      end
+    end
+
+    context "when writing observed in versions" do
+      subject(:service) { instance.call(observed_in_version_ids: [version1.id], send_notifications: false) }
+
+      it { expect(service).to be_success }
+
+      it "does not change target versions" do
+        expect { service }.not_to change(work_package, :target_versions)
+      end
+
+      it "does not change version" do
+        expect { service }.not_to change(work_package, :version)
+      end
+
+      it "creates observed_in_versions" do
+        service
+        expect(work_package.reload.observed_in_versions).to contain_exactly(version1)
+      end
+    end
+
+    context "when writing new versions" do
+      subject(:service) { instance.call(version_id: version1.id, send_notifications: false) }
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version1)
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to eq(version1)
+      end
+    end
+
+    context "when replacing existing version" do
+      subject(:service) { instance.call(version_id: version2.id, send_notifications: false) }
+
+      before do
+        work_package.version = version1
+        work_package.save!
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to contain_exactly(version2)
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to eq(version2)
+      end
+    end
+
+    context "when removing versions" do
+      subject(:service) { instance.call(version_id: nil, send_notifications: false) }
+
+      before do
+        work_package.version = nil
+        work_package.save!
+      end
+
+      it { expect(service).to be_success }
+
+      it "updates the target versions" do
+        service
+        expect(work_package.reload.target_versions).to be_empty
+      end
+
+      it "updates the work_package.version" do
+        service
+        expect(work_package.reload.version).to be_nil
+      end
+    end
+
+    context "when writing both versions and target versions" do
+      subject(:service) do
+        instance.call(target_version_ids: [version1.id, version2.id], version_id: version3.id, send_notifications: false)
+      end
+
+      it { expect(service).to be_failure }
     end
   end
 end

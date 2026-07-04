@@ -37,6 +37,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
     set_attachments_attributes(attributes)
+    set_versions_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -55,6 +56,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     else
       super(attributes)
     end
+  end
+
+  def set_versions_attributes(attributes)
+    target_ids = attributes.delete(:target_version_ids)
+    observed_in_ids = attributes.delete(:observed_in_version_ids)
+
+    model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
+    model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
   end
 
   def set_static_attributes(attributes)
@@ -221,14 +230,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the type was changed
     return unless work_package.type_id_changed?
 
-    # And the new type has a default text
-    default_description = work_package.type&.description
-    return if default_description.blank?
-
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = default_description
+    work_package.description = work_package.type&.description
   end
 
   def default_description?
@@ -263,7 +268,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     model.change_by_system do
-      set_version_to_nil
+      set_versions_to_nil
       reassign_category
       set_parent_to_nil
       clear_semantic_identifier
@@ -357,11 +362,36 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
-  def set_version_to_nil
+  def set_versions_to_nil
     if work_package.version &&
        work_package.project&.shared_versions&.exclude?(work_package.version)
       work_package.version = nil
     end
+
+    clear_unassignable_versions
+  end
+
+  def clear_unassignable_versions
+    return unless work_package.persisted?
+
+    assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
+
+    %w[target observed_in].each do |kind|
+      clear_unassignable_versions_for(kind, assignable_ids)
+    end
+  end
+
+  def clear_unassignable_versions_for(kind, assignable_ids)
+    attr = :"#{kind}_version_ids_replacements"
+    current_replacements = work_package.send(attr)
+
+    current_ids = current_replacements ||
+      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    filtered_ids = current_ids & assignable_ids
+
+    return if filtered_ids.sort == current_ids.sort
+
+    work_package.send(:"#{attr}=", filtered_ids)
   end
 
   def set_parent_to_nil

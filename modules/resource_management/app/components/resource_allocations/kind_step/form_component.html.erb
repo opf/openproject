@@ -9,9 +9,7 @@
       }
     ) do |f|
       render(
-        ResourceAllocations::Forms::KindSelectForm.new(
-          f, work_package: @work_package, start_date: @start_date, end_date: @end_date
-        )
+        ResourceAllocations::Forms::KindSelectForm.new(f, allocation: @allocation)
       )
     end
   end

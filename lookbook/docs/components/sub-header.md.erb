@@ -12,7 +12,7 @@ The SubHeader accepts a number of additional components. **All buttons** within 
 
 On the left side:
 
-- **Search filter**: (Optional) A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below.
+- **Search filter**: (Optional) A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below. Per default, the search input is collapsed to an icon button and changes on click to a text input. To avoid this, use `collapsed_search: false`.
 - **Sort action** (Optional) A generic slot for a sort button component. It is recommended to use IconButtons here.
 - **Group action** (Optional) A generic slot for a group button component. It is recommended to use IconButtons here.
 - **Quick filters** (Optional) Up to 5 QuickFilter can be rendered here. When using more then one quick filter, an `All Filter` button is required.
@@ -45,6 +45,7 @@ The SubHeader automatically adapts to mobile screens:
 - Use IconButtons instead of Buttons for actions only when the icon is clear enough to describe the action.
 - When more actions are necessary, or if a menu is needed, use an ActionMenu instead of the ActionButtons.
 - Use IconButtons for the sort and group components.
+- Use `collapsed_search: false` when the left side only shows the search input and no further filter actions.
 
 **Don't**
 
@@ -161,9 +162,17 @@ The `with_quick_filter` slot only offers a generic slot for a quick filter takin
 
 
       # The all filters button is required when using more than one quick filter
-      component.with_filter_button(mobile_label: "All filters") do
+      component.with_filter_component(mobile_label: "All filters") do
         render(Foo::AllFilterComponent.new(query: @query, project: @project))
       end
     end
   %&gt;
 ```
+
+### All filters button
+
+The "All filters" button is required when using more than one quick filter. It can be rendered either via the `with_filter_button` slot or as a component via `with_filter_component`. When using the latter, you have to manually make sure that the button fulfills the following requirements:
+
+* Use `invisible` scheme
+* Use `icon: :filter`
+* Use `label: "All filters"`

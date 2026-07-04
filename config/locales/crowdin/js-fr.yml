@@ -164,7 +164,7 @@ fr:
         child_pages:
           button: Liste des sous-pages
           include_parent: Inclure un parent
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Placeholder] Liste des sous-pages de"
           page: Page du wiki
           this_page: cette page
           hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou son slug.
@@ -459,7 +459,7 @@ fr:
     label_work_package_context_menu: Menu contextuel des lots de travaux
     label_unwatch: Ne plus suivre
     label_unwatch_work_package: Ne plus suivre le lot de travaux
-    label_uploaded_by: Téléversé par
+    label_uploaded_by: Importé par
     label_default_queries: Par défaut
     label_starred_queries: Favori
     label_global_queries: Public
@@ -914,11 +914,12 @@ fr:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer les lots de travaux par type de relation
       tabs:
-        overview: Vue globale
         activity: Activité
+        files: Fichiers
+        overview: Vue globale
+        project_attributes: Project attributes
         relations: Relations
         watchers: Observateurs
-        files: Fichiers
       time_relative:
         days: jours
         weeks: semaines

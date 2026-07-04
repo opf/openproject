@@ -20,9 +20,9 @@ ko:
     label_avatar: 아바타
     label_gravatar: Gravatar
     label_local_avatar: 사용자 지정 아바타
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_gravatar_html: OpenProject는 사용자가 %{gravatar_url}에서 Gravatar를 등록한 경우 해당 Gravatar를 사용하며, 등록된 Gravatar가 없는 경우에는 기본 이미지나 아이콘을 사용합니다.
+    text_avatar_local: 또한 이미지를 클릭하여 Gravatar를 재정의하는 사용자 지정 아바타를 업로드할 수 있습니다. 128×128 픽셀 크기의 이미지를 사용하는 것이 좋습니다.
+    text_avatar_local_only: 또한 이미지를 클릭하여 사용자 지정 아바타를 업로드할 수 있습니다. 128×128 픽셀 크기의 이미지를 사용하는 것이 좋습니다.
     settings:
       enable_gravatars: 사용자 Gravatar 사용
       gravatar_default: 기본 Gravatar 이미지

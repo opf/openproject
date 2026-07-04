@@ -426,12 +426,13 @@ ko:
       message: '이 미팅 시리즈는 종료되었습니다. 향후 미팅이 없습니다. '
       action: 이전 항목을 보거나, 미팅 시리즈를 편집하여 연장할 수는 있습니다.
     occurrence:
-      infoline: 이 미팅은 반복 미팅 시리즈의 일부입니다.
       error_no_next: 이 미팅의 다음 항목이 없습니다.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: 이 미팅 시리즈의 첫 번째 항목은 이미 인스턴스화되었습니다.
       first_created: '첫 번째 미팅이 템플릿에서 성공적으로 생성되었습니다. 향후 모든 미팅은 이전 항목이 발생한 시점에 자동으로 생성됩니다.
 
         '
+      infoline: 이 미팅은 반복 미팅 시리즈의 일부입니다.
     template:
       button_finalize: 첫 번째 미팅 열기
       blank_title: 미팅 시리즈 템플릿이 비어 있습니다.

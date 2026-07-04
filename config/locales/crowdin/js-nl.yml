@@ -914,11 +914,12 @@ nl:
         relation_filters:
           filter_work_packages_by_relation_type: Filter werkpakketten op relatietype
       tabs:
-        overview: Overzicht
         activity: Activiteit
+        files: Bestanden
+        overview: Overzicht
+        project_attributes: Project attributes
         relations: Relaties
         watchers: Volgers
-        files: Bestanden
       time_relative:
         days: dagen
         weeks: weken

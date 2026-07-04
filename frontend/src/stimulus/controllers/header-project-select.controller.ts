@@ -35,8 +35,11 @@ const VALID_FILTER_MODES = new Set(['all', 'favorited']);
 const NON_DEFAULT_FILTER_MODES = new Set(['favorited']);
 
 export default class HeaderProjectSelectController extends Controller {
+  private treeViewObserver:MutationObserver|null = null;
+
   connect():void {
     this.element.addEventListener('click', this.onFilterModeClick);
+    this.element.addEventListener('keydown', this.onKeydown);
 
     // Before the overlay becomes visible, inject the stored filter mode into
     // the turbo-frame src so the server renders the correct initial state.
@@ -50,11 +53,13 @@ export default class HeaderProjectSelectController extends Controller {
     // { once: true } on the frame event ensures we only attach the observer on the
     // initial open, not on subsequent search-driven reloads of the outer frame.
     const frame = this.element.querySelector('turbo-frame#op-header-project-frame');
-    frame?.addEventListener('turbo:frame-load', this.observeFilterableTreeViewLoad, { once: true });
+    frame?.addEventListener('turbo:frame-load', this.onInitialTreeViewLoad, { once: true });
   }
 
   disconnect():void {
     this.element.removeEventListener('click', this.onFilterModeClick);
+    this.treeViewObserver?.disconnect();
+    this.element.removeEventListener('keydown', this.onKeydown);
   }
 
   private onBeforeFirstOpen = ():void => {
@@ -72,29 +77,42 @@ export default class HeaderProjectSelectController extends Controller {
     frame.setAttribute('src', url.toString());
   };
 
-  private observeFilterableTreeViewLoad = ():void => {
+  private onInitialTreeViewLoad = ():void => {
     const filterableTreeView = this.element.querySelector('filterable-tree-view');
     if (!filterableTreeView) return;
 
-    const observer = new MutationObserver(() => {
-      this.onTreeViewLoadFinished(filterableTreeView, observer);
-    });
-
-    observer.observe(filterableTreeView, { attributes: true, attributeFilter: ['aria-busy'] });
-    // Also check immediately in case aria-busy is already "false" when the observer is attached
-    this.onTreeViewLoadFinished(filterableTreeView, observer);
+    this.treeViewObserver = new MutationObserver(this.scrollCurrentProjectAfterLoad);
+    this.treeViewObserver.observe(filterableTreeView, { attributes: true, attributeFilter: ['aria-busy'] });
+    this.scrollCurrentProjectAfterLoad();
   };
 
-  private onTreeViewLoadFinished(filterableTreeView:Element, observer:MutationObserver):void {
-    if (filterableTreeView.getAttribute('aria-busy') === 'false') {
-      observer.disconnect();
+  private scrollCurrentProjectAfterLoad = ():void => {
+    const filterableTreeView = this.element.querySelector('filterable-tree-view');
+    if (filterableTreeView?.getAttribute('aria-busy') === 'false') {
       this.scrollCurrentProjectIntoView();
     }
-  }
+  };
 
   private scrollCurrentProjectIntoView = ():void => {
     const current = this.element.querySelector<HTMLElement>('[role="treeitem"][aria-current="true"]');
     current?.scrollIntoView({ block: 'center' });
+  };
+
+  private onKeydown = (event:KeyboardEvent):void => {
+    if (event.key !== 'Enter') return;
+    const target = event.target as HTMLElement;
+    if (target.tagName !== 'INPUT') return;
+
+    const links = this.element.querySelectorAll<HTMLAnchorElement>(
+      'a[role="treeitem"][href]:not([aria-disabled="true"])',
+    );
+    for (const link of links) {
+      if (!link.closest('[hidden]')) {
+        event.preventDefault();
+        link.click();
+        return;
+      }
+    }
   };
 
   private onFilterModeClick = (event:MouseEvent):void => {

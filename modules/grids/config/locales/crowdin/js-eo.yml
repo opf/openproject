@@ -21,7 +21,7 @@ eo:
         project_description:
           title: Description
         project_status:
-          title: Status
+          title: Statuso
           not_started: Nekomencita
           on_track: Laŭ la plano
           off_track: Preter plano
@@ -30,9 +30,9 @@ eo:
           finished: Finita
           discontinued: Discontinued
         subprojects:
-          title: Subitems
+          title: Suberoj
         project_favorites:
-          title: Favorite projects
+          title: Favoritaj projektoj
           no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: My spent time
@@ -45,7 +45,7 @@ eo:
         work_packages_assigned:
           title: Laborpakaĵoj asignitaj al mi
         work_packages_created:
-          title: Work packages created by me
+          title: Laborpakaĵoj kreitaj de mi
         work_packages_watched:
           title: Work packages watched by me
         work_packages_table:
@@ -57,4 +57,4 @@ eo:
           title: Kalendaro
         work_packages_overview:
           title: Work packages overview
-          placeholder: Click to edit ...
+          placeholder: Klaku por redakti...

@@ -26,7 +26,7 @@ zh-CN:
       macro:
         wikis:
           add_existing: 现有 Wiki 页面
-          create_new: 新 Wiki 页面
+          create_new: 新建 Wiki 页面
     work_packages:
       tabs:
         wikis: Wiki

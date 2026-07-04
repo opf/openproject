@@ -28,8 +28,8 @@ fa:
     attributes:
       project:
         sprint_sharing: اشتراک گذاری اسپرینت
-        backlog_excluded_types: Excluded work package types
-        statuses_considered_closed: Statuses considered closed
+        backlog_excluded_types: انواع بسته‌های کاری مستثنی‌شده
+        statuses_considered_closed: وضعیت‌هایی که بسته‌شده محسوب می‌شوند
       sprint:
         duration: مدت زمان
         finish_date: تاریخ پایان
@@ -40,35 +40,35 @@ fa:
           in_planning: در حال برنامه ریزی
           active: فعال
           completed: تکمیل شده
-        work_packages: Work packages
+        work_packages: بسته‌های کاری
       sprint_goal:
-        text: Sprint goal
+        text: هدف اسپرینت
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: مخزن بک‌لاگ
         backlogs_work_package_type: Backlog type
         position: Position
         sprint: اسپرینت
         story_points: Story Points
     errors:
       messages:
-        must_be_in_planning: must be in planning to start.
-        only_one_active_sprint_allowed: only one active sprint is allowed per project.
-        dates_required: Start and finish dates are required in order to start the sprint.
+        must_be_in_planning: برای شروع باید در وضعیت برنامه‌ریزی باشد.
+        only_one_active_sprint_allowed: برای هر پروژه فقط یک اسپرینت فعال مجاز است.
+        dates_required: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
       models:
         project:
-          receiving_sprints: is receiving shared sprints. Own sprints cannot be created.
+          receiving_sprints: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
           attributes:
             sprint_sharing:
-              share_all_projects_already_taken: cannot be set because project "%{name}" is already sharing with all projects.
-              share_all_projects_already_taken_anonymous: cannot be set because another project is already sharing with all projects.
+              share_all_projects_already_taken: قابل تنظیم نیست، زیرا پروژه «%{name}» از قبل با همه پروژه‌ها اشتراک‌گذاری می‌کند.
+              share_all_projects_already_taken_anonymous: قابل تنظیم نیست، زیرا پروژه دیگری از قبل با همه پروژه‌ها اشتراک‌گذاری می‌کند.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: از قبل برای این اسپرینت هدف دارد.
         sprint:
           attributes:
             base:
               unfinished_work_packages:
-                one: There is one work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: یک بسته کاری در این اسپرینت تکمیل نشده است.
+                other: "%{count} بسته کاری در این اسپرینت تکمیل نشده‌اند."
               format: "%{message}"
             status:
               not_active: فعال نیست بنابراین نمی تواند بسته شود
@@ -84,64 +84,64 @@ fa:
               task_version_must_be_the_same_as_story_version: باید از  همان نگارش داستان زادآوران باشد.
             sprint:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
-              not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
+              not_eligible_for_moving: اسپرینت موردنظر در پروژه مقصد فعال نیست.
     models:
       sprint:
-        one: Sprint
-        other: Sprints
+        one: اسپرینت
+        other: اسپرینت‌ها
   backlogs:
     administration_blankslate:
-      title: Backlog admin settings are evolving
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      title: تنظیمات مدیریتی بک‌لاگ در حال تکمیل است
+      text: ما در حال بازطراحی ماژول بک‌لاگ هستیم. تنظیمات مدیریتی اسپرینت‌ها و بک‌لاگ‌ها به‌زودی در اینجا نمایش داده می‌شود. تنظیمات سطح پروژه همچنان در دسترس است.
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: مخزن بک‌لاگ جدید
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: مخزن بک‌لاگ
+        other: مخزن‌های بک‌لاگ
+        zero: همه مخزن‌های بک‌لاگ
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: اسپرینت
+        other: اسپرینت‌ها
+        zero: همه اسپرینت‌ها
+      select_panel_title: انتخاب موارد
     bucket_destroy_modal_component:
-      title: Delete backlog bucket?
-      details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
+      title: مخزن بک‌لاگ حذف شود؟
+      details: مخزن بک‌لاگ «%{name}» حذف می‌شود و همه بسته‌های کاری به صندوق ورودی بک‌لاگ منتقل می‌شوند. هیچ بسته کاری حذف نخواهد شد.
     bucket_component:
-      blankslate_title: Backlog bucket is empty
-      blankslate_description: Drag items here to add them.
-      label_actions: Backlog bucket actions
+      blankslate_title: مخزن بک‌لاگ خالی است
+      blankslate_description: برای افزودن موارد، آن‌ها را اینجا بکشید.
+      label_actions: عملیات مخزن بک‌لاگ
       action_menu:
-        edit_backlog_bucket: Edit backlog bucket
-        delete_backlog_bucket: Delete backlog bucket
+        edit_backlog_bucket: ویرایش مخزن بک‌لاگ
+        delete_backlog_bucket: حذف مخزن بک‌لاگ
     burndown_chart:
       show:
-        blankslate_title: No burndown data available
-        blankslate_description: Set start and end date for the sprint to generate a burndown chart.
-    excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
+        blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
+        blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
+    excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
       '
     finish_sprint_dialog_component:
-      title: There are work in progress items
-      body: "%{message} What would you like to do with these?"
-      legend: Action for unfinished work packages
+      title: مواردی در حال انجام هستند
+      body: "%{message} می‌خواهید با این موارد چه کاری انجام دهید؟"
+      legend: اقدام برای بسته‌های کاری ناتمام
       actions:
-        move_to_top_of_backlog: Move them to the top of the backlog
-        move_to_bottom_of_backlog: Move them to the bottom of the backlog
-        move_to_sprint: Move them to another sprint
-      select_sprint_label: Select sprint
-      button_complete_sprint: Complete sprint
+        move_to_top_of_backlog: انتقال به ابتدای بک‌لاگ
+        move_to_bottom_of_backlog: انتقال به انتهای بک‌لاگ
+        move_to_sprint: انتقال به اسپرینت دیگر
+      select_sprint_label: انتخاب اسپرینت
+      button_complete_sprint: تکمیل اسپرینت
     inbox_component:
-      title: Inbox
-      blankslate_title: Backlog inbox is empty
-      blankslate_description: All open work packages in this project will automatically appear here.
+      title: صندوق ورودی
+      blankslate_title: صندوق ورودی بک‌لاگ خالی است
+      blankslate_description: همه بسته‌های کاری بازِ این پروژه به‌صورت خودکار اینجا نمایش داده می‌شوند.
       show_more:
-        one: Show 1 more item
-        other: Show %{count} more items
-    label_burndown_chart: Burndown chart
+        one: نمایش ۱ مورد دیگر
+        other: نمایش %{count} مورد دیگر
+    label_burndown_chart: نمودار برن‌داون
     label_is_done_status: Status %{status_name} means done
-    label_sprint_board: Sprint board
+    label_sprint_board: بورد اسپرینت
     move_to_bucket_dialog_component:
       title: Move to backlog bucket
     move_to_sprint_dialog_component:

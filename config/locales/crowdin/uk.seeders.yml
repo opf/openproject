@@ -95,19 +95,19 @@ uk:
           name: Негайно
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Маркетинг і комунікації
         item_1:
-          name: Public Relations
+          name: Зв’язки з громадськістю
         item_2:
-          name: Design & Content
+          name: Дизайн і контент
         item_3:
-          name: Events & Operations
+          name: Події та операції
         item_4:
-          name: Web & IT
+          name: Веб та ІТ
         item_5:
-          name: Finance & Administration
+          name: Фінанси й адміністрування
         item_6:
-          name: Quality Assurance
+          name: Контроль якості
       projects:
         demo-project:
           name: Демопроєкт
@@ -197,23 +197,23 @@ uk:
                 item_2:
                   subject: Налаштування вебсайту конференції
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Тестування й перевірка якості вебсайту конференції
             item_3:
-              subject: Conference
+              subject: Конференція
             item_4:
-              subject: Follow-up tasks
+              subject: Наступні завдання
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Завантаження презентації на вебсайт
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Вечірка для спонсорів конференції :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Пиво
+                    *   [ ] Закуски
+                    *   [ ] Музика
+                    *   [ ] Більше пива
             item_5:
-              subject: End of project
+              subject: Кінець проєкту
           wiki: |
             _На цій вікі-сторінці можна спільно створювати та редагувати сторінки й підсторінки вікі-проєкту._
 

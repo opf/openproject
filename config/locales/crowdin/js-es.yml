@@ -160,9 +160,9 @@ es:
           nested_macro: Esta macro hace referencia recursivamente a %{model} %{id}.
           invalid_attribute: El atributo seleccionado («%{name}») no existe.
         child_pages:
-          button: List of sub-pages
+          button: Lista de subpáginas
           include_parent: Incluir principal
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Placeholder] Lista de subpáginas de"
           page: Página wiki
           this_page: esta página
           hint: 'Deje este campo en blanco para mostrar todas las páginas secundarias de la página actual. Para hacer referencia a otra página, especifique el título o slug.
@@ -912,11 +912,12 @@ es:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrar paquetes de trabajo por tipo de relación
       tabs:
-        overview: Resumen
         activity: Actividad
+        files: Archivos
+        overview: Resumen
+        project_attributes: Atributos del proyecto
         relations: Relaciones
         watchers: Observadores
-        files: Archivos
       time_relative:
         days: días
         weeks: semanas

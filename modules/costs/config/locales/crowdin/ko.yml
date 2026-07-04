@@ -247,7 +247,7 @@ ko:
       rates:
         title: 요금 기록
     settings:
-      time_and_costs: Time and costs
+      time_and_costs: 시간 및 비용
       cost_types:
         heading: 비용 유형
         none_active: 이 프로젝트에는 현재 활성화된 비용 유형이 없습니다.

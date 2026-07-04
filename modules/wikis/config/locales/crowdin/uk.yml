@@ -21,8 +21,8 @@ uk:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: належить джерелу вікі, яке вже відоме як «%{name}».
+              wiki_provider_unreachable: недоступний.
     models:
       wikis/inline_page_link:
         one: Вставлене посилання на сторінку
@@ -47,9 +47,9 @@ uk:
         other: Постачальники XWiki
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
-      wikis: Wikis
+      external_wiki_providers: Джерела вікі
+      internal_wiki_provider: Внутрішня система вікі
+      wikis: Вікі
   permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
   project_module_wiki_platforms: Постачальники Wiki
   wikis:
@@ -80,11 +80,11 @@ uk:
           no_health_report_description: Запустіть перевірки, щоб отримати комплексний звіт про стан справності цього постачальника Wiki.
           title: Звіт про справність
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Дозволити проєктам використовувати внутрішню систему вікі OpenProject разом із зовнішніми джерелами вікі
+        checkbox_label: Увімкнути внутрішню систему вікі OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Виберіть, увімкнути чи вимкнути внутрішню систему вікі OpenProject
       oauth_application_info_component:
         confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані у своєму екземплярі XWiki. У такому разі всім користувачам знадобиться знову пройти авторизацію. Продовжити?
         label_oauth_client_id: Ідентифікатор клієнта OAuth
@@ -136,19 +136,19 @@ uk:
       save_and_continue: Зберегти та продовжити
       wiki_page: Сторінка Wiki
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Створити нову сторінку вікі
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Завантаження…
     delete_relation_page_link_confirmation_dialog:
       heading: Видалити посилання на пов’язану сторінку Wiki?
       title: Видалити посилання на пов’язану сторінку Wiki
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occured.
+      connection_error: Не вдалося підключитися до джерела вікі.
+      invalid_parent: Вибрана сторінка не може бути батьківською.
+      invalid_response: Джерело вікі повернуло непередбачувану відповідь.
+      missing_token: Обліковий запис користувача ще не підключено до джерела вікі.
+      request_failed: Джерело вікі повернуло неочікувану помилку.
+      unauthorized: Сталася помилка авторизації.
     health_checks:
       authentication:
         existing_token: Маркер користувача
@@ -164,7 +164,7 @@ uk:
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
         xwiki_oauth_unauthorized: Платформа XWiki не розпізнала маркер користувача.
     inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: Додати наявну сторінку вікі
     instructions:
       xwiki:
         integration: Адміністрування XWiki
@@ -179,12 +179,12 @@ uk:
       remove: Видалити посилання на сторінку
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: Заголовок
+        parent: Батьківська сторінка вікі
+        wiki_page: Сторінка вікі
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Сторінок вікі не знайдено
+        placeholder: Виконайте пошук сторінки вікі (або введіть її URL-адресу)
     page_links:
       errors:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
@@ -195,13 +195,13 @@ uk:
         name: XWiki
     relation_page_links_component:
       empty_heading: Немає пов’язаних сторінок
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: Додайте сторінки вікі, що стосуються цього пакета робіт.
       link_existing: Наявна сторінка Wiki
       link_new: Нова сторінка Wiki
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: Підключіть XWiki до OpenProject, щоб синхронізувати документацію і роботу, зв’язувати сторінки, відстежувати посилання й керувати всім в одному місці.
+        title: Інтеграція з XWiki
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: Згадано в описі
       referencing_pages: Додано посилання в

@@ -77,7 +77,7 @@ pt-BR:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Copiar ID numérico para a área de transferência
     button_copy_link_to_clipboard: Copiar link para área de transferência
     button_copy_to_clipboard: Copiar para a área de transferência
     button_copy_to_other_project: Duplicar em outro projeto
@@ -162,9 +162,9 @@ pt-BR:
           nested_macro: Esta macro está fazendo referência recursiva a %{model} %{id}.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
         child_pages:
-          button: List of sub-pages
+          button: Lista de subpáginas
           include_parent: Incluir pai
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Espaço reservado] Lista de subpáginas de"
           page: Página wiki
           this_page: esta página
           hint: 'Deixe este campo em branco para listar todas as páginas filhas da página atual. Se você deseja fazer referência a uma página diferente, forneça seu título ou "slug".
@@ -182,7 +182,7 @@ pt-BR:
           text: "[Marcador de posição] Tabela embutida de pacote de trabalho"
         error: 'Não é possível expandir a macro: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Inserir
         toc: Tabela de conteúdos
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -368,7 +368,7 @@ pt-BR:
     label_in_more_than: em mais de
     label_incoming_emails: E-mails recebidos
     label_information_plural: Informação
-    label_infinity: Infinity
+    label_infinity: Infinito
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Última atividade
@@ -393,7 +393,7 @@ pt-BR:
     label_no_value: Nenhum valor
     label_none: nenhum
     label_not_contains: não contém
-    label_not_available: Not available
+    label_not_available: Não disponível
     label_not_equals: não é
     label_on: ligado
     label_open_menu: Abrir menu
@@ -914,11 +914,12 @@ pt-BR:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrar pacotes de trabalho por tipo de relação
       tabs:
-        overview: Visão geral
         activity: Atividade
+        files: Arquivos
+        overview: Visão geral
+        project_attributes: Project attributes
         relations: Relações
         watchers: Observadores
-        files: Arquivos
       time_relative:
         days: dias
         weeks: semanas

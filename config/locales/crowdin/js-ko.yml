@@ -77,7 +77,7 @@ ko:
     button_confirm: 확인
     button_continue: 계속
     button_copy: 복사
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: 클립보드에 숫자 ID 복사
     button_copy_link_to_clipboard: 클립보드에 링크 복사
     button_copy_to_clipboard: 클립보드 복사
     button_copy_to_other_project: 다른 프로젝트에 복제
@@ -162,9 +162,9 @@ ko:
           nested_macro: 이 매크로는 %{model} %{id}을(를) 재귀적으로 참조하고 있습니다.
           invalid_attribute: 선택한 특성 '%{name}'이(가) 없습니다.
         child_pages:
-          button: List of sub-pages
+          button: 하위 페이지 목록
           include_parent: 부모 포함
-          text: "[Placeholder] List of sub-pages of"
+          text: '다음에 대한 하위 페이지의 [Placeholder] 목록:'
           page: 위키 페이지
           this_page: 이 페이지
           hint: '현재 페이지의 모든 자식 페이지를 나열하려면 이 필드를 비워두세요. 다른 페이지를 참조하려는 경우 해당 제목 또는 슬러그를 제공하세요.
@@ -182,7 +182,7 @@ ko:
           text: "[Placeholder] 포함 작업 패키지 테이블"
         error: '매크로를 확장할 수 없습니다: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: 삽입
         toc: 목차
         toolbar_help: 위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.
         wiki_page_include:
@@ -368,7 +368,7 @@ ko:
     label_in_more_than: 보다 큼
     label_incoming_emails: 들어오는 이메일
     label_information_plural: 정보
-    label_infinity: Infinity
+    label_infinity: 무한대
     label_invalid: 유효하지 않음
     label_import: 가져오기
     label_latest_activity: 최근 활동
@@ -393,7 +393,7 @@ ko:
     label_no_value: 값 없음
     label_none: 없음
     label_not_contains: 포함하지 않음
-    label_not_available: Not available
+    label_not_available: 사용할수 없음
     label_not_equals: 일치하지 않음
     label_on: 에
     label_open_menu: 메뉴 열기
@@ -913,11 +913,12 @@ ko:
         relation_filters:
           filter_work_packages_by_relation_type: 관계 유형별 작업 패키지 필터링
       tabs:
-        overview: 요약
         activity: 활동
+        files: 파일
+        overview: 요약
+        project_attributes: Project attributes
         relations: 관계
         watchers: 주시자
-        files: 파일
       time_relative:
         days: 일
         weeks: 주

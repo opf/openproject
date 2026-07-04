@@ -915,11 +915,12 @@ ro:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrează pachetele de lucru după tipul relației
       tabs:
-        overview: Prezentare generală
         activity: Activitate
+        files: Fișiere
+        overview: Prezentare generală
+        project_attributes: Project attributes
         relations: Relații
         watchers: Observatori
-        files: Fișiere
       time_relative:
         days: zile
         weeks: săptămâni

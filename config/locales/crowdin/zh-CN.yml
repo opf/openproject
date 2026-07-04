@@ -53,6 +53,8 @@ zh-CN:
           description: 您的评论将对任何能够访问此工作包的人可见。您确定要这样做吗？
           confirm_button_text: 设为公开
   admin:
+    banners:
+      environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     reserved_identifiers:
       btn_release: 取消保留
       col_identifier: 标识符
@@ -61,17 +63,17 @@ zh-CN:
       dialog:
         checkbox_label: 我明白此操作无法撤消。
         confirm_button: 取消保留标识符
-        description: 此项目标识符取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，该名称可供任何新项目认领。
+        description: 此项目标识符取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
         description_with_work_packages:
-          other: 此项目标识符（及其 %{count} 个工作包标识符）取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，该名称可供任何新项目认领。
+          other: 此项目标识符（及其 %{count} 个工作包标识符）取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
         heading: 是否取消保留“%{identifier}”？
         title: 取消保留标识符
       empty_body: 项目的标识符更改后，上一个标识符会出现在此处，以便您在确认安全后将其取消保留。
       empty_heading: 没有保留的标识符
       filter_label: 搜索标识符
-      identifier_not_found: 找不到保留的标识符。该标识符可能已取消保留，或者项目可能已被删除。请刷新页面。
-      lede_html: 重命名项目标识符时，会保留之前的标识符，以确保现有链接和集成可正常使用。<br>可以在此处取消保留标识符，以供其他项目使用。
-      released_notice: 标识符“%{identifier}”已取消保留。
+      identifier_not_found: 找不到保留的标识符。该标识符可能已被取消保留，或者项目可能已被删除。请刷新页面。
+      lede_html: 重命名项目标识符时，会保留之前的标识符，以确保现有链接和集成可正常使用。<br>可以在此处取消保留标识符，供其他项目使用。
+      released_notice: 标识符“%{identifier}”已被取消保留。
       reserved_ago: "%{time}前"
       title: 保留的项目标识符
     plugins:
@@ -271,7 +273,7 @@ zh-CN:
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               label_supported_data: 支持的数据
-              label_coming_soon: 即将推出（2026 年第二季度）
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: 稍后推出
               label_available_server_data: "%{server_info} 现有数据"
               button_select_projects: 选择要导入的项目
@@ -564,7 +566,7 @@ zh-CN:
         例如：uid=openproject,ou=system,dc=example,dc=com
       system_user_password: 输入系统用户的绑定密码
       base_dn: |
-        输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基本 DN。
+        输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基础 DN。
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
       filter_string: |
@@ -685,7 +687,7 @@ zh-CN:
             lose_role: 将失去角色“%{old_role}”
             no_change: 无更改
     multi_value_more:
-      other: 及其他 %{count} 个
+      other: 和其他 %{count} 个
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -731,10 +733,10 @@ zh-CN:
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
       visible_on_user_card:
-        all: 选中后，当在应用程序中将鼠标悬停在某个用户上时，该字段的值会显示在用户信息卡中。
+        all: 选中后，在应用程序中将鼠标悬停在某个用户上时，此字段的值会显示在用户信息卡中。
     semantic_keys:
-      none: None
-      job_title: Job title
+      none: 无
+      job_title: 职务名称
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -1324,8 +1326,8 @@ zh-CN:
       data_consequences: '出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
 
         '
-      heading: Delete placeholder user %{name}?
-      title: Delete placeholder user %{name}
+      heading: 是否删除占位符用户 %{name}？
+      title: 删除占位符用户 %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1378,44 +1380,51 @@ zh-CN:
       no_results_content_text: 创建新的类型
     edit:
       form_configuration:
-        tab: 表单配置
-        label_group: 小节
-        reset_to_defaults: 重置表单
         add_attribute_group: 小节
         add_query_group: 相关的工作包表
+        blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
+        blankslate_title: 还没有群组
+        builtin_field: 内置字段
+        confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
+        confirm_reset: 确定要重置表单配置吗？
+        custom_field: 自定义字段
         delete_group: 删除小节
-        remove_attribute: 从小节中移除
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
         edit_query: 编辑查询
-        custom_field: 自定义字段
-        filter_inactive: 筛选特性
-        inactive_attributes_heading: 停用的特性
-        no_inactive_attributes: 没有停用的特性
-        blankslate_title: 还没有群组
-        blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
-        group_actions: 小节操作
-        rename_group: 重命名小节
-        confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
-        group_name_label: 小节名称
-        row_actions: 行操作
-        query_group_label: 相关的工作包表
         empty_group_hint: 将特性拖动到此处
+        filter_inactive: 筛选特性
+        group_actions: 小节操作
+        group_name_label: 小节名称
+        inactive_attributes_heading: 停用的特性
         invalid_attribute_groups: 表单配置有效载荷无效。
         invalid_query: 嵌入式查询配置无效。
+        label_group: 小节
+        no_inactive_attributes: 没有停用的特性
         not_found: 找不到所请求的表单配置项。
-        untitled_group: 无标题群组
-        reset_title: 重置表单配置
-        confirm_reset: 确定要重置表单配置吗？
-        builtin_field: 内置字段
+        query_group_label: 相关的工作包表
+        remove_attribute: 从小节中移除
+        rename_group: 重命名小节
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
           '
+        reset_title: 重置表单配置
+        reset_to_defaults: 重置表单
+        row_actions: 行操作
+        tab: 表单配置
+        untitled_group: 无标题群组
+      project_attributes:
+        actions:
+          label_disable_all: 全部禁用
+          label_enable_all: 全部启用
+        description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
+        filter: 按分区或名称搜索
+        tab: 项目特性
       projects:
-        tab: 项目
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
+        tab: 项目
       settings:
         tab: 设置
         type_color_text: 所选颜色用于在甘特图或工作包表中区分不同类型。因此建议使用鲜艳的颜色。
@@ -1685,7 +1694,7 @@ zh-CN:
       login_consequences:
         other: 此帐户将立即从系统中移除，用户将无法再使用其凭据登录。
         self: 您的帐户将立即从系统中移除，您将无法再使用您的凭据登录。
-      title: Delete %{name}'s account
+      title: 删除 %{name} 的帐户
     error_inactive_activation_by_mail: '您的帐户尚未激活。要激活您的帐户，请单击通过电子邮件发送到您的链接。
 
       '
@@ -1755,7 +1764,7 @@ zh-CN:
         regexp: 正则表达式
         searchable: 可搜索
         visible_on_user_card: 在用户卡上显示
-        semantic_key: Semantic meaning
+        semantic_key: 语义
         admin_only: 仅管理员
         has_comment: 添加注释文本字段
       custom_value:
@@ -1818,7 +1827,7 @@ zh-CN:
         attr_mail: 电子邮件属性
         filter_string: 筛选字符串
         admin: 管理员
-        base_dn: 基本 DN
+        base_dn: 基础 DN
         host: 主机
         onthefly: 自动创建用户
         port: 端口
@@ -2115,6 +2124,7 @@ zh-CN:
         cannot_delete_mapping: 必需项，不能删除
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
+        configured_via_env: 此对象的配置通过环境变量进行管理，无法在运行时更改。
         confirmation: 不匹配 %{attribute}。
         could_not_be_copied: 无法（完全）复制 %{dependency}。
         datetime_must_be_in_future: 必须是将来的时间
@@ -2379,7 +2389,7 @@ zh-CN:
           not_whitelisted: 配置所不允许的。
           invalid_url: 不是有效的存储库 URL 或路径。
           must_not_be_ssh: 不能是 SSH url。
-          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的存储库目录。
+          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的仓库目录。
           no_directory: 不是一个目录。
         role:
           attributes:
@@ -2391,7 +2401,7 @@ zh-CN:
               durations_are_not_positive_numbers: 持续时间必须是正数
               hours_per_day_are_missing: 必须定义每天的小时数
               hours_per_day_is_out_of_bounds: 每天小时数不能超过24
-              journal_aggregation_time_minutes_is_out_of_bounds: 聚合期必须在 %{min} 到 %{max} 分钟。
+              journal_aggregation_time_minutes_is_out_of_bounds: 聚合期必须在 %{min} 到 %{max} 分钟之间。
               previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
               working_days_are_missing: 每周必须至少有一天定义为工作日。
         status:
@@ -2485,6 +2495,8 @@ zh-CN:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- 如果已设置“工时”，且“完成百分比”为 100% 时，必须为 0h 。"
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: 当“工时”为空，且“完成%”为 100% 时，必须为空。
           readonly_status: 工作包处于只读状态，因此无法更改其属性。
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2793,6 +2805,7 @@ zh-CN:
   button_add_sub_item: 添加子项目
   button_add_member: 添加成员
   button_add_watcher: 添加关注者
+  button_all_filters: 所有筛选器
   button_annotate: 批注
   button_apply: 应用
   button_apply_changes: 应用更改
@@ -3451,7 +3464,7 @@ zh-CN:
     project_select_component:
       all_projects: 所有项目
       favorites: 收藏夹
-      leave_project: 退出项目
+      leave_project: 离开项目
       no_favorite_projects: 您没有收藏的项目。
       title: 项目
   toggle_switch:
@@ -3509,7 +3522,7 @@ zh-CN:
 
             '
           new_features_list:
-            line_0: XWiki 集成（企业方案）。
+            line_0: XWiki 集成（公司方案）。
             line_1: 冲刺目标。
             line_2: "“所有冲刺”概览页面。"
             line_3: 在工作包和工作包表中显示积压工作存储桶。
@@ -3700,7 +3713,7 @@ zh-CN:
         submit_button: 更新提醒
     notifications:
       participating:
-        description: 每当有人提及您，以及您关注的工作包发生更改时，您都会收到通知。无法禁用这些通知。但是，您可以选择允许或禁止接收与您有关（您是受理人、负责人或与您共享）的工作包更改的通知。
+        description: 每当有人提及您，以及您关注的工作包发生更改时，您都会收到通知。无法禁用这些通知。不过，您可以选择允许或禁止接收与您有关（您是受理人、负责人或与您共享）的工作包更改的通知。
         title: 参与
         submit_button: 更新偏好设置
         mentioned: 被提及
@@ -4106,7 +4119,7 @@ zh-CN:
   label_custom_favicon: 自定义图标
   label_custom_touch_icon: 自定义触摸图标
   label_departments: 组织
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_departments_description_html: '通过按层级创建部门和子部门来定义公司结构。这样可以反映汇报关系，并在 OpenProject 中保持清晰、结构分明的组织概览。您还可以通过 [LDAP 部门同步](ldap_docs_article)导入现有组织结构。
 
     '
   label_logout: 注销
@@ -4156,7 +4169,7 @@ zh-CN:
   label_my_account_data: 我的账户数据
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
-  label_my_security: 安全
+  label_my_security: 安全性
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -4211,6 +4224,7 @@ zh-CN:
 
     '
   label_part_of: 一部分
+  label_past: 过往
   label_password_lost: 忘记密码？
   label_password_rule_lowercase: 小写字母
   label_password_rule_numeric: 数字
@@ -4394,6 +4408,7 @@ zh-CN:
   label_type_new: 新类型
   label_type_plural: 类型
   label_ui: 用户界面
+  label_upcoming: 即将推出
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age}前更新"
@@ -4502,7 +4517,7 @@ zh-CN:
   label_x_working_days_time_off:
     other: 休息时间：%{count} 个工作日
   label_x_items_selected:
-    other: 已选%{count}项
+    other: 已选择 %{count} 个条目
   label_yesterday: 昨天
   label_zen_mode: 极简模式
   label_role_type: 类型
@@ -5030,16 +5045,13 @@ zh-CN:
     create_managed_delay: '请注意: 存储库已在托管中，它以异步方式在磁盘上创建并将在不久后处于可用状态。'
     create_successful: 存储库已被注册。
     delete_sucessful: 存储库已被删除。
-    destroy:
-      confirmation: 如果你继续将永久删除托管的存储库。
-      info: 删除存储库是一个不可逆转的操作。
-      info_not_managed: '注意: 这不会删除该存储库的内容，它不由 OpenProject 托管。'
-      managed_path_note: '以下目录将被删除: %{path}'
-      repository_verification_html: 输入项目的标识符 %{identifier}，以确认删除其仓库。
-      subtitle: 你确定要删除项目 %{project_name} 的 %{repository_type} 吗?
-      subtitle_not_managed_html: 是否确实要从项目 %{project_name} 删除关联的 %{repository_type} %{url}？
-      title_html: 删除 %{repository_type}
-      title_not_managed: 删除链接的 %{repository_type} 吗?
+    destroy_dialog:
+      description: 位于 %{path} 的 %{repository_type} 仓库及其所有内容将被永久删除。
+      description_not_managed: 位于 %{url} 的关联 %{repository_type} 将从项目中移除。注意：这不会删除此仓库的内容，它不由 OpenProject 托管。
+      heading: 是否删除此 %{repository_type}？
+      heading_not_managed: 是否移除此关联的 %{repository_type}？
+      title: 删除仓库
+      title_not_managed: 移除仓库
     errors:
       build_failed: 在所选的配置下无法创建存储库。%{reason}
       managed_delete: 无法删除托管的存储库。
@@ -5545,12 +5557,12 @@ zh-CN:
       new:
         heading: 新特性
       tabs:
-        attributes: Attributes
-        semantic_keys: Mapped attributes
+        attributes: 特性
+        semantic_keys: 映射的特性
       semantic_keys:
-        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        description: 某些特性不仅可以存储信息，应用还能使用它们来支持特定功能。请为下面的每个用途选择要使用的特性。每个特性只能用于一个用途，每个用途也只能用于一个特性。
         descriptions:
-          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
+          job_title: 选择存储每位用户的职务名称的特性。它会出现在多个位置的用户名称（例如用户卡）旁边。
     working_days:
       section_work_week: 工作周
       section_holidays_and_closures: 节假日与停业

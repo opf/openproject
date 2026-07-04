@@ -15,14 +15,14 @@ fr:
   avatar_deleted: L'avatar a bien été supprimé.
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
   wrong_file_format: Les formats autorisés sont Jpg, Png et Gif
-  empty_file_error: Veuillez téléverser une image valide (jpg, png, gif)
+  empty_file_error: Veuillez importer une image valide (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Avatar personnalisé
     text_avatar_gravatar_html: OpenProject utilise votre Gravatar si vous en avez créé un sur %{gravatar_url}, ou une image ou une icône par défaut si celle-ci existe.
-    text_avatar_local: Vous pouvez également télécharger un avatar personnalisé qui remplacera celui de Gravatar en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
-    text_avatar_local_only: Vous pouvez télécharger un avatar personnalisé en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
+    text_avatar_local: En cliquant sur l'image, vous pouvez également importer un avatar personnalisé qui remplacera celui de Gravatar. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
+    text_avatar_local_only: Vous pouvez importer un avatar personnalisé en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
     settings:
       enable_gravatars: Activer les gravatars de l'utilisateur
       gravatar_default: Image Gravatar par défaut

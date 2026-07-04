@@ -162,7 +162,7 @@ de:
           nested_macro: Dieses Makro verweist rekursiv auf %{model} %{id}.
           invalid_attribute: Das ausgewählte Attribut '%{name}' existiert nicht.
         child_pages:
-          button: List of sub-pages
+          button: Liste der Unterseiten
           include_parent: Elternseite anzeigen
           text: "[Platzhalter] Liste der Unterseiten von"
           page: Wiki-Seite
@@ -916,11 +916,12 @@ de:
         relation_filters:
           filter_work_packages_by_relation_type: Arbeitspakete nach Beziehungs-Typ filtern
       tabs:
-        overview: Übersicht
         activity: Aktivität
+        files: Dateien
+        overview: Übersicht
+        project_attributes: Projektattribute
         relations: Beziehungen
         watchers: Beobachter
-        files: Dateien
       time_relative:
         days: Tagen
         weeks: Wochen

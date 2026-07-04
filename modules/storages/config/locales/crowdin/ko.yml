@@ -42,7 +42,7 @@ ko:
         storage_url: 저장소 URL
         tenant: 디렉터리(테넌트) ID
       work_package:
-        file_links: File links
+        file_links: 파일 링크
     errors:
       messages:
         invalid_host_url: "- 올바른 URL이 아닙니다."

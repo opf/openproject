@@ -62,7 +62,7 @@ uk:
               share_all_projects_already_taken: не можна налаштувати, оскільки проєкт «%{name}» уже надає спільний доступ усім проєктам.
               share_all_projects_already_taken_anonymous: не можна налаштувати, оскільки інший проєкт вже надає спільний доступ усім проєктам.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: уже має ціль для цього спринту.
         sprint:
           attributes:
             base:
@@ -177,7 +177,7 @@ uk:
         edit_sprint: Змінити спринт
         add_work_package: Додати пакет робіт
     sprint_form:
-      goal_caption: Ціль спринту унікальна для цього проєкту й не збігається із цілями інших проєктів, які також використовують цей спринт.
+      goal_caption: Ціль спринту є унікальною для цього проєкту й не поширюється на інші проєкти, що використовують той самий спринт.
       goal_for_this_project_label: "%{attribute} (для цього проєкту)"
     sprint_form_component:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
@@ -216,9 +216,9 @@ uk:
       action_menu:
         copy_url_to_clipboard: Скопіювати URL-адресу в буфер обміну
         copy_work_package_id: Скопіювати ідентифікатор пакета робіт
-        move_menu: Move to position
+        move_menu: Перемістити в позицію
         move_to_backlog_bucket: Перемістити в сегмент беклогу
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: Перемістити у вхідні беклогу
         move_to_sprint: Перемістити в спринт
     work_package_is_closed: Робочий пакет виконується, коли
   burndown:

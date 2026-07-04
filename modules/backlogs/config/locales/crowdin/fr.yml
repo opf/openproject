@@ -44,7 +44,7 @@ fr:
       sprint_goal:
         text: Objectif du sprint
       work_package:
-        backlog_bucket: Compartiment des commandes en attente
+        backlog_bucket: Bucket de backlog
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -97,9 +97,9 @@ fr:
       button_new_backlog_bucket: Nouveau bucket de backlog
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Compartiment des commandes en attente
+        one: Bucket de backlog
         other: Buckets de backlog
-        zero: Tous les compartiments de commandes en attente
+        zero: Tous les buckets de backlog
       label_sprint_filter:
         one: Sprint
         other: Sprints

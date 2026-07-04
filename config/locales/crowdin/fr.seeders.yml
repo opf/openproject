@@ -95,19 +95,19 @@ fr:
           name: Immédiate
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Marketing et communication
         item_1:
-          name: Public Relations
+          name: Relations publiques
         item_2:
-          name: Design & Content
+          name: Conception et contenu
         item_3:
-          name: Events & Operations
+          name: Événements et opérations
         item_4:
-          name: Web & IT
+          name: Web et informatique
         item_5:
-          name: Finance & Administration
+          name: Finances et administration
         item_6:
-          name: Quality Assurance
+          name: Assurance qualité
       projects:
         demo-project:
           name: Projet de démonstration
@@ -197,23 +197,23 @@ fr:
                 item_2:
                   subject: Configurer le site Web de la conférence
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Tester et contrôler la qualité du site web de la conférence
             item_3:
-              subject: Conference
+              subject: Conférence
             item_4:
-              subject: Follow-up tasks
+              subject: Tâches de suivi
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Importer les présentations sur le site Web
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Fête pour les supporters de la conférence :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] Bière
+                    * [ ] En-cas
+                    * [ ] Musique
+                    * [ ] Encore plus de bière
             item_5:
-              subject: End of project
+              subject: Fin du projet
           wiki: |
             _Dans ce wiki, vous pouvez créer et modifier des pages et des sous-pages de manière collaborative afin de créer un wiki de projet._
 

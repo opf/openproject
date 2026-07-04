@@ -452,12 +452,13 @@ en:
       message: "This meeting series has come to an end. There are no upcoming meetings. "
       action: "You can still view past occurrences or edit the meeting series to extend it."
     occurrence:
-      infoline: "This meeting is part of a recurring meeting series."
       error_no_next: "There is no next occurrence for this meeting."
+      error_template_draft: "The meeting series template is still in draft mode."
       first_already_exists: "The first occurrence of this meeting series is already instantiated."
       first_created: >
         The first meeting has been successfuly created from template.
         All future meetings will be created automatically at the time of the previous occurrence.
+      infoline: "This meeting is part of a recurring meeting series."
     template:
       button_finalize: "Open first meeting"
       blank_title: "Your meeting series template is empty"

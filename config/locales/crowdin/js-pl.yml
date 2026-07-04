@@ -77,7 +77,7 @@ pl:
     button_confirm: Potwierdź
     button_continue: Kontynuuj
     button_copy: Kopiuj
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Skopiuj identyfikator numeryczny do schowka
     button_copy_link_to_clipboard: Kopiuj link do schowka
     button_copy_to_clipboard: Skopiuj do schowka
     button_copy_to_other_project: Zduplikuj w innym projekcie
@@ -162,9 +162,9 @@ pl:
           nested_macro: To makro odwołuje się rekurencyjnie do %{model} %{id}.
           invalid_attribute: Wybrany atrybut „%{name}” nie istnieje.
         child_pages:
-          button: List of sub-pages
+          button: Lista podstron
           include_parent: Uwzględnij nadrzędne
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Symbol zastępczy] Lista podstron strony"
           page: Strona wiki
           this_page: tej strony
           hint: 'Aby wyświetlać listę wszystkich stron podrzędnych bieżącej strony, pozostaw to pole puste. Aby odwołać się do innej strony, podaj jej tytuł lub przyjazny adres URL.
@@ -182,7 +182,7 @@ pl:
           text: "[Placeholder] Osadzona tabela pakietów roboczych"
         error: 'Nie można rozwinąć makra: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Wstaw
         toc: Spis treści
         toolbar_help: Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet
         wiki_page_include:
@@ -368,7 +368,7 @@ pl:
     label_in_more_than: w ponad
     label_incoming_emails: Przychodzące e-maile
     label_information_plural: Informacje
-    label_infinity: Infinity
+    label_infinity: Nieskończoność
     label_invalid: Niewłaściwy
     label_import: Importuj
     label_latest_activity: Ostatnia aktywność
@@ -393,7 +393,7 @@ pl:
     label_no_value: Brak wartości
     label_none: Brak
     label_not_contains: nie zawierają
-    label_not_available: Not available
+    label_not_available: Niedostępny
     label_not_equals: nie jest
     label_on: wł
     label_open_menu: Otwórz menu
@@ -916,11 +916,12 @@ pl:
         relation_filters:
           filter_work_packages_by_relation_type: Filtruj pakiety robocze według typu relacji
       tabs:
-        overview: Przegląd
         activity: Działanie
+        files: Pliki
+        overview: Przegląd
+        project_attributes: Project attributes
         relations: Relacje
         watchers: Obserwatorzy
-        files: Pliki
       time_relative:
         days: dni
         weeks: tygodnie

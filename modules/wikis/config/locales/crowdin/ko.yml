@@ -21,8 +21,8 @@ ko:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: '- 이미 "%{name}"(으)로 알려진 위키 공급자에 속합니다.'
+              wiki_provider_unreachable: "- 연결할 수 없습니다."
     models:
       wikis/inline_page_link:
         other: 인라인 페이지 링크
@@ -35,9 +35,9 @@ ko:
         other: XWiki 공급자
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
-      wikis: Wikis
+      external_wiki_providers: 위키 공급자
+      internal_wiki_provider: 내부 위키
+      wikis: 위키
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
   project_module_wiki_platforms: 위키 공급자
   wikis:
@@ -68,11 +68,11 @@ ko:
           no_health_report_description: 이 위키 공급자에 대한 전체 상태 보고서를 보려면 지금 검사를 실행하세요.
           title: 상태 보고서
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: 프로젝트가 외부 위키 공급자와 함께 내부 OpenProject 위키를 사용하도록 허용
+        checkbox_label: 내부 OpenProject 위키 활성화
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: 내부 OpenProject 위키를 활성화하거나 비활성화하도록 선택합니다
       oauth_application_info_component:
         confirm_replace_oauth_application: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 XWiki 인스턴스에서 자격 증명을 다시 입력해야 하며 모든 사용자가 다시 인증해야 합니다. 계속하시겠습니까?
         label_oauth_client_id: OAuth 클라이언트 ID
@@ -99,7 +99,7 @@ ko:
         label_edit: XWiki 공급자 편집
         label_new_provider: 새로운 XWiki 공급자
         label_wiki_platform: 위키 공급자
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
+        name_caption: 사용자가 여러 위키 플랫폼 간에 구분할 수 있도록 위키 공급자에 이름을 지정합니다.
         name_placeholder: XWiki 지식 베이스
         new_provider_html: 자세한 내용은 [XWiki 통합 설정] 관련 문서(docs_url)를 참조하세요.
         oauth:
@@ -107,13 +107,13 @@ ko:
         sections:
           general_information: 일반 정보
           oauth_configuration: OAuth 구성
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: https://를 포함한 위키 플랫폼의 호스트 주소입니다. 255자 이하여야 합니다.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: XWiki가 OAuth 애플리케이션을 사용하여 OpenProject 데이터에 액세스하도록 허용합니다.
             provider_oauth: 위키 OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: 이러한 값을 [XWiki OIDC 연결 클라이언트](xwiki_oidc_link)에 복사합니다.
+            provider_oauth_description: OpenProject가 OAuth를 사용하여 XWiki 데이터에 액세스하도록 허용합니다.
           openproject_oauth_description: XWiki가 OAuth를 사용하여 OpenProject 데이터에 액세스하도록 허용합니다.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: OpenProject가 OAuth를 사용하여 XWiki 데이터에 액세스하도록 허용합니다.
@@ -124,19 +124,19 @@ ko:
       save_and_continue: 저장 및 계속
       wiki_page: 위키 페이지
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: 새 위키 페이지 만들기
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: 로드 중…
     delete_relation_page_link_confirmation_dialog:
       heading: 관련 위키 페이지 링크를 삭제하시겠습니까?
       title: 관련 위키 페이지 링크 삭제
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occured.
+      connection_error: 위키 공급자에 연결할 수 없습니다.
+      invalid_parent: 선택한 페이지는 유효한 부모 페이지가 아닙니다.
+      invalid_response: 위키 공급자가 예상치 못하게 응답했습니다.
+      missing_token: 사용자 계정이 아직 위키 공급자에 연결되지 않았습니다.
+      request_failed: 위키 공급자에서 예기치 않은 오류가 발생했습니다.
+      unauthorized: 인증 오류가 발생했습니다.
     health_checks:
       authentication:
         existing_token: 사용자 토큰
@@ -152,7 +152,7 @@ ko:
         xwiki_oauth_token_missing: 사용자가 아직 XWiki 계정을 연결하지 않았기 때문에 OpenProject가 XWiki와의 사용자 수준 통신을 테스트할 수 없습니다.
         xwiki_oauth_unauthorized: 사용자 토큰이 XWiki에서 인식되지 않았습니다.
     inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: 기존 위키 페이지 추가
     instructions:
       xwiki:
         integration: XWiki 관리
@@ -167,12 +167,12 @@ ko:
       remove: 페이지 링크 제거
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: 제목
+        parent: 부모 위키 페이지
+        wiki_page: 위키 페이지
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: 위키 페이지를 찾을 수 없습니다
+        placeholder: 위키 페이지 검색(또는 해당 URL 입력)
     page_links:
       errors:
         page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
@@ -183,13 +183,13 @@ ko:
         name: XWiki
     relation_page_links_component:
       empty_heading: 관련 페이지 없음
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: 이 작업 패키지와 관련된 위키 페이지를 추가하세요.
       link_existing: 기존 위키 페이지
       link_new: 새 위키 페이지
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: XWiki를 OpenProject와 연결하고, 문서와 작업을 동기화하고, 페이지를 링크하고, 참조 정보를 추적하고, 모든 것을 한 곳에서 관리합니다.
+        title: XWiki 통합
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: 설명에 언급됨
       referencing_pages: '다음에서 참조됨:'

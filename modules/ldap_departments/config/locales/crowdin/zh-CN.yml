@@ -8,7 +8,7 @@ zh-CN:
         ldap_auth_source: LDAP 连接
         users_count: 成员
       ldap_departments/synchronized_tree:
-        base_dn: 基本 DN
+        base_dn: 基础 DN
         guid_attribute: 唯一标识符特性
         ldap_auth_source: LDAP 连接
         name: 名称
@@ -19,8 +19,8 @@ zh-CN:
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: 基本 DN 必须包含在 LDAP 连接的基本 DN 中。
-          overlaps_other_tree: 与同一 LDAP 连接上另一项同步的基本 DN 重叠。
+          must_contain_base_dn: 基础 DN 必须包含在 LDAP 连接的基础 DN 中。
+          overlaps_other_tree: 与同一 LDAP 连接上另一项同步的基础 DN 重叠。
     models:
       ldap_departments/synchronized_department: 同步的部门
       ldap_departments/synchronized_tree: LDAP 部门同步
@@ -34,12 +34,12 @@ zh-CN:
     label_synchronize: 同步组织单元
     synchronized_departments:
       blankslate:
-        description: 运行同步，将此基本 DN 的组织单元导入为部门。
+        description: 运行同步，将此基础 DN 的组织单元导入为部门。
         heading: 尚未同步任何部门
       destroy:
         confirmation: 如果继续，%{name} 将不再通过 LDAP 同步进行管理。
         heading: 是否停止管理 %{name}？
-        info: 该部门及其成员将被保留。它将成为一个常规部门，您可以手动编辑或删除。
+        info: 该部门及其成员将保留。它将成为一个常规部门，您可以手动编辑或删除。
         title: 停止管理 %{name}
       managed_notice: 通过 LDAP 同步进行管理
       no_results: 尚未同步任何部门。
@@ -47,41 +47,41 @@ zh-CN:
       singular: 同步的部门
     synchronized_trees:
       add_new: 添加 LDAP 部门同步
-      synchronization_started: Synchronization started in the background. Departments will appear once it completes.
+      synchronization_started: 已开始在后台同步。同步完成后，部门将显示出来。
       blankslate:
-        description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
-        heading: No LDAP department synchronizations
+        description: 设置同步，将您的 LDAP 组织单元结构映射到 OpenProject 部门层次结构中。
+        heading: 没有 LDAP 部门同步
       destroy:
-        confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
-        heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
-        title: Remove synchronization %{name}
+        confirmation: 如果继续，同步 %{name} 将被移除，其 %{departments_count} 部门将不再由 LDAP 管理。
+        heading: 是否移除同步 %{name}？
+        info: 部门及其成员将保留，并成为常规部门。之后，您可以在“管理”→“用户和权限”→“组织”中手动编辑或删除它们。
+        title: 移除同步 %{name}
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: 选择应使用的 LDAP 连接。
+        base_dn_text: '输入要同步其组织单元的基础 DN。其直接子组织单元将成为顶级部门。它必须位于所选 LDAP 连接的基础 DN 之下。
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: '可选。包含稳定的唯一标识符（例如“objectGUID”或“entryUUID”）的 LDAP 特性。设置后，部门在 OU 重命名和移动后仍然保留。要按 DN 匹配，请留空。
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: 用于对部门命名的 LDAP 特性（例如“ou”）。
         sections:
-          connection: LDAP connection
-          structure: Organizational units
+          connection: LDAP 连接
+          structure: 组织单元
           users: 用户
         structure_filter_string_text: RFC4515 LDAP 筛选器，用于识别组织单元条目。
-        sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
+        sync_users_text: '如果启用，则在基础 DN 下找到的所有用户也会在 OpenProject 中创建。否则，只会将现有帐户分配给部门。
 
           '
-        user_filter_string_text: 'Optional RFC4515 LDAP filter identifying user entries. Leave empty to use the connection filter, or a generic person filter when none is set.
+        user_filter_string_text: '用于识别用户条目的可选 RFC4515 LDAP 筛选器。留空可使用连接筛选器，如果未设置任何筛选器，则使用通用人员筛选器。
 
           '
-      help_text: 'This module mirrors the organizational unit (OU) structure of your LDAP directory into the OpenProject department hierarchy. Each OU below the configured base DN becomes a department, and users are assigned to the department of the OU they reside in. Departments are synchronized regularly through a cron job.
+      help_text: '此模块会将 LDAP 目录的组织单元 (OU) 结构映射到 OpenProject 部门层次结构中。配置的基础 DN 下的每个 OU 都成为一个部门，用户会被指定至其所在 OU 的部门。部门通过 cron 作业定期同步。
 
         '
-      no_results: No LDAP department synchronizations configured yet.
-      plural: LDAP department synchronizations
-      singular: LDAP department synchronization
+      no_results: 尚未配置 LDAP 部门同步。
+      plural: LDAP 部门同步
+      singular: LDAP 部门同步
   plugin_openproject_ldap_departments:
-    description: Synchronization of LDAP organizational units into OpenProject departments.
-    name: OpenProject LDAP departments
+    description: 将 LDAP 组织单元与 OpenProject 部门进行同步。
+    name: OpenProject LDAP 部门

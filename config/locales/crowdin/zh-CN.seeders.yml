@@ -95,19 +95,19 @@ zh-CN:
           name: 立即
       departments:
         item_0:
-          name: Marketing & Communications
+          name: 营销与传播
         item_1:
-          name: Public Relations
+          name: 公共关系
         item_2:
-          name: Design & Content
+          name: 设计与内容
         item_3:
-          name: Events & Operations
+          name: 活动与运营
         item_4:
-          name: Web & IT
+          name: 网络与 IT
         item_5:
-          name: Finance & Administration
+          name: 财务与行政
         item_6:
-          name: Quality Assurance
+          name: 质量保证
       projects:
         demo-project:
           name: 演示项目
@@ -197,23 +197,23 @@ zh-CN:
                 item_2:
                   subject: 设置会议网站
             item_2:
-              subject: Test and quality-check the conference website
+              subject: 对会议网站进行测试和质量检查
             item_3:
-              subject: Conference
+              subject: 会议
             item_4:
-              subject: Follow-up tasks
+              subject: 后续任务
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: 将演示文稿上传到网站
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: 会议支持者的聚会 :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] 啤酒
+                    *   [ ] 零食
+                    *   [ ] 音乐
+                    *   [ ] 甚至更多啤酒
             item_5:
-              subject: End of project
+              subject: 项目结束
           wiki: "_在这个wiki中，您可以协作创建和编辑页面及子页面，以创建项目wiki._\n\n**您可以：**\n\n* 插入文本和图片，也可以从其他文档中复制和粘贴\n* 创建带父页面的页面层次结构\n* 在项目菜单中包含wiki页面\n* 使用宏来包含，例如：目录、工作包列表或甘特图 \n* 在其他文本字段中包含wiki页面，例如：项目概览页面 \n* 包含指向其他文档的链接\n* 查看更改历史\n* 以 Markdown 格式查看\n\n更多信息：[https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)\n"
         scrum-project:
           name: Scrum 项目

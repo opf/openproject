@@ -113,6 +113,8 @@ OpenProject 17.6 improves CSV export security by escaping control characters in 
 
 If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports
 
+This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq) and we'd like to thank these contributors specifically: @QwQP0, @dkstjwls06, and @minnnjuuu - Thank you for your responsibly disclosure!
+
 ### Configure LDAP group synchronization using group member attributes (Enterprise add-on)
 
 [feature: ldap_groups ]
@@ -152,6 +154,16 @@ This follows the APIv3 standards, and also fixes a bug related to the self link.
 
 <!-- END SECURITY FIXES AUTOMATED SECTION -->
 <!--more-->
+
+### Brute-force protection for LDAP user binds
+
+Resulting from a [security advisory report](https://github.com/opf/openproject/security/advisories/GHSA-vhfq-8mwf-g79w), we have improved how user binds are being protected against brute force inside OpenProject.
+While we expect production AD systems to perform their own brute force protections, administrators of OpenProject might be confused as the login with an LDAP user bind is transparent, and they might expect our brute force protection settings to apply.
+
+OpenProject 17.6 implements a Rack::Attack throttle rule for internal login mechanisms, also protecting LDAP binds specifically.
+We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06)
+
+
 
 ## Bug fixes and changes
 

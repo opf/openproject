@@ -913,11 +913,12 @@ vi:
         relation_filters:
           filter_work_packages_by_relation_type: Lọc các gói công việc theo loại quan hệ
       tabs:
-        overview: tổng quan
         activity: hoạt động
+        files: tập tin
+        overview: tổng quan
+        project_attributes: Project attributes
         relations: quan hệ
         watchers: người theo dõi
-        files: tập tin
       time_relative:
         days: ngày
         weeks: tuần

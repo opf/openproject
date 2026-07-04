@@ -61,4 +61,24 @@ RSpec.describe "Resource planners index" do
       end
     end
   end
+
+  context "with more planners than fit on a page" do
+    shared_let(:planner_a) { create(:resource_planner, project:, principal: viewer, name: "Planner A") }
+    shared_let(:planner_b) { create(:resource_planner, project:, principal: viewer, name: "Planner B") }
+
+    before do
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 100])
+    end
+
+    it "splits the planners across pages ordered by name" do
+      visit project_resource_planners_path(project, per_page: 1)
+      expect(page).to have_css(".op-pagination--pages")
+      expect(page).to have_link("Planner A")
+      expect(page).to have_no_link("Planner B")
+
+      visit project_resource_planners_path(project, per_page: 1, page: 2)
+      expect(page).to have_link("Planner B")
+      expect(page).to have_no_link("Planner A")
+    end
+  end
 end

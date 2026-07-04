@@ -42,7 +42,7 @@ uk:
         storage_url: URL-адреса сховища
         tenant: ID каталогу (клієнта)
       work_package:
-        file_links: File links
+        file_links: Посилання на файл
     errors:
       messages:
         invalid_host_url: не є дійсною URL-адресою.

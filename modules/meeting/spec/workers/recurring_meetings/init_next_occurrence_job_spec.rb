@@ -46,6 +46,21 @@ RSpec.describe RecurringMeetings::InitNextOccurrenceJob, type: :model do
 
   subject { described_class.perform_now(series, scheduled_time) }
 
+  context "when the template is still in draft mode" do
+    before do
+      series.template.update!(state: :draft)
+    end
+
+    it "does not schedule or instantiate occurrences" do
+      result = nil
+
+      expect { result = subject }
+        .not_to change { series.meetings.not_templated.count }
+      expect(result).to be_nil
+      expect(described_class).not_to have_been_enqueued
+    end
+  end
+
   it "schedules the first occurrence" do
     expect { subject }.to change(Meeting, :count).by(1)
     expect(subject).to be_success

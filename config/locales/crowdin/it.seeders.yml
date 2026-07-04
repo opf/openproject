@@ -95,19 +95,19 @@ it:
           name: Immediata
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Marketing e comunicazione
         item_1:
-          name: Public Relations
+          name: Pubbliche relazioni
         item_2:
-          name: Design & Content
+          name: Design e contenuti
         item_3:
-          name: Events & Operations
+          name: Eventi e operazioni
         item_4:
-          name: Web & IT
+          name: Web e IT
         item_5:
-          name: Finance & Administration
+          name: Finanza e amministrazione
         item_6:
-          name: Quality Assurance
+          name: Controllo qualità
       projects:
         demo-project:
           name: Progetto Dimostrativo
@@ -197,23 +197,23 @@ it:
                 item_2:
                   subject: Configura il sito web della conferenza
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Testa e verifica la qualità del sito web della conferenza
             item_3:
-              subject: Conference
+              subject: Conferenza
             item_4:
-              subject: Follow-up tasks
+              subject: Attività di follow-up
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Carica le presentazioni al sito web
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Fai festa per i sostenitori della conferenza :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Birra
+                    *   [ ] Snack
+                    *   [ ] Musica
+                    *   [ ] Altra birra
             item_5:
-              subject: End of project
+              subject: Fine del progetto
           wiki: |
             _In questa wiki puoi creare e modificare in modo collaborativo pagine e sottopagine per creare una wiki di progetto._
 

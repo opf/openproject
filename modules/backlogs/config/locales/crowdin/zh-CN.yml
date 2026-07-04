@@ -165,7 +165,7 @@ zh-CN:
         edit_sprint: 编辑冲刺
         add_work_package: 添加工作包
     sprint_form:
-      goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用该冲刺的其他项目共享。
+      goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。
       goal_for_this_project_label: "%{attribute}（针对此项目）"
     sprint_form_component:
       shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
@@ -180,7 +180,7 @@ zh-CN:
         create_description_text: 要开始计划冲刺，请在此处创建。
         manage_description_html: 要开始计划冲刺，请转到%{settings_link}从其他项目接收冲刺。
         no_actions_description_text: 此项目还没有可用冲刺。
-      button_new_sprint: 新冲刺
+      button_new_sprint: 新建冲刺
     story_points:
       other: "%{count} 个故事点"
     statuses_considered_closed_caption: '选择在您的工作流中代表已关闭或已完成状态的状态。这些状态将在报告（如燃尽图）和冲刺计划中被视为“已关闭”状态。例如，“已完成”、“已解决”或“不会修复”等状态都可能代表流程中的已关闭工作项。
@@ -201,7 +201,7 @@ zh-CN:
       action_menu:
         copy_url_to_clipboard: 将 URL 复制到剪贴板
         copy_work_package_id: 复制工作包 ID
-        move_menu: 移动到指定位置
+        move_menu: 移至指定位置
         move_to_backlog_bucket: 移至积压工作存储桶
         move_to_inbox: 移至积压工作收件箱
         move_to_sprint: 移至冲刺

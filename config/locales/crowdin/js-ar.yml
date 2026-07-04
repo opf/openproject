@@ -918,11 +918,12 @@ ar:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: نظرة عامة
         activity: النشاط
+        files: الملفّات
+        overview: نظرة عامة
+        project_attributes: Project attributes
         relations: صِلات
         watchers: المشاهدون
-        files: الملفّات
       time_relative:
         days: أيام
         weeks: أسابيع

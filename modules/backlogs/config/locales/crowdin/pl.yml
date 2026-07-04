@@ -98,17 +98,17 @@ pl:
       title: Ustawienia administratora backlogu ewoluują
       text: Obecnie przeprojektowujemy moduł Backlogs. Ustawienia administratora dla sprintów i backlogów będą widoczne tutaj w najbliższej przyszłości. Ustawienia na poziomie projektu pozostają dostępne.
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Nowa kategoria backlogu
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Kategoria backlogu
+        other: Kategorie backlogu
+        zero: Wszystkie kategorie backlogu
       label_sprint_filter:
         one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        other: Sprinty
+        zero: Wszystkie sprinty
+      select_panel_title: Wybierz elementy
     bucket_destroy_modal_component:
       title: Usunąć kategorię backlogu?
       details: Kategoria backlogu „%{name}” zostanie usunięta, a wszystkie pakiety robocze zostaną przeniesione do skrzynki odbiorczej backlogu. Nie zostanie usunięty żaden pakiet roboczy.
@@ -192,7 +192,7 @@ pl:
         create_description_text: Aby rozpocząć planowanie sprintu, utwórz go tutaj.
         manage_description_html: Aby rozpocząć planowanie sprintu, przejdź do strony %{settings_link}, aby otrzymać sprinty z innego projektu.
         no_actions_description_text: Dla tego projektu nie są jeszcze dostępne żadne sprinty.
-      button_new_sprint: New sprint
+      button_new_sprint: Nowy sprint
     story_points:
       one: "%{count} punkt historii"
       few: "%{count} punkty historii"

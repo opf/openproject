@@ -914,11 +914,12 @@ bg:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Общ преглед
         activity: Активност
+        files: Файлове
+        overview: Общ преглед
+        project_attributes: Project attributes
         relations: Връзки с
         watchers: Наблюдатели
-        files: Файлове
       time_relative:
         days: дни
         weeks: седмици

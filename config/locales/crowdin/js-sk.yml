@@ -916,11 +916,12 @@ sk:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Prehľad
         activity: Činnosť
+        files: Súbory
+        overview: Prehľad
+        project_attributes: Project attributes
         relations: Väzby
         watchers: Pozorovatelia
-        files: Súbory
       time_relative:
         days: dní
         weeks: týždne

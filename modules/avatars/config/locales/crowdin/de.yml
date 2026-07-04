@@ -20,9 +20,9 @@ de:
     label_avatar: Profilfoto
     label_gravatar: Gravatar
     label_local_avatar: Selbsterstelltes Profilbild
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_gravatar_html: OpenProject verwendet Ihr Gravatar-Bild, sofern eines unter %{gravatar_url} registriert ist, andernfalls ein Standardbild oder -symbol, sofern vorhanden.
+    text_avatar_local: Sie können ein eigenes Profilbild hochladen, welches Gravatar überschreibt, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.
+    text_avatar_local_only: Sie können ein eigenes Profilbild hochladen, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.
     settings:
       enable_gravatars: Aktiviere Gravatare
       gravatar_default: Standard-Gravatar-Bild

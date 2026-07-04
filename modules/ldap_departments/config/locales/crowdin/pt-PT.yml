@@ -4,84 +4,84 @@ pt-PT:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Departamento
+        ldap_auth_source: Ligação LDAP
+        users_count: Membros
       ldap_departments/synchronized_tree:
         base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
-        ou_name_attribute: OU name attribute
-        structure_filter_string: Organizational unit filter
-        sync_users: Sync users
-        user_filter_string: User filter
+        guid_attribute: Atributo de identificador único
+        ldap_auth_source: Ligação LDAP
+        name: Nome
+        ou_name_attribute: Atributo de nome OU
+        structure_filter_string: Filtro de unidade organizacional
+        sync_users: Sincronizar utilizadores
+        user_filter_string: Filtro de utilizador
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
-          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+          must_contain_base_dn: O DN de base deve estar incluído no DN de base da ligação LDAP.
+          overlaps_other_tree: Sobrepõe-se ao DN base de outra sincronização na mesma ligação LDAP.
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department: Departamento sincronizado
+      ldap_departments/synchronized_tree: Sincronização de departamento LDAP
   ee:
     upsell:
       ldap_departments:
-        title: LDAP department synchronization
-        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
+        title: Sincronização de departamento LDAP
+        description: Reflita a estrutura das unidades organizacionais do LDAP na hierarquia de departamentos do OpenProject, e mantenha os membros dos departamentos sincronizados automaticamente.
   ldap_departments:
-    label_menu_item: LDAP department synchronization
-    label_synchronize: Synchronize organizational units
+    label_menu_item: Sincronização de departamento LDAP
+    label_synchronize: Sincronizar unidades organizacionais
     synchronized_departments:
       blankslate:
-        description: Run the synchronization to import the organizational units of this base DN as departments.
-        heading: No departments synchronized yet
+        description: Execute a sincronização para importar as unidades organizacionais deste DN de base como departamentos.
+        heading: Ainda não há departamentos sincronizados
       destroy:
-        confirmation: If you continue, %{name} is no longer managed by LDAP synchronization.
-        heading: Stop managing %{name}?
-        info: The department and its members are kept. It becomes a regular department that you can edit or delete manually.
-        title: Stop managing %{name}
-      managed_notice: Managed by LDAP synchronization
-      no_results: No departments have been synchronized yet.
-      plural: Synchronized departments
-      singular: Synchronized department
+        confirmation: Se continuar, %{name} deixará de ser gerido pela sincronização LDAP.
+        heading: Parar de gerir o site %{name}?
+        info: O departamento e os seus membros são mantidos. Passa a ser um departamento normal que pode editar ou eliminar manualmente.
+        title: Parar de gerir o site %{name}
+      managed_notice: Gerido pela sincronização LDAP
+      no_results: Ainda não foi sincronizado nenhum departamento.
+      plural: Departamentos sincronizados
+      singular: Departamento sincronizado
     synchronized_trees:
-      add_new: Add LDAP department synchronization
-      synchronization_started: Synchronization started in the background. Departments will appear once it completes.
+      add_new: Adicionar sincronização de departamento LDAP
+      synchronization_started: A sincronização foi iniciada em segundo plano. Os departamentos serão apresentados assim que estiver concluída.
       blankslate:
-        description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
-        heading: No LDAP department synchronizations
+        description: Configure uma sincronização para espelhar a estrutura das unidades organizacionais do LDAP na hierarquia de departamentos do OpenProject.
+        heading: Não há sincronizações LDAP entre departamentos
       destroy:
-        confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
-        heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
-        title: Remove synchronization %{name}
+        confirmation: Se continuar, a sincronização %{name} será removida e os seus %{departments_count} departamentos deixarão de ser geridos pelo LDAP.
+        heading: Remover a sincronização %{name}?
+        info: Os departamentos e os seus membros são mantidos, e passam a ser departamentos permanentes. Pode editá-los ou eliminá-los manualmente posteriormente em Administração → Utilizadores e permissões → Organização.
+        title: Remover a sincronização %{name}
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: Selecione a ligação LDAP a ser usada.
+        base_dn_text: 'Introduza o DN de base cujas unidades organizacionais devem ser sincronizadas. As suas unidades organizacionais filhas diretas tornar-se-ão departamentos de nível superior. Deve estar abaixo do DN de base da ligação LDAP selecionada.
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: 'Opcional. O atributo LDAP que contém um identificador único e estável (por exemplo, "objectGUID" ou "entryUUID"). Quando definido, os departamentos mantêm-se mesmo após a renomeação ou a deslocação de OU. Deixe em branco para efetuar a correspondência por DN.
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: O atributo LDAP utilizado para designar o departamento (por exemplo, "ou").
         sections:
-          connection: LDAP connection
-          structure: Organizational units
-          users: Users
-        structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
-        sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
+          connection: Ligação LDAP
+          structure: Unidades organizacionais
+          users: Utilizadores
+        structure_filter_string_text: Filtro LDAP RFC 4515 para identificar entradas de unidades organizacionais.
+        sync_users_text: 'Se esta opção estiver ativada, os utilizadores que se encontram abaixo do DN base também são criados no OpenProject. Caso contrário, apenas as contas existentes são atribuídas aos departamentos.
 
           '
-        user_filter_string_text: 'Optional RFC4515 LDAP filter identifying user entries. Leave empty to use the connection filter, or a generic person filter when none is set.
+        user_filter_string_text: 'Filtro LDAP opcional RFC4515 que identifica registos de utilizadores. Deixe em branco para utilizar o filtro de ligação ou um filtro genérico de pessoas, caso não esteja definido nenhum.
 
           '
-      help_text: 'This module mirrors the organizational unit (OU) structure of your LDAP directory into the OpenProject department hierarchy. Each OU below the configured base DN becomes a department, and users are assigned to the department of the OU they reside in. Departments are synchronized regularly through a cron job.
+      help_text: 'Este módulo reproduz a estrutura das unidades organizacionais (OU) do seu diretório LDAP na hierarquia de departamentos do OpenProject. Cada OU abaixo do DN base configurado torna-se um departamento, e os utilizadores são atribuídos ao departamento da OU em que se encontram. Os departamentos são sincronizados regularmente através de uma tarefa cron.
 
         '
-      no_results: No LDAP department synchronizations configured yet.
-      plural: LDAP department synchronizations
-      singular: LDAP department synchronization
+      no_results: Ainda não foram configuradas sincronizações LDAP com nenhum departamento.
+      plural: Sincronizações entre departamentos via LDAP
+      singular: Sincronização de departamentos via LDAP
   plugin_openproject_ldap_departments:
-    description: Synchronization of LDAP organizational units into OpenProject departments.
-    name: OpenProject LDAP departments
+    description: Sincronização das unidades organizacionais LDAP com os departamentos do OpenProject.
+    name: Departamentos LDAP do OpenProject

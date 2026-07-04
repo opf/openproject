@@ -913,11 +913,12 @@ ja:
         relation_filters:
           filter_work_packages_by_relation_type: 関係タイプでワークパッケージをフィルタ
       tabs:
-        overview: 概要
         activity: 活動
+        files: ファイルを添付する
+        overview: 概要
+        project_attributes: Project attributes
         relations: 関係
         watchers: ウォッチャー
-        files: ファイルを添付する
       time_relative:
         days: 日
         weeks: 週

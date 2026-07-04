@@ -918,11 +918,12 @@ ru:
         relation_filters:
           filter_work_packages_by_relation_type: Фильтр пакета работ по типу отношения
       tabs:
-        overview: Обзор
         activity: Деятельность
+        files: Файлы
+        overview: Обзор
+        project_attributes: Project attributes
         relations: Связи
         watchers: Наблюдатель
-        files: Файлы
       time_relative:
         days: дней
         weeks: недель

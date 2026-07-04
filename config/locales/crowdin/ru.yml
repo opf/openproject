@@ -53,6 +53,8 @@ ru:
           description: Ваш комментарий будет виден всем, кто может получить доступ к этому пакету работ. Вы уверены, что хотите это сделать?
           confirm_button_text: Сделать общедоступным
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Идентификатор
@@ -292,7 +294,7 @@ ru:
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               label_supported_data: Поддерживаемые данные
-              label_coming_soon: Ожидается (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Ожидается позже
               label_available_server_data: Имеющиеся данные на сайте %{server_info}
               button_select_projects: Выберите проекты для импорта
@@ -1434,44 +1436,51 @@ ru:
       no_results_content_text: Создать новый тип
     edit:
       form_configuration:
-        tab: Настройка форм
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
+        blankslate_title: Нет групп
+        builtin_field: Встроенное поле
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        custom_field: Настраиваемое поле
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
         edit_query: Редактировать представление
-        custom_field: Настраиваемое поле
-        filter_inactive: Фильтровать атрибуты
-        inactive_attributes_heading: Неактивные атрибуты
-        no_inactive_attributes: Нет неактивных атрибутов
-        blankslate_title: Нет групп
-        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Действия со строками
-        query_group_label: Related work packages table
         empty_group_hint: Перетащите атрибуты сюда
+        filter_inactive: Фильтровать атрибуты
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Неактивные атрибуты
         invalid_attribute_groups: Конфигурация формы является недопустимой.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
+        label_group: Section
+        no_inactive_attributes: Нет неактивных атрибутов
         not_found: Запрашиваемый элемент конфигурации формы не найден.
-        untitled_group: Безымянная группа
-        reset_title: Сбросить настройки формы
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
-        builtin_field: Встроенное поле
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
+        reset_title: Сбросить настройки формы
+        reset_to_defaults: Reset form
+        row_actions: Действия со строками
+        tab: Настройка форм
+        untitled_group: Безымянная группа
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Проекты
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
+        tab: Проекты
       settings:
         tab: Параметры
         type_color_text: |-
@@ -2184,6 +2193,7 @@ ru:
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         datetime_must_be_in_future: должно быть в будущем.
@@ -2557,6 +2567,8 @@ ru:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- должно быть равно 0ч, если параметр Работа установлен и % завершения равен 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: должно быть пустым, если параметр Предполагаемое время не установлен, а % завершения равен 100%.
           readonly_status: Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2922,6 +2934,7 @@ ru:
   button_add_sub_item: Добавить подпроект
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
+  button_all_filters: All filters
   button_annotate: Комментировать
   button_apply: Применить
   button_apply_changes: Применить изменения
@@ -4409,6 +4422,7 @@ ru:
 
     '
   label_part_of: является частью
+  label_past: Past
   label_password_lost: Забыли пароль?
   label_password_rule_lowercase: Нижний регистр
   label_password_rule_numeric: Числовые символы
@@ -4592,6 +4606,7 @@ ru:
   label_type_new: Новый тип
   label_type_plural: Типы
   label_ui: Интерфейс пользователя
+  label_upcoming: Upcoming
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -5239,16 +5254,13 @@ ru:
     create_managed_delay: 'Пожалуйста, обратите внимание: репозиторий является управляемым, он формируется асинхронно на диске и будет доступен в ближайшее время.'
     create_successful: Репозиторий был зарегистрирован.
     delete_sucessful: Репозиторий был удален.
-    destroy:
-      confirmation: Продолжив, вы окончательно удалите управляемый репозиторий.
-      info: Удаление репозитория – действие необратимое.
-      info_not_managed: 'Примечание: Содержимое этого репозитория не будет удалено, так как оно не управляется OpenProject.'
-      managed_path_note: 'Следующий каталог будет удален: %{path}'
-      repository_verification_html: Введите идентификатор проекта %{identifier} для проверки удаления его репозитория.
-      subtitle: Вы действительно хотите удалить %{repository_type} проект %{project_name}?
-      subtitle_not_managed_html: Вы действительно хотите удалить связанный %{repository_type} %{url} из проекта %{project_name}?
-      title_html: Удаление %{repository_type}
-      title_not_managed: Удалить связанный %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Не удается создать репозиторий с выбранной конфигурацией. %{reason}
       managed_delete: Не удается удалить управляемый репозиторий.

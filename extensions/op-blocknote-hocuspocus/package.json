@@ -26,7 +26,7 @@
     "@blocknote/server-util": "^0.51.3",
     "@hocuspocus/extension-logger": "^4.2.0",
     "@hocuspocus/server": "^4.2.0",
-    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.4/op-blocknote-extensions-0.1.4.tgz",
+    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.5/op-blocknote-extensions-0.1.5.tgz",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
@@ -43,5 +43,10 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1",
     "vitest": "^4.1.9"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "msw@2.14.6": true
   }
 }

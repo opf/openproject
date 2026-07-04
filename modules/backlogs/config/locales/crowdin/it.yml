@@ -42,9 +42,9 @@ it:
           completed: Completato
         work_packages: Macro-attività
       sprint_goal:
-        text: Sprint goal
+        text: Obiettivo dello sprint
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Bucket del backlog
         backlogs_work_package_type: Tipo di backlog
         position: Posizione
         sprint: Sprint
@@ -62,7 +62,7 @@ it:
               share_all_projects_already_taken: non può essere impostato perché il progetto "%{name}" è già condiviso con tutti i progetti.
               share_all_projects_already_taken_anonymous: non può essere impostato perché un altro progetto è già condiviso con tutti i progetti.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: ha già un obiettivo per questo sprint.
         sprint:
           attributes:
             base:
@@ -88,23 +88,23 @@ it:
     models:
       sprint:
         one: Sprint
-        other: Sprints
+        other: Sprint
   backlogs:
     administration_blankslate:
       title: Le impostazioni amministrative del backlog sono in divenire
       text: Stiamo attualmente riprogettando il modulo Backlog. Le impostazioni amministrative per sprint e backlog saranno presto disponibili qui. Le impostazioni a livello di progetto restano disponibili.
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Nuovo bucket del backlog
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Bucket del backlog
+        other: Bucket del backlog
+        zero: Tutti i bucket del backlog
       label_sprint_filter:
         one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        other: Sprint
+        zero: Tutti gli sprint
+      select_panel_title: Seleziona elementi
     bucket_destroy_modal_component:
       title: Eliminare il bucket del backlog?
       details: Il bucket del backlog '%{name}' verrà eliminato e tutte le macro-attività verranno spostate nella posta in arrivo del backlog. Nessuna macro-attività verrà eliminata.
@@ -169,11 +169,11 @@ it:
         edit_sprint: Modifica sprint
         add_work_package: Aggiungi macro-attività
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: L'obiettivo dello sprint è specifico di questo progetto e non è condiviso con altri progetti che utilizzano lo stesso sprint.
+      goal_for_this_project_label: "%{attribute} (per questo progetto)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: Questo è uno sprint condiviso. Le modifiche saranno applicate a tutti i progetti che lo utilizzano.
+      shared_sprint_warning_banner: Questo è uno sprint condiviso. Non hai i permessi necessari per modificarlo.
     sprints_component:
       blankslate:
         title: Non ci sono ancora sprint
@@ -184,7 +184,7 @@ it:
         create_description_text: Per iniziare a pianificare il tuo sprint, creane uno qui.
         manage_description_html: Per iniziare a pianificare il tuo sprint, vai alle %{settings_link} per ricevere sprint da un altro progetto.
         no_actions_description_text: Non ci sono ancora sprint disponibili per questo progetto.
-      button_new_sprint: New sprint
+      button_new_sprint: Nuovo sprint
     story_points:
       one: "%{count} punto story"
       other: "%{count} punti story"
@@ -206,9 +206,9 @@ it:
       action_menu:
         copy_url_to_clipboard: Copia URL negli appunti
         copy_work_package_id: Copia ID macro-attività
-        move_menu: Move to position
+        move_menu: Sposta alla posizione
         move_to_backlog_bucket: Sposta nel bucket del backlog
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: Sposta nella casella del backlog
         move_to_sprint: Sposta nello sprint
     work_package_is_closed: Il pacchetto di lavoro è fatto, quando
   burndown:

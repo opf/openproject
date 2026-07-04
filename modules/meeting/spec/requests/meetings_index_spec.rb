@@ -277,7 +277,7 @@ RSpec.describe "Meeting index",
 
   context "when showing past meetings" do
     let(:request) do
-      filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
+      filters = [{ "time" => { "operator" => "past", "values" => [] } }].to_json
       sort = [["start_time", "desc"]].to_json
       get "/projects/#{project.id}/meetings", params: { filters:, sortBy: sort }
     end

@@ -45,7 +45,7 @@ fr:
       success: Mise à jour réussie de la configuration à l'aide des métadonnées du fournisseur d'identité.
       invalid_url: L'URL des métadonnées fournie n'est pas valide. Fournissez une URL HTTP(s).
       error: 'Échec de la récupération des métadonnées du fournisseur d''identité : %{error}'
-      federation_metadata: 'L''URL des métadonnées renvoie vers un agrégat de fédération (plusieurs fournisseurs d''identité). Veuillez utiliser l''URL directe des métadonnées de votre établissement ou saisir l''identifiant d''entité (Entity ID) de l''IdP de votre établissement dans le formulaire de métadonnées, puis réessayez.
+      federation_metadata: 'L''URL de métadonnées pointe vers un agrégat de fédération regroupant plusieurs fournisseurs d''identité. Utilisez l''URL de métadonnées directe de votre établissement, ou saisissez l''ID d''entité IdP de votre institution dans le formulaire de métadonnées, puis réessayez.
 
         '
       metadata_too_large: Le fichier de métadonnées dépasse la taille maximale autorisée.
@@ -116,7 +116,7 @@ fr:
       metadata_url: 'Votre fournisseur d''identité fournit une URL de métadonnées.
 
         '
-      idp_entity_id: 'Facultatif : utile lorsque l''URL des métadonnées renvoie vers un agrégat de fédération comportant un grand nombre d''entrées. Saisissez l''identifiant d''entité du fournisseur d''identité de votre établissement. Laissez ce champ vide pour les URL de métadonnées concernant une seule entité.
+      idp_entity_id: 'Facultatif : utile lorsque l''URL des métadonnées renvoie vers un agrégat de fédération comportant un grand nombre d''entrées. Saisissez l''identifiant d''entité du fournisseur d''identité de votre institution. Laissez ce champ vide pour les URL de métadonnées concernant une seule entité.
 
         '
       metadata_xml: 'Votre fournisseur d''identité fournit un téléchargement de métadonnées XML.

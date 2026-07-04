@@ -21,7 +21,7 @@ sk:
         want_assertions_encrypted: Require encrypted responses
         certificate: Certificate used by OpenProject for SAML requests
         private_key: Corresponding private key for OpenProject SAML requests
-        signature_method: Signature algorithm
+        signature_method: Algoritmus podpisovania
         digest_method: Digest algorithm
         format: Formát
         icon: Custom icon

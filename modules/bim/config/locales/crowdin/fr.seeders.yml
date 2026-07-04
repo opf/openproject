@@ -440,7 +440,7 @@ fr:
                     _Essayez les étapes suivantes :_
 
                     1.  _Invitez de nouveaux membres à rejoindre votre projet :_ Accédez à [Membres]({{opSetting:base_url}}/projects/demo-bim-project/members) dans la navigation du projet.
-                    2.  _Téléversez et affichez des modèles 3D au format IFC :_ Accédez à [BCF]({{opSetting:base_url}/projects/demo-bim-project/bcf) dans la navigation du projet.
+                    2.  _Importez et affichez des modèles 3D au format IFC :_ Accédez à [BCF]({{opSetting:base_url}/projects/demo-bim-project/bcf) dans la navigation du projet.
                     3.  _Créez et gérez les problèmes BCF directement liés dans le modèle IFC :_ Accédez à [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Créer.
                     4.  _Suivez le travail dans vos projets :_ → Accédez à [Lots de travaux]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) dans la navigation du projet.
                     5.  _Créez un nouveau lot de travaux :_ → Accédez à [Lots de travaux → Créer]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
@@ -716,7 +716,7 @@ fr:
                     _Essayez les étapes suivantes :_
 
                     1.  _Invitez de nouveaux membres à rejoindre votre projet :_ → Accédez à [Membres]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) dans la navigation du projet.
-                    2.  _Téléversez et affichez les modèles 3D au format IFC :_ → Accédez à [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dans la navigation du projet.
+                    2.  _Importez et affichez les modèles 3D au format IFC :_ → Accédez à [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) dans la navigation du projet.
                     3.  _Créez et gérez les problématiques BCF directement liées dans le modèle IFC :_ → Accédez à [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Créer.
                     4.  _Consultez les fichiers BCF de votre projet :_ → Accédez à [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) dans la navigation du projet.
                     5.  _Chargez vos fichiers BCF :_ → Accédez à [BCF → Importation]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)

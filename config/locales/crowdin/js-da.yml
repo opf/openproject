@@ -914,11 +914,12 @@ da:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Overblik
         activity: Aktivivtet
+        files: Filer
+        overview: Overblik
+        project_attributes: Project attributes
         relations: Tilknytninger
         watchers: Tilsynsførende
-        files: Filer
       time_relative:
         days: dage
         weeks: uger

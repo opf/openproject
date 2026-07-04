@@ -30,5 +30,26 @@
 
 module ::ResourceManagement
   class BaseController < ::ApplicationController
+    include PaginationHelper
+
+    private
+
+    def find_resource_planner(param_key = :resource_planner_id)
+      @resource_planner = ResourcePlanner
+                            .visible(current_user)
+                            .where(project: @project)
+                            .with_children
+                            .find(params.expect(param_key))
+    end
+
+    # Allow-lists the type before constantizing it, since it may be
+    # user-supplied. Returns nil for an unknown type or unreachable id, letting
+    # the caller's validations surface the error.
+    def resolve_visible_entity(entity_type, entity_id)
+      return if entity_id.blank?
+      return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)
+
+      entity_type.constantize.visible(current_user).where(project: @project).find_by(id: entity_id)
+    end
   end
 end

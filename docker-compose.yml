@@ -1,6 +1,14 @@
 networks:
   network:
   testing:
+  # `external` joins the gateway network managed by the TLS proxy stack
+  # (traefik + step). Used by services that need to be reachable under
+  # https://*.${OPENPROJECT_DOCKER_DEV_TLD:-local}. First step toward
+  # TLS-by-default for dev — currently hocuspocus uses it; backend and
+  # frontend will follow.
+  external:
+    name: gateway
+    external: true
 
 volumes:
   downloads-test:
@@ -43,6 +51,8 @@ x-op-backend: &backend
     OPENPROJECT_RAILS__CACHE__STORE: file_store
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 0.0.0.0/0,::0/0 # disabling SSRF in dev to not interfere with local integrations (Nextcloud etc.)
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL:-wss://hocuspocus.local}
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET:-secret12345}
     OPENPROJECT_WEB_MAX__THREADS: 1
     OPENPROJECT_WEB_MIN__THREADS: 1
     OPENPROJECT_WEB_WORKERS: 0
@@ -57,7 +67,18 @@ x-op-backend: &backend
     - /home/dev/openproject/tmpfs/pids:uid=$DEV_UID,gid=$DEV_GID
   networks:
     - network
-
+x-op-hocuspocus: &hocuspocus
+  # On macOS you may need to specify the platform in your `docker-compose.override.yml`:
+  # platform: linux/amd64
+  image: node:24-alpine
+  restart: unless-stopped
+  environment:
+    - SECRET=secret12345
+    - NODE_TLS_REJECT_UNAUTHORIZED=0
+  working_dir: /app
+  command: sh -c "npm run dev"
+  volumes:
+    - ./extensions/op-blocknote-hocuspocus:/app
 services:
   backend:
     <<: *backend
@@ -66,6 +87,7 @@ services:
       - db
       - cache
       - frontend
+      - hocuspocus
     ports:
       - "${PORT:-3000}:3000"
 
@@ -103,6 +125,17 @@ services:
     networks:
       - network
 
+  hocuspocus:
+    <<: *hocuspocus
+    networks:
+      - network
+      - external
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.hocuspocus.entrypoints=websecure"
+      - "traefik.http.services.hocuspocus.loadbalancer.server.port=1234"
+
   cache:
     image: memcached
     <<: *restart_policy
@@ -124,9 +157,7 @@ services:
       - testing
 
   hocuspocus-test:
-    image: openproject/hocuspocus:latest
-    environment:
-      SECRET: secret12345
+    <<: *hocuspocus
     networks:
       - testing
 

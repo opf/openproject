@@ -80,6 +80,17 @@ RSpec.describe "ResourcePlanners requests",
     end
   end
 
+  describe "POST create with a default view" do
+    it "advances to the configure step with the view type's label pre-filled as the name" do
+      post project_resource_planners_path(project),
+           params: { resource_planner: { name: "My planner", default_view_class_name: "ResourceWorkPackageList" } },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t("resource_management.view_types.resource_work_package_list.label"))
+    end
+  end
+
   describe "DELETE destroy" do
     it "deletes the planner and redirects to the index" do
       resource_planner

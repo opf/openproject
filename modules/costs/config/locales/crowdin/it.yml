@@ -251,7 +251,7 @@ it:
       rates:
         title: Cronologia tariffe
     settings:
-      time_and_costs: Time and costs
+      time_and_costs: Tempi e costi
       cost_types:
         heading: Tipo di costo
         none_active: Nessun tipo di costo è attualmente attivo in questo progetto.

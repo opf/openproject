@@ -95,19 +95,19 @@ pl:
           name: Natychmiastowe
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Marketing i komunikacja
         item_1:
           name: Public Relations
         item_2:
-          name: Design & Content
+          name: Projekt i treść
         item_3:
-          name: Events & Operations
+          name: Zdarzenia i operacje
         item_4:
-          name: Web & IT
+          name: Sieć i IT
         item_5:
-          name: Finance & Administration
+          name: Finanse i administracja
         item_6:
-          name: Quality Assurance
+          name: Zapewnienie jakości
       projects:
         demo-project:
           name: Projekt demo
@@ -197,23 +197,23 @@ pl:
                 item_2:
                   subject: Skonfiguruj witrynę internetową konferencji
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Przetestuj witrynę internetową konferencji i sprawdź jej jakość
             item_3:
-              subject: Conference
+              subject: Konferencja
             item_4:
-              subject: Follow-up tasks
+              subject: Zadania następcze
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Prześlij prezentacje do witryny internetowej
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Przyjęcie dla osób wspierających konferencję :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Piwo
+                    *   [ ] Przekąski
+                    *   [ ] Muzyka
+                    *   [ ] Jeszcze więcej piwa
             item_5:
-              subject: End of project
+              subject: Zakończenie projektu
           wiki: |
             _W tej wiki można wspólnie tworzyć i edytować strony i podstrony, aby stworzyć wiki projektu._
 

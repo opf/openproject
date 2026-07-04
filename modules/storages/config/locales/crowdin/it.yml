@@ -42,7 +42,7 @@ it:
         storage_url: URL di archiviazione
         tenant: ID della directory (tenant).
       work_package:
-        file_links: File links
+        file_links: Link dei file
     errors:
       messages:
         invalid_host_url: non è un URL valido.

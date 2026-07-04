@@ -74,6 +74,16 @@ class WorkPackage < ApplicationRecord
            -> { where(work_package_versions: { kind: "observed_in" }) },
            through: :work_package_versions, source: :version
 
+  attr_accessor :target_version_ids_replacements,
+                :observed_in_version_ids_replacements
+
+  # The *_replacements accessors default to nil, which means "leave the existing
+  # associations untouched". Once a caller assigns to them (even an empty array),
+  # it signals intent to replace the whole set, so nil vs. non-nil is what tells
+  # us whether an override was requested at all.
+  def override_target_versions? = !target_version_ids_replacements.nil?
+  def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
+
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
@@ -638,7 +648,7 @@ class WorkPackage < ApplicationRecord
 
   # Update issues so their versions are not pointing to a
   # version that is not shared with the issue's project
-  def self.update_versions(conditions = nil)
+  def self.update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
     # Only need to update issues with a version from
     # a different project and that is not systemwide shared
     having_version_from_other_project
@@ -648,6 +658,9 @@ class WorkPackage < ApplicationRecord
       next if issue.project.nil? || issue.version.nil?
 
       unless issue.project.shared_versions.include?(issue.version)
+        # this is path that clears version_id without going through the services,
+        # so we need to manually drop the matching target association here too.
+        issue.target_versions.delete(issue.version)
         issue.version = nil
         issue.save
       end
