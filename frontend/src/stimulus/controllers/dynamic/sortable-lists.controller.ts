@@ -40,15 +40,15 @@ import {
   buildMoveFormData,
   isSortableItemData,
   resolveDropIntent,
-  type RootAwareChild,
-  type SortableListData,
-  type SortableListsRoot,
+  type DropIntent,
+  type SortableItemData,
+  type SortablePositionMode,
 } from './sortable-lists/drag-and-drop';
 import {
   captureRowPositions,
   reorderRows,
+  resolveSourceRow,
   restoreRowPositions,
-  sortableListsMovingAttribute,
 } from './sortable-lists/list-dom';
 
 type CleanupFn = () => void;
@@ -60,36 +60,34 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
 const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
 
-export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot {
+export default class SortableListsController extends Controller<HTMLElement> {
   static targets = ['scrollable'];
-  static outlets = ['sortable-lists--list', 'sortable-lists--item'];
 
   static values = {
-    acceptedType: String,
-    moveUrlTemplate: String,
+    moveUrlTemplates: { type: Object, default: {} },
+    positionMode: { type: String, default: 'relative' },
     allowedAxis: { type: String, default: 'vertical' },
     maxScrollSpeed: { type: String, default: 'standard' },
   };
 
   declare readonly scrollableTargets:HTMLElement[];
-  declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
-  declare readonly sortableListsItemOutlets:RootAwareChild[];
 
-  declare readonly acceptedTypeValue:string;
-  declare readonly hasAcceptedTypeValue:boolean;
-  declare readonly moveUrlTemplateValue:string;
-  declare readonly hasMoveUrlTemplateValue:boolean;
+  declare readonly moveUrlTemplatesValue:Record<string, string>;
+  declare readonly positionModeValue:string;
   declare readonly allowedAxisValue:string;
   declare readonly maxScrollSpeedValue:string;
 
   private monitorCleanupFn?:CleanupFn;
   private scrollableCleanupFns = new Map<HTMLElement, CleanupFn>();
+  private movingFlag = false;
+
+  get moving():boolean {
+    return this.movingFlag;
+  }
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
-      canMonitor: ({ source }) => !this.moving
-        && isSortableItemData(source.data)
-        && source.data.rootElement === this.element,
+      canMonitor: ({ source }) => isSortableItemData(source.data) && source.data.rootElement === this.element,
       onDrop: (args) => {
         void this.handleDrop(args);
       },
@@ -101,22 +99,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.monitorCleanupFn = undefined;
     this.scrollableCleanupFns.forEach((cleanup) => cleanup());
     this.scrollableCleanupFns.clear();
-  }
-
-  sortableListsListOutletConnected(list:RootAwareChild):void {
-    list.connectRoot(this);
-  }
-
-  sortableListsListOutletDisconnected(list:RootAwareChild):void {
-    list.disconnectRoot();
-  }
-
-  sortableListsItemOutletConnected(item:RootAwareChild):void {
-    item.connectRoot(this);
-  }
-
-  sortableListsItemOutletDisconnected(item:RootAwareChild):void {
-    item.disconnectRoot();
   }
 
   scrollableTargetConnected(element:HTMLElement):void {
@@ -139,30 +121,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return allowedAxes.has(this.allowedAxisValue) ? this.allowedAxisValue as AutoScrollAllowedAxis : 'vertical';
   }
 
-  get acceptedType():string|null {
-    // The accepted type is scoped to this controller instance, so every list
-    // outlet inside one sortable-lists root accepts the same sortable item type.
-    return this.hasAcceptedTypeValue ? this.acceptedTypeValue : null;
-  }
-
   private get maxScrollSpeed():AutoScrollMaxScrollSpeed {
     return maxScrollSpeeds.has(this.maxScrollSpeedValue) ? this.maxScrollSpeedValue as AutoScrollMaxScrollSpeed : 'standard';
   }
 
-  get moving():boolean {
-    return this.element.hasAttribute(sortableListsMovingAttribute);
-  }
-
   private async handleDrop({ location, source }:ElementDropPayload) {
-    if (this.moving) {
-      return;
-    }
-
     if (!isSortableItemData(source.data) || !(source.element instanceof HTMLElement)) {
-      return;
-    }
-
-    if (!this.element.contains(source.element)) {
       return;
     }
 
@@ -181,45 +145,51 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const sourceRow = source.element.closest('li');
-    if (!(sourceRow instanceof HTMLElement)) {
+    const sourceRow = resolveSourceRow(source.element);
+    if (!sourceRow) {
       return;
     }
 
-    // Move the row optimistically, then persist. The server response (a
-    // turbo-stream) reconciles the list on success; a failure rolls the row
-    // back to where it started.
+    // Move the row optimistically, then persist. A same-list move is answered
+    // with 204 and this DOM order is final; a cross-list move gets a
+    // turbo-stream frame reload that reconciles the list. A failure rolls the
+    // row back to where it started.
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
-    reorderRows({ rows, list: intent.listElement, previousItemId: intent.previousItemId });
+    reorderRows({ rows, container: intent.rowsContainer, previousItemId: intent.previousItemId });
 
-    const result = await this.moveItem({
-      listData: intent.listData,
-      previousItemId: intent.previousItemId,
-      moveUrl,
-    });
+    const result = await this.moveItem({ intent, moveUrl });
 
-    if (!result.ok) {
-      try {
-        flipMove(rows, () => restoreRowPositions(rollback));
-      } catch (error) {
-        debugLog('Failed to roll back sortable list item move', error);
-      }
+    if (result.ok) {
+      // After moveItem's finally: moving is false again, so listeners resumed
+      // by this event (split-view sync, feature-spec waits) observe a root
+      // that accepts the next drag.
+      this.dispatch('moved', { detail: { itemId: source.data.itemId } });
+      return;
+    }
 
-      if (result.showToast) {
-        this.dispatchErrorToast();
-      }
+    try {
+      flipMove(rows, () => restoreRowPositions(rollback));
+    } catch (error) {
+      debugLog('Failed to roll back sortable list item move', error);
+    }
+
+    if (result.showToast) {
+      this.dispatchErrorToast();
     }
   }
 
-  private resolveMoveUrl(data:{ itemId:string }):string|null {
-    if (this.hasMoveUrlTemplateValue) {
-      return this.withCurrentFrameQuery(
-        parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId }),
-      );
+  private resolveMoveUrl(data:SortableItemData):string|null {
+    const template = this.moveUrlTemplatesValue[data.type];
+    if (!template) {
+      return null;
     }
 
-    return null;
+    return this.withCurrentFrameQuery(parseTemplate(template).expand({ id: data.itemId }));
+  }
+
+  private get positionMode():SortablePositionMode {
+    return this.positionModeValue === 'absolute' ? 'absolute' : 'relative';
   }
 
   private withCurrentFrameQuery(moveUrl:string):string {
@@ -243,27 +213,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return /^[a-z][a-z\d+\-.]*:/i.test(moveUrl) ? url.toString() : `${url.pathname}${url.search}${url.hash}`;
   }
 
-  private async moveItem({
-    listData,
-    previousItemId,
-    moveUrl,
-  }:{
-    listData:SortableListData;
-    previousItemId:string|null;
-    moveUrl:string;
-  }):Promise<MoveResult> {
-    const request = new FetchRequest(
-      'put',
-      moveUrl,
-      {
-        body: buildMoveFormData({
-          listId: listData.listId,
-          previousItemId,
-          type: listData.type,
-        }),
-        responseKind: 'turbo-stream',
-      },
-    );
+  private async moveItem({ intent, moveUrl }:{ intent:DropIntent; moveUrl:string }):Promise<MoveResult> {
+    const request = new FetchRequest('put', moveUrl, {
+      body: buildMoveFormData({ intent, positionMode: this.positionMode }),
+      responseKind: 'turbo-stream',
+    });
 
     this.setMoving(true);
     try {
@@ -284,13 +238,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
+  // aria-busy on the root covers all its lists; per-list precision was not
+  // needed (review consensus), which lets the root avoid tracking children.
   private setMoving(moving:boolean):void {
+    this.movingFlag = moving;
     if (moving) {
-      this.element.setAttribute(sortableListsMovingAttribute, 'true');
+      this.element.setAttribute('aria-busy', 'true');
     } else {
-      this.element.removeAttribute(sortableListsMovingAttribute);
+      this.element.removeAttribute('aria-busy');
     }
-    this.sortableListsListOutlets.forEach((list) => list.reflectMoving(moving));
   }
 
   private dispatchErrorToast():void {

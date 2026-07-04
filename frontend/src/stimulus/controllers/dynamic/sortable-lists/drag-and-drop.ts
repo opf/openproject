@@ -37,6 +37,7 @@ import {
   resolveItemPosition,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
+  resolveRowsContainer,
   resolveSourceRow,
   sortableListSelector,
 } from './list-dom';
@@ -61,22 +62,6 @@ export interface SortableListData extends Record<string|symbol, unknown> {
   listId:string|null;
   // Where a list-only drop (header or empty space, not over an item) lands.
   dropPosition:SortableListDropPosition;
-}
-
-// Implemented by the sortable-lists root controller and handed to list/item
-// controllers via outlet callbacks, so children read shared state through a
-// typed reference instead of walking the DOM.
-export interface SortableListsRoot {
-  readonly element:HTMLElement;
-  readonly moving:boolean;
-  readonly acceptedType:string|null;
-}
-
-// Implemented by the list and item controllers so the root can hand them its
-// reference (and revoke it) through outlet-connected callbacks.
-export interface RootAwareChild {
-  connectRoot(root:SortableListsRoot):void;
-  disconnectRoot():void;
 }
 
 export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
@@ -158,29 +143,27 @@ export function buildMoveFormData({
   return data;
 }
 
-export function acceptsSortableItemType({
-  acceptedType,
-  type,
-}:{
-  acceptedType:string|null;
-  type:string;
-}):boolean {
-  return acceptedType === null || acceptedType === type;
+// The shared root-scoping rule: the payload must be a sortable item created by
+// an item controller wired to this exact root element. Identity (===), not
+// containment — containment would wrongly accept an outer root's item over an
+// inner root's surface when roots nest.
+export function isItemFromRoot(
+  rootElement:HTMLElement|null,
+  data:Record<string|symbol, unknown>,
+):data is SortableItemData {
+  return rootElement != null
+    && isSortableItemData(data)
+    && data.rootElement === rootElement;
 }
 
-// The drop rule shared by list and item drop targets: the payload must be a
-// sortable item belonging to this same root and of an accepted type. Item
-// targets additionally exclude themselves before calling this.
-export function canAccept(root:SortableListsRoot, data:Record<string|symbol, unknown>):boolean {
-  if (!isSortableItemData(data)) {
-    return false;
-  }
-
-  if (data.rootElement == null || data.rootElement !== root.element) {
-    return false;
-  }
-
-  return acceptsSortableItemType({ acceptedType: root.acceptedType, type: data.type });
+export function listAcceptsType({
+  acceptedTypes,
+  type,
+}:{
+  acceptedTypes:string[];
+  type:string;
+}):boolean {
+  return acceptedTypes.includes(type);
 }
 
 export function isSourceListTarget({
@@ -246,6 +229,7 @@ function resolveListOnlyPreviousItemId({
 export interface DropIntent {
   listElement:HTMLElement;
   listData:SortableListData;
+  rowsContainer:HTMLElement;
   previousItemId:string|null;
 }
 

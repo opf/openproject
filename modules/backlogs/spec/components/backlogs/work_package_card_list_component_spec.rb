@@ -294,6 +294,14 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
           expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
         end
       end
+
+      it "outlets the list controller to the backlogs root and accepts work packages" do
+        expect(rendered_component).to have_css(".Box") do |box|
+          expect(box["data-sortable-lists--list-sortable-lists-outlet"]).to eq("#backlogs_container")
+          expect(box["data-sortable-lists--list-accepted-types-value"]).to eq('["work_package"]')
+          expect(box["data-sortable-lists--list-rows-container-selector-value"]).to eq(":scope > ul")
+        end
+      end
     end
   end
 

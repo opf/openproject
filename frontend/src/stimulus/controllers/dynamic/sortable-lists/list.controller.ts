@@ -29,39 +29,55 @@
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
+import type SortableListsController from '../sortable-lists.controller';
 import {
-  canAccept,
+  isItemFromRoot,
   isSortableItemData,
+  listAcceptsType,
   sortableListData,
-  type RootAwareChild,
   type SortableListData,
   type SortableListDropPosition,
-  type SortableListsRoot,
 } from './drag-and-drop';
 
 type CleanupFn = () => void;
 
 const dropPositions = new Set<string>(['start', 'end']);
 
-export default class ListController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ListController extends Controller<HTMLElement> {
+  static outlets = ['sortable-lists'];
+
   static values = {
     type: String,
     id: String,
     dropPosition: { type: String, default: 'end' },
+    acceptedTypes: Array,
+    // Consumed by list-dom.ts via the rendered attribute; declared here so the
+    // list's public API is complete in one place.
+    rowsContainerSelector: String,
   };
 
+  declare readonly sortableListsOutlet:SortableListsController;
+  declare readonly hasSortableListsOutlet:boolean;
+
   declare readonly typeValue:string;
-  declare readonly hasTypeValue:boolean;
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
   declare readonly dropPositionValue:string;
+  declare readonly acceptedTypesValue:string[];
+  declare readonly hasAcceptedTypesValue:boolean;
 
-  private root?:SortableListsRoot;
   private cleanupFn?:CleanupFn;
 
   connect():void {
-    // A list without a type value is not a drop target.
-    if (!this.hasTypeValue) {
+    // A list without accepted types is not a drop target (display-only list).
+    if (!this.hasAcceptedTypesValue || this.acceptedTypesValue.length === 0) {
+      return;
+    }
+
+    // The type doubles as the persisted list_type: a droppable list without it
+    // would accept drops it cannot persist. Surface that wiring mistake.
+    if (this.typeValue === '') {
+      console.warn('sortable-lists--list has acceptedTypes but is missing its required type value (data-sortable-lists--list-type-value); it cannot accept drops.', this.element);
       return;
     }
 
@@ -88,28 +104,6 @@ export default class ListController extends Controller<HTMLElement> implements R
   disconnect():void {
     this.cleanupFn?.();
     this.cleanupFn = undefined;
-    this.disconnectRoot();
-  }
-
-  // Called by the root controller's outlet-connected callback.
-  connectRoot(root:SortableListsRoot):void {
-    this.root = root;
-    this.reflectMoving(root.moving);
-  }
-
-  disconnectRoot():void {
-    this.root = undefined;
-    // The root only reaches still-connected list outlets when it ends a move, so
-    // a list that disconnects mid-move would otherwise keep aria-busy forever.
-    this.reflectMoving(false);
-  }
-
-  reflectMoving(moving:boolean):void {
-    if (moving) {
-      this.element.setAttribute('aria-busy', 'true');
-    } else {
-      this.element.removeAttribute('aria-busy');
-    }
   }
 
   private get dropPosition():SortableListDropPosition {
@@ -125,12 +119,12 @@ export default class ListController extends Controller<HTMLElement> implements R
   }
 
   private canDrop(data:Record<string|symbol, unknown>):boolean {
-    const { root } = this;
-    if (root == null || root.moving) {
+    if (!this.hasSortableListsOutlet) {
       return false;
     }
 
-    return canAccept(root, data);
+    return isItemFromRoot(this.sortableListsOutlet.element, data)
+      && listAcceptsType({ acceptedTypes: this.acceptedTypesValue, type: data.type });
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing

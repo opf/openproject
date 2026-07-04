@@ -31,11 +31,12 @@ import { vi } from 'vitest';
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
-  acceptsSortableItemType,
   buildMoveFormData,
   type DropIntent,
+  isItemFromRoot,
   isSortableItemData,
   isSortableListData,
+  listAcceptsType,
   resolveDropIntent,
   resolvePreviousSortableItemId,
   sortableItemData,
@@ -147,17 +148,41 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('acceptsSortableItemType', () => {
-    it('allows drops when the controller has no accepted type filter', () => {
-      expect(acceptsSortableItemType({ acceptedType: null, type: 'work_package' })).toBe(true);
+  describe('isItemFromRoot', () => {
+    const root = document.createElement('div');
+
+    it('accepts a sortable item tagged with the identical root element', () => {
+      expect(isItemFromRoot(root, sortableItemData({ type: 'work_package', itemId: '1', rootElement: root }))).toBe(true);
     });
 
-    it('allows drops when the source type matches the accepted type', () => {
-      expect(acceptsSortableItemType({ acceptedType: 'work_package', type: 'work_package' })).toBe(true);
+    it('rejects an item tagged with a different root element', () => {
+      expect(isItemFromRoot(root, sortableItemData({ type: 'work_package', itemId: '1', rootElement: document.createElement('div') }))).toBe(false);
     });
 
-    it('rejects drops when the source type does not match the accepted type', () => {
-      expect(acceptsSortableItemType({ acceptedType: 'work_package', type: 'meeting_agenda_item' })).toBe(false);
+    it('rejects an item without a root element', () => {
+      expect(isItemFromRoot(root, sortableItemData({ type: 'work_package', itemId: '1' }))).toBe(false);
+    });
+
+    it('rejects a null root', () => {
+      expect(isItemFromRoot(null, sortableItemData({ type: 'work_package', itemId: '1', rootElement: root }))).toBe(false);
+    });
+
+    it('rejects non-item payloads', () => {
+      expect(isItemFromRoot(root, { anything: true })).toBe(false);
+    });
+  });
+
+  describe('listAcceptsType', () => {
+    it('accepts a type contained in acceptedTypes', () => {
+      expect(listAcceptsType({ acceptedTypes: ['work_package', 'sprint'], type: 'sprint' })).toBe(true);
+    });
+
+    it('rejects a type not contained in acceptedTypes', () => {
+      expect(listAcceptsType({ acceptedTypes: ['work_package'], type: 'sprint' })).toBe(false);
+    });
+
+    it('rejects everything for an empty acceptedTypes', () => {
+      expect(listAcceptsType({ acceptedTypes: [], type: 'work_package' })).toBe(false);
     });
   });
 
@@ -322,6 +347,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       expect(intent?.listElement).toBe(list);
       expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.rowsContainer).toBe(list);
       expect(intent?.previousItemId).toEqual('2');
     });
 
@@ -371,6 +397,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       expect(intent?.listElement).toBe(list);
       expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.rowsContainer).toBe(list);
       expect(intent?.previousItemId).toEqual('5');
     });
 
@@ -421,6 +448,7 @@ describe('sortable lists drag and drop helpers', () => {
       });
 
       expect(intent?.listElement).toBe(list);
+      expect(intent?.rowsContainer).toBe(list);
       expect(intent?.previousItemId).toBeNull();
     });
 

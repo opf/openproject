@@ -88,17 +88,9 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response).to have_turbo_frame "backlogs_container"
         expect(response.body).to include('class="op-sprint-planning-container"')
         expect(response.body).to include('data-controller="backlogs--list-refresh sortable-lists"')
-        expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
         expect(response.body).to include(
-          %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
-        )
-        expect(response.body).to include(
-          "data-sortable-lists-sortable-lists--list-outlet=" \
-          "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
-        )
-        expect(response.body).to include(
-          "data-sortable-lists-sortable-lists--item-outlet=" \
-          "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
+          %(data-sortable-lists-move-url-templates-value="{&quot;work_package&quot;:&quot;) \
+          "/projects/#{project.identifier}/backlogs/work_packages/{id}/move&quot;}\""
         )
         expect(response.body).to include('id="owner_backlogs_container"')
         expect(response.body).to include('id="sprint_backlogs_container"')
@@ -115,7 +107,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         move_url_template =
           "/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=true"
         expect(response.body).to include(
-          %(data-sortable-lists-move-url-template-value="#{move_url_template}")
+          %(data-sortable-lists-move-url-templates-value="{&quot;work_package&quot;:&quot;#{move_url_template}&quot;}")
         )
       end
 

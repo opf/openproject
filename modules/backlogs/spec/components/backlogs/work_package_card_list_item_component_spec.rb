@@ -68,6 +68,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(item.row_args[:test_selector]).to eq("work-package-#{work_package.id}")
       expect(item.row_args[:data]).to include(
         controller: "sortable-lists--item",
+        sortable_lists__item_sortable_lists_outlet: "#backlogs_container",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_type_value: "work_package"
       )

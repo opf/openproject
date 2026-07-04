@@ -24,20 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-//++ 
+//++
 
 import type { dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type SortableListsControllerType from '../sortable-lists.controller';
 import type ListControllerType from './list.controller';
-import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { sortableItemData as sortableItemDataFn } from './drag-and-drop';
 
-// The list controller is tested in ISOLATION: the root drives the outlet
-// hand-over in production (sortable-lists.controller.ts), so here we render only
-// the list, let it connect, then call connectRoot(fakeRoot) ourselves to stand
-// in for that wiring.
+// The list controller resolves its root through a real Stimulus outlet, so
+// both the root (`sortable-lists.controller.ts`) and the list controller are
+// registered here and wired together through the
+// `data-sortable-lists--list-sortable-lists-outlet`
+// attribute, exactly as production markup does.
 describe('Sortable lists list controller', () => {
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let ListController:typeof ListControllerType;
+  let SortableListsController:typeof SortableListsControllerType;
   let sortableItemData:typeof sortableItemDataFn;
 
   let ctx:StimulusTestContext;
@@ -50,8 +53,13 @@ describe('Sortable lists list controller', () => {
       monitorForElements: vi.fn(() => vi.fn()),
     }));
 
+    vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+      autoScrollForElements: vi.fn(() => vi.fn()),
+    }));
+
     ({ dropTargetForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: ListController } = await import('./list.controller'));
+    ({ default: SortableListsController } = await import('../sortable-lists.controller'));
     ({ sortableItemData } = await import('./drag-and-drop'));
   });
 
@@ -59,6 +67,7 @@ describe('Sortable lists list controller', () => {
     vi.clearAllMocks();
     ctx = await setupStimulusTest({
       controllers: {
+        'sortable-lists': SortableListsController,
         'sortable-lists--list': ListController,
       },
     });
@@ -67,39 +76,36 @@ describe('Sortable lists list controller', () => {
 
   afterEach(() => ctx.dispose());
 
-  function fakeRoot(
-    element = document.createElement('div'),
-    { moving = false, acceptedType = null as string|null } = {},
-  ):SortableListsRoot {
-    return { element, moving, acceptedType };
-  }
-
   async function connectedListFor({
     type = 'sprint',
     id = '7',
     dropPosition = null,
-    root = fakeRoot(),
+    acceptedTypes = ['work_package'],
+    outlet = true,
   }:{
     type?:string|null;
     id?:string|null;
     dropPosition?:string|null;
-    root?:SortableListsRoot|null;
+    acceptedTypes?:string[]|null;
+    outlet?:boolean;
   } = {}) {
     fixture.innerHTML = `
-      <ul data-controller="sortable-lists--list"
-          ${type != null ? `data-sortable-lists--list-type-value="${type}"` : ''}
-          ${id != null ? `data-sortable-lists--list-id-value="${id}"` : ''}
-          ${dropPosition != null ? `data-sortable-lists--list-drop-position-value="${dropPosition}"` : ''}></ul>
+      <div id="root" data-controller="sortable-lists">
+        <ul data-controller="sortable-lists--list"
+            ${type != null ? `data-sortable-lists--list-type-value="${type}"` : ''}
+            ${id != null ? `data-sortable-lists--list-id-value="${id}"` : ''}
+            ${dropPosition != null ? `data-sortable-lists--list-drop-position-value="${dropPosition}"` : ''}
+            ${acceptedTypes != null ? `data-sortable-lists--list-accepted-types-value='${JSON.stringify(acceptedTypes)}'` : ''}
+            ${outlet ? 'data-sortable-lists--list-sortable-lists-outlet="#root"' : ''}></ul>
+      </div>
     `;
+    const root = fixture.querySelector<HTMLElement>('#root')!;
     const list = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
     await ctx.nextFrame();
 
     const controller = ctx.application.getControllerForElementAndIdentifier(list, 'sortable-lists--list') as unknown as InstanceType<typeof ListControllerType>;
-    if (root) {
-      controller.connectRoot(root);
-    }
 
-    return { list, controller };
+    return { root, list, controller };
   }
 
   function dropTargetOptionsFor(element:HTMLElement) {
@@ -121,12 +127,6 @@ describe('Sortable lists list controller', () => {
     const { list } = await connectedListFor();
 
     expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({ element: list }));
-  });
-
-  it('does not register without a list type value', async () => {
-    const { list } = await connectedListFor({ type: null, root: null });
-
-    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: list }));
   });
 
   it('exposes its list payload through getData', async () => {
@@ -157,72 +157,62 @@ describe('Sortable lists list controller', () => {
       .toEqual(expect.objectContaining({ dropPosition: 'end' }));
   });
 
-  it('accepts a same-root item of the accepted type', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });
+  it('does not register a drop target without acceptedTypes', async () => {
+    const { list } = await connectedListFor({ acceptedTypes: null });
+
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: list }));
+  });
+
+  it('does not register a drop target with an empty acceptedTypes array', async () => {
+    const { list } = await connectedListFor({ acceptedTypes: [] });
+
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: list }));
+  });
+
+  it('warns and does not register when acceptedTypes is set but type is missing or empty', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    const { list: listWithoutType } = await connectedListFor({ type: null, acceptedTypes: ['work_package'] });
+    expect(warn).toHaveBeenCalledOnce();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: listWithoutType }));
+
+    warn.mockClear();
+
+    const { list: listWithEmptyType } = await connectedListFor({ type: '', acceptedTypes: ['work_package'] });
+    expect(warn).toHaveBeenCalledOnce();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: listWithEmptyType }));
+
+    warn.mockRestore();
+  });
+
+  it('rejects drops when the root outlet is not connected', async () => {
+    const { list } = await connectedListFor({ outlet: false });
+
+    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(document.createElement('div'), 'work_package') }))
+      .toBe(false);
+  });
+
+  it('accepts an item of an accepted type from the same root', async () => {
+    const { list, root } = await connectedListFor({ acceptedTypes: ['work_package'] });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(true);
   });
 
-  it('rejects an item whose type is not accepted', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });
+  it('rejects an item type not in acceptedTypes', async () => {
+    const { list, root } = await connectedListFor({ acceptedTypes: ['work_package'] });
 
-    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'meeting_agenda_item') }))
+    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'sprint') }))
       .toBe(false);
   });
 
-  it('rejects a source from another root', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div')) });
+  it('rejects an item from a different root', async () => {
+    const { list } = await connectedListFor({ acceptedTypes: ['work_package'] });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(document.createElement('div'), 'work_package') }))
       .toBe(false);
-  });
-
-  it('rejects a source with no root reference', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div')) });
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(null, 'work_package') }))
-      .toBe(false);
-  });
-
-  it('refuses drops until the root reference is connected', async () => {
-    const { list } = await connectedListFor({ root: null });
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(document.createElement('div'), 'work_package') }))
-      .toBe(false);
-  });
-
-  it('reflects the root moving state as aria-busy on connect', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
-
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-  });
-
-  it('clears aria-busy when reflectMoving is turned off', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    controller.reflectMoving(false);
-    expect(list.hasAttribute('aria-busy')).toBe(false);
-  });
-
-  it('clears aria-busy when the root outlet disconnects mid-move', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    controller.disconnectRoot();
-    expect(list.hasAttribute('aria-busy')).toBe(false);
-  });
-
-  it('clears aria-busy when the list element disconnects mid-move', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    list.remove();
-    await ctx.nextFrame();
-    expect(list.hasAttribute('aria-busy')).toBe(false);
   });
 
   it('outlines the container for a list-only drop', async () => {
@@ -263,13 +253,5 @@ describe('Sortable lists list controller', () => {
 
     options?.onDragLeave?.({} as never);
     expect(list.dataset.dropContainer).toBeUndefined();
-  });
-
-  it('rejects drops while the root is moving', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package', moving: true }) });
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
-      .toBe(false);
   });
 });

@@ -84,6 +84,7 @@ module Backlogs
     def draggable_data
       {
         controller: "sortable-lists--item",
+        sortable_lists__item_sortable_lists_outlet: "#backlogs_container",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_type_value: "work_package"
       }

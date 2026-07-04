@@ -34,7 +34,6 @@
 // This module holds the drag-and-drop-agnostic half of that contract: reading
 // items and rows out of the DOM and moving rows around. The Pragmatic DnD
 // payloads built on top of it live in drag-and-drop.ts.
-export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
 export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';

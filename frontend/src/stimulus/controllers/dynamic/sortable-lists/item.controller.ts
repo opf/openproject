@@ -38,13 +38,11 @@ import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/el
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
+import type SortableListsController from '../sortable-lists.controller';
 import {
-  canAccept,
-  isSortableItemData,
+  isItemFromRoot,
   sortableItemData,
-  type RootAwareChild,
   type SortableItemData,
-  type SortableListsRoot,
 } from './drag-and-drop';
 import { sortableItemSelector } from './list-dom';
 
@@ -71,8 +69,10 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
 // `.Box--condensed .Box-card`) would not apply to it otherwise.
 const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
 
-export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ItemController extends Controller<HTMLElement> {
   static targets = ['handle', 'preview'];
+
+  static outlets = ['sortable-lists'];
 
   static values = {
     id: String,
@@ -89,9 +89,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly previewTarget:HTMLElement;
   declare readonly hasPreviewTarget:boolean;
 
+  declare readonly sortableListsOutlet:SortableListsController;
+  declare readonly hasSortableListsOutlet:boolean;
+
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
-  private root?:SortableListsRoot;
 
   connect():void {
     this.warnOnMissingValues();
@@ -104,27 +106,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
   disconnect():void {
     this.cleanupFn?.();
     this.cleanupFn = undefined;
-    this.disconnectRoot();
-  }
-
-  // Called by the root controller's outlet-connected callback.
-  connectRoot(root:SortableListsRoot):void {
-    this.root = root;
-  }
-
-  disconnectRoot():void {
-    this.root = undefined;
   }
 
   // Both values are required: an item with an empty id can never be persisted,
-  // and an empty type never matches the root's accepted type, so the item would
+  // and an empty type never matches a list's accepted types, so the item would
   // appear draggable yet silently refuse every drop. Surface that wiring mistake.
   private warnOnMissingValues():void {
-    if (!this.hasIdValue) {
+    if (!this.hasIdValue || this.idValue === '') {
       console.warn('sortable-lists--item is missing its required id value (data-sortable-lists--item-id-value); it cannot be moved.', this.element);
     }
 
-    if (!this.hasTypeValue) {
+    if (!this.hasTypeValue || this.typeValue === '') {
       console.warn('sortable-lists--item is missing its required type value (data-sortable-lists--item-type-value); it cannot be moved.', this.element);
     }
   }
@@ -134,8 +126,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
       canDrag: ({ input }) => {
-        const { root } = this;
-        if (root == null || root.moving) {
+        // The single moving gate: a drop ends the drag before the persist request
+        // starts, so blocking new drags here is sufficient — no drop can happen
+        // while a move is in flight.
+        if (!this.hasSortableListsOutlet || this.sortableListsOutlet.moving) {
           return false;
         }
         return this.canDragFromPoint(input.clientX, input.clientY);
@@ -171,16 +165,16 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return dropTargetForElements({
       element: this.element,
       canDrop: ({ source }) => {
-        const { root } = this;
-        if (root == null || root.moving) {
+        if (!this.hasSortableListsOutlet) {
           return false;
         }
 
-        if (isSortableItemData(source.data) && source.data.itemId === this.idValue) {
+        if (!isItemFromRoot(this.sortableListsOutlet.element, source.data)) {
           return false;
         }
 
-        return canAccept(root, source.data);
+        return source.data.itemId !== this.idValue
+          && source.data.type === this.typeValue;
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
@@ -223,7 +217,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return sortableItemData({
       itemId: this.idValue,
       type: this.typeValue,
-      rootElement: this.root?.element ?? null,
+      rootElement: this.hasSortableListsOutlet ? this.sortableListsOutlet.element : null,
     });
   }
 

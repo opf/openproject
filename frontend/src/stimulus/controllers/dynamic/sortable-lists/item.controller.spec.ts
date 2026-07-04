@@ -31,20 +31,29 @@ import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from 
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ItemControllerType from './item.controller';
-import type { SortableListsRoot } from './drag-and-drop';
+import type SortableListsControllerType from '../sortable-lists.controller';
 
+// The item controller resolves its root through a real Stimulus outlet, so
+// both the root (`sortable-lists.controller.ts`) and the item controller are
+// registered here and wired together through the
+// `data-sortable-lists--item-sortable-lists-outlet`
+// attribute, exactly as production markup does.
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let preventUnhandled:typeof preventUnhandledType;
   let setCustomNativeDragPreview:typeof setCustomNativeDragPreviewFn;
   let ItemController:typeof ItemControllerType;
+  let SortableListsController:typeof SortableListsControllerType;
   let sortableItemData:typeof import('./drag-and-drop').sortableItemData;
 
   interface TestItemController {
     renderDropIndicator(edge:'top'|'bottom'|null):void;
     clearDropIndicator():void;
   }
+
+  let ctx:StimulusTestContext;
+  let fixture:HTMLElement;
 
   beforeAll(async () => {
     vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
@@ -57,6 +66,10 @@ describe('Sortable lists item controller', () => {
       draggable: vi.fn(() => vi.fn()),
       dropTargetForElements: vi.fn(() => vi.fn()),
       monitorForElements: vi.fn(() => vi.fn()),
+    }));
+
+    vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+      autoScrollForElements: vi.fn(() => vi.fn()),
     }));
 
     vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
@@ -74,8 +87,30 @@ describe('Sortable lists item controller', () => {
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
     ({ default: ItemController } = await import('./item.controller'));
+    ({ default: SortableListsController } = await import('../sortable-lists.controller'));
     ({ sortableItemData } = await import('./drag-and-drop'));
   });
+
+  beforeEach(async () => {
+    vi.clearAllMocks();
+    vi.mocked(dropTargetForElements).mockImplementation(({ element }) => {
+      element.setAttribute('data-drop-target-for-element', 'true');
+
+      return vi.fn(() => {
+        element.removeAttribute('data-drop-target-for-element');
+      });
+    });
+
+    ctx = await setupStimulusTest({
+      controllers: {
+        'sortable-lists': SortableListsController,
+        'sortable-lists--item': ItemController,
+      },
+    });
+    fixture = ctx.container;
+  });
+
+  afterEach(() => ctx.dispose());
 
   function controllerFor(element:HTMLElement) {
     const controller = Object.create(ItemController.prototype) as unknown as TestItemController;
@@ -87,47 +122,53 @@ describe('Sortable lists item controller', () => {
     return controller;
   }
 
-  function fakeRoot(
-    element = document.createElement('div'),
-    { moving = false, acceptedType = null as string|null } = {},
-  ):SortableListsRoot {
-    Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
-    return { element, moving, acceptedType };
+  async function connectedItemFor({
+    id = '123',
+    type = 'item',
+    outlet = true,
+    innerHtml = '',
+  }:{
+    id?:string|null;
+    type?:string|null;
+    outlet?:boolean;
+    innerHtml?:string;
+  } = {}) {
+    fixture.innerHTML = `
+      <div id="root" data-controller="sortable-lists">
+        <li data-controller="sortable-lists--item"
+            ${id != null ? `data-sortable-lists--item-id-value="${id}"` : ''}
+            ${type != null ? `data-sortable-lists--item-type-value="${type}"` : ''}
+            ${outlet ? 'data-sortable-lists--item-sortable-lists-outlet="#root"' : ''}>${innerHtml}</li>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#root')!;
+    const item = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--item"]')!;
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(item, 'sortable-lists--item') as unknown as InstanceType<typeof ItemControllerType>;
+
+    return { root, item, controller };
   }
 
-  function connectedControllerFor(
-    element:HTMLElement,
-    { handle = null, root = fakeRoot() }:{ handle?:HTMLElement|null; root?:SortableListsRoot|null } = {},
-  ) {
-    const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
+  function setRootMoving(root:HTMLElement, moving:boolean):void {
+    const rootController = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as unknown as { movingFlag:boolean };
 
-    Object.defineProperty(controller, 'element', { value: element });
-    Object.defineProperty(controller, 'idValue', { value: '123' });
-    Object.defineProperty(controller, 'hasIdValue', { value: true });
-    Object.defineProperty(controller, 'typeValue', { value: 'item' });
-    Object.defineProperty(controller, 'hasTypeValue', { value: true });
-    Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
-    if (handle) {
-      Object.defineProperty(controller, 'handleTarget', { value: handle });
-    }
-
-    controller.connect();
-    if (root) {
-      controller.connectRoot(root);
-    }
-
-    return controller;
+    rootController.movingFlag = moving;
   }
 
-  function draggableArgs(element = document.createElement('article')) {
-    return {
-      dragHandle: null,
-      element,
-      input: {} as never,
-    };
+  function draggableOptionsFor(element:HTMLElement) {
+    return vi.mocked(draggable).mock.calls.find(([options]) => options.element === element)?.[0];
   }
 
-  function dragEventPayload(element = document.createElement('article')) {
+  function dropTargetOptionsFor(element:HTMLElement) {
+    return vi.mocked(dropTargetForElements).mock.calls.find(([options]) => options.element === element)?.[0];
+  }
+
+  function dragArgs(element:HTMLElement, dragHandle:HTMLElement|null = null) {
+    return { element, dragHandle, input: { clientX: 0, clientY: 0 } as never };
+  }
+
+  function dragEventPayload(element:HTMLElement) {
     return {
       location: { current: { input: { clientX: 0, clientY: 0 } } } as never,
       source: {
@@ -138,49 +179,39 @@ describe('Sortable lists item controller', () => {
     };
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(dropTargetForElements).mockImplementation(({ element }) => {
-      element.setAttribute('data-drop-target-for-element', 'true');
-
-      return vi.fn(() => {
-        element.removeAttribute('data-drop-target-for-element');
-      });
-    });
-  });
-
-  function connectItem({ id, type }:{ id:string; type:string }) {
+  it('warns when the id value is missing or empty', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
 
-    Object.defineProperty(controller, 'element', { value: document.createElement('li') });
-    Object.defineProperty(controller, 'idValue', { value: id });
-    Object.defineProperty(controller, 'hasIdValue', { value: id !== '' });
-    Object.defineProperty(controller, 'typeValue', { value: type });
-    Object.defineProperty(controller, 'hasTypeValue', { value: type !== '' });
-    Object.defineProperty(controller, 'hasHandleTarget', { value: false });
-
-    controller.connect();
-
-    return warn;
-  }
-
-  it('warns when connected without an item id', () => {
-    const warn = connectItem({ id: '', type: 'work_package' });
-
+    await connectedItemFor({ id: null });
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('id'), expect.anything());
+    warn.mockClear();
+
+    await connectedItemFor({ id: '' });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('id'), expect.anything());
+
+    warn.mockRestore();
   });
 
-  it('warns when connected without an item type', () => {
-    const warn = connectItem({ id: '123', type: '' });
+  it('warns when the type value is missing or empty', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
+    await connectedItemFor({ type: null });
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+    warn.mockClear();
+
+    await connectedItemFor({ type: '' });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+
+    warn.mockRestore();
   });
 
-  it('does not warn when id and type are both present', () => {
-    const warn = connectItem({ id: '123', type: 'work_package' });
+  it('does not warn when id and type are both present', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    await connectedItemFor({ id: '123', type: 'work_package' });
 
     expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
   });
 
   it('marks the closest edge while dragging over an item', () => {
@@ -253,13 +284,11 @@ describe('Sortable lists item controller', () => {
     expect(nextElement.dataset.dropPositionOwner).toEqual('2');
   });
 
-  it('keeps the item drop target active while moving through row gaps', () => {
-    const element = document.createElement('article');
+  it('keeps the item drop target active while moving through row gaps', async () => {
+    const { item } = await connectedItemFor();
 
-    connectedControllerFor(element);
-
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].getIsSticky?.({
-      element,
+    expect(dropTargetOptionsFor(item)?.getIsSticky?.({
+      element: item,
       input: {} as never,
       source: {
         data: {},
@@ -268,194 +297,126 @@ describe('Sortable lists item controller', () => {
     })).toBe(true);
   });
 
-  it('does not accept itself as an item drop target', () => {
-    const root = document.createElement('div');
-    const element = document.createElement('article');
+  it('accepts drops only from items of the same type', async () => {
+    const { root, item } = await connectedItemFor({ id: '123', type: 'item' });
 
-    connectedControllerFor(element, { root: fakeRoot(root) });
-
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
-      element,
-      input: {} as never,
-      source: {
-        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
-        element: document.createElement('article'),
-      } as never,
-    })).toBe(false);
-  });
-
-  it('does not accept drops from another sortable lists root', () => {
-    const targetRoot = document.createElement('div');
-    const foreignRoot = document.createElement('div');
-    const targetElement = document.createElement('article');
-
-    connectedControllerFor(targetElement, { root: fakeRoot(targetRoot) });
-
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
-      element: targetElement,
-      input: {} as never,
-      source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
-        element: document.createElement('article'),
-      } as never,
-    })).toBe(false);
-  });
-
-  it('does not accept drops whose type is rejected by the root', () => {
-    const root = document.createElement('div');
-    const targetElement = document.createElement('article');
-
-    connectedControllerFor(targetElement, { root: fakeRoot(root, { acceptedType: 'work_package' }) });
-
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
-      element: targetElement,
-      input: {} as never,
-      source: {
-        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
-        element: document.createElement('article'),
-      } as never,
-    })).toBe(false);
-  });
-
-  it('does not accept drops while the root is moving another item', () => {
-    const root = document.createElement('div');
-    const targetElement = document.createElement('article');
-
-    connectedControllerFor(targetElement, { root: fakeRoot(root, { moving: true }) });
-
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
-      element: targetElement,
+    expect(dropTargetOptionsFor(item)?.canDrop?.({
+      element: item,
       input: {} as never,
       source: {
         data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
-        element: document.createElement('article'),
+        element: document.createElement('li'),
+      } as never,
+    })).toBe(true);
+
+    expect(dropTargetOptionsFor(item)?.canDrop?.({
+      element: item,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'other', itemId: '456', rootElement: root }),
+        element: document.createElement('li'),
       } as never,
     })).toBe(false);
   });
 
-  it('does not expose native external drag data', () => {
-    const element = document.createElement('article');
+  it('rejects drops from itself', async () => {
+    const { root, item } = await connectedItemFor({ id: '123', type: 'item' });
 
-    connectedControllerFor(element);
-
-    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
+    expect(dropTargetOptionsFor(item)?.canDrop?.({
+      element: item,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
+        element: document.createElement('li'),
+      } as never,
+    })).toBe(false);
   });
 
-  it('prevents unhandled browser drag feedback while dragging an item', () => {
-    const element = document.createElement('article');
+  it('rejects drops from another root', async () => {
+    const { item } = await connectedItemFor({ id: '123', type: 'item' });
+    const foreignRoot = document.createElement('div');
 
-    connectedControllerFor(element);
+    expect(dropTargetOptionsFor(item)?.canDrop?.({
+      element: item,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
+        element: document.createElement('li'),
+      } as never,
+    })).toBe(false);
+  });
 
-    vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(element));
+  it('does not expose native external drag data', async () => {
+    const { item } = await connectedItemFor();
+
+    expect(draggableOptionsFor(item)?.getInitialDataForExternal).toBeUndefined();
+  });
+
+  it('prevents unhandled browser drag feedback while dragging an item', async () => {
+    const { item } = await connectedItemFor();
+
+    draggableOptionsFor(item)?.onDragStart?.(dragEventPayload(item));
     expect(preventUnhandled.start).toHaveBeenCalledOnce();
 
-    vi.mocked(draggable).mock.lastCall?.[0].onDrop?.(dragEventPayload(element));
+    draggableOptionsFor(item)?.onDrop?.(dragEventPayload(item));
     expect(preventUnhandled.stop).toHaveBeenCalledOnce();
   });
 
-  it('does not start dragging from interactive descendants', () => {
-    const element = document.createElement('article');
-    const link = document.createElement('a');
+  it('does not start dragging from interactive descendants', async () => {
+    const { item } = await connectedItemFor({
+      innerHtml: '<a href="/work_packages/123">Link</a>',
+    });
+    const link = item.querySelector('a')!;
 
-    link.href = '/work_packages/123';
-    element.appendChild(link);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(link);
-    connectedControllerFor(element);
 
-    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element,
-      dragHandle: null,
-      input: { clientX: 10, clientY: 10 } as never,
-    })).toBe(false);
+    expect(draggableOptionsFor(item)?.canDrag?.(dragArgs(item))).toBe(false);
   });
 
-  it('starts dragging from non-interactive descendants', () => {
-    const element = document.createElement('article');
-    const text = document.createElement('span');
+  it('starts dragging from non-interactive descendants', async () => {
+    const { item } = await connectedItemFor({
+      innerHtml: '<span>text</span>',
+    });
+    const text = item.querySelector('span')!;
 
-    element.appendChild(text);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
-    connectedControllerFor(element);
 
-    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element,
-      dragHandle: null,
-      input: { clientX: 10, clientY: 10 } as never,
-    })).toBe(true);
+    expect(draggableOptionsFor(item)?.canDrag?.(dragArgs(item))).toBe(true);
   });
 
-  it('starts dragging from the focusable drag handle itself', () => {
-    const element = document.createElement('li');
-    const handle = document.createElement('article');
+  it('starts dragging from the focusable drag handle itself', async () => {
+    const { item } = await connectedItemFor({
+      innerHtml: '<article tabindex="0" data-sortable-lists--item-target="preview handle"></article>',
+    });
+    const handle = item.querySelector('article')!;
 
-    handle.tabIndex = 0;
-    handle.setAttribute('data-sortable-lists--item-target', 'preview handle');
-    element.appendChild(handle);
-    document.body.appendChild(element);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(handle);
-    connectedControllerFor(element, { handle });
 
-    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element,
-      dragHandle: handle,
-      input: { clientX: 10, clientY: 10 } as never,
-    })).toBe(true);
-
-    element.remove();
+    expect(draggableOptionsFor(item)?.canDrag?.(dragArgs(item, handle))).toBe(true);
   });
 
-  it('does not start dragging while the root is moving another item', () => {
-    const element = document.createElement('article');
-    const text = document.createElement('span');
-    element.appendChild(text);
-    vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
+  it('refuses to start a drag while the root is moving', async () => {
+    const { root, item } = await connectedItemFor();
 
-    connectedControllerFor(element, { root: fakeRoot(document.createElement('div'), { moving: true }) });
+    setRootMoving(root, true);
 
-    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
-    })).toBe(false);
+    expect(draggableOptionsFor(item)?.canDrag?.(dragArgs(item))).toBe(false);
   });
 
-  it('refuses to drag before the root reference is connected', () => {
-    const element = document.createElement('article');
-    const text = document.createElement('span');
-    element.appendChild(text);
-    vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
+  it('refuses to start a drag when the root outlet is missing', async () => {
+    const { item } = await connectedItemFor({ outlet: false });
 
-    connectedControllerFor(element, { root: null });
-
-    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
-    })).toBe(false);
+    expect(draggableOptionsFor(item)?.canDrag?.(dragArgs(item))).toBe(false);
   });
 
-  it('includes the root element in the drag payload', () => {
-    const root = document.createElement('div');
-    const element = document.createElement('article');
-    connectedControllerFor(element, { root: fakeRoot(root) });
+  it('includes the root element in the drag payload', async () => {
+    const { root, item } = await connectedItemFor({ id: '123', type: 'item' });
 
-    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+    expect(draggableOptionsFor(item)?.getInitialData?.(dragArgs(item)))
       .toEqual(expect.objectContaining({ itemId: '123', type: 'item', rootElement: root }));
   });
 
   describe('Stimulus application wiring', () => {
-    let ctx:StimulusTestContext;
-    let fixture:HTMLElement;
-
-    beforeEach(async () => {
-      ctx = await setupStimulusTest({
-        controllers: {
-          'sortable-lists--item': ItemController,
-        },
-      });
-      fixture = ctx.container;
-    });
-
-    afterEach(() => {
-      ctx.dispose();
-    });
-
     function renderBacklogsRow(itemId = '123', { boxClasses = '' } = {}) {
       const rowHtml = `
         <li
@@ -540,7 +501,7 @@ describe('Sortable lists item controller', () => {
 
       await ctx.nextFrame();
 
-      expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(article))).toEqual(expect.objectContaining({
+      expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(dragArgs(article))).toEqual(expect.objectContaining({
         itemId: '123',
         type: 'work_package',
       }));
