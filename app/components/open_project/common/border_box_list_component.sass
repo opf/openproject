@@ -194,6 +194,43 @@
     content: ''
     bottom: calc(var(--op-backlogs-drop-gap-height) / -2)
 
+
+// Empty-state wrapper. With a drop target label, an overlay covers the
+// blankslate while a sortable item hovers the list, labelling it as a drop
+// zone. Hidden via visibility so it is unreachable while inactive; the
+// visibility delay keeps the overlay shown until the fade-out finishes.
+.op-border-box-list-empty-state
+  position: relative
+
+  &--drop-overlay
+    position: absolute
+    // Bottom inset keeps the box's bottom border and rounding visible.
+    inset: 0 0 var(--base-size-4) 0
+    border: var(--borderWidth-thin) dashed var(--borderColor-default)
+    z-index: 1
+
+    display: flex
+    align-items: center
+    justify-content: center
+
+    background: var(--bgColor-default)
+    color: var(--fgColor-default)
+
+    opacity: 0
+    visibility: hidden
+    pointer-events: none
+
+    @media (prefers-reduced-motion: no-preference)
+      transition: opacity 0.1s ease-in-out, visibility 0s linear 0.1s
+
+[data-drop-container] .op-border-box-list-empty-state--drop-overlay
+  opacity: 1
+  visibility: visible
+  pointer-events: auto
+
+  @media (prefers-reduced-motion: no-preference)
+    transition: opacity 0.1s ease-in-out, visibility 0s
+
 // Container drop zone: the whole list outlines while a sortable item hovers it,
 // signalling the item will land inside this list.
 [data-controller~="sortable-lists--list"][data-drop-container]

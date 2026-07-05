@@ -125,6 +125,7 @@ en:
     bucket_component:
       blankslate_title: "Backlog bucket is empty"
       blankslate_description: "Drag items here to add them."
+      drop_zone_label: "Drop here to add item to this bucket"
       label_actions: "Backlog bucket actions"
       action_menu:
         edit_backlog_bucket: "Edit backlog bucket"
@@ -154,6 +155,7 @@ en:
       title: "Inbox"
       blankslate_title: "Backlog inbox is empty"
       blankslate_description: "All open work packages in this project will automatically appear here."
+      drop_zone_label: "Drop here to add item to Inbox"
       show_more:
         one: "Show 1 more item"
         other: "Show %{count} more items"
@@ -184,6 +186,7 @@ en:
     sprint_component:
       blankslate_title: "%{name} is empty"
       blankslate_description: "No items planned yet. Drag items here to add them."
+      drop_zone_label: "Drop here to add item to this sprint"
       label_actions: "Sprint actions"
       label_start_sprint: "Start sprint"
       label_complete_sprint: "Complete sprint"

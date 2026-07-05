@@ -678,6 +678,36 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
 
       expect(rendered).to have_alert(aria: { live: "assertive", describedby: "empty-help" })
     end
+
+    it "renders a drop-zone overlay hidden from assistive technology when a drop target label is given" do
+      rendered = render_inline(
+        described_class.new(container: "empty-drop-zone")
+      ) do |list|
+        list.with_empty_state(title: "Nothing here", drop_target_label: "Drop items here")
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-empty-state") do |empty_state|
+        expect(empty_state).to have_css(".blankslate", text: "Nothing here")
+        expect(empty_state).to have_css(
+          ".op-border-box-list-empty-state--drop-overlay",
+          text: "Drop items here",
+          aria: { hidden: true }
+        )
+      end
+    end
+
+    it "does not render a drop-zone overlay without a drop target label" do
+      rendered = render_inline(
+        described_class.new(container: "empty-no-drop-zone")
+      ) do |list|
+        list.with_empty_state(title: "Nothing here")
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-empty-state") do |empty_state|
+        expect(empty_state).to have_css(".blankslate")
+        expect(empty_state).to have_no_css(".op-border-box-list-empty-state--drop-overlay")
+      end
+    end
   end
 
   describe "footer rendering" do
