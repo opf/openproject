@@ -34,20 +34,24 @@ class Setting
   # the flag or the setting directly, so the feature can be rolled out in phases
   # by changing only this method.
   #
-  # The user-facing Setting.work_package_multiple_versions is already respected,
-  # but the experimental feature flag takes precedence: while it is active (it is
-  # on by default in development and can be toggled at /admin/settings/experimental)
-  # the feature is enabled regardless of the setting. This lets a developer opt in
-  # via the flag today, while the setting governs everywhere the flag is off.
+  # Both the user-facing Setting.work_package_multiple_versions and the
+  # experimental feature flag must be enabled for the feature to be active. This
+  # keeps it off by default everywhere (the setting defaults to false), while the
+  # flag gates it out of production until the feature is ready: even if the
+  # setting is switched on, the feature stays off unless the flag is active. The
+  # flag is on by default in development and can be toggled at
+  # /admin/settings/experimental, so a developer opts in by enabling the setting.
+  #
+  # This mirrors Setting::WorkPackageIdentifier.semantic_mode_active?.
   #
   #   * later (phase 2): build the admin switch for the setting; this predicate
-  #     needs no change, as it already respects the setting.
+  #     needs no change.
   #   * before release (phase 3): drop the flag, leaving just
   #       Setting.work_package_multiple_versions?
   module WorkPackageMultipleVersions
     def self.active?
-      OpenProject::FeatureDecisions.work_package_multiple_versions_active? ||
-        Setting.work_package_multiple_versions?
+      Setting.work_package_multiple_versions? &&
+        OpenProject::FeatureDecisions.work_package_multiple_versions_active?
     end
   end
 end

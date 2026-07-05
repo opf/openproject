@@ -31,18 +31,20 @@
 require "spec_helper"
 
 RSpec.describe Setting::WorkPackageMultipleVersions do
-  # The feature flag takes precedence: while it is active the feature is enabled
-  # regardless of the setting.
+  # Both the setting and the feature flag must be enabled for the feature to be active.
   context "when the feature flag is active", with_flag: { work_package_multiple_versions: true } do
-    context "and the setting is disabled", with_settings: { work_package_multiple_versions: false } do
+    context "and the setting is enabled", with_settings: { work_package_multiple_versions: true } do
       it { expect(described_class.active?).to be true }
+    end
+
+    context "and the setting is disabled", with_settings: { work_package_multiple_versions: false } do
+      it { expect(described_class.active?).to be false }
     end
   end
 
-  # With the flag off, the user-facing setting governs.
   context "when the feature flag is inactive", with_flag: { work_package_multiple_versions: false } do
     context "and the setting is enabled", with_settings: { work_package_multiple_versions: true } do
-      it { expect(described_class.active?).to be true }
+      it { expect(described_class.active?).to be false }
     end
 
     context "and the setting is disabled", with_settings: { work_package_multiple_versions: false } do
