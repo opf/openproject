@@ -29,25 +29,11 @@
 #++
 
 class Setting
-  # Single gate for the "multiple (target) versions" feature. Every call site
-  # (views, contracts, services) should ask this predicate rather than reading
-  # the flag or the setting directly, so the feature can be rolled out in phases
-  # by changing only this method.
-  #
-  # Both the user-facing Setting.work_package_multiple_versions and the
-  # experimental feature flag must be enabled for the feature to be active. This
-  # keeps it off by default everywhere (the setting defaults to false), while the
-  # flag gates it out of production until the feature is ready: even if the
-  # setting is switched on, the feature stays off unless the flag is active. The
-  # flag is on by default in development and can be toggled at
-  # /admin/settings/experimental, so a developer opts in by enabling the setting.
-  #
-  # This mirrors Setting::WorkPackageIdentifier.semantic_mode_active?.
-  #
-  #   * later (phase 2): build the admin switch for the setting; this predicate
-  #     needs no change.
-  #   * before release (phase 3): drop the flag, leaving just
-  #       Setting.work_package_multiple_versions?
+  # Single gate for the "multiple (target) versions" feature: active only when
+  # both the user-facing setting and the experimental feature flag are enabled.
+  # Call sites (views, contracts, services) should ask this predicate rather than
+  # reading either gate directly, so the phased rollout (adding the admin switch,
+  # then dropping the flag) only ever touches this method.
   module WorkPackageMultipleVersions
     def self.active?
       Setting.work_package_multiple_versions? &&
