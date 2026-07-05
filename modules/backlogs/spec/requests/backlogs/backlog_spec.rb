@@ -70,12 +70,34 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response).to have_turbo_frame "content-bodyRight"
     end
 
-    it "passes all=true on the backlog turbo frame when requested" do
+    it "renders the sortable lists configuration on the backlogs turbo frame" do
+      get "/projects/#{project.identifier}/backlogs/backlog"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
+      expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
+      expect(response.body).to include(
+        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
+      )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--list-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
+      )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--item-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
+      )
+    end
+
+    it "passes all=true to the frame src and move URL template when requested" do
       get "/projects/#{project.identifier}/backlogs/backlog", params: { all: "1" }
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_frame "backlogs_container",
                                            src: "/projects/#{project.identifier}/backlogs/backlog?all=true"
+      expect(response.body).to include(
+        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=true")
+      )
     end
 
     context "with a Turbo Frame request" do
@@ -86,37 +108,8 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response).to render_template("backlogs/backlog/_backlog_list")
 
         expect(response).to have_turbo_frame "backlogs_container"
-        expect(response.body).to include('class="op-sprint-planning-container"')
-        expect(response.body).to include('data-controller="backlogs--list-refresh sortable-lists"')
-        expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
-        expect(response.body).to include(
-          %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
-        )
-        expect(response.body).to include(
-          "data-sortable-lists-sortable-lists--list-outlet=" \
-          "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
-        )
-        expect(response.body).to include(
-          "data-sortable-lists-sortable-lists--item-outlet=" \
-          "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
-        )
-        expect(response.body).to include('id="owner_backlogs_container"')
-        expect(response.body).to include('id="sprint_backlogs_container"')
-        expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
         expect(response).to have_no_turbo_frame "content-bodyRight"
-      end
-
-      it "passes all=true to the move URL template when requested" do
-        get "/projects/#{project.identifier}/backlogs/backlog",
-            params: { all: "1" },
-            headers: { "Turbo-Frame" => "backlogs_container" }
-
-        expect(response).to have_http_status(:ok)
-        move_url_template =
-          "/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=true"
-        expect(response.body).to include(
-          %(data-sortable-lists-move-url-template-value="#{move_url_template}")
-        )
+        expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
       end
 
       context "with no sprints available" do
