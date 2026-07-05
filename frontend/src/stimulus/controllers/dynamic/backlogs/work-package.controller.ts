@@ -160,7 +160,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
   }
 
   private onKeydown(event:KeyboardEvent):void {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
+    if (event.key !== 'Enter') return;
 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -168,7 +168,6 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     if (this.shouldIgnoreKeyboardTarget(target)) return;
 
     event.preventDefault();
-    if (event.key === ' ') return;
 
     if (event.shiftKey) {
       this.openFullPane();
