@@ -123,13 +123,13 @@ en:
       details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
 
     bucket_component:
-      blankslate_title: "Backlog bucket is empty"
+      action_menu:
+        delete_backlog_bucket: "Delete backlog bucket"
+        edit_backlog_bucket: "Edit backlog bucket"
       blankslate_description: "Drag items here to add them."
+      blankslate_title: "Backlog bucket is empty"
       drop_zone_label: "Drop here to add item to this bucket"
       label_actions: "Backlog bucket actions"
-      action_menu:
-        edit_backlog_bucket: "Edit backlog bucket"
-        delete_backlog_bucket: "Delete backlog bucket"
 
     burndown_chart:
       show:
@@ -152,13 +152,13 @@ en:
       button_complete_sprint: "Complete sprint"
 
     inbox_component:
-      title: "Inbox"
-      blankslate_title: "Backlog inbox is empty"
       blankslate_description: "All open work packages in this project will automatically appear here."
-      drop_zone_label: "Drop here to add item to Inbox"
+      blankslate_title: "Backlog inbox is empty"
+      drop_zone_label: "Drop here to add item to inbox"
       show_more:
         one: "Show 1 more item"
         other: "Show %{count} more items"
+      title: "Inbox"
 
     label_burndown_chart: "Burndown chart"
     label_is_done_status: "Status %{status_name} means done"
@@ -184,17 +184,17 @@ en:
     show_burndown_chart: "Burndown chart"
 
     sprint_component:
-      blankslate_title: "%{name} is empty"
+      action_menu:
+        add_work_package: "Add work package"
+        edit_sprint: "Edit sprint"
       blankslate_description: "No items planned yet. Drag items here to add them."
+      blankslate_title: "%{name} is empty"
       drop_zone_label: "Drop here to add item to this sprint"
       label_actions: "Sprint actions"
-      label_start_sprint: "Start sprint"
       label_complete_sprint: "Complete sprint"
+      label_start_sprint: "Start sprint"
       start_sprint_disabled_reason_active_sprint: "Another sprint is already active."
       start_sprint_disabled_reason_missing_dates: "Start and finish dates are required in order to start the sprint."
-      action_menu:
-        edit_sprint: "Edit sprint"
-        add_work_package: "Add work package"
 
     sprint_form:
       goal_caption: "The sprint goal is unique to this project and is not shared with other projects also using this sprint."
