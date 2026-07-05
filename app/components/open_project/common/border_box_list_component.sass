@@ -195,6 +195,12 @@
     bottom: calc(var(--op-backlogs-drop-gap-height) / -2)
 
 
+// The empty-state row only makes sense while it is alone in the list. Hiding
+// it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
+// a flicker between the drop and the server render removing it.
+.op-border-box-list > .Box-list > .Box-row[data-empty-list-item]:not(:only-child)
+  display: none
+
 // Empty-state wrapper. With a drop target label, an overlay covers the
 // blankslate while a sortable item hovers the list, labelling it as a drop
 // zone. Hidden via visibility so it is unreachable while inactive; the
