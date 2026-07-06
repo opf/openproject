@@ -645,6 +645,120 @@ RSpec.describe PermittedParams do
     end
   end
 
+  describe "#move_work_package" do
+    subject(:permitted) { described_class.new(params, user).move_work_package.to_h }
+
+    let(:params) do
+      ActionController::Parameters.new(
+        assigned_to_id: "1",
+        custom_field_values: { "2" => "Keep me" },
+        new_project_id: "3",
+        new_type_id: "4",
+        notes: "Move notes",
+        subject: "Do not keep me"
+      )
+    end
+
+    it "permits move params and normalizes operation-only keys" do
+      expect(permitted).to eq(
+        "assigned_to_id" => "1",
+        "custom_field_values" => { "2" => "Keep me" },
+        "type_id" => "4",
+        "project_id" => "3",
+        "journal_notes" => "Move notes"
+      )
+    end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"],
+          new_project_id: "3",
+          new_type_id: "4",
+          notes: "Move notes"
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq(
+          "assigned_to_id" => "1",
+          "type_id" => "4",
+          "project_id" => "3",
+          "journal_notes" => "Move notes"
+        )
+      end
+    end
+  end
+
+  describe "#move_work_package_form_values" do
+    subject(:permitted) { described_class.new(params, user).move_work_package_form_values.to_h }
+
+    let(:params) do
+      ActionController::Parameters.new(
+        assigned_to_id: "1",
+        responsible_id: "2",
+        start_date: "2026-07-01",
+        due_date: "2026-07-31",
+        status_id: "3",
+        version_id: "4",
+        priority_id: "5",
+        budget_id: "6",
+        custom_field_values: { "7" => "Keep me" },
+        new_project_id: "8",
+        new_type_id: "9",
+        notes: "Keep me elsewhere",
+        subject: "Do not keep me"
+      )
+    end
+
+    it "permits move form values and normalizes operation-only keys" do
+      expect(permitted).to eq(
+        "assigned_to_id" => "1",
+        "responsible_id" => "2",
+        "start_date" => "2026-07-01",
+        "due_date" => "2026-07-31",
+        "status_id" => "3",
+        "version_id" => "4",
+        "priority_id" => "5",
+        "budget_id" => "6",
+        "custom_field_values" => { "7" => "Keep me" },
+        "type_id" => "9",
+        "project_id" => "8"
+      )
+    end
+
+    context "with custom field values that do not follow the schema 'id as string' => 'value as string'" do
+      let(:params) do
+        ActionController::Parameters.new(
+          custom_field_values: {
+            "blubs" => "5",
+            "5" => { "1" => "2" }
+          }
+        )
+      end
+
+      it "removes them" do
+        expect(permitted).to eq("type_id" => nil, "project_id" => nil)
+      end
+    end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"]
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq("assigned_to_id" => "1",
+                                "type_id" => nil,
+                                "project_id" => nil)
+      end
+    end
+  end
+
   describe "#time_entry_activities_project" do
     let(:attribute) { :time_entry_activities_project }
     let(:hash) do

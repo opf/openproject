@@ -90,7 +90,7 @@ Rails.application.routes.draw do
               only: %i[new create edit update destroy] do
       collection do
         get :step
-        get :refresh_form
+        post :refresh_form
       end
     end
 
