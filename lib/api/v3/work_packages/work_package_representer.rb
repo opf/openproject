@@ -585,16 +585,7 @@ module API
                              v3_path: :version,
                              representer: ::API::V3::Versions::VersionRepresenter,
                              setter: ->(fragment:, **) do
-                               ids = parse_link_ids_from_fragment(fragment, :version)
-                               represented.target_version_ids_replacements = ids.compact.map(&:to_i)
-                             end
-
-        associated_resources :observed_in_versions,
-                             v3_path: :version,
-                             representer: ::API::V3::Versions::VersionRepresenter,
-                             setter: ->(fragment:, **) do
-                               ids = parse_link_ids_from_fragment(fragment, :version)
-                               represented.observed_in_version_ids_replacements = ids.compact.map(&:to_i)
+                               represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
         associated_resource :parent,
