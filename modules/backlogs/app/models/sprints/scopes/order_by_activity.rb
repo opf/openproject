@@ -37,7 +37,8 @@ module Sprints::Scopes::OrderByActivity
         Arel.sql("CASE status WHEN 'active' THEN 0 WHEN 'in_planning' THEN 1 ELSE 2 END"),
         arel_table[:start_date].desc.nulls_last,
         arel_table[:finish_date].desc.nulls_last,
-        arel_table[:name].asc
+        arel_table[:name].asc,
+        arel_table[:id].asc
       )
     end
   end

@@ -100,4 +100,20 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   it "breaks ties within the same status and dates by name ascending" do
     expect(Sprint.order_by_activity.completed).to eq([completed_sprint_a, completed_sprint_b])
   end
+
+  it "breaks ties within the same status, dates, and name by id ascending" do
+    duplicate_a = create(:sprint, project:, status: :completed,
+                                  name: "Duplicate",
+                                  start_date: Date.new(2025, 8, 1),
+                                  finish_date: Date.new(2025, 8, 31))
+    duplicate_b = create(:sprint, project:, status: :completed,
+                                  name: "Duplicate",
+                                  start_date: Date.new(2025, 8, 1),
+                                  finish_date: Date.new(2025, 8, 31))
+
+    expect(Sprint.order_by_activity).to include(duplicate_a, duplicate_b)
+    idx_a = Sprint.order_by_activity.to_a.index(duplicate_a)
+    idx_b = Sprint.order_by_activity.to_a.index(duplicate_b)
+    expect(idx_a).to be < idx_b
+  end
 end
