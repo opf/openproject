@@ -33,6 +33,18 @@ target** edge — carried by the list's `data-drop-container` attribute.
 An empty area that can accept a dragged object when there is no existing object to anchor a drop indicator.
 _Avoid_: Placeholder
 
+**Row**:
+A direct child of a **Rows container**. It may hold a **Sortable item** or be a
+non-item marker (e.g. a truncated "show more" row carrying
+`data-sortable-lists-prev-item-id`). Distinct from **Sortable item**, which is
+the draggable payload — not every row is an item.
+
+**Rows container**:
+The element whose direct children are a **Sortable list**'s **Rows**, resolved by
+the list controller (`:scope > ul` for Backlogs BorderBox lists; the list element
+itself when there is no such child). A structural term for the DOM parent of the
+rows — not the interaction-sense "container" that is avoided for drop areas.
+
 **Sortable item**:
 An object that can be repositioned by drag and drop within or between sortable lists.
 _Avoid_: Draggable item
@@ -45,6 +57,10 @@ _Avoid_: Draggable type
 An ordered list whose sortable items can be repositioned by drag and drop.
 _Avoid_: Container
 
+**Structural row**:
+A **Row** identified purely by being a direct child of the **Rows container**,
+independent of its tag. Successor to the fixed `<ul>`/`<li>` row shape.
+
 ## Relationships
 
 - A **Drag source** remains at the original location while the **Drag preview** follows the pointer.
@@ -54,6 +70,8 @@ _Avoid_: Container
 - A **Sortable item** has a **Sortable item type**.
 - A **Sortable list** may accept only specific **Sortable item types**.
 - An active **Sortable list** shows a **Drop container** outline while a compatible **Sortable item** hovers it, distinct from the per-item **Drop indicator**.
+- A **Sortable list** has a **Rows container** whose direct children are its
+  **Rows**; a **Row** may hold a **Sortable item**.
 
 ## Sortable lists wiring (consumer contract)
 
@@ -94,10 +112,12 @@ indicator owner):
 - Target `handle` (optional): restricts the drag to a handle element.
 - Target `preview` (optional): the element cloned for the **Drag preview**.
 
-**DOM shape (required):** rows are `<li>` elements, sitting either directly under
-the list element or inside a single nested `<ul>`. A non-item row (e.g. a
-truncated "show more" marker) may carry `data-sortable-lists-prev-item-id` so
-position resolution stays correct in sparse lists.
+**DOM shape (required):** a list's **Rows** are the direct children of its
+**Rows container** — the element the list controller resolves via its
+`rowsContainer` element (`:scope > ul`, falling back to the list element). Rows
+may be any tag. A non-item row (e.g. a truncated "show more" marker) may carry
+`data-sortable-lists-prev-item-id` so position resolution stays correct in
+sparse lists.
 
 **Move wire:** a successful drop PUTs `FormData` (`list_type`, `list_id`,
 `prev_id`) to the expanded move URL; the server replies with a turbo-stream. A
@@ -117,3 +137,6 @@ the row back and toast.
 - "placeholder" was used for highlighted gaps — resolved: use **Drop indicator** unless full object-sized space is reserved.
 - "container" was used for drop areas — resolved: use **Drop target** for drag-and-drop interaction language.
 - "draggable type" was inherited from the generic drag-and-drop controller — resolved: use **Sortable item type**.
+- "container" is avoided for drag-and-drop *interaction* language (drop areas) —
+  resolved: **Rows container** is a structural DOM term for the rows' parent and
+  is exempt from that rule.
