@@ -3,8 +3,11 @@
 # This is e.g. the case with oj which sometimes turns numbers into BigDecimal values.
 module API::Utilities::JsonGemParser
   def self.call(object, _)
-    ::Grape::Json.load(object, adapter: :json_gem)
-  rescue ::Grape::Json::ParseError
+    # Since grape 3.3 +Grape::Json+ no longer exposes +.load+ (and its +.parse+
+    # does not accept an adapter), so call MultiJSON directly to keep forcing
+    # the json_gem adapter.
+    ::MultiJSON.load(object, adapter: :json_gem)
+  rescue ::MultiJSON::ParseError
     # handle JSON parsing errors via the rescue handlers or provide error message
     raise Grape::Exceptions::InvalidMessageBody, "application/json"
   end
