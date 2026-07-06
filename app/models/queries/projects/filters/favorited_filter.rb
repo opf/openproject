@@ -57,8 +57,7 @@ class Queries::Projects::Filters::FavoritedFilter < Queries::Projects::Filters::
   end
 
   def apply_to(_query_scope)
-    if (values.first == OpenProject::Database::DB_VALUE_TRUE && operator_strategy == Queries::Operators::BooleanEquals) ||
-      (values.first == OpenProject::Database::DB_VALUE_FALSE && operator_strategy == Queries::Operators::BooleanNotEquals)
+    if filtering_for_true?
       super.where(id: favorited_project_ids)
     else
       super.where.not(id: favorited_project_ids)

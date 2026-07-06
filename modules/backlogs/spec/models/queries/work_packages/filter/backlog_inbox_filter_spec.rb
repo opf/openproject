@@ -104,6 +104,28 @@ RSpec.describe Queries::WorkPackages::Filter::BacklogInboxFilter do
           )
         end
       end
+
+      context 'with operator "!" and value "f"' do
+        let(:operator) { "!" }
+        let(:values) { [OpenProject::Database::DB_VALUE_FALSE] }
+
+        it "filters to work packages with no sprint and no bucket" do
+          expect(instance.where).to eq(
+            "work_packages.sprint_id IS NULL AND work_packages.backlog_bucket_id IS NULL"
+          )
+        end
+      end
+
+      context 'with operator "!" and value "t"' do
+        let(:operator) { "!" }
+        let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
+
+        it "excludes inbox work packages" do
+          expect(instance.where).to eq(
+            "work_packages.sprint_id IS NOT NULL OR work_packages.backlog_bucket_id IS NOT NULL"
+          )
+        end
+      end
     end
   end
 end

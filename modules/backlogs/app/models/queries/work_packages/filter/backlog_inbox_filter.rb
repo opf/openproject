@@ -40,16 +40,12 @@ module Queries::WorkPackages::Filter
       end
     end
 
-    def available_operators
-      [::Queries::Operators::BooleanEquals]
-    end
-
     def dependency_class
       "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
     end
 
     def where
-      if values == [OpenProject::Database::DB_VALUE_TRUE]
+      if filtering_for_true?
         "work_packages.sprint_id IS NULL AND work_packages.backlog_bucket_id IS NULL"
       else
         "work_packages.sprint_id IS NOT NULL OR work_packages.backlog_bucket_id IS NOT NULL"
