@@ -145,7 +145,7 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :WorkPackages, :UpdateContract
-    patch_with_namespace :Projects, :CopyService
+    patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 

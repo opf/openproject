@@ -145,4 +145,51 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       expect(copied_sprint.project).to eq(project_copy)
     end
   end
+
+  describe "work package sprint reassignment" do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[work_packages sprints] }
+    end
+    let(:other_project) do
+      create(:project, enabled_module_names: %i[work_package_tracking backlogs])
+    end
+    let!(:owned_sprint) { create(:sprint, project: source, name: "Owned Sprint") }
+    let!(:shared_sprint) { create(:sprint, project: other_project, name: "Shared Sprint") }
+    let!(:wp_in_owned) { create(:work_package, project: source, subject: "In owned") }
+    let!(:wp_in_shared) { create(:work_package, project: source, subject: "In shared") }
+
+    subject { instance.call(params) }
+
+    before do
+      wp_in_owned.update_column(:sprint_id, owned_sprint.id)
+      wp_in_shared.update_column(:sprint_id, shared_sprint.id)
+    end
+
+    def copied_wp(subject_text)
+      project_copy.work_packages.find_by(subject: subject_text)
+    end
+
+    it "assigns the copied work package to the copied sprint for owned sprints" do
+      expect(subject).to be_success
+
+      copied = copied_wp("In owned")
+      expect(copied.sprint.name).to eq("Owned Sprint")
+      expect(copied.sprint_id).not_to eq(owned_sprint.id)
+      expect(copied.sprint.project).to eq(project_copy)
+    end
+
+    it "keeps the original sprint when it is shared (not owned by the source)" do
+      expect(subject).to be_success
+
+      expect(copied_wp("In shared").sprint_id).to eq(shared_sprint.id)
+    end
+
+    it "does not add the copied work package to the source sprint" do
+      expect(subject).to be_success
+
+      expect(owned_sprint.reload.work_packages.pluck(:subject)).to eq(["In owned"])
+    end
+  end
 end
