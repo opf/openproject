@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% grid.with_area(:subject) do %>
     <% if link_subject %>
-      <%= render(Primer::Beta::Link.new(href: work_package_path(work_package), font_weight: :semibold)) { work_package.subject } %>
+      <%= render(Primer::Beta::Link.new(href: work_package_path(work_package), font_weight: :semibold, draggable: false)) { work_package.subject } %>
     <% else %>
       <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { work_package.subject } %>
     <% end %>
@@ -96,7 +96,8 @@ See COPYRIGHT and LICENSE files for more details.
                       Primer::Beta::Link.new(
                         href: work_package_path(work_package.parent),
                         underline: false,
-                        color: :default
+                        color: :default,
+                        draggable: false
                       )
                     ) do %>
                   <%= work_package.parent.subject %>
