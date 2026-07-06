@@ -3,7 +3,7 @@ uk:
   ee:
     upsell:
       ldap_groups:
-        title: Синхронізація групи LDAP
+        title: Синхронізація групи з LDAP
         description: Синхронізуйте LDAP-групи з групами OpenProject, щоб змінювати дозволи користувачів і спростити керування користувачами, зокрема з різних груп.
   plugin_openproject_ldap_groups:
     name: Групи LDAP OpenProject

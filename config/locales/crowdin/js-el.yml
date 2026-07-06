@@ -162,9 +162,9 @@ el:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει.
         child_pages:
-          button: Σύνδεσμοι σε σελίδες-παιδιά
+          button: List of sub-pages
           include_parent: Συμπεριλάβετε τον γονέα
-          text: "[Placeholder] Σύνδεσμοι στις σελίδες-παιδιά του"
+          text: "[Placeholder] List of sub-pages of"
           page: Σελίδα Wiki
           this_page: αυτή η σελίδα
           hint: 'Αφήστε αυτό το πεδίο άδειο για να καταγραφούν όλες οι σελίδες-παιδιά της τρέχουσας σελίδας. Αν θέλετε να κάνετε αναφορά σε διαφορετική σελίδα, δώστε τον τίτλο ή το slug του.

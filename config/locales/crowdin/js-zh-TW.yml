@@ -162,9 +162,9 @@ zh-TW:
           nested_macro: 該macro遞歸引用 %{model} %{id}。
           invalid_attribute: 所選屬性 '%{name}' 不存在。
         child_pages:
-          button: 導到子頁面
+          button: List of sub-pages
           include_parent: 包括主項目
-          text: "[Placeholder] 連結到子頁面"
+          text: "[Placeholder] List of sub-pages of"
           page: 維基頁面
           this_page: " 本頁"
           hint: '將此欄位留空, 以列出當前頁的所有子頁面。如果要引用其他頁面, 請提供其標題或名稱。

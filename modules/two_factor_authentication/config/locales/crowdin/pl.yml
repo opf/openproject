@@ -46,7 +46,7 @@ pl:
     text_otp_delivery_message_sms: Hasło jednorazowe %{app_title} to %{token}
     text_otp_delivery_message_voice: 'Hasło jednorazowe %{app_title} to: %{pause} %{token}. %{pause} I powtórz: %{pause} %{token}'
     text_2fa_enabled: Po każdym logowaniu zostaniesz poproszony o wprowadzenie tokena OTP z domyślnego urządzenia 2FA.
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: Aby włączyć uwierzytelnianie dwuskładnikowe, użyj przycisku poniżej, aby zarejestrować nowe urządzenie 2FA. Jeśli masz już urządzenie, musisz ustawić je jako domyślne.
     login:
       enter_backup_code_title: Wprowadź kod zapasowy
       enter_backup_code_text: Wprowadź prawidłowy kod zapasowy z listy kodów, na wypadek, gdyby nie było już dostępu do zarejestrowanych urządzeń 2FA.
@@ -160,7 +160,7 @@ pl:
         '
       other_active_session_notice: Twoje konto ma aktywny plik cookie pamiętania w innej sesji.
       label: Zapamiętaj
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Usuń wszystkie zapamiętane sesje uwierzytelniania 2FA.
       cookie_removed: Wszystkie zapamiętane sesje uwierzytelniania 2FA zostały usunięte.
       dont_ask_again: Utwórz pliki cookie w celu zapamiętania uwierzytelnienia 2FA na tym kliencie na %{days} dni.
   field_otp: Jednorazowe hasło
@@ -171,7 +171,7 @@ pl:
   notice_account_has_no_phone: Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem.
   label_confirmed: Zatwardziały
   button_continue: Dalej
-  button_make_active: Activate
+  button_make_active: Aktywuj
   button_make_default: Oznacz jako domyślny
   notice_phone_number_format: 'Wprowadź numer w następującym formacie: + XX XXXXXXXX.'
   text_otp_not_receive: Inne metody weryfikacji

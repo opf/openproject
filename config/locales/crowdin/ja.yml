@@ -270,7 +270,7 @@ ja:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -2763,6 +2763,7 @@ ja:
   button_add_sub_item: サブアイテムを追加
   button_add_member: メンバーを追加
   button_add_watcher: ウォッチャーを追加
+  button_all_filters: All filters
   button_annotate: 注釈を付ける
   button_apply: 適用
   button_apply_changes: 保存
@@ -3474,19 +3475,18 @@ ja:
         header: 新機能と製品のアップデートについて読む。
         learn_about: すべての新機能の詳細
         missing: There are no highlighted features yet.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: エンタープライズ版にアップグレード
       postgres_migration: PostgreSQL にインストールを移行しています
@@ -4181,6 +4181,7 @@ ja:
 
     '
   label_part_of: 以下の一部：
+  label_past: Past
   label_password_lost: パスワードの再発行
   label_password_rule_lowercase: 小文字
   label_password_rule_numeric: 数値文字
@@ -4364,6 +4365,7 @@ ja:
   label_type_new: 新しいタイプ
   label_type_plural: ワークパッケージのタイプ
   label_ui: UI（ユーザインターフェイス）
+  label_upcoming: Upcoming
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
@@ -6093,6 +6095,8 @@ ja:
     scopes:
       api_v3: Full API v3アクセス
       api_v3_text: アプリケーションはアクションを実行するためのOpenProject API v3へのフルアクセスが許可されます。
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: に承認済み
       scopes: 権限

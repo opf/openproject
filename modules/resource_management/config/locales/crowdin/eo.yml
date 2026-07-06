@@ -15,7 +15,7 @@ eo:
       resource_planner:
         default_view_class_name: Default view
         end_date: Finish date
-        favorite: Favorite
+        favorite: Favorito
         name: Name
         public: Public
         start_date: Start date
@@ -53,10 +53,10 @@ eo:
   resource_management:
     action:
       delete: Delete
-      favorite: Add to favorites
+      favorite: Aldoni al favoratoj
       make_private: Make private
       make_public: Make public
-      unfavorite: Remove from favorites
+      unfavorite: Forigi el favoritoj
     allocation:
       hours: "%{value}h"
       no_work: No work planned on this work package
@@ -93,13 +93,13 @@ eo:
         automatic:
           caption: An automatically-generated list that displays items that meet criteria you define.
           label: Automatically filtered
-        label: Item selection
+        label: Elekto de ero
         manual:
           caption: A custom list of items you manually add and remove. Filtering is not possible.
           label: Manually hand-picked
-      title: Configure view
+      title: Agordi vidon
     edit_allocation_dialog:
-      submit: Save
+      submit: Konservi
       success_message: Resource allocation updated.
       title: Edit allocation
     favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
@@ -107,7 +107,7 @@ eo:
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners
     new_view_dialog:
-      title: Add View
+      title: Aldoni vidon
     public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
     show:
       placeholder: The detailed view for this resource planner is coming soon.
@@ -132,7 +132,7 @@ eo:
       title: Allocation
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Aldoni laborpakaĵon
       allocated_members:
         additional: "+%{count}"
         other_users:
@@ -148,9 +148,9 @@ eo:
         allocation: Allocation
         dates: Dates
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
+        add_filter_criteria: Aldonu filtrkriterion
+        add_user_group: Aldoni uzantgrupon
+        edit_total_work: Redaktu la tutan laboron
         label: More actions
         move: Move
         move_down: Move down
@@ -163,7 +163,7 @@ eo:
       mobile_title: Work packages
       query_name: 'Resource management work packages: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
+        add: Aldoni
+        add_work_package: Aldoni laborpakaĵon
         allocate: Allocate
-        settings: Configure view
+        settings: Agordi vidon

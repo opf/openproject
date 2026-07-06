@@ -3,8 +3,8 @@
 eo:
   js:
     calendar:
-      create_new: Create new calendar
+      create_new: Krei novan kalendaron
       title: Kalendaro
-      too_many: There are %{count} work packages in total, but only %{max} can be shown.
-      unsaved_title: Unnamed calendar
-      label_calendar_plural: Calendars
+      too_many: Estas entute %{count} laborpakaĵoj, sed nur %{max} povas esti montrataj.
+      unsaved_title: Nenomita kalendaro
+      label_calendar_plural: Kalendaroj

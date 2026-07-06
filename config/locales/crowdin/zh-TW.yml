@@ -270,7 +270,7 @@ zh-TW:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -2757,6 +2757,7 @@ zh-TW:
   button_add_sub_item: 新增子項目
   button_add_member: 新增成員
   button_add_watcher: 新增監看者
+  button_all_filters: All filters
   button_annotate: 注釋
   button_apply: 套用
   button_apply_changes: 套用設定
@@ -3466,19 +3467,18 @@ zh-TW:
         header: 閱讀關於新功能和產品更新的資訊。
         learn_about: 進一步瞭解所有新功能
         missing: 目前還沒有突出顯示的功能。
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: 升級到企業版
       postgres_migration: 將您的安裝遷移到 PostgreSQL
@@ -4173,6 +4173,7 @@ zh-TW:
 
     '
   label_part_of: 部份於
+  label_past: Past
   label_password_lost: 忘記你的密碼?
   label_password_rule_lowercase: 小寫
   label_password_rule_numeric: 數字字元
@@ -4356,6 +4357,7 @@ zh-TW:
   label_type_new: 新類型
   label_type_plural: 類型
   label_ui: 使用者介面
+  label_upcoming: Upcoming
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: 由%{author}於%{age}前更新
@@ -6102,6 +6104,8 @@ zh-TW:
     scopes:
       api_v3: 完整 API v3 存取
       api_v3_text: 應用程序將獲得 OpenProject API v3 的完全讀寫訪問權限來代表您執行操作。
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: 核准於
       scopes: 權限

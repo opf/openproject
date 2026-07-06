@@ -63,7 +63,7 @@ fr:
         import_as_system_user: Les importer comme utilisateur "Système".
         what_to_do: Que voulez-vous faire ?
         work_package_has_newer_changes: Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la "ModifiedDate" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés.
-        bcf_file_not_found: Impossible de localiser le fichier BCF. Veuillez recommencer le processus de téléversement.
+        bcf_file_not_found: Impossible de localiser le fichier BCF. Veuillez recommencer le processus d'importation.
   export:
     format:
       bcf: BCF-XML
@@ -126,9 +126,9 @@ fr:
     label_edit_defaults: Modifier les valeurs par défaut
     no_defaults_warning:
       title: Aucun modèle IFC n'a été défini comme défaut pour ce projet.
-      check_1: Vérifiez que vous avez téléversé au moins un modèle IFC.
+      check_1: Vérifiez que vous avez importé au moins un modèle IFC.
       check_2: Vérifiez qu'au moins un modèle IFC est défini comme « Par défaut ».
-    no_results: Aucun modèle IFC n'a été téléversé dans ce projet.
+    no_results: Aucun modèle IFC n'a été importé dans ce projet.
     conversion_status:
       label: En cours de traitement ?
       pending: En attente
@@ -138,7 +138,7 @@ fr:
     processing_notice:
       processing_default: 'Les modèles IFC par défaut suivants sont toujours en cours de traitement et ne sont donc pas encore disponibles :'
     flash_messages:
-      upload_successful: Téléversement réussi. Il sera maintenant traité et prêt à être utilisé dans quelques minutes.
+      upload_successful: Importation réussie. Le document sera traité et prêt à être utilisé dans quelques minutes.
     conversion:
       missing_commands: 'Les commandes de convertisseur IFC suivantes sont manquantes sur ce système : %{names}'
   project_module_ifc_models: Modèles IFC

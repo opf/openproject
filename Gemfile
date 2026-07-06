@@ -209,7 +209,7 @@ gem "aws-sdk-core", "~> 3.244"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.217"
 
-gem "openproject-token", "~> 8.10.0"
+gem "openproject-token", "~> 8.11.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -433,5 +433,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.87.0"
+  gem "openproject-primer_view_components", "~>0.89.1"
 end

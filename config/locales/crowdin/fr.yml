@@ -45,7 +45,7 @@ fr:
         commented: commenté
         internal_comment: Commentaire interne
         internal_journal: Les commentaires internes sont visibles pour un groupe limité de membres.
-        unsaved_changes_confirmation_message: Êtes-vous sûr de vouloir supprimer votre commentaire ? Le contenu que vous avez rédigé sera perdu.
+        unsaved_changes_confirmation_message: Voulez-vous vraiment supprimer votre commentaire ? Le contenu que vous avez rédigé sera perdu.
         internal_comment_confirmation:
           title: Rendre ce commentaire public ?
           heading: Rendre ce commentaire public ?
@@ -53,7 +53,7 @@ fr:
           confirm_button_text: Passer en public
   admin:
     reserved_identifiers:
-      btn_release: Annuler la réservation
+      btn_release: Libérer
       col_identifier: Identifiant
       col_project: Projet
       col_reserved: Réservé
@@ -62,16 +62,16 @@ fr:
         confirm_button: Libérer l'identifiant
         description: La libération de cet identifiant de projet est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
         description_with_work_packages:
-          one: La libération de cet identifiant de projet (et de son identifiant de lot de travail n° 1) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
-          other: La libération de cet identifiant de projet (ainsi que de ses identifiants de lots de travail %{count} ) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
-        heading: Libérer «%{identifier} » ?
+          one: La libération de cet identifiant de projet (et de son identifiant de lot de travaux n° 1) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
+          other: La libération de cet identifiant de projet (ainsi que de ses %{count} identifiants de lots de travaux) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
+        heading: Libérer « %{identifier} » ?
         title: Libérer l'identifiant
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+      empty_body: Lorsque l'identifiant d'un projet change, l'identifiant précédent apparaît ici afin que vous puissiez le libérer en toute sécurité.
       empty_heading: Aucun identifiant réservé
       filter_label: Rechercher des identifiants
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: L'identifiant réservé est introuvable. Il se peut qu'il ait déjà été libéré ou que le projet ait été supprimé. Veuillez actualiser la page.
+      lede_html: Lorsque l'identifiant d'un projet est renommé, l'ancien identifiant reste réservé afin que les liens et intégrations existants continuent de fonctionner.<br>Vous pouvez ici libérer les identifiants réservés afin qu'ils puissent être utilisés par d'autres projets.
+      released_notice: L'identifiant « %{identifier} » n'est plus réservé.
       reserved_ago: il y a %{time}
       title: Identifiants de projet réservés
     plugins:
@@ -131,7 +131,7 @@ fr:
         trial: Essai
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Les actions de l''utilisateur sur un lot de travaux (modification de la description, du statut, des valeurs ou rédaction de commentaires) sont regroupées si elles sont effectuées au cours de cette période. Il contrôle également les délais de notification et de [webhook](webhook_link). Le maximum est de %{max} minutes.
 
         '
     import:
@@ -277,7 +277,7 @@ fr:
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               description: Sélectionnez les données que vous souhaitez importer parmi les données disponibles extraites de l'instance Jira hôte.
               label_supported_data: Données prises en charge
-              label_coming_soon: Prochainement (T2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: À venir
               label_available_server_data: Données disponibles sur %{server_info}
               button_select_projects: Sélectionnez les projets à importer
@@ -1026,7 +1026,7 @@ fr:
           external_file_storage: Espace de stockage de fichiers externe
           label_artifact_export: Exportation d'artefact
           label_attachment_export: Enregistrer en tant que pièce jointe au lot de travaux
-          label_file_link_export: Téléverser le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
+          label_file_link_export: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
           pdf_file_storage: Stockage de fichiers PDF
           unavailable: indisponible
         label_request_submission: Demande d'envoi
@@ -2158,7 +2158,7 @@ fr:
         regex_invalid: n'a pas pu être validé avec l'expression régulière associée.
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
-        ssrf_filtered: viole la politique SSRF de cette instance OpenProject.
+        ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
@@ -2746,7 +2746,7 @@ fr:
     uid: Identifiant unique
     updated_at: Mis à jour le
     updated_on: Mis à jour le
-    uploader: Téléversé par
+    uploader: Importé par
     user: Utilisateur
     username: Nom d'utilisateur
     unit: Unité
@@ -2796,6 +2796,7 @@ fr:
   button_add_sub_item: Ajouter un sous-élément
   button_add_member: Ajouter un membre
   button_add_watcher: Ajouter observateur
+  button_all_filters: All filters
   button_annotate: Annoter
   button_apply: Appliquer
   button_apply_changes: Appliquer les modifications
@@ -3159,8 +3160,8 @@ fr:
       edit_attribute_groups:
         description: 'Personnalisez la configuration du formulaire avec ces add-ons supplémentaires :'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Ajouter de nouvelles sections d'attributs
+          rename: Renommer les sections d'attributs
           related: Ajouter un tableau des lots de travaux associés
       readonly_work_packages:
         description: Marquer les lots de travaux comme étant en lecture seule pour des statuts spécifiques.
@@ -3197,7 +3198,7 @@ fr:
         title: Authentification unique (SSO)
         description: Permettez aux utilisateurs de se connecter via des fournisseurs SSO externes utilisant SAML ou OpenID Connect pour assurer un accès transparent et une intégration fluide avec les systèmes d'identité existants.
       virus_scanning:
-        description: Assurez-vous que les fichiers téléversés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
+        description: Assurez-vous que les fichiers importés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
       project_creation_wizard:
         description: Générez un assistant étape par étape pour aider les responsables de projet à remplir une demande de lancement de projet.
       placeholder_users:
@@ -3249,7 +3250,7 @@ fr:
   enumeration_activities: Activités de suivi du temps
   enumeration_caption_order_changed: La commande a été modifiée avec succès.
   enumeration_could_not_be_moved: L'énumération n'a pas pu être déplacée.
-  enumeration_default_value_caption: Faire de %{model} la valeur par défaut remplacera la précédente %{model}.
+  enumeration_default_value_caption: Faire de ce modèle %{model} la valeur par défaut remplacera le modèle précédent %{model}.
   enumeration_reported_project_statuses: Statut signalé
   enumeration_work_package_priorities: Priorités du lot de travaux
   enterprise_trials:
@@ -3530,19 +3531,18 @@ fr:
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
         learn_about: En savoir plus sur les nouvelles fonctionnalités
         missing: Il n'y a pas encore de fonctionnalités mises en évidence.
-        '17_5':
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
+        '17_6':
+          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que :
 
             '
           new_features_list:
-            line_0: Identifiants de lots de travaux basés sur des projets pour des références plus claires.
-            line_1: Prise en charge par Jira Migrator des identifiants Jira, des dates d'échéance, etc.
-            line_2: Possibilité d'exclure des types de lots de travail des carnets de commandes.
-            line_3: Refonte des vues de sprint.
-            line_4: Amélioration de la liaison des lots de travaux dans les documents et les éditeurs de texte.
-            line_5: Des horaires de réunions plus flexibles et des notifications par courriel réduites.
-            line_6: Groupes imbriqués pour les structures organisationnelles et les autorisations héritées.
-            line_7: Amélioration des interfaces d'administration des flux de travail, des utilisateurs et de la configuration des types.
+            line_0: Intégration XWiki (abonnement Corporate).
+            line_1: Objectifs de sprint.
+            line_2: Page de vue d’ensemble de tous les sprints.
+            line_3: Affichage des sections du backlog dans les lots de travaux et les tableaux de lots de travaux.
+            line_4: Meilleure prise en charge des identifiants sémantiques par projet.
+            line_5: Conversion des points d'ordre du jour de réunion en lots de travaux.
+            line_6: Configuration des types de coûts par projet.
     links:
       upgrade_enterprise_edition: Passer à la version Enterprise
       postgres_migration: Migration de votre installation vers PostgreSQL
@@ -3727,7 +3727,7 @@ fr:
         submit_button: Mettre à jour les alertes
     notifications:
       participating:
-        description: Vous recevrez systématiquement une notification chaque fois que vous serez mentionné, ainsi que pour toute modification apportée aux lots de travail que vous suivez. Ces notifications ne peuvent pas être désactivées. Vous pouvez toutefois choisir d'activer ou de désactiver la réception des notifications concernant les modifications apportées aux lots de travail qui vous concernent (c'est-à-dire ceux dont vous êtes le responsable, le chargé de mission ou qui vous ont été partagés).
+        description: Vous recevrez systématiquement une notification chaque fois que vous serez mentionné(e), ainsi que pour toute modification apportée aux lots de travaux que vous suivez. Ces notifications ne peuvent pas être désactivées. Vous pouvez toutefois choisir d'activer ou de désactiver la réception des notifications concernant les modifications apportées aux lots de travaux qui vous concernent (c'est-à-dire ceux dont vous êtes le responsable, le chargé de mission ou qui vous ont été partagés).
         title: Participant
         submit_button: Mettre à jour les préférences
         mentioned: Mentionné
@@ -3736,7 +3736,7 @@ fr:
         responsible: Responsable
         shared: Partagé avec moi
       date_alerts:
-        description: Vous pouvez configurer les alertes de date pour les lots de travaux où vous êtes assigné, responsable et/ou surveillant d'être automatiquement informé quelques jours avant la date limite prévue ou en retard.
+        description: Vous pouvez configurer des alertes de date pour les lots de travaux pour lesquels vous êtes la personne assignée, responsable et/ou observatrice, afin de recevoir automatiquement une notification quelques jours avant les échéances à venir ou en retard.
         title: Alertes de date
         submit_button: Mettre à jour les alertes de date
         start_date: Date de début
@@ -3751,7 +3751,7 @@ fr:
           three_days_after: 3 jours après
           seven_days_after: 7 jours après
       non_participating:
-        description: Vous pouvez également choisir d'être informé de l'une des activités suivantes pour tous les projets.
+        description: Vous pouvez également choisir d'être informé(e) de l'une des activités suivantes pour tous les projets.
         title: Non participant
         submit_button: Mettre à jour les préférences
         work_package_created: Nouveaux lots de travaux
@@ -3760,7 +3760,7 @@ fr:
         work_package_prioritized: Tous les changements de priorité
         work_package_scheduled: Tous les changements de date
       project_specific_settings:
-        description: Vous pouvez affiner vos paramètres de notification pour être averti uniquement de certains événements dans des projets spécifiques. Ajoutez un projet ci-dessous et choisissez quels événements doivent déclencher une notification pour vous. Ces paramètres spécifiques au projet remplacent les paramètres par défaut ci-dessus.
+        description: Vous pouvez affiner vos paramètres de notification afin de ne recevoir des notifications que pour certains événements dans des projets spécifiques. Ajoutez un projet ci-dessous et choisissez les événements qui doivent déclencher une notification pour vous. Ces paramètres propres au projet remplacent les paramètres par défaut ci-dessus.
         title: Notifications spécifiques au projet
         add_button: Ajouter des notifications spécifiques au projet
         dialog_title: Ajouter des notifications spécifiques au projet
@@ -4237,6 +4237,7 @@ fr:
 
     '
   label_part_of: partie de
+  label_past: Past
   label_password_lost: Mot de passe oublié ?
   label_password_rule_lowercase: Minuscules
   label_password_rule_numeric: Caractères numériques
@@ -4420,6 +4421,7 @@ fr:
   label_type_new: Nouveau type
   label_type_plural: Types
   label_ui: Interface de l'utilisateur
+  label_upcoming: Upcoming
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}
@@ -5200,7 +5202,7 @@ fr:
   setting_apiv3_docs_enabled_instructions_warning: 'Veuillez noter que l''activation de la documentation de l''API sur un système de production peut exposer des informations sensibles ou entraîner une perte accidentelle de données en l''absence de précaution. Nous vous recommandons d''activer ce paramètre uniquement à des fins de développement.
 
     '
-  setting_attachment_whitelist: Liste blanche de téléversement des pièces jointes
+  setting_attachment_whitelist: Liste blanche d'importation des pièces jointes
   setting_email_delivery_method: Méthode de livraison d'e-mail
   setting_emails_salutation: S'adresser à l'utilisateur dans les e-mails avec
   setting_oauth_allow_remapping_of_existing_users: Permettre le remappage des utilisateurs existants
@@ -5399,7 +5401,7 @@ fr:
 
         '
     attachments:
-      whitelist_text_html: 'Définissez une liste d''extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+      whitelist_text_html: 'Définissez une liste d''extensions de fichiers et/ou de types MIME valides pour les fichiers importés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre l''importation de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
 
         '
       show_work_package_attachments: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes.
@@ -5426,7 +5428,7 @@ fr:
       modes:
         clamav_socket_html: Entrez le socket du démon clamd, par exemple %{example}
         clamav_host_html: Entrez le nom d'hôte et le port du démon clamd séparés par des deux-points, par exemple, %{example}
-        description_html: 'Sélectionnez le mode dans lequel l''intégration du scanner antivirus doit fonctionner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Les fichiers téléversés ne sont pas scannés pour les virus.</li> <li><strong>%{socket_option}</strong>: Vous avez installé ClamAV sur le même serveur qu''OpenProject et le démon de scan clamd tourne en arrière-plan.</li> <li><strong>%{host_option}</strong>: Vous envoyez les fichiers à un hôte externe pour réaliser le scan antivirus .</li> </ul>
+        description_html: 'Sélectionnez le mode dans lequel l''intégration du scanner antivirus doit fonctionner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Les fichiers importés ne sont pas scannés pour les virus.</li> <li><strong>%{socket_option}</strong>: Vous avez installé ClamAV sur le même serveur qu''OpenProject et le démon de scan clamd tourne en arrière-plan.</li> <li><strong>%{host_option}</strong>: Vous envoyez les fichiers à un hôte externe pour réaliser le scan antivirus .</li> </ul>
 
           '
     brute_force_prevention: Blocage d'utilisateur automatique (pour éviter les pirates)
@@ -5611,10 +5613,10 @@ fr:
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
 
     '
-  text_custom_logo_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, téléversez un logo blanc sur une image transparente de 130×47px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
+  text_custom_logo_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, importez un logo blanc sur une image transparente de 130×47px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
 
     '
-  text_custom_logo_mobile_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, téléversez un logo blanc sur une image transparente de 130×33px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
+  text_custom_logo_mobile_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, importez un logo blanc sur une image transparente de 130×33px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
 
     '
   text_custom_export_logo_instructions: 'Il s''agit du logo qui apparaît dans vos exportations PDF. Il doit s''agir d''un fichier image PNG ou JPEG. Un logo noir ou coloré sur fond transparent ou blanc est recommandé.
@@ -5626,10 +5628,10 @@ fr:
   text_custom_export_footer_instructions: 'Les exportations PDF comprendront un élément graphique placé à gauche du pied de page. Cette image doit être un fichier PNG ou JPEG d''une largeur d''environ 200 pixels.
 
     '
-  label_custom_export_font_instructions: 'Téléversez et gérez des polices TrueType (.ttf) personnalisées utilisées dans vos exportations PDF. Pour assurer de meilleurs résultats, utilisez des fichiers correspondants issus de la même famille de polices. Si aucune police n''est fournie, la police NotoSans par défaut sera utilisée.
+  label_custom_export_font_instructions: 'Importez et gérez des polices TrueType (.ttf) personnalisées utilisées dans vos exportations PDF. Pour assurer de meilleurs résultats, utilisez des fichiers correspondants issus de la même famille de polices. Si aucune police n''est fournie, la police NotoSans par défaut sera utilisée.
 
     '
-  label_custom_export_images_instructions: 'Téléversez et gérez des fichiers image personnalisés utilisés dans vos exportations PDF.
+  label_custom_export_images_instructions: 'Importez et gérez des fichiers image personnalisés utilisés dans vos exportations PDF.
 
     '
   text_custom_export_font_regular_instructions: 'Il s''agit du fichier de police pour le texte normal. Il doit être obligatoirement au format TTF.
@@ -6160,6 +6162,8 @@ fr:
     scopes:
       api_v3: Accès complet à l'API v3
       api_v3_text: L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom.
+      mcp: Accès au MCP
+      mcp_text: L'application aura accès aux points de terminaison MCP d'OpenProject. Il s'agit d'un sous-ensemble limité de l'APIv3, adapté à une utilisation avec des agents d'IA.
     grants:
       created_date: Approuvée le
       scopes: Autorisations

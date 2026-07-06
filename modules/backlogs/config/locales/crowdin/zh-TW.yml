@@ -85,7 +85,8 @@ zh-TW:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: 工作任務被移出的項目中沒有活耀的衝刺。
     models:
-      sprint: 衝刺
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Backlog 管理設定不斷演進

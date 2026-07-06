@@ -3,11 +3,11 @@ uk:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Години
         allocated_time: Виділений час
         end_date: Дата завершення
         entity: Сутність
-        filter_name: Resource filter name
+        filter_name: Назва фільтра ресурсів
         principal: Виконавець
         start_date: Дата початку
         state: Стан
@@ -58,32 +58,32 @@ uk:
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Задайте критерії фільтра на основі атрибутів користувача, щоб створити ресурс-заповнювач.
+          label: Критерії фільтра
+        label: Тип виділення ресурсів
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Призначайте години для конкретного користувача.
+          label: Користувач
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Вибрані дати ресурсу, %{resource_dates}, виходять за межі термінів виконання пакета робіт, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} доступно · %{scheduled} заплановано"
+        description: Вибраному користувачу %{user} у цей період буде призначено більше годин роботи, ніж передбачено його робочим часом.
+        hidden_work: Інші виділення ресурсів
+        schedule_availability: "%{schedule} (%{factor}% доступно для роботи над проєктом)"
+        schedule_change: до %{date}, потім %{schedule}
+        schedule_note: Цей користувач працює %{schedule}.
+        submit: Виділити понаднормовий час
+        title: Хочете виділити цьому користувачу понаднормовий час?
+      submit: Виділити
+      success_message: Ресурси виділено.
+      title: Виділити ресурс
     blankslate:
       desc: Створіть планувальник ресурсів, щоб почати планувати завантаження для цього проєкту.
       title: Ще немає планувальників ресурсів
@@ -99,9 +99,9 @@ uk:
           label: Вибране вручну
       title: Налаштувати подання
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Зберегти
+      success_message: Виділення ресурсів оновлено.
+      title: Редагувати виділення ресурсів
     favorite_caption: Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
@@ -123,24 +123,24 @@ uk:
         caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
         label: Список карток користувачів
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Виділити ресурс
+      context_menu_label: Дії з виділення ресурсів
+      delete_confirmation: Справді видалити це виділення ресурсу? Цю дію не можна відмінити.
+      delete_success: Виділення ресурсу видалено.
+      hidden_user: Прихований користувач
+      overbooked: Користувачу в цей період призначено більше годин роботи, ніж передбачено його робочим часом.
+      title: Виділення ресурсів
     work_package_list:
       add_work_package_dialog:
         title: Додати пакет робіт
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          few: "%{count} users"
-          many: "%{count} users"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} користувач"
+          few: "%{count} користувачі"
+          many: "%{count} користувачів"
+          other: "%{count} користувача"
+        unassigned: Не призначено
       allocation_placeholder: "—"
       blank:
         description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.

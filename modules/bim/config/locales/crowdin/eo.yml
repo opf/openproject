@@ -2,8 +2,8 @@
 ---
 eo:
   plugin_openproject_bim:
-    name: OpenProject BIM and BCF functionality
-    description: This OpenProject plugin introduces BIM and BCF functionality.
+    name: OpenProject BIM kaj BCF-funkcioj
+    description: Ĉi tiu OpenProject-aldonaĵo enkondukas BIM- kaj BCF-funkciojn.
   bim:
     label_bim: BIM
     error_direct_upload_failed: Direct upload failed.
@@ -123,7 +123,7 @@ eo:
     label_new_ifc_model: New IFC model
     label_show_defaults: Show defaults
     label_default_ifc_models: Default IFC models
-    label_edit_defaults: Edit defaults
+    label_edit_defaults: Redakti defaŭltojn
     no_defaults_warning:
       title: No IFC model was set as default for this project.
       check_1: Check that you have uploaded at least one IFC model.

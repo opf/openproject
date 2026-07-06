@@ -27,8 +27,9 @@
 #++
 
 module CostlogHelper
-  def cost_types_collection_for_select_options(selected_type = nil)
-    cost_types = CostType.active.sort
+  def cost_types_collection_for_select_options(selected_type = nil, project: nil)
+    scope = project ? CostType.available_for_project(project).active : CostType.active
+    cost_types = scope.sort
 
     if selected_type && !cost_types.include?(selected_type)
       cost_types << selected_type

@@ -32,7 +32,7 @@ uk:
         label_activity_show_all: Показати все
         label_activity_show_only_comments: Показувати лише коментарі
         label_activity_show_only_changes: Показувати лише зміни
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Відхилити
         label_sort_asc: Найновіші внизу
         label_sort_desc: Найновіші вгорі
         label_type_to_comment: Додайте коментар. Введіть @, щоб сповістити людину.
@@ -45,7 +45,7 @@ uk:
         commented: прокоментував(-ла)
         internal_comment: Внутрішній коментар
         internal_journal: Внутрішні коментарі видимі для визначеної групи учасників.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Хочете відхилити свій коментар? Введений вами вміст буде втрачено.
         internal_comment_confirmation:
           title: Зробити цей коментар загальнодоступним?
           heading: Зробити цей коментар загальнодоступним?
@@ -53,27 +53,27 @@ uk:
           confirm_button_text: Зробити загальнодоступним
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Скасувати резервування
       col_identifier: Ідентифікатор
       col_project: Проєкт
       col_reserved: Зарезервовано
       dialog:
         checkbox_label: Я розумію, що цю дію не можна відмінити.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Скасувати резервування ідентифікатора
+        description: Скасування резервування цього ідентифікатора проєкту неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Скасування резервування цього ідентифікатора проєкту (і його 1 ідентифікатора пакета робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          few: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікаторів пакетів робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          many: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікаторів пакетів робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          other: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікатора пакета робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+        heading: Скасувати резервування ідентифікатора %{identifier}?
+        title: Скасувати резервування ідентифікатора
+      empty_body: Коли ідентифікатор проєкту змінюється, тут з’являється попередній ідентифікатор, щоб ви могли скасувати його резервування, щойно переконаєтеся, що це безпечно.
       empty_heading: Немає зарезервованих ідентифікаторів
       filter_label: Шукати ідентифікатори
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: Не вдалося знайти зарезервований ідентифікатор. Можливо, його резервування вже скасовано або проєкт видалено. Оновіть сторінку.
+      lede_html: Коли ідентифікатор проєкту перейменовується, попередній ідентифікатор залишається зарезервованим, щоб наявні посилання й інтеграції продовжували працювати.<br>Тут ви можете скасувати резервування ідентифікаторів, щоб їх можна було використовувати для інших проєктів.
+      released_notice: Резервування ідентифікатора %{identifier} скасовано.
       reserved_ago: "%{time} тому"
       title: Зарезервовані ідентифікатори проєктів
     plugins:
@@ -133,7 +133,7 @@ uk:
         trial: Пробний період
     jemalloc_allocator: Розподіл пам'яті Jemalloc
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Дії користувача над пакетом робіт (зміни опису, статусу чи значень або написання коментарів) групуються, якщо їх було виконано протягом цього періоду. Це налаштування також керує сповіщеннями й затримками [вебхука](webhook_link). Максимальне значення — %{max} хв.
 
         '
     import:
@@ -291,7 +291,7 @@ uk:
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
               description: Виберіть дані, які потрібно імпортувати з доступного вмісту, отриманого з хост-екземпляра Jira.
               label_supported_data: Підтримувані дані
-              label_coming_soon: З’явиться незабаром (у 2 кв. 2026 р.)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: З’явиться пізніше
               label_available_server_data: Дані, доступні на сервері %{server_info}
               button_select_projects: Виберіть проєкти для імпорту
@@ -2204,7 +2204,7 @@ uk:
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
@@ -2430,7 +2430,7 @@ uk:
               durations_are_not_positive_numbers: Тривалість має бути додатним числом.
               hours_per_day_are_missing: Потрібно визначити кількість годин на день.
               hours_per_day_is_out_of_bounds: Кількість годин на день не може перевищувати 24
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: Період агрегації має становити від %{min} до %{max} хв.
               previous_working_day_changes_unprocessed: Попередні зміни конфігурації робочих днів ще не застосовано.
               working_days_are_missing: Принаймні один день тижня має бути визначено як робочий.
         status:
@@ -2886,6 +2886,7 @@ uk:
   button_add_sub_item: Додати піделемент
   button_add_member: Додати учасника
   button_add_watcher: Додати спостерігача
+  button_all_filters: All filters
   button_annotate: Коментувати
   button_apply: Застосувати
   button_apply_changes: Застосувати зміни
@@ -3289,8 +3290,8 @@ uk:
       edit_attribute_groups:
         description: 'Налаштуйте конфігурацію форми за допомогою цих додаткових доповнень:'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Додати нові розділи атрибутів
+          rename: Перейменувати розділи атрибутів
           related: Додати таблицю зв’язаних пакетів робіт
       readonly_work_packages:
         description: Позначайте пакети робіт як доступні лише для читання залежно від статусу.
@@ -3381,7 +3382,7 @@ uk:
   enumeration_activities: Дії щодо відстеження часу
   enumeration_caption_order_changed: Порядок змінено.
   enumeration_could_not_be_moved: Неможливо перенести перелічення.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Якщо зробити цю %{model} стандартною, вона замінить попередню стандартну %{model}.
   enumeration_reported_project_statuses: Повідомлений статус
   enumeration_work_package_priorities: Пріоритети робочого пакету
   enterprise_trials:
@@ -3605,11 +3606,11 @@ uk:
     no_results_text: Немає результатів
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
-      title: Projects
+      all_projects: Усі проєкти
+      favorites: Вибране
+      leave_project: Залишити проєкт
+      no_favorite_projects: У вас немає вибраних проєктів.
+      title: Проєкти
   toggle_switch:
     label_on: Увімкнено
     label_off: Вимкнено
@@ -3666,19 +3667,18 @@ uk:
         header: Читайте про нові функції і оновлення продуктів.
         learn_about: Дізнайтеся більше про всі нові функції
         missing: Ще немає виділених функцій.
-        '17_5':
+        '17_6':
           new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, зокрема:
 
             '
           new_features_list:
-            line_0: ідентифікатори пакетів робіт із зазначенням проєктів для ясності;
-            line_1: підтримку Jira Migrator для термінів виконання, ідентифікаторів Jira тощо;
-            line_2: можливість виключити типи пакетів робіт із беклогу;
-            line_3: оновлений дизайн подань спринту;
-            line_4: покращене зв’язування робочих пакетів у документах і текстових редакторах;
-            line_5: більш гнучкі графіки нарад і надсилання меншої кількості неважливих сповіщень електронною поштою;
-            line_6: вкладені групи для організаційних структур і успадкування дозволів;
-            line_7: покращені інтерфейси адміністрування для робочих процесів, користувачів і конфігурації типів.
+            line_0: Інтеграція з XWiki (план Corporate).
+            line_1: Цілі спринту.
+            line_2: Сторінка огляду «Усі спринти».
+            line_3: Показ сегментів беклогу в пакетах робіт і таблицях пакетів робіт.
+            line_4: Покращена підтримка ідентифікаторів на основі проєктів (семантичних).
+            line_5: Перетворення пунктів порядку денного зустрічі на пакети робіт.
+            line_6: Налаштування типів витрат для кожного проєкту.
     links:
       upgrade_enterprise_edition: Оновлення до версії Enterprise
       postgres_migration: Міграція інсталяції в PostgreSQL
@@ -3863,7 +3863,7 @@ uk:
         submit_button: Оновити сповіщення
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Ви завжди отримуватимете сповіщення, коли вас згадують, а також про зміни в пакетах робіт, за якими ви спостерігаєте. Ці сповіщення не можна вимкнути. Проте ви можете керувати сповіщеннями про зміни в пакетах робіт, які стосуються вас (де ви є виконавцем, відповідальним або учасником).
         title: Бере участь
         submit_button: Оновити налаштування
         mentioned: Вас згадали
@@ -3872,7 +3872,7 @@ uk:
         responsible: Відповідальний
         shared: Доступ надано мені
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Ви можете налаштувати нагадування про дати для пакетів робіт, у яких ви є виконавцем, відповідальним чи спостерігачем, щоб автоматично отримувати сповіщення за кілька днів до наближення або закінчення термінів виконання.
         title: Сповіщення про дати
         submit_button: Оновити сповіщення про дати
         start_date: Дата початку
@@ -3887,7 +3887,7 @@ uk:
           three_days_after: Через 3 дні
           seven_days_after: Через 7 днів
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Крім того, ви можете налаштувати отримання сповіщень про будь-яку з наведених нижче дій для всіх проєктів.
         title: Не бере участі
         submit_button: Оновити налаштування
         work_package_created: Нові пакети робіт
@@ -3896,8 +3896,8 @@ uk:
         work_package_prioritized: Усі зміни пріоритету
         work_package_scheduled: Усі зміни дат
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: Ви можете налаштувати сповіщення так, щоб отримувати їх лише про певні події в конкретних проєктах. Додайте проєкт нижче й виберіть, які події мають запускати сповіщення. Ці налаштування для окремих проєктів мають пріоритет над стандартними налаштуваннями вище.
+        title: Сповіщення для проєкту
         add_button: Додати сповіщення щодо проєктів
         dialog_title: Додати сповіщення щодо проєктів
         list_header: Проєкти зі спеціальними сповіщеннями
@@ -4031,7 +4031,7 @@ uk:
   label_send_invitation: Надіслати запрошення
   label_calculated_value: Розраховане значення
   label_change_parent: Змінити батьківський об’єкт
-  label_change_password: Change password
+  label_change_password: Змінити пароль
   label_change_plural: Зміни
   label_change_properties: Змінити властивості
   label_change_status: Змінити статус
@@ -4318,7 +4318,7 @@ uk:
   label_my_account_data: Мої дані облікового запису
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
-  label_my_security: Security
+  label_my_security: Безпека
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4373,6 +4373,7 @@ uk:
 
     '
   label_part_of: частина
+  label_past: Past
   label_password_lost: Забули Ваш пароль?
   label_password_rule_lowercase: До нижнього регістру
   label_password_rule_numeric: Цифрові символи
@@ -4556,6 +4557,7 @@ uk:
   label_type_new: Новий тип
   label_type_plural: Типи
   label_ui: Користувацький інтерфейс
+  label_upcoming: Upcoming
   label_updated_time: Оновлений %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Оновлено %{author} %{age} назад
@@ -4673,10 +4675,10 @@ uk:
     many: 'Вільний час: %{count} робочих днів'
     other: 'Вільний час: %{count} робочого дня'
   label_x_items_selected:
-    one: One item selected
-    few: "%{count} items selected"
-    many: "%{count} items selected"
-    other: "%{count} items selected"
+    one: Вибрано один елемент
+    few: Вибрано %{count} елементи
+    many: Вибрано %{count} елементів
+    other: Вибрано %{count} елемента
   label_yesterday: вчора
   label_zen_mode: Режим «Дзен»
   label_role_type: Тип
@@ -6311,6 +6313,8 @@ uk:
     scopes:
       api_v3: Повний доступ до API версії 3
       api_v3_text: Додаток отримає повний доступ для читання та записування в OpenProject API версії 3, щоб виконувати дії від вашого імені.
+      mcp: Доступ до MCP
+      mcp_text: Додаток отримає доступ до кінцевих точок OpenProject MCP. Це обмежена підмножина API v3, адаптована для використання агентами ШІ.
     grants:
       created_date: Затверджено
       scopes: Дозволи

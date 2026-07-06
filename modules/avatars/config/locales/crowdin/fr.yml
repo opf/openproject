@@ -15,7 +15,7 @@ fr:
   avatar_deleted: L'avatar a bien été supprimé.
   unable_to_delete_avatar: L'avatar n'a pas pu être supprimé.
   wrong_file_format: Les formats autorisés sont Jpg, Png et Gif
-  empty_file_error: Veuillez téléverser une image valide (jpg, png, gif)
+  empty_file_error: Veuillez importer une image valide (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
@@ -28,7 +28,7 @@ fr:
       Téléchargez votre propre avatar personnalisé de 128 par 128 pixels. Les fichiers plus gros seront redimensionnés et recadrés pour correspondre.
       Un aperçu de votre avatar sera affiché avant le téléchargement, une fois que vous aurez sélectionné une image.
     text_change_gravatar_html: Pour changer ou ajouter un Gravatar pour votre adresse e-mail, allez à %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject vous permet de téléverser votre propre avatar personnalisé.
+    text_your_local_avatar: 'OpenProject vous permet d''importer votre propre avatar personnalisé.
 
       '
     text_local_avatar_over_gravatar: 'Si vous en avez défini un, cet avatar personnalisé sera utilisé à la place du gravatar ci-dessus.

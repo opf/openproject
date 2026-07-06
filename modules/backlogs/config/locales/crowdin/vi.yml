@@ -87,7 +87,8 @@ vi:
               not_assignable: không thể gán vì nó chưa được chia sẻ với dự án hoặc đã kết thúc.
               not_eligible_for_moving: không phải là một Sprint hoạt động trong dự án chứa Sprint mà gói công việc bị chuyển đi.
     models:
-      sprint: Sprint
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Các thiết lập quản trị Backlog đang được phát triển

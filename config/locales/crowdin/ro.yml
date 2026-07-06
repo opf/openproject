@@ -250,9 +250,9 @@ ro:
               few: "%{count} types"
               other: "%{count} types"
             statuses:
-              one: 1 status
-              few: "%{count} statuses"
-              other: "%{count} statuses"
+              one: 1 stare
+              few: "%{count} stări"
+              other: "%{count} stări"
             users:
               one: 1 user
               few: "%{count} users"
@@ -284,7 +284,7 @@ ro:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -488,17 +488,17 @@ ro:
         user_assignee: User is assignee
       status_button: Status
       statuses_dialog:
-        title: Statuses
+        title: Statusuri
         label: Statuses enabled for this type
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
       statuses_removal_dialog:
         title: Remove statuses
         heading:
-          one: Remove 1 status?
+          one: Elimini o stare?
           few: Remove %{count} statuses?
           other: Remove %{count} statuses?
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
-        confirm: Remove
+        confirm: Elimină
       leave_confirmation:
         title: Save changes before continuing?
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2845,6 +2845,7 @@ ro:
   button_add_sub_item: Adaugă subelement
   button_add_member: Adaugă participant
   button_add_watcher: Adaugă observator
+  button_all_filters: All filters
   button_annotate: Adnotare
   button_apply: Aplică
   button_apply_changes: Aplică modificările
@@ -3602,19 +3603,18 @@ ro:
         header: Citește despre noile caracteristici și actualizări de produse.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Actualizează la ediția Enterprise
       postgres_migration: Migrarea instalației dvs. către PostgreSQL
@@ -4309,6 +4309,7 @@ ro:
 
     '
   label_part_of: parte a
+  label_past: Past
   label_password_lost: V-aţi uitat parola?
   label_password_rule_lowercase: Litere mici
   label_password_rule_numeric: Cifre
@@ -4452,7 +4453,7 @@ ro:
   label_start_to_start: început la început
   label_statistics: Statistici
   label_status: Stare
-  label_status_plural: Statuses
+  label_status_plural: Stări
   label_storage_free_space: Spațiu disc rămas
   label_storage_used_space: Spațiu disc folosit
   label_storage_group: Sistem de fișiere pentru stocare %{identifier}
@@ -4492,6 +4493,7 @@ ro:
   label_type_new: Tip nou
   label_type_plural: Tipuri
   label_ui: Interfaţa cu utilizatorul
+  label_upcoming: Upcoming
   label_updated_time: Actualizat acum %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizat de %{author} acum %{age}
@@ -6237,6 +6239,8 @@ ro:
     scopes:
       api_v3: Acces complet la API v3
       api_v3_text: Aplicația va primi acces complet de citire și scriere la OpenProject API v3 pentru a efectua acțiuni în numele dumneavoastră.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Aprobat
       scopes: Permisiuni

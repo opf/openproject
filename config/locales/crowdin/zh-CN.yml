@@ -32,7 +32,7 @@ zh-CN:
         label_activity_show_all: 显示所有
         label_activity_show_only_comments: 仅显示评论
         label_activity_show_only_changes: 仅显示更改
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: 关闭
         label_sort_asc: 时间升序
         label_sort_desc: 时间降序
         label_type_to_comment: 添加评论。输入 @ 以通知他人。
@@ -45,7 +45,7 @@ zh-CN:
         commented: 已评论
         internal_comment: 内部评论
         internal_journal: 内部评论仅对有限的成员组可见。
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: 确定要关闭您的评论吗？您编写的内容将丢失。
         internal_comment_confirmation:
           title: 公开此评论吗？
           heading: 公开此评论吗？
@@ -53,24 +53,24 @@ zh-CN:
           confirm_button_text: 设为公开
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: 取消保留
       col_identifier: 标识符
       col_project: 项目
       col_reserved: 保留
       dialog:
         checkbox_label: 我明白此操作无法撤消。
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: 取消保留标识符
+        description: 此项目标识符取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
         description_with_work_packages:
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          other: 此项目标识符（及其 %{count} 个工作包标识符）取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
+        heading: 是否取消保留“%{identifier}”？
+        title: 取消保留标识符
+      empty_body: 项目的标识符更改后，上一个标识符会出现在此处，以便您在确认安全后将其取消保留。
       empty_heading: 没有保留的标识符
       filter_label: 搜索标识符
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: 找不到保留的标识符。该标识符可能已被取消保留，或者项目可能已被删除。请刷新页面。
+      lede_html: 重命名项目标识符时，会保留之前的标识符，以确保现有链接和集成可正常使用。<br>可以在此处取消保留标识符，供其他项目使用。
+      released_notice: 标识符“%{identifier}”已被取消保留。
       reserved_ago: "%{time}前"
       title: 保留的项目标识符
     plugins:
@@ -130,7 +130,7 @@ zh-CN:
         trial: 试用
     jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: '如果用户对工作包执行的操作（更改描述、状态、数值或编写评论）是在此时间段内完成的，则会将这些操作分为一组。此设置还控制通知和[网络钩子](webhook_link)延迟。最大值为 %{max} 分钟。
 
         '
     import:
@@ -270,7 +270,7 @@ zh-CN:
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               label_supported_data: 支持的数据
-              label_coming_soon: 即将推出（2026 年第二季度）
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: 稍后推出
               label_available_server_data: "%{server_info} 现有数据"
               button_select_projects: 选择要导入的项目
@@ -431,7 +431,7 @@ zh-CN:
         banner:
           existing_identifiers_notice: "%{project_count} 个项目的现有标识符不符合基于项目的语义标识符要求。OpenProject 可以自动更新这些标识符，使其成为如下例中所示的有效格式。点击“自转换标识符”，以这种方式更新所有项目的标识符，并启用基于项目的语义标识符。\n"
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: 标识符待更新的项目
           label_project: 项目
           label_previous_identifier: 上一个标识符
           label_autofixed_suggestion: 未来标识符
@@ -549,7 +549,7 @@ zh-CN:
         例如：uid=openproject,ou=system,dc=example,dc=com
       system_user_password: 输入系统用户的绑定密码
       base_dn: |
-        输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基本 DN。
+        输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基础 DN。
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
       filter_string: |
@@ -1784,7 +1784,7 @@ zh-CN:
         attr_mail: 电子邮件属性
         filter_string: 筛选字符串
         admin: 管理员
-        base_dn: 基本 DN
+        base_dn: 基础 DN
         host: 主机
         onthefly: 自动创建用户
         port: 端口
@@ -2070,8 +2070,8 @@ zh-CN:
         public: 公开
       user_card_view:
         secondary_info: 次要信息
-        show_status_badge: 显示状态标识
-        show_email: 显示邮箱
+        show_status_badge: 显示状态徽章
+        show_email: 显示电子邮件地址
         tag_source: 标签来源
         tag_limit: 标签限制
         card_size: 卡片大小
@@ -2143,7 +2143,7 @@ zh-CN:
         regex_invalid: 无法与关联的正则表达式进行验证。
         regex_list_invalid: 行 %{invalid_lines} 无法解析为正则表达式。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
         system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
@@ -2350,7 +2350,7 @@ zh-CN:
           not_whitelisted: 配置所不允许的。
           invalid_url: 不是有效的存储库 URL 或路径。
           must_not_be_ssh: 不能是 SSH url。
-          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的存储库目录。
+          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的仓库目录。
           no_directory: 不是一个目录。
         role:
           attributes:
@@ -2362,7 +2362,7 @@ zh-CN:
               durations_are_not_positive_numbers: 持续时间必须是正数
               hours_per_day_are_missing: 必须定义每天的小时数
               hours_per_day_is_out_of_bounds: 每天小时数不能超过24
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: 聚合期必须在 %{min} 到 %{max} 分钟之间。
               previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
               working_days_are_missing: 每周必须至少有一天定义为工作日。
         status:
@@ -2761,6 +2761,7 @@ zh-CN:
   button_add_sub_item: 添加子项目
   button_add_member: 添加成员
   button_add_watcher: 添加关注者
+  button_all_filters: 所有筛选器
   button_annotate: 批注
   button_apply: 应用
   button_apply_changes: 应用更改
@@ -3104,8 +3105,8 @@ zh-CN:
       edit_attribute_groups:
         description: 使用这些附加组件自定义表单配置：
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: 添加新特性分区
+          rename: 重命名特性分区
           related: 添加一个相关工作包表
       readonly_work_packages:
         description: 标记工作包为只读的特定状态。
@@ -3193,7 +3194,7 @@ zh-CN:
   enumeration_activities: 时间跟踪活动
   enumeration_caption_order_changed: 顺序修改成功。
   enumeration_could_not_be_moved: 无法移动枚举。
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: 将此 %{model} 设为默认值会覆盖之前的默认 %{model}。
   enumeration_reported_project_statuses: 报告的状态
   enumeration_work_package_priorities: 工作包优先级
   enterprise_trials:
@@ -3419,8 +3420,8 @@ zh-CN:
     project_select_component:
       all_projects: 所有项目
       favorites: 收藏夹
-      leave_project: 退出项目
-      no_favorite_projects: You have no favorite projects.
+      leave_project: 离开项目
+      no_favorite_projects: 您没有收藏的项目。
       title: 项目
   toggle_switch:
     label_on: 开启
@@ -3472,19 +3473,18 @@ zh-CN:
         header: 了解新功能和产品更新。
         learn_about: 详细了解所有新功能
         missing: 目前还没有高亮显示的功能。
-        '17_5':
-          new_features_title: '此版本包含多项新功能和改进，例如：
+        '17_6':
+          new_features_title: '此版本包含各种新功能和改进，例如：
 
             '
           new_features_list:
-            line_0: 基于项目的工作包标识符，可实现更清晰的引用。
-            line_1: Jira Migrator 支持 Jira 标识符、截止日期等。
-            line_2: 用于从积压工作中排除工作包类型的选项。
-            line_3: 重新设计了冲刺视图。
-            line_4: 改进了跨文档和文本编辑器的工作包链接。
-            line_5: 会议时间安排更灵活，减少电子邮件通知干扰。
-            line_6: 用于组织结构和继承权限的嵌套群组。
-            line_7: 改进了工作流、用户和类型配置的管理界面。
+            line_0: XWiki 集成（公司方案）。
+            line_1: 冲刺目标。
+            line_2: "“所有冲刺”概览页面。"
+            line_3: 在工作包和工作包表中显示积压工作存储桶。
+            line_4: 改进了对基于项目的（语义）标识符的支持。
+            line_5: 将会议议程条目转换为工作包。
+            line_6: 按项目配置成本类型。
     links:
       upgrade_enterprise_edition: 升级到企业版
       postgres_migration: 将您的安装迁移到 PostgreSQL
@@ -3669,7 +3669,7 @@ zh-CN:
         submit_button: 更新提醒
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: 每当有人提及您，以及您关注的工作包发生更改时，您都会收到通知。无法禁用这些通知。不过，您可以选择允许或禁止接收与您有关（您是受理人、负责人或与您共享）的工作包更改的通知。
         title: 参与
         submit_button: 更新偏好设置
         mentioned: 被提及
@@ -3678,7 +3678,7 @@ zh-CN:
         responsible: 负责人
         shared: 与我共享
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: 您可以为作为受理人、负责人和/或关注者的工作包配置日期提醒，以便在截止日期临近或逾期前几天自动收到通知。
         title: 日期提醒
         submit_button: 更新日期提醒
         start_date: 开始日期
@@ -3693,7 +3693,7 @@ zh-CN:
           three_days_after: 推后 3 天
           seven_days_after: 推后 7 天
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: 此外，您还可以为所有项目选择接收以下任何活动的通知。
         title: 不参与
         submit_button: 更新偏好设置
         work_package_created: 新工作包
@@ -3702,8 +3702,8 @@ zh-CN:
         work_package_prioritized: 所有优先级更改
         work_package_scheduled: 所有日期更改
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: 您可以对通知设置进行细微调整，以仅针对特定项目中的某些事件接收通知。请在下方添加项目，并选择哪些事件应触发通知。这些项目特定的设置将覆盖上方的默认设置。
+        title: 项目特定通知
         add_button: 添加项目特定通知
         dialog_title: 添加项目特定通知
         list_header: 具有特定通知的项目
@@ -3837,7 +3837,7 @@ zh-CN:
   label_send_invitation: 发送邀请
   label_calculated_value: 计算值
   label_change_parent: 更改父级
-  label_change_password: Change password
+  label_change_password: 更改密码
   label_change_plural: 更改
   label_change_properties: 更改属性
   label_change_status: 更改状态
@@ -4075,7 +4075,7 @@ zh-CN:
   label_custom_favicon: 自定义图标
   label_custom_touch_icon: 自定义触摸图标
   label_departments: 组织
-  label_departments_description_html: '以分级方式创建部门和分部门来定义您公司的结构。 这使您能够在OpenProject中反映报告线，并保持清晰、有条理的组织概述。 您也可以通过 [LDAP 组同步](ldap_docs_article)导入一个现有的组织结构。
+  label_departments_description_html: '以分级方式创建部门和子部门来定义您公司的结构。 这使您能够在 OpenProject 中反映报告线，并保持清晰、有条理的组织概览。 您也可以通过 [LDAP 群组同步](ldap_docs_article)导入一个现有的组织结构。
 
     '
   label_logout: 注销
@@ -4124,7 +4124,7 @@ zh-CN:
   label_my_account_data: 我的账户数据
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
-  label_my_security: Security
+  label_my_security: 安全性
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -4179,6 +4179,7 @@ zh-CN:
 
     '
   label_part_of: 一部分
+  label_past: 过往
   label_password_lost: 忘记密码？
   label_password_rule_lowercase: 小写字母
   label_password_rule_numeric: 数字
@@ -4362,6 +4363,7 @@ zh-CN:
   label_type_new: 新类型
   label_type_plural: 类型
   label_ui: 用户界面
+  label_upcoming: 即将推出
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age}前更新"
@@ -4470,7 +4472,7 @@ zh-CN:
   label_x_working_days_time_off:
     other: 休息时间：%{count} 个工作日
   label_x_items_selected:
-    other: 已选%{count}项
+    other: 已选择 %{count} 个条目
   label_yesterday: 昨天
   label_zen_mode: 极简模式
   label_role_type: 类型
@@ -6090,6 +6092,8 @@ zh-CN:
     scopes:
       api_v3: API v3 完全访问权限
       api_v3_text: 应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。
+      mcp: 访问 MCP
+      mcp_text: 应用程序将获得 OpenProject MCP 端点的访问权限。它们是 APIv3 的一个有限子集，专为与 AI 智能体配合使用而设计。
     grants:
       created_date: 批准于
       scopes: 权限

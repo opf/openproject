@@ -115,11 +115,11 @@ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v22.22.3. Install and activate it with:
+At the time of writing this is v24.18.0. Install and activate it with:
 
 ```shell
-nodenv install 22.22.3
-nodenv global 22.22.3
+nodenv install 24.18.0
+nodenv global 24.18.0
 ```
 
 #### Update NPM to the latest version
@@ -140,10 +140,10 @@ $ bundler --version
 4.0.3
 
 node --version
-v22.22.3
+v24.18.0
 
 npm --version
-10.9.8
+11.16.0
 ```
 
 ## Install OpenProject

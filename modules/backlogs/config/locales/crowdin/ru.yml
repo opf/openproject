@@ -88,7 +88,11 @@ ru:
               not_assignable: не может быть назначен, поскольку он либо не используется в проекте, либо уже завершен.
               not_eligible_for_moving: не является активным спринтом в проекте, в котором проводится спринт, из которого перемещается пакет работ.
     models:
-      sprint: Спринт
+      sprint:
+        one: Sprint
+        few: Sprints
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Настройки администрирования бэклога будут в будущем

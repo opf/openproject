@@ -155,7 +155,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_no_text("##tiger") # wait for work package to load
 
         expect(editor.element).to have_no_text("…")
-        expect(editor.element.text).to match(/##{work_package.display_id}\sLIFE GOALS\spet a tiger/)
+        expect(editor.element.text).to match(/##{work_package.display_id}LIFE GOALSpet a tiger/)
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
           .to end_with("/wp/#{work_package.id}")
@@ -173,7 +173,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_no_text("###tiger") # wait for work package to load
 
         expect(editor.element).to have_no_text("…")
-        expect(editor.element.text).to match(/##{work_package.display_id}\sLIFE GOALS\sOpen\spet a tiger/)
+        expect(editor.element.text).to match(/##{work_package.display_id}LIFE GOALSOpenpet a tiger/)
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
           .to end_with("/wp/#{work_package.id}")

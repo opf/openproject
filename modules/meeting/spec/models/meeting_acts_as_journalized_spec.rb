@@ -367,6 +367,39 @@ RSpec.describe Meeting do
         expect(meeting.journals.last.participant_journals.count).to eq(1)
       end
     end
+
+    context "when persisted participants contain duplicate users",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      before do
+        MeetingParticipant.insert_all!(
+          [
+            {
+              meeting_id: meeting.id,
+              user_id: participant_user.id,
+              invited: false,
+              attended: true,
+              participation_status: "accepted",
+              created_at: Time.current,
+              updated_at: Time.current
+            }
+          ]
+        )
+      end
+
+      it "deduplicates the participant snapshot by user" do
+        meeting.update_column(:title, "Updated title")
+
+        expect { meeting.save_journals }.not_to raise_error
+
+        expect(meeting.journals.last.participant_journals.count).to eq(1)
+        expect(meeting.journals.last.participant_journals.last).to have_attributes(
+          user_id: participant_user.id,
+          invited: false,
+          attended: true,
+          participation_status: "accepted"
+        )
+      end
+    end
   end
 
   describe "participant change details" do

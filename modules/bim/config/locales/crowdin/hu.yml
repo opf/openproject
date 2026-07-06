@@ -6,12 +6,12 @@ hu:
     description: This OpenProject plugin introduces BIM and BCF functionality.
   bim:
     label_bim: BIM
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: A közvetlen feltöltés nem sikerült.
   bcf:
     label_bcf: BCF
     label_imported_failed: Hiba a BCF topocs importálásakor
     label_imported_successfully: Sikeres BCF import
-    label_bcf_issue_associated: BCF issue associated
+    label_bcf_issue_associated: BCF-problémával kapcsolatos
     issues: Feladat
     recommended: Ajánlott
     not_recommended: nem ajánlott
@@ -91,9 +91,9 @@ hu:
         is_default: Alapértelmezett IFC modell
         attachments: IFC fájl
       bim/bcf/issue:
-        bcf_comment: BCF comment
+        bcf_comment: BCF komment
         bim_snippet: BIM snippet
-        reference_links: Reference links
+        reference_links: Referencia linkek
         stage: Stage
         viewpoint: Nézőpont
     errors:

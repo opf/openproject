@@ -121,13 +121,13 @@ class CostEntry < ApplicationRecord
   end
 
   def current_rate
-    cost_type.rate_at(self.spent_on)
+    cost_type.rate_at(spent_on)
   end
 
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
     usr.allowed_in_project?(:edit_cost_entries, project) ||
-      (usr.allowed_in_project?(:edit_own_cost_entries, project) && user_id == usr.id)
+      (usr.allowed_in_project?(:edit_own_cost_entries, project) && own_entry?(usr))
   end
 
   def creatable_by?(usr)
@@ -141,6 +141,12 @@ class CostEntry < ApplicationRecord
   end
 
   private
+
+  # Whether the entry is the acting user's own entry. The previous owner is
+  # also checked alongside the current to check reassignments.
+  def own_entry?(usr)
+    user_id == usr.id && (new_record? || user_id_was == usr.id)
+  end
 
   def cost_attribute
     units

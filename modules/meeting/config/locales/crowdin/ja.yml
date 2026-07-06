@@ -426,12 +426,13 @@ ja:
       message: '一連の会議は終了しました。今後の会議はありません '
       action: 過去の会議を閲覧したり、会議シリーズを編集して拡張することもできます。
     occurrence:
-      infoline: この会議は、定期的に開催される一連の会議の一環である。
       error_no_next: 次回の開催はありません。
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: この一連の会議の最初の発生は既にサイト化されています。
       first_created: '最初の会議がテンプレートから正常に作成されました。今後作成される会議はすべて、前回の開催時に自動的に作成されます。
 
         '
+      infoline: この会議は、定期的に開催される一連の会議の一環である。
     template:
       button_finalize: 最初の会議を開く
       blank_title: 一連の会議のテンプレートがありません

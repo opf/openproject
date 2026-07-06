@@ -87,7 +87,7 @@ pt-BR:
         sync_users_text: 'Se você ativar esta opção, os usuários encontrados também serão criados automaticamente no OpenProject. Sem ela,  apenas contas existentes no OpenProject serão adicionadas aos grupos.
 
           '
-        dn_text: Inserir todo o ND do grupo no LDAP
+        dn_text: Inserir todo o DN do grupo no LDAP
         group_text: Selecione um grupo existente no OpenProject para que seja sincronizado com membros do grupo LDAP
       upsell:
         description: Aproveite os grupos LDAP sincronizados para gerenciar usuários, alterar suas permissões e facilitar a gestão de usuários entre grupos.

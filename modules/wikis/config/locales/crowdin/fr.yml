@@ -21,7 +21,7 @@ fr:
         wikis/provider:
           attributes:
             url:
-              already_taken: appartient au fournisseur de wiki déjà connu sous le nom de «%{name}».
+              already_taken: appartient au fournisseur de wiki déjà connu sous le nom de « %{name} ».
               wiki_provider_unreachable: est introuvable.
     models:
       wikis/inline_page_link:
@@ -132,6 +132,13 @@ fr:
     delete_relation_page_link_confirmation_dialog:
       heading: Supprimer le lien vers la page wiki associée ?
       title: Supprimer le lien vers la page wiki associée
+    errors:
+      connection_error: Impossible de se connecter au fournisseur du wiki.
+      invalid_parent: La page sélectionnée n'est pas une page parent valide.
+      invalid_response: Le fournisseur du wiki a répondu de manière inattendue.
+      missing_token: Le compte utilisateur n'est pas encore connecté au fournisseur de wiki.
+      request_failed: Le fournisseur du wiki a rencontré une erreur inattendue.
+      unauthorized: Une erreur d'autorisation s'est produite.
     health_checks:
       authentication:
         existing_token: Jeton d'utilisateur
@@ -178,7 +185,7 @@ fr:
         name: XWiki
     relation_page_links_component:
       empty_heading: Aucune page liée
-      empty_text: Ajoutez les pages wiki en rapport avec ce lot de travail.
+      empty_text: Ajoutez les pages wiki en rapport avec ce lot de travaux.
       link_existing: Page wiki existante
       link_new: Nouvelle page wiki
     upsell:

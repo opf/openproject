@@ -152,6 +152,7 @@ module WorkPackages
     validate :validate_parent_in_same_project
     validate :validate_parent_not_self
     validate :validate_parent_not_subtask
+    validate :user_allowed_to_change_parent
 
     validate :validate_status_exists
     validate :validate_status_transition
@@ -336,6 +337,20 @@ module WorkPackages
       WorkPackage.relatable(model, Relation::TYPE_PARENT).where(id: model.parent_id).empty?
     end
 
+    # Assigning a parent requires :manage_subtasks in the parent's project, not
+    # only in the work package's own project. Without this, a cross-project
+    # parent could be set by a user authorized only in the child's project.
+    def user_allowed_to_change_parent # rubocop:disable Metrics/AbcSize
+      return if model.parent_id.nil? || model.parent.nil?
+      return unless model.parent_id_changed?
+      return unless user.allowed_in_project?(:manage_subtasks, model.project)
+
+      unless model.parent.visible?(user) &&
+             user.allowed_in_project?(:manage_subtasks, model.parent.project)
+        errors.add :parent_id, :error_unauthorized
+      end
+    end
+
     def validate_status_exists
       errors.add :status, :does_not_exist if model.status && !status_exists?
     end
@@ -498,7 +513,11 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || id == 0 || model.changed.exclude?(id_attribute)
+      # Re-validate not only when the person itself is written, but also when the
+      # work package is moved to another project, since that changes who can be
+      # assigned. Otherwise a person who is not assignable in the target project
+      # would silently survive the move.
+      return if id.nil? || id == 0 || (model.changed.exclude?(id_attribute) && !model.project_id_changed?)
 
       unless principal_visible?(id, list)
         errors.add attribute,

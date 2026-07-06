@@ -32,7 +32,7 @@ it:
         label_activity_show_all: Mostra tutto
         label_activity_show_only_comments: Mostra solo commenti
         label_activity_show_only_changes: Mostra solo le modifiche
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Cancella
         label_sort_asc: Più recenti in fondo
         label_sort_desc: Più recenti in cima
         label_type_to_comment: Aggiungi un commento. Digita @ per avvisare le persone.
@@ -45,7 +45,7 @@ it:
         commented: ha commentato
         internal_comment: Commento interno
         internal_journal: I commenti interni sono visibili solo a un gruppo ristretto di membri.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Vuoi davvero annullare il commento? Il contenuto che hai scritto andrà perso.
         internal_comment_confirmation:
           title: Rendere pubblico questo commento?
           heading: Rendere pubblico questo commento?
@@ -53,25 +53,25 @@ it:
           confirm_button_text: Rendi pubblico
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Annulla prenotazione
       col_identifier: Identificatore
       col_project: Progetto
       col_reserved: Riservato
       dialog:
         checkbox_label: Comprendo che questa azione non può essere annullata.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Annulla la prenotazione dell'identificatore
+        description: L'annullamento della prenotazione di questo identificatore di progetto è irreversibile. I collegamenti esterni e le integrazioni che lo utilizzano non funzioneranno più e il nome diventerà disponibile per essere assegnato a un nuovo progetto.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: L'annullamento della prenotazione di questo identificatore di progetto (e del relativo identificatore della sua macro-attività) è irreversibile. I collegamenti esterni e le integrazioni che lo utilizzano non funzioneranno più e il nome diventerà disponibile per essere assegnato a un nuovo progetto.
+          other: L'annullamento della prenotazione di questo identificatore di progetto (e del relativo identificatore delle sue %{count} macro-attività) è irreversibile. I collegamenti esterni e le integrazioni che lo utilizzano non funzioneranno più e il nome diventerà disponibile per essere assegnato a un nuovo progetto.
+        heading: Annullare la prenotazione di "%{identifier}"?
+        title: Annulla la prenotazione dell'identificatore
+      empty_body: Quando l'identificatore di un progetto viene modificato, quello precedente viene visualizzato qui, così potrai annullarne la prenotazione quando sarà possibile farlo in sicurezza.
       empty_heading: Nessun identificatore riservato
       filter_label: Cerca identificatori
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: Impossibile trovare l'identificatore prenotato. Potrebbe essere già stata annullata la prenotazione oppure il progetto potrebbe essere stato eliminato. Aggiorna la pagina.
+      lede_html: Quando l'identificatore di un progetto viene rinominato, quello precedente resta prenotato affinché i collegamenti e le integrazioni esistenti continuino a funzionare.<br>Qui puoi annullare la prenotazione degli identificatori, così potranno essere utilizzati da altri progetti.
+      released_notice: La prenotazione dell'identificatore "%{identifier}" è stata annullata.
       reserved_ago: "%{time} fa"
       title: Identificatori di progetto riservati
     plugins:
@@ -131,7 +131,7 @@ it:
         trial: Prova
     jemalloc_allocator: Allocatore di memoria Jemalloc
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Le azioni degli utenti su una macro-attività, come modificare descrizione, stato o valori, oppure aggiungere commenti, vengono raggruppate se eseguite entro questo intervallo. Questo controlla anche i ritardi delle notifiche e dei [webhook](webhook_link). Il massimo è %{max} minuti.
 
         '
     import:
@@ -277,7 +277,7 @@ it:
               label_info: Tieni presente che questo strumento di importazione è in versione beta e non può importare tutti i tipi di dati. Ecco un riepilogo di ciò che l'istanza host di Jira offre per l'importazione e di ciò che questo strumento è in grado di importare al momento.
               description: Seleziona i dati che desideri importare tra quelli disponibili recuperati dall'istanza host di Jira.
               label_supported_data: Dati supportati
-              label_coming_soon: In arrivo (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Disponibile prossimamente
               label_available_server_data: Dati disponibili su %{server_info}
               button_select_projects: Seleziona i progetti da importare
@@ -440,7 +440,7 @@ it:
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Progetti con identificatori da aggiornare
           label_project: Progetto
           label_previous_identifier: Identificativo precedente
           label_autofixed_suggestion: Identificativo futuro
@@ -2163,7 +2163,7 @@ it:
         regex_invalid: non può essere convalidato con l'espressione regolare associata.
         regex_list_invalid: Le righe %{invalid_lines} non possono essere analizzate come espressione regolare.
         smaller_than_or_equal_to_max_length: deve essere minore o uguale alla lunghezza massima.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: viola i criteri SSRF di questa istanza di OpenProject.
         system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
         taken: è già stato usato.
         too_long: è troppo lungo (il massimo è %{count} caratteri).
@@ -2383,7 +2383,7 @@ it:
               durations_are_not_positive_numbers: Le durate devono essere numeri positivi.
               hours_per_day_are_missing: Deve essere definito il numero di ore al giorno.
               hours_per_day_is_out_of_bounds: Le ore al giorno non possono essere più di 24.
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: Il periodo di aggregazione deve essere compreso tra %{min} e %{max} minuti.
               previous_working_day_changes_unprocessed: Le modifiche precedenti alla configurazione dei giorni lavorativi non sono ancora state applicate.
               working_days_are_missing: Almeno un giorno della settimana deve essere impostato giorno lavorativo.
         status:
@@ -2803,6 +2803,7 @@ it:
   button_add_sub_item: Aggiungi sottoelemento
   button_add_member: Aggiungi membro
   button_add_watcher: Aggiungi osservatore
+  button_all_filters: Tutti i filtri
   button_annotate: Annota
   button_apply: Applica
   button_apply_changes: Applica modifiche
@@ -3166,8 +3167,8 @@ it:
       edit_attribute_groups:
         description: 'Personalizza la configurazione del modulo con le seguenti aggiunte:'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Aggiungi nuove sezioni di attributi
+          rename: Rinominare le sezioni degli attributi
           related: Aggiungi una tabella delle relative macro-attività
       readonly_work_packages:
         description: Contrassegna le macro-attività come in sola lettura per stati specifici.
@@ -3256,7 +3257,7 @@ it:
   enumeration_activities: Attività di monitoraggio dei tempi
   enumeration_caption_order_changed: Ordine modificato con successo.
   enumeration_could_not_be_moved: L'enumerazione non può essere spostata.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Impostando questo %{model} come predefinito, sostituirai il precedente %{model} predefinito.
   enumeration_reported_project_statuses: Stati segnalati
   enumeration_work_package_priorities: Priorità della macro-attività
   enterprise_trials:
@@ -3480,11 +3481,11 @@ it:
     no_results_text: Nessun risultato
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
-      title: Projects
+      all_projects: Tutti i progetti
+      favorites: Preferiti
+      leave_project: Abbandona il progetto
+      no_favorite_projects: Non hai progetti preferiti.
+      title: Progetti
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3537,19 +3538,18 @@ it:
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
         learn_about: Scopri di più su tutte le nuove funzionalità
         missing: Non ci sono ancora caratteristiche evidenziate.
-        '17_5':
+        '17_6':
           new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
 
             '
           new_features_list:
-            line_0: Identificatori delle macro-attività basati su progetto per riferimenti più chiari.
-            line_1: Supporto del migratore Jira per identificativi Jira, date di scadenza e altro ancora.
-            line_2: Possibilità di escludere tipi di macro-attività dai backlog.
-            line_3: Vista sprint riprogettata.
-            line_4: Collegamento migliorato delle macro-attività nei documenti e negli editor di testo.
-            line_5: Orari delle riunioni più flessibili e meno notifiche e-mail superflue.
-            line_6: Gruppi nidificati per strutture organizzative e autorizzazioni ereditate.
-            line_7: Interfacce di amministrazione migliorate per flussi di lavoro, utenti e configurazione dei tipi.
+            line_0: Integrazione con XWiki (piano Corporate).
+            line_1: Obiettivi dello sprint.
+            line_2: Pagina di panoramica "Tutti gli sprint".
+            line_3: Guarda i bucket del backlog nelle macro-attività e nelle tabelle delle macro-attività.
+            line_4: Supporto migliorato per gli identificatori basati sul progetto (semantici).
+            line_5: Converti i punti all'ordine del giorno della riunione in macro-attività.
+            line_6: Configura i tipi di costo per progetto.
     links:
       upgrade_enterprise_edition: Aggiorna ad Enterprise edition
       postgres_migration: Migrazione dell'installazione su PostgreSQL
@@ -3734,7 +3734,7 @@ it:
         submit_button: Aggiorna gli avvisi
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Riceverai sempre una notifica quando vieni menzionato e per le modifiche alle macro-attività che osservi. Queste notifiche non possono essere disattivate. Puoi invece scegliere se attivare o disattivare le notifiche relative alle modifiche delle macro-attività che ti riguardano, ossia quelle di cui sei assegnatario, responsabile o condivise con te.
         title: Partecipazione
         submit_button: Aggiorna impostazioni
         mentioned: Menzionato
@@ -3743,7 +3743,7 @@ it:
         responsible: Responsabile
         shared: Condivisi con me
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Puoi configurare gli avvisi relativi alle date delle macro-attività di cui sei assegnatario, responsabile e/o osservatore, per ricevere automaticamente una notifica alcuni giorni prima delle scadenze imminenti o già superate.
         title: Avvisi sulle date
         submit_button: Aggiorna gli avvisi sulle date
         start_date: Data di inizio
@@ -3758,7 +3758,7 @@ it:
           three_days_after: 3 giorni dopo
           seven_days_after: 7 giorni dopo
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Puoi inoltre scegliere di ricevere notifiche per una qualsiasi delle seguenti attività in tutti i progetti.
         title: Non partecipante
         submit_button: Aggiorna impostazioni
         work_package_created: Nuove macro-attività
@@ -3767,8 +3767,8 @@ it:
         work_package_prioritized: Tutte le modifiche prioritarie
         work_package_scheduled: Tutte le modifiche della data
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: Puoi personalizzare le impostazioni delle notifiche per ricevere avvisi solo per determinati eventi in progetti specifici. Aggiungi un progetto qui sotto e scegli per quali eventi desideri ricevere una notifica. Queste impostazioni specifiche del progetto hanno la precedenza sulle impostazioni predefinite riportate sopra.
+        title: Notifiche specifiche del progetto
         add_button: Aggiungi notifiche specifiche al progetto
         dialog_title: Aggiungi notifiche specifiche al progetto
         list_header: Progetti con notifiche specifiche
@@ -3902,7 +3902,7 @@ it:
   label_send_invitation: Invia invito
   label_calculated_value: Valore calcolato
   label_change_parent: Cambia genitore
-  label_change_password: Change password
+  label_change_password: Cambia password
   label_change_plural: Modifiche
   label_change_properties: Cambia proprietà
   label_change_status: Cambia stato
@@ -4189,7 +4189,7 @@ it:
   label_my_account_data: I miei dati dell'account
   label_my_avatar: Il mio avatar
   label_my_queries: Le mie query personalizzate
-  label_my_security: Security
+  label_my_security: Sicurezza
   label_name: Nome
   label_never: Mai
   label_new: Nuovo
@@ -4244,6 +4244,7 @@ it:
 
     '
   label_part_of: parte di
+  label_past: Past
   label_password_lost: Password dimenticata?
   label_password_rule_lowercase: Minuscolo
   label_password_rule_numeric: Caratteri Numerici
@@ -4427,6 +4428,7 @@ it:
   label_type_new: Nuovo tipo
   label_type_plural: Tipi
   label_ui: Interfaccia Utente
+  label_upcoming: Upcoming
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
@@ -4538,8 +4540,8 @@ it:
     one: 'Assenza: 1 giorno lavorativo'
     other: 'Assenza: %{count} giorni lavorativi'
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: Un elemento selezionato
+    other: "%{count} elementi selezionati"
   label_yesterday: ieri
   label_zen_mode: Modalità Zen
   label_role_type: Tipo
@@ -6163,6 +6165,8 @@ it:
     scopes:
       api_v3: Accesso completo alle API v3
       api_v3_text: L'applicazione riceverà accesso completo in lettura e scrittura alle API v3 per effettuare azioni a tuo nome.
+      mcp: Accesso a MCP
+      mcp_text: L'applicazione riceverà l'accesso agli endpoint MCP di OpenProject. Si tratta di un sottoinsieme limitato dell'APIv3, progettato appositamente per l'utilizzo con agenti IA.
     grants:
       created_date: Approvato il
       scopes: Permessi

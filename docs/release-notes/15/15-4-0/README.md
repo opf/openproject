@@ -116,7 +116,7 @@ With OpenProject 15.4, we restructured some parts in the administration, so that
 
 ![Screenshot: The OpenProject administration of work package priorities](openproject_system_guide_work_package_priorities_overview.png)
 
-- time tracking activities under *Administration* -> *Time and costs*. [Read more in our user guide](../../../user-guide/projects/project-settings/activities-time-tracking/).
+- time tracking activities under *Administration* -> *Time and costs*. [Read more in our user guide](../../../user-guide/projects/project-settings/time-and-costs/).
 
 ![Screenshot: The OpenProject administration of time tracking activities](openproject_system_guide_time_costs_time_tracking_activities_overview.png)
 

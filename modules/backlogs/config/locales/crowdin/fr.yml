@@ -44,7 +44,7 @@ fr:
       sprint_goal:
         text: Objectif du sprint
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Bucket de backlog
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -86,7 +86,9 @@ fr:
               not_assignable: n'est pas assignable, car il est déjà terminée ou il n'est pas partagé avec le projet.
               not_eligible_for_moving: n'est pas un sprint actif dans le projet qui contient le sprint duquel le lot de travaux est déplacé.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Les paramètres d'administration du backlog évoluent

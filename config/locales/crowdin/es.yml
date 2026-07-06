@@ -45,7 +45,7 @@ es:
         commented: comentado
         internal_comment: Comentario interno
         internal_journal: Los comentarios internos son visibles para un grupo limitado de miembros.
-        unsaved_changes_confirmation_message: "¿Está seguro de que desea eliminar su comentario? El contenido que ha escrito se perderá."
+        unsaved_changes_confirmation_message: "¿Seguro que quieres eliminar su comentario? El contenido que has escrito se perderá."
         internal_comment_confirmation:
           title: "¿Hacer público este comentario?"
           heading: "¿Hacer público este comentario?"
@@ -277,7 +277,7 @@ es:
               label_info: Tenga en cuenta que esta herramienta de importación se encuentra en fase beta y no puede importar todos los tipos de datos. A continuación se ofrece un resumen de lo que la instancia de host de Jira ofrece para importar y lo que esta herramienta puede importar en este momento.
               description: Seleccione los datos que desea importar de entre los datos disponibles obtenidos de la instancia de host de Jira.
               label_supported_data: Datos admitidos
-              label_coming_soon: Próximamente (2T 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Más tarde
               label_available_server_data: Datos disponibles en %{server_info}
               button_select_projects: Seleccionar proyectos para importar
@@ -2796,6 +2796,7 @@ es:
   button_add_sub_item: Añadir subelemento
   button_add_member: Añadir miembro
   button_add_watcher: Añadir observador
+  button_all_filters: Todos los filtros
   button_annotate: Anotar
   button_apply: Aplicar
   button_apply_changes: Aplicar cambios
@@ -3157,7 +3158,7 @@ es:
       edit_attribute_groups:
         description: 'Personalice la configuración del formulario con estas extensiones:'
         features:
-          groups: Add new attribute sections
+          groups: Añadir nuevas secciones de atributos
           rename: Renombrar secciones de atributos
           related: Añadir una tabla de paquetes de trabajo relacionados
       readonly_work_packages:
@@ -3473,8 +3474,8 @@ es:
     project_select_component:
       all_projects: Todos los proyectos
       favorites: Favoritos
-      leave_project: Leave project
-      no_favorite_projects: No tiene proyectos favoritos.
+      leave_project: Abandonar el proyecto
+      no_favorite_projects: No tienes proyectos favoritos.
       title: Proyectos
   toggle_switch:
     label_on: Encendido
@@ -3528,19 +3529,18 @@ es:
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
         learn_about: Más información sobre todas las nuevas funciones
         missing: Aún no hay funciones destacadas.
-        '17_5':
+        '17_6':
           new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
 
             '
           new_features_list:
-            line_0: Identificadores de paquetes de trabajo basados en proyectos para que las referencias sean más claras.
-            line_1: Migrador de Jira es compatible con los identificadores de Jira, las fechas de vencimiento y mucho más.
-            line_2: Opción para excluir tipos de paquetes de trabajo de las listas de tareas pendientes.
-            line_3: Vistas de sprint rediseñadas.
-            line_4: Se ha mejorado la integración entre los paquetes de trabajo en los documentos y los editores de texto.
-            line_5: Horarios de reuniones más flexibles y menos notificaciones por correo electrónico.
-            line_6: Grupos anidados para estructuras organizativas y permisos heredados.
-            line_7: Interfaces de administración mejoradas para flujos de trabajo, usuarios y configuración de tipos.
+            line_0: Integración con XWiki (plan Corporate).
+            line_1: Objetivos de sprint.
+            line_2: Página de resumen de «Todos los sprints».
+            line_3: Visualización de los buckets de backlog en los paquetes de trabajo y en las tablas de paquetes de trabajo.
+            line_4: Mejora de la compatibilidad con los identificadores (semánticos) basados en proyectos.
+            line_5: Conversión de los puntos del orden del día de la reunión en paquetes de trabajo.
+            line_6: Configuración de los tipos de coste por proyecto.
     links:
       upgrade_enterprise_edition: Actualizar a Enterprise
       postgres_migration: Migrando su instalación a PostgreSQL
@@ -4235,6 +4235,7 @@ es:
 
     '
   label_part_of: parte de
+  label_past: Pasado
   label_password_lost: Contraseña perdida
   label_password_rule_lowercase: Minúscula
   label_password_rule_numeric: Caracteres numéricos
@@ -4418,6 +4419,7 @@ es:
   label_type_new: Nuevo tipo
   label_type_plural: Tipos
   label_ui: Interfaz de usuario
+  label_upcoming: Próximamente
   label_updated_time: "%{value} actualizado hace"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Actualizado por %{author} hace %{age}
@@ -6150,6 +6152,8 @@ es:
     scopes:
       api_v3: Acceso API v3 completo
       api_v3_text: "La aplicación recibirá acceso completo de lectura y escritura al Proyecto Abierto API v3 \npara realizar acciones en su nombre."
+      mcp: Acceso a MCP
+      mcp_text: La aplicación tendrá acceso a los puntos finales de OpenProject MCP. Se trata de un subconjunto limitado de APIv3, diseñado específicamente para su uso con agentes de IA.
     grants:
       created_date: Aprobado el
       scopes: Permisos

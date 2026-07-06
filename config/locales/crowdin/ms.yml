@@ -270,7 +270,7 @@ ms:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -2767,6 +2767,7 @@ ms:
   button_add_sub_item: Tambah sub-item
   button_add_member: Tambah ahli
   button_add_watcher: Tambah pemerhati
+  button_all_filters: All filters
   button_annotate: Anotasi
   button_apply: Gunakan
   button_apply_changes: Guna pakai perubahan
@@ -3480,19 +3481,18 @@ ms:
         header: Baca berkenaan fitur-fitur baharu dan kemas kini produk.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Naik taraf ke edisi Enterprise
       postgres_migration: Mengalihkan pemasangan anda ke PostgreSQL
@@ -4189,6 +4189,7 @@ ms:
 
     '
   label_part_of: sebahagian daripada
+  label_past: Past
   label_password_lost: Lupa kata laluan anda?
   label_password_rule_lowercase: Huruf Kecil
   label_password_rule_numeric: Aksara Nombor
@@ -4374,6 +4375,7 @@ ms:
   label_type_new: Jenis baharu
   label_type_plural: Jenis
   label_ui: Antara Muka Pengguna
+  label_upcoming: Upcoming
   label_updated_time: Dikemas kini %{value} yang lalu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Dikemas kini oleh %{author} %{age} yang lalu
@@ -6107,6 +6109,8 @@ ms:
     scopes:
       api_v3: Akses API v3 penuh
       api_v3_text: Aplikasi akan menerima akses penuh baca & tulis di OpenProject API v3 untuk melaksanakan tindakan bagi pihak anda.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Diluluskan pada
       scopes: Kebenaran

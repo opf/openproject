@@ -35,8 +35,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def set_attributes(attributes)
     validate_custom_fields = attributes.delete(:validate_custom_fields)
-    file_links_ids = attributes.delete(:file_links_ids)
-    model.file_links = Storages::FileLink.where(id: file_links_ids) if file_links_ids
 
     set_attachments_attributes(attributes)
     set_static_attributes(attributes)

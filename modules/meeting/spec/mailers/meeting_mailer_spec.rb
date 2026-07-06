@@ -28,6 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "icalendar"
 require_relative "../spec_helper"
 
 RSpec.describe MeetingMailer do
@@ -84,6 +85,33 @@ RSpec.describe MeetingMailer do
     it "renders the html body" do
       User.execute_as(watcher1) do
         check_meeting_mail_content mail.html_part.body
+      end
+    end
+
+    context "when a recurring occurrence is sent as a standalone occurrence" do
+      let(:recurring_meeting) do
+        create(:recurring_meeting,
+               title: "Weekly Sync",
+               project:,
+               author:)
+      end
+      let(:meeting) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting:,
+               start_time: recurring_meeting.start_time,
+               recurrence_start_time: recurring_meeting.start_time)
+      end
+      let(:mail) { described_class.invited(meeting, watcher1, author, standalone_occurrence: true) }
+      let(:calendar) { Icalendar::Calendar.parse(mail.attachments["meeting.ics"].body.decoded).first }
+      let(:entry) { calendar.events.first }
+
+      it "renders one standalone event for the occurrence" do
+        expect(calendar.events.length).to eq(1)
+
+        expect(entry.uid).to eq(meeting.uid)
+        expect(entry.recurrence_id).to be_nil
+        expect(entry.rrule).to be_empty
+        expect(entry.description).to eq("Link to meeting: http://#{Setting.host_name}/meetings/#{meeting.id}")
       end
     end
 

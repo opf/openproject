@@ -113,11 +113,7 @@ class Sprint < ApplicationRecord
   end
 
   def goal_for(project)
-    if goals.loaded?
-      goals.find { |goal| goal.project_id == project.id }
-    else
-      goals.find_by(project:)
-    end
+    goals.find { |goal| goal.project_id == project.id }
   end
 
   def goal_text_for(project)

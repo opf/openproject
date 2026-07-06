@@ -58,13 +58,13 @@ es:
       make_public: Marcar como público
       unfavorite: Eliminar de favoritos
     allocation:
-      hours: "%{value}hs"
+      hours: "%{value} h"
       no_work: Sin trabajo planeado en este paquete de trabajo
-      summary: "%{allocated} / %{scheduled}"
+      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Establecer criterios de filtro basados en atributos de usuario para crear un recurso de marcador de posición (placeholder).
+          caption: Establece criterios de filtrado basados en los atributos del usuario para crear un recurso de marcador de posición.
           label: Criterios de filtrado
         label: Tipo de asignación
         principal:
@@ -125,10 +125,10 @@ es:
     work_package_allocations_dialog:
       allocate_resource: Asignar recurso
       context_menu_label: Acciones de asignación
-      delete_confirmation: "¿Está seguro de que desea eliminar esta asignación? Esta acción no se puede deshacer."
+      delete_confirmation: "¿Seguro que quieres eliminar esta asignación? Esta acción no se puede deshacer."
       delete_success: Asignación de recurso eliminada.
       hidden_user: Usuario oculto
-      overbooked: The user is allocated beyond their working hours during this period.
+      overbooked: Durante este periodo, el usuario queda asignado fuera de su horario laboral.
       title: Asignación
     work_package_list:
       add_work_package_dialog:
@@ -137,7 +137,7 @@ es:
         additional: "+%{count}"
         other_users:
           one: "%{count} usuario"
-          other: "%{count} users"
+          other: "%{count} usuarios"
         unassigned: Sin asignar
       allocation_placeholder: "—"
       blank:

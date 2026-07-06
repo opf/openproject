@@ -42,7 +42,7 @@ With OpenProject 12.4 users who have OpenProject community edition installed can
 
 ![two-factor-authentication](openproject-2-factor-authentication-community-edition.png)
 
-!See [here](../../../user-guide/account-settings/#two-factor-authentication) how to setup the 2FA under My account.
+!See [here](../../../user-guide/account-settings/#two-factor-authentication-devices) how to setup the 2FA under account settings.
 
 ## LDAP connection encryption changes
 

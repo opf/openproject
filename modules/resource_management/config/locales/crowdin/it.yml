@@ -3,11 +3,11 @@ it:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Ore
         allocated_time: Tempo assegnato
         end_date: Data di fine
         entity: Entità
-        filter_name: Resource filter name
+        filter_name: Nome del filtro delle risorse
         principal: Assegnatario
         start_date: Data di inizio
         state: Stato
@@ -59,31 +59,31 @@ it:
       unfavorite: Rimuovi dai preferiti
     allocation:
       hours: "%{value}h"
-      no_work: No work planned on this work package
+      no_work: Nessun lavoro pianificato per questa macro-attività
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Imposta criteri di filtro basati sugli attributi utente per creare una risorsa segnaposto.
+          label: Criteri di filtro
+        label: Tipo di allocazione
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Assegnare ore a un utente specifico.
+          label: Utente
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Le date della risorsa selezionata, %{resource_dates}, non rientrano nelle date della macro-attività, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} disponibili · %{scheduled} programmati"
+        description: L'utente selezionato, %{user}, verrebbe assegnato oltre il proprio orario di lavoro durante questo periodo.
+        hidden_work: Altre assegnazioni
+        schedule_availability: "%{schedule} (%{factor}% disponibile per il lavoro sui progetti)"
+        schedule_change: fino al giorno %{date}, poi %{schedule}
+        schedule_note: Questo utente lavora al %{schedule}.
+        submit: Assegna straordinario
+        title: Vuoi assegnare ore di straordinario all'utente?
+      submit: Assegna
+      success_message: Risorsa assegnata.
+      title: Assegna risorsa
     blankslate:
       desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
       title: Ancora nessun pianificatore di risorse
@@ -99,9 +99,9 @@ it:
           label: Selezionato manualmente
       title: Configura vista
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Salva
+      success_message: Assegnazione della risorsa aggiornata.
+      title: Modifica assegnazione
     favorite_caption: Aggiungi questa vista ai preferiti per mostrarla nella sezione superiore del menu laterale.
     label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
@@ -123,22 +123,22 @@ it:
         caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
         label: Elenco di schede utenti
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Assegna risorsa
+      context_menu_label: Azioni di assegnazione
+      delete_confirmation: Vuoi davvero eliminare questa assegnazione? Questa azione è irreversibile.
+      delete_success: Assegnazione della risorsa eliminata.
+      hidden_user: Utente nascosto
+      overbooked: L'utente è assegnato oltre il proprio orario di lavoro durante questo periodo.
+      title: Assegnazione
     work_package_list:
       add_work_package_dialog:
         title: Aggiungi macro-attività
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} utente"
+          other: "%{count} utenti"
+        unassigned: Non assegnato
       allocation_placeholder: "—"
       blank:
         description: Non ci sono ancora macro-attività che corrispondono ai filtri di questa vista.

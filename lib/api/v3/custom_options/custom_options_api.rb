@@ -49,8 +49,10 @@ module API
                       raise API::Errors::NotFound
                     end
                   end
-                when UserCustomField, GroupCustomField
-                  true
+                when UserCustomField
+                  authorized_user_custom_option(custom_option)
+                when GroupCustomField
+                  authorized_group_custom_option(custom_option)
                 else
                   raise API::Errors::NotFound
                 end
@@ -72,6 +74,22 @@ module API
                   .visible(current_user)
                   .joins(:project_custom_field_project_mappings)
                   .exists?(project_custom_field_project_mappings: { custom_field_id: custom_option.custom_field_id })
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_user_custom_option(custom_option)
+                unless UserCustomField
+                  .visible(current_user)
+                  .exists?(id: custom_option.custom_field_id)
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_group_custom_option(custom_option)
+                unless GroupCustomField
+                  .visible(current_user)
+                  .exists?(id: custom_option.custom_field_id)
                   raise API::Errors::NotFound
                 end
               end

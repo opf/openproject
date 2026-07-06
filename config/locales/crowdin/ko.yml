@@ -32,7 +32,7 @@ ko:
         label_activity_show_all: 모두 표시
         label_activity_show_only_comments: 코멘트만 표시
         label_activity_show_only_changes: 변경 사항만 표시
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: 취소
         label_sort_asc: 오래된 순
         label_sort_desc: 최신 순
         label_type_to_comment: 코멘트를 추가하세요. 사람들에게 알려주려면 @을 입력하세요.
@@ -45,7 +45,7 @@ ko:
         commented: "- 코멘트 작성함"
         internal_comment: 내부 코멘트
         internal_journal: 내부 코멘트는 제한된 멤버 그룹에게만 표시됩니다.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: 코멘트를 취소하시겠습니까? 작성한 내용이 모두 사라집니다.
         internal_comment_confirmation:
           title: 이 코멘트를 공개로 지정하시겠습니까?
           heading: 이 코멘트를 공개로 지정하시겠습니까?
@@ -53,24 +53,24 @@ ko:
           confirm_button_text: 공개로 설정
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: 예약 취소
       col_identifier: 식별자
       col_project: 프로젝트
       col_reserved: 예약됨
       dialog:
         checkbox_label: 이 작업은 취소할 수 없음을 이해합니다.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: 식별자 예약 취소
+        description: 이 프로젝트 식별자를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
         description_with_work_packages:
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          other: 이 프로젝트 식별자(및 해당 %{count}개 작업 패키지 식별자)를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
+        heading: '"%{identifier}"을(를) 예약 취소하시겠습니까?'
+        title: 식별자 예약 취소
+      empty_body: 프로젝트의 식별자가 변경되면, 이전 식별자가 여기에 표시되므로, 안전하다고 판단되면 예약 취소할 수 있습니다.
       empty_heading: 예약된 식별자 없음
       filter_label: 식별자 검색
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: 예약된 식별자를 찾을 수 없습니다. 이미 예약 취소되었거나 프로젝트가 삭제되었을 수 있습니다. 페이지를 새로 고쳐주세요.
+      lede_html: 프로젝트 식별자의 이름이 변경되면 기존 링크와 통합이 계속 작동하도록 이전 식별자는 예약된 상태로 유지됩니다.<br>다른 프로젝트에서 사용할 수 있도록, 식별자를 여기에서 예약 취소할 수 있습니다.
+      released_notice: '"%{identifier}" 식별자가 예약 취소되었습니다.'
       reserved_ago: "%{time} 전"
       title: 예약된 프로젝트 식별자
     plugins:
@@ -130,7 +130,7 @@ ko:
         trial: 평가판
     jemalloc_allocator: Jemalloc 메모리 할당기
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: '작업 패키지에 대한 사용자 액션(설명, 상태, 값 변경 또는 코멘트 작성)은 이 기간 내에 수행된 경우 그룹화됩니다. 또한 알림 및 [webhook](webhook_link) 지연을 제어합니다. 최대 시간은 %{max}분입니다.
 
         '
     import:
@@ -270,7 +270,7 @@ ko:
               label_info: 이 가져오기 도구는 베타 버전이며 일부 유형의 데이터를 가져올 수 없다는 점에 유의하세요. 호스트 Jira 인스턴스에서 가져오기용으로 제공하는 항목과 이 도구에서 현재 가져올 수 있는 항목에 대한 요약은 다음과 같습니다.
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               label_supported_data: 지원되는 데이터
-              label_coming_soon: 곧 제공 예정(2026년 2분기)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: 추후 제공 예정
               label_available_server_data: "%{server_info}의 사용 가능 데이터"
               button_select_projects: 가져올 프로젝트 선택
@@ -431,7 +431,7 @@ ko:
         banner:
           existing_identifiers_notice: "%{project_count}개 프로젝트의 기존 식별자가 프로젝트 기반 시맨틱 식별자에 대한 요구 사항을 충족하지 않습니다. OpenProject는 아래 예와 같이 해당 식별자가 유효하도록 자동으로 업데이트할 수 있습니다. '식별자 변환'을 클릭하여 이러한 방식으로 모든 프로젝트의 식별자를 업데이트하고 프로젝트 기반 시맨틱 식별자를 활성화하세요.\n"
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: 업데이트할 식별자가 있는 프로젝트
           label_project: 프로젝트
           label_previous_identifier: 이전 식별자
           label_autofixed_suggestion: 향후 식별자
@@ -2141,7 +2141,7 @@ ko:
         regex_invalid: 관련 정규 표현식으로 유효성을 확인할 수 없습니다.
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
         system_wide_non_working_day_exists: "- 이 날짜의 기존 시스템 전체 휴무일과 충돌합니다."
         taken: 은(는) 이미 존재합니다.
         too_long: 은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)
@@ -2360,7 +2360,7 @@ ko:
               durations_are_not_positive_numbers: 기간은 양수여야 합니다.
               hours_per_day_are_missing: 일별 시간을 정의해야 합니다.
               hours_per_day_is_out_of_bounds: 일별 시간은 24시간을 초과할 수 없습니다
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: 집계 기간은 %{min}분 ~ %{max}분 사이여야 합니다.
               previous_working_day_changes_unprocessed: 근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.
               working_days_are_missing: 적어도 일주일의 하루는 근무일로 정의해야 합니다.
         status:
@@ -2757,6 +2757,7 @@ ko:
   button_add_sub_item: 하위 항목 추가
   button_add_member: 멤버 추가
   button_add_watcher: 주시자 추가
+  button_all_filters: All filters
   button_annotate: 주석 달기
   button_apply: 적용
   button_apply_changes: 변경 사항 적용
@@ -3120,8 +3121,8 @@ ko:
       edit_attribute_groups:
         description: 다음과 같은 기타 추가 기능으로 양식 구성을 사용자 지정하세요.
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: 새로운 특성 섹션 추가
+          rename: 특성 섹션 이름 바꾸기
           related: 관련 작업 패키지의 테이블 추가
       readonly_work_packages:
         description: 특정 상태의 작업 패키지를 읽기 전용으로 표시합니다.
@@ -3209,7 +3210,7 @@ ko:
   enumeration_activities: 시간 추적 활동
   enumeration_caption_order_changed: 주문이 변경되었습니다.
   enumeration_could_not_be_moved: 열거형은 이동할 수 없습니다.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: 이 %{model}을(를) 기본값으로 설정하면 이전 기본 %{model}이(가) 재정의됩니다.
   enumeration_reported_project_statuses: 보고된 상태
   enumeration_work_package_priorities: 작업 패키지 우선 순위
   enterprise_trials:
@@ -3433,11 +3434,11 @@ ko:
     no_results_text: 결과 없음
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
-      title: Projects
+      all_projects: 모든 프로젝트
+      favorites: 즐겨찾기
+      leave_project: 프로젝트에서 나가기
+      no_favorite_projects: 즐겨 찾는 프로젝트가 없습니다.
+      title: 프로젝트
   toggle_switch:
     label_on: 켜기
     label_off: 끄기
@@ -3488,19 +3489,18 @@ ko:
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
         learn_about: 새로운 모든 기능에 대해 자세히 알아보기
         missing: 아직 강조 표시된 기능이 없습니다.
-        '17_5':
+        '17_6':
           new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
 
             '
           new_features_list:
-            line_0: 보다 명확한 참조를 위한 프로젝트 기반 작업 패키지 식별자.
-            line_1: Jira 식별자, 기한 등에 대한 Jira Migrator 지원.
-            line_2: 백로그에서 작업 패키지 유형을 제외하는 옵션.
-            line_3: 새롭게 디자인된 스프린트 보기.
-            line_4: 문서와 텍스트 편집기 간에 개선된 작업 패키지 연결.
-            line_5: 보다 유연한 미팅 스케줄 및 감소된 이메일 알림 소음.
-            line_6: 조직 구조 및 상속된 권한에 대한 중첩된 그룹.
-            line_7: 워크플로, 사용자 및 유형 구성을 위해 개선된 관리 인터페이스.
+            line_0: XWiki 통합(기업 플랜).
+            line_1: 스프린트 목표.
+            line_2: "'모든 스프린트' 개요 페이지."
+            line_3: 작업 패키지 및 작업 패키지 테이블에 백로그 버킷을 표시합니다.
+            line_4: 프로젝트 기반(시맨틱) 식별자에 대한 지원이 개선되었습니다.
+            line_5: 미팅 의제 항목을 작업 패키지로 변환합니다.
+            line_6: 프로젝트별 비용 유형을 구성합니다.
     links:
       upgrade_enterprise_edition: Enterprise Edition으로 업그레이드
       postgres_migration: 설치를 PostgreSQL로 마이그레이션
@@ -3685,7 +3685,7 @@ ko:
         submit_button: 알림 업데이트
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: 본인이 멘션될 때마다 그리고 본인이 주시하고 있는 작업 패키지에 변경 사항이 있을 때마다 항상 알림을 받게 됩니다. 이러한 알림은 비활성화할 수 없습니다. 다만, 본인에게 관련된 작업 패키지(본인이 담당자나 책임자이거나, 공유 대상인 경우)의 변경 사항에 대한 알림 수신을 활성화하거나 비활성화하도록 선택할 수 있습니다.
         title: 참여
         submit_button: 기본 설정 업데이트
         mentioned: 멘션됨
@@ -3694,7 +3694,7 @@ ko:
         responsible: 담당
         shared: 나와 공유됨
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: 본인이 담당자, 책임자 및/또는 주시자인 작업 패키지에 대해, 마감일이 다가오거나 기한이 지나기 며칠 전에 자동으로 알림을 받도록 날짜 알림을 구성할 수 있습니다.
         title: 날짜 알림
         submit_button: 날짜 알림 업데이트
         start_date: 시작 날짜
@@ -3709,7 +3709,7 @@ ko:
           three_days_after: 3일 후
           seven_days_after: 7일 후
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: 또한 모든 프로젝트의 다음과 같은 활동에 대해 알림을 받도록 선택할 수 있습니다.
         title: 참여하지 않음
         submit_button: 기본 설정 업데이트
         work_package_created: 새 작업 패키지
@@ -3718,8 +3718,8 @@ ko:
         work_package_prioritized: 모든 우선 순위 변경 사항
         work_package_scheduled: 모든 날짜 변경 사항
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: 구체적 프로젝트의 특정 이벤트에 대해서만 알림을 받도록 알림 설정을 세부 조정할 수 있습니다. 아래에서 프로젝트를 추가하고 알림을 받을 이벤트를 선택하세요. 이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.
+        title: 프로젝트별 알림
         add_button: 프로젝트별 알림 추가
         dialog_title: 프로젝트별 알림 추가
         list_header: 특정 알림이 있는 프로젝트
@@ -3853,7 +3853,7 @@ ko:
   label_send_invitation: 초대장 보내기
   label_calculated_value: 계산된 값
   label_change_parent: 부모 변경
-  label_change_password: Change password
+  label_change_password: 암호 변경
   label_change_plural: 변경
   label_change_properties: 속성 변경
   label_change_status: 상태 변경
@@ -4140,7 +4140,7 @@ ko:
   label_my_account_data: 내 계정 데이터
   label_my_avatar: 내 아바타
   label_my_queries: 내 사용자 지정 쿼리
-  label_my_security: Security
+  label_my_security: 보안
   label_name: 이름
   label_never: 사용 안 함
   label_new: 새로 만들기
@@ -4195,6 +4195,7 @@ ko:
 
     '
   label_part_of: 부분의
+  label_past: Past
   label_password_lost: 암호를 잊으셨습니까?
   label_password_rule_lowercase: 소문자
   label_password_rule_numeric: 숫자 문자
@@ -4378,6 +4379,7 @@ ko:
   label_type_new: 새 유형
   label_type_plural: 유형
   label_ui: 사용자 인터페이스
+  label_upcoming: Upcoming
   label_updated_time: "%{value} 전에 업데이트됨"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}이(가) %{age} 전에 업데이트함"
@@ -4486,7 +4488,7 @@ ko:
   label_x_working_days_time_off:
     other: '휴가: 근무일 %{count}일'
   label_x_items_selected:
-    other: "%{count} items selected"
+    other: "%{count}개 항목 선택됨"
   label_yesterday: 어제
   label_zen_mode: 젠 모드
   label_role_type: 유형
@@ -6106,6 +6108,8 @@ ko:
     scopes:
       api_v3: 전체 API v3 액세스
       api_v3_text: 애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject API v3에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다.
+      mcp: MCP에 대한 액세스 권한
+      mcp_text: 애플리케이션은 OpenProject MCP 엔드포인트에 대한 액세스 권한을 받게 됩니다. 이러한 엔드포인트는 APIv3의 제한된 하위 집합이며, AI 에이전트와 함께 사용하도록 맞춤화되었습니다.
     grants:
       created_date: '승인:'
       scopes: 권한

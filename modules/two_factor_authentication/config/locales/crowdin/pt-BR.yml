@@ -46,7 +46,7 @@ pt-BR:
     text_otp_delivery_message_sms: Sua senha de uso único de %{app_title} é %{token}
     text_otp_delivery_message_voice: 'Sua senha de uso único de %{app_title} é: %{pause} %{token}. %{pause} repito: %{pause} %{token}'
     text_2fa_enabled: Em cada acesso, será requisitado a você para entrar com seu token OTP do seu dispositivo de 2FA padrão.
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: Para habilitar a autenticação de dois fatores, use o botão abaixo para registrar um novo dispositivo 2FA. Se você já tiver um dispositivo, é necessário defini-lo como padrão.
     login:
       enter_backup_code_title: Digite o código de backup
       enter_backup_code_text: Por favor, entre com um código de backup válido da sua lista de códigos caso de você não conseguir mais acessar seus dispositivos com 2FA.
@@ -160,7 +160,7 @@ pt-BR:
         '
       other_active_session_notice: Sua conta possui um cookie para lembrar ativo em outra sessão.
       label: Lembrar-me
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Remover todas as sessões lembradas da 2FA.
       cookie_removed: Todas as sessões 2FA lembradas foram removidas.
       dont_ask_again: Crie um cookie para lembrar do 2FA neste cliente por %{days} dias.
   field_otp: Senha de uso único
@@ -171,7 +171,7 @@ pt-BR:
   notice_account_has_no_phone: Nenhum número de celular foi associado com esta conta.
   label_confirmed: Confirmado
   button_continue: Continuar
-  button_make_active: Activate
+  button_make_active: Ativar
   button_make_default: Marque como padrão
   notice_phone_number_format: 'Digite o número no seguinte formato: +XX XXXXXXXX.'
   text_otp_not_receive: Outros métodos de verificação

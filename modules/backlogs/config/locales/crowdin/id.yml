@@ -85,7 +85,8 @@ id:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
     models:
-      sprint: Sprint
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Backlog admin settings are evolving

@@ -162,9 +162,9 @@ si:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: ළමා පිටු වලට සබැඳි
+          button: List of sub-pages
           include_parent: දෙමව්පියන් ඇතුළත් කරන්න
-          text: "[Placeholder] ළමා පිටු වෙත සබැඳි"
+          text: "[Placeholder] List of sub-pages of"
           page: විකි පිටුව
           this_page: මෙම පිටුව
           hint: 'වත්මන් පිටුවේ සියලුම ළමා පිටු ලැයිස්තුගත කිරීම සඳහා මෙම ක්ෂේත්රය හිස්ව තබන්න. ඔබට වෙනත් පිටුවක් යොමු කිරීමට අවශ්ය නම්, එහි මාතෘකාව හෝ ස්ලූග් ලබා දෙන්න.

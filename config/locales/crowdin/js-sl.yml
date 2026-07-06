@@ -162,9 +162,9 @@ sl:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Izbrana lastnost '%{name}' ne obstaja.
         child_pages:
-          button: Povezave do podrejenih strani
+          button: List of sub-pages
           include_parent: Vključi nadrejen zahtevek
-          text: "[Placeholder] Povezave do podrejenih strani"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki stran
           this_page: ta stran
           hint: 'Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug.

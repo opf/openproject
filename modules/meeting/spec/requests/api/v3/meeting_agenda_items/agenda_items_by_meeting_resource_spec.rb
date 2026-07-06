@@ -141,6 +141,33 @@ RSpec.describe "API v3 Meeting Agenda Items sub-resource", content_type: :json d
       end
     end
 
+    context "with a recurring meeting occurrence whose backlog is owned by the series template" do
+      let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+      let(:template) { recurring_meeting.template }
+      let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting:,
+               start_time: recurring_meeting.start_time + 1.week)
+      end
+      let!(:series_backlog_item) do
+        create(:meeting_agenda_item,
+               meeting: template,
+               meeting_section: template.backlog,
+               author: current_user,
+               title: "Series backlog item")
+      end
+      let(:path) { api_v3_paths.meeting_agenda_items(meeting_id: occurrence.id) }
+
+      before { get path }
+
+      it "includes the series backlog item in the occurrence's agenda items" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+        ids = elements.pluck("id")
+
+        expect(ids).to include(series_backlog_item.id)
+      end
+    end
+
     context "without view_meetings permission" do
       let(:permissions) { [] }
 
@@ -294,6 +321,32 @@ RSpec.describe "API v3 Meeting Agenda Items sub-resource", content_type: :json d
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.meeting(meeting.id).to_json)
           .at_path("_embedded/section/_links/meeting/href")
+      end
+    end
+
+    context "when the agenda item is in the backlog of a recurring series, fetched via an occurrence" do
+      let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+      let(:template) { recurring_meeting.template }
+      let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting:,
+               start_time: recurring_meeting.start_time + 1.week)
+      end
+      let!(:series_backlog_item) do
+        create(:meeting_agenda_item,
+               meeting: template,
+               meeting_section: template.backlog,
+               author: current_user,
+               title: "Series backlog item")
+      end
+      let(:path) { api_v3_paths.meeting_agenda_item(series_backlog_item.id, meeting_id: occurrence.id) }
+
+      it "returns 200 and the backlog agenda item" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(series_backlog_item.id.to_json)
+          .at_path("id")
       end
     end
 

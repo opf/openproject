@@ -5,7 +5,7 @@ services:
   hocuspocus:
     # In case of MacOS you need to specify the platform in your `docker/dev/hocuspocus/docker-compose.override.yml`:
     # platform: linux/amd64
-    image: node:22.22.3-alpine
+    image: node:24.18.0-alpine
     working_dir: /app
     command: sh -c "npm run dev"
     volumes:

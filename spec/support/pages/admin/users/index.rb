@@ -86,6 +86,9 @@ module Pages
         end
 
         def filter_by_name(value)
+          within("#content") do
+            click_button accessible_name: "Search"
+          end
           fill_in "Search", with: value
 
           wait_for_network_idle
@@ -114,7 +117,7 @@ module Pages
           end
         end
 
-        def clear_filters
+        def clear_name_search
           find_by_id("user-filters-form-clear-button").click
 
           wait_for_network_idle

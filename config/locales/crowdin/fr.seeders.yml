@@ -187,7 +187,7 @@ fr:
               subject: Tâches de suivi
               children:
                 item_0:
-                  subject: Téléverser les présentations sur le site Web
+                  subject: Importer les présentations sur le site Web
                 item_1:
                   subject: Fête pour les supporters de la conférence :-)
                   description: |-

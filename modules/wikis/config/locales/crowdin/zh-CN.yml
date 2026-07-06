@@ -21,8 +21,8 @@ zh-CN:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: 属于名为“%{name}”的 Wiki 提供商。
+              wiki_provider_unreachable: 无法访问。
     models:
       wikis/inline_page_link:
         other: 内联页面链接
@@ -43,7 +43,7 @@ zh-CN:
           XWiki 提供商
   menus:
     admin:
-      external_wiki_providers: Wiki 提供者
+      external_wiki_providers: Wiki 提供商
       internal_wiki_provider: 内部 Wiki
       wikis: Wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
@@ -76,11 +76,11 @@ zh-CN:
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
       internal_provider_form:
-        checkbox_caption: 允许项目使用 OpenProject 内部维基和外部维基提供者
-        checkbox_label: 启用 OpenProject 内部维基
+        checkbox_caption: 允许项目使用内部 OpenProject Wiki 和外部 Wiki 提供商
+        checkbox_label: 启用内部 OpenProject Wiki
       internal_wiki_provider:
         show:
-          description: 选择启用或禁用OpenProject 内部wiki
+          description: 选择启用或禁用内部 OpenProject Wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -107,7 +107,7 @@ zh-CN:
         label_edit: 编辑 XWiki 提供商
         label_new_provider: 新建 XWiki 提供商
         label_wiki_platform: Wiki 提供商
-        name_caption: 给你的维基提供者起一个名字，以便用户区分多个维基平台。
+        name_caption: 为您的 Wiki 提供商命名，以便用户可以区分多个 Wiki 平台。
         name_placeholder: XWiki 知识库
         new_provider_html: 有关详情，请阅读我们关于[设置 XWiki 集成](docs_url)的文档。
         oauth:
@@ -115,13 +115,13 @@ zh-CN:
         sections:
           general_information: 常规信息
           oauth_configuration: OAuth 配置
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: 您的 Wiki 平台的主机地址（包含 https://）。地址的长度不应超过 255 个字符。
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: 允许 XWiki 使用 OAuth 应用程序访问 OpenProject 数据。
             provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: 将这些值复制到 [XWiki OIDC 连接客户端](xwiki_oidc_link)。
+            provider_oauth_description: 允许 OpenProject 使用 OAuth 访问 XWiki 数据。
           openproject_oauth_description: 允许 XWiki 使用 OAuth 访问 OpenProject 数据。
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: 允许 OpenProject 使用 OAuth 访问 XWiki 数据。
@@ -132,10 +132,17 @@ zh-CN:
       save_and_continue: 保存并继续
       wiki_page: Wiki 页面
     create_new_wiki_page_dialog:
-      title: 创建新Wiki页面
+      title: 新建 Wiki 页面
     delete_relation_page_link_confirmation_dialog:
       heading: 是否删除相关 wiki 页面链接？
       title: 删除相关 wiki 页面链接
+    errors:
+      connection_error: 无法连接到 Wiki 提供商。
+      invalid_parent: 所选页面不是有效的父页面。
+      invalid_response: Wiki 提供商意外响应。
+      missing_token: 用户帐户尚未连接到 Wiki 提供商。
+      request_failed: Wiki 提供商遇到意想不到的错误。
+      unauthorized: 出现授权错误。
     health_checks:
       authentication:
         existing_token: 用户令牌
@@ -151,7 +158,7 @@ zh-CN:
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
     inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: 添加现有 Wiki 页面
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -166,12 +173,12 @@ zh-CN:
       remove: 删除页面链接
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: 标题
+        parent: 父 Wiki 页面
+        wiki_page: Wiki 页面
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: 找不到 Wiki 页面
+        placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
@@ -182,13 +189,13 @@ zh-CN:
         name: XWiki
     relation_page_links_component:
       empty_heading: 无相关页面
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: 添加与此工作包相关的 Wiki 页面。
       link_existing: 现有 wiki 页面
       link_new: 新 wiki 页面
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: 将 XWiki 与 OpenProject 关联，实现文档与工作的同步，链接页面，跟踪引用，并在一个地方管理所有内容。
+        title: XWiki 集成
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: 在描述中提及
       referencing_pages: 引用于

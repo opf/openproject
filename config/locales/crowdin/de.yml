@@ -32,7 +32,7 @@ de:
         label_activity_show_all: Alles anzeigen
         label_activity_show_only_comments: Nur Kommentare anzeigen
         label_activity_show_only_changes: Nur Änderungen anzeigen
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Verwerfen
         label_sort_asc: Neueste unten
         label_sort_desc: Neueste oben
         label_type_to_comment: Einen Kommentar hinzufügen. @ tippen, um Personen zu benachrichtigen.
@@ -45,7 +45,7 @@ de:
         commented: kommentiert
         internal_comment: Interner Kommentar
         internal_journal: Interne Kommentare sind nur für eine einschränkbare Gruppe von Mitgliedern sichtbar.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Sind Sie sicher, dass Sie Ihren Kommentar verwerfen möchten? Der verfasste Text geht dabei verloren.
         internal_comment_confirmation:
           title: Diesen Kommentar öffentlich machen?
           heading: Diesen Kommentar öffentlich machen?
@@ -53,25 +53,25 @@ de:
           confirm_button_text: Veröffentlichen
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Freigeben
       col_identifier: Kennung
       col_project: Projekt
       col_reserved: Reserviert
       dialog:
         checkbox_label: Ich verstehe, dass dies nicht rückgängig gemacht werden kann.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Kennung freigeben
+        description: Die Freigabe dieser Kennung kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Die Freigabe dieser Kennung (und einer zugehörigen Arbeitspaketkennung) kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
+          other: Die Freigabe dieser Kennung (und %{count} zugehörigen Arbeitspaketkennungen) kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
+        heading: '"%{identifier}" freigeben?'
+        title: Kennung freigeben
+      empty_body: Wenn sich die Projektkennung ändert, wird die vorherige Kennung hier angezeigt, damit Sie diese freigeben können, sobald es sicher ist.
       empty_heading: Keine reservierten Kennungen
       filter_label: Kennung suchen
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: Die reservierte Kennung konnte nicht gefunden werden. Möglicherweise wurde sie bereits freigegeben oder das Projekt wurde gelöscht. Bitte aktualisieren Sie die Seite.
+      lede_html: Wenn eine Kennung eines Projekts umbenannt wird, bleibt die vorherige Kennung reserviert, damit bestehende Links und Integrationen weiterhin funktionieren.<br>Hier können reservierten Kennungen freigegeben werden, sodass sie von anderen Projekten verwendet werden können.
+      released_notice: Die Kennung "%{identifier}" wurde freigegeben.
       reserved_ago: vor %{time}
       title: Reservierte Projektkennungen
     plugins:
@@ -277,7 +277,7 @@ de:
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               label_supported_data: Unterstützte Daten
-              label_coming_soon: Kommt bald (Q2 2026)
+              label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
               label_coming_later: Kommt später
               label_available_server_data: Verfügbare Daten auf %{server_info}
               button_select_projects: Projekte zum Importieren auswählen
@@ -1396,7 +1396,7 @@ de:
         untitled_group: Unbenannte Gruppe
         reset_title: Formularkonfiguration zurücksetzen
         confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
-        builtin_field: Internes Attribut
+        builtin_field: Vordefiniertes Feld
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
@@ -2797,6 +2797,7 @@ de:
   button_add_sub_item: Unterelement hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_watcher: Beobachter hinzufügen
+  button_all_filters: Alle Filter
   button_annotate: Kommentieren
   button_apply: Anwenden
   button_apply_changes: Änderungen anwenden
@@ -3250,7 +3251,7 @@ de:
   enumeration_activities: Aktivitäten für Zeiterfassung
   enumeration_caption_order_changed: Reihenfolge erfolgreich geändert.
   enumeration_could_not_be_moved: Aufzählung konnte nicht verschoben werden.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Wird %{model} als Standard gesetzt, überschreibt das den vorherhigen Standardwert von %{model}.
   enumeration_reported_project_statuses: Gemeldeter Status
   enumeration_work_package_priorities: Arbeitspaket-Prioritäten
   enterprise_trials:
@@ -3531,19 +3532,18 @@ de:
         header: Lesen Sie über neue Funktionen und Updates.
         learn_about: Erfahren Sie mehr über die neuen Funktionen
         missing: Es gibt noch keine hervorgehobenen Funktionen.
-        '17_5':
+        '17_6':
           new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
           new_features_list:
-            line_0: Projektbasierte Arbeitspaket-Kennungen für klarere Referenzen.
-            line_1: Jira Migrator unterstützt Jira-Kennungen, Fälligkeitsdaten und mehr.
-            line_2: Option Arbeitspakettypen und -status in Backlogs auszuschließen.
-            line_3: Neu gestaltete Sprint-Ansichten.
-            line_4: Verbesserte Verknüpfung von Arbeitspaketen zwischen dem Dokumenten-Modul und Texteditoren.
-            line_5: Flexiblere Besprechungspläne und weniger E-Mail-Benachrichtigungen.
-            line_6: Verschachtelte Gruppen für Organisationsstrukturen und vererbte Berechtigungen.
-            line_7: Verbesserte Verwaltungsoberflächen für Workflows, Benutzer und Typkonfiguration.
+            line_0: XWiki-Integration (Corporate-Plan).
+            line_1: Sprint-Ziele.
+            line_2: Übersichtsseite „Alle Sprints“.
+            line_3: Zeige Backlog Buckets in Arbeitspaketen und Arbeitspaket-Tabellen.
+            line_4: Verbesserte Unterstützung für projektbezogene (semantische) Identifikatoren.
+            line_5: Tagesordnungspunkte einer Besprechung in Arbeitspakete umwandeln.
+            line_6: Kostenarten pro Projekt konfigurieren.
     links:
       upgrade_enterprise_edition: Auf Enterprise Edition upgraden
       postgres_migration: Migration Ihrer Installation zu PostgreSQL
@@ -3728,7 +3728,7 @@ de:
         submit_button: Erinnerungen aktualisieren
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Sie erhalten stets eine Benachrichtigung, wenn Sie erwähnt werden sowie bei Änderungen an Arbeitspaketen, die Sie beobachten. Diese Benachrichtigungen können nicht deaktiviert werden. Sie können jedoch festlegen, ob Sie Benachrichtigungen über Änderungen an Arbeitspaketen erhalten möchten, die Sie betreffen (bei denen Sie als Verantwortlich oder Zugewiesen eingetragen sind oder das Arbeitspaket für Sie freigegeben wurden).
         title: Beteiligt
         submit_button: Einstellungen aktualisieren
         mentioned: Erwähnt
@@ -3737,7 +3737,7 @@ de:
         responsible: Verantwortlich
         shared: Mit mir geteilt
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Sie können Terminbenachrichtigungen für Arbeitspakete einrichten, bei denen Sie verantwortlich oder zugewiesen oder als Beobachter eingetragen sind, um einige Tage vor bevorstehenden oder bereits überschrittenen Terminen automatisch benachrichtigt zu werden.
         title: Datums-Erinnerungen
         submit_button: Datums-Erinnerungen aktualisieren
         start_date: Anfangstermin
@@ -3752,7 +3752,7 @@ de:
           three_days_after: 3 Tage danach
           seven_days_after: 7 Tage danach
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Darüber hinaus können Sie wählen, dass Sie über die folgenden Aktivitäten für alle Projekte benachrichtigt werden.
         title: Nicht beteiligt
         submit_button: Einstellungen aktualisieren
         work_package_created: Neue Arbeitspakete
@@ -3761,7 +3761,7 @@ de:
         work_package_prioritized: Alle Prioritätsänderungen
         work_package_scheduled: Alle Datumsänderungen
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        description: Sie können Ihre Benachrichtigungseinstellungen so anpassen, dass Sie nur über bestimmte Ereignisse in bestimmten Projekten benachrichtigt werden. Fügen Sie unten ein Projekt hinzu und wählen Sie aus, bei welchen Ereignissen eine Benachrichtigung an Sie gesendet werden soll. Diese projektspezifischen Einstellungen haben Vorrang vor den oben genannten Standardeinstellungen.
         title: Projektspezifische Benachrichtigungen
         add_button: Projektspezifische Benachrichtigungen hinzufügen
         dialog_title: Projektspezifische Benachrichtigungen hinzufügen
@@ -3879,7 +3879,7 @@ de:
   label_board_plural: Boards
   label_branch: Zweig
   label_browse: Codebrowser
-  label_builtin: Eingebaut
+  label_builtin: Vordefiniert
   label_bulk_edit_selected_work_packages: Alle ausgewählten Arbeitspakete bearbeiten
   label_bundled: "(Gebündelt)"
   label_calendar: Kalender
@@ -4238,6 +4238,7 @@ de:
 
     '
   label_part_of: enthalten in
+  label_past: Vergangen
   label_password_lost: Kennwort vergessen?
   label_password_rule_lowercase: Kleinbuchstaben
   label_password_rule_numeric: Ziffern
@@ -4421,6 +4422,7 @@ de:
   label_type_new: Neuer Typ
   label_type_plural: Typen
   label_ui: Nutzeroberfläche
+  label_upcoming: Bevorstehend
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert
@@ -5077,7 +5079,7 @@ de:
       managed_path_note: 'Das folgende Verzeichnis wird gelöscht werden: %{path}'
       repository_verification_html: Geben Sie die Projektkennung %{identifier} ein, um die Löschung des Projektarchivs zu bestätigen.
       subtitle: Wollen Sie wirklich das %{repository_type} des Projekts %{project_name} löschen?
-      subtitle_not_managed_html: Wollen Sie wirklich die verknüpfte %{repository_type} %{url} aus dem Projekt %{project_name} entfernen?
+      subtitle_not_managed_html: Wollen Sie wirklich das verknüpfte %{repository_type} %{url} aus dem Projekt %{project_name} entfernen?
       title_html: "%{repository_type} löschen"
       title_not_managed: Verknüpftes %{repository_type} löschen?
     errors:
@@ -6123,7 +6125,7 @@ de:
     close_warning: Diese Warnung ignorieren.
   oauth:
     application:
-      builtin: Interne Anwendung für diese Instanz
+      builtin: Vordefinierte Anwendung für diese Instanz
       confidential: Vertraulich
       singular: OAuth-Anwendung
       scopes: Geltungsbereiche
@@ -6145,7 +6147,7 @@ de:
         register_intro: Wenn Sie eine OAuth API-Client-Anwendung für OpenProject entwickeln, können Sie es mit diesem Formular für alle Benutzer registrieren.
         default_scopes: ''
     header:
-      builtin_applications: Eingebaute OAuth-Anwendungen
+      builtin_applications: Vordefinierte OAuth-Anwendungen
       other_applications: Andere OAuth-Anwendungen
     empty_application_lists: Es wurden noch keine OAuth-Anwendungen registriert.
     client_id: Client-ID
@@ -6163,6 +6165,8 @@ de:
     scopes:
       api_v3: Vollständiger API(v3)-Zugriff
       api_v3_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen.
+      mcp: Zugang zu MCP
+      mcp_text: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
     grants:
       created_date: Genehmigt
       scopes: Berechtigungen

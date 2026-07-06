@@ -222,9 +222,24 @@ ul.SegmentedControl,
 
 // At some point in time, this needs to be extracted into a proper component,
 // something like `FilterableTreeViewSelectPanel`
+@mixin keep-project-select-actions-clear-of-scrollbar
+  .TreeViewItemContainer
+    width: calc(100% - var(--base-size-16))
+
 .op-project-select--body
   .FilterableTreeViewLayout
     > .Stack
       padding-right: var(--base-size-16)
     .FilterableTreeViewTreeContainer
       scrollbar-gutter: stable
+
+      // Overlay scrollbars can cover the tree content on narrow screens and
+      // touch devices.
+      @media screen and (max-width: $breakpoint-sm), (pointer: coarse)
+        @include keep-project-select-actions-clear-of-scrollbar
+
+      // Firefox on Windows can render the scrollbar over the tree content,
+      // so keep trailing actions out of that area.
+      // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
+      body.-browser-windows.-browser-firefox &
+        @include keep-project-select-actions-clear-of-scrollbar

@@ -42,7 +42,7 @@ cs:
           completed: Dokončen
         work_packages: Pracovní balíčky
       sprint_goal:
-        text: Sprint goal
+        text: Cíl sprintu
       work_package:
         backlog_bucket: Sekce backlogu
         backlogs_work_package_type: Typ backlogu
@@ -62,7 +62,7 @@ cs:
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: už má stanovený cíl pro tento sprint.
         sprint:
           attributes:
             base:
@@ -88,7 +88,11 @@ cs:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: není aktivní sprint v projektu, v němž se koná sprint, z něhož je pracovní balíček přesunut.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        few: Sprinty
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Nastavení backlogu se vyvíjí
@@ -161,11 +165,11 @@ cs:
         edit_sprint: Upravit sprint
         add_work_package: Přidat pracovní balíček
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: Cíl sprintu je specifický pro tento projekt a nesdílí jej žádné jiné projekty, které rovněž využívají tento sprint.
+      goal_for_this_project_label: "%{attribute} (pro tento projekt)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: Toto je sdílený sprint. Úpravy se odrazí ve všech projektech, které jej používají.
+      shared_sprint_warning_banner: Toto je sdílený sprint. Nemáte potřebná oprávnění k jeho úpravě.
     sprints_component:
       blankslate:
         title: Zatím nejsou přítomny žádné sprinty

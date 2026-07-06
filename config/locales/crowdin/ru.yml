@@ -291,7 +291,7 @@ ru:
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               label_supported_data: Поддерживаемые данные
-              label_coming_soon: Ожидается (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Ожидается позже
               label_available_server_data: Имеющиеся данные на сайте %{server_info}
               button_select_projects: Выберите проекты для импорта
@@ -2890,6 +2890,7 @@ ru:
   button_add_sub_item: Добавить подпроект
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
+  button_all_filters: All filters
   button_annotate: Комментировать
   button_apply: Применить
   button_apply_changes: Применить изменения
@@ -3670,19 +3671,18 @@ ru:
         header: Читайте о новых возможностях и обновлениях продуктов.
         learn_about: Узнайте больше о всех новых функциях
         missing: Нет выделенных функций.
-        '17_5':
-          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Обновить до корпоративной версии
       postgres_migration: Перенос вашей установки в PostgreSQL
@@ -4377,6 +4377,7 @@ ru:
 
     '
   label_part_of: является частью
+  label_past: Past
   label_password_lost: Забыли пароль?
   label_password_rule_lowercase: Нижний регистр
   label_password_rule_numeric: Числовые символы
@@ -4560,6 +4561,7 @@ ru:
   label_type_new: Новый тип
   label_type_plural: Типы
   label_ui: Интерфейс пользователя
+  label_upcoming: Upcoming
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -6296,6 +6298,8 @@ ru:
     scopes:
       api_v3: Полный доступ к API v3
       api_v3_text: Приложение получит полный доступ к OpenProject API v3 для выполнения действий от вашего имени.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Ознакомлен с
       scopes: Разрешения

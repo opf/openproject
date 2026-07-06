@@ -5,8 +5,8 @@ eo:
       saml/provider:
         display_name: Nomo
         identifier: Identigilo
-        secret: Secret
-        scope: Scope
+        secret: Sekreto
+        scope: Amplekso
         assertion_consumer_service_url: ACS (Assertion consumer service) URL
         limit_self_registration: Limit self registration
         sp_entity_id: Service entity ID
@@ -64,7 +64,7 @@ eo:
       label_mapping: Mapping
       label_requested_attribute_for: 'Requested attribute for: %{attribute}'
       no_results_table: No SAML identity providers have been defined yet.
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: Nova SAML-identecprovizanto estis sukcese kreita.
       plural: SAML identity providers
       singular: SAML identity provider
       requested_attributes: Requested attributes

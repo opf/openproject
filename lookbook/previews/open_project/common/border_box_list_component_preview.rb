@@ -59,7 +59,7 @@ module OpenProject
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
           list.with_header(title: "Things we're building", count: true) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :pencil)
               "Edit"
@@ -100,7 +100,7 @@ module OpenProject
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
           list.with_header(title: "Sprint backlog", count: true) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :rocket)
               "Start sprint"
@@ -182,7 +182,7 @@ module OpenProject
               aria: { label: "Visible list item count" }
             }
           ) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
           end
 
           list.with_item { "First item" }

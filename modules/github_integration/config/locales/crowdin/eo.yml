@@ -22,25 +22,25 @@
 ---
 eo:
   attributes:
-    additions_count: Number of additions
-    deletions_count: Number of deletions
-    comments_count: Comments count
-    github_html_url: Pull Request URL
+    additions_count: Nombro de aldonoj
+    deletions_count: Nombro de forigoj
+    comments_count: Nombro de komentoj
+    github_html_url: URL por tirpeto
     github_app_owner_avatar_url: Owner avatar URL
     review_comments_count: Review comments count
-    github: GitHub identifer
+    github: GitHub-identigilo
     github_avatar_url: Avatar URL
     github_updated_at: Updated at
     github_login: GitHub login
     host: Gastiganto
-    labels: Labels
+    labels: Etikedoj
     repository: Deponejo
-    changed_files_count: Changed files
+    changed_files_count: Ŝanĝitaj dosieroj
   button_add_deploy_target: Add deploy target
   label_deploy_target: Deploy target
   label_deploy_target_new: New deploy target
   label_deploy_target_plural: Deploy targets
-  label_github_integration: GitHub Integration
+  label_github_integration: GitHub-integriĝo
   notice_deploy_target_created: Deploy target created
   notice_deploy_target_destroyed: Deploy target deleted
   label_github_comment_user: GitHub actor
@@ -58,9 +58,9 @@ eo:
     name: OpenProject GitHub Integration
     description: Integrates OpenProject and GitHub for a better workflow
   project_module_github: GitHub
-  permission_show_github_content: Show GitHub content
+  permission_show_github_content: Montri enhavon de GitHub
   permission_introspection: Read running OpenProject core version and build SHA
-  text_deploy_target_type_info: 'So far we only support OpenProject itself.
+  text_deploy_target_type_info: 'Ĝis nun ni subtenas nur OpenProject mem.
 
     '
   text_deploy_target_api_key_info: 'An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.

@@ -431,12 +431,13 @@ sv:
       message: 'Denna mötesserie har avslutats. Det finns inga kommande möten. '
       action: Du kan fortfarande se tidigare förekomster eller redigera mötesserien för att utöka den.
     occurrence:
-      infoline: Mötet ingår i en återkommande mötesserie.
       error_no_next: Det finns ingen nästa händelse för detta möte.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Den första förekomsten av denna mötesserie är existerar redan.
       first_created: 'Det första mötet har skapats från mallen. Alla framtida möten kommer att skapas automatiskt vid tiden för den föregående händelsen.
 
         '
+      infoline: Mötet ingår i en återkommande mötesserie.
     template:
       button_finalize: Öppna första mötet
       blank_title: Din mall för mötesserier är tom

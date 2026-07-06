@@ -77,7 +77,7 @@ it:
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Copia l'ID numerico negli appunti
     button_copy_link_to_clipboard: Copia link negli appunti
     button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
@@ -162,9 +162,9 @@ it:
           nested_macro: Questa macro fa riferimento in modo ricorsivo a %{model} %{id}.
           invalid_attribute: L'attributo selezionato '%{name}' non esiste.
         child_pages:
-          button: Collegamenti alle pagine discendenti
+          button: Elenco delle sottopagine
           include_parent: Includi genitore
-          text: "[Placeholder] Collegamenti alle pagine discendenti di"
+          text: "[Placeholder] Elenco delle sottopagine di"
           page: Pagina wiki
           this_page: questa pagina
           hint: 'Lascia questo campo vuoto per elencare tutte le pagine discendenti dalla pagina attuale. Se desideri referenziare un''altra pagina, specifica il titolo o lo slug di pagina.
@@ -182,7 +182,7 @@ it:
           text: "[Placeholder] Tabella della macro-attività incorporata"
         error: 'Impossibile espandere la macro: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Inserisci
         toc: Indice
         toolbar_help: Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget
         wiki_page_include:
@@ -368,7 +368,7 @@ it:
     label_in_more_than: in più di
     label_incoming_emails: Email in arrivo
     label_information_plural: Informazioni
-    label_infinity: Infinity
+    label_infinity: Infinito
     label_invalid: Non valido
     label_import: Importazione
     label_latest_activity: Ultima attività
@@ -393,7 +393,7 @@ it:
     label_no_value: Nessun valore
     label_none: nessuno
     label_not_contains: non contiene
-    label_not_available: Not available
+    label_not_available: Non disponibile
     label_not_equals: non è
     label_on: il
     label_open_menu: Apri menu

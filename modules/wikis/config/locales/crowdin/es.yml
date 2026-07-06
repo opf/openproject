@@ -132,6 +132,13 @@ es:
     delete_relation_page_link_confirmation_dialog:
       heading: "¿Eliminar el enlace a la página wiki relacionada?"
       title: Eliminar el enlace a la página wiki relacionada
+    errors:
+      connection_error: No se ha podido conectar con el proveedor de la wiki.
+      invalid_parent: La página seleccionada no es una página principal válida.
+      invalid_response: El proveedor de la wiki ha respondido de forma inesperada.
+      missing_token: La cuenta de usuario aún no está vinculada al proveedor de la wiki.
+      request_failed: El proveedor de la wiki ha detectado un error inesperado.
+      unauthorized: Se ha producido un error de autorización.
     health_checks:
       authentication:
         existing_token: Token de usuario
@@ -163,7 +170,7 @@ es:
     page_link_forms:
       labels:
         page_title: Título
-        parent: Página wiki padre
+        parent: Página wiki principal
         wiki_page: Página wiki
       search:
         no_results: No se han encontrado páginas wiki
@@ -183,7 +190,7 @@ es:
       link_new: Nueva página wiki
     upsell:
       xwiki:
-        description: Conectar XWiki con OpenProject para mantener la documentación y el trabajo en sincronización, enlazar páginas, rastrear referencias y gestionar todo en un solo lugar.
+        description: Conecta XWiki con OpenProject y mantén la documentación y el trabajo sincronizados, vincula páginas, realiza un seguimiento de las referencias y gestiona todo desde un mismo sitio.
         title: Integración con XWiki
     work_package_wikis_tab_component:
       inline_page_links: Mencionado en la descripción

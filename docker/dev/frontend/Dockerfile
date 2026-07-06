@@ -1,4 +1,4 @@
-FROM node:22.22.3
+FROM node:24.18.0
 LABEL org.opencontainers.image.authors="operations@openproject.com"
 
 ARG DEV_UID=1000

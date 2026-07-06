@@ -56,7 +56,7 @@ module Storages
                                               UrlBuilder.url(@storage.uri,
                                                              "remote.php/dav/files",
                                                              username,
-                                                             CGI.unescape(folder_info.location)),
+                                                             folder_info.location),
                                               xml: body)
 
                       handle_response(response)

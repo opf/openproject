@@ -880,6 +880,7 @@ RSpec.describe UsersController do
     context "when updating fields as an admin" do
       current_user { admin }
 
+      let(:generated_password) { nil }
       let(:params) do
         {
           id: some_user.id,
@@ -892,6 +893,14 @@ RSpec.describe UsersController do
             comments_sorting: "desc"
           }
         }
+      end
+
+      prepend_before do
+        if generated_password
+          allow(OpenProject::Passwords::Generator)
+            .to receive(:random_password)
+            .and_return(generated_password)
+        end
       end
 
       before do
@@ -937,6 +946,32 @@ RSpec.describe UsersController do
         end
 
         it "forces a password change on next login because the password was emailed" do
+          expect(some_user.reload.force_password_change).to be(true)
+        end
+      end
+
+      context "when assigning a random password" do
+        let(:generated_password) { "randompassPASS!" }
+        let(:params) do
+          {
+            id: some_user.id,
+            user: {
+              assign_random_password: "1"
+            }
+          }
+        end
+
+        it "sends an email to the user with the generated password" do
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.to)
+            .to contain_exactly(some_user.mail)
+
+          expect(mail.body.encoded)
+            .to include(generated_password)
+        end
+
+        it "forces a password change on next login" do
           expect(some_user.reload.force_password_change).to be(true)
         end
       end

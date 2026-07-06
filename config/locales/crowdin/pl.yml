@@ -32,7 +32,7 @@ pl:
         label_activity_show_all: Pokaż wszystko
         label_activity_show_only_comments: Pokaż tylko komentarze
         label_activity_show_only_changes: Pokaż tylko zmiany
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Odrzuć
         label_sort_asc: Najnowsze na końcu
         label_sort_desc: Najnowsze na początku
         label_type_to_comment: Dodaj komentarz. Wpisz @, aby powiadomić innych.
@@ -45,7 +45,7 @@ pl:
         commented: skomentowano
         internal_comment: Komentarz wewnętrzny
         internal_journal: Komentarze wewnętrzne są widoczne dla ograniczonej grupy członków.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Czy na pewno chcesz odrzucić swój komentarz? Wpisana treść zostanie utracona.
         internal_comment_confirmation:
           title: Upublicznić ten komentarz?
           heading: Upublicznić ten komentarz?
@@ -53,27 +53,27 @@ pl:
           confirm_button_text: Ustaw jako publiczny
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Usuń zastrzeżenie
       col_identifier: Identyfikator
       col_project: Projekt
       col_reserved: Zastrzeżony
       dialog:
         checkbox_label: Rozumiem, że tego działania nie można cofnąć.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Usuń zastrzeżenie identyfikatora
+        description: Usunięcia zastrzeżenia tego identyfikatora projektu nie można cofnąć. Używające go zewnętrzne linki i integracje przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego 1 pakietu roboczego) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          few: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          many: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          other: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+        heading: Usunąć zastrzeżenie identyfikatora „%{identifier}”?
+        title: Usuń zastrzeżenie identyfikatora
+      empty_body: Gdy identyfikator projektu ulegnie zmianie, pojawi się tutaj poprzedni identyfikator, dzięki czemu można będzie usunąć jego zastrzeżenie, gdy będzie to bezpieczne.
       empty_heading: Brak zastrzeżonych identyfikatorów
       filter_label: Wyszukaj identyfikatory
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: Nie można znaleźć zastrzeżonego identyfikatora. Być może jego zastrzeżenie zostało już usunięte lub usunięto projekt. Odśwież stronę.
+      lede_html: Gdy nazwa identyfikatora projektu zostanie zmieniona, poprzedni identyfikator pozostaje zastrzeżony, aby istniejące linki i integracje nadal działały.<br>Tutaj można usunąć zastrzeżenie identyfikatorów, aby mogły ich używać inne projekty.
+      released_notice: Usunięto zastrzeżenie identyfikatora „%{identifier}”.
       reserved_ago: "%{time} temu"
       title: Zastrzeżone identyfikatory projektów
     plugins:
@@ -133,7 +133,7 @@ pl:
         trial: Wersja próbna
     jemalloc_allocator: Alokator pamięci Jemalloc
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Działania użytkownika w pakiecie roboczym (zmiana opisu, statusu, wartości lub pisanie komentarzy) są grupowane, jeśli zostały wykonane w tym okresie. Kontroluje również powiadomienia i opóźnienia [obiektu webhook](webhook_link). Maksymalny czas wynosi %{max} min.
 
         '
     import:
@@ -291,7 +291,7 @@ pl:
               label_info: Pamiętaj, że to narzędzie importu jest w wersji beta i nie może importować wszystkich typów danych. Poniżej znajduje się podsumowanie tego, co wystąpienie hosta Jira oferuje do importu i co to narzędzie jest obecnie w stanie zaimportować.
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               label_supported_data: Obsługiwane dane
-              label_coming_soon: Wkrótce (2. kwartał 2026 r.)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: W późniejszym terminie
               label_available_server_data: Dostępne dane — %{server_info}
               button_select_projects: Wybierz projekty do zaimportowania
@@ -454,7 +454,7 @@ pl:
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Projekty z identyfikatorami do aktualizacji
           label_project: Projekt
           label_previous_identifier: Poprzedni identyfikator
           label_autofixed_suggestion: Przyszły identyfikator
@@ -2205,7 +2205,7 @@ pl:
         regex_invalid: nie może być zastosowany z zastosowanym wyrażeniem regularnym.
         regex_list_invalid: Nie można przeanalizować %{invalid_lines} wierszy jako wyrażenia regularnego.
         smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej długości.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: narusza zasady tego wystąpienia OpenProject dotyczące SSRF.
         system_wide_non_working_day_exists: koliduje z istniejącym dniem wolnym od pracy w całym systemie dla tej daty.
         taken: zostały już podjęte.
         too_long: jest zbyt długi (maksymalnie %{count} znaków).
@@ -2427,7 +2427,7 @@ pl:
               durations_are_not_positive_numbers: Czasy trwania muszą być liczbami dodatnimi.
               hours_per_day_are_missing: Liczba godzin dziennie musi być określona.
               hours_per_day_is_out_of_bounds: Liczba godzin dziennie nie może przekraczać 24
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: Okres agregacji musi wynosić od %{min} do %{max} min.
               previous_working_day_changes_unprocessed: Poprzednie zmiany konfiguracji dni roboczych nie zostały jeszcze zastosowane.
               working_days_are_missing: Co najmniej jeden dzień tygodnia musi być zdefiniowany jako dzień roboczy.
         status:
@@ -2881,6 +2881,7 @@ pl:
   button_add_sub_item: Dodaj podelement
   button_add_member: Dodaj członka projektu
   button_add_watcher: Dodaj obserwatora
+  button_all_filters: All filters
   button_annotate: Adnotacja
   button_apply: Zastosuj
   button_apply_changes: Zastosuj zmiany
@@ -3284,8 +3285,8 @@ pl:
       edit_attribute_groups:
         description: 'Dostosuj konfigurację formularza za pomocą tych dodatków:'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Dodaj nowe sekcje atrybutów
+          rename: Zmień nazwy sekcji atrybutów
           related: Dodaj tabelę powiązanych pakietów roboczych
       readonly_work_packages:
         description: Oznacz pakiety robocze jako tylko do odczytu w przypadku określonych statusów.
@@ -3374,7 +3375,7 @@ pl:
   enumeration_activities: Działania śledzenia czasu
   enumeration_caption_order_changed: Kolejność została zmieniona.
   enumeration_could_not_be_moved: Nie można przenieść wyliczenia.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Ustawienie tego %{model} jako domyślnego poskutkuje zastąpieniem poprzedniego domyślnego %{model}.
   enumeration_reported_project_statuses: Zgłoszony status
   enumeration_work_package_priorities: Priorytety pakietów roboczych
   enterprise_trials:
@@ -3598,11 +3599,11 @@ pl:
     no_results_text: Brak wyników
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
-      title: Projects
+      all_projects: Wszystkie projekty
+      favorites: Ulubione
+      leave_project: Opuść projekt
+      no_favorite_projects: Nie masz żadnych ulubionych projektów.
+      title: Projekty
   toggle_switch:
     label_on: Wł.
     label_off: Wył.
@@ -3659,19 +3660,18 @@ pl:
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
         learn_about: Dowiedz się więcej o wszystkich nowych funkcjach
         missing: Nie ma jeszcze wyróżnionych funkcji.
-        '17_5':
+        '17_6':
           new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
 
             '
           new_features_list:
-            line_0: Identyfikatory pakietów roboczych oparte na projektach, zapewniające przejrzystsze odniesienia.
-            line_1: Migrator Jira obsługuje identyfikatory Jira, terminy itd.
-            line_2: Opcja wykluczenia typów pakietów roboczych z backlogów.
-            line_3: Przeprojektowane widoki sprintów.
-            line_4: Ulepszone powiązywanie pakietów roboczych w dokumentach i edytorach tekstu.
-            line_5: Elastyczniejsze harmonogramy spotkań i mniej powiadomień e-mail.
-            line_6: Zagnieżdżone grupy dla struktur organizacyjnych i dziedziczonych uprawnień.
-            line_7: Ulepszone interfejsy administracyjne przepływów pracy, użytkowników i konfiguracji typów.
+            line_0: Integracja z XWiki (plan korporacyjny).
+            line_1: Cele sprintów.
+            line_2: Strona przeglądowa „Wszystkie sprinty”.
+            line_3: Wyświetlanie kategorii backlogu w pakietach roboczych i tabelach pakietów roboczych.
+            line_4: Ulepszona obsługa identyfikatorów opartych na projektach (semantycznych).
+            line_5: Przekształcanie punktów planów spotkań w pakiety robocze.
+            line_6: Konfigurowanie typów kosztów dla poszczególnych projektów.
     links:
       upgrade_enterprise_edition: Aktualizuj do wersji Enterprise
       postgres_migration: Migrowanie instalacji do PostgreSQL
@@ -3856,7 +3856,7 @@ pl:
         submit_button: Zaktualizuj alerty
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Otrzymasz powiadomienie za każdym razem, gdy zostaniesz wspomniany(-a) oraz w razie zmian w pakietach roboczych, które obserwujesz. Nie można wyłączyć tych powiadomień. Można jednak włączyć lub wyłączyć odbieranie powiadomień o zmianach w pakietach roboczych, które Cię dotyczą (jesteś osobą przypisaną, odpowiedzialną lub udostępniono Ci je).
         title: Uczestnictwo
         submit_button: Zaktualizuj preferencje
         mentioned: Wzmianka
@@ -3865,7 +3865,7 @@ pl:
         responsible: Osoba odpowiedzialna
         shared: Udostępnione dla mnie
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Możesz skonfigurować alerty o terminach dla pakietów roboczych, w których pełnisz rolę osoby przypisanej, odpowiedzialnej i/lub obserwującej, aby otrzymywać automatyczne powiadomienia na kilka dni przed zbliżającym się lub przekroczonym terminem.
         title: Alerty dotyczące dat
         submit_button: Zaktualizuj alerty dotyczące dat
         start_date: Data rozpoczęcia
@@ -3880,7 +3880,7 @@ pl:
           three_days_after: 3 dni po
           seven_days_after: 7 dni po
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Możesz dodatkowo zdecydować się na otrzymywanie powiadomień o dowolnych z poniższych działań dotyczących wszystkich projektów.
         title: Brak uczestnictwa
         submit_button: Zaktualizuj preferencje
         work_package_created: Nowe pakiety robocze
@@ -3889,8 +3889,8 @@ pl:
         work_package_prioritized: Wszystkie zmiany priorytetów
         work_package_scheduled: Wszystkie zmiany daty
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: Możesz precyzyjnie dostosować ustawienia powiadomień tak, aby otrzymywać powiadomienia tylko o określonych zdarzeniach w określonych projektach. Dodaj poniżej projekt i wybierz zdarzenia, które mają generować powiadomienia. Te ustawienia zależne od projektu mają pierwszeństwo przed domyślnymi ustawieniami podanymi powyżej.
+        title: Powiadomienia specyficzne dla projektu
         add_button: Dodaj powiadomienia specyficzne dla projektu
         dialog_title: Dodaj powiadomienia specyficzne dla projektu
         list_header: Projekty z określonymi powiadomieniami
@@ -4024,7 +4024,7 @@ pl:
   label_send_invitation: Wyślij zaproszenie
   label_calculated_value: Obliczona wartość
   label_change_parent: Zmień element nadrzędny
-  label_change_password: Change password
+  label_change_password: Zmień hasło
   label_change_plural: Zmiany
   label_change_properties: Zmiana właściwości
   label_change_status: Zmiana stanu
@@ -4311,7 +4311,7 @@ pl:
   label_my_account_data: Moje dane konta
   label_my_avatar: Mój awatar
   label_my_queries: Moje zapytania niestandardowe
-  label_my_security: Security
+  label_my_security: Zabezpieczenia
   label_name: Nazwa
   label_never: Nigdy
   label_new: Nowy
@@ -4366,6 +4366,7 @@ pl:
 
     '
   label_part_of: część
+  label_past: Past
   label_password_lost: Nie pamiętasz hasła?
   label_password_rule_lowercase: Małe litery
   label_password_rule_numeric: Znaki numeryczne
@@ -4549,6 +4550,7 @@ pl:
   label_type_new: Nowy typ
   label_type_plural: Typy
   label_ui: Interfejs użytkownika
+  label_upcoming: Upcoming
   label_updated_time: Aktualizacja %{value} temu
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Zaktualizowane przez %{author} %{age} temu
@@ -4666,10 +4668,10 @@ pl:
     many: 'Czas wolny: %{count} dni roboczych'
     other: 'Czas wolny: %{count} dnia roboczego'
   label_x_items_selected:
-    one: One item selected
-    few: "%{count} items selected"
-    many: "%{count} items selected"
-    other: "%{count} items selected"
+    one: Wybrano jedną pozycję
+    few: Wybrano %{count} pozycje
+    many: Wybrano %{count} pozycji
+    other: Wybrano %{count} pozycji
   label_yesterday: wczoraj
   label_zen_mode: Tryb Zen
   label_role_type: Typ
@@ -6296,6 +6298,8 @@ pl:
     scopes:
       api_v3: Pełny dostęp do interfejsu API v3
       api_v3_text: Aplikacja otrzyma pełny dostęp do interfejsu API v3 OpenProject w celu wykonywania działań w twoim imieniu.
+      mcp: Dostęp do MCP
+      mcp_text: Aplikacja uzyska dostęp do punktów końcowych protokołu MCP OpenProject. Stanowią one ograniczony podzbiór APIv3, dostosowany do współpracy z agentami AI.
     grants:
       created_date: Zatwierdzono
       scopes: Uprawnienia

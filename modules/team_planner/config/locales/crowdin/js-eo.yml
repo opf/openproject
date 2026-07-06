@@ -4,7 +4,7 @@ eo:
   js:
     team_planner:
       add_existing: Aldoni ekzistantan
-      label_team_planner_plural: Team planners
+      label_team_planner_plural: Teamaj planiloj
       add_existing_title: Add existing work packages
       create_label: Team planner
       create_title: Create new team planner
@@ -23,7 +23,7 @@ eo:
       cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
       quick_add:
         empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
-        search_placeholder: Search...
+        search_placeholder: Serĉi...
       modify:
         errors:
           permission_denied: You do not have the necessary permissions to modify this.

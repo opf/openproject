@@ -38,7 +38,7 @@ module API
               start_time:,
               recurring_meeting_id: @recurring_meeting.id,
               meeting_id: meeting&.id,
-              cancelled: meeting&.cancelled? || false
+              meeting_state: meeting&.state
             )
           end
 
@@ -53,7 +53,7 @@ module API
           def persisted_upcoming
             @recurring_meeting.meetings
               .recurring_occurrence
-              .where(recurrence_start_time: Time.current..)
+              .upcoming
               .index_by(&:recurrence_start_time)
           end
 
@@ -97,7 +97,7 @@ module API
           namespace :past do
             get do
               occurrence_collection(
-                occurrences_from_meetings(@recurring_meeting.meetings.recurring_occurrence.past.not_cancelled),
+                occurrences_from_meetings(@recurring_meeting.scheduled_instances(upcoming: false)),
                 self_link: api_v3_paths.recurring_meeting_occurrences_past(@recurring_meeting.id)
               )
             end
