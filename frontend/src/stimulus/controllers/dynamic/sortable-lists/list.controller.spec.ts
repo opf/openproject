@@ -26,6 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++ 
 
+vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+  draggable: vi.fn(() => vi.fn()),
+  dropTargetForElements: vi.fn(() => vi.fn()),
+  monitorForElements: vi.fn(() => vi.fn()),
+}));
+
 import type { dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ListControllerType from './list.controller';
@@ -44,12 +50,6 @@ describe('Sortable lists list controller', () => {
   let fixture:HTMLElement;
 
   beforeAll(async () => {
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
-      draggable: vi.fn(() => vi.fn()),
-      dropTargetForElements: vi.fn(() => vi.fn()),
-      monitorForElements: vi.fn(() => vi.fn()),
-    }));
-
     ({ dropTargetForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: ListController } = await import('./list.controller'));
     ({ sortableItemData } = await import('./drag-and-drop'));

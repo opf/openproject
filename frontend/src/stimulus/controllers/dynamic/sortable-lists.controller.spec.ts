@@ -28,6 +28,34 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+  draggable: vi.fn(() => vi.fn()),
+  dropTargetForElements: vi.fn(() => vi.fn()),
+  monitorForElements: vi.fn(() => vi.fn()),
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+  autoScrollForElements: vi.fn(() => vi.fn()),
+}));
+
+// This spec mounts the real item controller, which pulls in these modules.
+// Tests share one module registry (the runner does not isolate spec files),
+// so importing the real versions here would leak into the item controller
+// spec and break its spies. Mock them to keep the shared cache inert.
+vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+  combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
+    cleanups.forEach((cleanup) => cleanup());
+  })),
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+  preventUnhandled: { start: vi.fn(), stop: vi.fn() },
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+  setCustomNativeDragPreview: vi.fn(),
+}));
+
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { waitFor } from '@testing-library/dom';
 import { type Mock } from 'vitest';
@@ -52,34 +80,6 @@ describe('Sortable lists controller', () => {
   let renderStreamMessageMock:Mock;
 
   beforeAll(async () => {
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
-      draggable: vi.fn(() => vi.fn()),
-      dropTargetForElements: vi.fn(() => vi.fn()),
-      monitorForElements: vi.fn(() => vi.fn()),
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
-      autoScrollForElements: vi.fn(() => vi.fn()),
-    }));
-
-    // This spec mounts the real item controller, which pulls in these modules.
-    // Tests share one module registry (the runner does not isolate spec files),
-    // so importing the real versions here would leak into the item controller
-    // spec and break its spies. Mock them to keep the shared cache inert.
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
-      combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
-        cleanups.forEach((cleanup) => cleanup());
-      })),
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
-      preventUnhandled: { start: vi.fn(), stop: vi.fn() },
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
-      setCustomNativeDragPreview: vi.fn(),
-    }));
-
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
     ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));

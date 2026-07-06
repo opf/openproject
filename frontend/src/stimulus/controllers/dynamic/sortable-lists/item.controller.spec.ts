@@ -26,6 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+  combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
+    cleanups.forEach((cleanup) => cleanup());
+  })),
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+  draggable: vi.fn(() => vi.fn()),
+  dropTargetForElements: vi.fn(() => vi.fn()),
+  monitorForElements: vi.fn(() => vi.fn()),
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+  preventUnhandled: {
+    start: vi.fn(),
+    stop: vi.fn(),
+  },
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+  setCustomNativeDragPreview: vi.fn(),
+}));
+
 import type { draggable as draggableFn, dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
@@ -47,29 +70,6 @@ describe('Sortable lists item controller', () => {
   }
 
   beforeAll(async () => {
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
-      combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
-        cleanups.forEach((cleanup) => cleanup());
-      })),
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
-      draggable: vi.fn(() => vi.fn()),
-      dropTargetForElements: vi.fn(() => vi.fn()),
-      monitorForElements: vi.fn(() => vi.fn()),
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
-      preventUnhandled: {
-        start: vi.fn(),
-        stop: vi.fn(),
-      },
-    }));
-
-    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
-      setCustomNativeDragPreview: vi.fn(),
-    }));
-
     ({ draggable, dropTargetForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
