@@ -47,7 +47,9 @@ Under **Administration → Wikis → Internal wiki**, system administrators can 
 
 If your OpenProject instance already used project wikis before upgrading to OpenProject 17.6, the internal wiki will be enabled automatically to preserve existing functionality.
 
-This setting is part of the new wiki administration structure, which distinguishes between the internal OpenProject wiki and external wiki providers such as XWiki.
+This setting is part of the new wiki administration structure, which distinguishes between the internal OpenProject wiki and external wiki providers such as XWiki. Users of the Internal wiki can also benefit from the new **Wiki** tab in work packages, where they can link existing wiki pages or create new ones directly from a work package.
+
+![Work package tab "Wikis" with option to link an existing wiki page or create a new wiki page](openproject-17-6-internal-wiki.png)
 
 ### Sprint goals
 
