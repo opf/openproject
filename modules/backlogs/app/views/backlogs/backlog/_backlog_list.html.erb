@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%= turbo_frame_tag "backlogs_container" do %>
   <div class="op-sprint-planning-container">
-    <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-sortable-lists-target="scrollable">
+    <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
       <%=
         render Backlogs::BacklogComponent.new(
           buckets: @backlog_buckets,
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         )
       %>
     </div>
-    <div id="sprint_backlogs_container" class="op-sprint-planning-lists" data-sortable-lists-target="scrollable">
+    <div id="sprint_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
       <%=
         render Backlogs::SprintsComponent.new(
           sprints: @sprints,

@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import {
   monitorForElements,
   type ElementEventPayloadMap,
@@ -53,25 +52,16 @@ import {
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
-type AutoScrollAllowedAxis = 'vertical'|'horizontal'|'all';
-type AutoScrollMaxScrollSpeed = 'standard'|'fast';
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 
-const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
-const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
-
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot {
-  static targets = ['scrollable'];
-  static outlets = ['sortable-lists--list', 'sortable-lists--item'];
+  static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
 
   static values = {
     acceptedType: String,
     moveUrlTemplate: String,
-    allowedAxis: { type: String, default: 'vertical' },
-    maxScrollSpeed: { type: String, default: 'standard' },
   };
 
-  declare readonly scrollableTargets:HTMLElement[];
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
   declare readonly sortableListsItemOutlets:RootAwareChild[];
 
@@ -79,11 +69,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly hasAcceptedTypeValue:boolean;
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
-  declare readonly allowedAxisValue:string;
-  declare readonly maxScrollSpeedValue:string;
 
   private monitorCleanupFn?:CleanupFn;
-  private scrollableCleanupFns = new Map<HTMLElement, CleanupFn>();
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
@@ -99,8 +86,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   disconnect():void {
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
-    this.scrollableCleanupFns.forEach((cleanup) => cleanup());
-    this.scrollableCleanupFns.clear();
   }
 
   sortableListsListOutletConnected(list:RootAwareChild):void {
@@ -119,34 +104,18 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     item.disconnectRoot();
   }
 
-  scrollableTargetConnected(element:HTMLElement):void {
-    const cleanup = autoScrollForElements({
-      element,
-      canScroll: ({ source }) => isSortableItemData(source.data) && source.data.rootElement === this.element,
-      getAllowedAxis: () => this.allowedAxis,
-      getConfiguration: () => ({ maxScrollSpeed: this.maxScrollSpeed }),
-    });
-
-    this.scrollableCleanupFns.set(element, cleanup);
+  sortableListsScrollableOutletConnected(scrollable:RootAwareChild):void {
+    scrollable.connectRoot(this);
   }
 
-  scrollableTargetDisconnected(element:HTMLElement):void {
-    this.scrollableCleanupFns.get(element)?.();
-    this.scrollableCleanupFns.delete(element);
-  }
-
-  private get allowedAxis():AutoScrollAllowedAxis {
-    return allowedAxes.has(this.allowedAxisValue) ? this.allowedAxisValue as AutoScrollAllowedAxis : 'vertical';
+  sortableListsScrollableOutletDisconnected(scrollable:RootAwareChild):void {
+    scrollable.disconnectRoot();
   }
 
   get acceptedType():string|null {
     // The accepted type is scoped to this controller instance, so every list
     // outlet inside one sortable-lists root accepts the same sortable item type.
     return this.hasAcceptedTypeValue ? this.acceptedTypeValue : null;
-  }
-
-  private get maxScrollSpeed():AutoScrollMaxScrollSpeed {
-    return maxScrollSpeeds.has(this.maxScrollSpeedValue) ? this.maxScrollSpeedValue as AutoScrollMaxScrollSpeed : 'standard';
   }
 
   get moving():boolean {

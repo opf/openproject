@@ -28,7 +28,6 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { waitFor } from '@testing-library/dom';
 import { type Mock } from 'vitest';
@@ -43,7 +42,6 @@ describe('Sortable lists controller', () => {
   const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve));
 
   let monitorForElements:typeof monitorForElementsFn;
-  let autoScrollForElements:typeof autoScrollForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
   let sortableItemData:typeof sortableItemDataFn;
   let sortableListData:typeof sortableListDataFn;
@@ -83,7 +81,6 @@ describe('Sortable lists controller', () => {
     }));
 
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
-    ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
     ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
   });
@@ -123,26 +120,21 @@ describe('Sortable lists controller', () => {
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+        data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
       >
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1"></ul>
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1"></ul>
+        <div data-controller="sortable-lists--scrollable"></div>
       </div>
     `;
     const [sourceList, targetList] = Array.from(fixture.querySelectorAll<HTMLElement>('[data-controller~="sortable-lists--list"]'));
     const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const scrollable = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--scrollable"]')!;
     sourceList.append(itemRow('1'), itemRow('2'), itemRow('3'));
     targetList.append(itemRow('4'), itemRow('5'));
-    return { root, sourceList, targetList, firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')! };
-  }
-
-  function renderScrollableFixture(values = '') {
-    fixture.innerHTML = `
-      <div data-controller="sortable-lists" ${values}>
-        <div data-sortable-lists-target="scrollable"></div>
-      </div>
-    `;
-
-    return fixture.querySelector<HTMLElement>('[data-sortable-lists-target="scrollable"]')!;
+    return {
+      root, sourceList, targetList, scrollable, firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!,
+    };
   }
 
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
@@ -221,6 +213,7 @@ describe('Sortable lists controller', () => {
         'sortable-lists': SortableListsController,
         'sortable-lists--list': (await import('./sortable-lists/list.controller')).default,
         'sortable-lists--item': (await import('./sortable-lists/item.controller')).default,
+        'sortable-lists--scrollable': (await import('./sortable-lists/scrollable.controller')).default,
       },
     });
     fixture = ctx.container;
@@ -540,61 +533,10 @@ describe('Sortable lists controller', () => {
     window.removeEventListener('op:toasters:add', onToast);
   });
 
-  it('registers scrollable targets for vertical sortable list auto-scrolling', async () => {
-    const scrollable = renderScrollableFixture();
-    const root = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists"]')!;
-
-    await ctx.nextFrame();
-
-    expect(autoScrollForElements).toHaveBeenCalledWith(expect.objectContaining({
-      element: scrollable,
-    }));
-
-    const options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
-
-    expect(options?.canScroll?.({
-      element: scrollable,
-      input: input(),
-      source: sourcePayload(itemRow('1'), sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
-    })).toBe(true);
-    expect(options?.canScroll?.({
-      element: scrollable,
-      input: input(),
-      source: sourcePayload(document.createElement('div'), { type: 'unrelated' }),
-    })).toBe(false);
-    expect(options?.canScroll?.({
-      element: scrollable,
-      input: input(),
-      source: sourcePayload(itemRow('1'), sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
-    })).toBe(false);
-    expect(options?.getAllowedAxis?.({
-      element: scrollable,
-      input: input(),
-      source: sourcePayload(itemRow('1')),
-    })).toEqual('vertical');
-    expect(options?.getConfiguration?.({
-      element: scrollable,
-      input: input(),
-      source: sourcePayload(itemRow('1')),
-    })).toEqual({ maxScrollSpeed: 'standard' });
-  });
-
-  it('cleans up scrollable target auto-scrolling on disconnect', async () => {
-    const scrollableCleanup = vi.fn();
-    vi.mocked(autoScrollForElements).mockReturnValue(scrollableCleanup);
-
-    renderScrollableFixture();
-
-    await ctx.nextFrame();
-
-    fixture.innerHTML = '';
-    await ctx.nextFrame();
-
-    expect(scrollableCleanup).toHaveBeenCalledOnce();
-  });
-
-  it('hands the root reference to connected list and item controllers', async () => {
-    const { root, sourceList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
+  it('hands the root reference to connected list, item, and scrollable controllers', async () => {
+    const {
+      root, sourceList, scrollable, firstSourceItem,
+    } = renderFixture({ acceptedType: 'work_package' });
     await ctx.nextFrame();
     // Outlet connections happen after the controller frame; a second frame
     // ensures the hand-over callbacks have fired.
@@ -602,9 +544,11 @@ describe('Sortable lists controller', () => {
 
     const listController = ctx.application.getControllerForElementAndIdentifier(sourceList, 'sortable-lists--list') as unknown as { ['root']?:unknown };
     const itemController = ctx.application.getControllerForElementAndIdentifier(firstSourceItem, 'sortable-lists--item') as unknown as { ['root']?:unknown };
+    const scrollableController = ctx.application.getControllerForElementAndIdentifier(scrollable, 'sortable-lists--scrollable') as unknown as { ['root']?:unknown };
     const rootController = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists');
 
     expect(listController.root).toBe(rootController);
     expect(itemController.root).toBe(rootController);
+    expect(scrollableController.root).toBe(rootController);
   });
 });

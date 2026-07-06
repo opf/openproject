@@ -87,6 +87,10 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         "data-sortable-lists-sortable-lists--item-outlet=" \
         "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
       )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--scrollable-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--scrollable&#39;]\""
+      )
     end
 
     it "passes all=true to the frame src and move URL template when requested" do
@@ -109,7 +113,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
         expect(response).to have_turbo_frame "backlogs_container"
         expect(response).to have_no_turbo_frame "content-bodyRight"
-        expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
+        expect(response.body.scan('data-controller="sortable-lists--scrollable"').size).to eq(2)
       end
 
       context "with no sprints available" do
