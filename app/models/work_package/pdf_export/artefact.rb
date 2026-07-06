@@ -35,6 +35,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Common::Macro
   include Exports::PDF::Common::Markdown
   include Exports::PDF::Common::Badge
+  include Exports::PDF::Common::ProjectAttributes
   include Exports::PDF::Components::Page
   include Exports::PDF::Artefact::Cover
   include Exports::PDF::Artefact::Styles
@@ -189,7 +190,77 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def write_artefact
-    # TODO: render the pmflex artefact content (to be implemented)
+    write_artefact_project_attributes
+  end
+
+  # Renders all project attribute sections (as shown in the work package project attributes tab)
+  def write_artefact_project_attributes
+    collect_project_attributes_data.each do |section|
+      next if section[:fields].empty?
+
+      write_optional_page_break
+      write_section(section)
+    end
+  end
+
+  def collect_project_attributes_data
+    ProjectCustomFieldSection
+      .grouped_in_order(project.available_custom_fields_for_type(work_package.type_id))
+      .map do |section, custom_fields|
+        {
+          caption: section.name,
+          fields: custom_fields.each_with_object([]) do |custom_field, fields|
+            fields << {
+              key: "cf_#{custom_field.id}",
+              caption: custom_field.name,
+              custom_field:
+            }
+            if custom_field.has_comment?
+              fields << {
+                key: "cfc_#{custom_field.id}",
+                caption: I18n.t(:label_custom_comment, name: custom_field.name),
+                custom_field:
+              }
+            end
+          end
+        }
+      end
+  end
+
+  def write_section(section)
+    with_margin(styles.section_margins) do
+      write_section_title(section[:caption])
+      write_project_detail_content(project, section[:fields])
+    end
+  end
+
+  def write_section_title(text)
+    with_margin(styles.section_title_margins) do
+      style = styles.section_title
+      pdf.formatted_text([style.merge({ text: })], style)
+      write_section_title_hr
+    end
+  end
+
+  def write_section_title_hr
+    hr_style = styles.section_title_hr
+    write_horizontal_line(pdf.cursor, hr_style[:height], hr_style[:color])
+  end
+
+  def project
+    work_package.project
+  end
+
+  def can_view_attribute?(_project, _attribute)
+    true
+  end
+
+  def hide_empty_attributes?
+    false
+  end
+
+  def attributes_in_table?
+    false
   end
 
   def heading
