@@ -86,7 +86,7 @@ Depending on your system configuration, you can choose between:
 #### Link an existing wiki page
 
 3. Naming step is skipped. If there is more than one provider, you will need to select a Wiki provider. Click **Next**.
-4. Search for and select the wiki page you want to link. For external wikis, you can also enter a URL if you already know the destination.
+4. Search for and select the wiki page you want to link. You can also enter a URL if you already know the destination.
 5. Click **Add** to add the link to the work package description.
 
 The wiki page is inserted into the description as a link.
