@@ -161,7 +161,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // back to where it started.
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
-    reorderRows({ rows, list: intent.listElement, previousItemId: intent.previousItemId });
+    reorderRows({ rows, rowsContainer: intent.rowsContainer, previousItemId: intent.previousItemId });
 
     const result = await this.moveItem({
       listData: intent.listData,

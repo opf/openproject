@@ -31,6 +31,7 @@ import {
   reorderRows,
   resolveListAppendPreviousItemId,
   restoreRowPositions,
+  rowOf,
 } from './list-dom';
 
 describe('sortable lists DOM helpers', () => {
@@ -41,6 +42,12 @@ describe('sortable lists DOM helpers', () => {
     row.setAttribute('data-sortable-lists--item-id-value', id);
     row.appendChild(item);
 
+    return row;
+  }
+
+  function divItemRow(id:string):HTMLDivElement {
+    const row = document.createElement('div');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
     return row;
   }
 
@@ -71,7 +78,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'), showMoreRow(), itemRow('2'), itemRow('3'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', list })).toEqual('2');
+      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', rowsContainer: list })).toEqual('2');
     });
 
     it('returns null when the list has no other items', () => {
@@ -79,7 +86,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
     });
   });
 
@@ -89,7 +96,7 @@ describe('sortable lists DOM helpers', () => {
       const [one, two, three] = ['1', '2', '3'].map(itemRow);
 
       list.append(one, two, three);
-      reorderRows({ rows: [one], list, previousItemId: '2' });
+      reorderRows({ rows: [one], rowsContainer: list, previousItemId: '2' });
 
       expect(itemIdOrder(list)).toEqual(['2', '1', '3']);
     });
@@ -99,24 +106,31 @@ describe('sortable lists DOM helpers', () => {
       const [one, two, three] = ['1', '2', '3'].map(itemRow);
 
       list.append(one, two, three);
-      reorderRows({ rows: [three], list, previousItemId: null });
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: null });
 
       expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
     });
 
-    it('keeps a top-of-list move inside a nested list element instead of escaping it', () => {
-      const list = document.createElement('div');
-      const inner = document.createElement('ul');
-      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+    it('reorders rows that are neither <ul> nor <li> under any container element', () => {
+      const rowsContainer = document.createElement('div');
+      const [one, two, three] = ['1', '2', '3'].map(divItemRow);
 
-      list.setAttribute('data-sortable-lists-target', 'list');
-      inner.append(one, two, three);
-      list.append(inner);
+      rowsContainer.append(one, two, three);
+      reorderRows({ rows: [three], rowsContainer, previousItemId: '1' });
 
-      reorderRows({ rows: [three], list, previousItemId: null });
+      expect(itemIdOrder(rowsContainer)).toEqual(['1', '3', '2']);
+    });
 
-      expect(three.parentElement).toBe(inner);
-      expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
+    it('resolves the row that holds a nested element via rowOf', () => {
+      const rowsContainer = document.createElement('ul');
+      const row = itemRow('9');
+      const inner = row.querySelector<HTMLElement>('article')!;
+
+      rowsContainer.append(row);
+
+      expect(rowOf(rowsContainer, inner)).toBe(row);
+      expect(rowOf(rowsContainer, row)).toBe(row);
+      expect(rowOf(rowsContainer, document.createElement('div'))).toBeNull();
     });
 
     it('inserts a moved group after the anchor preserving their order', () => {
@@ -124,7 +138,7 @@ describe('sortable lists DOM helpers', () => {
       const [one, two, three, four] = ['1', '2', '3', '4'].map(itemRow);
 
       list.append(one, two, three, four);
-      reorderRows({ rows: [three, four], list, previousItemId: '1' });
+      reorderRows({ rows: [three, four], rowsContainer: list, previousItemId: '1' });
 
       expect(itemIdOrder(list)).toEqual(['1', '3', '4', '2']);
     });
@@ -135,7 +149,7 @@ describe('sortable lists DOM helpers', () => {
       const marker = showMoreRow('hidden');
 
       list.append(three, one, marker, two);
-      reorderRows({ rows: [three], list, previousItemId: 'hidden' });
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: 'hidden' });
 
       expect(three.previousElementSibling).toBe(marker);
       expect(itemIdOrder(list)).toEqual(['1', '3', '2']);
@@ -157,7 +171,7 @@ describe('sortable lists DOM helpers', () => {
       document.body.append(list);
       const snapshot = captureRowPositions([three]);
 
-      reorderRows({ rows: [three], list, previousItemId: null });
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: null });
       expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
 
       restoreRowPositions(snapshot);
@@ -172,7 +186,7 @@ describe('sortable lists DOM helpers', () => {
       document.body.append(list);
       const snapshot = captureRowPositions([two, three]);
 
-      reorderRows({ rows: [two, three], list, previousItemId: '4' });
+      reorderRows({ rows: [two, three], rowsContainer: list, previousItemId: '4' });
       expect(itemIdOrder(list)).toEqual(['1', '4', '2', '3']);
 
       restoreRowPositions(snapshot);

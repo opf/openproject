@@ -36,6 +36,7 @@ import {
   resolveItemId,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
+  rowOf,
   sortableListSelector,
 } from './list-dom';
 
@@ -190,10 +191,12 @@ export function resolvePreviousSortableItemId({
   sourceItemId,
   targetItem,
   closestEdge,
+  rowsContainer,
 }:{
   sourceItemId:string;
   targetItem:HTMLElement;
   closestEdge:Edge|null;
+  rowsContainer:Element;
 }):string|null {
   const targetItemElement = resolveItemElement(targetItem);
   const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
@@ -202,7 +205,7 @@ export function resolvePreviousSortableItemId({
     return targetItemId;
   }
 
-  const targetRow = (targetItemElement ?? targetItem).closest('li');
+  const targetRow = rowOf(rowsContainer, targetItemElement ?? targetItem);
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
@@ -222,24 +225,25 @@ export function resolvePreviousSortableItemId({
 // (null previous item), 'end' appends after the last.
 function resolveListOnlyPreviousItemId({
   sourceItemId,
-  list,
+  rowsContainer,
   dropPosition,
 }:{
   sourceItemId:string;
-  list:HTMLElement;
+  rowsContainer:HTMLElement;
   dropPosition:SortableListDropPosition;
 }):string|null {
   if (dropPosition === 'start') {
     return null;
   }
 
-  return resolveListAppendPreviousItemId({ sourceItemId, list });
+  return resolveListAppendPreviousItemId({ sourceItemId, rowsContainer });
 }
 
 export interface DropIntent {
   listElement:HTMLElement;
   listData:SortableListData;
   previousItemId:string|null;
+  rowsContainer:HTMLElement;
 }
 
 // Resolve where a dropped item should land: the list it was dropped into and
@@ -273,6 +277,7 @@ export function resolveDropIntent({
 
   const listElement = targetList.element;
   const listData = targetList.data;
+  const rowsContainer = listData.rowsContainer ?? listElement;
 
   if (!targetItem && isSourceListTarget({ sourceElement, targetElement: listElement })) {
     return null;
@@ -283,12 +288,13 @@ export function resolveDropIntent({
       sourceItemId: sourceData.itemId,
       targetItem: targetItem.element,
       closestEdge: extractClosestEdge(targetItem.data),
+      rowsContainer,
     })
     : resolveListOnlyPreviousItemId({
       sourceItemId: sourceData.itemId,
-      list: listElement,
+      rowsContainer,
       dropPosition: listData.dropPosition,
     });
 
-  return { listElement, listData, previousItemId };
+  return { listElement, listData, previousItemId, rowsContainer };
 }

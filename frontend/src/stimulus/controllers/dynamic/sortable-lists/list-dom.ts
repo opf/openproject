@@ -32,23 +32,36 @@
 // sparse non-item rows may expose data-sortable-lists-prev-item-id.
 //
 // This module holds the drag-and-drop-agnostic half of that contract: reading
-// items and rows out of the DOM and moving rows around. The Pragmatic DnD
-// payloads built on top of it live in drag-and-drop.ts.
+// rows out of a list's rows container (rows are its direct children, whatever
+// their tag) and moving them around. The Pragmatic DnD payloads built on top of
+// it live in drag-and-drop.ts.
 export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
 export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 
-// Rows can sit directly under the list element or inside a nested <ul>.
-const listRowSelector = ':scope > li, :scope > ul > li';
-
-function listRows(list:Element):Element[] {
-  return Array.from(list.querySelectorAll(listRowSelector));
+// Rows are the direct children of the list's resolved rows container. The
+// rows container itself (a nested <ul>, the list element, ...) is decided by the list
+// controller; this module treats any direct child as a row.
+function listRows(rowsContainer:Element):Element[] {
+  return Array.from(rowsContainer.children);
 }
 
-function firstListRow(list:Element):Element|null {
-  return list.querySelector(listRowSelector);
+function firstListRow(rowsContainer:Element):Element|null {
+  return rowsContainer.firstElementChild;
+}
+
+// The row (direct child of the rows container) that holds the given element, or null
+// when the element is not inside a row of this rows container.
+export function rowOf(rowsContainer:Element, element:Element):HTMLElement|null {
+  let current:Element|null = element;
+
+  while (current && current.parentElement !== rowsContainer) {
+    current = current.parentElement;
+  }
+
+  return current instanceof HTMLElement ? current : null;
 }
 
 export function resolveItemId(element:Element):string|null {
@@ -81,22 +94,22 @@ export function resolvePreviousItemId(element:Element):string|null {
 // on data-sortable-lists-prev-item-id rather than exposing an item element.
 // Anchor on that marker so the row lands next to the collapsed block instead
 // of jumping to the top.
-function resolveAnchorRow(list:HTMLElement, previousItemId:string):HTMLElement|null {
+function resolveAnchorRow(rowsContainer:HTMLElement, previousItemId:string):HTMLElement|null {
   const escaped = CSS.escape(previousItemId);
-  const anchor = list.querySelector(`[data-sortable-lists--item-id-value="${escaped}"]`)
-    ?? list.querySelector(`[${sortablePreviousItemIdAttribute}="${escaped}"]`);
+  const anchor = rowsContainer.querySelector(`[data-sortable-lists--item-id-value="${escaped}"]`)
+    ?? rowsContainer.querySelector(`[${sortablePreviousItemIdAttribute}="${escaped}"]`);
 
-  return anchor?.closest('li') ?? null;
+  return anchor ? rowOf(rowsContainer, anchor) : null;
 }
 
 export function resolveListAppendPreviousItemId({
   sourceItemId,
-  list,
+  rowsContainer,
 }:{
   sourceItemId:string;
-  list:Element;
+  rowsContainer:Element;
 }):string|null {
-  const rows = listRows(list).reverse();
+  const rows = listRows(rowsContainer).reverse();
 
   for (const row of rows) {
     const itemId = resolvePreviousItemId(row);
@@ -141,39 +154,38 @@ export function restoreRowPositions(positions:RowPlacement[]):void {
 }
 
 // Optimistically move rows on the client without waiting for the server.
-// `rows` are the moved <li>s in order (one today, the selected set once
+// `rows` are the moved rows in order (one today, the selected set once
 // multi-item DnD lands); `previousItemId` of null means top of list.
 export function reorderRows({
   rows,
-  list,
+  rowsContainer,
   previousItemId,
 }:{
   rows:HTMLElement[];
-  list:HTMLElement;
+  rowsContainer:HTMLElement;
   previousItemId:string|null;
 }):void {
-  let anchor:Element|null = previousItemId ? resolveAnchorRow(list, previousItemId) : null;
+  let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
 
   for (const row of rows) {
     if (anchor) {
       anchor.after(row);
     } else {
-      insertAtListTop(list, row);
+      insertAtListTop(rowsContainer, row);
     }
 
     anchor = row;
   }
 }
 
-// A plain list.prepend() would drop the row before a nested <ul>. Insert
-// before the first existing row instead, keeping it in the same container as
-// its siblings.
-function insertAtListTop(list:HTMLElement, row:HTMLElement):void {
-  const firstRow = firstListRow(list);
+// Insert before the first existing row, keeping the moved row among its
+// siblings. An empty rows container simply receives the row.
+function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
+  const firstRow = firstListRow(rowsContainer);
 
   if (firstRow && firstRow !== row) {
     firstRow.before(row);
   } else if (!firstRow) {
-    (list.querySelector(':scope > ul') ?? list).prepend(row);
+    rowsContainer.prepend(row);
   }
 }

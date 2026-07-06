@@ -60,6 +60,12 @@ describe('sortable lists drag and drop helpers', () => {
     return row;
   }
 
+  function divRow(id:string):HTMLDivElement {
+    const row = document.createElement('div');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    return row;
+  }
+
   function input({ clientX = 10, clientY = 10 } = {}) {
     return {
       altKey: false,
@@ -148,10 +154,10 @@ describe('sortable lists drag and drop helpers', () => {
 
   describe('sortableListData', () => {
     it('carries the rows container on the list payload when provided', () => {
-      const container = document.createElement('ul');
-      const data = sortableListData({ type: 'sprint', listId: '7', rowsContainer: container });
+      const rowsContainer = document.createElement('ul');
+      const data = sortableListData({ type: 'sprint', listId: '7', rowsContainer: rowsContainer });
 
-      expect(data.rowsContainer).toBe(container);
+      expect(data.rowsContainer).toBe(rowsContainer);
       expect(isSortableListData(data)).toBe(true);
     });
 
@@ -196,76 +202,87 @@ describe('sortable lists drag and drop helpers', () => {
 
   describe('resolvePreviousSortableItemId', () => {
     it('uses the target item as previous item when dropping on the bottom edge', () => {
-      const target = itemRow('3').querySelector<HTMLElement>('article')!;
+      const rowsContainer = document.createElement('ul');
+      const targetRow = itemRow('3');
+      const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom' })).toEqual('3');
+      rowsContainer.append(targetRow);
+
+      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom', rowsContainer })).toEqual('3');
     });
 
     it('uses the row item as previous item when the drop target is the row', () => {
-      const target = itemRow('3');
+      const rowsContainer = document.createElement('ul');
+      const targetRow = itemRow('3');
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom' })).toEqual('3');
+      rowsContainer.append(targetRow);
+
+      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: targetRow, closestEdge: 'bottom', rowsContainer })).toEqual('3');
     });
 
     it('uses the previous row item when dropping on the top edge', () => {
-      const list = document.createElement('ul');
+      const rowsContainer = document.createElement('ul');
       const first = itemRow('1');
       const targetRow = itemRow('3');
       const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      list.append(first, targetRow);
+      rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('1');
     });
 
     it('uses the previous row item when dropping on the top edge of a row target', () => {
-      const list = document.createElement('ul');
+      const rowsContainer = document.createElement('ul');
       const first = itemRow('1');
       const targetRow = itemRow('3');
 
-      list.append(first, targetRow);
+      rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: 'top' })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: 'top', rowsContainer })).toEqual('1');
     });
 
     it('treats a missing closest edge as dropping before the target item', () => {
-      const list = document.createElement('ul');
+      const rowsContainer = document.createElement('ul');
       const first = itemRow('1');
       const targetRow = itemRow('3');
       const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      list.append(first, targetRow);
+      rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: null })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: null, rowsContainer })).toEqual('1');
     });
 
     it('uses a truncation marker when dropping before a tail item', () => {
-      const list = document.createElement('ul');
+      const rowsContainer = document.createElement('ul');
       const first = itemRow('1');
       const targetRow = itemRow('6');
       const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      list.append(first, showMoreRow('5'), targetRow);
+      rowsContainer.append(first, showMoreRow('5'), targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('5');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('5');
     });
 
     it('skips the source item and uses a preceding truncation marker when resolving the previous item', () => {
-      const list = document.createElement('ul');
+      const rowsContainer = document.createElement('ul');
       const first = itemRow('1');
-      const source = itemRow('2');
+      const sourceRow = itemRow('2');
       const targetRow = itemRow('3');
       const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      list.append(first, showMoreRow(), source, targetRow);
+      rowsContainer.append(first, showMoreRow(), sourceRow, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toEqual('hidden-item');
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('hidden-item');
     });
 
     it('returns null when dropping before the first item', () => {
-      const target = itemRow('1').querySelector<HTMLElement>('article')!;
+      const rowsContainer = document.createElement('ul');
+      const targetRow = itemRow('1');
+      const target = targetRow.querySelector<HTMLElement>('article')!;
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top' })).toBeNull();
+      rowsContainer.append(targetRow);
+
+      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toBeNull();
     });
   });
 
@@ -472,6 +489,67 @@ describe('sortable lists drag and drop helpers', () => {
       });
 
       expect(intent).toBeNull();
+    });
+
+    it('carries the resolved rows container on the intent', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+      const target = itemRow('2');
+
+      list.append(source, target);
+      document.body.appendChild(root);
+      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
+
+      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+        element: target,
+        input: input({ clientY: 90 }),
+        allowedEdges: ['top', 'bottom'],
+      });
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [
+            { data, element: target },
+            { data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list },
+          ],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      // No rows container on the payload falls back to the list element.
+      expect(intent?.rowsContainer).toBe(list);
+    });
+
+    it('resolves rows from the payload rows container when it differs from the list element', () => {
+      const root = document.createElement('div');
+      const listElement = document.createElement('div');
+      const rowsContainer = document.createElement('section');
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+
+      listElement.setAttribute('data-controller', 'sortable-lists--list');
+      rowsContainer.append(divRow('4'), divRow('5'));
+      listElement.append(rowsContainer);
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
+      sourceList.append(source);
+      root.append(sourceList, listElement);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{
+            data: sortableListData({ type: 'backlog_bucket', listId: '7', rowsContainer }),
+            element: listElement,
+          }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.rowsContainer).toBe(rowsContainer);
+      expect(intent?.previousItemId).toEqual('5');
     });
   });
 });
