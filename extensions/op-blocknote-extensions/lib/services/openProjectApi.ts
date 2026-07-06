@@ -36,6 +36,23 @@ export function linkToWorkPackage(displayId:string):string {
   return `${baseUrl}/wp/${encodeURIComponent(displayId)}`;
 }
 
+/**
+ * Parses a URL of this OpenProject instance pointing to a work package.
+ * Recognizes `/wp/{id}`, `/work_packages/{id}` and
+ * `/projects/{identifier}/work_packages/{id}` paths, including
+ * `/work_packages/details/{id}`, trailing tab segments (`/activity`, ...),
+ * query strings and hashes. Returns the numeric work package id, or null
+ * for any other URL.
+ */
+export function parseWorkPackageUrl(url:string):number | null {
+  if (!url.startsWith(`${baseUrl}/`)) return null;
+  const path = url.slice(baseUrl.length);
+  const match = /^\/(?:projects\/[^/]+\/)?(?:wp|work_packages)(?:\/details)?\/(\d+)(?:[/?#]|$)/.exec(path);
+  if (!match) return null;
+  const id = Number(match[1]);
+  return id > 0 ? id : null;
+}
+
 export function fetchWorkPackage(id:number):Promise<WorkPackage> {
   if (isNaN(id) || id <= 0) {
     return Promise.reject(new OpenProjectApiError(`Invalid work package ID: ${id}`));

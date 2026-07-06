@@ -15,6 +15,7 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
+  OpenProjectExtension,
 } from '../lib';
 import './fetchOverride';
 
@@ -43,7 +44,7 @@ function buildSlashMenuItems(editor:EditorType) {
 }
 
 export default function App() {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({ schema, extensions: [OpenProjectExtension] });
 
   const getSlashItems = useCallback(
     // eslint-disable-next-line @typescript-eslint/require-await

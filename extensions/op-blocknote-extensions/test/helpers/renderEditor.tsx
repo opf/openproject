@@ -9,6 +9,7 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
+  OpenProjectExtension,
 } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
@@ -24,7 +25,7 @@ const schema = BlockNoteSchema.create().extend({
 });
 
 function Editor({ onEditor }:{ onEditor?:(editor:any) => void }) {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({ schema, extensions: [OpenProjectExtension] });
   onEditor?.(editor);
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);

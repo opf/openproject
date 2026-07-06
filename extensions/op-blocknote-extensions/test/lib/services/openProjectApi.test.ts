@@ -6,6 +6,7 @@ import {
   initOpenProjectApi,
   linkToWorkPackage,
   OpenProjectApiError,
+  parseWorkPackageUrl,
   searchWorkPackages
 } from '../../../lib/services/openProjectApi';
 
@@ -57,6 +58,36 @@ describe('openProjectApi', () => {
       expect(linkToWorkPackage('../secret')).toBe('https://example.com/wp/..%2Fsecret');
       expect(linkToWorkPackage('../../etc/passwd')).toBe('https://example.com/wp/..%2F..%2Fetc%2Fpasswd');
       expect(linkToWorkPackage('foo/bar')).toBe('https://example.com/wp/foo%2Fbar');
+    });
+  });
+
+  describe('parseWorkPackageUrl', () => {
+    it('parses short work package links', () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123')).toBe(123);
+    });
+
+    it('parses full and project-scoped work package routes', () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/projects/demo/work_packages/123')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/details/123')).toBe(123);
+    });
+
+    it('accepts trailing tab segments, query strings and hashes', () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123/activity')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123?query=1')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123#comments')).toBe(123);
+    });
+
+    it('rejects foreign hosts and non work package URLs', () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      expect(parseWorkPackageUrl('https://other.example.com/wp/123')).toBeNull();
+      expect(parseWorkPackageUrl('http://localhost:3000/projects/demo')).toBeNull();
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/abc')).toBeNull();
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/0')).toBeNull();
+      expect(parseWorkPackageUrl('not a url')).toBeNull();
     });
   });
 
