@@ -30,11 +30,12 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
+  include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize_move_or_copy
-  authorization_checked! :new, :create
+  authorization_checked! :new, :create, :refresh_form
 
   def new
     prepare_for_work_package_move
@@ -44,6 +45,14 @@ class WorkPackages::MovesController < ApplicationController
     prepare_for_work_package_move
 
     perform_operation
+  end
+
+  def refresh_form
+    prepare_for_work_package_move
+
+    update_via_turbo_stream(component: move_form_component)
+
+    respond_with_turbo_streams
   end
 
   private
@@ -112,6 +121,21 @@ class WorkPackages::MovesController < ApplicationController
       render_error message: :"work_packages.move.unsupported_for_multiple_projects", status: 400
       false
     end
+  end
+
+  def move_form_component
+    WorkPackages::Moves::FormComponent.new(
+      work_packages: @work_packages,
+      project: @project,
+      target_project: @target_project,
+      types: @types,
+      target_type: @target_type,
+      unavailable_type_in_target_project: @unavailable_type_in_target_project,
+      available_versions: @available_versions,
+      available_statuses: @available_statuses,
+      notes: @notes,
+      copy: @copy
+    )
   end
 
   def prepare_for_work_package_move

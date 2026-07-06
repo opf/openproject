@@ -65,8 +65,10 @@ module CustomFieldsHelper
   end
 
   def blank_custom_field_label_tag(name, custom_field)
-    content_tag "label", h(custom_field.name) +
-                         (custom_field.is_required? ? content_tag("span", " *", class: "required") : ""),
+    label = [h(custom_field.name)]
+    label << content_tag("span", " *", class: "required") if custom_field.is_required?
+
+    content_tag "label", safe_join(label),
                 for: "#{name}_custom_field_values_#{custom_field.id}",
                 class: "form--label"
   end

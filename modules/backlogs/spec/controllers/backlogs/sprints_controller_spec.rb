@@ -665,7 +665,7 @@ RSpec.describe Backlogs::SprintsController do
       end
     end
 
-    describe "GET #refresh_form" do
+    describe "POST #refresh_form" do
       let(:params) do
         {
           project_id: project.id,
@@ -674,7 +674,7 @@ RSpec.describe Backlogs::SprintsController do
       end
 
       it "responds with success", :aggregate_failures do
-        get :refresh_form, format: :turbo_stream, params: params
+        post :refresh_form, format: :turbo_stream, params: params
 
         expect(response).to be_successful
         expect(response).to have_http_status :ok
@@ -686,7 +686,7 @@ RSpec.describe Backlogs::SprintsController do
         let(:permissions) { all_permissions - [:create_sprints] }
 
         it "responds with forbidden", :aggregate_failures do
-          get :refresh_form, format: :turbo_stream, params: params
+          post :refresh_form, format: :turbo_stream, params: params
 
           expect(response).not_to be_successful
           expect(response).to have_http_status :forbidden
@@ -703,7 +703,7 @@ RSpec.describe Backlogs::SprintsController do
         end
 
         it "responds with success", :aggregate_failures do
-          get :refresh_form, format: :turbo_stream, params: params
+          post :refresh_form, format: :turbo_stream, params: params
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
@@ -858,19 +858,19 @@ RSpec.describe Backlogs::SprintsController do
         end
       end
 
-      describe "GET #refresh_form for shared sprint" do
+      describe "POST #refresh_form for shared sprint" do
         let(:user) do
           create(:user,
                  member_with_roles: { project => role_with_perm, source_project => role_without_perm })
         end
 
         it "preserves the sprint's defining project context", :aggregate_failures do
-          get :refresh_form,
-              format: :turbo_stream,
-              params: {
-                project_id: project.id,
-                sprint: { id: sprint.id, name: sprint.name }
-              }
+          post :refresh_form,
+               format: :turbo_stream,
+               params: {
+                 project_id: project.id,
+                 sprint: { id: sprint.id, name: sprint.name }
+               }
 
           expect(response).to be_successful
           expect(response.body).to include(

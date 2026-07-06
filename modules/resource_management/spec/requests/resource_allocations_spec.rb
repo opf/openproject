@@ -79,25 +79,49 @@ RSpec.describe "ResourceAllocations requests",
     end
   end
 
-  describe "GET refresh_form" do
+  describe "POST refresh_form" do
+    it "refreshes the form via POST as a turbo stream" do
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               start_date: "2026-03-02",
+               end_date: "2026-03-03",
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "replace",
+        target: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.wrapper_key
+      )
+    end
+  end
+
+  describe "POST refresh_form (date warning)" do
     shared_let(:dated_work_package) do
       create(:work_package, project:, start_date: Date.new(2026, 1, 15), due_date: Date.new(2026, 2, 20))
     end
 
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
-      get refresh_form_project_resource_allocations_path(project),
-          params: {
-            allocation_kind: "principal",
-            resource_allocation: {
-              principal_id: assignee.id,
-              entity_type: "WorkPackage",
-              entity_id:,
-              start_date:,
-              end_date:,
-              allocated_hours: "40h"
-            }
-          },
-          as: :turbo_stream
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id:,
+               start_date:,
+               end_date:,
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
     end
 
     it "streams the inline warning banner when the dates fall outside the work package" do

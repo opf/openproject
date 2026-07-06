@@ -343,7 +343,7 @@ Rails.application.routes.draw do
           post :update_name_settings
           post :update_submission_settings
           post :update_artifact_export_settings
-          get :refresh_submission_form
+          post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section
           put :disable_all_of_section
@@ -687,7 +687,7 @@ Rails.application.routes.draw do
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
       resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update] do
         collection do
-          get :av_form
+          post :av_form
         end
       end
 
@@ -917,6 +917,7 @@ Rails.application.routes.draw do
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
+    post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
