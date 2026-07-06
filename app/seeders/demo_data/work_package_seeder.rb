@@ -88,6 +88,7 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
+      # TODO(COMMS-863): remove once the version_id column is dropped in favor of target_versions.
       set_version! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
@@ -171,11 +172,6 @@ module DemoData
       end
     end
 
-    # Mirrors the first target version into the deprecated single version_id
-    # column, matching what the service layer does (see
-    # WorkPackages::Shared::Versions#update_legacy_version_field) so seeded data
-    # stays consistent with work packages created through the app.
-    # TODO: remove once the version_id column is dropped in favor of target_versions.
     def set_version!(wp_attr, attributes)
       reference = Array(attributes["target_versions"]).first
       version = seed_data.find_reference(reference)
