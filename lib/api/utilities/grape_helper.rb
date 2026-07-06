@@ -51,7 +51,7 @@ module API
         end
       end
 
-      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: -> { {} }, log: true)
+      def error_response(rescued_error, error = nil, rescue_subclasses: true, headers: -> { {} }, log: true)
         error_response_lambda = default_error_response(headers, log)
 
         response =
