@@ -117,7 +117,7 @@ module Pages
           end
         end
 
-        def clear_filters
+        def clear_name_search
           find_by_id("user-filters-form-clear-button").click
 
           wait_for_network_idle
