@@ -37,7 +37,10 @@ module CostTypes
           model:,
           projects:,
           model_foreign_key_id:,
-          include_sub_projects:
+          include_sub_projects:,
+          # Cost types must stay enabled in archived projects that logged costs, so
+          # those costs remain visible when the project is later unarchived.
+          include_archived: true
         )
         super(user:, mapping_context:)
       end
