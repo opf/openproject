@@ -693,13 +693,13 @@ GEM
       os (>= 0.9, < 2.0)
       pstore (~> 0.1)
       signet (>= 0.16, < 2.a)
-    grape (3.2.1)
+    grape (3.3.0)
       activesupport (>= 7.2)
-      dry-configurable
+      dry-configurable (>= 1.0)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.1.0)
-      rack (>= 2)
-      zeitwerk
+      mustermann (>= 4.0)
+      rack (>= 2.2.4)
+      zeitwerk (>= 2.6)
     grape_logging (3.0.0)
       grape (>= 2.4.0)
       rack
@@ -856,8 +856,6 @@ GEM
     msgpack (1.8.3)
     multi_json (1.21.1)
     mustermann (4.0.0)
-    mustermann-grape (1.1.0)
-      mustermann (>= 1.0.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.4.1)
@@ -1638,7 +1636,7 @@ DEPENDENCIES
   good_job (~> 4.19.1)
   google-apis-gmail_v1
   googleauth
-  grape (~> 3.2.0)
+  grape (~> 3.3.0)
   grape_logging (~> 3.0.0)
   grids!
   html-pipeline (~> 2.14.0)
@@ -1967,7 +1965,7 @@ CHECKSUMS
   google-protobuf (4.35.1-x86_64-linux-musl) sha256=91890eb0002934a339fdb7d77a147c46b7474b6799db27872b747b905837f744
   googleapis-common-protos-types (1.23.0) sha256=992e740a523794d9fc5f29a504465d8fc737aaa16c930fe7228e3346860faf0a
   googleauth (1.17.1) sha256=0f7e6fc70e204cee1b2d71f1e1de2d3b349d432404197fe68ebf7fa23d0821b9
-  grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
+  grape (3.3.0) sha256=65e48ad2e396d25304cde91f0ec307e6cafc76bb78adcdb070fbbcc2ec3d4361
   grape_logging (3.0.0) sha256=7b62d984ce96df15d120508668debe307e6a59ac1c511f1d9b5f3b4bea793e13
   gravatar_image_tag (1.2.0) sha256=eb5630fea846b711e713b934a0178fb9785f02f4eb9ced8d6faa4d537c40fdcf
   grids (1.0.0)
@@ -2032,7 +2030,6 @@ CHECKSUMS
   msgpack (1.8.3) sha256=8bda4a6428d3244e50d6bd55854d354edbada88a4e1f4f5731a39a0f86bee6a1
   multi_json (1.21.1) sha256=e6126a31808e3b4d19f483c775ceac34df190dffa62adfb63a165ee14ba68080
   mustermann (4.0.0) sha256=91f67411bb208d1d93c41e6128cb3b0f8ddd9ec7c45966f1007e1c43c08040d7
-  mustermann-grape (1.1.0) sha256=8d258a986004c8f01ce4c023c0b037c168a9ed889cf5778068ad54398fa458c5
   my_page (1.0.0)
   net-http (0.9.1) sha256=25ba0b67c63e89df626ed8fac771d0ad24ad151a858af2cc8e6a716ca4336996
   net-imap (0.6.4.1) sha256=29f0360d75a7efd3539f16ac1957dea5c0a51ddeceb348db4553c3120914ea0d
