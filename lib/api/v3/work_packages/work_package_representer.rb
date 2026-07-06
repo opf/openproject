@@ -806,7 +806,8 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget]
+                                budget
+                                target_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
