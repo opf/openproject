@@ -47,29 +47,9 @@ import {
   type SortableListsRoot,
 } from './drag-and-drop';
 import { sortableItemSelector } from './list-dom';
+import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
-
-// Attributes stripped from the cloned drag preview so it carries no behaviour or
-// stale interaction state. The dynamic `data-*--*-target` attributes are removed
-// separately in sanitizePreview.
-const PREVIEW_STRIPPED_ATTRIBUTES = [
-  'data-controller',
-  'data-action',
-  'data-dragging',
-  'data-drop-position',
-  'data-drop-position-owner',
-  'data-selected',
-  'aria-current',
-  'aria-describedby',
-  'aria-disabled',
-  'aria-roledescription',
-] as const;
-
-// Box density variant classes copied onto the drag-preview container. The preview is
-// mounted outside the originating Box, so variant-scoped card styles (e.g.
-// `.Box--condensed .Box-card`) would not apply to it otherwise.
-const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
   static targets = ['handle', 'preview'];
@@ -171,7 +151,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
             element: this.previewTarget,
             input: location.current.input,
           }),
-          render: ({ container }) => this.renderPreview(container),
+          render: ({ container }) => renderDragPreview({
+            previewTarget: this.previewTarget,
+            sourceElement: this.element,
+            container,
+          }),
         });
       },
     });
@@ -235,45 +219,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
     });
-  }
-
-  private renderPreview(container:HTMLElement) {
-    const previewWidth = this.previewTarget.getBoundingClientRect().width;
-    const preview = this.previewTarget.cloneNode(true) as HTMLElement;
-
-    this.sanitizePreview(preview);
-    preview.setAttribute('data-preview', '');
-
-    if (previewWidth > 0) {
-      preview.style.width = `${previewWidth}px`;
-    }
-
-    const box = this.element.closest('.Box');
-
-    BOX_DENSITY_VARIANT_CLASSES.forEach((variant) => {
-      if (box?.classList.contains(variant)) {
-        container.classList.add(variant);
-      }
-    });
-
-    container.append(preview);
-  }
-
-  private sanitizePreview(element:HTMLElement) {
-    // Avoid side effects from custom elements (e.g. Primer include-fragment) in the cloned preview.
-    element.querySelectorAll('include-fragment').forEach((fragment) => fragment.remove());
-
-    const nodes = [element, ...Array.from(element.querySelectorAll<HTMLElement>('*'))];
-
-    for (const node of nodes) {
-      PREVIEW_STRIPPED_ATTRIBUTES.forEach((attribute) => node.removeAttribute(attribute));
-
-      for (const attribute of Array.from(node.attributes)) {
-        if (/^data-.+--.+-target$/.test(attribute.name)) {
-          node.removeAttribute(attribute.name);
-        }
-      }
-    }
   }
 
   private renderDropIndicator(edge:Edge|null) {
