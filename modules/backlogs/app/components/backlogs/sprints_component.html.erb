@@ -38,14 +38,15 @@ See COPYRIGHT and LICENSE files for more details.
       classes: "gap-2"
     ) do
       concat(Sprint.human_plural_model_name)
-      counter_options = {
-        scheme: :primary,
-        count: total,
-        round: true,
-        limit: 1_000,
-        hide_if_zero: true
-      }
-      concat render(Primer::Beta::Counter.new(**counter_options))
+      concat render(
+        Primer::Beta::Counter.new(
+          scheme: :primary,
+          count: total,
+          round: true,
+          limit: 1_000,
+          hide_if_zero: true
+        )
+      )
     end
 
     if sprint_creation_allowed?
