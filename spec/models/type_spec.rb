@@ -262,4 +262,122 @@ RSpec.describe Type do
       end
     end
   end
+
+  describe "hierarchy" do
+    let!(:parent) { create(:type) }
+    let!(:child) { create(:type, parent:) }
+
+    describe "associations" do
+      it "exposes parent and children" do
+        expect(child.parent).to eq(parent)
+        expect(parent.children).to contain_exactly(child)
+      end
+    end
+
+    describe "scopes" do
+      it ".roots returns only top level types" do
+        expect(described_class.roots).to include(parent)
+        expect(described_class.roots).not_to include(child)
+      end
+
+      it ".subtypes returns only nested types" do
+        expect(described_class.subtypes).to contain_exactly(child)
+      end
+    end
+
+    describe "#root" do
+      it "returns the parent for a child" do
+        expect(child.root).to eq(parent)
+      end
+
+      it "returns itself for a root" do
+        expect(parent.root).to eq(parent)
+      end
+    end
+
+    describe "#family" do
+      it "returns the root followed by its children" do
+        expect(child.family).to eq([parent, child])
+        expect(parent.family).to eq([parent, child])
+      end
+    end
+
+    describe "positioning" do
+      it "scopes position per parent so each group is numbered independently" do
+        parent_a = create(:type)
+        parent_b = create(:type)
+        a1 = create(:type, parent: parent_a, position: nil, name: "A1")
+        a2 = create(:type, parent: parent_a, position: nil, name: "A2")
+        b1 = create(:type, parent: parent_b, position: nil, name: "B1")
+
+        expect([a1.position, a2.position]).to eq([1, 2])
+        expect(b1.position).to eq(1)
+      end
+    end
+
+    describe "validations" do
+      it "rejects nesting deeper than one level" do
+        grandchild = build(:type, parent: child)
+
+        expect(grandchild).not_to be_valid
+      end
+
+      it "rejects a type becoming its own parent" do
+        parent.parent = parent
+
+        expect(parent).not_to be_valid
+      end
+
+      it "rejects giving a parent to a type that already has children" do
+        other_root = create(:type)
+        parent.parent = other_root
+
+        expect(parent).not_to be_valid
+      end
+
+      it "rejects the standard type having a parent" do
+        standard = create(:type_standard)
+        standard.parent = parent
+
+        expect(standard).not_to be_valid
+      end
+
+      it "allows the same name under different parents" do
+        other_parent = create(:type)
+        create(:type, parent:, name: "Shared")
+        duplicate = build(:type, parent: other_parent, name: "Shared")
+
+        expect(duplicate).to be_valid
+      end
+
+      it "rejects a duplicate name under the same parent" do
+        create(:type, parent:, name: "Shared")
+        duplicate = build(:type, parent:, name: "Shared")
+
+        expect(duplicate).not_to be_valid
+      end
+
+      it "freezes parent_id once work packages exist" do
+        other_root = create(:type)
+        create(:work_package, type: child)
+
+        child.parent = other_root
+        expect(child).not_to be_valid
+      end
+
+      it "allows editing a type with work packages when the parent is unchanged" do
+        create(:work_package, type: child)
+
+        child.name = "Renamed"
+        expect(child).to be_valid
+      end
+    end
+
+    describe "deletion" do
+      it "is blocked while children exist" do
+        expect(parent.destroy).to be_falsey
+        expect(parent).to be_persisted
+      end
+    end
+  end
 end
