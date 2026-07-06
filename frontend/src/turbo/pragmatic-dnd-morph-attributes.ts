@@ -32,6 +32,7 @@ import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sorta
 // so preservation is scoped to elements inside a sortable-lists root.
 const preservedAttributes = new Set([
   'data-dragging',
+  // Internal Pragmatic DnD marker (not a documented public API); re-verify on PDD upgrades.
   'data-drop-target-for-element',
   // Drop indicator markers rendered by the sortable-lists item/list
   // controllers; a list refresh morphing mid-drag must not strip the
