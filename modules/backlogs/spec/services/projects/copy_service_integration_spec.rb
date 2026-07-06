@@ -143,6 +143,9 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       copied_sprint = project_copy.sprints.first
       expect(copied_sprint.id).not_to eq(source_sprint.id)
       expect(copied_sprint.project).to eq(project_copy)
+
+      copied_sprint.update!(name: "Renamed Copy")
+      expect(source_sprint.reload.name).to eq("Sprint A")
     end
   end
 

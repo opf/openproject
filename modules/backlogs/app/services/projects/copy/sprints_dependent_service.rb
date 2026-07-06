@@ -47,9 +47,14 @@ module Projects::Copy
         attributes = source_sprint.attributes.dup.except("id", "project_id", "created_at", "updated_at")
         sprint = target.sprints.create!(attributes)
         sprint_id_map[source_sprint.id] = sprint.id
-      end
 
-      state.sprint_id_lookup = sprint_id_map
+        # Re-assigned on every iteration (rather than once after the loop) because `state` is a
+        # Hashie::Mash: assignment converts the Hash into a new Mash, breaking object identity, so
+        # later mutations of `sprint_id_map` alone would not be visible through `state.sprint_id_lookup`.
+        # Keeping the lookup current after each sprint also means a mid-loop `create!` failure (rescued
+        # by `Copy::Dependency#perform`) leaves the partial mapping intact instead of nil.
+        state.sprint_id_lookup = sprint_id_map
+      end
     end
   end
 end
