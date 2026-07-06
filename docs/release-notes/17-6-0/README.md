@@ -41,11 +41,13 @@ The integration also supports **references between OpenProject and XWiki**. User
 > [!NOTE]
 > OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
 
-### Internal wiki provider
+### Internal wiki configuration
 
-OpenProject's internal wiki is now available as a **Wiki provider**. System administrators can enable or disable it under **Administration → Wikis → Internal wiki**. When enabled, projects can activate the internal wiki in their project settings and use the new **Wiki** tab in work packages to create, link, and access wiki pages. When disabled, the wiki module is unavailable for all projects.
+Under **Administration → Wikis → Internal wiki**, system administrators can now enable or disable the internal OpenProject wiki globally. When enabled, projects can continue to use their own project wiki. When disabled, no project can access the internal wiki.
 
-If your OpenProject instance already used the internal wiki before upgrading to OpenProject 17.6, the internal wiki provider will be enabled automatically to preserve existing functionality.
+If your OpenProject instance already used project wikis before upgrading to OpenProject 17.6, the internal wiki will be enabled automatically to preserve existing functionality.
+
+This setting is part of the new wiki administration structure, which distinguishes between the internal OpenProject wiki and external wiki providers such as XWiki.
 
 ### Sprint goals
 
