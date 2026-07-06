@@ -119,8 +119,12 @@ module Backlogs
         controller: "sortable-lists--list",
         sortable_lists__list_type_value: drag_and_drop.fetch(:list_type)
       }
-      data[:sortable_lists__list_id_value] = drag_and_drop[:list_id] if drag_and_drop[:list_id].present?
-      data[:sortable_lists__list_drop_position_value] = drag_and_drop[:drop_position] if drag_and_drop[:drop_position].present?
+      if drag_and_drop[:list_id].present?
+        data[:sortable_lists__list_id_value] = drag_and_drop[:list_id]
+      end
+      if drag_and_drop[:drop_position].present?
+        data[:sortable_lists__list_drop_position_value] = drag_and_drop[:drop_position]
+      end
       data
     end
 

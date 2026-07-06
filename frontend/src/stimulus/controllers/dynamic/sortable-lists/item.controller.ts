@@ -125,11 +125,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // appear draggable yet silently refuse every drop. Surface that wiring mistake.
   private warnOnMissingValues():void {
     if (!this.hasIdValue) {
-      console.warn('sortable-lists--item is missing its required id value (data-sortable-lists--item-id-value); it cannot be moved.', this.element);
+      console.warn(
+        'sortable-lists--item is missing its required id value (data-sortable-lists--item-id-value); it cannot be moved.',
+        this.element,
+      );
     }
 
     if (!this.hasTypeValue) {
-      console.warn('sortable-lists--item is missing its required type value (data-sortable-lists--item-type-value); it cannot be moved.', this.element);
+      console.warn(
+        'sortable-lists--item is missing its required type value (data-sortable-lists--item-type-value); it cannot be moved.',
+        this.element,
+      );
     }
   }
 
