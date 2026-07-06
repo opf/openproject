@@ -570,6 +570,12 @@ allOf:
                   The version associated to the work package
 
                   **Resource**: Version
+
+                  # Conditions
+
+                  **Deprecated**: this single-valued field is being replaced by `targetVersions`.
+                  Read and write `targetVersions` instead. While multiple versions is not enabled,
+                  `version` must not be written together with `targetVersions` in the same request.
           targetVersions:
             type: array
             items:
@@ -583,6 +589,7 @@ allOf:
 
               - Transitioning from single to multiple version support
               - (Temporary) Only allows a single value for compatibility with the version field
+              - (Temporary) Must not be written together with `version` in the same request
           observedInVersions:
             type: array
             items:
@@ -672,8 +679,6 @@ example:
     targetVersions:
       - href: "/api/v3/versions/1"
         title: Version 1
-      - href: "/api/v3/versions/2"
-        title: Version 2
     observedInVersions:
       - href: "/api/v3/versions/1"
         title: Version 1
