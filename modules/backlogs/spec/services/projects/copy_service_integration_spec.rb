@@ -125,4 +125,24 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       end
     end
   end
+
+  describe "sprint copying" do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[sprints] }
+    end
+    let!(:source_sprint) { create(:sprint, project: source, name: "Sprint A") }
+
+    subject { instance.call(params) }
+
+    it "copies owned sprints to the target, decoupled from the source" do
+      expect(subject).to be_success
+
+      expect(project_copy.sprints.pluck(:name)).to contain_exactly("Sprint A")
+      copied_sprint = project_copy.sprints.first
+      expect(copied_sprint.id).not_to eq(source_sprint.id)
+      expect(copied_sprint.project).to eq(project_copy)
+    end
+  end
 end

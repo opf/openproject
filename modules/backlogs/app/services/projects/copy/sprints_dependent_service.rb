@@ -28,42 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::CopyServicePatch
-  extend ActiveSupport::Concern
-
-  included do
-    prepend InstanceMethods
-    singleton_class.prepend ClassMethods
-  end
-
-  module ClassMethods
-    def copy_dependencies
-      super.tap do |dependencies|
-        index = dependencies.index(::Projects::Copy::WorkPackagesDependentService)
-        dependencies.insert(index, ::Projects::Copy::SprintsDependentService) if index
-      end
-    end
-  end
-
-  module InstanceMethods
-    def clean_settings_attributes!(settings)
-      # There can be only one project sharing with all projects.
-      if settings["sprint_sharing"] == Projects::SprintSharing::SHARE_ALL_PROJECTS ||
-         !EnterpriseToken.allows_to?(:sprint_sharing)
-        settings.delete("sprint_sharing")
-      end
-
-      super
+module Projects::Copy
+  class SprintsDependentService < Dependency
+    def self.human_name
+      I18n.t("projects.copy.sprints")
     end
 
-    def after_perform(call)
-      super.tap do |result_call|
-        next unless source.backlogs_enabled?
-        next unless result_call.result&.persisted?
+    def source_count
+      source.sprints.count
+    end
 
-        result_call.result.done_statuses = source.done_statuses
-        result_call.result.backlog_excluded_types = source.backlog_excluded_types
+    protected
+
+    def copy_dependency(*)
+      sprint_id_map = {}
+
+      source.sprints.each do |source_sprint|
+        attributes = source_sprint.attributes.dup.except("id", "project_id", "created_at", "updated_at")
+        sprint = target.sprints.create!(attributes)
+        sprint_id_map[source_sprint.id] = sprint.id
       end
+
+      state.sprint_id_lookup = sprint_id_map
     end
   end
 end

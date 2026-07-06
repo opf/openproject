@@ -106,6 +106,7 @@ RSpec.describe(
           members
           versions
           categories
+          sprints
           work_packages
           work_package_attachments
           work_package_shares

@@ -278,6 +278,8 @@ en:
   project_module_backlogs: "Backlogs"
 
   projects:
+    copy:
+      sprints: "Sprints"
     settings:
       backlog_sharing:
         options:
