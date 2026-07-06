@@ -100,7 +100,7 @@ RSpec.describe API::V3::Repositories::RevisionRepresenter do
           "class=\"issue work_package\" " \
           "data-hover-card-trigger-target=\"trigger\" " \
           "data-hover-card-url=\"/work_packages/#{id}/hover_card\" " \
-          "aria-description=\"A dynamic link to a work package placed using a macro\" " \
+          "aria-label=\"##{id}. A dynamic link to a work package placed using a macro\" " \
           "href=\"/work_packages/#{id}\">" \
           "##{id}</a>"
       end

@@ -85,7 +85,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                 <p class="op-uc-p">
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
-                            aria: { description: 'A dynamic link to a user placed using a macro' },
+                            aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro" },
                             class: 'user-mention op-uc-link',
                             target: '_top',
                             data: {
@@ -184,7 +184,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                 <p class="op-uc-p">
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
-                            aria: { description: 'A dynamic link to a user placed using a macro' },
+                            aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro. User #{linked_project_member.name}" },
                             class: 'user-mention op-uc-link',
                             target: '_top',
                             data: {
@@ -212,7 +212,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                 <p class="op-uc-p">
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
-                            aria: { description: 'A dynamic link to a user placed using a macro' },
+                            aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro. User #{linked_project_member.name}" },
                             class: 'user-mention op-uc-link',
                             target: '_top',
                             data: {
@@ -241,7 +241,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                   <p class="op-uc-p">
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
-                              aria: { description: 'A dynamic link to a user placed using a macro' },
+                              aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro. User #{linked_project_member.name}" },
                               class: 'user-mention op-uc-link',
                               target: '_top',
                               data: {
@@ -273,7 +273,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                   <p class="op-uc-p">
                     #{link_to(linked_project_member.name,
                               { controller: :users, action: :show, id: linked_project_member.id },
-                              aria: { description: 'A dynamic link to a user placed using a macro' },
+                              aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro. User #{linked_project_member.name}" },
                               class: 'user-mention op-uc-link',
                               target: '_top',
                               data: {
@@ -302,7 +302,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                 <p class="op-uc-p">
                   #{link_to(linked_project_member.name,
                             { controller: :users, action: :show, id: linked_project_member.id },
-                            aria: { description: 'A dynamic link to a user placed using a macro' },
+                            aria: { label: "#{linked_project_member.name}. A dynamic link to a user placed using a macro. User #{linked_project_member.name}" },
                             class: 'user-mention op-uc-link',
                             target: '_top',
                             data: {
@@ -373,7 +373,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                         data-hover-card-trigger-target="trigger"
                         data-hover-card-url="/users/#{user.id}/hover_card"
                         href="/users/#{user.id}"
-                        aria-description="A dynamic link to a user placed using a macro">Foo Barrit</a>
+                        aria-label="Foo Barrit. A dynamic link to a user placed using a macro. User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
@@ -400,7 +400,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                         data-hover-card-trigger-target="trigger"
                         data-hover-card-url="http://openproject.org/users/#{user.id}/hover_card"
                         href="http://openproject.org/users/#{user.id}"
-                        aria-description="A dynamic link to a user placed using a macro">Foo Barrit</a>
+                        aria-label="Foo Barrit. A dynamic link to a user placed using a macro. User Foo Barrit">Foo Barrit</a>
                   </p>
                 EXPECTED
               end
@@ -436,7 +436,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                   <a class="user-mention op-uc-link"
                      target="_top"
                      href="/groups/#{linked_project_member_group.id}"
-                     aria-description="A dynamic link to a group placed using a macro">
+                     aria-label="#{linked_project_member_group.name}. A dynamic link to a group placed using a macro. Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
                   </a>
                 </p>
@@ -482,7 +482,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
                   <a class="user-mention op-uc-link"
                      target="_top"
                      href="/groups/#{linked_project_member_group.id}"
-                     aria-description="A dynamic link to a group placed using a macro">
+                     aria-label="#{linked_project_member_group.name}. A dynamic link to a group placed using a macro">
                     #{linked_project_member_group.name}
                   </a>
                 </p>

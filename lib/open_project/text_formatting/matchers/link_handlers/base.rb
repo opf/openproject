@@ -101,16 +101,25 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def link_to(name = nil, options = nil, html_options = nil, &)
-        html_options = (html_options || {})
-          .except(:title, "title")
-          .merge(aria: { description: resource_link_aria_label })
+        html_options ||= {}
+        title = html_options.delete(:title) || html_options.delete("title")
+        description = [resource_link_aria_label, title].compact.join(". ")
+        aria = (html_options[:aria] || {}).merge(label: accessible_link_label(name, description))
 
-        super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
+        super(name, options, html_options.merge(aria:), &)
       end
 
       def resource_link_aria_label
         resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "resource")
         I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
+      end
+
+      def accessible_link_label(name, description)
+        visible_name = Nokogiri::HTML.fragment(name.to_s).text.squish
+        plain_description = Nokogiri::HTML.fragment(description.to_s).text.squish
+        I18n.t("js.editor.macro.attribute_reference.aria_label_with_name",
+               name: visible_name,
+               description: plain_description)
       end
     end
   end

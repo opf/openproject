@@ -108,10 +108,7 @@ module OpenProject::TextFormatting::Matchers
 
         ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
                                                   "",
-                                                  data: { id:, display_id:, detailed: },
-                                                  aria: {
-                                                    description: work_package_link_aria_label
-                                                  }
+                                                  data: { id:, display_id:, detailed: }
       end
 
       # The label keeps what the author wrote (possibly a historical

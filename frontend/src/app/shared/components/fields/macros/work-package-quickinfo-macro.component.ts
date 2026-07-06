@@ -66,7 +66,10 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
+    aria_label: (name:string) => this.I18n.t('js.editor.macro.attribute_reference.aria_label_with_name', {
+      name,
+      description: String(this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link')),
+    }),
   };
 
   /** Work package to be shown */

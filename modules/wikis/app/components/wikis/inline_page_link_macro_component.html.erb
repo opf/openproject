@@ -32,7 +32,12 @@ See COPYRIGHT and LICENSE files for more details.
     page_info_result.either(
       ->(page_info) do
         inline_macro.with_leading_visual_icon(icon: :"op-file-doc")
-        render(Primer::Beta::Link.new(href: page_info.href, "aria-description": t("wikis.page_links.aria_label"))) do
+        aria_label = t(
+          "js.editor.macro.attribute_reference.aria_label_with_name",
+          name: page_info.title,
+          description: t("wikis.page_links.aria_label")
+        )
+        render(Primer::Beta::Link.new(href: page_info.href, "aria-label": aria_label)) do
           page_info.title
         end
       end,

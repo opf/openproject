@@ -92,16 +92,9 @@ module OpenProject::TextFormatting
 
         macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
 
-        tag_options = { data: macro_attributes }
-        if work_package_embed?(macro_attributes)
-          tag_options[:aria] = {
-            description: I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_attribute")
-          }
-        end
-
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
                                                   "",
-                                                  **tag_options
+                                                  data: macro_attributes
       end
     end
   end

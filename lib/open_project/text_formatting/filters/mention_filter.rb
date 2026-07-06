@@ -103,14 +103,14 @@ module OpenProject::TextFormatting
         link_to_user(user,
                      only_path: context[:only_path],
                      class: "user-mention",
-                     aria: { description: resource_link_aria_label("user") })
+                     aria: { label: accessible_link_label(user.name, resource_link_aria_label("user")) })
       end
 
       def group_mention(group)
         link_to_group(group,
                       only_path: context[:only_path],
                       class: "user-mention",
-                      aria: { description: resource_link_aria_label("group") })
+                      aria: { label: accessible_link_label(group.name, resource_link_aria_label("group")) })
       end
 
       def work_package_mention(work_package, mention)
@@ -136,10 +136,7 @@ module OpenProject::TextFormatting
                                                   "",
                                                   data: { id: work_package.id,
                                                           display_id: work_package.display_id,
-                                                          detailed: },
-                                                  aria: {
-                                                    description: work_package_link_aria_label
-                                                  }
+                                                          detailed: }
       end
 
       # Uses the WP's current `formatted_id` rather than the envelope text,
@@ -151,7 +148,7 @@ module OpenProject::TextFormatting
         link_to(label,
                 work_package_path_or_url(id: work_package.display_id, only_path: context[:only_path]),
                 class: "issue work_package",
-                aria: { description: work_package_link_aria_label })
+                aria: { label: accessible_link_label(label, work_package_link_aria_label) })
       end
 
       def work_package_link_aria_label
@@ -162,12 +159,20 @@ module OpenProject::TextFormatting
         I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
       end
 
+      def accessible_link_label(name, description)
+        visible_name = Nokogiri::HTML.fragment(name.to_s).text.squish
+        plain_description = Nokogiri::HTML.fragment(description.to_s).text.squish
+        I18n.t("js.editor.macro.attribute_reference.aria_label_with_name",
+               name: visible_name,
+               description: plain_description)
+      end
+
       def work_package_link(work_package)
         display_id = work_package.display_id
         link_to(work_package.formatted_id,
                 work_package_path_or_url(id: display_id, only_path: context[:only_path]),
                 class: "issue work_package",
-                aria: { description: work_package_link_aria_label },
+                aria: { label: accessible_link_label(work_package.formatted_id, work_package_link_aria_label) },
                 data: {
                   hover_card_trigger_target: "trigger",
                   hover_card_url: hover_card_work_package_path(display_id)

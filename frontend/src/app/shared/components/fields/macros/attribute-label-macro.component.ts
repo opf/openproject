@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -69,7 +69,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('attr.aria-description') hostAriaDescription:string|null = null;
+  showAriaContext = false;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -88,7 +88,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
-    this.hostAriaDescription = model === 'workPackage' ? this.text.aria_label : null;
+    this.showAriaContext = model === 'workPackage';
     this.attributeScope = capitalize(model);
 
     void this.loadResourceAttribute(model, id, attributeName);
@@ -109,7 +109,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     }
 
     const schema = await this.schemaCache.ensureLoaded(this.resource);
-    this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
+    this.attribute = schema.attributeFromLocalizedName(attributeName) ?? attributeName;
     this.label = (schema[this.attribute] as IOPFieldSchema|undefined)?.name;
 
     if (!this.label) {

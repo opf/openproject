@@ -53,7 +53,8 @@ module OpenProject::TextFormatting::Matchers
           link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),
                   { only_path: context[:only_path], controller: "/repositories", action: "revision", project_id: project,
                     rev: changeset.revision },
-                  class: "changeset")
+                  class: "changeset",
+                  title: truncate_single_line(changeset.comments, length: 100))
         end
       end
     end

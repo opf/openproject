@@ -1,5 +1,8 @@
 @if (resource) {
   <span [textContent]="label"></span>
+  @if (showAriaContext) {
+    <span class="sr-only" [textContent]="text.aria_label"></span>
+  }
   <attribute-help-text [attribute]="attribute"
     [attributeScope]="attributeScope" />
 }

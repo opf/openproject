@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -74,7 +74,7 @@ export class AttributeValueMacroComponent implements OnInit {
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('attr.aria-description') hostAriaDescription:string|null = null;
+  showAriaContext = false;
 
   resource:HalResource;
 
@@ -86,7 +86,7 @@ export class AttributeValueMacroComponent implements OnInit {
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
-    this.hostAriaDescription = model === 'workPackage' ? this.text.aria_label : null;
+    this.showAriaContext = model === 'workPackage';
 
     if (this.isNestedMacro(model, id, attributeName)) {
       const error = this.I18n.t('js.editor.macro.attribute_reference.nested_macro', { model, id });
@@ -121,7 +121,7 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) || this.dateAttribute(resource, proxied, attributeName);
+    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {
