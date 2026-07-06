@@ -68,7 +68,7 @@ module Backlogs
 
     def move # rubocop:disable Metrics/AbcSize
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
-                                   .call(**move_service_params)
+        .call(**move_service_params)
 
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
@@ -103,17 +103,6 @@ module Backlogs
       @work_package = @work_packages.find(params.expect(:id))
     end
 
-    def move_params
-      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
-    end
-
-    # A blank prev_id (drag or menu move to the top of a list) is kept so the
-    # service inserts at the top; nil values (absent prev_id/direction) are
-    # dropped. The service resolves list_type/list_id into the destination list.
-    def move_service_params
-      move_params.to_h.symbolize_keys.compact
-    end
-
     def displayed_work_packages
       if @work_package.sprint_id?
         @work_packages.where(sprint_id: @work_package.sprint_id)
@@ -130,13 +119,13 @@ module Backlogs
 
     def target_open_sprints
       Sprint.for_project(@project)
-            .visible.not_completed
-            .where.not(id: @work_package.sprint_id)
+        .visible.not_completed
+        .where.not(id: @work_package.sprint_id)
     end
 
     def target_buckets
       BacklogBucket.where(project: @project)
-                   .where.not(id: @work_package.backlog_bucket_id)
+        .where.not(id: @work_package.backlog_bucket_id)
     end
 
     # After a work package is moved to the backlog, it might no longer be visible due to
@@ -146,6 +135,17 @@ module Backlogs
 
       @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
         @project.done_status_ids.include?(work_package.status_id)
+    end
+
+    def move_params
+      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
+    end
+
+    # A blank prev_id (drag or menu move to the top of a list) is kept so the
+    # service inserts at the top; nil values (absent prev_id/direction) are
+    # dropped. The service resolves list_type/list_id into the destination list.
+    def move_service_params
+      move_params.to_h.symbolize_keys.compact
     end
   end
 end
