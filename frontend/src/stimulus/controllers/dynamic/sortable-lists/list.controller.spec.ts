@@ -165,24 +165,6 @@ describe('Sortable lists list controller', () => {
       .toBe(true);
   });
 
-  it('rejects a source dragged from within this list as a list-level target', async () => {
-    const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });
-
-    // A drop onto the list itself (no item target) from a row already in this
-    // list is a guaranteed no-op — the item targets own within-list reorder — so
-    // the list must not accept it and paint its container outline.
-    const sourceRow = document.createElement('li');
-    list.append(sourceRow);
-    const sourceInList = {
-      data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: root }),
-      element: sourceRow,
-    } as never;
-
-    expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: sourceInList }))
-      .toBe(false);
-  });
-
   it('rejects an item whose type is not accepted', async () => {
     const root = document.createElement('div');
     const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });

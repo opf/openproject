@@ -32,7 +32,6 @@ import { Controller } from '@hotwired/stimulus';
 import {
   canAccept,
   isSortableItemData,
-  isSourceListTarget,
   sortableListData,
   type RootAwareChild,
   type SortableListData,
@@ -68,7 +67,7 @@ export default class ListController extends Controller<HTMLElement> implements R
 
     this.cleanupFn = dropTargetForElements({
       element: this.element,
-      canDrop: ({ source }) => this.canDrop(source.data, source.element),
+      canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
       onDragEnter: ({ location }) => {
@@ -125,17 +124,9 @@ export default class ListController extends Controller<HTMLElement> implements R
     });
   }
 
-  private canDrop(data:Record<string|symbol, unknown>, sourceElement:Element):boolean {
+  private canDrop(data:Record<string|symbol, unknown>):boolean {
     const { root } = this;
     if (root == null || root.moving) {
-      return false;
-    }
-
-    // A drop onto this list from a row already in it is a guaranteed no-op (the
-    // item drop targets own within-list reorder), so refuse it here — otherwise
-    // the source list would paint its container outline for a drop that resolves
-    // to nothing. Mirrors the source-list exclusion in resolveDropIntent.
-    if (isSourceListTarget({ sourceElement, targetElement: this.element })) {
       return false;
     }
 
