@@ -108,6 +108,7 @@
     "@openproject/octicons-angular": "^19.35.0",
     "@openproject/primer-view-components": "^0.89.1",
     "@openproject/reactivestates": "^3.0.1",
+    "@openproject/stimulus-elements": "^0.2.0",
     "@primer/css": "^22.1.0",
     "@primer/live-region-element": "^0.8.0",
     "@primer/primitives": "^11.5.1",
