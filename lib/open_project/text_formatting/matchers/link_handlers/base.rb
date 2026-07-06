@@ -32,6 +32,7 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class Base
       include ::OpenProject::TextFormatting::Truncation
+      include ::OpenProject::TextFormatting::Helpers::AccessibleLinkLabel
       # used for the work package quick links
       include WorkPackagesHelper
       # Used for escaping helper 'h()'
@@ -114,13 +115,6 @@ module OpenProject::TextFormatting::Matchers
         I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
       end
 
-      def accessible_link_label(name, description)
-        visible_name = Nokogiri::HTML.fragment(name.to_s).text.squish
-        plain_description = Nokogiri::HTML.fragment(description.to_s).text.squish
-        I18n.t("js.editor.macro.attribute_reference.aria_label_with_name",
-               name: visible_name,
-               description: plain_description)
-      end
     end
   end
 end

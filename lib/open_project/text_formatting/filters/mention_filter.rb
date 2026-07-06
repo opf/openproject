@@ -35,6 +35,7 @@ module OpenProject::TextFormatting
       include ActionView::Helpers::UrlHelper
       include OpenProject::ObjectLinking
       include OpenProject::StaticRouting::UrlHelpers
+      include OpenProject::TextFormatting::Helpers::AccessibleLinkLabel
 
       def call
         preload_mentions
@@ -157,14 +158,6 @@ module OpenProject::TextFormatting
 
       def resource_link_aria_label(resource)
         I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
-      end
-
-      def accessible_link_label(name, description)
-        visible_name = Nokogiri::HTML.fragment(name.to_s).text.squish
-        plain_description = Nokogiri::HTML.fragment(description.to_s).text.squish
-        I18n.t("js.editor.macro.attribute_reference.aria_label_with_name",
-               name: visible_name,
-               description: plain_description)
       end
 
       def work_package_link(work_package)
