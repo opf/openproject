@@ -99,7 +99,7 @@ RSpec.describe DemoData::ProjectSeeder do
             "subject" => "Some work package",
             "status" => :default_status_new,
             "type" => :default_type_task,
-            "version" => :product_backlog
+            "target_versions" => [:product_backlog]
           }
         ]
       )
@@ -109,7 +109,7 @@ RSpec.describe DemoData::ProjectSeeder do
       project_seeder.seed!
       version = Version.find_by!(name: "The product backlog")
       work_package = WorkPackage.find_by!(subject: "Some work package")
-      expect(work_package.version).to eq(version)
+      expect(work_package.target_versions).to contain_exactly(version)
     end
   end
 

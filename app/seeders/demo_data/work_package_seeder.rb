@@ -94,6 +94,7 @@ module DemoData
 
       work_package = WorkPackage.create! wp_attr
 
+      set_target_versions! work_package, attributes
       create_children! work_package, attributes
       create_attachments! work_package, attributes
       update_description! work_package
@@ -170,10 +171,25 @@ module DemoData
       end
     end
 
+    # Mirrors the first target version into the deprecated single version_id
+    # column, matching what the service layer does (see
+    # WorkPackages::Shared::Versions#update_legacy_version_field) so seeded data
+    # stays consistent with work packages created through the app.
+    # TODO: remove once the version_id column is dropped in favor of target_versions.
     def set_version!(wp_attr, attributes)
-      version = seed_data.find_reference(attributes["version"])
+      reference = Array(attributes["target_versions"]).first
+      version = seed_data.find_reference(reference)
       if version
         wp_attr[:version] = version
+      end
+    end
+
+    def set_target_versions!(work_package, attributes)
+      Array(attributes["target_versions"]).each do |reference|
+        version = seed_data.find_reference(reference)
+        next unless version
+
+        work_package.work_package_versions.create!(version_id: version.id, kind: "target")
       end
     end
 
