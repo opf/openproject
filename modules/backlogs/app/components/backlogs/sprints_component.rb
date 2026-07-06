@@ -51,6 +51,10 @@ module Backlogs
 
     private
 
+    def total
+      @total ||= work_packages_by_sprint_id.values.sum(&:count)
+    end
+
     def blankslate_description
       if sprint_management_allowed?
         description_with_settings_link
