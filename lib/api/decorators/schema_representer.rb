@@ -139,6 +139,7 @@ module API
                                            attribute_group: nil,
                                            deprecated: nil,
                                            description: nil,
+                                           options: nil,
                                            show_if: true)
           getter = ->(*) do
             schema_with_allowed_collection_getter(type,
@@ -153,7 +154,8 @@ module API
                                                   values_callback,
                                                   nil,
                                                   deprecated,
-                                                  description)
+                                                  description,
+                                                  options)
           end
 
           schema_property(property,
@@ -368,7 +370,8 @@ module API
                                                 values_callback,
                                                 allowed_values_getter,
                                                 deprecated = nil,
-                                                description = nil)
+                                                description = nil,
+                                                options = nil)
         wrapped_link_factory = if link_factory
                                  ->(value) { instance_exec(value, &link_factory) }
                                else
@@ -391,6 +394,8 @@ module API
 
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
                       .new(**attributes)
+
+        representer.options = call_or_use(options) unless options.nil?
 
         if form_embedded
           representer.allowed_values = instance_exec(&values_callback)

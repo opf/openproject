@@ -13,12 +13,13 @@
   (close)="onClose()"
   (add)="repositionDropdown()"
   (remove)="repositionDropdown()"
-  [multiple]="true"
-  [closeOnSelect]="false"
+  (change)="onSelectionChange()"
+  [multiple]="allowMultiple"
+  [closeOnSelect]="!allowMultiple"
   [appendTo]="appendTo"
   [groupBy]="groupByFn"
   [dropdownPosition]="'top'"
-  [hideSelected]="true">
+  [hideSelected]="allowMultiple">
   <ng-template ng-option-tmp let-item="item">
     <span
       class="ng-option-label ellipsis"
@@ -37,7 +38,7 @@
   }
 </ng-select>
 
-@if (!handler.inEditMode) {
+@if (!handler.inEditMode && allowMultiple) {
   <edit-field-controls [fieldController]="self"
     (onSave)="handler.handleUserSubmit()"
     (onCancel)="handler.handleUserCancel()"

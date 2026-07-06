@@ -113,29 +113,53 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     return value ? (Array.isArray(value) ? value : [value]).map((val) => this.findValueOption(val)) : [];
   }
 
-  public get selectedOption() {
-    return this._selectedOption;
+  /**
+   * Whether the field accepts more than one value. Communicated by the schema
+   * (e.g. targetVersions is restricted to a single value while the multiple
+   * versions setting is inactive); defaults to multiple.
+   */
+  public get allowMultiple():boolean {
+    return (this.schema.options as { multiple?:boolean }|undefined)?.multiple !== false;
+  }
+
+  public get selectedOption():ValueOption[]|ValueOption|null {
+    if (this.allowMultiple) {
+      return this._selectedOption;
+    }
+
+    return this._selectedOption[0] || null;
   }
 
   /**
    * Map the ValueOption to the actual HalResource option
    * @param val
    */
-  public set selectedOption(val:ValueOption[]) {
-    this._selectedOption = val;
-    const mapper = (val:ValueOption) => {
-      const option = (this.availableOptions as ValueOption[]).find((o) => o.href === val.href) ?? this.nullOption;
+  public set selectedOption(val:ValueOption[]|ValueOption|null) {
+    const values = val == null ? [] : (Array.isArray(val) ? val : [val]);
+    this._selectedOption = values;
+    const mapper = (option:ValueOption) => {
+      const found = (this.availableOptions as ValueOption[]).find((o) => o.href === option.href) ?? this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
-      if (option?.href === '') {
-        option.href = null;
+      if (found?.href === '') {
+        found.href = null;
       }
 
-      return option;
+      return found;
     };
 
-    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
+    (this.resource as Record<string, ValueOption[]>)[this.name] = values.map(mapper);
+  }
+
+  /**
+   * In single value mode the field saves right after selection, mirroring the
+   * behavior of the single select edit fields it stands in for.
+   */
+  public onSelectionChange():void {
+    if (!this.allowMultiple) {
+      this.handler.handleUserSubmit();
+    }
   }
 
   public onOpen() {

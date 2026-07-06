@@ -346,14 +346,19 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         return;
       }
 
-      if (!change.schema.ofProperty(fieldName)) {
-        debugLog('Unknown field for current schema', fieldName);
+      // The version attribute is superseded by targetVersions, which backs the
+      // field regardless of whether multiple values are allowed. The schema
+      // controls label and multiplicity.
+      const name = (fieldName === 'version' && change.schema.ofProperty('targetVersions')) ? 'targetVersions' : fieldName;
+
+      if (!change.schema.ofProperty(name)) {
+        debugLog('Unknown field for current schema', name);
         return;
       }
 
-      const field:DisplayField = this.displayField(change, fieldName);
+      const field:DisplayField = this.displayField(change, name);
       descriptors.push({
-        name: fieldName,
+        name,
         label: field.label,
         multiple: false,
         spanAll: field.isFormattable,
