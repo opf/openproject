@@ -250,27 +250,28 @@ export function resolveDropIntent({
   sourceElement:HTMLElement;
   sourceData:SortableItemData;
 }):DropIntent|null {
-  const targetItem = location.current.dropTargets.find(({ data, element }) => (
-    isSortableItemData(data) && element instanceof HTMLElement && root.contains(element)
-  ));
-  const targetList = location.current.dropTargets.find(({ data, element }) => (
-    isSortableListData(data) && element instanceof HTMLElement && root.contains(element)
-  ));
-  if (!(targetList?.element instanceof HTMLElement)) {
+  const targetItem = location.current.dropTargets.find(
+    (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
+      isSortableItemData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+    ),
+  );
+  const targetList = location.current.dropTargets.find(
+    (target):target is typeof target & { data:SortableListData; element:HTMLElement } => (
+      isSortableListData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
+    ),
+  );
+  if (!targetList) {
     return null;
   }
 
   const listElement = targetList.element;
   const listData = targetList.data;
-  if (!isSortableListData(listData)) {
-    return null;
-  }
 
   if (!targetItem && isSourceListTarget({ sourceElement, targetElement: listElement })) {
     return null;
   }
 
-  const previousItemId = targetItem?.element instanceof HTMLElement
+  const previousItemId = targetItem
     ? resolvePreviousSortableItemId({
       sourceItemId: sourceData.itemId,
       targetItem: targetItem.element,
