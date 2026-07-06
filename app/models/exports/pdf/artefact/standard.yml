@@ -51,8 +51,8 @@ cover:
     no_border_right: true
     no_border_left: true
   badge:
-    size: 10
-    offset: 0
+    size: 9
+    offset: 1
   title:
     margin_top: 30
     no_border: true

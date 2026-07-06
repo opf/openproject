@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::ProjectInitiation::Cover
+module Exports::PDF::Artefact::Cover
   def write_cover_page!
     write_cover_logo
     write_cover_heading unless cover_page_heading.nil?

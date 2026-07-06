@@ -28,52 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::ProjectInitiation::CoverStyles
-  def cover_header_logo_height
-    resolve_pt(@styles.dig(:cover, :header, :logo_height), 25)
+module Exports::PDF::Common::ProjectAttributesStyles
+  def project_markdown_label
+    resolve_font(@styles.dig(:project, :markdown_label))
   end
 
-  def cover_header_margin
-    resolve_margin(@styles.dig(:cover, :header))
+  def project_markdown_label_margins
+    resolve_margin(@styles.dig(:project, :markdown_label))
   end
 
-  def cover_heading
-    resolve_font(@styles.dig(:cover, :heading))
+  def project_markdown_margins
+    resolve_margin(@styles.dig(:project, :markdown_margins))
   end
 
-  def cover_heading_margin
-    resolve_margin(@styles.dig(:cover, :heading))
+  def project_attribute_value
+    resolve_font(@styles.dig(:project, :attribute_value) || {})
   end
 
-  def cover_heading_border
-    resolve_borders(@styles.dig(:cover, :heading))
+  def project_markdown_styling_yml
+    resolve_markdown_styling(@styles.dig(:project, :markdown) || {})
   end
 
-  def cover_heading_padding
-    resolve_padding(@styles.dig(:cover, :heading))
+  def project_attributes_table_margins
+    resolve_margin(@styles.dig(:project, :attributes_table))
   end
 
-  def cover_title
-    resolve_font(@styles.dig(:cover, :title))
+  def project_attributes_table_cell
+    resolve_table_cell(@styles.dig(:project, :attributes_table, :cell))
   end
 
-  def cover_title_margin
-    resolve_margin(@styles.dig(:cover, :title))
+  def project_attributes_table_label
+    resolve_font(@styles.dig(:project, :attributes_table, :cell_label))
   end
 
-  def cover_title_border
-    resolve_borders(@styles.dig(:cover, :title))
-  end
-
-  def cover_title_padding
-    resolve_padding(@styles.dig(:cover, :title))
-  end
-
-  def cover_footer
-    resolve_font(@styles.dig(:cover, :footer))
-  end
-
-  def cover_footer_margin
-    resolve_margin(@styles.dig(:cover, :footer))
+  def project_attributes_table_label_cell
+    project_attributes_table_cell.merge(
+      resolve_table_cell(@styles.dig(:project, :attributes_table, :cell_label)) || {}
+    )
   end
 end

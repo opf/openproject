@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::ProjectInitiation::Styles
+module Exports::PDF::Artefact::Styles
   class PDFStyles
     include MarkdownToPDF::Common
     include MarkdownToPDF::StyleHelper
     include Exports::PDF::Common::Styles
     include Exports::PDF::Components::PageStyles
-    include Project::PDFExport::ProjectInitiation::CoverStyles
-    include Project::PDFExport::Common::ProjectAttributesStyles
+    include Exports::PDF::Artefact::CoverStyles
+    include Exports::PDF::Common::ProjectAttributesStyles
 
     def page_subheading
       resolve_font(@styles[:page_subheading])

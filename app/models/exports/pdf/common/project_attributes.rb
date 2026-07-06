@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::Common::ProjectAttributes
+module Exports::PDF::Common::ProjectAttributes
   EMPTY_VALUE_PLACEHOLDER = "–"
 
   def write_project_detail_content(project, export_fields)
