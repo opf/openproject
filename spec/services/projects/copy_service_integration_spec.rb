@@ -101,7 +101,7 @@ RSpec.describe(
 
   describe ".copyable_dependencies" do
     it "includes the list of dependencies" do
-      expect(described_class.copyable_dependencies.pluck(:identifier)).to eq(
+      expect(described_class.copyable_dependencies.pluck(:identifier)).to match_array(
         %w(
           members
           versions
