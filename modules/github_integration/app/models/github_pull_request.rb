@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -41,33 +43,33 @@ class GithubPullRequest < ApplicationRecord
     deployed: "deployed"
   }
 
-  validates_presence_of :github_html_url,
-                        :number,
-                        :repository,
-                        :state,
-                        :title,
-                        :github_updated_at
-  validates_presence_of :body,
-                        :comments_count,
-                        :review_comments_count,
-                        :additions_count,
-                        :deletions_count,
-                        :changed_files_count,
-                        unless: :partial?
+  validates :github_html_url,
+            :number,
+            :repository,
+            :state,
+            :title,
+            :github_updated_at,
+            presence: true
+  validates :body,
+            :comments_count,
+            :review_comments_count,
+            :additions_count,
+            :deletions_count,
+            :changed_files_count,
+            presence: { unless: :partial? }
   validate :validate_labels_schema
 
   scope :without_work_package, -> { where.missing(:work_packages) }
 
-  def self.find_by_github_identifiers(id: nil, url: nil, initialize: false)
-    raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
+  def self.find_by_github_identifiers(url:, id: nil, initialize: false)
+    raise ArgumentError, "needs an url" if url.blank?
 
-    found = where(github_id: id).or(where(github_html_url: url)).take
-
-    if found
-      found
-    elsif initialize
-      new(github_id: id, github_html_url: url)
-    end
+    # The URL matches across every payload shape (comment payloads carry no
+    # pull request id). The id fallback covers repository renames: GitHub ids
+    # are globally unique, so a URL miss with an id hit is the same pull
+    # request under a new URL, which the next upsert writes back.
+    found = find_by(github_html_url: url) || (find_by(github_id: id) if id)
+    found || (new(github_id: id, github_html_url: url) if initialize)
   end
 
   def visible?(user = User.current)

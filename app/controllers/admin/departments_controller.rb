@@ -225,7 +225,7 @@ module Admin
     def parse_new_parent_id(input)
       return nil if input.blank?
 
-      value = MultiJson.load(Array(input).first, symbolize_keys: true)[:value]
+      value = MultiJSON.load(Array(input).first, symbolize_keys: true)[:value]
       value.presence
     end
 

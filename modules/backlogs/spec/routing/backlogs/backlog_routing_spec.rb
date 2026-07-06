@@ -53,6 +53,7 @@ RSpec.describe Backlogs::BacklogController do
 
   describe "named routing" do
     it {
+      # TODO: This is a legacy redirect route that needs to be removed in 18.0
       expect(project_backlogs_path("project_42")).to eq("/projects/project_42/backlogs")
     }
 

@@ -38,6 +38,10 @@ module Wikis
 
     def configured? = true
 
+    def configured_from_env?
+      Setting.internal_wiki_provider.present?
+    end
+
     def name
       model_name.human
     end

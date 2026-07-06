@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { uniqBy } from 'lodash-es';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -124,8 +125,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(
         (days:IDay[]) => {
-          this.nonWorkingDays = _
-            .uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
+          this.nonWorkingDays = uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
             .filter((el:INonWorkingDay) => !this.nonWorkingDays.find((existing) => existing.id === el.id && existing._destroy));
           this.originalNonWorkingDays = [...this.nonWorkingDays];
           const events = this.mapToCalendarEvents(this.nonWorkingDays);

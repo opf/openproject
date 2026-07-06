@@ -913,11 +913,12 @@ th:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: ภาพรวม
         activity: กิจกรรม
+        files: ไฟล์
+        overview: ภาพรวม
+        project_attributes: Project attributes
         relations: Relations
         watchers: ผู้เฝ้าดู
-        files: ไฟล์
       time_relative:
         days: วัน
         weeks: สัปดาห์

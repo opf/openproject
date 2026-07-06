@@ -17,7 +17,7 @@ export class WorkPackageTableEditingContext {
   public forms:Record<string, TableEditForm> = {};
 
   public reset() {
-    _.each(this.forms, (form) => form.destroy());
+    Object.values(this.forms).forEach((form) => form.destroy());
     this.forms = {};
   }
 

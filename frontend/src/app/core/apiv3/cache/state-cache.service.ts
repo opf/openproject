@@ -142,7 +142,7 @@ export class StateCacheService<T> {
         auditTime(250),
         map(() => {
           const mapped:T[] = [];
-          _.each(this.multiState.getValueOr({}), (state:State<T>) => {
+          Object.values(this.multiState.getValueOr({})).forEach((state:State<T>) => {
             if (state.value) {
               mapped.push(state.value);
             }

@@ -32,6 +32,8 @@ class CustomValue < ApplicationRecord
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
 
+  scope :for_semantic_key, ->(semantic_key) { joins(:custom_field).where(custom_fields: { semantic_key: }) }
+
   validate :validate_presence_of_required_value
   validate :validate_format_of_value
   validate :validate_type_of_value

@@ -1837,6 +1837,30 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
+      context "for multiple versions" do
+        before do
+          work_package.target_version_ids_replacements = [version.id]
+        end
+
+        context "when not shared in the new project" do
+          it "filters to only assignable versions" do
+            subject
+
+            expect(work_package.target_version_ids_replacements).to be_empty
+          end
+        end
+
+        context "when shared in the new project" do
+          let(:new_versions) { [version] }
+
+          it "keeps assignable versions" do
+            subject
+
+            expect(work_package.target_version_ids_replacements).to eql [version.id]
+          end
+        end
+      end
+
       context "for category" do
         before do
           work_package.category = category
@@ -2321,6 +2345,94 @@ RSpec.describe WorkPackages::SetAttributesService,
       instance.call(subject: "My custom subject")
 
       expect(work_package.subject).to eq("My custom subject")
+    end
+  end
+
+  describe "versions attributes" do
+    it "extracts target_version_ids into replacements" do
+      instance.call(target_version_ids: [1, 2])
+
+      expect(work_package.target_version_ids_replacements).to eq [1, 2]
+    end
+
+    it "casts string IDs to integers" do
+      instance.call(target_version_ids: ["3", "4"])
+
+      expect(work_package.target_version_ids_replacements).to eq [3, 4]
+    end
+
+    it "extracts observed_in_version_ids into replacements" do
+      instance.call(observed_in_version_ids: [5])
+
+      expect(work_package.observed_in_version_ids_replacements).to eq [5]
+    end
+
+    it "handles both passed together" do
+      instance.call(target_version_ids: [1], observed_in_version_ids: [2])
+
+      expect(work_package.target_version_ids_replacements).to eq [1]
+      expect(work_package.observed_in_version_ids_replacements).to eq [2]
+    end
+
+    it "leaves replacements nil when not passed" do
+      instance.call(subject: "foo")
+
+      expect(work_package.target_version_ids_replacements).to be_nil
+      expect(work_package.observed_in_version_ids_replacements).to be_nil
+    end
+
+    it "sets empty array as override (does not set to nil)" do
+      instance.call(target_version_ids: [])
+
+      expect(work_package.target_version_ids_replacements).to eq []
+      expect(work_package.override_target_versions?).to be true
+    end
+  end
+
+  describe "setting the templated description when the type changes on a new work package" do
+    subject(:service_result) { instance.call(call_attributes) }
+
+    let(:work_package) { new_work_package }
+    let(:type_with_template) { create(:type, description: "Some default template text") }
+    let(:type_without_template) { create(:type, description: nil) }
+
+    before { allow(work_package).to receive(:save) }
+
+    context "when changing to a type that has a default description template" do
+      let(:call_attributes) { { type: type_with_template } }
+
+      it "sets the description to the type's template" do
+        service_result
+        expect(work_package.description).to eq("Some default template text")
+      end
+    end
+
+    context "when changing from a templated type to one without a template" do
+      let(:call_attributes) { { type: type_without_template } }
+
+      before do
+        work_package.description = type_with_template.description
+        work_package.clear_changes_information
+      end
+
+      it "clears the previous type's template" do
+        service_result
+        expect(work_package.description).to be_blank
+      end
+    end
+
+    context "when the description was authored by the user" do
+      let(:call_attributes) { { type: type_without_template } }
+
+      before do
+        work_package.description = "Something the user typed"
+        work_package.clear_changes_information
+      end
+
+      it "keeps the user's description" do
+        service_result
+        expect(work_package.description).to eq("Something the user typed")
+      end
     end
   end
 end

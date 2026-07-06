@@ -913,11 +913,12 @@ ms:
         relation_filters:
           filter_work_packages_by_relation_type: Saring pakej kerja mengikut jenis hubungan
       tabs:
-        overview: Gambaran Keseluruhan
         activity: Aktiviti
+        files: Fail-fail
+        overview: Gambaran Keseluruhan
+        project_attributes: Project attributes
         relations: Hubungan-hubungan
         watchers: Pemerhati-pemerhati
-        files: Fail-fail
       time_relative:
         days: hari
         weeks: minggu

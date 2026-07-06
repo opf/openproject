@@ -239,28 +239,23 @@ module Pages
       def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
         select_filter(name, human_name)
 
-        # Re-find after select_filter, as adding the filter triggers DOM updates
-        # that make the returned reference immediately stale (ObsoleteNode)
-        selected_filter = page.find(".advanced-filters--filter[data-filter-name='#{name}']")
+        # Classify the row before apply_operator re-renders it. Skipped when
+        # there is nothing to set.
+        kind = filter_kind(name) if values.any?
 
-        is_autocomplete = autocomplete_filter?(selected_filter)
-        is_date_or_datetime = date_filter?(selected_filter) || date_time_filter?(selected_filter)
-
-        within(selected_filter) do
+        within(filter_selector(name)) do
           apply_operator(name, human_operator)
         end
 
         return unless values.any?
 
         # Re-find again as apply_operator may have triggered further DOM updates
-        selected_filter = page.find(".advanced-filters--filter[data-filter-name='#{name}']")
-
-        within(selected_filter) do
+        within(filter_selector(name)) do
           if boolean_filter?(name)
             set_toggle_filter(values)
-          elsif is_autocomplete
+          elsif kind == :autocomplete
             set_autocomplete_filter(values)
-          elsif is_date_or_datetime
+          elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
             set_datetime_filter(name, human_operator, values, send_keys:)
           end

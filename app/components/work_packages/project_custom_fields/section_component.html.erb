@@ -1,0 +1,28 @@
+<%=
+  component_wrapper do
+    render(
+      Primer::OpenProject::SidePanel::Section.new(
+        test_selector: "wp-project-attribute-section-#{@project_custom_field_section.id}"
+      )
+    ) do |section|
+      section.with_title { @project_custom_field_section.name }
+
+      flex_layout(classes: "gap-2") do |flex|
+        @project_custom_fields.each do |project_custom_field|
+          flex.with_row do
+            render(
+              OpenProject::Common::InplaceEditFieldComponent.new(
+                model: @project,
+                attribute: project_custom_field.attribute_name.to_sym,
+                open_in_dialog: false,
+                truncated: false,
+                test_selector: "wp-project-attribute-#{project_custom_field.id}",
+                display_classes: "op-project-custom-field-container"
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>

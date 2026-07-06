@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Meeting search", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i(view_meetings view_work_packages)) }
   let(:user) { create(:user, member_with_roles: { project => role }) }
@@ -75,6 +76,35 @@ RSpec.describe "Meeting search", :js do
 
       global_search.open_tab :meetings
       expect(page.find_by_id("search-results")).to have_text(meeting.title)
+    end
+  end
+
+  context "when searching from a different project context" do
+    let(:parent_project) { create(:project) }
+    let(:child_project) { create(:project, parent: parent_project) }
+    let(:role) { create(:project_role, permissions: %i(view_meetings view_work_packages)) }
+    let(:user) do
+      create(:user, member_with_roles: { parent_project => role, child_project => role })
+    end
+
+    let!(:meeting) { create(:meeting, project: child_project) }
+    let!(:agenda_item) { create(:meeting_agenda_item, meeting:) }
+
+    before do
+      visit project_path(parent_project)
+    end
+
+    it "opens the meeting in its own project" do
+      select_autocomplete(page.find(".top-menu-search--input"),
+                          query: agenda_item.notes,
+                          select_text: I18n.t("js.global_search.current_project_and_all_descendants"),
+                          wait_dropdown_open: true)
+
+      global_search.open_tab :meetings
+      page.find_by_id("search-results").click_link(meeting.title)
+
+      expect(page).to have_current_path(project_meeting_path(child_project, meeting))
+      expect(page).to have_text(meeting.title)
     end
   end
 end

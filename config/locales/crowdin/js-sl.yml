@@ -934,11 +934,12 @@ sl:
         relation_filters:
           filter_work_packages_by_relation_type: Filtreraj delovne pakete po vrsti relacije
       tabs:
-        overview: Pregled
         activity: Aktivnost
+        files: Datoteke
+        overview: Pregled
+        project_attributes: Project attributes
         relations: Relacije
         watchers: Opazovalci
-        files: Datoteke
       time_relative:
         days: dnevi
         weeks: tednov

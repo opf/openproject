@@ -30,10 +30,11 @@ import { ApplicationRef, Injector } from '@angular/core';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
+import type { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 class TestEditForm extends EditForm<HalResource> {
-  constructor(injector:Injector, private readonly requireVisibleSpy:(fieldName:string) => Promise<void>, private readonly activateFieldSpy:() => Promise<EditFieldHandler>, private readonly resetSpy:(fieldName:string, focus?:boolean) => void) {
+  constructor(injector:Injector, private readonly requireVisibleSpy:(fieldName:string) => Promise<void>, private readonly resetSpy:(fieldName:string, focus?:boolean) => void) {
     super(injector);
   }
 
@@ -41,8 +42,10 @@ class TestEditForm extends EditForm<HalResource> {
     return this.requireVisibleSpy(fieldName);
   }
 
-  public activateField():Promise<EditFieldHandler> {
-    return this.activateFieldSpy();
+  // Concrete implementation required by the abstract base. The specs mock
+  // `activate` directly, so this is never invoked.
+  protected activateField(_form:EditForm, _schema:IFieldSchema, _fieldName:string, _errors:string[]):Promise<EditFieldHandler> {
+    return Promise.resolve({} as EditFieldHandler);
   }
 
   public reset(fieldName:string, focus?:boolean):void {
@@ -55,10 +58,13 @@ class TestEditForm extends EditForm<HalResource> {
 }
 
 describe('EditForm', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('does not require visibility twice for newly erroneous inactive fields', async () => {
     const tick = vi.fn();
     const requireVisible = vi.fn().mockResolvedValue(undefined);
-    const activateField = vi.fn().mockResolvedValue({});
     const reset = vi.fn();
     const injector = {
       get: vi.fn().mockImplementation((token:unknown) => {
@@ -70,7 +76,8 @@ describe('EditForm', () => {
       }),
     };
 
-    const form = new TestEditForm(injector, requireVisible, activateField, reset);
+    const form = new TestEditForm(injector, requireVisible, reset);
+    const activate = vi.spyOn(form, 'activate').mockResolvedValue({} as EditFieldHandler);
     const change = {
       inFlight: false,
       schema: {
@@ -91,13 +98,17 @@ describe('EditForm', () => {
       showEditingBlockedError: vi.fn(),
     } as never;
     form.errorsPerAttribute = { foo: ['Required'] };
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     (form as unknown as {
       setErrorsForFields:(fields:string[]) => void;
     }).setErrorsForFields(['foo']);
-    await Promise.resolve();
-    await Promise.resolve();
+    await vi.waitFor(() => {
+      expect(activate).toHaveBeenCalledTimes(1);
+    });
 
     expect(requireVisible).toHaveBeenCalledTimes(1);
+    expect(activate).toHaveBeenCalledWith('foo', true);
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 });

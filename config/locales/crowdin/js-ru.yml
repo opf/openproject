@@ -110,7 +110,7 @@ ru:
     button_save: Сохранить
     button_settings: Настройки
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     button_export-atom: Скачать Atom
     button_generate_pdf: Создать PDF
     button_create: Создать
@@ -918,11 +918,12 @@ ru:
         relation_filters:
           filter_work_packages_by_relation_type: Фильтр пакета работ по типу отношения
       tabs:
-        overview: Обзор
         activity: Деятельность
+        files: Файлы
+        overview: Обзор
+        project_attributes: Project attributes
         relations: Связи
         watchers: Наблюдатель
-        files: Файлы
       time_relative:
         days: дней
         weeks: недель

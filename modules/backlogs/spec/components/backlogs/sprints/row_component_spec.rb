@@ -63,8 +63,9 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     context "when sprint is in planning" do
       let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
 
-      it "links to the backlog" do
-        expect(rendered_component).to have_link("Planning sprint", href: project_backlogs_backlog_path(project))
+      it "links to the backlog filtered by sprint" do
+        expect(rendered_component).to have_link("Planning sprint",
+                                                href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id]))
       end
     end
 
@@ -128,7 +129,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
       it "shows dates, status and mapped work package count" do
         expect(rendered_component).to have_css(".start_date", text: "09/01/2025")
         expect(rendered_component).to have_css(".finish_date", text: "09/15/2025")
-        expect(rendered_component).to have_css(".status", text: I18n.t(:"activerecord.attributes.sprint.statuses.in_planning"))
+        expect(rendered_component).to have_css(".status", text: "In planning")
         expect(rendered_component).to have_css(".work_package_count", text: "7")
       end
     end

@@ -97,6 +97,18 @@ ru:
     administration_blankslate:
       title: Настройки администрирования бэклога будут в будущем
       text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Удалить раздел бэклога?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -180,6 +192,7 @@ ru:
         create_description_text: Чтобы начать планировать свой спринт, создайте его здесь.
         manage_description_html: Чтобы начать планировать свой спринт, перейдите на %{settings_link}, чтобы получать спринты из другого проекта.
         no_actions_description_text: Для этого проекта пока нет доступных спринтов.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} сюжетная точка"
       few: "%{count} сюжетные точки"

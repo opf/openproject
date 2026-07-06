@@ -215,7 +215,7 @@ de:
   setting_costs_currency_format_prefix: Vor der Zahl (z.B. EUR 100)
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
-  setting_enforce_without_allow: Start- und Endzeiten können nicht verpflichtend erfasst werden, ohne die Erfassung zu erlauben
+  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_allow_tracking_start_and_end_times_caption: Erlaubt es bei der Zeitbuchung die genaue Start- und Endzeiten der Buchung zu erfassen.
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen

@@ -4,14 +4,14 @@ ja:
   js:
     storages:
       authentication_error: "%{storageType} での認証に失敗しました"
-      link_files_in_storage: リンクファイル %{storageType}
-      link_existing_files: 既存のファイルをリンク
-      upload_files: ファイルのアップロード
+      link_files_in_storage: "%{storageType}のファイルをリンクする"
+      link_existing_files: 既存のファイルをリンクする
+      upload_files: ログファイル
       drop_files: ここにファイルをドロップして、 %{name} にアップロードします。
       drop_or_click_files: ここにファイルをドロップするか、クリックして %{name} にアップロードします。
       login: "%{storageType} ログイン"
       login_to: "%{storageType}にログイン"
-      no_connection: "%{storageType} 接続がありません"
+      no_connection: "%{storageType} 接続なし"
       open_storage: "%{storageType} を開く"
       select_location: 場所を選択
       choose_location: 場所を選ぶ
@@ -24,7 +24,7 @@ ja:
       information:
         authentication_error: "%{storageType} へのリクエストを認証できませんでした。これはエラーです。"
         connection_error: "%{storageType} の設定が一部機能していません。 %{storageType} 管理者にお問い合わせください。\n"
-        live_data_error: ファイルの詳細の取得に失敗しました
+        live_data_error: ファイル詳細の取得エラー
         live_data_error_description: '一部の %{storageType} データを取得できませんでした。このページを再読み込みするか、 %{storageType} 管理者にお問い合わせください。
 
           '
@@ -35,7 +35,7 @@ ja:
         suggest_logout: ログアウトしてログインし直すと、この問題が解決するかどうか試してみてください。
         suggest_relink: 以下のログインボタンからアカウントを再リンクすると、この問題が解決するかどうか試してみてください。
       files:
-        already_existing_header: このファイルはすでに存在する
+        already_existing_header: このファイルは既に存在します
         already_existing_body: 'このファイルをアップロードしようとしている場所に、"%{fileName}"という名前のファイルがすでに存在します。どうしますか？
 
           '
@@ -44,7 +44,7 @@ ja:
         dragging_folder: "%{storageType} へのアップロードはフォルダをサポートしていません。"
         empty_folder: このフォルダは空です。
         empty_folder_location_hint: 下のボタンをクリックして、この場所にファイルをアップロードしてください。
-        file_not_selectable_location: 場所を選択する過程でファイルを選択することはできない。
+        file_not_selectable_location: ファイルを選択することは、場所を選択する過程ではできません。
         project_folder_no_access: 'プロジェクトフォルダにアクセスできません。管理者に連絡してアクセス権を取得するか、別の場所にファイルをアップロードしてください。
 
           '
@@ -90,10 +90,10 @@ ja:
 
             '
           detail:
-            nextcloud: '最新版のNextcloudアプリ「OpenProject Integration」がインストールされていることを確認し、管理者にお問い合わせください。
+            nextcloud: 'Nextcloudアプリ「OpenProject統合」の最新バージョンがインストールされていることを確認し、詳細については管理者にお問い合わせください。
 
               '
-        link_uploaded_file_error: '最近アップロードされたファイル ''%{fileName}'' をワークパッケージ %{workPackageId}にリンクするエラーが発生しました。
+        link_uploaded_file_error: '最近アップロードされたファイル ''%{fileName}'' をワークパッケージ %{workPackageId} にリンクしてエラーが発生しました。
 
           '
         tooltip:

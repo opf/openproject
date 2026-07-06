@@ -147,13 +147,18 @@ export default class CheckableController extends Controller<HTMLElement> {
 
   private toggleChecked(checkboxes:HTMLInputElement[], checked?:boolean) {
     // If all are checked -> uncheck all.
-    // If mixed or none checked -> check all.
-    const allChecked = checkboxes.every((checkbox) => checkbox.checked);
+    // If mixed, indeterminate or none checked -> check all.
+    const allChecked = checkboxes.every((checkbox) => checkbox.checked && !checkbox.indeterminate);
     checked ??= !allChecked;
 
     checkboxes.forEach((checkbox) => {
+      // Programmatically setting `checked` does not clear the indeterminate
+      // flag the way a native click does, so clear it explicitly.
+      checkbox.indeterminate = false;
       checkbox.checked = checked;
-      checkbox.dispatchEvent(new Event('input', { bubbles: false, cancelable: true }));
+      // Dispatch a bubbling `change` so form-level listeners
+      // react just as they would to a native checkbox toggle.
+      checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     });
   }
 }

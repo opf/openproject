@@ -914,11 +914,12 @@ fil:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Buod
         activity: Aktibidad
+        files: Mga file
+        overview: Buod
+        project_attributes: Project attributes
         relations: Mga relasyon
         watchers: Manonood
-        files: Mga file
       time_relative:
         days: mga araw
         weeks: mga linggo
