@@ -81,7 +81,10 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
     it "submits backlog_bucket list data" do
       render_component
 
-      expect(page).to have_css("input[name='list_type'][value='backlog_bucket']", visible: :all)
+      expect(page).to have_css(
+        "input[name='list_type'][value='#{Backlogs::Target::BucketId.new(nil).list_type}']",
+        visible: :all
+      )
       expect(page).to have_element(:option, value: bucket_a.id, text: "Alpha")
       expect(page).to have_element(:option, value: bucket_b.id, text: "Beta")
     end

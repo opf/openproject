@@ -65,9 +65,11 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "wires the list controller for the inbox" do
+      list_type = Backlogs::Target::InboxId.list_type
+
       expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
         expect(box["data-controller"]).to include("sortable-lists--list")
-        expect(box["data-sortable-lists--list-type-value"]).to eq("inbox")
+        expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
         expect(box["data-sortable-lists--list-id-value"]).to be_nil
         expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
       end

@@ -349,7 +349,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
         expect(page).to have_octicon(:inbox)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_inbox"))
-        expect(page).to have_field("list_type", type: :hidden, with: "inbox")
+        expect(page).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
       end
     end
 

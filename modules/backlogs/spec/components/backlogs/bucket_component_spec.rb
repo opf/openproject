@@ -119,9 +119,11 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "wires the list controller and value attributes for the bucket" do
+        list_type = Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
+
         expect(rendered_component).to have_css(".Box") do |box|
           expect(box["data-controller"]).to include("sortable-lists--list")
-          expect(box["data-sortable-lists--list-type-value"]).to eq("backlog_bucket")
+          expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
           expect(box["data-sortable-lists--list-id-value"]).to eq(backlog_bucket.id.to_s)
           expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
         end

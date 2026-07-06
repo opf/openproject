@@ -76,6 +76,10 @@ module Backlogs
 
     private
 
+    def list_type
+      Backlogs::Target::InboxId.list_type
+    end
+
     def tail_size
       [TRUNCATE_MIDDLE / 5, 1].max
     end

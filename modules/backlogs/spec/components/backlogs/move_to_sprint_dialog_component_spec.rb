@@ -81,7 +81,10 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
     it "submits sprint list data" do
       render_component
 
-      expect(page).to have_css("input[name='list_type'][value='sprint']", visible: :all)
+      expect(page).to have_css(
+        "input[name='list_type'][value='#{Backlogs::Target::SprintId.new(nil).list_type}']",
+        visible: :all
+      )
       expect(page).to have_css("option[value='#{planning_sprint.id}']", text: "Planning Sprint")
       expect(page).to have_css("option[value='#{active_sprint.id}']", text: "Active Sprint")
     end

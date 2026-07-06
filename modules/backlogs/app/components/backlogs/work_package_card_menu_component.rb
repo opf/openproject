@@ -120,5 +120,9 @@ module Backlogs
 
       [{ name: "list_type", value: target.list_type }, { name: "list_id", value: target.list_id }]
     end
+
+    def inbox_list_type
+      Backlogs::Target::InboxId.list_type
+    end
   end
 end

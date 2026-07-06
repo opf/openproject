@@ -33,6 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     d.with_body do
       available_sprints = sprints
+      sprint_list_type = list_type
 
       primer_form_with(
         url: move_action,
@@ -41,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
         data: { turbo_stream: true }
       ) do |f|
         render_inline_form(f) do |form|
-          form.hidden(name: "list_type", value: "sprint")
+          form.hidden(name: "list_type", value: sprint_list_type)
           form.select_list(name: "list_id", label: Sprint.human_model_name, visually_hide_label: true) do |select|
             available_sprints.each do |sprint|
               select.option(label: sprint.name, value: sprint.id)
