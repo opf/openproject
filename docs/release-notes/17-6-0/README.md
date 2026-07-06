@@ -28,9 +28,11 @@ Take a look at our release video showing the most important features introduced 
 
 OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution. [Learn more about the motivation behind the integration and our collaboration with XWiki in our dedicated blog article](https://www.openproject.org/blog/x.wiki-integration).
 
-![OpenProject XWiki integration: Wiki providers overview with listed XWiki](openproject_system_administration_wiki_providers.png) 
+To use the XWiki integration, system administrators first need to configure an external wiki as a **Wiki provider** in the OpenProject administration settings.
 
-With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
+![OpenProject XWiki integration: Wiki providers overview with listed XWiki](openproject_system_administration_wiki_providers.png)
+
+Work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
 
 The integration also supports **references between OpenProject and XWiki**. Users can see which wiki pages reference a work package and insert links to wiki pages directly from descriptions, comments, and documents. This helps teams keep project work and documentation connected across both platforms.
 
@@ -38,6 +40,12 @@ The integration also supports **references between OpenProject and XWiki**. User
 
 > [!NOTE]
 > OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
+
+### Internal wiki provider
+
+OpenProject's built-in wiki is now available as a **Wiki provider**. System administrators can enable or disable it under **Administration → Wikis → Internal wiki**. When enabled, projects can activate the built-in wiki in their project settings and use the new **Wiki** tab in work packages to create, link, and access wiki pages. When disabled, the built-in wiki is unavailable for all projects.
+
+If your OpenProject instance already used the built-in wiki before upgrading to OpenProject 17.6, the built-in wiki provider will be enabled automatically to preserve existing functionality.
 
 ### Sprint goals
 
