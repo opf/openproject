@@ -42,10 +42,14 @@ module WorkPackageTypes
     end
 
     def index
-      @types = ::Type
-                .includes(:workflows, :projects, :custom_fields, :color)
+      roots = ::Type
+                .roots
+                .includes(:workflows, :projects, :custom_fields, :color,
+                          children: %i[workflows projects custom_fields color])
                 .page(page_param)
                 .per_page(per_page_param)
+
+      @types = roots.flat_map { |root| [root, *root.children] }
     end
 
     def type
@@ -86,12 +90,13 @@ module WorkPackageTypes
     def destroy
       # types cannot be deleted when they have work packages
       # or they are standard types
-      # put that into the model and do a `if @type.destroy`
-      if @type.work_packages.empty? && !@type.is_standard?
-        @type.destroy
+      # or they have sub-types
+      if @type.is_standard? || @type.work_packages.any?
+        flash[:error] = destroy_error_message
+      elsif @type.destroy
         flash[:notice] = I18n.t(:notice_successful_delete)
       else
-        flash[:error] = destroy_error_message
+        flash[:error] = @type.errors.full_messages
       end
       redirect_to action: "index", status: :see_other
     end

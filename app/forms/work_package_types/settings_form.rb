@@ -39,6 +39,25 @@ module WorkPackageTypes
         disabled: model.is_standard?
       )
 
+      if show_parent_select?
+        settings_form.select_list(
+          name: :parent_id,
+          input_width: :medium,
+          label: label(:parent),
+          caption: I18n.t("types.edit.settings.parent_type_text"),
+          include_blank: true,
+          validation_message: validation_message_for(:parent)
+        ) do |parent_types|
+          available_parents.each do |type|
+            parent_types.option(
+              value: type.id,
+              label: type.name,
+              selected: type.id == model.parent_id
+            )
+          end
+        end
+      end
+
       settings_form.color_select_list(
         name: :color_id,
         label: Color.model_name.human,
@@ -100,6 +119,16 @@ module WorkPackageTypes
 
     def show_work_flow_copy?
       model.new_record?
+    end
+
+    def show_parent_select?
+      return false if model.is_standard?
+
+      model.new_record? || !model.children.exists?
+    end
+
+    def available_parents
+      Type.roots.where.not(id: model.id)
     end
 
     def work_package_types
