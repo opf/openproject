@@ -29,7 +29,6 @@
 #++
 
 require "support/pages/page"
-require "json"
 
 module Pages
   class Backlog < Page
@@ -94,10 +93,6 @@ module Pages
         expect(page).to have_no_css("h4", text: "No sprints present yet")
       end
     end
-
-    alias_method :expect_backlog_blankslate, :expect_sprints_blankslate
-    alias_method :expect_backlog_blankslate_description, :expect_sprints_blankslate_description
-    alias_method :expect_no_backlog_blankslate, :expect_no_sprints_blankslate
 
     def expect_backlog_settings_link
       within_sprint_backlogs do
