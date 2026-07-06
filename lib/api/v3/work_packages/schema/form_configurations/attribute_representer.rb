@@ -61,6 +61,11 @@ module API
             end
 
             def convert_property(attribute)
+              # The deprecated single version attribute persisted in form
+              # configurations is superseded by targetVersions, which the
+              # work package UI reads and writes instead.
+              attribute = "target_versions" if attribute == "version"
+
               ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
             end
           end

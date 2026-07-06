@@ -58,7 +58,6 @@ import { IProjectStorage } from 'core-app/core/state/project-storages/project-st
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export interface FieldDescriptor {
   name:string;
@@ -347,22 +346,14 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         return;
       }
 
-      // The version attribute is superseded by targetVersions, which backs the
-      // field regardless of whether multiple values are allowed. The schema
-      // controls label and multiplicity. Only the single view is switched over
-      // for now; once other surfaces (table, macros) follow, this alias belongs
-      // in WorkPackageSchemaProxy.mappedName instead.
-      const schema = change.schema as ISchemaProxy;
-      const name = (fieldName === 'version' && schema.ofProperty('targetVersions')) ? 'targetVersions' : fieldName;
-
-      if (!schema.ofProperty(name)) {
-        debugLog('Unknown field for current schema', name);
+      if (!change.schema.ofProperty(fieldName)) {
+        debugLog('Unknown field for current schema', fieldName);
         return;
       }
 
-      const field:DisplayField = this.displayField(change, name);
+      const field:DisplayField = this.displayField(change, fieldName);
       descriptors.push({
-        name,
+        name: fieldName,
         label: field.label,
         multiple: false,
         spanAll: field.isFormattable,
