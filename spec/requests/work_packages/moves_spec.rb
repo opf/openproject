@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package moves", :skip_csrf, :webmock, type: :rails_request do
+RSpec.describe "Work package moves", :webmock, type: :rails_request do
   shared_let(:user) { create(:admin) }
   shared_let(:source) { create(:project, name: "Source") }
   shared_let(:target) { create(:project, name: "Target") }
@@ -46,9 +46,17 @@ RSpec.describe "Work package moves", :skip_csrf, :webmock, type: :rails_request 
       )
     end
 
+    # Fetches the CSRF token from the move form page, mirroring how the
+    # refresh controller reads it from the meta tag in production.
+    def current_csrf_token
+      get new_move_work_packages_path("ids[]" => work_package.id)
+      response.parsed_body.at_css("meta[name='csrf-token']")["content"]
+    end
+
     subject(:request) do
       post refresh_form_move_work_packages_path,
            params: { "ids[]" => work_package.id, new_project_id: target.id, notes: "secret note" },
+           headers: { "X-CSRF-Token" => current_csrf_token },
            as: :turbo_stream
     end
 
