@@ -198,10 +198,20 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
       it "renders the provided count and accessible label" do
         expect(rendered_component).to have_css(
-          ".Counter",
+          ".Counter.Counter--secondary",
           text: "7",
           aria: { label: "7 backlog stories" }
         )
+      end
+    end
+
+    context "when the count arguments are overridden" do
+      let(:header_arguments) do
+        { title: "Sprint 1", count: 7, count_arguments: { scheme: :primary } }
+      end
+
+      it "renders the counter with the provided arguments" do
+        expect(rendered_component).to have_css(".Counter.Counter--primary", text: "7")
       end
     end
   end
