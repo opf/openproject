@@ -215,7 +215,7 @@ class EditField
   end
 
   def autocompleter_field?
-    field_type.end_with?("-autocompleter")
+    field_type == "ng-select" || field_type.end_with?("-autocompleter")
   end
 
   ##
@@ -319,8 +319,10 @@ class EditField
       "version-autocompleter"
     when :assignee, :responsible, :user
       "op-user-autocompleter"
-    when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase, :targetVersions
+    when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase
       "create-autocompleter"
+    when :targetVersions
+      "ng-select"
     when :project
       "op-project-autocompleter"
     when :activity

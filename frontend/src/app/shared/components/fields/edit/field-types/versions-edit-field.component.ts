@@ -64,11 +64,7 @@ export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent {
   }
 
   public set model(val:ValueOption[]|ValueOption|null) {
-    if (val == null) {
-      this.selectedOption = [];
-    } else {
-      this.selectedOption = Array.isArray(val) ? val : [val];
-    }
+    this.selectedOption = val == null ? [] : [val].flat();
   }
 
   /**

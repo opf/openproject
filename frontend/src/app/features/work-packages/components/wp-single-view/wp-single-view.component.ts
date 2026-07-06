@@ -349,7 +349,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
       // The version attribute is superseded by targetVersions, which backs the
       // field regardless of whether multiple values are allowed. The schema
-      // controls label and multiplicity.
+      // controls label and multiplicity. Only the single view is switched over
+      // for now; once other surfaces (table, macros) follow, this alias belongs
+      // in WorkPackageSchemaProxy.mappedName instead.
       const schema = change.schema as ISchemaProxy;
       const name = (fieldName === 'version' && schema.ofProperty('targetVersions')) ? 'targetVersions' : fieldName;
 
