@@ -170,42 +170,47 @@
 .Box-row:has(> .Box-card[aria-current="true"])
   @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
 
-.Box-row[data-dragging="source"]
-  opacity: 0.4
-  background-color: var(--bgColor-inset)
-  box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+// Drag-and-drop row states, scoped to the border-box list. The global
+// generic-drag-and-drop controller sets `data-dragging="source"` on any dragged
+// `.Box-row` (dragula lists in admin/settings), so these must not sit at the top
+// level or they would restyle those unrelated rows.
+.op-border-box-list
+  .Box-row[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
 
-.Box-row[data-drop-position]
-  --op-backlogs-drop-gap-border-width: 2px
-  --op-backlogs-drop-gap-height: 8px
+  .Box-row[data-drop-position]
+    --op-border-box-list-drop-gap-border-width: 2px
+    --op-border-box-list-drop-gap-height: 8px
 
-  position: relative
+    position: relative
 
-  &::before,
-  &::after
-    position: absolute
-    left: 0
-    right: 0
-    height: var(--op-backlogs-drop-gap-height)
-    background: linear-gradient(
-      to bottom,
-      var(--bgColor-accent-muted) 0,
-      var(--bgColor-accent-muted) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
-      var(--fgColor-accent) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
-      var(--fgColor-accent) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
-      var(--bgColor-accent-muted) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
-      var(--bgColor-accent-muted) 100%
-    )
-    pointer-events: none
-    z-index: 1
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-border-box-list-drop-gap-height)
+      background: linear-gradient(
+        to bottom,
+        var(--bgColor-accent-muted) 0,
+        var(--bgColor-accent-muted) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) 100%
+      )
+      pointer-events: none
+      z-index: 1
 
-  &[data-drop-position="top"]::before
-    content: ''
-    top: calc(var(--op-backlogs-drop-gap-height) / -2)
+    &[data-drop-position="top"]::before
+      content: ''
+      top: calc(var(--op-border-box-list-drop-gap-height) / -2)
 
-  &[data-drop-position="bottom"]::after
-    content: ''
-    bottom: calc(var(--op-backlogs-drop-gap-height) / -2)
+    &[data-drop-position="bottom"]::after
+      content: ''
+      bottom: calc(var(--op-border-box-list-drop-gap-height) / -2)
 
 // Empty-state wrapper. With a drop target label, an overlay covers the
 // blankslate while a sortable item hovers the list, labelling it as a drop
