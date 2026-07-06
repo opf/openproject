@@ -145,11 +145,11 @@ class CostType < ApplicationRecord
   private
 
   # When a cost type stops applying to all projects, keep it explicitly enabled
-  # in every active project that already logged costs for it, so those costs stay
-  # visible. Runs inside the update transaction, so a failure rolls back the
-  # for_all_projects change instead of leaving costs orphaned.
+  # in every project that already logged costs for it (including archived ones, so
+  # the costs stay consistent in case they are unarchived)
+  # Runs inside the update transaction, so a failure rolls back the for_all_projects change.
   def activate_for_projects_with_costs
-    projects = Project.active.where(id: project_ids_with_unmapped_costs)
+    projects = Project.where(id: project_ids_with_unmapped_costs)
     return if projects.empty?
 
     result = CostTypes::CostTypeProjects::BulkCreateService

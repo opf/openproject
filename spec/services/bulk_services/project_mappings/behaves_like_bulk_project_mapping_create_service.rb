@@ -35,6 +35,8 @@ RSpec.shared_examples "BulkServices project mappings create service" do
   let(:model_foreign_key_id) { raise("Please define the model foreign key id") }
   let(:required_permission) { raise("Please define the required permission for the bulk create action") }
   let(:model) { raise("Please define the model that will be linked to projects") }
+  # Services that opt into MappingContext(include_archived: true) override this to true.
+  let(:maps_archived_projects) { false }
 
   context "with admin permissions" do
     let(:user) { create(:admin) }
@@ -162,12 +164,15 @@ RSpec.shared_examples "BulkServices project mappings create service" do
 
     let(:instance) { described_class.new(user:, projects: [archived_project, active_project], model:) }
 
-    it "only creates mappins for the active project" do
-      expect { instance.call }.to change(model_mapping_class, :count).by(1)
+    it "maps projects according to the archived policy" do
+      instance.call
 
-      aggregate_failures "creates the mapping for the correct project and custom field" do
-        expect(model_mapping_class.where(model_foreign_key_id => model.id).pluck(:project_id))
-          .to contain_exactly(active_project.id)
+      mapped_project_ids = model_mapping_class.where(model_foreign_key_id => model.id).pluck(:project_id)
+
+      if maps_archived_projects
+        expect(mapped_project_ids).to contain_exactly(active_project.id, archived_project.id)
+      else
+        expect(mapped_project_ids).to contain_exactly(active_project.id)
       end
     end
   end
