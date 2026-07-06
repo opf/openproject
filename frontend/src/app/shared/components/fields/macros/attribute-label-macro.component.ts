@@ -109,7 +109,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     }
 
     const schema = await this.schemaCache.ensureLoaded(this.resource);
-    this.attribute = schema.attributeFromLocalizedName(attributeName) ?? attributeName;
+    this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
     this.label = (schema[this.attribute] as IOPFieldSchema|undefined)?.name;
 
     if (!this.label) {

@@ -121,7 +121,7 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
+    const attribute = schema.attributeFromLocalizedName(attributeName) || this.dateAttribute(resource, proxied, attributeName);
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {

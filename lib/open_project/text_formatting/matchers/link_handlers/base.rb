@@ -114,7 +114,6 @@ module OpenProject::TextFormatting::Matchers
         resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "resource")
         I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
       end
-
     end
   end
 end
