@@ -143,11 +143,18 @@ describe('sortable lists DOM helpers', () => {
   });
 
   describe('captureRowPositions / restoreRowPositions', () => {
+    // restoreRowPositions guards on the captured parent being connected, so these
+    // lists are mounted in the document to reflect the live frame they run against.
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
+
     it('restores a row to its original position after an optimistic move', () => {
       const list = listElement();
       const [one, two, three] = ['1', '2', '3'].map(itemRow);
 
       list.append(one, two, three);
+      document.body.append(list);
       const snapshot = captureRowPositions([three]);
 
       reorderRows({ rows: [three], list, previousItemId: null });
@@ -162,6 +169,7 @@ describe('sortable lists DOM helpers', () => {
       const [one, two, three, four] = ['1', '2', '3', '4'].map(itemRow);
 
       list.append(one, two, three, four);
+      document.body.append(list);
       const snapshot = captureRowPositions([two, three]);
 
       reorderRows({ rows: [two, three], list, previousItemId: '4' });
@@ -176,11 +184,33 @@ describe('sortable lists DOM helpers', () => {
       const [one, two] = ['1', '2'].map(itemRow);
 
       list.append(one, two);
+      document.body.append(list);
       const snapshot = captureRowPositions([one]);
       two.remove();
 
       expect(() => restoreRowPositions(snapshot)).not.toThrow();
       expect(itemIdOrder(list)).toEqual(['1']);
+    });
+
+    it('does not restore a row into a captured parent that has detached', () => {
+      const list = listElement();
+      const destination = listElement();
+      const [one, two] = ['1', '2'].map(itemRow);
+
+      list.append(one, two);
+      document.body.append(list, destination);
+      const snapshot = captureRowPositions([one]);
+
+      // Optimistic move relocates the row into a live destination list.
+      destination.append(one);
+      // A mid-flight list-refresh morph detaches the original list.
+      list.remove();
+
+      restoreRowPositions(snapshot);
+
+      // The row is not pulled back into the detached list; it stays live.
+      expect(one.isConnected).toBe(true);
+      expect(itemIdOrder(destination)).toEqual(['1']);
     });
   });
 });

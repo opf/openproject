@@ -128,7 +128,10 @@ export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
 export function restoreRowPositions(positions:RowPlacement[]):void {
   for (let i = positions.length - 1; i >= 0; i -= 1) {
     const { row, parent, nextSibling } = positions[i];
-    if (!parent) {
+    // A list-refresh morph can replace the captured parent mid-request; restoring
+    // into a detached node would drop the row out of the live DOM until the next
+    // reload. Skip it and let the pending refresh reconcile the position.
+    if (!parent?.isConnected) {
       continue;
     }
 
