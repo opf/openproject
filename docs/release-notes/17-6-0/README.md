@@ -28,7 +28,7 @@ Take a look at our release video showing the most important features introduced 
 
 OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution. [Learn more about the motivation behind the integration and our collaboration with XWiki in our dedicated blog article](https://www.openproject.org/blog/x.wiki-integration).
 
-To use the XWiki integration, system administrators first need to configure an external wiki as a **Wiki provider** in the OpenProject administration settings.
+To use the XWiki integration, system administrators first need to configure an external wiki as a **Wiki provider** in the OpenProject administration settings. [See our system admin guide for more information](../../system-admin-guide/wikis/wiki-providers).
 
 ![OpenProject XWiki integration: Wiki providers overview with listed XWiki](openproject_system_administration_wiki_providers.png)
 
@@ -43,9 +43,9 @@ The integration also supports **references between OpenProject and XWiki**. User
 
 ### Internal wiki provider
 
-OpenProject's built-in wiki is now available as a **Wiki provider**. System administrators can enable or disable it under **Administration → Wikis → Internal wiki**. When enabled, projects can activate the built-in wiki in their project settings and use the new **Wiki** tab in work packages to create, link, and access wiki pages. When disabled, the built-in wiki is unavailable for all projects.
+OpenProject's internal wiki is now available as a **Wiki provider**. System administrators can enable or disable it under **Administration → Wikis → Internal wiki**. When enabled, projects can activate the internal wiki in their project settings and use the new **Wiki** tab in work packages to create, link, and access wiki pages. When disabled, the wiki module is unavailable for all projects.
 
-If your OpenProject instance already used the built-in wiki before upgrading to OpenProject 17.6, the built-in wiki provider will be enabled automatically to preserve existing functionality.
+If your OpenProject instance already used the internal wiki before upgrading to OpenProject 17.6, the internal wiki provider will be enabled automatically to preserve existing functionality.
 
 ### Sprint goals
 
