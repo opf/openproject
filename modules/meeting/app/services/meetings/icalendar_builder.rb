@@ -120,11 +120,6 @@ module Meetings
 
         # Add exceptions for all cancelled recurrences
         set_excluded_recurrence_dates(event: e, recurring_meeting: recurring_meeting)
-
-        # Previous-schedule overrides are outside the current RRULE expansion.
-        # Add them as RDATEs so strict clients can attach their RECURRENCE-ID
-        # overrides to the master event.
-        set_included_recurrence_dates(event: e, recurring_meeting: recurring_meeting)
       end
 
       # Add single events for all occurrences
@@ -317,14 +312,10 @@ module Meetings
     end
 
     def instantiated_occurrences_for_export(recurring_meeting)
-      previous_schedule_occurrences(recurring_meeting) + upcoming_schedule_occurrences(recurring_meeting)
-    end
-
-    def previous_schedule_occurrences(recurring_meeting)
-      instantiated_schedules_partitioned(recurring_meeting)
-        .first
-        .sort_by(&:recurrence_start_time)
-        .last(PAST_OCCURRENCES_LIMIT)
+      # Previous-schedule occurrences are represented as RDATEs on the master VEVENT.
+      # We should not emit them as individual VEVENTs as some implementations (such as OpenXchange)
+      # reject the whole series if an event is < master DTSTART.
+      upcoming_schedule_occurrences(recurring_meeting)
     end
 
     def upcoming_schedule_occurrences(recurring_meeting)
@@ -385,11 +376,6 @@ module Meetings
     def set_excluded_recurrence_dates(event:, recurring_meeting:)
       event.exdate = cancelled_recurrence_dates(recurring_meeting)
                        .map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
-    end
-
-    def set_included_recurrence_dates(event:, recurring_meeting:)
-      event.rdate = previous_schedule_occurrences(recurring_meeting)
-                    .map { ical_datetime(it.recurrence_start_time, timezone: recurring_meeting.time_zone) }
     end
 
     def cancelled_recurrence_dates(recurring_meeting)
