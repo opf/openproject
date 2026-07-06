@@ -33,6 +33,7 @@ import {
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { parseTemplate } from 'url-template';
 import {
@@ -263,7 +264,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   private dispatchErrorToast():void {
-    window.dispatchEvent(new CustomEvent('op:toasters:add', {
+    window.dispatchEvent(new CustomEvent(OPToastEvent, {
       detail: {
         message: I18n.t('js.error.internal'),
         type: 'error',
