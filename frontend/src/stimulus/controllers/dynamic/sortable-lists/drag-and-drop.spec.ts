@@ -146,6 +146,22 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
+  describe('sortableListData', () => {
+    it('carries the rows container on the list payload when provided', () => {
+      const container = document.createElement('ul');
+      const data = sortableListData({ type: 'sprint', listId: '7', rowsContainer: container });
+
+      expect(data.rowsContainer).toBe(container);
+      expect(isSortableListData(data)).toBe(true);
+    });
+
+    it('defaults the list payload rows container to null', () => {
+      const data = sortableListData({ type: 'sprint', listId: '7' });
+
+      expect(data.rowsContainer).toBeNull();
+    });
+  });
+
   describe('acceptsSortableItemType', () => {
     it('allows drops when the controller has no accepted type filter', () => {
       expect(acceptsSortableItemType({ acceptedType: null, type: 'work_package' })).toBe(true);

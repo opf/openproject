@@ -136,6 +136,27 @@ describe('Sortable lists list controller', () => {
       .toEqual(expect.objectContaining({ type: 'sprint', listId: '7' }));
   });
 
+  it('resolves the child <ul> as the rows container on the payload', async () => {
+    fixture.innerHTML = `
+      <div data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint">
+        <ul></ul>
+      </div>
+    `;
+    const list = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
+    await ctx.nextFrame();
+    const rows = list.querySelector('ul')!;
+
+    expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
+      .toEqual(expect.objectContaining({ rowsContainer: rows }));
+  });
+
+  it('falls back to the list element as the rows container when there is no child <ul>', async () => {
+    const { list } = await connectedListFor({ type: 'sprint', id: '7' });
+
+    expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
+      .toEqual(expect.objectContaining({ rowsContainer: list }));
+  });
+
   it('defaults its list-only drop position to end', async () => {
     const { list } = await connectedListFor({ type: 'sprint', id: '7' });
 

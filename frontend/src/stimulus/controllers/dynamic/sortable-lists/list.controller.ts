@@ -50,11 +50,18 @@ export default class ListController extends Controller<HTMLElement> implements R
     dropPosition: { type: String, default: 'end' },
   };
 
+  static elements = { rowsContainer: ':scope > ul' };
+
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
   declare readonly dropPositionValue:string;
+
+  // Provided by the stimulus-elements blessing, declared manually in the same
+  // style as the controller's values/targets.
+  declare readonly rowsContainerElement:HTMLElement|null;
+  declare readonly hasRowsContainerElement:boolean;
 
   private root?:SortableListsRoot;
   private cleanupFn?:CleanupFn;
@@ -116,11 +123,19 @@ export default class ListController extends Controller<HTMLElement> implements R
     return dropPositions.has(this.dropPositionValue) ? this.dropPositionValue as SortableListDropPosition : 'end';
   }
 
+  // Rows sit inside a child rows container (the Box list's <ul>). Lists that
+  // render rows directly under their own element have no such child, so fall
+  // back to the list element itself.
+  private get rowsContainer():HTMLElement {
+    return this.hasRowsContainerElement ? this.rowsContainerElement! : this.element;
+  }
+
   private get listData():SortableListData {
     return sortableListData({
       type: this.typeValue,
       listId: this.hasIdValue ? this.idValue : null,
       dropPosition: this.dropPosition,
+      rowsContainer: this.rowsContainer,
     });
   }
 

@@ -59,6 +59,10 @@ export interface SortableListData extends Record<string|symbol, unknown> {
   listId:string|null;
   // Where a list-only drop (header or empty space, not over an item) lands.
   dropPosition:SortableListDropPosition;
+  // The element whose direct children are the list's rows, resolved by the list
+  // controller and carried here so the drop handlers reorder rows without
+  // re-deriving it. Null means "fall back to the list element".
+  rowsContainer:HTMLElement|null;
 }
 
 // Implemented by the sortable-lists root controller and handed to list/item
@@ -113,16 +117,19 @@ export function sortableListData({
   type,
   listId,
   dropPosition = 'end',
+  rowsContainer = null,
 }:{
   type:string;
   listId:string|null;
   dropPosition?:SortableListDropPosition;
+  rowsContainer?:HTMLElement|null;
 }):SortableListData {
   return {
     [sortableListDataKey]: true,
     type,
     listId,
     dropPosition,
+    rowsContainer,
   };
 }
 
