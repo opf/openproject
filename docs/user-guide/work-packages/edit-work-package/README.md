@@ -53,28 +53,41 @@ All changes of a work package are documented in the work package [Activity](../.
 
 You can link an existing wiki page to a work package or create a new one directly from the work package description.
 
-1. In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**.
+In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**. 
 
 ![Insert menu with wiki page options opened in a CKEditor in an OpenProject work package](openproject_user_guide_wp_insert_wiki_menu.png)
 
-2. Enter a title for the wiki page (if new) or select an existing one, then select the **Wiki provider**.
+Next steps vary depending on whether you are creating a new wiki page or linking to an already existing one.
+
+#### Create a new wiki page
+
+1. Enter a title for the new wiki page. 
+
+2. If prompted, select the **Wiki provider** and click **Next**.
 
 Depending on your system configuration, you can choose between:
 
 - **Internal wiki**, if the OpenProject wiki module is enabled by an administrator.
 - **External wiki**, if an administrator has configured an external wiki integration, such as **XWiki** (Enterprise add-on).
 
-Click **Next** to continue.
+> [!NOTE]
+> If only one wiki provider is configured, OpenProject automatically uses it and skips the **Wiki provider** selection step.
+
+
 
 ![Select wiki provider when creating or linking a wiki page](openproject_user_guide_wp_wiki_provider.png)
 
-3. Select the parent wiki page.
+4. Select the parent wiki page.
 
-Use the search field to find an existing page, or enter a URL if you already know the destination.
-
-Click **Insert** to create the link.
+5. Click **Add** to create the wiki page and insert a link to it in the work package description.
 
 ![Select a parent wiki page](openproject_user_guide_wp_wiki_parent_page.png)
+
+#### Link an existing wiki page
+
+3. Naming step is skipped. If there is more than one provider, you will need to select a Wiki provider. Click **Next**.
+4. Search for and select the wiki page you want to link. For external wikis, you can also enter a URL if you already know the destination.
+5. Click **Add** to add the link to the work package description.
 
 The wiki page is inserted into the description as a link.
 
@@ -86,14 +99,13 @@ All linked wiki pages are also listed in the **Wikis** tab of the work package.
 
 The **Wikis** tab displays all wiki pages related to the work package.
 
-Depending on your configuration and existing links, it can contain up to four sections:
+Depending on your configuration and existing links, it can contain the following sections:
 
-- **External wiki** (for example, *XWiki Knowledge Hub*)
-- **Internal wiki**
+- One section for each configured wiki provider (for example, **Internal wiki** or **XWiki Knowledge Hub**)
 - **Mentioned in description**
 - **Referenced in**
 
-The **External wiki** and **Internal wiki** sections allow you to create additional links by clicking **Wiki page** and selecting either **Existing wiki page** or **New wiki page**. The linking process is the same as when inserting wiki pages to the work package description.
+Each wiki provider section allows you to create additional links by clicking **Wiki page** and selecting either **Existing wiki page** or **New wiki page**. The linking process is the same as when inserting wiki pages to the work package description.
 
 To remove a linked wiki page, click the **three-dot** menu at the end of the row and select **Remove page link**.
 
@@ -173,7 +185,7 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
 ### Linking work packages
-To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/). 
+To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/).
 
 ## Attach files to work packages
 

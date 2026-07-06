@@ -15,7 +15,7 @@ OpenProject offers two different ways to work with project documentation:
 
 This page explains how to use the **internal OpenProject wiki**.
 
-If you want to connect an external documentation platform such as XWiki to your projects, see the documentation on  **[external wiki providers setup](../../system-admin-guide/wikis/wiki-providers)**.
+If you want to connect an external documentation platform such as XWiki to your projects, see the documentation on **[external wiki providers setup](../../system-admin-guide/wikis/wiki-providers)**.
 
 <div class="glossary">
 
