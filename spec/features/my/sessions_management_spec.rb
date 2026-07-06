@@ -101,6 +101,10 @@ RSpec.describe "My account session management", :js do
     wait_for_network_idle
     expect(page).to have_current_path "/my/sessions"
     page.within_test_selector("Users::Sessions::TableComponent") do
+      # Wait for the revoked session's row to be gone so that the remaining
+      # row is not queried while the table is still re-rendering.
+      expect(page).to have_css(".session-row", count: 1)
+
       trs = page.all(".session-row")
       # Revoke the remembered device (this will also delete the linked session)
       accept_confirm do

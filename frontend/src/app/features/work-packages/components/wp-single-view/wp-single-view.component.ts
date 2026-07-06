@@ -58,6 +58,7 @@ import { IProjectStorage } from 'core-app/core/state/project-storages/project-st
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export interface FieldDescriptor {
   name:string;
@@ -349,9 +350,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       // The version attribute is superseded by targetVersions, which backs the
       // field regardless of whether multiple values are allowed. The schema
       // controls label and multiplicity.
-      const name = (fieldName === 'version' && change.schema.ofProperty('targetVersions')) ? 'targetVersions' : fieldName;
+      const schema = change.schema as ISchemaProxy;
+      const name = (fieldName === 'version' && schema.ofProperty('targetVersions')) ? 'targetVersions' : fieldName;
 
-      if (!change.schema.ofProperty(name)) {
+      if (!schema.ofProperty(name)) {
         debugLog('Unknown field for current schema', name);
         return;
       }

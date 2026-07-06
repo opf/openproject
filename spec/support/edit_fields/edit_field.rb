@@ -319,7 +319,7 @@ class EditField
       "version-autocompleter"
     when :assignee, :responsible, :user
       "op-user-autocompleter"
-    when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase
+    when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase, :targetVersions
       "create-autocompleter"
     when :project
       "op-project-autocompleter"

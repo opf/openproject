@@ -372,36 +372,35 @@ module API
                                                 deprecated = nil,
                                                 description = nil,
                                                 options = nil)
-        wrapped_link_factory = if link_factory
-                                 ->(value) { instance_exec(value, &link_factory) }
-                               else
-                                 link_factory
-                               end
-
         attributes = { type: call_or_use(type),
                        name: call_or_translate(name_source),
                        current_user:,
                        value_representer:,
-                       link_factory: wrapped_link_factory,
+                       link_factory: wrap_link_factory(link_factory),
                        required: call_or_use(required),
                        has_default: call_or_use(has_default),
                        writable: call_or_use(writable),
                        attribute_group: call_or_use(attribute_group),
                        deprecated: call_or_use(deprecated),
-                       description: call_or_use(description) }
+                       description: call_or_use(description),
+                       options: call_or_use(options) }
 
         attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter
 
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
                       .new(**attributes)
 
-        representer.options = call_or_use(options) unless options.nil?
-
         if form_embedded
           representer.allowed_values = instance_exec(&values_callback)
         end
 
         representer
+      end
+
+      def wrap_link_factory(link_factory)
+        return link_factory unless link_factory
+
+        ->(value) { instance_exec(value, &link_factory) }
       end
 
       def self.camelize(symbol)

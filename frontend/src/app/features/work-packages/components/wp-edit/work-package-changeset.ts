@@ -66,7 +66,6 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // empty `targetVersions` link. Sending `[]` would be interpreted as
     // "clear the field", so while target_versions sync with the
     // work package versions server-side, it must be excluded from the request.
-    // If the user set the field, #applyChanges will set it again.
     if (isNewResource(this.pristineResource)) {
       delete (payload as { _links?:{ targetVersions?:unknown } })._links?.targetVersions;
     }

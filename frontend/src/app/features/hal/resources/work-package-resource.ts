@@ -73,7 +73,6 @@ export interface WorkPackageResourceEmbedded {
   timeEntries:HalResource[]|any[];
   type:TypeResource;
   version:HalResource|any;
-  targetVersions:HalResource[]|any[];
   watchers:CollectionResource;
   // For regular work packages
   startDate:string;
