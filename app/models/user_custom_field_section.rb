@@ -74,8 +74,4 @@ class UserCustomFieldSection < CustomFieldSection
       [section, ordered] if ordered.any?
     end
   end
-
-  def untitled?
-    name.blank?
-  end
 end
