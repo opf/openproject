@@ -73,7 +73,7 @@ module CustomFieldsHelper
                 class: "form--label"
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil) # rubocop:disable Metrics/AbcSize
+  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil, value = nil) # rubocop:disable Metrics/AbcSize
     field_name = name.present? ? "#{name}[custom_field_values][#{custom_field.id}]" : "custom_field_values[#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by(name: custom_field.field_format)
@@ -84,20 +84,21 @@ module CustomFieldsHelper
                             inputs: {
                               required: custom_field.required?,
                               id: field_id,
-                              name: field_name
+                              name: field_name,
+                              value:
                             }
     when "text"
-      styled_text_area_tag(field_name, "", id: field_id, rows: 3, with_text_formatting: true)
+      styled_text_area_tag(field_name, value, id: field_id, rows: 3, with_text_formatting: true)
     when "bool"
       styled_select_tag(field_name,
                         options_for_select([([I18n.t(:label_none), "none"] unless custom_field.required?),
                                             [I18n.t(:general_text_yes), "1"],
-                                            [I18n.t(:general_text_no), "0"]].compact),
+                                            [I18n.t(:general_text_no), "0"]].compact, value),
                         id: field_id,
                         include_blank: I18n.t(:label_no_change_option))
     when "list"
       styled_select_tag(field_name,
-                        options_for_list(custom_field, project),
+                        options_for_list(custom_field, project, value),
                         id: field_id,
                         multiple: custom_field.multi_value?,
                         include_blank: I18n.t(:label_no_change_option))
@@ -114,12 +115,12 @@ module CustomFieldsHelper
         [label, item.id]
       end
       styled_select_tag(field_name,
-                        options_for_select(options),
+                        options_for_select(options, value),
                         id: field_id,
                         multiple: custom_field.multi_value?,
                         include_blank: I18n.t(:label_no_change_option))
     else
-      styled_text_field_tag(field_name, "", id: field_id)
+      styled_text_field_tag(field_name, value, id: field_id)
     end
   end
 
@@ -142,7 +143,7 @@ module CustomFieldsHelper
     format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
   end
 
-  def options_for_list(custom_field, project)
+  def options_for_list(custom_field, project, selected = nil)
     base_options = []
     unless custom_field.required?
       unset_label = custom_field.field_format == "user" ? :label_nobody : :label_none
@@ -151,11 +152,11 @@ module CustomFieldsHelper
 
     possible_values = custom_field.possible_values_options(project)
     options = if custom_field.version?
-                grouped_options_for_select(possible_values.group_by(&:last).to_a)
+                grouped_options_for_select(possible_values.group_by(&:last).to_a, selected)
               else
-                options_for_select(possible_values)
+                options_for_select(possible_values, selected)
               end
 
-    options_for_select(base_options) + options
+    options_for_select(base_options, selected) + options
   end
 end

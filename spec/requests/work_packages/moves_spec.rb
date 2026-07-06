@@ -32,9 +32,10 @@ require "spec_helper"
 
 RSpec.describe "Work package moves", :webmock, type: :rails_request do
   shared_let(:user) { create(:admin) }
-  shared_let(:source) { create(:project, name: "Source") }
-  shared_let(:target) { create(:project, name: "Target") }
-  shared_let(:work_package) { create(:work_package, project: source) }
+  shared_let(:type) { create(:type) }
+  shared_let(:source) { create(:project, name: "Source", types: [type]) }
+  shared_let(:target) { create(:project, name: "Target", types: [type]) }
+  shared_let(:work_package) { create(:work_package, project: source, type:) }
 
   before { login_as(user) }
 
@@ -53,9 +54,11 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       response.parsed_body.at_css("meta[name='csrf-token']")["content"]
     end
 
+    let(:params) { { "ids[]" => work_package.id, new_project_id: target.id, notes: "secret note" } }
+
     subject(:request) do
       post refresh_form_move_work_packages_path,
-           params: { "ids[]" => work_package.id, new_project_id: target.id, notes: "secret note" },
+           params:,
            headers: { "X-CSRF-Token" => current_csrf_token },
            as: :turbo_stream
     end
@@ -68,9 +71,68 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       expect(response.body).to include("secret note")
     end
 
-    it "does not respond to GET" do
-      expect { get "/work_packages/move/refresh_form" }
-        .to raise_error(ActionController::RoutingError)
+    context "with malformed custom field values" do
+      let(:params) do
+        {
+          "ids[]" => work_package.id,
+          new_project_id: target.id,
+          custom_field_values: ["Malformed"]
+        }
+      end
+
+      it "ignores them and renders the refreshed form" do
+        request
+
+        expect(response).to have_http_status(:ok)
+        expect_turbo_streamed_move_form
+      end
+    end
+
+    context "with current move form values" do
+      let(:version) { create(:version, project: target) }
+      let(:priority) { create(:priority, name: "High") }
+      let(:assignee_role) { create(:project_role, permissions: %i[view_work_packages work_package_assigned]) }
+      let(:assignee) { create(:user, member_with_roles: { target => assignee_role }) }
+      let(:status) { create(:status) }
+      let(:custom_field) do
+        create(:string_wp_custom_field, is_required: true, types: [type], projects: [source, target])
+      end
+
+      let(:params) do
+        {
+          "ids[]" => work_package.id,
+          new_project_id: target.id,
+          new_type_id: type.id,
+          status_id: status.id,
+          version_id: version.id,
+          priority_id: priority.id,
+          assigned_to_id: assignee.id,
+          responsible_id: "none",
+          start_date: "2026-07-01",
+          due_date: "2026-07-15",
+          custom_field_values: { custom_field.id => "Keep me" }
+        }
+      end
+
+      before do
+        create(:workflow, type:, old_status: work_package.status, new_status: status, role: assignee_role)
+      end
+
+      it "preserves them in the refreshed form" do
+        request
+
+        expect(response).to have_http_status(:ok)
+        expect_turbo_streamed_move_form
+        expect(response.body)
+          .to include(%(option selected="selected" value="#{status.id}"))
+          .and include(%(option selected="selected" value="#{version.id}"))
+          .and include(%(option selected="selected" value="#{priority.id}"))
+          .and include(%(option selected="selected" value="#{assignee.id}"))
+          .and include(%(option selected="selected" value="none"))
+          .and include(%(data-value="&quot;2026-07-01&quot;"))
+          .and include(%(data-value="&quot;2026-07-15&quot;"))
+          .and match(/name="custom_field_values\[#{custom_field.id}\]"[^>]+value="Keep me"/)
+      end
     end
   end
 end

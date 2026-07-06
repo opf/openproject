@@ -55,18 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end -%>
 </ul>
 
-<%= render WorkPackages::Moves::FormComponent.new(
-      work_packages: @work_packages,
-      project: @project,
-      target_project: @target_project,
-      types: @types,
-      target_type: @target_type,
-      unavailable_type_in_target_project: @unavailable_type_in_target_project,
-      available_versions: @available_versions,
-      available_statuses: @available_statuses,
-      notes: @notes,
-      copy: @copy
-    ) %>
+<%= render @move_form_component %>
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>
 <% end %>

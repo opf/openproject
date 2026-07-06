@@ -40,29 +40,82 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(work_packages:, project:, target_project:, types:, available_versions:, available_statuses:,
-                     notes:, copy: false, target_type: nil, unavailable_type_in_target_project: false)
+      def initialize(
+        work_packages:,
+        project:,
+        target_project:,
+        notes:,
+        copy: false,
+        selected_values: {},
+        current_user: User.current
+      )
         super
 
         @work_packages = work_packages
         @project = project
         @target_project = target_project
-        @types = types
-        @target_type = target_type
-        @unavailable_type_in_target_project = unavailable_type_in_target_project
-        @available_versions = available_versions
-        @available_statuses = available_statuses
         @notes = notes
         @copy = copy
+        @selected_values = selected_values.to_h.with_indifferent_access
+        @current_user = current_user
       end
 
       private
 
-      attr_reader :work_packages, :project, :target_project, :types, :target_type,
-                  :unavailable_type_in_target_project, :available_versions, :available_statuses, :notes, :copy
+      attr_reader :work_packages, :project, :target_project, :notes, :copy,
+                  :selected_values, :current_user
 
       def turbo_stream_url
-        url_for(action: :refresh_form)
+        url_helpers.refresh_form_move_work_packages_path
+      end
+
+      def available_types
+        @available_types ||= target_project.types.order(:position)
+      end
+
+      def target_type
+        @target_type ||= available_types.find { |type| type.id.to_s == selected_values[:type_id].to_s }
+      end
+
+      def available_versions
+        @available_versions ||= target_project.assignable_versions
+      end
+
+      def available_statuses
+        @available_statuses ||= Workflow.available_statuses(target_project, current_user)
+      end
+
+      def unavailable_type_in_target_project?
+        return false if target_project == project
+
+        current_types_missing_in_target? || descendant_types_missing_in_target?
+      end
+
+      def current_types_missing_in_target?
+        work_packages.map(&:type_id).uniq.difference(available_types.pluck(:id)).any?
+      end
+
+      def descendant_types_missing_in_target?
+        hierarchies = WorkPackageHierarchy
+                        .includes(:descendant)
+                        .where(ancestor_id: work_packages.map(&:id))
+        Type.where(id: hierarchies.map { it.descendant.type_id })
+            .select("distinct id")
+            .pluck(:id)
+            .difference(available_types.pluck(:id))
+            .any?
+      end
+
+      def possible_assignees
+        @possible_assignees ||= Principal.possible_assignee(target_project)
+      end
+
+      def selected_version
+        available_versions.find { |version| version.id.to_s == selected_values[:version_id].to_s }
+      end
+
+      def selected_custom_field_value(custom_field)
+        selected_values.dig(:custom_field_values, custom_field.id.to_s)
       end
     end
   end

@@ -71,13 +71,13 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "new_type_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        options_from_collection_for_select(types, "id", "name", target_type&.id),
+                        options_from_collection_for_select(available_types, "id", "name", target_type&.id),
                       data: {
                         action: "change->refresh-on-form-changes#triggerTurboStream"
                       }
                     ) %>
               </div>
-              <% if unavailable_type_in_target_project %>
+              <% if unavailable_type_in_target_project? %>
                 <div class="op-toast -warning icon-warning">
                   <div class="op-toast--content">
                     <p>
@@ -97,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "status_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        options_from_collection_for_select(available_statuses, :id, :name)
+                        options_from_collection_for_select(available_statuses, :id, :name, selected_values[:status_id])
                     ) %>
               </div>
             </div>
@@ -107,7 +107,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "version_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        version_options_for_select(available_versions)
+                        version_options_for_select(available_versions, selected_version)
                     ) %>
               </div>
             </div>
@@ -117,7 +117,12 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "priority_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        options_from_collection_for_select(IssuePriority.active, :id, :name)
+                        options_from_collection_for_select(
+                          IssuePriority.active,
+                          :id,
+                          :name,
+                          selected_values[:priority_id]
+                        )
                     ) %>
               </div>
             </div>
@@ -126,9 +131,16 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field-container">
                 <%= styled_select_tag(
                       "assigned_to_id",
-                      content_tag("option", t(:label_no_change_option), value: "") +
-                        content_tag("option", t(:label_nobody), value: "none") +
-                        options_from_collection_for_select(Principal.possible_assignee(target_project), :id, :name)
+                      options_for_select(
+                        [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
+                        selected_values[:assigned_to_id]
+                      ) +
+                        options_from_collection_for_select(
+                          possible_assignees,
+                          :id,
+                          :name,
+                          selected_values[:assigned_to_id]
+                        )
                     ) %>
               </div>
             </div>
@@ -137,18 +149,36 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field-container">
                 <%= styled_select_tag(
                       "responsible_id",
-                      content_tag("option", t(:label_no_change_option), value: "") +
-                        content_tag("option", t(:label_nobody), value: "none") +
-                        options_from_collection_for_select(Principal.possible_assignee(target_project), :id, :name)
+                      options_for_select(
+                        [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
+                        selected_values[:responsible_id]
+                      ) +
+                        options_from_collection_for_select(
+                          possible_assignees,
+                          :id,
+                          :name,
+                          selected_values[:responsible_id]
+                        )
                     ) %>
               </div>
             </div>
             <div class="form--field">
               <%= styled_label_tag :budget_id, Budget.model_name.human %>
               <%= styled_select_tag(
-                    "budget_id", (target_project == project ? content_tag("option", t(:label_no_change_option), value: "") : "") +
-                    content_tag("option", t(:label_none), value: "none") +
-                    options_from_collection_for_select(target_project.budgets, :id, :subject)
+                    "budget_id",
+                    options_for_select(
+                      [
+                        ([t(:label_no_change_option), ""] if target_project == project),
+                        [t(:label_none), "none"]
+                      ].compact,
+                      selected_values[:budget_id]
+                    ) +
+                    options_from_collection_for_select(
+                      target_project.budgets,
+                      :id,
+                      :subject,
+                      selected_values[:budget_id]
+                    )
                   ) %>
             </div>
           </div>
@@ -159,7 +189,8 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= angular_component_tag "opce-basic-single-date-picker",
                                           inputs: {
                                             id: "start_date",
-                                            name: "start_date"
+                                            name: "start_date",
+                                            value: selected_values[:start_date]
                                           } %>
               </div>
             </div>
@@ -169,7 +200,8 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= angular_component_tag "opce-basic-single-date-picker",
                                           inputs: {
                                             id: "due_date",
-                                            name: "due_date"
+                                            name: "due_date",
+                                            value: selected_values[:due_date]
                                           } %>
               </div>
             </div>
@@ -178,7 +210,12 @@ See COPYRIGHT and LICENSE files for more details.
                 <div class="form--field">
                   <%= blank_custom_field_label_tag("", custom_field) %>
                   <div class="form--field-container">
-                    <%= custom_field_tag_for_bulk_edit("", custom_field, project) %>
+                    <%= custom_field_tag_for_bulk_edit(
+                          "",
+                          custom_field,
+                          target_project,
+                          selected_custom_field_value(custom_field)
+                        ) %>
                   </div>
                 </div>
               <% end %>
