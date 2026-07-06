@@ -130,10 +130,10 @@ eo:
             item_2:
               name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tabulo
             basic:
               name: Baza panelo
               lists:

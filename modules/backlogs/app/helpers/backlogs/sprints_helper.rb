@@ -35,7 +35,7 @@ module Backlogs
       if sprint.active? && (board = sprint.task_board_for(project))
         project_work_package_board_path(project, board)
       elsif sprint.in_planning?
-        project_backlogs_backlog_path(project)
+        project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
       elsif sprint.completed?
         sprint_work_packages_path(sprint, project)
       end

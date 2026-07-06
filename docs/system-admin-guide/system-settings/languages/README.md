@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Languages
-  priority: 960
+  priority: 800
 description: Languages in OpenProject.
 keywords: languages
 ---

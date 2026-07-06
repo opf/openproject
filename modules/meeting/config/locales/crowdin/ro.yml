@@ -436,12 +436,13 @@ ro:
       message: 'Această serie de întâlniri s-a încheiat. Nu există întâlniri viitoare. '
       action: Încă poți vedea evenimentele trecute sau edita seria de ședințe pentru a o extinde.
     occurrence:
-      infoline: Această întâlnire face parte dintr-o serie de întâlniri recurente.
       error_no_next: Nu există un eveniment următor pentru această reuniune.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Prima apariție a acestei serii de întâlniri este deja instantiă.
       first_created: 'Prima întâlnire a fost creată cu succes din șablon, toate întâlnirile viitoare vor fi create automat în momentul apariției anterioare.
 
         '
+      infoline: Această întâlnire face parte dintr-o serie de întâlniri recurente.
     template:
       button_finalize: Open first meeting
       blank_title: Șablonul seriei dvs. de întâlniri este gol

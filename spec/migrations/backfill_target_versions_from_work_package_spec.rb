@@ -41,6 +41,10 @@ RSpec.describe BackfillTargetVersionsFromWorkPackage, type: :model do
   let!(:work_package_with_version) { create(:work_package, project:, version:) }
   let!(:work_package_without_version) { create(:work_package, project:, version: nil) }
 
+  # The migration targets work packages that only carry version_id, so remove
+  # the join rows the factory already created.
+  before { WorkPackageVersion.delete_all }
+
   it "succeeds" do
     expect { migrate }.not_to raise_error
   end

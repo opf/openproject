@@ -82,7 +82,7 @@ module Wikis
               in { status: 200..299 }
                 begin
                   json = response.json
-                rescue MultiJson::ParseError
+                rescue MultiJSON::ParseError
                   return failure(code: :invalid_response)
                 end
 

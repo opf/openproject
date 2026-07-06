@@ -78,8 +78,7 @@ module WorkPackages
           index_stimulus_controller,
           polling_stimulus_controller,
           editor_stimulus_controller,
-          auto_scrolling_stimulus_controller,
-          stems_stimulus_controller
+          auto_scrolling_stimulus_controller
         ].join(" ")
       end
 
@@ -110,9 +109,7 @@ module WorkPackages
         {
           editor_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
           editor_stimulus_controller("-#{polling_stimulus_controller}-outlet") => index_component_dom_selector,
-          editor_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector,
-          polling_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
-          polling_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector
+          polling_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector
         }
       end
 

@@ -294,7 +294,7 @@ ru:
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               label_supported_data: Поддерживаемые данные
-              label_coming_soon: Ожидается (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Ожидается позже
               label_available_server_data: Имеющиеся данные на сайте %{server_info}
               button_select_projects: Выберите проекты для импорта
@@ -2567,6 +2567,8 @@ ru:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- должно быть равно 0ч, если параметр Работа установлен и % завершения равен 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: должно быть пустым, если параметр Предполагаемое время не установлен, а % завершения равен 100%.
           readonly_status: Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

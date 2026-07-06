@@ -97,6 +97,15 @@ FactoryBot.define do
       end
     end
 
+    # The persistence services mirror version_id into a kind: "target" join row,
+    # so every saved work package with a version also has one. Factories skip
+    # the services, so the row is created here to match.
+    callback(:after_create) do |work_package|
+      if work_package.version_id
+        work_package.work_package_versions.find_or_create_by!(version_id: work_package.version_id, kind: "target")
+      end
+    end
+
     callback(:after_create) do |work_package, evaluator|
       if evaluator.journals.present?
         work_package.journals.destroy_all

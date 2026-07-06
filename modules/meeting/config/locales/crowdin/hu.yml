@@ -431,12 +431,13 @@ hu:
       message: 'Az ismétlődő megbeszélés véget ért. Nincs több megbeszélés. '
       action: Továbbra is megtekintheti a korábbi eseményeket, vagy szerkesztheti az ismétlődő megbeszélést annak meghosszabbítása érdekében.
     occurrence:
-      infoline: Ez a megbeszélés egy ismétlődő megbeszélés része.
       error_no_next: Ennek a megbeszélésnek nincs következő időpontja.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Az első megbeszélés már megtörtént.
       first_created: 'Az első megbeszélés sikeresen létrehozásra került a sablonból. Az összes jövőbeli megbeszélés automatikusan létrehozásra kerül az előző megbeszélés időpontjában.
 
         '
+      infoline: Ez a megbeszélés egy ismétlődő megbeszélés része.
     template:
       button_finalize: Open first meeting
       blank_title: Az ismétlődő megbeszélés sablonja üres

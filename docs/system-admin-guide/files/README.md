@@ -8,7 +8,7 @@ keywords: files, file storages, Nextcloud integration, OneDrive setup, OneDrive,
 
 # Files 
 
-Under *Administration -> Files* you can add external file storages, such as Nextcloud, OneDrive or SharePoint and manage settings
+Under *Administration → Files* you can add external file storages, such as Nextcloud, OneDrive or SharePoint and manage settings
 for attachments to work packages.
 
 ## External file storages

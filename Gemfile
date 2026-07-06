@@ -124,11 +124,10 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.3"
+gem "multi_json", "~> 1.21.0"
 
 gem "daemons"
-gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.1" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -162,7 +161,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.20.0"
+gem "mcp", "~> 0.21.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -209,7 +208,7 @@ gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.225"
 
-gem "openproject-token", "~> 8.10.0"
+gem "openproject-token", "~> 8.11.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -433,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.89.0"
+  gem "openproject-primer_view_components", "~>0.89.1"
 end

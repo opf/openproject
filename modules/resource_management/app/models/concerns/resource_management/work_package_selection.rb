@@ -29,9 +29,6 @@
 #++
 
 module ResourceManagement
-  # Shared behaviour for planner views that select work packages through a
-  # work-package `Query`, in manual (hand-picked) or automatic (filtered) mode.
-  # The work-package-list and -timeline views differ only in how they render it.
   module WorkPackageSelection
     extend ActiveSupport::Concern
 
@@ -72,7 +69,40 @@ module ResourceManagement
       effective_query&.results&.work_packages || WorkPackage.none
     end
 
+    # A manually-picked view pins its hand-chosen ids; an automatic view forwards
+    # its query filters so the API filters server-side instead of materialising a
+    # potentially huge id list.
+    def allocation_work_package_filters
+      if manually_picked?
+        # `reorder(nil)` drops the manual-sort ordering: it is irrelevant for a
+        # filter set and its `ORDER BY ordered_work_packages.position` clashes
+        # with the id-only GROUP BY otherwise.
+        [{ name: "id", operator: "=", values: work_packages.reorder(nil).ids.map(&:to_s) }]
+      else
+        dump_query_filters(effective_query)
+      end
+    end
+
+    def allocation_principal_filters
+      nil
+    end
+
+    # Filters never offered when configuring the view. The view is always scoped
+    # to its planner's project, so a project filter must not be added on top of
+    # (and override) that built-in scoping.
+    def excluded_configuration_filters
+      %i[project_id]
+    end
+
     private
+
+    # The view's filters were originally built from API-v3 filter JSON, so
+    # dumping `field`/`operator`/`values` round-trips back into that format.
+    def dump_query_filters(query)
+      (query&.filters || []).map do |filter|
+        { name: filter.field.to_s, operator: filter.operator, values: filter.values }
+      end
+    end
 
     # Overridable so each view type labels its persisted query appropriately.
     def query_name_i18n_key
@@ -97,9 +127,16 @@ module ResourceManagement
       # ordered_work_packages.
       query.sort_criteria = [%w[id asc]] if query.manually_sorted?
 
-      parse_filters(filters_json).each do |filter|
+      allowed_configuration_filters(parse_filters(filters_json)).each do |filter|
         query.add_filter(filter[:attribute], filter[:operator], filter[:values])
       end
+    end
+
+    # Drops any excluded filter that slipped into the payload so it can never
+    # override the built-in project scoping, regardless of the form.
+    def allowed_configuration_filters(filters)
+      excluded = excluded_configuration_filters.map(&:to_s)
+      filters.reject { |filter| excluded.include?(filter[:attribute].to_s) }
     end
 
     def parse_filters(filters_json)

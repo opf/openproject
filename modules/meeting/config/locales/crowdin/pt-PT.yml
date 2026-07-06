@@ -431,12 +431,13 @@ pt-PT:
       message: 'Esta série de reuniões chegou ao fim. Não existem mais reuniões. '
       action: Ainda pode ver ocorrências anteriores ou editar a série de reuniões para a prolongar.
     occurrence:
-      infoline: Esta reunião faz parte de uma série de reuniões recorrentes.
       error_no_next: Esta reunião não tem data prevista para a sua próxima ocorrência.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: A primeira ocorrência desta série de reuniões já está instanciada.
       first_created: 'A primeira reunião foi criada com êxito a partir do modelo. Todas as reuniões futuras serão criadas automaticamente na altura da ocorrência anterior.
 
         '
+      infoline: Esta reunião faz parte de uma série de reuniões recorrentes.
     template:
       button_finalize: Abrir primeira reunião
       blank_title: O seu modelo da série de reuniões está vazio

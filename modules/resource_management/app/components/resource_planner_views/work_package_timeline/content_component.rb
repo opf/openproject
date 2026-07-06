@@ -30,12 +30,8 @@
 
 module ResourcePlannerViews
   module WorkPackageTimeline
-    # The container the FullCalendar resource-timeline controller mounts into.
-    # Bulk data comes from the feed endpoints; only small config travels inline.
     class ContentComponent < ApplicationComponent
-      # This component mounts the Stimulus controller; other timeline components
-      # reference this identifier to dispatch actions to it.
-      STIMULUS = "resource-management--work-package-timeline"
+      include ResourcePlannerViews::Timeline::Content
 
       def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
         super
@@ -49,19 +45,26 @@ module ResourcePlannerViews
 
       private
 
-      # The Stimulus controller eagerly reads its calendar target on connect, so
-      # it is only mounted when there is something to draw; an empty view shows a
-      # blankslate instead.
-      def container_attributes
-        attributes = {
-          "class" => "op-rm-timeline-view",
-          "data-test-selector" => "resource-work-package-timeline"
-        }
-        return attributes if @work_packages.empty?
+      def timeline_test_selector
+        "resource-work-package-timeline"
+      end
 
-        attributes["data-controller"] = STIMULUS
-        stimulus_values.each { |key, value| attributes["data-#{STIMULUS}-#{key}-value"] = value }
-        attributes
+      def timeline_empty?
+        @work_packages.empty?
+      end
+
+      def timeline_feed_values
+        {
+          "resources-url" => helpers.project_resource_planner_view_work_package_timeline_resources_path(
+            @project, @resource_planner, @view, format: :json
+          ),
+          "events-url" => helpers.project_resource_planner_view_work_package_timeline_events_path(
+            @project, @resource_planner, @view, format: :json
+          ),
+          # A date-range selection on a work-package row pre-fills that work
+          # package on the new-allocation dialog.
+          "selection-param" => "work_package_id"
+        }
       end
 
       def blank_description
@@ -71,40 +74,6 @@ module ResourcePlannerViews
 
       def add_work_package_path
         helpers.new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view)
-      end
-
-      def configure_view_path
-        helpers.edit_project_resource_planner_view_path(@project, @resource_planner, @view)
-      end
-
-      def stimulus_values
-        {
-          "resources-url" => helpers.project_resource_planner_view_work_package_timeline_resources_path(
-            @project, @resource_planner, @view, format: :json
-          ),
-          "events-url" => helpers.project_resource_planner_view_work_package_timeline_events_path(
-            @project, @resource_planner, @view, format: :json
-          ),
-          "locale" => I18n.locale.to_s,
-          "first-day" => (Setting.start_of_week.presence || 1).to_i,
-          "initial-date" => Date.current.iso8601,
-          "initial-view" => Granularity.default_view,
-          "new-allocation-url" => new_allocation_url,
-          # Refetch the calendar feeds in place instead of reloading the whole
-          # frame; the server dispatches this event after an allocation changes.
-          "reload-event-name" => "op-dispatched:resource-allocations:changed"
-        }
-      end
-
-      def can_allocate?
-        helpers.current_user.allowed_in_project?(:allocate_user_resources, @project)
-      end
-
-      # The timeline appends the work package and date range as query params.
-      def new_allocation_url
-        return "" unless can_allocate?
-
-        helpers.new_project_resource_allocation_path(@project)
       end
     end
   end
