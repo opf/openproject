@@ -124,6 +124,8 @@ class WorkPackagesController < ApplicationController
     case params[:template]
     when "contract"
       WorkPackage::PDFExport::DocumentGenerator.new(work_package, params)
+    when "artefact"
+      WorkPackage::PDFExport::Artefact.new(work_package, params)
     else
       # when "attributes"
       WorkPackage::PDFExport::WorkPackageToPdf.new(work_package, params)

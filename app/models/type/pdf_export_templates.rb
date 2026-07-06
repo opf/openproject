@@ -46,7 +46,7 @@ class Type::PdfExportTemplates
     return templates if order.empty?
 
     indexes = order.each_with_index.to_a.to_h
-    templates.sort_by { |template| indexes[template.id] }
+    templates.sort_by { |template| indexes[template.id] || templates.length }
   end
 
   def list_enabled

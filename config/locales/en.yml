@@ -3631,6 +3631,9 @@ en:
     template_contract:
       label: "Contract"
       caption: Work package details formatted to the standard German contract form.
+    template_artefact:
+      label: "PMflex Artefact"
+      caption: Work package details rendered as a PMflex Artefact.
     dialog:
       title: Generate PDF
       submit: Download
