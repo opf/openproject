@@ -37,10 +37,11 @@ RSpec.describe Backlogs::AddExistingWorkPackageDialogComponent, type: :component
   current_user { admin }
 
   let(:project) { create(:project) }
+  let(:target_id) { Backlogs::Target.for(container) }
   let(:expected_url) { add_existing_project_backlogs_work_packages_path(project, target_id:) }
 
   before do
-    render_inline(described_class.new(project:, target_id:))
+    render_inline(described_class.new(project:, container:))
   end
 
   shared_examples "renders the dialog correctly" do
@@ -70,23 +71,21 @@ RSpec.describe Backlogs::AddExistingWorkPackageDialogComponent, type: :component
   end
 
   context "when target is a sprint" do
-    let!(:sprint) { create(:sprint, project:, name: "My Sprint") }
-    let(:target_id) { Backlogs::Target.for(sprint) }
+    let(:container) { build_stubbed(:sprint, project:, name: "My Sprint") }
     let(:title) { "Add existing work package to My Sprint" }
 
     include_examples "renders the dialog correctly"
   end
 
   context "when target is a backlog bucket" do
-    let!(:bucket) { create(:backlog_bucket, project:, name: "My Bucket") }
-    let(:target_id) { Backlogs::Target.for(bucket) }
+    let(:container) { build_stubbed(:backlog_bucket, project:, name: "My Bucket") }
     let(:title) { "Add existing work package to My Bucket" }
 
     include_examples "renders the dialog correctly"
   end
 
   context "when target is inbox" do
-    let(:target_id) { Backlogs::Target::InboxId }
+    let(:container) { Backlogs::Target::Inbox }
     let(:title) { "Add existing work package to Inbox" }
 
     include_examples "renders the dialog correctly"

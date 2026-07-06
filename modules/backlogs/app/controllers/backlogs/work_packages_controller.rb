@@ -52,12 +52,18 @@ module Backlogs
 
     def add_existing_dialog
       target_id = Target.parse(params[:target_id])
+      container = target_id&.container_for(@project)
 
-      if target_id
+      if container
         respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
           project: @project,
-          target_id:
+          container:
         )
+      elsif target_id
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t("backlogs.add_existing_work_package_dialog_component.target_not_found")
+        )
+        respond_with_turbo_streams(status: :not_found)
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t("backlogs.stories.update_service.invalid_target_type")

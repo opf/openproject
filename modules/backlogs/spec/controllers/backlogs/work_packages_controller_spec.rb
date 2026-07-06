@@ -699,6 +699,26 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "with a Backlog bucket that can't be found" do
+      let(:target_id) { "backlog_bucket:#{bucket.id + 1}" }
+
+      it "responds with 404 and an error flash instead of a dialog", :aggregate_failures do
+        expect(response).to have_http_status :not_found
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with a Sprint that can't be found" do
+      let(:target_id) { "sprint:#{sprint.id + 1}" }
+
+      it "responds with 404 and an error flash instead of a dialog", :aggregate_failures do
+        expect(response).to have_http_status :not_found
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
     context "with an empty target_id" do
       let(:target_id) { nil }
 

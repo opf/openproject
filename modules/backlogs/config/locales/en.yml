@@ -99,6 +99,7 @@ en:
 
   backlogs:
     add_existing_work_package_dialog_component:
+      target_not_found: "The sprint or backlog you are trying to add to was not found."
       title: "Add existing work package to %{name}"
 
     administration_blankslate:

@@ -32,6 +32,11 @@ module Backlogs
   # Discriminated union representing a backlog container target.
   # Serialized format: "sprint:{id}", "backlog_bucket:{id}", or "inbox".
   module Target
+    # Counterpart of InboxId
+    Inbox = Data.define do
+      def name = I18n.t(:label_inbox)
+    end.new
+
     SprintId = Data.define(:id) do
       def type = :sprint
 
@@ -40,6 +45,8 @@ module Backlogs
       def to_h = { type:, id: }
 
       def to_filter = { name: "sprint", operator: "!", values: [id] }
+
+      def container_for(project) = Sprint.for_project(project).visible.find_by(id:)
     end
 
     BucketId = Data.define(:id) do
@@ -50,6 +57,8 @@ module Backlogs
       def to_h = { type:, id: }
 
       def to_filter = { name: "backlogBucket", operator: "!", values: [id] }
+
+      def container_for(project) = BacklogBucket.for_project(project).visible.find_by(id:)
     end
 
     InboxId = Data.define do
@@ -60,14 +69,18 @@ module Backlogs
       def to_h = { type: }
 
       def to_filter = { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
+
+      def container_for(_project) = Inbox
     end.new
 
     def self.for(container)
       case container
-      when Sprint
+      in Sprint
         SprintId[container.id]
-      when BacklogBucket
+      in BacklogBucket
         BucketId[container.id]
+      in Inbox
+        InboxId
       end
     end
 

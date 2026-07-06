@@ -36,27 +36,18 @@ module Backlogs
     DIALOG_ID = "add-existing-work-package-dialog"
     FORM_ID = "add-existing-work-package-form"
 
-    attr_reader :project, :target_id
+    attr_reader :project, :container
 
-    def initialize(project:, target_id:)
+    def initialize(project:, container:)
       super()
 
       @project = project
-      @target_id = target_id
+      @container = container
     end
+
+    def target_id = Target.for(container)
 
     private
-
-    def container_name
-      case target_id
-      in Target::SprintId[id]
-        Sprint.for_project(project).visible.where(id:).pick(:name) || Sprint.human_model_name
-      in Target::BucketId[id]
-        BacklogBucket.for_project(project).visible.where(id:).pick(:name) || BacklogBucket.human_model_name
-      in Target::InboxId
-        I18n.t(:label_inbox)
-      end
-    end
 
     def form_url
       add_existing_project_backlogs_work_packages_path(project, target_id:)
