@@ -86,14 +86,10 @@ export default class SettleWindow {
     this.abort?.abort();
     this.abort = undefined;
 
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = undefined;
-    }
+    clearTimeout(this.timeout);
+    this.timeout = undefined;
 
-    if (this.delayTimeout) {
-      clearTimeout(this.delayTimeout);
-      this.delayTimeout = undefined;
-    }
+    clearTimeout(this.delayTimeout);
+    this.delayTimeout = undefined;
   }
 }
