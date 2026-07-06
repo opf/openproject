@@ -153,9 +153,9 @@
   &:has(> .Box-card:focus-visible)
     background-color: var(--bgColor-muted)
 
-// Selected state: applied synchronously on activation by the backlogs--story
-// controller (single selection), so the list reacts before the split screen
-// has loaded.
+// Selected state: applied synchronously on activation by the
+// backlogs--work-package controller (single selection), so the list reacts
+// before the split screen has loaded.
 .Box-row:has(> .Box-card[data-selected])
   background-color: var(--box-list-item-selected-bg-color)
   @include op-box-list-item-edge-borders(var(--box-list-item-selected-border-color))
@@ -165,8 +165,8 @@
     background-color: var(--box-list-item-selected-bg-hover-color)
 
 // Current state: the card is open in the split screen. aria-current is
-// maintained by the backlogs--story controller once the URL reflects the
-// details pane; the strong border wins over a simultaneous selected state.
+// maintained by the backlogs--work-package controller once the URL reflects
+// the details pane; the strong border wins over a simultaneous selected state.
 .Box-row:has(> .Box-card[aria-current="true"])
   @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
 
