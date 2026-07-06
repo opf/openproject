@@ -85,8 +85,7 @@ As an inherited change is always commented ("Updated automatically by...") they 
 
 ### How can I fill/populate the position field/column for work packages?
 
-The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
-If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package table.
+The **Position** attribute is provided by the Backlogs module and reflects a work package's position within a backlog bucket, the Inbox backlog, or a sprint. The value is maintained automatically when work packages are reordered or moved within the Backlogs module.
 
 ### Can I restore a deleted work  package?
 

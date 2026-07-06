@@ -8,6 +8,7 @@ keywords: backlogs, scrum, backlog, agile, sprint, sprint bucket, backlog bucket
 
 # Backlog and sprints
 
+
 > [!NOTE]
 > The **Backlogs module** is actively being improved. This documentation is updated regularly to reflect the latest changes.
 
@@ -28,6 +29,8 @@ The Backlogs module is divided into two sides: on the left, you'll find the **Ba
 ### Sprint containers
 
 Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and end dates, number of work packages, and total story points. 
+
+If defined, the **Sprint goal** is displayed in the sprint header below the sprint name.
 
 Depending on the sprint status, either a **Start sprint** (for sprints in planning) or **Complete sprint** (for active sprints) button will be displayed.
 
@@ -78,11 +81,12 @@ To create a backlog bucket, click the **+ Backlog bucket** button in the Backlog
 #### Edit or delete a backlog bucket
 
 Open the **More (three dots)** menu of a backlog bucket to:
-
 - Edit the backlog bucket
 - Delete the backlog bucket
 
-When deleting a backlog bucket, all contained work packages are automatically moved to the bottom of the Inbox backlog.
+When deleting a backlog bucket, all contained work packages are automatically moved to the bottom of the Inbox backlog. 
+
+Work packages can also be moved directly into a backlog bucket from the work packages More menu. If multiple backlog buckets exist, OpenProject lets you choose the target bucket. The work package is placed at the bottom of the selected bucket.
 
 ### Inbox backlog
 
@@ -101,7 +105,10 @@ Next to every work package listed in the Inbox backlog, backlog bucket, or sprin
 
 - Open **details view** or **fullscreen view** of a work package. These options allow you to choose how much information (about the backlog item) you'd like to be displayed.
 - **Copy** the work package URL or ID to the clipboard.
-- **Move** a work package.
+- **Move to backlog inbox**
+- **Move to backlog bucket**
+- **Move to sprint**
+- **Move to position**. This option lets you change the ordering of a work package within its current container.
 
 ![Backlog work package menu with options like details view, copy link, and move](openproject_user_guide_backlogs_menu_items.png)
 
@@ -113,7 +120,7 @@ Opening the fullscreen view opens the work package in fullscreen.
 
 ![Work package opened in fullscreen in OpenProject](openproject_user_guide_backlogs_fullscreen_view.png)
 
-You can prioritize work packages within the Inbox backlog, a backlog bucket, or a sprint by dragging and dropping them or by using the **Move** option from the work package menu. The entire work package card can be used as a drag-and-drop area.
+You can prioritize work packages within the Inbox backlog, a backlog bucket, or a sprint by dragging and dropping them or by using the move actions available from the **More** menu. The entire work package card can be used as a drag-and-drop area.
 
 Depending on the current location of the work package, you can move it:
 
@@ -126,7 +133,7 @@ Depending on the current location of the work package, you can move it:
 
 ### Excluded work package types and statuses
 
-Depending on the project configuration, certain work package types and statuses can be excluded from backlog views. This can be configured under [project backlog settings](../projects/project-settings/backlogs-settings).
+Depending on the project configuration, certain work package types and statuses can be excluded from the Inbox backlog and backlog buckets. This can be configured under [project backlog settings](../projects/project-settings/backlogs-settings).
 
 Excluded work packages: 
 - do not appear in the Inbox backlog.
@@ -134,7 +141,7 @@ Excluded work packages:
 - continue to appear in sprints.
 - continue to appear on sprint boards.
 
-If a work package is moved to the backlog and its type or status is excluded, the move is completed successfully, but the work package is no longer displayed in the backlog view.
+If a work package is moved to the Inbox backlog or a backlog bucket and its type or status is excluded, the move is completed successfully. A confirmation message explains that the work package was moved successfully but is hidden because its type or status is excluded from backlog views.
 
 ## Create and manage sprints
 
@@ -145,11 +152,19 @@ A **Sprint** is a planned and time-boxed period in which a Scrum team completes 
 
 ### Create a sprint
 
-To create a sprint, click the **+ Sprint** button in the top right corner of the Backlogs module. This opens up a form for you to fill in details about the sprint name, start date, and completion date. The duration is automatically calculated. Click the **Create** button to proceed.
+To create a sprint, click the **+ Sprint** button in the top right corner of the Backlogs module. This opens up a form for you to fill in the sprint name, start date, finish date, and an optional sprint goal. The sprint goal is a short text describing the main objective of the sprint. The duration is automatically calculated. Click the **Create** button to proceed.
 
 The naming of sprints is number-based by default (e.g. Sprint 1, Sprint 2). These names can be edited according to your team's work rhythm.
 
 ![Sprint creation form with fields for name, start date, and end date](openproject_user_guide_backlog_sprint_planning.png)
+
+### Sprint goals
+
+The sprint goal helps communicate the primary objective of the sprint to the team. It can be entered when creating or editing a sprint.
+
+For shared sprints, sprint goals are project-specific. This means each project using the shared sprint can define its own goal without affecting other projects.
+
+When editing a shared sprint, OpenProject indicates which fields are shared across projects and which are project-specific. Depending on your permissions in the sharing project and the current project, some fields may be read-only.
 
 ### Start or complete a sprint
 
@@ -186,6 +201,8 @@ Additional sprint actions are available through the **Sprint menu**, including:
 - Sprint board
 - Burndown chart
 
+Sprint details, including the sprint goal, can also be edited through the **Edit sprint** dialog.
+
 ![Sprint menu with options like edit sprint and add work package](openproject_user_guide_backlog_sprint_menu_item.png)
 
 ### Add a work package
@@ -198,7 +215,7 @@ A new item will be added to the backlog to display the newly created story.
 
 ### Prioritize stories
 
-You can prioritize different work packages within the Inbox backlog, a backlog bucket, or a sprint by either using the **Move** option or by dragging & dropping them. This allows you to assign work packages to a specific sprint or backlog bucket, return them to the Inbox backlog, or re-order them within a sprint or bucket.
+You can prioritize different work packages within the Inbox backlog, a backlog bucket, or a sprint by dragging and dropping them or by using **Move to position** from the **More** menu. This allows you to assign work packages to a specific sprint or backlog bucket, return them to the Inbox backlog, or re-order them within a sprint or bucket.
 
 ### Story points
 
@@ -260,3 +277,17 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 Sprint sharing allows multiple projects to use the same sprint structure. A sprint can be shared with other projects, subprojects, or not shared. This is configured under [project settings](../projects/project-settings/backlogs-settings). 
 
 Shared sprints can help teams coordinate planning across projects and support scaled agile frameworks such as SAFe.
+
+## All sprints
+
+The **All sprints** view provides a simple overview of every sprint in the project, including planning, active, and completed sprints.
+
+The table displays the sprint name, status, start date, finish date, and number of work packages. The list of sprints is sorted by sprint dates and then by sprint name.
+
+![All sprints overview in the Backlogs module](openproject_user_guide_backlogs_all_sprints.png)
+
+Selecting a sprint opens the appropriate destination depending on its status:
+
+- **Planning** sprints open the sprint planning view.
+- **Active** sprints open the sprint board.
+- **Completed** sprints open a work package table filtered to that sprint.
