@@ -64,6 +64,7 @@ module API
               # The deprecated single version attribute persisted in form
               # configurations is superseded by targetVersions, which the
               # work package UI reads and writes instead.
+              # TODO(COMMS-878): Remove this when form config gets adapted to target_versions
               attribute = "target_versions" if attribute == "version"
 
               ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
