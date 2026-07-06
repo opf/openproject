@@ -442,15 +442,24 @@ module Pages
     end
 
     def pick_up_and_release_work_package(work_package)
-      loop do
+      # A mid-drag list refresh can detach the grabbed row, so retry a bounded
+      # number of times on a stale node. retry_block no-ops under
+      # RSPEC_RETRY_RETRY_COUNT=0, so single/local runs fail fast and surface the
+      # underlying fault instead of spinning on it. See the follow-up to make this
+      # helper robust without any retry.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
         moved_element = find(draggable_work_package_selector(work_package))
-
+        install_backlogs_move_request_probe
         begin
-          install_backlogs_move_request_probe
           pick_up_and_release_backlogs_item(moved_element)
-          return
-        rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
-          next
         ensure
           stop_backlogs_move_request_probe
         end
