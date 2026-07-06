@@ -1417,6 +1417,10 @@ de:
         label_group: Abschnitt
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Die angeforderte Formularkonfiguration konnte nicht gefunden werden.
+        untitled_group: Unbenannte Gruppe
+        reset_title: Formularkonfiguration zurücksetzen
+        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
+        builtin_field: Vordefiniertes Feld
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen

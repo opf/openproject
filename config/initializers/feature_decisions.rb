@@ -55,3 +55,7 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
 
 OpenProject::FeatureDecisions.add :subtypes,
                                   description: "Enables work package subtypes."
+
+OpenProject::FeatureDecisions.add :work_package_multiple_versions,
+                                  description: "Enables assigning multiple (target) versions to a work package. " \
+                                               "Experimental; the user-facing setting and admin switch follow later."

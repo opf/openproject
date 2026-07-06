@@ -1681,12 +1681,12 @@ en:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: "Bulk move/copy is not supported for work packages from multiple projects"
       current_type_not_available_in_target_project: >
-        The current type of the work package is not enabled in the target project.
-        Please enable the type in the target project if you'd like it to remain unchanged.
+        The type of this work package or one of its descendants is not enabled in the target project.
+        Please enable the missing types in the target project if you'd like them to remain unchanged.
         Otherwise, select an available type in the target project from the list.
       bulk_current_type_not_available_in_target_project: >
-        The current types of the work packages aren't enabled in the target project.
-        Please enable the types in the target project if you'd like them to remain unchanged.
+        The types of the work packages or their descendants aren't enabled in the target project.
+        Please enable the missing types in the target project if you'd like them to remain unchanged.
         Otherwise, select an available type in the target project from the list.
     sharing:
       missing_workflow_warning:
@@ -2213,6 +2213,7 @@ en:
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
+        target_versions: "Target versions"
         time_entries: "Log time"
         type: "Type"
         version: "Version"
@@ -5630,7 +5631,7 @@ en:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: "Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects."
-  setting_work_packages_identifier_semantic: "Project-based semantic identifiers (Beta)"
+  setting_work_packages_identifier_semantic: "Project-based semantic identifiers"
   setting_work_packages_identifier_semantic_caption: "Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function."
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"

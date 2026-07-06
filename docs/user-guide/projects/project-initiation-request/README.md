@@ -35,7 +35,7 @@ You can repeat this process to make multiple project creation wizards available.
 
 ## Step 1: Create a new project
 
-To start the project creation process, click **+ Project** button. Read more on creating a new project [here](../../../getting-started/projects/#create-a-new-project).
+To start the project creation process, click the **+**  button and select **+ Project** from the drop down. Read more on creating a new project [here](../../../getting-started/projects/#create-a-new-project).
 
 ![Button to create a new project in OpenProject](openproject_user_guide_project_creation_wizard_new_project.png) 
 

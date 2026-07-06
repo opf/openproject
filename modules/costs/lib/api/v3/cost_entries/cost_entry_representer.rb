@@ -47,8 +47,13 @@ module API
         # TODO: DEPRECATED!
         associated_resource :work_package,
                             skip_render: ->(*) { represented.entity_type != "WorkPackage" },
-                            link_property_name: :entity, # to avoid deprecation warnings with cost_entry.work_package
-                            link_getter: :entity_id # to avoid deprecation warnings with cost_entry.work_package_id
+                            getter: ->(*) {
+                              entity = represented.entity
+                              next unless entity.is_a?(WorkPackage) && entity.visible?(current_user)
+
+                              ::API::V3::WorkPackages::WorkPackageRepresenter.create(entity, current_user:)
+                            },
+                            link: ::API::V3::CostEntries::EntityRepresenterFactory.create_work_package_link_lambda
 
         property :id, render_nil: true
         property :units, as: :spentUnits
