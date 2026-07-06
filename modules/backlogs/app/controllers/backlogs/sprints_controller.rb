@@ -50,8 +50,7 @@ module Backlogs
 
     def index
       @sprints = Sprint.for_project(@project)
-                       .order_by_date
-                       .order(:name)
+                       .order_by_activity
                        .page(helpers.page_param(params))
                        .per_page(helpers.per_page_param)
 
