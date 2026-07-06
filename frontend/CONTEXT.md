@@ -24,6 +24,11 @@ _Avoid_: Drop indicator
 An area that can accept or reject a dragged object.
 _Avoid_: Container
 
+**Drop container**:
+The whole-list active outline shown while a dragged object hovers a sortable list,
+signalling it will land inside. A list-level state — distinct from a per-item **Drop
+target** edge — carried by the list's `data-drop-container` attribute.
+
 **Empty drop zone**:
 An empty area that can accept a dragged object when there is no existing object to anchor a drop indicator.
 _Avoid_: Placeholder
@@ -48,6 +53,7 @@ _Avoid_: Container
 - An **Empty drop zone** may combine the affordances of a **Drop target**, **Drop indicator**, and **Drop placeholder**.
 - A **Sortable item** has a **Sortable item type**.
 - A **Sortable list** may accept only specific **Sortable item types**.
+- An active **Sortable list** shows a **Drop container** outline while a compatible **Sortable item** hovers it, distinct from the per-item **Drop indicator**.
 
 ## Sortable lists wiring (consumer contract)
 
@@ -70,9 +76,13 @@ monitor, and auto-scroll):
   descendant lists and items so the root can hand each its reference.
 - Target `scrollable`: each element that should auto-scroll during a drag.
 
-**List — `sortable-lists--list`** (a **Drop target**):
+**List — `sortable-lists--list`** (a **Drop target** that shows a **Drop container**
+outline while active):
 - `type-value` (**required** to be a drop target; a list without it is inert).
 - `id-value` (optional): the list id sent as `list_id`.
+- `drop-position-value` (default `end`): where a drop that resolves to the list
+  itself, rather than to an item edge, inserts — `start` files the item at the top,
+  `end` appends it.
 
 **Item — `sortable-lists--item`** (a **Sortable item**; the drag source and edge
 indicator owner):
