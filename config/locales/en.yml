@@ -2091,13 +2091,13 @@ en:
       type:
         description: "Default text for description"
         attribute_groups: "Form configuration"
+        children: "Sub-types"
         is_in_roadmap: "Displayed in roadmap by default"
         is_default: "Activated for new projects by default"
         is_milestone: "Is milestone"
         color: "Color"
-        patterns: "Patterns"
         parent: "Parent type"
-        children: "Sub-types"
+        patterns: "Patterns"
       remote_identity:
         auth_source: "Auth Source"
         integration: "Integration"
@@ -2636,14 +2636,14 @@ en:
               duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
               group_without_name: "Group name can't be blank."
+            parent:
+              cannot_be_self: "can't be the type itself."
+              cannot_change_with_work_packages: "can't be changed because work packages of this type already exist."
+              cannot_have_children: "can't be set because this type already has sub-types."
+              must_be_a_root: "must itself be a top-level type. Types can only be nested one level deep."
+              standard_type_must_be_root: "can't be set for the standard type."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
-            parent:
-              must_be_a_root: "must itself be a top-level type. Types can only be nested one level deep."
-              cannot_be_self: "can't be the type itself."
-              cannot_have_children: "can't be set because this type already has sub-types."
-              standard_type_must_be_root: "can't be set for the standard type."
-              cannot_change_with_work_packages: "can't be changed because work packages of this type already exist."
         user:
           attributes:
             base:
