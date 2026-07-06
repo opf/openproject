@@ -67,6 +67,7 @@ describe('Sortable lists item controller', () => {
   interface TestItemController {
     renderDropIndicator(edge:'top'|'bottom'|null):void;
     clearDropIndicator():void;
+    disconnect():void;
   }
 
   beforeAll(async () => {
@@ -251,6 +252,27 @@ describe('Sortable lists item controller', () => {
 
     expect(nextElement.dataset.dropPosition).toEqual('top');
     expect(nextElement.dataset.dropPositionOwner).toEqual('2');
+  });
+
+  it('clears its own drop indicator when the item disconnects mid-drag', () => {
+    const element = document.createElement('li');
+    const nextElement = document.createElement('li');
+    const controller = controllerFor(element);
+
+    element.setAttribute('data-sortable-lists--item-id-value', '1');
+    nextElement.setAttribute('data-sortable-lists--item-id-value', '2');
+    document.body.append(element, nextElement);
+
+    controller.renderDropIndicator('bottom');
+    expect(nextElement.dataset.dropPosition).toEqual('top');
+
+    // A list-refresh morph removes the hovering row: its controller disconnects
+    // without an onDrop, so the indicator it owns on the sibling must be cleared
+    // here or it lingers forever.
+    controller.disconnect();
+
+    expect(nextElement.hasAttribute('data-drop-position')).toBe(false);
+    expect(nextElement.hasAttribute('data-drop-position-owner')).toBe(false);
   });
 
   it('keeps the item drop target active while moving through row gaps', () => {

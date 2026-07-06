@@ -102,6 +102,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   disconnect():void {
+    // A morph can remove a hovering row mid-drag; without this the drop indicator
+    // it owns on a sibling row is never cleared (no onDrop fires, and no other
+    // controller may clear a foreign owner), leaving a phantom drop line.
+    this.clearDropIndicator();
     this.cleanupFn?.();
     this.cleanupFn = undefined;
     this.disconnectRoot();
