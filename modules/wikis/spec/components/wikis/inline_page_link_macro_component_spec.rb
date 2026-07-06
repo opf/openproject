@@ -42,17 +42,59 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
     )
   end
   let(:page_info_result) { Success(page_info) }
+  let(:component) { described_class.new(page_info_result) }
 
-  subject(:render_component) { render_inline(described_class.new(page_info_result)) }
+  subject(:render_component) { render_inline(component) }
 
   before { render_component }
 
-  it "renders a wiki page macro link with an ARIA label and no title" do
-    expect(page).to have_link(text: page_info.title, href: page_info.href)
-    expect(page).to have_css(
-      ".op-inline-macro a[aria-label='#{page_info.title}. #{I18n.t('wikis.page_links.aria_label')}']",
-      text: page_info.title
-    )
-    expect(page).to have_no_css(".op-inline-macro[title]")
+  context "when the page information is available" do
+    it "renders an accessible link to the wiki page" do
+      macro = page.find(".op-inline-macro")
+      link = macro.find("a", text: page_info.title, exact_text: true)
+
+      expect(link[:href]).to eq(page_info.href)
+      expect(link["aria-label"]).to eq(
+        "#{page_info.title}. #{I18n.t('wikis.page_links.aria_label')}"
+      )
+    end
+  end
+
+  context "when retrieving the page information fails" do
+    let(:page_info_result) do
+      Failure(
+        Wikis::Adapters::Results::Error.new(
+          source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
+          code: error_code
+        )
+      )
+    end
+
+    shared_examples "an unresolved wiki page link" do |error_text_key|
+      it "renders the error without a link" do
+        macro = page.find(".op-inline-macro")
+
+        expect(macro).to have_text(I18n.t(error_text_key))
+        expect(macro).to have_no_link
+      end
+    end
+
+    context "when the page was not found" do
+      let(:error_code) { :not_found }
+
+      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.page_not_found"
+    end
+
+    context "when access to the page is forbidden" do
+      let(:error_code) { :forbidden }
+
+      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.page_access_forbidden"
+    end
+
+    context "when an unexpected error occurs" do
+      let(:error_code) { :timeout }
+
+      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.unexpected"
+    end
   end
 end

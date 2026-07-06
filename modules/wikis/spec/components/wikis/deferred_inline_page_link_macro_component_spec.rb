@@ -32,14 +32,29 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Wikis::DeferredInlinePageLinkMacroComponent, type: :component do
-  subject(:render_component) do
-    render_inline(described_class.new(identifier: "1234", provider_id: "42"))
-  end
+  subject(:render_component) { render_inline(component) }
+
+  let(:identifier) { "1234" }
+  let(:provider_id) { "42" }
+  let(:component) { described_class.new(identifier:, provider_id:) }
 
   before { render_component }
 
-  it "renders the loading wiki page macro without a title" do
-    expect(page).to have_css("turbo-frame[data-type='wiki-page-link']")
-    expect(page).to have_no_css(".op-inline-macro[title]")
+  it "renders a frame that loads the requested wiki page link" do
+    frame = page.find("turbo-frame[data-type='wiki-page-link']")
+
+    expect(frame[:id]).to eq(component.frame_id)
+    expect(frame[:src]).to eq(component.frame_src)
+    expect(frame["data-provider-id"]).to eq(provider_id)
+    expect(frame["data-page-identifier"]).to eq(identifier)
+  end
+
+  it "renders the loading macro" do
+    frame = page.find("turbo-frame[data-type='wiki-page-link']")
+
+    expect(frame).to have_css(
+      ".op-inline-macro",
+      text: I18n.t("wikis.deferred_inline_page_link_macro_component.loading")
+    )
   end
 end

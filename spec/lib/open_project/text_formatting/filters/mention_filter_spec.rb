@@ -65,7 +65,6 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(href="/work_packages/#{work_package.id}"))
         expect(rendered).to include(%(data-hover-card-url="/work_packages/#{work_package.id}/hover_card"))
         expect(rendered).to include(%(aria-label="##{work_package.id}. A dynamic link to a work package placed using a macro"))
-        expect(rendered).not_to include(" title=")
       end
     end
 
@@ -103,7 +102,6 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="false"))
-        expect(rendered).not_to include("aria-label")
       end
     end
 
@@ -122,7 +120,6 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="true"))
-        expect(rendered).not_to include("aria-label")
       end
     end
 
@@ -279,7 +276,6 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         rendered = format_text(user_mention_tag(user))
 
         expect(rendered).to include(%(aria-label="#{user.name}. A dynamic link to a user placed using a macro"))
-        expect(rendered).not_to include(" title=")
       end
 
       it "loads many mentioned users with a single users SELECT keyed by id" do

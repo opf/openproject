@@ -174,8 +174,8 @@ en:
         wysiwyg: "Switch to WYSIWYG editor"
       macro:
         attribute_reference:
-          aria_label_with_name: "%{name}. %{description}"
           aria_label_resource_link: "A dynamic link to a %{resource} placed using a macro"
+          aria_label_with_name: "%{name}. %{description}"
           aria_label_work_package_attribute: "A dynamic work package attribute placed using a macro"
           aria_label_work_package_link: "A dynamic link to a work package placed using a macro"
           invalid_attribute: "The selected attribute '%{name}' does not exist."
