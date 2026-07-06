@@ -47,10 +47,11 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
 
   before { render_component }
 
-  it "renders a wiki page macro link with an ARIA label and no title" do
+  it "renders a wiki page macro link with an ARIA description and no title" do
     expect(page).to have_link(text: page_info.title, href: page_info.href)
     expect(page).to have_css(
-      ".op-inline-macro[aria-label='#{I18n.t('wikis.page_links.aria_label')}']"
+      ".op-inline-macro a[aria-description='#{I18n.t('wikis.page_links.aria_label')}']",
+      text: page_info.title
     )
     expect(page).to have_no_css(".op-inline-macro[title]")
   end

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -68,8 +68,6 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
   };
-
-  @HostBinding('attr.aria-label') hostAriaLabel = this.text.aria_label;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;

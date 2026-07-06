@@ -95,7 +95,7 @@ module OpenProject::TextFormatting
         tag_options = { data: macro_attributes }
         if work_package_embed?(macro_attributes)
           tag_options[:aria] = {
-            label: I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_attribute")
+            description: I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_attribute")
           }
         end
 

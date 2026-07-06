@@ -28,11 +28,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(OpPrimer::InlineMacroComponent.new("aria-label": t("wikis.page_links.aria_label"))) do |inline_macro|
+  render(OpPrimer::InlineMacroComponent.new) do |inline_macro|
     page_info_result.either(
       ->(page_info) do
         inline_macro.with_leading_visual_icon(icon: :"op-file-doc")
-        render(Primer::Beta::Link.new(href: page_info.href)) { page_info.title }
+        render(Primer::Beta::Link.new(href: page_info.href, "aria-description": t("wikis.page_links.aria_label"))) do
+          page_info.title
+        end
       end,
       ->(error) do
         inline_macro.with_leading_visual_icon(icon: :alert)

@@ -103,7 +103,7 @@ module OpenProject::TextFormatting::Matchers
       def link_to(name = nil, options = nil, html_options = nil, &)
         html_options = (html_options || {})
           .except(:title, "title")
-          .merge(aria: { label: resource_link_aria_label })
+          .merge(aria: { description: resource_link_aria_label })
 
         super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
       end

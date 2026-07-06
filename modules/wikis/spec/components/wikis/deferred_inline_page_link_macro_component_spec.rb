@@ -38,10 +38,10 @@ RSpec.describe Wikis::DeferredInlinePageLinkMacroComponent, type: :component do
 
   before { render_component }
 
-  it "renders the loading wiki page macro with an ARIA label and no title" do
+  it "renders the loading wiki page macro with an ARIA description and no title" do
     expect(page).to have_css("turbo-frame[data-type='wiki-page-link']")
     expect(page).to have_css(
-      ".op-inline-macro[aria-label='#{I18n.t('wikis.deferred_inline_page_link_macro_component.aria_label')}']"
+      ".op-inline-macro[aria-description='#{I18n.t('wikis.deferred_inline_page_link_macro_component.aria_label')}']"
     )
     expect(page).to have_no_css(".op-inline-macro[title]")
   end

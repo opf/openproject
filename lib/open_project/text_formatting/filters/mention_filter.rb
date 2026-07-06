@@ -103,14 +103,14 @@ module OpenProject::TextFormatting
         link_to_user(user,
                      only_path: context[:only_path],
                      class: "user-mention",
-                     aria: { label: resource_link_aria_label("user") })
+                     aria: { description: resource_link_aria_label("user") })
       end
 
       def group_mention(group)
         link_to_group(group,
                       only_path: context[:only_path],
                       class: "user-mention",
-                      aria: { label: resource_link_aria_label("group") })
+                      aria: { description: resource_link_aria_label("group") })
       end
 
       def work_package_mention(work_package, mention)
@@ -138,7 +138,7 @@ module OpenProject::TextFormatting
                                                           display_id: work_package.display_id,
                                                           detailed: },
                                                   aria: {
-                                                    label: work_package_link_aria_label
+                                                    description: work_package_link_aria_label
                                                   }
       end
 
@@ -151,7 +151,7 @@ module OpenProject::TextFormatting
         link_to(label,
                 work_package_path_or_url(id: work_package.display_id, only_path: context[:only_path]),
                 class: "issue work_package",
-                aria: { label: work_package_link_aria_label })
+                aria: { description: work_package_link_aria_label })
       end
 
       def work_package_link_aria_label
@@ -167,7 +167,7 @@ module OpenProject::TextFormatting
         link_to(work_package.formatted_id,
                 work_package_path_or_url(id: display_id, only_path: context[:only_path]),
                 class: "issue work_package",
-                aria: { label: work_package_link_aria_label },
+                aria: { description: work_package_link_aria_label },
                 data: {
                   hover_card_trigger_target: "trigger",
                   hover_card_url: hover_card_work_package_path(display_id)

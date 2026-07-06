@@ -10,6 +10,7 @@
     fieldName="type" />
   <a data-hover-card-trigger-target="trigger"
     target="_top"
+    [attr.aria-description]="text.aria_label"
     [href]="pathHelper.workPackagePath(workPackage.displayId)"
     [attr.data-work-package-id]="workPackage.id"
     [attr.data-hover-card-url]="workPackageHoverCardUrl">

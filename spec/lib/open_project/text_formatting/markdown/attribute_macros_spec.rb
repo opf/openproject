@@ -61,16 +61,16 @@ RSpec.shared_examples_for "resolving macros" do
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
-            Inline reference to WP: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
+            Inline reference to WP: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by ID: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
+            Inline reference to WP by ID: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by ID with CF with a dot: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="1. test" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
+            Inline reference to WP by ID with CF with a dot: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="1. test" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by subject: <opce-macro-attribute-label data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
+            Inline reference to WP by subject: <opce-macro-attribute-label data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-label>
           </p>
           <p class="op-uc-p">
             Inline reference to project: <opce-macro-attribute-label data-model="project" data-id="4321" data-attribute="status"></opce-macro-attribute-label>
@@ -113,13 +113,13 @@ RSpec.shared_examples_for "resolving macros" do
             <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
-            Inline reference to WP: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
+            Inline reference to WP: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by ID: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
+            Inline reference to WP by ID: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
-            Inline reference to WP by subject: <opce-macro-attribute-value data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces" aria-label="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
+            Inline reference to WP by subject: <opce-macro-attribute-value data-model="workPackage" data-id="Some subject" data-attribute="Some custom field with spaces" aria-description="A dynamic work package attribute placed using a macro"></opce-macro-attribute-value>
           </p>
           <p class="op-uc-p">
             Inline reference to project: <opce-macro-attribute-value data-model="project" data-id="4321" data-attribute="status"></opce-macro-attribute-value>

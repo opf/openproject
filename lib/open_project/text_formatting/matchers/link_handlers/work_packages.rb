@@ -110,7 +110,7 @@ module OpenProject::TextFormatting::Matchers
                                                   "",
                                                   data: { id:, display_id:, detailed: },
                                                   aria: {
-                                                    label: work_package_link_aria_label
+                                                    description: work_package_link_aria_label
                                                   }
       end
 

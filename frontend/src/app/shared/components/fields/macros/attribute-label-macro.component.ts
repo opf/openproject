@@ -69,7 +69,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('attr.aria-label') hostAriaLabel:string|null = null;
+  @HostBinding('attr.aria-description') hostAriaDescription:string|null = null;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -88,7 +88,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
-    this.hostAriaLabel = model === 'workPackage' ? this.text.aria_label : null;
+    this.hostAriaDescription = model === 'workPackage' ? this.text.aria_label : null;
     this.attributeScope = capitalize(model);
 
     void this.loadResourceAttribute(model, id, attributeName);

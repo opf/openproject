@@ -64,7 +64,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(">##{work_package.id}<")
         expect(rendered).to include(%(href="/work_packages/#{work_package.id}"))
         expect(rendered).to include(%(data-hover-card-url="/work_packages/#{work_package.id}/hover_card"))
-        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
+        expect(rendered).to include(%(aria-description="A dynamic link to a work package placed using a macro"))
         expect(rendered).not_to include(" title=")
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="false"))
-        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
+        expect(rendered).to include(%(aria-description="A dynamic link to a work package placed using a macro"))
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         expect(rendered).to include(%(data-id="#{wp.id}"))
         expect(rendered).to include(%(data-display-id="#{wp.display_id}"))
         expect(rendered).to include(%(data-detailed="true"))
-        expect(rendered).to include(%(aria-label="A dynamic link to a work package placed using a macro"))
+        expect(rendered).to include(%(aria-description="A dynamic link to a work package placed using a macro"))
       end
     end
 
@@ -278,7 +278,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
         user = create(:user, member_with_roles: { project => role })
         rendered = format_text(user_mention_tag(user))
 
-        expect(rendered).to include(%(aria-label="A dynamic link to a user placed using a macro"))
+        expect(rendered).to include(%(aria-description="A dynamic link to a user placed using a macro"))
         expect(rendered).not_to include(" title=")
       end
 

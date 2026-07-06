@@ -177,7 +177,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       expect(macro["data-id"]).to eq(wp.id.to_s)
       expect(macro["data-display-id"]).to eq(wp.display_id)
       expect(macro["data-detailed"]).to eq("false")
-      expect(macro["aria-label"]).to eq("A dynamic link to a work package placed using a macro")
+      expect(macro["aria-description"]).to eq("A dynamic link to a work package placed using a macro")
     end
 
     it "renders `###PROJ-N` as a detailed quickinfo macro element" do
@@ -188,7 +188,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       expect(macro["data-id"]).to eq(wp.id.to_s)
       expect(macro["data-display-id"]).to eq(wp.display_id)
       expect(macro["data-detailed"]).to eq("true")
-      expect(macro["aria-label"]).to eq("A dynamic link to a work package placed using a macro")
+      expect(macro["aria-description"]).to eq("A dynamic link to a work package placed using a macro")
     end
 
     context "when the referenced work package does not exist" do
