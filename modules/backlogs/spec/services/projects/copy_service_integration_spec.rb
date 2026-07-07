@@ -160,14 +160,22 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
     let!(:owned_sprint) { create(:sprint, project: source, name: "Owned Sprint") }
     let!(:shared_sprint) { create(:sprint, project: other_project, name: "Shared Sprint") }
-    let!(:wp_in_owned) { create(:work_package, project: source, subject: "In owned") }
+    let!(:wp_owned1) { create(:work_package, project: source, subject: "In owned") }
+    let!(:wp_owned2) { create(:work_package, project: source, subject: "Second in owned") }
     let!(:wp_in_shared) { create(:work_package, project: source, subject: "In shared") }
+    let!(:wp_inbox1) { create(:work_package, project: source, subject: "Inbox 1") }
+    let!(:wp_inbox2) { create(:work_package, project: source, subject: "Inbox 2") }
+    let!(:wp_inbox3) { create(:work_package, project: source, subject: "Inbox 3") }
 
     subject { instance.call(params) }
 
     before do
-      wp_in_owned.update_column(:sprint_id, owned_sprint.id)
+      wp_owned1.update_columns(sprint_id: owned_sprint.id, position: 2)
+      wp_owned2.update_columns(sprint_id: owned_sprint.id, position: 1)
       wp_in_shared.update_column(:sprint_id, shared_sprint.id)
+      wp_inbox1.update_column(:position, 3)
+      wp_inbox2.update_column(:position, 1)
+      wp_inbox3.update_column(:position, 2)
     end
 
     def copied_wp(subject_text)
@@ -192,7 +200,19 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     it "does not add the copied work package to the source sprint" do
       expect(subject).to be_success
 
-      expect(owned_sprint.reload.work_packages.pluck(:subject)).to eq(["In owned"])
+      expect(owned_sprint.reload.work_packages.pluck(:subject)).to contain_exactly("In owned", "Second in owned")
+    end
+
+    it "preserves the position of each copied work package" do
+      expect(subject).to be_success
+
+      # Sprint
+      expect(copied_wp("In owned").position).to eq(2)
+      expect(copied_wp("Second in owned").position).to eq(1)
+      # Backlog Inbox
+      expect(copied_wp("Inbox 1").position).to eq(3)
+      expect(copied_wp("Inbox 2").position).to eq(1)
+      expect(copied_wp("Inbox 3").position).to eq(2)
     end
   end
 end
