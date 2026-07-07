@@ -41,21 +41,7 @@ module Projects::Copy
     protected
 
     def copy_dependency(*)
-      backlog_bucket_id_map = {}
-
-      source.backlog_buckets.each do |source_bucket|
-        attributes = source_bucket.attributes.dup.except("id", "project_id", "created_at", "updated_at")
-        bucket = target.backlog_buckets.create!(attributes)
-        backlog_bucket_id_map[source_bucket.id] = bucket.id
-
-        # Re-assigned on every iteration (rather than once after the loop) because `state` is a
-        # Hashie::Mash: assignment converts the Hash into a new Mash, breaking object identity, so
-        # later mutations of `backlog_bucket_id_map` alone would not be visible through
-        # `state.backlog_bucket_id_lookup`. Keeping the lookup current after each bucket also means a
-        # mid-loop `create!` failure (rescued by `Copy::Dependency#perform`) leaves the partial
-        # mapping intact instead of nil.
-        state.backlog_bucket_id_lookup = backlog_bucket_id_map
-      end
+      state.backlog_bucket_id_lookup = copy_collection_with_id_map(:backlog_buckets)
     end
   end
 end

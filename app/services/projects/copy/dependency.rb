@@ -47,5 +47,20 @@ module Projects::Copy
 
       params[:only].any? { |key| key.to_sym == check }
     end
+
+    protected
+
+    ##
+    # Copy every record of the named +association+ from the source project to
+    # the target, returning a Hash mapping each source record id to its copy's
+    # id. Uses the non-raising +create+ (as VersionsDependentService does) so a
+    # single invalid record is skipped rather than aborting the whole copy.
+    def copy_collection_with_id_map(association)
+      source.public_send(association).each_with_object({}) do |source_record, id_map|
+        attributes = source_record.attributes.dup.except("id", "project_id", "created_at", "updated_at")
+        copy = target.public_send(association).create(attributes)
+        id_map[source_record.id] = copy.id if copy.persisted?
+      end
+    end
   end
 end
