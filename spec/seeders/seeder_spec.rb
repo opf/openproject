@@ -47,4 +47,40 @@ RSpec.describe Seeder do
       expect(seeder.admin_user).to be_nil
     end
   end
+
+  describe "#seed_project_identifier" do
+    context "in classic mode", with_settings: { work_packages_identifier: "classic" } do
+      it "returns the given identifier verbatim" do
+        expect(seeder.seed_project_identifier("dev-resource-management")).to eq("dev-resource-management")
+      end
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      it "derives an identifier that satisfies the semantic format" do
+        %w[dev-resource-management demo-project your-scrum-project dev-work-package-sharing].each do |identifier|
+          derived = seeder.seed_project_identifier(identifier)
+
+          expect(derived).to match(/\A[A-Z][A-Z0-9_]*\z/)
+          expect(derived.length).to be <= Projects::Identifier::SEMANTIC_IDENTIFIER_MAX_LENGTH
+        end
+      end
+
+      it "maps a given identifier to the same value on every call" do
+        derived = seeder.seed_project_identifier("demo-construction-project")
+
+        expect(seeder.seed_project_identifier("demo-construction-project")).to eq(derived)
+      end
+
+      it "does not consult existing projects when deriving the value" do
+        first = seeder.seed_project_identifier("demo-project")
+        create(:project, identifier: first)
+
+        expect(seeder.seed_project_identifier("demo-project")).to eq(first)
+      end
+    end
+
+    it "leaves a blank identifier untouched so the model can generate one" do
+      expect(seeder.seed_project_identifier(nil)).to be_nil
+    end
+  end
 end

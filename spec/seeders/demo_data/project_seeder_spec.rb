@@ -194,6 +194,40 @@ RSpec.describe DemoData::ProjectSeeder do
     end
   end
 
+  context "with a hardcoded project identifier" do
+    let(:project_data) do
+      {
+        "name" => "Demo project",
+        "identifier" => "demo-project"
+      }
+    end
+
+    context "in classic mode", with_settings: { work_packages_identifier: "classic" } do
+      it "seeds the project with the identifier verbatim" do
+        project_seeder.seed!
+
+        expect(Project.find_by(name: "Demo project").identifier).to eq("demo-project")
+      end
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      it "seeds the project with a semantic-compliant identifier" do
+        expect { project_seeder.seed! }.not_to raise_error
+
+        identifier = Project.find_by(name: "Demo project").identifier
+        expect(identifier).to match(/\A[A-Z][A-Z0-9_]*\z/)
+        expect(identifier.length).to be <= Projects::Identifier::SEMANTIC_IDENTIFIER_MAX_LENGTH
+      end
+
+      it "replaces the existing project on re-seed instead of duplicating it" do
+        project_seeder.seed!
+
+        expect { described_class.new(seed_data.lookup("projects.my-project")).seed! }
+          .not_to change(Project.where(name: "Demo project"), :count).from(1)
+      end
+    end
+  end
+
   def a_filter(filter_class, attributes)
     an_instance_of(filter_class).and having_attributes(attributes)
   end

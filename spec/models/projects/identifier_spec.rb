@@ -226,6 +226,23 @@ RSpec.describe Projects::Identifier do
     end
   end
 
+  describe ".semantic_identifier_for" do
+    it "derives a semantic identifier from the name" do
+      expect(Project.semantic_identifier_for("My Project")).to eq("MP")
+    end
+
+    it "excludes the reserved keywords without querying existing projects" do
+      allow(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+        .to receive(:suggest_identifier).and_return("MP")
+
+      Project.semantic_identifier_for("My Project")
+
+      expect(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+        .to have_received(:suggest_identifier)
+        .with("My Project", exclude: ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers.model_reserved_identifiers)
+    end
+  end
+
   describe "#suggest_identifier" do
     subject(:project) { build(:project, name: "My Project") }
 

@@ -43,12 +43,12 @@ module DevelopmentData
 
       print_status "   -Linking custom fields."
 
-      link_custom_fields(projects.detect { |p| p.identifier == "dev-custom-fields" })
+      link_custom_fields(projects.detect { it.identifier == seed_project_identifier("dev-custom-fields") })
     end
 
     def applicable?
       recent_installation? &&
-        Project.where(identifier: project_identifiers).count == 0 &&
+        Project.where(identifier: seeded_identifiers).none? &&
         seed_data.reference_exists?(:default_role_project_admin)
     end
 
@@ -62,13 +62,17 @@ module DevelopmentData
       %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields)
     end
 
+    def seeded_identifiers
+      project_identifiers.map { seed_project_identifier(it) }
+    end
+
     def reset_projects
-      Project.where(identifier: project_identifiers).destroy_all
+      Project.where(identifier: seeded_identifiers).destroy_all
       project_identifiers.map do |id|
         project = Project.new project_data(id)
 
         if id == "dev-large-child"
-          project.parent_id = Project.find_by(identifier: "dev-large").id
+          project.parent_id = Project.find_by(identifier: seed_project_identifier("dev-large")).id
         end
 
         project.save!
@@ -110,7 +114,7 @@ module DevelopmentData
     def project_data(identifier)
       {
         name: project_name(identifier),
-        identifier:,
+        identifier: seed_project_identifier(identifier),
         enabled_module_names: project_modules,
         types: Type.all,
         workspace_type: "project"

@@ -135,6 +135,23 @@ module Projects::Identifier
         ProjectIdentifiers::ClassicIdentifierSuggestionGenerator.new.suggest_identifier(name)
       end
     end
+
+    # Unlike suggest_identifier, this ignores existing projects, so a given name
+    # always maps to the same identifier. Only the reserved keywords are excluded.
+    def semantic_identifier_for(name)
+      exclude = ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers.model_reserved_identifiers
+      ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator
+        .suggest_identifier(name, exclude:)
+    end
+
+    # The identifier a seed's canonical (classic) value takes in the active mode:
+    # verbatim in classic mode, derived in semantic mode. Callers that reference a
+    # seeded project by identifier use this to resolve the same value seeding produced.
+    def seed_identifier_for(identifier)
+      return identifier if identifier.blank? || Setting::WorkPackageIdentifier.classic?
+
+      semantic_identifier_for(identifier)
+    end
   end
 
   def suggest_identifier(mode: Setting[:work_packages_identifier])

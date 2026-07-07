@@ -36,7 +36,7 @@ module Projects::Concerns
       project = call.result
 
       # e.g. when one of the demo projects gets deleted or archived
-      if %w[demo-project].include?(project.identifier)
+      if project.identifier == Project.seed_identifier_for("demo-project")
         Setting.demo_projects_available = !project.destroyed? && !project.archived? && project.public?
       end
 

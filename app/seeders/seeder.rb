@@ -95,6 +95,10 @@ class Seeder
     @admin_user ||= User.not_builtin.admin.first
   end
 
+  def seed_project_identifier(identifier)
+    Project.seed_identifier_for(identifier)
+  end
+
   protected
 
   def print_status(message)

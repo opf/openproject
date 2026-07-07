@@ -83,8 +83,12 @@ module DemoData
     end
 
     def delete_project
-      project_to_delete = Project.find_by(identifier: project_data.lookup("identifier"))
+      project_to_delete = Project.find_by(identifier: project_identifier)
       project_to_delete&.destroy
+    end
+
+    def project_identifier
+      seed_project_identifier(project_data.lookup("identifier"))
     end
 
     def create_project
@@ -181,16 +185,16 @@ module DemoData
       seed_data.lookup("types") || []
     end
 
-    def project_attributes # rubocop:disable Metrics/AbcSize
+    def project_attributes
       {
         name: project_data.lookup("name"),
-        identifier: project_data.lookup("identifier"),
+        identifier: project_identifier,
         status_code: project_data.lookup("status_code"),
         status_explanation: project_data.lookup("status_explanation"),
         description: project_data.lookup("description"),
         enabled_module_names: project_data.lookup("modules"),
         types: Type.all,
-        parent: Project.find_by(identifier: project_data.lookup("parent")),
+        parent: Project.find_by(identifier: seed_project_identifier(project_data.lookup("parent"))),
         workspace_type: "project"
       }
     end

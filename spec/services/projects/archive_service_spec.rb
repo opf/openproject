@@ -141,16 +141,31 @@ RSpec.describe Projects::ArchiveService do
   end
 
   context "with the seeded demo project" do
-    let(:demo_project) { create(:project, name: "Demo project", identifier: "demo-project", public: true) }
+    let(:demo_project) do
+      create(:project, name: "Demo project", identifier: demo_identifier, public: true)
+    end
     let(:instance) { described_class.new(user:, model: demo_project) }
 
-    it "saves in a Setting that the demo project was modified (regression #52826)" do
-      # Archive the demo project
-      expect(instance.call).to be_truthy
-      expect(demo_project.reload).to be_archived
+    shared_examples "records the demo project as modified" do
+      before { Setting.demo_projects_available = true }
 
-      # Demo project is not available any more for the onboarding tour
-      expect(Setting.demo_projects_available).to be(false)
+      it "clears demo_projects_available when the demo project is archived (regression #52826)" do
+        expect(instance.call).to be_truthy
+        expect(demo_project.reload).to be_archived
+        expect(Setting.demo_projects_available).to be(false)
+      end
+    end
+
+    context "in classic mode", with_settings: { work_packages_identifier: "classic" } do
+      let(:demo_identifier) { Project.seed_identifier_for("demo-project") }
+
+      include_examples "records the demo project as modified"
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      let(:demo_identifier) { Project.seed_identifier_for("demo-project") }
+
+      include_examples "records the demo project as modified"
     end
   end
 end
