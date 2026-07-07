@@ -27,67 +27,62 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%= component_wrapper(tag: "turbo-frame", refresh: :morph, style: "display:contents") do %>
-  <%=
-    render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
-      head.with_heading(
-        tag: :h3,
-        size: :medium,
-        font_weight: :bold,
-        display: :inline_flex,
-        align_items: :center,
-        classes: "gap-2"
-      ) do
-        concat(Sprint.human_plural_model_name)
-        concat render(
-          Primer::Beta::Counter.new(
-            scheme: :primary,
-            count: total,
-            round: true,
-            limit: 1_000,
-            hide_if_zero: true,
-            data: { test_selector: "op-sprints--total-counter" }
-          )
+<%=
+  render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
+    head.with_heading(
+      tag: :h3,
+      size: :medium,
+      font_weight: :bold,
+      display: :inline_flex,
+      align_items: :center,
+      classes: "gap-2"
+    ) do
+      concat(Sprint.human_plural_model_name)
+      concat render(
+        Primer::Beta::Counter.new(
+          scheme: :primary,
+          count: total,
+          round: true,
+          limit: 1_000,
+          hide_if_zero: true
         )
-      end
+      )
+    end
 
-      if sprint_creation_allowed?
-        head.with_actions do
-          render Primer::Beta::Button.new(
-            tag: :a,
-            label: Sprint.human_model_name,
-            href: new_dialog_project_backlogs_sprints_path(project, all_backlogs_params),
-            data: {
-              controller: "async-dialog",
-              test_selector: "op-sprints--new-sprint-button"
-            }
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            Sprint.human_model_name
-          end
+    if sprint_creation_allowed?
+      head.with_actions do
+        render Primer::Beta::Button.new(
+          tag: :a,
+          label: Sprint.human_model_name,
+          href: new_dialog_project_backlogs_sprints_path(project, all_backlogs_params),
+          data: {
+            controller: "async-dialog",
+            test_selector: "op-sprints--new-sprint-button"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          Sprint.human_model_name
         end
       end
     end
-  %>
+  end
+%>
 
-  <% if sprints.empty? %>
-    <%=
-      render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-        blankslate.with_visual_icon(icon: :zap)
-        blankslate.with_heading(tag: :h4).with_content(t(".blankslate.title"))
-        blankslate.with_description_content(blankslate_description)
-      end
-    %>
-  <% else %>
-    <% sprints.each do |sprint| %>
-      <%=
-        render Backlogs::SprintComponent.new(
+<% if sprints.empty? %>
+  <%=
+    render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+      blankslate.with_visual_icon(icon: :zap)
+      blankslate.with_heading(tag: :h4).with_content(t(".blankslate.title"))
+      blankslate.with_description_content(blankslate_description)
+    end
+  %>
+<% else %>
+  <% sprints.each do |sprint| %>
+    <%= render Backlogs::SprintComponent.new(
           sprint:,
           project:,
           work_packages: work_packages_by_sprint_id[sprint.id] || [],
           active_sprint_ids: active_sprint_ids
-        )
-      %>
-    <% end %>
+        ) %>
   <% end %>
 <% end %>

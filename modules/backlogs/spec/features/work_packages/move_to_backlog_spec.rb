@@ -59,13 +59,10 @@ RSpec.describe "Move to backlog", :js do
 
       it "moves the work package to the backlog inbox" do
         planning_page.visit!
-        planning_page.expect_sprints_total_count(1)
-
         planning_page.click_in_work_package_menu(work_package, "Move to backlog inbox")
 
         planning_page.expect_work_package_not_in_sprint(work_package, sprint)
         planning_page.expect_inbox_item(work_package)
-        planning_page.expect_no_sprints_total_counter
       end
     end
 
@@ -176,8 +173,6 @@ RSpec.describe "Move to backlog", :js do
 
       it "opens the dialog and moves the work package to the selected sprint" do
         planning_page.visit!
-        planning_page.expect_no_sprints_total_counter
-
         planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
         within_modal "Move to sprint" do
@@ -189,7 +184,6 @@ RSpec.describe "Move to backlog", :js do
 
         planning_page.expect_no_inbox_item(work_package)
         planning_page.expect_work_package_in_sprint(work_package, sprint)
-        planning_page.expect_sprints_total_count(1)
       end
     end
 
@@ -198,8 +192,6 @@ RSpec.describe "Move to backlog", :js do
 
       it "opens the dialog and moves the work package to the selected sprint" do
         planning_page.visit!
-        planning_page.expect_no_sprints_total_counter
-
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
         within_modal "Move to sprint" do
@@ -211,7 +203,6 @@ RSpec.describe "Move to backlog", :js do
 
         planning_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
         planning_page.expect_work_package_in_sprint(work_package, sprint)
-        planning_page.expect_sprints_total_count(1)
       end
     end
   end
