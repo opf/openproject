@@ -28,27 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        module Queries
-          class ReferencingPages < BaseQuery
-            def call(input_data:, auth_strategy:)
-              success(
-                provider.page_links
-                        .merge(ReverseInlinePageLink.all)
-                        .where(linkable: input_data.linkable)
-                        .order(created_at: :desc)
-                        .map do |link|
-                          page_info(identifier: link.identifier, auth_strategy:)
-                            .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source: :mention) }
-                        end
-              )
-            end
-          end
-        end
-      end
-    end
-  end
+module Wikis::Adapters::Results
+  # Pairs a PageInfo with how it relates to a given linkable.
+  # source: :parent — page has a linkable as a parent link
+  # source: :mention — page mentions the linkable in its content
+  PageReference = Data.define(:page_info, :source)
 end

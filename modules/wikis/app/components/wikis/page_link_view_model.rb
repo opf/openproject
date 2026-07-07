@@ -29,26 +29,15 @@
 #++
 
 module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        module Queries
-          class ReferencingPages < BaseQuery
-            def call(input_data:, auth_strategy:)
-              success(
-                provider.page_links
-                        .merge(ReverseInlinePageLink.all)
-                        .where(linkable: input_data.linkable)
-                        .order(created_at: :desc)
-                        .map do |link|
-                          page_info(identifier: link.identifier, auth_strategy:)
-                            .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source: :mention) }
-                        end
-              )
-            end
-          end
-        end
-      end
+  # View model for a single row in a CollapsiblePageLinksComponent.
+  # Mapping source -> badge label and styling is the component's concern.
+  PageLinkViewModel = Data.define(:page_info_result, :source) do
+    def self.from_page_reference_result(result)
+      new(page_info_result: result.fmap(&:page_info), source: result.fmap(&:source).value_or(nil))
+    end
+
+    def self.from_page_info_result(result)
+      new(page_info_result: result, source: nil)
     end
   end
 end
