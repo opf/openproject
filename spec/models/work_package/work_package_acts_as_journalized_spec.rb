@@ -590,6 +590,32 @@ RSpec.describe WorkPackage do
       end
     end
 
+    # Journal creation (the SQL differ gated by JOURNALED_KINDS) and rendering
+    # (the per-kind details) are independent implementations. A kind journaled
+    # without a matching detail would create journals that display no change.
+    context "on version changes of any journaled kind",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) { create(:work_package) }
+
+      it "journals only kinds the version associations define" do
+        expect(Journals::CreateService::WorkPackageVersion::JOURNALED_KINDS)
+          .to all(be_in(WorkPackageVersion.kinds.keys))
+      end
+
+      it "renders a detail for every journaled kind" do
+        Journals::CreateService::WorkPackageVersion::JOURNALED_KINDS.each do |kind|
+          journable.public_send(:"#{kind}_version_ids_replacements=", [version.id])
+
+          expect { journable.save! }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details)
+            .to have_key("#{kind}_versions"),
+                "journaled kind '#{kind}' creates journals but renders no detail for them"
+        end
+      end
+    end
+
     context "on custom value changes" do
       # The explicit id is needed so that the accessors ('custom_field_1') can be used
       shared_let(:custom_field) do
