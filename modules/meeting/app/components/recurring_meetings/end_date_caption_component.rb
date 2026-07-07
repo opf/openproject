@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,21 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RecurringMeeting::EndAfter < ApplicationForm
-  form do |meeting_form|
-    meeting_form.select_list(
-      name: "end_after",
-      required: true,
-      label: I18n.t("activerecord.attributes.recurring_meeting.end_after"),
-      data: {
-        target_name: "end_after",
-        "show-when-value-selected-target": "cause",
-        action: "input->recurring-meetings--form#updateFrequencyText"
-      }
-    ) do |list|
-      list.option(value: "never", label: I18n.t("recurring_meeting.end_after.never"))
-      list.option(value: "specific_date", label: I18n.t("recurring_meeting.end_after.specific_date"))
-      list.option(value: "iterations", label: I18n.t("recurring_meeting.end_after.iterations"))
+module RecurringMeetings
+  class EndDateCaptionComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
+    include Redmine::I18n
+
+    def initialize(recurring_meeting:)
+      super
+
+      @recurring_meeting = recurring_meeting
+    end
+
+    def caption_text
+      end_date = @recurring_meeting.end_date_for_iterations
+      return "" if end_date.nil?
+
+      I18n.t("recurring_meeting.caption.ends_on", date: format_date(end_date))
     end
   end
 end
