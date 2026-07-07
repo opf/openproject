@@ -469,22 +469,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         // Only allow updates, otherwise this causes an error reloading the list
         // before the work package can be added to the query order
         filter((event) => event.eventType === 'updated'),
-        map((event:HalEvent) => {
-          const changes = event.commit?.changes;
-          const attribute = this.actionService!.watchedAttributes.find((name) => changes?.[name]);
-          return attribute && changes ? changes[attribute] : undefined;
-        }),
+        map((event:HalEvent) => event.commit?.changes[this.actionService!.filterName]),
         filter((value) => !!value),
         filter((value:ChangeItem) => {
           // Compare the from and to values from the committed changes
-          // with the current actionResource. Multi value attributes
-          // contribute the values of each of their versions.
+          // with the current actionResource
           const current = this.actionResource?.href;
-          const changed = [value.to, value.from]
-            .flat()
-            .map((resource) => (resource as HalResource|undefined)?.href);
+          const to = (value.to as HalResource|undefined)?.href;
+          const from = (value.from as HalResource|undefined)?.href;
 
-          return !!current && changed.includes(current);
+          return !!current && (current === to || current === from);
         }),
       )
       .subscribe(() => {
