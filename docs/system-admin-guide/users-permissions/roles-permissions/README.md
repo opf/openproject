@@ -131,10 +131,12 @@ The form shows the available global permissions which can be assigned to the new
 - View all users and groups
 
 > [!NOTE] 
-> This allows administrators to **allow the visibility of all users in the system**. When this global permission is *not* assigned, project administrators only see:
+> This enables administrators to **allow the visibility of all users in the system**. When this global permission is *not* assigned, a user only sees:
 > - users who share a project with them,
 > - users in the same groups as them, or
-> - users they explicitly invite by email (if permitted).
+> - members of public projects.
+>
+> For a full explanation of how user visibility is determined, see [User visibility](../user-visibility).
 
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 
