@@ -81,14 +81,17 @@ module ResourcePlannerViews
         user.departments.first&.name
       end
 
-      # Reads the value off the preloaded `custom_values` rather than going
+      # Reads the values off the preloaded `custom_values` rather than going
       # through the per-record custom-field-values machinery (avoids N+1).
+      # The job_title field may be multi-value, so join all matching values.
       def job_title
         return if @job_title_field.nil?
 
         user.custom_values
-            .detect { |custom_value| custom_value.custom_field_id == @job_title_field.id }
-            &.formatted_value.presence
+            .select { |custom_value| custom_value.custom_field_id == @job_title_field.id }
+            .filter_map { |custom_value| custom_value.formatted_value.presence }
+            .join(", ")
+            .presence
       end
     end
   end

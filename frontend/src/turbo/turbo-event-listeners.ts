@@ -1,4 +1,4 @@
-import { TurboHelpers } from './helpers';
+import { readScriptNonce, scrubScriptElements } from './csp-script-nonce';
 
 export function addTurboEventListeners(doc:Document = document, signal?:AbortSignal) {
   // Close the primer dialog when the form inside has been submitted with a success response.
@@ -30,24 +30,21 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
     // Turbo Drive does not send a referrer like turbolinks used to, so let's simulate it here
     const { headers } = event.detail.fetchOptions;
     headers['Turbo-Referrer'] = window.location.href;
-    headers['X-Turbo-Nonce'] = doc.getElementsByName('csp-nonce')[0]?.getAttribute('content') ?? '';
+    headers['X-Turbo-Nonce'] = readScriptNonce();
   }, { signal });
 
-  // Turbo adds nonces to all scripts, even though we want to explicitly pass nonces
-  // https://github.com/hotwired/turbo/issues/294#issuecomment-2633216052
-  // We remove them manually as a workaround
-  // in Handle Turbo Drive page loads (full reloads)
+  // Scrub mismatched-nonce scripts from a Turbo Drive page load (full reload)
   doc.addEventListener('turbo:before-render', (event) => {
-    TurboHelpers.scrubScriptElements(event.detail.newBody);
+    scrubScriptElements(event.detail.newBody);
   }, { capture: true, signal });
 
-  // in Turbo Streams (partial updates)
+  // Scrub mismatched-nonce scripts from a Turbo Stream (partial update)
   doc.addEventListener('turbo:before-stream-render', (event) => {
     const fallbackToDefaultActions = event.detail.render;
 
     event.detail.render = async (streamElement) => {
       const content = streamElement.templateElement.content;
-      TurboHelpers.scrubScriptElements(content);
+      scrubScriptElements(content);
 
       const result = await fallbackToDefaultActions(streamElement);
       doc.dispatchEvent(new CustomEvent('op:turbo-stream-rendered'));
@@ -55,8 +52,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
     };
   }, { signal });
 
-  // in Turbo Frames (when they load new content)
+  // Scrub mismatched-nonce scripts from a Turbo Frame render
   doc.addEventListener('turbo:before-frame-render', (event) => {
-    TurboHelpers.scrubScriptElements(event.detail.newFrame);
+    scrubScriptElements(event.detail.newFrame);
   }, { capture: true, signal });
 }

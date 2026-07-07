@@ -35,10 +35,18 @@ module Wikis
 
     alias_method :page_info_result, :model
 
-    def initialize(model = nil, menu_actions: [], **)
-      @menu_actions = menu_actions
+    attr_reader :actions, :source
+
+    def initialize(model = nil, menu_actions: [], actions: [], page_link: nil, source: nil, **)
+      @actions = actions
+      @page_link = page_link
+      @source = source
 
       super(model, **)
+    end
+
+    def badge_label
+      I18n.t("wikis.page_links.source.parent") if source == :parent
     end
 
     def page_title

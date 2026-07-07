@@ -11,21 +11,21 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
-| Topic                                                                                                | Content                                                      |
-|------------------------------------------------------------------------------------------------------| ------------------------------------------------------------ |
-| [Select a project](../../getting-started/projects/#open-an-existing-project)                         | Open a project which you want to work on.                    |
-| [Create a new project](../../getting-started/projects/#create-a-new-project)                         | Find out how to create a new project in OpenProject.         |
-| [Create a subproject](./project-settings/project-information/#create-a-subproject)                   | Create a subproject of an existing project.                  |
-| [Project structure](#project-structure)                                                              | Find out how to set up a project structure.                  |
-| [Project settings](./project-settings/)                                                              | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
-| [Project lists](./project-lists/)                                                                    |                                                              |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Select a project](../../getting-started/projects/#open-an-existing-project) | Open a project which you want to work on.                    |
+| [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
+| [Create a subproject](./project-settings/project-information/#create-a-subproject) | Create a subproject of an existing project.                  |
+| [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
+| [Project settings](./project-settings/)                      | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
+| [Project lists](./project-lists/)                            | Get an overview of all your projects and configure project views. |
 | [Change the project hierarchy](./project-settings/project-information/#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent project ("subproject of"). |
-| [Set a project to public](./project-settings/project-information/#make-a-project-public)          | Make a project accessible to (at least) all users within your instance. |
-| [Create a project template](./project-templates/#create-a-project-template)                          | Configure a project and set it as a template to copy it for future projects. |
-| [Use a project template](./project-templates/#use-a-project-template)                                | Create a new project based on an existing template project.  |
-| [Copy a project](./project-settings/project-information/#copy-a-project)                             | Copy an existing project.                                    |
-| [Archive a project](./project-settings/project-information/#archive-a-project)                        | Find out how to archive completed projects.                  |
-| [Delete a project](./project-settings/project-information/#delete-a-project)                          | How to delete a project.                                     |
+| [Set a project to public](./project-settings/project-information/#make-a-project-public) | Make a project accessible to (at least) all users within your instance. |
+| [Create a project template](./project-templates/#create-a-project-template) | Configure a project and set it as a template to copy it for future projects. |
+| [Use a project template](./project-templates/#use-a-project-template) | Create a new project based on an existing template project.  |
+| [Copy a project](./project-settings/project-information/#copy-a-project) | Copy an existing project.                                    |
+| [Archive a project](./project-settings/project-information/#archive-a-project) | Find out how to archive completed projects.                  |
+| [Delete a project](./project-settings/project-information/#delete-a-project) | How to delete a project.                                     |
 
 ![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4)
 

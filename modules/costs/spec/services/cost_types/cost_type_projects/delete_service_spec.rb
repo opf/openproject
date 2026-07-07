@@ -69,4 +69,19 @@ RSpec.describe CostTypes::CostTypeProjects::DeleteService do
       expect(CostTypesProject.where(id: mapping.id)).to exist
     end
   end
+
+  context "when costs have already been logged for the cost type in the project" do
+    let(:user) { create(:admin) }
+    let(:work_package) { create(:work_package, project:) }
+
+    before { create(:cost_entry, cost_type:, entity: work_package) }
+
+    it "refuses to delete the mapping" do
+      result = described_class.new(user:, model: mapping).call
+
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to include(:cost_type_in_use_cannot_disable)
+      expect(CostTypesProject.where(id: mapping.id)).to exist
+    end
+  end
 end

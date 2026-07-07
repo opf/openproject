@@ -36,6 +36,7 @@ module WorkPackageTypes
     attribute :is_in_roadmap
     attribute :is_milestone
     attribute :name
+    attribute :parent_id
     attribute :project_ids
     attribute :attribute_groups
 

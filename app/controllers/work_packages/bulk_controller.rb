@@ -131,7 +131,22 @@ class WorkPackages::BulkController < ApplicationController
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
     attributes = attributes_with_normalized_parent_id(attributes)
-    transform_attributes(attributes)
+    # target_version_ids is an array param and must not be run through the generic
+    # transform below (which is built for scalar "none"/blank magic values), so pull
+    # it out, normalize it separately, and merge the result back in.
+    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
+    attributes = transform_attributes(attributes)
+    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
+    attributes
+  end
+
+  # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
+  #   * blank selection  -> nil  (leave existing target_versions untouched)
+  #   * "none" selection -> []   (clear all target_versions)
+  #   * a version id      -> [id]
+  def normalized_target_version_ids(raw)
+    values = Array(raw).compact_blank
+    values == ["none"] ? [] : values.presence
   end
 
   def attributes_with_normalized_parent_id(attributes)

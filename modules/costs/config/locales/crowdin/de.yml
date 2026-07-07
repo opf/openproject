@@ -82,6 +82,8 @@ de:
         other: Aktivitäten für Zeiterfassung
       rate: Satz
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: muss zwischen 00:00 und 23:59 liegen.
@@ -253,9 +255,10 @@ de:
     settings:
       time_and_costs: Zeit und Kosten
       cost_types:
-        heading: Kostentypen
-        none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
         for_all_projects_hint: Diese Kostenart ist in allen Projekten aktiviert.
+        heading: Kostentypen
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
   costs:
     widgets:
       actual_costs:

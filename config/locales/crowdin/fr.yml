@@ -54,7 +54,7 @@ fr:
           confirm_button_text: Passer en public
   admin:
     banners:
-      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+      environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
     reserved_identifiers:
       btn_release: Libérer
       col_identifier: Identifiant
@@ -280,7 +280,7 @@ fr:
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               description: Sélectionnez les données que vous souhaitez importer parmi les données disponibles extraites de l'instance Jira hôte.
               label_supported_data: Données prises en charge
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: À venir (3e trimestre 2026)
               label_coming_later: À venir
               label_available_server_data: Données disponibles sur %{server_info}
               button_select_projects: Sélectionnez les projets à importer
@@ -1427,11 +1427,11 @@ fr:
         untitled_group: Groupe sans titre
       project_attributes:
         actions:
-          label_disable_all: Disable all
-          label_enable_all: Enable all
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
-        filter: Search by section or name
-        tab: Project attributes
+          label_disable_all: Désactiver tout
+          label_enable_all: Activer tout
+        description: Sélectionnez les attributs de projet que vous souhaitez activer pour ce type de lot de travail. Les attributs de projet activés s'affichent dans un onglet distinct au sein des lots de travail de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent y consulter et modifier ces attributs.
+        filter: Recherche par rubrique ou par nom
+        tab: Attributs du projet
       projects:
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
@@ -1593,10 +1593,10 @@ fr:
     move:
       no_common_statuses_exists: Il n'y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets
-      current_type_not_available_in_target_project: 'Le type actuel du lot de travaux n''est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu''il reste inchangé. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1995,10 +1995,12 @@ fr:
       type:
         description: Texte par défaut pour la description
         attribute_groups: Configuration du formulaire
+        children: Sub-types
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_default: Activé par défaut pour les nouveaux projets
         is_milestone: Est un jalon
         color: Couleur
+        parent: Parent type
         patterns: Modèles
       remote_identity:
         auth_source: Source d'authentification
@@ -2117,6 +2119,7 @@ fr:
         spent_hours: Temps passé
         spent_time: Temps passé
         subproject: Sous-projet
+        target_versions: Target versions
         time_entries: Consigner du temps
         type: Type
         version: Version
@@ -2139,7 +2142,7 @@ fr:
         cannot_delete_mapping: est requis. Ne peut être supprimé.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
-        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
+        configured_via_env: La configuration de cet objet est gérée par des variables d'environnement et ne peut pas être modifiée pendant l'exécution.
         confirmation: ne correspond pas à %{attribute}.
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         datetime_must_be_in_future: doit se situer dans le futur.
@@ -2511,8 +2514,8 @@ fr:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- doit être égal à 0 h lorsque le travail est défini et que le % d'achèvement est de 100 %."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: doit être vide lorsque le Travail est vide et le % Complété est de 100 %.
           readonly_status: Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.
-          target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
+          target_versions_only_allow_single_value: Les versions cibles ne peuvent contenir qu'une seule valeur.
+          version_and_target_versions_mutually_exclusive: Il n'est pas possible de modifier simultanément la version et les versions cibles.
         type:
           attributes:
             attribute_groups:
@@ -2521,6 +2524,12 @@ fr:
               duplicate_group: Le nom de groupe "%{group}" est utilisé plus d'une fois. Les noms de groupe doivent être uniques.
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
               group_without_name: Le nom du groupe ne peut pas être vide
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
         user:
@@ -2840,7 +2849,7 @@ fr:
   button_add_sub_item: Ajouter un sous-élément
   button_add_member: Ajouter un membre
   button_add_watcher: Ajouter observateur
-  button_all_filters: All filters
+  button_all_filters: Tous les filtres
   button_annotate: Annoter
   button_apply: Appliquer
   button_apply_changes: Appliquer les modifications
@@ -4282,7 +4291,7 @@ fr:
 
     '
   label_part_of: partie de
-  label_past: Past
+  label_past: Passé
   label_password_lost: Mot de passe oublié ?
   label_password_rule_lowercase: Minuscules
   label_password_rule_numeric: Caractères numériques
@@ -4466,7 +4475,7 @@ fr:
   label_type_new: Nouveau type
   label_type_plural: Types
   label_ui: Interface de l'utilisateur
-  label_upcoming: Upcoming
+  label_upcoming: À venir
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}
@@ -5111,12 +5120,12 @@ fr:
     create_successful: Le dépôt a été enregistré.
     delete_sucessful: Le dépôt a été supprimé.
     destroy_dialog:
-      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
-      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
-      heading: Delete this %{repository_type}?
-      heading_not_managed: Remove this linked %{repository_type}?
-      title: Delete repository
-      title_not_managed: Remove repository
+      description: Le dépôt « %{repository_type} » disponible à l'adresse %{path} , ainsi que l'ensemble de son contenu, seront définitivement supprimés.
+      description_not_managed: Le lien %{repository_type} sur %{url} sera supprimé du projet. Cela n'entraînera pas la suppression du contenu de ce dépôt, car celui-ci n'est pas géré par OpenProject.
+      heading: Supprimer ceci %{repository_type}?
+      heading_not_managed: 'Veuillez supprimer ce lien : %{repository_type}?'
+      title: Supprimer le dépôt
+      title_not_managed: Supprimer le dépôt
     errors:
       build_failed: Impossible de créer le dépôt avec la configuration sélectionnée. %{reason}
       managed_delete: Impossible de supprimer le dépôt géré.
@@ -5423,7 +5432,7 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
   setting_work_packages_identifier_classic_caption: 'Chaque lot de travaux reçoit un numéro séquentiel commençant à 1 (par exemple, #1234). Les numéros sont uniques au sein de l''instance et restent identiques même si les lots de travaux sont déplacés entre des projets.'
-  setting_work_packages_identifier_semantic: Identifiants sémantiques basés sur des projets (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Chaque projet possède un identifiant de projet unique préfixé à un numéro (par exemple, PROJ-11). La numérotation de chaque projet commence à 1. Si un lot de travaux est déplacé vers un autre projet, un nouvel identifiant est généré, mais l'ancien continuera de fonctionner.
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
   setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis en surbrillance par défaut
@@ -5622,7 +5631,7 @@ fr:
       heading: Attributs de l'utilisateur
       label_new_attribute: Attribut de l'utilisateur
       label_new_section: Section
-      label_untitled_section: Attributs de l'utilisateur
+      label_default_section: User attributes
       new:
         heading: Nouvel attribut
       tabs:
@@ -6091,6 +6100,8 @@ fr:
   api_v3:
     attributes:
       property: Propriété
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Mauvaise requête : %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.

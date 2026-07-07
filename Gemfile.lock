@@ -647,7 +647,7 @@ GEM
       fugit (>= 1.11.0)
       railties (>= 6.1.0)
       thor (>= 1.0.0)
-    google-apis-core (1.2.3)
+    google-apis-core (1.2.4)
       addressable (~> 2.9)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
@@ -656,7 +656,7 @@ GEM
       multi_json (~> 1.11)
       representable (~> 3.0)
       retriable (>= 3.1, < 5.0)
-    google-apis-gmail_v1 (0.51.0)
+    google-apis-gmail_v1 (0.52.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-env (2.3.1)
       base64 (~> 0.2)
@@ -693,13 +693,13 @@ GEM
       os (>= 0.9, < 2.0)
       pstore (~> 0.1)
       signet (>= 0.16, < 2.a)
-    grape (3.2.1)
+    grape (3.3.1)
       activesupport (>= 7.2)
-      dry-configurable
+      dry-configurable (>= 1.0)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.1.0)
-      rack (>= 2)
-      zeitwerk
+      mustermann (>= 4.0)
+      rack (>= 2.2.4)
+      zeitwerk (>= 2.6)
     grape_logging (3.0.0)
       grape (>= 2.4.0)
       rack
@@ -836,7 +836,7 @@ GEM
     marcel (1.0.4)
     markly (0.16.0)
     matrix (0.4.3)
-    mcp (0.20.0)
+    mcp (0.21.0)
       json_schemer (>= 2.4)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -854,10 +854,8 @@ GEM
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.3)
-    multi_json (1.20.1)
+    multi_json (1.21.1)
     mustermann (4.0.0)
-    mustermann-grape (1.1.0)
-      mustermann (>= 1.0.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.4.1)
@@ -889,9 +887,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
       racc (~> 1.4)
-    oj (3.17.3)
-      bigdecimal (>= 3.0)
-      ostruct (>= 0.2)
     okcomputer (1.19.2)
       benchmark
     omniauth-saml (1.10.6)
@@ -916,7 +911,7 @@ GEM
       actionview
       openproject-octicons (= 19.35.0)
       railties
-    openproject-primer_view_components (0.89.0)
+    openproject-primer_view_components (0.89.1)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.34.0)
@@ -1104,7 +1099,7 @@ GEM
     optimist (3.2.1)
     os (1.1.4)
     ostruct (0.6.3)
-    ox (2.14.27)
+    ox (2.14.28)
       bigdecimal (>= 3.0)
     pagy (43.5.6)
       json
@@ -1641,7 +1636,7 @@ DEPENDENCIES
   good_job (~> 4.19.1)
   google-apis-gmail_v1
   googleauth
-  grape (~> 3.2.0)
+  grape (~> 3.3.1)
   grape_logging (~> 3.0.0)
   grids!
   html-pipeline (~> 2.14.0)
@@ -1664,16 +1659,15 @@ DEPENDENCIES
   mail (= 2.9.0)
   markly (~> 0.15)
   matrix (~> 0.4.3)
-  mcp (~> 0.20.0)
+  mcp (~> 0.21.0)
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.0)
   msgpack (~> 1.8.3)
-  multi_json (~> 1.20.0)
+  multi_json (~> 1.21.0)
   my_page!
   net-ldap (~> 0.20.0)
   nokogiri (~> 1.19.4)
-  oj (~> 3.17.3)
   okcomputer (~> 1.19.1)
   omniauth!
   omniauth-openid-connect!
@@ -1697,7 +1691,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.35.0)!
   openproject-octicons_helper (~> 19.35.0)!
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.89.0)!
+  openproject-primer_view_components (~> 0.89.1)!
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -1958,8 +1952,8 @@ CHECKSUMS
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   good_job (4.19.1) sha256=b188af401c45b4a2691fe1ecc551c82763a0bdb876d16608b39806027b89b3eb
-  google-apis-core (1.2.3) sha256=2ce34c17c144e24d966ecb0efa5d46aaba3e3e3721ba1faa1ed80db2389e7b08
-  google-apis-gmail_v1 (0.51.0) sha256=cec89406ee645e71697a0eb0237e972df213d4dde86a772b05979175c48a6d11
+  google-apis-core (1.2.4) sha256=da9d12dbc7a3fbf3a68fc461e23e6f23245e57ab3b47eb71137d4dcf61a686b3
+  google-apis-gmail_v1 (0.52.0) sha256=94efe9b6f323e5e5e58ba126fb2c0105642874906b3375cf7e887562398652ff
   google-cloud-env (2.3.1) sha256=0faac01eb27be78c2591d64433663b1a114f8f7af55a4f819755426cac9178e7
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
   google-protobuf (4.35.1) sha256=a3a6471331d918f58dfa4d014a8f6286f0af2cf4840216bde52fcf2ea3fe3726
@@ -1971,7 +1965,7 @@ CHECKSUMS
   google-protobuf (4.35.1-x86_64-linux-musl) sha256=91890eb0002934a339fdb7d77a147c46b7474b6799db27872b747b905837f744
   googleapis-common-protos-types (1.23.0) sha256=992e740a523794d9fc5f29a504465d8fc737aaa16c930fe7228e3346860faf0a
   googleauth (1.17.1) sha256=0f7e6fc70e204cee1b2d71f1e1de2d3b349d432404197fe68ebf7fa23d0821b9
-  grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
+  grape (3.3.1) sha256=e723e52576e4394c1c9fbf7af59d4fd1b048311eaf824a2a525d838398f244bf
   grape_logging (3.0.0) sha256=7b62d984ce96df15d120508668debe307e6a59ac1c511f1d9b5f3b4bea793e13
   gravatar_image_tag (1.2.0) sha256=eb5630fea846b711e713b934a0178fb9785f02f4eb9ced8d6faa4d537c40fdcf
   grids (1.0.0)
@@ -2023,7 +2017,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (0.20.0) sha256=6b71bfc9a19f6dca34953bded1bd89cba75176a4f8bb293ce82ace065af584f9
+  mcp (0.21.0) sha256=316385807c737697f7eba3787e5cceb26e8b0f2e24ee486e89d2b66debf81e70
   md_to_pdf (0.2.6)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
@@ -2034,9 +2028,8 @@ CHECKSUMS
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
   msgpack (1.8.3) sha256=8bda4a6428d3244e50d6bd55854d354edbada88a4e1f4f5731a39a0f86bee6a1
-  multi_json (1.20.1) sha256=2f3934e805cc45ef91b551a1f89d0e9191abd06a5e04a2ef09a6a036c452ca6d
+  multi_json (1.21.1) sha256=e6126a31808e3b4d19f483c775ceac34df190dffa62adfb63a165ee14ba68080
   mustermann (4.0.0) sha256=91f67411bb208d1d93c41e6128cb3b0f8ddd9ec7c45966f1007e1c43c08040d7
-  mustermann-grape (1.1.0) sha256=8d258a986004c8f01ce4c023c0b037c168a9ed889cf5778068ad54398fa458c5
   my_page (1.0.0)
   net-http (0.9.1) sha256=25ba0b67c63e89df626ed8fac771d0ad24ad151a858af2cc8e6a716ca4336996
   net-imap (0.6.4.1) sha256=29f0360d75a7efd3539f16ac1957dea5c0a51ddeceb348db4553c3120914ea0d
@@ -2053,7 +2046,6 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-darwin) sha256=7fd17057d3e1f00e9954a74b3cd76595d3d4a5ef233b7ed9599047c204f70551
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
-  oj (3.17.3) sha256=ebe3967b0bb7ac4f206561d0d9ac8875b9973f778600d7b61b5c355662a707ed
   okcomputer (1.19.2) sha256=d069aedf1e31b8ebe7e1fdf9e327dee158ea49b9fbdebebc2f1bed4690cb7a6d
   omniauth (1.9.2)
   omniauth-openid-connect (0.5.0)
@@ -2080,7 +2072,7 @@ CHECKSUMS
   openproject-octicons (19.35.0) sha256=a5033550d0961b4a8cb0993512a899716d633e17c2b5147bc6a9ed74f3952b38
   openproject-octicons_helper (19.35.0) sha256=c32d142a4bb7fda739b16768aa8846fd88ffc1750509d8056f516056e8767361
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.89.0) sha256=de73dac8c53f39efbc0aa639eff0de2d84cb90ad6778be4a71eff72be2830d17
+  openproject-primer_view_components (0.89.1) sha256=602e26a118d95df8e0b133ce3eb4578abd2bc4e89e757ebab1ab67ef02e9a1c8
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
@@ -2152,7 +2144,7 @@ CHECKSUMS
   os (1.1.4) sha256=57816d6a334e7bd6aed048f4b0308226c5fb027433b67d90a9ab435f35108d3f
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   overviews (1.0.0)
-  ox (2.14.27) sha256=5e84f06124ee82e8178dfa4dd7fa2c10ec01d45c1be466ee7d1e4ec98d3b9b9c
+  ox (2.14.28) sha256=0b0bf5a1076a747a65d6ae99c6ffb1a9b03d021d08ae26d4e387f5040486b32d
   pagy (43.5.6) sha256=4d46d262826e055d69713fbbd2c42257cc1d0e87c13a1221764c15d30e46ff85
   paper_trail (17.0.0) sha256=1c2842061d3874ca7015908e821e2aa14f9b982af2acb2a7974713bf79021c85
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356

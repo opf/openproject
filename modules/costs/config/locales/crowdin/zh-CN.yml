@@ -78,6 +78,8 @@ zh-CN:
         other: 时间跟踪活动
       rate: 费率
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: 必须在 00:00-23:59之间。
@@ -249,9 +251,10 @@ zh-CN:
     settings:
       time_and_costs: 时间和成本
       cost_types:
-        heading: 成本类型
-        none_active: 此项目中目前没有有效成本类型。
         for_all_projects_hint: 此成本类型已在所有项目中启用。
+        heading: 成本类型
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: 此项目中目前没有有效成本类型。
   costs:
     widgets:
       actual_costs:

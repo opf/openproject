@@ -1641,10 +1641,10 @@ uk:
     move:
       no_common_statuses_exists: Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений.
       unsupported_for_multiple_projects: Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів
-      current_type_not_available_in_target_project: 'Поточний тип пакета робіт не ввімкнено в цільовому проєкті. Увімкніть його, якщо не хочете, щоб він зазнав змін. Інакше виберіть зі списку доступний тип у цільовому проєкті.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Поточні типи пакетів робіт не ввімкнено в цільовому проєкті. Увімкніть, якщо не хочете, щоб вони зазнали змін. Інакше виберіть зі списку доступний тип у цільовому проєкті.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2041,10 +2041,12 @@ uk:
       type:
         description: Текст за умовчанням для опису
         attribute_groups: Конфігурація форми
+        children: Sub-types
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_default: Активовано для нових проектів за замовчуванням
         is_milestone: Це віха
         color: Колір
+        parent: Parent type
         patterns: Шаблони
       remote_identity:
         auth_source: Джерело автентифікації
@@ -2163,6 +2165,7 @@ uk:
         spent_hours: Витрачений час
         spent_time: Трудовитрати
         subproject: Підпроект
+        target_versions: Target versions
         time_entries: Час журналу
         type: Тип
         version: Версія
@@ -2573,6 +2576,12 @@ uk:
               duplicate_group: Назва групи %{group} використовується більше одного разу. Назви груп повинні бути унікальними.
               query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
               group_without_name: Ім’я групи не може бути порожнім.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
         user:
@@ -5572,7 +5581,7 @@ uk:
   setting_welcome_on_homescreen: Відображати вітальний блок на робочому столі
   setting_work_packages_identifier_classic: Числова послідовність для всього екземпляра (за умовчанням)
   setting_work_packages_identifier_classic_caption: 'Кожному пакету робіт присвоюється порядковий номер, який починається з одиниці (наприклад, #1234). Номери є унікальними в межах екземпляра й залишаються незмінними, навіть якщо пакети робіт переміщуються між проєктами.'
-  setting_work_packages_identifier_semantic: Семантичні ідентифікатори із зазначенням проєктів (бета-версія)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Кожен проєкт має унікальний ідентифікатор проєкту, який додається як префікс до числа (наприклад, PROJ-11). Нумерація кожного проєкту починається з одиниці. Якщо робочий пакет переміщується в інший проєкт, генерується новий ідентифікатор, але старий продовжує працювати.
   setting_work_package_list_default_highlighting_mode: Режим виділення за умовчанням
   setting_work_package_list_default_highlighted_attributes: Стандартні вбудовані виділені атрибути
@@ -5771,7 +5780,7 @@ uk:
       heading: Атрибути користувача
       label_new_attribute: Атрибут користувача
       label_new_section: Розділ
-      label_untitled_section: Атрибути користувача
+      label_default_section: User attributes
       new:
         heading: Новий атрибут
       tabs:
@@ -6242,6 +6251,8 @@ uk:
   api_v3:
     attributes:
       property: Властивість
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Поганий запит: %{message}'
       code_401: Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію.

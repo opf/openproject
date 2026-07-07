@@ -56,25 +56,25 @@ de:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Freigeben
       col_identifier: Kennung
       col_project: Projekt
       col_reserved: Reserviert
       dialog:
         checkbox_label: Ich verstehe, dass dies nicht rückgängig gemacht werden kann.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Kennung freigeben
+        description: Die Freigabe dieser Kennung kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Die Freigabe dieser Kennung (und einer zugehörigen Arbeitspaketkennung) kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
+          other: Die Freigabe dieser Kennung (und %{count} zugehörigen Arbeitspaketkennungen) kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
+        heading: '"%{identifier}" freigeben?'
+        title: Kennung freigeben
+      empty_body: Wenn sich die Projektkennung ändert, wird die vorherige Kennung hier angezeigt, damit Sie diese freigeben können, sobald es sicher ist.
       empty_heading: Keine reservierten Kennungen
       filter_label: Kennung suchen
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: Die reservierte Kennung konnte nicht gefunden werden. Möglicherweise wurde sie bereits freigegeben oder das Projekt wurde gelöscht. Bitte aktualisieren Sie die Seite.
+      lede_html: Wenn eine Kennung eines Projekts umbenannt wird, bleibt die vorherige Kennung reserviert, damit bestehende Links und Integrationen weiterhin funktionieren.<br>Hier können reservierten Kennungen freigegeben werden, sodass sie von anderen Projekten verwendet werden können.
+      released_notice: Die Kennung "%{identifier}" wurde freigegeben.
       reserved_ago: vor %{time}
       title: Reservierte Projektkennungen
     plugins:
@@ -280,7 +280,7 @@ de:
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               label_supported_data: Unterstützte Daten
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: In Kürze verfügbar (3. Quartal 2026)
               label_coming_later: Kommt später
               label_available_server_data: Verfügbare Daten auf %{server_info}
               button_select_projects: Projekte zum Importieren auswählen
@@ -1399,7 +1399,7 @@ de:
         add_query_group: Zugehörige Arbeitspaket-Tabelle
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
         blankslate_title: Noch keine Gruppen
-        builtin_field: Internes Attribut
+        builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
         confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld
@@ -1432,8 +1432,8 @@ de:
         actions:
           label_disable_all: Alle deaktivieren
           label_enable_all: Alle aktivieren
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
-        filter: Search by section or name
+        description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
+        filter: Nach Abschnitt oder Name suchen
         tab: Projektattribute
       projects:
         enable_all: Für alle Projekte aktivieren
@@ -1598,10 +1598,10 @@ de:
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden.
       unsupported_for_multiple_projects: Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten
-      current_type_not_available_in_target_project: 'Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1998,10 +1998,12 @@ de:
       type:
         description: Standardtext für Beschreibung
         attribute_groups: Formularkonfiguration
+        children: Sub-types
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert
         is_milestone: Ist ein Meilenstein
         color: Farbe
+        parent: Parent type
         patterns: Muster
       remote_identity:
         auth_source: Authentizifierungsquelle
@@ -2120,6 +2122,7 @@ de:
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
         subproject: Unterprojekt
+        target_versions: Target versions
         time_entries: Zeit buchen
         type: Typ
         version: Version
@@ -2461,10 +2464,10 @@ de:
               cannot_add_child_because_of_lack_of_permission: Sie können keine Unteraufgabe hinzufügen, weil Sie keine Berechtigung haben, das ausgewählte Arbeitspaket zu bearbeiten.
               format: "%{message}"
             identifier:
-              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
+              must_not_be_changed: 'darf nicht manuell geändert werden. Arbeitspaket-Kennungen werden automatisch zugewiesen und über eine Alias-Tabelle aufgelöst. Eine manuelle Änderung führt daher zum Bruch von Verknüpfungen und zur Unterbrechung der Identifikator-Historie. Sollte diese Änderung beabsichtigt sein, speichern Sie sie mit `save(context: :%{context})` und sorgen Sie dafür, dass die Tabelle „work_package_semantic_aliases“ konsistent bleibt.'
               semantic_identifier_incomplete: und sequence_number müssen beide gleichzeitig gesetzt werden.
             sequence_number:
-              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
+              must_not_be_changed: 'darf nicht manuell geändert werden. Er wird automatisch zusammen mit der Kennung zugewiesen. Falls diese Änderung beabsichtigt ist, speichern Sie mit `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2514,8 +2517,8 @@ de:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: muss 0h sein, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: muss leer bleiben, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
-          target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
+          target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
+          version_and_target_versions_mutually_exclusive: Die Version und die Zielversionen können nicht gleichzeitig geändert werden.
         type:
           attributes:
             attribute_groups:
@@ -2524,6 +2527,12 @@ de:
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
               group_without_name: Gruppenname darf nicht leer sein.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
         user:
@@ -3295,7 +3304,7 @@ de:
   enumeration_activities: Aktivitäten für Zeiterfassung
   enumeration_caption_order_changed: Reihenfolge erfolgreich geändert.
   enumeration_could_not_be_moved: Aufzählung konnte nicht verschoben werden.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Wird %{model} als Standard gesetzt, überschreibt das den vorherhigen Standardwert von %{model}.
   enumeration_reported_project_statuses: Gemeldeter Status
   enumeration_work_package_priorities: Arbeitspaket-Prioritäten
   enterprise_trials:
@@ -3772,7 +3781,7 @@ de:
         submit_button: Erinnerungen aktualisieren
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Sie erhalten stets eine Benachrichtigung, wenn Sie erwähnt werden sowie bei Änderungen an Arbeitspaketen, die Sie beobachten. Diese Benachrichtigungen können nicht deaktiviert werden. Sie können jedoch festlegen, ob Sie Benachrichtigungen über Änderungen an Arbeitspaketen erhalten möchten, die Sie betreffen (bei denen Sie als Verantwortlich oder Zugewiesen eingetragen sind oder das Arbeitspaket für Sie freigegeben wurden).
         title: Beteiligt
         submit_button: Einstellungen aktualisieren
         mentioned: Erwähnt
@@ -3781,7 +3790,7 @@ de:
         responsible: Verantwortlich
         shared: Mit mir geteilt
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Sie können Terminbenachrichtigungen für Arbeitspakete einrichten, bei denen Sie verantwortlich oder zugewiesen oder als Beobachter eingetragen sind, um einige Tage vor bevorstehenden oder bereits überschrittenen Terminen automatisch benachrichtigt zu werden.
         title: Datums-Erinnerungen
         submit_button: Datums-Erinnerungen aktualisieren
         start_date: Anfangstermin
@@ -3796,7 +3805,7 @@ de:
           three_days_after: 3 Tage danach
           seven_days_after: 7 Tage danach
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Darüber hinaus können Sie wählen, dass Sie über die folgenden Aktivitäten für alle Projekte benachrichtigt werden.
         title: Nicht beteiligt
         submit_button: Einstellungen aktualisieren
         work_package_created: Neue Arbeitspakete
@@ -3805,7 +3814,7 @@ de:
         work_package_prioritized: Alle Prioritätsänderungen
         work_package_scheduled: Alle Datumsänderungen
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        description: Sie können Ihre Benachrichtigungseinstellungen so anpassen, dass Sie nur über bestimmte Ereignisse in bestimmten Projekten benachrichtigt werden. Fügen Sie unten ein Projekt hinzu und wählen Sie aus, bei welchen Ereignissen eine Benachrichtigung an Sie gesendet werden soll. Diese projektspezifischen Einstellungen haben Vorrang vor den oben genannten Standardeinstellungen.
         title: Projektspezifische Benachrichtigungen
         add_button: Projektspezifische Benachrichtigungen hinzufügen
         dialog_title: Projektspezifische Benachrichtigungen hinzufügen
@@ -3923,7 +3932,7 @@ de:
   label_board_plural: Boards
   label_branch: Zweig
   label_browse: Codebrowser
-  label_builtin: Eingebaut
+  label_builtin: Vordefiniert
   label_bulk_edit_selected_work_packages: Alle ausgewählten Arbeitspakete bearbeiten
   label_bundled: "(Gebündelt)"
   label_calendar: Kalender
@@ -4178,7 +4187,7 @@ de:
   label_custom_favicon: Benutzerdefiniertes Favicon
   label_custom_touch_icon: Benutzerdefiniertes Touch-Icon
   label_departments: Organisation
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
 
     '
   label_logout: Abmelden
@@ -4186,7 +4195,7 @@ de:
   label_main_menu: Nebenmenü
   label_manage: Verwalten
   label_manage_groups: Gruppen verwalten
-  label_managed_by_ldap: Managed by LDAP synchronization
+  label_managed_by_ldap: Verwaltet durch LDAP-Synchronisation
   label_managed_repositories_vendor: Verwaltete %{vendor} Projektarchive
   label_mathematical_operators: Mathematische Operatoren
   label_max_size: Maximale Größe
@@ -5118,12 +5127,12 @@ de:
     create_successful: Das Projektarchiv wurde registriert.
     delete_sucessful: Das Projektarchiv wurde gelöscht.
     destroy_dialog:
-      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
-      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
-      heading: Delete this %{repository_type}?
-      heading_not_managed: Remove this linked %{repository_type}?
-      title: Delete repository
-      title_not_managed: Remove repository
+      description: Das Projektarchiv %{repository_type} unter %{path} sowie dessen gesamter Inhalt werden endgültig gelöscht.
+      description_not_managed: Das verlinkte Projektarchiv %{repository_type} unter %{url} wird aus dem Projekt entfernt. Dadurch werden die Inhalte nicht gelöscht, da es nicht von OpenProject verwaltet wird.
+      heading: "%{repository_type} löschen?"
+      heading_not_managed: Verknüpftes %{repository_type} löschen?
+      title: Projektarchiv entfernen
+      title_not_managed: Projektarchiv entfernen
     errors:
       build_failed: Projektarchiv mit der gewählten Konfiguration konnte nicht erstellt werden. %{reason}
       managed_delete: Löschen des verwalteten Projektarchivs nicht möglich.
@@ -5428,7 +5437,7 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_work_packages_identifier_classic: Instanzweite numerische Sequenz (Standard)
   setting_work_packages_identifier_classic_caption: 'Jedes Arbeitspaket erhält eine sequentielle Nummer beginnend mit 1 (z.B. #1234). Die Nummern sind innerhalb dieser Instanz eindeutig. Sie bleiben also gleich, auch wenn Arbeitspakete zwischen Projekten verschoben werden.'
-  setting_work_packages_identifier_semantic: Projektspezifische semantische Kennungen (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Jedes Projekt hat eine eindeutige Projektkennung, die einer Zahl vorangestellt wird (z. B. PROJ-11). Die Nummerierung beginnt in jedem Projekt bei 1. Wenn ein Arbeitspaket in ein anderes Projekt verschoben wird, wird eine neue Kennung generiert, die alte bleibt jedoch weiterhin gültig.
   setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
   setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline Hervorherbung
@@ -5508,7 +5517,7 @@ de:
     passwords: Passwörter
     project_attributes:
       heading: Projektattribute
-      label_add_attribute: Add a project attribute
+      label_add_attribute: Projektattribut hinzufügen
       label_for_all_projects: Alle Projekte
       label_new_attribute: Projektattribut
       label_new_section: Abschnitt
@@ -5610,14 +5619,14 @@ de:
       display_format: Anzeigeformat
     user_custom_field_sections:
       built_in_attribute_row_component:
-        label_built_in: Built-in
-        label_built_in_attribute_actions: Built-in attribute actions
+        label_built_in: Vordefiniert
+        label_built_in_attribute_actions: Vordefinierte Attribut-Aktionen
       custom_field_row_component:
-        label_user_custom_field_actions: User attribute actions
+        label_user_custom_field_actions: Aktionen für Benutzerattribute
       show_component:
-        label_add_attribute: Add a user attribute
-        label_edit_section: Edit title
-        label_no_user_custom_fields: No user attributes defined in this section
+        label_add_attribute: Benutzerattribut hinzufügen
+        label_edit_section: Titel bearbeiten
+        label_no_user_custom_fields: In diesem Abschnitt sind keine Benutzerattribute definiert
         label_section_actions: Abschnittsoptionen
     user_custom_fields:
       header_component:
@@ -5627,16 +5636,16 @@ de:
       heading: Benutzerattribute
       label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
-      label_untitled_section: Benutzerattribute
+      label_default_section: User attributes
       new:
         heading: Neues Attribut
       tabs:
         attributes: Attribute
-        semantic_keys: Mapped attributes
+        semantic_keys: Zugeordnete Attribute
       semantic_keys:
-        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        description: Manche Attribute können mehr als nur Informationen speichern – die App nutzt sie zur Umsetzung bestimmter Funktionen. Wählen Sie im Folgenden aus, welches Attribut Sie für den jeweiligen Zweck verwenden möchten. Es muss eine eindeutige Zuordnung zwischen je genau einem Attribut und Zweck geben.
         descriptions:
-          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
+          job_title: Wählen Sie das Attribut aus, das die Stellenbezeichnung des jeweiligen Benutzers enthält. Diese wird an mehreren Stellen neben dem Namen des Benutzers angezeigt, beispielsweise in Benutzerkarten.
     working_days:
       section_work_week: Arbeitswoche
       section_holidays_and_closures: Feiertage und Schließungen
@@ -6094,6 +6103,8 @@ de:
   api_v3:
     attributes:
       property: Eigenschaft
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.
@@ -6198,7 +6209,7 @@ de:
     close_warning: Diese Warnung ignorieren.
   oauth:
     application:
-      builtin: Interne Anwendung für diese Instanz
+      builtin: Vordefinierte Anwendung für diese Instanz
       confidential: Vertraulich
       singular: OAuth-Anwendung
       scopes: Geltungsbereiche
@@ -6220,7 +6231,7 @@ de:
         register_intro: Wenn Sie eine OAuth API-Client-Anwendung für OpenProject entwickeln, können Sie es mit diesem Formular für alle Benutzer registrieren.
         default_scopes: ''
     header:
-      builtin_applications: Eingebaute OAuth-Anwendungen
+      builtin_applications: Vordefinierte OAuth-Anwendungen
       other_applications: Andere OAuth-Anwendungen
     empty_application_lists: Es wurden noch keine OAuth-Anwendungen registriert.
     client_id: Client-ID

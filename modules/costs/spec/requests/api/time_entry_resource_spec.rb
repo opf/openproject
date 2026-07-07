@@ -421,6 +421,32 @@ RSpec.describe "API v3 time_entry resource" do
           .to be(404)
       end
     end
+
+    context "when allowed to see the time entry but not the linked work package" do
+      let(:permissions) { %i(view_time_entries) }
+
+      it "returns 200 OK" do
+        expect(subject.status).to be(200)
+      end
+
+      it "does not disclose the work package subject, id or attributes" do
+        expect(subject.body)
+          .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
+          .at_path("_links/entity/href")
+
+        expect(subject.body)
+          .to be_json_eql(I18n.t(:"api_v3.undisclosed.workPackage").to_json)
+          .at_path("_links/entity/title")
+
+        expect(subject.body).not_to have_json_path("_links/entity/displayId")
+        expect(subject.body).not_to have_json_path("_embedded/entity")
+        expect(subject.body).not_to have_json_path("_embedded/workPackage")
+
+        expect(subject.body)
+          .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
+          .at_path("_links/workPackage/href")
+      end
+    end
   end
 
   describe "POST api/v3/time_entries" do

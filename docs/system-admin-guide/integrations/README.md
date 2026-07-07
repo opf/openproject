@@ -27,6 +27,13 @@ OpenProject offers a GitLab integration, based on the [GitLab plugin contributed
 
 OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/file-management/nextcloud-integration/).
 
+### XWiki
+
+[feature: xwiki_integration ]
+
+OpenProject offers integration with XWiki for wiki collaboration. You can find more information
+about [setting up the integration with XWiki](./xwiki) and [using the integration](UPDATE LINK  ).
+
 [feature: one_drive_sharepoint_file_storage]
 
 > [!NOTE]

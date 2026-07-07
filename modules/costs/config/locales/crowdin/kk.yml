@@ -82,6 +82,8 @@ kk:
         other: Time tracking activities
       rate: Rate
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: must be between 00:00 and 23:59.
@@ -253,9 +255,10 @@ kk:
     settings:
       time_and_costs: Time and costs
       cost_types:
-        heading: Cost types
-        none_active: No cost types are currently active in this project.
         for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
   costs:
     widgets:
       actual_costs:

@@ -308,6 +308,20 @@ module API
                                              title: version.name
                                            }
                                          },
+                                         required: false,
+                                         deprecated: true,
+                                         description: -> { I18n.t("api_v3.attributes.version.deprecated") }
+
+          schema_with_allowed_collection :target_versions,
+                                         type: "[]Version",
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:target_versions) },
                                          required: false
 
           schema_with_allowed_collection :priority,

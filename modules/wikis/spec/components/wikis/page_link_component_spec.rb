@@ -43,8 +43,13 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
   end
   let(:page_info_result) { Success(page_info) }
   let(:menu_actions) { [] }
+  let(:permissions) { [:manage_wiki_page_links] }
+  let(:actions) { [] }
+  let(:source) { nil }
 
-  subject(:render_component) { render_inline(described_class.new(page_info_result, menu_actions:)) }
+  current_user { create(:user, member_with_permissions: { project => permissions }) }
+
+  subject(:render_component) { render_inline(described_class.new(page_info_result, menu_actions:, actions:, page_link:, source:)) }
 
   before { render_component }
 
@@ -52,12 +57,31 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     expect(page).to have_link(text: page_info.title, href: page_info.href)
   end
 
-  context "when given menu actions" do
-    let(:menu_actions) do
-      [instance_double(Wikis::PageLinkComponent::RemoveAction,
-                       icon: :trash,
-                       menu_item_args: { label: "Remove page link", tag: :a, href: "/remove", scheme: :danger })]
+  context "when the page is referenced as a parent" do
+    let(:source) { :parent }
+
+    it "renders the parent badge" do
+      expect(page).to have_test_selector("wiki-page-link-source-badge",
+                                         text: I18n.t("wikis.page_links.source.parent"))
     end
+  end
+
+  context "when the page is referenced as a mention" do
+    let(:source) { :mention }
+
+    it "renders no badge" do
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
+    end
+  end
+
+  context "when the page has no source" do
+    it "renders no badge" do
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
+    end
+  end
+
+  context "when the page link has the remove action" do
+    let(:actions) { [:remove] }
 
     it "renders the action menu with the provided actions" do
       expect(page).to have_test_selector("wiki-page-link-action-menu")

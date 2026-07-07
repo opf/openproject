@@ -62,17 +62,29 @@ class Type < ApplicationRecord
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           association_foreign_key: "custom_field_id"
 
-  acts_as_list
+  belongs_to :parent, class_name: "Type", optional: true
+  has_many :children, class_name: "Type", foreign_key: :parent_id, inverse_of: :parent,
+                      dependent: :restrict_with_error
+
+  acts_as_list scope: :parent_id
 
   validates :name,
             presence: true,
-            uniqueness: { case_sensitive: false },
+            uniqueness: { scope: :parent_id, case_sensitive: false },
             length: { maximum: 255 }
+
+  validate :parent_is_a_root
+  validate :not_own_parent
+  validate :cannot_have_children_when_child
+  validate :standard_type_stays_root
+  validate :parent_frozen_with_work_packages
 
   scopes :milestone
 
   default_scope { order("position ASC") }
 
+  scope :roots, -> { where(parent_id: nil) }
+  scope :subtypes, -> { where.not(parent_id: nil) }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -133,6 +145,14 @@ class Type < ApplicationRecord
     object.types.include?(self)
   end
 
+  def root
+    parent || self
+  end
+
+  def family
+    [root, *root.children]
+  end
+
   def replacement_pattern_defined_for?(attribute)
     enabled_patterns.key?(attribute)
   end
@@ -152,5 +172,31 @@ class Type < ApplicationRecord
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true
+  end
+
+  def parent_is_a_root
+    return if parent.nil?
+
+    errors.add(:parent, :must_be_a_root) if parent.parent_id.present?
+  end
+
+  def not_own_parent
+    errors.add(:parent, :cannot_be_self) if parent_id.present? && parent_id == id
+  end
+
+  def cannot_have_children_when_child
+    return if parent_id.blank? || new_record?
+
+    errors.add(:parent, :cannot_have_children) if children.exists?
+  end
+
+  def standard_type_stays_root
+    errors.add(:parent, :standard_type_must_be_root) if is_standard? && parent_id.present?
+  end
+
+  def parent_frozen_with_work_packages
+    return unless parent_id_changed? && persisted?
+
+    errors.add(:parent, :cannot_change_with_work_packages) if WorkPackage.exists?(type_id: id)
   end
 end

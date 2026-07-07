@@ -82,6 +82,8 @@ pt-BR:
         other: Atividades de registro de tempo
       rate: Taxa
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: deve estar entre 00:00 e 23:59.
@@ -253,9 +255,10 @@ pt-BR:
     settings:
       time_and_costs: Tempo e custos
       cost_types:
-        heading: Tipos de custo
-        none_active: Nenhum tipo de custo está ativo neste projeto.
         for_all_projects_hint: Este tipo de custo está habilitado em todos os projetos.
+        heading: Tipos de custo
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: Nenhum tipo de custo está ativo neste projeto.
   costs:
     widgets:
       actual_costs:

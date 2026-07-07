@@ -37,7 +37,7 @@ module Wikis
 
       relation_page_links +
         inline_page_link_infos_for(linkable:).size +
-        referencing_wiki_page_infos_for(linkable:).size
+        referencing_wiki_page_references_for(linkable:).size
     end
 
     def relation_page_links_for(provider:, linkable:)
@@ -63,7 +63,7 @@ module Wikis
       RelationPageLink.where(linkable:).pluck(:provider_id, :identifier).to_set
     end
 
-    def referencing_wiki_page_infos_for(linkable:)
+    def referencing_wiki_page_references_for(linkable:)
       referenced_in = []
 
       Adapters::Input::ReferencingPages.build(linkable:).bind do |input|

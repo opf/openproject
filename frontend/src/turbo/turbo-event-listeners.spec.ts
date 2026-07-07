@@ -117,3 +117,74 @@ describe('addTurboEventListeners — Turbo nonce header on fetch requests', () =
     expect(headers['X-Turbo-Nonce']).toBe('nonce-xyz');
   });
 });
+
+describe('addTurboEventListeners — CSP script-nonce enforcement', () => {
+  let controller:AbortController;
+
+  beforeEach(() => {
+    controller = new AbortController();
+    document.head.insertAdjacentHTML('beforeend', '<meta name="csp-nonce" content="nonce-abc">');
+    addTurboEventListeners(document, controller.signal);
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    controller.abort();
+    document.querySelector('meta[name="csp-nonce"]')?.remove();
+    vi.restoreAllMocks();
+  });
+
+  function scriptWithNonce(nonce:string | null):HTMLScriptElement {
+    const script = document.createElement('script');
+    if (nonce !== null) {
+      script.setAttribute('nonce', nonce);
+    }
+    return script;
+  }
+
+  it('strips a mismatched-nonce script from a Turbo Drive page render', () => {
+    const newBody = document.createElement('body');
+    const badScript = scriptWithNonce('wrong-nonce');
+    const goodScript = scriptWithNonce('nonce-abc');
+    newBody.append(badScript, goodScript);
+
+    document.dispatchEvent(new CustomEvent('turbo:before-render', {
+      detail: { newBody },
+    }));
+
+    expect(newBody.contains(badScript)).toBe(false);
+    expect(newBody.contains(goodScript)).toBe(true);
+  });
+
+  it('strips a mismatched-nonce script from a Turbo Frame render', () => {
+    const newFrame = document.createElement('turbo-frame');
+    const badScript = scriptWithNonce('wrong-nonce');
+    const goodScript = scriptWithNonce('nonce-abc');
+    newFrame.append(badScript, goodScript);
+
+    document.dispatchEvent(new CustomEvent('turbo:before-frame-render', {
+      detail: { newFrame },
+    }));
+
+    expect(newFrame.contains(badScript)).toBe(false);
+    expect(newFrame.contains(goodScript)).toBe(true);
+  });
+
+  it('strips a mismatched-nonce script from a Turbo Stream render', async () => {
+    const content = document.createDocumentFragment();
+    const badScript = scriptWithNonce('wrong-nonce');
+    const goodScript = scriptWithNonce('nonce-abc');
+    content.append(badScript, goodScript);
+
+    const streamElement = { templateElement: { content } };
+    const fallbackToDefaultActions = vi.fn().mockResolvedValue(undefined);
+    const detail = { render: fallbackToDefaultActions };
+
+    document.dispatchEvent(new CustomEvent('turbo:before-stream-render', { detail }));
+    await detail.render(streamElement);
+
+    expect(content.contains(badScript)).toBe(false);
+    expect(content.contains(goodScript)).toBe(true);
+    expect(fallbackToDefaultActions).toHaveBeenCalledWith(streamElement);
+  });
+});

@@ -41,6 +41,8 @@ module WorkPackageTypes
         return result if result.failure?
       end
 
+      return type_deactivation_failure if type_deactivation_invalid?
+
       set_active_custom_fields
       set_active_custom_fields_for_project_ids(params[:project_ids]) if params[:project_ids].present?
 
@@ -95,6 +97,28 @@ module WorkPackageTypes
       model.errors.add(:attribute_groups, I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
 
       ServiceResult.failure(result: model, errors: model.errors)
+    end
+
+    def type_deactivation_invalid?
+      params.key?(:project_ids) && deactivated_project_ids_with_work_packages.any?
+    end
+
+    def type_deactivation_failure
+      model.errors.add(:project_ids,
+                       I18n.t(:error_can_not_deactivate_type,
+                              type: model.name,
+                              work_packages_link: I18n.t(:label_work_package_plural).downcase))
+
+      ServiceResult.failure(result: model, errors: model.errors)
+    end
+
+    def deactivated_project_ids_with_work_packages
+      deactivated_project_ids = model.project_ids - Array(params[:project_ids]).compact_blank.map(&:to_i)
+
+      WorkPackage
+        .where(type_id: model.id, project_id: deactivated_project_ids)
+        .distinct
+        .pluck(:project_id)
     end
 
     ##

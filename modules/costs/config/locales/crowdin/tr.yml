@@ -82,6 +82,8 @@ tr:
         other: Zaman izleme faaliyetleri
       rate: Oran
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: 00:00 ile 23:59 arasında olmalı.
@@ -253,9 +255,10 @@ tr:
     settings:
       time_and_costs: Time and costs
       cost_types:
-        heading: Maliyet türleri
-        none_active: No cost types are currently active in this project.
         for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Maliyet türleri
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
   costs:
     widgets:
       actual_costs:

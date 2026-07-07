@@ -1597,10 +1597,10 @@ pt-BR:
     move:
       no_common_statuses_exists: Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada.
       unsupported_for_multiple_projects: Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos
-      current_type_not_available_in_target_project: 'O tipo atual do pacote de trabalho não está habilitado no projeto de destino. Se quiser que ele permaneça como está, habilite o tipo no projeto de destino. Caso contrário, escolha um tipo disponível na lista do projeto de destino.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Os tipos atuais dos pacotes de trabalho não estão habilitados no projeto de destino. Se quiser que eles permaneçam como estão, habilite os tipos no projeto de destino. Caso contrário, escolha um tipo disponível na lista do projeto de destino.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1999,10 +1999,12 @@ pt-BR:
       type:
         description: Texto padrão para descrição
         attribute_groups: Configuração do formulário
+        children: Sub-types
         is_in_roadmap: Exibido no planejamento como padrão
         is_default: Ativado para novos projetos por padrão
         is_milestone: É marco
         color: Cor
+        parent: Parent type
         patterns: Padrões
       remote_identity:
         auth_source: Fonte de autenticação
@@ -2121,6 +2123,7 @@ pt-BR:
         spent_hours: Tempo gasto
         spent_time: Tempo gasto
         subproject: Subprojeto
+        target_versions: Target versions
         time_entries: Registro de tempo
         type: Tipo
         version: Versão
@@ -2525,6 +2528,12 @@ pt-BR:
               duplicate_group: O nome de grupo %{group} foi usado mais de uma vez. Nomes de grupos devem ser únicos.
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
               group_without_name: O nome do grupo não pode estar em branco.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
         user:
@@ -5420,7 +5429,7 @@ pt-BR:
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_work_packages_identifier_classic: Sequência numérica global da instância (padrão)
   setting_work_packages_identifier_classic_caption: 'Cada pacote de trabalho recebe um número sequencial começando em 1 (por exemplo, #1234). Os números são únicos dentro da instância e permanecem os mesmos mesmo que os pacotes de trabalho sejam movidos entre projetos.'
-  setting_work_packages_identifier_semantic: Identificadores semânticos baseados em projeto (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Cada projeto possui um identificador único de projeto prefixado a um número (por exemplo, PROJ-11). A numeração de cada projeto começa em 1. Se um pacote de trabalho for movido para outro projeto, um novo identificador será gerado, mas o antigo continuará a funcionar.
   setting_work_package_list_default_highlighting_mode: Modo de destaque padrão
   setting_work_package_list_default_highlighted_attributes: Atributos embutidos com destaque padrão
@@ -5619,7 +5628,7 @@ pt-BR:
       heading: Atributos do usuário
       label_new_attribute: Atributo do usuário
       label_new_section: Seção
-      label_untitled_section: Atributos do usuário
+      label_default_section: User attributes
       new:
         heading: Novo atributo
       tabs:
@@ -6082,6 +6091,8 @@ pt-BR:
   api_v3:
     attributes:
       property: Propriedade
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Requisição inválida: %{message}'
       code_401: Você precisa estar autenticado para acessar este recurso.
