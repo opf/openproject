@@ -1099,11 +1099,11 @@ en:
           no_work_package_type: "Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project."
           no_status_when_submitted: "Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type."
         export:
-          description_attachment_export: "The generated artifact will be saved as a PDF attachment to the artifact work package."
-          description_file_link_export: "The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
+          description_attachment_export: "The generated artefact will be saved as a PDF attachment to the artefact work package."
+          description_file_link_export: "The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
           description_file_storage_selection: "Select which of the configured external file storages should be used."
           external_file_storage: "External file storage"
-          label_artifact_export: "Artifact export"
+          label_artifact_export: "Artefact export"
           label_attachment_export: "Save as work package file attachment"
           label_file_link_export: "Upload file to external file storage and add file link to work package"
           pdf_file_storage: "PDF file storage"
@@ -1120,10 +1120,10 @@ en:
       sections: "Sections"
       title: "Project initiation request"
       no_help_text: "This attribute has no help text defined."
-      success: "Project attributes saved and artifact work package created successfully."
+      success: "Project attributes saved and artefact work package created successfully."
       progress_label: "%{current} of %{total}"
-      create_artifact_work_package_error: "Failed to create artifact work package"
-      create_artifact_storage_error: "Failed to store artifact in file storage"
+      create_artifact_work_package_error: "Failed to create artefact work package"
+      create_artifact_storage_error: "Failed to store artefact in file storage"
   lists:
     create:
       success: "The modified list has been saved as a new list"
@@ -2439,7 +2439,7 @@ en:
           attributes:
             base:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
-              project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artifact work package."
+              project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artefact work package."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             identifier:
@@ -5769,7 +5769,7 @@ en:
     project_initiation_request:
       header_description: >
         OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request.
-        You can choose which project attributes should be included and create a PDF artifact as a result.
+        You can choose which project attributes should be included and create a PDF artefact as a result.
       status:
         submitted: "%{wizard_name} has been submitted"
         submitted_description: "Click the button below to go to the work package for the submission process."
@@ -5789,8 +5789,8 @@ en:
         confirmation_message: "The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview."
         checkbox_message: "I understand that this action is not reversible"
       name:
-        artifact_name: "Artifact name"
-        artifact_name_caption: "Choose the name for this artifact that your project management framework recommends."
+        artifact_name: "Artefact name"
+        artifact_name_caption: "Choose the name for this artefact that your project management framework recommends."
         options:
           project_initiation_request: "Project initiation request"
           project_creation_wizard: "Project creation wizard"
@@ -5799,12 +5799,12 @@ en:
         description_template: >
           **This work package was automatically created upon completion of the %{wizard_name} workflow.**
 
-          A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes.
+          A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes.
 
           If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:
-        description: "When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package."
+        description: "When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package."
         work_package_type: "Work package type"
-        work_package_type_caption: "The work package type that should be used to store the completed artifact."
+        work_package_type_caption: "The work package type that should be used to store the completed artefact."
         status_when_submitted: "Status when submitted"
         status_when_submitted_caption: "The status the generated work package will transition to once the request is submitted."
         send_confirmation_email: "Send confirmation email to the user who submitted the project initiation request"
