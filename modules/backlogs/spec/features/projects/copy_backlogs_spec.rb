@@ -69,7 +69,7 @@ RSpec.describe "Project copy with sprints and buckets", :js,
     fill_in "Name", with: "Copied project"
     click_on "Copy"
 
-    wait_for_copy_to_finish
+    general_settings_page.wait_for_copy_to_finish
 
     copied_project = Project.find_by(name: "Copied project")
     expect(copied_project).to be_present
@@ -87,17 +87,5 @@ RSpec.describe "Project copy with sprints and buckets", :js,
 
     copied_bucket_work_package = copied_project.work_packages.find_by(subject: "Bucket story")
     expect(copied_bucket_work_package.backlog_bucket).to eq(copied_bucket)
-  end
-
-  def wait_for_copy_to_finish
-    expect(page).to have_dialog "Background job status"
-
-    within_dialog "Background job status" do
-      expect(page).to have_heading "Copy project"
-      expect(page).to have_text "The job has been queued and will be processed shortly."
-    end
-
-    # Ensure all jobs are run, especially emails which might be sent later on.
-    GoodJob.perform_inline
   end
 end
