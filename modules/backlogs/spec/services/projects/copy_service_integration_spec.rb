@@ -200,6 +200,32 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
       include_examples "does not copy sprints to the target"
     end
+
+    context "when the source sprint has goals" do
+      before { source.update!(sprint_sharing: Projects::SprintSharing::NO_SHARING) }
+
+      let!(:owned_goal) do
+        create(:sprint_goal, sprint: source_sprint, project: source, text: "Ship it")
+      end
+
+      it "copies the owned goal onto the copied sprint, remapped to the copy" do
+        expect(subject).to be_success
+
+        copied_sprint = project_copy.sprints.find_by(name: "Sprint A")
+        expect(copied_sprint.goals.pluck(:text, :project_id))
+          .to contain_exactly(["Ship it", project_copy.id])
+      end
+
+      it "does not copy goals owned by other projects" do
+        other_project = create(:project)
+        create(:sprint_goal, sprint: source_sprint, project: other_project, text: "Not mine")
+
+        expect(subject).to be_success
+
+        copied_sprint = project_copy.sprints.find_by(name: "Sprint A")
+        expect(copied_sprint.goals.pluck(:text)).to contain_exactly("Ship it")
+      end
+    end
   end
 
   describe "work package sprint reassignment" do

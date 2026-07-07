@@ -55,12 +55,21 @@ module Projects::Copy
     # the target, returning a Hash mapping each source record id to its copy's
     # id. Uses the non-raising +create+ (as VersionsDependentService does) so a
     # single invalid record is skipped rather than aborting the whole copy.
+    #
+    # When a block is given, its return value is merged into the copied
+    # attributes, letting a caller carry over child records via nested
+    # attributes (see SprintsDependentService copying sprint goals).
     def copy_collection_with_id_map(association)
       source.public_send(association).each_with_object({}) do |source_record, id_map|
-        attributes = source_record.attributes.dup.except("id", "project_id", "created_at", "updated_at")
+        attributes = copyable_attributes(source_record)
+        attributes.merge!(yield(source_record)) if block_given?
         copy = target.public_send(association).create(attributes)
         id_map[source_record.id] = copy.id if copy.persisted?
       end
+    end
+
+    def copyable_attributes(source_record)
+      source_record.attributes.dup.except("id", "project_id", "created_at", "updated_at")
     end
   end
 end

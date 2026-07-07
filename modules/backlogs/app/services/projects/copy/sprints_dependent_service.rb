@@ -53,7 +53,17 @@ module Projects::Copy
     end
 
     def copy_sprints
-      state.sprint_id_lookup = copy_collection_with_id_map(:sprints)
+      state.sprint_id_lookup = copy_collection_with_id_map(:sprints) do |source_sprint|
+        { goals_attributes: copied_goal_attributes(source_sprint) }
+      end
+    end
+
+    # Only the source project's own goals are carried over; a shared sprint may
+    # also hold goals owned by other projects, which are not ours to copy.
+    def copied_goal_attributes(source_sprint)
+      source_sprint.goals.where(project_id: source.id).map do |goal|
+        { text: goal.text, project_id: target.id }
+      end
     end
   end
 end
