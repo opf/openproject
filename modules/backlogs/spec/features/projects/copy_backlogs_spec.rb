@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Project copy with sprints", :js,
+RSpec.describe "Project copy with sprints and buckets", :js,
                with_good_job_batches: [CopyProjectJob,
                                        Storages::CopyProjectFoldersJob,
                                        SendCopyProjectStatusEmailJob] do
@@ -42,8 +42,12 @@ RSpec.describe "Project copy with sprints", :js,
            types: [type])
   end
   shared_let(:sprint) { create(:sprint, project:, name: "Sprint A") }
+  shared_let(:bucket) { create(:backlog_bucket, project:, name: "Bucket A") }
   shared_let(:work_package) do
     create(:work_package, project:, type:, subject: "Sprint story", sprint:)
+  end
+  shared_let(:bucket_work_package) do
+    create(:work_package, project:, type:, subject: "Bucket story", backlog_bucket: bucket)
   end
 
   let(:general_settings_page) { Pages::Projects::Settings::General.new(project) }
@@ -56,7 +60,7 @@ RSpec.describe "Project copy with sprints", :js,
     login_as admin
   end
 
-  it "assigns the copied work package to the copied sprint, not the source sprint" do
+  it "assigns copied work packages to the copied sprint and bucket, not the source ones" do
     general_settings_page.visit!
     general_settings_page.click_copy_action
 
@@ -76,6 +80,13 @@ RSpec.describe "Project copy with sprints", :js,
 
     copied_work_package = copied_project.work_packages.find_by(subject: "Sprint story")
     expect(copied_work_package.sprint).to eq(copied_sprint)
+
+    copied_bucket = copied_project.backlog_buckets.find_by(name: "Bucket A")
+    expect(copied_bucket).to be_present
+    expect(copied_bucket.id).not_to eq(bucket.id)
+
+    copied_bucket_work_package = copied_project.work_packages.find_by(subject: "Bucket story")
+    expect(copied_bucket_work_package.backlog_bucket).to eq(copied_bucket)
   end
 
   def wait_for_copy_to_finish
