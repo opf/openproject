@@ -46,7 +46,8 @@ module WorkPackageTypes
           label: label(:parent),
           caption: I18n.t("types.edit.settings.parent_type_text"),
           include_blank: true,
-          validation_message: validation_message_for(:parent)
+          validation_message: validation_message_for(:parent),
+          data: { action: "change->admin--work-package-type-settings#toggle" }
         ) do |parent_types|
           available_parents.each do |type|
             parent_types.option(
@@ -58,8 +59,11 @@ module WorkPackageTypes
         end
       end
 
-      unless model.subtype?
-        settings_form.color_select_list(
+      # Core settings are inherited from the parent for sub-types, so they are
+      # hidden and disabled while a parent is selected (see Type inheritance).
+      # The admin--work-package-type-settings controller toggles this live.
+      settings_form.group(**core_settings_group_options) do |color_group|
+        color_group.color_select_list(
           name: :color_id,
           label: Color.model_name.human,
           input_width: :medium,
@@ -91,18 +95,18 @@ module WorkPackageTypes
         rich_text_options: { showAttachments: false }
       )
 
-      unless model.subtype?
-        settings_form.check_box(
+      settings_form.group(**core_settings_group_options) do |flags_group|
+        flags_group.check_box(
           name: :is_milestone,
           label: label(:is_milestone)
         )
 
-        settings_form.check_box(
+        flags_group.check_box(
           name: :is_in_roadmap,
           label: label(:is_in_roadmap)
         )
 
-        settings_form.check_box(
+        flags_group.check_box(
           name: :is_default,
           label: label(:is_default)
         )
@@ -119,6 +123,14 @@ module WorkPackageTypes
 
     def label(attribute)
       model.class.human_attribute_name(attribute)
+    end
+
+    def core_settings_group_options
+      options = { data: { "admin--work-package-type-settings-target": "coreSetting" } }
+      # Only hide initially; leave the visible layout to the group itself so its
+      # vertical spacing is preserved. The controller toggles d-none from here.
+      options[:display] = :none if model.subtype?
+      options
     end
 
     def show_work_flow_copy?
