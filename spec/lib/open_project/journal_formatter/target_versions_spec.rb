@@ -37,7 +37,9 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     let(:work_package) { build_stubbed(:work_package) }
     let(:journal) { build_stubbed(:work_package_journal, journable: work_package) }
     let(:instance) { described_class.new(journal) }
-    let(:label) { "<strong>Target versions</strong>" }
+    # The single-version label is kept until the multi-version framework is
+    # fully adopted.
+    let(:label) { "<strong>Version</strong>" }
 
     before do
       allow(Version).to receive(:find_by).and_return(nil)
@@ -83,7 +85,7 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
       it "renders plain text" do
         expect(instance.render(:target_versions, [version.id.to_s, other_version.id.to_s], html: false))
           .to eq(I18n.t(:text_journal_changed_plain,
-                        label: "Target versions",
+                        label: "Version",
                         linebreak: nil,
                         old: "Alpha",
                         new: "Beta"))

@@ -35,6 +35,12 @@
 class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAssociation
   private
 
+  # The rest of the UI still labels the field "Version"; switch to the
+  # "Target versions" label once the multi-version framework is fully adopted.
+  def label(_key)
+    super("version")
+  end
+
   def format_values(values, key, cache:)
     klass = class_from_field(key)
 
