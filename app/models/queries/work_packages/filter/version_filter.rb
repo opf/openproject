@@ -30,6 +30,8 @@
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+
   def allowed_values
     # as we no longer display the allowed values, the first value is irrelevant
     @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
@@ -55,7 +57,20 @@ class Queries::WorkPackages::Filter::VersionFilter <
     WorkPackage.human_attribute_name("version")
   end
 
+  # filter by target versions when the flag is enabled
+  # this allows old queries and systems to use the new
+  # target_versions field instead of the legacy version_id
+  def where
+    if filter_on_target_versions?
+      target_versions_where
+    else
+      super
+    end
+  end
+
   def joins
+    return if filter_on_target_versions?
+
     case operator
     when "o", "c", "l"
       :version
@@ -91,6 +106,10 @@ class Queries::WorkPackages::Filter::VersionFilter <
   end
 
   private
+
+  def filter_on_target_versions?
+    Setting::WorkPackageMultipleVersions.active?
+  end
 
   def versions
     if project

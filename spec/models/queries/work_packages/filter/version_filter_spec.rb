@@ -181,5 +181,37 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
         end
       end
     end
+
+    describe "#where" do
+      context "with the multiple versions feature inactive",
+              with_flag: { work_package_multiple_versions: false } do
+        it "filters on the version_id column" do
+          expect(instance.where)
+            .to include("#{WorkPackage.table_name}.version_id")
+        end
+      end
+
+      context "with the multiple versions feature active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "filters through the target version associations" do
+          expect(instance.where)
+            .to include(WorkPackageVersion.table_name)
+        end
+
+        context "with a version status operator" do
+          let(:operator) { "o" }
+
+          it "filters through the target version associations" do
+            expect(instance.where)
+              .to include(WorkPackageVersion.table_name)
+          end
+
+          it "does not join the version association" do
+            expect(instance.joins).to be_nil
+          end
+        end
+      end
+    end
   end
 end

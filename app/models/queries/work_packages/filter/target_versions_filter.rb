@@ -30,7 +30,7 @@
 
 class Queries::WorkPackages::Filter::TargetVersionsFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-  STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
+  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
 
   def allowed_values
     @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
@@ -78,43 +78,10 @@ class Queries::WorkPackages::Filter::TargetVersionsFilter <
   end
 
   def where
-    case operator
-    when "!" # is not
-      "NOT (#{target_version_matching_values})"
-    when "!*" # empty
-      "NOT (#{any_target_version_associated})"
-    when "*" # not empty
-      any_target_version_associated
-    when "o", "c", "l" # version status
-      target_version_with_status(STATUS_BY_OPERATOR[operator])
-    else # "=" is (or)
-      target_version_matching_values
-    end
+    target_versions_where
   end
 
   private
-
-  def any_target_version_associated
-    "EXISTS (#{target_associations.select(1).to_sql})"
-  end
-
-  def target_version_matching_values
-    "EXISTS (#{target_associations.where(version_id: values).select(1).to_sql})"
-  end
-
-  def target_version_with_status(status)
-    sub = target_associations
-            .joins(:version)
-            .where(Version.table_name => { status: })
-            .select(1)
-    "EXISTS (#{sub.to_sql})"
-  end
-
-  def target_associations
-    WorkPackageVersion
-      .where(kind: "target")
-      .where("#{WorkPackageVersion.table_name}.work_package_id = #{WorkPackage.table_name}.id")
-  end
 
   def versions
     if project
