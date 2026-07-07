@@ -82,6 +82,8 @@ it:
         other: Attività di monitoraggio dei tempi
       rate: Tariffa
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: deve essere compresa tra le 00:00 e le 23:59.
@@ -253,9 +255,10 @@ it:
     settings:
       time_and_costs: Tempi e costi
       cost_types:
-        heading: Tipo di costo
-        none_active: Nessun tipo di costo è attualmente attivo in questo progetto.
         for_all_projects_hint: Questo tipo di costo è abilitato in tutti i progetti.
+        heading: Tipo di costo
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: Nessun tipo di costo è attualmente attivo in questo progetto.
   costs:
     widgets:
       actual_costs:

@@ -96,3 +96,5 @@ new values over to the corresponding XWiki forms.
 > Every user will have to reconnect from the affected side after resetting the credentials. For example, if replacing
 > the Wiki OAuth credentials, the connection from the OpenProject account to the XWiki account is lost and has to be
 > reconnected.
+
+To learn how to link a wiki to a work package or create a new one, refer to [this user guide](../../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).

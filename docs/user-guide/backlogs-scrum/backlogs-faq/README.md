@@ -11,7 +11,7 @@ keywords: backlogs FAQ, backlogs, backlog, task board, taskboard, version, sprin
 > [!NOTE]
 > With the release of OpenProject 17.3, the **Backlogs** module has undergone significant changes, including the introduction of redesigned sprint handling and updated functionality. As a result, this FAQ page has been revised to reflect the current behavior and concepts.
 >
-> Please note that further improvements are already planned for OpenProject 17.4 and beyond. We will continue to update this page to keep it aligned with the latest product changes.
+> Please note that further improvements are implemented in OpenProject 17.4 and beyond. We will continue to update this page to keep it aligned with the latest product changes.
 
 ## If I previously had sprints defined using versions, how does the change from sprint to version affect migration and existing data?
 
@@ -32,11 +32,11 @@ First, you have to make sure the backlog module is active within a project.
 
 ## Where are my backlog buckets and sprint buckets now?
 
-All buckets have been migrated as sprints, which are now visible on the right-hand side. Starting with version 17.4, we are improving the possibility to add backlog buckets on the left-hand side, allowing you to sort and organize your backlog in a better way.
+All buckets have been migrated as sprints, which are now visible on the right-hand side. Starting with version 17.4, there are backlog buckets on the left-hand side, allowing you to sort and organize your backlog in a better way.
 
 ## How is the backlog generated?
 
-Your backlog automatically shows all work packages from your project which are not closed and can be worked on. With 17.4., it will be possible to exclude certain work package types from the automated backlog.
+Your backlog automatically shows all work packages from your project which are not closed and can be worked on. It is possible to exclude certain work package types from the automated backlog. This can be defined under [project backlog settings](../../projects/project-settings/backlogs-settings).
 
 ## How is the backlog sorted?
 

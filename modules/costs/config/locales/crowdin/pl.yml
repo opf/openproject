@@ -90,6 +90,8 @@ pl:
         other: Działania śledzenia czasu
       rate: Stawka
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: musi zawierać się między 00:00 a 23:59.
@@ -261,9 +263,10 @@ pl:
     settings:
       time_and_costs: Czas i koszty
       cost_types:
-        heading: Typy kosztów
-        none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
         for_all_projects_hint: Ten typ kosztów jest włączony we wszystkich projektach.
+        heading: Typy kosztów
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
   costs:
     widgets:
       actual_costs:
