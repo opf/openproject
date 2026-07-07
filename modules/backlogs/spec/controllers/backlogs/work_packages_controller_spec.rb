@@ -92,9 +92,10 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:direction) { nil }
     # The move URL carries the page's active backlog filters (see move_path).
     let(:filter_params) { {} }
+    let(:optimistic) { nil }
 
     subject(:response) do
-      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction:,
+      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction:, optimistic:,
                            **filter_params },
                  format: :turbo_stream
     end
@@ -301,6 +302,46 @@ RSpec.describe Backlogs::WorkPackagesController do
                                                       target: "backlogs_container"
           end
         end
+      end
+    end
+
+    context "with an optimistic same-list move (drag)" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      it "dispatches the moved event and does not reload the frame", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dispatchEvent"
+        expect(response).not_to have_turbo_stream action: "turbo_frame_reload"
+      end
+    end
+
+    context "with a same-list move and optimistic=false (menu move)" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "false" }
+
+      it "reloads the frame", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic cross-list move" do
+      let(:other_sprint) { create(:sprint, name: "Agile Sprint 2", project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame because the list changed", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
       end
     end
 

@@ -58,4 +58,18 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, "persistence", type: :mode
       expect(work_package.position).to eq(original_position)
     end
   end
+
+  describe "dirty tracking after a move (guards the controller's list snapshot)" do
+    it "does not expose the list change via _before_last_save (move_after reloads)" do
+      call = described_class.new(user:, work_package:).call(list_type: "sprint", list_id: other_sprint.id, prev_id: "")
+
+      expect(call).to be_success
+      expect(call.result.sprint_id).to eq(other_sprint.id)
+      # The list changed, but move_after's mid-method reload wipes saved_changes
+      # to {}, so _before_last_save comes back nil regardless. Hence the
+      # controller snapshots the source list instead of using dirty tracking.
+      expect(call.result.saved_changes).to eq({})
+      expect(call.result.sprint_id_before_last_save).to be_nil
+    end
+  end
 end

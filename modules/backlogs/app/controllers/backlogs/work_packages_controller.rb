@@ -95,9 +95,22 @@ module Backlogs
     end
 
     def move
+      source_list = [@work_package.sprint_id, @work_package.backlog_bucket_id]
+
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package: @work_package)
         .call(**move_service_params)
+
+      if optimistic_same_list_move?(call, source_list)
+        # A same-list optimistic drag already reordered the row client-side and
+        # changes nothing else visible. Skip the frame reload (it would fight
+        # that order); still emit the moved event for split-view lock refresh.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
+        )
+        return respond_with_turbo_streams(status: call)
+      end
 
       render_update_turbo_streams(call)
     end
@@ -191,6 +204,18 @@ module Backlogs
       else
         !backlog_filters.show_inbox?
       end
+    end
+
+    # Snapshot the source list before the call, not dirty tracking: move_after
+    # reloads mid-method, wiping the saved_changes _before_last_save needs.
+    def optimistic_same_list_move?(call, source_list)
+      optimistic_move? && call.success? &&
+        [call.result.sprint_id, call.result.backlog_bucket_id] == source_list
+    end
+
+    # Kept out of move_params: the service's keyword args reject it.
+    def optimistic_move?
+      ActiveModel::Type::Boolean.new.cast(params[:optimistic])
     end
 
     def move_params
