@@ -41,6 +41,18 @@ module Projects::Copy
     protected
 
     def copy_dependency(*)
+      if source.receive_shared_sprints?
+        preserve_sprint_assignments
+      else
+        copy_sprints
+      end
+    end
+
+    def preserve_sprint_assignments
+      state.sprint_id_lookup = Sprint.for_project(source).to_h { |s| [s.id, s.id] }
+    end
+
+    def copy_sprints
       sprint_id_map = {}
 
       source.sprints.each do |source_sprint|

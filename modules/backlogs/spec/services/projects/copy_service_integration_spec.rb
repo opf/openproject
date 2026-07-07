@@ -126,26 +126,79 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
   end
 
-  describe "sprint copying" do
+  describe "sprint copying", with_ee: %i[sprint_sharing] do
     let(:admin) { create(:admin) }
     let(:instance) { described_class.new(source:, user: admin) }
     let(:params) do
       { target_project_params:, send_notifications: false, only: %w[sprints] }
     end
-    let!(:source_sprint) { create(:sprint, project: source, name: "Sprint A") }
+    let(:sprint_project) { source }
+    let!(:source_sprint) { create(:sprint, project: sprint_project, name: "Sprint A") }
 
     subject { instance.call(params) }
 
-    it "copies owned sprints to the target, decoupled from the source" do
-      expect(subject).to be_success
+    shared_examples "copies sprints decoupled from the source" do
+      it "copies owned sprints to the target, decoupled from the source" do
+        expect(subject).to be_success
 
-      expect(project_copy.sprints.pluck(:name)).to contain_exactly("Sprint A")
-      copied_sprint = project_copy.sprints.first
-      expect(copied_sprint.id).not_to eq(source_sprint.id)
-      expect(copied_sprint.project).to eq(project_copy)
+        expect(project_copy.sprints.pluck(:name)).to contain_exactly("Sprint A")
+        copied_sprint = project_copy.sprints.first
+        expect(copied_sprint.id).not_to eq(source_sprint.id)
+        expect(copied_sprint.project).to eq(project_copy)
 
-      copied_sprint.update!(name: "Renamed Copy")
-      expect(source_sprint.reload.name).to eq("Sprint A")
+        copied_sprint.update!(name: "Renamed Copy")
+        expect(source_sprint.reload.name).to eq("Sprint A")
+      end
+
+      it "maps the source sprint id to the new sprint id in state" do
+        expect(subject).to be_success
+        expect(subject.state.sprint_id_lookup[source_sprint.id]).to eq(project_copy.sprints.first.id)
+      end
+    end
+
+    shared_examples "does not copy sprints to the target" do
+      it "does not copy sprints to the target" do
+        expect(subject).to be_success
+        expect(project_copy.sprints).to be_empty
+      end
+
+      it "identity-maps the sprint id in state" do
+        expect(subject).to be_success
+        expect(subject.state.sprint_id_lookup[source_sprint.id]).to eq(source_sprint.id)
+      end
+    end
+
+    context "when source has NO_SHARING" do
+      before { source.update!(sprint_sharing: Projects::SprintSharing::NO_SHARING) }
+
+      include_examples "copies sprints decoupled from the source"
+    end
+
+    context "when source has SHARE_SUBPROJECTS" do
+      before { source.update!(sprint_sharing: Projects::SprintSharing::SHARE_SUBPROJECTS) }
+
+      include_examples "copies sprints decoupled from the source"
+    end
+
+    context "when source has SHARE_ALL_PROJECTS" do
+      before { source.update!(sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+
+      # The project copy is set to NO_SHARING in the
+      # OpenProject::Backlogs::Patches::CopyServicePatch#clean_settings_attributes!,
+      # hence it has to have it's own sprints copied.
+      include_examples "copies sprints decoupled from the source"
+    end
+
+    context "when source has RECEIVE_SHARED" do
+      let(:sprint_project) do
+        create(:project,
+               enabled_module_names: %i[work_package_tracking backlogs],
+               sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
+      end
+
+      before { source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+
+      include_examples "does not copy sprints to the target"
     end
   end
 
@@ -191,10 +244,10 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       expect(copied.sprint.project).to eq(project_copy)
     end
 
-    it "keeps the original sprint when it is shared (not owned by the source)" do
+    it "clears the sprint when it belongs to another project (anomalous data for NO_SHARING)" do
       expect(subject).to be_success
 
-      expect(copied_wp("In shared").sprint_id).to eq(shared_sprint.id)
+      expect(copied_wp("In shared").sprint_id).to be_nil
     end
 
     it "does not add the copied work package to the source sprint" do
@@ -213,6 +266,18 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       expect(copied_wp("Inbox 1").position).to eq(3)
       expect(copied_wp("Inbox 2").position).to eq(1)
       expect(copied_wp("Inbox 3").position).to eq(2)
+    end
+
+    context "when sprints are not copied" do
+      let(:params) do
+        { target_project_params:, send_notifications: false, only: %w[work_packages] }
+      end
+
+      it "clears the sprint rather than keeping the source sprint id" do
+        expect(subject).to be_success
+
+        expect(copied_wp("In owned").sprint_id).to be_nil
+      end
     end
   end
 
