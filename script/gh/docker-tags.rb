@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "optparse"
+require "rubygems"
 
 class Tag
   def initialize(tag)
@@ -26,11 +27,16 @@ class Tag
 
   def to_semver_docker_tags
     if semver?
-      [
+      tags = [
         "type=semver,pattern={{version}},value=#{version}",
-        "type=semver,pattern={{major}}.{{minor}},value=#{version}",
-        "type=semver,pattern={{major}},value=#{version}"
+        "type=semver,pattern={{major}}.{{minor}},value=#{version}"
       ]
+
+      if latest_patch_for_major?
+        tags << "type=semver,pattern={{major}},value=#{version}"
+      end
+
+      tags
     elsif rc?
       [
         "type=raw,value=#{major}.#{minor}-rc",
@@ -51,6 +57,31 @@ class Tag
     return unless semver? || rc?
 
     version.split(".")[1]
+  end
+
+  private
+
+  def latest_patch_for_major?
+    return false unless stable_semver?
+
+    latest = git_stable_semver_tags
+      .select { |tag_version| tag_version.segments[0].to_s == major }
+      .max
+
+    latest == Gem::Version.new(version)
+  end
+
+  def stable_semver?
+    @tag.match?(/^v\d+\.\d+\.\d+$/)
+  end
+
+  def git_stable_semver_tags
+    @git_stable_semver_tags ||= begin
+      tags = `git tag --list 'v*'`.lines.map(&:strip)
+      tags
+        .select { |raw| raw.match?(/^v\d+\.\d+\.\d+$/) }
+        .map { |raw| Gem::Version.new(raw.delete_prefix("v")) }
+    end
   end
 end
 
