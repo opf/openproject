@@ -398,9 +398,9 @@ module WorkPackages
       end
     end
 
-    # Only overrides the user requested need the permission; overrides the
-    # system initiated (e.g. clearing versions not shared with the project the
-    # work package is moved to) are exempt, like change_by_system attributes.
+    # Only user-requested overrides need the permission; system-initiated
+    # overrides (e.g. clearing versions not shared with the project the work
+    # package is moved to) are exempt, like change_by_system attributes.
     def validate_versions_permission
       target_override = user_target_versions_override?
       observed_in_override = user_observed_in_versions_override?
