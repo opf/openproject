@@ -36,18 +36,39 @@ module Backlogs
 
     TRUNCATE_MIDDLE = 50
 
-    attr_reader :work_packages, :project, :current_user
+    attr_reader :work_packages, :project, :current_user, :group_by_epic
 
-    def initialize(work_packages:, project:, current_user: User.current)
+    def initialize(work_packages:, project:, group_by_epic: false, current_user: User.current)
       super()
 
       @work_packages = work_packages
       @project = project
+      @group_by_epic = group_by_epic
       @current_user = current_user
     end
 
     def wrapper_uniq_by
       project.id
+    end
+
+    # Group inbox items by their parent ("epic") for the Scrum Base group-by-epic view.
+    # Returns an ordered list of [epic_work_package_or_nil, [work_packages]],
+    # epics first (alphabetically), the "no epic" group last.
+    def grouped_work_packages
+      groups = work_packages.to_a.group_by(&:parent_id)
+      no_epic = groups.delete(nil)
+
+      parents = WorkPackage.visible.where(id: groups.keys).index_by(&:id)
+      ordered = groups
+                  .map { |parent_id, wps| [parents[parent_id], wps] }
+                  .sort_by { |epic, _| epic&.subject.to_s.downcase }
+
+      ordered << [nil, no_epic] if no_epic.present?
+      ordered
+    end
+
+    def no_epic_label
+      I18n.t("backlogs.no_epic")
     end
 
     def truncated?

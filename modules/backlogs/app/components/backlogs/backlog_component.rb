@@ -34,17 +34,19 @@ module Backlogs
     include OpTurbo::Streamable
     include CommonHelper
 
-    attr_reader :work_packages_by_backlog_id, :buckets, :project, :current_user
+    attr_reader :work_packages_by_backlog_id, :buckets, :project, :current_user, :group_by_epic
 
     def initialize(buckets:,
                    work_packages_by_backlog_id:,
                    project:,
+                   group_by_epic: false,
                    current_user: User.current)
       super()
 
       @work_packages_by_backlog_id = work_packages_by_backlog_id
       @buckets = buckets
       @project = project
+      @group_by_epic = group_by_epic
       @current_user = current_user
     end
 
@@ -68,6 +70,14 @@ module Backlogs
 
     def work_packages_for(bucket)
       work_packages_by_backlog_id[bucket.id] || []
+    end
+
+    # Path that toggles the Scrum Base "group by epic" view on/off, preserving
+    # the active backlog filters (show-all, bucket/sprint selections).
+    def group_by_epic_toggle_path
+      query = backlog_filter_params.except(:group_by)
+      query[:group_by] = "epic" unless group_by_epic
+      project_backlogs_backlog_path(project, query)
     end
   end
 end

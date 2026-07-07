@@ -27,7 +27,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++%>
 
-<%= render(Primer::Beta::Text.new(color: :subtle, position: :relative)) do %>
-  <span aria-hidden="true"><%= story_points %></span>
-  <span class="sr-only"><%= t(:"backlogs.story_points", count: story_points) %></span>
+<% if editable? %>
+  <%# Scrum Base-style inline estimate: edit story points directly on the row %>
+  <%= form_with(url: estimate_path, method: :patch, scope: :work_package,
+                data: { controller: "auto-submit" }, class: "op-scrum-base-estimate-form") do |f| %>
+    <%= f.number_field :story_points,
+                       value: work_package.story_points,
+                       min: 0, max: 9999, step: 1,
+                       class: "op-scrum-base-estimate",
+                       placeholder: "–",
+                       aria: { label: t(:"backlogs.story_points", count: story_points) },
+                       data: { action: "change->auto-submit#submit" } %>
+  <% end %>
+<% else %>
+  <%= render(Primer::Beta::Text.new(color: :subtle, position: :relative)) do %>
+    <span aria-hidden="true"><%= story_points %></span>
+    <span class="sr-only"><%= t(:"backlogs.story_points", count: story_points) %></span>
+  <% end %>
 <% end %>

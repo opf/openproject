@@ -3,7 +3,7 @@
   class="op-board-list loading-indicator--location"
   data-test-selector="op-board-list"
   data-tour-selector="op-board-list"
-  [ngClass]="{ '-action-list': board.isAction }">
+  [ngClass]="{ '-action-list': board.isAction, '-wip-exceeded': wipLimitEnabled && isOverWipLimit }">
   @if (query) {
     @if (board.isAction) {
       <div
@@ -28,9 +28,24 @@
             class="-small" />
         }
       </h3>
+      @if (wipLimitEnabled && mappedStatusCount > 1) {
+        <span class="op-board-list--multi-status"
+          data-test-selector="op-board-list--multi-status"
+          [textContent]="mappedStatusCount + ' statuses'">
+        </span>
+      }
+      @if (wipLimitEnabled) {
+        <span class="op-board-list--wip-limit"
+          data-test-selector="op-board-list--wip-limit"
+          [ngClass]="{ '-exceeded': isOverWipLimit }"
+          [textContent]="wipLimit !== null ? (cardCount + ' / ' + wipLimit) : cardCount">
+        </span>
+      }
       <board-list-menu class="op-board-list--menu"
         data-test-selector="op-board-list--menu"
         [board]="board"
+        (onSetWipLimit)="setWipLimit()"
+        (onAddStatus)="addStatusToColumn()"
         (onRemove)="deleteList()" />
     </div>
     <div class="op-board-list--query-container drop-zone"

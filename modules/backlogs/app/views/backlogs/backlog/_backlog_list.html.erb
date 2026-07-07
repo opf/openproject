@@ -31,16 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="op-sprint-planning-container" data-controller="generic-drag-and-drop"
        data-generic-drag-and-drop-position-mode-value="prev_id"
        data-generic-drag-and-drop-handle-value="false">
-    <div id="owner_backlogs_container" class="op-sprint-planning-lists"
-         data-generic-drag-and-drop-target="scrollContainer">
-      <%=
-        render Backlogs::BacklogComponent.new(
-          buckets: @backlog_buckets,
-          work_packages_by_backlog_id: @work_packages_by_backlog_id,
-          project: @project
-        )
-      %>
-    </div>
+    <%# Scrum Base layout: sprints stacked on top, single backlog below %>
     <div id="sprint_backlogs_container" class="op-sprint-planning-lists"
          data-generic-drag-and-drop-target="scrollContainer">
       <%=
@@ -49,6 +40,17 @@ See COPYRIGHT and LICENSE files for more details.
           project: @project,
           work_packages_by_sprint_id: @work_packages_by_sprint_id,
           active_sprint_ids: @active_sprint_ids
+        )
+      %>
+    </div>
+    <div id="owner_backlogs_container" class="op-sprint-planning-lists"
+         data-generic-drag-and-drop-target="scrollContainer">
+      <%=
+        render Backlogs::BacklogComponent.new(
+          buckets: @backlog_buckets,
+          work_packages_by_backlog_id: @work_packages_by_backlog_id,
+          project: @project,
+          group_by_epic: group_by_epic?
         )
       %>
     </div>

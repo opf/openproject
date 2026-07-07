@@ -70,3 +70,87 @@ $board-list-top-offset: 18px
 .boards-list--enterprise-banner
   display: block
   margin-left: $spot-spacing-1
+
+// Swimlanes (Scrum Base-style boards grouped by an attribute)
+.op-board-swimlane-toggle
+  padding: 4px 8px 0
+
+.op-swimlanes
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+  overflow-y: auto
+  @include styled-scroll-bar
+
+.op-swimlane
+  display: flex
+  flex-direction: column
+  border-top: 2px solid #DFE1E6
+  padding-bottom: 8px
+
+  &--header
+    font-weight: 600
+    font-size: 14px
+    padding: 8px 4px 4px
+    color: #172B4D
+
+  &--columns
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    align-items: stretch
+    min-height: 220px
+    overflow-x: auto
+    @include styled-scroll-bar
+
+// Board snapshot report (Scrum Base boards)
+.op-board-report
+  padding: 8px 12px 12px
+  border-bottom: 1px solid #DFE1E6
+  background: #FAFBFC
+
+  &--title
+    font-weight: 600
+    font-size: 13px
+    color: #172B4D
+    margin-bottom: 8px
+
+  &--row
+    display: flex
+    align-items: center
+    gap: 8px
+    margin-bottom: 4px
+
+  &--label
+    flex: 0 0 160px
+    font-size: 13px
+    color: #42526E
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  &--bar-track
+    flex: 1 1 auto
+    height: 14px
+    background: #EBECF0
+    border-radius: 3px
+    overflow: hidden
+
+  &--bar
+    display: block
+    height: 100%
+    background: #0052CC
+    border-radius: 3px
+
+    &.-over
+      background: #BF2600
+
+  &--count
+    flex: 0 0 60px
+    text-align: right
+    font-size: 12px
+    font-weight: 600
+    color: #172B4D
+
+    &.-over
+      color: #BF2600

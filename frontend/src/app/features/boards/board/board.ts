@@ -88,6 +88,26 @@ export class Board {
   }
 
   public showStatusButton() {
-    return this.actionAttribute !== 'status';
+    // Hide the per-card status button when columns already represent status
+    // (the plain Status board and the Scrum Base board, whose columns are statuses).
+    return this.actionAttribute !== 'status' && this.actionAttribute !== 'scrum_base';
+  }
+
+  /** The attribute the board is grouped into swimlanes by (Scrum Base boards), if any. */
+  public get swimlaneAttribute():string|undefined {
+    return this.grid.options.swimlaneAttribute as string|undefined;
+  }
+
+  public set swimlaneAttribute(value:string|undefined) {
+    if (value) {
+      this.grid.options.swimlaneAttribute = value;
+    } else {
+      delete this.grid.options.swimlaneAttribute;
+    }
+  }
+
+  /** Whether this board currently renders horizontal swimlanes. */
+  public get hasSwimlanes():boolean {
+    return this.actionAttribute === 'scrum_base' && !!this.swimlaneAttribute;
   }
 }

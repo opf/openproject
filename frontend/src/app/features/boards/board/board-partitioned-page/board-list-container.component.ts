@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -10,6 +11,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { EMPTY, Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
@@ -71,6 +73,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   readonly QueryUpdated = inject(QueryUpdatedService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
+  readonly cdRef = inject(ChangeDetectorRef);
 
   @Input() boardId:string;
   text = {
@@ -82,7 +85,15 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     addList: this.I18n.t('js.boards.add_list'),
     unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
     hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
+    swimlanesOn: this.I18n.t('js.boards.scrum_base.swimlanes_assignee_on'),
+    groupByAssignee: this.I18n.t('js.boards.scrum_base.group_by_assignee'),
+    report: this.I18n.t('js.boards.scrum_base.report'),
+    hideReport: this.I18n.t('js.boards.scrum_base.hide_report'),
   };
+
+  get reportTitle():string {
+    return this.I18n.t('js.boards.scrum_base.board_report', { count: this.reportTotal });
+  }
 
   /** Container reference */
   public _container:HTMLElement;
@@ -108,7 +119,23 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   boardWidgets:GridWidgetResource[] = [];
 
+  /**
+   * Horizontal swimlanes (Scrum Base boards grouped by an attribute, e.g. assignee).
+   * Each lane carries the filter scoping a column to that lane; it is passed to
+   * board-list as additionalFilter (which also assigns the value on drop).
+   */
+  swimlanes:{ key:string, label:string, filter:ApiV3Filter }[] = [];
+
   showHiddenListWarning = false;
+
+  /** Board snapshot report (Scrum Base boards): per-column counts + WIP flags. */
+  showReport = false;
+
+  reportRows:{ label:string, count:number, wipLimit:number|null, overWip:boolean }[] = [];
+
+  reportTotal = 0;
+
+  reportMax = 1;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -122,7 +149,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .id(id)
       .requireAndStream()
       .pipe(
-        tap((board) => this.setupQueryUpdatedMonitoring(board)),
+        tap((board) => {
+          this.setupQueryUpdatedMonitoring(board);
+          this.loadSwimlanes(board);
+        }),
       );
 
     this.Boards.currentBoard$.next(id);
@@ -139,6 +169,82 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, routingId);
         const search = window.location.search;
         Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
+      });
+  }
+
+  /**
+   * Toggle the board snapshot report (per-column counts + WIP status).
+   * Built from the already-loaded column components, so no extra queries.
+   */
+  toggleReport():void {
+    this.showReport = !this.showReport;
+    if (this.showReport) {
+      this.buildReport();
+    }
+  }
+
+  private buildReport():void {
+    const columns = this.lists ? this.lists.toArray() : [];
+    this.reportRows = columns.map((list) => ({
+      label: list.listName || 'Column',
+      count: list.cardCount,
+      wipLimit: list.wipLimit,
+      overWip: list.isOverWipLimit,
+    }));
+    this.reportTotal = this.reportRows.reduce((sum, row) => sum + row.count, 0);
+    this.reportMax = Math.max(1, ...this.reportRows.map((row) => row.count));
+    this.cdRef.detectChanges();
+  }
+
+  /**
+   * Toggle assignee swimlanes on/off for a Scrum Base board and persist the choice.
+   */
+  toggleSwimlanes(board:Board):void {
+    board.swimlaneAttribute = board.hasSwimlanes ? undefined : 'assignee';
+    this.Boards
+      .save(board)
+      .pipe(
+        catchError((error) => {
+          this.halNotification.handleRawError(error);
+          return EMPTY;
+        }),
+      )
+      .subscribe(() => {
+        this.loadSwimlanes(board);
+        this.cdRef.detectChanges();
+      });
+  }
+
+  /**
+   * Compute the set of swimlanes for the board. Currently groups by assignee:
+   * one lane per available assignee plus an "Unassigned" lane. Each lane carries
+   * the filter that scopes a column to that lane (and assigns it on drop).
+   */
+  private loadSwimlanes(board:Board):void {
+    if (!board.hasSwimlanes || board.swimlaneAttribute !== 'assignee') {
+      this.swimlanes = [];
+      return;
+    }
+
+    this.apiv3Service
+      .projects
+      .id(board.projectId as string)
+      .available_assignees
+      .get()
+      .pipe(this.untilDestroyed())
+      .subscribe((collection) => {
+        const lanes = collection.elements.map((user:{ id:string, name:string }) => ({
+          key: user.id.toString(),
+          label: user.name,
+          filter: { assignee: { operator: '=', values: [user.id.toString()] } } as unknown as ApiV3Filter,
+        }));
+        lanes.push({
+          key: 'none',
+          label: this.I18n.t('js.label_none'),
+          filter: { assignee: { operator: '!*', values: [] } } as unknown as ApiV3Filter,
+        });
+        this.swimlanes = lanes;
+        this.cdRef.detectChanges();
       });
   }
 

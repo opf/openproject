@@ -58,6 +58,10 @@ export class BoardListMenuComponent {
 
   @Output() onRemove = new EventEmitter<void>();
 
+  @Output() onSetWipLimit = new EventEmitter<void>();
+
+  @Output() onAddStatus = new EventEmitter<void>();
+
   public get menuItems() {
     return async () => {
       const items:OpContextMenuItem[] = [
@@ -70,6 +74,26 @@ export class BoardListMenuComponent {
           },
         },
       ];
+
+      // WIP limit + multi-status mapping are Scrum Base-board capabilities only.
+      if (this.board.actionAttribute === 'scrum_base' && this.canManage) {
+        items.unshift(
+          {
+            linkText: this.I18n.t('js.boards.scrum_base.set_wip_limit'),
+            onClick: () => {
+              this.onSetWipLimit.emit();
+              return true;
+            },
+          },
+          {
+            linkText: this.I18n.t('js.boards.scrum_base.add_status'),
+            onClick: () => {
+              this.onAddStatus.emit();
+              return true;
+            },
+          },
+        );
+      }
 
       // Add action specific menu entries
       if (this.board.isAction) {
