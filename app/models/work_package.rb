@@ -293,13 +293,20 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  def to_s
-    "#{type.name unless type.is_standard} #{formatted_id}: #{subject}"
-  end
+  def to_s = to_fs
 
-  def infoline(show_standard_type: true)
-    type_name = show_standard_type || !type.is_standard ? type.name : ""
-    "#{type_name}: #{subject} (#{formatted_id})"
+  # Human-readable label composed from the work package's type, id and subject.
+  #
+  # @param style [Symbol]
+  #   :heading => "Bug #42: Fix login" (non-standard type; type name omitted for standard types)
+  #   :caption => "Bug: Fix login (#42)" (type name always shown, even for standard types)
+  # @return [String]
+  def to_fs(style = :heading)
+    case style
+    when :heading then "#{type.name unless type.is_standard} #{formatted_id}: #{subject}"
+    when :caption then "#{type.name}: #{subject} (#{formatted_id})"
+    else raise ArgumentError, "unknown format style: #{style.inspect}"
+    end
   end
 
   # Return true if the work_package is closed, otherwise false
