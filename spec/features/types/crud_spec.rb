@@ -105,6 +105,26 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
+  it "creates a sub-type through the parent select", with_flag: { subtypes: true } do
+    index_page.visit!
+
+    index_page.click_new
+
+    fill_in "Name", with: "Phase"
+    select existing_type.name, from: "Parent type"
+
+    click_on "Save"
+
+    expect(page).to have_text I18n.t(:notice_successful_create)
+    expect(Type.find_by!(name: "Phase").parent).to eq(existing_type)
+
+    index_page.visit!
+
+    within "table" do
+      expect(page).to have_link("Phase")
+    end
+  end
+
   context "when a work package of a given type is part of an archived project" do
     shared_let(:project) do
       create(:project, :archived).tap do |p|
