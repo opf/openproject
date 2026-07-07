@@ -31,11 +31,6 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
     parse: (element) => parseWorkPackageBlockExternalHTML(element),
   },
 
-  // Spec-level extensions are collected by BlockNote's ExtensionManager at
-  // editor construction time - same pass as `editorOptions.extensions`, so
-  // registering them here keeps the y-prosemirror UndoManager intact while
-  // sparing host applications any `extensions: [...]` wiring: registering this
-  // block spec in the schema is enough.
   [
     PasteWorkPackageLinkExtension,
   ]

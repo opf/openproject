@@ -47,6 +47,37 @@ describe('Paste work package URL', () => {
     await expect.element(page.getByText('https://example.com/wp/123')).toBeVisible();
   });
 
+  it('creates a block card and drops the label when pasting a markdown WP link into an empty paragraph', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+
+    pastePlainText('[custom label](http://localhost:3000/wp/123)');
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    expect(document.body.textContent).not.toContain('custom label');
+  });
+
+  it('creates an inline chip and drops the label when pasting a markdown WP link into text', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+    await userEvent.type(page.getByRole('textbox'), 'See ');
+
+    pastePlainText('[custom label](http://localhost:3000/work_packages/456)');
+
+    await expect.element(page.getByText('#456')).toBeVisible();
+    expect(document.body.textContent).not.toContain('custom label');
+  });
+
+  it('keeps markdown links to foreign URLs untouched', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+
+    pastePlainText('[docs](https://example.com/wp/123)');
+
+    await expect.element(page.getByText('docs')).toBeVisible();
+  });
+
   it('falls back to the plain link when the schema lacks the inline WP spec', async () => {
     // Pick text/link explicitly: `create()` reuses the module-global default
     // spec objects and `extend()` mutates them, so after renderEditor's

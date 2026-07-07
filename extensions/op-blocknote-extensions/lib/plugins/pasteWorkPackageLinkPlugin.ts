@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from 'prosemirror-state';
+import type { Fragment, Node } from 'prosemirror-model';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { parseWorkPackageUrl } from '../services/openProjectApi';
 import { isCurrentBlockEmpty } from '../utils/blockContent';
@@ -7,20 +8,13 @@ import { isCurrentBlockEmpty } from '../utils/blockContent';
 type AnyEditor = BlockNoteEditor<any, any, any>;
 
 /**
- * Transforms a pasted work package URL of the own OpenProject instance into
- * a rich work package link (BNE-47), reusing the slash-menu context rule:
- * pasting into an empty paragraph yields a card block, pasting into a
- * non-empty paragraph yields a regular inline chip. Any other pasted content
- * falls through to the default paste handling — as does the inline case when
- * the host registered only the block spec (which bundles this plugin) but
- * not the inline WP spec, so the URL is pasted as a plain link instead of
- * producing an unknown inline content type.
+ * Turns a pasted work package URL (or markdown link) of this OpenProject
+ * instance into a card block (empty paragraph) or inline chip (non-empty);
+ * anything else falls through to the default paste.
  *
- * The handler inspects the pasted slice instead of the ClipboardEvent:
- * BlockNote's pasteFromClipboard extension re-dispatches plain text and
- * markdown pastes through `prosemirrorView.pasteText`/`pasteHTML`, where no
- * clipboard event with usable data is guaranteed to reach the handlePaste
- * prop.
+ * Inspects the pasted slice, not the ClipboardEvent: BlockNote's
+ * pasteFromClipboard re-dispatches text/markdown through `pasteText`/`pasteHTML`,
+ * so no usable clipboard event reaches handlePaste.
  */
 export const pasteWorkPackageLinkPluginKey = new PluginKey(
   'pasteWorkPackageLink'
@@ -32,28 +26,23 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
 
     props: {
       handlePaste(_view, _event, slice) {
-        if (slice.content.childCount !== 1) return false;
+        const pasted = singlePastedTextblock(slice.content);
+        if (!pasted) return false;
 
-        let text = '';
-        slice.content.forEach((node) => {
-          text += node.textContent;
-        });
-        text = text.trim();
-        if (text === '' || /\s/.test(text)) return false;
-
-        const wpid = parseWorkPackageUrl(text);
+        const text = pasted.textContent.trim();
+        const url = singleLinkHref(pasted) ?? (text !== '' && !/\s/.test(text) ? text : null);
+        const wpid = url === null ? null : parseWorkPackageUrl(url);
         if (wpid === null) return false;
 
-        const block = editor.getTextCursorPosition()?.block as { type?:string } | undefined;
+        const block = editor.getTextCursorPosition()?.block;
         if (!block || block.type === 'codeBlock') return false;
 
         if (isCurrentBlockEmpty(editor)) {
-          insertBlockWorkPackage(editor, wpid);
-        } else {
-          // Fallback: without the inline WP spec in the schema the chip
-          // cannot be inserted - let the default paste keep the plain link.
-          if (!canInsertInlineWorkPackage(editor)) return false;
+          insertBlockWorkPackage(editor, wpid, block.id);
+        } else if (canInsertInlineWorkPackage(editor)) {
           insertInlineWorkPackage(editor, wpid);
+        } else {
+          return false;
         }
         return true;
       },
@@ -62,31 +51,55 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
 }
 
 /**
- * Mirrors insertBlockWorkPackage of SlashMenu.tsx, but with the work package
- * already known from the pasted URL — no pending search popover is needed.
+ * Unwraps BlockNote's single-child paste wrappers (blockGroup/blockContainer)
+ * to the sole pasted textblock; null when the paste spans multiple blocks.
  */
-function insertBlockWorkPackage(editor:AnyEditor, wpid:number):void {
-  const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
-  if (!blockId) return;
-
-  const block = {
-    type: 'openProjectWorkPackageBlock' as const,
-    props: { wpid, size: 'm' },
-  } as Parameters<typeof editor.insertBlocks>[0][number];
-
-  const [insertedBlock] = editor.insertBlocks([block], blockId, 'after');
-  if (!insertedBlock?.id) return;
-
-  editor.removeBlocks([blockId]);
-}
-
-function canInsertInlineWorkPackage(editor:AnyEditor):boolean {
-  return 'openProjectWorkPackageInline' in ((editor.schema as { inlineContentSpecs?:Record<string, unknown> })?.inlineContentSpecs ?? {});
+function singlePastedTextblock(fragment:Fragment):Node | null {
+  if (fragment.childCount !== 1) return null;
+  const child = fragment.child(0);
+  if (child.isText || child.isTextblock) return child;
+  return singlePastedTextblock(child.content);
 }
 
 /**
- * Mirrors insertWpChip of HashMenu/editorUtils.ts: chip plus trailing space,
- * leaving the cursor directly after the space.
+ * The link href when the textblock is solely link-marked text sharing one
+ * href, else null. Matching on href drops markdown `[label](url)` markup.
+ */
+function singleLinkHref(node:Node):string | null {
+  const inline:Node[] = [];
+  if (node.isText) {
+    inline.push(node);
+  } else {
+    node.content.forEach((part) => inline.push(part));
+  }
+
+  let href:string | null = null;
+  for (const part of inline) {
+    if (part.isText && part.textContent.trim() === '') continue;
+    const mark = part.marks.find((m) => m.type.name === 'link');
+    const target = mark ? (mark.attrs as { href?:string }).href : undefined;
+    if (!target || (href !== null && target !== href)) return null;
+    href = target;
+  }
+  return href;
+}
+
+function insertBlockWorkPackage(editor:AnyEditor, wpid:number, blockId:string):void {
+  editor.replaceBlocks([blockId], [{
+    type: 'openProjectWorkPackageBlock',
+    props: { wpid },
+  } as Parameters<typeof editor.replaceBlocks>[1][number]]);
+}
+
+function canInsertInlineWorkPackage(editor:AnyEditor):boolean {
+  return 'openProjectWorkPackageInline' in editor.schema.inlineContentSpecs;
+}
+
+/**
+ * Inserts a resolved chip plus a trailing space, leaving the cursor after it.
+ * Deliberately does not reuse insertWpChip of HashMenu/editorUtils.ts: that
+ * helper strips a `#` trigger before the chip, which on the paste path would
+ * delete a legitimate character rather than a trigger.
  */
 function insertInlineWorkPackage(editor:AnyEditor, wpid:number):void {
   (editor.insertInlineContent as (content:unknown[]) => void)([
