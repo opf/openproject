@@ -43,7 +43,7 @@ module Wikis
       when :inline_existing_wiki_page
         t(".title_add")
       else
-        t(".title")
+        raise ArgumentError, "#{model.key} is not a supported key."
       end
     end
 
