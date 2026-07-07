@@ -321,15 +321,27 @@ describe('Sortable lists controller', () => {
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
     expect(fetchMock).toHaveBeenCalledWith(
-      '/projects/demo/backlogs/work_packages/1/move',
+      '/projects/demo/backlogs/work_packages/1/move?optimistic=true',
       expect.objectContaining({ method: 'PUT' }),
     );
   });
 
+  it('flags the move request as optimistic', async () => {
+    const { targetList, firstSourceItem } = renderFixture({
+      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+    });
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
+  });
+
   it('ignores the turbo frame query when building the move URL', async () => {
     // The move endpoint does not read filter params, and the active filter is
-    // preserved by the frame reloading its own src. The move URL is therefore
-    // the bare template, even when the frame carries a filtered src.
+    // preserved by the frame reloading its own src. The move URL therefore
+    // carries no frame params, even when the frame has a filtered src.
     fixture.innerHTML = `
       <turbo-frame
         id="backlogs-list"
@@ -357,7 +369,7 @@ describe('Sortable lists controller', () => {
     );
 
     expect(fetchMock).toHaveBeenCalledWith(
-      '/projects/demo/backlogs/work_packages/1/move',
+      '/projects/demo/backlogs/work_packages/1/move?optimistic=true',
       expect.objectContaining({ method: 'PUT' }),
     );
   });

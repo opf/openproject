@@ -248,7 +248,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return null;
     }
 
-    return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const expanded = parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const url = new URL(expanded, window.location.href);
+    // Flag drag moves (already applied in the DOM) so a same-list move skips
+    // the frame reload. Menu moves use a different path and stay unflagged.
+    url.searchParams.set('optimistic', 'true');
+
+    return `${url.pathname}${url.search}${url.hash}`;
   }
 
   private async moveItem({
