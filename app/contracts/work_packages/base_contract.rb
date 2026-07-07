@@ -398,13 +398,26 @@ module WorkPackages
       end
     end
 
+    # Only overrides the user requested need the permission; overrides the
+    # system initiated (e.g. clearing versions not shared with the project the
+    # work package is moved to) are exempt, like change_by_system attributes.
     def validate_versions_permission
-      return unless model.override_target_versions? || model.override_observed_in_versions?
+      target_override = user_target_versions_override?
+      observed_in_override = user_observed_in_versions_override?
 
-      unless user.allowed_in_project?(:assign_versions, model.project)
-        errors.add(:target_versions, :error_readonly) if model.override_target_versions?
-        errors.add(:observed_in_versions, :error_readonly) if model.override_observed_in_versions?
-      end
+      return unless target_override || observed_in_override
+      return if user.allowed_in_project?(:assign_versions, model.project)
+
+      errors.add(:target_versions, :error_readonly) if target_override
+      errors.add(:observed_in_versions, :error_readonly) if observed_in_override
+    end
+
+    def user_target_versions_override?
+      model.override_target_versions? && !model.system_version_override?("target")
+    end
+
+    def user_observed_in_versions_override?
+      model.override_observed_in_versions? && !model.system_version_override?("observed_in")
     end
 
     # While the deprecated single version_id column coexists with target_versions,

@@ -787,8 +787,8 @@ RSpec.describe(
 
           before do
             source_wp.work_package_versions.delete_all
+            # Saving the version also creates the target association
             source_wp.update!(version: assigned_version)
-            source_wp.work_package_versions.create!(version_id: assigned_version.id, kind: "target")
             source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
           end
 

@@ -38,6 +38,9 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Ancestors
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
+  # Must stay above WorkPackage::Journalized: its after_save persists the
+  # version rows that the journal snapshot then reads.
+  include WorkPackage::Versions
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
@@ -73,16 +76,6 @@ class WorkPackage < ApplicationRecord
   has_many :observed_in_versions,
            -> { where(work_package_versions: { kind: "observed_in" }) },
            through: :work_package_versions, source: :version
-
-  attr_accessor :target_version_ids_replacements,
-                :observed_in_version_ids_replacements
-
-  # The *_replacements accessors default to nil, which means "leave the existing
-  # associations untouched". Once a caller assigns to them (even an empty array),
-  # it signals intent to replace the whole set, so nil vs. non-nil is what tells
-  # us whether an override was requested at all.
-  def override_target_versions? = !target_version_ids_replacements.nil?
-  def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")

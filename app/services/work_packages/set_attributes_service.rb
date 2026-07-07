@@ -392,6 +392,9 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return if filtered_ids.sort == current_ids.sort
 
     work_package.send(:"#{attr}=", filtered_ids)
+    # Without a user-requested replacement the override originates from the
+    # system; filtering a user-requested set keeps the user's attribution.
+    work_package.mark_system_version_override(kind) if current_replacements.nil?
   end
 
   def set_parent_to_nil
