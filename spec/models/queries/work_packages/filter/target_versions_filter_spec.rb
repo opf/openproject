@@ -47,15 +47,41 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
     let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name("target_versions") }
 
+    describe "#available?" do
+      context "with the feature flag and the setting enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "is available" do
+          expect(instance).to be_available
+        end
+      end
+
+      context "with the feature flag disabled",
+              with_flag: { work_package_multiple_versions: false },
+              with_settings: { work_package_multiple_versions: true } do
+        it "is not available" do
+          expect(instance).not_to be_available
+        end
+      end
+
+      context "with the setting disabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: false } do
+        it "is not available" do
+          expect(instance).not_to be_available
+        end
+      end
+    end
+
     describe "#valid?" do
       context "within a project" do
-        context "and version is present" do
+        context "and the version belongs to the project" do
           it "is valid" do
             expect(instance).to be_valid
           end
         end
 
-        context "and version is from another project" do
+        context "and the version is from another project" do
           let(:values) { [other_project_version.id.to_s] }
 
           it "is not valid" do
@@ -67,18 +93,27 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
       context "without a project" do
         let(:project) { nil }
 
-        context "and version is present" do
+        context "and the version is visible to the user" do
           it "is valid" do
             expect(instance).to be_valid
           end
         end
 
-        context "and version is invalid" do
+        context "and the version does not exist" do
           let(:values) { ["12345"] }
 
           it "is not valid" do
             expect(instance).not_to be_valid
           end
+        end
+      end
+
+      context "with a version status operator and no values" do
+        let(:operator) { "o" }
+        let(:values) { [] }
+
+        it "is valid" do
+          expect(instance).to be_valid
         end
       end
     end
@@ -93,18 +128,18 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
 
       context "without a project" do
         let(:project) { nil }
-        let(:values) { [other_project_version.id.to_s] }
 
-        it "includes versions visible to the current user" do
-          expect(instance.allowed_values).to be_empty
+        it "returns only versions visible to the current user" do
+          other_project_version
+
+          expect(instance.allowed_values)
+            .to contain_exactly([version.id.to_s, version.id.to_s])
         end
       end
     end
 
     describe "#value_objects" do
       let!(:other_version) { create(:version, project: actual_project) }
-
-      before { instance.values = [version.id.to_s] }
 
       it "returns the Version records matching the filter values" do
         expect(instance.value_objects).to contain_exactly(version)
@@ -118,6 +153,115 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
           Queries::Operators::Versions::ClosedStatus,
           Queries::Operators::Versions::LockedStatus
         )
+      end
+    end
+
+    describe "#operator_strategy" do
+      context 'for "o"' do
+        let(:operator) { "o" }
+
+        it "is the open status operator" do
+          expect(instance.operator_strategy).to eq(Queries::Operators::Versions::OpenStatus)
+        end
+      end
+
+      context 'for "c"' do
+        let(:operator) { "c" }
+
+        it "is the closed status operator" do
+          expect(instance.operator_strategy).to eq(Queries::Operators::Versions::ClosedStatus)
+        end
+      end
+
+      context 'for "l"' do
+        let(:operator) { "l" }
+
+        it "is the locked status operator" do
+          expect(instance.operator_strategy).to eq(Queries::Operators::Versions::LockedStatus)
+        end
+      end
+
+      context 'for "="' do
+        it "is the equals operator" do
+          expect(instance.operator_strategy).to eq(Queries::Operators::EqualsOr)
+        end
+      end
+    end
+
+    describe "#where" do
+      let(:open_version) { version }
+      let(:closed_version) { create(:version, project: actual_project, status: "closed") }
+
+      let!(:wp_targeting_open) do
+        create(:work_package, project: actual_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :target)
+        end
+      end
+      let!(:wp_targeting_closed) do
+        create(:work_package, project: actual_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: closed_version, kind: :target)
+        end
+      end
+      let!(:wp_observed_only) do
+        create(:work_package, project: actual_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :observed_in)
+        end
+      end
+      let!(:wp_without_versions) { create(:work_package, project: actual_project) }
+
+      subject(:result) { WorkPackage.where(instance.where) }
+
+      context 'for "=" with a version' do
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages targeting that version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "!" with a version' do
+        let(:operator) { "!" }
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages not targeting that version, including ones without target versions" do
+          expect(result).to contain_exactly(wp_targeting_closed, wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "*" (any target version)' do
+        let(:operator) { "*" }
+        let(:values) { [] }
+
+        it "returns work packages with at least one target version" do
+          expect(result).to contain_exactly(wp_targeting_open, wp_targeting_closed)
+        end
+      end
+
+      context 'for "!*" (no target version)' do
+        let(:operator) { "!*" }
+        let(:values) { [] }
+
+        it "returns work packages without any target version" do
+          expect(result).to contain_exactly(wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "o" (open version)' do
+        let(:operator) { "o" }
+        let(:values) { [] }
+
+        it "returns work packages targeting an open version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "c" (closed version)' do
+        let(:operator) { "c" }
+        let(:values) { [] }
+
+        it "returns work packages targeting a closed version" do
+          expect(result).to contain_exactly(wp_targeting_closed)
+        end
       end
     end
   end

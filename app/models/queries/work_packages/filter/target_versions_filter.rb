@@ -53,6 +53,23 @@ class Queries::WorkPackages::Filter::TargetVersionsFilter <
   def human_name = WorkPackage.human_attribute_name("target_versions")
   def ar_object_filter? = true
 
+  def available?
+    Setting::WorkPackageMultipleVersions.active?
+  end
+
+  def operator_strategy
+    case operator
+    when "o"
+      Queries::Operators::Versions::OpenStatus
+    when "c"
+      Queries::Operators::Versions::ClosedStatus
+    when "l"
+      Queries::Operators::Versions::LockedStatus
+    else
+      super
+    end
+  end
+
   def value_objects
     available_versions = versions.index_by(&:id)
 
@@ -87,17 +104,16 @@ class Queries::WorkPackages::Filter::TargetVersionsFilter <
 
   def target_version_with_status(status)
     sub = target_associations
-            .joins("INNER JOIN #{Version.table_name} ON #{Version.table_name}.id = " \
-                   "#{WorkPackageAssociatedVersion.table_name}.version_id")
-            .where(Version.table_name => { status: status })
+            .joins(:version)
+            .where(Version.table_name => { status: })
             .select(1)
     "EXISTS (#{sub.to_sql})"
   end
 
   def target_associations
-    WorkPackageAssociatedVersion
+    WorkPackageVersion
       .where(kind: "target")
-      .where("#{WorkPackageAssociatedVersion.table_name}.work_package_id = #{WorkPackage.table_name}.id")
+      .where("#{WorkPackageVersion.table_name}.work_package_id = #{WorkPackage.table_name}.id")
   end
 
   def versions
