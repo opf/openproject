@@ -41,21 +41,26 @@ module Projects::Copy
     protected
 
     def copy_dependency(*)
-      if source.receive_shared_sprints?
-        preserve_sprint_assignments
-      else
-        copy_sprints
-      end
+      state.sprint_id_lookup = copy_owned_sprints.merge(preserved_shared_sprints)
     end
 
-    def preserve_sprint_assignments
-      state.sprint_id_lookup = Sprint.for_project(source).pluck(:id).index_with { |id| id }
-    end
-
-    def copy_sprints
-      state.sprint_id_lookup = copy_collection_with_id_map(:sprints) do |source_sprint|
+    # Sprints owned by the source project are recreated on the copy; the lookup
+    # maps each source id to its copy so the copied work packages follow.
+    def copy_owned_sprints
+      copy_collection_with_id_map(:sprints) do |source_sprint|
         { goals_attributes: copied_goal_attributes(source_sprint) }
       end
+    end
+
+    # Shared sprints (owned by another project) that the source's work packages
+    # reference: keep the assignment only when the copied project will also
+    # receive that sprint, otherwise leave it unmapped so the work-package copy
+    # clears it rather than pointing at a sprint the copy cannot see.
+    def preserved_shared_sprints
+      Sprint.where(id: source.work_packages.select(:sprint_id))
+            .where.not(project_id: source.id)
+            .select { |sprint| Sprint.receiving_projects(sprint).exists?(id: target.id) }
+            .to_h { |sprint| [sprint.id, sprint.id] }
     end
 
     # Only the source project's own goals are carried over; a shared sprint may

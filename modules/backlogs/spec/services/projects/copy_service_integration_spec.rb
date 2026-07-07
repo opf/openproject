@@ -156,18 +156,6 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       end
     end
 
-    shared_examples "does not copy sprints to the target" do
-      it "does not copy sprints to the target" do
-        expect(subject).to be_success
-        expect(project_copy.sprints).to be_empty
-      end
-
-      it "identity-maps the sprint id in state" do
-        expect(subject).to be_success
-        expect(subject.state.sprint_id_lookup[source_sprint.id]).to eq(source_sprint.id)
-      end
-    end
-
     context "when source has NO_SHARING" do
       before { source.update!(sprint_sharing: Projects::SprintSharing::NO_SHARING) }
 
@@ -198,7 +186,18 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
       before { source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
 
-      include_examples "does not copy sprints to the target"
+      it "does not copy the shared sprint it only receives" do
+        expect(subject).to be_success
+        expect(project_copy.sprints).to be_empty
+      end
+    end
+
+    context "when a RECEIVE_SHARED source still owns a sprint (stale data)" do
+      # source_sprint is owned by source (created through the factory, which
+      # bypasses the create contract that forbids sprints on a receiving project).
+      before { source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+
+      include_examples "copies sprints decoupled from the source"
     end
 
     context "when the source sprint has goals" do
@@ -224,6 +223,80 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
 
         copied_sprint = project_copy.sprints.find_by(name: "Sprint A")
         expect(copied_sprint.goals.pluck(:text)).to contain_exactly("Ship it")
+      end
+    end
+  end
+
+  describe "shared sprint preservation", with_ee: %i[sprint_sharing] do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[work_packages sprints] }
+    end
+    let!(:work_package) { create(:work_package, project: source, subject: "On shared") }
+
+    subject { instance.call(params) }
+
+    def copied_wp(subject_text)
+      project_copy.work_packages.find_by(subject: subject_text)
+    end
+
+    context "when the sprint is shared with all projects and the copy receives it" do
+      let!(:sharer) do
+        create(:project,
+               enabled_module_names: %i[work_package_tracking backlogs],
+               sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
+      end
+      let!(:shared_sprint) { create(:sprint, project: sharer, name: "Global Sprint") }
+
+      before do
+        source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
+        work_package.update_column(:sprint_id, shared_sprint.id)
+      end
+
+      it "preserves the assignment to the shared sprint" do
+        expect(subject).to be_success
+        expect(copied_wp("On shared").sprint_id).to eq(shared_sprint.id)
+      end
+
+      it "does not copy the shared sprint into the target" do
+        expect(subject).to be_success
+        expect(project_copy.sprints).to be_empty
+      end
+    end
+
+    context "when the sprint is shared through an ancestor" do
+      let!(:ancestor) do
+        create(:project,
+               enabled_module_names: %i[work_package_tracking backlogs],
+               sprint_sharing: Projects::SprintSharing::SHARE_SUBPROJECTS)
+      end
+      let(:source) do
+        create(:project,
+               parent: ancestor,
+               enabled_module_names: %i[work_package_tracking backlogs],
+               sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
+      end
+      let!(:shared_sprint) { create(:sprint, project: ancestor, name: "Subtree Sprint") }
+
+      before { work_package.update_column(:sprint_id, shared_sprint.id) }
+
+      it "preserves the assignment when the copy stays within the sharing subtree" do
+        # The copy inherits the source's parent, so it remains a descendant of
+        # the sharing ancestor and keeps receiving the sprint.
+        expect(subject).to be_success
+        expect(copied_wp("On shared").sprint_id).to eq(shared_sprint.id)
+      end
+
+      context "and the copy is moved out of the subtree" do
+        let(:target_project_params) do
+          { name: "Target Project Name", identifier: "some-identifier", parent_id: nil }
+        end
+
+        it "clears the assignment because the copy no longer receives the sprint" do
+          expect(subject).to be_success
+          expect(copied_wp("On shared").sprint_id).to be_nil
+        end
       end
     end
   end
