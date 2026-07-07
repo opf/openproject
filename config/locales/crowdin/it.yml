@@ -1598,10 +1598,10 @@ it:
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato.
       unsupported_for_multiple_projects: Il comando sposta/copia multiplo non è supportato per macroattività da più progetti
-      current_type_not_available_in_target_project: 'Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, seleziona dall''elenco un tipo disponibile nel progetto di destinazione.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, seleziona dall''elenco un tipo disponibile nel progetto di destinazione.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2000,10 +2000,12 @@ it:
       type:
         description: Testo predefinito per la descrizione
         attribute_groups: Configurazione del modulo
+        children: Sub-types
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_default: Attivato nei nuovi progetti per impostazione predefinita
         is_milestone: È un traguardo
         color: Colore
+        parent: Parent type
         patterns: Schemi
       remote_identity:
         auth_source: Fonte di autorizzazione
@@ -2122,6 +2124,7 @@ it:
         spent_hours: Tempo speso
         spent_time: Tempo speso
         subproject: Sottoprogetto
+        target_versions: Target versions
         time_entries: Registra l'orario effettuato
         type: Tipo
         version: Versione
@@ -2526,6 +2529,12 @@ it:
               duplicate_group: Il nome di gruppo "%{group}" è usato più di una volta. I nomi dei gruppi devono essere univoci.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
               group_without_name: Il nome del gruppo non può essere vuoto.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
         user:
@@ -5430,7 +5439,7 @@ it:
   setting_welcome_on_homescreen: Mostra il blocco testo di benvenuto nella pagina home
   setting_work_packages_identifier_classic: Sequenza numerica a livello di istanza (predefinita)
   setting_work_packages_identifier_classic_caption: 'Ogni macro-attività riceve un numero sequenziale a partire da 1 (ad esempio #1234). I numeri sono univoci all''interno dell''istanza e rimangono invariati anche se le macro-attività vengono spostate tra progetti.'
-  setting_work_packages_identifier_semantic: Identificatori semantici basati su progetti (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Ogni progetto ha un identificatore univoco composto dall'identificatore del progetto e da un numero (ad esempio PROJ-11). La numerazione di ciascun progetto parte da 1. Se una macro-attività viene spostata in un altro progetto, viene generato un nuovo identificatore, ma quello precedente continuerà a funzionare.
   setting_work_package_list_default_highlighting_mode: Modalità evidenziazione predefinita
   setting_work_package_list_default_highlighted_attributes: Attributi evidenziati in linea predefiniti
@@ -5629,7 +5638,7 @@ it:
       heading: Attributi dell'utente
       label_new_attribute: Attributo utente
       label_new_section: Sezione
-      label_untitled_section: Attributi dell'utente
+      label_default_section: User attributes
       new:
         heading: Nuovo attributo
       tabs:
@@ -6094,6 +6103,8 @@ it:
   api_v3:
     attributes:
       property: Proprietà
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Richiesta non valida: %{message}'
       code_401: Devi essere autenticato per accedere a questa risorsa.

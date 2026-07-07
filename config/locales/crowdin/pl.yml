@@ -1642,10 +1642,10 @@ pl:
     move:
       no_common_statuses_exists: Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić.
       unsupported_for_multiple_projects: Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów
-      current_type_not_available_in_target_project: 'Bieżący typ pakietu roboczego nie jest włączony w projekcie docelowym. Włącz ten typ w projekcie docelowym, jeśli chcesz, aby pozostał niezmieniony. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Bieżące typy pakietów roboczych nie są włączone w projekcie docelowym. Włącz typy w projekcie docelowym, jeśli chcesz, aby pozostały niezmienione. W przeciwnym razie wybierz z listy typ dostępny w projekcie docelowym.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2042,10 +2042,12 @@ pl:
       type:
         description: Domyślny tekst opisu
         attribute_groups: Konfiguracja formularza
+        children: Sub-types
         is_in_roadmap: Domyślnie wyświetlany w planie działania
         is_default: Domyślnie aktywny dla nowych projektów
         is_milestone: Jest Kamieniem Milowym
         color: Kolor
+        parent: Parent type
         patterns: Wzorce
       remote_identity:
         auth_source: Źródło uwierzytelniania
@@ -2164,6 +2166,7 @@ pl:
         spent_hours: Czas pracy
         spent_time: Czas pracy
         subproject: Podprojekt
+        target_versions: Target versions
         time_entries: Rejestruj czas pracy
         type: Typ
         version: Wersja
@@ -2570,6 +2573,12 @@ pl:
               duplicate_group: Nazwy grupy %{group} użyto więcej niż raz. Nazwy grup muszą być niepowtarzalne.
               query_invalid: 'Osadzona kwerenda %{group} jest nieprawidłowowa: %{details}'
               group_without_name: Nazwa grupy nie może być pusta.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Co najmniej jeden atrybut wewnątrz pola jest nieprawidłowy. Popraw atrybuty przed zapisaniem.
         user:
@@ -5558,7 +5567,7 @@ pl:
   setting_welcome_on_homescreen: Wyświetl wiadomość powitalną na ekranie głównym
   setting_work_packages_identifier_classic: Sekwencja liczbowa dla całego wystąpienia (domyślnie)
   setting_work_packages_identifier_classic_caption: 'Każdy pakiet roboczy otrzymuje numer kolejny zaczynający się od 1 (np. #1234). Numery są unikalne w ramach tego wystąpienia, więc pozostają takie same, nawet jeśli pakiety robocze są przenoszone między projektami.'
-  setting_work_packages_identifier_semantic: Identyfikatory semantyczne oparte na projektach (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Każdy projekt ma unikalny identyfikator projektu poprzedzony numerem (na przykład PROJ-11). Numeracja każdego projektu zaczyna się od 1. Jeśli pakiet roboczy zostanie przeniesiony do innego projektu, zostanie wygenerowany nowy identyfikator, ale stary będzie nadal działał.
   setting_work_package_list_default_highlighting_mode: Domyślny tryb wyróżniania
   setting_work_package_list_default_highlighted_attributes: Domyślnie wyróżniane atrybuty wyświetlane w treści
@@ -5756,7 +5765,7 @@ pl:
       heading: Atrybuty użytkownika
       label_new_attribute: Atrybut użytkownika
       label_new_section: Sekcja
-      label_untitled_section: Atrybuty użytkownika
+      label_default_section: User attributes
       new:
         heading: Nowy atrybut
       tabs:
@@ -6227,6 +6236,8 @@ pl:
   api_v3:
     attributes:
       property: Własność
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Nieprawidłowe żądanie: %{message}'
       code_401: Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu.

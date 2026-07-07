@@ -1578,10 +1578,10 @@ zh-CN:
     move:
       no_common_statuses_exists: 所有选中的工作包都没有可用的状态，因此无法更改其状态。
       unsupported_for_multiple_projects: 不支持多个项目工作包的大批量移动/复制
-      current_type_not_available_in_target_project: '当前工作包类型未在目标项目中启用。 如果您想保持不变，请启用目标项目中的类型。 否则，将从列表中选择目标项目中的可用类型。
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: '目标项目中未启用工作包的当前类型。如果您希望工作包类型保持不变，请在目标项目中启用这些类型。否则，请从列表中选择目标项目中的可用类型。
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1980,10 +1980,12 @@ zh-CN:
       type:
         description: 默认描述文本
         attribute_groups: 表单配置
+        children: Sub-types
         is_in_roadmap: 默认在路线图中显示
         is_default: 默认激活新项目
         is_milestone: 里程碑
         color: 颜色
+        parent: Parent type
         patterns: 模式
       remote_identity:
         auth_source: 认证源
@@ -2102,6 +2104,7 @@ zh-CN:
         spent_hours: 已耗工时
         spent_time: 已耗工时
         subproject: 子项目
+        target_versions: Target versions
         time_entries: 记录时间
         type: 类型
         version: 版本
@@ -2505,6 +2508,12 @@ zh-CN:
               duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 群组名称不能为空
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
         user:
@@ -5354,7 +5363,7 @@ zh-CN:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_work_packages_identifier_classic: 实例范围的数字序列（默认）
   setting_work_packages_identifier_classic_caption: '每个工作包会获得一个从 1 开始的顺序号（例如 #1234）。这些编号在实例中是唯一的，即使工作包在项目之间移动，编号也不会改变。'
-  setting_work_packages_identifier_semantic: 基于项目的语义标识符（测试版）
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: 每个项目都有一个唯一的项目标识符，该标识符会附加到一个编号前面（例如 PROJ-11）。每个项目的编号都会从 1 开始。如果工作包移至另一个项目，则会生成新的标识符，但原标识符仍可继续使用。
   setting_work_package_list_default_highlighting_mode: 默认突出显示模式
   setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
@@ -5553,7 +5562,7 @@ zh-CN:
       heading: 用户特性
       label_new_attribute: 用户特性
       label_new_section: 分区
-      label_untitled_section: 用户特性
+      label_default_section: User attributes
       new:
         heading: 新特性
       tabs:
@@ -6021,6 +6030,8 @@ zh-CN:
   api_v3:
     attributes:
       property: 属性
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。

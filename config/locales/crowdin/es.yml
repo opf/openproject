@@ -1597,10 +1597,10 @@ es:
     move:
       no_common_statuses_exists: No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar.
       unsupported_for_multiple_projects: Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos
-      current_type_not_available_in_target_project: 'El tipo actual del paquete de trabajo no está habilitado en el proyecto de destino. Por favor, habilite el tipo en el proyecto destino si desea que permanezca sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Los tipos actuales de los paquetes de trabajo no están habilitados en el proyecto de destino. Por favor, habilite los tipos en el proyecto destino si desea que permanezcan sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1997,10 +1997,12 @@ es:
       type:
         description: Texto predeterminado para descripción
         attribute_groups: Configuración del formulario
+        children: Sub-types
         is_in_roadmap: Mostrado en la hoja de ruta de forma predeterminada
         is_default: Activado para nuevos proyectos de forma predeterminada
         is_milestone: Es un hito
         color: Color
+        parent: Parent type
         patterns: Patrones
       remote_identity:
         auth_source: Fuente de autenticación
@@ -2119,6 +2121,7 @@ es:
         spent_hours: Tiempo invertido
         spent_time: Tiempo invertido
         subproject: Subproyecto
+        target_versions: Target versions
         time_entries: Registro de tiempo
         type: Tipo
         version: Versión
@@ -2523,6 +2526,12 @@ es:
               duplicate_group: El nombre de grupo “%{group}” se usó más de una vez. Los nombres de grupo tienen que ser únicos.
               query_invalid: 'La consulta insertada “%{group}” no es válida: %{details}'
               group_without_name: El nombre del grupo no puede estar vacío.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
         user:
@@ -5417,7 +5426,7 @@ es:
   setting_welcome_on_homescreen: Mostrar bloque de bienvenida en la pagina de inicio
   setting_work_packages_identifier_classic: Secuencia numérica para toda la instancia (predeterminada)
   setting_work_packages_identifier_classic_caption: Cada paquete de trabajo recibe un número secuencial que empieza por 1 (por ejemplo, n.º 1234). Los números son únicos dentro de la instancia y no cambian aunque los paquetes de trabajo se trasladen de un proyecto a otro.
-  setting_work_packages_identifier_semantic: Identificadores semánticos basados en proyectos (beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Cada proyecto tiene un identificador único que va precedido de un número (por ejemplo, PROJ-11). La numeración de cada proyecto empieza por 1. Si un paquete de trabajo se traslada a otro proyecto, se genera un nuevo identificador, pero el antiguo seguirá funcionando.
   setting_work_package_list_default_highlighting_mode: Modo de resaltado predeterminado
   setting_work_package_list_default_highlighted_attributes: Atributos resaltados en línea predeterminados
@@ -5616,7 +5625,7 @@ es:
       heading: Atributos de usuario
       label_new_attribute: Atributo de usuario
       label_new_section: Sección
-      label_untitled_section: Atributos de usuario
+      label_default_section: User attributes
       new:
         heading: Nuevo atributo
       tabs:
@@ -6081,6 +6090,8 @@ es:
   api_v3:
     attributes:
       property: Propiedad
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Solicitud errónea: %{message}'
       code_401: Tiene que estar autenticado para acceder a este recurso.

@@ -917,7 +917,7 @@ fr:
         activity: Activité
         files: Fichiers
         overview: Vue globale
-        project_attributes: Project attributes
+        project_attributes: Attributs du projet
         relations: Relations
         watchers: Observateurs
       time_relative:

@@ -1622,10 +1622,10 @@ ro:
     move:
       no_common_statuses_exists: Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată.
       unsupported_for_multiple_projects: Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple
-      current_type_not_available_in_target_project: 'The current type of the work package is not enabled in the target project. Please enable the type in the target project if you''d like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'The current types of the work packages aren''t enabled in the target project. Please enable the types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2024,10 +2024,12 @@ ro:
       type:
         description: Text implicit pentru descriere
         attribute_groups: Configurare formular
+        children: Sub-types
         is_in_roadmap: Afișat în mod implicit în foaia de parcurs
         is_default: Activat în mod implicit pentru proiectele noi
         is_milestone: Este reper de etapă
         color: Culoare
+        parent: Parent type
         patterns: Patterns
       remote_identity:
         auth_source: Auth Source
@@ -2146,6 +2148,7 @@ ro:
         spent_hours: Timp consumat
         spent_time: Timp consumat
         subproject: Subproiect
+        target_versions: Target versions
         time_entries: Consum timp
         type: Tip
         version: Versiune
@@ -2551,6 +2554,12 @@ ro:
               duplicate_group: Numele grupului "%{group}" este utilizat de mai multe ori. Numele grupurilor trebuie să fie unice.
               query_invalid: 'Interogarea încorporată "%{group}" nu este valabilă: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -5501,7 +5510,7 @@ ro:
   setting_welcome_on_homescreen: Afişare bloc "bun venit" pe ecranul de start
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Mod de evidențiere implicit
   setting_work_package_list_default_highlighted_attributes: Atributele evidențiate implicit în linie
@@ -5700,7 +5709,7 @@ ro:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6168,6 +6177,8 @@ ro:
   api_v3:
     attributes:
       property: Proprietate
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Cerere greșită: %{message}'
       code_401: Trebuie să fiți autentificat pentru a accesa această resursă.

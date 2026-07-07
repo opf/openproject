@@ -1576,10 +1576,10 @@ ko:
     move:
       no_common_statuses_exists: 선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다.
       unsupported_for_multiple_projects: 여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.
-      current_type_not_available_in_target_project: '현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: '현재 작업 패키지 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 해당 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1978,10 +1978,12 @@ ko:
       type:
         description: 설명의 기본 텍스트
         attribute_groups: 양식 구성
+        children: Sub-types
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_default: 새 프로젝트에 대해 기본적으로 활성화됨
         is_milestone: 마일스톤
         color: 색상
+        parent: Parent type
         patterns: 패턴
       remote_identity:
         auth_source: 인증 소스
@@ -2100,6 +2102,7 @@ ko:
         spent_hours: 소비한 시간
         spent_time: 소비한 시간
         subproject: 하위 프로젝트
+        target_versions: Target versions
         time_entries: 작업시간 기록
         type: 타입
         version: 버전
@@ -2503,6 +2506,12 @@ ko:
               duplicate_group: "'%{group}'(이)라는 그룹 이름이 두 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."
               query_invalid: 포함된 쿼리 '%{group}'이(가) 잘못되었습니다. %{details}
               group_without_name: 그룹 이름은 비워둘 수 없습니다.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 필드 내의 특성이 하나 이상의 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
         user:
@@ -5370,7 +5379,7 @@ ko:
   setting_welcome_on_homescreen: 홈 화면에 환영 블록 표시
   setting_work_packages_identifier_classic: 인스턴스 전체의 숫자 시퀀스(기본값)
   setting_work_packages_identifier_classic_caption: '모든 작업 패키지에는 1로 시작하는 순차 번호가 부여됩니다(예: #1234). 이 번호는 인스턴스 내에서 고유하며 작업 패키지가 프로젝트 간에 이동되더라도 동일하게 유지됩니다.'
-  setting_work_packages_identifier_semantic: 프로젝트 기반 의미 식별자(베타)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: '모든 프로젝트에는 숫자 앞에 고유한 프로젝트 식별자가 붙습니다(예: PROJ-11). 각 프로젝트의 번호는 1부터 시작됩니다. 작업 패키지가 다른 프로젝트로 이동되면 새로운 식별자가 생성되지만 이전 식별자는 계속 작동됩니다.'
   setting_work_package_list_default_highlighting_mode: 기본 강조 표시 모드
   setting_work_package_list_default_highlighted_attributes: 기본 인라인 강조 표시 특성
@@ -5569,7 +5578,7 @@ ko:
       heading: 사용자 특성
       label_new_attribute: 사용자 특성
       label_new_section: 섹션
-      label_untitled_section: 사용자 특성
+      label_default_section: User attributes
       new:
         heading: 새 특성
       tabs:
@@ -6037,6 +6046,8 @@ ko:
   api_v3:
     attributes:
       property: 속성
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: '잘못된 요청: %{message}'
       code_401: 접근하기 위해서 인증해야 합니다.
