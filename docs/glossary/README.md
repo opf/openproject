@@ -569,7 +569,7 @@ A widget in OpenProject is defined as a small and customizable element that prov
 
 In OpenProject, a wiki is defined as a [module](#module) that allows users to create and manage wiki pages within a project. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin.
 
-For organizations requiring advanced documentation capabilities, OpenProject also supports external wiki systems through a [Wiki provider](#wiki-provider), such as the [XWiki integration](#xwiki-integration).
+For organizations requiring advanced documentation capabilities, OpenProject also supports external wiki systems through a [Wiki provider](#wiki-provider), such as the [XWiki integration](#xwiki-integration) (Enterprise add-on).
 
 [Read more about wikis in OpenProject](../user-guide/wiki/).
 
