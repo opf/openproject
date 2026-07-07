@@ -58,12 +58,14 @@ module WorkPackageTypes
         end
       end
 
-      settings_form.color_select_list(
-        name: :color_id,
-        label: Color.model_name.human,
-        input_width: :medium,
-        caption: I18n.t("types.edit.settings.type_color_text")
-      )
+      unless model.subtype?
+        settings_form.color_select_list(
+          name: :color_id,
+          label: Color.model_name.human,
+          input_width: :medium,
+          caption: I18n.t("types.edit.settings.type_color_text")
+        )
+      end
 
       if show_work_flow_copy?
         settings_form.select_list(
@@ -89,20 +91,22 @@ module WorkPackageTypes
         rich_text_options: { showAttachments: false }
       )
 
-      settings_form.check_box(
-        name: :is_milestone,
-        label: label(:is_milestone)
-      )
+      unless model.subtype?
+        settings_form.check_box(
+          name: :is_milestone,
+          label: label(:is_milestone)
+        )
 
-      settings_form.check_box(
-        name: :is_in_roadmap,
-        label: label(:is_in_roadmap)
-      )
+        settings_form.check_box(
+          name: :is_in_roadmap,
+          label: label(:is_in_roadmap)
+        )
 
-      settings_form.check_box(
-        name: :is_default,
-        label: label(:is_default)
-      )
+        settings_form.check_box(
+          name: :is_default,
+          label: label(:is_default)
+        )
+      end
 
       settings_form.submit(
         name: :submit,
