@@ -99,9 +99,7 @@
                 render(RecurringMeeting::EndAfter.new(f))
               end
 
-              frequency_row.with_column(
-                flex: 1
-              ) do
+              frequency_row.with_column(flex: 1) do
                 flex_layout do |end_after|
                   end_after.with_row(
                     hidden: !@meeting.end_after_specific_date?,
@@ -111,14 +109,7 @@
                       "show-when-value-selected-target": "effect"
                     }
                   ) do
-                    flex_layout do |specific_date|
-                      specific_date.with_row do
-                        render(RecurringMeeting::SpecificDate.new(f, meeting: @meeting))
-                      end
-                      specific_date.with_row(mt: 1) do
-                        render(RecurringMeetings::OccurrenceCountCaptionComponent.new(recurring_meeting: @meeting))
-                      end
-                    end
+                    render(RecurringMeeting::SpecificDate.new(f, meeting: @meeting))
                   end
 
                   end_after.with_row(
@@ -129,14 +120,7 @@
                       "show-when-value-selected-target": "effect"
                     }
                   ) do
-                    flex_layout do |iterations|
-                      iterations.with_row do
-                        render(RecurringMeeting::Iterations.new(f))
-                      end
-                      iterations.with_row(mt: 1) do
-                        render(RecurringMeetings::EndDateCaptionComponent.new(recurring_meeting: @meeting))
-                      end
-                    end
+                    render(RecurringMeeting::Iterations.new(f))
                   end
                 end
               end

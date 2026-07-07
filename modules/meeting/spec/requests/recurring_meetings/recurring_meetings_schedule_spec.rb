@@ -220,7 +220,7 @@ RSpec.describe "Recurring meetings schedule text",
         it "returns the resulting occurrence count" do
           expect(subject).to have_http_status(:ok)
           expect(subject.body).to include("target=\"recurring-meetings-occurrence-count-caption-component\"")
-          expect(subject.body).to include("This results in 5 meeting occurrences")
+          expect(subject.body).to include("This results in 5 upcoming occurrences")
         end
 
         context "when the end date is before the start date" do
@@ -239,7 +239,7 @@ RSpec.describe "Recurring meetings schedule text",
 
           it "reports the capped count" do
             expect(subject).to have_http_status(:ok)
-            expect(subject.body).to include("This results in more than 1000 meeting occurrences")
+            expect(subject.body).to include("This results in more than 1000 upcoming occurrences")
           end
         end
       end
