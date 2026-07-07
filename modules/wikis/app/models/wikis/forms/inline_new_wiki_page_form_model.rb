@@ -42,6 +42,8 @@ module Wikis
         @page_title = page_title
       end
 
+      def key = :inline_new_wiki_page
+
       def final_step?
         provider_id.present? && page_title.present?
       end
