@@ -166,7 +166,7 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
 
     it "renders the sprints heading with the work package count" do
       expect(page).to have_css("h3", text: "Sprints")
-      expect(page).to have_css(".Counter.Counter--primary", text: "2")
+      expect(page).to have_css(".Counter", text: "2")
     end
 
     it "renders a SprintComponent for each sprint" do
