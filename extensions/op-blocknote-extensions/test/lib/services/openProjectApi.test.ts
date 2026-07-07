@@ -85,6 +85,7 @@ describe('openProjectApi', () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
       expect(parseWorkPackageUrl('https://other.example.com/wp/123')).toBeNull();
       expect(parseWorkPackageUrl('http://localhost:3000/projects/demo')).toBeNull();
+      expect(parseWorkPackageUrl('http://localhost:3000/projects/demo/wp/123')).toBeNull();
       expect(parseWorkPackageUrl('http://localhost:3000/wp/abc')).toBeNull();
       expect(parseWorkPackageUrl('http://localhost:3000/wp/0')).toBeNull();
       expect(parseWorkPackageUrl('not a url')).toBeNull();

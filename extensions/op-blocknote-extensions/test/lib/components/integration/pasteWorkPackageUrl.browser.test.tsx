@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
+import { BlockNoteSchema, defaultInlineContentSpecs } from '@blocknote/core';
+import { openProjectWorkPackageBlockSpec } from '../../../../lib';
 import { renderEditor } from '../../../helpers/renderEditor';
 
 // Simulate pasting a plain text URL by dispatching a ClipboardEvent carrying
@@ -43,5 +45,29 @@ describe('Paste work package URL', () => {
     pastePlainText('https://example.com/wp/123');
 
     await expect.element(page.getByText('https://example.com/wp/123')).toBeVisible();
+  });
+
+  it('falls back to the plain link when the schema lacks the inline WP spec', async () => {
+    // Pick text/link explicitly: `create()` reuses the module-global default
+    // spec objects and `extend()` mutates them, so after renderEditor's
+    // module-level schema was built, defaultInlineContentSpecs already
+    // contains openProjectWorkPackageInline.
+    const blockOnlySchema = BlockNoteSchema.create({
+      inlineContentSpecs: {
+        text: defaultInlineContentSpecs.text,
+        link: defaultInlineContentSpecs.link,
+      },
+    }).extend({
+      blockSpecs: {
+        openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+      },
+    });
+    renderEditor({ schema: blockOnlySchema });
+    await userEvent.click(page.getByRole('textbox'));
+    await userEvent.type(page.getByRole('textbox'), 'See ');
+
+    pastePlainText('http://localhost:3000/wp/123');
+
+    await expect.element(page.getByText('http://localhost:3000/wp/123')).toBeVisible();
   });
 });

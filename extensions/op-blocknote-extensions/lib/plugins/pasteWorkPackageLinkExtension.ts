@@ -9,9 +9,11 @@ type AnyEditor = BlockNoteEditor<any, any, any>;
  * BlockNote extension that registers the pasteWorkPackageLinkPlugin at editor
  * construction time.
  *
- * Register it in `editorOptions.extensions: [...]` — directly or via the
- * OpenProjectExtension connector. ProseMirror plugins must be supplied at
- * editor construction time, not registered after the editor is mounted.
+ * Bundled with the openProjectWorkPackageBlockSpec (see
+ * BlockWorkPackage/spec.tsx), so hosts get it by registering the spec in the
+ * schema - no `editorOptions.extensions` entry needed. ProseMirror plugins
+ * must be supplied at editor construction time, not registered after the
+ * editor is mounted.
  */
 export const PasteWorkPackageLinkExtension = createExtension(({ editor }:{ editor:AnyEditor }) => ({
   key: 'pasteWorkPackageLink',

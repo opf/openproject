@@ -47,7 +47,7 @@ export function linkToWorkPackage(displayId:string):string {
 export function parseWorkPackageUrl(url:string):number | null {
   if (!url.startsWith(`${baseUrl}/`)) return null;
   const path = url.slice(baseUrl.length);
-  const match = /^\/(?:projects\/[^/]+\/)?(?:wp|work_packages)(?:\/details)?\/(\d+)(?:[/?#]|$)/.exec(path);
+  const match = /^\/(?:wp|(?:projects\/[^/]+\/)?work_packages)(?:\/details)?\/(\d+)(?:[/?#]|$)/.exec(path);
   if (!match) return null;
   const id = Number(match[1]);
   return id > 0 ? id : null;

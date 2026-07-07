@@ -11,7 +11,10 @@ type AnyEditor = BlockNoteEditor<any, any, any>;
  * a rich work package link (BNE-47), reusing the slash-menu context rule:
  * pasting into an empty paragraph yields a card block, pasting into a
  * non-empty paragraph yields a regular inline chip. Any other pasted content
- * falls through to the default paste handling.
+ * falls through to the default paste handling — as does the inline case when
+ * the host registered only the block spec (which bundles this plugin) but
+ * not the inline WP spec, so the URL is pasted as a plain link instead of
+ * producing an unknown inline content type.
  *
  * The handler inspects the pasted slice instead of the ClipboardEvent:
  * BlockNote's pasteFromClipboard extension re-dispatches plain text and
@@ -47,6 +50,9 @@ export function pasteWorkPackageLinkPlugin(editor:AnyEditor):Plugin {
         if (isCurrentBlockEmpty(editor)) {
           insertBlockWorkPackage(editor, wpid);
         } else {
+          // Fallback: without the inline WP spec in the schema the chip
+          // cannot be inserted - let the default paste keep the plain link.
+          if (!canInsertInlineWorkPackage(editor)) return false;
           insertInlineWorkPackage(editor, wpid);
         }
         return true;
@@ -72,6 +78,10 @@ function insertBlockWorkPackage(editor:AnyEditor, wpid:number):void {
   if (!insertedBlock?.id) return;
 
   editor.removeBlocks([blockId]);
+}
+
+function canInsertInlineWorkPackage(editor:AnyEditor):boolean {
+  return 'openProjectWorkPackageInline' in ((editor.schema as { inlineContentSpecs?:Record<string, unknown> })?.inlineContentSpecs ?? {});
 }
 
 /**
