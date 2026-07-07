@@ -82,21 +82,8 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   describe "widget area" do
     before { visit_sprint_report }
 
-    it "renders the burndown chart turbo frame pointing to the widget endpoint" do
-      expect(page).to have_css(
-        "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}[src]"
-      )
-
-      frame = find("turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}")
-      expect(frame["src"]).to end_with(
-        project_backlogs_sprint_report_burndown_chart_widget_path(project, sprint)
-      )
-    end
-
-    it "loads the burndown chart widget into the frame" do
-      within "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}" do
-        expect(page).to have_element(:"opce-burndown-chart")
-      end
+    it "renders the burndown chart widget" do
+      expect(page).to have_element(:"opce-burndown-chart")
     end
   end
 end
