@@ -46,12 +46,13 @@ RSpec.describe Wikis::CollapsiblePageLinksComponent, type: :component do
   let(:page_info_result) { Success(page_info) }
   let(:already_related_page_keys) { Set.new }
   let(:permissions) { [:manage_wiki_page_links] }
+  let(:view_model) { Wikis::PageLinkViewModel.from_page_info_result(page_info_result) }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
   subject(:render_component) do
     render_inline(
-      described_class.new([page_info_result],
+      described_class.new([view_model],
                           heading: "Referenced in",
                           linkable: work_package,
                           already_related_page_keys:)

@@ -37,7 +37,15 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     page_links.each do |view_model|
-      box.with_row { render(Wikis::PageLinkComponent.new(view_model.page_info_result, source: view_model.source, menu_actions: menu_actions_for(page_info_result))) }
+      box.with_row do
+        render(
+          Wikis::PageLinkComponent.new(
+            view_model.page_info_result,
+            source: view_model.source,
+            menu_actions: menu_actions_for(view_model.page_info_result)
+          )
+        )
+      end
     end
   end
 %>

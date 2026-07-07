@@ -35,11 +35,10 @@ module Wikis
 
     alias_method :page_info_result, :model
 
-    attr_reader :actions, :source
+    attr_reader :source
 
-    def initialize(model = nil, menu_actions: [], actions: [], page_link: nil, source: nil, **)
-      @actions = actions
-      @page_link = page_link
+    def initialize(model = nil, menu_actions: [], source: nil, **)
+      @menu_actions = menu_actions
       @source = source
 
       super(model, **)
