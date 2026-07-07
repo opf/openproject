@@ -39,11 +39,11 @@ The integration also supports **references between OpenProject and XWiki**. User
 ![OpenProject XWiki integration: 'Wikis' tab in a work package, with a linked XWiki and a 'Referenced in' link to another XWiki page, and option to add a wiki](openproject_work_package_xwiki_tab_referenced.png)
 
 > [!NOTE]
-> OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
+> OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve the internal wiki. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
 
 ### Internal wiki improvements
 
-Under Administration → Wikis → Internal wiki, system administrators can enable or disable the Internal wiki provider. When enabled, users can select the Internal wiki from the new **Wikis** tab in work packages and when inserting wiki pages from CKEditor-based text fields. When disabled, the Internal wiki is no longer available through these integrations.
+Under Administration → Wikis → Internal wiki, system administrators can enable or disable the internal wiki provider. When enabled, users can select the internal wiki from the new **Wikis** tab in work packages and when inserting wiki pages from CKEditor-based text fields. When disabled, the internal wiki is no longer available through these integrations.
 
 > [!NOTE]
 > In OpenProject 17.6, this setting only affects the new Wiki provider integrations. The **Wiki module continues to work as before** and can still be enabled or disabled per project.
