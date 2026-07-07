@@ -1563,10 +1563,10 @@ pt-PT:
     move:
       no_common_statuses_exists: Não há nenhum status disponível para todos os pacotes de trabalho selecionados. O seu status não pode ser alterado.
       unsupported_for_multiple_projects: Mover/copiar em massa não é suportado por pacotes de trabalho de vários projetos
-      current_type_not_available_in_target_project: 'O tipo atual do pacote de trabalho não está ativado no projeto de destino. Ative o tipo no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Os tipos atuais dos pacotes de trabalho não estão ativados no projeto de destino. Ative os tipos no projeto de destino se pretender que se mantenham inalterados. Caso contrário, selecione um tipo disponível no projeto de destino a partir da lista.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:

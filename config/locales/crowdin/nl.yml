@@ -1563,10 +1563,10 @@ nl:
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten
-      current_type_not_available_in_target_project: 'Het huidige type van het werkpakket is niet ingeschakeld in het doelproject. Schakel het type in het doelproject in als u wilt dat het ongewijzigd blijft. Selecteer anders een beschikbaar type in het doelproject in uit de lijst.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'De huidige types van het werkpakket zijn niet ingeschakeld in het doelproject. Schakel de types in het doelproject in als u wilt dat deze ongewijzigd blijft. Anders selecteer een beschikbaar type in het doelproject uit de lijst.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:

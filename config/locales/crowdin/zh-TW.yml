@@ -1541,10 +1541,10 @@ zh-TW:
     move:
       no_common_statuses_exists: 被選取的工作套件沒有可用的狀態。他們的狀態不可以變更。
       unsupported_for_multiple_projects: 工作套件不支援從多個專案的大區塊的移動/複製
-      current_type_not_available_in_target_project: '目前工作套件的類型在目標專案中未啟用。若希望保持不變，請先在目標專案啟用該類型；否則，請從列表中選擇目標專案中已啟用的類型。
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: '當前類型之工作套件尚未啓用於目標專案。如果您希望工作套件類型保持不變，請在目標專案中啓用這些類型。否則，請從列表中選擇目標專案中的可用類型。
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:

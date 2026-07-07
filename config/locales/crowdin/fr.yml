@@ -277,7 +277,7 @@ fr:
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               description: Sélectionnez les données que vous souhaitez importer parmi les données disponibles extraites de l'instance Jira hôte.
               label_supported_data: Données prises en charge
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: À venir (3e trimestre 2026)
               label_coming_later: À venir
               label_available_server_data: Données disponibles sur %{server_info}
               button_select_projects: Sélectionnez les projets à importer
@@ -1558,10 +1558,10 @@ fr:
     move:
       no_common_statuses_exists: Il n'y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets
-      current_type_not_available_in_target_project: 'Le type actuel du lot de travaux n''est pas activé dans le projet cible. Veuillez activer le type dans le projet cible si vous souhaitez qu''il reste inchangé. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Les types actuels des lots de travaux ne sont pas activés dans le projet cible. Veuillez activer les types dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez un type disponible dans le projet cible dans la liste.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2796,7 +2796,7 @@ fr:
   button_add_sub_item: Ajouter un sous-élément
   button_add_member: Ajouter un membre
   button_add_watcher: Ajouter observateur
-  button_all_filters: All filters
+  button_all_filters: Tous les filtres
   button_annotate: Annoter
   button_apply: Appliquer
   button_apply_changes: Appliquer les modifications
@@ -4237,7 +4237,7 @@ fr:
 
     '
   label_part_of: partie de
-  label_past: Past
+  label_past: Passé
   label_password_lost: Mot de passe oublié ?
   label_password_rule_lowercase: Minuscules
   label_password_rule_numeric: Caractères numériques
@@ -4421,7 +4421,7 @@ fr:
   label_type_new: Nouveau type
   label_type_plural: Types
   label_ui: Interface de l'utilisateur
-  label_upcoming: Upcoming
+  label_upcoming: À venir
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}

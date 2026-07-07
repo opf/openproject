@@ -90,6 +90,8 @@ uk:
         other: Дії з обліку часу
       rate: Оцінити
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
       models:
         time_entry:
           invalid_time: має бути в діапазоні від 00:00 до 23:59.
@@ -261,9 +263,10 @@ uk:
     settings:
       time_and_costs: Час і витрати
       cost_types:
-        heading: Типи витрат
-        none_active: Зараз у цьому проєкті немає активних типів витрат.
         for_all_projects_hint: Цей тип витрат увімкнено у всіх проєктах.
+        heading: Типи витрат
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: Зараз у цьому проєкті немає активних типів витрат.
   costs:
     widgets:
       actual_costs:

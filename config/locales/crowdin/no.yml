@@ -1563,10 +1563,10 @@
     move:
       no_common_statuses_exists: Det er ingen status tilgjengelig for alle valgte arbeidspakker. Status kan ikke endres.
       unsupported_for_multiple_projects: Bulk flytt/kopi er ikke støttet for arbeidspakker fra flere prosjekter
-      current_type_not_available_in_target_project: 'Den gjeldende typen arbeidspakke er ikke aktivert i målprosjektet. Vennligst aktiver typen i målprosjektet hvis du ønsker det uforandret. Ellers velger du en tilgjengelig type i målprosjektet fra listen.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'De gjeldende typene av arbeidspakker er ikke aktivert i målprosjektet. Aktiver typen i målprosjektet hvis du ønsker at de forblir uendret. Ellers velger du en tilgjengelig type i målprosjektet fra listen.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:

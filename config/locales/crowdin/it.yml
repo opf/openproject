@@ -1563,10 +1563,10 @@ it:
     move:
       no_common_statuses_exists: Nessuno stato disponibile per tutte le macro-attività selezionate. Non è possibile cambiare lo stato.
       unsupported_for_multiple_projects: Il comando sposta/copia multiplo non è supportato per macroattività da più progetti
-      current_type_not_available_in_target_project: 'Il tipo attuale di macro-attività non è abilitato nel progetto di destinazione. Abilita il tipo nel progetto di destinazione se desideri che rimanga invariato. In caso contrario, seleziona dall''elenco un tipo disponibile nel progetto di destinazione.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'I tipi attuali di macro-attività non sono abilitati nel progetto di destinazione. Abilita i tipi nel progetto di destinazione se desideri che rimangano invariati. In caso contrario, seleziona dall''elenco un tipo disponibile nel progetto di destinazione.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:

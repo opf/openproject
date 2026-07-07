@@ -1543,10 +1543,10 @@ ja:
     move:
       no_common_statuses_exists: 選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません
-      current_type_not_available_in_target_project: 'ワークパッケージの現在のタイプがターゲットプロジェクトで有効になっていません。変更しない場合は、ターゲットプロジェクトでタイプを有効にしてください。そうでない場合は、リストからターゲットプロジェクトで使用可能なタイプを選択してください。
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'ワークパッケージの現在のタイプがターゲットプロジェクトで有効になっていません。変更しない場合は、ターゲットプロジェクトでタイプを有効にしてください。そうでない場合は、リストからターゲットプロジェクトで使用可能なタイプを選択してください。
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
