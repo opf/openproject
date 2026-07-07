@@ -85,16 +85,31 @@ export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent im
     return (this.schema.options as { multiple?:boolean }|undefined)?.multiple !== false;
   }
 
+  /** Memoized options of the selectableOptions getter, keyed by the array they were built from. */
+  private selectableOptionsSource:unknown = null;
+
+  private selectableOptionsBuilt:ValueOption[] = [];
+
   /**
    * The selectable options, extended by an explicit "-" option to unset
    * the value in single value mode (mirroring the single select fields).
+   *
+   * The getter is bound in the template, so it must return a stable array
+   * reference while the available options stay the same — a fresh array per
+   * change detection cycle would make ng-select reprocess the whole list on
+   * every tick.
    */
   public get selectableOptions():HalResource[]|ValueOption[] {
     if (this.allowMultiple || this.required) {
       return this.availableOptions as HalResource[];
     }
 
-    return [this.noValueOption, ...(this.availableOptions as ValueOption[])];
+    if (this.selectableOptionsSource !== this.availableOptions) {
+      this.selectableOptionsSource = this.availableOptions;
+      this.selectableOptionsBuilt = [this.noValueOption, ...(this.availableOptions as ValueOption[])];
+    }
+
+    return this.selectableOptionsBuilt;
   }
 
   /**
