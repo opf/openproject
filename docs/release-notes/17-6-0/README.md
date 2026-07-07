@@ -132,7 +132,7 @@ OpenProject 17.6 improves [CSV export](../../system-admin-guide/system-settings/
 
 If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports.
 
-This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq) and we'd like to thank these contributors specifically: @QwQP0, @dkstjwls06, and @minnnjuuu - Thank you for your responsible disclosure.
+This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq). We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06).
 
 ### Configure LDAP group synchronization using group member attributes (Enterprise add-on)
 
@@ -180,8 +180,7 @@ Resulting from a [security advisory report](https://github.com/opf/openproject/s
 While we expect production AD systems to perform their own brute force protections, administrators of OpenProject might be confused as the login with an LDAP user bind is transparent, and they might expect our brute force protection settings to apply.
 
 OpenProject 17.6 implements a Rack::Attack throttle rule for internal login mechanisms, also protecting LDAP binds specifically.
-We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06)
-
+We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06).
 
 
 ## Bug fixes and changes
@@ -329,10 +328,6 @@ A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deut
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, and Mohammed Mohiuddin.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
-
-- [OlhaTrotska](https://crowdin.com/profile/olhatrotska), for a great number of translations into Ukrainian.
-- [Daniel Catarino](https://crowdin.com/profile/tradengport), for a great number of translations into Portuguese.
-- [Raffaele Brevetti](https://crowdin.com/profile/rbrevetti), for a great number of translations into Italian.
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank [Maximiliano Spaccesi](https://crowdin.com/profile/maximiliano.spaccesi) for translating our FAQ in the documentation into Spanish.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
