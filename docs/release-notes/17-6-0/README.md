@@ -39,14 +39,15 @@ The integration also supports **references between OpenProject and XWiki**. User
 ![OpenProject XWiki integration: 'Wikis' tab in a work package, with a linked XWiki and a 'Referenced in' link to another XWiki page, and option to add a wiki](openproject_work_package_xwiki_tab_referenced.png)
 
 > [!NOTE]
-> OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve the internal wiki. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
+> The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
 
 ### Internal wiki improvements
 
-Under Administration → Wikis → Internal wiki, system administrators can enable or disable the internal wiki provider. When enabled, users can select the internal wiki from the new **Wikis** tab in work packages and when inserting wiki pages from CKEditor-based text fields. When disabled, the internal wiki is no longer available through these integrations.
+OpenProject's built-in Wiki module is also improved with OpenProject 17.6. It can be used through the new integration as internal provider. System administrators can [activate this](../../system-admin-guide/wikis/#internal-wiki) under Administration → Wikis → Internal wiki.
 
-> [!NOTE]
-> In OpenProject 17.6, this setting only affects the new Wiki provider integrations. The **Wiki module continues to work as before** and can still be enabled or disabled per project.
+Users can link to all activated wikis, including internal ones, from the new **Wikis** tab in work packages. If disabled, the internal wiki is still available as a project module.
+
+In future releases, we plan to further improve the internal wiki.
 
 ![Work package tab "Wikis" with option to link an existing wiki page or create a new wiki page](openproject-17-6-internal-wiki.png)
 
