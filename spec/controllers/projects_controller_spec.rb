@@ -385,7 +385,7 @@ RSpec.describe ProjectsController do
                .with(user: admin, model: template)
                .and_return(copy_service)
         dependencies = %w[
-          boards storages storage_project_folders forums phases members overview sprints
+          backlog_buckets boards storages storage_project_folders forums phases members overview sprints
           versions wiki wiki_page_attachments work_packages work_package_attachments
           categories file_links queries work_package_shares
         ]

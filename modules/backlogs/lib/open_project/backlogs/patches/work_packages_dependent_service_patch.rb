@@ -45,6 +45,7 @@ module OpenProject::Backlogs::Patches::WorkPackagesDependentServicePatch
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
       super.merge(
         sprint_id: work_package_sprint_id(source_work_package),
+        backlog_bucket_id: work_package_backlog_bucket_id(source_work_package),
         position: source_work_package.position
       )
     end
@@ -52,7 +53,19 @@ module OpenProject::Backlogs::Patches::WorkPackagesDependentServicePatch
     def work_package_sprint_id(source_work_package)
       return unless source_work_package.sprint_id
 
+      # Falling back to the source sprint id (rather than nil) keeps assignments to
+      # sprints shared from another project, which are visible to the source but not
+      # copied here. Owned sprints are always in the lookup once sprints are copied.
       (state.sprint_id_lookup || {}).fetch(source_work_package.sprint_id, source_work_package.sprint_id)
+    end
+
+    def work_package_backlog_bucket_id(source_work_package)
+      return unless source_work_package.backlog_bucket_id
+
+      # No fallback to the source id: buckets are never shared across projects, so a
+      # bucket missing from the lookup was simply not copied. Keeping the source id
+      # would dangle the copy into the source project's bucket.
+      (state.backlog_bucket_id_lookup || {})[source_work_package.backlog_bucket_id]
     end
   end
 end

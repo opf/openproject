@@ -215,4 +215,74 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       expect(copied_wp("Inbox 3").position).to eq(2)
     end
   end
+
+  describe "backlog bucket copying" do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[backlog_buckets] }
+    end
+    let!(:source_bucket) { create(:backlog_bucket, project: source, name: "Bucket A") }
+
+    subject { instance.call(params) }
+
+    it "copies owned backlog buckets to the target, decoupled from the source" do
+      expect(subject).to be_success
+
+      expect(project_copy.backlog_buckets.pluck(:name)).to contain_exactly("Bucket A")
+      copied_bucket = project_copy.backlog_buckets.first
+      expect(copied_bucket.id).not_to eq(source_bucket.id)
+      expect(copied_bucket.project).to eq(project_copy)
+
+      copied_bucket.update!(name: "Renamed Copy")
+      expect(source_bucket.reload.name).to eq("Bucket A")
+    end
+  end
+
+  describe "work package backlog bucket reassignment" do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[work_packages backlog_buckets] }
+    end
+    let!(:source_bucket) { create(:backlog_bucket, project: source, name: "Bucket A") }
+    let!(:wp_in_bucket) { create(:work_package, project: source, subject: "In bucket") }
+
+    subject { instance.call(params) }
+
+    before do
+      wp_in_bucket.update_column(:backlog_bucket_id, source_bucket.id)
+    end
+
+    def copied_wp(subject_text)
+      project_copy.work_packages.find_by(subject: subject_text)
+    end
+
+    it "assigns the copied work package to the copied backlog bucket" do
+      expect(subject).to be_success
+
+      copied = copied_wp("In bucket")
+      expect(copied.backlog_bucket.name).to eq("Bucket A")
+      expect(copied.backlog_bucket_id).not_to eq(source_bucket.id)
+      expect(copied.backlog_bucket.project).to eq(project_copy)
+    end
+
+    it "does not add the copied work package to the source backlog bucket" do
+      expect(subject).to be_success
+
+      expect(source_bucket.reload.work_packages.pluck(:subject)).to contain_exactly("In bucket")
+    end
+
+    context "when the buckets are not copied" do
+      let(:params) do
+        { target_project_params:, send_notifications: false, only: %w[work_packages] }
+      end
+
+      it "clears the backlog bucket rather than keeping the source id" do
+        expect(subject).to be_success
+
+        expect(copied_wp("In bucket").backlog_bucket_id).to be_nil
+      end
+    end
+  end
 end

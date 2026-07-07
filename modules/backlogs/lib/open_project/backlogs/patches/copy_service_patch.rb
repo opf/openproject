@@ -40,7 +40,13 @@ module OpenProject::Backlogs::Patches::CopyServicePatch
     def copy_dependencies
       super.tap do |dependencies|
         index = dependencies.index(::Projects::Copy::WorkPackagesDependentService)
-        dependencies.insert(index, ::Projects::Copy::SprintsDependentService) if index
+        next unless index
+
+        # Both must precede the work packages so their id maps are ready when the
+        # work packages are copied and their sprint/bucket ids remapped.
+        dependencies.insert(index,
+                            ::Projects::Copy::SprintsDependentService,
+                            ::Projects::Copy::BacklogBucketsDependentService)
       end
     end
   end
