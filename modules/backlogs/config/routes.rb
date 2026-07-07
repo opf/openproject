@@ -114,12 +114,6 @@ Rails.application.routes.draw do
 
         constraints(Constraints::FeatureDecision.new(:sprint_reports)) do
           get "report", to: "sprint_reports#show", as: :sprint_report
-
-          scope "report/widgets", module: :sprint_reports do
-            Backlogs::SprintReports::WidgetsController::WIDGETS.each do |widget|
-              get widget, to: "widgets##{widget}", as: "sprint_report_#{widget}_widget"
-            end
-          end
         end
       end
     end

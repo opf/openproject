@@ -34,8 +34,6 @@ module Backlogs
       class BurndownChart < Grids::WidgetComponent
         include Backlogs::BurndownChartHelper
 
-        FRAME_ID = "sprint-report-burndown-chart"
-
         param :sprint
         param :project
 
@@ -48,6 +46,10 @@ module Backlogs
             labels: xaxis_labels(burndown),
             datasets: dataseries(burndown)
           }.to_json
+        end
+
+        def wrapper_arguments
+          { full_width: true }
         end
 
         private

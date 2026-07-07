@@ -42,8 +42,8 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
 
   current_user { user }
 
-  def visit_widget(sprint)
-    visit project_backlogs_sprint_report_burndown_chart_widget_path(project, sprint)
+  def visit_sprint_report(sprint)
+    visit project_backlogs_sprint_report_path(project, sprint)
   end
 
   context "when the sprint has a date range set" do
@@ -57,19 +57,9 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
     end
 
     it "renders the burndown chart" do
-      visit_widget(sprint)
+      visit_sprint_report(sprint)
 
       expect(page).to have_element(:"opce-burndown-chart")
-    end
-
-    context "when the user lacks view_sprints" do
-      let(:permissions) { %i[view_work_packages show_board_views] }
-
-      it "responds with not found" do
-        visit_widget(sprint)
-
-        expect(page).to have_http_status(:not_found)
-      end
     end
   end
 
@@ -107,7 +97,7 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
     end
 
     it "sets chart-data with labels and the expected series" do
-      visit_widget(sprint)
+      visit_sprint_report(sprint)
 
       chart_data = JSON.parse(find("opce-burndown-chart")["chart-data"])
 
@@ -136,7 +126,7 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
     end
 
     it "renders a blankslate instead of the chart" do
-      visit_widget(sprint)
+      visit_sprint_report(sprint)
 
       expect(page).to have_no_element(:"opce-burndown-chart")
       expect(page).to have_text("No burndown data available")
