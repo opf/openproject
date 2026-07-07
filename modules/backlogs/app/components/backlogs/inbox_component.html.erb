@@ -46,12 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
         }
       )
     ) do |list|
-      list.with_header(
-        title: t(".title"),
-        count: work_packages.size,
-        count_arguments: { scheme: :secondary },
-        title_arguments: { font_size: 4 }
-      )
+      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 })
 
       list.with_empty_state(
         title: t(".blankslate_title"),
