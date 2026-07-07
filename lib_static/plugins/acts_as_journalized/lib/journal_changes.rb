@@ -188,8 +188,9 @@ module JournalChanges
   private
 
   # While the deprecated version_id column mirrors the target versions, a
-  # version change diffs under both keys; only the new representation is
-  # exposed. Journals predating target_versions keep their version_id diff.
+  # version change diffs under both keys; only the target_versions
+  # representation is rendered. Historical journals render the same way,
+  # since every versioned journal has a backfilled target snapshot.
   def suppress_mirrored_version_change(changes)
     changes.delete("version_id") if changes.key?("target_versions")
 
