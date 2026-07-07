@@ -105,7 +105,7 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
-  it "creates a sub-type through the parent select" do
+  it "creates a sub-type through the parent select", with_flag: { subtypes: true } do
     index_page.visit!
 
     index_page.click_new

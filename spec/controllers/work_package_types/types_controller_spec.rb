@@ -191,7 +191,7 @@ RSpec.describe WorkPackageTypes::TypesController do
         end
       end
 
-      describe "WITH a parent" do
+      describe "WITH a parent", with_flag: { subtypes: true } do
         let!(:parent) { create(:type, name: "Parent type") }
         let(:params) do
           { "type" => { name: "New sub-type", parent_id: parent.id } }
@@ -358,7 +358,7 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "GET index with sub-types" do
+    describe "GET index with sub-types", with_flag: { subtypes: true } do
       let!(:parent) { create(:type, name: "Parent type") }
       let!(:child) { create(:type, name: "Sub-type", parent:) }
       let!(:other_root) { create(:type, name: "Other root") }

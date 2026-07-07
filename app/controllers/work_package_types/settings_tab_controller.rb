@@ -52,7 +52,9 @@ module WorkPackageTypes
     private
 
     def permitted_settings_params
-      params.expect(type: %i[name parent_id color_id description is_milestone is_in_roadmap is_default])
+      permitted = params.expect(type: %i[name parent_id color_id description is_milestone is_in_roadmap is_default])
+      permitted = permitted.except(:parent_id) unless OpenProject::FeatureDecisions.subtypes_active?
+      permitted
     end
   end
 end

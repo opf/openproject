@@ -122,6 +122,7 @@ module WorkPackageTypes
     end
 
     def show_parent_select?
+      return false unless OpenProject::FeatureDecisions.subtypes_active?
       return false if model.is_standard?
 
       model.new_record? || !model.children.exists?
