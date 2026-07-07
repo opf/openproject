@@ -103,37 +103,25 @@ module Backlogs
     private
 
     def move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint:)
-      if source_sprint.present? && target_sprint.present?
-        # Sprint to sprint: replace only the two affected sprint components
-        replace_component_via_turbo_stream(sprint: source_sprint) if source_sprint != target_sprint
-        replace_component_via_turbo_stream(sprint: target_sprint)
-      elsif source_sprint.present? || target_sprint.present?
-        # Crossing the sprint/backlog boundary: replace SprintsComponent/BacklogComponent so their total counter updates
-        replace_via_turbo_stream(component: sprints_component, method: :morph)
-        replace_via_turbo_stream(component: backlog_component, method: :morph)
-      else
-        # Backlog to backlog: only the BacklogComponent needs updating
-        replace_via_turbo_stream(component: backlog_component, method: :morph)
+      if source_sprint != target_sprint
+        replace_component_via_turbo_stream(sprint: source_sprint)
       end
+
+      replace_component_via_turbo_stream(sprint: target_sprint)
     end
 
     def replace_component_via_turbo_stream(sprint:)
-      replace_via_turbo_stream(component: sprint_component(sprint:), method: :morph)
+      component = if sprint
+                    sprint_component(sprint:)
+                  else
+                    backlog_component
+                  end
+
+      replace_via_turbo_stream(component:, method: :morph)
     end
 
     def sprint_component(sprint:)
       Backlogs::SprintComponent.new(sprint:, project: @project)
-    end
-
-    def sprints_component
-      load_sprint_data
-
-      Backlogs::SprintsComponent.new(
-        sprints: @sprints,
-        work_packages_by_sprint_id: @work_packages_by_sprint_id,
-        active_sprint_ids: @active_sprint_ids,
-        project: @project
-      )
     end
 
     def backlog_component
