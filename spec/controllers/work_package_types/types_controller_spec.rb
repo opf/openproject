@@ -365,12 +365,14 @@ RSpec.describe WorkPackageTypes::TypesController do
 
       before { get :index }
 
-      it "lists roots and sub-types together" do
-        expect(assigns(:types)).to include(parent, child, other_root)
+      it "assigns only top-level types to @types" do
+        expect(assigns(:types)).to include(parent, other_root)
+        expect(assigns(:types)).not_to include(child)
       end
 
-      it "places each sub-type directly beneath its parent" do
-        expect(assigns(:types).index(child)).to eq(assigns(:types).index(parent) + 1)
+      it "exposes each root's sub-types through its children" do
+        assigned_parent = assigns(:types).detect { |type| type == parent }
+        expect(assigned_parent.children).to contain_exactly(child)
       end
     end
   end

@@ -50,7 +50,6 @@ module WorkPackageTypes
                       children: %i[workflows projects custom_fields color])
             .page(page_param)
             .per_page(per_page_param)
-            .flat_map { |root| [root, *root.children] }
         else
           ::Type
             .includes(:workflows, :projects, :custom_fields, :color)
