@@ -3649,6 +3649,9 @@ en:
       hyphenation:
         label: Hyphenation
         caption: Break line between words for better layout and justification.
+      toc:
+        label: Table of contents
+        caption: Add a table of contents page indexing the section headers.
       hyphenation_language:
         label: Language and hyphenation
       page_orientation:

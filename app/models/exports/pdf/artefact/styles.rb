@@ -65,6 +65,26 @@ module Exports::PDF::Artefact::Styles
       resolve_font(@styles.dig(:section, :title))
     end
 
+    def toc_margins
+      resolve_margin(@styles.dig(:toc, :margins))
+    end
+
+    def toc_heading
+      resolve_font(@styles.dig(:toc, :heading))
+    end
+
+    def toc_heading_margins
+      resolve_margin(@styles.dig(:toc, :heading))
+    end
+
+    def toc_item
+      resolve_font(@styles.dig(:toc, :item))
+    end
+
+    def toc_item_margins
+      resolve_margin(@styles.dig(:toc, :item))
+    end
+
     def section_title_hr
       {
         color: @styles.dig(:section, :title, :hr, :color),

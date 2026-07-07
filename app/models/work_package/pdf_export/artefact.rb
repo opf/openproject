@@ -40,6 +40,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Components::WpTable
   include Exports::PDF::Artefact::Cover
   include Exports::PDF::Artefact::Styles
+  include Exports::PDF::Artefact::Toc
   include WorkPackage::PDFExport::Common::MarkdownField
   include WorkPackage::PDFExport::Wp::Attributes
 
@@ -92,6 +93,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   def render_artefact
     pdf.title = heading
     write_cover_page! if with_cover?
+    write_toc! if with_toc?
     with_margin(styles.page_head_margin) do
       write_artefact_title
       write_artefact_heading
@@ -199,22 +201,55 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     write_artefact_wp_attributes
   end
 
+  def with_toc?
+    return true if options[:toc].nil?
+
+    ActiveModel::Type::Boolean.new.cast(options[:toc])
+  end
+
+  def toc_entries
+    @toc_entries ||= build_toc_entries
+  end
+
+  def build_toc_entries
+    entries = collect_project_attributes_data.filter_map do |section|
+      next if section[:fields].empty?
+
+      toc_entry("project_section_#{section[:section_id]}", section[:caption])
+    end
+    work_package.type.attribute_groups.each do |group|
+      entries << toc_entry("wp_group_#{group.key}", group.translated_key)
+    end
+    entries
+  end
+
+  def toc_entry(key, title)
+    { id: "toc_#{key}", key:, title:, page_number: nil }
+  end
+
+  def record_toc_page!(key)
+    return unless with_toc?
+
+    entry = toc_entries.find { |e| e[:key] == key }
+    return if entry.nil?
+
+    entry[:page_number] = current_page_nr
+    link_target_at_current_y(entry[:id])
+  end
+
   # Renders all work package attribute sections with embedded work package
-  # tables and custom fields (as shown in the work package form), reusing
-  # WorkPackage::PDFExport::Wp::Attributes. The group headers are styled like
-  # the project attribute sections above.
+  # tables and custom fields (as shown in the work package form)
   def write_artefact_wp_attributes
     write_attributes!(work_package)
   end
 
-  # Override the work package attribute group title to match the styling of the
-  # project attribute sections (see #write_section_title).
+  # Override the work package attribute group title in WorkPackage::PDFExport::Wp::Attributes
   def write_group_title(group, with_hr: true) # rubocop:disable Lint/UnusedMethodArgument
     write_optional_page_break
+    record_toc_page!("wp_group_#{group.key}")
     write_section_title(group.translated_key)
   end
 
-  # The artefact export is always rendered in portrait orientation.
   def page_orientation_landscape?
     false
   end
@@ -225,15 +260,17 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
       next if section[:fields].empty?
 
       write_optional_page_break
+      record_toc_page!("project_section_#{section[:section_id]}")
       write_section(section)
     end
   end
 
-  def collect_project_attributes_data
+  def collect_project_attributes_data # rubocop:disable Metrics/AbcSize
     ProjectCustomFieldSection
       .grouped_in_order(project.available_custom_fields_for_type(work_package.type_id))
       .map do |section, custom_fields|
         {
+          section_id: section.id,
           caption: section.name,
           fields: custom_fields.each_with_object([]) do |custom_field, fields|
             fields << {

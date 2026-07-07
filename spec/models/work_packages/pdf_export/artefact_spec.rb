@@ -153,4 +153,41 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       expect(joined).to include("The long text value")
     end
   end
+
+  describe "table of contents" do
+    let(:section) { create(:project_custom_field_section, name: "TOC Section") }
+    let!(:string_cf) do
+      create(:string_project_custom_field,
+             name: "TOC field",
+             projects: [project],
+             project_custom_field_section: section)
+    end
+
+    before do
+      type.project_custom_fields << string_cf
+      project.update!(custom_field_values: { string_cf.id => "TOC value" })
+    end
+
+    it "renders a table of contents by default indexing the section headers" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(I18n.t(:label_table_of_contents))
+      # the section header appears both in the table of contents and as a section title
+      expect(joined.scan("TOC Section").length).to be >= 2
+      # a work package attribute group is indexed too
+      expect(joined).to include(work_package.type.attribute_groups.first.translated_key)
+    end
+
+    it "resolves real page numbers on the second render pass" do
+      # the dummy placeholder must have been replaced by real page numbers
+      expect(pdf_strings).not_to include(Exports::PDF::Artefact::Toc::TOC_DUMMY_PAGE_NR)
+    end
+
+    context "when disabled via the toc option" do
+      let(:options) { { toc: "false" } }
+
+      it "does not render a table of contents" do
+        expect(pdf_strings.join(" ")).not_to include(I18n.t(:label_table_of_contents))
+      end
+    end
+  end
 end

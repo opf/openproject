@@ -76,6 +76,18 @@ section:
       color: "FFFFFF"
       height: 0
 
+toc:
+  margins:
+    margin_bottom: 12
+  heading:
+    size: 16
+    color: "008080"
+    styles: [ "bold" ]
+    margin_bottom: 12
+  item:
+    size: 10
+    margin_bottom: 6
+
 project:
   title:
     size: 12

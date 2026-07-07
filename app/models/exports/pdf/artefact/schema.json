@@ -30,6 +30,9 @@
     "section": {
       "$ref": "#/$defs/section"
     },
+    "toc": {
+      "$ref": "#/$defs/toc"
+    },
     "project": {
       "$ref": "#/$defs/project"
     },
@@ -51,6 +54,30 @@
   "required": [],
   "additionalProperties": false,
   "$defs": {
+    "toc": {
+      "title": "Table of contents",
+      "description": "Styling for the table of contents page(s)",
+      "type": "object",
+      "properties": {
+        "margins": {
+          "$ref": "#/$defs/margin"
+        },
+        "heading": {
+          "type": "object",
+          "allOf": [
+            { "$ref": "#/$defs/font" },
+            { "$ref": "#/$defs/margin" }
+          ]
+        },
+        "item": {
+          "type": "object",
+          "allOf": [
+            { "$ref": "#/$defs/font" },
+            { "$ref": "#/$defs/margin" }
+          ]
+        }
+      }
+    },
     "work_package": {
       "type": "object",
       "title": "Work package",
