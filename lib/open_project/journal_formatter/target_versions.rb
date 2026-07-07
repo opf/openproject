@@ -28,32 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journals::CreateService
-  class Association
-    include Helpers
+# Renders the change to the set of target versions. Each value is the sorted,
+# comma-joined version ids (see JournalChanges#get_target_versions_changes);
+# every id is resolved to the version's name, dropping versions that have
+# been deleted in the meantime.
+class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAssociation
+  private
 
-    # Core associations are defined here. Module-specific associations can be defined in engines
-    # using `Journals::CreateService::Association.register`.
-    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase WorkPackageVersion])
+  def format_values(values, key, cache:)
+    klass = class_from_field(key)
 
-    class << self
-      def register(*names)
-        @registry.merge(names.map(&:to_sym))
-      end
+    values.map do |value|
+      next if value.blank? || klass.nil?
 
-      def for(journable)
-        @registry
-          .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-          .select(&:associated?)
-      end
+      value.to_s.split(",")
+           .filter_map { |id| associated_object(klass, id.to_i, cache:)&.name }
+           .join(", ")
+           .presence
     end
-
-    attr_reader :journable
-
-    def initialize(journable)
-      @journable = journable
-    end
-
-    def name = self.class.name.demodulize.underscore
   end
 end

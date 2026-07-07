@@ -444,6 +444,130 @@ RSpec.describe WorkPackage do
       end
     end
 
+    # These examples also guard the callback order between the
+    # WorkPackage::Versions and WorkPackage::Journalized concerns: the journal
+    # snapshots table state during the save, so it only captures the version
+    # associations if they are persisted by the earlier after_save callback.
+    context "on target version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_target_versions(versions)
+        journable.target_version_ids_replacements = versions.map(&:id)
+        journable.save!
+      end
+
+      context "when setting target versions" do
+        it "creates a new journal listing the versions in the details" do
+          expect { set_target_versions([version, other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([nil, [version.id, other_version.id].sort.join(",")])
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_target_versions([version]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "when replacing a target version" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates a new journal with the old and new versions in the details" do
+          expect { set_target_versions([other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([version.id.to_s, other_version.id.to_s])
+        end
+      end
+
+      context "when removing all target versions" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_target_versions([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([version.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged target versions" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_target_versions([version]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+        # The initial journal lies outside the aggregation window so that only
+        # the journals created by the examples can aggregate with each other.
+        shared_let(:journable) do
+          create(:work_package,
+                 subject: "Initial subject",
+                 journals: { 10.minutes.ago => { user: } })
+        end
+
+        context "when changing target versions again" do
+          before do
+            set_target_versions([version])
+          end
+
+          it "aggregates into the previous journal with cumulative details" do
+            expect { set_target_versions([version, other_version]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["target_versions"])
+              .to eq([nil, [version.id, other_version.id].sort.join(",")])
+          end
+        end
+
+        context "when changing target versions shortly after another change" do
+          before do
+            journable.update!(subject: "Changed subject")
+          end
+
+          it "aggregates into one journal capturing both changes" do
+            expect { set_target_versions([version]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["subject"])
+              .to eq(["Initial subject", "Changed subject"])
+            expect(journable.last_journal.details["target_versions"])
+              .to eq([nil, version.id.to_s])
+          end
+        end
+      end
+
+      context "on work package creation" do
+        it "includes the target versions in the initial journal's details" do
+          journable = build(:work_package)
+          journable.target_version_ids_replacements = [version.id]
+          journable.save!
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([nil, version.id.to_s])
+        end
+      end
+
+    end
+
     context "on custom value changes" do
       # The explicit id is needed so that the accessors ('custom_field_1') can be used
       shared_let(:custom_field) do

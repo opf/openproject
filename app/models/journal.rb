@@ -67,6 +67,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter OpenProject::JournalFormatter::TargetVersions
   register_journal_formatter OpenProject::JournalFormatter::Template
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter OpenProject::JournalFormatter::TimeEntryNamedAssociation
@@ -118,6 +119,14 @@ class Journal < ApplicationRecord
   has_many :custom_comment_journals, class_name: "Journal::CustomCommentJournal", dependent: :delete_all
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
+  has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
+  # Row lifecycle is owned by work_package_version_journals above.
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :target_version_journals,
+           -> { where(kind: "target") },
+           class_name: "Journal::WorkPackageVersionJournal",
+           inverse_of: :journal
+  # rubocop:enable Rails/HasManyOrHasOneDependent
 
   has_many :notifications, dependent: :destroy
 

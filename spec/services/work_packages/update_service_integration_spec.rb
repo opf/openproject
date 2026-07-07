@@ -2194,6 +2194,33 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
     end
 
+    context "when updating target versions alongside another attribute",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) do
+        instance.call(subject: "Updated subject", target_version_ids: [version1.id], send_notifications: false)
+      end
+
+      it "creates a single journal capturing both changes" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        details = work_package.journals.reload.last.details
+        expect(details["subject"]).to eq(["work_package", "Updated subject"])
+        expect(details["target_versions"]).to eq([nil, version1.id.to_s])
+      end
+    end
+
+    context "when updating only target versions",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
+
+      it "creates a single journal capturing the new target versions" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        expect(work_package.journals.reload.last.details["target_versions"])
+          .to eq([nil, version1.id.to_s])
+      end
+    end
+
     context "when writing observed in versions" do
       subject(:service) { instance.call(observed_in_version_ids: [version1.id], send_notifications: false) }
 

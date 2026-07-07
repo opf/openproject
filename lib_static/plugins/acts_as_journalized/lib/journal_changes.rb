@@ -40,6 +40,7 @@ module JournalChanges
       get_custom_comments_changes,
       get_custom_fields_changes,
       get_project_phases_changes,
+      get_target_versions_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
@@ -127,6 +128,19 @@ module JournalChanges
     )
   end
 
+  # The whole set of target versions is diffed as a single value (the sorted,
+  # comma-joined version ids), matching how the change is rendered: one
+  # "Target versions" line with the old and the new list.
+  def get_target_versions_changes
+    return unless journable.respond_to?(:target_versions)
+
+    old_value = predecessor && joined_target_version_ids(predecessor)
+    new_value = joined_target_version_ids(self)
+    return if old_value == new_value
+
+    { target_versions: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -170,6 +184,10 @@ module JournalChanges
   end
 
   private
+
+  def joined_target_version_ids(journal)
+    journal.target_version_journals.map(&:version_id).sort.join(",").presence
+  end
 
   def participant_baseline_journal
     journals = journable.journals.to_a
