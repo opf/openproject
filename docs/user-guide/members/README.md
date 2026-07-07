@@ -16,6 +16,7 @@ keywords: members, project participants
 | [Remove members](#remove-members)                     | How to remove members from a project.                        |
 | [Roles and permissions](#roles-and-permissions)       | How to manage roles and permissions for members.             |
 | [Groups](#groups)                                     | How to add members to a group and add groups to a project.   |
+| [Visibility of users](#visibility-of-users)           | Which users and groups you are able to see.                  |
 
 ![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4)
 
@@ -69,6 +70,27 @@ You can adjust the project member overview based on the following filters:
 - **Role** - allows filtering based on all the user roles that have been assigned to users in that specific project. The options of these filters are the same as in the left side menu.
 - **Work package shares** - provides the same filters as listed in the left side menu, based on all the roles available for sharing work packages. They include all shares, view, comment, edit.
 - **Name** - allows searching for a specific user or group by typing in a user or group name.
+
+## Visibility of users
+
+Not every user can see every other user or group in OpenProject. When you pick members, use filters, or search for people, the list is limited to the users and groups that are visible to you.
+
+You can see another user or group if **any** of the following applies:
+
+- **You are an administrator.** Administrators can see all users and groups.
+- **You have the global permission "View all users and groups".** This grants the same full visibility without being an administrator.
+- **You are in the same group.** If you and another user belong to a common group, you can see each other regardless of any shared projects.
+- **You share a project.** If you are both members of the same project, you can see each other. This also covers users who are not project members but have a work package in that project [shared](../work-packages/share-work-packages) with them.
+- **You have access to a project the other user belongs to.** A project is accessible to you when it is a **public** project, when you are a member of it, or when a work package in it has been shared with you. In each of these cases you can see all members of that project, as well as everyone who has a work package shared with them there.
+
+A few consequences worth noting:
+
+- Members of a **public** project are visible to everyone, since public projects are accessible to all users.
+- Visibility is evaluated **per project**, not per work package. Once you can see a project, you can see all of its members, not only the people involved in the specific work package that was shared with you.
+- Being able to see a user does not grant any additional permissions on their data. It only determines whether they appear in member lists, filters, and user search.
+
+> [!NOTE]
+> If you do not have the global permission **View all users and groups**, some project members added through other means (for example via a group you are not part of) may not appear to you, even though they participate in the project.
 
 ## Add members
 
