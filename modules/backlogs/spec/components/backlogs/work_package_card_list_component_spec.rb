@@ -284,7 +284,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
     context "with drag_and_drop configured" do
       let(:drag_and_drop) do
-        { list_type: "sprint", list_id: sprint.id }
+        { list_type: "sprint", list_id: sprint.id, accepted_type: "work_package" }
       end
 
       it "wires the list controller and value attributes onto the box" do
@@ -292,6 +292,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
           expect(box["data-controller"]).to include("sortable-lists--list")
           expect(box["data-sortable-lists--list-type-value"]).to eq("sprint")
           expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
+          expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
         end
       end
     end

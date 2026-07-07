@@ -69,26 +69,29 @@ describe('Sortable lists list controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { moving = false, acceptedType = null as string|null } = {},
+    { moving = false } = {},
   ):SortableListsRoot {
-    return { element, moving, acceptedType };
+    return { element, moving };
   }
 
   async function connectedListFor({
     type = 'sprint',
     id = '7',
     dropPosition = null,
+    acceptedType = 'work_package',
     root = fakeRoot(),
   }:{
     type?:string|null;
     id?:string|null;
     dropPosition?:string|null;
+    acceptedType?:string|null;
     root?:SortableListsRoot|null;
   } = {}) {
     fixture.innerHTML = `
       <ul data-controller="sortable-lists--list"
           ${type != null ? `data-sortable-lists--list-type-value="${type}"` : ''}
           ${id != null ? `data-sortable-lists--list-id-value="${id}"` : ''}
+          ${acceptedType != null ? `data-sortable-lists--list-accepted-type-value="${acceptedType}"` : ''}
           ${dropPosition != null ? `data-sortable-lists--list-drop-position-value="${dropPosition}"` : ''}></ul>
     `;
     const list = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
@@ -123,10 +126,21 @@ describe('Sortable lists list controller', () => {
     expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({ element: list }));
   });
 
-  it('does not register without a list type value', async () => {
-    const { list } = await connectedListFor({ type: null, root: null });
+  it('does not register without an accepted type', async () => {
+    const { list } = await connectedListFor({ acceptedType: null, root: null });
 
     expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: list }));
+  });
+
+  it('warns and does not register when it accepts a type but has no list type', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    const { list } = await connectedListFor({ type: null, acceptedType: 'work_package', root: null });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({ element: list }));
+
+    warn.mockRestore();
   });
 
   it('exposes its list payload through getData', async () => {
@@ -138,7 +152,7 @@ describe('Sortable lists list controller', () => {
 
   it('resolves the child <ul> as the rows container on the payload', async () => {
     fixture.innerHTML = `
-      <div data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint">
+      <div data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-accepted-type-value="work_package">
         <ul></ul>
       </div>
     `;
@@ -180,7 +194,7 @@ describe('Sortable lists list controller', () => {
 
   it('accepts a same-root item of the accepted type', async () => {
     const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });
+    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(true);
@@ -188,7 +202,7 @@ describe('Sortable lists list controller', () => {
 
   it('rejects an item whose type is not accepted', async () => {
     const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package' }) });
+    const { list } = await connectedListFor({ acceptedType: 'work_package', root: fakeRoot(root) });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'meeting_agenda_item') }))
       .toBe(false);
@@ -288,7 +302,7 @@ describe('Sortable lists list controller', () => {
 
   it('rejects drops while the root is moving', async () => {
     const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { acceptedType: 'work_package', moving: true }) });
+    const { list } = await connectedListFor({ root: fakeRoot(root, { moving: true }) });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(false);

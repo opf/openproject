@@ -71,6 +71,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         expect(box["data-controller"]).to include("sortable-lists--list")
         expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
         expect(box["data-sortable-lists--list-id-value"]).to be_nil
+        expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
         expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
       end
     end

@@ -30,7 +30,7 @@ import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import {
-  canAccept,
+  isItemFromRoot,
   isSortableItemData,
   sortableListData,
   type RootAwareChild,
@@ -48,6 +48,7 @@ export default class ListController extends Controller<HTMLElement> implements R
     type: String,
     id: String,
     dropPosition: { type: String, default: 'end' },
+    acceptedType: String,
   };
 
   static elements = { rowsContainer: ':scope > ul' };
@@ -57,6 +58,8 @@ export default class ListController extends Controller<HTMLElement> implements R
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
   declare readonly dropPositionValue:string;
+  declare readonly acceptedTypeValue:string;
+  declare readonly hasAcceptedTypeValue:boolean;
 
   // Provided by the stimulus-elements blessing, declared manually in the same
   // style as the controller's values/targets.
@@ -67,8 +70,19 @@ export default class ListController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
 
   connect():void {
-    // A list without a type value is not a drop target.
+    // A list that accepts no item type is not a drop target (display-only).
+    if (!this.hasAcceptedTypeValue) {
+      return;
+    }
+
+    // The list's own type doubles as the persisted list_type: a droppable list
+    // without it would accept drops it cannot persist. Surface that mistake.
     if (!this.hasTypeValue) {
+      console.warn(
+        'sortable-lists--list has an accepted type but is missing its required type value '
+        + '(data-sortable-lists--list-type-value); it cannot accept drops.',
+        this.element,
+      );
       return;
     }
 
@@ -145,7 +159,7 @@ export default class ListController extends Controller<HTMLElement> implements R
       return false;
     }
 
-    return canAccept(root, data);
+    return isItemFromRoot(root.element, data) && data.type === this.acceptedTypeValue;
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing

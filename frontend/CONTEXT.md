@@ -68,7 +68,7 @@ independent of its tag. Successor to the fixed `<ul>`/`<li>` row shape.
 - A **Drop placeholder** reserves object-sized space at a candidate location.
 - An **Empty drop zone** may combine the affordances of a **Drop target**, **Drop indicator**, and **Drop placeholder**.
 - A **Sortable item** has a **Sortable item type**.
-- A **Sortable list** may accept only specific **Sortable item types**.
+- A **Sortable list** may accept only a specific **Sortable item type**.
 - An active **Sortable list** shows a **Drop container** outline while a compatible **Sortable item** hovers it, distinct from the per-item **Drop indicator**.
 - A **Sortable list** has a **Rows container** whose direct children are its
   **Rows**; a **Row** may hold a **Sortable item**.
@@ -83,9 +83,6 @@ OpenProject features, not as a standalone library.
 
 **Root — `sortable-lists`** (the orchestrator; owns the move request, the drag
 monitor, and auto-scroll):
-- `accepted-type-value` (optional): the one **Sortable item type** every list
-  under this root accepts. Root-scoped — there is one accepted type per root,
-  shared by all its lists. Omit to accept any type.
 - `move-url-template-value`: a URI template expanded with `{id}` (the moved
   item's id) to build the PUT URL. Without it, no move is persisted.
 - `allowed-axis-value` (default `vertical`), `max-scroll-speed-value`
@@ -96,7 +93,11 @@ monitor, and auto-scroll):
 
 **List — `sortable-lists--list`** (a **Drop target** that shows a **Drop container**
 outline while active):
-- `type-value` (**required** to be a drop target; a list without it is inert).
+- `type-value` (**required**): the list's **Sortable item type** label, sent as
+  `list_type` on a successful move.
+- `accepted-type-value` (**required** to be a drop target): the one **Sortable
+  item type** this list accepts. A list without it is inert; a list that sets
+  it but omits `type-value` warns and does not register.
 - `id-value` (optional): the list id sent as `list_id`.
 - `drop-position-value` (default `end`): where a drop that resolves to the list
   itself, rather than to an item edge, inserts — `start` files the item at the top,
@@ -106,9 +107,10 @@ outline while active):
 indicator owner):
 - `id-value` (**required**): the item id; sent as the `{id}` URL segment.
 - `type-value` (**required**): the item's **Sortable item type**, matched
-  against the root's `accepted-type-value`. There is no default — an item that
-  omits id or type appears draggable but silently refuses every drop, so the
-  controller `console.warn`s on connect when either is empty.
+  against the list's `accepted-type-value` (an item accepts a same-type drop).
+  There is no default — an item that omits id or type appears draggable but
+  silently refuses every drop, so the controller `console.warn`s on connect
+  when either is empty.
 - Target `handle` (optional): restricts the drag to a handle element.
 - Target `preview` (optional): the element cloned for the **Drag preview**.
 

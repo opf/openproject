@@ -31,8 +31,8 @@ import { vi } from 'vitest';
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
-  acceptsSortableItemType,
   buildMoveFormData,
+  isItemFromRoot,
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
@@ -168,17 +168,31 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('acceptsSortableItemType', () => {
-    it('allows drops when the controller has no accepted type filter', () => {
-      expect(acceptsSortableItemType({ acceptedType: null, type: 'work_package' })).toBe(true);
+  describe('isItemFromRoot', () => {
+    const root = document.createElement('div');
+
+    it('accepts a sortable item whose rootElement is this root', () => {
+      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      expect(isItemFromRoot(root, data)).toBe(true);
     });
 
-    it('allows drops when the source type matches the accepted type', () => {
-      expect(acceptsSortableItemType({ acceptedType: 'work_package', type: 'work_package' })).toBe(true);
+    it('rejects a sortable item from another root', () => {
+      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') });
+      expect(isItemFromRoot(root, data)).toBe(false);
     });
 
-    it('rejects drops when the source type does not match the accepted type', () => {
-      expect(acceptsSortableItemType({ acceptedType: 'work_package', type: 'meeting_agenda_item' })).toBe(false);
+    it('rejects a sortable item with no root reference', () => {
+      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: null });
+      expect(isItemFromRoot(root, data)).toBe(false);
+    });
+
+    it('rejects a null root element', () => {
+      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      expect(isItemFromRoot(null, data)).toBe(false);
+    });
+
+    it('rejects a non-item payload', () => {
+      expect(isItemFromRoot(root, { foo: 'bar' })).toBe(false);
     });
   });
 

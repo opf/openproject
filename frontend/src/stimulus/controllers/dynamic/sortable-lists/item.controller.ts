@@ -39,8 +39,7 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
-  canAccept,
-  isSortableItemData,
+  isItemFromRoot,
   sortableItemData,
   type RootAwareChild,
   type SortableItemData,
@@ -101,7 +100,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   // Both values are required: an item with an empty id can never be persisted,
-  // and an empty type never matches the root's accepted type, so the item would
+  // and an empty type never matches a list's accepted type, so the item would
   // appear draggable yet silently refuse every drop. Surface that wiring mistake.
   private warnOnMissingValues():void {
     if (!this.hasIdValue) {
@@ -170,11 +169,15 @@ export default class ItemController extends Controller<HTMLElement> implements R
           return false;
         }
 
-        if (isSortableItemData(source.data) && source.data.itemId === this.idValue) {
-          return false;
-        }
-
-        return canAccept(root, source.data);
+        // Same-type proxy: an item sits in a list, so its own type is one the
+        // list accepts, and matching the dragged type against this item's type
+        // needs no list lookup. This assumes every item's type is among its
+        // list's accepted types; if a mixed-type list ever held an item of a
+        // non-accepted type, this target would accept a drop the list rejects,
+        // resolving to a silent no-op. Holds today (one type per list).
+        return isItemFromRoot(root.element, source.data)
+          && source.data.itemId !== this.idValue
+          && source.data.type === this.typeValue;
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {

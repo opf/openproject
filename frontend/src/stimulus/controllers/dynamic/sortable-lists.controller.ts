@@ -59,15 +59,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
 
   static values = {
-    acceptedType: String,
     moveUrlTemplate: String,
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
   declare readonly sortableListsItemOutlets:RootAwareChild[];
 
-  declare readonly acceptedTypeValue:string;
-  declare readonly hasAcceptedTypeValue:boolean;
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
 
@@ -111,12 +108,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   sortableListsScrollableOutletDisconnected(scrollable:RootAwareChild):void {
     scrollable.disconnectRoot();
-  }
-
-  get acceptedType():string|null {
-    // The accepted type is scoped to this controller instance, so every list
-    // outlet inside one sortable-lists root accepts the same sortable item type.
-    return this.hasAcceptedTypeValue ? this.acceptedTypeValue : null;
   }
 
   get moving():boolean {

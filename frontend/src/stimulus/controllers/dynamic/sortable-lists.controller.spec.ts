@@ -109,21 +109,19 @@ describe('Sortable lists controller', () => {
   }
 
   function renderFixture({
-    acceptedType = null,
     moveUrlTemplate = '/move/{id}',
-  }:{ acceptedType?:string|null; moveUrlTemplate?:string|null } = {}) {
+  }:{ moveUrlTemplate?:string|null } = {}) {
     fixture.innerHTML = `
       <div
         id="sortable-root"
         data-controller="sortable-lists"
-        ${acceptedType ? `data-sortable-lists-accepted-type-value="${acceptedType}"` : ''}
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
       >
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
         <div data-controller="sortable-lists--scrollable"></div>
       </div>
     `;
@@ -239,24 +237,22 @@ describe('Sortable lists controller', () => {
       <div
         id="sortable-root-1"
         data-controller="sortable-lists"
-        data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/move/{id}"
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root-1 [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root-1 [data-controller~='sortable-lists--item']"
       >
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1">
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package">
           <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="1" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
       </div>
       <div
         id="sortable-root-2"
         data-controller="sortable-lists"
-        data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/move/{id}"
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root-2 [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root-2 [data-controller~='sortable-lists--item']"
       >
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2">
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package">
           <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="10" data-sortable-lists--item-type-value="work_package"></li>
           <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="11" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
@@ -326,13 +322,12 @@ describe('Sortable lists controller', () => {
         id="backlogs-list"
         src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
         data-controller="sortable-lists"
-        data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
         data-sortable-lists-sortable-lists--list-outlet="#backlogs-list [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
       </turbo-frame>
     `;
 
@@ -536,7 +531,7 @@ describe('Sortable lists controller', () => {
   it('hands the root reference to connected list, item, and scrollable controllers', async () => {
     const {
       root, sourceList, scrollable, firstSourceItem,
-    } = renderFixture({ acceptedType: 'work_package' });
+    } = renderFixture();
     await ctx.nextFrame();
     // Outlet connections happen after the controller frame; a second frame
     // ensures the hand-over callbacks have fired.

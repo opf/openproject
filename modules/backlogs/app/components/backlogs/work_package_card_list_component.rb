@@ -117,7 +117,8 @@ module Backlogs
     def drag_and_drop_data
       data = {
         controller: "sortable-lists--list",
-        sortable_lists__list_type_value: drag_and_drop.fetch(:list_type)
+        sortable_lists__list_type_value: drag_and_drop.fetch(:list_type),
+        sortable_lists__list_accepted_type_value: drag_and_drop.fetch(:accepted_type)
       }
       if drag_and_drop[:list_id].present?
         data[:sortable_lists__list_id_value] = drag_and_drop[:list_id]

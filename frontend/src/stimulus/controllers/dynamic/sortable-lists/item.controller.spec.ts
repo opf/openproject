@@ -90,10 +90,10 @@ describe('Sortable lists item controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { moving = false, acceptedType = null as string|null } = {},
+    { moving = false } = {},
   ):SortableListsRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
-    return { element, moving, acceptedType };
+    return { element, moving };
   }
 
   function connectedControllerFor(
@@ -323,11 +323,11 @@ describe('Sortable lists item controller', () => {
     })).toBe(false);
   });
 
-  it('does not accept drops whose type is rejected by the root', () => {
+  it('does not accept a drop whose type differs from its own', () => {
     const root = document.createElement('div');
     const targetElement = document.createElement('article');
 
-    connectedControllerFor(targetElement, { root: fakeRoot(root, { acceptedType: 'work_package' }) });
+    connectedControllerFor(targetElement, { root: fakeRoot(root) });
 
     expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
       element: targetElement,
@@ -337,6 +337,22 @@ describe('Sortable lists item controller', () => {
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
+  });
+
+  it('accepts a same-type drop from another item in its root', () => {
+    const root = document.createElement('div');
+    const targetElement = document.createElement('article');
+
+    connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        element: document.createElement('article'),
+      } as never,
+    })).toBe(true);
   });
 
   it('does not accept drops while the root is moving another item', () => {

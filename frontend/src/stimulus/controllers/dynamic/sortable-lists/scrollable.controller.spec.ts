@@ -67,7 +67,7 @@ describe('Sortable lists scrollable controller', () => {
   }
 
   function stubRoot(element:HTMLElement):SortableListsRoot {
-    return { element, moving: false, acceptedType: 'work_package' };
+    return { element, moving: false };
   }
 
   function scrollArgs(element:HTMLElement, data:Record<string|symbol, unknown>) {

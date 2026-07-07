@@ -75,7 +75,6 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
-      expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
       expect(response.body).to include(
         %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
       )

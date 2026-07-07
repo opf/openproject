@@ -72,7 +72,6 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly moving:boolean;
-  readonly acceptedType:string|null;
 }
 
 // Implemented by the list and item controllers so the root can hand them its
@@ -152,29 +151,16 @@ export function buildMoveFormData({
   return data;
 }
 
-export function acceptsSortableItemType({
-  acceptedType,
-  type,
-}:{
-  acceptedType:string|null;
-  type:string;
-}):boolean {
-  return acceptedType === null || acceptedType === type;
-}
-
-// The drop rule shared by list and item drop targets: the payload must be a
-// sortable item belonging to this same root and of an accepted type. Item
-// targets additionally exclude themselves before calling this.
-export function canAccept(root:SortableListsRoot, data:Record<string|symbol, unknown>):boolean {
-  if (!isSortableItemData(data)) {
-    return false;
-  }
-
-  if (data.rootElement == null || data.rootElement !== root.element) {
-    return false;
-  }
-
-  return acceptsSortableItemType({ acceptedType: root.acceptedType, type: data.type });
+// The shared root-scoping rule: the payload must be a sortable item created by
+// an item controller wired to this exact root element. Identity (===), not
+// containment — nested roots must not accept each other's items.
+export function isItemFromRoot(
+  rootElement:HTMLElement|null,
+  data:Record<string|symbol, unknown>,
+):data is SortableItemData {
+  return rootElement != null
+    && isSortableItemData(data)
+    && data.rootElement === rootElement;
 }
 
 export function isSourceListTarget({
