@@ -34,18 +34,9 @@ See COPYRIGHT and LICENSE files for more details.
       size: :medium,
       font_weight: :bold,
       display: :inline_flex,
-      align_items: :center,
-      classes: "gap-2"
+      align_items: :center
     ) do
-      concat(Sprint.human_plural_model_name)
-      counter_options = {
-        scheme: :primary,
-        count: total,
-        round: true,
-        limit: 1_000,
-        hide_if_zero: true
-      }
-      concat render(Primer::Beta::Counter.new(**counter_options))
+      Sprint.human_plural_model_name
     end
 
     if sprint_creation_allowed?
