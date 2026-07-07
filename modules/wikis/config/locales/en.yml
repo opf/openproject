@@ -42,7 +42,7 @@ en:
       external_wiki_providers: Wiki providers
       internal_wiki_provider: Internal wiki
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage Wiki Page Links
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Wiki providers
   wikis:
     admin:
