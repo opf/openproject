@@ -105,7 +105,12 @@ module OpenProject
         #
         # @return [ApplicationComponent]
         def build_card
-          WorkPackageCardComponent.new(work_package:, classes: card_classes)
+          WorkPackageCardComponent.new(work_package:, **card_arguments)
+        end
+
+        # @return [Hash] keyword arguments forwarded to the card component.
+        def card_arguments
+          { classes: card_classes }
         end
 
         def card_classes

@@ -58,12 +58,17 @@ module Backlogs
       url_helpers.menu_project_backlogs_work_package_path(project, work_package)
     end
 
+    # @return [Hash] card arguments carrying the Backlogs-only keyboard wiring.
+    #   `tabindex` lives here rather than in the base because only this subclass
+    #   attaches the `backlogs--work-package` Enter handler; a focusable base card
+    #   would be a dead tab stop. The `:has(> .Box-card:focus-visible)` row rule
+    #   depends on this focusability.
     def card_arguments
-      {
-        classes: card_classes,
-        tabindex: 0,
-        data: card_data
-      }
+      arguments = super
+      arguments[:tabindex] = 0
+      arguments[:data] = merge_data(arguments, { data: card_data })
+      arguments[:aria] = merge_aria(arguments, { aria: card_aria })
+      arguments
     end
 
     def card_data
@@ -79,6 +84,17 @@ module Backlogs
       return data unless draggable?
 
       data.merge(sortable_lists__item_target: "preview handle")
+    end
+
+    # @return [Hash] ARIA wiring announcing the card's Enter activation without
+    #   claiming button or draggable semantics. Lives in the subclass because
+    #   only here is the `backlogs--work-package` Enter handler attached; the
+    #   base card is focusable for styling alone and must not claim a shortcut.
+    def card_aria
+      {
+        keyshortcuts: "Enter",
+        label: work_package.to_fs(:caption)
+      }
     end
 
     def draggable_data
