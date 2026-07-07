@@ -151,6 +151,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
+    // The dragged source row is still resolved as an <li>, the one place the
+    // subsystem is not yet tag-agnostic: reaching its rows container structurally
+    // needs the source list (not the root) on the item payload. Backlogs rows are
+    // <li>, so this holds today; generalising it is a tracked follow-up.
     const sourceRow = source.element.closest('li');
     if (!(sourceRow instanceof HTMLElement)) {
       return;
