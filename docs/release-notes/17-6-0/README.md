@@ -28,16 +28,28 @@ Take a look at our release video showing the most important features introduced 
 
 OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution. [Learn more about the motivation behind the integration and our collaboration with XWiki in our dedicated blog article](https://www.openproject.org/blog/x.wiki-integration).
 
-![OpenProject XWiki integration: Wiki providers overview with listed XWiki](openproject_system_administration_wiki_providers.png) 
+To use the XWiki integration, system administrators first need to configure an external wiki as a **Wiki provider** in the OpenProject administration settings. [See our system admin guide for more information](../../system-admin-guide/wikis/wiki-providers).
 
-With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
+![OpenProject XWiki integration: Wiki providers overview with listed XWiki](openproject_system_administration_wiki_providers.png)
+
+Work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
 
 The integration also supports **references between OpenProject and XWiki**. Users can see which wiki pages reference a work package and insert links to wiki pages directly from descriptions, comments, and documents. This helps teams keep project work and documentation connected across both platforms.
 
 ![OpenProject XWiki integration: 'Wikis' tab in a work package, with a linked XWiki and a 'Referenced in' link to another XWiki page, and option to add a wiki](openproject_work_package_xwiki_tab_referenced.png)
 
 > [!NOTE]
-> OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
+> The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
+
+### Internal wiki improvements
+
+OpenProject's built-in Wiki module is also improved with OpenProject 17.6. It can be used through the new integration as internal provider. System administrators can [activate this](../../system-admin-guide/wikis/#internal-wiki) under Administration → Wikis → Internal wiki.
+
+Users can link to all activated wikis, including internal ones, from the new **Wikis** tab in work packages. If disabled, the internal wiki is still available as a project module.
+
+In future releases, we plan to further improve the internal wiki.
+
+![Work package tab "Wikis" with option to link an existing wiki page or create a new wiki page](openproject-17-6-internal-wiki.png)
 
 ### Sprint goals
 
@@ -49,7 +61,7 @@ The sprint goal is then displayed on the sprint header, making it visible to eve
 
 ### All sprints overview
 
-OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. The new page provides an overview of all sprints in a project.
+OpenProject 17.6 introduces a new [All sprints](../../user-guide/backlogs-scrum/#all-sprints) view in the Backlogs module. The new page provides an overview of all sprints in a project.
 
 For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
@@ -71,6 +83,14 @@ This makes backlog bucket assignments visible in work package tables, allowing t
 
 ![Work package table with highlighted Backlog bucket column](openproject-17-6-backlog-bucket-work-package-table-highlighted.png)
 
+### Sprint sharing now available in the Basic Enterprise plan
+
+[feature: sprint_sharing ]
+
+Based on customer feedback, sprint sharing is now included in the **Basic Enterprise plan** instead of the Corporate plan. This makes the feature available to many more Enterprise customers.
+
+Thank you to everyone who shared constructive feedback and helped shape this decision.
+
 ### Support project-based (semantic) identifiers in exports
 
 OpenProject 17.6 extends support for project-based (semantic) identifiers across exports. Semantic identifiers are now included consistently in:
@@ -91,7 +111,7 @@ Administrators can now unreserve old project-based (semantic) identifiers and ma
 
 ### Convert meeting agenda items into work packages
 
-OpenProject 17.6 adds a new **Convert to work package** action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
+OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/one-time-meetings/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
 
 The newly created work package remains linked to the agenda item, helping teams connect meeting discussions with follow-up work.
 
@@ -109,11 +129,11 @@ To support this, project settings now include a new Time and costs section with 
 
 ### Escape control characters in CSV exports
 
-OpenProject 17.6 improves CSV export security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
+OpenProject 17.6 improves [CSV export](../../system-admin-guide/system-settings/exports/ ) security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
 
-If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports
+If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports.
 
-This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq) and we'd like to thank these contributors specifically: @QwQP0, @dkstjwls06, and @minnnjuuu - Thank you for your responsibly disclosure!
+This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq). We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06).
 
 ### Configure LDAP group synchronization using group member attributes (Enterprise add-on)
 
@@ -121,7 +141,7 @@ This change was originally reported as [a security advisory on GitHub](https://g
 
 OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
 
-This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute. Read more about [synchronizing LDAP and OpenProject groups](Enterprise add-on)(../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization)
+This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute. Read more about [synchronizing LDAP and OpenProject groups (Enterprise add-on)](../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization)
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
@@ -161,8 +181,7 @@ Resulting from a [security advisory report](https://github.com/opf/openproject/s
 While we expect production AD systems to perform their own brute force protections, administrators of OpenProject might be confused as the login with an LDAP user bind is transparent, and they might expect our brute force protection settings to apply.
 
 OpenProject 17.6 implements a Rack::Attack throttle rule for internal login mechanisms, also protecting LDAP binds specifically.
-We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06)
-
+We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06).
 
 
 ## Bug fixes and changes
@@ -310,10 +329,6 @@ A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deut
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, and Mohammed Mohiuddin.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
-
-- [OlhaTrotska](https://crowdin.com/profile/olhatrotska), for a great number of translations into Ukrainian.
-- [Daniel Catarino](https://crowdin.com/profile/tradengport), for a great number of translations into Portuguese.
-- [Raffaele Brevetti](https://crowdin.com/profile/rbrevetti), for a great number of translations into Italian.
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank [Maximiliano Spaccesi](https://crowdin.com/profile/maximiliano.spaccesi) for translating our FAQ in the documentation into Spanish.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
