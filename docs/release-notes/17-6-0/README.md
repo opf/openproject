@@ -41,13 +41,12 @@ The integration also supports **references between OpenProject and XWiki**. User
 > [!NOTE]
 > OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
 
-### Internal wiki configuration
+### Internal wiki improvements
 
-Under **Administration → Wikis → Internal wiki**, system administrators can now enable or disable the internal OpenProject wiki globally. When enabled, projects can continue to use their own project wiki. When disabled, no project can access the internal wiki.
+Under Administration → Wikis → Internal wiki, system administrators can enable or disable the Internal wiki provider. When enabled, users can select the Internal wiki from the new **Wikis** tab in work packages and when inserting wiki pages from CKEditor-based text fields. When disabled, the Internal wiki is no longer available through these integrations.
 
-If your OpenProject instance already used project wikis before upgrading to OpenProject 17.6, the internal wiki will be enabled automatically to preserve existing functionality.
-
-This setting is part of the new wiki administration structure, which distinguishes between the internal OpenProject wiki and external wiki providers such as XWiki. Users of the Internal wiki can also benefit from the new **Wiki** tab in work packages, where they can link existing wiki pages or create new ones directly from a work package.
+> [!NOTE]
+> In OpenProject 17.6, this setting only affects the new Wiki provider integrations. The **Wiki module continues to work as before** and can still be enabled or disabled per project.
 
 ![Work package tab "Wikis" with option to link an existing wiki page or create a new wiki page](openproject-17-6-internal-wiki.png)
 
@@ -61,7 +60,7 @@ The sprint goal is then displayed on the sprint header, making it visible to eve
 
 ### All sprints overview
 
-OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. The new page provides an overview of all sprints in a project.
+OpenProject 17.6 introduces a new [All sprints](../../user-guide/backlogs-scrum/#all-sprints) view in the Backlogs module. The new page provides an overview of all sprints in a project.
 
 For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
@@ -111,7 +110,7 @@ Administrators can now unreserve old project-based (semantic) identifiers and ma
 
 ### Convert meeting agenda items into work packages
 
-OpenProject 17.6 adds a new **Convert to work package** action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
+OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/one-time-meetings/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
 
 The newly created work package remains linked to the agenda item, helping teams connect meeting discussions with follow-up work.
 
@@ -129,11 +128,11 @@ To support this, project settings now include a new Time and costs section with 
 
 ### Escape control characters in CSV exports
 
-OpenProject 17.6 improves CSV export security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
+OpenProject 17.6 improves [CSV export](../../system-admin-guide/system-settings/exports/ ) security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
 
-If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports
+If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports.
 
-This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq) and we'd like to thank these contributors specifically: @QwQP0, @dkstjwls06, and @minnnjuuu - Thank you for your responsibly disclosure!
+This change was originally reported as [a security advisory on GitHub](https://github.com/opf/openproject/security/advisories/GHSA-fv8m-h8hc-57gq) and we'd like to thank these contributors specifically: @QwQP0, @dkstjwls06, and @minnnjuuu - Thank you for your responsible disclosure.
 
 ### Configure LDAP group synchronization using group member attributes (Enterprise add-on)
 
