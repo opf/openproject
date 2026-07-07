@@ -28,7 +28,7 @@
 
 module Redmine::MenuManager::WikiMenuHelper
   def build_wiki_menus(project)
-    return unless Wikis::InternalProvider.enabled.any?
+    return unless Wikis::InternalProvider.enabled?
 
     project_wiki = project.wiki
     return if project_wiki.nil?

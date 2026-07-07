@@ -93,14 +93,14 @@ FactoryBot.define do
     end
 
     trait :with_internal_wiki do
-      transient { start_page { "Wiki" } }
+      transient do
+        start_page { "Wiki" }
+      end
 
-      callback(:after_build) do |workspace, evaluator|
-        unless Wikis::InternalProvider.any? && Wikis::InternalProvider.enabled.any?
-          create(:internal_wiki_provider)
-        end
+      callback(:after_create) do |workspace, evaluator|
+        create(:internal_wiki_provider) if Wikis::InternalProvider.none?
 
-        Wiki.create(project: workspace, start_page: evaluator.start_page)
+        workspace.create_wiki(start_page: evaluator.start_page)
       end
     end
   end
