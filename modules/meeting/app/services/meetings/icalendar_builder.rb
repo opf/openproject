@@ -312,8 +312,7 @@ module Meetings
     end
 
     def instantiated_occurrences_for_export(recurring_meeting)
-      # Previous-schedule occurrences are represented as RDATEs on the master VEVENT.
-      # We should not emit them as individual VEVENTs as some implementations (such as OpenXchange)
+      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
       # reject the whole series if an event is < master DTSTART.
       upcoming_schedule_occurrences(recurring_meeting)
     end
