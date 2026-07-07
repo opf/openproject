@@ -103,23 +103,23 @@ RSpec.describe(
     it "includes the list of dependencies" do
       expect(described_class.copyable_dependencies.pluck(:identifier)).to match_array(
         %w(
-          members
-          versions
-          categories
-          sprints
-          work_packages
-          work_package_attachments
-          work_package_shares
-          wiki
-          wiki_page_attachments
-          forums
-          queries
           boards
+          categories
+          file_links
+          forums
+          members
           overview
           phases
-          storages
+          queries
+          sprints
           storage_project_folders
-          file_links
+          storages
+          versions
+          wiki
+          wiki_page_attachments
+          work_package_attachments
+          work_package_shares
+          work_packages
         )
       )
     end
