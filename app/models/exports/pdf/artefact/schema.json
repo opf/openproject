@@ -32,11 +32,326 @@
     },
     "project": {
       "$ref": "#/$defs/project"
+    },
+    "work_package": {
+      "$ref": "#/$defs/work_package"
+    },
+    "wp_table": {
+      "$ref": "#/$defs/wp_table"
+    },
+    "inline_error": {
+      "description": "Styling for inline error messages",
+      "$ref": "#/$defs/font"
+    },
+    "inline_hint": {
+      "description": "Styling for inline hint messages",
+      "$ref": "#/$defs/font"
     }
   },
   "required": [],
   "additionalProperties": false,
   "$defs": {
+    "work_package": {
+      "type": "object",
+      "title": "Work package",
+      "description": "Styling for the Work package section",
+      "x-example": {
+        "work_package": {
+          "margin_bottom": 20,
+          "subject": {},
+          "subject_level_1": {},
+          "subject_level_2": {},
+          "subject_level_3": {},
+          "attributes_table": {},
+          "markdown_label": {},
+          "markdown_margin": {},
+          "markdown": {}
+        }
+      },
+      "properties": {
+        "subject": {
+          "type": "object",
+          "title": "Work package subject",
+          "description": "Styling for the Work package subject headline",
+          "x-example": {
+            "subject": {
+              "size": 10,
+              "styles": [
+                "bold"
+              ],
+              "margin_bottom": 10
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "attributes_table": {
+          "type": "object",
+          "title": "Work package attributes",
+          "description": "Styling for the Work package attributes table",
+          "x-example": {
+            "attributes_table": {
+              "margin_bottom": 10,
+              "cell": {
+                "size": 9,
+                "color": "000000",
+                "padding_left": 5,
+                "padding_right": 5,
+                "padding_top": 0,
+                "padding_bottom": 5,
+                "border_color": "4B4B4B",
+                "border_width": 0.25
+              },
+              "cell_label": {
+                "styles": [
+                  "bold"
+                ]
+              }
+            }
+          },
+          "properties": {
+            "cell": {
+              "title": "Attribute value table cell",
+              "description": "Styling for a table cell with attribute value",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_label": {
+              "title": "Attribute label table cell",
+              "description": "Styling for a table cell with attribute label",
+              "$ref": "#/$defs/table_cell"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "attributes_group": {
+          "type": "object",
+          "title": "Work package attributes group label",
+          "description": "Label headline for a work package attributes group",
+          "x-example": {
+            "attributes_group": {
+              "size": 12,
+              "styles": [
+                "bold"
+              ],
+              "margin_top": 2,
+              "margin_bottom": 4
+            }
+          },
+          "properties": {
+            "hr": {
+              "type": "object",
+              "title": "Horizontal rule for attributes group rule",
+              "x-example": {
+                "border": {
+                  "color": "d3dee3",
+                  "height": 1
+                }
+              },
+              "properties": {
+                "height": {
+                  "title": "Line height of the horizontal rule",
+                  "examples": [
+                    1
+                  ],
+                  "$ref": "#/$defs/measurement"
+                },
+                "color": {
+                  "title": "Line color of the horizontal rule",
+                  "$ref": "#/$defs/color"
+                }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown_label": {
+          "type": "object",
+          "title": "Work package markdown label",
+          "description": "Label headline for work package description and long text custom fields",
+          "x-example": {
+            "markdown_label": {
+              "size": 12,
+              "styles": [
+                "bold"
+              ],
+              "margin_top": 2,
+              "margin_bottom": 4
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown_margin": {
+          "type": "object",
+          "title": "Work package markdown margins",
+          "description": "Margins for work package description and long text custom fields",
+          "x-example": {
+            "markdown_margin": {
+              "margin_bottom": 16
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "markdown": {
+          "$ref": "#/$defs/markdown"
+        }
+      },
+      "patternProperties": {
+        "^subject_level_\\d+": {
+          "type": "object",
+          "title": "Work package subject level",
+          "x-example": {
+            "subject_level_1": {
+              "size": 14,
+              "styles": [
+                "bold"
+              ]
+            },
+            "subject_level_2": {
+              "size": 13,
+              "styles": [
+                "bold"
+              ]
+            },
+            "subject_level_3": {
+              "size": 12,
+              "styles": [
+                "bold"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/margin"
+        }
+      ]
+    },
+    "wp_table": {
+      "title": "Work package table",
+      "description": "Styling for the related tables (Form configuration)",
+      "x-example": {
+        "overview": {
+          "group_heading": {},
+          "table": {}
+        }
+      },
+      "type": "object",
+      "properties": {
+        "group_heading": {
+          "type": "object",
+          "title": "Overview group heading",
+          "description": "Styling for the group label if grouping is activated",
+          "x-example": {
+            "group_heading": {
+              "size": 11,
+              "styles": [
+                "bold"
+              ],
+              "margin_bottom": 10
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        },
+        "table": {
+          "type": "object",
+          "title": "Overview table",
+          "x-example": {
+            "table": {
+              "subject_indent": 0,
+              "margin_bottom": 20,
+              "cell": {
+                "size": 9,
+                "color": "000000",
+                "padding": 5
+              },
+              "cell_header": {
+                "size": 9,
+                "styles": [
+                  "bold"
+                ]
+              },
+              "cell_sums": {
+                "size": 8,
+                "styles": [
+                  "bold"
+                ]
+              }
+            }
+          },
+          "properties": {
+            "subject_indent": {
+              "title": "Indent subject",
+              "description": "Indent by work package level in the subject cell",
+              "$ref": "#/$defs/measurement"
+            },
+            "cell": {
+              "title": "Table cell",
+              "description": "Styling for a table value cell",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_header": {
+              "title": "Table header cell",
+              "description": "Styling for a table header cell",
+              "$ref": "#/$defs/table_cell"
+            },
+            "cell_sums": {
+              "title": "Table sum cell",
+              "description": "Styling for a table sum cell",
+              "$ref": "#/$defs/table_cell"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/margin"
+            }
+          ]
+        }
+      }
+    },
     "cover": {
       "title": "Cover page",
       "description": "Styling for the cover page of the PDF report export",

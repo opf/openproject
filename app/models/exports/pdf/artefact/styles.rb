@@ -34,8 +34,20 @@ module Exports::PDF::Artefact::Styles
     include MarkdownToPDF::StyleHelper
     include Exports::PDF::Common::Styles
     include Exports::PDF::Components::PageStyles
+    include Exports::PDF::Components::WpTableStyles
     include Exports::PDF::Artefact::CoverStyles
     include Exports::PDF::Common::ProjectAttributesStyles
+    include WorkPackage::PDFExport::Common::MarkdownFieldStyles
+    include WorkPackage::PDFExport::Common::AttributesTableStyles
+
+    # Styling for inline hint/error messages in reused work package components
+    def inline_error
+      resolve_font(@styles[:inline_error])
+    end
+
+    def inline_hint
+      resolve_font(@styles[:inline_hint])
+    end
 
     def page_subheading
       resolve_font(@styles[:page_subheading])

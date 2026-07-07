@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -126,6 +126,31 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
 
     it "omits attributes not mapped to the work package type" do
       expect(pdf_strings.join(" ")).not_to include(unmapped_cf.name)
+    end
+  end
+
+  describe "work package attributes" do
+    let(:wp_text_cf) do
+      create(:issue_custom_field, :text, name: "WP Long Text CF", is_for_all: true)
+    end
+    let(:type) { create(:type_bug, custom_fields: [wp_text_cf]) }
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type:,
+             status:,
+             subject: "The artefact subject",
+             description: "A **rich** text description",
+             custom_values: { wp_text_cf.id => "The long text value" })
+    end
+
+    it "renders work package attributes/custom_fields/wp_tables" do
+      joined = pdf_strings.join(" ")
+      # standard attribute groups from the work package form configuration
+      expect(joined).to include(work_package.type.attribute_groups.first.translated_key)
+      # long text custom field label and value
+      expect(joined).to include(wp_text_cf.name)
+      expect(joined).to include("The long text value")
     end
   end
 end

@@ -37,14 +37,19 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Common::Badge
   include Exports::PDF::Common::ProjectAttributes
   include Exports::PDF::Components::Page
+  include Exports::PDF::Components::WpTable
   include Exports::PDF::Artefact::Cover
   include Exports::PDF::Artefact::Styles
+  include WorkPackage::PDFExport::Common::MarkdownField
+  include WorkPackage::PDFExport::Wp::Attributes
 
   attr_accessor :pdf
 
   self.model = WorkPackage
 
   alias :work_package :object
+
+  delegate :project, to: :work_package
 
   def self.key
     :artefact_export_pdf
@@ -191,6 +196,27 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
   def write_artefact
     write_artefact_project_attributes
+    write_artefact_wp_attributes
+  end
+
+  # Renders all work package attribute sections with embedded work package
+  # tables and custom fields (as shown in the work package form), reusing
+  # WorkPackage::PDFExport::Wp::Attributes. The group headers are styled like
+  # the project attribute sections above.
+  def write_artefact_wp_attributes
+    write_attributes!(work_package)
+  end
+
+  # Override the work package attribute group title to match the styling of the
+  # project attribute sections (see #write_section_title).
+  def write_group_title(group, with_hr: true) # rubocop:disable Lint/UnusedMethodArgument
+    write_optional_page_break
+    write_section_title(group.translated_key)
+  end
+
+  # The artefact export is always rendered in portrait orientation.
+  def page_orientation_landscape?
+    false
   end
 
   # Renders all project attribute sections (as shown in the work package project attributes tab)
@@ -245,10 +271,6 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   def write_section_title_hr
     hr_style = styles.section_title_hr
     write_horizontal_line(pdf.cursor, hr_style[:height], hr_style[:color])
-  end
-
-  def project
-    work_package.project
   end
 
   def can_view_attribute?(_project, _attribute)
