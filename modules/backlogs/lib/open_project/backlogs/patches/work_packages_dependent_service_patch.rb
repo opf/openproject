@@ -37,12 +37,16 @@ module OpenProject::Backlogs::Patches::WorkPackagesDependentServicePatch
 
   module InstanceMethods
     def copy_work_package(source_work_package, parent_id, user_cf_ids)
-      # Disabling the acts_as_list callbacks to make sure the position is carried
-      # over from the source work package without any alternation.
+      return super unless source.backlogs_enabled?
+
+      # Disable the acts_as_list callbacks so the position is carried over from
+      # the source work package unchanged instead of being reappended.
       WorkPackage.acts_as_list_no_update { super }
     end
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
+      return super unless source.backlogs_enabled?
+
       super.merge(
         sprint_id: work_package_sprint_id(source_work_package),
         backlog_bucket_id: work_package_backlog_bucket_id(source_work_package),
@@ -53,13 +57,13 @@ module OpenProject::Backlogs::Patches::WorkPackagesDependentServicePatch
     def work_package_sprint_id(source_work_package)
       return unless source_work_package.sprint_id
 
-      (state.sprint_id_lookup || {})[source_work_package.sprint_id]
+      state.sprint_id_lookup&.[](source_work_package.sprint_id)
     end
 
     def work_package_backlog_bucket_id(source_work_package)
       return unless source_work_package.backlog_bucket_id
 
-      (state.backlog_bucket_id_lookup || {})[source_work_package.backlog_bucket_id]
+      state.backlog_bucket_id_lookup&.[](source_work_package.backlog_bucket_id)
     end
   end
 end
