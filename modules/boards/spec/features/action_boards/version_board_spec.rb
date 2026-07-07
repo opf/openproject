@@ -215,7 +215,7 @@ RSpec.describe "Version action board",
       card = board_page.card_for(work_package)
       split_view = card.open_details_view
       split_view.expect_subject
-      split_view.edit_field(:version).update("Open version")
+      split_view.edit_field(:targetVersions).update("Open version")
       split_view.expect_and_dismiss_toaster message: "Successful update."
 
       work_package.reload
