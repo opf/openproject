@@ -219,7 +219,9 @@ module DemoData
           duration:,
           ignore_non_working_days:,
           schedule_manually:,
-          estimated_hours:
+          estimated_hours:,
+          remaining_hours:,
+          done_ratio:
         }
       end
 
@@ -260,6 +262,14 @@ module DemoData
 
       def estimated_hours
         attributes["estimated_hours"]&.to_i
+      end
+
+      def remaining_hours
+        attributes["remaining_hours"]&.to_i
+      end
+
+      def done_ratio
+        attributes["done_ratio"]&.to_i
       end
 
       def all_days

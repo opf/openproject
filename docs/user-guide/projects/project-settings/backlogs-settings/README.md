@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Backlogs settings
   priority: 300
 description: Backlogs settings.
-keywords: backlogs settings, backlogs, definition of done, share sprint, sprints, agile, scrum
+keywords: backlogs settings, backlogs, types and statuses, statuses considered closed, excluded work package types, sprint sharing, sprint goal, agile, scrum
 ---
 # Backlogs settings
 
@@ -18,14 +18,14 @@ Under the tab **Types and statuses** you can configure which work package status
 
 You can choose the statuses that represent a closed or finished state in your workflow.
 
-These statuses are treated as closed throughout sprint planning and reporting, including burndown charts and sprint completion.
+These statuses are treated as closed throughout sprint planning and reporting. They are used when calculating burndown charts and determine which work packages remain in a sprint when it is completed.
 
 Examples include:
 
-* Done
-* Resolved
-* Rejected
-* Won't Fix
+- Done
+- Resolved
+- Rejected
+- Won't Fix
 
 Statuses using the global **Closed** meta status are always treated as closed and cannot be removed.
 
@@ -33,14 +33,14 @@ Statuses using the global **Closed** meta status are always treated as closed an
 
 ### Excluded work package types
 
-You can choose which work package types should be hidden from backlog views.
+You can choose which work package types should be hidden from the Inbox backlog and backlog buckets.
 
 Excluded work package types:
 
-* do not appear in the Inbox backlog.
-* do not appear in backlog buckets.
-* continue to appear in sprints.
-* continue to appear on sprint boards.
+- do not appear in the Inbox backlog.
+- do not appear in backlog buckets.
+- continue to appear in sprints.
+- continue to appear on sprint boards.
 
 This can be useful for work package types that are managed at a higher level, such as Epics or Milestones.
 
@@ -79,6 +79,8 @@ Depending on the selected option, a project can either provide sprints to others
 
 ![Manage backlogs settings under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_sharing.png)
 
+Depending on your permissions, some shared sprint fields may be read-only. Project-specific fields, such as the sprint goal, can still be edited independently.
+
 ### What is shared
 
 When sprints are shared, the sprint itself is shared across projects. This includes:
@@ -92,9 +94,10 @@ This ensures that all participating projects work with the same sprint definitio
 ### What is not shared
 
 The following remain project-specific:
-- Work packages remain in their respective projects 
-- Backlogs and their structure remain project-specific 
-- Permissions and visibility are still managed per project 
+-  Work packages remain in their respective projects 
+-  Backlogs and their structure remain project-specific 
+-  Sprint goals remain project-specific
+-  Permissions and visibility are still managed per project
 
 Even when using shared sprints, each project keeps its own work items and configuration.
 

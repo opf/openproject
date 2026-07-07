@@ -33,4 +33,11 @@
 class CostTypesProject < ApplicationRecord
   belongs_to :cost_type
   belongs_to :project
+
+  # Whether costs have already been logged for this cost type in this project.
+  # Such a mapping must not be disabled, otherwise the registered costs would
+  # silently disappear from the affected work packages.
+  def in_use?
+    CostEntry.exists?(project_id:, cost_type_id:)
+  end
 end

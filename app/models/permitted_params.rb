@@ -659,6 +659,7 @@ class PermittedParams
         ),
         type: [
           :name,
+          :parent_id,
           :is_in_roadmap,
           :is_milestone,
           :is_default,

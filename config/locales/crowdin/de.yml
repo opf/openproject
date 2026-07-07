@@ -1417,10 +1417,6 @@ de:
         label_group: Abschnitt
         no_inactive_attributes: Keine inaktiven Attribute
         not_found: Die angeforderte Formularkonfiguration konnte nicht gefunden werden.
-        untitled_group: Unbenannte Gruppe
-        reset_title: Formularkonfiguration zurücksetzen
-        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
-        builtin_field: Vordefiniertes Feld
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
@@ -1602,10 +1598,10 @@ de:
     move:
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden.
       unsupported_for_multiple_projects: Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten
-      current_type_not_available_in_target_project: 'Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Der aktuelle Typ der Arbeitspakete ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie diesen Typ im Zielprojekt, wenn Sie möchten, dass sie unverändert bleiben. Andernfalls wird der Typ des Arbeitspakets automatisch neu zugewiesen, was zu Datenverlust führen kann.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2002,10 +1998,12 @@ de:
       type:
         description: Standardtext für Beschreibung
         attribute_groups: Formularkonfiguration
+        children: Sub-types
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_default: Typ für neue Projekte standardmäßig aktiviert
         is_milestone: Ist ein Meilenstein
         color: Farbe
+        parent: Parent type
         patterns: Muster
       remote_identity:
         auth_source: Authentizifierungsquelle
@@ -2124,6 +2122,7 @@ de:
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
         subproject: Unterprojekt
+        target_versions: Target versions
         time_entries: Zeit buchen
         type: Typ
         version: Version
@@ -2528,6 +2527,12 @@ de:
               duplicate_group: Der Gruppen-Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
               group_without_name: Gruppenname darf nicht leer sein.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
         user:
@@ -5432,7 +5437,7 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_work_packages_identifier_classic: Instanzweite numerische Sequenz (Standard)
   setting_work_packages_identifier_classic_caption: 'Jedes Arbeitspaket erhält eine sequentielle Nummer beginnend mit 1 (z.B. #1234). Die Nummern sind innerhalb dieser Instanz eindeutig. Sie bleiben also gleich, auch wenn Arbeitspakete zwischen Projekten verschoben werden.'
-  setting_work_packages_identifier_semantic: Projektspezifische semantische Kennungen (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Jedes Projekt hat eine eindeutige Projektkennung, die einer Zahl vorangestellt wird (z. B. PROJ-11). Die Nummerierung beginnt in jedem Projekt bei 1. Wenn ein Arbeitspaket in ein anderes Projekt verschoben wird, wird eine neue Kennung generiert, die alte bleibt jedoch weiterhin gültig.
   setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
   setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline Hervorherbung
@@ -5631,7 +5636,7 @@ de:
       heading: Benutzerattribute
       label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
-      label_untitled_section: Benutzerattribute
+      label_default_section: User attributes
       new:
         heading: Neues Attribut
       tabs:
@@ -6098,6 +6103,8 @@ de:
   api_v3:
     attributes:
       property: Eigenschaft
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Ungültige Anfrage: %{message}'
       code_401: Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können.

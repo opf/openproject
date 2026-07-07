@@ -55,7 +55,7 @@ module CustomFields
           required: true
         ) do |list|
           section_class_for_model.all.each do |cs| # rubocop:disable Rails/FindEach -- ordered by default_scope; find_each would override it
-            list.option(value: cs.id, label: cs.name.presence || I18n.t("settings.user_custom_fields.label_untitled_section"))
+            list.option(value: cs.id, label: cs.name)
           end
         end
       end

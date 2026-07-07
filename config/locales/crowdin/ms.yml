@@ -1576,10 +1576,10 @@ ms:
     move:
       no_common_statuses_exists: Tiada status tersedia untuk semua pakej kerja yang terpilih. Status mereka tidak dapat diubah.
       unsupported_for_multiple_projects: Pindahan/salinan secara pukal tidak disokong untuk pakej kerja dari projek yang berbeza
-      current_type_not_available_in_target_project: 'Jenis semasa pakej kerja tidak didayakan dalam projek sasaran. Sila dayakan jenis dalam projek sasaran jika anda mahu ia kekal tidak berubah. Jika tidak, pilih jenis yang tersedia dalam projek sasaran daripada senarai.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Jenis semasa pakej kerja tidak didayakan dalam projek sasaran. Sila dayakan jenis dalam projek sasaran jika anda mahu mereka kekal tidak berubah. Jika tidak, pilih jenis yang tersedia dalam projek sasaran daripada senarai.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1980,10 +1980,12 @@ ms:
       type:
         description: Teks default untuk deskripsi
         attribute_groups: Konfigurasi borang
+        children: Sub-types
         is_in_roadmap: Dipaparkan dalam roadmap secara default
         is_default: Diaktifkan untuk projek baharu secara default
         is_milestone: Adalah pencapaian
         color: Warna
+        parent: Parent type
         patterns: Patterns
       remote_identity:
         auth_source: Auth Source
@@ -2102,6 +2104,7 @@ ms:
         spent_hours: Masa yang dihabiskan
         spent_time: Masa yang dihabiskan
         subproject: Subprojek
+        target_versions: Target versions
         time_entries: Masa log
         type: Jenis
         version: Versi
@@ -2505,6 +2508,12 @@ ms:
               duplicate_group: Nama kumpulan '%{group}' digunakan lebih dari sekali. Nama kumpulan mestilah unik.
               query_invalid: 'Pencarian yang ditetapkan ''%{group}'' tidak sah: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -5371,7 +5380,7 @@ ms:
   setting_welcome_on_homescreen: Paparkan blok selamat datang di skrin utama
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Mod penyorotan default
   setting_work_package_list_default_highlighted_attributes: Atribut disorot sebaris default
@@ -5572,7 +5581,7 @@ ms:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6036,6 +6045,8 @@ ms:
   api_v3:
     attributes:
       property: Ciri-ciri
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Ralat Permintaan: %{message}'
       code_401: Anda perlu disahkan untuk mengakses sumber ini.

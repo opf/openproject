@@ -39,11 +39,11 @@ fr:
       resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
   button_next: Suivant
-  label_resource_management: Resource management
+  label_resource_management: Gestion des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
   permission_allocate_user_resources_explanation: Permet aux utilisateurs de créer, mettre à jour et supprimer les allocations de ressources dans un planificateur de ressources. Cela inclut l'assignation d'utilisateurs (ou des filtres d'utilisateurs) à un planificateur et l'ajustement de la plage de temps et de dates allouées.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
+  permission_assign_users_to_generic_allocations: Affecter des utilisateurs à des allocations génériques
+  permission_assign_users_to_generic_allocations_explanation: Permet aux utilisateurs d'utiliser la vue « Effectifs » pour affecter des utilisateurs réels à des affectations de ressources génériques (basées sur des filtres) qui ne sont pas encore associées à un utilisateur. Cette fonctionnalité ne permet pas de créer ni de modifier des affectations.
   permission_manage_public_resource_planners: Gérer les planificateurs de ressources publiques
   permission_manage_public_resource_planners_explanation: Permet aux utilisateurs de créer et de gérer des planificateurs de ressources publics. Cela leur permet de visualiser, de créer, de gérer et de publier leurs propres planificateurs de ressources. Cela ne leur permet pas de visualiser les planificateurs de ressources qui ont été créés par d'autres utilisateurs et qui ne sont pas partagés publiquement.
   permission_view_resource_planners: Voir les planificateurs de ressources
@@ -90,18 +90,18 @@ fr:
       success_message: Ressource attribuée.
       title: Attribuer une ressource
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} disponible"
+      confirm_overtime: Attribuer quand même
+      filter_criteria: Critères de filtrage
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: Aucun membre du projet ne répond aux critères de sélection de cette affectation.
+        title: Aucun membre trouvé
+      no_schedule: Cet utilisateur n'a pas d'horaire de travail défini ; nous ne pouvons donc pas déterminer si cette affectation est appropriée.
+      overbooked_detail: Cet utilisateur dispose de %{available} pendant cette période ; le lot de travail nécessite %{requested}.
+      requested_for: Demande concernant
+      select_user: Veuillez sélectionner un utilisateur à désigner.
+      submit: Assigner
+      title: Attribuer %{filter_name}
     blankslate:
       desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
       title: Aucun planificateur de ressources pour le moment
@@ -134,39 +134,39 @@ fr:
       private: Privé
       public: Public
     staffing:
-      assign: Assign user
+      assign: Attribuer un utilisateur
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Toutes les affectations génériques de ce projet ont un utilisateur qui leur est attribué.
+        title: Rien à transmettre au personnel
       columns:
         dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
+        requested_time: Temps requis
+        resource: Ressource
+        work_package: Lot de travaux
+      context_menu_label: Actions d'allocation
+      delete_confirmation: Êtes-vous sûr de vouloir supprimer cette affectation ?
+      menu_item: Ressources humaines
+      starts_in_past: Cette allocation a déjà commencé et n'a pas encore été attribuée.
+      success_message: Attribué par l'utilisateur.
+      title: Equipe
     sub_views: Vues de ce planificateur de ressources
     timeframe:
-      end_only: Until %{end}
-      full: From %{start} to %{end}
-      start_only: From %{start}
+      end_only: Jusqu'à %{end}
+      full: De %{start} à %{end}
+      start_only: De %{start}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: Jour
+        month: Mois
+        week: Semaine calendaire
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Période suivante
+        previous: Période précédente
+        today: Aujourd'hui
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Ajouter
+        allocate: Allouer
+        settings: Configurer la vue
     user_allocations_dialog:
       allocate_work_package: Attribuer un lot de travaux
       blank: Cet utilisateur n'a aucun lot de travaux qui lui a été attribué.
@@ -182,7 +182,7 @@ fr:
         manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
         title: Aucun utilisateur à afficher
       card:
-        multi_value_more: "+%{count} more"
+        multi_value_more: Afficher %{count} de plus
         remove: Supprimer l'utilisateur
         remove_confirmation: Supprimer cet utilisateur de la vue ?
       fields:
@@ -197,29 +197,29 @@ fr:
       utilization:
         label: Utilisation
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: Aucun horaire de travail n'a été configuré
+        schedule_availability_compact: "%{schedule} (%{factor}% de capacité disponible)"
+        schedule_change_compact: jusqu'à %{date}, %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: Ajouter un utilisateur
+        configure_view: Configurer la vue
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Ajoutez des utilisateurs à cette vue pour visualiser leur répartition au fil du temps.
+        title: Aucun utilisateur à afficher
+      no_work_schedule: Aucun planning de travail n'est prévu pour cet utilisateur
+      overbooked: Cet utilisateur a dépassé son quota pour la période sélectionnée.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} prévu, %{available} disponible"
       subheader:
-        add_user: Add user
+        add_user: Ajouter un utilisateur
     view_types:
       resource_user_card:
         caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
         label: Liste des fiches des utilisateurs
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: Créez une vue basée sur les utilisateurs et visualisez l'évolution de leurs allocations au fil du temps sur un graphique chronologique
+        label: Fil d'actualité des utilisateurs
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
@@ -283,4 +283,4 @@ fr:
         title: Aucun lot de travaux à afficher
       query_name: 'Calendrier des lots de travaux de gestion des ressources : %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Ajouter un lot de travaux

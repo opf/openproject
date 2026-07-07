@@ -1580,10 +1580,10 @@ vi:
     move:
       no_common_statuses_exists: Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi.
       unsupported_for_multiple_projects: Di chuyển/sao chép hàng loạt không được hỗ trợ cho các gói công việc từ nhiều dự án
-      current_type_not_available_in_target_project: 'Loại gói công việc hiện tại không được kích hoạt trong dự án mục tiêu. Vui lòng bật loại trong dự án mục tiêu nếu bạn muốn nó không thay đổi. Nếu không, hãy chọn loại có sẵn trong dự án mục tiêu từ danh sách.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'Các loại gói công việc hiện tại không được kích hoạt trong dự án mục tiêu. Vui lòng kích hoạt các loại trong dự án mục tiêu nếu bạn muốn chúng không thay đổi. Nếu không, hãy chọn loại có sẵn trong dự án mục tiêu từ danh sách.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1982,10 +1982,12 @@ vi:
       type:
         description: Văn bản mặc định cho mô tả
         attribute_groups: Cấu hình biểu mẫu
+        children: Sub-types
         is_in_roadmap: Hiển thị trong lộ trình mặc định
         is_default: Kích hoạt cho các dự án mới theo mặc định
         is_milestone: Là cột mốc quan trọng
         color: Màu sắc
+        parent: Parent type
         patterns: mẫu
       remote_identity:
         auth_source: Nguồn xác thực
@@ -2104,6 +2106,7 @@ vi:
         spent_hours: dành thời gian
         spent_time: Thời gian
         subproject: Dự án con
+        target_versions: Target versions
         time_entries: Thời gian truy cập
         type: loại
         version: Phiên bản
@@ -2507,6 +2510,12 @@ vi:
               duplicate_group: Nhóm tên '%{group}' được sử dụng nhiều hơn một lần. Tên nhóm phải là duy nhất.
               query_invalid: 'Truy vấn nhúng ''%{group}'' là không hợp lệ: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Một hoặc nhiều thuộc tính bên trong trường này không hợp lệ. Vui lòng sửa các thuộc tính trước khi lưu.
         user:
@@ -5371,7 +5380,7 @@ vi:
   setting_welcome_on_homescreen: Hiển thị khối chào mừng trên màn hình chính
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Chế độ đánh dấu mặc định
   setting_work_package_list_default_highlighted_attributes: Thuộc tính được đánh dấu nội tuyến mặc định
@@ -5572,7 +5581,7 @@ vi:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6040,6 +6049,8 @@ vi:
   api_v3:
     attributes:
       property: tài sản
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Yêu cầu không hợp lệ: %{message}'
       code_401: Bạn cần phải được xác thực để truy cập tài nguyên này.

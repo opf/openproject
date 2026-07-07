@@ -39,13 +39,18 @@ class Projects::Settings::CostTypesController < Projects::SettingsController
 
   def toggle
     if @cost_type.for_all_projects?
-      respond_with_status(:unprocessable_entity)
+      reject_toggle("activerecord.errors.messages.is_for_all_cannot_modify")
       return
     end
 
     mapping = CostTypesProject.find_or_initialize_by(project_id: @project.id, cost_type_id: @cost_type.id)
 
     if mapping.persisted?
+      if mapping.in_use?
+        reject_toggle("activerecord.errors.messages.cost_type_in_use_cannot_disable")
+        return
+      end
+
       mapping.destroy!
     else
       mapping.save!
@@ -60,14 +65,18 @@ class Projects::Settings::CostTypesController < Projects::SettingsController
     @cost_type = CostType.active.find(params.expect(:id))
   end
 
-  def respond_with_status(status)
+  def reject_toggle(error_message)
+    respond_with_status(:unprocessable_entity, error_message:)
+  end
+
+  def respond_with_status(status, error_message: nil)
     respond_to do |format|
       format.json { render json: {}, status: }
       format.html do
         if status == :ok
           flash[:notice] = I18n.t(:notice_successful_update)
         else
-          flash[:error] = I18n.t("activerecord.errors.messages.is_for_all_cannot_modify")
+          flash[:error] = I18n.t(error_message)
         end
         redirect_to project_settings_cost_types_path(@project)
       end

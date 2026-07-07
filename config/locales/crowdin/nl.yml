@@ -1598,10 +1598,10 @@ nl:
     move:
       no_common_statuses_exists: Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd.
       unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten
-      current_type_not_available_in_target_project: 'Het huidige type van het werkpakket is niet ingeschakeld in het doelproject. Schakel het type in het doelproject in als u wilt dat het ongewijzigd blijft. Selecteer anders een beschikbaar type in het doelproject in uit de lijst.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'De huidige types van het werkpakket zijn niet ingeschakeld in het doelproject. Schakel de types in het doelproject in als u wilt dat deze ongewijzigd blijft. Anders selecteer een beschikbaar type in het doelproject uit de lijst.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2000,10 +2000,12 @@ nl:
       type:
         description: Standaard tekst voor beschrijving
         attribute_groups: Formulierconfiguratie
+        children: Sub-types
         is_in_roadmap: Standaard weergegeven in roadmap
         is_default: Standaart ingesteld voor nieuwe projecten
         is_milestone: Is mijlpaal
         color: Kleur
+        parent: Parent type
         patterns: Patterns
       remote_identity:
         auth_source: Auth Source
@@ -2122,6 +2124,7 @@ nl:
         spent_hours: Bestede tijd
         spent_time: Bestede tijd
         subproject: Subproject
+        target_versions: Target versions
         time_entries: Gelogde tijd
         type: Type
         version: Versie
@@ -2526,6 +2529,12 @@ nl:
               duplicate_group: De groep naam ‘%{group}’ word meer dan één keer gebruikt. Groep namen moeten uniek zijn.
               query_invalid: 'De ingesloten zoekopdracht ''%{group}'' is ongeldig: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -5418,7 +5427,7 @@ nl:
   setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Standaardmodus markeren
   setting_work_package_list_default_highlighted_attributes: Inline gemarkeerd standaardkenmerken
@@ -5617,7 +5626,7 @@ nl:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6084,6 +6093,8 @@ nl:
   api_v3:
     attributes:
       property: Eigendom
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Verkeerd verzoek: %{message}'
       code_401: U moet geauthenticeerd zijn om toegang te hebben tot deze resource.

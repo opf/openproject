@@ -1644,10 +1644,10 @@ sk:
     move:
       no_common_statuses_exists: Pre všetky vybraté pracovné balíčky nie je k dispozícii žiadny stav. Ich stav nemožno zmeniť.
       unsupported_for_multiple_projects: Hromadné premiestnenie alebo kopírovanie nie je podporované pre pracovné balíky z viacerých projektov
-      current_type_not_available_in_target_project: 'The current type of the work package is not enabled in the target project. Please enable the type in the target project if you''d like it to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: 'The current types of the work packages aren''t enabled in the target project. Please enable the types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -2046,10 +2046,12 @@ sk:
       type:
         description: Default text for description
         attribute_groups: Konfigurácia formulára
+        children: Sub-types
         is_in_roadmap: Zobraziť v Roadmap štandardne
         is_default: Aktivované pre nové projekty štandardne
         is_milestone: Je medzník
         color: Farba
+        parent: Parent type
         patterns: Patterns
       remote_identity:
         auth_source: Auth Source
@@ -2168,6 +2170,7 @@ sk:
         spent_hours: Strávený čas
         spent_time: Strávený čas
         subproject: Podprojekt
+        target_versions: Target versions
         time_entries: Zaprotokoluj čas
         type: Typ
         version: Verzia
@@ -2574,6 +2577,12 @@ sk:
               duplicate_group: Názov skupiny '%{group}' sa používa viackrát. Názvy skupín musia byť jedinečné.
               query_invalid: 'Vložený dopyt ''%{group}'' je neplatný: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -5574,7 +5583,7 @@ sk:
   setting_welcome_on_homescreen: Zobraziť uvítací blok na úvodnej obrazovke
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
   setting_work_package_list_default_highlighted_attributes: Predvolené inline zvýraznené atribúty
@@ -5773,7 +5782,7 @@ sk:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6240,6 +6249,8 @@ sk:
   api_v3:
     attributes:
       property: Property
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 'Bad request: %{message}'
       code_401: Pre prístup k tomuto prostriedku musíte byť autentifikovaný.

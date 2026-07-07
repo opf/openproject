@@ -1576,10 +1576,10 @@ zh-TW:
     move:
       no_common_statuses_exists: 被選取的工作套件沒有可用的狀態。他們的狀態不可以變更。
       unsupported_for_multiple_projects: 工作套件不支援從多個專案的大區塊的移動/複製
-      current_type_not_available_in_target_project: '目前工作套件的類型在目標專案中未啟用。若希望保持不變，請先在目標專案啟用該類型；否則，請從列表中選擇目標專案中已啟用的類型。
+      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
-      bulk_current_type_not_available_in_target_project: '當前類型之工作套件尚未啓用於目標專案。如果您希望工作套件類型保持不變，請在目標專案中啓用這些類型。否則，請從列表中選擇目標專案中的可用類型。
+      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
 
         '
     sharing:
@@ -1976,10 +1976,12 @@ zh-TW:
       type:
         description: 描述的預設文字
         attribute_groups: 表單設定
+        children: Sub-types
         is_in_roadmap: 在藍圖中預設為顯示
         is_default: 新專案的預設啟動類型
         is_milestone: 里程碑
         color: 顏色
+        parent: Parent type
         patterns: 樣板
       remote_identity:
         auth_source: 驗證來源
@@ -2098,6 +2100,7 @@ zh-TW:
         spent_hours: 耗時
         spent_time: 耗時
         subproject: 子專案
+        target_versions: Target versions
         time_entries: 工作紀錄
         type: 類型
         version: 版本
@@ -2501,6 +2504,12 @@ zh-TW:
               duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               query_invalid: '這個遷入的查詢 ''%{group}'' 是無效的: %{details}'
               group_without_name: Group name can't be blank.
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 欄位內的一個或多個屬性不正確。請在儲存前修正屬性。
         user:
@@ -5356,7 +5365,7 @@ zh-TW:
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
   setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: 預設顯示模式
   setting_work_package_list_default_highlighted_attributes: 預設顯眼屬性
@@ -5559,7 +5568,7 @@ zh-TW:
       heading: User attributes
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_default_section: User attributes
       new:
         heading: New attribute
       tabs:
@@ -6027,6 +6036,8 @@ zh-TW:
   api_v3:
     attributes:
       property: 屬性
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 錯誤請求：%{message}
       code_401: |-
