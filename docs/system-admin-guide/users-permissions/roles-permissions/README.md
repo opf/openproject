@@ -131,7 +131,7 @@ The form shows the available global permissions which can be assigned to the new
 - View all users and groups
 
 > [!NOTE] 
-> This allows administrators to **allow the visibility of all users in the system**. When this global permission is *not* assigned, a user only sees:
+> This enables administrators to **allow the visibility of all users in the system**. When this global permission is *not* assigned, a user only sees:
 > - users who share a project with them,
 > - users in the same groups as them, or
 > - members of public projects.

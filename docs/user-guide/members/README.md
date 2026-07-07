@@ -83,7 +83,7 @@ You can see another user or group if **any** of the following applies:
 - **You share a project.** If you are both members of the same project, you can see each other. This also covers users who are not project members but have a work package in that project [shared](../work-packages/share-work-packages) with them.
 - **You have access to a project the other user belongs to.** A project is accessible to you when it is a **public** project, when you are a member of it, or when a work package in it has been shared with you. In each of these cases you can see all members of that project, as well as everyone who has a work package shared with them there.
 
-A few consequences worth noting:
+It is important to keep in mind that:
 
 - Members of a **public** project are visible to everyone, since public projects are accessible to all users.
 - Visibility is evaluated **per project**, not per work package. Once you can see a project, you can see all of its members, not only the people involved in the specific work package that was shared with you.
