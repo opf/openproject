@@ -177,13 +177,13 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "inbox" }
         let(:prev_id) { existing_inbox_item.id }
 
-        it "replaces the sprint and backlog components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
           subject
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
           expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+            .to have_turbo_stream action: "replace", target: "backlogs-sprints-component-#{project.id}", method: "morph"
           expect(response)
             .to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}", method: "morph"
           expect(assigns(:project)).to eq(project)
@@ -221,15 +221,16 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "backlog_bucket:#{bucket.id}" }
         let(:prev_id) { bucket_items.first.id }
 
-        it "replaces the sprint and backlog components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
           subject
 
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{sprint.id}",
+                                                target: "backlogs-sprints-component-#{project.id}",
                                                 method: "morph"
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+                                                target: "backlogs-backlog-component-#{project.id}",
+                                                method: "morph"
         end
 
         context "when the project is configured to exclude the work packages status from backlogs" do
@@ -302,14 +303,16 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_sprint) { create(:sprint, name: "Target Sprint", project:) }
         let(:target_id) { "sprint:#{target_sprint.id}" }
 
-        it "replaces inbox and target sprint components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
           subject
 
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+                                                target: "backlogs-sprints-component-#{project.id}",
+                                                method: "morph"
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+                                                target: "backlogs-backlog-component-#{project.id}",
+                                                method: "morph"
 
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
@@ -400,14 +403,16 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_sprint) { create(:sprint, name: "Target Sprint", project:) }
         let(:target_id) { "sprint:#{target_sprint.id}" }
 
-        it "replaces the backlog and sprint components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
           subject
 
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+                                                target: "backlogs-sprints-component-#{project.id}",
+                                                method: "morph"
           expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+                                                target: "backlogs-backlog-component-#{project.id}",
+                                                method: "morph"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
