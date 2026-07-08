@@ -9,9 +9,10 @@
       )
     ) do |list|
       list.with_header(
-        title: @project_custom_field_section.name,
         title_arguments: { font_weight: :bold }
       ) do |header|
+        header.with_title { @project_custom_field_section.name }
+
         header.with_action_button(
           tag: :a,
           href: enable_all_path,

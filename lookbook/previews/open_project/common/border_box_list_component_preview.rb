@@ -44,6 +44,7 @@ module OpenProject
       # @param description text
       # @param interactive toggle
       # @param collapsible toggle
+      # rubocop:disable Metrics/AbcSize
       def default(
         padding: :default,
         header_padding: :inherit,
@@ -58,7 +59,8 @@ module OpenProject
           interactive: boolean_preview_param(interactive),
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
-          list.with_header(title: "Things we're building", count: true) do |header|
+          list.with_header(count: true) do |header|
+            header.with_title { "Things we're building" }
             header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :pencil)
@@ -77,6 +79,7 @@ module OpenProject
           list.with_footer { "Next launch window: October" }
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       # @label Transparent scheme
       # @param padding [Symbol] select [default, condensed, spacious]
@@ -99,7 +102,8 @@ module OpenProject
           interactive: boolean_preview_param(interactive),
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
-          list.with_header(title: "Sprint backlog", count: true) do |header|
+          list.with_header(count: true) do |header|
+            header.with_title { "Sprint backlog" }
             header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :rocket)
@@ -139,7 +143,7 @@ module OpenProject
           interactive: boolean_preview_param(interactive),
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
-          list.with_header(title: "Work packages", count: true)
+          list.with_header(count: true) { |header| header.with_title { "Work packages" } }
           render_work_package_items(list, work_packages)
         end
       end
@@ -173,7 +177,6 @@ module OpenProject
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
           list.with_header(
-            title: "Playground list",
             title_tag: title_tag.to_sym,
             count: preview_count(count),
             count_arguments: {
@@ -182,6 +185,7 @@ module OpenProject
               aria: { label: "Visible list item count" }
             }
           ) do |header|
+            header.with_title { "Playground list" }
             header.with_description_content(description) if description.present?
           end
 
@@ -205,7 +209,7 @@ module OpenProject
           interactive: boolean_preview_param(interactive),
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
-          list.with_header(title: "Empty list", count: 0)
+          list.with_header(count: 0) { |header| header.with_title { "Empty list" } }
           list.with_empty_state(
             title: "No items yet",
             description: "There is nothing to show."

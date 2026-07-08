@@ -54,6 +54,14 @@ module OpenProject
         }.freeze
 
         # @!parse
+        #   # Renders the header title content.
+        #   #
+        #   # @return [ViewComponent::Slot]
+        #   def with_title(&block)
+        #   end
+        renders_one :title
+
+        # @!parse
         #   # Adds secondary content below the header title.
         #   #
         #   # The content is wrapped in `Primer::Beta::Text` with muted text
@@ -83,8 +91,7 @@ module OpenProject
           end
         }
 
-        attr_reader :title,
-                    :count,
+        attr_reader :count,
                     :count_label,
                     :count_arguments,
                     :title_tag,
@@ -96,7 +103,6 @@ module OpenProject
 
         attr_writer :collapsible_id
 
-        # @param title [String] header title.
         # @param count [Integer, Boolean, nil] count badge behavior. Pass
         #   `nil` or `false` to hide it, `true` to infer the rendered item
         #   count, or an integer to render an explicit value.
@@ -116,7 +122,6 @@ module OpenProject
         #   with a toggle button.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
-          title:,
           count: nil,
           count_label: nil,
           count_arguments: {},
@@ -130,7 +135,6 @@ module OpenProject
         )
           super()
 
-          @title = title
           @count = count
           @count_label = count_label
           @count_arguments = count_arguments

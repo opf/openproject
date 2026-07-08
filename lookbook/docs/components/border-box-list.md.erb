@@ -56,7 +56,6 @@ comparable lists should use headers.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `title` | `String` | required | Header title |
 | `title_tag` | `Symbol` | `:h4` | HTML tag for the title heading |
 | `title_arguments` | `Hash` | `{}` | Forwarded to the title heading element |
 | `count` | `Integer`, `Boolean`, `nil` | `nil` | Pass `true` to infer the rendered item count, an integer for an explicit value, or `nil`/`false` to hide it |
@@ -67,6 +66,7 @@ comparable lists should use headers.
 
 | Slot | Description |
 |---|---|
+| `with_title` | Header title content. Renders inside the title wrapper |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_action_button` | Button rendered in the header actions area |
 | `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |
@@ -166,7 +166,8 @@ render OpenProject::Common::BorderBoxListComponent.new(
   padding: :condensed,
   collapsible: true
 ) do |list|
-  list.with_header(title: "Project attributes", count: true) do |header|
+  list.with_header(count: true) do |header|
+    header.with_title { "Project attributes" }
     header.with_description(id: "project-attributes-description", font_size: :small) do
       "Visible in the project overview"
     end

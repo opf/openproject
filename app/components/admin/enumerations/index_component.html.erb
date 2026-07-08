@@ -24,10 +24,9 @@ component_wrapper do
           data: drop_target_config
         )
       ) do |list|
-        list.with_header(
-          title_tag: :h3,
-          title: enumeration_class.model_name.human(count: :other)
-        )
+        list.with_header(title_tag: :h3) do |header|
+          header.with_title { enumeration_class.model_name.human(count: :other) }
+        end
 
         list.with_empty_state(
           title: t(:no_results_title_text),

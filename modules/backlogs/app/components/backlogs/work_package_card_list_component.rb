@@ -79,18 +79,19 @@ module Backlogs
       count: work_packages.size,
       count_label: default_count_label(count),
       **system_arguments,
-      &
+      &block
     )
       system_arguments[:title_arguments] ||= {}
       system_arguments[:title_arguments][:font_size] ||= 4
 
       @list.with_header(
-        title:,
         count:,
         count_label:,
-        **system_arguments,
-        &
-      )
+        **system_arguments
+      ) do |header|
+        header.with_title { title }
+        block&.call(header)
+      end
     end
 
     def before_render
