@@ -149,6 +149,12 @@ export function typeTextColor() {
     : 'hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1)';
 }
 
+export function metaTextColor() {
+  return wantsHighContrast()
+    ? 'var(--bn-colors-editor-text)'
+    : 'color-mix(in srgb, var(--bn-colors-editor-text) 60%, var(--bn-colors-highlights-gray-text))';
+}
+
 function hexToHSL(hexColor:string):{ h:number; s:number; l:number } {
   const color = cleanColorString(hexColor);
 
