@@ -44,16 +44,16 @@ eo:
       sprint_goal:
         text: Sprinta celo
       work_package:
-        backlog_bucket: Backlog bucket
-        backlogs_work_package_type: Backlog type
+        backlog_bucket: Tasklista ujo
+        backlogs_work_package_type: Tasklista tipo
         position: Posicio
         sprint: Sprinto
-        story_points: Historiaj poentoj
+        story_points: Rakontaj poentoj
     errors:
       messages:
-        must_be_in_planning: must be in planning to start.
-        only_one_active_sprint_allowed: only one active sprint is allowed per project.
-        dates_required: Start and finish dates are required in order to start the sprint.
+        must_be_in_planning: devas esti en la planado por komenci.
+        only_one_active_sprint_allowed: nur unu aktiva sprinto estas permesata por ĉiu projekto.
+        dates_required: Komencaj kaj finaj datoj estas bezonataj por komenci la sprinton.
       models:
         project:
           receiving_sprints: is receiving shared sprints. Own sprints cannot be created.
@@ -73,10 +73,10 @@ eo:
             status:
               not_active: ne estas aktiva, do ĝi ne povas esti fermita.
         work_package:
-          backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
+          backlog_bucket_xor_sprint: ne eblas asigni ĝin al kaj sprinto kaj tasklista ujo.
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: must belong to the same project as the work package.
+              backlog_bucket_from_another_project: devas aparteni al la sama projekto kiel la laborpakaĵo.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: can only contain IDs of work packages in the current sprint.
               must_block_at_least_one_work_package: must contain the ID of at least one ticket.
@@ -91,60 +91,60 @@ eo:
         other: Sprints
   backlogs:
     administration_blankslate:
-      title: Backlog admin settings are evolving
+      title: La administraj agordoj de la tasklisto evoluas
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
     bucket_destroy_modal_component:
-      title: Delete backlog bucket?
-      details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
+      title: Ĉu forigi tasklista ujo?
+      details: La tasklista ujo '%{name}' estos forigita kaj ĉiuj laborpakaĵoj estos movitaj al la backlog-enirkesto. Neniu laborpakaĵo estos forigita.
     bucket_component:
-      blankslate_title: Backlog bucket is empty
-      blankslate_description: Drag items here to add them.
-      label_actions: Backlog bucket actions
+      blankslate_title: La tasklista ujo estas malplena
+      blankslate_description: Tiru objektojn ĉi tien por aldoni ilin.
+      label_actions: Agoj de la tasklista ujo
       action_menu:
-        edit_backlog_bucket: Edit backlog bucket
-        delete_backlog_bucket: Delete backlog bucket
+        edit_backlog_bucket: Redakti tasklista ujo
+        delete_backlog_bucket: Forigi tasklista ujo
     burndown_chart:
       show:
-        blankslate_title: No burndown data available
-        blankslate_description: Set start and end date for the sprint to generate a burndown chart.
+        blankslate_title: Neniuj datumoj por la "burndown"-diagramo disponeblas
+        blankslate_description: Agordu la komencan kaj finan daton de la sprinto por generi burndown-diagramon.
     excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
 
       '
     finish_sprint_dialog_component:
       title: There are work in progress items
-      body: "%{message} What would you like to do with these?"
-      legend: Action for unfinished work packages
+      body: "%{message} Kion vi ŝatus fari kun ĉi tiuj?"
+      legend: Agado por nefinitaj laborpakoj
       actions:
-        move_to_top_of_backlog: Move them to the top of the backlog
-        move_to_bottom_of_backlog: Move them to the bottom of the backlog
+        move_to_top_of_backlog: Movu ilin al la supro de la tasklisto
+        move_to_bottom_of_backlog: Movu ilin al la malsupro de la tasklisto
         move_to_sprint: Movu ilin al alia sprinto
       select_sprint_label: Elektu sprinton
       button_complete_sprint: Kompletigu sprinton
     inbox_component:
       title: Enirkesto
-      blankslate_title: Backlog inbox is empty
-      blankslate_description: All open work packages in this project will automatically appear here.
+      blankslate_title: La tasklista ujo estas malplena
+      blankslate_description: Ĉiuj malfermitaj laborpakoj en ĉi tiu projekto aŭtomate aperos ĉi tie.
       show_more:
         one: Montru ankoraŭ 1 plian eron
         other: Show %{count} more items
-    label_burndown_chart: Burndown chart
-    label_is_done_status: Status %{status_name} means done
+    label_burndown_chart: Burndown-diagramo
+    label_is_done_status: Stato %{status_name} signifas farita
     label_sprint_board: Sprint-tabulo
     move_to_bucket_dialog_component:
-      title: Move to backlog bucket
+      title: Movu al la tasklista ujo
     move_to_sprint_dialog_component:
       title: Movigu al sprinto
       label_sprint: Sprinto
     points_label:
       one: point
       other: poentoj
-    positions_could_not_be_rebuilt: Positions could not be rebuilt.
-    positions_rebuilt_successfully: Positions rebuilt successfully.
-    rebuild: Rebuild
-    rebuild_positions: Rebuild positions
-    remaining_hours: Remaining work
+    positions_could_not_be_rebuilt: Pozicioj ne povis esti rekonstruitaj.
+    positions_rebuilt_successfully: Pozicioj sukcese rekonstruitaj.
+    rebuild: Rekonstrui
+    rebuild_positions: Rekonstrui poziciojn
+    remaining_hours: Restanta laboro
     sharing: Sharing
-    show_burndown_chart: Burndown chart
+    show_burndown_chart: Burndown-diagramo
     sprint_component:
       blankslate_title: "%{name} estas malplena"
       blankslate_description: Ankoraŭ neniuj eroj planitaj. Tiri erojn ĉi tien por aldoni ilin.
@@ -174,15 +174,15 @@ eo:
         no_actions_description_text: Por ĉi tiu projekto ankoraŭ ne estas sprintoj disponeblaj.
     story_points:
       one: "%{count} story point"
-      other: "%{count} story points"
+      other: "%{count} rakontaj poentoj"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
     types_and_statuses: Tipoj kaj statusoj
     unassigned: Ne asignita
     user_preference:
-      header_backlogs: Backlogs module
-      button_update_backlogs: Update backlogs module
+      header_backlogs: Tasklistaj moduloj
+      button_update_backlogs: Ĝisdatigi la tasklistajn modulojn
     stories:
       update_service:
         missing_target: target_id or direction must be present.
@@ -194,13 +194,13 @@ eo:
         copy_url_to_clipboard: Kopiu URL-on al la tondujo
         copy_work_package_id: Kopiu la ID de laborpako
         move_menu: Movu al pozicio
-        move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to backlog inbox
+        move_to_backlog_bucket: Movu al la tasklista ujo
+        move_to_inbox: Movu al la tasklista enirkesto
         move_to_sprint: Movigu al sprinto
     work_package_is_closed: Work package is done, when
   burndown:
-    story_points: Story points
-    story_points_ideal: Story points (ideal)
+    story_points: Rakontaj poentoj
+    story_points_ideal: Rakontaj poentoj (ideala)
   ee:
     features:
       sprint_sharing: Sprint sharing
@@ -211,8 +211,8 @@ eo:
   label_backlog: Listo de farotaj taskoj
   label_backlogs: Listoj de farotaj taskoj
   label_backlog_and_sprints: Backlog and sprints
-  label_backlog_bucket_edit: Edit backlog bucket
-  label_backlog_bucket_new: New backlog bucket
+  label_backlog_bucket_edit: Redakti tasklista ujo
+  label_backlog_bucket_new: Nova tasklista ujo
   label_burndown_chart: Burndown chart
   label_inbox: Enirkesto
   label_sprint_board: Sprint-tabulo

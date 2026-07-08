@@ -3546,7 +3546,7 @@ eo:
             line_0: XWiki integration (Corporate plan).
             line_1: Sprint goals.
             line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
+            line_3: Montru la tasklista ujo en laborpakaĵoj kaj en tabloj de laborpakaĵoj.
             line_4: Improved support for project-based (semantic) identifiers.
             line_5: Convert meeting agenda items into work packages.
             line_6: Configure cost types per project.
@@ -4405,7 +4405,7 @@ eo:
   label_table_of_contents: Enhavtabelo
   label_tag: Etikedo
   label_team_planner: Team Planner
-  label_template: Template
+  label_template: Ŝablono
   label_templates: Templates
   label_text: Longa teksto
   label_this_month: tiu ĉi monato

@@ -37,7 +37,7 @@ de:
       resource_allocation: Ressourcenzuteilung
       resource_planner: Ressourcenplanung
       resource_work_package_list: Liste von Arbeitspaketen
-      user_card: Benutzer-Karten
+      user_card: Benutzerkarten
   button_next: Weiter
   label_resource_management: Ressourcenplanung
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen

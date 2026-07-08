@@ -224,9 +224,9 @@ eo:
                 In this module you can communicate project news to your team members.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Cima taskolisto
             item_1:
-              name: Product Backlog
+              name: Produkta taskolisto
             item_2:
               name: Spinto 1
               wiki:
@@ -285,7 +285,7 @@ eo:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkta taskolisto
             item_2:
               name: Spinto 1
             item_3:

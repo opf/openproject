@@ -432,7 +432,7 @@ es:
       action: Puede seguir viendo las repeticiones anteriores o editar la serie de reuniones para ampliarla.
     occurrence:
       error_no_next: No hay próxima repetición para esta reunión.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: La plantilla de serie de reuniones todavía está en modo borrador.
       first_already_exists: La primera repetición de esta serie de reuniones ya está instanciada.
       first_created: 'La primera reunión se ha creado correctamente a partir de la plantilla. Todas las reuniones futuras se crearán automáticamente al mismo tiempo que la anterior.
 

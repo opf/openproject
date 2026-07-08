@@ -277,7 +277,7 @@ es:
               label_info: Tenga en cuenta que esta herramienta de importación se encuentra en fase beta y no puede importar todos los tipos de datos. A continuación se ofrece un resumen de lo que la instancia de host de Jira ofrece para importar y lo que esta herramienta puede importar en este momento.
               description: Seleccione los datos que desea importar de entre los datos disponibles obtenidos de la instancia de host de Jira.
               label_supported_data: Datos admitidos
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: Próximamente (tercer trimestre de 2026)
               label_coming_later: Más tarde
               label_available_server_data: Datos disponibles en %{server_info}
               button_select_projects: Seleccionar proyectos para importar
@@ -1562,10 +1562,10 @@ es:
     move:
       no_common_statuses_exists: No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar.
       unsupported_for_multiple_projects: Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'El tipo de este paquete de trabajo o de uno de sus descendientes no está habilitado en el proyecto de destino. Por favor, habilite los tipos que faltan en el proyecto de destino si desea que se mantengan sin cambios. De lo contrario, seleccione de la lista un tipo disponible en el proyecto de destino.
 
         '
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Los tipos de paquetes de trabajo o sus descendientes no están habilitados en el proyecto destino. Por favor, habilite los tipos que faltan en el proyecto destino si desea que permanezcan sin cambios. De lo contrario, seleccione un tipo disponible en el proyecto de destino de la lista.
 
         '
     sharing:

@@ -1558,10 +1558,10 @@ fr:
     move:
       no_common_statuses_exists: Il n'y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'Le type de ce lot de travail ou l''un de ses descendants n''est pas activé dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Les types des lots de travail ou de leurs sous-éléments ne sont pas activés dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
     sharing:
