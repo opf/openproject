@@ -332,6 +332,8 @@ You can also provide the logo used in the main app header, as well as favicons o
 ```shell
 # Main logo of the application
 OPENPROJECT_SEED_DESIGN_LOGO="https://my.example.com/logo.png"
+# Mobile logo for the application
+OPENPROJECT_SEED_DESIGN_LOGO__MOBILE="https://my.example.com/logo.png"
 # Favicon and touch icons for ios
 OPENPROJECT_SEED_DESIGN_FAVICON="data:image/png;base64,iVBO....."
 OPENPROJECT_SEED_DESIGN_TOUCH__ICON="data:image/png;base64,foo..."
