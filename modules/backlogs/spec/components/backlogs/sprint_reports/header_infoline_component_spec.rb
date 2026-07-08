@@ -28,53 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+require "rails_helper"
 
-RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
-  include Rails.application.routes.url_helpers
-
-  shared_let(:project) { create(:project) }
-  shared_let(:sprint) do
-    create(:sprint,
-           project:,
-           name: "Sprint 42",
-           start_date: Date.yesterday,
-           finish_date: Date.tomorrow,
-           status: :active)
+RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :component do
+  let(:sprint) do
+    build_stubbed(:sprint,
+                  status: :active,
+                  start_date: Date.new(2025, 1, 15),
+                  finish_date: Date.new(2025, 1, 29))
   end
 
-  let(:permissions) { %i[view_sprints view_work_packages show_board_views] }
+  subject(:rendered_component) { render_inline(described_class.new(sprint:)) }
 
-  current_user { create(:user, member_with_permissions: { project => permissions }) }
-
-  def visit_sprint_report
-    visit project_backlogs_sprint_report_path(project, sprint)
+  it "renders the sprint status" do
+    expect(rendered_component).to have_text(I18n.t(:"activerecord.attributes.sprint.statuses.active"))
   end
 
-  describe "authorization" do
-    context "when the user lacks view_sprints" do
-      let(:permissions) { %i[view_work_packages show_board_views] }
-
-      it "responds with not found" do
-        visit_sprint_report
-        expect(page).to have_http_status(:not_found)
-      end
+  context "when the sprint has a date range" do
+    it "shows the start and finish dates" do
+      expect(rendered_component).to have_css("time[datetime='2025-01-15']")
+      expect(rendered_component).to have_css("time[datetime='2025-01-29']")
     end
   end
 
-  describe "page header" do
-    before { visit_sprint_report }
+  context "when the sprint has no date range" do
+    let(:sprint) { build_stubbed(:sprint, start_date: nil, finish_date: nil) }
 
-    it "shows the sprint report title" do
-      expect(page).to have_heading("Sprint 42 report", level: 2)
-    end
-  end
-
-  describe "widget area" do
-    before { visit_sprint_report }
-
-    it "renders the burndown chart widget" do
-      expect(page).to have_element(:"opce-burndown-chart")
+    it "does not show dates" do
+      expect(rendered_component).to have_no_css("time")
     end
   end
 end
