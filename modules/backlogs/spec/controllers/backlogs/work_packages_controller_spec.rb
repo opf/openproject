@@ -89,13 +89,12 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:prev_id) { nil }
     let(:position) { nil }
     let(:all) { nil }
-    let(:direction) { nil }
     # The move URL carries the page's active backlog filters (see move_path).
     let(:filter_params) { {} }
     let(:optimistic) { nil }
 
     subject(:response) do
-      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction:, optimistic:,
+      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, optimistic:,
                            **filter_params },
                  format: :turbo_stream
     end
@@ -270,39 +269,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
       end
-
-      context "with direction param" do
-        let(:direction) { "highest" }
-
-        it "replaces the sprint component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_http_status :ok
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-          expect(assigns(:work_package)).to eq(work_package_in_sprint)
-        end
-
-        it "moves the inbox item to the first position" do
-          response
-
-          expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket_id: nil, sprint:, position: 1)
-        end
-
-        context "when service call fails" do
-          before do
-            allow(Backlogs::WorkPackages::UpdateService)
-              .to receive(:new)
-              .and_return(instance_double(Backlogs::WorkPackages::UpdateService, call: ServiceResult.failure(message: "Error")))
-          end
-
-          it "renders an error flash with 422", :aggregate_failures do
-            expect(response).to have_http_status :unprocessable_entity
-            expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-            expect(response).not_to have_turbo_stream action: "turbo_frame_reload",
-                                                      target: "backlogs_container"
-          end
-        end
-      end
     end
 
     context "with an optimistic same-list move (drag)" do
@@ -410,25 +376,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
       end
-
-      context "with direction param" do
-        let!(:inbox_items) { create_list(:work_package, 4, project:, status:) }
-        let(:direction) { "highest" }
-
-        it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-
-          expect(assigns(:work_package)).to eq(inbox_work_package)
-        end
-
-        it "moves the inbox item to the first position" do
-          response
-
-          expect(inbox_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 1)
-        end
-      end
     end
 
     context "with a Backlog bucket as source" do
@@ -514,23 +461,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           response
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: other_bucket, sprint_id: nil, position: 2)
-        end
-      end
-
-      context "with direction param" do
-        let(:direction) { "highest" }
-
-        it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "turbo_frame_reload",
-                                                target: "backlogs_container"
-          expect(assigns(:work_package)).to eq(bucket_work_package)
-        end
-
-        it "moves the work_package to the first position within the bucket" do
-          response
-
-          expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1)
         end
       end
     end
@@ -638,120 +568,44 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    # The client-side sortable-lists--item controller now gates first/last availability at
+    # runtime (see AGILE-322); the server always renders all four move items when the user
+    # may manage sprint items, regardless of the work package's position in its list.
     context "with sprint source" do
-      let!(:sprint_items)       { create_list(:work_package, 3, status:, sprint:, project:) }
-      let!(:other_sprint)       { create(:sprint, name: "Other Sprint", project:) }
-      let!(:other_sprint_items) { create_list(:work_package, 10, status:, sprint: other_sprint, project:) }
-      let!(:inbox_items)        { create_list(:work_package, 10, status:, project:) }
+      let!(:sprint_items) { create_list(:work_package, 3, status:, sprint:, project:) }
+      let(:work_package_id) { sprint_items.first.id }
 
-      context "for the first item" do
-        let(:work_package_id) { sprint_items.first.id }
-
-        it "scopes max_position to the sprint (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { sprint_items.last.id }
-
-        it "scopes max_position to the sprint (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the sprint" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_sprint_item) { create(:work_package, status: closed_status, sprint:, project:) }
-
-          it "includes closed work packages in max_position so the last open item can still move down" do
-            # sprint_items.last is at position 3; closed_sprint_item occupies position 4
-            # max_position = 4 (closed included) → last open item is not at the bottom
-            expect(body).to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items regardless of position", :aggregate_failures do
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
 
     context "with inbox source" do
-      let!(:inbox_items)  { create_list(:work_package, 3, status:, project:) }
-      let!(:sprint_items) { create_list(:work_package, 10, status:, project:, sprint:) }
+      let!(:inbox_items) { create_list(:work_package, 3, status:, project:) }
+      let(:work_package_id) { inbox_items.last.id }
 
-      context "for the first item" do
-        let(:work_package_id) { inbox_items.first.id }
-
-        it "scopes max_position to the inbox (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { inbox_items.last.id }
-
-        it "scopes max_position to the inbox (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the inbox" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_inbox_item) { create(:work_package, status: closed_status, project:) }
-
-          it "excludes closed work packages from max_position so the last open item is at the bottom" do
-            # inbox_items.last is at position 3; closed_inbox_item occupies position 4
-            # max_position = 3 (closed excluded) → last open item is at the bottom
-            expect(body).not_to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items regardless of position", :aggregate_failures do
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
 
     context "with backlog bucket source" do
       let!(:backlog_bucket) { create(:backlog_bucket, project:) }
-      let!(:bucket_items) { create_list(:work_package, 3, project:, status:, backlog_bucket:) }
+      let(:lone_item) { create(:work_package, project:, status:, backlog_bucket:) }
+      let(:work_package_id) { lone_item.id }
 
-      context "with a single item" do
-        let(:lone_bucket) { create(:backlog_bucket, project:) }
-        let(:lone_item) { create(:work_package, project:, status:, backlog_bucket: lone_bucket) }
-        let(:work_package_id) { lone_item.id }
-
-        it "scopes max_position to the bucket (lone item has no move actions)" do
-          expect(response).to have_http_status :ok
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the first item" do
-        let(:work_package_id) { bucket_items.first.id }
-
-        it "scopes max_position to the bucket (first item has only downward actions)" do
-          expect(body).not_to include(I18n.t(:label_sort_highest))
-          expect(body).to include(I18n.t(:label_sort_lower))
-        end
-      end
-
-      context "for the last item" do
-        let(:work_package_id) { bucket_items.last.id }
-
-        it "scopes max_position to the bucket (last item has only upward actions)" do
-          expect(body).to include(I18n.t(:label_sort_highest))
-          expect(body).not_to include(I18n.t(:label_sort_lower))
-        end
-
-        context "when a closed work package exists in the bucket" do
-          let!(:closed_status) { create(:status, name: "Closed", is_closed: true) }
-          let!(:closed_bucket_item) { create(:work_package, status: closed_status, project:, backlog_bucket:) }
-
-          it "excludes closed work packages from max_position so the last open item is at the bottom" do
-            # bucket_items.last is at position 3; closed_bucket_item occupies position 4
-            # max_position = 3 (closed excluded) → last open item is at the bottom
-
-            expect(body).not_to include(I18n.t(:label_sort_lower))
-          end
-        end
+      it "renders all four move items even for a lone item in its list", :aggregate_failures do
+        expect(response).to have_http_status :ok
+        expect(body).to include(I18n.t(:label_sort_highest))
+        expect(body).to include(I18n.t(:label_sort_higher))
+        expect(body).to include(I18n.t(:label_sort_lower))
+        expect(body).to include(I18n.t(:label_sort_lowest))
       end
     end
   end

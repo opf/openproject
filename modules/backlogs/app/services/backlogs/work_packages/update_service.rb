@@ -36,13 +36,15 @@ class Backlogs::WorkPackages::UpdateService
     @work_package = work_package
   end
 
-  def call(direction: nil, list_type: nil, list_id: nil, position: nil, prev_id: nil)
+  def call(list_type: nil, list_id: nil, position: nil, prev_id: nil)
     WorkPackage.transaction do
-      resolve_required_attributes(direction:, list_type:, list_id:)
+      resolve_required_attributes(list_type:, list_id:)
         .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: work_package).call(**attrs) }
         .on_success do |call|
-          # A blank prev_id is meaningful (insert at the top of the list), a
-          # blank position is not: it would cast to nil and move to the top too.
+          # A blank prev_id ("") is meaningful: it means "insert at the top of
+          # the list", so a truthy check is used here. A blank position is not
+          # meaningful (it would cast to nil and move to the top unintentionally),
+          # so `position.present?` is used instead.
           if prev_id
             call.result.move_after(prev_id:)
           elsif position.present?
@@ -54,15 +56,9 @@ class Backlogs::WorkPackages::UpdateService
 
   private
 
-  def resolve_required_attributes(direction:, list_type:, list_id:)
-    list_given = list_type.present? || list_id.present?
-
-    if list_given && direction
-      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.ambiguous_target"))
-    elsif list_given
+  def resolve_required_attributes(list_type:, list_id:)
+    if list_type.present? || list_id.present?
       attributes_result_from_list(list_type, list_id)
-    elsif direction
-      attributes_result_from_direction(direction)
     else
       ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.missing_target"))
     end
@@ -75,14 +71,6 @@ class Backlogs::WorkPackages::UpdateService
       ServiceResult.success(result: target.attributes)
     else
       ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
-    end
-  end
-
-  def attributes_result_from_direction(direction)
-    if direction.in? %w(higher highest lower lowest)
-      ServiceResult.success(result: { move_to: direction })
-    else
-      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_direction"))
     end
   end
 end

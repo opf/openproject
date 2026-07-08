@@ -59,24 +59,6 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
         end
       end
 
-      context "with neither list_type nor direction" do
-        it_behaves_like "returns failure without delegating",
-                        {},
-                        "backlogs.work_packages.update_service.missing_target"
-      end
-
-      context "with both list_type and direction" do
-        it_behaves_like "returns failure without delegating",
-                        { list_type: "inbox", direction: "highest" },
-                        "backlogs.work_packages.update_service.ambiguous_target"
-      end
-
-      context "with both list_id and direction" do
-        it_behaves_like "returns failure without delegating",
-                        { list_id: "42", direction: "highest" },
-                        "backlogs.work_packages.update_service.ambiguous_target"
-      end
-
       context "with a list_id but no list_type" do
         it_behaves_like "returns failure without delegating", { list_id: "42" }
       end
@@ -111,18 +93,11 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
         it_behaves_like "returns failure without delegating", { list_type: "inbox", list_id: "unknown" }
       end
 
-      context "with an invalid direction" do
-        it_behaves_like "returns failure without delegating",
-                        { direction: "sideways" },
-                        "backlogs.work_packages.update_service.invalid_direction"
-      end
-    end
+      it "fails when neither list nor position target is given" do
+        result = instance.call
 
-    context "with direction" do
-      it "delegates with move_to attribute" do
-        instance.call(direction: "highest")
-
-        expect(inner_service).to have_received(:call).with(move_to: "highest")
+        expect(result).to be_failure
+        expect(result.message).to eq(I18n.t("backlogs.work_packages.update_service.missing_target"))
       end
     end
 

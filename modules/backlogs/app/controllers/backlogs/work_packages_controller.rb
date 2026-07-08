@@ -42,7 +42,7 @@ module Backlogs
     def menu
       render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
-               work_package: work_package_with_backlog_neighbours,
+               work_package: @work_package,
                open_sprints_exist: target_open_sprints.exists?,
                other_buckets_exist: target_buckets.exists?,
                current_user:
@@ -102,9 +102,10 @@ module Backlogs
         .call(**move_service_params)
 
       if optimistic_same_list_move?(call, source_list)
-        # A same-list optimistic drag already reordered the row client-side and
-        # changes nothing else visible. Skip the frame reload (it would fight
-        # that order); still emit the moved event for split-view lock refresh.
+        # A same-list optimistic move (drag or menu) already reordered the row
+        # client-side and changes nothing else visible. Skip the frame reload
+        # (it would fight that order); still emit the moved event for split-view
+        # lock refresh.
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
           detail: { work_package_id: call.result.id }
@@ -159,20 +160,6 @@ module Backlogs
       move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
     end
 
-    def displayed_work_packages
-      if @work_package.sprint_id?
-        @work_packages.where(sprint_id: @work_package.sprint_id)
-      elsif @work_package.backlog_bucket_id?
-        @work_packages.merge(@work_package.backlog_bucket.displayed_work_packages)
-      else
-        @work_packages.merge(WorkPackage.in_inbox_for(project: @project))
-      end
-    end
-
-    def work_package_with_backlog_neighbours
-      displayed_work_packages.with_backlogs_neighbours.find(@work_package.id)
-    end
-
     def target_open_sprints
       Sprint.for_project(@project)
         .visible.not_completed
@@ -219,11 +206,11 @@ module Backlogs
     end
 
     def move_params
-      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
+      params.permit(:prev_id, :position, :list_type, :list_id)
     end
 
     # A blank prev_id (drag or menu move to the top of a list) is kept so the
-    # service inserts at the top; nil values (absent prev_id/direction) are
+    # service inserts at the top; nil values (an absent prev_id) are
     # dropped. The service resolves list_type/list_id into the destination list.
     def move_service_params
       move_params.to_h.symbolize_keys.compact

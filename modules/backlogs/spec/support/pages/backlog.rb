@@ -354,10 +354,12 @@ module Pages
       end
     end
 
-    # The move submenu items (Move up/down/to top/to bottom) all perform a
-    # successful move, which reloads the `backlogs_container` frame. Wait for that
-    # reload so a subsequent drag does not grab a soon-to-be-detached element.
-    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: true)
+    # The move submenu items (Move up/down/to top/to bottom) reorder the row
+    # client-side and persist via a background fetch; a same-list move no
+    # longer reloads the `backlogs_container` frame (see
+    # Backlogs::WorkPackagesController#optimistic_same_list_move?). Wait for
+    # the turbo-stream response instead, which still fires either way.
+    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: false)
       within_work_package_move_submenu(work_package) do |submenu|
         wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
           submenu.find(:menuitem, text: item_name, visible: :all).click
@@ -372,6 +374,46 @@ module Pages
       within_backlog_inbox do
         expect(page).to have_no_button(accessible_name: "Inbox actions")
       end
+    end
+
+    # Arms a listener for `turbo:frame-load` on `#backlogs_container` that
+    # fires at most once and latches a flag. A
+    # `reload_frame_via_turbo_stream("backlogs_container")` response (the
+    # non-optimistic move path) fetches and re-renders that frame, firing the
+    # event; an optimistic same-list move never touches the frame, so the
+    # flag stays unset. Call before the action under test, then assert with
+    # {#expect_backlogs_container_not_reloaded}. Each call resets the flag and
+    # arms a fresh listener, so re-arm before probing another action.
+    def install_backlogs_container_reload_probe
+      page.execute_script(<<~JS)
+        window.__opBacklogsContainerReloaded = false;
+        document.getElementById('backlogs_container')?.addEventListener(
+          'turbo:frame-load',
+          () => { window.__opBacklogsContainerReloaded = true; },
+          { once: true }
+        );
+      JS
+    end
+
+    # Confirms the probe armed by {#install_backlogs_container_reload_probe}
+    # never fired. Unlike the client's DOM reorder (synchronous) or the DB
+    # write (already committed by the time the response is received), a frame
+    # reload is a second, independent round trip with no synchronous signal to
+    # key off of -- so this actively waits up to `wait` seconds, long enough
+    # for that round trip to finish on a real (non-optimistic) move, before
+    # asserting the probe stayed unset.
+    def expect_backlogs_container_not_reloaded(wait: Capybara.default_max_wait_time)
+      reloaded = page.evaluate_async_script(<<~JS, wait * 1000)
+        const [timeoutMs, done] = [arguments[0], arguments[arguments.length - 1]];
+
+        if (window.__opBacklogsContainerReloaded) {
+          done(true);
+        } else {
+          setTimeout(() => done(window.__opBacklogsContainerReloaded === true), timeoutMs);
+        }
+      JS
+
+      expect(reloaded).to be(false)
     end
 
     def expect_no_backlog_bucket_menu(bucket)
