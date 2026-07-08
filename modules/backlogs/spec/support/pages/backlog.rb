@@ -403,15 +403,22 @@ module Pages
     # for that round trip to finish on a real (non-optimistic) move, before
     # asserting the probe stayed unset.
     def expect_backlogs_container_not_reloaded(wait: Capybara.default_max_wait_time)
-      reloaded = page.evaluate_async_script(<<~JS, wait * 1000)
-        const [timeoutMs, done] = [arguments[0], arguments[arguments.length - 1]];
+      # Capybara caps `evaluate_async_script` at Capybara.default_max_wait_time
+      # (it sets Selenium's script_timeout to it). The in-page probe below waits
+      # `wait` seconds before resolving, so give Selenium a strictly larger
+      # budget -- otherwise the two race at the same instant and CI overhead
+      # lands `done` just past the driver's deadline (ScriptTimeoutError).
+      reloaded = Capybara.using_wait_time(wait + 5) do
+        page.evaluate_async_script(<<~JS, wait * 1000)
+          const [timeoutMs, done] = [arguments[0], arguments[arguments.length - 1]];
 
-        if (window.__opBacklogsContainerReloaded) {
-          done(true);
-        } else {
-          setTimeout(() => done(window.__opBacklogsContainerReloaded === true), timeoutMs);
-        }
-      JS
+          if (window.__opBacklogsContainerReloaded) {
+            done(true);
+          } else {
+            setTimeout(() => done(window.__opBacklogsContainerReloaded === true), timeoutMs);
+          }
+        JS
+      end
 
       expect(reloaded).to be(false)
     end
