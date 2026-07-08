@@ -93,6 +93,18 @@ eo:
     administration_blankslate:
       title: La administraj agordoj de la tasklisto evoluas
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+    backlog_component:
+      button_new_backlog_bucket: Nova tasklista ujo
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Tasklista ujo
+        other: Tasklistaj ujoj
+        zero: Ĉiuj tasklistaj ujoj
+      label_sprint_filter:
+        one: Sprinto
+        other: Sprintoj
+        zero: Ĉiuj sprintoj
+      select_panel_title: Elektu erojn
     bucket_destroy_modal_component:
       title: Ĉu forigi tasklista ujo?
       details: La tasklista ujo '%{name}' estos forigita kaj ĉiuj laborpakaĵoj estos movitaj al la backlog-enirkesto. Neniu laborpakaĵo estos forigita.
@@ -172,6 +184,7 @@ eo:
         create_description_text: Por komenci plani vian sprinton, kreu ĝin ĉi tie.
         manage_description_html: Por komenci plani vian sprinton, iru al la %{settings_link} por ricevi sprintojn el alia projekto.
         no_actions_description_text: Por ĉi tiu projekto ankoraŭ ne estas sprintoj disponeblaj.
+      button_new_sprint: Nova sprinto
     story_points:
       one: "%{count} story point"
       other: "%{count} rakontaj poentoj"

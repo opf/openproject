@@ -916,11 +916,12 @@ he:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Overview
         activity: פעילות
+        files: קבצים
+        overview: Overview
+        project_attributes: Project attributes
         relations: קשרים
         watchers: צופים
-        files: קבצים
       time_relative:
         days: ימים
         weeks: שבועות

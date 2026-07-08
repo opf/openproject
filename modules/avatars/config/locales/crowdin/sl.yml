@@ -19,24 +19,10 @@ sl:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Trenutni Avatar
     label_local_avatar: Avatar po meri
-    text_current_avatar: 'Naslednja slika prikazuje trenutnega avatarja.
-
-      '
-    text_upload_instructions: 'Naložite avatarja velikosti 128 x 128 pikslov. Večje datoteke bodo ustrezno prilagojene. Po tem ko izberete sliko, bo pred končno naložitvijo prikazan predogled avatarja.
-
-      '
-    text_change_gravatar_html: Za spremembo ali dodajanje Gravatarja za vaš mail naslov, pojdite na %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject vam dovoljuje nalaganje avatarja po meri.
-
-      '
-    text_local_avatar_over_gravatar: 'Če ga naložite, bo ta avatar pa meri uporabljen pred gravatarjem zgoraj.
-
-      '
-    text_your_current_gravatar: 'OpenProject uporabi vašega gravatarja, če ga registrirate ali pa privzeto sliko ali ikono, če ta obstaja. Vaš trenutni gravatar je takšen:
-
-      '
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Omogoči uporabniškega gravatarja
       gravatar_default: Privzeta Gravatar slika

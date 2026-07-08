@@ -472,6 +472,11 @@ ko:
         fourth: 네 번째
         last: 마지막
     actual_first_occurrence_mismatch_html: 이 시리즈의 첫 번째 항목은 %{first_occurrence}입니다
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: "%{monthly_day}일보다 적은 달은 건너뜁니다"
     end_after:
       never: 안 함

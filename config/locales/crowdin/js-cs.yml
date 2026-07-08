@@ -920,11 +920,12 @@ cs:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrovat pracovní balíčky podle typu vztahu
       tabs:
-        overview: Přehled
         activity: Aktivita
+        files: Soubory
+        overview: Přehled
+        project_attributes: Project attributes
         relations: Vztahy
         watchers: Sledující
-        files: Soubory
       time_relative:
         days: dnů
         weeks: týdny

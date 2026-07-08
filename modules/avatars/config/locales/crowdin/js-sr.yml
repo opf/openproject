@@ -7,7 +7,6 @@ sr:
     avatars:
       label_choose_avatar: Izaberite Avatar iz sopstvene datoteke
       uploading_avatar: Postavite avatar.
-      text_upload_instructions: "Postavite svoj lični avatar, dimenzije: 128x128 piksela. Veće datoteke će biti isečene na traženu dimenziju.\nAvatar će vam biti prikazan, pre postavljanja, onda kada budete izabrali željenu sliku. \n"
       error_image_too_large: Slika je prevelika.
       wrong_file_format: 'Dozvoljeni formati su: jpg, png, gif'
       empty_file_error: Molim vas postavite sliku u ispravnom formatu (jpg, png, gif)

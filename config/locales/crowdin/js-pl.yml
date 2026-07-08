@@ -916,11 +916,12 @@ pl:
         relation_filters:
           filter_work_packages_by_relation_type: Filtruj pakiety robocze według typu relacji
       tabs:
-        overview: Przegląd
         activity: Działanie
+        files: Pliki
+        overview: Przegląd
+        project_attributes: Project attributes
         relations: Relacje
         watchers: Obserwatorzy
-        files: Pliki
       time_relative:
         days: dni
         weeks: tygodnie

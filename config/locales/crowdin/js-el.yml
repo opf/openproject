@@ -914,11 +914,12 @@ el:
         relation_filters:
           filter_work_packages_by_relation_type: Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης
       tabs:
-        overview: Επισκόπηση
         activity: Δραστηριότητα
+        files: Αρχεία
+        overview: Επισκόπηση
+        project_attributes: Project attributes
         relations: Συσχετίσεις
         watchers: Παρατηρητές
-        files: Αρχεία
       time_relative:
         days: ημέρες
         weeks: εβδομάδες

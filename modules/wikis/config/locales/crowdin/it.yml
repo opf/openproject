@@ -42,7 +42,7 @@ it:
       external_wiki_providers: Fornitori Wiki
       internal_wiki_provider: Wiki interno
       wikis: Wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Gestire i link delle pagine Wiki
   project_module_wiki_platforms: Fornitori Wiki
   wikis:
     admin:
@@ -129,6 +129,8 @@ it:
       wiki_page: Pagina wiki
     create_new_wiki_page_dialog:
       title: Crea nuova pagina wiki
+    deferred_inline_page_link_macro_component:
+      loading: Caricamento…
     delete_relation_page_link_confirmation_dialog:
       heading: Eliminare il link relativo alla pagina wiki?
       title: Elimina il link relativo alla pagina wiki
@@ -153,9 +155,8 @@ it:
         xwiki_oauth_request_error: Si è verificato un errore imprevisto durante il tentativo di comunicare con l'istanza XWiki.
         xwiki_oauth_token_missing: OpenProject non può testare la comunicazione a livello utente con XWiki poiché l'utente non ha ancora collegato il proprio account XWiki.
         xwiki_oauth_unauthorized: Il token utente non è stato riconosciuto da XWiki.
-    inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+    inline_existing_wiki_page_dialog:
+      title: Aggiungi una pagina wiki esistente
     instructions:
       xwiki:
         integration: Amministrazione XWiki
@@ -181,6 +182,8 @@ it:
         page_access_forbidden: Non hai i permessi per accedere a questa pagina wiki
         page_not_found: La pagina wiki collegata non è più disponibile
         unexpected: Si è verificato un errore inaspettato
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

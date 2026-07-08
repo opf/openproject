@@ -21,6 +21,7 @@
 #++
 ---
 zh-CN:
+  label_user_attributes_plural: 用户特性
   no_results_title_text: 当前没有可显示的内容。
   activities:
     index:
@@ -52,6 +53,8 @@ zh-CN:
           description: 您的评论将对任何能够访问此工作包的人可见。您确定要这样做吗？
           confirm_button_text: 设为公开
   admin:
+    banners:
+      environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     reserved_identifiers:
       btn_release: 取消保留
       col_identifier: 标识符
@@ -111,7 +114,7 @@ zh-CN:
         token_caption: 要详细了解如何激活企业版，请查阅我们的[文档](docs_url)。
       add_token: 上传企业版支持令牌
       replace_token: 替换您当前的支持令牌
-      order: 订购本地部署版的 Enterprise edition
+      order: 订购本地部署的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
       enterprise_link: 如需了解详细信息，请单击此处。
@@ -425,6 +428,20 @@ zh-CN:
       new_project:
         project_creation: 项目创建
         notification_text_default: "<p>您好！</p><p>已创建一个新项目：projectValue:name</p> <p>谢谢</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: 此分区无法删除。
+        drop:
+          error: 此分区无法重新排序。
+        move:
+          error: 此分区无法重新排序。
+      user_custom_field_sections:
+        destroy:
+          error: 此分区无法删除。
+        drop:
+          error: 此分区无法重新排序。
+        move:
+          error: 此分区无法重新排序。
       work_packages_identifier:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
@@ -669,6 +686,8 @@ zh-CN:
             gain_role: 将获得角色“%{new_role}”
             lose_role: 将失去角色“%{old_role}”
             no_change: 无更改
+    multi_value_more:
+      other: 和其他 %{count} 个
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -713,6 +732,11 @@ zh-CN:
         project: 0 表示无限制
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
+      visible_on_user_card:
+        all: 选中后，在应用程序中将鼠标悬停在某个用户上时，此字段的值会显示在用户信息卡中。
+    semantic_keys:
+      none: 无
+      job_title: 职务名称
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -740,9 +764,11 @@ zh-CN:
         '
       add_button: 添加
     detail_blankslate:
-      heading: 此部门下面没有任何层级
-      description: 添加部门或用户以在另一个部门或用户中创建子条目。
       add_button: 添加
+      description: 添加部门或用户以在另一个部门或用户中创建子条目。
+      heading: 此部门下面没有任何层级
+      managed_description: 其子部门和成员与 LDAP 保持同步，无法手动添加。
+      managed_heading: 此部门通过 LDAP 同步进行管理
     add_department_form:
       name_label: 部门名称
       name_placeholder: 输入部门名称
@@ -751,6 +777,9 @@ zh-CN:
       heading: 将用户移至此部门？
       description: "%{user} 目前是%{from_department}的成员。移动他们会将其从该部门中移除。"
       confirm: 移动用户
+      managed_title: 由 LDAP 管理的用户
+      managed_heading: 无法移动此用户
+      managed_description: "%{user} 属于 %{from_department}，通过 LDAP 同步进行管理。其部门成员关系由 LDAP 控制，无法在此处更改。"
     context_menu:
       add_sub_department: 添加子部门
       add_user: 添加用户
@@ -1294,12 +1323,11 @@ zh-CN:
       '
     delete_tooltip: 删除占位符用户
     deletion_info:
-      heading_html: 删除占位符用户 %{name}
       data_consequences: '出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
 
         '
-      irreversible: 此操作不可逆
-      confirmation_html: 输入占位符用户名 %{name} 以确认删除。
+      heading: 是否删除占位符用户 %{name}？
+      title: 删除占位符用户 %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1352,45 +1380,53 @@ zh-CN:
       no_results_content_text: 创建新的类型
     edit:
       form_configuration:
-        tab: 表单配置
-        label_group: 小节
-        reset_to_defaults: 重置表单
         add_attribute_group: 小节
         add_query_group: 相关的工作包表
+        blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
+        blankslate_title: 还没有群组
+        builtin_field: 内置字段
+        confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
+        confirm_reset: 确定要重置表单配置吗？
+        custom_field: 自定义字段
         delete_group: 删除小节
-        remove_attribute: 从小节中移除
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
         edit_query: 编辑查询
-        custom_field: 自定义字段
-        filter_inactive: 筛选特性
-        inactive_attributes_heading: 停用的特性
-        no_inactive_attributes: 没有停用的特性
-        blankslate_title: 还没有群组
-        blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
-        group_actions: 小节操作
-        rename_group: 重命名小节
-        confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
-        group_name_label: 小节名称
-        row_actions: 行操作
-        query_group_label: 相关的工作包表
         empty_group_hint: 将特性拖动到此处
+        filter_inactive: 筛选特性
+        group_actions: 小节操作
+        group_name_label: 小节名称
+        inactive_attributes_heading: 停用的特性
         invalid_attribute_groups: 表单配置有效载荷无效。
         invalid_query: 嵌入式查询配置无效。
+        label_group: 小节
+        no_inactive_attributes: 没有停用的特性
         not_found: 找不到所请求的表单配置项。
-        untitled_group: 无标题群组
-        reset_title: 重置表单配置
-        confirm_reset: 确定要重置表单配置吗？
-        builtin_field: 内置字段
+        query_group_label: 相关的工作包表
+        remove_attribute: 从小节中移除
+        rename_group: 重命名小节
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
           '
+        reset_title: 重置表单配置
+        reset_to_defaults: 重置表单
+        row_actions: 行操作
+        tab: 表单配置
+        untitled_group: 无标题群组
+      project_attributes:
+        actions:
+          label_disable_all: 全部禁用
+          label_enable_all: 全部启用
+        description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
+        filter: 按分区或名称搜索
+        tab: 项目特性
       projects:
-        tab: 项目
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
+        tab: 项目
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 设置
         type_color_text: 所选颜色用于在甘特图或工作包表中区分不同类型。因此建议使用鲜艳的颜色。
       subject_configuration:
@@ -1659,6 +1695,7 @@ zh-CN:
       login_consequences:
         other: 此帐户将立即从系统中移除，用户将无法再使用其凭据登录。
         self: 您的帐户将立即从系统中移除，您将无法再使用您的凭据登录。
+      title: 删除 %{name} 的帐户
     error_inactive_activation_by_mail: '您的帐户尚未激活。要激活您的帐户，请单击通过电子邮件发送到您的链接。
 
       '
@@ -1682,18 +1719,6 @@ zh-CN:
         dependencies: 依赖项
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: 标识符
-        work_package: 工作包
-      jira_import:
-        projects: 项目
-      import/jira:
-        name: Jira 实例名称
-        url: Jira 实例 URL
-        personal_access_token: 个人访问令牌
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 显示截止日期
       attachment:
@@ -1739,6 +1764,8 @@ zh-CN:
         possible_values: 可能的值
         regexp: 正则表达式
         searchable: 可搜索
+        visible_on_user_card: 在用户卡上显示
+        semantic_key: 语义
         admin_only: 仅管理员
         has_comment: 添加注释文本字段
       custom_value:
@@ -1772,7 +1799,24 @@ zh-CN:
         page: 页
         row_count: 行数
         column_count: 列数
-        widgets: 微件
+        widgets: 小部件
+      group:
+        group_users: 用户组
+        identity_url: 身份 URL
+        organizational_unit: 组织单元
+        parent: 父群组
+      group_detail:
+        organizational_unit: 组织单元
+        parent: 父群组
+      import/jira:
+        name: Jira 实例名称
+        personal_access_token: 个人访问令牌
+        url: Jira 实例 URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: 项目
       journal:
         notes: 备注
         cause_type: Cause 类型
@@ -1801,6 +1845,21 @@ zh-CN:
         resource: 资源
       oauth_client:
         client: 客户端 ID
+      ordered_persisted_query_entity:
+        persisted_query: 持续查询
+        entity: 实体
+        position: 位置
+      persisted_query:
+        name: 名称
+        views: 视图
+        filters: 筛选器
+        orders: 订单
+        selects: 选择
+      persisted_view:
+        name: 名称
+        query: 查询
+        parent: 父视图
+        public: 公开
       project:
         active_value:
           true: 未归档
@@ -1922,10 +1981,12 @@ zh-CN:
       type:
         description: 默认描述文本
         attribute_groups: 表单配置
+        children: Sub-types
         is_in_roadmap: 默认在路线图中显示
         is_default: 默认激活新项目
         is_milestone: 里程碑
         color: 颜色
+        parent: Parent type
         patterns: 模式
       remote_identity:
         auth_source: 认证源
@@ -1934,6 +1995,7 @@ zh-CN:
       user:
         admin: 管理员
         auth_source: 身份验证源
+        department: 部门
         ldap_auth_source: LDAP 连接
         identity_url: 身份网址
         current_password: 当前密码：
@@ -1947,14 +2009,8 @@ zh-CN:
         new_password: 新密码
         password_confirmation: 确认
         consented_at: 同意在
-      group:
-        identity_url: 身份 URL
-        parent: 父群组
-        organizational_unit: 组织单元
-        group_users: 用户组
-      group_detail:
-        parent: 父群组
-        organizational_unit: 组织单元
+      user_custom_field:
+        custom_field_section: 分区
       user_preference:
         header_look_and_feel: 外观和风格
         header_alerts: 提醒
@@ -2049,33 +2105,16 @@ zh-CN:
         spent_hours: 已耗工时
         spent_time: 已耗工时
         subproject: 子项目
+        target_versions: Target versions
         time_entries: 记录时间
         type: 类型
         version: 版本
         watcher: 关注者
-      ordered_persisted_query_entity:
-        persisted_query: 持续查询
-        entity: 实体
-        position: 位置
-      persisted_query:
-        name: 名称
-        views: 视图
-        filters: 筛选器
-        orders: 订单
-        selects: 选择
-      persisted_view:
-        name: 名称
-        query: 查询
-        parent: 父视图
-        public: 公开
-      user_card_view:
-        secondary_info: 次要信息
-        show_status_badge: 显示状态徽章
-        show_email: 显示电子邮件地址
-        tag_source: 标签来源
-        tag_limit: 标签限制
-        card_size: 卡片大小
-        columns_per_row: 每行列数
+      work_package_version:
+        kind: 种类
+      work_package_semantic_alias:
+        identifier: 标识符
+        work_package: 工作包
     errors:
       messages:
         accepted: 必须接受。
@@ -2089,6 +2128,7 @@ zh-CN:
         cannot_delete_mapping: 必需项，不能删除
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
+        configured_via_env: 此对象的配置通过环境变量进行管理，无法在运行时更改。
         confirmation: 不匹配 %{attribute}。
         could_not_be_copied: 无法（完全）复制 %{dependency}。
         datetime_must_be_in_future: 必须是将来的时间
@@ -2121,6 +2161,7 @@ zh-CN:
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: 不是受支持的协议（允许：%{allowed_schemes}）。
         is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
+        ldap_managed: 此部门通过 LDAP 同步进行管理，无法手动更改。
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_available: 因系统配置而不可用。
         not_before_start_date: 不得在开始日期之前。
@@ -2158,6 +2199,7 @@ zh-CN:
 
           '
         user_already_in_department: 用户 %{user_id} 已经是部门 %{department_id} 的成员。
+        user_in_ldap_managed_department: 此用户属于通过 LDAP 同步进行管理的部门，无法移动。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         group:
@@ -2165,6 +2207,7 @@ zh-CN:
             parent_id:
               circular_dependency: 将创建循环群组层次结构。
               organizational_unit_mismatch: 必须与该群组具有相同的组织单位设置。
+              parent_ldap_managed: 通过 LDAP 同步进行管理，无法手动添加部门。
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2399,11 +2442,14 @@ zh-CN:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: 无法添加子项目，因为您没有权限编辑选定的工作包。
               blank: ID不能为空。
+              cannot_add_child_because_of_lack_of_permission: 无法添加子项目，因为您没有权限编辑选定的工作包。
+              format: "%{message}"
             identifier:
+              must_not_be_changed: '不得手动更改。工作包标识符是自动分配并通过别名表解析的，因此手动更改它们会破坏链接和标识符历史记录。如果此更改是有意操作，请使用 `save(context: :%{context})` 进行保存，并确保 work_package_semantic_aliases 表的一致性。'
               semantic_identifier_incomplete: 并且必须同时设置 sequence_number。
+            sequence_number:
+              must_not_be_changed: '不得手动更改。它随标识符一起自动分配。如果此更改是有意操作，请使用 `save(context: :%{context})` 进行保存。'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2453,6 +2499,8 @@ zh-CN:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- 如果已设置“工时”，且“完成百分比”为 100% 时，必须为 0h 。"
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: 当“工时”为空，且“完成%”为 100% 时，必须为空。
           readonly_status: 工作包处于只读状态，因此无法更改其属性。
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2461,6 +2509,12 @@ zh-CN:
               duplicate_group: 组名 %{group} 已多次使用。组名不能重复。
               query_invalid: '嵌入式查询 "%{group}" 无效: %{details}'
               group_without_name: 群组名称不能为空
+            parent:
+              cannot_be_self: can't be the type itself.
+              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
+              cannot_have_children: can't be set because this type already has sub-types.
+              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
+              standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
         user:
@@ -3208,6 +3262,8 @@ zh-CN:
   error_can_not_delete_in_use_archived_work_packages: 归档项目中也有工作包。您需要先重新激活以下项目，然后才能更改相应工作包的属性：%{archived_projects_urls}
   error_can_not_delete_type:
     explanation: 此类型包含工作包，无法删除。您可以在<a target="_blank" href="%{url}">此视图</a>中查看所有受影响的工作包。
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: 标准类型不能被删除。
   error_can_not_invite_user: 无法向用户发送邀请。
   error_can_not_remove_role: 该角色正在使用，无法删除。
@@ -4075,7 +4131,7 @@ zh-CN:
   label_custom_favicon: 自定义图标
   label_custom_touch_icon: 自定义触摸图标
   label_departments: 组织
-  label_departments_description_html: '以分级方式创建部门和子部门来定义您公司的结构。 这使您能够在 OpenProject 中反映报告线，并保持清晰、有条理的组织概览。 您也可以通过 [LDAP 群组同步](ldap_docs_article)导入一个现有的组织结构。
+  label_departments_description_html: '通过按层级创建部门和子部门来定义公司结构。这样可以反映汇报关系，并在 OpenProject 中保持清晰、结构分明的组织概览。您还可以通过 [LDAP 部门同步](ldap_docs_article)导入现有组织结构。
 
     '
   label_logout: 注销
@@ -4083,6 +4139,7 @@ zh-CN:
   label_main_menu: 侧边菜单
   label_manage: 管理
   label_manage_groups: 组管理
+  label_managed_by_ldap: 通过 LDAP 同步进行管理
   label_managed_repositories_vendor: 托管的 %{vendor} 存储库
   label_mathematical_operators: 数学运算符
   label_max_size: 最大
@@ -4287,7 +4344,7 @@ zh-CN:
   label_revision_id: 修订版本 %{value}
   label_revision_plural: 修订
   label_roadmap: 路线图
-  label_roadmap_edit: 编辑路线图%{name}
+  label_roadmap_edit: 编辑路线图 %{name}
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
@@ -5000,16 +5057,13 @@ zh-CN:
     create_managed_delay: '请注意: 存储库已在托管中，它以异步方式在磁盘上创建并将在不久后处于可用状态。'
     create_successful: 存储库已被注册。
     delete_sucessful: 存储库已被删除。
-    destroy:
-      confirmation: 如果你继续将永久删除托管的存储库。
-      info: 删除存储库是一个不可逆转的操作。
-      info_not_managed: '注意: 这不会删除该存储库的内容，它不由 OpenProject 托管。'
-      managed_path_note: '以下目录将被删除: %{path}'
-      repository_verification_html: 输入项目的标识符 %{identifier}，以确认删除其仓库。
-      subtitle: 你确定要删除项目 %{project_name} 的 %{repository_type} 吗?
-      subtitle_not_managed_html: 是否确实要从项目 %{project_name} 删除关联的 %{repository_type} %{url}？
-      title_html: 删除 %{repository_type}
-      title_not_managed: 删除链接的 %{repository_type} 吗?
+    destroy_dialog:
+      description: 位于 %{path} 的 %{repository_type} 仓库及其所有内容将被永久删除。
+      description_not_managed: 位于 %{url} 的关联 %{repository_type} 将从项目中移除。注意：这不会删除此仓库的内容，它不由 OpenProject 托管。
+      heading: 是否删除此 %{repository_type}？
+      heading_not_managed: 是否移除此关联的 %{repository_type}？
+      title: 删除仓库
+      title_not_managed: 移除仓库
     errors:
       build_failed: 在所选的配置下无法创建存储库。%{reason}
       managed_delete: 无法删除托管的存储库。
@@ -5056,7 +5110,7 @@ zh-CN:
       managed: 在 OpenProject 中创建新的存储库
     storage:
       not_available: 磁盘存储开销不可用于此存储库。
-      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
       oauth_application_details_html: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中：
       oauth_application_details_link_text: 转到设置页面
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
@@ -5294,7 +5348,7 @@ zh-CN:
   setting_session_ttl_hint: 当设置的值低于5时，其作用类似于禁用。
   setting_session_ttl_enabled: 会话过期
   setting_start_of_week: 一周起始日
-  setting_sys_api_enabled: 启用存储库管理网页服务
+  setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
@@ -5312,7 +5366,7 @@ zh-CN:
   setting_welcome_on_homescreen: 在主屏幕上显示欢迎信息
   setting_work_packages_identifier_classic: 实例范围的数字序列（默认）
   setting_work_packages_identifier_classic_caption: '每个工作包会获得一个从 1 开始的顺序号（例如 #1234）。这些编号在实例中是唯一的，即使工作包在项目之间移动，编号也不会改变。'
-  setting_work_packages_identifier_semantic: 基于项目的语义标识符（测试版）
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers
   setting_work_packages_identifier_semantic_caption: 每个项目都有一个唯一的项目标识符，该标识符会附加到一个编号前面（例如 PROJ-11）。每个项目的编号都会从 1 开始。如果工作包移至另一个项目，则会生成新的标识符，但原标识符仍可继续使用。
   setting_work_package_list_default_highlighting_mode: 默认突出显示模式
   setting_work_package_list_default_highlighted_attributes: 默认内联突出显示属性
@@ -5392,6 +5446,7 @@ zh-CN:
     passwords: 密码
     project_attributes:
       heading: 项目属性
+      label_add_attribute: 添加项目特性
       label_for_all_projects: 所有项目
       label_new_attribute: 项目属性
       label_new_section: 单元
@@ -5489,8 +5544,37 @@ zh-CN:
     session: 会话
     user:
       default_preferences: 默认偏好设置
-      display_format: 显示格式
       deletion: 删除
+      display_format: 显示格式
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: 内置
+        label_built_in_attribute_actions: 内置特性操作
+      custom_field_row_component:
+        label_user_custom_field_actions: 用户特性操作
+      show_component:
+        label_add_attribute: 添加用户特性
+        label_edit_section: 编辑标题
+        label_no_user_custom_fields: 未在此分区定义任何用户特性
+        label_section_actions: 分区操作
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: 按特性名称筛选…
+        heading_description: 这些用户特性会显示在用户个人资料和信息卡上。您可以添加新特性、将其分组和重新排序。
+      heading: 用户特性
+      label_new_attribute: 用户特性
+      label_new_section: 分区
+      label_default_section: User attributes
+      new:
+        heading: 新特性
+      tabs:
+        attributes: 特性
+        semantic_keys: 映射的特性
+      semantic_keys:
+        description: 某些特性不仅可以存储信息，应用还能使用它们来支持特定功能。请为下面的每个用途选择要使用的特性。每个特性只能用于一个用途，每个用途也只能用于一个特性。
+        descriptions:
+          job_title: 选择存储每位用户的职务名称的特性。它会出现在多个位置的用户名称（例如用户卡）旁边。
     working_days:
       section_work_week: 工作周
       section_holidays_and_closures: 节假日与停业
@@ -5755,6 +5839,7 @@ zh-CN:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: 状态更改
     text_change_disabled_for_provider_login: 名称和电子邮件地址由您的登录提供商设置，因此无法更改。
+    department_ldap_managed_caption: 此部门通过 LDAP 同步进行管理，无法在此处更改。
     unlock: 解锁​​​​
     unlock_and_reset_failed_logins: 解锁和重置失败的帐户
     error_cannot_delete_user: 无法删除用户
@@ -5777,7 +5862,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
 
     '
   warning_protocol_mismatch_html: ''
@@ -5948,6 +6033,8 @@ zh-CN:
   api_v3:
     attributes:
       property: 属性
+      version:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
     errors:
       code_400: 错误的请求：%{message}
       code_401: 你需要被授权访问该资源。

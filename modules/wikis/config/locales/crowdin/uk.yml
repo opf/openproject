@@ -50,7 +50,7 @@ uk:
       external_wiki_providers: Джерела вікі
       internal_wiki_provider: Внутрішня система вікі
       wikis: Вікі
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
   project_module_wiki_platforms: Постачальники Wiki
   wikis:
     admin:
@@ -137,6 +137,8 @@ uk:
       wiki_page: Сторінка Wiki
     create_new_wiki_page_dialog:
       title: Створити нову сторінку вікі
+    deferred_inline_page_link_macro_component:
+      loading: Завантаження…
     delete_relation_page_link_confirmation_dialog:
       heading: Видалити посилання на пов’язану сторінку Wiki?
       title: Видалити посилання на пов’язану сторінку Wiki
@@ -161,9 +163,8 @@ uk:
         xwiki_oauth_request_error: Під час спроби зв’язатися з екземпляром XWiki сталася несподівана помилка.
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
         xwiki_oauth_unauthorized: Платформа XWiki не розпізнала маркер користувача.
-    inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+    inline_existing_wiki_page_dialog:
+      title: Додати наявну сторінку вікі
     instructions:
       xwiki:
         integration: Адміністрування XWiki
@@ -189,6 +190,8 @@ uk:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна
         unexpected: Сталася неочікувана помилка
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

@@ -19,24 +19,10 @@ zh-CN:
   avatars:
     label_avatar: 头像
     label_gravatar: Gravatar
-    label_current_avatar: 当前头像
     label_local_avatar: 自定义头像
-    text_current_avatar: '以下图像显示当前头像。
-
-      '
-    text_upload_instructions: |
-      上传您自己的自定义头像，大小为 128 × 128 像素。更大的文件将被调整并裁剪以匹配。
-      选择图像后，上传前会显示头像的预览。
-    text_change_gravatar_html: 要为您的邮件地址更改或添加 Gravatar，请转到 %{gravatar_url}。
-    text_your_local_avatar: 'OpenProject 允许您上传自己的自定义头像。
-
-      '
-    text_local_avatar_over_gravatar: '如果您设置了一个自定义头像，则此头像将优先于上面的 Gravatar。
-
-      '
-    text_your_current_gravatar: |
-      OpenProject 将使用您的 Gravatar（如果已注册）或者默认图像或图标（如果存在）。
-      当前头像如下：
+    text_avatar_gravatar_html: OpenProject 将使用您的 Gravatar（如果已在 %{gravatar_url} 注册）或者默认图像或图标（如果存在）。
+    text_avatar_local: 您也可以点击图像，上传自定义头像以覆盖 Gravatar。建议使用 128×128 像素的图像。
+    text_avatar_local_only: 您可以点击图像，上传自定义头像。建议使用 128×128 像素的图像。
     settings:
       enable_gravatars: 启用用户 Gravatar
       gravatar_default: 默认的 Gravatar 图像
