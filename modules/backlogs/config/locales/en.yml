@@ -99,7 +99,6 @@ en:
 
   backlogs:
     add_existing_work_package_dialog_component:
-      target_not_found: "The sprint or backlog you are trying to add to was not found."
       title: "Add existing work package to %{name}"
 
     administration_blankslate:
@@ -247,6 +246,9 @@ en:
     work_package_is_closed: "Work package is done, when"
 
     work_packages:
+      add_existing_dialog:
+        invalid_target: "The target you are trying to add to is invalid."
+        target_not_found: "The sprint or backlog you are trying to add to was not found."
       update_service:
         ambiguous_target: "target_id and direction cannot both be present."
         invalid_direction: "direction must be one of: higher, highest, lower, lowest."

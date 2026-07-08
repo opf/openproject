@@ -60,14 +60,10 @@ module Backlogs
           container:
         )
       elsif target_id
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t("backlogs.add_existing_work_package_dialog_component.target_not_found")
-        )
+        render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
         respond_with_turbo_streams(status: :not_found)
       else
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t("backlogs.work_packages.update_service.invalid_target_type")
-        )
+        render_error_flash_message_via_turbo_stream(message: t(".invalid_target"))
         respond_with_turbo_streams(status: :unprocessable_entity)
       end
     end
