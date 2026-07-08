@@ -78,8 +78,7 @@ module Backlogs
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(icon: "kebab-horizontal",
                                 "aria-label": t(:label_more),
-                                scheme: :invisible,
-                                test_selector: "more-button")
+                                scheme: :invisible)
 
           with_item_group(menu) do
             sprint_edit_action(menu) if can_open_edit_dialog?

@@ -155,7 +155,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
     context "when no actions are available to the user" do
       it "does not render the more button" do
-        expect(rendered_component).to have_no_css(test_selector("more-button"))
+        expect(rendered_component).to have_no_selector(:button, "More")
       end
     end
 
