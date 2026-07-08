@@ -11,7 +11,7 @@ keywords: edit work packages, reminders, work package reminders, attachment, int
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.            |
-| [Link to create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
+| [Link to or create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
 | [Add an internal comment (Enterprise add-on)](#internal-comments-enterprise-add-on) | How to leave work package comments with limited visibility.  |
 | [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
 | [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.               |
