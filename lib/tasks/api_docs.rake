@@ -33,6 +33,8 @@ require "open_project/api_doc_coverage/spec_extractor"
 require "open_project/api_doc_coverage/ignore_list"
 require "open_project/api_doc_coverage/differ"
 require "open_project/api_doc_coverage/reporter"
+require "open_project/api_doc_coverage/ledger"
+require "open_project/api_doc_coverage/wp_filer"
 
 namespace :api do
   namespace :docs do
@@ -57,6 +59,24 @@ namespace :api do
            "#{s['undocumented_params']} endpoints with undocumented params, " \
            "#{s['orphaned_paths']} orphaned doc paths."
       puts "Report: #{md_path}"
+    end
+
+    desc "File/update one work package per module from the coverage report (report-first). " \
+         "Args: comma-separated module names, or empty for all modules with hard gaps."
+    task :file_wps, [:modules] => [:environment] do |_t, args|
+      mod = OpenProject::ApiDocCoverage
+      json_path = Rails.root.join("tmp/api-doc-coverage.json")
+      abort "Run `rake api:docs:coverage` first — #{json_path} not found." unless json_path.exist?
+
+      report = JSON.parse(json_path.read)
+      requested = args[:modules].to_s.split(",").map(&:strip).reject(&:empty?)
+      modules = requested.presence ||
+        report.fetch("modules", {}).select { |_m, g| g["undocumented_routes"].present? }.keys
+
+      ledger = mod::Ledger.new(Rails.root.join("docs/api/apiv3/.coverage-wps.yml").to_s)
+      results = mod::WpFiler.new(report_hash: report, ledger:).file(modules:)
+      results.each { |r| puts "#{r[:action]} WP ##{r[:wp_id]} for #{r[:module]}" }
+      puts "Filed #{results.size} work package(s)."
     end
   end
 end
