@@ -83,3 +83,46 @@ jobs:
             -XPOST -H"Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
             -d "$PAYLOAD"
+
+  # Trigger the flavours product (opendesk) build only after `build` has
+  # published the hocuspocus image the flavour depends on. This replaces the
+  # tag-triggered dispatch that used to live in continuous-delivery.yml, which
+  # raced the build and failed silently.
+  trigger_opendesk_release:
+    if: ${{ github.repository == 'opf/openproject' }}
+    needs: [compute-inputs, build]
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger flavours ci/products build
+        env:
+          TOKEN: ${{ secrets.OPENPROJECTCI_FLAVOUR_TRIGGER_TOKEN }}
+          REPOSITORY: opf/openproject-flavours
+          WORKFLOW_ID: ci-products.yml
+          TAG_NAME: ${{ needs.compute-inputs.outputs.tag }}
+          THIS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TAG="${TAG_NAME#v}"          # strip leading 'v': 16.3.0
+          MAJOR="${TAG%%.*}"           # 16
+          BRANCH="stable/$MAJOR"       # stable/16, reset to the release tag
+          PAYLOAD=$(jq -n \
+            --arg ref "$BRANCH" \
+            --arg tag "$TAG" \
+            --arg triggered_by_url "$THIS_RUN_URL" \
+            '{"ref": "dev", "inputs": {"ref": $ref, "tag": $tag, "triggered_by_url": $triggered_by_url}}')
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d "$PAYLOAD"
+
+  notify-failure:
+    needs: [compute-inputs, trigger_helm_release, trigger_opendesk_release]
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    permissions: {}
+    uses: ./.github/workflows/email-notification.yml
+    secrets:
+      OPS_MAIL_SMTP_TOKEN: ${{ secrets.OPS_MAIL_SMTP_TOKEN }}
+    with:
+      subject: "Release dispatch failed (helm/flavours) for ${{ needs.compute-inputs.outputs.tag }}"
+      body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
