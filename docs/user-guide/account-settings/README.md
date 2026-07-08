@@ -354,7 +354,7 @@ To configure the notification settings which you receive from the system, naviga
 
 ![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
 
-![More notification settings in Openproject account settings](openproject_account_settings_more_notification_settings.png)
+![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
 
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 

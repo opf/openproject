@@ -306,7 +306,7 @@ An assertion running between steps 1 and 4 sees stale content and fails intermit
 | `wait_for_network_idle` | a plain AJAX/Angular request with **no** Turbo rendering to wait for. | `columns.remove("Priority"); wait_for_network_idle` |
 | `dismiss_specific_toaster!(message:)` | **multiple** toasts may appear in sequence and `dismiss_toaster!` could close the wrong one. | `dismiss_specific_toaster!(message: "Saved successfully")` |
 | `have_test_selector(sel, text:)` | the container itself may be **replaced** by a Turbo Stream (stale node). Re-queries the DOM on each retry, unlike `within_test_selector`. | `expect(page).to have_test_selector("agenda-items-list", text: "No notes")` |
-| `retry_block { action }` | page state is **non-deterministic** after navigation (e.g. `go_back` re-initialises asynchronously). | `retry_block { click_on "Calendar event" }` |
+| `retry_block { action }` | page state is **non-deterministic** after navigation (e.g. `go_back` re-initializes asynchronously). | `retry_block { click_on "Calendar event" }` |
 | `have_button("Label", wait: 20)` | an Angular custom element sets its label asynchronously in `ngOnInit` and the default wait is too short on slow CI. | `expect(page).to have_button("Nextcloud login", wait: 20)` |
 | `expect_active!` (not `activate!`) | a field is **already** in edit mode (e.g. auto-opened after a failed save). | `subject_field.expect_active!` |
 

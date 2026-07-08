@@ -75,7 +75,7 @@ you can change them. The generated secret fulfills all requirements to be consid
 including the **Redirect URI**, to your clipboard and insert them in the corresponding form at the XWiki instance. A
 link to the correct XWiki form will be displayed again above the form.
 
-![OpenProject administration showing condiguration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
+![OpenProject administration showing configuration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
 
 Once this is done, click on **Save and continue**. This will conclude the configuration of the XWiki provider and the
 details page will be shown.
