@@ -1,6 +1,6 @@
 ---
 it:
   overviews:
-    label_home: Pagina principale %{workspace_type}
     label_dashboard: Dashboard
+    label_home: Pagina principale %{workspace_type}
     label_overview: Panoramica

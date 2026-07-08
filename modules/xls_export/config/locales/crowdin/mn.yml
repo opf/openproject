@@ -1,17 +1,17 @@
 ---
 mn:
-  plugin_openproject_xls_export:
-    name: OpenProject XLS Export
-    description: Export issue lists as Excel spreadsheets (.xls).
-  export_to_excel: XLS экспортлох
-  print_with_description: Тайлбартай урьдчилан үзэх
-  sentence_separator_or: эсвэл
   different_formats: Өөр форматууд
   export:
     format:
       xls: XLS
       xls_with_descriptions: Тайлбартай XLS
       xls_with_relations: XLS with relations
+  export_to_excel: XLS экспортлох
+  plugin_openproject_xls_export:
+    description: Export issue lists as Excel spreadsheets (.xls).
+    name: OpenProject XLS Export
+  print_with_description: Тайлбартай урьдчилан үзэх
+  sentence_separator_or: эсвэл
   xls_export:
     child_of: child of
     parent_of: parent of

@@ -4,7 +4,7 @@ ms:
   js:
     calendar:
       create_new: Cipta kalendar baharu
+      label_calendar_plural: Kalendar
       title: Kalendar
       too_many: Terdapat %{count} pakej kerja secara keseluruhan, tetapi hanya %{max} sahaja yang boleh dipaparkan.
       unsaved_title: Kalendar tidak dinamakan
-      label_calendar_plural: Kalendar

@@ -2,11 +2,11 @@
 ---
 ca:
   js:
-    label_preview: Previsualitzar
-    button_update: Actualitzar
     avatars:
+      empty_file_error: Si us plau, carrega una imatge vàlida (jpg, png i gif)
+      error_image_too_large: La imatge és massa gran.
       label_choose_avatar: Tria un avatar des d'un fitxer
       uploading_avatar: Carregant el teu avatar.
-      error_image_too_large: La imatge és massa gran.
       wrong_file_format: 'Els formats permesos són jpg, png i gif '
-      empty_file_error: Si us plau, carrega una imatge vàlida (jpg, png i gif)
+    button_update: Actualitzar
+    label_preview: Previsualitzar

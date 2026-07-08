@@ -2,26 +2,26 @@
 ---
 pt-BR:
   plugin_openproject_recaptcha:
-    name: ReCaptcha do OpenProject
     description: Este módulo fornece verificações recaptcha durante o início de sessão.
+    name: ReCaptcha do OpenProject
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Por favor, aguarde...
-    verify_account: Verifique a sua conta
     error_captcha: Não foi possível verificar sua conta. Por favor, entre em contato com um administrador.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Chave do website (também pode ser chamada de “chave do site”)
+      captcha_description_html: 'reCAPTCHA é um serviço gratuito do Google que pode ser ativado para sua instância do OpenProject. Se habilitado, um formulário captcha será renderizado no login para todos os usuários que ainda não verificaram um captcha. <br/> Consulte o link a seguir para obter mais detalhes sobre o reCAPTCHA e suas versões, e como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa sem Google que você pode usar se não quiser usar o reCAPTCHA. Consulte este link para obter mais informações: %{hcaptcha_link} <br/> Cloudflare Turnstile™ é uma alternativa mais prática para os usuários, mantendo o mesmo nível de segurança. Para obter mais informações, consulte o seguinte link: %{turnstile_link}
+
+        '
       response_limit: Limite de resposta para HCaptcha
       response_limit_text: O número máximo de caracteres para tratar a resposta HCaptcha como válida.
-      website_key_text: Digite a chave do site que você criou no console de administração reCAPTCHA para este domínio.
       secret_key: Chave secreta
       secret_key_text: Digite a chave secreta que você criou no console de administração reCAPTCHA.
       type: Usar reCAPTCHA
       type_disabled: Desativar reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA é um serviço gratuito do Google que pode ser ativado para sua instância do OpenProject. Se habilitado, um formulário captcha será renderizado no login para todos os usuários que ainda não verificaram um captcha. <br/> Consulte o link a seguir para obter mais detalhes sobre o reCAPTCHA e suas versões, e como criar o site e as chaves secretas: %{recaptcha_link} <br/> HCaptcha é uma alternativa sem Google que você pode usar se não quiser usar o reCAPTCHA. Consulte este link para obter mais informações: %{hcaptcha_link} <br/> Cloudflare Turnstile™ é uma alternativa mais prática para os usuários, mantendo o mesmo nível de segurança. Para obter mais informações, consulte o seguinte link: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Chave do website (também pode ser chamada de “chave do site”)
+      website_key_text: Digite a chave do site que você criou no console de administração reCAPTCHA para este domínio.
+    verify_account: Verifique a sua conta

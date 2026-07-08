@@ -1,29 +1,29 @@
 #English strings go here
 ---
 az:
-  plugin_openproject_avatars:
-    name: Avatarlar
-    description: Bu plagin OpenProject istifadəçilərinə avatar kimi istifadə edilmək üçün şəkil yükləməyə və ya Gravatar-dan qeydə alınmış şəkillərdən istifadə etməyə imkan verir.
-  label_avatar: Avatar
-  label_avatar_plural: Avatarlar
-  label_current_avatar: Cari avatar
-  label_choose_avatar: Avatar seçin
-  message_avatar_uploaded: Avatar uğurla dəyişdirildi
-  error_image_upload: Şəkli yadda saxlama xətası
-  error_image_size: Şəkil çox böyükdür
   are_you_sure_delete_avatar: Avatarınızı silmək istədiyinizə əminsiniz?
   avatar_deleted: Avatar uğurla silindi.
-  unable_to_delete_avatar: Avatar silinmədi.
-  wrong_file_format: İcazə verilən formatlar jpg, png, gif-dir
-  empty_file_error: Zəhmət olmasa düzgün şəkil yükləyin (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Fərdi avatar
+    settings:
+      enable_gravatars: İstifadəçi qravatarlarını aktivləşdirin
+      enable_local_avatars: İstifadəçinin fərdi avatarlarını aktivləşdirin
+      gravatar_default: Defolt Gravatar şəkli
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: İstifadəçi qravatarlarını aktivləşdirin
-      gravatar_default: Defolt Gravatar şəkli
-      enable_local_avatars: İstifadəçinin fərdi avatarlarını aktivləşdirin
+  empty_file_error: Zəhmət olmasa düzgün şəkil yükləyin (jpg, png, gif)
+  error_image_size: Şəkil çox böyükdür
+  error_image_upload: Şəkli yadda saxlama xətası
+  label_avatar: Avatar
+  label_avatar_plural: Avatarlar
+  label_choose_avatar: Avatar seçin
+  label_current_avatar: Cari avatar
+  message_avatar_uploaded: Avatar uğurla dəyişdirildi
+  plugin_openproject_avatars:
+    description: Bu plagin OpenProject istifadəçilərinə avatar kimi istifadə edilmək üçün şəkil yükləməyə və ya Gravatar-dan qeydə alınmış şəkillərdən istifadə etməyə imkan verir.
+    name: Avatarlar
+  unable_to_delete_avatar: Avatar silinmədi.
+  wrong_file_format: İcazə verilən formatlar jpg, png, gif-dir

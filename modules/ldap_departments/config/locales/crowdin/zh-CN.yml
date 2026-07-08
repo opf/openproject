@@ -27,8 +27,8 @@ zh-CN:
   ee:
     upsell:
       ldap_departments:
-        title: LDAP 部门同步
         description: 将您的 LDAP 组织单元结构映射到 OpenProject 部门层次结构中，并自动同步部门成员。
+        title: LDAP 部门同步
   ldap_departments:
     label_menu_item: LDAP 部门同步
     label_synchronize: 同步组织单元
@@ -47,7 +47,6 @@ zh-CN:
       singular: 同步的部门
     synchronized_trees:
       add_new: 添加 LDAP 部门同步
-      synchronization_started: 已开始在后台同步。同步完成后，部门将显示出来。
       blankslate:
         description: 设置同步，将您的 LDAP 组织单元结构映射到 OpenProject 部门层次结构中。
         heading: 没有 LDAP 部门同步
@@ -83,6 +82,7 @@ zh-CN:
       no_results: 尚未配置 LDAP 部门同步。
       plural: LDAP 部门同步
       singular: LDAP 部门同步
+      synchronization_started: 已开始在后台同步。同步完成后，部门将显示出来。
   plugin_openproject_ldap_departments:
     description: 将 LDAP 组织单元与 OpenProject 部门进行同步。
     name: OpenProject LDAP 部门

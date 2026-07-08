@@ -1,22 +1,22 @@
 #English strings go here
 ---
 nl:
-  plugin_openproject_team_planner:
-    name: OpenProject Teamplanner
-    description: Biedt teamplannerweergaven.
-  permission_view_team_planner: Bekijk teamplanner
-  permission_manage_team_planner: Teamplanner beheren
-  project_module_team_planner_view: Team planners
   ee:
     feature_names:
       team_planner_view: Team planner
     upsell:
       team_planner_view:
-        title: Team planner
         description: Krijg een compleet overzicht van de planning van je team met Team Planner. Verleng, verkort en sleep-en-plaats werkpakketten om data te wijzigen, ze te verplaatsen of taakontvangers te veranderen.
+        title: Team planner
+  permission_manage_team_planner: Teamplanner beheren
+  permission_view_team_planner: Bekijk teamplanner
+  plugin_openproject_team_planner:
+    description: Biedt teamplannerweergaven.
+    name: OpenProject Teamplanner
+  project_module_team_planner_view: Team planners
   team_planner:
-    label_team_planner: Team planner
-    label_new_team_planner: Nieuwe teamplanner
-    label_create_new_team_planner: Maak een nieuwe teamplanner
-    label_team_planner_plural: Team planners
     label_assignees: Toegewezenen
+    label_create_new_team_planner: Maak een nieuwe teamplanner
+    label_new_team_planner: Nieuwe teamplanner
+    label_team_planner: Team planner
+    label_team_planner_plural: Team planners

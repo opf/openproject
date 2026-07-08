@@ -7,42 +7,32 @@ da:
         description: Vil du automatisere dine arbejdsgange med Tavler? Avancerede tavler er en Enterprise-tilføjelse. Opgrader venligst til en betalt plan.
   js:
     boards:
-      create_new: Opret ny tavle
-      label_unnamed_board: Unavngiven tavle
-      label_unnamed_list: Unavngiven liste
-      label_board_type: Tavletype
-      lists:
-        delete: Slet liste
-      version:
-        is_locked: Versionen er låst. Der kan ikke tilføjes elementer til denne version.
-        is_closed: Versionen er lukket. Der kan ikke tilføjes elementer til denne version.
-        close_version: Luk version
-        open_version: Åbn version
-        lock_version: Lås version
-        unlock_version: Lås version op
-        edit_version: Rediger version
-        show_version: Vis version
-        locked: Låst
-        closed: Lukket
-      new_board: Ny tavle
-      add_list: Tilføj liste til tavlen
       add_card: Tilføj kort
-      error_attribute_not_writable: Kan ikke flytte arbejdspakken, %{attribute} kan ikke redigeres.
-      error_loading_the_list: 'Fejl ved indlæsning af listen: %{error_message}'
-      error_permission_missing: Rettigheden til at oprette offentlige forespørgsler mangler
-      error_cannot_move_into_self: Du kan ikke flytte en arbejdspakke til sin egen kolonne.
-      text_hidden_list_warning: Ikke alle lister vises, fordi du mangler rettigheder. Kontakt din administrator for at få flere oplysninger.
-      click_to_remove_list: Klik for at fjerne denne liste
+      add_list: Tilføj liste til tavlen
+      add_list_modal:
+        labels:
+          assignee: Vælg bruger til at tilføje som en ny tildelingsliste
+          status: Vælg status for at tilføje som en ny liste
+          subproject: Vælg underprojekt der skal tilføjes som en ny liste
+          subtasks: Vælg arbejdspakke at tilføje som en ny liste
+          version: Vælg version for at tilføje som en ny liste
+        warning:
+          add_members: <a href="%{link}">Tilføj et nyt medlem til dette projekt</a> for at vælge brugere igen.
+          assignee: Der er ikke noget medlem matchet med din filterværdi.  <br>
+          no_member: Dette projekt har i øjeblikket ikke nogen medlemmer, der kan tilføjes.  <br>
+          status: |
+            Der er i øjeblikket ingen tilgængelig status. <br>
+            Enten er der ingen, eller også er de alle allerede blevet tilføjet til tavlen.
       board_type:
-        text: Tavletype
-        free: grundlæggende
-        select_board_type: Vælg venligst den type tavle, du har brug for.
-        free_text: 'Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
-
-          '
         action: Handlingstavle
         action_by_attribute: Handlingstavle (%{attribute})
         action_text: 'En tavle med filtrerede lister på attributten %{attribute} . Flytning af arbejdspakker til andre lister vil opdatere deres attribut.
+
+          '
+        action_text_assignee: 'Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
+
+          '
+        action_text_status: 'Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
 
           '
         action_text_subprojects: 'Board med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
@@ -51,45 +41,55 @@ da:
         action_text_subtasks: 'Board med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
 
           '
-        action_text_status: 'Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
-
-          '
-        action_text_assignee: 'Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
-
-          '
         action_text_version: 'Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
 
           '
         action_type:
           assignee: Tildeler
           status: Status
-          version: version
           subproject: underprojekt
           subtasks: overordnet-underordnet
+          version: version
         board_type_title:
           assignee: Tildelt
+          basic: Grundlæggende
           status: Status
-          version: Version
           subproject: Underprojekt
           subtasks: Overordnet-underordnet
-          basic: Grundlæggende
+          version: Version
+        free: grundlæggende
+        free_text: 'Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
+
+          '
         select_attribute: Handlingsattribut
-      add_list_modal:
-        labels:
-          assignee: Vælg bruger til at tilføje som en ny tildelingsliste
-          status: Vælg status for at tilføje som en ny liste
-          version: Vælg version for at tilføje som en ny liste
-          subproject: Vælg underprojekt der skal tilføjes som en ny liste
-          subtasks: Vælg arbejdspakke at tilføje som en ny liste
-        warning:
-          status: |
-            Der er i øjeblikket ingen tilgængelig status. <br>
-            Enten er der ingen, eller også er de alle allerede blevet tilføjet til tavlen.
-          assignee: Der er ikke noget medlem matchet med din filterværdi.  <br>
-          no_member: Dette projekt har i øjeblikket ikke nogen medlemmer, der kan tilføjes.  <br>
-          add_members: <a href="%{link}">Tilføj et nyt medlem til dette projekt</a> for at vælge brugere igen.
+        select_board_type: Vælg venligst den type tavle, du har brug for.
+        text: Tavletype
+      click_to_remove_list: Klik for at fjerne denne liste
       configuration_modal:
-        title: Konfigurer denne tavle
         display_settings:
           card_mode: Vis som kort
           table_mode: Vis som tabel
+        title: Konfigurer denne tavle
+      create_new: Opret ny tavle
+      error_attribute_not_writable: Kan ikke flytte arbejdspakken, %{attribute} kan ikke redigeres.
+      error_cannot_move_into_self: Du kan ikke flytte en arbejdspakke til sin egen kolonne.
+      error_loading_the_list: 'Fejl ved indlæsning af listen: %{error_message}'
+      error_permission_missing: Rettigheden til at oprette offentlige forespørgsler mangler
+      label_board_type: Tavletype
+      label_unnamed_board: Unavngiven tavle
+      label_unnamed_list: Unavngiven liste
+      lists:
+        delete: Slet liste
+      new_board: Ny tavle
+      text_hidden_list_warning: Ikke alle lister vises, fordi du mangler rettigheder. Kontakt din administrator for at få flere oplysninger.
+      version:
+        close_version: Luk version
+        closed: Lukket
+        edit_version: Rediger version
+        is_closed: Versionen er lukket. Der kan ikke tilføjes elementer til denne version.
+        is_locked: Versionen er låst. Der kan ikke tilføjes elementer til denne version.
+        lock_version: Lås version
+        locked: Låst
+        open_version: Åbn version
+        show_version: Vis version
+        unlock_version: Lås version op

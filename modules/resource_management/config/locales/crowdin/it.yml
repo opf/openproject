@@ -60,10 +60,6 @@ it:
       make_private: Rendi privato
       make_public: Rendi pubblico
       unfavorite: Rimuovi dai preferiti
-    allocation:
-      hours: "%{value}h"
-      no_work: Nessun lavoro pianificato per questa macro-attività
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ it:
       submit: Assegna
       success_message: Risorsa assegnata.
       title: Assegna risorsa
+    allocation:
+      hours: "%{value}h"
+      no_work: Nessun lavoro pianificato per questa macro-attività
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assegna comunque
@@ -184,11 +184,11 @@ it:
         remove: Rimuovi utente
         remove_confirmation: Rimuovere questo utente dalla vista?
       fields:
-        working_times: Orari di lavoro
-        input_label: Campi
-        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
-        input_placeholder: Aggiungi un campo
         drag_area_label: Campi visualizzati
+        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
+        input_label: Campi
+        input_placeholder: Aggiungi un campo
+        working_times: Orari di lavoro
       subheader:
         resource: Risorsa
         settings: Configura vista

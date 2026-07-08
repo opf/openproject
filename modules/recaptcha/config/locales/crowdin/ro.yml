@@ -2,26 +2,26 @@
 ---
 ro:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: This module provides recaptcha checks during login.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Te rog să aștepți...
-    verify_account: Verificati-va contul
     error_captcha: Contul dvs. nu a putut fi verificat. Vă rugăm să contactați un administrator.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Cheia site-ului (poate fi numită și "Cheia site-ului")
+      captcha_description_html: 'reCAPTCHA este un serviciu gratuit al Google care poate fi activat pentru instanța dvs. OpenProject. Dacă este activat, un formular captcha va fi randat la autentificare pentru toți utilizatorii care nu au verificat încă un captcha. <br/> Vă rugăm să consultați următorul link pentru mai multe detalii despre reCAPTCHA și versiunile lor, și cum să creați saiturile web și cheile secrete: %{recaptcha_link} <br/> HCaptcha este o alternativă fără Google, pe care o puteți folosi dacă nu doriți să utilizați reCAPTCHA. Vezi acest link pentru mai multe informații: %{hcaptcha_link} <br/> Cloudflare TurnstileTM este o altă alternativă care este mai convenabilă pentru utilizatori, oferind în același timp același nivel de securitate. Pentru informații suplimentare, consultați acest link-ul: %{turnstile_link}
+
+        '
       response_limit: Limita de răspuns pentru HCaptcha
       response_limit_text: Numărul maxim de caractere pentru a trata răspunsul HCaptcha ca fiind valid.
-      website_key_text: Introdu cheia site-ului web pe care ai creat-o în consola de administrare reCAPTCHA pentru acest domeniu.
       secret_key: Cheie secretă
       secret_key_text: Introdu cheia secretă pe care ai creat-o în consola de administrare reCAPTCHA.
       type: Utilizează reCAPTCHA
       type_disabled: Dezactivați reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA este un serviciu gratuit al Google care poate fi activat pentru instanța dvs. OpenProject. Dacă este activat, un formular captcha va fi randat la autentificare pentru toți utilizatorii care nu au verificat încă un captcha. <br/> Vă rugăm să consultați următorul link pentru mai multe detalii despre reCAPTCHA și versiunile lor, și cum să creați saiturile web și cheile secrete: %{recaptcha_link} <br/> HCaptcha este o alternativă fără Google, pe care o puteți folosi dacă nu doriți să utilizați reCAPTCHA. Vezi acest link pentru mai multe informații: %{hcaptcha_link} <br/> Cloudflare TurnstileTM este o altă alternativă care este mai convenabilă pentru utilizatori, oferind în același timp același nivel de securitate. Pentru informații suplimentare, consultați acest link-ul: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Cheia site-ului (poate fi numită și "Cheia site-ului")
+      website_key_text: Introdu cheia site-ului web pe care ai creat-o în consola de administrare reCAPTCHA pentru acest domeniu.
+    verify_account: Verificati-va contul

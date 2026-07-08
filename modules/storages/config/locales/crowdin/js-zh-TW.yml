@@ -4,23 +4,77 @@ zh-TW:
   js:
     storages:
       authentication_error: "%{storageType} 驗證失敗"
-      link_files_in_storage: 以 %{storageType} 連結檔案
-      link_existing_files: 連結到已在雲端檔案系統之檔案
-      upload_files: 上傳檔案
+      choose_location: 選擇位置
       drop_files: 將檔案拖至此處或上傳至%{name}。
       drop_or_click_files: 將檔案拖至此處或點選上傳至%{name}。
-      login: "%{storageType} 登入"
-      login_to: 登入到 %{storageType}
-      no_connection: 沒有 %{storageType} 連線
-      open_storage: 開啟 %{storageType}
-      select_location: 選擇位置
-      choose_location: 選擇位置
-      new_folder: 新增資料夾
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: Sharepoint
-        default: 儲存空間
+      file_links:
+        already_linked_directory: 該目錄已連結到該工作套件。
+        already_linked_file: 該文件已連結到該工作套件。
+        download: 下載 %{fileName}
+        empty: '目前沒有指向此工作套件的連結檔案。 使用以下操作或從 %{storageType} 內開始連結檔案。
+
+          '
+        link_uploaded_file_error: '將最近上傳的檔案「%{fileName}」連結到工作套件 %{workPackageId} 時發生錯誤。
+
+          '
+        open: 開啟儲存區檔案
+        open_location: 打開文件
+        remove: 移除檔案連結
+        remove_confirmation: '您確定要取消該文件與此工作套件的連結嗎？ 取消連結不會影響原始文件，只會刪除與此工作套件的連線。
+
+          '
+        remove_short: 移除連結
+        select: 選擇檔案
+        select_all: 全選
+        selection:
+          zero: 選擇要連結的文件
+          other: 連結 %{count} 個檔案
+        success_create:
+          other: 成功新增%{count}個檔案連結
+        tooltip:
+          not_found: 找不到檔案。
+          not_logged_in: 請登入儲存空間來存取該文件。
+          view_not_allowed: 您無權查看此文件。
+        upload_error:
+          403: '由於系統限制，您的檔案 (%{fileName}) 無法上傳。 請聯絡您的管理員以獲取更多資訊。
+
+            '
+          413: '您的檔案 (%{fileName}) 比 OpenProject 可以上傳到 %{storageType} 的檔案大。 您可以先將其直接上傳到%{storageType}，然後再連結該檔案。
+
+            '
+          507: '您的檔案 (%{fileName}) 大於儲存配額允許的大小。 請聯絡您的管理員來修改此配額。
+
+            '
+          default: '您的檔案 (%{fileName}) 無法被上傳。
+
+            '
+          detail:
+            nextcloud: '請檢查是否安裝了最新版本的 Nextcloud 應用程式“OpenProject Integration”，並聯絡您的管理員以取得更多資訊。
+
+              '
+      files:
+        already_existing_body: '您嘗試上傳該檔案的位置已存在名為「%{fileName}」的檔案。 您想如何進行？
+
+          '
+        already_existing_header: 此檔案已存在
+        cannot_create_folder: 建立資料夾失敗。避免使用特殊字符和符號，並確保資料夾不存在。
+        directory_not_writeable: '您沒有權限在該資料夾中新增項目。 '
+        dragging_folder: 上傳到 %{storageType} 不支援資料夾。
+        dragging_many_files: 上傳到 %{storageType} 一次只支援一個檔案。
+        empty_folder: 這個資料夾是空的。
+        empty_folder_location_hint: 點擊下面的按鈕將文件上傳到此位置。
+        file_not_selectable_location: 在選擇位置的過程中無法選擇檔案。
+        managed_project_folder_no_access: '您尚無權存取託管專案資料夾。 請稍等一下，然後重試。
+
+          '
+        managed_project_folder_not_available: '尚未找到自動管理的專案資料夾。 請稍等一下，重新加載頁面以獲取最新數據，然後重試。
+
+          '
+        project_folder_no_access: '您無權存取項目資料夾。 請聯絡您的管理員以取得存取權限或將檔案上傳到其他位置。
+
+          '
+        upload_keep_both: 兩者都保留
+        upload_replace: 取代
       information:
         authentication_error: "%{storageType} 的請求無法驗證，這是一個錯誤。"
         connection_error: '某些 %{storageType} 設定沒有作用。 請聯絡您的 %{storageType} 管理員。
@@ -36,71 +90,17 @@ zh-TW:
           '
         suggest_logout: 您可以嘗試登出後再登入是否可以解決這個問題。
         suggest_relink: 您可以嘗試透過下方的登入按鈕，或重新連結您的帳戶以解決此問題。
-      files:
-        already_existing_header: 此檔案已存在
-        already_existing_body: '您嘗試上傳該檔案的位置已存在名為「%{fileName}」的檔案。 您想如何進行？
-
-          '
-        directory_not_writeable: '您沒有權限在該資料夾中新增項目。 '
-        dragging_many_files: 上傳到 %{storageType} 一次只支援一個檔案。
-        dragging_folder: 上傳到 %{storageType} 不支援資料夾。
-        empty_folder: 這個資料夾是空的。
-        empty_folder_location_hint: 點擊下面的按鈕將文件上傳到此位置。
-        file_not_selectable_location: 在選擇位置的過程中無法選擇檔案。
-        project_folder_no_access: '您無權存取項目資料夾。 請聯絡您的管理員以取得存取權限或將檔案上傳到其他位置。
-
-          '
-        managed_project_folder_not_available: '尚未找到自動管理的專案資料夾。 請稍等一下，重新加載頁面以獲取最新數據，然後重試。
-
-          '
-        managed_project_folder_no_access: '您尚無權存取託管專案資料夾。 請稍等一下，然後重試。
-
-          '
-        cannot_create_folder: 建立資料夾失敗。避免使用特殊字符和符號，並確保資料夾不存在。
-        upload_keep_both: 兩者都保留
-        upload_replace: 取代
-      file_links:
-        empty: '目前沒有指向此工作套件的連結檔案。 使用以下操作或從 %{storageType} 內開始連結檔案。
-
-          '
-        download: 下載 %{fileName}
-        open: 開啟儲存區檔案
-        open_location: 打開文件
-        remove: 移除檔案連結
-        remove_confirmation: '您確定要取消該文件與此工作套件的連結嗎？ 取消連結不會影響原始文件，只會刪除與此工作套件的連線。
-
-          '
-        remove_short: 移除連結
-        select: 選擇檔案
-        select_all: 全選
-        selection:
-          zero: 選擇要連結的文件
-          other: 連結 %{count} 個檔案
-        success_create:
-          other: 成功新增%{count}個檔案連結
-        upload_error:
-          default: '您的檔案 (%{fileName}) 無法被上傳。
-
-            '
-          403: '由於系統限制，您的檔案 (%{fileName}) 無法上傳。 請聯絡您的管理員以獲取更多資訊。
-
-            '
-          413: '您的檔案 (%{fileName}) 比 OpenProject 可以上傳到 %{storageType} 的檔案大。 您可以先將其直接上傳到%{storageType}，然後再連結該檔案。
-
-            '
-          507: '您的檔案 (%{fileName}) 大於儲存配額允許的大小。 請聯絡您的管理員來修改此配額。
-
-            '
-          detail:
-            nextcloud: '請檢查是否安裝了最新版本的 Nextcloud 應用程式“OpenProject Integration”，並聯絡您的管理員以取得更多資訊。
-
-              '
-        link_uploaded_file_error: '將最近上傳的檔案「%{fileName}」連結到工作套件 %{workPackageId} 時發生錯誤。
-
-          '
-        tooltip:
-          not_logged_in: 請登入儲存空間來存取該文件。
-          view_not_allowed: 您無權查看此文件。
-          not_found: 找不到檔案。
-        already_linked_file: 該文件已連結到該工作套件。
-        already_linked_directory: 該目錄已連結到該工作套件。
+      link_existing_files: 連結到已在雲端檔案系統之檔案
+      link_files_in_storage: 以 %{storageType} 連結檔案
+      login: "%{storageType} 登入"
+      login_to: 登入到 %{storageType}
+      new_folder: 新增資料夾
+      no_connection: 沒有 %{storageType} 連線
+      open_storage: 開啟 %{storageType}
+      select_location: 選擇位置
+      types:
+        default: 儲存空間
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: Sharepoint
+      upload_files: 上傳檔案

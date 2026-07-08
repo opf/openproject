@@ -60,10 +60,6 @@ pt-PT:
       make_private: Tornar privado
       make_public: Tornar público
       unfavorite: Remover dos favoritos
-    allocation:
-      hours: "%{value}h"
-      no_work: Não estão previstas atividades para este pacote de trabalho
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ pt-PT:
       submit: Atribuir
       success_message: Recurso atribuído.
       title: Atribuir recurso
+    allocation:
+      hours: "%{value}h"
+      no_work: Não estão previstas atividades para este pacote de trabalho
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -184,11 +184,11 @@ pt-PT:
         remove: Remover utilizador
         remove_confirmation: Quer remover este utilizador da vista?
       fields:
-        working_times: Horários de trabalho
-        input_label: Campos
-        input_caption: Selecione os campos que serão apresentados no cartão do utilizador nesta vista
-        input_placeholder: Adicionar um campo
         drag_area_label: Campos apresentados
+        input_caption: Selecione os campos que serão apresentados no cartão do utilizador nesta vista
+        input_label: Campos
+        input_placeholder: Adicionar um campo
+        working_times: Horários de trabalho
       subheader:
         resource: Recurso
         settings: Configurar vista

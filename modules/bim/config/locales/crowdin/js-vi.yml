@@ -3,28 +3,28 @@
 vi:
   js:
     bcf:
-      label_bcf: BCF
-      import: nhập khẩu
-      import_bcf_xml_file: Nhập tệp XML BCF (BCF phiên bản 2.1)
+      add_viewpoint: Thêm góc nhìn
+      delete_viewpoint: Xóa góc nhìn
       export: xuất khẩu
       export_bcf_xml_file: Xuất tệp XML BCF (BCF phiên bản 2.1)
-      viewpoint: Góc nhìn
-      add_viewpoint: Thêm góc nhìn
-      show_viewpoint: Hiện góc nhìn
-      delete_viewpoint: Xóa góc nhìn
+      import: nhập khẩu
+      import_bcf_xml_file: Nhập tệp XML BCF (BCF phiên bản 2.1)
+      label_bcf: BCF
       management: quản lý BCF
       refresh: Làm mới
       refresh_work_package: Làm mới gói công việc
+      show_viewpoint: Hiện góc nhìn
+      viewpoint: Góc nhìn
     ifc_models:
       empty_warning: Dự án này chưa có mô hình IFC nào.
-      use_this_link_to_manage: Dùng link này để tải lên và quản lý mô hình IFC
       keyboard_input_disabled: Trình xem không có quyền điều khiển bàn phím. Kích vào "trình xem" để cấp quyền điều khiển bàn phím cho "trình xem"
       models:
         ifc_models: mô hình IFC
+      use_this_link_to_manage: Dùng link này để tải lên và quản lý mô hình IFC
       views:
-        viewer: Trình xem
         split: Trình xem và bảng
         split_cards: Trình xem và thẻ
+        viewer: Trình xem
     revit:
       revit_add_in: Bổ trợ Revit
       revit_add_in_settings: Cài đặt bổ trợ Revit

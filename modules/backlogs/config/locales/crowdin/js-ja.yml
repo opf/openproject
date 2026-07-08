@@ -22,9 +22,9 @@
 ---
 ja:
   js:
-    work_packages:
-      properties:
-        storyPoints: ストーリーポイント
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: ストーリーポイント

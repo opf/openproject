@@ -3,28 +3,28 @@
 ja:
   js:
     team_planner:
-      add_existing: 既存を追加
-      label_team_planner_plural: チーム プランナー
-      add_existing_title: 既存のワークパッケージの追加
-      create_label: チーム プランナー
-      create_title: 新しいチームプランナーを作成
-      unsaved_title: 無題のチームプランナー
-      no_data: 担当者を追加してチームプランナーを設定します。
       add_assignee: 担当者
-      remove_assignee: 担当者を削除
-      two_weeks: 2 週間
-      one_week: 1 週間
-      four_weeks: 4 週間
-      eight_weeks: 8 週間
-      work_week: 作業週
-      today: 今日
-      drag_here_to_remove: ここをドラッグして、担当者と開始日と終了日を削除します。
+      add_existing: 既存を追加
+      add_existing_title: 既存のワークパッケージの追加
       cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
       cannot_drag_to_non_working_day: ワークパッケージの開始日時/終了日時を非稼働日に設定することはできません。
+      create_label: チーム プランナー
+      create_title: 新しいチームプランナーを作成
+      drag_here_to_remove: ここをドラッグして、担当者と開始日と終了日を削除します。
+      eight_weeks: 8 週間
+      four_weeks: 4 週間
+      label_team_planner_plural: チーム プランナー
+      modify:
+        errors:
+          fallback: このワークパッケージは編集できません。
+          permission_denied: 変更するために必要な権限がありません。
+      no_data: 担当者を追加してチームプランナーを設定します。
+      one_week: 1 週間
       quick_add:
         empty_state: 検索フィールドを使用してワークパッケージを見つけて、プランナーにドラッグして割り当て、開始日と終了日を設定します。
         search_placeholder: 検索
-      modify:
-        errors:
-          permission_denied: 変更するために必要な権限がありません。
-          fallback: このワークパッケージは編集できません。
+      remove_assignee: 担当者を削除
+      today: 今日
+      two_weeks: 2 週間
+      unsaved_title: 無題のチームプランナー
+      work_week: 作業週

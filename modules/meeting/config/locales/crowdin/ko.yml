@@ -22,90 +22,87 @@
 #English strings go here for Rails i18n
 ---
 ko:
-  plugin_openproject_meeting:
-    name: OpenProject 미팅
-    description: 이 모듈은 OpenProject에 프로젝트 미팅을 지원하는 기능을 추가합니다. 미팅에 참여하도록 초대되는 사람을 동일한 프로젝트에서 선택하여 미팅을 예약할 수 있습니다. 의제를 생성하고 초대된 사람에게 보낼 수 있습니다. 미팅 후 참석자를 선택하고 의제에 따라 의사록을 작성할 수 있습니다. 마지막으로 모든 참석자와 초대된 사람에게 의사록을 보낼 수 있습니다.
   activerecord:
     attributes:
       meeting:
-        type: 미팅 유형
-        location: 위치
         duration: 기간
+        end_time: 종료 시간
+        location: 위치
         notes: 노트
-        recurrence_start_time: 스케줄링된 시작 시간
-        participants: 참가자
+        notify: 알림 보내기
         participant:
           other: 참가자 %{count}명
+        participants: 참가자
+        participants_added: '참가자 추가됨:'
         participants_attended: 참석자
         participants_invited: 초대된 사람
-        participants_added: '참가자 추가됨:'
         participants_removed: '참가자 제거됨:'
         project: 프로젝트
+        recurrence_start_time: 스케줄링된 시작 시간
+        sharing: 공유
         start_date: 날짜
         start_time: 시작 시간
         start_time_hour: 시작 시간
-        end_time: 종료 시간
         template: 템플릿
-        notify: 알림 보내기
-        sharing: 공유
+        type: 미팅 유형
       meeting_agenda_item:
-        title: 제목
         author: 작성자
-        duration_in_minutes: 기간
         description: 메모
-        presenter: 발표자
+        duration_in_minutes: 기간
         item_type: 유형
-        position: 위치
         lock_version: 버전 잠금
         notes: 메모
-      meeting_section:
-        title: 제목
         position: 위치
-      recurring_meeting:
+        presenter: 발표자
         title: 제목
+      meeting_participant:
+        attended: 참석함
+        invited: 초대됨
+        participation_status: 참여자 상태
+      meeting_section:
+        position: 위치
+        title: 제목
+      recurring_meeting:
+        duration: 기간
+        end_after: 미팅 시리즈 종료
+        end_date: 종료 날짜
         frequency: 빈도
         interval: 간격
+        iterations: 항목
+        location: 위치
         monthly_day: 일
         monthly_ordinal: 위치
         monthly_weekday: 요일 기준
+        notify: 알림 보내기
         start_date: '시작:'
         start_time: 시작 시간
         start_time_hour: 시작 시간
-        end_after: 미팅 시리즈 종료
-        end_date: 종료 날짜
-        iterations: 항목
         time_zone: 표준 시간대
-        location: 위치
-        duration: 기간
-        notify: 알림 보내기
+        title: 제목
       recurring_meeting_interim_response:
         start_time: 시작 시간
-      meeting_participant:
-        invited: 초대됨
-        attended: 참석함
-        participation_status: 참여자 상태
     errors:
+      messages:
+        invalid_time_format: '은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM'
       models:
-        meeting_participant:
-          user_invalid: "- 유효한 참가자가 아닙니다."
         meeting_agenda_item:
           section_not_belong_to_meeting: 섹션이 같은 미팅에 속하지 않습니다.
           user_invalid: "- 유효한 참가자가 아닙니다."
-        recurring_meeting_interim_response:
-          not_an_occurrence: "- 이 반복 미팅에 유효한 항목 시간이 아닙니다"
+        meeting_participant:
+          user_invalid: "- 유효한 참가자가 아닙니다."
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: 이 시리즈에는 새로운 스케줄에 포함되지 않은 오픈 미팅이 하나 있습니다. 모든 기존 미팅을 포함하도록 스케줄을 조정하세요.
             other: 이 시리즈에는 새로운 스케줄에 포함되지 않은 오픈 미팅이 %{count}개 있습니다. 모든 기존 미팅을 포함하도록 스케줄을 조정하세요.
-            format: "%{message}"
-      messages:
-        invalid_time_format: '은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM'
+        recurring_meeting_interim_response:
+          not_an_occurrence: "- 이 반복 미팅에 유효한 항목 시간이 아닙니다"
     models:
-      recurring_meeting: 반복 미팅
       meeting: 일회성 미팅
-      meeting_agenda_item: 의제 항목
       meeting_agenda: 의제
+      meeting_agenda_item: 의제 항목
       meeting_section: 섹션
+      recurring_meeting: 반복 미팅
       token/ical_meeting:
         other: iCal 미팅 구독
   activity:
@@ -124,7 +121,11 @@ ko:
         work_package:
           updated: "%{old_value}에서 %{value}(으)로 변경됨"
           updated_html: "<i>%{old_value}</i>에서 <i>%{value}</i>(으)로 변경됨"
+  caption_meeting_template_select: 템플릿을 선택하면 의제 항목이 자동으로 복사됩니다.
+  caption_template_project_select: 이 미팅 템플릿을 만들 프로젝트를 선택하세요
   description_attended: 참석함
+  error_notification: 알림을 보내지 못했습니다.
+  error_notification_with_errors: 알림을 보내지 못했습니다. 다음 수신자에게 알리지 못했습니다. %{recipients}
   events:
     meeting: 미팅 편집됨
     meeting_agenda: 미팅 의제 편집됨
@@ -132,299 +133,471 @@ ko:
     meeting_agenda_opened: 미팅 의제 열림
     meeting_minutes: 미팅 의제 편집됨
     meeting_minutes_created: 미팅 의제 생성됨
-  error_notification: 알림을 보내지 못했습니다.
-  error_notification_with_errors: 알림을 보내지 못했습니다. 다음 수신자에게 알리지 못했습니다. %{recipients}
+  label_add_work_package_to_meeting_dialog_button: 미팅에 추가
+  label_add_work_package_to_meeting_dialog_title: 미팅 선택
+  label_add_work_package_to_meeting_section_label: 섹션
+  label_added_as_outcome: 결과로 추가됨
+  label_agenda_backlog: 의제 백로그
+  label_agenda_backlog_clear_title: 의제 백로그를 지우시겠습니까?
+  label_agenda_item_actions: 의제 항목 작업
+  label_agenda_item_add: 의제 항목 추가
+  label_agenda_item_add_notes: 메모 추가
+  label_agenda_item_add_outcome: 결과 추가
+  label_agenda_item_convert_to_work_package: 작업 패키지로 전환
+  label_agenda_item_deleted_wp: 삭제된 작업 패키지 참조
+  label_agenda_item_duplicate: 복제
+  label_agenda_item_duplicate_in_next: 다음 미팅에 복제
+  label_agenda_item_duplicate_in_next_title: 다음 미팅에 복제하시겠습니까?
+  label_agenda_item_move: 이동
+  label_agenda_item_move_down: 아래로 이동
+  label_agenda_item_move_to_backlog: 백로그로 이동
+  label_agenda_item_move_to_bottom: 맨 아래로 이동
+  label_agenda_item_move_to_current_meeting: 현재 미팅으로 이동
+  label_agenda_item_move_to_next: 다음 미팅으로 이동
+  label_agenda_item_move_to_next_title: 다음 미팅으로 이동하시겠습니까?
+  label_agenda_item_move_to_section: 섹션으로 이동
+  label_agenda_item_move_to_top: 맨 위로 이동
+  label_agenda_item_move_up: 위로 이동
+  label_agenda_item_remove_from_agenda: 의제에서 제거
+  label_agenda_item_remove_from_backlog: 백로그에서 제거
+  label_agenda_item_undisclosed_wp: '작업 패키지 #%{id}이(가) 표시되지 않습니다'
+  label_agenda_item_work_package: 의제 항목 작업 패키지
+  label_agenda_item_work_package_add: 작업 패키지 추가
+  label_agenda_items: 의제 항목
+  label_agenda_items_reordered: 재정렬됨
+  label_agenda_new_outcome: 새로운 결과
+  label_agenda_outcome: 결과
+  label_agenda_outcome_actions: 의제 결과 작업
+  label_agenda_outcome_delete: 결과 제거
+  label_agenda_outcome_edit: 결과 편집
+  label_all_meetings: 모든 미팅
+  label_attended: 참석함
+  label_attended_user: 참석한 사용자
+  label_backlog_clear: 백로그 지우기
+  label_backlog_clear_button: 모두 지우기
+  label_created_by_me: 내가 생성함
+  label_existing_work_package: 기존 작업 패키지
+  label_icalendar: iCalendar 보내기
+  label_icalendar_download: iCalendar 이벤트 다운로드
+  label_initial_meeting_details: 미팅
+  label_invitations: 초대
+  label_invited_user: 초대된 사용자
+  label_involvement: 참여
   label_meeting: 미팅
-  label_meeting_plural: 미팅
-  label_meeting_templates: 템플릿
-  label_meeting_template: 템플릿
-  label_meeting_template_new: 새 템플릿
-  label_meeting_template_create: 템플릿 만들기
-  label_meeting_template_delete: 템플릿 삭제
-  label_meeting_template_edit: 템플릿 편집
+  label_meeting_actions: 미팅 작업
+  label_meeting_agenda: 의제
+  label_meeting_agenda_close: 의사록을 시작하려면 의제 닫기
+  label_meeting_close: 닫기
+  label_meeting_close_action: 미팅 닫기
+  label_meeting_create: 미팅 생성
   label_meeting_create_from_template: 템플릿에서 미팅 만들기
+  label_meeting_created_by: 작성자
+  label_meeting_date_and_time: 날짜 및 시간
+  label_meeting_date_time: 날짜/시간
+  label_meeting_delete: 미팅 삭제
+  label_meeting_details: 미팅 세부 정보
+  label_meeting_details_edit: 미팅 세부 정보 편집
+  label_meeting_diff: 차이
+  label_meeting_duplicate: 미팅 복제
+  label_meeting_edit: 미팅 편집
+  label_meeting_edit_title: 미팅 제목 편집
+  label_meeting_empty_action: 의제 항목 추가
+  label_meeting_in_progress_action: 미팅 시작
+  label_meeting_index_delete: 삭제
+  label_meeting_index_later: 다음 주 그리고 그 이후에
+  label_meeting_index_this_week: 이번 주 후반에
+  label_meeting_index_today: 오늘
+  label_meeting_index_tomorrow: 내일
+  label_meeting_last_updated: 마지막 업데이트
+  label_meeting_minutes: 의사록
+  label_meeting_more:
+    other: 미팅이 %{count}개 더 있습니다.
   label_meeting_new: 새 미팅
   label_meeting_new_dynamic: 새로운 일회성 미팅
   label_meeting_new_recurring: 새로운 반복 미팅
-  label_meeting_create: 미팅 생성
-  label_meeting_duplicate: 미팅 복제
-  label_meeting_edit: 미팅 편집
-  label_meeting_agenda: 의제
-  label_meeting_minutes: 의사록
-  label_meeting_close: 닫기
   label_meeting_open: 열기
-  label_meeting_index_delete: 삭제
+  label_meeting_open_action: 미팅 열기
   label_meeting_open_this_meeting: 이 미팅 열기
-  label_meeting_agenda_close: 의사록을 시작하려면 의제 닫기
-  label_meeting_date_time: 날짜/시간
-  label_meeting_date_and_time: 날짜 및 시간
-  label_meeting_diff: 차이
+  label_meeting_plural: 미팅
+  label_meeting_reload: 다시 로드
+  label_meeting_reopen_action: 미팅 다시 열기
+  label_meeting_selection_caption: 향후 또는 진행 중인 미팅에만 이 작업 패키지를 추가할 수 있습니다.
   label_meeting_send_updates: 이메일 캘린더 초대장 및 업데이트 보내기
   label_meeting_send_updates_caption: 이 미팅의 모든 참가자에게 이메일 초대장 보내기
+  label_meeting_series: 미팅 시리즈
+  label_meeting_series_details: 미팅 시리즈 세부 정보
+  label_meeting_state: 미팅 상태
+  label_meeting_state_agenda_created: 의제 생성됨
+  label_meeting_state_cancelled: 취소됨
+  label_meeting_state_closed: 닫음
+  label_meeting_state_draft: 초안
+  label_meeting_state_in_progress: 진행 중
+  label_meeting_state_open: 열기
+  label_meeting_state_planned: 계획됨
+  label_meeting_state_skipped: 건너뜀
+  label_meeting_template: 템플릿
+  label_meeting_template_create: 템플릿 만들기
+  label_meeting_template_delete: 템플릿 삭제
+  label_meeting_template_edit: 템플릿 편집
+  label_meeting_template_new: 새 템플릿
+  label_meeting_template_sharing: 공유
+  label_meeting_template_sharing_descendants: 하위 프로젝트 포함
+  label_meeting_template_sharing_none: 이 프로젝트에서만
+  label_meeting_template_sharing_system: 모든 프로젝트 포함
+  label_meeting_templates: 템플릿
+  label_my_meetings: 내 미팅
+  label_notify: 검토를 위해 보내기
+  label_past_invitations: 과거 초대
+  label_past_meetings: 지난 미팅
+  label_past_meetings_short: 과거
+  label_recurring_filter: 반복 필터
   label_recurring_meeting: 반복 미팅
-  label_recurring_meeting_part_of: 미팅 시리즈의 일부
-  label_recurring_meeting_new: 새로운 반복 미팅
-  label_recurring_meeting_plural: 반복 미팅
-  label_template: 템플릿
-  label_recurring_meeting_view: 미팅 시리즈 보기
-  label_recurring_meeting_create: 열기
-  label_recurring_meeting_duplicate: 일회성 미팅으로 복제
   label_recurring_meeting_cancel: 이 항목 취소
+  label_recurring_meeting_create: 열기
   label_recurring_meeting_delete: 항목 삭제
-  label_recurring_meeting_restore: 이 항목 복원
-  label_recurring_meeting_schedule: 스케줄
-  label_recurring_meeting_next_occurrence: 다음 항목
-  label_recurring_meeting_no_end_date: 예정된 미팅(%{schedule})이 더 있습니다.
+  label_recurring_meeting_duplicate: 일회성 미팅으로 복제
   label_recurring_meeting_more:
     other: 예정된 미팅(%{schedule})이 %{count}개 더 있습니다.
   label_recurring_meeting_more_past:
     other: 지난 미팅이 %{count}개 더 있습니다.
-  label_recurring_meeting_show_more: 자세히 표시
+  label_recurring_meeting_new: 새로운 반복 미팅
+  label_recurring_meeting_next_occurrence: 다음 항목
+  label_recurring_meeting_no_end_date: 예정된 미팅(%{schedule})이 더 있습니다.
+  label_recurring_meeting_part_of: 미팅 시리즈의 일부
+  label_recurring_meeting_plural: 반복 미팅
+  label_recurring_meeting_restore: 이 항목 복원
+  label_recurring_meeting_schedule: 스케줄
   label_recurring_meeting_series_create: 미팅 시리즈 만들기
-  label_recurring_meeting_series_edit: 미팅 시리즈 편집
   label_recurring_meeting_series_delete: 미팅 시리즈 삭제
+  label_recurring_meeting_series_edit: 미팅 시리즈 편집
   label_recurring_meeting_series_end: 미팅 시리즈 종료
   label_recurring_meeting_series_end_now: 지금 시리즈 종료
-  label_meeting_more:
-    other: 미팅이 %{count}개 더 있습니다.
-  label_my_meetings: 내 미팅
-  label_all_meetings: 모든 미팅
-  label_upcoming_meetings: 다가오는 이벤트
-  label_past_meetings: 지난 미팅
-  label_upcoming_meetings_short: 예정
-  label_past_meetings_short: 과거
-  label_involvement: 참여
-  label_invitations: 초대
-  label_invited_user: 초대된 사용자
-  label_past_invitations: 과거 초대
-  label_attended: 참석함
-  label_attended_user: 참석한 사용자
-  label_created_by_me: 내가 생성함
-  label_notify: 검토를 위해 보내기
-  label_icalendar: iCalendar 보내기
-  label_icalendar_download: iCalendar 이벤트 다운로드
-  label_view_meeting: 미팅 보기
-  label_view_meeting_series: 미팅 시리즈 보기
-  label_meeting_series: 미팅 시리즈
-  label_version: 버전
-  label_time_zone: 표준 시간대
+  label_recurring_meeting_show_more: 자세히 표시
+  label_recurring_meeting_view: 미팅 시리즈 보기
+  label_section_rename: 섹션 이름 바꾸기
+  label_section_selection_caption: 의제의 특정 섹션을 선택하거나 백로그에 추가하세요.
+  label_series_backlog: 시리즈 백로그
+  label_series_backlog_clear_title: 시리즈 백로그를 지우시겠습니까?
   label_start_date: 시작일
   label_subscribe_icalendar: 캘린더 구독
-  label_recurring_filter: 반복 필터
-  caption_meeting_template_select: 템플릿을 선택하면 의제 항목이 자동으로 복사됩니다.
-  caption_template_project_select: 이 미팅 템플릿을 만들 프로젝트를 선택하세요
-  placeholder_meeting_template_select_project_first: 먼저 프로젝트를 선택하세요
-  placeholder_meeting_template_no_templates_for_project: 이 프로젝트에 사용할 수 있는 템플릿이 없습니다
+  label_template: 템플릿
+  label_time_zone: 표준 시간대
+  label_upcoming_meetings: 다가오는 이벤트
+  label_upcoming_meetings_short: 예정
+  label_version: 버전
+  label_view_meeting: 미팅 보기
+  label_view_meeting_series: 미팅 시리즈 보기
+  label_write_outcome: 결과 작성
   meeting:
-    participants:
-      label:
-        participants: 참가자
-        attended: 참석함
-        mark_as_attended: 참석으로 표시
-        mark_all_as_attended: 모두 참석으로 표시
-        remove_participant: 참가자 제거
-        manage_participants: 참가자 관리
-        no_participants: 참가자 없음
-        show_all: 모두 표시
-        apply_to_upcoming_meetings: 이 시리즈의 모든 향후 미팅에 해당 변경 사항 적용
-      text:
-        template: 이러한 참가자는 향후 생성되는 모든 미팅에 자동으로 초대됩니다.
-        manage_participants: 프로젝트 멤버를 검색하여 이 미팅에 참가자로 추가하세요.
-        search_for_members: 프로젝트 멤버 검색
-      blankslate:
-        heading: 참가자 없음
-        description: 아직 참가자가 없습니다.
     attachments:
       onetime_template: 이러한 첨부 파일은 이 템플릿을 사용하는 모든 향후 미팅에 포함됩니다.
       series_template: 이러한 첨부 파일은 시리즈의 모든 향후 미팅에 포함됩니다.
       text: 첨부된 파일은 모든 미팅 참가자가 사용할 수 있습니다. 이러한 파일을 의제 항목 메모에 끌어다 놓을 수도 있습니다.
+    blankslate:
+      desc: 새 미팅을 만들거나 필터 기준을 변경할 수 있습니다
+      title: 표시할 미팅이 없습니다
+    copied: '미팅 #%{id}에서 복사됨'
     copy:
-      title: '미팅 복사: %{title}'
-      attachments: 첨부 파일 복사
-      attachments_text: 첨부된 모든 파일을 새 미팅에 복사
       agenda: 의제 복사
       agenda_items: 의제 항목 복사
       agenda_text: 이전 미팅의 의제 복사
+      attachments: 첨부 파일 복사
+      attachments_text: 첨부된 모든 파일을 새 미팅에 복사
       participants: 참가자 목록 복사
+      title: '미팅 복사: %{title}'
       to_clipboard: 클립보드에 링크 복사
+    delete_dialog:
+      occurrence:
+        confirm_button: 항목 취소
+        confirmation_message_html: '템플릿에 없는 미팅 정보는 모두 손실됩니다. 계속하시겠습니까?
+
+          '
+        heading: 이 미팅 항목을 취소하시겠습니까?
+        title: 미팅 항목 취소
+      occurrence_past:
+        confirm_button: 항목 삭제
+        confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.
+
+          '
+        heading: 이 항목을 삭제하시겠습니까?
+        title: 항목 삭제
+      one_time:
+        confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.
+
+          '
+        heading: 이 미팅을 삭제하시겠습니까?
+        template:
+          confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의해서 진행하시기 바랍니다. 이 템플릿을 사용하여 만든 기존 미팅은 영향을 받지 않습니다.
+
+            '
+          heading: 이 템플릿을 삭제하시겠습니까?
+          title: 템플릿 삭제
+        title: 미팅 삭제
     email:
+      cancelled:
+        date_time: 스케줄링된 날짜/시간
+        header: '취소됨: 미팅 ''%{title}'''
+        header_occurrence: '취소됨: 미팅 항목 ''%{title}'''
+        header_series: '취소됨: 미팅 시리즈 ''%{title}'''
+        summary: "'%{title}'이(가) %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
+        summary_occurrence: "'%{title}' 항목이 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
+        summary_series: "'%{title}' 미팅 시리즈가 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
+      ended:
+        header_series: '종료됨: 미팅 시리즈 ''%{title}'''
+        summary_series: "'%{title}' 미팅 시리즈를 %{actor} 님이 종료했습니다"
+      invited:
+        summary: "%{actor} 님이 '%{title}' 미팅 초대장을 귀하에게 보냈습니다"
+      open_meeting_link: 미팅 열기
+      open_my_meetings_link: 내 미팅으로 이동
       send_emails: 참가자에게 이메일 보내기
       send_invitation_emails: '위에서 선택한 참가자에게 즉시 이메일 초대를 보내세요. 나중에 언제든지 수동으로 할 수도 있습니다.
 
         '
       send_invitation_emails_structured: 모든 참가자에게 즉시 이메일 초대를 보내세요. 나중에 언제든지 수동으로 할 수도 있습니다.
-      open_meeting_link: 미팅 열기
-      open_my_meetings_link: 내 미팅으로 이동
       series:
-        title: "[%{project_name}] 미팅 시리즈 '%{title}'"
         summary: "%{actor} 님이 새로운 미팅 시리즈 '%{title}'에 회원님을 초대했습니다"
+        title: "[%{project_name}] 미팅 시리즈 '%{title}'"
       series_updated:
-        title: "[%{project_name}] 미팅 시리즈 '%{title}'이(가) 업데이트되었습니다"
-        summary: "'%{title}' 미팅 시리즈를 %{actor} 님이 업데이트했습니다"
-        old_schedule: 이전 스케줄
         new_schedule: 새로운 스케줄
-      invited:
-        summary: "%{actor} 님이 '%{title}' 미팅 초대장을 귀하에게 보냈습니다"
-      cancelled:
-        header: '취소됨: 미팅 ''%{title}'''
-        header_occurrence: '취소됨: 미팅 항목 ''%{title}'''
-        header_series: '취소됨: 미팅 시리즈 ''%{title}'''
-        summary_occurrence: "'%{title}' 항목이 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
-        summary_series: "'%{title}' 미팅 시리즈가 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
-        summary: "'%{title}'이(가) %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
-        date_time: 스케줄링된 날짜/시간
-      ended:
-        header_series: '종료됨: 미팅 시리즈 ''%{title}'''
-        summary_series: "'%{title}' 미팅 시리즈를 %{actor} 님이 종료했습니다"
+        old_schedule: 이전 스케줄
+        summary: "'%{title}' 미팅 시리즈를 %{actor} 님이 업데이트했습니다"
+        title: "[%{project_name}] 미팅 시리즈 '%{title}'이(가) 업데이트되었습니다"
       updated:
-        header: "'%{title}' 미팅이 업데이트되었습니다"
-        summary: "'%{title}' 미팅을 %{actor} 님이 업데이트했습니다"
+        added_participants: 추가됨
         body: "'%{title}' 미팅을 %{actor} 님이 업데이트했습니다."
-        old_title: 이전 제목
+        header: "'%{title}' 미팅이 업데이트되었습니다"
+        new_date_time: 새로운 날짜/시간
+        new_location: 새로운 위치
         new_title: 새 제목
         old_date_time: 이전 날짜/시간
-        new_date_time: 새로운 날짜/시간
         old_location: 이전 위치
-        new_location: 새로운 위치
-        added_participants: 추가됨
+        old_title: 이전 제목
         removed_participants: 제거됨
+        summary: "'%{title}' 미팅을 %{actor} 님이 업데이트했습니다"
+    export:
+      minutes:
+        author: 작성자
+        date: 날짜
+        footer_page_numbers: "%{current_page}/%{total_pages}페이지"
+        location: 위치
+        time: 시간
+        title: 의사록
+      your_meeting_export: 미팅을 내보내는 중입니다
+    export_pdf_dialog:
+      author:
+        caption: 의사록 작성자가 자막에 표시됩니다.
+        label: 작성자
+      description: 현재 상태에서 이 미팅에 대한 인쇄 가능한 PDF 파일을 생성합니다.
+      first_page_header_left:
+        caption: 이 텍스트는 첫 페이지의 머리글 왼쪽에 나타납니다.
+        label: 첫 페이지 머리글 왼쪽
+      footer_text:
+        caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
+        label: 바닥글 텍스트
+      include_attachments:
+        caption: 첨부 파일의 파일 이름이 포함된 목록이 끝에 추가됩니다.
+        label: 첨부 파일 목록 포함
+      include_backlog:
+        caption: 백로그 요소는 일반적으로 미팅 항목의 일부로 간주되지 않지만 포함하도록 선택할 수 있습니다.
+        label: 백로그 포함
+      include_outcomes:
+        caption: 의제 결과에 기밀 정보가 포함되어 있는 경우 내보내기에 이 기밀 정보를 포함하지 않도록 선택할 수 있습니다.
+        label: 의제 결과 포함
+      include_participants:
+        caption: 참가자 목록은 미팅 의제 위에 미리 설정됩니다.
+        label: 참가자 목록 포함
+      submit_button: 다운로드
+      templates:
+        default:
+          caption: 기본 템플릿은 대부분의 미팅에 적합하며 현재 상태를 나타냅니다.
+          label: 기본
+        minutes:
+          caption: 의사록 템플릿은 종료된 미팅 및 보관된 미팅에 적합합니다.
+          label: 의사록
+      title: PDF 내보내기
+    ical_response:
+      meeting_not_found: 지정된 UID에 대한 미팅을 찾을 수 없습니다.
+      update_failed: 참여 상태를 업데이트할 수 없습니다.
+    label_export_pdf: PDF 내보내기
     label_mail_all_participants: 참가자에게 이메일 초대장 보내기
+    notifications:
+      dialog:
+        confirm_label:
+          disable: 이메일 업데이트 비활성화
+          enable: 이메일 업데이트 활성화
+        message:
+          disable: 이미 이 미팅에 대한 초대를 받았다면 더 이상 정확하지 않을 수 있습니다.
+          enable: 활성화되면 모든 참가자에게 즉시 이메일이 발송됩니다.
+        title:
+          disable: 이메일 캘린더 업데이트를 비활성화하시겠습니까?
+          enable: 이메일 캘린더 업데이트를 활성화하시겠습니까?
+      disabled: 참가자들은 날짜, 시간 또는 명단 변경 사항을 알리는 이메일 업데이트를 받지 못할 것입니다.
+      enabled: 모든 참가자는 날짜, 시간 또는 참가자 목록 변경 사항을 알려주는 업데이트된 캘린더 초대를 받게 됩니다.
+      sidepanel:
+        description:
+          change_via_template: 이를 변경하려면 시리즈 템플릿을 편집하십시오.
+        title: 이메일 캘린더 업데이트
+    participants:
+      blankslate:
+        description: 아직 참가자가 없습니다.
+        heading: 참가자 없음
+      label:
+        apply_to_upcoming_meetings: 이 시리즈의 모든 향후 미팅에 해당 변경 사항 적용
+        attended: 참석함
+        manage_participants: 참가자 관리
+        mark_all_as_attended: 모두 참석으로 표시
+        mark_as_attended: 참석으로 표시
+        no_participants: 참가자 없음
+        participants: 참가자
+        remove_participant: 참가자 제거
+        show_all: 모두 표시
+      text:
+        manage_participants: 프로젝트 멤버를 검색하여 이 미팅에 참가자로 추가하세요.
+        search_for_members: 프로젝트 멤버 검색
+        template: 이러한 참가자는 향후 생성되는 모든 미팅에 자동으로 초대됩니다.
+    presentation_mode:
+      button_present: 프레젠테이션
+      current_item: 현재 항목
+      exit: 프레젠테이션 종료
+      next: 다음
+      no_items: 의제 항목 없음
+      no_items_flash: 발표할 의제 항목이 없습니다.
+      previous: 이전
+      title: 프레젠테이션 모드
+      total_items: "%{current}/%{total}"
     types:
       one_time: 일회성
       recurring: 반복
       recurring_text: 각 항목에 대해 다이내믹 템플릿을 사용하여 미팅 시리즈를 만듭니다.
       structured_text: 미팅을 의제 항목의 다이내믹 목록으로 구성하고, 선택적으로 작업 패키지에 연결합니다.
       structured_text_copy: 미팅을 복사하면 관련 미팅 의제 항목은 현재 복사되지 않고 세부 정보만 복사됩니다
-    copied: '미팅 #%{id}에서 복사됨'
-    delete_dialog:
-      one_time:
-        title: 미팅 삭제
-        heading: 이 미팅을 삭제하시겠습니까?
-        confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.
-
-          '
-        template:
-          title: 템플릿 삭제
-          heading: 이 템플릿을 삭제하시겠습니까?
-          confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의해서 진행하시기 바랍니다. 이 템플릿을 사용하여 만든 기존 미팅은 영향을 받지 않습니다.
-
-            '
-      occurrence:
-        title: 미팅 항목 취소
-        heading: 이 미팅 항목을 취소하시겠습니까?
-        confirmation_message_html: '템플릿에 없는 미팅 정보는 모두 손실됩니다. 계속하시겠습니까?
-
-          '
-        confirm_button: 항목 취소
-      occurrence_past:
-        title: 항목 삭제
-        heading: 이 항목을 삭제하시겠습니까?
-        confirmation_message_html: '이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.
-
-          '
-        confirm_button: 항목 삭제
-    blankslate:
-      title: 표시할 미팅이 없습니다
-      desc: 새 미팅을 만들거나 필터 기준을 변경할 수 있습니다
-    label_export_pdf: PDF 내보내기
-    export:
-      your_meeting_export: 미팅을 내보내는 중입니다
-      minutes:
-        footer_page_numbers: "%{current_page}/%{total_pages}페이지"
-        author: 작성자
-        date: 날짜
-        time: 시간
-        location: 위치
-        title: 의사록
-    export_pdf_dialog:
-      title: PDF 내보내기
-      description: 현재 상태에서 이 미팅에 대한 인쇄 가능한 PDF 파일을 생성합니다.
-      templates:
-        default:
-          label: 기본
-          caption: 기본 템플릿은 대부분의 미팅에 적합하며 현재 상태를 나타냅니다.
-        minutes:
-          label: 의사록
-          caption: 의사록 템플릿은 종료된 미팅 및 보관된 미팅에 적합합니다.
-      first_page_header_left:
-        label: 첫 페이지 머리글 왼쪽
-        caption: 이 텍스트는 첫 페이지의 머리글 왼쪽에 나타납니다.
-      author:
-        label: 작성자
-        caption: 의사록 작성자가 자막에 표시됩니다.
-      include_participants:
-        label: 참가자 목록 포함
-        caption: 참가자 목록은 미팅 의제 위에 미리 설정됩니다.
-      include_attachments:
-        label: 첨부 파일 목록 포함
-        caption: 첨부 파일의 파일 이름이 포함된 목록이 끝에 추가됩니다.
-      include_backlog:
-        label: 백로그 포함
-        caption: 백로그 요소는 일반적으로 미팅 항목의 일부로 간주되지 않지만 포함하도록 선택할 수 있습니다.
-      include_outcomes:
-        label: 의제 결과 포함
-        caption: 의제 결과에 기밀 정보가 포함되어 있는 경우 내보내기에 이 기밀 정보를 포함하지 않도록 선택할 수 있습니다.
-      footer_text:
-        label: 바닥글 텍스트
-        caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
-      submit_button: 다운로드
-    notifications:
-      disabled: 참가자들은 날짜, 시간 또는 명단 변경 사항을 알리는 이메일 업데이트를 받지 못할 것입니다.
-      enabled: 모든 참가자는 날짜, 시간 또는 참가자 목록 변경 사항을 알려주는 업데이트된 캘린더 초대를 받게 됩니다.
-      sidepanel:
-        title: 이메일 캘린더 업데이트
-        description:
-          change_via_template: 이를 변경하려면 시리즈 템플릿을 편집하십시오.
-      dialog:
-        title:
-          enable: 이메일 캘린더 업데이트를 활성화하시겠습니까?
-          disable: 이메일 캘린더 업데이트를 비활성화하시겠습니까?
-        message:
-          enable: 활성화되면 모든 참가자에게 즉시 이메일이 발송됩니다.
-          disable: 이미 이 미팅에 대한 초대를 받았다면 더 이상 정확하지 않을 수 있습니다.
-        confirm_label:
-          enable: 이메일 업데이트 활성화
-          disable: 이메일 업데이트 비활성화
-    presentation_mode:
-      title: 프레젠테이션 모드
-      button_present: 프레젠테이션
-      exit: 프레젠테이션 종료
-      current_item: 현재 항목
-      total_items: "%{current}/%{total}"
-      previous: 이전
-      next: 다음
-      no_items: 의제 항목 없음
-      no_items_flash: 발표할 의제 항목이 없습니다.
-    ical_response:
-      update_failed: 참여 상태를 업데이트할 수 없습니다.
-      meeting_not_found: 지정된 UID에 대한 미팅을 찾을 수 없습니다.
     widgets:
       blankslate:
-        heading: 향후 미팅 없음
         description: 참여할 향후 미팅이 여기에 표시됩니다.
+        heading: 향후 미팅 없음
       view_details: 모든 미팅 보기
-  meeting_section:
-    untitled_title: 제목 없는 섹션
-    delete_confirmation: 이 섹션을 삭제하면 모든 의제 항목도 삭제됩니다. 계속하시겠습니까?
-    placeholder_title: 새 섹션
-    empty_text: 항목을 여기에 끌어오거나 새로 만들기
   meeting_participant:
     participation_status:
-      needs_action: 응답 없음
       accepted: 수락함
       declined: 거부함
+      needs_action: 응답 없음
       tentative: 아마도
       unknown: 알 수 없음
+  meeting_section:
+    delete_confirmation: 이 섹션을 삭제하면 모든 의제 항목도 삭제됩니다. 계속하시겠습니까?
+    empty_text: 항목을 여기에 끌어오거나 새로 만들기
+    placeholder_title: 새 섹션
+    untitled_title: 제목 없는 섹션
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: 다음 URL을 암호처럼 취급하세요. 액세스 권한이 있으면 누구든지 모든 미팅을 볼 수 있습니다.
+          title: iCal 미팅 구독 토큰이 생성되었습니다
+      dialog:
+        token/ical_meeting:
+          create_button: 구독 만들기
+          dialog_body: 이 토큰은 외부 캘린더 애플리케이션에서 모든 미팅을 볼 수 있는 iCal 구독 URL을 생성합니다.
+          dialog_title: 미팅을 위한 새로운 iCal 구독 토큰
+          name_caption: "'내 휴대폰' 또는 '회사 컴퓨터' 등 사용할 위치에 따라 이름을 지정할 수 있습니다."
+          name_label: 토큰 이름
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'iCalendar 미팅 구독을 취소하지 못했습니다: %{error}'
+          notice_success: iCalendar 미팅 구독이 취소되었습니다.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: 캘린더 구독
+        blank_description: 아래 버튼을 사용하여 만들 수 있습니다.
+        blank_title: iCalendar 미팅 토큰 없음
+        disabled_text: 관리자가 iCalendar 미팅 구독을 활성화하지 않았습니다. 이 기능을 사용하려면 관리자에게 문의하세요.
+        table_title: iCalendar 미팅 토큰
+        text_hint: iCalendar 미팅 토큰을 통해 사용자는 모든 미팅을 구독하고 외부 클라이언트에서 최신 미팅 정보를 볼 수 있습니다.
+        title: 미팅용 iCalendar
+  notice_meeting_template_created: 템플릿이 생성되었습니다
+  notice_meeting_updated: 이 페이지는 다른 사람이 업데이트했습니다. 변경 사항을 보려면 다시 로드하세요.
+  notice_successful_notification: 모든 참가자에게 보내는 이메일 캘린더 업데이트
+  notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
+  permission_create_meetings: 미팅 생성
+  permission_delete_meetings: 미팅 삭제
+  permission_edit_meetings: 미팅 편집
+  permission_manage_agendas: 의제 관리
+  permission_manage_agendas_explanation: 의제 항목 생성, 편집 및 제거를 허용합니다
+  permission_manage_outcomes: 결과 관리
+  permission_send_meeting_invites_and_outcomes: 참가자에게 미팅 초대장 및 결과 보내기
+  permission_view_meetings: 미팅 보기
+  placeholder_meeting_template_no_templates_for_project: 이 프로젝트에 사용할 수 있는 템플릿이 없습니다
+  placeholder_meeting_template_select_project_first: 먼저 프로젝트를 선택하세요
+  placeholder_section_select_meeting_first: 먼저 미팅 선택이 필요합니다
+  plugin_openproject_meeting:
+    description: 이 모듈은 OpenProject에 프로젝트 미팅을 지원하는 기능을 추가합니다. 미팅에 참여하도록 초대되는 사람을 동일한 프로젝트에서 선택하여 미팅을 예약할 수 있습니다. 의제를 생성하고 초대된 사람에게 보낼 수 있습니다. 미팅 후 참석자를 선택하고 의제에 따라 의사록을 작성할 수 있습니다. 마지막으로 모든 참석자와 초대된 사람에게 의사록을 보낼 수 있습니다.
+    name: OpenProject 미팅
+  project_module_meetings: 미팅
   recurring_meeting:
-    time_zone_difference_banner:
-      title: 표준 시간대 차이
-      description: '아래 날짜는 현지 표준 시간대(%{user_zone})가 아닌 미팅 시리즈의 표준 시간대(%{actual_zone})를 참조합니다.
+    actual_first_occurrence_mismatch_html: 이 시리즈의 첫 번째 항목은 %{first_occurrence}입니다
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: "%{monthly_day}일보다 적은 달은 건너뜁니다"
+    delete_dialog:
+      confirmation_message_html:
+        one: "<strong>%{title}</strong> 삭제를 하면 이 시리즈에서 하나의 항목도 삭제됩니다. 이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.\n"
+        other: "<strong>%{title}</strong> 삭제를 하면 이 시리즈에서 %{count}개 항목 모두가 삭제됩니다. 이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.\n"
+        zero: '미팅 시리즈 <strong>%{title}</strong>에는 미팅 항목이 없습니다. 모든 사용자에 대해 이 시리즈가 삭제됩니다. 주의하여 진행하세요.
 
-        '
+          '
+      heading: 이 미팅 시리즈를 영구적으로 삭제하시겠습니까?
+      title: 미팅 시리즈 삭제
+    end_after:
+      iterations: 여러 항목 이후
+      never: 안 함
+      specific_date: 특정 날짜 이후
+    end_series_dialog:
+      title: 미팅 시리즈 종료
     ended_blankslate:
-      title: 미팅 시리즈 종료됨
-      message: '이 미팅 시리즈는 종료되었습니다. 향후 미팅이 없습니다. '
       action: 이전 항목을 보거나, 미팅 시리즈를 편집하여 연장할 수는 있습니다.
+      message: '이 미팅 시리즈는 종료되었습니다. 향후 미팅이 없습니다. '
+      title: 미팅 시리즈 종료됨
+    frequency:
+      every_weekday: "%{day_of_the_week}마다"
+      monthly_day_of_month: 일
+      monthly_nth_weekday: 매달 평일에
+      working_days: 근무일마다
+      x_daily:
+        other: "%{count}일마다"
+      x_monthly:
+        other: "%{count}개월마다"
+      x_weekly:
+        other: "%{count}주마다"
+    in_words:
+      daily_interval: "%{interval}일마다"
+      frequency: "%{base}, %{time}"
+      full: "%{base}, %{time}, %{end_date}에 종료"
+      full_past: "%{base}, %{time}, %{end_date}에 종료"
+      monthly_day: 매월 %{day}
+      monthly_day_interval: "%{interval}개월마다 %{day}"
+      monthly_nth_weekday: 매월 %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: "%{interval}개월마다 %{ordinal} %{weekday}"
+      never_ending: "%{base}, %{time}"
+      weekly: 매주 %{weekday}
+      weekly_interval: "%{interval}주마다 %{weekday}"
+      working_days: 근무일마다
+    monthly:
+      inflected_ordinal:
+        first: 첫 번째
+        fourth: 네 번째
+        last: 마지막
+        second: 두 번째
+        third: 세 번째
+      ordinal_options:
+        first: 첫 번째
+        fourth: 네 번째
+        last: 마지막
+        second: 두 번째
+        third: 세 번째
     occurrence:
       error_no_next: 이 미팅의 다음 항목이 없습니다.
       error_template_draft: The meeting series template is still in draft mode.
@@ -433,293 +606,120 @@ ko:
 
         '
       infoline: 이 미팅은 반복 미팅 시리즈의 일부입니다.
-    template:
-      button_finalize: 첫 번째 미팅 열기
-      blank_title: 미팅 시리즈 템플릿이 비어 있습니다.
-      description: '이 템플릿은 시리즈의 새로운 미팅이 생성될 때마다 사용됩니다. 이 템플릿에 의제 항목, 참가자 및 첨부 파일을 추가할 수 있습니다.
+    open:
+      blankslate:
+        desc: 아래의 '열기' 버튼을 클릭하여 계획된 미팅을 수동으로 열 수 있습니다
+        title: 현재는 오픈 미팅 없음
+      subtitle: '오픈 미팅에는 편집할 수 있는 의제가 있으며 개별 사용자의 ''내 미팅'' 섹션에 표시됩니다. 미팅 시리즈 템플릿의 변경 사항은 이미 오픈된 미팅 항목에 영향을 미치지 않습니다.
 
         '
-      label_view_template: 템플릿 보기
-      label_edit_template: 템플릿 편집
+      title: 의제 열림
+    planned:
+      blankslate:
+        desc: '이 시리즈에는 계획된 추가 미팅이 없습니다. 추가 미팅을 스케줄링하거나 시리즈를 연장하려면 템플릿으로 이동하고 미팅 세부 정보를 편집하여 종료 날짜, 빈도 또는 간격을 변경하세요.
+
+          '
+        title: 더 이상 계획된 미팅 없음
+      subtitle: '다음 미팅은 반복 미팅 스케줄에서 계획되어 있지만 아직 열리지 않은 미팅입니다. 계획된 미팅이 시작될 때마다 다음 미팅이 자동으로 열립니다. 계획된 미팅을 수동으로 열어 템플릿을 가져오고 의제 편집을 시작할 수도 있습니다.
+
+        '
+      title: 계획됨
+    scheduled_delete_dialog:
+      confirm_button: 항목 취소
+      confirmation_message_html: '템플릿에 없는 미팅 정보는 모두 손실됩니다. 계속하시겠습니까?
+
+        '
+      heading: 이 미팅 항목을 취소하시겠습니까?
+      title: 미팅 항목 취소
+    starts: 시작
+    template:
       banner_html: '미팅 시리즈의 템플릿을 현재 편집하는 중입니다: %{link}. 해당 시리즈에서 미팅의 모든 새로운 항목은 이 템플릿을 사용합니다. 변경 사항은 이전 미팅 또는 이미 생성된 미팅에 영향을 미치지 않습니다.
+
+        '
+      blank_title: 미팅 시리즈 템플릿이 비어 있습니다.
+      button_finalize: 첫 번째 미팅 열기
+      description: '이 템플릿은 시리즈의 새로운 미팅이 생성될 때마다 사용됩니다. 이 템플릿에 의제 항목, 참가자 및 첨부 파일을 추가할 수 있습니다.
 
         '
       draft_banner_html: '미팅 시리즈의 템플릿을 현재 편집하는 중입니다: %{link}. 해당 시리즈에서 미팅의 모든 새로운 항목은 이 템플릿을 사용합니다. 변경 사항은 이전 미팅 또는 이미 생성된 미팅에 영향을 미치지 않습니다. 이 현재 초안 모드에서는 첫 번째 미팅을 열 때까지 이메일 초대장이 전송되지 않습니다.
 
         '
-    frequency:
-      x_daily:
-        other: "%{count}일마다"
-      x_weekly:
-        other: "%{count}주마다"
-      x_monthly:
-        other: "%{count}개월마다"
-      monthly_day_of_month: 일
-      monthly_nth_weekday: 매달 평일에
-      every_weekday: "%{day_of_the_week}마다"
-      working_days: 근무일마다
-    monthly:
-      inflected_ordinal:
-        first: 첫 번째
-        second: 두 번째
-        third: 세 번째
-        fourth: 네 번째
-        last: 마지막
-      ordinal_options:
-        first: 첫 번째
-        second: 두 번째
-        third: 세 번째
-        fourth: 네 번째
-        last: 마지막
-    actual_first_occurrence_mismatch_html: 이 시리즈의 첫 번째 항목은 %{first_occurrence}입니다
-    caption:
-      ends_on: This results in a series ending on %{date}
-      occurrences:
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: "%{monthly_day}일보다 적은 달은 건너뜁니다"
-    end_after:
-      never: 안 함
-      specific_date: 특정 날짜 이후
-      iterations: 여러 항목 이후
-    starts: 시작
-    in_words:
-      daily_interval: "%{interval}일마다"
-      working_days: 근무일마다
-      weekly: 매주 %{weekday}
-      weekly_interval: "%{interval}주마다 %{weekday}"
-      monthly_day: 매월 %{day}
-      monthly_day_interval: "%{interval}개월마다 %{day}"
-      monthly_nth_weekday: 매월 %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: "%{interval}개월마다 %{ordinal} %{weekday}"
-      frequency: "%{base}, %{time}"
-      full: "%{base}, %{time}, %{end_date}에 종료"
-      full_past: "%{base}, %{time}, %{end_date}에 종료"
-      never_ending: "%{base}, %{time}"
-    open:
-      title: 의제 열림
-      subtitle: '오픈 미팅에는 편집할 수 있는 의제가 있으며 개별 사용자의 ''내 미팅'' 섹션에 표시됩니다. 미팅 시리즈 템플릿의 변경 사항은 이미 오픈된 미팅 항목에 영향을 미치지 않습니다.
+      label_edit_template: 템플릿 편집
+      label_view_template: 템플릿 보기
+    time_zone_difference_banner:
+      description: '아래 날짜는 현지 표준 시간대(%{user_zone})가 아닌 미팅 시리즈의 표준 시간대(%{actual_zone})를 참조합니다.
 
         '
-      blankslate:
-        title: 현재는 오픈 미팅 없음
-        desc: 아래의 '열기' 버튼을 클릭하여 계획된 미팅을 수동으로 열 수 있습니다
-    planned:
-      title: 계획됨
-      subtitle: '다음 미팅은 반복 미팅 스케줄에서 계획되어 있지만 아직 열리지 않은 미팅입니다. 계획된 미팅이 시작될 때마다 다음 미팅이 자동으로 열립니다. 계획된 미팅을 수동으로 열어 템플릿을 가져오고 의제 편집을 시작할 수도 있습니다.
-
-        '
-      blankslate:
-        title: 더 이상 계획된 미팅 없음
-        desc: '이 시리즈에는 계획된 추가 미팅이 없습니다. 추가 미팅을 스케줄링하거나 시리즈를 연장하려면 템플릿으로 이동하고 미팅 세부 정보를 편집하여 종료 날짜, 빈도 또는 간격을 변경하세요.
-
-          '
-    delete_dialog:
-      title: 미팅 시리즈 삭제
-      heading: 이 미팅 시리즈를 영구적으로 삭제하시겠습니까?
-      confirmation_message_html:
-        zero: '미팅 시리즈 <strong>%{title}</strong>에는 미팅 항목이 없습니다. 모든 사용자에 대해 이 시리즈가 삭제됩니다. 주의하여 진행하세요.
-
-          '
-        one: "<strong>%{title}</strong> 삭제를 하면 이 시리즈에서 하나의 항목도 삭제됩니다. 이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.\n"
-        other: "<strong>%{title}</strong> 삭제를 하면 이 시리즈에서 %{count}개 항목 모두가 삭제됩니다. 이 작업은 되돌릴 수 없습니다. 주의하여 진행하세요.\n"
-    scheduled_delete_dialog:
-      title: 미팅 항목 취소
-      heading: 이 미팅 항목을 취소하시겠습니까?
-      confirmation_message_html: '템플릿에 없는 미팅 정보는 모두 손실됩니다. 계속하시겠습니까?
-
-        '
-      confirm_button: 항목 취소
-    end_series_dialog:
-      title: 미팅 시리즈 종료
-  notice_successful_notification: 모든 참가자에게 보내는 이메일 캘린더 업데이트
-  notice_meeting_template_created: 템플릿이 생성되었습니다
-  notice_timezone_missing: 표준 시간대가 설정되지 않았으며 %{zone}(으)로 간주됩니다. 해당 표준 시간대를 선택하려면 여기를 클릭하세요.
-  notice_meeting_updated: 이 페이지는 다른 사람이 업데이트했습니다. 변경 사항을 보려면 다시 로드하세요.
-  permission_create_meetings: 미팅 생성
-  permission_edit_meetings: 미팅 편집
-  permission_delete_meetings: 미팅 삭제
-  permission_view_meetings: 미팅 보기
-  permission_manage_agendas: 의제 관리
-  permission_manage_agendas_explanation: 의제 항목 생성, 편집 및 제거를 허용합니다
-  permission_manage_outcomes: 결과 관리
-  permission_send_meeting_invites_and_outcomes: 참가자에게 미팅 초대장 및 결과 보내기
-  project_module_meetings: 미팅
-  text_duration_in_hours: 기간(시간)
-  text_in_hours: " 시간"
-  text_meeting_agenda_for_meeting: 미팅 "%{meeting}"에 대한 의제
-  text_meeting_template_blank_slate_heading: 표시할 템플릿이 없습니다
-  text_meeting_template_blank_slate: 일회성 미팅을 위한 새 템플릿을 만들 수 있습니다
-  text_meeting_series_end_early_heading: 향후 항목을 삭제하시겠습니까?
-  text_meeting_series_end_early: 이 시리즈를 종료하면 향후 오픈 또는 예정된 미팅 항목이 모두 삭제됩니다
-  text_meeting_closing_are_you_sure: 미팅 어젠더를 닫으시겠습니까?
-  text_meeting_agenda_open_are_you_sure: 그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?
-  text_meeting_minutes_for_meeting: 미팅 "%{meeting}"에 대한 의사록
-  text_notificiation_invited: 이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다.
-  text_meeting_ics_description: '미팅 링크: %{url}'
-  text_meeting_ics_meeting_series_description: '미팅 시리즈 링크: %{url}'
-  text_meeting_occurrence_ics_description: '미팅 항목 링크: %{url} 미팅 시리즈 링크: %{series_url}'
-  text_meeting_empty_heading: 미팅이 비어 있습니다
-  text_meeting_empty_description1: 아래에 의제 항목을 추가하여 시작하세요. 각 항목은 제목처럼 간단할 수 있지만 기간, 메모 등 추가적인 세부 정보를 추가할 수도 있습니다.
-  text_meeting_empty_description2: 기존 작업 패키지에 대한 참조를 추가할 수도 있습니다. 이렇게 하면 관련 메모가 작업 패키지의 "미팅" 탭에 자동으로 표시됩니다.
-  label_meeting_empty_action: 의제 항목 추가
-  label_meeting_actions: 미팅 작업
-  label_meeting_edit_title: 미팅 제목 편집
-  label_meeting_delete: 미팅 삭제
-  label_meeting_created_by: 작성자
-  label_meeting_last_updated: 마지막 업데이트
-  label_meeting_reload: 다시 로드
-  label_meeting_index_today: 오늘
-  label_meeting_index_tomorrow: 내일
-  label_meeting_index_this_week: 이번 주 후반에
-  label_meeting_index_later: 다음 주 그리고 그 이후에
-  label_agenda_items: 의제 항목
-  label_agenda_items_reordered: 재정렬됨
-  label_agenda_item_add: 의제 항목 추가
-  label_agenda_item_remove_from_agenda: 의제에서 제거
-  label_agenda_item_remove_from_backlog: 백로그에서 제거
-  label_agenda_item_undisclosed_wp: '작업 패키지 #%{id}이(가) 표시되지 않습니다'
-  label_agenda_item_deleted_wp: 삭제된 작업 패키지 참조
-  label_agenda_item_actions: 의제 항목 작업
-  label_agenda_item_move_to_next_title: 다음 미팅으로 이동하시겠습니까?
-  label_agenda_item_move: 이동
-  label_agenda_item_move_to_next: 다음 미팅으로 이동
-  label_agenda_item_move_to_backlog: 백로그로 이동
-  label_agenda_item_move_to_current_meeting: 현재 미팅으로 이동
-  label_agenda_item_move_to_section: 섹션으로 이동
-  label_agenda_item_move_to_top: 맨 위로 이동
-  label_agenda_item_move_to_bottom: 맨 아래로 이동
-  label_agenda_item_move_up: 위로 이동
-  label_agenda_item_move_down: 아래로 이동
-  label_agenda_item_duplicate: 복제
-  label_agenda_item_duplicate_in_next: 다음 미팅에 복제
-  label_agenda_item_duplicate_in_next_title: 다음 미팅에 복제하시겠습니까?
-  label_agenda_item_add_notes: 메모 추가
-  label_agenda_item_add_outcome: 결과 추가
-  label_agenda_item_convert_to_work_package: 작업 패키지로 전환
-  label_agenda_item_work_package_add: 작업 패키지 추가
-  label_agenda_item_work_package: 의제 항목 작업 패키지
-  label_section_rename: 섹션 이름 바꾸기
-  label_agenda_outcome: 결과
-  label_agenda_new_outcome: 새로운 결과
-  label_agenda_outcome_actions: 의제 결과 작업
-  label_agenda_outcome_edit: 결과 편집
-  label_agenda_outcome_delete: 결과 제거
-  label_added_as_outcome: 결과로 추가됨
-  label_write_outcome: 결과 작성
-  label_existing_work_package: 기존 작업 패키지
-  text_outcome_not_editable_anymore: 이 결과는 더 이상 편집할 수 없습니다.
-  text_outcome_cannot_be_added: 더 이상 결과를 추가할 수 없습니다.
-  label_backlog_clear: 백로그 지우기
-  label_backlog_clear_button: 모두 지우기
-  text_backlog_clear_error: 백로그를 지우는 동안 하나 이상의 오류가 발생했습니다.
-  label_agenda_backlog: 의제 백로그
+      title: 표준 시간대 차이
+  text_add_work_package_to_meeting_description: 논의를 위해 하나 이상의 미팅에 작업 패키지를 추가할 수 있습니다. 이와 관련된 메모도 여기에 표시됩니다.
+  text_add_work_package_to_meeting_form: 선택한 미팅 또는 백로그에 의제 항목으로 작업 패키지가 추가됩니다.
   text_agenda_backlog: '해당 백로그는 이 일회성 미팅에만 적용됩니다. 항목을 드래그하여 미팅 의제에 추가하거나 제거할 수 있습니다.
 
     '
-  label_agenda_backlog_clear_title: 의제 백로그를 지우시겠습니까?
   text_agenda_backlog_clear_description: '의제 백로그에 현재 있는 모든 항목을 제거하시겠습니까? 이 작업은 되돌릴 수 없습니다.
 
     '
-  label_series_backlog: 시리즈 백로그
+  text_agenda_item_dialog_skipping_cancelled_many: 취소된 미팅 %{count}개
+  text_agenda_item_dialog_skipping_cancelled_one: "%{date}에 취소된 미팅"
+  text_agenda_item_dialog_skipping_closed_many: 종료된 미팅 %{count}개
+  text_agenda_item_dialog_skipping_closed_one: "%{date}에 종료된 미팅"
+  text_agenda_item_dialog_skipping_note: '참고: %{details}을(를) 건너뜁니다.'
+  text_agenda_item_duplicate_in_next_meeting: "%{date}, %{time}의 다음 미팅에 이 의제의 사본을 추가하시겠습니까? 결과는 복제되지 않습니다."
+  text_agenda_item_duplicated_in_next_meeting: 의제 항목이 %{date}의 다음 미팅에서 복제되었습니다
+  text_agenda_item_move_next_meeting: 이 항목은 %{date}, %{time}에 다음 미팅으로 이동됩니다.
+  text_agenda_item_moved_to_next_meeting: 의제 항목이 %{date}의 다음 미팅으로 이동되었습니다.
+  text_agenda_item_no_available_occurrence: 향후 항목이 없습니다.
+  text_agenda_item_no_notes: 제공된 메모 없음
+  text_agenda_item_not_editable_anymore: 이 의제 항목은 더 이상 편집할 수 없습니다.
+  text_agenda_item_title: 의제 항목 "%{title}"
+  text_agenda_work_package_deleted: 삭제된 작업 패키지에 대한 의제 항목
+  text_backlog_clear_error: 백로그를 지우는 동안 하나 이상의 오류가 발생했습니다.
+  text_deleted_agenda_item: 삭제된 의제 항목
+  text_duration_in_hours: 기간(시간)
+  text_email_updates_enabled: 이메일 캘린더 업데이트가 활성화되었습니다. 변경하면 이메일을 통해 업데이트된 초대장이 모든 참가자에게 전송됩니다.
+  text_email_updates_muted: 이메일 캘린더 업데이트가 음소거되었습니다. 변경해도 이메일을 통해 업데이트된 초대장이 참가자에게 전송되지 않습니다.
+  text_exit_draft_mode_dialog_subtitle: 미팅을 예약한 후에는 초안 모드로 돌아갈 수 없습니다.
+  text_exit_draft_mode_dialog_template_subtitle: 이후에는 초안 모드로 돌아갈 수 없습니다.
+  text_exit_draft_mode_dialog_template_title: 이 미팅 시리즈의 첫 번째 항목을 열어보시겠습니까?
+  text_exit_draft_mode_dialog_title: 이 미팅을 열고 초대장을 보내시겠습니까?
+  text_in_hours: " 시간"
+  text_meeting_agenda_for_meeting: 미팅 "%{meeting}"에 대한 의제
+  text_meeting_agenda_open_are_you_sure: 그러면 몇 분 내에 모든 변경 사항을 덮어씁니다. 계속하시겠습니까?
+  text_meeting_closed_description: 이 미팅은 종료되었습니다. 더 이상 의제 항목을 추가/제거할 수 없습니다.
+  text_meeting_closed_dropdown_description: 이 미팅은 종료되었습니다. 더 이상 의제 항목 또는 결과를 수정할 수 없습니다.
+  text_meeting_closing_are_you_sure: 미팅 어젠더를 닫으시겠습니까?
+  text_meeting_draft_banner: 초안 모드에 현재 있습니다. 이 미팅은 미팅 세부 정보를 변경하거나 참가자를 추가/제거하더라도 캘린더 업데이트나 초대장을 전송하지 않습니다.
+  text_meeting_draft_description: 초안 모드에서 의제를 준비합니다. 이 미팅은 미팅 세부 정보를 변경하거나 참가자를 추가/제거하더라도 캘린더 업데이트나 초대장을 보내지 않습니다.
+  text_meeting_empty_description1: 아래에 의제 항목을 추가하여 시작하세요. 각 항목은 제목처럼 간단할 수 있지만 기간, 메모 등 추가적인 세부 정보를 추가할 수도 있습니다.
+  text_meeting_empty_description2: 기존 작업 패키지에 대한 참조를 추가할 수도 있습니다. 이렇게 하면 관련 메모가 작업 패키지의 "미팅" 탭에 자동으로 표시됩니다.
+  text_meeting_empty_heading: 미팅이 비어 있습니다
+  text_meeting_ics_description: '미팅 링크: %{url}'
+  text_meeting_ics_meeting_series_description: '미팅 시리즈 링크: %{url}'
+  text_meeting_in_progress_description: 의제를 수정하고, 각 항목의 결과를 문서화하고, 참가자의 참석을 추적할 수 있습니다. 미팅이 완료되면 종료됨으로 표시하여 잠글 수 있습니다.
+  text_meeting_in_progress_dropdown_description: 미팅 중에 이루어진 결정 사항 또는 필요한 정보 등의 결과를 문서화합니다.
+  text_meeting_minutes_for_meeting: 미팅 "%{meeting}"에 대한 의사록
+  text_meeting_not_editable_anymore: 이 미팅은 더 이상 편집할 수 없습니다.
+  text_meeting_not_present_anymore: 이 미팅은 삭제되었습니다. 다른 미팅을 선택해 주세요.
+  text_meeting_occurrence_ics_description: '미팅 항목 링크: %{url} 미팅 시리즈 링크: %{series_url}'
+  text_meeting_open_description: 의제 항목 및 참가자를 추가/제거할 수 있습니다. 의제가 준비되면 진행 중으로 표시하여 결과를 문서화하세요.
+  text_meeting_open_dropdown_description: 기존 결과는 그대로 유지되지만 사용자가 새로운 결과를 추가할 수 없게 됩니다.
+  text_meeting_series_end_early: 이 시리즈를 종료하면 향후 오픈 또는 예정된 미팅 항목이 모두 삭제됩니다
+  text_meeting_series_end_early_heading: 향후 항목을 삭제하시겠습니까?
+  text_meeting_template_blank_slate: 일회성 미팅을 위한 새 템플릿을 만들 수 있습니다
+  text_meeting_template_blank_slate_heading: 표시할 템플릿이 없습니다
+  text_meeting_template_sharing_description: 이 템플릿은 해당 인스턴스의 하위 프로젝트 또는 다른 프로젝트와 공유할 수 있습니다. 의제 항목과 첨부 파일만 복사됩니다.
+  text_notificiation_invited: 이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다.
+  text_onetime_meeting_template_banner: 현재 미팅 템플릿을 편집하는 중입니다. 이 템플릿을 사용하여 사전 정의된 의제가 있는 일회성 미팅을 만들 수 있습니다. 변경 사항은 이미 생성된 미팅에 영향을 미치지 않습니다.
+  text_onetime_meeting_template_empty_description: 여기에 의제 항목, 섹션 및 첨부 파일을 추가하세요. 이 템플릿을 사용하여 생성된 모든 미팅에 해당 항목이 포함됩니다.
+  text_onetime_meeting_template_empty_heading: 이 미팅 템플릿은 비어 있습니다
+  text_outcome_cannot_be_added: 더 이상 결과를 추가할 수 없습니다.
+  text_outcome_not_editable_anymore: 이 결과는 더 이상 편집할 수 없습니다.
   text_series_backlog: '해당 백로그는 이 시리즈의 모든 미팅과 공유됩니다. 항목을 드래그하여 특정 미팅에 추가하거나 제거할 수 있습니다.
 
     '
-  label_series_backlog_clear_title: 시리즈 백로그를 지우시겠습니까?
   text_series_backlog_clear_description: '이렇게 하면 시리즈의 모든 미팅과 공유되는 시리즈 백로그의 모든 항목이 제거됩니다. 계속하시겠습니까? 이 작업은 되돌릴 수 없습니다.
 
     '
-  text_agenda_item_title: 의제 항목 "%{title}"
-  text_agenda_work_package_deleted: 삭제된 작업 패키지에 대한 의제 항목
-  text_deleted_agenda_item: 삭제된 의제 항목
-  label_initial_meeting_details: 미팅
-  label_meeting_details: 미팅 세부 정보
-  label_meeting_series_details: 미팅 시리즈 세부 정보
-  label_meeting_details_edit: 미팅 세부 정보 편집
-  label_meeting_state: 미팅 상태
-  label_meeting_state_draft: 초안
-  label_meeting_state_open: 열기
-  label_meeting_state_closed: 닫음
-  label_meeting_state_agenda_created: 의제 생성됨
-  label_meeting_state_planned: 계획됨
-  label_meeting_state_cancelled: 취소됨
-  label_meeting_state_skipped: 건너뜀
-  label_meeting_state_in_progress: 진행 중
-  label_meeting_reopen_action: 미팅 다시 열기
-  label_meeting_close_action: 미팅 닫기
-  label_meeting_in_progress_action: 미팅 시작
-  label_meeting_open_action: 미팅 열기
-  text_meeting_draft_description: 초안 모드에서 의제를 준비합니다. 이 미팅은 미팅 세부 정보를 변경하거나 참가자를 추가/제거하더라도 캘린더 업데이트나 초대장을 보내지 않습니다.
-  text_meeting_open_description: 의제 항목 및 참가자를 추가/제거할 수 있습니다. 의제가 준비되면 진행 중으로 표시하여 결과를 문서화하세요.
-  text_meeting_closed_description: 이 미팅은 종료되었습니다. 더 이상 의제 항목을 추가/제거할 수 없습니다.
-  text_meeting_in_progress_description: 의제를 수정하고, 각 항목의 결과를 문서화하고, 참가자의 참석을 추적할 수 있습니다. 미팅이 완료되면 종료됨으로 표시하여 잠글 수 있습니다.
-  text_meeting_open_dropdown_description: 기존 결과는 그대로 유지되지만 사용자가 새로운 결과를 추가할 수 없게 됩니다.
-  text_meeting_in_progress_dropdown_description: 미팅 중에 이루어진 결정 사항 또는 필요한 정보 등의 결과를 문서화합니다.
-  text_meeting_closed_dropdown_description: 이 미팅은 종료되었습니다. 더 이상 의제 항목 또는 결과를 수정할 수 없습니다.
-  text_meeting_draft_banner: 초안 모드에 현재 있습니다. 이 미팅은 미팅 세부 정보를 변경하거나 참가자를 추가/제거하더라도 캘린더 업데이트나 초대장을 전송하지 않습니다.
-  text_onetime_meeting_template_banner: 현재 미팅 템플릿을 편집하는 중입니다. 이 템플릿을 사용하여 사전 정의된 의제가 있는 일회성 미팅을 만들 수 있습니다. 변경 사항은 이미 생성된 미팅에 영향을 미치지 않습니다.
-  text_onetime_meeting_template_empty_heading: 이 미팅 템플릿은 비어 있습니다
-  text_onetime_meeting_template_empty_description: 여기에 의제 항목, 섹션 및 첨부 파일을 추가하세요. 이 템플릿을 사용하여 생성된 모든 미팅에 해당 항목이 포함됩니다.
-  text_exit_draft_mode_dialog_title: 이 미팅을 열고 초대장을 보내시겠습니까?
-  text_exit_draft_mode_dialog_subtitle: 미팅을 예약한 후에는 초안 모드로 돌아갈 수 없습니다.
-  text_exit_draft_mode_dialog_template_title: 이 미팅 시리즈의 첫 번째 항목을 열어보시겠습니까?
-  text_exit_draft_mode_dialog_template_subtitle: 이후에는 초안 모드로 돌아갈 수 없습니다.
-  label_meeting_template_sharing: 공유
-  label_meeting_template_sharing_none: 이 프로젝트에서만
-  label_meeting_template_sharing_descendants: 하위 프로젝트 포함
-  label_meeting_template_sharing_system: 모든 프로젝트 포함
-  text_meeting_template_sharing_description: 이 템플릿은 해당 인스턴스의 하위 프로젝트 또는 다른 프로젝트와 공유할 수 있습니다. 의제 항목과 첨부 파일만 복사됩니다.
-  text_meeting_not_editable_anymore: 이 미팅은 더 이상 편집할 수 없습니다.
-  text_meeting_not_present_anymore: 이 미팅은 삭제되었습니다. 다른 미팅을 선택해 주세요.
-  label_add_work_package_to_meeting_dialog_title: 미팅 선택
-  label_add_work_package_to_meeting_section_label: 섹션
-  label_add_work_package_to_meeting_dialog_button: 미팅에 추가
-  label_meeting_selection_caption: 향후 또는 진행 중인 미팅에만 이 작업 패키지를 추가할 수 있습니다.
-  label_section_selection_caption: 의제의 특정 섹션을 선택하거나 백로그에 추가하세요.
-  placeholder_section_select_meeting_first: 먼저 미팅 선택이 필요합니다
-  text_add_work_package_to_meeting_form: 선택한 미팅 또는 백로그에 의제 항목으로 작업 패키지가 추가됩니다.
-  text_add_work_package_to_meeting_description: 논의를 위해 하나 이상의 미팅에 작업 패키지를 추가할 수 있습니다. 이와 관련된 메모도 여기에 표시됩니다.
-  text_agenda_item_no_notes: 제공된 메모 없음
-  text_agenda_item_not_editable_anymore: 이 의제 항목은 더 이상 편집할 수 없습니다.
-  text_agenda_item_move_next_meeting: 이 항목은 %{date}, %{time}에 다음 미팅으로 이동됩니다.
-  text_agenda_item_moved_to_next_meeting: 의제 항목이 %{date}의 다음 미팅으로 이동되었습니다.
-  text_agenda_item_duplicate_in_next_meeting: "%{date}, %{time}의 다음 미팅에 이 의제의 사본을 추가하시겠습니까? 결과는 복제되지 않습니다."
-  text_agenda_item_duplicated_in_next_meeting: 의제 항목이 %{date}의 다음 미팅에서 복제되었습니다
-  text_work_package_has_no_upcoming_meeting_agenda_items: 이 작업 패키지는 향후 미팅 의제에서 아직 예약되지 않았습니다.
-  text_agenda_item_no_available_occurrence: 향후 항목이 없습니다.
-  text_agenda_item_dialog_skipping_note: '참고: %{details}을(를) 건너뜁니다.'
-  text_agenda_item_dialog_skipping_cancelled_one: "%{date}에 취소된 미팅"
-  text_agenda_item_dialog_skipping_cancelled_many: 취소된 미팅 %{count}개
-  text_agenda_item_dialog_skipping_closed_one: "%{date}에 종료된 미팅"
-  text_agenda_item_dialog_skipping_closed_many: 종료된 미팅 %{count}개
   text_work_package_add_to_meeting_hint: 이 작업 패키지를 향후 미팅에 추가하려면 "미팅에 추가" 버튼을 사용하세요.
   text_work_package_has_no_past_meeting_agenda_items: 이 작업 패키지는 지난 미팅에서 의제 항목으로 추가되지 않았습니다.
-  text_email_updates_muted: 이메일 캘린더 업데이트가 음소거되었습니다. 변경해도 이메일을 통해 업데이트된 초대장이 참가자에게 전송되지 않습니다.
-  text_email_updates_enabled: 이메일 캘린더 업데이트가 활성화되었습니다. 변경하면 이메일을 통해 업데이트된 초대장이 모든 참가자에게 전송됩니다.
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: 아래 버튼을 사용하여 만들 수 있습니다.
-        blank_title: iCalendar 미팅 토큰 없음
-        title: 미팅용 iCalendar
-        table_title: iCalendar 미팅 토큰
-        text_hint: iCalendar 미팅 토큰을 통해 사용자는 모든 미팅을 구독하고 외부 클라이언트에서 최신 미팅 정보를 볼 수 있습니다.
-        disabled_text: 관리자가 iCalendar 미팅 구독을 활성화하지 않았습니다. 이 기능을 사용하려면 관리자에게 문의하세요.
-        add_button: 캘린더 구독
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: 미팅을 위한 새로운 iCal 구독 토큰
-          dialog_body: 이 토큰은 외부 캘린더 애플리케이션에서 모든 미팅을 볼 수 있는 iCal 구독 URL을 생성합니다.
-          create_button: 구독 만들기
-          name_label: 토큰 이름
-          name_caption: "'내 휴대폰' 또는 '회사 컴퓨터' 등 사용할 위치에 따라 이름을 지정할 수 있습니다."
-      created_dialog:
-        token/ical_meeting:
-          title: iCal 미팅 구독 토큰이 생성되었습니다
-          body: 다음 URL을 암호처럼 취급하세요. 액세스 권한이 있으면 누구든지 모든 미팅을 볼 수 있습니다.
-      revocation:
-        token/ical_meeting:
-          notice_success: iCalendar 미팅 구독이 취소되었습니다.
-          notice_failure: 'iCalendar 미팅 구독을 취소하지 못했습니다: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: 이 작업 패키지는 향후 미팅 의제에서 아직 예약되지 않았습니다.

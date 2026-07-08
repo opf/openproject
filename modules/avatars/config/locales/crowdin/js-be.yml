@@ -2,11 +2,11 @@
 ---
 be:
   js:
-    label_preview: Папярэдні прагляд
-    button_update: Абнавіць
     avatars:
+      empty_file_error: Калі ласка запампуйце сапраўдны відарыс (jpg, png, gif)
+      error_image_too_large: Відарыс занадта вялікі.
       label_choose_avatar: Выбраць аватар з файла
       uploading_avatar: Запампоўка вашага аватара.
-      error_image_too_large: Відарыс занадта вялікі.
       wrong_file_format: 'Дазволеныя фарматы: jpg, png, gif'
-      empty_file_error: Калі ласка запампуйце сапраўдны відарыс (jpg, png, gif)
+    button_update: Абнавіць
+    label_preview: Папярэдні прагляд

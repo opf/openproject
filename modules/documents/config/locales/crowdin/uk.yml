@@ -21,12 +21,11 @@
 #++
 ---
 uk:
-  plugin_openproject_documents:
-    name: 'Документи OpenProject '
-    description: Плагін OpenProject дозволяє створювати документи в проектах.
-  attributes:
-    collaborative_editing_hocuspocus_url: URL-адреса сервера Hocuspocus
   activerecord:
+    attributes:
+      document:
+        content_binary: Двійковий вміст
+        title: Заголовок
     errors:
       models:
         document_type:
@@ -34,128 +33,129 @@ uk:
     models:
       document: Документ
       documents: Документи
-    attributes:
-      document:
-        content_binary: Двійковий вміст
-        title: Заголовок
   activity:
     filter:
       document: Документи
+  attributes:
+    collaborative_editing_hocuspocus_url: URL-адреса сервера Hocuspocus
   default_doc_category_tech: Технічна документація
   default_doc_category_user: Документація користувача
-  enumeration_doc_categories: Категорії документів
   documents:
-    button_add_type: Тип
-    page_header:
-      heading: Усі документи
-      action_menu:
-        document_actions: Дії з документом
-        edit_title: Редагувати назву
-    subheader:
-      filter:
-        label: Фільтр за назвою документів
-        placeholder: Введіть текст тут, щоб шукати назви документів
-    documents_list_blank_slate:
-      heading: Документів ще немає
-      description: У цьому поданні немає документів. Щоб додати, натисніть кнопку нижче.
-    document_categories_deprecation_notice:
-      heading: Категорії файлів тепер називаються "Типи документу"
-      description: |-
-        Наявні категорії файлів були перетворені на типи документів із впровадженням нового модуля «Документи».
-        Усі наявні документи також були перенесені до цих нових типів.
-      primary_action: Налаштувати типи документів
-      secondary_action: Дізнайтеся більше про модуль Документи
-    document_type_actions: Дії з типом документа
-    text_collaboration_disabled_notice:
-      description: |-
-        Неможливо відкрити документ, оскільки режим спільного редагування в реальному часі вимкнено.
-        Будь ласка, зверніться до адміністратора, щоб увімкнути спільне редагування в реальному часі, якщо ви хочете отримати доступ до цього документа.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Неможливо відкрити документ, оскільки сервер спільного редагування в реальному часі недоступний.
-          Будь ласка, зверніться до адміністратора якщо проблема не зникне.
-        action: Спробуйте знову
-      tabs: Вкладки документів
-    index_page:
-      name: Назва
-      type: Тип
-      updated_at: Останнє редагування
-      label_legacy: Застаріле
-    menu:
-      all: Усі документи
-      types: Типи
-      collaboration_settings: Спільне редагування в реальному часі
-    last_updated_at: Востаннє збережено о %{time}.
-    info_line:
-      currently_offline: Ви зараз не в мережі.
-      connection_restored: Ви знову в мережі.
     active_editors: Активні редактори
     active_editors_count:
       one: 1 активний редактор
       few: "%{count} активних редактори"
       many: "%{count} активних редакторів"
       other: "%{count} активного редактора"
-    label_attachment_author: Автор додатку
-    label_categories: Категорії
-    new_category: Нова категорія
-    new_type: Новий тип
+    admin:
+      collaboration_settings:
+        banner:
+          none_writable: Ці значення налаштовуються через змінні середовища й не можуть бути змінені тут.
+          some_unwritable: Деякі значення налаштовуються за допомогою змінних середовища і не можуть бути відредаговані тут.
+        hocuspocus_server: Сервер Hocuspocus
+        hocuspocus_server_secret:
+          caption: Вставте секретний код, наданий сервером Hocuspocus.
+          label: Секретний ключ клієнта
+        hocuspocus_server_url:
+          caption: Адреса WebSocket робочого сервера Hocuspocus.
+          invalid_scheme: Слід використовувати протокол WebSocket (ws:// or wss://).
+          label: URL-адреса сервера Hocuspocus
+        page_header:
+          description: |-
+            Якщо увімкнено, спільне редагування в реальному часі дає змогу кільком користувачам одночасно редагувати документ.
+            Для роботи потрібен працездатний %{hocuspocus_server_link}.
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Я розумію, що можу назавжди втратити дані
+        confirmation_message: Усі наявні документи можуть стати недоступними. Будь ласка, виконуйте цю дію лише якщо впевнені, що хочете вимкнути спільне редагування в реальному часі та редактор BlockNote у цьому середовищі.
+        heading: Вимкнути спільне редагування в реальному часі?
+        success: Спільне редагування в реальному часі вимкнене.
+        title: Вимкнути спільне редагування в реальному часі
+      enable_text_collaboration:
+        description: |-
+          Після ввімкнення кілька користувачів зможуть одночасно працювати над документом.
+          Усі нові документи використовуватимуть новий редактор (BlockNote) і вимагатимуть робочого підключення до сервера Hocuspocus.
+        heading: Спільне редагування в реальному часі не ввімкнено
+        primary_action: Увімкнути спільне редагування в реальному часі
+        success: Спільне редагування в реальному часі ввімкнено.
+    button_add_type: Тип
     delete_dialog:
-      title: Видалити документ
-      heading: Видалити цей документ?
       confirmation_message_html: Це назавжди видалить цей документ та всі вкладені файли. Ви впевнені, що хочете зробити це?
+      heading: Видалити цей документ?
+      title: Видалити документ
     delete_document_type_dialog:
-      title: Видалити тип документа
-      heading: Видалити цей тип документа?
+      at_least_one_type_required:
+        heading: Неможливо видалити останній тип документа
+        message: Має бути налаштований щонайменше один тип документа. Спочатку створіть інший, якщо хочете видалити цей.
+        title: Неможливо видалити тип документа
       confirmation_message: Тип"%{type_name}" наразі не використовується. Видалення цього типу не вплине на наявні документи.
-      select_reassign_to_label: Перепризначити документи на
+      heading: Видалити цей тип документа?
       reassign_message:
         one: Тип "%{type_name}" наразі використовується в %{document_count} документі. Виберіть тип, до якого їх перепризначити.
         few: Тип "%{type_name}" наразі використовується в %{document_count} документах. Виберіть тип, до якого їх перепризначити.
         many: Тип "%{type_name}" наразі використовується в %{document_count} документах. Виберіть тип, до якого їх перепризначити.
         other: Тип "%{type_name}" наразі використовується в %{document_count} документах. Виберіть тип, до якого їх перепризначити.
-      at_least_one_type_required:
-        title: Неможливо видалити тип документа
-        heading: Неможливо видалити останній тип документа
-        message: Має бути налаштований щонайменше один тип документа. Спочатку створіть інший, якщо хочете видалити цей.
-    admin:
-      collaboration_settings:
-        page_header:
-          description: |-
-            Якщо увімкнено, спільне редагування в реальному часі дає змогу кільком користувачам одночасно редагувати документ.
-            Для роботи потрібен працездатний %{hocuspocus_server_link}.
-        banner:
-          none_writable: Ці значення налаштовуються через змінні середовища й не можуть бути змінені тут.
-          some_unwritable: Деякі значення налаштовуються за допомогою змінних середовища і не можуть бути відредаговані тут.
-        hocuspocus_server_url:
-          label: URL-адреса сервера Hocuspocus
-          caption: Адреса WebSocket робочого сервера Hocuspocus.
-          invalid_scheme: Слід використовувати протокол WebSocket (ws:// or wss://).
-        hocuspocus_server_secret:
-          label: Секретний ключ клієнта
-          caption: Вставте секретний код, наданий сервером Hocuspocus.
-        hocuspocus_server: Сервер Hocuspocus
-      enable_text_collaboration:
-        heading: Спільне редагування в реальному часі не ввімкнено
-        description: |-
-          Після ввімкнення кілька користувачів зможуть одночасно працювати над документом.
-          Усі нові документи використовуватимуть новий редактор (BlockNote) і вимагатимуть робочого підключення до сервера Hocuspocus.
-        primary_action: Увімкнути спільне редагування в реальному часі
-        success: Спільне редагування в реальному часі ввімкнено.
-      disable_text_collaboration_dialog:
-        title: Вимкнути спільне редагування в реальному часі
-        heading: Вимкнути спільне редагування в реальному часі?
-        confirmation_message: Усі наявні документи можуть стати недоступними. Будь ласка, виконуйте цю дію лише якщо впевнені, що хочете вимкнути спільне редагування в реальному часі та редактор BlockNote у цьому середовищі.
-        confirmation_checkbox_message: Я розумію, що можу назавжди втратити дані
-        success: Спільне редагування в реальному часі вимкнене.
+      select_reassign_to_label: Перепризначити документи на
+      title: Видалити тип документа
+    document_categories_deprecation_notice:
+      description: |-
+        Наявні категорії файлів були перетворені на типи документів із впровадженням нового модуля «Документи».
+        Усі наявні документи також були перенесені до цих нових типів.
+      heading: Категорії файлів тепер називаються "Типи документу"
+      primary_action: Налаштувати типи документів
+      secondary_action: Дізнайтеся більше про модуль Документи
+    document_type_actions: Дії з типом документа
+    documents_list_blank_slate:
+      description: У цьому поданні немає документів. Щоб додати, натисніть кнопку нижче.
+      heading: Документів ще немає
+    index_page:
+      label_legacy: Застаріле
+      name: Назва
+      type: Тип
+      updated_at: Останнє редагування
+    info_line:
+      connection_restored: Ви знову в мережі.
+      currently_offline: Ви зараз не в мережі.
+    label_attachment_author: Автор додатку
+    label_categories: Категорії
+    last_updated_at: Востаннє збережено о %{time}.
+    menu:
+      all: Усі документи
+      collaboration_settings: Спільне редагування в реальному часі
+      types: Типи
+    new_category: Нова категорія
+    new_type: Новий тип
+    page_header:
+      action_menu:
+        document_actions: Дії з документом
+        edit_title: Редагувати назву
+      heading: Усі документи
+    show_edit_view:
+      connection_error_notice:
+        action: Спробуйте знову
+        description_server_unavailable: |-
+          Неможливо відкрити документ, оскільки сервер спільного редагування в реальному часі недоступний.
+          Будь ласка, зверніться до адміністратора якщо проблема не зникне.
+      tabs: Вкладки документів
+    subheader:
+      filter:
+        label: Фільтр за назвою документів
+        placeholder: Введіть текст тут, щоб шукати назви документів
+    text_collaboration_disabled_notice:
+      description: |-
+        Неможливо відкрити документ, оскільки режим спільного редагування в реальному часі вимкнено.
+        Будь ласка, зверніться до адміністратора, щоб увімкнути спільне редагування в реальному часі, якщо ви хочете отримати доступ до цього документа.
+  enumeration_doc_categories: Категорії документів
   label_document_added: Документ додано
+  label_document_category: Категорія
+  label_document_description: Опис
   label_document_new: Новий документ
   label_document_plural: Документи
-  label_documents: Документи
   label_document_title: Назва
-  label_document_description: Опис
-  label_document_category: Категорія
   label_document_type: Тип
+  label_documents: Документи
   permission_manage_documents: Керування документами
   permission_view_documents: Перегляд документів
+  plugin_openproject_documents:
+    description: Плагін OpenProject дозволяє створювати документи в проектах.
+    name: 'Документи OpenProject '
   project_module_documents: Документи

@@ -4,7 +4,7 @@ eo:
   js:
     calendar:
       create_new: Krei novan kalendaron
+      label_calendar_plural: Kalendaroj
       title: Kalendaro
       too_many: Estas entute %{count} laborpakaĵoj, sed nur %{max} povas esti montrataj.
       unsaved_title: Nenomita kalendaro
-      label_calendar_plural: Kalendaroj

@@ -2,11 +2,11 @@
 ---
 ms:
   js:
-    label_preview: Previu
-    button_update: Kemas kini
     avatars:
+      empty_file_error: Sila muat naik imej yang sah (jpg, png, gif)
+      error_image_too_large: Imej terlalu besar.
       label_choose_avatar: Pilih Avatar dari fail
       uploading_avatar: Memuat naik avatar anda.
-      error_image_too_large: Imej terlalu besar.
       wrong_file_format: Format yang dibenarkan adalah jpg, png, gif
-      empty_file_error: Sila muat naik imej yang sah (jpg, png, gif)
+    button_update: Kemas kini
+    label_preview: Previu

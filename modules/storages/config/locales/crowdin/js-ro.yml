@@ -4,66 +4,19 @@ ro:
   js:
     storages:
       authentication_error: Authentication with %{storageType} failed
-      link_files_in_storage: Link-ul fişierelor în %{storageType}
-      link_existing_files: Legaţi fişierele existente
-      upload_files: Încarcă fişiere
+      choose_location: Alege Locația
       drop_files: Lăsați fișierele aici pentru a le încărca pe %{name}.
       drop_or_click_files: Lăsați fișierele aici sau faceți clic pentru a le încărca pe %{name}.
-      login: "%{storageType} autentificare"
-      login_to: Autentificare în %{storageType}
-      no_connection: Nu există %{storageType} conexiune
-      open_storage: Deschide %{storageType}
-      select_location: Selectează locația
-      choose_location: Alege Locația
-      new_folder: New folder
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: SharePoint
-        default: Depozitare
-      information:
-        authentication_error: The request to %{storageType} could not be authenticated, that's an error.
-        connection_error: 'Unele setări %{storageType} nu funcționează. Vă rugăm să contactați administratorul %{storageType}.
-
-          '
-        live_data_error: Eroare la preluarea detaliilor fișierului
-        live_data_error_description: 'Unele date %{storageType} nu au putut fi preluate. Încercați să reîncărcați această pagină sau contactați administratorul %{storageType}.
-
-          '
-        no_file_links: Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}.
-        not_logged_in: 'Pentru a adăuga un link, vezi sau încarcă fișiere asociate cu acest pachet de lucru, te rog să te autentifici la %{storageType}.
-
-          '
-        suggest_logout: You can try whether logging out and back in fixes this problem.
-        suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
-      files:
-        already_existing_header: Acest fișier există deja
-        already_existing_body: 'Un fișier cu numele "%{fileName}" există deja în locația în care încercați să încărcați acest fișier. Ce ai vrea să faci?
-
-          '
-        directory_not_writeable: Nu aveţi permisiunea de a adăuga fişiere în acest folder.
-        dragging_many_files: Încărcarea către %{storageType} suportă doar un singur fișier simultan.
-        dragging_folder: The upload to %{storageType} does not support folders.
-        empty_folder: Acest director este gol.
-        empty_folder_location_hint: Fă clic pe butonul de mai jos pentru a încărca fișierul locație.
-        file_not_selectable_location: Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații.
-        project_folder_no_access: 'You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
-
-          '
-        managed_project_folder_not_available: 'The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
-
-          '
-        managed_project_folder_no_access: 'You have no access yet to the managed project folder. Please wait a bit and try again.
-
-          '
-        cannot_create_folder: Failed to create folder. Avoid using special characters and symbols and make sure the folder does not exist already.
-        upload_keep_both: Păstrează ambele
-        upload_replace: Înlocuiește
       file_links:
+        already_linked_directory: Acest director este deja conectat la acest pachet de lucru.
+        already_linked_file: Acest fișier este deja legat la acest pachet de lucru.
+        download: Descarcă %{fileName}
         empty: 'În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
 
           '
-        download: Descarcă %{fileName}
+        link_uploaded_file_error: 'A apărut o eroare la conectarea fișierului încărcat recent ''%{fileName}'' la pachetul de lucru %{workPackageId}.
+
+          '
         open: Deschide fişierul pe stocare
         open_location: Deschide fișierul în locație
         remove: Elimină link-ul fișierului
@@ -82,10 +35,11 @@ ro:
           one: A creat cu succes 1 legătură de fișier.
           few: A creat cu succes %{count} legături de fișiere.
           other: A creat cu succes %{count} de legături de fișiere.
+        tooltip:
+          not_found: This file cannot be found.
+          not_logged_in: Please log in to the storage to access this file.
+          view_not_allowed: Nu ai permisiune pentru a vedea acest fișier.
         upload_error:
-          default: 'Your file (%{fileName}) could not be uploaded.
-
-            '
           403: 'Fişierul (%{fileName}) nu a putut fi încărcat din cauza restricţiilor de sistem. Vă rugăm să contactaţi administratorul pentru mai multe informaţii.
 
             '
@@ -95,16 +49,62 @@ ro:
           507: 'Fişierul (%{fileName}) este mai mare decât cota de stocare permisă. Contactaţi administratorul pentru a modifica această cotă.
 
             '
+          default: 'Your file (%{fileName}) could not be uploaded.
+
+            '
           detail:
             nextcloud: 'Te rog să verifici că, cea mai recentă versiune a Nextcloud App "OpenProject Integration" este instalată și contactează administratorul pentru mai multe informații.
 
               '
-        link_uploaded_file_error: 'A apărut o eroare la conectarea fișierului încărcat recent ''%{fileName}'' la pachetul de lucru %{workPackageId}.
+      files:
+        already_existing_body: 'Un fișier cu numele "%{fileName}" există deja în locația în care încercați să încărcați acest fișier. Ce ai vrea să faci?
 
           '
-        tooltip:
-          not_logged_in: Please log in to the storage to access this file.
-          view_not_allowed: Nu ai permisiune pentru a vedea acest fișier.
-          not_found: This file cannot be found.
-        already_linked_file: Acest fișier este deja legat la acest pachet de lucru.
-        already_linked_directory: Acest director este deja conectat la acest pachet de lucru.
+        already_existing_header: Acest fișier există deja
+        cannot_create_folder: Failed to create folder. Avoid using special characters and symbols and make sure the folder does not exist already.
+        directory_not_writeable: Nu aveţi permisiunea de a adăuga fişiere în acest folder.
+        dragging_folder: The upload to %{storageType} does not support folders.
+        dragging_many_files: Încărcarea către %{storageType} suportă doar un singur fișier simultan.
+        empty_folder: Acest director este gol.
+        empty_folder_location_hint: Fă clic pe butonul de mai jos pentru a încărca fișierul locație.
+        file_not_selectable_location: Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații.
+        managed_project_folder_no_access: 'You have no access yet to the managed project folder. Please wait a bit and try again.
+
+          '
+        managed_project_folder_not_available: 'The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+
+          '
+        project_folder_no_access: 'You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+
+          '
+        upload_keep_both: Păstrează ambele
+        upload_replace: Înlocuiește
+      information:
+        authentication_error: The request to %{storageType} could not be authenticated, that's an error.
+        connection_error: 'Unele setări %{storageType} nu funcționează. Vă rugăm să contactați administratorul %{storageType}.
+
+          '
+        live_data_error: Eroare la preluarea detaliilor fișierului
+        live_data_error_description: 'Unele date %{storageType} nu au putut fi preluate. Încercați să reîncărcați această pagină sau contactați administratorul %{storageType}.
+
+          '
+        no_file_links: Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}.
+        not_logged_in: 'Pentru a adăuga un link, vezi sau încarcă fișiere asociate cu acest pachet de lucru, te rog să te autentifici la %{storageType}.
+
+          '
+        suggest_logout: You can try whether logging out and back in fixes this problem.
+        suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
+      link_existing_files: Legaţi fişierele existente
+      link_files_in_storage: Link-ul fişierelor în %{storageType}
+      login: "%{storageType} autentificare"
+      login_to: Autentificare în %{storageType}
+      new_folder: New folder
+      no_connection: Nu există %{storageType} conexiune
+      open_storage: Deschide %{storageType}
+      select_location: Selectează locația
+      types:
+        default: Depozitare
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Încarcă fişiere

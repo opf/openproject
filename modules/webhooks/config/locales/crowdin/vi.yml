@@ -1,58 +1,38 @@
 ---
 vi:
-  plugin_openproject_webhooks:
-    name: Webhooks OpenProject
-    description: Cung cấp API plug-in để hỗ trợ webhooks OpenProject để tích hợp bên thứ 3 tốt hơn.
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: URL tải trọng
-        secret: Chữ ký bí mật
-        events: Sự kiện
-        enabled: đã bật
-        projects: Dự án đã kích hoạt
       webhooks/log:
         event_name: Tên sự kiện
-        url: URL tải trọng
-        response_code: Thông điệp phản hồi
         response_body: Phản hồi
+        response_code: Thông điệp phản hồi
+        url: URL tải trọng
+      webhooks/webhook:
+        enabled: đã bật
+        events: Sự kiện
+        projects: Dự án đã kích hoạt
+        secret: Chữ ký bí mật
+        url: URL tải trọng
     models:
       webhooks/outgoing_webhook: Webhook gửi đi
+  plugin_openproject_webhooks:
+    description: Cung cấp API plug-in để hỗ trợ webhooks OpenProject để tích hợp bên thứ 3 tốt hơn.
+    name: Webhooks OpenProject
   webhooks:
-    singular: webhook
-    plural: Webhook
-    resources:
-      time_entry:
-        name: Thời gian nhập
     outgoing:
-      no_results_table: Chưa có webhook nào được xác định.
-      label_add_new: Thêm webhook mới
-      label_edit: Chỉnh sửa webhook
-      label_x_events:
-        one: 1 sự kiện
-        other: "%{count} sự kiện"
-        zero: Không có sự kiện
+      deliveries:
+        no_results_table: Không có đợt giao hàng nào được thực hiện cho webhook này trong những ngày qua.
+        time: thời gian giao hàng
+        title: Giao hàng gần đây
       events:
-        created: đã tạo
-        updated: đã cập nhật
         comment: bình luận
+        created: đã tạo
         internal_comment: Bình luận nội bộ
+        updated: đã cập nhật
       explanation_html: 'Upon the occurrence of an event like the creation of a gói công việc (work package) or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
-      status:
-        enabled: Webhook đã được bật
-        disabled: Webhook bị vô hiệu hóa
-        enabled_text: Webhook sẽ phát ra tải trọng cho các sự kiện được xác định bên dưới.
-        disabled_text: Nhấp vào nút chỉnh sửa để kích hoạt webhook.
-      deliveries:
-        no_results_table: Không có đợt giao hàng nào được thực hiện cho webhook này trong những ngày qua.
-        title: Giao hàng gần đây
-        time: thời gian giao hàng
       form:
-        introduction: 'Gửi yêu cầu POST tới URL tải trọng bên dưới cho bất kỳ sự kiện nào trong dự án mà bạn đã đăng ký. Tải trọng sẽ tương ứng với biểu diễn APIv3 của đối tượng đang được sửa đổi.
-
-          '
         apiv3_doc_url: Để biết thêm thông tin, hãy truy cập tài liệu API
         description:
           placeholder: Mô tả tùy chọn cho webhook.
@@ -62,14 +42,34 @@ vi:
             '
         events:
           title: Sự kiện đã bật
+        introduction: 'Gửi yêu cầu POST tới URL tải trọng bên dưới cho bất kỳ sự kiện nào trong dự án mà bạn đã đăng ký. Tải trọng sẽ tương ứng với biểu diễn APIv3 của đối tượng đang được sửa đổi.
+
+          '
         project_ids:
-          title: Dự án đã kích hoạt
-          description: Chọn những dự án mà webhook này sẽ được thực thi.
           all: Tất cả dự án
+          description: Chọn những dự án mà webhook này sẽ được thực thi.
           selected: Chỉ các dự án được chọn
-        selected_project_ids:
-          title: Dự án đã chọn
+          title: Dự án đã kích hoạt
         secret:
           description: 'Nếu được đặt, giá trị bí mật này sẽ được OpenProject sử dụng để ký tải trọng webhook.
 
             '
+        selected_project_ids:
+          title: Dự án đã chọn
+      label_add_new: Thêm webhook mới
+      label_edit: Chỉnh sửa webhook
+      label_x_events:
+        one: 1 sự kiện
+        other: "%{count} sự kiện"
+        zero: Không có sự kiện
+      no_results_table: Chưa có webhook nào được xác định.
+      status:
+        disabled: Webhook bị vô hiệu hóa
+        disabled_text: Nhấp vào nút chỉnh sửa để kích hoạt webhook.
+        enabled: Webhook đã được bật
+        enabled_text: Webhook sẽ phát ra tải trọng cho các sự kiện được xác định bên dưới.
+    plural: Webhook
+    resources:
+      time_entry:
+        name: Thời gian nhập
+    singular: webhook

@@ -4,7 +4,7 @@ pl:
   js:
     calendar:
       create_new: Utwórz nowy kalendarz
+      label_calendar_plural: Kalendarze
       title: Kalendarz
       too_many: Łącznie pakietów roboczych jest %{count}, ale pokazać można tylko %{max}.
       unsaved_title: Kalendarz bez nazwy
-      label_calendar_plural: Kalendarze

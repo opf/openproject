@@ -22,90 +22,87 @@
 #English strings go here for Rails i18n
 ---
 ms:
-  plugin_openproject_meeting:
-    name: Mesyuarat OpenProject
-    description: Modul ini menambah fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan dengan memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dicipta dan dihantar ke para jemputan. Selepas mesyuarat, hadirin boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua hadirin dan jemputan.
   activerecord:
     attributes:
       meeting:
-        type: Jenis mesyuarat
-        location: Lokasi
         duration: Tempoh
+        end_time: End time
+        location: Lokasi
         notes: Nota-nota
-        recurrence_start_time: Scheduled start time
-        participants: Peserta-peserta
+        notify: Send notifications
         participant:
           other: "%{count} Peserta"
+        participants: Peserta-peserta
+        participants_added: 'Participants added:'
         participants_attended: Penghadir
         participants_invited: Tetamu-tetamu
-        participants_added: 'Participants added:'
         participants_removed: 'Participants removed:'
         project: Projek
+        recurrence_start_time: Scheduled start time
+        sharing: Sharing
         start_date: Tarikh
         start_time: Masa mula
         start_time_hour: Masa mula
-        end_time: End time
         template: Template
-        notify: Send notifications
-        sharing: Sharing
+        type: Jenis mesyuarat
       meeting_agenda_item:
-        title: Tajuk
         author: Pengarang
-        duration_in_minutes: Tempoh
         description: Nota
-        presenter: Penyampai
+        duration_in_minutes: Tempoh
         item_type: Type
-        position: Position
         lock_version: Lock version
         notes: Notes
-      meeting_section:
-        title: Tajuk
         position: Position
+        presenter: Penyampai
+        title: Tajuk
+      meeting_participant:
+        attended: Dihadiri
+        invited: Telah dijemput
+        participation_status: Participation status
+      meeting_section:
+        position: Position
+        title: Tajuk
       recurring_meeting:
-        title: Title
+        duration: Duration
+        end_after: Meeting series ends
+        end_date: End date
         frequency: Frekuensi
         interval: Selang waktu
+        iterations: Kejadian
+        location: Location
         monthly_day: Day of month
         monthly_ordinal: Position
         monthly_weekday: Weekday
+        notify: Send notifications
         start_date: Bermula pada
         start_time: Masa mula
         start_time_hour: Masa mula
-        end_after: Meeting series ends
-        end_date: End date
-        iterations: Kejadian
         time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        title: Title
       recurring_meeting_interim_response:
         start_time: Start time
-      meeting_participant:
-        invited: Telah dijemput
-        attended: Dihadiri
-        participation_status: Participation status
     errors:
+      messages:
+        invalid_time_format: 'bukan masa yang sah. Format yang diperlukan: JJ:MM'
       models:
-        meeting_participant:
-          user_invalid: is not a valid participant.
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
-        recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+        meeting_participant:
+          user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
-            format: "%{message}"
-      messages:
-        invalid_time_format: 'bukan masa yang sah. Format yang diperlukan: JJ:MM'
+        recurring_meeting_interim_response:
+          not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      recurring_meeting: Mesyuarat berulang
       meeting: Mesyuarat sekali
-      meeting_agenda_item: Item agenda
       meeting_agenda: Agenda
+      meeting_agenda_item: Item agenda
       meeting_section: Bahagian
+      recurring_meeting: Mesyuarat berulang
       token/ical_meeting:
         other: iCal Meeting subscription
   activity:
@@ -124,7 +121,11 @@ ms:
         work_package:
           updated: ditukar daripada %{old_value} kepada %{value}
           updated_html: ditukar daripada <i>%{old_value}</i> kepada <i>%{value}</i>
+  caption_meeting_template_select: Select a template to automatically copy its agenda items
+  caption_template_project_select: Please select the project in which to create this meeting template
   description_attended: dihadiri
+  error_notification: Failed to send notification.
+  error_notification_with_errors: 'Gagal untuk hantar pemberitahuan. Penerima berikut tidak dapat dimaklumkan: %{recipients}'
   events:
     meeting: Mesyuarat diedit
     meeting_agenda: Agenda mesyuarat yang diedit
@@ -132,301 +133,477 @@ ms:
     meeting_agenda_opened: Agenda mesyuarat dibuka
     meeting_minutes: Minit mesyuarat diedit
     meeting_minutes_created: Minit mesyuarat dicipta
-  error_notification: Failed to send notification.
-  error_notification_with_errors: 'Gagal untuk hantar pemberitahuan. Penerima berikut tidak dapat dimaklumkan: %{recipients}'
-  label_meeting: Mesyuarat
-  label_meeting_plural: Mesyuarat-mesyuarat
-  label_meeting_templates: Templates
-  label_meeting_template: Template
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
-  label_meeting_create_from_template: Create meeting from template
-  label_meeting_new: Mesyuarat Baharu
-  label_meeting_new_dynamic: Mesyuarat baru sekali
-  label_meeting_new_recurring: Mesyuarat berulang yang baru
-  label_meeting_create: Buat mesyuarat
-  label_meeting_duplicate: Duplicate meeting
-  label_meeting_edit: Edit Mesyuarat
-  label_meeting_agenda: Agenda
-  label_meeting_minutes: Minit
-  label_meeting_close: Tutup
-  label_meeting_open: Buka
-  label_meeting_index_delete: Padamkan
-  label_meeting_open_this_meeting: Buka mesyuarat ini
-  label_meeting_agenda_close: Tutup agenda untuk mulakan Minit Mesyuarat
-  label_meeting_date_time: Tarikh/Masa
-  label_meeting_date_and_time: Tarikh dan masa
-  label_meeting_diff: Beza
-  label_meeting_send_updates: Send email calendar invite and updates
-  label_meeting_send_updates_caption: Send out email invites to all participants of this meeting
-  label_recurring_meeting: Mesyuarat berulang
-  label_recurring_meeting_part_of: Sebahagian daripada siri mesyuarat
-  label_recurring_meeting_new: Mesyuarat berulang yang baru
-  label_recurring_meeting_plural: Mesyuarat berulang
-  label_template: templat
-  label_recurring_meeting_view: Lihat siri mesyuarat
-  label_recurring_meeting_create: Buka
-  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
-  label_recurring_meeting_cancel: Batalkan kejadian ini
-  label_recurring_meeting_delete: Padam kejadian
-  label_recurring_meeting_restore: Pulihkan kejadian ini
-  label_recurring_meeting_schedule: Schedule
-  label_recurring_meeting_next_occurrence: Next occurrence
-  label_recurring_meeting_no_end_date: There are more scheduled meetings (%{schedule}).
-  label_recurring_meeting_more:
-    other: Terdapat %{count} lagi mesyuarat yang dijadualkan (%{schedule}).
-  label_recurring_meeting_more_past:
-    other: Terdapat %{count} lagi mesyuarat yang lalu.
-  label_recurring_meeting_show_more: Tunjukkan lagi
-  label_recurring_meeting_series_create: Create meeting series
-  label_recurring_meeting_series_edit: Edit siri mesyuarat
-  label_recurring_meeting_series_delete: Padamkan siri mesyuarat
-  label_recurring_meeting_series_end: End meeting series
-  label_recurring_meeting_series_end_now: End series now
-  label_meeting_more:
-    other: There are %{count} more meetings.
-  label_my_meetings: Mesyuarat saya
+  label_add_work_package_to_meeting_dialog_button: Tambah ke mesyuarat
+  label_add_work_package_to_meeting_dialog_title: Select meeting
+  label_add_work_package_to_meeting_section_label: Bahagian
+  label_added_as_outcome: Added as outcome
+  label_agenda_backlog: Agenda backlog
+  label_agenda_backlog_clear_title: Clear agenda backlog?
+  label_agenda_item_actions: Tindakan item agenda
+  label_agenda_item_add: Tambah item agenda
+  label_agenda_item_add_notes: Tambah nota
+  label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_deleted_wp: " Rujukan pakej kerja yang dipadam"
+  label_agenda_item_duplicate: Duplicate
+  label_agenda_item_duplicate_in_next: Duplicate in next meeting
+  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_move: Alih
+  label_agenda_item_move_down: Alih ke bawah
+  label_agenda_item_move_to_backlog: Move to backlog
+  label_agenda_item_move_to_bottom: Alih ke paling bawah
+  label_agenda_item_move_to_current_meeting: Move to current meeting
+  label_agenda_item_move_to_next: Move to next meeting
+  label_agenda_item_move_to_next_title: Move to next meeting?
+  label_agenda_item_move_to_section: Move to section
+  label_agenda_item_move_to_top: Alih ke paling atas
+  label_agenda_item_move_up: Alihkan ke atas
+  label_agenda_item_remove_from_agenda: Keluarkan daripada agenda
+  label_agenda_item_remove_from_backlog: Remove from backlog
+  label_agenda_item_undisclosed_wp: 'Pakej kerja #%{id} tidak kelihatan'
+  label_agenda_item_work_package: Pakej kerja item agenda
+  label_agenda_item_work_package_add: Add work package
+  label_agenda_items: Item-item agenda
+  label_agenda_items_reordered: disusun semula
+  label_agenda_new_outcome: New outcome
+  label_agenda_outcome: Outcome
+  label_agenda_outcome_actions: Agenda outcome actions
+  label_agenda_outcome_delete: Remove outcome
+  label_agenda_outcome_edit: Edit outcome
   label_all_meetings: Semua mesyuarat
-  label_upcoming_meetings: Mesyuarat akan datang
-  label_past_meetings: Mesyuarat lalu
-  label_upcoming_meetings_short: Akan Datang
-  label_past_meetings_short: Lalu
-  label_involvement: Penglibatan
-  label_invitations: Jemputan
-  label_invited_user: Pengguna yang dijemput
-  label_past_invitations: Jemputan yang lepas
   label_attended: Dihadiri
   label_attended_user: Pengguna yang menghadiri
+  label_backlog_clear: Clear backlog
+  label_backlog_clear_button: Padam semua
   label_created_by_me: Dicipta oleh saya
-  label_notify: Hantar untuk semakan
+  label_existing_work_package: Existing work package
   label_icalendar: 'Hantar iCalendar
 
     '
   label_icalendar_download: Muat turun peristiwa dalam iCalendar
-  label_view_meeting: View meeting
-  label_view_meeting_series: Lihat siri mesyuarat
+  label_initial_meeting_details: Mesyuarat
+  label_invitations: Jemputan
+  label_invited_user: Pengguna yang dijemput
+  label_involvement: Penglibatan
+  label_meeting: Mesyuarat
+  label_meeting_actions: Tindakan mesyuarat
+  label_meeting_agenda: Agenda
+  label_meeting_agenda_close: Tutup agenda untuk mulakan Minit Mesyuarat
+  label_meeting_close: Tutup
+  label_meeting_close_action: Tutup mesyuarat
+  label_meeting_create: Buat mesyuarat
+  label_meeting_create_from_template: Create meeting from template
+  label_meeting_created_by: Dicipta oleh
+  label_meeting_date_and_time: Tarikh dan masa
+  label_meeting_date_time: Tarikh/Masa
+  label_meeting_delete: Padam mesyuarat
+  label_meeting_details: Butiran mesyuarat
+  label_meeting_details_edit: Edit butiran mesyuarat
+  label_meeting_diff: Beza
+  label_meeting_duplicate: Duplicate meeting
+  label_meeting_edit: Edit Mesyuarat
+  label_meeting_edit_title: Edit tajuk mesyuarat
+  label_meeting_empty_action: Tambah item agenda
+  label_meeting_in_progress_action: Start meeting
+  label_meeting_index_delete: Padamkan
+  label_meeting_index_later: Next week and later
+  label_meeting_index_this_week: Later this week
+  label_meeting_index_today: Hari ini
+  label_meeting_index_tomorrow: Tomorrow
+  label_meeting_last_updated: Kemas kini terakhir
+  label_meeting_minutes: Minit
+  label_meeting_more:
+    other: There are %{count} more meetings.
+  label_meeting_new: Mesyuarat Baharu
+  label_meeting_new_dynamic: Mesyuarat baru sekali
+  label_meeting_new_recurring: Mesyuarat berulang yang baru
+  label_meeting_open: Buka
+  label_meeting_open_action: Open meeting
+  label_meeting_open_this_meeting: Buka mesyuarat ini
+  label_meeting_plural: Mesyuarat-mesyuarat
+  label_meeting_reload: Muat semula
+  label_meeting_reopen_action: Buka semula mesyuarat
+  label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
+  label_meeting_send_updates: Send email calendar invite and updates
+  label_meeting_send_updates_caption: Send out email invites to all participants of this meeting
   label_meeting_series: Siri mesyuarat
-  label_version: Versi
-  label_time_zone: Zon waktu
+  label_meeting_series_details: Butiran siri mesyuarat
+  label_meeting_state: Status mesyuarat
+  label_meeting_state_agenda_created: Agenda dicipta
+  label_meeting_state_cancelled: Dibatalkan
+  label_meeting_state_closed: Tertutup
+  label_meeting_state_draft: Draft
+  label_meeting_state_in_progress: Dalam proses
+  label_meeting_state_open: Buka
+  label_meeting_state_planned: Dirancang
+  label_meeting_state_skipped: Dilangkau
+  label_meeting_template: Template
+  label_meeting_template_create: Create template
+  label_meeting_template_delete: Delete template
+  label_meeting_template_edit: Edit template
+  label_meeting_template_new: New template
+  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_system: With all projects
+  label_meeting_templates: Templates
+  label_my_meetings: Mesyuarat saya
+  label_notify: Hantar untuk semakan
+  label_past_invitations: Jemputan yang lepas
+  label_past_meetings: Mesyuarat lalu
+  label_past_meetings_short: Lalu
+  label_recurring_filter: Recurring filter
+  label_recurring_meeting: Mesyuarat berulang
+  label_recurring_meeting_cancel: Batalkan kejadian ini
+  label_recurring_meeting_create: Buka
+  label_recurring_meeting_delete: Padam kejadian
+  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
+  label_recurring_meeting_more:
+    other: Terdapat %{count} lagi mesyuarat yang dijadualkan (%{schedule}).
+  label_recurring_meeting_more_past:
+    other: Terdapat %{count} lagi mesyuarat yang lalu.
+  label_recurring_meeting_new: Mesyuarat berulang yang baru
+  label_recurring_meeting_next_occurrence: Next occurrence
+  label_recurring_meeting_no_end_date: There are more scheduled meetings (%{schedule}).
+  label_recurring_meeting_part_of: Sebahagian daripada siri mesyuarat
+  label_recurring_meeting_plural: Mesyuarat berulang
+  label_recurring_meeting_restore: Pulihkan kejadian ini
+  label_recurring_meeting_schedule: Schedule
+  label_recurring_meeting_series_create: Create meeting series
+  label_recurring_meeting_series_delete: Padamkan siri mesyuarat
+  label_recurring_meeting_series_edit: Edit siri mesyuarat
+  label_recurring_meeting_series_end: End meeting series
+  label_recurring_meeting_series_end_now: End series now
+  label_recurring_meeting_show_more: Tunjukkan lagi
+  label_recurring_meeting_view: Lihat siri mesyuarat
+  label_section_rename: Rename section
+  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
+  label_series_backlog: Series backlog
+  label_series_backlog_clear_title: Clear series backlog?
   label_start_date: Tarikh mula
   label_subscribe_icalendar: Langgan kalendar
-  label_recurring_filter: Recurring filter
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  label_template: templat
+  label_time_zone: Zon waktu
+  label_upcoming_meetings: Mesyuarat akan datang
+  label_upcoming_meetings_short: Akan Datang
+  label_version: Versi
+  label_view_meeting: View meeting
+  label_view_meeting_series: Lihat siri mesyuarat
+  label_write_outcome: Write outcome
   meeting:
-    participants:
-      label:
-        participants: Peserta-peserta
-        attended: Dihadiri
-        mark_as_attended: Mark as attended
-        mark_all_as_attended: Mark all as attended
-        remove_participant: Remove participant
-        manage_participants: Urus peserta
-        no_participants: Tiada peserta
-        show_all: Paparkan semua
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
-      text:
-        template: Peserta ini akan dijemput secara automatik ke semua mesyuarat akan datang apabila ia dibuat.
-        manage_participants: Search for and add project members as participants to this meeting.
-        search_for_members: Search for project members
-      blankslate:
-        heading: Tiada peserta
-        description: There are no participants yet.
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
       text: Fail yang dilampirkan tersedia kepada semua peserta mesyuarat. Anda juga boleh menarik dan melepaskannya ke dalam nota item agenda.
+    blankslate:
+      desc: You can create a new meeting or change filter criteria
+      title: There are no meetings to display
+    copied: 'Disalin daripada Mesyuarat #%{id}'
     copy:
-      title: 'Salin mesyuarat: %{title}'
-      attachments: Salin lampiran
-      attachments_text: Salin semua fail yang dilampirkan ke mesyuarat baharu
       agenda: Salin agenda
       agenda_items: Salin item agenda
       agenda_text: Salin agenda mesyuarat lama
+      attachments: Salin lampiran
+      attachments_text: Salin semua fail yang dilampirkan ke mesyuarat baharu
       participants: Salin senarai peserta
+      title: 'Salin mesyuarat: %{title}'
       to_clipboard: Salin pautan ke papan klip
+    delete_dialog:
+      occurrence:
+        confirm_button: Cancel occurrence
+        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+
+          '
+        heading: Cancel this meeting occurrence?
+        title: Cancel meeting occurrence
+      occurrence_past:
+        confirm_button: Delete occurrence
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        heading: Delete this occurrence?
+        title: Delete occurrence
+      one_time:
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        heading: Delete this meeting?
+        template:
+          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+
+            '
+          heading: Delete this template?
+          title: Delete template
+        title: Padam mesyuarat
     email:
+      cancelled:
+        date_time: Scheduled date/time
+        header: 'Cancelled: Meeting ''%{title}'''
+        header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
+        header_series: 'Cancelled: Meeting series ''%{title}'''
+        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
+        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+      ended:
+        header_series: 'Ended: Meeting series ''%{title}'''
+        summary_series: Meeting series '%{title}' has been ended by %{actor}
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting '%{title}'"
+      open_meeting_link: Buka mesyuarat
+      open_my_meetings_link: Go to My meetings
       send_emails: E-mel peserta
       send_invitation_emails: 'Hantar jemputan e-mel segera kepada peserta yang dipilih di atas. Anda juga boleh melakukan ini secara manual pada bila-bila masa kemudian.
 
         '
       send_invitation_emails_structured: Hantar jemputan e-mel dengan segera kepada semua peserta. Anda juga boleh melakukan ini secara manual pada bila-bila masa kemudian.
-      open_meeting_link: Buka mesyuarat
-      open_my_meetings_link: Go to My meetings
       series:
-        title: "[%{project_name}] Meeting series '%{title}'"
         summary: "%{actor} has invited you to a new meeting series '%{title}'"
+        title: "[%{project_name}] Meeting series '%{title}'"
       series_updated:
-        title: "[%{project_name}] Meeting series '%{title}' has been updated"
-        summary: Meeting series '%{title}' has been updated by %{actor}
-        old_schedule: Old schedule
         new_schedule: New schedule
-      invited:
-        summary: "%{actor} has sent you an invitation for the meeting '%{title}'"
-      cancelled:
-        header: 'Cancelled: Meeting ''%{title}'''
-        header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
-        header_series: 'Cancelled: Meeting series ''%{title}'''
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        date_time: Scheduled date/time
-      ended:
-        header_series: 'Ended: Meeting series ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
+        old_schedule: Old schedule
+        summary: Meeting series '%{title}' has been updated by %{actor}
+        title: "[%{project_name}] Meeting series '%{title}' has been updated"
       updated:
-        header: Meeting '%{title}' has been updated
-        summary: Meeting '%{title}' has been updated by %{actor}
+        added_participants: Added
         body: The meeting '%{title}' has been updated by %{actor}.
-        old_title: Old title
+        header: Meeting '%{title}' has been updated
+        new_date_time: Tarikh/masa baharu
+        new_location: New location
         new_title: New title
         old_date_time: Tarikh/masa lama
-        new_date_time: Tarikh/masa baharu
         old_location: Old location
-        new_location: New location
-        added_participants: Added
+        old_title: Old title
         removed_participants: Removed
+        summary: Meeting '%{title}' has been updated by %{actor}
+    export:
+      minutes:
+        author: Pengarang
+        date: Tarikh
+        footer_page_numbers: P. %{current_page} of %{total_pages}
+        location: Lokasi
+        time: Masa
+        title: Minit Mesyuarat
+      your_meeting_export: Meeting is being exported
+    export_pdf_dialog:
+      author:
+        caption: The author of the minutes will be displayed in the subtitle.
+        label: Pengarang
+      description: Generate a printable PDF file of this meeting at the current state.
+      first_page_header_left:
+        caption: This text will appear on the first page at the left of the header.
+        label: First page header left
+      footer_text:
+        caption: This text will appear on every page at the center of the footer.
+        label: Footer text
+      include_attachments:
+        caption: A list containing the filenames of attachments will be appended at the end.
+        label: Include list of attachments
+      include_backlog:
+        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
+        label: Include backlog
+      include_outcomes:
+        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
+        label: Include agenda outcomes
+      include_participants:
+        caption: A list of participants will be preset above the meeting agenda.
+        label: Include list of participants
+      submit_button: Muat turun
+      templates:
+        default:
+          caption: The default template is suitable for most meetings and represent the current state.
+          label: Default
+        minutes:
+          caption: The minutes template is suitable for closed and archived meetings.
+          label: Minit Mesyuarat
+      title: Export PDF
+    ical_response:
+      meeting_not_found: Meeting not found for the given UID.
+      update_failed: Could not update participation status.
+    label_export_pdf: Export PDF
     label_mail_all_participants: Send email invite to participants
+    notifications:
+      dialog:
+        confirm_label:
+          disable: Disable email updates
+          enable: Enable email updates
+        message:
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Once enabled, an email will be sent out immediately to all participants.
+        title:
+          disable: Disable email calendar updates?
+          enable: Enable email calendar updates?
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      sidepanel:
+        description:
+          change_via_template: To change this, edit the series template.
+        title: Email calendar updates
+    participants:
+      blankslate:
+        description: There are no participants yet.
+        heading: Tiada peserta
+      label:
+        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        attended: Dihadiri
+        manage_participants: Urus peserta
+        mark_all_as_attended: Mark all as attended
+        mark_as_attended: Mark as attended
+        no_participants: Tiada peserta
+        participants: Peserta-peserta
+        remove_participant: Remove participant
+        show_all: Paparkan semua
+      text:
+        manage_participants: Search for and add project members as participants to this meeting.
+        search_for_members: Search for project members
+        template: Peserta ini akan dijemput secara automatik ke semua mesyuarat akan datang apabila ia dibuat.
+    presentation_mode:
+      button_present: Present
+      current_item: Current item
+      exit: Exit presentation
+      next: Next
+      no_items: No agenda items
+      no_items_flash: There are no agenda items to present.
+      previous: Previous
+      title: Presentation Mode
+      total_items: "%{current} of %{total}"
     types:
       one_time: Sekali
       recurring: Berulang
       recurring_text: Buat siri mesyuarat dengan templat dinamik untuk setiap kejadian.
       structured_text: Atur mesyuarat anda sebagai senarai item agenda yang dinamik, secara pilihan memautkannya ke pakej kerja.
       structured_text_copy: Menyalin mesyuarat pada masa ini tidak akan menyalin item agenda mesyuarat yang berkaitan, hanya butiran sahaja
-    copied: 'Disalin daripada Mesyuarat #%{id}'
-    delete_dialog:
-      one_time:
-        title: Padam mesyuarat
-        heading: Delete this meeting?
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
-
-          '
-        template:
-          title: Delete template
-          heading: Delete this template?
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
-
-            '
-      occurrence:
-        title: Cancel meeting occurrence
-        heading: Cancel this meeting occurrence?
-        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
-
-          '
-        confirm_button: Cancel occurrence
-      occurrence_past:
-        title: Delete occurrence
-        heading: Delete this occurrence?
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
-
-          '
-        confirm_button: Delete occurrence
-    blankslate:
-      title: There are no meetings to display
-      desc: You can create a new meeting or change filter criteria
-    label_export_pdf: Export PDF
-    export:
-      your_meeting_export: Meeting is being exported
-      minutes:
-        footer_page_numbers: P. %{current_page} of %{total_pages}
-        author: Pengarang
-        date: Tarikh
-        time: Masa
-        location: Lokasi
-        title: Minit Mesyuarat
-    export_pdf_dialog:
-      title: Export PDF
-      description: Generate a printable PDF file of this meeting at the current state.
-      templates:
-        default:
-          label: Default
-          caption: The default template is suitable for most meetings and represent the current state.
-        minutes:
-          label: Minit Mesyuarat
-          caption: The minutes template is suitable for closed and archived meetings.
-      first_page_header_left:
-        label: First page header left
-        caption: This text will appear on the first page at the left of the header.
-      author:
-        label: Pengarang
-        caption: The author of the minutes will be displayed in the subtitle.
-      include_participants:
-        label: Include list of participants
-        caption: A list of participants will be preset above the meeting agenda.
-      include_attachments:
-        label: Include list of attachments
-        caption: A list containing the filenames of attachments will be appended at the end.
-      include_backlog:
-        label: Include backlog
-        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
-      include_outcomes:
-        label: Include agenda outcomes
-        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
-      footer_text:
-        label: Footer text
-        caption: This text will appear on every page at the center of the footer.
-      submit_button: Muat turun
-    notifications:
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
-      sidepanel:
-        title: Email calendar updates
-        description:
-          change_via_template: To change this, edit the series template.
-      dialog:
-        title:
-          enable: Enable email calendar updates?
-          disable: Disable email calendar updates?
-        message:
-          enable: Once enabled, an email will be sent out immediately to all participants.
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
-        confirm_label:
-          enable: Enable email updates
-          disable: Disable email updates
-    presentation_mode:
-      title: Presentation Mode
-      button_present: Present
-      exit: Exit presentation
-      current_item: Current item
-      total_items: "%{current} of %{total}"
-      previous: Previous
-      next: Next
-      no_items: No agenda items
-      no_items_flash: There are no agenda items to present.
-    ical_response:
-      update_failed: Could not update participation status.
-      meeting_not_found: Meeting not found for the given UID.
     widgets:
       blankslate:
-        heading: No upcoming meetings
         description: Upcoming meetings you are participating in will appear here.
+        heading: No upcoming meetings
       view_details: View all meetings
-  meeting_section:
-    untitled_title: Bahagian tanpa tajuk
-    delete_confirmation: Memadam bahagian ini akan memadam setiap item agenda juga. Adakah anda pasti anda ingin berbuat demikian?
-    placeholder_title: Bahagian baharu
-    empty_text: Tarik item ke sini atau cipta yang baharu
   meeting_participant:
     participation_status:
-      needs_action: No response
       accepted: Accepted
       declined: Declined
+      needs_action: No response
       tentative: Maybe
       unknown: Unknown
+  meeting_section:
+    delete_confirmation: Memadam bahagian ini akan memadam setiap item agenda juga. Adakah anda pasti anda ingin berbuat demikian?
+    empty_text: Tarik item ke sini atau cipta yang baharu
+    placeholder_title: Bahagian baharu
+    untitled_title: Bahagian tanpa tajuk
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: Treat the following URL as you would a password. Anyone who has access to it can view all your meetings.
+          title: An iCal meeting subscription token has been generated
+      dialog:
+        token/ical_meeting:
+          create_button: Create subscription
+          dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
+          dialog_title: New iCal subscription token for meetings
+          name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
+          name_label: Token name
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'
+          notice_success: The iCalendar meeting subscription has been revoked successfully.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: Langgan kalendar
+        blank_description: You can create one using the button below.
+        blank_title: No iCalendar meeting token
+        disabled_text: iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.
+        table_title: iCalendar meeting tokens
+        text_hint: iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
+        title: iCalendar for meetings
+  notice_meeting_template_created: Template successfully created
+  notice_meeting_updated: Halaman ini telah dikemas kini oleh orang lain. Muat semula untuk melihat perubahan.
+  notice_successful_notification: Email calendar update sent to all participants
+  notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah diandaikan. Untuk pilih zon waktu anda, sila klik sini.
+  permission_create_meetings: Cipta mesyuarat
+  permission_delete_meetings: Padam mesyuarat
+  permission_edit_meetings: Edit mesyuarat
+  permission_manage_agendas: Urus agenda
+  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
+  permission_manage_outcomes: Manage outcomes
+  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
+  permission_view_meetings: Lihat mesyuarat
+  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_section_select_meeting_first: Meeting selection is required first
+  plugin_openproject_meeting:
+    description: Modul ini menambah fungsi-fungsi ke OpenProject untuk menyokong mesyuarat projek. Mesyuarat boleh dijadualkan dengan memilih jemputan dari projek yang sama untuk mengambil bahagian dalam mesyuarat ini. Agenda boleh dicipta dan dihantar ke para jemputan. Selepas mesyuarat, hadirin boleh dipilih dan minit mesyuarat boleh dibuat berdasarkan agenda tersebut. Akhirnya, minit mesyuarat boleh dihantar ke semua hadirin dan jemputan.
+    name: Mesyuarat OpenProject
+  project_module_meetings: Mesyuarat-mesyuarat
   recurring_meeting:
-    time_zone_difference_banner:
-      title: Time zone difference
-      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+    delete_dialog:
+      confirmation_message_html:
+        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
 
-        '
+          '
+        other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
+
+          '
+        zero: 'The meeting series <strong>%{title}</strong> does not have any meeting occurrences. The series will be deleted for everyone. Please proceed with caution.
+
+          '
+      heading: Permanently delete this meeting series?
+      title: Padamkan siri mesyuarat
+    end_after:
+      iterations: After a number of occurrences
+      never: Never
+      specific_date: After a specific date
+    end_series_dialog:
+      title: End meeting series
     ended_blankslate:
-      title: Meeting series ended
-      message: 'This meeting series has come to an end. There are no upcoming meetings. '
       action: You can still view past occurrences or edit the meeting series to extend it.
+      message: 'This meeting series has come to an end. There are no upcoming meetings. '
+      title: Meeting series ended
+    frequency:
+      every_weekday: Setiap %{day_of_the_week}
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
+      working_days: Setiap hari bekerja
+      x_daily:
+        other: Every %{count} days
+      x_monthly:
+        other: Every %{count} months
+      x_weekly:
+        other: Every %{count} weeks
+    in_words:
+      daily_interval: Setiap %{interval} hari
+      frequency: "%{base} pada %{time}"
+      full: "%{base} pada %{time}, berakhir pada %{end_date}"
+      full_past: "%{base} at %{time}, ended on %{end_date}"
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      never_ending: "%{base} pada %{time}"
+      weekly: Setiap minggu pada %{weekday}
+      weekly_interval: Setiap %{interval} minggu pada %{weekday}
+      working_days: Setiap hari bekerja
+    monthly:
+      inflected_ordinal:
+        first: first
+        fourth: fourth
+        last: last
+        second: second
+        third: third
+      ordinal_options:
+        first: First
+        fourth: Fourth
+        last: Last
+        second: Second
+        third: Third
     occurrence:
       error_no_next: Tiada kejadian seterusnya untuk mesyuarat ini.
       error_template_draft: The meeting series template is still in draft mode.
@@ -435,297 +612,120 @@ ms:
 
         '
       infoline: Mesyuarat ini adalah sebahagian daripada siri mesyuarat berulang.
-    template:
-      button_finalize: Open first meeting
-      blank_title: Templat siri mesyuarat anda kosong
-      description: 'Templat ini akan digunakan apabila mesyuarat baharu dalam siri dibuat. Anda boleh menambah item agenda, peserta dan lampiran pada templat ini.
+    open:
+      blankslate:
+        desc: You can manually open a planned meeting by clicking on the 'Open' button below
+        title: No open meetings at the moment
+      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
 
         '
-      label_view_template: Lihat templat
-      label_edit_template: Edit templat
+      title: Agenda opened
+    planned:
+      blankslate:
+        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
+
+          '
+        title: No more planned meetings
+      subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
+
+        '
+      title: Dirancang
+    scheduled_delete_dialog:
+      confirm_button: Cancel occurrence
+      confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+
+        '
+      heading: Cancel this meeting occurrence?
+      title: Cancel meeting occurrence
+    starts: Mula
+    template:
       banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
+
+        '
+      blank_title: Templat siri mesyuarat anda kosong
+      button_finalize: Open first meeting
+      description: 'Templat ini akan digunakan apabila mesyuarat baharu dalam siri dibuat. Anda boleh menambah item agenda, peserta dan lampiran pada templat ini.
 
         '
       draft_banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings. No email invites will be sent in this current draft mode until you open the first meeting.
 
         '
-    frequency:
-      x_daily:
-        other: Every %{count} days
-      x_weekly:
-        other: Every %{count} weeks
-      x_monthly:
-        other: Every %{count} months
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
-      every_weekday: Setiap %{day_of_the_week}
-      working_days: Setiap hari bekerja
-    monthly:
-      inflected_ordinal:
-        first: first
-        second: second
-        third: third
-        fourth: fourth
-        last: last
-      ordinal_options:
-        first: First
-        second: Second
-        third: Third
-        fourth: Fourth
-        last: Last
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
-    caption:
-      ends_on: This results in a series ending on %{date}
-      occurrences:
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
-    end_after:
-      never: Never
-      specific_date: After a specific date
-      iterations: After a number of occurrences
-    starts: Mula
-    in_words:
-      daily_interval: Setiap %{interval} hari
-      working_days: Setiap hari bekerja
-      weekly: Setiap minggu pada %{weekday}
-      weekly_interval: Setiap %{interval} minggu pada %{weekday}
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
-      frequency: "%{base} pada %{time}"
-      full: "%{base} pada %{time}, berakhir pada %{end_date}"
-      full_past: "%{base} at %{time}, ended on %{end_date}"
-      never_ending: "%{base} pada %{time}"
-    open:
-      title: Agenda opened
-      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
+      label_edit_template: Edit templat
+      label_view_template: Lihat templat
+    time_zone_difference_banner:
+      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
 
         '
-      blankslate:
-        title: No open meetings at the moment
-        desc: You can manually open a planned meeting by clicking on the 'Open' button below
-    planned:
-      title: Dirancang
-      subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
-
-        '
-      blankslate:
-        title: No more planned meetings
-        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
-
-          '
-    delete_dialog:
-      title: Padamkan siri mesyuarat
-      heading: Permanently delete this meeting series?
-      confirmation_message_html:
-        zero: 'The meeting series <strong>%{title}</strong> does not have any meeting occurrences. The series will be deleted for everyone. Please proceed with caution.
-
-          '
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
-
-          '
-        other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
-
-          '
-    scheduled_delete_dialog:
-      title: Cancel meeting occurrence
-      heading: Cancel this meeting occurrence?
-      confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
-
-        '
-      confirm_button: Cancel occurrence
-    end_series_dialog:
-      title: End meeting series
-  notice_successful_notification: Email calendar update sent to all participants
-  notice_meeting_template_created: Template successfully created
-  notice_timezone_missing: Tiada zon waktu yang ditetapkan dan %{zone} adalah diandaikan. Untuk pilih zon waktu anda, sila klik sini.
-  notice_meeting_updated: Halaman ini telah dikemas kini oleh orang lain. Muat semula untuk melihat perubahan.
-  permission_create_meetings: Cipta mesyuarat
-  permission_edit_meetings: Edit mesyuarat
-  permission_delete_meetings: Padam mesyuarat
-  permission_view_meetings: Lihat mesyuarat
-  permission_manage_agendas: Urus agenda
-  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
-  permission_manage_outcomes: Manage outcomes
-  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
-  project_module_meetings: Mesyuarat-mesyuarat
-  text_duration_in_hours: Tempoh masa dalam jam
-  text_in_hours: dalam jam
-  text_meeting_agenda_for_meeting: agenda untuk mesyuarat "%{meeting}"
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_series_end_early_heading: Delete future occurrences?
-  text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
-  text_meeting_closing_are_you_sure: Adakah anda pasti anda ingin menutup agenda mesyuarat?
-  text_meeting_agenda_open_are_you_sure: Ini akan menggantikan semua perubahan dalam minit mesyuarat! Adakah anda ingin teruskan?
-  text_meeting_minutes_for_meeting: minit untuk mesyuarat "%{meeting}"
-  text_notificiation_invited: 'Mel ini mengandungi entri ics untuk mesyuarat dibawah:'
-  text_meeting_ics_description: 'Link to meeting: %{url}'
-  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
-  text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
-  text_meeting_empty_heading: Mesyuarat anda kosong
-  text_meeting_empty_description1: Mulakan dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh menambah butiran tambahan seperti tempoh masa dan nota.
-  text_meeting_empty_description2: Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukannya, nota berkaitan boleh dilihat dalam tab "Mesyuarat" pakej kerja secara automatik.
-  label_meeting_empty_action: Tambah item agenda
-  label_meeting_actions: Tindakan mesyuarat
-  label_meeting_edit_title: Edit tajuk mesyuarat
-  label_meeting_delete: Padam mesyuarat
-  label_meeting_created_by: Dicipta oleh
-  label_meeting_last_updated: Kemas kini terakhir
-  label_meeting_reload: Muat semula
-  label_meeting_index_today: Hari ini
-  label_meeting_index_tomorrow: Tomorrow
-  label_meeting_index_this_week: Later this week
-  label_meeting_index_later: Next week and later
-  label_agenda_items: Item-item agenda
-  label_agenda_items_reordered: disusun semula
-  label_agenda_item_add: Tambah item agenda
-  label_agenda_item_remove_from_agenda: Keluarkan daripada agenda
-  label_agenda_item_remove_from_backlog: Remove from backlog
-  label_agenda_item_undisclosed_wp: 'Pakej kerja #%{id} tidak kelihatan'
-  label_agenda_item_deleted_wp: " Rujukan pakej kerja yang dipadam"
-  label_agenda_item_actions: Tindakan item agenda
-  label_agenda_item_move_to_next_title: Move to next meeting?
-  label_agenda_item_move: Alih
-  label_agenda_item_move_to_next: Move to next meeting
-  label_agenda_item_move_to_backlog: Move to backlog
-  label_agenda_item_move_to_current_meeting: Move to current meeting
-  label_agenda_item_move_to_section: Move to section
-  label_agenda_item_move_to_top: Alih ke paling atas
-  label_agenda_item_move_to_bottom: Alih ke paling bawah
-  label_agenda_item_move_up: Alihkan ke atas
-  label_agenda_item_move_down: Alih ke bawah
-  label_agenda_item_duplicate: Duplicate
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_add_notes: Tambah nota
-  label_agenda_item_add_outcome: Add outcome
-  label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_work_package_add: Add work package
-  label_agenda_item_work_package: Pakej kerja item agenda
-  label_section_rename: Rename section
-  label_agenda_outcome: Outcome
-  label_agenda_new_outcome: New outcome
-  label_agenda_outcome_actions: Agenda outcome actions
-  label_agenda_outcome_edit: Edit outcome
-  label_agenda_outcome_delete: Remove outcome
-  label_added_as_outcome: Added as outcome
-  label_write_outcome: Write outcome
-  label_existing_work_package: Existing work package
-  text_outcome_not_editable_anymore: This outcome is not editable anymore.
-  text_outcome_cannot_be_added: An outcome can no longer be added.
-  label_backlog_clear: Clear backlog
-  label_backlog_clear_button: Padam semua
-  text_backlog_clear_error: One or more errors occurred while trying to clear the backlog.
-  label_agenda_backlog: Agenda backlog
+      title: Time zone difference
+  text_add_work_package_to_meeting_description: Pakej kerja boleh ditambah ke satu atau beberapa mesyuarat untuk perbincangan. Sebarang nota berkaitan juga boleh dilihat di sini.
+  text_add_work_package_to_meeting_form: The work package will be added to the selected meeting or backlog as an agenda item.
   text_agenda_backlog: 'This backlog is unique to this one-time meeting. You can drag items in and out to add or remove them from the meeting agenda.
 
     '
-  label_agenda_backlog_clear_title: Clear agenda backlog?
   text_agenda_backlog_clear_description: 'Are you sure you want to remove all items currently in the agenda backlog? This action is not reversible.
 
     '
-  label_series_backlog: Series backlog
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
+  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
+  text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
+  text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
+  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_notes: Tiada nota disediakan
+  text_agenda_item_not_editable_anymore: Item agenda tidak boleh diedit lagi.
+  text_agenda_item_title: Item agenda "%{title}"
+  text_agenda_work_package_deleted: Item agenda untuk pakej kerja yang telah dipadam
+  text_backlog_clear_error: One or more errors occurred while trying to clear the backlog.
+  text_deleted_agenda_item: Item agenda yang telah dipadam
+  text_duration_in_hours: Tempoh masa dalam jam
+  text_email_updates_enabled: Email calendar updates are enabled. All participants will receive updated invites via email when you make changes.
+  text_email_updates_muted: Email calendar updates are muted. Participants will not receive updated invites via email when you make changes.
+  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
+  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
+  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
+  text_exit_draft_mode_dialog_title: Open this meeting and send invites?
+  text_in_hours: dalam jam
+  text_meeting_agenda_for_meeting: agenda untuk mesyuarat "%{meeting}"
+  text_meeting_agenda_open_are_you_sure: Ini akan menggantikan semua perubahan dalam minit mesyuarat! Adakah anda ingin teruskan?
+  text_meeting_closed_description: Mesyuarat ini ditutup. Anda tidak boleh tambah/keluarkan item agenda lagi.
+  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
+  text_meeting_closing_are_you_sure: Adakah anda pasti anda ingin menutup agenda mesyuarat?
+  text_meeting_draft_banner: You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
+  text_meeting_draft_description: Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
+  text_meeting_empty_description1: Mulakan dengan menambah item agenda dibawah. Setiap item boleh jadi seringkas tajuk, tapi anda juga boleh menambah butiran tambahan seperti tempoh masa dan nota.
+  text_meeting_empty_description2: Anda juga boleh menambah rujukan ke pakej kerja yang sedia ada. Apabila anda lakukannya, nota berkaitan boleh dilihat dalam tab "Mesyuarat" pakej kerja secara automatik.
+  text_meeting_empty_heading: Mesyuarat anda kosong
+  text_meeting_ics_description: 'Link to meeting: %{url}'
+  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
+  text_meeting_in_progress_description: You can modify the agenda, document outcomes for each item and track attendance for participants. Once the meeting is complete, you can mark it as closed to lock it.
+  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
+  text_meeting_minutes_for_meeting: minit untuk mesyuarat "%{meeting}"
+  text_meeting_not_editable_anymore: Mesyuarat ini tidak boleh diedit lagi.
+  text_meeting_not_present_anymore: Mesyuarat ini telah dipadamkan. Sila pilih mesyuarat lain.
+  text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
+  text_meeting_open_description: You can add/remove agenda items and participants. Once the agenda is ready, mark it as in progress to document outcomes.
+  text_meeting_open_dropdown_description: Any existing outcomes will remain but users will not be able to add new outcomes.
+  text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
+  text_meeting_series_end_early_heading: Delete future occurrences?
+  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_meeting_template_blank_slate_heading: There are no templates to display
+  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_notificiation_invited: 'Mel ini mengandungi entri ics untuk mesyuarat dibawah:'
+  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
+  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
+  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_outcome_cannot_be_added: An outcome can no longer be added.
+  text_outcome_not_editable_anymore: This outcome is not editable anymore.
   text_series_backlog: 'The backlog is shared with all occurrences of this series. You can drag items in and out to add or remove them from a particular meeting.
 
     '
-  label_series_backlog_clear_title: Clear series backlog?
   text_series_backlog_clear_description: 'This will remove all items in the series backlog, which is shared with all meetings in the series. Are you sure you want to continue? This action is not reversible.
 
     '
-  text_agenda_item_title: Item agenda "%{title}"
-  text_agenda_work_package_deleted: Item agenda untuk pakej kerja yang telah dipadam
-  text_deleted_agenda_item: Item agenda yang telah dipadam
-  label_initial_meeting_details: Mesyuarat
-  label_meeting_details: Butiran mesyuarat
-  label_meeting_series_details: Butiran siri mesyuarat
-  label_meeting_details_edit: Edit butiran mesyuarat
-  label_meeting_state: Status mesyuarat
-  label_meeting_state_draft: Draft
-  label_meeting_state_open: Buka
-  label_meeting_state_closed: Tertutup
-  label_meeting_state_agenda_created: Agenda dicipta
-  label_meeting_state_planned: Dirancang
-  label_meeting_state_cancelled: Dibatalkan
-  label_meeting_state_skipped: Dilangkau
-  label_meeting_state_in_progress: Dalam proses
-  label_meeting_reopen_action: Buka semula mesyuarat
-  label_meeting_close_action: Tutup mesyuarat
-  label_meeting_in_progress_action: Start meeting
-  label_meeting_open_action: Open meeting
-  text_meeting_draft_description: Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_meeting_open_description: You can add/remove agenda items and participants. Once the agenda is ready, mark it as in progress to document outcomes.
-  text_meeting_closed_description: Mesyuarat ini ditutup. Anda tidak boleh tambah/keluarkan item agenda lagi.
-  text_meeting_in_progress_description: You can modify the agenda, document outcomes for each item and track attendance for participants. Once the meeting is complete, you can mark it as closed to lock it.
-  text_meeting_open_dropdown_description: Any existing outcomes will remain but users will not be able to add new outcomes.
-  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
-  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
-  text_meeting_draft_banner: You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_exit_draft_mode_dialog_title: Open this meeting and send invites?
-  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
-  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
-  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
-  text_meeting_not_editable_anymore: Mesyuarat ini tidak boleh diedit lagi.
-  text_meeting_not_present_anymore: Mesyuarat ini telah dipadamkan. Sila pilih mesyuarat lain.
-  label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Bahagian
-  label_add_work_package_to_meeting_dialog_button: Tambah ke mesyuarat
-  label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
-  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
-  placeholder_section_select_meeting_first: Meeting selection is required first
-  text_add_work_package_to_meeting_form: The work package will be added to the selected meeting or backlog as an agenda item.
-  text_add_work_package_to_meeting_description: Pakej kerja boleh ditambah ke satu atau beberapa mesyuarat untuk perbincangan. Sebarang nota berkaitan juga boleh dilihat di sini.
-  text_agenda_item_no_notes: Tiada nota disediakan
-  text_agenda_item_not_editable_anymore: Item agenda tidak boleh diedit lagi.
-  text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
-  text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
-  text_work_package_has_no_upcoming_meeting_agenda_items: Pakej kerja ini belum lagi dijadualkan dalam agenda mesyuarat akan datang.
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_work_package_add_to_meeting_hint: Guna butang "Tambah ke mesyuarat" untuk tambah pakej kerja ini ke mesyuarat akan datang.
   text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
-  text_email_updates_muted: Email calendar updates are muted. Participants will not receive updated invites via email when you make changes.
-  text_email_updates_enabled: Email calendar updates are enabled. All participants will receive updated invites via email when you make changes.
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: You can create one using the button below.
-        blank_title: No iCalendar meeting token
-        title: iCalendar for meetings
-        table_title: iCalendar meeting tokens
-        text_hint: iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
-        disabled_text: iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.
-        add_button: Langgan kalendar
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: New iCal subscription token for meetings
-          dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
-          create_button: Create subscription
-          name_label: Token name
-          name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
-      created_dialog:
-        token/ical_meeting:
-          title: An iCal meeting subscription token has been generated
-          body: Treat the following URL as you would a password. Anyone who has access to it can view all your meetings.
-      revocation:
-        token/ical_meeting:
-          notice_success: The iCalendar meeting subscription has been revoked successfully.
-          notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: Pakej kerja ini belum lagi dijadualkan dalam agenda mesyuarat akan datang.

@@ -1,6 +1,6 @@
 ---
 af:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Beheerpaneel
+    label_home: "%{workspace_type} home"
     label_overview: Oorsig

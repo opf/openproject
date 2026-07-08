@@ -4,66 +4,19 @@ pt-BR:
   js:
     storages:
       authentication_error: Falha na autenticação com %{storageType}
-      link_files_in_storage: Vincular arquivos em %{storageType}
-      link_existing_files: Vincular arquivos existentes
-      upload_files: Anexar arquivos
+      choose_location: Escolher localização
       drop_files: Solte os arquivos aqui para enviá-los para %{name}.
       drop_or_click_files: Solte os arquivos aqui ou clique para carregá-los para %{name}.
-      login: Início de sessão de %{storageType}
-      login_to: Iniciar sessão em %{storageType}
-      no_connection: Sem conexão de %{storageType}
-      open_storage: Abrir %{storageType}
-      select_location: Selecionar localização
-      choose_location: Escolher localização
-      new_folder: Nova pasta
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: SharePoint
-        default: Armazenamento
-      information:
-        authentication_error: A solicitação para %{storageType} não pôde ser autenticada. Ocorreu um erro.
-        connection_error: 'Algumas configurações de %{storageType} não estão funcionando. Entre em contato com seu administrador de %{storageType}.
-
-          '
-        live_data_error: Erro ao obter dados do arquivo
-        live_data_error_description: 'Não foi possível obter algumas dados de %{storageType}. ,Tente recarregar a página ou entre em contate com seu administrador de %{storageType}.
-
-          '
-        no_file_links: Para vincular arquivos a este pacote de trabalho, faça isso através de %{storageType}.
-        not_logged_in: 'Para adicionar um link, visualizar ou enviar arquivos relacionados a este pacote de trabalho, inicie sessão em %{storageType}
-
-          '
-        suggest_logout: Você pode tentar realizar o login novamente para corrigir este problema.
-        suggest_relink: Você pode tentar se revincular sua conta através do botão de login abaixo para corrigir este problema.
-      files:
-        already_existing_header: Este arquivo já existe
-        already_existing_body: 'Já existe um arquivo com o nome "%{fileName}" na localização para onde você está tentando enviar este arquivo. O que você deseja fazer?
-
-          '
-        directory_not_writeable: Você não possui permissão para adicionar arquivos a esta pasta.
-        dragging_many_files: O carregamento para %{storageType} só dá suporte a um arquivo por vez.
-        dragging_folder: O upload para %{storageType} não dá suporte a pastas.
-        empty_folder: Esta pasta está vazia.
-        empty_folder_location_hint: Clique no botão abaixo para carregar o arquivo para esta localização.
-        file_not_selectable_location: Não é possível selecionar um arquivo no processo de escolha de uma localização.
-        project_folder_no_access: 'Você não possui acesso à pasta do projeto. Entre em contato com o administrador para obter acesso ou carregue o arquivo em outra pasta.
-
-          '
-        managed_project_folder_not_available: 'A pasta do projeto gerenciado automaticamente ainda não foi encontrada. Aguarde um pouco, recarregue a página para obter os dados mais recentes e tente novamente.
-
-          '
-        managed_project_folder_no_access: 'Você ainda não possui acesso à pasta do projeto gerenciado. Aguarde um pouco e tente novamente.
-
-          '
-        cannot_create_folder: Falha ao criar a pasta. Evite o uso de caracteres especiais e símbolos e certifique-se de que a pasta não exista mais.
-        upload_keep_both: Manter ambos
-        upload_replace: Substituir
       file_links:
+        already_linked_directory: Este diretório já está vinculado a este pacote de trabalho.
+        already_linked_file: Este arquivo já está vinculado a este pacote de trabalho.
+        download: Baixar %{fileName}
         empty: 'Atualmente não há arquivos vinculados a este pacote de trabalho. Vincule os seus primeiros arquivos através da ação abaixo ou a partir de %{storageType}.
 
           '
-        download: Baixar %{fileName}
+        link_uploaded_file_error: 'Ocorreu um erro ao vincular o arquivo recém-carregado ''%{fileName}'' para o pacote de trabalho %{workPackageId}
+
+          '
         open: Abrir arquivo no armazenamento
         open_location: Abrir arquivo no local
         remove: Remover link de arquivo
@@ -80,10 +33,11 @@ pt-BR:
         success_create:
           one: Criou com sucesso 1 vínculo do arquivo.
           other: Criou com sucesso %{count} vínculos do arquivo.
+        tooltip:
+          not_found: Não foi possível encontrar este pedido
+          not_logged_in: Faça o login no armazenamento para acessar este arquivo
+          view_not_allowed: Você não possui permissão para visualizar este arquivo.
         upload_error:
-          default: 'Não foi possível carregar o seu arquivo (%{fileName}).
-
-            '
           403: 'Não foi possível carregar seu arquivo (%{fileName}) devido a restrições do sistema. Entre em contato com o seu administrador para obter mais informações.
 
             '
@@ -93,16 +47,62 @@ pt-BR:
           507: 'Seu arquivo (%{fileName}) é maior que o permitido pela cota de armazenamento. Entre em contato com seu administrador para modificar esta cota.
 
             '
+          default: 'Não foi possível carregar o seu arquivo (%{fileName}).
+
+            '
           detail:
             nextcloud: 'Verifique se a versão mais recente do Nextcloud App "OpenProject Integration" está instalada e entre em contato com seu administrador para obter mais informações.
 
               '
-        link_uploaded_file_error: 'Ocorreu um erro ao vincular o arquivo recém-carregado ''%{fileName}'' para o pacote de trabalho %{workPackageId}
+      files:
+        already_existing_body: 'Já existe um arquivo com o nome "%{fileName}" na localização para onde você está tentando enviar este arquivo. O que você deseja fazer?
 
           '
-        tooltip:
-          not_logged_in: Faça o login no armazenamento para acessar este arquivo
-          view_not_allowed: Você não possui permissão para visualizar este arquivo.
-          not_found: Não foi possível encontrar este pedido
-        already_linked_file: Este arquivo já está vinculado a este pacote de trabalho.
-        already_linked_directory: Este diretório já está vinculado a este pacote de trabalho.
+        already_existing_header: Este arquivo já existe
+        cannot_create_folder: Falha ao criar a pasta. Evite o uso de caracteres especiais e símbolos e certifique-se de que a pasta não exista mais.
+        directory_not_writeable: Você não possui permissão para adicionar arquivos a esta pasta.
+        dragging_folder: O upload para %{storageType} não dá suporte a pastas.
+        dragging_many_files: O carregamento para %{storageType} só dá suporte a um arquivo por vez.
+        empty_folder: Esta pasta está vazia.
+        empty_folder_location_hint: Clique no botão abaixo para carregar o arquivo para esta localização.
+        file_not_selectable_location: Não é possível selecionar um arquivo no processo de escolha de uma localização.
+        managed_project_folder_no_access: 'Você ainda não possui acesso à pasta do projeto gerenciado. Aguarde um pouco e tente novamente.
+
+          '
+        managed_project_folder_not_available: 'A pasta do projeto gerenciado automaticamente ainda não foi encontrada. Aguarde um pouco, recarregue a página para obter os dados mais recentes e tente novamente.
+
+          '
+        project_folder_no_access: 'Você não possui acesso à pasta do projeto. Entre em contato com o administrador para obter acesso ou carregue o arquivo em outra pasta.
+
+          '
+        upload_keep_both: Manter ambos
+        upload_replace: Substituir
+      information:
+        authentication_error: A solicitação para %{storageType} não pôde ser autenticada. Ocorreu um erro.
+        connection_error: 'Algumas configurações de %{storageType} não estão funcionando. Entre em contato com seu administrador de %{storageType}.
+
+          '
+        live_data_error: Erro ao obter dados do arquivo
+        live_data_error_description: 'Não foi possível obter algumas dados de %{storageType}. ,Tente recarregar a página ou entre em contate com seu administrador de %{storageType}.
+
+          '
+        no_file_links: Para vincular arquivos a este pacote de trabalho, faça isso através de %{storageType}.
+        not_logged_in: 'Para adicionar um link, visualizar ou enviar arquivos relacionados a este pacote de trabalho, inicie sessão em %{storageType}
+
+          '
+        suggest_logout: Você pode tentar realizar o login novamente para corrigir este problema.
+        suggest_relink: Você pode tentar se revincular sua conta através do botão de login abaixo para corrigir este problema.
+      link_existing_files: Vincular arquivos existentes
+      link_files_in_storage: Vincular arquivos em %{storageType}
+      login: Início de sessão de %{storageType}
+      login_to: Iniciar sessão em %{storageType}
+      new_folder: Nova pasta
+      no_connection: Sem conexão de %{storageType}
+      open_storage: Abrir %{storageType}
+      select_location: Selecionar localização
+      types:
+        default: Armazenamento
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Anexar arquivos

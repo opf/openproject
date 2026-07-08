@@ -3,28 +3,28 @@
 tr:
   js:
     bcf:
-      label_bcf: BCF
-      import: İçeri aktar
-      import_bcf_xml_file: BCF XML dosyasını içe aktarın (BCF sürüm 2.1)
+      add_viewpoint: Bakış açısı ekle
+      delete_viewpoint: Bakış açısını sil
       export: Dışarı aktar
       export_bcf_xml_file: BCF XML dosyasını dışa aktar (BCF sürüm 2.1)
-      viewpoint: bakış açısı
-      add_viewpoint: Bakış açısı ekle
-      show_viewpoint: Bakış açısını göster
-      delete_viewpoint: Bakış açısını sil
+      import: İçeri aktar
+      import_bcf_xml_file: BCF XML dosyasını içe aktarın (BCF sürüm 2.1)
+      label_bcf: BCF
       management: BCF yönetimi
       refresh: Yenile
       refresh_work_package: İş paketini yenile
+      show_viewpoint: Bakış açısını göster
+      viewpoint: bakış açısı
     ifc_models:
       empty_warning: Bu projenin henüz IFC modeli yok.
-      use_this_link_to_manage: IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın
       keyboard_input_disabled: Görüntüleyicide klavye denetimleri yoktur. Görüntüleyiciye klavye kontrolü vermek için görüntüleyiciyi tıklayın.
       models:
         ifc_models: IFC modelleri
+      use_this_link_to_manage: IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın
       views:
-        viewer: Görüntüleyici
         split: Görüntüleyici ve tablolar
         split_cards: Görüntüleyici ve kartlar
+        viewer: Görüntüleyici
     revit:
       revit_add_in: Revit Eklentisi
       revit_add_in_settings: Revit eklenti ayarlarını geri al

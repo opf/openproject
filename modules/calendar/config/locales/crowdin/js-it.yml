@@ -4,7 +4,7 @@ it:
   js:
     calendar:
       create_new: Crea nuovo calendario
+      label_calendar_plural: Calendari
       title: Calendario
       too_many: Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.
       unsaved_title: Calendario senza nome
-      label_calendar_plural: Calendari

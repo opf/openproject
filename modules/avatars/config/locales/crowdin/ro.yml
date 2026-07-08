@@ -1,29 +1,29 @@
 #English strings go here
 ---
 ro:
-  plugin_openproject_avatars:
-    name: Avataruri
-    description: Acest plugin permite utilizatorilor OpenProject să încarce o imagine pentru a fi folosită ca avatar sau să folosească imagini înregistrate de la Gravatar.
-  label_avatar: Avatar
-  label_avatar_plural: Avataruri
-  label_current_avatar: Avatar curent
-  label_choose_avatar: Alege Avatar din fișier
-  message_avatar_uploaded: Avatar schimbat cu succes.
-  error_image_upload: Eroare de salvare a imaginii.
-  error_image_size: Imaginea este prea mare.
   are_you_sure_delete_avatar: Ești sigur că vrei să-ți ștergi avatarul?
   avatar_deleted: Avatar șters cu succes.
-  unable_to_delete_avatar: Avatarul nu a putut fi șters.
-  wrong_file_format: Formatele permise sunt jpg, png, gif
-  empty_file_error: Te rog să încarci o imagine validă (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Avatar personalizat
+    settings:
+      enable_gravatars: Activează gravatar-ul utilizatorului
+      enable_local_avatars: Activați avatarele personalizate ale utilizatorului
+      gravatar_default: Imagine Gravatar implicită
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Activează gravatar-ul utilizatorului
-      gravatar_default: Imagine Gravatar implicită
-      enable_local_avatars: Activați avatarele personalizate ale utilizatorului
+  empty_file_error: Te rog să încarci o imagine validă (jpg, png, gif)
+  error_image_size: Imaginea este prea mare.
+  error_image_upload: Eroare de salvare a imaginii.
+  label_avatar: Avatar
+  label_avatar_plural: Avataruri
+  label_choose_avatar: Alege Avatar din fișier
+  label_current_avatar: Avatar curent
+  message_avatar_uploaded: Avatar schimbat cu succes.
+  plugin_openproject_avatars:
+    description: Acest plugin permite utilizatorilor OpenProject să încarce o imagine pentru a fi folosită ca avatar sau să folosească imagini înregistrate de la Gravatar.
+    name: Avataruri
+  unable_to_delete_avatar: Avatarul nu a putut fi șters.
+  wrong_file_format: Formatele permise sunt jpg, png, gif

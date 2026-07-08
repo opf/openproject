@@ -1,104 +1,83 @@
 ---
 vi:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID Kết nối
-    description: Thêm nhà cung cấp chiến lược OmniAuth OpenID Connect vào OpenProject.
-  logout_warning: 'Bạn đã đăng xuất. Nội dung của bất kỳ hình thức nào bạn gửi có thể bị mất. Xin vui lòng [log in].
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: Mã định danh nhóm OpenID
       openid_connect/provider:
-        name: tên
-        slug: Mã định danh duy nhất
-        display_name: Tên hiển thị
+        acr_values: Giá trị ACR
+        authorization_endpoint: Điểm cuối ủy quyền
+        claims: Khiếu nại
         client_id: ID khách hàng
         client_secret: Bí mật của khách hàng
-        groups_claim: Nhóm yêu cầu
-        group_regexes: Mẫu (biểu thức chính quy)
-        secret: bí mật
-        scope: phạm vi
-        sync_groups: Đồng bộ hóa nhóm
-        grant_types_supported: Các loại trợ cấp được hỗ trợ
-        limit_self_registration: Hạn chế tự đăng ký
-        authorization_endpoint: Điểm cuối ủy quyền
-        userinfo_endpoint: Điểm cuối thông tin người dùng
-        token_endpoint: Điểm cuối mã thông báo
+        display_name: Tên hiển thị
         end_session_endpoint: Điểm cuối phiên kết thúc
-        post_logout_redirect_uri: URI chuyển hướng đăng xuất
-        jwks_uri: URI JWKS
-        issuer: bên phát hành
-        tenant: Tenant
-        metadata_url: URL siêu dữ liệu
+        grant_types_supported: Các loại trợ cấp được hỗ trợ
+        group_regexes: Mẫu (biểu thức chính quy)
+        groups_claim: Nhóm yêu cầu
         icon: Biểu tượng tùy chỉnh
-        claims: Khiếu nại
-        acr_values: Giá trị ACR
+        issuer: bên phát hành
+        jwks_uri: URI JWKS
+        limit_self_registration: Hạn chế tự đăng ký
+        metadata_url: URL siêu dữ liệu
+        name: tên
+        post_logout_redirect_uri: URI chuyển hướng đăng xuất
         redirect_url: URL chuyển hướng
+        scope: phạm vi
+        secret: bí mật
+        slug: Mã định danh duy nhất
+        sync_groups: Đồng bộ hóa nhóm
+        tenant: Tenant
+        token_endpoint: Điểm cuối mã thông báo
+        userinfo_endpoint: Điểm cuối thông tin người dùng
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: URL điểm cuối khám phá %{message}
-              response_is_not_successful: phản hồi bằng %{status}.
               response_is_not_json: không trả về phần thân JSON.
+              response_is_not_successful: phản hồi bằng %{status}.
               response_misses_required_attributes: 'không trả về các thuộc tính bắt buộc. Các thuộc tính bị thiếu là: %{missing_attributes}.'
           invalid_claims_essential: không xác định boolean tại %{attribute}.
           invalid_claims_location: 'chứa các vị trí không được hỗ trợ: %{invalid}. Các địa điểm được hỗ trợ là: %{supported}.'
           invalid_claims_values: không xác định mảng tại %{attribute}.
           non_object_attribute: không xác định đối tượng JSON tại %{attribute}.
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: Xóa nhà cung cấp SSO là hành động không thể thay đổi được.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
-      delete_result_1: Xóa nhà cung cấp khỏi danh sách các nhà cung cấp có sẵn.
-      delete_result_user_count:
-        zero: Không có người dùng hiện đang sử dụng nhà cung cấp này. Không cần thực hiện thêm hành động nào.
-        one: Một người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác.
-        other: "%{count} người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác."
-      delete_result_direct: Nhà cung cấp này được đánh dấu là nhà cung cấp đăng nhập trực tiếp. Cài đặt này sẽ bị xóa và người dùng sẽ không được chuyển hướng đến nhà cung cấp để đăng nhập nữa.
+  logout_warning: 'Bạn đã đăng xuất. Nội dung của bất kỳ hình thức nào bạn gửi có thể bị mất. Xin vui lòng [log in].
+
+    '
   openid_connect:
-    menu_title: Nhà cung cấp OpenID
-    delete_title: Xóa nhà cung cấp OpenID Connect
     delete_heading: Delete this OpenID Connect provider?
+    delete_title: Xóa nhà cung cấp OpenID Connect
     group_links_heading: Liên kết nhóm OpenID Connect
     groups:
       match_preview_component:
-        title: Tên nhóm được trích xuất
         placeholder_none: Hiện tại không có nhóm nào phù hợp với mẫu này.
+        title: Tên nhóm được trích xuất
       match_preview_dialog_component:
         description: Điều này cho phép bạn kiểm tra mẫu biểu thức chính quy của mình dựa trên dữ liệu mẫu để xác minh rằng tên nhóm bạn muốn trích xuất thực sự được trích xuất đúng cách. Bạn có thể sửa đổi mẫu của mình tại đây nhưng chuỗi thử nghiệm và các kết quả khớp sẽ không được lưu cùng với cấu hình.
-        group_names_label: Tên nhóm thử nghiệm
         group_names_description: Nhập một tên nhóm trên mỗi dòng giống như tên xuất hiện trong xác nhận quyền sở hữu OIDC để xem các mẫu biểu thức chính quy của bạn ảnh hưởng đến chúng như thế nào.
+        group_names_label: Tên nhóm thử nghiệm
         show_button: Mẫu thử nghiệm
         title: Kiểm tra biểu thức chính quy
     instructions:
+      acr_values: 'Yêu cầu các yêu cầu không cần thiết ở dạng dễ dàng hơn. Xem [our documentation on acr_values](docs_url) để biết thêm thông tin.
+
+        '
+      claims: 'Bạn có thể yêu cầu xác nhận quyền sở hữu bổ sung cho điểm cuối thông tin người dùng và mã thông báo id. Vui lòng xem [our OpenID connect documentation](docs_url) để biết thêm thông tin.
+
+        '
+      client_id: Đây là ID khách hàng do nhà cung cấp OpenID Connect của bạn cấp cho bạn
+      client_secret: Đây là bí mật ứng dụng khách được nhà cung cấp OpenID Connect cung cấp cho bạn
+      display_name: Tên của nhà cung cấp. Điều này sẽ được hiển thị dưới dạng nút đăng nhập và trong danh sách các nhà cung cấp.
       endpoint_url: URL điểm cuối do nhà cung cấp OpenID Connect cung cấp cho bạn
       group_regexes: Một mẫu biểu thức chính quy trên mỗi dòng. Vui lòng đọc [the documentation](docs_url) để biết thêm thông tin về cách thực hiện việc này.
       group_regexes_detail: 'Tùy ý xác định các mẫu bằng cách sử dụng biểu thức chính quy để khớp với tên nhóm từ yêu cầu của nhóm. Ví dụ: nhập mẫu như <code>^Level1/Level2/([\w/]+)$</code> sẽ trích xuất nhóm “Tên nhóm/Nhóm con” từ một phản hồi bao gồm “Cấp1/Cấp2/Tên nhóm/Nhóm con”. Nếu không có mẫu nào khớp, nhóm sẽ bị bỏ qua. Để trống để đồng bộ hóa tất cả các nhóm bằng tên nhóm đầy đủ của họ.'
       group_regexes_testing: Nhấp vào 'Mẫu thử nghiệm' để kiểm tra mẫu biểu thức chính quy của bạn dựa trên thông tin người dùng OIDC mẫu.
       group_sync: Tự động trích xuất và đồng bộ hóa thông tin thành viên nhóm từ nhà cung cấp danh tính.
       groups_claim: Chỉ định tên của xác nhận quyền sở hữu dự kiến ​​sẽ cho biết tên nhóm mà người dùng là thành viên.
-      metadata_none: Tôi không có thông tin này
-      metadata_url: Tôi có URL điểm cuối khám phá
-      oidc_information: Những giá trị này là cần thiết để định cấu hình nhà cung cấp OpenID Connect.
-      client_id: Đây là ID khách hàng do nhà cung cấp OpenID Connect của bạn cấp cho bạn
-      client_secret: Đây là bí mật ứng dụng khách được nhà cung cấp OpenID Connect cung cấp cho bạn
       limit_self_registration: Nếu được bật, người dùng chỉ có thể đăng ký sử dụng nhà cung cấp này nếu cấu hình phía nhà cung cấp cho phép.
-      display_name: Tên của nhà cung cấp. Điều này sẽ được hiển thị dưới dạng nút đăng nhập và trong danh sách các nhà cung cấp.
-      tenant: Vui lòng thay thế đối tượng thuê mặc định bằng đối tượng thuê của riêng bạn nếu có. Xem <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
-      scope: Nếu muốn yêu cầu phạm vi tùy chỉnh, bạn có thể thêm một hoặc nhiều giá trị phạm vi, phân tách bằng dấu cách tại đây. Để biết thêm thông tin, hãy xem [OpenID Connect documentation](docs_url).
-      post_logout_redirect_uri: URL mà nhà cung cấp OpenID Connect sẽ chuyển hướng đến sau khi có yêu cầu đăng xuất.
-      claims: 'Bạn có thể yêu cầu xác nhận quyền sở hữu bổ sung cho điểm cuối thông tin người dùng và mã thông báo id. Vui lòng xem [our OpenID connect documentation](docs_url) để biết thêm thông tin.
-
-        '
-      acr_values: 'Yêu cầu các yêu cầu không cần thiết ở dạng dễ dàng hơn. Xem [our documentation on acr_values](docs_url) để biết thêm thông tin.
-
-        '
-      mapping_login: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho thuộc tính đăng nhập.
+      mapping_admin: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho trạng thái quản trị viên. Nó mong đợi một thuộc tính boolean được trả về.
 
         '
       mapping_email: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho thuộc tính email.
@@ -110,57 +89,78 @@ vi:
       mapping_last_name: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho họ.
 
         '
-      mapping_admin: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho trạng thái quản trị viên. Nó mong đợi một thuộc tính boolean được trả về.
+      mapping_login: 'Cung cấp ánh xạ tùy chỉnh trong phản hồi thông tin người dùng để sử dụng cho thuộc tính đăng nhập.
 
         '
-    settings:
       metadata_none: Tôi không có thông tin này
       metadata_url: Tôi có URL điểm cuối khám phá
-      endpoint_url: URL điểm cuối
+      oidc_information: Những giá trị này là cần thiết để định cấu hình nhà cung cấp OpenID Connect.
+      post_logout_redirect_uri: URL mà nhà cung cấp OpenID Connect sẽ chuyển hướng đến sau khi có yêu cầu đăng xuất.
+      scope: Nếu muốn yêu cầu phạm vi tùy chỉnh, bạn có thể thêm một hoặc nhiều giá trị phạm vi, phân tách bằng dấu cách tại đây. Để biết thêm thông tin, hãy xem [OpenID Connect documentation](docs_url).
+      tenant: Vui lòng thay thế đối tượng thuê mặc định bằng đối tượng thuê của riêng bạn nếu có. Xem <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+    menu_title: Nhà cung cấp OpenID
     providers:
-      label_providers: nhà cung cấp
-      seeded_from_env: Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa.
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Chi tiết cấu hình của OpenProject với tư cách là máy khách OIDC
       custom:
         name: tùy chỉnh
-      upsell:
-        title: Đăng nhập một lần (SSO) với kết nối OpenID
-        description: Kết nối OpenProject với nhà cung cấp nhận dạng kết nối OpenID
+      google:
+        name: Google
       label_add_new: Thêm nhà cung cấp OpenID mới
+      label_advanced_configuration: Cấu hình nâng cao
+      label_attribute_mapping: Ánh xạ thuộc tính
+      label_automatic_configuration: Cấu hình tự động
+      label_client_details: Chi tiết khách hàng
+      label_configuration_details: Siêu dữ liệu
       label_edit: Chỉnh sửa nhà cung cấp OpenID %{name}
-      label_empty_title: Chưa có nhà cung cấp OpenID nào được định cấu hình.
       label_empty_description: Thêm nhà cung cấp để xem chúng ở đây.
+      label_empty_title: Chưa có nhà cung cấp OpenID nào được định cấu hình.
       label_group_mapping: Ánh xạ nhóm
       label_metadata: Điểm cuối khám phá kết nối OpenID
-      label_automatic_configuration: Cấu hình tự động
       label_optional_configuration: Cấu hình tùy chọn
-      label_advanced_configuration: Cấu hình nâng cao
-      label_configuration_details: Siêu dữ liệu
-      label_client_details: Chi tiết khách hàng
-      label_attribute_mapping: Ánh xạ thuộc tính
-      notice_created: Nhà cung cấp OpenID mới đã được tạo thành công.
-      client_details_description: Chi tiết cấu hình của OpenProject với tư cách là máy khách OIDC
+      label_providers: nhà cung cấp
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Chưa có nhà cung cấp nào được xác định.
+      notice_created: Nhà cung cấp OpenID mới đã được tạo thành công.
       plural: Nhà cung cấp OpenID
-      singular: Nhà cung cấp OpenID
       section_texts:
+        attribute_mapping: Định cấu hình ánh xạ các thuộc tính giữa OpenProject và nhà cung cấp OpenID Connect.
+        claims: Yêu cầu xác nhận quyền sở hữu bổ sung cho mã thông báo ID hoặc phản hồi thông tin người dùng.
+        configuration: Chi tiết cấu hình của nhà cung cấp OpenID Connect
+        configuration_metadata: Thông tin đã được điền trước bằng cách sử dụng điểm cuối khám phá được cung cấp. Trong hầu hết các trường hợp, chúng không yêu cầu chỉnh sửa.
+        display_name: Tên hiển thị hiển thị cho người dùng.
         group_mapping: Ánh xạ tên nhóm do nhà cung cấp danh tính cung cấp cho các nhóm trong OpenProject.
         metadata: Điền trước cấu hình bằng URL điểm cuối khám phá OpenID Connect
         metadata_form_banner: Việc chỉnh sửa điểm cuối khám phá có thể ghi đè các giá trị siêu dữ liệu được điền sẵn hiện có.
-        metadata_form_title: Điểm cuối khám phá kết nối OpenID
         metadata_form_description: Nếu nhà cung cấp danh tính của bạn có URL điểm cuối khám phá. Sử dụng nó bên dưới để điền trước cấu hình.
-        configuration_metadata: Thông tin đã được điền trước bằng cách sử dụng điểm cuối khám phá được cung cấp. Trong hầu hết các trường hợp, chúng không yêu cầu chỉnh sửa.
-        configuration: Chi tiết cấu hình của nhà cung cấp OpenID Connect
-        display_name: Tên hiển thị hiển thị cho người dùng.
-        attribute_mapping: Định cấu hình ánh xạ các thuộc tính giữa OpenProject và nhà cung cấp OpenID Connect.
-        claims: Yêu cầu xác nhận quyền sở hữu bổ sung cho mã thông báo ID hoặc phản hồi thông tin người dùng.
+        metadata_form_title: Điểm cuối khám phá kết nối OpenID
+      seeded_from_env: Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa.
       side_panel:
         information_component:
           backchannel_logout_url: URL đăng xuất kênh sau
+      singular: Nhà cung cấp OpenID
+      upsell:
+        description: Kết nối OpenProject với nhà cung cấp nhận dạng kết nối OpenID
+        title: Đăng nhập một lần (SSO) với kết nối OpenID
     setting_instructions:
       limit_self_registration: 'Nếu được bật, người dùng chỉ có thể đăng ký bằng nhà cung cấp này nếu cài đặt tự đăng ký cho phép.
 
         '
+    settings:
+      endpoint_url: URL điểm cuối
+      metadata_none: Tôi không có thông tin này
+      metadata_url: Tôi có URL điểm cuối khám phá
+  plugin_openproject_openid_connect:
+    description: Thêm nhà cung cấp chiến lược OmniAuth OpenID Connect vào OpenProject.
+    name: OpenProject OpenID Kết nối
+  provider:
+    delete_warning:
+      delete_result_1: Xóa nhà cung cấp khỏi danh sách các nhà cung cấp có sẵn.
+      delete_result_direct: Nhà cung cấp này được đánh dấu là nhà cung cấp đăng nhập trực tiếp. Cài đặt này sẽ bị xóa và người dùng sẽ không được chuyển hướng đến nhà cung cấp để đăng nhập nữa.
+      delete_result_user_count:
+        one: Một người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác.
+        other: "%{count} người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác."
+        zero: Không có người dùng hiện đang sử dụng nhà cung cấp này. Không cần thực hiện thêm hành động nào.
+      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: Xóa nhà cung cấp SSO là hành động không thể thay đổi được.
+      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'

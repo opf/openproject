@@ -2,11 +2,11 @@
 ---
 fi:
   js:
-    label_preview: Esikatselu
-    button_update: Päivitä
     avatars:
+      empty_file_error: Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)
+      error_image_too_large: Kuva on liian iso.
       label_choose_avatar: Valitse kuva tiedostosta
       uploading_avatar: Kuvaa lisätään.
-      error_image_too_large: Kuva on liian iso.
       wrong_file_format: Sallitut tiedostomuodot jpg, png, gif
-      empty_file_error: Lisää kuva sallitussa tiedostomuodossa (jpg, png, gif)
+    button_update: Päivitä
+    label_preview: Esikatselu
