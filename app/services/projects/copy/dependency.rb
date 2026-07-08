@@ -53,8 +53,11 @@ module Projects::Copy
     ##
     # Copy every record of the named +association+ from the source project to
     # the target, returning a Hash mapping each source record id to its copy's
-    # id. Uses the non-raising +create+ (as VersionsDependentService does) so a
-    # single invalid record is skipped rather than aborting the whole copy.
+    # id. Uses the non-raising +create+ so a single invalid record is skipped
+    # rather than aborting the whole copy; the skip is surfaced through the
+    # dependency's error set (merged without failing the copy) instead of being
+    # silently dropped, so a work package that referenced it does not lose its
+    # assignment unannounced.
     #
     # When a block is given, its return value is merged into the copied
     # attributes, letting a caller carry over child records via nested
@@ -64,7 +67,12 @@ module Projects::Copy
         attributes = copyable_attributes(source_record)
         attributes.merge!(yield(source_record)) if block_given?
         copy = target.public_send(association).create(attributes)
-        id_map[source_record.id] = copy.id if copy.persisted?
+
+        if copy.persisted?
+          id_map[source_record.id] = copy.id
+        else
+          add_error!(copy, copy.errors)
+        end
       end
     end
 

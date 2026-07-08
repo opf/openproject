@@ -449,4 +449,31 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       end
     end
   end
+
+  describe "when a sprint cannot be copied", with_ee: %i[sprint_sharing] do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[sprints] }
+    end
+    let!(:valid_sprint) { create(:sprint, project: source, name: "Valid") }
+    let!(:invalid_sprint) { create(:sprint, project: source, name: "Invalid") }
+
+    subject { instance.call(params) }
+
+    before do
+      # Simulate stale data whose copy fails validation (blank name). The copy
+      # should stay tolerant and skip it rather than aborting.
+      invalid_sprint.update_column(:name, "")
+    end
+
+    it "still copies the valid sprints" do
+      expect(subject).to be_success
+      expect(project_copy.sprints.pluck(:name)).to contain_exactly("Valid")
+    end
+
+    it "surfaces the skipped sprint as an error instead of dropping it silently" do
+      expect(subject.errors.full_messages).not_to be_empty
+    end
+  end
 end
