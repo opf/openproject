@@ -273,10 +273,8 @@ RSpec.describe WorkPackageMailer do
         let(:target_versions) { [version_a] }
 
         it "labels the row 'Version' and shows the single target version" do
-          expected = "#{WorkPackage.human_attribute_name(:version)}: #{version_a.name}"
-
-          expect(mail.text_part.body.encoded).to include(expected)
-          expect(mail.html_part.body.encoded).to include(expected)
+          expect(mail.text_part.body.encoded).to include("Version: Alpha")
+          expect(mail.html_part.body.encoded).to include("<li>Version: Alpha</li>")
         end
       end
 
@@ -286,10 +284,8 @@ RSpec.describe WorkPackageMailer do
         let(:target_versions) { [version_b, version_a] }
 
         it "labels the row 'Target versions' and lists all target versions ordered by name" do
-          expected = "#{WorkPackage.human_attribute_name(:target_versions)}: #{version_a.name}, #{version_b.name}"
-
-          expect(mail.text_part.body.encoded).to include(expected)
-          expect(mail.html_part.body.encoded).to include(expected)
+          expect(mail.text_part.body.encoded).to include("Target versions: Alpha, Beta")
+          expect(mail.html_part.body.encoded).to include("<li>Target versions: Alpha, Beta</li>")
         end
       end
     end
