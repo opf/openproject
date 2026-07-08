@@ -152,7 +152,7 @@ Starting with OpenProject 17.6, these protections also apply to web requests mad
 This means if you have a Nextcloud instance or an XWiki instance reachable via a private (i.e. not publicly routable) IP address, you need to
 add it to the SSRF allowlist to be able to keep the integration working. This is usually achieved by defining the following environment variable:
 
-```
+```env
 OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST=2001:db8:100::/48
 ```
 
@@ -174,98 +174,55 @@ This follows the APIv3 standards, and also fixes a bug related to the self link.
 
 ## Security fixes
 
-
-
 ### CVE-2026-55095 - Inplace-edit dialog exposes comments from hidden admin-only project custom fields
 
 An authenticated non-admin project member can request the inplace-edit dialog for a raw \`custom\_field\_&lt;id&gt;\` project attribute and retrieve the stored comment text for an \`admin\_only\` project custom field.
 
-
-
 The normal project custom-field visibility and writable scopes exclude the field for the same user, but the dialog path resolves the custom field by raw id and renders the stored custom-field comment in read-only mode.
-
-
 
 The claim is intentionally narrow: this discloses custom-field comment text only. This report does not claim hidden custom-field value disclosure, writes, or mutation.
 
-
-
 This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-63fg-pgqj-3qf8](https://github.com/opf/openproject/security/advisories/GHSA-63fg-pgqj-3qf8)
-
-
 
 ### GHSA-c6rc-4288-8p4f - Improper Access Control on openproject through /api/v3/work_packages/<X.id> via PATCH parameter "fileLinks"
 
 `PATCH /api/v3/work_packages/{id}` accepts a writable `_links.fileLinks` payload property. The update path is missing the `user_allowed_to_manage_file_links` validation that exists on the create path, and the underlying setter resolves `Storages::FileLink` records by raw id with no scope. An authenticated user with only `edit_work_packages` (no `manage_file_links`, no membership in the victim project) can therefore:
 
+- detach (and, via `dependent: :delete_all`, hard-delete) every FileLink currently attached to a work package they can edit, and
 
-
-*   detach (and, via `dependent: :delete_all`, hard-delete) every FileLink currently attached to a work package they can edit, and
-
-
-
-*   re-parent any FileLink in the database, identified by its numeric id, onto an attacker-controlled work package, gaining read access to its metadata (origin filename, origin id, mime type) and removing it from the victim&#39;s work package.
-
-
+- re-parent any FileLink in the database, identified by its numeric id, onto an attacker-controlled work package, gaining read access to its metadata (origin filename, origin id, mime type) and removing it from the victim&#39;s work package.
 
 This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-c6rc-4288-8p4f](https://github.com/opf/openproject/security/advisories/GHSA-c6rc-4288-8p4f)
-
-
 
 ### GHSA-v3j7-vqwv-5w5q - Private work package subject/identity disclosure through the global Time Entries and Cost Entries APIs
 
 `GET /api/v3/time_entries` and `GET /api/v3/cost_entries` are instance/workspace-scope collection endpoints. Each entry links a Work Package through the API representer's `associated_resource :work_package`, which renders `_links.workPackage.title` (the Work Package **subject**) and `_links.workPackage.href` (the sequential Work Package id) **without checking that the linked Work Package is visible to the requesting user**.
 
-
-
 The collection is authorized only by the time-entry / cost-entry project permission (`view_time_entries` / `view_cost_entries`), which is an **independent project permission with no `view_work_packages` dependency**. A user holding `view_time_entries` (or `view_cost_entries`) in a project, but not `view_work_packages`, therefore reads the subjects and ids of Work Packages they cannot access through the direct Work Package API (which returns 404 for those WPs).
-
-
 
 This is the same disclosure class already fixed in **GHSA-g387-6rm2-xw88** ("Private work package data disclosure through single meeting agenda item API", Medium, CWE-200/CWE-639), whose fix migrated the meeting-agenda-item representer's linked Work Package from the ungated `associated_resource` to the visibility-gated `associated_visible_resource`. The Time Entries and Cost Entries representers were not updated.
 
-
-
 This vulnerability was reported by user [CyberKareem](https://github.com/CyberKareem).
 
-
-
 For more information, please see the [GitHub advisory #GHSA-v3j7-vqwv-5w5q](https://github.com/opf/openproject/security/advisories/GHSA-v3j7-vqwv-5w5q)
-
-
 
 ### GHSA-wr3w-qchj-p4cm - Improper Access Control on openproject through /api/v3/custom_options/:id via Path "id" leads to Sensitive Data Exposure
 
 OpenProject supports list-type custom fields whose allowed values are stored as `CustomOption` records. User and group custom fields can be marked `admin_only`, and the normal visibility scopes hide those fields from non-admin users.
 
-
-
 However, `GET /api/v3/custom_options/:id` resolves a `CustomOption` by global numeric id and explicitly allows every option whose owning custom field is a `UserCustomField` or `GroupCustomField`. It does not check whether the owning custom field is visible to the requester.
-
-
 
 An attacker only needs a normal authenticated account. Because custom option ids are sequential numeric ids, and normal API schemas/forms expose visible option links such as `/api/v3/custom_options/<id>`, the attacker can enumerate nearby ids and read the `value` returned by successful responses.
 
-
-
 As a result, non-admin users can disclose option labels belonging to admin-only user or group custom fields. This leaks hidden internal taxonomies or classifications that administrators intentionally made admin-only.
-
-
 
 This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-wr3w-qchj-p4cm](https://github.com/opf/openproject/security/advisories/GHSA-wr3w-qchj-p4cm)
-
 
 <!-- END SECURITY FIXES AUTOMATED SECTION -->
 <!--more-->
@@ -277,7 +234,6 @@ While we expect production AD systems to perform their own brute force protectio
 
 OpenProject 17.6 implements a Rack::Attack throttle rule for internal login mechanisms, also protecting LDAP binds specifically.
 We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github.com/GEONWOOHAN), [@QwQP0](https://github.com/QwQP0), [@minnnjuuu](https://github.com/minnnjuuu), and [@dkstjwls06](https://github.com/dkstjwls06).
-
 
 ## Bug fixes and changes
 
@@ -304,7 +260,7 @@ We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github
 - Feature: Check the accessibility on Flash messages \[[#63276](https://community.openproject.org/wp/63276)\]
 - Feature: Add a &#39;Security&#39; page in Account settings \[[#65405](https://community.openproject.org/wp/65405)\]
 - Feature: Remove newest projects in project widget on homepage \[[#74198](https://community.openproject.org/wp/74198)\]
-- Feature: Make project hierarchy collapsable in the global project selector \[[#74625](https://community.openproject.org/wp/74625)\]
+- Feature: Make project hierarchy collapsible in the global project selector \[[#74625](https://community.openproject.org/wp/74625)\]
 - Feature: Create work package out of Meeting Agenda Item \[[#57053](https://community.openproject.org/wp/57053)\]
 - Feature: API for Meeting outcomes \[[#75393](https://community.openproject.org/wp/75393)\]
 - Feature: Group synchronization through attributes of the group, not member/memberOf \[[#32812](https://community.openproject.org/wp/32812)\]
@@ -331,7 +287,7 @@ We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github
 - Feature: Configure internal wiki provider \[[#75594](https://community.openproject.org/wp/75594)\]
 - Feature: Allow to paste wiki page url in  &quot;link existing&quot; dialog \[[#75732](https://community.openproject.org/wp/75732)\]
 - Feature: Rename CKEditor Macro to &quot;+ Insert&quot; \[[#75749](https://community.openproject.org/wp/75749)\]
-- Feature: Show XWiki&#39;s mentiones in the &quot;Referenced in&quot; section of the tab \[[#75960](https://community.openproject.org/wp/75960)\]
+- Feature: Show XWiki&#39;s mentions in the &quot;Referenced in&quot; section of the tab \[[#75960](https://community.openproject.org/wp/75960)\]
 - Feature: Rename inline page links to &quot;Mentioned in description&quot; \[[#75968](https://community.openproject.org/wp/75968)\]
 - Bugfix: NoMethodError on GET::API::V3::WorkPackages::WorkPackagesAPI#/work\_packages/  \[[#75693](https://community.openproject.org/wp/75693)\]
 - Bugfix: &quot;Move to inbox&quot; menu entry is missing the word &quot;backlog&quot; \[[#76014](https://community.openproject.org/wp/76014)\]
@@ -405,7 +361,7 @@ We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github
 - Bugfix: Inline text attachments lose UTF-8 charset \[[#75402](https://community.openproject.org/wp/75402)\]
 - Bugfix: BCF import permission scope not clear \[[#75457](https://community.openproject.org/wp/75457)\]
 - Bugfix: Reading large XML metadata files in SSO configuration freezes page, throws 504 \[[#75459](https://community.openproject.org/wp/75459)\]
-- Bugfix: Hide &quot;my meetings&quot; and &quot;favourited projects&quot; widgets for anonymous users \[[#75477](https://community.openproject.org/wp/75477)\]
+- Bugfix: Hide &quot;my meetings&quot; and &quot;favorited projects&quot; widgets for anonymous users \[[#75477](https://community.openproject.org/wp/75477)\]
 - Bugfix: Setting mail header via OPENPROJECT\_EMAILS\_\_HEADER\_EN interprets colon as hash \[[#75570](https://community.openproject.org/wp/75570)\]
 - Bugfix: Notifications Center count badges clip large numbers \[[#75660](https://community.openproject.org/wp/75660)\]
 - Bugfix: Assign random password e-mail not sent \[[#75688](https://community.openproject.org/wp/75688)\]

@@ -48,7 +48,7 @@ Here you can **update** or delete your profile. If you're changing the email add
 
 You can delete your own account in **Account settings**.
 
-To delete your account, navigate to *Account settings* -> *Account* and click the **Delete** button in the top right corner.  You will be asked to confirm that you understand that this deletion is permanent. 
+To delete your account, navigate to _Account settings_ -> _Account_ and click the **Delete** button in the top right corner.  You will be asked to confirm that you understand that this deletion is permanent. 
 
 ![Confirmation dialog to delete account under OpenProject account settings](openproject_account_settings_delete_account.png)
 
@@ -62,7 +62,6 @@ If you cannot see the entry **Delete** button under your **Account settings**, m
 Within the **Language and region** section of **Account settings** page you can change the language of OpenProject and adapt the time zone.
 
 ![OpenProject personal account settings](openproject_account_settings_language_and_regions.png)
-
 
 ### Change your language
 
@@ -84,7 +83,7 @@ Pressing the **Save** button will save your changes.
 
 ## Interface
 
-Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into two sections: *Look and feel* and *Alerts*.
+Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into two sections: _Look and feel_ and _Alerts_.
 
 ### Look and feel
 
@@ -137,6 +136,7 @@ If you choose newest on top, the latest comment will appear on top in the Activi
 If you use a screen reader or want to avoid accidentally triggering an action with a  shortcut, you can choose to disable default [keyboard shortcuts](../../user-guide/keyboard-shortcuts-access-keys/) by selecting the respective option.
 
 ### Alerts
+
 Under **Alerts** section you can activate a **warning if you are leaving a work package with unsaved changes**.
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
@@ -184,7 +184,7 @@ You can remove or approve 2FA applications by confirming your password. Note tha
 
 ### Use your mobile phone
 
-You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
+You can use your mobile phone as a 2FA device. The field _Identifier_ will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
 
 ![Add a new mobile phone as a 2FA device in OpenProject](openproject_account_settings_two_factor_authentication_mobile.png)
 
@@ -214,8 +214,6 @@ If you have created backup codes before, they will be invalidated and will no lo
 
 ![Generate backup codes under security section in OpenProject account settings](openproject_account_settings_backup_codes.png)
 
-
-
 ## Access tokens
 
 To view and manage your OpenProject access tokens navigate to **Account settings** and choose **Access tokens** from the menu. Access tokens allow you to grant external applications access to resources in OpenProject. 
@@ -230,11 +228,11 @@ Provider tokens are created in OpenProject and allow external applications to ac
 
 #### API
 
-API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/).
+API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [_Administration -> API and webhooks_](../../system-admin-guide/api-and-webhooks/).
 
 ![Access tokens in OpenProject account settings](openproject_account_settings_access_tokens_api.png)
 
-To create a new API Token, click the **+ API Token**, name the token in the form that opens and click *Create* button. 
+To create a new API Token, click the **+ API Token**, name the token in the form that opens and click _Create_ button. 
 
 ![Name and create a new API token in OpenProject](openproject_account_settings_access_tokens_api_create_new.png)
 
@@ -265,6 +263,7 @@ You will then see a message informing you that the the token und the iCal URL ar
 ![OpenProject calendar access token is invalid](openproject_account_settings_access_tokens_calendar_invalid.png)
 
 #### iCalendar for meetings
+
 iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients. 
 
 This list will be empty if you have no calendar subscriptions yet. Once you subscribe to a meetings calendar, a list of all the iCalendar meeting tokens will appear here. 
@@ -284,13 +283,13 @@ You will then see the newly generated token.
 
 ![A newly generated iCal meeting subscription token in OpenProject account settings](openproject_account_settings_access_tokens_subscribe_meetings_form_confirmation.png)
 
-To delete an iCal meeting token under Account settings click the *Delete* icon next to the respective token name. 
+To delete an iCal meeting token under Account settings click the _Delete_ icon next to the respective token name. 
 
 ![Delete icon to remove a meeting iCal token under OpenProject account settings](openproject_account_settings_access_tokens_meetings_delete.png)
 
 #### OAuth
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [*Administration-> Authentication*](../../system-admin-guide/authentication/).
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [_Administration-> Authentication_](../../system-admin-guide/authentication/).
 
 OAuth tokens are not created directly in OpenProject. Instead, the authorization process is started from the external application. During setup, you will be redirected to OpenProject to confirm access and then returned to the external application to complete the connection.
 
@@ -330,7 +329,6 @@ If you have not yet linked your account to any of the integrations activated for
 
 ![File storages access tokens under Account settings in OpenProject](openproject_account_settings_access_tokens_file_storages.png)
 
-
 ## Session management
 
 To view and manage your OpenProject sessions navigate to **Account settings** and choose **Sessions management** from the menu.
@@ -354,7 +352,7 @@ To configure the notification settings which you receive from the system, naviga
 
 ![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
 
-![More notification settings in Openproject account settings](openproject_account_settings_more_notification_settings.png)
+![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
 
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
@@ -375,7 +373,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
 > [!IMPORTANT]
-> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder.
+> If you have selected the _immediately when someone mentions me_ option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder.
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 

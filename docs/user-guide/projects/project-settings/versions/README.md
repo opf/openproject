@@ -15,7 +15,7 @@ Versions are also used to enable the Backlogs module, i.e., to create a product 
 
 ## Create a new version
 
-Navigate to *Project settings → Versions* in the project menu. You will see an overview of all existing versions. Per default, the existing versions will be sorted by the *Name*, which is indicated by an arrow next to the column header. To change the sorting order, click the name of any column you wish to use for sorting instead. 
+Navigate to _Project settings → Versions_ in the project menu. You will see an overview of all existing versions. Per default, the existing versions will be sorted by the _Name_, which is indicated by an arrow next to the column header. To change the sorting order, click the name of any column you wish to use for sorting instead. 
 
  To create a new version for your project, click the green **+ Version** button. 
 
@@ -49,11 +49,12 @@ Click on the **edit** icon at the right of the row to edit the version.
 
 ## Close a version
 
-To close a version, open its details and set the **Status** to *Closed*.
+To close a version, open its details and set the **Status** to _Closed_.
 
 ![Close a version under project settings in OpenProject](openproject_user_guide_project_settings_work_packages_versions_closed.png)
 
 ## Close completed versions
+
 To close all completed versions at once, click the **More (three dots**) icon in the top right corner and click **Close completed versions**.
 
 ![Close completed versions in OpenProject project settings](openproject_user_guide_project_settings_work_packages_versions_close_completed.png)
@@ -72,7 +73,7 @@ There are a few differences between open, locked and closed versions:
 Versions in this state can be used throughout the system. Work packages can be added or removed. The version is visible in both the Backlogs and Roadmap modules.
 - **Locked version**:
 Work packages cannot be added or removed. The version is **not** visible in the Backlogs module but is still shown in the Roadmap module.
-*Use case:* You’ve finalized the scope of a sprint or release and want to prevent changes while it's being worked on.
+_Use case:_ You’ve finalized the scope of a sprint or release and want to prevent changes while it's being worked on.
 - **Closed version**:
 Work packages cannot be added or removed. The version is no longer shown in the Backlogs or Roadmap modules, unless you explicitly filter for closed versions.
-*Use case:* The release or sprint is complete, and you’ve moved on to the next one.
+_Use case:_ The release or sprint is complete, and you’ve moved on to the next one.

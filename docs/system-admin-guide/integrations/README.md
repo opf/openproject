@@ -43,7 +43,6 @@ about [setting up the integration with XWiki](./xwiki) and [using the integratio
 
 OpenProject offers an integration with OneDrive for file storage and collaboration. You can find more information about [setting up the integration with OneDrive](./one-drive) and [using the integration](../../user-guide/file-management/one-drive-integration/).
 
-
 ### SharePoint (Enterprise add-on)
 
 OpenProject offers an integration with SharePoint for file storage and collaboration. You can find more information about [setting up the integration with SharePoint](./share-point) and [using the integration](../../user-guide/file-management/sharepoint-integration/).

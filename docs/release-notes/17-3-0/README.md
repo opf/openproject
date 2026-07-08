@@ -6,13 +6,13 @@ release_version: 17.3.0
 release_date: 2026-04-15
 ---
 
- # OpenProject 17.3.0
+# OpenProject 17.3.0
 
- Release date: 2026-04-15
+Release date: 2026-04-15
 
- We released [OpenProject 17.3.0](https://community.openproject.org/versions/2266).
- The release contains several bug fixes and we recommend updating to the newest version.
- In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 17.3.0](https://community.openproject.org/versions/2266).
+The release contains several bug fixes and we recommend updating to the newest version.
+In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important feature changes
 
@@ -119,52 +119,31 @@ Groups can now be nested, allowing memberships and permissions to be inherited t
 
 ## Security fixes
 
-
-
 ### CVE-2026-33667 - 2FA OTP Verification Missing Rate Limiting
 
 The 2FA OTP verification (`confirm_otp` action) has no rate limiting, lockout mechanism, or failed-attempt tracking. An attacker who knows a user&#39;s password can brute-force the 6-digit TOTP code without any protection slowing or blocking the attempts.
 
-
-
 The existing `brute_force_block_after_failed_logins` setting only counts password login failures and does not apply to the 2FA verification stage.
-
-
 
 This vulnerability was reported by GitHub user [Wernerina](https://github.com/Wernerina). Thank you for responsibly disclosing your findings.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-234r-45m2-w6cv](https://github.com/opf/openproject/security/advisories/GHSA-234r-45m2-w6cv)
-
-
 
 ### GHSA-hh5p-gwf8-h245 - Cross-Project Meeting Agenda Item Injection via Unscoped Section Lookup
 
 A user with \`manage\_agendas\` permission in any project can inject agenda items into meetings belonging to \*\*any other project\*\* on the instance — even projects they have no access to. No knowledge of the target project, meeting, or victim is required; the attacker can blindly spray items into every meeting on the instance by iterating sequential section IDs.
 
-
-
 This vulnerability was reported through GitHub advisories by user [jeroengui](https://github.com/jeroengui)
 
-
-
 For more information, please see the [GitHub advisory #GHSA-hh5p-gwf8-h245](https://github.com/opf/openproject/security/advisories/GHSA-hh5p-gwf8-h245)
-
-
 
 ### GHSA-qr54-686p-j34x - Reminders Leak Work Package Data After Access Revocation
 
 Reminder listing exposes work package IDs, subjects, and user-authored notes were remaining after the user&#39;s project access is revoke
 
-
-
 This vulnerability was reported by GitHub user [DAVIDAROCA27](https://github.com/DAVIDAROCA27)
 
-
-
 For more information, please see the [GitHub advisory #GHSA-qr54-686p-j34x](https://github.com/opf/openproject/security/advisories/GHSA-qr54-686p-j34x)
-
 
 <!-- END CVE AUTOMATED SECTION -->
 
@@ -295,6 +274,7 @@ We want to thank Community member [@cheezzz](https://github.com/cheezzz) for con
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
+
 A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations. Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Walid Ibrahim, Jörg Mollowitz, Robin Kluth, Natalie Stettner, Gábor Alexovics, Patrick Lenk, and Daniel Elkeles.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:

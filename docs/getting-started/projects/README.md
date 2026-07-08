@@ -16,8 +16,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 
 </div>
 
->  [!NOTE]
->
+> [!NOTE]
 > In order to see a project and work in it, you have to be a [member of the project](../invite-members).
 
 | Topic                                                   | Content                                                      |
@@ -57,16 +56,14 @@ There are several ways to create a new project in OpenProject. Keep in mind that
 
 1. Click the **+ (Plus)** button in the top right corner of the header navigation. 
 
-
 ![+ Button in the top right corner of the OpenProject head navigation, opened, showing an option to add a new project](openproject_getting_started_project_plust_button_add_project.png)
-
-
 
 2. In addition, you can also create a new project on the [project lists](../../user-guide/projects/project-lists/) overview page. 
 
-3. If the project you are creating is a subproject, navigate to the [project settings](../../user-guide/projects/project-settings/) and use the *+ Subproject* button.
+3. If the project you are creating is a subproject, navigate to the [project settings](../../user-guide/projects/project-settings/) and use the _+ Subproject_ button.
 
 ### Choose how to create your project
+
 You can create either:
 
 - a **blank project** (a completely new and empty project), 
@@ -75,7 +72,7 @@ You can create either:
 
 The **Blank project** option is selected by default.
 
->  [!TIP]
+> [!TIP]
 > If you do not see any template options, this may be because no projects have been set as [project templates](../../user-guide/projects/project-templates/#create-a-project-template) yet, or because you do not have access to any template projects. Only templates that are public or where you are a project member are shown, allowing different user groups to see only the templates relevant to them.
 
 Click **Continue** to proceed.
@@ -103,7 +100,6 @@ Click **Complete** to finish the setup.
 > In this case, the **Subproject of** field is not shown, but the parent project appears in the breadcrumb navigation.
 > If this was not your intention, you can change or remove the parent project later in the project settings of project B.
 
-
 ![Name and create a new subproject in OpenProject](openproject_getting_started_create_new_sub_project_name.png)
 
 > [!TIP]
@@ -129,9 +125,9 @@ To continue configuring your project, see the documentation on [project settings
 
 ## View all projects
 
-To view all your projects in which you are a member, use the [**Global modules menu**](../../user-guide/home/global-modules/#projects) on the left or select *Projects* using the grid icon in the top left corner.
+To view all your projects in which you are a member, use the [**Global modules menu**](../../user-guide/home/global-modules/#projects) on the left or select _Projects_ using the grid icon in the top left corner.
 
-![*Global modules* grid icon in OpenProject header navigation, opened, Projects module selected](openproject_getting_started_global_modules_icon_projects.png)
+![_Global modules_ grid icon in OpenProject header navigation, opened, Projects module selected](openproject_getting_started_global_modules_icon_projects.png)
 
 ![Projects global module selected from the left-side menu on OpenProject overview page](openproject_getting_started_global_modules_projects.png)
 

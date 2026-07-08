@@ -7,7 +7,7 @@ keywords: project settings
 ---
 # Project settings
 
-In OpenProject you can customize your project settings. To do this, open a project via the *Select a project* drop-down menu and navigate to *Project settings* in the project menu.
+In OpenProject you can customize your project settings. To do this, open a project via the _Select a project_ drop-down menu and navigate to _Project settings_ in the project menu.
 
 ![Project settings module selected in left-hand project menu in OpenProject](openproject_user_guide_project_settings_module.png)
 
@@ -30,4 +30,3 @@ In OpenProject you can customize your project settings. To do this, open a proje
 | [Time and costs](time-and-costs)            | Activate or deactivate time tracking activities and cost types in a project. |
 | [Backlogs settings](backlogs-settings)      | Manage backlogs settings for a project.                      |
 | [Files](files)                              | Manage the storages connected to the project, add project folders and activate manual attachment uploads. |
-

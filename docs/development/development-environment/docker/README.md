@@ -12,7 +12,7 @@ The quickest way to get started developing OpenProject is to use the docker setu
 
 ## Requirements
 
-* docker
+- docker
 
 And nothing else!
 
@@ -26,7 +26,7 @@ cd openproject
 cp .env.example .env
 ```
 
-Optional: In case you want to develop on the OpenProject *BIM Edition* you need to set the
+Optional: In case you want to develop on the OpenProject _BIM Edition_ you need to set the
 environmental variable accordingly in your `.env` file.
 
 ```shell
@@ -42,9 +42,9 @@ docker compose run --rm frontend npm install
 docker compose up -d backend
 ```
 
-Optional: In case you want to develop on the OpenProject *BIM Edition* you need
+Optional: In case you want to develop on the OpenProject _BIM Edition_ you need
 to install all the required dependencies and command line tools to convert IFC
-files into XKT files, so that the BIM models can be viewed via the *Xeokit*
+files into XKT files, so that the BIM models can be viewed via the _Xeokit_
 BIM viewer. As the conversions are done by background jobs you need install
 those tools within the `worker` service:
 
@@ -184,12 +184,12 @@ Changes you make to the code will be picked up automatically. No need to restart
 
 There are volumes for
 
-* the attachments (`_opdata`)
-* the database (`_pgdata`)
-* the bundle (rubygems) (`_bundle`)
-* the tmp directory (`_tmp`)
-* the test database (`_pgdata-test`)
-* the test tmp directory (`_tmp-test`)
+- the attachments (`_opdata`)
+- the database (`_pgdata`)
+- the bundle (rubygems) (`_bundle`)
+- the tmp directory (`_tmp`)
+- the test database (`_pgdata-test`)
+- the test tmp directory (`_tmp-test`)
 
 This means these will stay between runs even if you stop (or remove) and restart the containers. If you want to reset
 the data you can delete the docker volumes via `docker volume rm`.
@@ -403,6 +403,7 @@ An example configuration is provided in `docker/dev/tls/docker-compose.core-over
 Copy its contents into your own `docker-compose.override.yml` in the repository root, and adjust hostnames if necessary.
 
 Ensure that both the `backend` and `frontend` services:
+
 - are attached to the same `networks` as `traefik`
 - have the appropriate `traefik` labels
 
@@ -423,6 +424,7 @@ backend:
     - "traefik.enable=true"
   ...
 ```
+
 This ensures that traefik will route HTTPS requests for `openproject.local` and `openproject-assets.local` to the
 correct containers in your local setup.
 
@@ -461,7 +463,7 @@ If you need such a setup, you can change the `docker-compose.override.yml` for t
 (see the corresponding `docker-compose.override.example.yml`). Make sure to export an environment variable, or define
 it in the `.env` files, with your alternative DNS zone before starting anything via docker compose. For example:
 
-```bash
+```shell
 export OPENPROJECT_DOCKER_DEV_TLD=dev.example.com
 docker compose up -d backend frontend
 ```
@@ -487,16 +489,20 @@ docker compose --project-directory docker/dev/tls up -d
 #### Blank page on `openproject.local`
 
 A blank page on `openproject.local`  can indicate that compilation is either in progress or has failed. To investigate, check the frontend container output:
+
 ```shell
 docker compose logs frontend`
 ```
+
 Sometimes compilation errors can occur due to broken node_modules state(for example after switching branches or partial installations). It can be resolved by removing node_modules and installing from scratch:
+
 ```shell
 rm -rf frontend/node_modules/
 docker compose run --rm frontend npm install
 ```
 
 Then restart both the frontend service:
+
 ```shell
 docker compose restart frontend
 ```
@@ -572,7 +578,6 @@ docker compose up -d frontend
 
 Upon setting up all the things correctly, we can see a login with `keycloak` option in login page of `OpenProject`.
 
-
 ## MinIO Service (local S3 storage backend)
 
 Within `docker/dev/minio` a compose file is provided for running a local MinIO instance with TLS support which can be used as a S3 storage for uploading files.
@@ -587,12 +592,13 @@ Start up the docker compose service for MinIO:
 ```shell
 docker compose --project-directory docker/dev/minio up -d
 ```
+
 This will automatically create a bucket named `openproject-uploads` which is used to store uploaded files.
 
 If you want to use TLS support, make sure to copy and uncomment the MinIO configuration environment variables in `docker/dev/tls/docker-compose.core.override.example.yml` to your `docker-compose.override.yml` file in the project root directory. If you want to use MinIO without TLS support, make sure to copy the environment variables from `docker/dev/minio/docker-compose.core-override.example.yml` to your `docker-compose.override.yml` file (in the project root directory).
 After that, hard restart the `backend` service to apply the changes:
 
-```
+```shell
 docker compose down backend
 docker compose up backend
 ```
@@ -655,6 +661,7 @@ you may want to preserve your PostgreSQL data. This guide outlines the correct s
 ### Context
 
 The database volume may be recreated or become incompatible if you:
+
 - rebuild Docker images,
 - upgrade PostgreSQL,
 - change volume mounts.
@@ -678,6 +685,7 @@ docker compose exec -T <db-container-name> pg_dump -U <db-user> <db-name> > open
 
 docker compose exec -T <db-container-name> pg_dumpall -U <db-user> > openproject_full_backup.sql
 ```
+
 4. Shut down the Docker stack. If you want a clean reset, make sure to remove the database volume.
 5. Update the codebase by pulling the latest changes from the dev branch.
 You may also want to update Docker base images at this stage.
@@ -685,6 +693,7 @@ You may also want to update Docker base images at this stage.
 7. Start only the database service, allowing it to initialize with a clean or migrated volume, depending on your setup.
 8. Copy your previously saved database dump back into the container and restore it into the PostgreSQL instance
 or load the dump from local machine. This will rehydrate the new database with your old data.
+
 ```shell
 # Copying backup from the local machine:
 docker compose cp openproject_backup.sql <db-container-name>:/tmp/openproject_backup.sql
@@ -692,6 +701,5 @@ docker compose cp openproject_backup.sql <db-container-name>:/tmp/openproject_ba
 # Load dump to the DB
 docker compose exec -T <db-container-name> psql -U <db-user> <db-name> -f /tmp/openproject_backup.sql
 ```
+
 9. Start the remaining services (backend, frontend, etc.) using the standard setup process. The stack should now function as expected, with your previous data restored and the environment updated.
-
-
