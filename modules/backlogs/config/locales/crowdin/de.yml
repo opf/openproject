@@ -195,7 +195,7 @@ de:
         copy_work_package_id: Arbeitspaket-ID kopieren
         move_menu: Zu Position verschieben
         move_to_backlog_bucket: In Backlog Bucket verschieben
-        move_to_inbox: In Backlog Bucket verschieben
+        move_to_inbox: In Backlog Posteingang verschieben
         move_to_sprint: Zum Sprint verschieben
     work_package_is_closed: Arbeitspaket ist abgeschlossen, wenn
   burndown:
