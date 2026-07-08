@@ -190,6 +190,8 @@ pl:
         page_access_forbidden: Nie masz uprawnień dostępu do tej strony wiki
         page_not_found: Powiązana linkiem strona wiki nie jest już dostępna
         unexpected: Wystąpił nieoczekiwany błąd
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

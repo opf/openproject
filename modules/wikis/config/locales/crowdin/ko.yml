@@ -178,6 +178,8 @@ ko:
         page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
         page_not_found: 링크된 위키 페이지를 더 이상 사용할 수 없음
         unexpected: 예기치 않은 오류가 발생했습니다
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

@@ -1441,6 +1441,7 @@ de:
         select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         tab: Projekte
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Einstellungen
         type_color_text: |-
           Die ausgewählte Farbe unterscheidet verschiedene Typen
@@ -3318,6 +3319,8 @@ de:
   error_can_not_delete_in_use_archived_work_packages: 'Es gibt zudem Arbeitspakete in archivierten Projekten. Sie müssen zuerst die folgenden Projekte reaktivieren, bevor Sie den Typ der entsprechenden Arbeitspakete ändern können: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden. Sie können alle betroffenen Arbeitspakete <a target="_blank" href="%{url}">in dieser Ansicht sehen</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Standardtypen können nicht gelöscht werden.
   error_can_not_invite_user: Versand der Einland an Nutzer ist fehlgeschlagen.
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
@@ -5437,7 +5440,7 @@ de:
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_work_packages_identifier_classic: Instanzweite numerische Sequenz (Standard)
   setting_work_packages_identifier_classic_caption: 'Jedes Arbeitspaket erhält eine sequentielle Nummer beginnend mit 1 (z.B. #1234). Die Nummern sind innerhalb dieser Instanz eindeutig. Sie bleiben also gleich, auch wenn Arbeitspakete zwischen Projekten verschoben werden.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
+  setting_work_packages_identifier_semantic: Projektspezifische semantische Kennungen
   setting_work_packages_identifier_semantic_caption: Jedes Projekt hat eine eindeutige Projektkennung, die einer Zahl vorangestellt wird (z. B. PROJ-11). Die Nummerierung beginnt in jedem Projekt bei 1. Wenn ein Arbeitspaket in ein anderes Projekt verschoben wird, wird eine neue Kennung generiert, die alte bleibt jedoch weiterhin gültig.
   setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
   setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline Hervorherbung

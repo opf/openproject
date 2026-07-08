@@ -1443,6 +1443,7 @@ it:
         select_projects_description: Seleziona i progetti in cui desideri utilizzare questo tipo.
         tab: Progetti
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Impostazioni
         type_color_text: Il colore selezionato distingue diverse tipologie nei diagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
       subject_configuration:
@@ -3324,6 +3325,8 @@ it:
   error_can_not_delete_in_use_archived_work_packages: 'Ci sono macro-attività anche nei progetti archiviati. Devi prima riattivare i seguenti progetti, prima di poter modificare l''attributo delle rispettive macro-attività: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Questo tipo contiene macro-attività e non può essere eliminato. Puoi vedere tutte le macro-attività interessate in <a target="_blank" href="%{url}">questa vista</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Tipi standard non possono essere eliminati.
   error_can_not_invite_user: Impossibile inviare l'invito all'utente.
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.

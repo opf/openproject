@@ -1482,6 +1482,7 @@ ru:
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
         tab: Проекты
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Параметры
         type_color_text: |-
           Выбранный цвет выделяет разные типы
@@ -3453,6 +3454,8 @@ ru:
   error_can_not_delete_in_use_archived_work_packages: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить атрибут соответствующих пакетов работ: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Стандартные типы не могут быть удалены.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.

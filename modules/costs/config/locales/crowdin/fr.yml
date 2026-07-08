@@ -83,7 +83,7 @@ fr:
       rate: Tarif
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: ne peut pas être désactivé car des coûts ont déjà été enregistrés pour celui-ci dans ce projet.
       models:
         time_entry:
           invalid_time: doit être entre 00:00 et 23:59.
@@ -257,7 +257,7 @@ fr:
       cost_types:
         for_all_projects_hint: Ce type de coût est activé dans tous les projets.
         heading: Types de coûts
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: Ce type de coût ne peut pas être désactivé, car des coûts ont déjà été enregistrés pour celui-ci dans ce projet.
         none_active: Aucun type de coût n'est actuellement actif dans ce projet.
   costs:
     widgets:

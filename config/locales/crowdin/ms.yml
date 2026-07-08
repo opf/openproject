@@ -1424,6 +1424,7 @@ ms:
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projek-projek
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Tetapan
         type_color_text: Warna yang dipilih membezakan jenis yang berbeza dalam carta Gantt atau jadual pakej kerja. Oleh itu, disyorkan untuk menggunakan warna yang kuat.
       subject_configuration:
@@ -3267,6 +3268,8 @@ ms:
   error_can_not_delete_in_use_archived_work_packages: 'Terdapat juga pakej kerja dalam projek yang telah diarkibkan. Anda perlu mengaktifkan semula projek berikut dahulu, sebelum anda boleh mengubah atribut pakej kerja yang berkenaan: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Jenis ini mengandungi pakej kerja dan tidak boleh dipadamkan. Anda boleh melihat semua pakej kerja yang terjejas dalam <a target="_blank" href="%{url}">paparan ini</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Jenis standard tidak boleh dipadamkan.
   error_can_not_invite_user: Gagal menghantar jemputan kepada pengguna.
   error_can_not_remove_role: Peranan ini sedang digunakan dan tidak boleh dipadam.

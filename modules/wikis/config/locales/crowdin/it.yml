@@ -182,6 +182,8 @@ it:
         page_access_forbidden: Non hai i permessi per accedere a questa pagina wiki
         page_not_found: La pagina wiki collegata non è più disponibile
         unexpected: Si è verificato un errore inaspettato
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

@@ -182,6 +182,8 @@ fr:
         page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
         page_not_found: La page wiki liée n'est plus disponible
         unexpected: Une erreur inattendue s'est produite
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

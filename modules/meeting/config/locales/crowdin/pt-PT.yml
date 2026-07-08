@@ -480,6 +480,12 @@ pt-PT:
         fourth: Quarta
         last: Última
     actual_first_occurrence_mismatch_html: A primeira ocorrência desta série será %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Os meses com menos de %{monthly_day} dias serão ignorados
     end_after:
       never: Nunca

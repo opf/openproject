@@ -498,6 +498,14 @@ cs:
         fourth: Čtvrtý
         last: Poslední
     actual_first_occurrence_mismatch_html: První výskyt této série bude %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        few: This results in %{count} upcoming occurrences
+        many: This results in %{count} upcoming occurrences
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Měsíce s méně než %{monthly_day} dny budou vynechány
     end_after:
       never: Nikdy

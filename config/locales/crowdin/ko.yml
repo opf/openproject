@@ -1424,6 +1424,7 @@ ko:
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
         tab: 프로젝트
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 설정
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
       subject_configuration:
@@ -3277,6 +3278,8 @@ ko:
   error_can_not_delete_in_use_archived_work_packages: '보관된 프로젝트에 작업 패키지도 있습니다. 해당 작업 패키지의 특성을 변경하려면 먼저 다음 프로젝트를 다시 활성화해야 합니다: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: 이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다. 영향을 받는 모든 작업 패키지는 <a target="_blank" href="%{url}">이 보기</a>에서 볼 수 있습니다.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: 표준 유형은 삭제할 수 없습니다.
   error_can_not_invite_user: 사용자에게 초대장을 보내지 못했습니다.
   error_can_not_remove_role: 이 역할은 현재 사용 중이며 삭제할 수 없습니다.

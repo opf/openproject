@@ -432,7 +432,7 @@ es:
       action: Puede seguir viendo las repeticiones anteriores o editar la serie de reuniones para ampliarla.
     occurrence:
       error_no_next: No hay próxima repetición para esta reunión.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: La plantilla de serie de reuniones todavía está en modo borrador.
       first_already_exists: La primera repetición de esta serie de reuniones ya está instanciada.
       first_created: 'La primera reunión se ha creado correctamente a partir de la plantilla. Todas las reuniones futuras se crearán automáticamente al mismo tiempo que la anterior.
 
@@ -480,6 +480,12 @@ es:
         fourth: Cuarto
         last: Último
     actual_first_occurrence_mismatch_html: La primera aparición de esta serie será %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Se omitirán los meses con menos de %{monthly_day} días
     end_after:
       never: Nunca

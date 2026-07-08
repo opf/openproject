@@ -1424,6 +1424,7 @@ zh-TW:
         select_projects_description: 選擇要使用此類型的專案。
         tab: 專案
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 設定
         type_color_text: 選取的顏色可區分甘特圖或工作套件表格中的不同類型。因此建議使用強烈的顏色。
       subject_configuration:
@@ -3255,6 +3256,8 @@ zh-TW:
   error_can_not_delete_in_use_archived_work_packages: 已歸檔的專案中也有工作套件。您需要先重新啟動下列專案，才能變更各工作套件的屬性： %{archived_projects_urls}
   error_can_not_delete_type:
     explanation: 此類型包含工作套件，且無法刪除。您可以在<a target="_blank" href="%{url}">此檢視</a>中看到所有受影響的工作套件。
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: 標準類型無法刪除
   error_can_not_invite_user: 無法向用戶發送邀請。
   error_can_not_remove_role: 這個角色正在使用中，無法刪除。

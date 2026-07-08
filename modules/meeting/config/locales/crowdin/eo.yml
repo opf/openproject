@@ -136,29 +136,29 @@ eo:
     meeting_minutes_created: Meeting minutes created
   error_notification: Malsukcesis sendi sciigon.
   error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
-  label_meeting: Meeting
+  label_meeting: Kunveno
   label_meeting_plural: Renkontiĝoj
-  label_meeting_templates: Templates
-  label_meeting_template: Template
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
+  label_meeting_templates: Ŝablonoj
+  label_meeting_template: Ŝablono
+  label_meeting_template_new: Nova ŝablono
+  label_meeting_template_create: Krei ŝablonon
+  label_meeting_template_delete: Forigi ŝablonon
   label_meeting_template_edit: Redaktu ŝablonon
-  label_meeting_create_from_template: Create meeting from template
+  label_meeting_create_from_template: Krei kunvenon el ŝablono
   label_meeting_new: Nova renkontiĝo
-  label_meeting_new_dynamic: New one-time meeting
+  label_meeting_new_dynamic: Nova unufoja kunveno
   label_meeting_new_recurring: New recurring meeting
-  label_meeting_create: Create meeting
-  label_meeting_duplicate: Duplicate meeting
-  label_meeting_edit: Edit Meeting
-  label_meeting_agenda: Agenda
-  label_meeting_minutes: Minutes
+  label_meeting_create: Krei kunvenon
+  label_meeting_duplicate: Duobligi kunvenon
+  label_meeting_edit: Redakti kunvenon
+  label_meeting_agenda: Agendo
+  label_meeting_minutes: Protokoloj
   label_meeting_close: Fermi
   label_meeting_open: Malfermi
   label_meeting_index_delete: Forigi
-  label_meeting_open_this_meeting: Open this meeting
-  label_meeting_agenda_close: Close the agenda to begin the Minutes
-  label_meeting_date_time: Date/Time
+  label_meeting_open_this_meeting: Malfermu ĉi tiun kunvenon
+  label_meeting_agenda_close: Fermu la agendon por komenci la protokolojn
+  label_meeting_date_time: Dato/Tempo
   label_meeting_date_and_time: Dato kaj horo
   label_meeting_diff: Diff
   label_meeting_send_updates: Send email calendar invite and updates
@@ -167,10 +167,10 @@ eo:
   label_recurring_meeting_part_of: Part of a meeting series
   label_recurring_meeting_new: New recurring meeting
   label_recurring_meeting_plural: Recurring meetings
-  label_template: Template
-  label_recurring_meeting_view: View meeting series
+  label_template: Ŝablono
+  label_recurring_meeting_view: Vidi serion de kunvenoj
   label_recurring_meeting_create: Malfermi
-  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
+  label_recurring_meeting_duplicate: Duobligi kiel unufoja kunveno
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_delete: Delete occurrence
   label_recurring_meeting_restore: Restore this occurrence
@@ -340,7 +340,7 @@ eo:
         date: Dato
         time: Tempo
         location: Location
-        title: Minutes
+        title: Protokoloj
     export_pdf_dialog:
       title: Eksporti kiel PDF
       description: Generate a printable PDF file of this meeting at the current state.
@@ -394,11 +394,11 @@ eo:
       title: Presentation Mode
       button_present: Present
       exit: Exit presentation
-      current_item: Current item
-      total_items: "%{current} of %{total}"
-      previous: Previous
-      next: Next
-      no_items: No agenda items
+      current_item: Nuna ero
+      total_items: "%{current} de %{total}"
+      previous: Antaŭa
+      next: Sekva
+      no_items: Neniuj agendaj punktoj
       no_items_flash: There are no agenda items to present.
     ical_response:
       update_failed: Could not update participation status.
@@ -415,11 +415,11 @@ eo:
     empty_text: Drag items here or create a new one
   meeting_participant:
     participation_status:
-      needs_action: No response
-      accepted: Accepted
-      declined: Declined
-      tentative: Maybe
-      unknown: Unknown
+      needs_action: Neniu respondo
+      accepted: Akceptita
+      declined: Malakceptita
+      tentative: Eble
+      unknown: Nekonata
   recurring_meeting:
     time_zone_difference_banner:
       title: Diferenco de horzonoj
@@ -427,7 +427,7 @@ eo:
 
         '
     ended_blankslate:
-      title: Meeting series ended
+      title: Serio de kunvenoj finiĝas
       message: 'This meeting series has come to an end. There are no upcoming meetings. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
@@ -444,7 +444,7 @@ eo:
       description: 'This template will be used whenever new meetings in the series get created. You can add agenda items, participants, and attachments to this template.
 
         '
-      label_view_template: View template
+      label_view_template: Vidi ŝablonon
       label_edit_template: Redaktu ŝablonon
       banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
 
@@ -468,22 +468,28 @@ eo:
       working_days: Every working day
     monthly:
       inflected_ordinal:
-        first: first
-        second: second
-        third: third
-        fourth: fourth
-        last: last
+        first: unua
+        second: dua
+        third: tria
+        fourth: kvara
+        last: lasta
       ordinal_options:
-        first: First
-        second: Second
-        third: Third
-        fourth: Fourth
-        last: Last
+        first: Unua
+        second: Dua
+        third: Tria
+        fourth: Kvara
+        last: Lasta
     actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     end_after:
-      never: Never
-      specific_date: After a specific date
+      never: Neniam
+      specific_date: Post specifa dato
       iterations: After a number of occurrences
     starts: Starts
     in_words:
@@ -546,45 +552,45 @@ eo:
   permission_create_meetings: Create meetings
   permission_edit_meetings: Edit meetings
   permission_delete_meetings: Delete meetings
-  permission_view_meetings: View meetings
-  permission_manage_agendas: Manage agendas
-  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
-  permission_manage_outcomes: Manage outcomes
-  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
+  permission_view_meetings: Vidi kunvenojn
+  permission_manage_agendas: Administri agendojn
+  permission_manage_agendas_explanation: Permesas krei, redakti kaj forigi agendajn punktojn
+  permission_manage_outcomes: Administri rezultojn
+  permission_send_meeting_invites_and_outcomes: Sendu al partoprenantoj kunvenajn invitojn kaj rezultojn
   project_module_meetings: Renkontiĝoj
-  text_duration_in_hours: Duration in hours
-  text_in_hours: in hours
-  text_meeting_agenda_for_meeting: agenda for the meeting "%{meeting}"
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_duration_in_hours: Daŭro en horoj
+  text_in_hours: en horoj
+  text_meeting_agenda_for_meeting: agendo por la kunveno "%{meeting}"
+  text_meeting_template_blank_slate_heading: Ne estas ŝablonoj por montri
+  text_meeting_template_blank_slate: Vi povas krei novan ŝablonon por unufojaj kunsidoj
   text_meeting_series_end_early_heading: Delete future occurrences?
   text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
   text_meeting_closing_are_you_sure: Are you sure you want to close the meeting agenda?
   text_meeting_agenda_open_are_you_sure: This will overwrite all changes in the minutes! Do you want to continue?
   text_meeting_minutes_for_meeting: minutes for the meeting "%{meeting}"
   text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'
-  text_meeting_ics_description: 'Link to meeting: %{url}'
-  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
+  text_meeting_ics_description: 'Ligo al la kunveno: %{url}'
+  text_meeting_ics_meeting_series_description: 'Ligo al serio de kunvenoj: %{url}'
   text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
-  text_meeting_empty_heading: Your meeting is empty
+  text_meeting_empty_heading: Via kunveno estas malplena
   text_meeting_empty_description1: Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes.
   text_meeting_empty_description2: You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's "Meetings" tab.
-  label_meeting_empty_action: Add agenda item
+  label_meeting_empty_action: Aldoni agendajn punktojn
   label_meeting_actions: Meeting actions
-  label_meeting_edit_title: Edit meeting title
-  label_meeting_delete: Delete meeting
+  label_meeting_edit_title: Redaktu la titolon de la kunveno
+  label_meeting_delete: Forigi kunvenon
   label_meeting_created_by: Kreita de
-  label_meeting_last_updated: Last updated
-  label_meeting_reload: Reload
+  label_meeting_last_updated: Laste ĝisdatigita
+  label_meeting_reload: Reŝargi
   label_meeting_index_today: Hodiaŭ
   label_meeting_index_tomorrow: Morgaŭ
-  label_meeting_index_this_week: Later this week
+  label_meeting_index_this_week: Poste ĉi-semajne
   label_meeting_index_later: Venontsemajne kaj poste
-  label_agenda_items: Agenda items
+  label_agenda_items: Agendaj punktoj
   label_agenda_items_reordered: reordered
   label_agenda_item_add: Add agenda item
-  label_agenda_item_remove_from_agenda: Remove from agenda
-  label_agenda_item_remove_from_backlog: Remove from backlog
+  label_agenda_item_remove_from_agenda: Forigi el la agendo
+  label_agenda_item_remove_from_backlog: Forigi el la tasklisto
   label_agenda_item_undisclosed_wp: 'Work package #%{id} not visible'
   label_agenda_item_deleted_wp: Deleted work package reference
   label_agenda_item_actions: Agenda items actions

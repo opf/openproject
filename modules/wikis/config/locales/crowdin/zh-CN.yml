@@ -186,6 +186,8 @@ zh-CN:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用
         unexpected: 发生意外错误
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki
