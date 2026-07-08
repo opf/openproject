@@ -158,6 +158,7 @@ module OpenProject
       # @param description text
       # @param interactive toggle
       # @param collapsible toggle
+      # @param multi_line toggle
       def playground(
         title_tag: :h4,
         count: :inferred,
@@ -167,7 +168,8 @@ module OpenProject
         header_padding: :inherit,
         description: PLAYGROUND_DESCRIPTION,
         interactive: false,
-        collapsible: false
+        collapsible: false,
+        multi_line: true
       )
         render OpenProject::Common::BorderBoxListComponent.new(
           container: "border-box-list-playground-preview",
@@ -179,6 +181,7 @@ module OpenProject
           list.with_header(
             title_tag: title_tag.to_sym,
             count: preview_count(count),
+            multi_line: boolean_preview_param(multi_line),
             count_arguments: {
               scheme: count_scheme.to_sym,
               hide_if_zero: boolean_preview_param(hide_zero_count),
