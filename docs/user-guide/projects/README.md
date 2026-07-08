@@ -33,26 +33,26 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 Projects form a structure in OpenProject. You can have parent projects and sub-projects. A project can represent an organizational unit of a company, e.g. to have issues separated:
 
-* Company (Parent project)
-  * Marketing (Sub-project)
-  * Sales
-  * HR
-  * IT
-  * ...
+- Company (Parent project)
+  - Marketing (Sub-project)
+  - Sales
+  - HR
+  - IT
+  - ...
 
 Projects can also be for overarching teams working on one topic:
 
-* Launch a new product
-  * Design
-  * Development
-  * ...
+- Launch a new product
+  - Design
+  - Development
+  - ...
 
 Or, a project can be used to separate products or customers.
 
-* Product A
-  * Customer A
-  * Customer B
-  * Customer C
+- Product A
+  - Customer A
+  - Customer B
+  - Customer C
 
 ![Example of a project hierarchy shown in "Projects" dropdown menu in OpenProject](openproject_user_guide_projects_project_structure_example.png)
 
@@ -61,19 +61,19 @@ Or, a project can be used to separate products or customers.
 
 ## Select a project
 
-Find out  [how to open an existing project](../../getting-started/projects/#open-an-existing-project) in OpenProject in our *Getting started* guide.
+Find out  [how to open an existing project](../../getting-started/projects/#open-an-existing-project) in OpenProject in our _Getting started_ guide.
 
 ## Create a new project
 
-Find out how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject in our *Getting started* guide.
+Find out how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject in our _Getting started_ guide.
 
 ## Create a subproject
 
-Find out how to [create a subproject](./project-settings/) in OpenProject in our *Project settings* guide.
+Find out how to [create a subproject](./project-settings/) in OpenProject in our _Project settings_ guide.
 
 ## Project Settings
 
-You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](../../getting-started/projects/#open-an-existing-project), and click -> *Project settings* -> *Information*. Here you can: 
+You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](../../getting-started/projects/#open-an-existing-project), and click -> _Project settings_ -> _Information_. Here you can: 
 
 - Define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](./project-settings/project-information/#change-the-project-hierarchy).
 
@@ -84,4 +84,3 @@ You can specify further advanced settings for your project. Navigate to your pro
 - Set a project to **Public**. This means it can be accessed without signing in to OpenProject.
 
 Read the full guide on [project settings in OpenProject](./project-settings/).
-

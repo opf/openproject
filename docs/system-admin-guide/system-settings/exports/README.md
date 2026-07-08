@@ -7,7 +7,7 @@ keywords: exports, csv, export settings, csv security, formula injection
 ---
 # Exports
 
-In OpenProject you can configure export limits and improve the security of CSV exports. To do that, navigate to *Administration →  System settings →  Exports*.
+In OpenProject you can configure export limits and improve the security of CSV exports. To do that, navigate to _Administration →  System settings →  Exports_.
 
 ## Limit work packages export
 

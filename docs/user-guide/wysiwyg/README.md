@@ -268,7 +268,7 @@ The following list contains all supported attribute names for the `projectValue`
 
 | **Attribute**             | Usage example                                     |
 |---------------------------|---------------------------------------------------|
-| *Custom Fields*           | `projectValue:"Name of the project custom field"` |
+| _Custom Fields_           | `projectValue:"Name of the project custom field"` |
 | Project active? (boolean) | `projectValue:active`                             |
 | Description               | `projectValue:description`                        |
 | Identifier of the project | `projectValue:identifier`                         |

@@ -6,11 +6,11 @@ release_version: 17.1.0
 release_date: 2026-02-11
 ---
 
- # OpenProject 17.1.0
+# OpenProject 17.1.0
 
- Release date: 2026-02-11
+Release date: 2026-02-11
 
- We released [OpenProject 17.1.0](https://community.openproject.org/versions/2237). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 17.1.0](https://community.openproject.org/versions/2237). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 <!-- BEGIN CVE SECTION -->
 
@@ -117,6 +117,7 @@ When users click on an external link, a confirmation dialog is displayed indicat
 Users now see an item’s short or weight wherever values from Hierarchy or Weighted item list custom fields (work packages) and project attributes are shown. This provides an extra hint to confirm that the right item was selected.
 
 This information is displayed in:
+
 - Work package details (for assigned values).
 - Work package tables (for assigned values).
 - Project attributes (for assigned values).
@@ -130,6 +131,7 @@ This information is displayed in:
 ### UX/UI updates with the Primer design system
 
 OpenProject 17.1 includes further UX/UI improvements. The following areas have been redesigned using the Primer design system:
+
 - the Access tokens section in account settings,
 - the Backlogs section in system administration,
 - the password confirmation dialog.

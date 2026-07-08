@@ -26,7 +26,7 @@ Password parameters for OpenProject can be configured on each OpenProject enviro
 
 ## How can a user change his/her authentication method?
 
-Users who want to change their authentication method can just be re-invited. Go to *Administration -> Users* and click on the respective user. Then in the top there is a **Send invitation** button. This will allow the user to change their authentication method from password to Google and vice versa. They just have to click the link they will get via email and can choose to log in with the new method.
+Users who want to change their authentication method can just be re-invited. Go to _Administration -> Users_ and click on the respective user. Then in the top there is a **Send invitation** button. This will allow the user to change their authentication method from password to Google and vice versa. They just have to click the link they will get via email and can choose to log in with the new method.
 
 ## I am an administrator of an on-premises installation of OpenProject. Our users can't login and when I send them a link to login they don't receive it. What can I do?
 

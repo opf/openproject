@@ -37,6 +37,7 @@ Enter your meeting's title, location, start and end date and time, duration, fre
 
 > [!TIP] 
 > Duration can be entered both in hours and minutes. For example for a meeting that should last for 1.5 hours, you can enter: 
+>
 > - 1.5h
 > - 90m
 > - 90min
@@ -107,13 +108,13 @@ You can always adjust the template at a later date by selecting the meeting seri
 
 The left side menu displays all existing meeting series. Click on one will open the index page for this particular series, displaying all meeting occurrences planned for this series, and are grouped into:
 
-- **Open**: lists all meetings within the series that have been opened and can be edited. All open meetings will also be displayed under *My Meetings* section. 
+- **Open**: lists all meetings within the series that have been opened and can be edited. All open meetings will also be displayed under _My Meetings_ section. 
 - **Planned**: lists all meetings within the selected meeting series that are scheduled, but not yet open.  Every time a planned meeting starts, the next one will open automatically. You can also open any of the planned  meetings manually to import the template and start editing the agenda.
 
 > [!TIP]
 > Once a meeting is open, changes to the template do not affect it. 
 
-To edit the meeting series, select the **More** (three dots) icon on the far right side of the meeting series name and select *Edit meeting series*.
+To edit the meeting series, select the **More** (three dots) icon on the far right side of the meeting series name and select _Edit meeting series_.
 
 ![Button to edit recurring meeting series in OpenProject](openproject_userguide_meetings_edit_meeting_series_button.png)
 
@@ -127,11 +128,9 @@ Within the same menu you also have the following options:
 
 - Delete meeting series
 
-  
-
 ### Edit a recurring meeting occurrence
 
-To edit a single meeting within recurring meeting series you have to open it first by clicking the **Open** button next to the meeting. It will then be displayed under *Agenda opened* section on the recurring meeting index page, where you can click the meeting date and time. 
+To edit a single meeting within recurring meeting series you have to open it first by clicking the **Open** button next to the meeting. It will then be displayed under _Agenda opened_ section on the recurring meeting index page, where you can click the meeting date and time. 
 
 ![Select a meeting occurrence on a recurring meetings series index page](openproject_userguide_meetings_edit_meeting_occurence_link.png)
 
@@ -189,7 +188,7 @@ A **series backlog** is a special pre-existing section below the actual agenda i
 The backlog can be collapsed or expanded by clicking on the the title. Agenda backlog for recurring meetings will be visible for all meetings in the series. 
 
 > [!TIP]
-> By default, the backlog is expanded when the meeting status is *open*, collapsed if the meeting status is *in progress*, and hidden if the meeting is *closed*.
+> By default, the backlog is expanded when the meeting status is _open_, collapsed if the meeting status is _in progress_, and hidden if the meeting is _closed_.
 
 ![Agenda backlog section title collapsed, in OpenProject recurring meetings](openproject_userguide_meetings_series_backlog_title.png)
 
@@ -205,6 +204,6 @@ The dropdown More (three dots) icon on the right opens a menu allowing editing, 
 
 #### Clear agenda backlogs
 
-You can either remove single items from a series backlog or clear an entire backlog by clicking the *Clear backlog* option under More (three dots) menu next to the backlog name. Use this option with caution, as the action cannot be undone.
+You can either remove single items from a series backlog or clear an entire backlog by clicking the _Clear backlog_ option under More (three dots) menu next to the backlog name. Use this option with caution, as the action cannot be undone.
 
 ![An option to clear a series backlog in OpenProject recurring meetings](openproject_userguide_meetings_clear_series_backlog.png)

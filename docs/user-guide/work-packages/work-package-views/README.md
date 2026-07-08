@@ -8,7 +8,7 @@ keywords: work packages views, work package, work package table, split screen, b
 
 # Work packages views
 
-In OpenProject, a *view* is a list of work packages. Each view is based on a set of filter criteria and displays all work packages that meet those criteria. Every project in OpenProject automatically has these default views in the work packages module:
+In OpenProject, a _view_ is a list of work packages. Each view is based on a set of filter criteria and displays all work packages that meet those criteria. Every project in OpenProject automatically has these default views in the work packages module:
 
 ![A list of the default work package views](openproject-user-guide-work-package-views.png)
 
@@ -27,11 +27,11 @@ You can also create, save and modify your own work package views, which will be 
 
 The work packages in any view can be displayed a number of different ways. Each of these view modes displays the same set of work packages but display them differently:
 
-* [Table view](#table-view)
-* [Split screen view](#split-screen-view)
-* [Details view](#full-screen-view)
-* [Gantt view](../../gantt-chart)
-* [Board view](../../../getting-started/boards-introduction/)
+- [Table view](#table-view)
+- [Split screen view](#split-screen-view)
+- [Details view](#full-screen-view)
+- [Gantt view](../../gantt-chart)
+- [Board view](../../../getting-started/boards-introduction/)
 
 ### Table view
 

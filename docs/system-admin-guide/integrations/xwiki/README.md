@@ -23,18 +23,18 @@ keywords: XWiki, file storage, integration
 
 ### 1. Install the OpenProject plugin in XWiki
 
-Start by opening the XWiki instance as an administrator. Click on the *Drawer* icon in the top right corner and select
-*Administer Wiki*.
+Start by opening the XWiki instance as an administrator. Click on the _Drawer_ icon in the top right corner and select
+_Administer Wiki_.
 
 ![XWiki administration menu with "Administer Wiki" selected](openproject_system_guide_xwiki_administration.png)
 
-Click on *Extensions*, search for **OpenProject Integration (Pro)**, and install the plugin.
+Click on _Extensions_, search for **OpenProject Integration (Pro)**, and install the plugin.
 
 ![XWiki Extensions page showing the OpenProject Integration (Pro) extension](openproject_system_guide_xwiki_administration_extensions.png)
 
 ### 2. Create the XWiki provider in OpenProject
 
-Navigate to the OpenProject administration settings page. In the left hand menu select *Wikis → Wiki providers*.
+Navigate to the OpenProject administration settings page. In the left hand menu select _Wikis → Wiki providers_.
 Click the **+ Wiki provider** button and select **XWiki**.
 
 ![OpenProject Wiki providers page with the "+ Wiki provider" button](openproject_system_guide_xwiki_add_wiki_button.png)

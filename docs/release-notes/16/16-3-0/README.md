@@ -21,6 +21,7 @@ Take a look at our release video showing the most important features introduced 
 ### UX/UI improvements for a more modern look
 
 There have been several design and user experience updates with OpenProject 16.3:
+
 - The **header has been redesigned with Primer**, including a new icon for notifications.
 - The grid (waffle) icon in the header menu is now an overlapping lateral menu, including **Home**, **My Page** and **My time tracking**.
 
@@ -151,4 +152,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [OlhaTrotska](https://crowdin.com/profile/OlhaTrotska), for a great number of translations into Ukrainian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
-

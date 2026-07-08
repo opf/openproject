@@ -8,7 +8,6 @@ keywords: backlogs, scrum, backlog, agile, sprint, sprint bucket, backlog bucket
 
 # Backlog and sprints
 
-
 > [!NOTE]
 > The **Backlogs module** is actively being improved. This documentation is updated regularly to reflect the latest changes.
 
@@ -63,6 +62,7 @@ On smaller screens, assignee names and priority names may be hidden to preserve 
 > If a parent work package is not visible to a user due to permissions, **Undisclosed** is displayed instead.
 
 A work package:
+
 - can only belong to one backlog bucket at a time.
 - cannot belong to a sprint and a backlog bucket at the same time.
 - cannot belong to a backlog bucket and the Inbox backlog at the same time.
@@ -81,6 +81,7 @@ To create a backlog bucket, click the **+ Backlog bucket** button in the Backlog
 #### Edit or delete a backlog bucket
 
 Open the **More (three dots)** menu of a backlog bucket to:
+
 - Edit the backlog bucket
 - Delete the backlog bucket
 
@@ -136,6 +137,7 @@ Depending on the current location of the work package, you can move it:
 Depending on the project configuration, certain work package types and statuses can be excluded from the Inbox backlog and backlog buckets. This can be configured under [project backlog settings](../projects/project-settings/backlogs-settings).
 
 Excluded work packages: 
+
 - do not appear in the Inbox backlog.
 - do not appear in backlog buckets.
 - continue to appear in sprints.
