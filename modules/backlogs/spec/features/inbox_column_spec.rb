@@ -440,6 +440,45 @@ RSpec.describe "Inbox column in sprint planning view", :js do
     end
   end
 
+  context "with a truncated inbox" do
+    let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
+    # With TRUNCATE_MIDDLE stubbed to 2 (tail_size 1, threshold 4), five items
+    # truncate to: the first two, a show-more marker standing in for the two
+    # hidden items, then the last one.
+    let!(:inbox_wps) { create_list(:work_package, 5, project:) }
+
+    before do
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
+      planning_page.visit!
+    end
+
+    it "collapses the hidden items behind a show-more marker" do
+      planning_page.expect_inbox_show_more
+    end
+
+    it "disables one-step menu moves that would cross the hidden block", :aggregate_failures do
+      last_visible_head_item = inbox_wps.second
+      only_visible_tail_item = inbox_wps.last
+
+      planning_page.within_work_package_move_submenu(last_visible_head_item) do |submenu|
+        # Moving down one slot would jump the whole hidden block, so it is
+        # unavailable; moving up within the visible head and the addressable
+        # extreme (bottom) stay available.
+        expect(submenu).to have_no_selector(:menuitem, text: "Move down")
+        expect(submenu).to have_selector(:menuitem, text: "Move up")
+        expect(submenu).to have_selector(:menuitem, text: "Move to bottom")
+      end
+
+      planning_page.within_work_package_move_submenu(only_visible_tail_item) do |submenu|
+        # Moving up one slot would jump the whole hidden block, so it is
+        # unavailable; moving to the top across the block is addressable and
+        # stays available.
+        expect(submenu).to have_no_selector(:menuitem, text: "Move up")
+        expect(submenu).to have_selector(:menuitem, text: "Move to top")
+      end
+    end
+  end
+
   describe "retaining the 'show all' state" do
     let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
     let!(:inbox_items) { create_list(:work_package, 5, project:, type:) }
