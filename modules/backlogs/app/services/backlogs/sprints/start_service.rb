@@ -43,12 +43,6 @@ class Backlogs::Sprints::StartService < BaseServices::BaseContracted
     model.active!
 
     service_call
-  rescue ActiveRecord::RecordNotUnique
-    add_only_one_active_sprint_error
-    service_call.success = false
-    service_call.result = model
-    service_call.errors = model.errors
-    service_call
   end
 
   def ensure_task_boards(service_call)
@@ -67,11 +61,5 @@ class Backlogs::Sprints::StartService < BaseServices::BaseContracted
 
   def board_name
     "#{model.project.name}: #{model.name}"
-  end
-
-  def add_only_one_active_sprint_error
-    return if model.errors.added?(:status, :only_one_active_sprint_allowed)
-
-    model.errors.add(:status, :only_one_active_sprint_allowed)
   end
 end

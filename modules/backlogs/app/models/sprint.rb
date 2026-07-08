@@ -75,14 +75,6 @@ class Sprint < ApplicationRecord
             comparison: { greater_than_or_equal_to: :start_date },
             if: :date_range_set?
 
-  validates :status,
-            uniqueness: {
-              scope: :project_id,
-              conditions: -> { active },
-              message: :only_one_active_sprint_allowed
-            },
-            if: :active?
-
   def date_range_set?
     start_date? && finish_date?
   end

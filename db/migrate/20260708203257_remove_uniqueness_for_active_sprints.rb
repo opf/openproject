@@ -28,36 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BackfillDefaultUserCustomFieldSectionName < ActiveRecord::Migration[8.1]
+class RemoveUniquenessForActiveSprints < ActiveRecord::Migration[8.0]
+  disable_ddl_transaction!
+
   def up
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = #{quote(default_section_name)}, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND (name IS NULL OR name = '')
-    SQL
+    remove_index :sprints, name: "index_sprints_on_project_id_when_active", algorithm: :concurrently
   end
 
   def down
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = NULL, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND name = #{quote(default_section_name)}
+    duplicates = exec_query(<<~SQL.squish).rows
+      SELECT project_id FROM sprints WHERE status = 'active'
+      GROUP BY project_id HAVING COUNT(*) > 1
     SQL
-  end
 
-  private
+    if duplicates.any?
+      raise "Cannot roll back: projects #{duplicates.flatten.join(', ')} have multiple active sprints. " \
+            "Complete all but one active sprint per project before rolling back this migration."
+    end
 
-  def default_section_name
-    I18n.t("settings.user_custom_fields.label_default_section", locale: default_language)
-  end
-
-  # Settings may be unavailable when migrating a clean database (e.g. the settings
-  # table or its seeds are not yet present), so fall back to English.
-  def default_language
-    Setting.default_language.presence || "en"
-  rescue StandardError
-    "en"
+    add_index :sprints, :project_id, unique: true,
+                                     where: "status = 'active'",
+                                     algorithm: :concurrently,
+                                     name: "index_sprints_on_project_id_when_active"
   end
 end

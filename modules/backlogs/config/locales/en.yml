@@ -58,7 +58,6 @@ en:
       messages:
         dates_required: "Start and finish dates are required in order to start the sprint."
         must_be_in_planning: "must be in planning to start."
-        only_one_active_sprint_allowed: "only one active sprint is allowed per project."
       models:
         project:
           attributes:

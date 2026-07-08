@@ -108,9 +108,8 @@ RSpec.describe Backlogs::Sprints::StartContract do
                status: "active")
       end
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
+      it "is valid" do
+        expect(contract.validate).to be(true)
       end
     end
 

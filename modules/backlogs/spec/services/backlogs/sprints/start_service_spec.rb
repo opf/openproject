@@ -120,27 +120,10 @@ RSpec.describe Backlogs::Sprints::StartService do
   context "when another active sprint exists in the project" do
     let!(:active_sprint) { create(:sprint, project:, status: "active") }
 
-    it "fails contract validation without creating a board", :aggregate_failures do
-      expect(result).not_to be_success
-      expect(result.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
-      expect(sprint.reload).to be_in_planning
-      expect(sprint.task_board_for(project)).to be_nil
-    end
-  end
-
-  context "when the database unique constraint rejects sprint activation" do
-    before do
-      allow(sprint)
-        .to receive(:active!)
-        .and_raise(ActiveRecord::RecordNotUnique)
-    end
-
-    it "returns failure with the active sprint error", :aggregate_failures do
-      expect(result).not_to be_success
-      expect(result.errors[:status]).to include("only one active sprint is allowed per project.")
-      expect(result.message).to be_present
-      expect(sprint.reload).to be_in_planning
-      expect(sprint.task_board_for(project)).to be_nil
+    it "succeeds with boards created" do
+      expect(result).to be_success
+      expect(sprint.reload).to be_active
+      expect(sprint.task_board_for(project)).to be_present
     end
   end
 
