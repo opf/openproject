@@ -186,7 +186,7 @@ This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bo
 
 For more information, please see the [GitHub advisory #GHSA-63fg-pgqj-3qf8](https://github.com/opf/openproject/security/advisories/GHSA-63fg-pgqj-3qf8)
 
-### GHSA-c6rc-4288-8p4f - Improper Access Control on openproject through /api/v3/work_packages/<X.id> via PATCH parameter "fileLinks"
+### GHSA-c6rc-4288-8p4f - Improper Access Control on openproject through /api/v3/work_packages/{X.id} via PATCH parameter "fileLinks"
 
 `PATCH /api/v3/work_packages/{id}` accepts a writable `_links.fileLinks` payload property. The update path is missing the `user_allowed_to_manage_file_links` validation that exists on the create path, and the underlying setter resolves `Storages::FileLink` records by raw id with no scope. An authenticated user with only `edit_work_packages` (no `manage_file_links`, no membership in the victim project) can therefore:
 
