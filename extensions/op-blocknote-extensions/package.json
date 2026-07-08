@@ -47,8 +47,8 @@
     "@blocknote/mantine": "^0.51.3",
     "@blocknote/react": "^0.51.3",
     "@vitejs/plugin-react": "^5.1.0",
-    "@vitest/browser-playwright": "^4.0.18",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.10",
     "@vitest/eslint-plugin": "^1.6.18",
     "@types/testing-library__react": "^10.0.1",
     "@types/testing-library__user-event": "^4.1.1",
@@ -63,7 +63,7 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.46.2",
     "vite": "^7.1.12",
-    "vitest": "^4.0.18",
+    "vitest": "^4.1.10",
     "vitest-browser-react": "^2.0.5"
   },
   "peerDependencies": {
