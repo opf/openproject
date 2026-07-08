@@ -258,6 +258,42 @@ RSpec.describe WorkPackageMailer do
       end
     end
 
+    describe "rendering the version(s) detail from target_versions" do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, "added") }
+
+      let(:version_a) { build_stubbed(:version, name: "Alpha") }
+      let(:version_b) { build_stubbed(:version, name: "Beta") }
+
+      before do
+        allow(work_package).to receive(:target_versions).and_return(target_versions)
+      end
+
+      context "with multiple versions disabled (legacy behaviour)",
+              with_flag: { work_package_multiple_versions: false } do
+        let(:target_versions) { [version_a] }
+
+        it "labels the row 'Version' and shows the single target version" do
+          expected = "#{WorkPackage.human_attribute_name(:version)}: #{version_a.name}"
+
+          expect(mail.text_part.body.encoded).to include(expected)
+          expect(mail.html_part.body.encoded).to include(expected)
+        end
+      end
+
+      context "with multiple versions enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let(:target_versions) { [version_b, version_a] }
+
+        it "labels the row 'Target versions' and lists all target versions ordered by name" do
+          expected = "#{WorkPackage.human_attribute_name(:target_versions)}: #{version_a.name}, #{version_b.name}"
+
+          expect(mail.text_part.body.encoded).to include(expected)
+          expect(mail.html_part.body.encoded).to include(expected)
+        end
+      end
+    end
+
     describe "rendering the latest comment containing a WP reference" do
       shared_let(:persisted_project) { create(:project, identifier: "demo") }
       shared_let(:persisted_recipient) { create(:admin) }
