@@ -99,7 +99,8 @@ module OpenProject::Wikis
                    {
                      wiki: %i[destroy protect edit_parent_page update_parent_page],
                      wikis: %i[edit destroy],
-                     wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
+                     wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item],
+                     "wikis/project_settings/wiki": %i[show create]
                    },
                    dependencies: :edit_wiki_pages,
                    permissible_on: :project,
@@ -151,6 +152,14 @@ module OpenProject::Wikis
            parent: :wiki_providers,
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
            caption: :"menus.admin.external_wiki_providers"
+
+      menu :project_menu,
+           :settings_project_wiki,
+           { controller: "wikis/project_settings/wiki", action: :show },
+           parent: :settings,
+           if: ->(_) { Wikis::InternalProvider.enabled? }, # What to do on projects that have a wiki but later disabled it?
+           after: :settings_backlogs,
+           caption: :project_module_wiki_internal
     end
 
     patch_with_namespace :WikiPages, :CreateService
