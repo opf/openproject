@@ -53,10 +53,12 @@ module OpenProject
       # @!parse
       #   # Adds the optional header row.
       #   #
+      #   # @param show_drag_handle [Boolean] whether the header renders a
+      #   #   leading drag handle.
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(**system_arguments, &block)
+      #   def with_header(show_drag_handle: false, **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)

@@ -217,6 +217,26 @@ module OpenProject
         end
       end
 
+      # @label With header drag handle
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      # @param collapsible toggle
+      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-header-drag-handle-preview",
+          padding:,
+          header_padding:,
+          collapsible: boolean_preview_param(collapsible)
+        ) do |list|
+          list.with_header(count: true, show_drag_handle: true) do |header|
+            header.with_title { "Reorderable section" }
+          end
+
+          list.with_item { "First item" }
+          list.with_item { "Second item" }
+        end
+      end
+
       private
 
       def preview_count(count)

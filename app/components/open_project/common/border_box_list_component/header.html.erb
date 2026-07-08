@@ -30,8 +30,17 @@ See COPYRIGHT and LICENSE files for more details.
 <%= grid_layout(
       "op-border-box-list-header",
       tag: :div,
-      classes: { "op-border-box-list-header_collapsible" => collapsible? }
+      classes: {
+        "op-border-box-list-header_collapsible" => collapsible?,
+        "op-border-box-list-header_with-drag-handle" => show_drag_handle?
+      }
     ) do |grid| %>
+  <% if show_drag_handle? %>
+    <% grid.with_area(:drag_handle, classes: "hide-when-print") do %>
+      <%= render(Primer::OpenProject::DragHandle.new) %>
+    <% end %>
+  <% end %>
+
   <% if collapsible? %>
     <% grid.with_area(:heading) do %>
       <%=

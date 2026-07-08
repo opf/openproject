@@ -99,7 +99,10 @@ module OpenProject
                     :list_id,
                     :interactive,
                     :collapsed,
-                    :collapsible
+                    :collapsible,
+                    :show_drag_handle
+
+        alias_method :show_drag_handle?, :show_drag_handle
 
         attr_writer :collapsible_id
 
@@ -120,6 +123,8 @@ module OpenProject
         # @param collapsible [Boolean] whether the header renders a collapsible
         #   toggle. Defaults to `false`. Pass `true` to render a header
         #   with a toggle button.
+        # @param show_drag_handle [Boolean] whether the header renders a leading
+        #   drag handle. Defaults to `false`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
           count: nil,
@@ -131,6 +136,7 @@ module OpenProject
           interactive: false,
           collapsed: false,
           collapsible: false,
+          show_drag_handle: false,
           **system_arguments
         )
           super()
@@ -145,6 +151,7 @@ module OpenProject
           @collapsible_id = list_id
           @collapsed = collapsed
           @collapsible = collapsible
+          @show_drag_handle = show_drag_handle
           @system_arguments = system_arguments
         end
 

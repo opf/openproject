@@ -62,6 +62,19 @@
   &_collapsible
     grid-template-areas: "heading actions menu"
 
+  &_with-drag-handle
+    grid-template-columns: auto minmax(0, 1fr) minmax(5rem, max-content) auto
+    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+
+    &.op-border-box-list-header_collapsible
+      grid-template-areas: "drag_handle heading actions menu"
+
+  &--drag_handle
+    align-self: center
+    margin-right: var(--stack-gap-condensed)
+    cursor: grab
+    color: var(--fgColor-muted)
+
   &--heading
     min-width: 0
 
