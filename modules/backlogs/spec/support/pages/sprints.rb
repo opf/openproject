@@ -137,16 +137,16 @@ module Pages
     end
 
     def expect_menu_item(label)
-      expect(page).to have_css("[role=menuitem]", text: label)
+      expect(page).to have_selector(:menuitem, text: label)
     end
 
     def expect_no_menu_item(label)
-      expect(page).to have_no_css("[role=menuitem]", text: label)
+      expect(page).to have_no_selector(:menuitem, text: label)
     end
 
     def click_menu_item(sprint, label)
       open_more_menu(sprint)
-      find("[role=menuitem]", text: label).click
+      find(:menuitem, text: label).click
     end
 
     def sprint_table_selector

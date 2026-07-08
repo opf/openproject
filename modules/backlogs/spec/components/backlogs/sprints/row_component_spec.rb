@@ -126,13 +126,13 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         before { allow(user).to receive(:allowed_in_project?).with(:create_sprints, project).and_return(true) }
 
         it "shows the edit action" do
-          expect(rendered_component).to have_css("[role=menuitem]", text: "Edit sprint")
+          expect(rendered_component).to have_selector(:menuitem, text: "Edit sprint")
         end
       end
 
       context "when the user lacks create_sprints permission" do
         it "hides the edit action" do
-          expect(rendered_component).to have_no_css("[role=menuitem]", text: "Edit sprint")
+          expect(rendered_component).to have_no_selector(:menuitem, text: "Edit sprint")
         end
       end
     end
@@ -142,13 +142,13 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         before { allow(sprint).to receive(:task_board_for).with(project).and_return(build_stubbed(:board_grid)) }
 
         it "shows the sprint board action" do
-          expect(rendered_component).to have_css("[role=menuitem]", text: I18n.t("backlogs.label_sprint_board"))
+          expect(rendered_component).to have_selector(:menuitem, text: "Sprint board")
         end
       end
 
       context "when no task board exists" do
         it "hides the sprint board action" do
-          expect(rendered_component).to have_no_css("[role=menuitem]", text: I18n.t("backlogs.label_sprint_board"))
+          expect(rendered_component).to have_no_selector(:menuitem, text: "Sprint board")
         end
       end
     end
@@ -164,18 +164,18 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
       context "when the sprint_reports feature flag is active", with_flag: :sprint_reports do
         it "shows the sprint report action linking to the report page" do
-          expect(rendered_component).to have_css(
-            "[role=menuitem]",
-            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          expect(rendered_component).to have_selector(
+            :menuitem,
+            text: "Sprint report"
           )
         end
       end
 
       context "when the sprint_reports feature flag is inactive" do
         it "hides the sprint report action" do
-          expect(rendered_component).to have_no_css(
-            "[role=menuitem]",
-            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          expect(rendered_component).to have_no_selector(
+            :menuitem,
+            text: "Sprint report"
           )
         end
       end
@@ -184,9 +184,9 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         before { allow(user).to receive(:allowed_in_project?).with(:view_sprints, project).and_return(false) }
 
         it "hides the sprint report action" do
-          expect(rendered_component).to have_no_css(
-            "[role=menuitem]",
-            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          expect(rendered_component).to have_no_selector(
+            :menuitem,
+            text: "Sprint report"
           )
         end
       end
