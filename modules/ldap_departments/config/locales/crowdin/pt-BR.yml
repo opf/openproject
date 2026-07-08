@@ -52,7 +52,9 @@ pt-BR:
         description: Configure uma sincronização para espelhar a estrutura das unidades organizacionais do LDAP na hierarquia de departamentos do OpenProject.
         heading: Nenhuma sincronização de departamento LDAP
       destroy:
-        confirmation: Se você continuar, a sincronização %{name} será removida e seus %{departments_count} departamentos não serão mais gerenciados pelo LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Remover sincronização %{name}?
         info: Os departamentos e seus membros são mantidos e passam a ser departamentos regulares. Depois disso, você pode editá-los ou excluí-los manualmente em Administração → Usuários e permissões → Organização.
         title: Remover sincronização %{name}

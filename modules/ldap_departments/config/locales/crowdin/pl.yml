@@ -52,7 +52,11 @@ pl:
         description: Skonfiguruj synchronizację w celu odzwierciedlenia struktury jednostek organizacyjnych LDAP w hierarchii działów OpenProject.
         heading: Brak synchronizacji LDAP działów
       destroy:
-        confirmation: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej działy (%{departments_count}) nie będą już zarządzane za pomocą usługi LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          few: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          many: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Usunąć synchronizację %{name}?
         info: Działy zostają zachowane wraz z członkami i stają się zwykłymi działami. Można je później ręcznie edytować lub usunąć w sekcji Administracja → Użytkownicy i uprawnienia → Organizacja.
         title: Usuń synchronizację %{name}

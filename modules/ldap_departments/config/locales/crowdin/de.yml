@@ -52,7 +52,9 @@ de:
         description: Richten Sie eine Synchronisierung ein, um Ihre LDAP-Organisationseinheitenstruktur in die Abteilungshierarchie von OpenProject abzubilden.
         heading: Keine synchronisierte Abteilungen
       destroy:
-        confirmation: Wenn Sie fortfahren, wird die Synchronisierung %{name} entfernt, und die darin enthaltenen %{departments_count} Abteilungen werden nicht mehr über LDAP verwaltet.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Synchronisierung %{name} aufheben?
         info: Die Abteilungen und ihre Mitglieder bleiben erhalten und werden zu regulären Abteilungen. Sie können diese anschließend manuell unter „Administration“ → „Benutzer und Berechtigungen“ → „Organisation“ bearbeiten oder löschen.
         title: Synchronisierung %{name} aufheben

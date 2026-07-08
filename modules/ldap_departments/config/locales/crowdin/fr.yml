@@ -52,7 +52,9 @@ fr:
         description: Configurez une synchronisation afin de reproduire la structure des unités organisationnelles LDAP dans la hiérarchie des services d'OpenProject.
         heading: Aucune synchronisation LDAP entre les services
       destroy:
-        confirmation: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{departments_count} services ne seront plus gérés par LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Supprimer la synchronisation %{name} ?
         info: Les services et leurs membres sont conservés et deviennent des services permanents. Vous pouvez ensuite les modifier ou les supprimer manuellement dans la rubrique Administration → Utilisateurs et autorisations → Organisation.
         title: Supprimer la synchronisation %{name}

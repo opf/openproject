@@ -52,7 +52,9 @@ rw:
         description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
         heading: No LDAP department synchronizations
       destroy:
-        confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Remove synchronization %{name}?
         info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
         title: Remove synchronization %{name}
