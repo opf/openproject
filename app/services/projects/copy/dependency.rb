@@ -62,8 +62,12 @@ module Projects::Copy
     # When a block is given, its return value is merged into the copied
     # attributes, letting a caller carry over child records via nested
     # attributes (see SprintsDependentService copying sprint goals).
-    def copy_collection_with_id_map(association)
-      source.public_send(association).each_with_object({}) do |source_record, id_map|
+    #
+    # +source_scope+ defaults to the whole source association but lets a caller
+    # pass an eager-loaded relation (e.g. +includes(:goals)+) to avoid an N+1
+    # inside the block.
+    def copy_collection_with_id_map(association, source_scope: source.public_send(association))
+      source_scope.each_with_object({}) do |source_record, id_map|
         attributes = copyable_attributes(source_record)
         attributes.merge!(yield(source_record)) if block_given?
         copy = target.public_send(association).create(attributes)

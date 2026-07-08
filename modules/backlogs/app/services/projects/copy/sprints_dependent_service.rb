@@ -45,9 +45,10 @@ module Projects::Copy
     end
 
     # Sprints owned by the source project are recreated on the copy; the lookup
-    # maps each source id to its copy so the copied work packages follow.
+    # maps each source id to its copy so the copied work packages follow. Goals
+    # are eager-loaded so +copied_goal_attributes+ does not query per sprint.
     def copy_owned_sprints
-      copy_collection_with_id_map(:sprints) do |source_sprint|
+      copy_collection_with_id_map(:sprints, source_scope: source.sprints.includes(:goals)) do |source_sprint|
         { goals_attributes: copied_goal_attributes(source_sprint) }
       end
     end
@@ -55,20 +56,24 @@ module Projects::Copy
     # Shared sprints (owned by another project) that the source's work packages
     # reference: keep the assignment only when the copied project will also
     # receive that sprint, otherwise leave it unmapped so the work-package copy
-    # clears it rather than pointing at a sprint the copy cannot see.
+    # clears it rather than pointing at a sprint the copy cannot see. Resolved in
+    # a single query against the sprints the target natively receives (its own
+    # sprint source), producing an id => id identity map.
     def preserved_shared_sprints
-      Sprint.where(id: source.work_packages.select(:sprint_id))
+      Sprint.native_to_sprint_source(target)
+            .where(id: source.work_packages.select(:sprint_id))
             .where.not(project_id: source.id)
-            .select { |sprint| Sprint.receiving_projects(sprint).exists?(id: target.id) }
-            .to_h { |sprint| [sprint.id, sprint.id] }
+            .pluck(:id)
+            .index_with { |id| id }
     end
 
     # Only the source project's own goals are carried over; a shared sprint may
     # also hold goals owned by other projects, which are not ours to copy.
+    # Filtered in Ruby to reuse the eager-loaded goals association.
     def copied_goal_attributes(source_sprint)
-      source_sprint.goals.where(project_id: source.id).map do |goal|
-        { text: goal.text, project_id: target.id }
-      end
+      source_sprint.goals
+                   .select { |goal| goal.project_id == source.id }
+                   .map { |goal| { text: goal.text, project_id: target.id } }
     end
   end
 end
