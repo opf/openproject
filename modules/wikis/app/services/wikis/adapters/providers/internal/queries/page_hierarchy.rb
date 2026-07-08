@@ -48,18 +48,11 @@ module Wikis
                   identifier: wiki.id.to_s,
                   provider:,
                   name: wiki.project.name,
-                  # FIXME: internal wiki currently has no notion of a single root page, nor an official "entrypoint"
-                  href: url_for(only_path: true,
-                                controller: "/wiki",
-                                action: "show",
-                                project_id: wiki.project.identifier,
-                                id: WikiPage.main_pages(wiki).first.slug)
+                  href: url_helpers.project_overview_path(wiki.project)
                 )
               end
 
               private
-
-              delegate :url_for, to: :url_helpers
 
               def url_helpers
                 @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers

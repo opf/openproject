@@ -35,59 +35,41 @@ module Wikis
         module Queries
           class CanonicalPageHierarchy < BaseQuery
             include Concerns::XWikiRequest
+            include Concerns::XWikiPageQueries
 
             class << self
               def json_to_page_hierarchy(data, provider:)
+                *ancestors, page = data
+
                 Results::PageHierarchy.new(
-                  wiki: json_to_wiki(data, provider:),
-                  page: StablePageInfo.json_to_page_info(data, provider:),
-                  ancestors: json_to_ancestors(data, provider:)
+                  wiki: json_to_wiki(page, provider:),
+                  page: StablePageInfo.json_to_page_info(page, provider:),
+                  ancestors: ancestors.reverse.map { StablePageInfo.json_to_page_info(it, provider:) }
                 )
               end
 
-              def json_to_wiki(data, provider:)
+              def json_to_wiki(page, provider:)
                 Results::Wiki.new(
-                  identifier: fetch_json(data, "hierarchy", "items", 0, "name"),
+                  identifier: fetch_json(page, "hierarchy", "items", 0, "name"),
                   provider:,
-                  name: fetch_json(data, "hierarchy", "items", 0, "label"),
-                  href: fetch_json(data, "hierarchy", "items", 0, "url")
+                  name: fetch_json(page, "hierarchy", "items", 0, "label"),
+                  href: fetch_json(page, "hierarchy", "items", 0, "url")
                 )
-              end
-
-              def json_to_ancestors(data, provider:)
-                page_title = fetch_json(data, "title")
-
-                ancestors = fetch_json(data, "hierarchy", "items").filter do |item|
-                  next false unless fetch_json(item, "type") == "space"
-
-                  fetch_json(item, "label") != page_title
-                end
-
-                ancestors.reverse.map do |item|
-                  Results::PageInfo.new(
-                    # FIXME: We need a real id here
-                    identifier: fetch_json(item, "name"),
-                    title: fetch_json(item, "label"),
-                    href: fetch_json(item, "url"),
-                    provider:
-                  )
-                end
               end
             end
 
             def call(input_data:, auth_strategy:)
-              ref = CanonicalPageReference.parse(input_data.identifier)
-              return failure(code: :not_found) unless ref
-
-              perform_request(ref, auth_strategy:) do |data|
-                success(self.class.json_to_page_hierarchy(data, provider:))
+              canonical_page_info(identifier: input_data.identifier, auth_strategy:).bind do |page_info|
+                perform_request(page_info.identifier, auth_strategy:) do |data|
+                  success(self.class.json_to_page_hierarchy(data, provider:))
+                end
               end
             end
 
-            def perform_request(reference, auth_strategy:, &)
+            def perform_request(identifier, auth_strategy:, &)
               authenticated(auth_strategy) do |http|
                 handle_response(
-                  http.get(rest_url("openproject/documents", query: { docRef: reference.to_s })),
+                  http.get(rest_url("openproject/documents/#{identifier}/ancestors")),
                   &
                 )
               end
