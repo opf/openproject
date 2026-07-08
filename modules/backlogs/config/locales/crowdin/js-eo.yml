@@ -24,7 +24,7 @@ eo:
   js:
     work_packages:
       properties:
-        storyPoints: Prognozaj poentoj
+        storyPoints: Rakontaj poentoj
     burndown:
       day: Tago
       points: Poentoj

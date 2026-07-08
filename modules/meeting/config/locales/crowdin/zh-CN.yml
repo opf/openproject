@@ -476,6 +476,11 @@ zh-CN:
         fourth: 第四个
         last: 最后一个
     actual_first_occurrence_mismatch_html: 此系列的第一个事件将是%{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: 将跳过天数少于 %{monthly_day} 天的月份
     end_after:
       never: 从不

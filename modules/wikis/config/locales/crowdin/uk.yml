@@ -190,6 +190,8 @@ uk:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна
         unexpected: Сталася неочікувана помилка
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

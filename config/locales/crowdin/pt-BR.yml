@@ -1442,6 +1442,7 @@ pt-BR:
         select_projects_description: Selecione os projetos nos quais deseja usar esse tipo.
         tab: Projetos
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Configurações
         type_color_text: A cor selecionada distingue os tipos diferentes nas tabelas de Gantt ou tabelas dos pacotes de trabalho. Recomenda-se o uso de uma cor forte.
       subject_configuration:
@@ -3321,6 +3322,8 @@ pt-BR:
   error_can_not_delete_in_use_archived_work_packages: 'Também há pacotes de trabalho em projetos arquivados. Primeiro, você precisa reativar os seguintes projetos, antes de poder alterar o atributo dos respectivos pacotes de trabalho: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Este tipo contém pacotes de trabalho e não pode ser excluído. Você pode ver todos os pacotes de trabalho afetados em <a target="_blank" href="%{url}">esta visão</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Tipos padrão não podem ser excluídos.
   error_can_not_invite_user: Falhou ao enviar convite ao usuário.
   error_can_not_remove_role: Esta função está em uso e não pode ser excluída.

@@ -182,6 +182,8 @@ de:
         page_access_forbidden: Sie haben keine Berechtigung, auf diese Wikiseite zuzugreifen
         page_not_found: Verlinkte Wikiseite nicht mehr verfügbar
         unexpected: Ein unbekannter Fehler ist aufgetreten
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

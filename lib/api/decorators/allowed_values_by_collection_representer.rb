@@ -49,7 +49,8 @@ module API
                      current_user: nil,
                      allowed_values_getter: nil,
                      deprecated: nil,
-                     description: nil)
+                     description: nil,
+                     options: nil)
         @value_representer = value_representer
         @link_factory = link_factory
         @allowed_values_getter = allowed_values_getter
@@ -63,7 +64,8 @@ module API
               location:,
               current_user:,
               deprecated:,
-              description:)
+              description:,
+              options:)
       end
 
       links :allowedValues do

@@ -1427,6 +1427,7 @@ ja:
         select_projects_description: このタイプを使用するプロジェクトを選択。
         tab: プロジェクト
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 設定
         type_color_text: 選択された色は、ガントチャートまたはワークパッケージの表で異なるタイプを区別します。したがって、強い色を使用することをお勧めします。
       subject_configuration:
@@ -3264,6 +3265,8 @@ ja:
   error_can_not_delete_in_use_archived_work_packages: 'アーカイブされたプロジェクトにもワークパッケージがあります。 対応するワークパッケージの属性を変更する前に、まず以下のプロジェクトを再度有効にする必要があります: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: このタイプはワークパッケージを含み、削除できない。<a target="_blank" href="%{url}">このビューでは</a>、影響を受けるすべてのワークパッケージを見ることができます。
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: 標準型は削除できません。
   error_can_not_invite_user: ユーザーへの招待状の送信に失敗しました。
   error_can_not_remove_role: このロールは使用されています。削除できません。

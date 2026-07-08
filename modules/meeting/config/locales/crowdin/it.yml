@@ -480,6 +480,12 @@ it:
         fourth: Quarto
         last: Ultimo
     actual_first_occurrence_mismatch_html: La prima occorrenza di questa serie sarà il %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: I mesi con meno di %{monthly_day} giorni verranno saltati
     end_after:
       never: Mai

@@ -31,10 +31,10 @@ eo:
         overridden_costs: Overridden costs
         spent: Spent
         spent_on: Dato
-        logged_by: Logged by
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        logged_by: Protokolita de
+        entity: Protokolita por
+        entity_id: Protokolita por
+        entity_gid: Protokolita por
       cost_type:
         unit: Unit name
         unit_plural: Pluralized unit name
@@ -131,7 +131,7 @@ eo:
   label_cost_filter_add: Add cost entry filter
   label_costlog: Logged unit costs
   label_cost_plural: Kostoj
-  label_cost_type_plural: Cost types
+  label_cost_type_plural: Kostospecoj
   label_cost_type_specific: 'Speco de kosto #%{id}: %{name}'
   label_costs_per_page: Kostoj po paĝo
   label_current_default_rate: Current default rate
@@ -147,7 +147,7 @@ eo:
   label_group_by_add: Add grouping field
   label_hourly_rate: Hourly rate
   label_include_deleted: Include deleted
-  label_work_package_filter_add: Add work package filter
+  label_work_package_filter_add: Aldoni filtrilon por laborpakaĵoj
   label_kind: Tipo
   label_less_or_equal: "<="
   label_log_costs: Log unit costs
@@ -155,7 +155,7 @@ eo:
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_no: Ne
   label_option_plural: Opcioj
-  label_overall_costs: Overall costs
+  label_overall_costs: Entutaj kostoj
   label_rate: Rate
   label_rate_plural: Rates
   label_status_finished: Finita
@@ -253,18 +253,18 @@ eo:
       rates:
         title: Rate history
     settings:
-      time_and_costs: Time and costs
+      time_and_costs: Tempo kaj kostoj
       cost_types:
-        for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
+        for_all_projects_hint: Ĉi tiu kostospeco estas ŝaltata en ĉiuj projektoj.
+        heading: Kostospecoj
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: No cost types are currently active in this project.
+        none_active: Neniuj kostospecoj estas nuntempe aktivaj en ĉi tiu projekto.
   costs:
     widgets:
       actual_costs:
-        title: Actual costs by month
+        title: Faktaj kostoj laŭ monato
         blankslate:
-          heading: Start tracking your time and costs
+          heading: Komencu registri vian tempon kaj kostojn
           description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
           action: Log time
         view_details: View actual costs details

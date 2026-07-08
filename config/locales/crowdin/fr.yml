@@ -1438,6 +1438,7 @@ fr:
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         tab: Projets
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Paramètres
         type_color_text: La couleur sélectionnée distingue les différents types dans les graphiques de Gantt ou les tableaux des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
       subject_configuration:
@@ -1593,10 +1594,10 @@ fr:
     move:
       no_common_statuses_exists: Il n'y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé.
       unsupported_for_multiple_projects: Déplacer/copier en masse n'est pas supporté pour des lots de travaux provenant de plusieurs projets
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'Le type de ce lot de travail ou l''un de ses descendants n''est pas activé dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Les types des lots de travail ou de leurs sous-éléments ne sont pas activés dans le projet cible. Veuillez activer les types manquants dans le projet cible si vous souhaitez qu''ils restent inchangés. Sinon, sélectionnez dans la liste un type disponible dans le projet cible.
 
         '
     sharing:
@@ -1995,12 +1996,12 @@ fr:
       type:
         description: Texte par défaut pour la description
         attribute_groups: Configuration du formulaire
-        children: Sub-types
+        children: Sous-types
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_default: Activé par défaut pour les nouveaux projets
         is_milestone: Est un jalon
         color: Couleur
-        parent: Parent type
+        parent: Type de parent
         patterns: Modèles
       remote_identity:
         auth_source: Source d'authentification
@@ -2119,7 +2120,7 @@ fr:
         spent_hours: Temps passé
         spent_time: Temps passé
         subproject: Sous-projet
-        target_versions: Target versions
+        target_versions: Versions cibles
         time_entries: Consigner du temps
         type: Type
         version: Version
@@ -2525,11 +2526,11 @@ fr:
               query_invalid: 'La requête intégrée "%{group}" est invalide : %{details}'
               group_without_name: Le nom du groupe ne peut pas être vide
             parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              cannot_be_self: ne peut pas être le type lui-même.
+              cannot_change_with_work_packages: ne peut pas être modifié car des lots de travail de ce type existent déjà.
+              cannot_have_children: ne peut pas être défini car ce type possède déjà des sous-types.
+              must_be_a_root: doit être lui-même un type de niveau supérieur. Les types ne peuvent être imbriqués qu'à un seul niveau.
+              standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
         user:
@@ -3317,6 +3318,8 @@ fr:
   error_can_not_delete_in_use_archived_work_packages: 'Il y a aussi des lots de travaux dans les projets archivés. Vous devez d''abord réactiver les projets suivants avant de pouvoir modifier l''attribut des lots de travaux respectifs : %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Ce type contient des lots de travaux et ne peut pas être supprimé. Vous pouvez voir tous les lots de travaux concernés dans <a target="_blank" href="%{url}">cette vue</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Les types standards ne peuvent pas être supprimés.
   error_can_not_invite_user: Échec de l'envoi de l'invitation à l'utilisateur.
   error_can_not_remove_role: Ce rôle est utilisé et ne peut être supprimé.
@@ -5432,7 +5435,7 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
   setting_work_packages_identifier_classic_caption: 'Chaque lot de travaux reçoit un numéro séquentiel commençant à 1 (par exemple, #1234). Les numéros sont uniques au sein de l''instance et restent identiques même si les lots de travaux sont déplacés entre des projets.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
+  setting_work_packages_identifier_semantic: Identifiants sémantiques liés à des projets
   setting_work_packages_identifier_semantic_caption: Chaque projet possède un identifiant de projet unique préfixé à un numéro (par exemple, PROJ-11). La numérotation de chaque projet commence à 1. Si un lot de travaux est déplacé vers un autre projet, un nouvel identifiant est généré, mais l'ancien continuera de fonctionner.
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
   setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis en surbrillance par défaut
@@ -5631,7 +5634,7 @@ fr:
       heading: Attributs de l'utilisateur
       label_new_attribute: Attribut de l'utilisateur
       label_new_section: Section
-      label_default_section: User attributes
+      label_default_section: Attributs de l'utilisateur
       new:
         heading: Nouvel attribut
       tabs:
@@ -6101,7 +6104,7 @@ fr:
     attributes:
       property: Propriété
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Obsolète : ce champ à valeur unique est en cours de remplacement par `targetVersions`. Veuillez utiliser `targetVersions` pour la lecture et l''écriture. Tant que la prise en charge de plusieurs versions n''est pas activée, `targetVersions` n''accepte qu''une seule valeur au maximum et ne doit pas être utilisé conjointement avec `version` dans la même requête.'
     errors:
       code_400: 'Mauvaise requête : %{message}'
       code_401: Vous devez être authentifié pour accéder à cette ressource.

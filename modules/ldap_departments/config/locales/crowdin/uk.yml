@@ -52,7 +52,11 @@ uk:
         description: Налаштуйте синхронізацію, щоб відтворити структуру організаційних одиниць LDAP в ієрархії відділів OpenProject.
         heading: Синхронізацію відділів з LDAP не налаштовано
       destroy:
-        confirmation: Якщо ви продовжите, синхронізацію %{name} буде видалено, а її відділи (%{departments_count}) більше не синхронізуватимуться з LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          few: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          many: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Вилучити синхронізацію «%{name}»?
         info: Відділи і їхні учасники зберігаються й стають звичайними відділами. Потім ви можете редагувати або видаляти їх вручну в розділі «Адміністрування» → «Користувачі й права доступу» → «Організація».
         title: Вилучити синхронізацію «%{name}»

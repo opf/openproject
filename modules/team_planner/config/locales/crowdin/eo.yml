@@ -5,7 +5,7 @@ eo:
     name: OpenProject Teama Planilo
     description: Provides team planner views.
   permission_view_team_planner: Vidi teamplanilon
-  permission_manage_team_planner: Manage team planner
+  permission_manage_team_planner: Administri teaman planilon
   project_module_team_planner_view: Teamaj planiloj
   ee:
     feature_names:

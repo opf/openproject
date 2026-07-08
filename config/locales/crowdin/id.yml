@@ -1425,6 +1425,7 @@ id:
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Project
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Pengaturan
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       subject_configuration:
@@ -3272,6 +3273,8 @@ id:
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Jenis ini berisi paket pekerjaan dan tidak dapat dihapus. Anda dapat melihat semua paket pekerjaan yang terpengaruh di <a target="_blank" href="%{url}">tampilan ini</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Tipe standar tidak dapat dihapus.
   error_can_not_invite_user: Gagal untuk mengirimkan undangan kepada pengguna.
   error_can_not_remove_role: Role ini sedang dipakai dan tidak dapat dihapus.

@@ -42,9 +42,9 @@ de:
           completed: Abgeschlossen
         work_packages: Arbeitspakete
       sprint_goal:
-        text: Sprintziel
+        text: Sprint-Ziel
       work_package:
-        backlog_bucket: Backlog buckets
+        backlog_bucket: Backlog Bucket
         backlogs_work_package_type: Backlog Typ
         position: Position
         sprint: Sprint
@@ -97,8 +97,8 @@ de:
       button_new_backlog_bucket: Neuer Backlog Bucket
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog buckets
-        other: Backlog buckets
+        one: Backlog Bucket
+        other: Backlog Buckets
         zero: Alle Backlog Buckets
       label_sprint_filter:
         one: Sprint
@@ -206,7 +206,7 @@ de:
       action_menu:
         copy_url_to_clipboard: URL in die Zwischenablage kopieren
         copy_work_package_id: Arbeitspaket-ID kopieren
-        move_menu: Verschiebe zu Position
+        move_menu: Zu Position verschieben
         move_to_backlog_bucket: In Backlog Bucket verschieben
         move_to_inbox: In Backlog Bucket verschieben
         move_to_sprint: Zum Sprint verschieben

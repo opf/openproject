@@ -182,6 +182,8 @@ fi:
         page_access_forbidden: You do not have permission to access this wiki page
         page_not_found: Linked wiki page no longer available
         unexpected: An unexpected error occurred
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

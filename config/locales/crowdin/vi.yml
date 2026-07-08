@@ -1428,6 +1428,7 @@ vi:
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
         tab: dự án
       settings:
+        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: cài đặt
         type_color_text: Màu được chọn sẽ phân biệt các loại khác nhau trong biểu đồ Gantt hoặc bảng gói công việc. Do đó, nên sử dụng màu sắc mạnh mẽ.
       subject_configuration:
@@ -3263,6 +3264,8 @@ vi:
   error_can_not_delete_in_use_archived_work_packages: 'Ngoài ra còn có các gói công việc trong các dự án lưu trữ. Trước tiên, bạn cần kích hoạt lại các dự án sau trước khi có thể thay đổi thuộc tính của các gói công việc tương ứng: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: Loại này chứa các gói công việc và không thể bị xóa. Bạn có thể xem tất cả các gói công việc bị ảnh hưởng trong <a target="_blank" href="%{url}">cái nhìn này</a>.
+  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_standard_type: Kiểu chuẩn không thể bị xóa.
   error_can_not_invite_user: Gửi lời mời không thành công.
   error_can_not_remove_role: Vai trò này đang được sử dụng và không thể bị xóa.
