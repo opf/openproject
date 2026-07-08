@@ -223,6 +223,13 @@ RSpec.describe ResourceUserCard do
 
       expect(view.reload.card_fields).to eq([])
     end
+
+    it "returns an empty array for a persisted view whose options never stored the key" do
+      view.save!
+      view.update_column(:options, {})
+
+      expect(view.reload.card_fields).to eq([])
+    end
   end
 
   describe "validation" do
