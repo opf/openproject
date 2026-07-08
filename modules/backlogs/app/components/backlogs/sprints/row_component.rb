@@ -79,9 +79,7 @@ module Backlogs
           menu.with_show_button(icon: "kebab-horizontal",
                                 "aria-label": t(:label_more),
                                 scheme: :invisible,
-                                data: {
-                                  "test-selector": "more-button"
-                                })
+                                test_selector: "more-button")
 
           with_item_group(menu) do
             sprint_edit_action(menu) if can_open_edit_dialog?
