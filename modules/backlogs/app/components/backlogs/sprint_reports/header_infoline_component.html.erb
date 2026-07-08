@@ -1,4 +1,4 @@
-<%= render(Primer::BaseComponent.new(tag: :div, mb: 2, classes: "sprint-report-infoline")) do %>
+<%= render(Primer::BaseComponent.new(tag: :div, mb: 2, classes: "op-sprint-report-infoline")) do %>
   <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
 
   <% if sprint.date_range_set? %>
