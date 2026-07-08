@@ -642,7 +642,7 @@ WYSIWYG stands for 'What you see is what you get'. A WYSIWYG editor is a content
 
 ### XWiki integration
 
-The XWiki integration is an [Enterprise add-on](#enterprise-add-on) that connects OpenProject with XWiki, an open source enterprise wiki. It enables users to create and link XWiki pages directly from work packages, view linked wiki pages in a dedicated Wiki tab, and navigate between related work packages and wiki pages through bidirectional references. This helps teams keep project work and documentation connected across both platforms. [Read how to set up the XWiki integration](../../system-admin-guide/integrations/xwiki/).
+The XWiki integration is an [Enterprise add-on](#enterprise-add-on) that connects OpenProject with XWiki, an open source enterprise wiki. It enables users to create and link XWiki pages directly from work packages, view linked wiki pages in a dedicated Wiki tab, and navigate between related work packages and wiki pages through bidirectional references. This helps teams keep project work and documentation connected across both platforms. [Read how to set up the XWiki integration](../system-admin-guide/integrations/xwiki/).
 
 ## Z
 
