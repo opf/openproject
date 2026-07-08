@@ -210,7 +210,7 @@ de:
           not_found: Die angeforderte Ressource konnte nicht gefunden werden
         child_pages:
           button: Liste der Unterseiten
-          hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
+          hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wiki-Seite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
 
             '
           include_parent: Elternseite anzeigen
@@ -233,8 +233,8 @@ de:
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
-          button: Inhalt einer anderen Wikiseite einbetten
-          hint: 'Fügen Sie den Inhalt einer anderen Wikiseite ein, indem Sie hier ihren Titel oder URL-Slug angeben. Sie können auch die Wikiseite eines anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt angeben.
+          button: Inhalt einer anderen Wiki-Seite einbetten
+          hint: 'Fügen Sie den Inhalt einer anderen Wiki-Seite ein, indem Sie hier ihren Titel oder URL-Slug angeben. Sie können auch die Wiki-Seite eines anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt angeben.
 
             '
           not_set: "(Seite noch nicht festgelegt)"
@@ -897,7 +897,7 @@ de:
       underline: Unterstrichen
       unordered_list: Aufzählungsliste
       unquote: Zitat entfernen
-      wiki_link: Link zu einer Wikiseite
+      wiki_link: Link zu einer Wiki-Seite
     work_packages:
       baseline:
         addition_label: Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt

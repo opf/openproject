@@ -1794,7 +1794,7 @@ de:
   button_duplicate: Duplizieren
   button_duplicate_and_follow: Duplizieren und folgen
   button_edit: Bearbeiten
-  button_edit_associated_wikipage: 'Zugehörige Wikiseite bearbeiten: %{page_title}'
+  button_edit_associated_wikipage: 'Zugehörige Wiki-Seite bearbeiten: %{page_title}'
   button_edit_non_working_time: Freie Zeiten bearbeiten
   button_enable: Aktivieren
   button_expand_all: Alle ausklappen
@@ -1926,7 +1926,7 @@ de:
       dependencies_label: Aus Vorlage erstellen
     template_heading: Wählen Sie eine Projektvorlage, um mit den gängigsten Projektmanagementmethoden zu arbeiten, oder erstellen Sie ein leeres Projekt.
     template_label: Vorlage verwenden
-  create_wiki_page: Neue Wikiseite anlegen
+  create_wiki_page: Neue Wiki-Seite anlegen
   create_wiki_page_button: Wiki-Seite
   custom_actions:
     actions:
@@ -3518,14 +3518,14 @@ de:
   label_widget_new: Neues Widget
   label_wiki_content_added: Die Wiki-Seite wurde erfolgreich hinzugefügt.
   label_wiki_content_updated: Die Wiki-Seite wurde erfolgreich aktualisiert.
-  label_wiki_dont_show_menu_item: Wikiseite nicht in der Projektnavigation anzeigen
+  label_wiki_dont_show_menu_item: Wiki-Seite nicht in der Projektnavigation anzeigen
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
   label_wiki_menu_item: Wiki Menüpunkt
   label_wiki_navigation: Wiki-Navigation
   label_wiki_page: Wiki-Seite
   label_wiki_page_attachments: Anhänge der Wiki-Seite
-  label_wiki_page_id: ID der Wikiseite
+  label_wiki_page_id: ID der Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
   label_wiki_show_index_page_link: "'Inhaltsverzeichnis' Link als Untermenüpunkt anzeigen"
   label_wiki_show_menu_item: als Menüpunkt in der Projektnavigation anzeigen
@@ -6040,13 +6040,13 @@ de:
     '
   wiki:
     index:
-      no_results_content_text: Neue Wikiseite hinzufügen
-    no_results_title_text: Derzeit gibt es keine Wikiseiten.
+      no_results_content_text: Neue Wiki-Seite hinzufügen
+    no_results_title_text: Derzeit gibt es keine Wiki-Seiten.
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
     print_hint: Damit wird der Inhalt dieser Wiki-Seite ohne Navigationsleisten gedruckt.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
-  wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"
-  wiki_menu_item_new_main_item_explanation: 'Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
+  wiki_menu_item_for: Menüpunkt für die Wiki-Seite "%{title}"
+  wiki_menu_item_new_main_item_explanation: 'Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wiki-Seite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
 
     '
   wiki_menu_item_setting: Sichtbarkeit
