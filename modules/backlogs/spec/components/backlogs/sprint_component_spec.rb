@@ -129,8 +129,13 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "renders the add work package menu actions" do
-        expect(rendered_component).to have_selector(:menuitem, "Add new work package")
-        expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, sprint_id: sprint.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href])
+            .to eq add_existing_dialog_project_backlogs_work_packages_path(project, target_id: "sprint:#{sprint.id}")
+        end
       end
     end
 

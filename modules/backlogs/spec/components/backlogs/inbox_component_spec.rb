@@ -99,8 +99,12 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "renders the add work package menu actions" do
-      expect(page).to have_selector(:menuitem, "Add new work package")
-      expect(page).to have_selector(:menuitem, "Add existing work package")
+      expect(page).to have_selector(:menuitem, "Add new work package") do |link|
+        expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
+      end
+      expect(page).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, target_id: "inbox")
+      end
     end
 
     context "when the user lacks the manage_sprint_items permission" do

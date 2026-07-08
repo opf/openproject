@@ -29,26 +29,32 @@
 #++
 
 module Backlogs
-  class BucketComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include CommonHelper
-    include ContainerComponentHelper
+  module ContainerComponentHelper
+    def with_add_work_package_menu_group(menu, container)
+      target_id = Backlogs::Target.for(container)
+      dom_key = container == Backlogs::Target::Inbox ? :inbox : container
 
-    attr_reader :backlog_bucket, :work_packages, :project, :current_user
+      with_item_group(menu) do
+        next unless user_allowed?(:manage_sprint_items)
 
-    def initialize(backlog_bucket:, project:, work_packages: nil, current_user: User.current)
-      super()
+        menu.with_item(
+          id: dom_target(dom_key, :menu, :add_new_work_package),
+          label: t(".action_menu.add_new_work_package"),
+          href: new_project_work_packages_dialog_path(project, **target_id.to_container_params),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :plus)
+        end
 
-      @backlog_bucket = backlog_bucket
-      @project = project
-      @current_user = current_user
-      @work_packages = work_packages || backlog_bucket.displayed_work_packages
-                                                      .includes(:status, :type, :assigned_to, :priority, :parent)
-    end
-
-    def wrapper_uniq_by
-      backlog_bucket.id
+        menu.with_item(
+          id: dom_target(dom_key, :menu, :add_existing_work_package),
+          label: t(".action_menu.add_existing_work_package"),
+          href: add_existing_dialog_project_backlogs_work_packages_path(project, target_id:),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :link)
+        end
+      end
     end
   end
 end

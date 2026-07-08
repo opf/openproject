@@ -48,7 +48,8 @@ RSpec.describe Backlogs::Target do
         type: :sprint,
         to_s: "sprint:42",
         to_h: { type: :sprint, id: 42 },
-        to_filter: { name: "sprint", operator: "!", values: [42] }
+        to_filter: { name: "sprint", operator: "!", values: [42] },
+        to_container_params: { sprint_id: 42 }
       )
     end
   end
@@ -62,7 +63,8 @@ RSpec.describe Backlogs::Target do
         type: :backlog_bucket,
         to_s: "backlog_bucket:13",
         to_h: { type: :backlog_bucket, id: 13 },
-        to_filter: { name: "backlogBucket", operator: "!", values: [13] }
+        to_filter: { name: "backlogBucket", operator: "!", values: [13] },
+        to_container_params: { backlog_bucket_id: 13 }
       )
     end
   end
@@ -75,7 +77,8 @@ RSpec.describe Backlogs::Target do
         type: :inbox,
         to_s: "inbox",
         to_h: { type: :inbox },
-        to_filter: { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
+        to_filter: { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] },
+        to_container_params: {}
       )
     end
   end

@@ -104,10 +104,20 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders the bucket menu actions" do
-        expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket")
-        expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
-        expect(rendered_component).to have_selector(:menuitem, "Add new work package")
-        expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
+        expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket") do |link|
+          expect(link[:href]).to eq edit_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket") do |link|
+          expect(link[:href]).to eq destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(
+            project, target_id: "backlog_bucket:#{backlog_bucket.id}"
+          )
+        end
       end
 
       it "renders one shared-card row per work package" do

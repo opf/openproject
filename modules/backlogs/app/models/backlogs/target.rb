@@ -46,6 +46,8 @@ module Backlogs
 
       def to_filter = { name: "sprint", operator: "!", values: [id] }
 
+      def to_container_params = { sprint_id: id }
+
       def container_for(project) = Sprint.for_project(project).visible.find_by(id:)
     end
 
@@ -58,6 +60,8 @@ module Backlogs
 
       def to_filter = { name: "backlogBucket", operator: "!", values: [id] }
 
+      def to_container_params = { backlog_bucket_id: id }
+
       def container_for(project) = BacklogBucket.for_project(project).visible.find_by(id:)
     end
 
@@ -69,6 +73,8 @@ module Backlogs
       def to_h = { type: }
 
       def to_filter = { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
+
+      def to_container_params = {}
 
       def container_for(_project) = Inbox
     end.new
