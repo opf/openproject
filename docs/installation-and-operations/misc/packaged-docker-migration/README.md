@@ -4,7 +4,6 @@ This guide describes how to transition from a packaged based OpenProject databas
 
 Please note that we will no longer provide package resources for future LTS versions of the distributions we currently support. This will likely become more relevant when ubuntu 22.04. approaches EOL. 
 
-
 ## Step 1: Backing up you packaged installation
 
 To prevent data loss it is mandatory to backup your current OpenProject instance and save the backup file in a secure space. You can find how to back up your packaged installation in the [following guide](../../operation/backing-up/#package-based-installation-debrpm). 

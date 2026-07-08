@@ -159,9 +159,9 @@ Please also have a look at [our upgrade guide](../operation/upgrading).
 Are you using the packaged installation or are you running OpenProject using docker?
 If the former you may have to run `sudo openproject reconfigure`. Leave everything the same but select git integration.
 
-Once that's done all you have to do is enable automatic creation under /settings/repositories (*Administration -> System Settings -> Repositories*) and enable repositories by default under *Administration -> System Settings -> Projects* in the project modules if you want new projects to automatically get a git repository.
+Once that's done all you have to do is enable automatic creation under /settings/repositories (_Administration -> System Settings -> Repositories_) and enable repositories by default under _Administration -> System Settings -> Projects_ in the project modules if you want new projects to automatically get a git repository.
 
-For existing projects you can enable the module in the project settings (*Project Settings -> Modules*) and then configure the repository under *Project Settings -> Repository* where you choose git and then "Git repository integrated into OpenProject".
+For existing projects you can enable the module in the project settings (_Project Settings -> Modules_) and then configure the repository under _Project Settings -> Repository_ where you choose git and then "Git repository integrated into OpenProject".
 
 Mind, that repository integration in the sense that you will be able to checkout the repository through OpenProject **does only work in the packaged installation, not docker**.
 

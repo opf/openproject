@@ -48,16 +48,16 @@ Click on a notification to open the Activity tab of this work package in split s
 > [!TIP]
 > You can adjust the split screen by moving the resizer on the left side of the split screen, it will be stored locally and used for other split screen layouts.
 
-The Activity tab will auto-scroll to the last event that generated a notification. Badges next to the tabs  indicate number of content, e.g. number 1 next to the tab *Relations* indicates that current work package is related to one more work package. 
+The Activity tab will auto-scroll to the last event that generated a notification. Badges next to the tabs  indicate number of content, e.g. number 1 next to the tab _Relations_ indicates that current work package is related to one more work package. 
 
 > [!TIP]
-> Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the *Activity* tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
+> Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the _Activity_ tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
 
 ![OpenProject notification center split screen view explained](openproject_user_guide_notification_center_split_screen.png)
 
 You can filter or group notifications by using the two sets of predefined filters on the left-hand menu:
 
-(Area 1) You can filter by the **reason** you were notified: because you were mentioned (*@mention*), because you are either the assignee or accountable for that work package, because it concerns a work package you are watching or because you have an active reminder or a date alert.
+(Area 1) You can filter by the **reason** you were notified: because you were mentioned (_@mention_), because you are either the assignee or accountable for that work package, because it concerns a work package you are watching or because you have an active reminder or a date alert.
 
 (Area 2) You can filter by **project** (area 2), for example to filter for notifications that originated from a specific project.
 
@@ -69,7 +69,7 @@ You can filter or group notifications by using the two sets of predefined filter
 > [!TIP]
 > The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
 
-(Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > *Account settings*> *Notification settings*.
+(Area 4) If you would like to view your current notification preferences or modify them, click on the [Notification settings](./notification-settings) button. You can also access your settings via your Avatar in the top right corner > _Account settings_> _Notification settings_.
 
 (Area 5) The split screen view lets you not only view work package activity as previously described, but also lets you access all other work package tabs, including overview, files, relations and watchers.
 

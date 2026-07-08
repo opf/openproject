@@ -39,7 +39,7 @@ See the difference between manual scheduling and automatic scheduling in Gantt v
 ![New scheduling modes with OpenProject 15.4: Automatic and Manual - in Gantt view](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_automatic_scheduling.mp4)
 
 > [!NOTE]
-> With the updates of the scheduling mode in this release, an automatic entry will be added to the **Activity** of the work package: "*Scheduling mode set to: [..]*". If you are using the *updated at* information of work packages, for example, by including this information in work package lists, be aware that the most recent activity in the work packages will be updated accordingly.
+> With the updates of the scheduling mode in this release, an automatic entry will be added to the **Activity** of the work package: "_Scheduling mode set to: [..]_". If you are using the _updated at_ information of work packages, for example, by including this information in work package lists, be aware that the most recent activity in the work packages will be updated accordingly.
 
 To learn more about how this change might help you manage your projects, please read [this blog article on the new automatic scheduling mode](https://www.openproject.org/blog/new-automatic-scheduling-mode/) that we published some weeks ago. [See our documentation](../../../user-guide/work-packages/set-change-dates/) to get detailed information about how to use the automatic scheduling mode.
 
@@ -104,19 +104,19 @@ This feature seems small, but can have a big impact: When a user quotes another 
 
 With OpenProject 15.4, we restructured some parts in the administration, so that admins can find the settings for work package priorities and document categories in the existing settings for the modules – all in one place. Therefore, the enumerations page in the administration has been removed. Instead, you can now find...
 
-- document categories under *Administration → Files → Categories*.
+- document categories under _Administration → Files → Categories_.
 
   > [!NOTE]
   >
-  > With 17.0 release Document categories were renamed to Document types and were moved to *Administration -> Documents* [Read more in our system admin guide](../../../system-admin-guide/documents/#document-types).
+  > With 17.0 release Document categories were renamed to Document types and were moved to _Administration -> Documents_ [Read more in our system admin guide](../../../system-admin-guide/documents/#document-types).
 
 ![Screenshot: The OpenProject administration of document categories](openproject_system_guide_files_categories_overview.png)
 
-- work package priorities under *Administration → Work packages → Priorities*. [Read more in our system admin guide](../../../system-admin-guide/manage-work-packages/work-package-priorities/).
+- work package priorities under _Administration → Work packages → Priorities_. [Read more in our system admin guide](../../../system-admin-guide/manage-work-packages/work-package-priorities/).
 
 ![Screenshot: The OpenProject administration of work package priorities](openproject_system_guide_work_package_priorities_overview.png)
 
-- time tracking activities under *Administration* -> *Time and costs*. [Read more in our user guide](../../../user-guide/projects/project-settings/time-and-costs/).
+- time tracking activities under _Administration_ -> _Time and costs_. [Read more in our user guide](../../../user-guide/projects/project-settings/time-and-costs/).
 
 ![Screenshot: The OpenProject administration of time tracking activities](openproject_system_guide_time_costs_time_tracking_activities_overview.png)
 

@@ -66,6 +66,8 @@ jobs:
         with:
           ref: ${{ inputs.branch }}
           persist-credentials: false
+          fetch-depth: 0
+          fetch-tags: true
       - name: Set version outputs and convert tags
         id: extract_version
         env:

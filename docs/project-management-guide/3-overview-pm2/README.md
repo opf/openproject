@@ -16,9 +16,7 @@ The PM² Methodology is built on Project Management best practices and is suppor
 3. a set of processes (i.e. project management activities)
 4. a set of project Artefacts (i.e. documentation templates and guidelines).
 
-
 ![Fig 3.1 The House of PM²](03.01.png)
-
 
 The spirit of the PM² Methodology is further defined by the PM² Mindsets, which provide the glue that holds together the PM² practices and provide a common set of beliefs and values for PM² project teams.
 
@@ -73,10 +71,7 @@ The following activities are part of the Planning Phase:
 - Updating the Project Stakeholder Matrix, which identifies all project stakeholders.
 - Creating other important plans such as the Communications Management Plan, the Transition Plan and the Business Implementation Plan.
 
-
-
 ![Fig 3.4 Overview of the Planning Phase](03.04.png)
-
 
 The Project Manager (PM) uses the outputs of the Planning Phase to request approval to move on to the Executing Phase. This decision to move on is taken by the Project Steering Committee (PSC).
 
@@ -97,7 +92,6 @@ The following activities are part of the Executing Phase:
 
 ![Fig 3.5 Overview of the Executing Phase](03.05.png)
 
-
 Once the project deliverables have been accepted by the Project Owner (PO), the Project Manager (PM) can request approval to move on to the Closing Phase. This decision to move on is taken by the Project Steering Committee (PSC).
 
 ### 3.2.4 Closing Phase
@@ -116,8 +110,6 @@ The following activities are part of the Closing Phase:
 
 ![Fig 3.6 Overview of the Closing Phase](03.06.png)
 
-
-
 ### 3.2.5 Monitor \& Control
 
 ![Monitor & Control](03.02.05.png)
@@ -125,8 +117,6 @@ The following activities are part of the Closing Phase:
 Monitor \& Control activities run throughout the project's lifecycle. During Monitor \& Control, all work is observed from the point of view of the Project Manager (PM). Monitoring is about measuring ongoing activities and assessing project performance against project plans. Controlling is about identifying and taking corrective action to address deviations from plans and to address issues and risks.
 
 ![Fig 3.7 Monitor & Control activities](03.07.png)
-
-
 
 ### 3.2.6 Phase Gates and Approvals
 
@@ -225,7 +215,6 @@ The PM² Mindsets:
 - help project teams (re)position project management goals in a wider organisational context.
 - remind project teams what is important for project success.
 - are useful reminders of effective attitudes and behaviours.
-
 
 ## 3.6 Tailoring and Customisation
 

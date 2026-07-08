@@ -67,7 +67,7 @@ OpenProject offers Attribute help texts that provide additional information for 
 
 ### Authentication
 
-In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, you need to have [admin](#admin) rights. Navigate to your username and select *Administration → Authentication*. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
+In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, you need to have [admin](#admin) rights. Navigate to your username and select _Administration → Authentication_. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
 
 **More information on authentication in OpenProject**
 
@@ -143,7 +143,7 @@ storage. [Read more about health status checks for OpenProject's external file s
 
 ### Custom action
 
-A custom action in OpenProject is defined as customizable buttons which trigger a certain action upon work packages. Custom actions are included in the [Enterprise](#enterprise-add-on) edition of OpenProject and part of automated *workflows*. Custom actions support you to easily update several work package attributes at once – with a single click.
+A custom action in OpenProject is defined as customizable buttons which trigger a certain action upon work packages. Custom actions are included in the [Enterprise](#enterprise-add-on) edition of OpenProject and part of automated _workflows_. Custom actions support you to easily update several work package attributes at once – with a single click.
 
 **More information on custom actions in OpenProject**
 
@@ -153,7 +153,7 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 ### Custom field
 
-In OpenProject, a custom field is defined as an additional field which can be added to existing fields. Custom fields can be created for the following resources: [work packages](#work-package), [spent time](#time-and-costs), [versions](#versions), [users](#user), and [groups](#group). If you want to add a custom field that refers to a project (or several projects), navigate to *Administration → Projects* and create a [project attribute](#project-attribute).
+In OpenProject, a custom field is defined as an additional field which can be added to existing fields. Custom fields can be created for the following resources: [work packages](#work-package), [spent time](#time-and-costs), [versions](#versions), [users](#user), and [groups](#group). If you want to add a custom field that refers to a project (or several projects), navigate to _Administration → Projects_ and create a [project attribute](#project-attribute).
 
 **More information on custom fields in OpenProject**
 
@@ -218,11 +218,11 @@ The Gantt charts [module](#module) in OpenProject displays the work packages in 
 
 ### Global modules
 
-In OpenProject, global modules are defined as a menu to access all [modules](#module) for *all* your projects. With global modules you can easily see all your project-overarching information at one place, e.g. for [work packages](#work-package), [boards](#board), calendars or [meetings](#meetings). Click on the grid icon on the left side of the header menu to access the global modules. [Read more about global modules in OpenProject](../user-guide/home/global-modules/).
+In OpenProject, global modules are defined as a menu to access all [modules](#module) for _all_ your projects. With global modules you can easily see all your project-overarching information at one place, e.g. for [work packages](#work-package), [boards](#board), calendars or [meetings](#meetings). Click on the grid icon on the left side of the header menu to access the global modules. [Read more about global modules in OpenProject](../user-guide/home/global-modules/).
 
 ### Group
 
-A group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. They can be nested to represent organizational structures and inherit permissions from parent groups. New groups can be defined in *Administration → Users and permissions → Groups*.
+A group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. They can be nested to represent organizational structures and inherit permissions from parent groups. New groups can be defined in _Administration → Users and permissions → Groups_.
 
 ## H
 
@@ -416,18 +416,20 @@ Open the project home by navigating to "Project home" in the project menu on the
 
 ### Project identifier
 
-The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings).
+### Project identifier
+
+The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings). When a project identifier is changed, the previous identifier remains reserved to prevent conflicts. [System administrators](#admin) can release reserved project identifiers and make them available for reuse. [Read more about reserved project identifiers](../system-admin-guide/projects/reserved-project-identifiers/).
 
 ### Project initiation request
 
-A project initiation request (PIR) is a formal request to start a project, used in frameworks such as [PM²](#pm--pm2) and [PMflex](#pmflex) to collect key information before a project is initiated. In OpenProject, an automated PIR wizard is available as an [Enterprise add-on](#enterprise-add-on) to standardize project initiation and reduce manual effort. The term is also referred to as *project creation wizard* or *project mandate*.
+A project initiation request (PIR) is a formal request to start a project, used in frameworks such as [PM²](#pm--pm2) and [PMflex](#pmflex) to collect key information before a project is initiated. In OpenProject, an automated PIR wizard is available as an [Enterprise add-on](#enterprise-add-on) to standardize project initiation and reduce manual effort. The term is also referred to as _project creation wizard_ or _project mandate_.
 
 - [Read more about project initiation requests in PM²](../project-management-guide/5-initiating-phase/#52-project-initiation-request).
 - [Read more about OpenProject’s Enterprise add-on for automated project initiation requests](../user-guide/projects/project-initiation-request/).
 
 ### Project life cycle
 
-In OpenProject, the project life cycle consists of [phases](#phase) and [phase gates](#phase-gate) that help you structure your projects and work packages methodically. By default, these follow the [PM² project management framework](#pm--pm2), using the phases *Initiating*, *Planning*, *Executing*, and *Closing*.
+In OpenProject, the project life cycle consists of [phases](#phase) and [phase gates](#phase-gate) that help you structure your projects and work packages methodically. By default, these follow the [PM² project management framework](#pm--pm2), using the phases _Initiating_, _Planning_, _Executing_, and _Closing_.
 
 Phases and phase gates are visible on the [project home](#project-home) page, in [work package tables](#work-package-table), and in [project lists](#project-lists). They can be used for filtering, grouping, and scheduling. Project administrators can activate relevant phases and gates for each project, while the global configuration of phases is an [Enterprise add-on](#enterprise-add-on).
 
@@ -467,7 +469,7 @@ In OpenProject, projects can be private or public. Public means that the project
 
 ### Quick context menu
 
-The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt charts](#gantt-charts) module or not.
+The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like _open details view_, _copy link to clipboard_ or _create new child_. Please note that the quick context menu differs depending on whether you are in the [Gantt charts](#gantt-charts) module or not.
 
 ## R
 
@@ -509,7 +511,7 @@ OpenProject offers the possibility to share work packages with external groups o
 
 ### Sprint
 
-A sprint is a time-boxed iteration used in agile project management to plan and execute work during a defined period. In OpenProject, sprints are managed through the [Backlogs](#backlogs) module and include attributes such as start and end dates. Sprint [boards](#board) are automatically created when a sprint is started.
+A sprint is a time-boxed iteration used in agile project management to plan and execute work during a defined period. In OpenProject, sprints are managed through the [Backlogs](#backlogs) module and include attributes such as start and end dates as well as sprint goals. Sprint [boards](#board) are automatically created when a sprint is started.
 
 ### Story points
 
@@ -565,9 +567,15 @@ A widget in OpenProject is defined as a small and customizable element that prov
 
 ### Wiki
 
-In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki pages. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin. [Read more about wikis in OpenProject](../user-guide/wiki/).
+In OpenProject, a wiki is defined as a [module](#module) that allows users to create and manage wiki pages within a project. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin.
 
-![A wiki module in OpenProject](glossary-openproject-wiki.png)
+For organizations requiring advanced documentation capabilities, OpenProject also supports external wiki systems through a [Wiki provider](#wiki-provider), such as the [XWiki integration](#xwiki-integration) (Enterprise add-on).
+
+[Read more about wikis in OpenProject](../user-guide/wiki/).
+
+### Wiki provider
+
+A Wiki provider is an external [wiki](#wiki) system that can be connected to OpenProject. [System administrators](#admin) configure wiki providers in the administration settings, making them available for projects and users. OpenProject currently supports the [XWiki integration](#xwiki-integration), which enables users to create, link, and reference wiki pages directly from work packages.
 
 ### Work, Remaining Work and % Complete
 
@@ -606,7 +614,7 @@ In OpenProject, every work package has a unique ID (identifier). It is automatic
 
 By default, work package IDs are numerical, ascending numbers, for example #429. System [administrators](#admin) can optionally switch to project-based work package IDs, which consist of a project-specific prefix and an ascending number (e.g. OP-382). Project-based identifiers that have been used are [reserved and can be released if necessary](../system-admin-guide/projects/reserved-project-identifiers/) so that they can be used again.
 
-Administrators can configure work package identifiers under *Administration → Work packages → Identifiers*. [Read more in the OpenProject system admin guide](../user-guide/projects/project-settings/project-information/#change-project-identifier).
+Administrators can configure work package identifiers under _Administration → Work packages → Identifiers_. [Read more in the OpenProject system admin guide](../user-guide/projects/project-settings/project-information/#change-project-identifier).
 
 ### Work package subject
 
@@ -629,6 +637,12 @@ A list of work packages is considered a view. The containing work packages in an
 ### WYSIWYG editor
 
 WYSIWYG stands for 'What you see is what you get'. A WYSIWYG editor is a content editing interface that allows users to create and edit content so that it visually resembles the final result. In OpenProject, you can use WYSIWYG editors in [wikis](#wiki), [forums](#forum) and [work package](#work-package) descriptions and comments.
+
+## X
+
+### XWiki integration
+
+The XWiki integration is an [Enterprise add-on](#enterprise-add-on) that connects OpenProject with XWiki, an open source enterprise wiki. It enables users to create and link XWiki pages directly from work packages, view linked wiki pages in a dedicated Wiki tab, and navigate between related work packages and wiki pages through bidirectional references. This helps teams keep project work and documentation connected across both platforms. [Read how to set up the XWiki integration](../system-admin-guide/integrations/xwiki/).
 
 ## Z
 

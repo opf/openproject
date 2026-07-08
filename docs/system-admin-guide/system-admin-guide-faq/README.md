@@ -10,7 +10,7 @@ keywords: system admin FAQ, global admin, administration, system settings
 
 ## How do I know if I have system admin permissions?
 
-If you can choose *Administration* when clicking on your avatar you have system admin permissions.
+If you can choose _Administration_ when clicking on your avatar you have system admin permissions.
 
 ## How can I use the Slack plugin?
 

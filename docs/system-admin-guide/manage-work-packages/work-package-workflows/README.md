@@ -15,19 +15,17 @@ This means, a certain type of work package, e.g. a Task, can have the following 
 
 ## Edit workflows
 
-To edit a workflow, navigate to *Administration → Work packages → Workflows*. You will see an overview of all available work package types.
+To edit a workflow, navigate to _Administration → Work packages → Workflows_. You will see an overview of all available work package types.
 
 ![List of work packages types under Workflows editing in OpenProject administration](openproject_system_guide_wp_workflows_menu.png)
 
-Select the type of work package for which you want to edit the workflow, e.g. *Task*. 
+Select the type of work package for which you want to edit the workflow, e.g. _Task_. 
 
 Once opened, you can configure workflows for this type:
 
 1. Choose whether you want to edit default transitions, or transitions when a user is the **author** or **assignee** using the tabs at the top of the page.
 
    ![Menu list of work packages types under Workflows editing in OpenProject administration](openproject_system_guide_wp_workflows_menu_edit.png)
-
-   
 
 ![Tabs to select between default transitions, when the user is the author or when the user is the assignee](openproject_system_guide_wp_workflows_role_list.png)
 
@@ -62,6 +60,7 @@ Once opened, you can configure workflows for this type:
 If no statuses are configured for a role yet, an empty state is shown asking that you add statuses.
 
 ![A work package type with unconfigured status transitions workflow in OpenProject administration](openproject_system_guide_wp_workflows_not_configured.png)
+
 ## Copy an existing workflow
 
 You can copy an existing workflow by clicking **Copy** in the workflow overview.
@@ -69,8 +68,6 @@ You can copy an existing workflow by clicking **Copy** in the workflow overview.
 ![Copy work package workflow in OpenProject administration](System-admin-guide-work-package-workflows_copy.png)
 
 You will then be able to select which existing workflow should be copied to selected types. Here, you can select as many target types as you wish.
-
-
 
 ![Example for copying a work package workflow from one type to another in OpenProject administration](System-admin-guide-work-package-workflows_copy_type.png)
 

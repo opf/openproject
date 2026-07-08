@@ -64,7 +64,8 @@ module Storages
             end
 
             def parse_capabilities(json)
-              app_json = json.dig(:ocs, :data, :capabilities, :integration_openproject)
+              capabilities_json = json_fetch(json, :ocs, :data, :capabilities)
+              app_json = capabilities_json[:integration_openproject]
 
               ProviderResults::Capabilities.build(
                 app_enabled: app_json.present?,

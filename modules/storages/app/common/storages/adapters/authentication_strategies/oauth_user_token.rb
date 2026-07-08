@@ -93,7 +93,7 @@ module Storages
         def handle_timeout(token, exception)
           error("Timeout while refreshing OAuth token. - Payload: #{exception.message}")
           token.destroy!
-          Failure(@error_data.with(error: :timeout_on_refresh, payload: exception))
+          Failure(@error_data.with(code: :timeout_on_refresh, payload: exception))
         end
 
         def handle_http_error(token, exception)
