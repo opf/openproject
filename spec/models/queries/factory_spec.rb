@@ -485,7 +485,7 @@ RSpec.describe Queries::Factory,
       it { is_expected.to be_changed }
     end
 
-    context "with the 'active' id and with filter params" do
+    context "with the 'active' id and overriding filter params" do
       let(:id) { "active" }
       let(:params) do
         {
@@ -527,6 +527,107 @@ RSpec.describe Queries::Factory,
       it "has the enabled_project_columns columns as selects" do
         expect(find.selects.map(&:attribute))
           .to eq(default_selects)
+      end
+
+      it { is_expected.to be_changed }
+    end
+
+    context "with the 'active' id and non overriding filter params" do
+      let(:id) { "active" }
+      let(:params) do
+        {
+          filters: [
+            {
+              attribute: "favorited",
+              operator: "=",
+              values: ["f"]
+            },
+            {
+              attribute: "member_of",
+              operator: "=",
+              values: ["t"]
+            }
+          ]
+        }
+      end
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(ProjectQuery)
+      end
+
+      it "has no name" do
+        expect(find.name)
+          .to be_nil
+      end
+
+      it "has the filters combined" do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:active, "=", ["t"]], [:favorited, "=", ["f"]], [:member_of, "=", ["t"]]])
+      end
+
+      it "has the orders of the default 'active' query applied" do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[lft asc]])
+      end
+
+      it "has the enabled_project_columns columns as selects" do
+        expect(find.selects.map(&:attribute))
+          .to eq(default_selects)
+      end
+
+      it { is_expected.to be_changed }
+    end
+
+    context "with the 'archived' id and overriding filter params" do
+      let(:id) { "archived" }
+      let(:params) do
+        {
+          filters: [
+            {
+              attribute: "active",
+              operator: "=",
+              values: ["t"]
+            },
+            {
+              attribute: "favorited",
+              operator: "=",
+              values: ["f"]
+            }
+          ]
+        }
+      end
+
+      it "has the filters overwritten" do
+        expect(find.filters.map { [it.field, it.operator, it.values] })
+          .to eq([[:active, "=", ["t"]], [:favorited, "=", ["f"]]])
+      end
+
+      it { is_expected.to be_changed }
+    end
+
+    context "with the 'archived' id and non overriding filter params" do
+      let(:id) { "archived" }
+      let(:params) do
+        {
+          filters: [
+            {
+              attribute: "favorited",
+              operator: "=",
+              values: ["f"]
+            }
+          ]
+        }
+      end
+
+      it "returns a project query" do
+        expect(find)
+          .to be_a(ProjectQuery)
+      end
+
+      it "preserves the archived filter and adds the search filter" do
+        expect(find.filters.map { [it.field, it.operator, it.values] })
+          .to eq([[:active, "=", ["f"]], [:favorited, "=", ["f"]]])
       end
 
       it { is_expected.to be_changed }

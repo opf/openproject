@@ -168,6 +168,19 @@ RSpec.describe "Portfolios", "index", :js, with_ee: :portfolio_management do # T
     portfolios_page.expect_portfolios_not_listed(portfolio_a, portfolio_b, portfolio_favorited)
   end
 
+  it "keeps the archived filter when searching by name (regression #SPPM-292)" do
+    click_on "Archived portfolios"
+    portfolios_page.expect_title("Archived portfolios")
+
+    click_button accessible_name: "Portfolio name filter"
+    portfolios_page.filter_by_name_and_identifier("t")
+
+    portfolios_page.expect_portfolios_listed(inactive_portfolio)
+    portfolios_page.expect_portfolios_not_listed(portfolio_a, portfolio_b, portfolio_favorited)
+
+    portfolios_page.expect_no_sidebar_filter_selected
+  end
+
   it "allows seeing and changing the portfolio status" do
     portfolios_page.expect_status_of(portfolio_a, "Not set")
     portfolios_page.expect_status_of(portfolio_favorited, "Not set")
