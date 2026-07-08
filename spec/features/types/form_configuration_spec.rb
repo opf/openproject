@@ -111,7 +111,7 @@ RSpec.describe "form configuration", :js, :selenium do
         wp_page.visit!
         wp_page.ensure_page_loaded
 
-        wp_page.expect_hidden_field(:version)
+        wp_page.expect_hidden_field(:targetVersions)
         wp_page.expect_hidden_field(:assignee)
         wp_page.expect_hidden_field(:responsible)
         wp_page.expect_hidden_field(:priority)
@@ -213,7 +213,7 @@ RSpec.describe "form configuration", :js, :selenium do
         wp_page.ensure_page_loaded
 
         # Version should be hidden
-        wp_page.expect_hidden_field(:version)
+        wp_page.expect_hidden_field(:targetVersions)
 
         wp_page.expect_group("New Group") do
           wp_page.expect_attributes category: category.name
