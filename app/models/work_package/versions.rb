@@ -59,17 +59,19 @@ module WorkPackage::Versions
   end
 
   class_methods do
-    # Unassigns issues from +version+ if it's no longer shared with issue's project
+    # Unassigns work packages from +version+ if it's no longer shared with
+    # the work package's project
     def update_versions_from_sharing_change(version)
-      # Update issues assigned to the version
+      # Update work packages assigned to the version
       update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
     end
 
-    # Unassigns issues from versions that are no longer shared
+    # Unassigns work packages from versions that are no longer shared
     # after +project+ was moved
     def update_versions_from_hierarchy_change(project)
       moved_project_ids = project.self_and_descendants.reload.map(&:id)
-      # Update issues of the moved projects and issues assigned to a version of a moved project
+      # Update work packages of the moved projects and work packages assigned
+      # to a version of a moved project
       update_versions(
         ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
          moved_project_ids,
@@ -87,23 +89,26 @@ module WorkPackage::Versions
       )
     end
 
-    # Update issues so their versions are not pointing to a
-    # version that is not shared with the issue's project
+    # Update work packages so their versions are not pointing to a
+    # version that is not shared with the work package's project
     def update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
-      # Only need to update issues with a version from
+      # Only need to update work packages with a version from
       # a different project and that is not systemwide shared
       having_version_from_other_project
         .where(conditions)
         .includes(:project, :version)
-        .references(:versions).find_each do |issue|
-        next if issue.project.nil? || issue.version.nil?
+        .references(:versions).find_each do |work_package|
+        next if work_package.project.nil? || work_package.version.nil?
 
-        unless issue.project.shared_versions.include?(issue.version)
-          # this is path that clears version_id without going through the services,
+        unless work_package.project.shared_versions.include?(work_package.version)
+          # this path clears version_id without going through the services,
           # so we need to manually drop the matching target association here too.
-          issue.target_versions.delete(issue.version)
-          issue.version = nil
-          issue.save # rubocop:disable Rails/SaveBang
+          work_package.target_versions.delete(work_package.version)
+          work_package.version = nil
+          unless work_package.save
+            Rails.logger.error "Failed to clear version on work package ##{work_package.id}: " \
+                               "#{work_package.errors.full_messages.to_sentence}"
+          end
         end
       end
     end
