@@ -450,6 +450,51 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
   end
 
+  describe "query filter remapping", with_ee: %i[sprint_sharing] do
+    let(:admin) { create(:admin) }
+    let(:instance) { described_class.new(source:, user: admin) }
+    let(:params) do
+      { target_project_params:, send_notifications: false, only: %w[members work_packages sprints backlog_buckets queries] }
+    end
+    let!(:source_sprint) { create(:sprint, project: source, name: "Sprint A") }
+    let!(:source_bucket) { create(:backlog_bucket, project: source, name: "Bucket A") }
+    let!(:sprint_query) do
+      build(:query, project: source, name: "By sprint").tap do |q|
+        q.add_filter("sprint_id", "=", [source_sprint.id.to_s])
+        q.save!(validate: false)
+        create(:view_work_packages_table, query: q)
+      end
+    end
+    let!(:bucket_query) do
+      build(:query, project: source, name: "By bucket").tap do |q|
+        q.add_filter("backlog_bucket_id", "=", [source_bucket.id.to_s])
+        q.save!(validate: false)
+        create(:view_work_packages_table, query: q)
+      end
+    end
+
+    subject { instance.call(params) }
+
+    def copied_filter(query_name, filter_name)
+      query = project_copy.queries.find_by(name: query_name)
+      query.filters.find { |filter| filter.name.to_sym == filter_name }
+    end
+
+    it "remaps the sprint_id filter to the copied sprint" do
+      expect(subject).to be_success
+
+      copied_sprint = project_copy.sprints.find_by(name: "Sprint A")
+      expect(copied_filter("By sprint", :sprint_id).values).to eq [copied_sprint.id.to_s]
+    end
+
+    it "remaps the backlog_bucket_id filter to the copied bucket" do
+      expect(subject).to be_success
+
+      copied_bucket = project_copy.backlog_buckets.find_by(name: "Bucket A")
+      expect(copied_filter("By bucket", :backlog_bucket_id).values).to eq [copied_bucket.id.to_s]
+    end
+  end
+
   describe "when a sprint cannot be copied", with_ee: %i[sprint_sharing] do
     let(:admin) { create(:admin) }
     let(:instance) { described_class.new(source:, user: admin) }
