@@ -40,14 +40,6 @@ RSpec.describe Query::Results, "Filtering by version" do
   let(:searched_version) { create(:version, project:, name: "Searched version") }
   let(:other_version) { create(:version, project:, name: "Other version") }
 
-  # The legacy version_id column mirrors only the first target version. This
-  # work package targets the searched version as its second target, so it is
-  # only found when filtering through the target version associations.
-  let!(:wp_with_searched_as_second_target) do
-    create(:work_package, project:, version: other_version).tap do |wp|
-      create(:work_package_version, work_package: wp, version: searched_version, kind: :target)
-    end
-  end
   let!(:wp_with_searched_as_only_target) do
     create(:work_package, project:, version: searched_version)
   end
@@ -72,6 +64,12 @@ RSpec.describe Query::Results, "Filtering by version" do
   context "with the multiple versions feature active",
           with_flag: { work_package_multiple_versions: true },
           with_settings: { work_package_multiple_versions: true } do
+    let!(:wp_with_searched_as_second_target) do
+      create(:work_package, project:, version: other_version).tap do |wp|
+        create(:work_package_version, work_package: wp, version: searched_version, kind: :target)
+      end
+    end
+
     it "returns work packages targeting the version, regardless of the mirrored version_id column" do
       expect(results)
         .to contain_exactly(wp_with_searched_as_second_target, wp_with_searched_as_only_target)
@@ -88,7 +86,7 @@ RSpec.describe Query::Results, "Filtering by version" do
 
   context "with the multiple versions feature inactive",
           with_flag: { work_package_multiple_versions: false } do
-    it "returns only work packages with the version in the version_id column" do
+    it "returns work packages whose synced target version matches" do
       expect(results).to contain_exactly(wp_with_searched_as_only_target)
     end
   end
