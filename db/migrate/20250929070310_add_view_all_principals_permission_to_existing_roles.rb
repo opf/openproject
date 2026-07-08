@@ -86,6 +86,7 @@ class AddViewAllPrincipalsPermissionToExistingRoles < ActiveRecord::Migration[8.
     Member.joins(:principal, member_roles: :role)
           .where(member_roles: { roles: { id: project_roles_with_manage_members.pluck(:id) } })
           .where.not("users.type": "PlaceholderUser")
+          .not_locked
           .pluck(:user_id)
           .uniq
   end
