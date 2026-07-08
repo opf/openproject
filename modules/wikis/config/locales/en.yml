@@ -43,7 +43,17 @@ en:
       internal_wiki_provider: Internal wiki
       wikis: Wikis
   permission_manage_wiki_page_links: Manage wiki page links
+  project_module_wiki_internal: Internal Wiki
   project_module_wiki_platforms: Wiki providers
+  projects:
+    settings:
+      internal_wiki:
+        enable: Enable the internal wiki for this project
+        title: Internal wiki
+        caption: >-
+          This enables OpenProject's native wiki module, which can exist alongside external wiki providers. 
+          Disabling it when there are no external providers configured will remove wiki capabilities for this 
+          project and hide any existing wiki pages.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
