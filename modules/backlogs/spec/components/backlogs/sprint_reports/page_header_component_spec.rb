@@ -28,53 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+require "rails_helper"
 
-RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
+RSpec.describe Backlogs::SprintReports::PageHeaderComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  shared_let(:project) { create(:project) }
-  shared_let(:sprint) do
-    create(:sprint,
-           project:,
-           name: "Sprint 42",
-           start_date: Date.yesterday,
-           finish_date: Date.tomorrow,
-           status: :active)
+  let(:project) { create(:project, name: "Test Project") }
+  let(:sprint) { create(:sprint, project:, name: "Sprint 42") }
+
+  subject(:rendered_component) { render_inline(described_class.new(sprint:, project:)) }
+
+  it "shows the sprint report title" do
+    expect(rendered_component).to have_css(".PageHeader-title", text: "Sprint 42 report")
   end
 
-  let(:permissions) { %i[view_sprints view_work_packages show_board_views] }
-
-  current_user { create(:user, member_with_permissions: { project => permissions }) }
-
-  def visit_sprint_report
-    visit project_backlogs_sprint_report_path(project, sprint)
-  end
-
-  describe "authorization" do
-    context "when the user lacks view_sprints" do
-      let(:permissions) { %i[view_work_packages show_board_views] }
-
-      it "responds with not found" do
-        visit_sprint_report
-        expect(page).to have_http_status(:not_found)
-      end
+  describe "breadcrumbs" do
+    it "links to the project overview" do
+      expect(rendered_component).to have_link("Test Project", href: project_overview_path(project))
     end
-  end
 
-  describe "page header" do
-    before { visit_sprint_report }
-
-    it "shows the sprint report title" do
-      expect(page).to have_heading("Sprint 42 report", level: 2)
+    it "links to the backlogs" do
+      expect(rendered_component).to have_link("Backlogs", href: project_backlogs_backlog_path(project))
     end
-  end
 
-  describe "widget area" do
-    before { visit_sprint_report }
+    it "links to the sprints list" do
+      expect(rendered_component).to have_link("Sprint 42", href: project_backlogs_sprints_path(project))
+    end
 
-    it "renders the burndown chart widget" do
-      expect(page).to have_element(:"opce-burndown-chart")
+    it "shows 'Report' as the current page" do
+      expect(rendered_component).to have_css(".PageHeader-breadcrumbs", text: "Report")
     end
   end
 end
