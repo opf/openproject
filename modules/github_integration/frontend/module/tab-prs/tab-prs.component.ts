@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -63,7 +64,7 @@ export class TabPrsComponent implements OnInit {
       .githubPullRequests
       .ofWorkPackage(this.workPackage)
       .pipe(
-        map((elements) => _.sortBy(elements, 'updatedAt')),
+        map((elements) => sortBy(elements, 'updatedAt')),
         shareReplay(1),
       );
   }

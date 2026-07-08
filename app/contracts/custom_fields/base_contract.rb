@@ -53,6 +53,7 @@ module CustomFields
     attribute :possible_values
     attribute :regexp
     attribute :searchable
+    attribute :visible_on_user_card
     attribute :type
 
     def validate_non_true_for_some_formats

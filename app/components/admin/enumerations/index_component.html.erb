@@ -17,18 +17,27 @@ component_wrapper do
     end
 
     flex.with_row do
-      render(border_box_container(data: drop_target_config)) do |component|
-        component.with_header(font_weight: :bold) { enumeration_class.model_name.human(count: :other) }
+      render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "#{wrapper_key}-box",
+          position: :relative,
+          data: drop_target_config
+        )
+      ) do |list|
+        list.with_header(
+          title_tag: :h3,
+          title: enumeration_class.model_name.human(count: :other)
+        )
 
-        if enumerations.empty?
-          component.with_row do
-            render(Primer::Beta::Text.new(color: :subtle)) { t(:no_results_title_text) }
-          end
-        else
-          enumerations.each do |enumeration|
-            component.with_row(test_selector: "enumeration-row-#{enumeration.id}", data: draggable_item_config(enumeration)) do
-              render(item_component_class.new(enumeration: enumeration, max_position: max_position))
-            end
+        list.with_empty_state(
+          title: t(:no_results_title_text),
+          icon: :alert,
+          spacious: true
+        )
+
+        enumerations.each do |enumeration|
+          list.with_item(test_selector: "enumeration-row-#{enumeration.id}", data: draggable_item_config(enumeration)) do
+            render(item_component_class.new(enumeration: enumeration, max_position: max_position))
           end
         end
       end

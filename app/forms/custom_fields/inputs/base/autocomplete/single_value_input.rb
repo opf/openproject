@@ -40,12 +40,14 @@ class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < CustomFields:
   end
 
   def autocomplete_options
-    {
+    opts = {
       multiple: false,
       decorated: decorated?,
       focusDirectly: false,
       append_to:
     }
+    opts[:disabled] = true if options[:disabled]
+    opts
   end
 
   def decorated?

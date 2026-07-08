@@ -105,14 +105,6 @@ module ::ResourceManagement
       )
     end
 
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:resource_planner_id))
-    end
-
     def find_view
       @view = @resource_planner.children.find(params.expect(:view_id))
     end

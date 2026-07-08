@@ -50,12 +50,6 @@ module CustomFieldsHelper
         label: :label_version_plural
       },
       {
-        name: "UserCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :UserCustomField),
-        label: :label_user_plural
-      },
-      {
         name: "GroupCustomField",
         partial: "custom_fields/tab",
         path: custom_fields_path(tab: :GroupCustomField),

@@ -38,15 +38,18 @@ RSpec.describe OpPrimer::VerticalTruncateComponent, type: :component do
   it "wraps content in a line-clamped div" do
     render_component(lines: 3) { "Multi-line content" }
 
-    expect(page).to have_css("div.op-vertical-truncate.op-vertical-truncate--lines-3", text: "Multi-line content")
+    expect(page).to have_css(
+      "div.op-vertical-truncate[style*='--op-vertical-truncate-lines: 3']",
+      text: "Multi-line content"
+    )
   end
 
-  it "clamps the line count to the supported range" do
+  it "applies the line count via a custom property, clamping to a minimum of 2" do
     render_component(lines: 99) { "Content" }
-    expect(page).to have_css("div.op-vertical-truncate--lines-8")
+    expect(page).to have_css("div.op-vertical-truncate[style*='--op-vertical-truncate-lines: 99']")
 
     render_component(lines: 1) { "Content" }
-    expect(page).to have_css("div.op-vertical-truncate--lines-2")
+    expect(page).to have_css("div.op-vertical-truncate[style*='--op-vertical-truncate-lines: 2']")
   end
 
   it "forwards system arguments to the wrapper" do

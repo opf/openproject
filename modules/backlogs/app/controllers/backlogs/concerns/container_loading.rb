@@ -38,10 +38,7 @@ module Backlogs::Concerns
     end
 
     def load_sprint_data
-      @sprints = Sprint.for_project(@project)
-                       .not_completed
-                       .order_by_date
-                       .includes(:project, :task_boards, :goals)
+      @sprints = filtered_sprints_for(@project)
       @active_sprint_ids = @sprints.select(&:active?).map(&:id)
 
       @work_packages_by_sprint_id = WorkPackage
@@ -52,7 +49,7 @@ module Backlogs::Concerns
     end
 
     def load_backlog_data
-      @backlog_buckets = BacklogBucket.for_project(@project)
+      @backlog_buckets = filtered_buckets_for(@project)
 
       # Includes the work packages of both the buckets and the inbox.
       # This has the drawback of loading more work packages than are displayed in the inbox as pagination

@@ -219,12 +219,12 @@ RSpec.describe PlaceholderUsersController do
 
     describe "GET deletion_info" do
       before do
-        get :deletion_info, params: { id: placeholder_user.id }
+        get :deletion_info, params: { id: placeholder_user.id }, format: :turbo_stream
       end
 
-      it "renders the deletion info response" do
+      it "renders a dialog" do
         expect(response).to be_successful
-        expect(response).to render_template "placeholder_users/deletion_info"
+        expect(response).to have_turbo_stream action: "dialog", target: "placeholder-users-delete-dialog-component"
       end
     end
 

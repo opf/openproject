@@ -19,15 +19,11 @@ export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|und
 
 export function trackByHrefAndProperty(propertyName:string) {
   return (i:number, item:HalResource) => {
-    const href:string = _.get(item, 'href') || '';
-    const prop:string = _.get(item, propertyName, 'none');
+    const href:string = item.href ?? '';
+    const prop:string = (item as Record<string, string|undefined>)[propertyName] ?? 'none';
 
     return `${href}#${propertyName}=${prop}`;
   };
-}
-
-export function trackByTrackingIdentifier(i:number, item:any) {
-  return _.get(item, 'trackingIdentifier', item?.href);
 }
 
 export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {

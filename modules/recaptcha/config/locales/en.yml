@@ -2,26 +2,13 @@
 ---
 en:
   plugin_openproject_recaptcha:
-    name: "OpenProject ReCaptcha"
     description: "This module provides recaptcha checks during login."
+    name: "OpenProject ReCaptcha"
   recaptcha:
-    label_recaptcha: "reCAPTCHA"
     button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
     error_captcha: "Your account could not be verified. Please contact an administrator."
+    label_recaptcha: "reCAPTCHA"
     settings:
-      website_key: 'Website key (May also be called "Site key")'
-      response_limit: 'Response limit for HCaptcha'
-      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
-      type_v2: 'reCAPTCHA v2'
-      type_v3: 'reCAPTCHA v3'
-      type_hcaptcha: 'HCaptcha'
-      type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
         reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance.
         If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet.
@@ -34,3 +21,16 @@ en:
         <br/>
         Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security.
         See this link for more information: %{turnstile_link}
+      response_limit: 'Response limit for HCaptcha'
+      response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
+      secret_key: 'Secret key'
+      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      type: 'Use reCAPTCHA'
+      type_disabled: 'Disable reCAPTCHA'
+      type_hcaptcha: 'HCaptcha'
+      type_turnstile: 'Cloudflare Turnstile™'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      website_key: 'Website key (May also be called "Site key")'
+      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+    verify_account: "Verify your account"

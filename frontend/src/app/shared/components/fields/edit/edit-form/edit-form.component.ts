@@ -208,7 +208,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public register(field:EditableAttributeFieldComponent) {
     this.fields[field.fieldName] = field;
-    this.registeredFields.putValue(_.keys(this.fields));
+    this.registeredFields.putValue(Object.keys(this.fields));
 
     const shouldActivate = (this.editMode && !this.skipField(field) || this.activeFields[field.fieldName]);
 
@@ -228,7 +228,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public start() {
-    _.each(this.fields, (ctrl) => this.activate(ctrl.fieldName));
+    Object.values(this.fields).forEach((ctrl) => { void this.activate(ctrl.fieldName); });
   }
 
   protected focusOnFirstError():void {

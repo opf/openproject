@@ -799,4 +799,22 @@ RSpec.describe CustomValue do
       end
     end
   end
+
+  describe ".for_semantic_key" do
+    let(:customized_user) { create(:user) }
+    let(:job_title_field) { create(:user_custom_field, field_format: "string", semantic_key: "job_title") }
+    let(:plain_field) { create(:user_custom_field, field_format: "string", semantic_key: nil) }
+    let!(:job_title_value) do
+      create(:custom_value, custom_field: job_title_field, customized: customized_user, value: "Architect")
+    end
+    let!(:plain_value) { create(:custom_value, custom_field: plain_field, customized: customized_user, value: "Other") }
+
+    it "returns only custom values whose field carries the given semantic key" do
+      result = described_class.for_semantic_key(:job_title)
+
+      expect(result).to include(job_title_value)
+      expect(result).not_to include(plain_value)
+      expect(result.map(&:custom_field_id).uniq).to contain_exactly(job_title_field.id)
+    end
+  end
 end

@@ -46,7 +46,7 @@ describe('ReloadFrameOnEventController', () => {
     await ctx.mount(`
       <turbo-frame id="frame"
                    data-controller="reload-frame-on-event"
-                   data-reload-frame-on-event-event-name-value="resource-allocations:changed"
+                   data-reload-frame-on-event-event-name-value="op-dispatched:resource-allocations:changed"
                    data-reload-frame-on-event-url-value="/planner/view">
         content
       </turbo-frame>
@@ -69,11 +69,11 @@ describe('ReloadFrameOnEventController', () => {
   it('points the frame at its url on the first event, then reloads on later events', async () => {
     const { frame, calls } = await mountFrame();
 
-    document.dispatchEvent(new CustomEvent('resource-allocations:changed'));
+    document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
     expect(frame.src).toContain('/planner/view');
     expect(calls.count).toBe(0);
 
-    document.dispatchEvent(new CustomEvent('resource-allocations:changed'));
+    document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
     expect(calls.count).toBe(1);
   });
 
@@ -90,7 +90,7 @@ describe('ReloadFrameOnEventController', () => {
     const { frame, calls } = await mountFrame();
     ctx.getController<ReloadFrameOnEventController>('reload-frame-on-event', frame).disconnect();
 
-    document.dispatchEvent(new CustomEvent('resource-allocations:changed'));
+    document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
 
     expect(calls.count).toBe(0);
   });

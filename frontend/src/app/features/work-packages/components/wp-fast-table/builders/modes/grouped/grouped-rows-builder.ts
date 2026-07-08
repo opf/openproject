@@ -35,7 +35,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * The hierarchy builder is only applicable if the hierarchy mode is active
    */
   public isApplicable(table:WorkPackageTable) {
-    return !_.isEmpty(this.groups);
+    return this.groups.length > 0;
   }
 
   /**

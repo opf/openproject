@@ -297,6 +297,90 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    describe "targetVersions" do
+      let(:target_version) { create(:version, project:) }
+      let(:extra_permissions) { %i[assign_versions] }
+      let(:target_versions_links) { [{ href: api_v3_paths.version(target_version.id) }] }
+      let(:parameters) do
+        super().deep_merge(_links: { targetVersions: target_versions_links })
+      end
+      let(:created_work_package) { WorkPackage.find_by(subject: "new work packages") }
+
+      context "with a single version" do
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "assigns the target version" do
+          expect(created_work_package.target_versions).to contain_exactly(target_version)
+        end
+
+        it "mirrors the version into the legacy version_id" do
+          expect(created_work_package.version_id).to eq(target_version.id)
+        end
+
+        it "responds with the target version link" do
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
+                  .at_path("_links/targetVersions/0/href")
+        end
+      end
+
+      context "with an empty collection" do
+        let(:target_versions_links) { [] }
+
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "creates the work package without target versions" do
+          expect(created_work_package.target_versions).to be_empty
+        end
+
+        it "leaves the legacy version_id nil" do
+          expect(created_work_package.version).to be_nil
+        end
+      end
+
+      context "with more than one version" do
+        let(:other_version) { create(:version, project:) }
+        let(:target_versions_links) do
+          [{ href: api_v3_paths.version(target_version.id) },
+           { href: api_v3_paths.version(other_version.id) }]
+        end
+
+        it "returns 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "rejects the creation with a single-value error" do
+          expect(last_response.body).to include("Target Versions can only hold a single value")
+        end
+
+        it "does not create a work package" do
+          expect(WorkPackage.count).to eq(0)
+        end
+      end
+
+      context "for a user lacking the assign_versions permission" do
+        let(:extra_permissions) { [] }
+
+        it "returns 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "has a readonly error" do
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                  .at_path("errorIdentifier")
+        end
+
+        it "does not create a work package" do
+          expect(WorkPackage.count).to eq(0)
+        end
+      end
+    end
+
     describe "custom fields" do
       context "when the custom field is required" do
         shared_let(:required_custom_field) do

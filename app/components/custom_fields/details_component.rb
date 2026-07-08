@@ -45,9 +45,17 @@ module CustomFields
 
     def form_url
       if model.new_record?
-        model.type == "ProjectCustomField" ? admin_settings_project_custom_fields_path : custom_fields_path
+        case model.type
+        when "ProjectCustomField" then admin_settings_project_custom_fields_path
+        when "UserCustomField" then admin_settings_user_custom_fields_path
+        else custom_fields_path
+        end
       else
-        model.type == "ProjectCustomField" ? admin_settings_project_custom_field_path(model) : custom_field_path(model)
+        case model.type
+        when "ProjectCustomField" then admin_settings_project_custom_field_path(model)
+        when "UserCustomField" then admin_settings_user_custom_field_path(model)
+        else custom_field_path(model)
+        end
       end
     end
 

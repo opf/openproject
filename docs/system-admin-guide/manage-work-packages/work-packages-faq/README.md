@@ -39,7 +39,7 @@ Historical references remain functional. OpenProject continues to resolve refere
 
 ## Are project-based work package identifiers available everywhere in OpenProject?
 
-Project-based identifiers are supported in many areas of OpenProject. Because the feature is currently available as a Beta feature (as of OpenProject 17.5), some areas of the application may still display numerical identifiers. In these cases, numerical identifiers remain fully functional and continue to resolve to the same work packages.
+Project-based identifiers are supported in many areas of OpenProject. Some areas of the application may still display numerical identifiers; in these cases, numerical identifiers remain fully functional and continue to resolve to the same work packages.
 
 ## Do integrations support project-based work package identifiers?
 

@@ -1,7 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/frontend"
+    directories:
+      - "/"
+      - "/frontend"
+      - "/extensions/op-blocknote-hocuspocus"
     schedule:
       interval: "daily"
     target-branch: "dev"
@@ -20,12 +23,12 @@ updates:
         patterns:
           - 'angular-eslint'
           - '@angular-eslint/*'
+      appsignal:
+        patterns:
+          - '@appsignal/*'
       blocknote:
         patterns:
           - '@blocknote/*'
-      fullcalendar:
-        patterns:
-          - '@fullcalendar/*'
       eslint:
         patterns:
           - 'eslint'
@@ -33,13 +36,19 @@ updates:
           - '@eslint/*'
           - '@stylistic/eslint-plugin'
           - 'globals'
-      html-eslint:
+      fullcalendar:
         patterns:
-          - '@html-eslint/*'
+          - '@fullcalendar/*'
+      hocuspocus:
+        patterns:
+          - '@hocuspocus/*'
       hotwired:
         patterns:
           - '@hotwired/turbo'
           - '@hotwired/turbo-rails'
+      html-eslint:
+        patterns:
+          - '@html-eslint/*'
       jquery:
         patterns:
           - 'jquery'
@@ -50,9 +59,6 @@ updates:
       ng-select:
         patterns:
           - '@ng-select/*'
-      appsignal:
-        patterns:
-          - '@appsignal/*'
       react:
         patterns:
           - 'react'
@@ -88,6 +94,7 @@ updates:
       - dependency-name: "@openproject/primer-view-components"
       - dependency-name: "@primer/primitives"
       - dependency-name: "@primer/css"
+
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
@@ -106,27 +113,7 @@ updates:
       - dependency-name: "openproject-octicons"
       - dependency-name: "openproject-octicons_helper"
       - dependency-name: "openproject-primer_view_components"
-  - package-ecosystem: "npm"
-    directory: "/extensions/op-blocknote-hocuspocus"
-    schedule:
-      interval: "weekly"
-    target-branch: "dev"
-    cooldown:
-      default-days: 7
-      semver-major-days: 30
-      semver-minor-days: 14
-      semver-patch-days: 5
-    commit-message:
-      prefix: "deps(hocuspocus)"
-    labels:
-      - "dependencies"
-    groups:
-      npm-minor-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

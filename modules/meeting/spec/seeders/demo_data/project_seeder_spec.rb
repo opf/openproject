@@ -105,8 +105,9 @@ RSpec.describe DemoData::ProjectSeeder do
   it "instantiates the first occurrence with the template's agenda items" do
     series = RecurringMeeting.find_by(title: "Weekly")
     expect(series.template).not_to be_draft
-    expect(series.scheduled_instances.count).to eq(1)
-    instance = series.scheduled_instances.first
+    # The finalizer creates the first occurrence; the MeetingOccurrencesSeeder fills up the next few.
+    expect(series.scheduled_instances.count).to eq(5)
+    instance = series.scheduled_instances.order(:start_time).first
     expect(instance.duration).to eq 0.5
     expect(instance.agenda_items.count).to eq 2
 

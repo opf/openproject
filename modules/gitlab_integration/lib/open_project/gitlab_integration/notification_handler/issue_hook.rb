@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -34,6 +36,13 @@ module OpenProject::GitlabIntegration
     class IssueHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
+      KEY_ACTIONS = {
+        "open" => "opened",
+        "reopen" => "reopened",
+        "close" => "closed"
+      }.freeze
+      ALLOWED_ACTIONS = KEY_ACTIONS.keys
+
       def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
         user = User.find_by(id: payload.open_project_user_id)
@@ -50,32 +59,16 @@ module OpenProject::GitlabIntegration
 
       attr_reader :payload
 
-      def generate_notes(payload)
-        accepted_actions = %w[open reopen close]
+      def generate_notes(_payload)
+        return nil unless allowed_action?
 
-        key_action = {
-          "open" => "opened",
-          "reopen" => "reopened",
-          "close" => "closed"
-        }[payload.object_attributes.action]
-
-        return nil unless accepted_actions.include? payload.object_attributes.action
-
-        I18n.t("gitlab_integration.issue_#{key_action}_referenced_comment",
-               issue_number: payload.object_attributes.iid,
-               issue_title: payload.object_attributes.title,
-               issue_url: payload.object_attributes.url,
-               repository: payload.repository.name,
-               repository_url: payload.repository.homepage,
-               gitlab_user: payload.user.name,
-               gitlab_user_url: payload.user.avatar_url)
+        note_body
       end
 
       def gitlab_issue
-        @gitlab_issue ||= GitlabIssue
-                            .where(gitlab_id: payload.object_attributes.iid)
-                            .or(GitlabIssue.where(gitlab_html_url: payload.object_attributes.url))
-                            .take
+        return @gitlab_issue if defined?(@gitlab_issue)
+
+        @gitlab_issue = GitlabIssue.find_by(gitlab_html_url: payload.object_attributes.url)
       end
 
       def upsert_issue(work_packages)
@@ -83,6 +76,25 @@ module OpenProject::GitlabIntegration
 
         OpenProject::GitlabIntegration::Services::UpsertIssue.new.call(payload,
                                                                        work_packages:)
+      end
+
+      def allowed_action?
+        ALLOWED_ACTIONS.include?(payload.object_attributes.action)
+      end
+
+      def note_slug
+        "gitlab_integration.issue_#{KEY_ACTIONS[payload.object_attributes.action]}_referenced_comment"
+      end
+
+      def note_body # rubocop:disable Metrics/AbcSize
+        I18n.t(note_slug,
+               issue_number: payload.object_attributes.iid,
+               issue_title: payload.object_attributes.title,
+               issue_url: payload.object_attributes.url,
+               repository: payload.repository.name,
+               repository_url: payload.repository.homepage,
+               gitlab_user: payload.user.name,
+               gitlab_user_url: payload.user.avatar_url)
       end
     end
   end

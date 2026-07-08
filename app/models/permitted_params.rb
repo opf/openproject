@@ -534,6 +534,7 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :visible_on_user_card,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -571,6 +572,7 @@ class PermittedParams
           :due_date,
           :estimated_hours,
           :version_id,
+          { target_version_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -655,6 +657,7 @@ class PermittedParams
         ),
         type: [
           :name,
+          :parent_id,
           :is_in_roadmap,
           :is_milestone,
           :is_default,

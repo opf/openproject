@@ -31,6 +31,8 @@
 module Backlogs
   # Base class of all controllers in Backlogs
   class BaseController < ::ApplicationController
+    include Backlogs::CommonHelper
+
     helper "backlogs/common"
 
     before_action :load_project,

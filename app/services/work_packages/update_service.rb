@@ -30,6 +30,7 @@
 
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::Versions
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -43,6 +44,8 @@ class WorkPackages::UpdateService < BaseServices::Update
   private
 
   def after_perform(service_call)
+    save_versions(service_call.result)
+
     # TODO: code smell here: saving the automatically generated subject depends
     # on running the UpdateAncestorsService right after. The subject gets saved
     # only thanks to this. If the UpdateAncestorsService is not run, the subject
@@ -177,11 +180,11 @@ class WorkPackages::UpdateService < BaseServices::Update
     service_calls
       .group_by { |sc| sc.result.id }
       .map do |(_, same_work_package_calls)|
-        same_work_package_calls.pop.tap do |master|
-          same_work_package_calls.each do |sc|
-            master.result.attributes = sc.result.changes.transform_values(&:last)
-          end
+      same_work_package_calls.pop.tap do |master|
+        same_work_package_calls.each do |sc|
+          master.result.attributes = sc.result.changes.transform_values(&:last)
         end
+      end
     end
   end
 end

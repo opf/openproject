@@ -40,17 +40,29 @@ module ResourceAllocations
     # Turbo stream wrapper.
     BODY_ID = "allocate-resource-dialog-body"
 
-    def initialize(project:, work_package: nil)
+    def initialize(project:, allocation:, view: nil)
       super
 
       @project = project
-      @work_package = work_package
+      @allocation = allocation
+      @view = view
     end
 
     private
 
     def title
       I18n.t("resource_management.allocate_resource_dialog.title")
+    end
+
+    # A pre-selected user means the allocation kind is already decided
+    # (principal-based), so the dialog opens directly on the allocation form
+    # and skips the kind-selection step.
+    def skip_kind_step?
+      @allocation.principal.present?
+    end
+
+    def allocation_kind
+      @allocation.filter_based? ? "filter" : "principal"
     end
   end
 end

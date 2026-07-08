@@ -613,7 +613,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "version" do
+      describe "version" do
         let(:target_version) { create(:version, project:) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
@@ -621,7 +621,7 @@ RSpec.describe "API v3 Work package resource",
 
         before { allow(User).to receive(:current).and_return current_user }
 
-        context "valid" do
+        context "when valid" do
           include_context "patch request"
 
           it { expect(response).to have_http_status(:ok) }
@@ -633,6 +633,89 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it_behaves_like "lock version updated"
+        end
+
+        context "for a user lacking the assign_versions permission" do
+          let(:permissions) { %i[view_work_packages edit_work_packages] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "has a readonly error" do
+            expect(response.body)
+              .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                    .at_path("errorIdentifier")
+          end
+        end
+      end
+
+      describe "targetVersions" do
+        let(:target_version) { create(:version, project:) }
+        let(:target_versions_links) { [{ href: api_v3_paths.version(target_version.id) }] }
+        let(:params) { valid_params.merge(_links: { targetVersions: target_versions_links }) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context "with a single version" do
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns the target version" do
+            expect(work_package.reload.target_versions).to contain_exactly(target_version)
+          end
+
+          it "mirrors the version into the legacy version_id" do
+            expect(work_package.reload.version_id).to eq(target_version.id)
+          end
+
+          it "responds with the target version link" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
+                    .at_path("_links/targetVersions/0/href")
+          end
+
+          it_behaves_like "lock version updated"
+        end
+
+        context "with an empty collection" do
+          let!(:existing) do
+            create(:work_package_version, work_package:, version: target_version, kind: "target")
+          end
+          let(:target_versions_links) { [] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "clears the target versions" do
+            expect(work_package.reload.target_versions).to be_empty
+          end
+
+          it "sets the legacy version_id to nil" do
+            expect(work_package.reload.version).to be_nil
+          end
+        end
+
+        context "with more than one version" do
+          let(:other_version) { create(:version, project:) }
+          let(:target_versions_links) do
+            [{ href: api_v3_paths.version(target_version.id) },
+             { href: api_v3_paths.version(other_version.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "rejects the update with a single-value error" do
+            expect(response.body).to include("Target Versions can only hold a single value")
+          end
+
+          it "does not assign any target version" do
+            expect(work_package.reload.target_versions).to be_empty
+          end
         end
 
         context "for a user lacking the assign_versions permission" do

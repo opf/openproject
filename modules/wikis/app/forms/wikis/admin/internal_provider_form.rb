@@ -34,10 +34,13 @@ module Wikis::Admin
       f.check_box(
         name: :enabled,
         label: I18n.t("wikis.admin.internal_provider_form.checkbox_label"),
-        caption: I18n.t("wikis.admin.internal_provider_form.checkbox_caption")
+        caption: I18n.t("wikis.admin.internal_provider_form.checkbox_caption"),
+        disabled: model.configured_from_env?
       )
 
-      f.submit(name: :save, label: I18n.t("button_save"), scheme: :primary)
+      unless model.configured_from_env?
+        f.submit(name: :save, label: I18n.t("button_save"), scheme: :primary)
+      end
     end
   end
 end

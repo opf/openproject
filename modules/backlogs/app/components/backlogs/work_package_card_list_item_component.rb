@@ -51,11 +51,11 @@ module Backlogs
     end
 
     def drop_url
-      url_helpers.move_project_backlogs_work_package_path(project, work_package, params)
+      url_helpers.move_project_backlogs_work_package_path(project, work_package)
     end
 
     def menu_src
-      url_helpers.menu_project_backlogs_work_package_path(project, work_package, params)
+      url_helpers.menu_project_backlogs_work_package_path(project, work_package)
     end
 
     # `story` data attrs match the live Stimulus controller and Dragula
