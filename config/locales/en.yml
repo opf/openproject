@@ -2131,10 +2131,10 @@ en:
         "Friday",
         "Saturday",
       ]
+    # Use the strftime parameters for formats.
+    # When no format has been given, it uses default.
+    # You can provide other formats here if you like!
     formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
@@ -4801,8 +4801,8 @@ en:
   project_module_work_package_tracking: "Work packages"
 
   projects:
+    # Contains custom strings for options when copying a project that cannot be found elsewhere.
     copy:
-      # Contains custom strings for options when copying a project that cannot be found elsewhere.
       members: "Project members"
       overviews: "Project overview"
       queries: "Work packages: saved views"
