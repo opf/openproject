@@ -31,3 +31,17 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "{Gemfile.lock,frontend/package.json}"
       run: script/check_same_primer_view_components_version_everywhere
+    yamllint:
+      files: git diff --name-only --staged
+      glob:
+        - ".yamllint.yml"
+        - "config/locales/en.yml"
+        - "config/locales/js-en.yml"
+        - "modules/*/config/locales/en.yml"
+        - "modules/*/config/locales/js-en.yml"
+      run: |
+        if command -v yamllint > /dev/null 2>&1; then
+          yamllint {files}
+        else
+          echo "warning: yamllint is not installed, skipping" >&2
+        fi
