@@ -1,4 +1,5 @@
 <%#-- copyright
+
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -27,18 +28,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Grids::WidgetGridComponent.new) do |grid|
-    grid.with_widget(Grids::Widgets::Description, @program)
-    grid.with_widget(Grids::Widgets::ProjectStatus, @program)
-    grid.with_widget(Grids::Widgets::ProjectTimeline, @program)
-    grid.with_widget(Grids::Widgets::Subitems, @program)
-    grid.with_widget(Meetings::Widgets::Meetings, @program)
-    grid.with_widget(Grids::Widgets::Members, @program)
-    grid.with_widget(Budgets::Widgets::BudgetTotals, @program)
-    grid.with_widget(Budgets::Widgets::BudgetByCostType, @program)
-    grid.with_widget(Costs::Widgets::ActualCosts, @program)
-
-    grid.with_widget(Grids::ProjectAttributeWidgets, @program)
-  end
-%>
+<%= widget_wrapper(test_selector: "op-overview-widget--project-timeline") do %>
+  <% if any_phases? %>
+    <%= helpers.angular_component_tag(
+          "opce-project-timeline-graph",
+          "phases-data": phases_data
+        ) %>
+  <% else %>
+    <%= render(Primer::Beta::Blankslate.new(test_selector: "project-timeline-widget-empty")) do |blankslate| %>
+      <% blankslate.with_visual_icon(icon: :workflow) %>
+      <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_lifecycle_results") } %>
+    <% end %>
+  <% end %>
+<% end %>

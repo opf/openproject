@@ -42,6 +42,9 @@ en:
         time_entries_list:
           no_results: 'No time entries for the last 7 days.'
           title: 'Spent time (last 7 days)'
+        project_timeline:
+          tooltip_type_phase: 'Phase'
+          tooltip_type_gate: 'Phase gate'
         work_packages_accountable:
           title: "Work packages I am accountable for"
         work_packages_assigned:

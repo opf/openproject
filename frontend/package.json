@@ -169,7 +169,9 @@
     "turbo_power": "^0.7.1",
     "typedjson": "^1.5.1",
     "urijs": "^1.19.11",
-    "uuid": "^14.0.1"
+    "uuid": "^14.0.1",
+    "vis-data": "^8.0.4",
+    "vis-timeline": "^8.5.1"
   },
   "optionalDependencies": {
     "fsevents": "*"

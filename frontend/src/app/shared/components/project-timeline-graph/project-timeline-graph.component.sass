@@ -1,0 +1,78 @@
+@import "vis-timeline/styles/vis-timeline-graph2d.css"
+@import "helpers"
+
+.op-project-timeline-graph
+  width: 100%
+
+  // Timeline border and grid lines
+  .vis-timeline
+    border-color: transparent
+  .vis-grid.vis-minor,
+  .vis-grid.vis-major,
+  .vis-panel,
+  .vis-foreground .vis-group
+    border-color: var(--borderColor-default)
+
+  .vis-text
+    color: var(--body-font-color)
+
+  // Hide the group label column — groups are for layout only
+  .vis-labelset
+    display: none
+
+  // Tooltip
+  .vis-tooltip
+    background: var(--body-background)
+    color: var(--fgColor-default)
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-default)
+    box-shadow: var(--shadow-floating-small)
+    padding: var(--base-size-12)
+
+  .op-timeline-tooltip--meta-row
+    display: inline-flex
+    align-items: center
+    column-gap: var(--base-size-4)
+    font-size: var(--text-body-size-small)
+
+    i
+      display: flex
+      margin-left: var(--base-size-4)
+
+  .op-timeline-tooltip--type
+    color: var(--fgColor-muted)
+
+  .op-timeline-tooltip--name
+    font-weight: var(--base-text-weight-semibold)
+    margin-top: var(--base-size-4)
+
+  // Phase bars
+  .vis-item.vis-range
+    border-width: 0
+    border-radius: var(--borderRadius-default)
+    font-size: var(--text-body-size-small)
+    overflow: hidden
+
+    .vis-item-content
+      display: block
+      max-width: 100%
+      padding: 0 var(--base-size-6)
+      @include text-shortener
+      line-height: inherit
+
+  // The highlight class uses `background: ... !important`, so we need !important
+  // to suppress it on the point container (vis-timeline applies className to both
+  // .vis-point and .vis-dot, but we only want the color on the dot).
+  .vis-item.vis-point.op-timeline-gate
+    background: none !important
+    border-color: transparent !important
+
+  // Gates: diamond shape via `rotate` (CSS Transforms Level 2).
+  // vis-timeline sets `transform: translateX()` on the dot via JS inline style —
+  // `rotate` is a separate CSS property and is not affected by that.
+  .vis-item.vis-dot.op-timeline-gate
+    width: 10px
+    height: 10px
+    border-width: 0
+    border-radius: 0
+    rotate: 45deg
