@@ -36,16 +36,21 @@ module OpenProject
     # Enumerates the real Grape routes of the APIv3 into Endpoints.
     class RouteExtractor
       NOISE_PARAMS = %w[format version].freeze
+      HTTP_METHODS = %w[GET POST PUT PATCH DELETE HEAD OPTIONS].freeze
 
       def initialize(grape_api = API::Root)
         @grape_api = grape_api
       end
 
       def endpoints
-        @grape_api.routes.select { |route| v3_route?(route) }.map { |route| build_endpoint(route) }
+        @grape_api.routes.select { |route| documentable?(route) }.map { |route| build_endpoint(route) }
       end
 
       private
+
+      def documentable?(route)
+        v3_route?(route) && http_method?(route)
+      end
 
       # API::Root also hosts non-v3 mounts (e.g. the BIM module's "v1" BCF XML
       # API), which use :version as an ordinary path segment rather than as the
@@ -53,6 +58,12 @@ module OpenProject
       # /:version prefix belong to the documented APIv3 surface.
       def v3_route?(route)
         PathNormalizer::VERSION_PREFIX.match?(route.path)
+      end
+
+      # Grape mounts a catch-all fallback route with the wildcard method "*"
+      # (path "?*path"); it is not a documentable endpoint.
+      def http_method?(route)
+        HTTP_METHODS.include?(route.request_method.to_s.upcase)
       end
 
       def build_endpoint(route)

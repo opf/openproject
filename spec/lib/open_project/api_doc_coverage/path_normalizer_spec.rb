@@ -50,6 +50,11 @@ RSpec.describe OpenProject::ApiDocCoverage::PathNormalizer do
     it "handles the bare version root" do
       expect(described_class.canonical_path("/:version(.:format)")).to eq("/api/v3")
     end
+
+    it "maps a splat param (used where a segment may contain slashes) like a regular param" do
+      expect(described_class.canonical_path("/:version/actions/*id(.:format)"))
+        .to eq("/api/v3/actions/{id}")
+    end
   end
 
   describe ".module_name" do

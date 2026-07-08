@@ -36,7 +36,10 @@ module OpenProject
     class PathNormalizer
       FORMAT_SUFFIX = /\(\/?\.:format\)/
       VERSION_PREFIX = %r{\A/:version}
-      NAMED_PARAM = /:(\w+)/
+      # Matches both regular Grape params (:id) and splat params (*id, used where
+      # a segment may contain slashes, e.g. actions/:id). Both map to {id} to
+      # match the OpenAPI path style.
+      NAMED_PARAM = /[:*](\w+)/
       API_PREFIX = "/api/v3"
 
       def self.canonical_path(grape_path)

@@ -54,4 +54,12 @@ RSpec.describe OpenProject::ApiDocCoverage::RouteExtractor do
     wp_member = endpoints.find { |e| e.method == "GET" && e.path == "/api/v3/work_packages/{id}" }
     expect(wp_member.params.find { |p| p.name == "id" }).to have_attributes(location: "path")
   end
+
+  it "converts splat params to {param} rather than leaking a '*'" do
+    expect(endpoints.map(&:path)).to all(satisfy { |p| p.exclude?("*") })
+  end
+
+  it "excludes the Grape catch-all route with the wildcard '*' method" do
+    expect(endpoints.map(&:method).uniq).to all(satisfy { |m| described_class::HTTP_METHODS.include?(m) })
+  end
 end
