@@ -93,7 +93,12 @@ describe('Sortable lists item controller', () => {
     { busy = false } = {},
   ):SortableListsRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
-    return { element, busy };
+    return {
+      element,
+      busy,
+      moveInDirection: vi.fn(),
+      itemMovePosition: vi.fn(() => null),
+    };
   }
 
   function connectedControllerFor(
@@ -782,6 +787,145 @@ describe('Sortable lists item controller', () => {
 
       expect(container.classList.contains('Box--condensed')).toBe(false);
       expect(container.classList.contains('Box--spacious')).toBe(false);
+    });
+  });
+
+  describe('move menu', () => {
+    let menuCtx:StimulusTestContext|undefined;
+
+    afterEach(() => {
+      menuCtx?.dispose();
+      menuCtx = undefined;
+    });
+
+    // Mounts the element through Stimulus (the same setupStimulusTest harness
+    // the file's other wiring tests use), so targets/actions/elements wire the
+    // way they do in production rather than being newed up directly.
+    async function mountItemController(el:HTMLElement):Promise<InstanceType<typeof ItemControllerType>> {
+      menuCtx = await setupStimulusTest({
+        controllers: {
+          'sortable-lists--item': ItemController,
+        },
+      });
+      menuCtx.container.appendChild(el);
+      await menuCtx.nextFrame();
+
+      return menuCtx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', el);
+    }
+
+    // Builds an item element containing a fake <action-menu> whose four move
+    // items are <li> targets (direction + move action on the li). The menu
+    // stub exposes the Primer item-state API the controller calls;
+    // isItemDisabled is driven by a live class check so the click-guard test
+    // is realistic.
+    interface FakeActionMenu {
+      enableItem:ReturnType<typeof vi.fn>;
+      disableItem:ReturnType<typeof vi.fn>;
+      showItem:ReturnType<typeof vi.fn>;
+      hideItem:ReturnType<typeof vi.fn>;
+      isItemDisabled:ReturnType<typeof vi.fn>;
+      isItemHidden:ReturnType<typeof vi.fn>;
+    }
+
+    function renderItemWithMenu(idNumber:number):{ el:HTMLElement; menu:FakeActionMenu } {
+      const el = document.createElement('div');
+      el.dataset.controller = 'sortable-lists--item';
+      el.setAttribute('data-sortable-lists--item-id-value', String(idNumber));
+      el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+
+      const menuElement = document.createElement('action-menu');
+      menuElement.innerHTML = ['top', 'up', 'down', 'bottom'].map((direction) => (
+        `<li data-sortable-lists--item-target="moveItem" data-move-direction="${direction}"`
+        + ' data-action="click->sortable-lists--item#move"><button></button></li>'
+      )).join('');
+      const parent = document.createElement('li');
+      parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
+      menuElement.appendChild(parent);
+      el.appendChild(menuElement);
+
+      const menu:FakeActionMenu = {
+        enableItem: vi.fn((li:Element|null) => li?.classList.remove('ActionListItem--disabled')),
+        disableItem: vi.fn((li:Element|null) => li?.classList.add('ActionListItem--disabled')),
+        showItem: vi.fn(),
+        hideItem: vi.fn(),
+        isItemDisabled: vi.fn((li:Element|null) => !!li?.classList.contains('ActionListItem--disabled')),
+        isItemHidden: vi.fn(() => false),
+      };
+      Object.assign(menuElement, menu);
+
+      return { el, menu };
+    }
+
+    const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-move-direction="${direction}"]`)!;
+    const stubRoot = (el:HTMLElement, position:{ isFirst:boolean; isLast:boolean }, moveInDirection = vi.fn()) => ({
+      element: el, busy: false, itemMovePosition: () => position, moveInDirection,
+    } as unknown as SortableListsRoot);
+
+    it('disables up/top for a first item and enables the rest', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+    });
+
+    it('disables the parent submenu when nothing is available (single item)', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      controller.moveItemTargetConnected();
+
+      const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      expect(menu.disableItem).toHaveBeenCalledWith(parent);
+    });
+
+    it('delegates an enabled click to the root and no-ops a disabled one', async () => {
+      const { el } = renderItemWithMenu(2);
+      document.body.appendChild(el);
+      const moveInDirection = vi.fn();
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      controller.moveItemTargetConnected();
+
+      liFor(el, 'down').click();
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+
+      liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
+      moveInDirection.mockClear();
+      liFor(el, 'up').click();
+      expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when there is no action-menu (drag-only consumer)', async () => {
+      const el = document.createElement('div');
+      el.dataset.controller = 'sortable-lists--item';
+      el.setAttribute('data-sortable-lists--item-id-value', '1');
+      el.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+
+      // No moveItem targets and no <action-menu>: the availability refresh
+      // must no-op, not throw.
+      expect(() => {
+        controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }, moveInDirection));
+        // @ts-expect-error exercising the guard directly
+        controller.refreshMoveMenuAvailability?.();
+      }).not.toThrow();
+
+      // move() must also no-op rather than throw: there is no menu to read
+      // isItemDisabled/isItemHidden from, and no move should reach the root.
+      const moveEvent = new Event('click');
+      Object.defineProperty(moveEvent, 'currentTarget', { value: el });
+
+      expect(() => controller.move(moveEvent)).not.toThrow();
+      expect(moveInDirection).not.toHaveBeenCalled();
     });
   });
 });

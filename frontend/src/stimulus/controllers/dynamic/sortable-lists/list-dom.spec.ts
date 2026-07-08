@@ -29,6 +29,8 @@
 import {
   captureRowPositions,
   reorderRows,
+  resolveDirectionalPreviousItemId,
+  resolveItemMovePosition,
   resolveListAppendPreviousItemId,
   restoreRowPositions,
   rowOf,
@@ -315,5 +317,49 @@ describe('sortable lists DOM helpers', () => {
 
       expect(rowsRemainAt(optimistic)).toBe(false);
     });
+  });
+});
+
+describe('directional move helpers', () => {
+  function container(ids:string[]):HTMLElement {
+    const ul = document.createElement('ul');
+    ul.innerHTML = ids.map((id) => `<li data-sortable-lists--item-id-value="${id}"></li>`).join('');
+    return ul;
+  }
+  const itemAt = (ul:HTMLElement, index:number) => ul.children[index] as HTMLElement;
+
+  it('reports first/last position', () => {
+    const ul = container(['1', '2', '3']);
+    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 0), rowsContainer: ul })).toEqual({ isFirst: true, isLast: false });
+    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 1), rowsContainer: ul })).toEqual({ isFirst: false, isLast: false });
+    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 2), rowsContainer: ul })).toEqual({ isFirst: false, isLast: true });
+  });
+
+  it('returns null when the item is not in the container', () => {
+    const ul = container(['1']);
+    const stray = document.createElement('li');
+    expect(resolveItemMovePosition({ itemElement: stray, rowsContainer: ul })).toBeNull();
+  });
+
+  it('maps each direction to a previous item id', () => {
+    const ul = container(['1', '2', '3', '4']);
+    const at = (i:number) => ({ itemElement: itemAt(ul, i), rowsContainer: ul });
+    // item '3' (index 2)
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'top' })).toBeNull();
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'up' })).toBe('1');
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'down' })).toBe('4');
+    expect(resolveDirectionalPreviousItemId({ ...at(2), direction: 'bottom' })).toBe('4');
+    // second item moving up lands at the top
+    expect(resolveDirectionalPreviousItemId({ ...at(1), direction: 'up' })).toBeNull();
+  });
+
+  it('returns undefined when the direction is unavailable', () => {
+    const ul = container(['1', '2']);
+    const first = { itemElement: itemAt(ul, 0), rowsContainer: ul };
+    const last = { itemElement: itemAt(ul, 1), rowsContainer: ul };
+    expect(resolveDirectionalPreviousItemId({ ...first, direction: 'top' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...first, direction: 'up' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...last, direction: 'down' })).toBeUndefined();
+    expect(resolveDirectionalPreviousItemId({ ...last, direction: 'bottom' })).toBeUndefined();
   });
 });

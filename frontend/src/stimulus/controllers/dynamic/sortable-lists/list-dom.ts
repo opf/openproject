@@ -200,3 +200,69 @@ function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
     rowsContainer.prepend(row);
   }
 }
+
+export type MoveDirection = 'top'|'up'|'down'|'bottom';
+
+// One item element per row of the container, in document order. Mirrors the
+// row model the drag path uses (a row resolves to at most one item element).
+function containerItemElements(rowsContainer:Element):HTMLElement[] {
+  return Array.from(rowsContainer.children)
+    .map((row) => resolveItemElement(row))
+    .filter((item):item is HTMLElement => item !== null);
+}
+
+export function resolveItemMovePosition({
+  itemElement,
+  rowsContainer,
+}:{
+  itemElement:HTMLElement;
+  rowsContainer:Element;
+}):{ isFirst:boolean; isLast:boolean }|null {
+  const items = containerItemElements(rowsContainer);
+  const index = items.indexOf(itemElement);
+
+  if (index === -1) {
+    return null;
+  }
+
+  return { isFirst: index === 0, isLast: index === items.length - 1 };
+}
+
+// The previous item id to insert `itemElement` after for a directional move:
+//   null      -> top of the list
+//   string    -> after that item id
+//   undefined -> the move is unavailable in this direction (caller no-ops)
+export function resolveDirectionalPreviousItemId({
+  itemElement,
+  direction,
+  rowsContainer,
+}:{
+  itemElement:HTMLElement;
+  direction:MoveDirection;
+  rowsContainer:Element;
+}):string|null|undefined {
+  const items = containerItemElements(rowsContainer);
+  const index = items.indexOf(itemElement);
+
+  if (index === -1) {
+    return undefined;
+  }
+
+  const lastIndex = items.length - 1;
+
+  switch (direction) {
+    case 'top':
+      return index === 0 ? undefined : null;
+    case 'bottom':
+      return index === lastIndex ? undefined : resolveItemId(items[lastIndex]);
+    case 'up':
+      // Up one slot = after the item two above; from the second slot that is the top.
+      if (index === 0) return undefined;
+      return index === 1 ? null : resolveItemId(items[index - 2]);
+    case 'down':
+      // Down one slot = after the next item.
+      return index === lastIndex ? undefined : resolveItemId(items[index + 1]);
+    default:
+      return undefined;
+  }
+}

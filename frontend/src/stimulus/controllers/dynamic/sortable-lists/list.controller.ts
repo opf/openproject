@@ -152,11 +152,11 @@ export default class ListController extends Controller<HTMLElement> implements R
   // Rows sit inside a child rows container (the Box list's <ul>). Lists that
   // render rows directly under their own element have no such child, so fall
   // back to the list element itself.
-  private get rowsContainer():HTMLElement {
+  get rowsContainer():HTMLElement {
     return this.hasRowsContainerElement ? this.rowsContainerElement! : this.element;
   }
 
-  private get listData():SortableListData {
+  get listData():SortableListData {
     return sortableListData({
       type: this.typeValue,
       listId: this.hasIdValue ? this.idValue : null,

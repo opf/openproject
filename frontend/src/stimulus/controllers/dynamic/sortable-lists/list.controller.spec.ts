@@ -71,7 +71,12 @@ describe('Sortable lists list controller', () => {
     element = document.createElement('div'),
     { busy = false } = {},
   ):SortableListsRoot {
-    return { element, busy };
+    return {
+      element,
+      busy,
+      moveInDirection: vi.fn(),
+      itemMovePosition: vi.fn(() => null),
+    };
   }
 
   async function connectedListFor({
