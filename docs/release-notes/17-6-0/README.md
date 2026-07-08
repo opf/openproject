@@ -26,7 +26,7 @@ Take a look at our release video showing the most important features introduced 
 
 [feature: xwiki_integration ]
 
-OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution. [Learn more about the motivation behind the integration and our collaboration with XWiki in our dedicated blog article](https://www.openproject.org/blog/x.wiki-integration).
+OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution. [Learn more about the motivation behind the integration and our collaboration with XWiki in our dedicated blog article](https://www.openproject.org/blog/x-wiki-integration).
 
 To use the XWiki integration, system administrators first need to configure an external wiki as a **Wiki provider** in the OpenProject administration settings. [See our system admin guide for more information](../../system-admin-guide/wikis/wiki-providers).
 
