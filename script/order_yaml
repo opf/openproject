@@ -88,8 +88,7 @@ ARGV.each do |file|
     *sorted(target, lines),
     *lines[content_end(target)..]
   ].join
-  output.gsub!(/\n{3,}/, "\n\n")
-  output.sub!(/\n{2,}\z/, "\n")
+
   before = Psych.unsafe_load(content)
   after = Psych.unsafe_load(output)
   abort "ordering changed content of #{file}:\n#{divergence(before, after)}" unless after == before
