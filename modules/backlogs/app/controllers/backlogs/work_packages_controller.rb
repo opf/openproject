@@ -197,7 +197,24 @@ module Backlogs
     # reloads mid-method, wiping the saved_changes _before_last_save needs.
     def optimistic_same_list_move?(call, source_list)
       optimistic_move? && call.success? &&
-        [call.result.sprint_id, call.result.backlog_bucket_id] == source_list
+        [call.result.sprint_id, call.result.backlog_bucket_id] == source_list &&
+        requested_anchor_honored?(call.result)
+    end
+
+    # A nonblank prev_id that has left the target list resolves to nothing, so
+    # move_after silently drops the work package at the top, diverging from the
+    # optimistic client order. Only skip the reload once the requested
+    # predecessor is the persisted one; blank prev_id means top, which always
+    # holds. Nothing sends optimistic position-based moves today, so rather
+    # than guess whether the persisted position matches what such a client
+    # rendered, send them down the reload path.
+    def requested_anchor_honored?(work_package)
+      return false if move_params[:position].present?
+
+      prev_id = move_params[:prev_id].presence
+      return true unless prev_id
+
+      work_package.higher_item&.id == prev_id.to_i
     end
 
     # Kept out of move_params: the service's keyword args reject it.

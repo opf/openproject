@@ -284,6 +284,52 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "with an optimistic same-list move after a valid predecessor" do
+      let!(:first_item) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { first_item.id }
+      let(:optimistic) { "true" }
+
+      it "skips the reload because the requested anchor was honoured", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dispatchEvent"
+        expect(response).not_to have_turbo_stream action: "turbo_frame_reload"
+      end
+    end
+
+    context "with an optimistic same-list move whose prev_id has left the list" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      # A predecessor that is not in the target sprint: move_after cannot
+      # resolve it and silently falls back to the top, so the persisted order
+      # diverges from the optimistic client order. The frame must reload to
+      # reconcile rather than trust the stale client placement.
+      let(:stray_prev) { create(:work_package, status:, project:) }
+      let(:prev_id) { stray_prev.id }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame instead of trusting the client order", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
+    context "with an optimistic same-list move by position instead of prev_id" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { nil }
+      let(:position) { "1" }
+      let(:optimistic) { "true" }
+
+      it "reloads the frame instead of trusting the client order", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
     context "with a same-list move and optimistic=false (menu move)" do
       let(:list_type) { "sprint" }
       let(:list_id) { sprint.id }
