@@ -31,9 +31,10 @@
 module Wikis
   class PageLinkComponent
     class RemoveAction
-      def initialize(page_link:, url_helpers:)
+      include OpenProject::StaticRouting::UrlHelpers
+
+      def initialize(page_link:)
         @page_link = page_link
-        @url_helpers = url_helpers
       end
 
       def icon = :trash
@@ -43,14 +44,14 @@ module Wikis
           label: I18n.t("wikis.page_link_component.remove"),
           scheme: :danger,
           tag: :a,
-          href: url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(page_link),
+          href: confirm_delete_dialog_relation_wiki_page_link_path(page_link),
           content_arguments: { data: { controller: "async-dialog" } }
         }
       end
 
       private
 
-      attr_reader :page_link, :url_helpers
+      attr_reader :page_link
     end
   end
 end

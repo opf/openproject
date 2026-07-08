@@ -58,12 +58,7 @@ module Wikis
     end
 
     def add_to_relation_action(page_info:, already_related:)
-      PageLinkComponent::AddToRelatedAction.new(
-        page_info:,
-        linkable:,
-        url_helpers:,
-        already_related:
-      )
+      PageLinkComponent::AddToRelatedAction.new(page_info:, linkable:, already_related:)
     end
 
     def can_manage_links?

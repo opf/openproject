@@ -35,7 +35,7 @@ RSpec.describe Wikis::PageLinkComponent::RemoveAction do
   let(:page_link) { build_stubbed(:relation_wiki_page_link) }
   let(:url_helpers) { Rails.application.routes.url_helpers }
 
-  subject(:action) { described_class.new(page_link:, url_helpers:) }
+  subject(:action) { described_class.new(page_link:) }
 
   it "uses the trash icon" do
     expect(action.icon).to eq(:trash)

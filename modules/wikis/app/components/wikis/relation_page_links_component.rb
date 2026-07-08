@@ -65,7 +65,7 @@ module Wikis
     def menu_actions_for(page_link)
       return [] unless can_manage_links?
 
-      [PageLinkComponent::RemoveAction.new(page_link:, url_helpers:)]
+      [PageLinkComponent::RemoveAction.new(page_link:)]
     end
 
     def page_link_service

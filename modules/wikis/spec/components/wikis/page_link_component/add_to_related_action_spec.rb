@@ -46,7 +46,7 @@ RSpec.describe Wikis::PageLinkComponent::AddToRelatedAction do
   let(:already_related) { false }
 
   subject(:action) do
-    described_class.new(page_info:, linkable: work_package, url_helpers:, already_related:)
+    described_class.new(page_info:, linkable: work_package, already_related:)
   end
 
   it "uses the plus icon" do

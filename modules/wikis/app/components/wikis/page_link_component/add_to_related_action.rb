@@ -31,10 +31,11 @@
 module Wikis
   class PageLinkComponent
     class AddToRelatedAction
-      def initialize(page_info:, linkable:, url_helpers:, already_related:)
+      include OpenProject::StaticRouting::UrlHelpers
+
+      def initialize(page_info:, linkable:, already_related:)
         @page_info = page_info
         @linkable = linkable
-        @url_helpers = url_helpers
         @already_related = already_related
       end
 
@@ -53,14 +54,14 @@ module Wikis
 
       private
 
-      attr_reader :page_info, :linkable, :url_helpers, :already_related
+      attr_reader :page_info, :linkable, :already_related
 
       def label
         I18n.t("wikis.page_link_component.add_to_related_pages")
       end
 
       def create_relation_page_link_href
-        url_helpers.relation_wiki_page_links_path(
+        relation_wiki_page_links_path(
           wikis_relation_page_link: {
             provider_id: page_info.provider.id,
             linkable_type: linkable.class.name,
