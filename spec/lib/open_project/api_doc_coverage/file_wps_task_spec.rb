@@ -43,15 +43,21 @@ RSpec.describe "api:docs:file_wps", type: :task do
   before do
     Rails.application.load_tasks unless Rake::Task.task_defined?("api:docs:file_wps")
     json_path.write(report.to_json)
+    ENV["OP_API_DOC_COVERAGE_PROJECT"] = "test_project"
   end
 
-  after { Rake::Task["api:docs:file_wps"].reenable }
+  after do
+    Rake::Task["api:docs:file_wps"].reenable
+    ENV.delete("OP_API_DOC_COVERAGE_PROJECT")
+  end
 
-  it "invokes the filer for the requested module without raising" do
+  it "invokes the filer for the requested module, passing the target project" do
     fake = instance_double(OpenProject::ApiDocCoverage::WpFiler,
                            file: [{ module: "widgets", wp_id: "1", action: :created }])
     allow(OpenProject::ApiDocCoverage::WpFiler).to receive(:new).and_return(fake)
     expect { Rake::Task["api:docs:file_wps"].invoke("widgets") }.not_to raise_error
+    expect(OpenProject::ApiDocCoverage::WpFiler)
+      .to have_received(:new).with(hash_including(project: "test_project"))
     expect(fake).to have_received(:file).with(modules: ["widgets"])
   end
 end

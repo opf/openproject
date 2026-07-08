@@ -68,13 +68,16 @@ namespace :api do
       json_path = Rails.root.join("tmp/api-doc-coverage.json")
       abort "Run `rake api:docs:coverage` first — #{json_path} not found." unless json_path.exist?
 
+      project = ENV.fetch("OP_API_DOC_COVERAGE_PROJECT", nil)
+      abort "Set OP_API_DOC_COVERAGE_PROJECT to the target project id/identifier for filed work packages." if project.blank?
+
       report = JSON.parse(json_path.read)
       requested = args[:modules].to_s.split(",").map(&:strip).reject(&:empty?)
       modules = requested.presence ||
         report.fetch("modules", {}).select { |_m, g| g["undocumented_routes"].present? }.keys
 
       ledger = mod::Ledger.new(Rails.root.join("docs/api/apiv3/.coverage-wps.yml").to_s)
-      results = mod::WpFiler.new(report_hash: report, ledger:).file(modules:)
+      results = mod::WpFiler.new(report_hash: report, ledger:, project:).file(modules:)
       results.each { |r| puts "#{r[:action]} WP ##{r[:wp_id]} for #{r[:module]}" }
       puts "Filed #{results.size} work package(s)."
     end

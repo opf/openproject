@@ -47,15 +47,17 @@ RSpec.describe OpenProject::ApiDocCoverage::WpFiler do
 
   after { FileUtils.remove_entry(dir) }
 
-  it "creates a WP for a module with hard gaps and records its id" do
+  it "creates a WP with a positional subject and target project, recording the id from JSON" do
     calls = []
     runner = lambda do |args|
       calls << args
-      "Created work package #4242"
+      { "id" => 4242 }.to_json
     end
-    result = described_class.new(report_hash: report, ledger:, runner:).file(modules: ["widgets"])
+    filer = described_class.new(report_hash: report, ledger:, project: "my_project", runner:)
+    result = filer.file(modules: ["widgets"])
 
-    expect(calls.first).to include("work-package", "create")
+    expect(calls.first).to include("work-package", "create", "--project", "my_project")
+    expect(calls.first).not_to include("--subject")
     expect(result).to contain_exactly(hash_including(module: "widgets", wp_id: "4242", action: :created))
     expect(ledger.id_for("widgets")).to eq("4242")
   end
@@ -67,7 +69,8 @@ RSpec.describe OpenProject::ApiDocCoverage::WpFiler do
       calls << args
       ""
     end
-    result = described_class.new(report_hash: report, ledger:, runner:).file(modules: ["widgets"])
+    filer = described_class.new(report_hash: report, ledger:, project: "my_project", runner:)
+    result = filer.file(modules: ["widgets"])
 
     expect(calls.first).to include("work-package", "update", "999")
     expect(result).to contain_exactly(hash_including(module: "widgets", wp_id: "999", action: :updated))
@@ -75,7 +78,7 @@ RSpec.describe OpenProject::ApiDocCoverage::WpFiler do
 
   it "skips modules with only advisory/info findings" do
     runner = ->(_args) { raise "should not be called" }
-    result = described_class.new(report_hash: report, ledger:, runner:).file(modules: ["gone"])
-    expect(result).to eq([])
+    filer = described_class.new(report_hash: report, ledger:, project: "my_project", runner:)
+    expect(filer.file(modules: ["gone"])).to eq([])
   end
 end

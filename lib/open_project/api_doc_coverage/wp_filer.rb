@@ -28,16 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "English"
+require "json"
+
 module OpenProject
   module ApiDocCoverage
     # Files/updates one work package per endpoint module with hard gaps, via the
-    # `op` CLI. The `runner` callable is injected so it can be stubbed in tests.
+    # `op` CLI. The `runner` callable is injected so it can be stubbed in tests;
+    # it receives the `op` argument vector and must return stdout, raising if the
+    # command fails.
     class WpFiler
-      DEFAULT_RUNNER = ->(args) { IO.popen(["op", *args], &:read) }
+      DEFAULT_RUNNER = lambda do |args|
+        stdout = IO.popen(["op", *args], &:read)
+        raise "`op #{args.join(' ')}` failed (exit #{$CHILD_STATUS.exitstatus}): #{stdout}" unless $CHILD_STATUS.success?
 
-      def initialize(report_hash:, ledger:, runner: DEFAULT_RUNNER)
+        stdout
+      end
+
+      def initialize(report_hash:, ledger:, project:, runner: DEFAULT_RUNNER)
         @report = report_hash
         @ledger = ledger
+        @project = project
         @runner = runner
       end
 
@@ -56,9 +67,10 @@ module OpenProject
       end
 
       def create(mod, group)
-        stdout = @runner.call(["work-package", "create", "--type", "TASK",
-                               "--subject", subject(mod), "--description", body(mod, group)])
-        wp_id = stdout[/#(\d+)/, 1]
+        stdout = @runner.call(["work-package", "create", subject(mod),
+                               "--project", @project, "--type", "TASK",
+                               "--description", body(mod, group), "--format", "json"])
+        wp_id = parse_id(stdout)
         @ledger.record(mod, wp_id) if wp_id
         { module: mod, wp_id:, action: :created }
       end
@@ -66,6 +78,14 @@ module OpenProject
       def update(mod, wp_id, group)
         @runner.call(["work-package", "update", wp_id, "--description", body(mod, group)])
         { module: mod, wp_id:, action: :updated }
+      end
+
+      # `op ... --format json` prints the created work package as JSON; fall back
+      # to scanning for "#<id>" in case a runner returns plain text.
+      def parse_id(stdout)
+        JSON.parse(stdout)["id"]&.to_s
+      rescue JSON::ParserError
+        stdout[/#(\d+)/, 1]
       end
 
       def subject(mod)
