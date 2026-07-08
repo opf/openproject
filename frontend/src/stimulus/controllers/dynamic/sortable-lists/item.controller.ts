@@ -370,14 +370,21 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   private refreshMoveMenuAvailability():void {
-    const position = this.root?.itemMovePosition(this.element);
-    if (!this.hasMenuElement || !position) {
+    const root = this.root;
+    if (!root || !this.hasMenuElement) {
+      return;
+    }
+
+    // A null position means the item is not in a list yet; leave the menu alone
+    // until the outlet wiring settles.
+    if (!root.itemMovePosition(this.element)) {
       return;
     }
 
     let available = 0;
     for (const item of this.moveItemTargets) {
-      const enabled = this.directionAvailable(item.dataset.moveDirection as MoveDirection|undefined, position);
+      const direction = item.dataset.moveDirection as MoveDirection|undefined;
+      const enabled = !!direction && root.directionalMoveAvailable(this.element, direction);
       this.setAvailability(item, enabled);
       if (enabled) {
         available += 1;
@@ -386,19 +393,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     if (this.hasMoveMenuTarget) {
       this.setAvailability(this.moveMenuTarget, available > 0);
-    }
-  }
-
-  private directionAvailable(direction:MoveDirection|undefined, position:{ isFirst:boolean; isLast:boolean }):boolean {
-    switch (direction) {
-      case 'top':
-      case 'up':
-        return !position.isFirst;
-      case 'down':
-      case 'bottom':
-        return !position.isLast;
-      default:
-        return false;
     }
   }
 

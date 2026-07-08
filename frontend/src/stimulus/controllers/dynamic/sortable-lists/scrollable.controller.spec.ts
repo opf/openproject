@@ -72,6 +72,7 @@ describe('Sortable lists scrollable controller', () => {
       busy: false,
       moveInDirection: vi.fn(),
       itemMovePosition: vi.fn(() => null),
+      directionalMoveAvailable: vi.fn(() => false),
     };
   }
 

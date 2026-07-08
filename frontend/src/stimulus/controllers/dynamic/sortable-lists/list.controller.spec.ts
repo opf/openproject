@@ -76,6 +76,7 @@ describe('Sortable lists list controller', () => {
       busy,
       moveInDirection: vi.fn(),
       itemMovePosition: vi.fn(() => null),
+      directionalMoveAvailable: vi.fn(() => false),
     };
   }
 

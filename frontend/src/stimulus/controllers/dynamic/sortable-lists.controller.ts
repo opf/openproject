@@ -170,6 +170,19 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return list ? resolveItemMovePosition({ itemElement, rowsContainer: list.rowsContainer }) : null;
   }
 
+  // Availability mirrors executability: a direction is offered exactly when the
+  // move resolver can produce a target for it. This keeps the menu honest about
+  // truncated lists, where a one-step move across the hidden block is not
+  // addressable and the resolver returns undefined.
+  directionalMoveAvailable(itemElement:HTMLElement, direction:MoveDirection):boolean {
+    const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return false;
+    }
+
+    return resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer }) !== undefined;
+  }
+
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
     if (this.busy) {
       return;

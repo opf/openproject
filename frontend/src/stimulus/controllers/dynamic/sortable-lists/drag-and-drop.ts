@@ -74,6 +74,7 @@ export interface SortableListsRoot {
   readonly busy:boolean;
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   itemMovePosition(itemElement:HTMLElement):{ isFirst:boolean; isLast:boolean }|null;
+  directionalMoveAvailable(itemElement:HTMLElement, direction:MoveDirection):boolean;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can

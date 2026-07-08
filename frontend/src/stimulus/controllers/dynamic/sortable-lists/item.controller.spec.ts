@@ -55,6 +55,7 @@ import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmat
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
+import type { MoveDirection } from './list-dom';
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -98,6 +99,7 @@ describe('Sortable lists item controller', () => {
       busy,
       moveInDirection: vi.fn(),
       itemMovePosition: vi.fn(() => null),
+      directionalMoveAvailable: vi.fn(() => false),
     };
   }
 
@@ -857,8 +859,29 @@ describe('Sortable lists item controller', () => {
     }
 
     const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-move-direction="${direction}"]`)!;
-    const stubRoot = (el:HTMLElement, position:{ isFirst:boolean; isLast:boolean }, moveInDirection = vi.fn()) => ({
-      element: el, busy: false, itemMovePosition: () => position, moveInDirection,
+    // Availability defaults to the first/last extremes so the position-driven
+    // specs read naturally; individual tests can override per direction to
+    // exercise the marker-aware (truncated list) wiring.
+    const availabilityFromPosition = (position:{ isFirst:boolean; isLast:boolean }) =>
+      (_el:HTMLElement, direction:MoveDirection):boolean => {
+        switch (direction) {
+          case 'top':
+          case 'up':
+            return !position.isFirst;
+          case 'down':
+          case 'bottom':
+            return !position.isLast;
+          default:
+            return false;
+        }
+      };
+    const stubRoot = (
+      el:HTMLElement,
+      position:{ isFirst:boolean; isLast:boolean },
+      moveInDirection = vi.fn(),
+      directionalMoveAvailable = availabilityFromPosition(position),
+    ) => ({
+      element: el, busy: false, itemMovePosition: () => position, directionalMoveAvailable, moveInDirection,
     } as unknown as SortableListsRoot);
 
     it('disables up/top for a first item and enables the rest', async () => {
@@ -872,6 +895,20 @@ describe('Sortable lists item controller', () => {
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
       expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+    });
+
+    it('disables a mid-list direction the root reports unavailable (truncation gap)', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      // Not an extreme (neither first nor last), but the root deems "down"
+      // unavailable because it would cross a hidden block.
+      const gappedAvailability = (_el:HTMLElement, direction:MoveDirection) => direction !== 'down';
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
+      controller.moveItemTargetConnected();
+
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'up'));
     });
 
     it('disables the parent submenu when nothing is available (single item)', async () => {

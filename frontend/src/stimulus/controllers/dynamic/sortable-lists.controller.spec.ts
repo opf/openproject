@@ -739,4 +739,14 @@ describe('Sortable lists controller', () => {
 
     expect(controller.itemMovePosition(firstSourceItem)).toEqual({ isFirst: true, isLast: false });
   });
+
+  it('reports directional availability for gating', async () => {
+    const { root, firstSourceItem } = renderFixture();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    // First item: down/bottom available, up/top not.
+    expect(controller.directionalMoveAvailable(firstSourceItem, 'down')).toBe(true);
+    expect(controller.directionalMoveAvailable(firstSourceItem, 'up')).toBe(false);
+  });
 });

@@ -228,10 +228,22 @@ export function resolveItemMovePosition({
   return { isFirst: index === 0, isLast: index === items.length - 1 };
 }
 
+// A truncation marker is a non-item row that stands in for a block of hidden
+// items, carrying the last omitted item's id on data-sortable-lists-prev-item-id.
+function isMarkerRow(row:Element|undefined):boolean {
+  return !!row && resolveItemElement(row) === null && row.hasAttribute(sortablePreviousItemIdAttribute);
+}
+
 // The previous item id to insert `itemElement` after for a directional move:
 //   null      -> top of the list
 //   string    -> after that item id
 //   undefined -> the move is unavailable in this direction (caller no-ops)
+//
+// Reasoning happens over rows, not just item elements, so a truncation marker
+// participates. The hidden block a marker represents cannot be addressed one
+// item at a time, so a single-step up/down that would cross it is unavailable;
+// the addressable extremes (top/bottom) and moves that land next to the block
+// via the marker's id stay available.
 export function resolveDirectionalPreviousItemId({
   itemElement,
   direction,
@@ -241,27 +253,41 @@ export function resolveDirectionalPreviousItemId({
   direction:MoveDirection;
   rowsContainer:Element;
 }):string|null|undefined {
-  const items = containerItemElements(rowsContainer);
-  const index = items.indexOf(itemElement);
+  const rows = listRows(rowsContainer);
+  const sourceRow = rowOf(rowsContainer, itemElement);
+  const rowIndex = sourceRow ? rows.indexOf(sourceRow) : -1;
 
-  if (index === -1) {
+  if (rowIndex === -1) {
     return undefined;
   }
 
-  const lastIndex = items.length - 1;
+  const itemRows = rows.filter((row) => resolveItemElement(row) !== null);
+  const itemIndex = itemRows.indexOf(sourceRow!);
+  const isFirstItem = itemIndex === 0;
+  const isLastItem = itemIndex === itemRows.length - 1;
 
   switch (direction) {
     case 'top':
-      return index === 0 ? undefined : null;
+      return isFirstItem ? undefined : null;
     case 'bottom':
-      return index === lastIndex ? undefined : resolveItemId(items[lastIndex]);
-    case 'up':
-      // Up one slot = after the item two above; from the second slot that is the top.
-      if (index === 0) return undefined;
-      return index === 1 ? null : resolveItemId(items[index - 2]);
-    case 'down':
-      // Down one slot = after the next item.
-      return index === lastIndex ? undefined : resolveItemId(items[index + 1]);
+      // After the last visible item; the server appends past the hidden block.
+      return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1]);
+    case 'up': {
+      if (isFirstItem) return undefined;
+      // One slot up crosses the hidden block when the row above is the marker.
+      if (isMarkerRow(rows[rowIndex - 1])) return undefined;
+      const anchor = rows[rowIndex - 2];
+      // The row two above becomes the predecessor (its own id, or the marker's
+      // hidden id); no such row means the item reaches the top.
+      return anchor ? resolvePreviousItemId(anchor) : null;
+    }
+    case 'down': {
+      if (isLastItem) return undefined;
+      const below = rows[rowIndex + 1];
+      // One slot down crosses the hidden block when the row below is the marker.
+      if (isMarkerRow(below)) return undefined;
+      return resolvePreviousItemId(below);
+    }
     default:
       return undefined;
   }
