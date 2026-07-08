@@ -30,11 +30,13 @@
 
 module WorkPackageTypes
   class CreateContract < BaseContract
-    attribute :color_id
     attribute :description
-    attribute :is_default
-    attribute :is_in_roadmap
-    attribute :is_milestone
+    with_options(writable: -> { !model.subtype? }) do
+      attribute :color_id
+      attribute :is_default
+      attribute :is_in_roadmap
+      attribute :is_milestone
+    end
     attribute :name
     attribute :parent_id
     attribute :project_ids
