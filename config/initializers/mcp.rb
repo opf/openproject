@@ -41,3 +41,25 @@ MCP.configure do |config|
     OpenProject::OpenTelemetry.trace_exception(exception, server_context) if OpenProject::OpenTelemetry.enabled?
   end
 end
+
+Rails.application.config.after_initialize do
+  McpTools.register McpTools::CurrentUser,
+                    McpTools::ListStatuses,
+                    McpTools::ListTypes,
+                    McpTools::SearchPortfolios,
+                    McpTools::SearchPrograms,
+                    McpTools::SearchProjects,
+                    McpTools::SearchUsers,
+                    McpTools::SearchVersions,
+                    McpTools::SearchWorkPackages
+
+  McpResources.register McpResources::CurrentUser,
+                        McpResources::Project,
+                        McpResources::Status,
+                        McpResources::StatusList,
+                        McpResources::Type,
+                        McpResources::TypeList,
+                        McpResources::User,
+                        McpResources::Version,
+                        McpResources::WorkPackage
+end
