@@ -32,8 +32,6 @@ module Backlogs
   module SprintReports
     module Widgets
       class BurndownChart < Grids::WidgetComponent
-        include Backlogs::BurndownChartHelper
-
         param :sprint
         param :project
 
@@ -58,6 +56,26 @@ module Backlogs
           return nil unless sprint.date_range_set?
 
           @burndown ||= Burndown.new(sprint, project)
+        end
+
+        def xaxis_labels(burndown)
+          # 14 entries (plus the axis label) have come along as the best value for a good optical result.
+          # Thus it is enough space between the entries.
+          entries_displayed = (burndown.days.length / 14.0).ceil
+          burndown.days.enum_for(:each_with_index).map do |d, i|
+            if (i % entries_displayed) == 0
+              ["#{::I18n.t('date.abbr_day_names')[d.wday % 7]} #{d.strftime('%d/%m')}"]
+            end
+          end
+        end
+
+        def dataseries(burndown)
+          burndown.series.map do |s|
+            {
+              label: I18n.t("burndown.#{s.first}"),
+              data: s.last.enum_for(:each)
+            }
+          end
         end
       end
     end
