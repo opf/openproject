@@ -623,7 +623,7 @@ module Pages
           [find(sprint_selector(into)), nil]
         end
 
-      wait_for_backlogs_turbo_stream(frame_reload: true) do
+      wait_for_backlogs_turbo_stream(frame_reload: cross_list_drag?(moved, before:, after:, into:)) do
         drag_backlogs_item(source: moved_element, target: target_element, edge:)
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
@@ -911,6 +911,27 @@ module Pages
       else
         wait_for_turbo_stream(wait:, &)
       end
+    end
+
+    # A same-list reorder (drag within the same sprint/bucket/inbox) is applied
+    # optimistically and never reloads the `backlogs_container` frame (see
+    # Backlogs::WorkPackagesController#optimistic_same_list_move?), so
+    # {#drag_work_package} must not wait for one. An `into:` drop always targets
+    # a different sprint, and a `before:`/`after:` drop may or may not cross
+    # lists (e.g. dragging a bucket item to just before a sprint item), so list
+    # membership is compared directly.
+    def cross_list_drag?(moved, before:, after:, into:)
+      return true if into
+
+      list_identity(moved) != list_identity(before || after)
+    end
+
+    # Reads the passed record's in-memory list. Callers hand in freshly loaded
+    # records right before the drag, so this reflects the pre-drag list. Do not
+    # reuse the same object across two drags without reloading it first, or a
+    # stale identity would misclassify a same-list reorder as cross-list.
+    def list_identity(work_package)
+      [work_package.sprint_id, work_package.backlog_bucket_id]
     end
 
     def install_backlogs_dnd_probe(source:, target:, edge:)
