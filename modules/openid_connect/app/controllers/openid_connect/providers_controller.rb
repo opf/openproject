@@ -58,10 +58,20 @@ module OpenIDConnect
       @provider = OpenIDConnect::Provider.new(oidc_provider:)
     end
 
+    def edit
+      respond_to do |format|
+        format.turbo_stream do
+          update_view_component(view_mode: :edit, new_mode: @new_mode, edit_state: @edit_state)
+          scroll_into_view_via_turbo_stream("openid-connect-providers-edit-form", behavior: :instant)
+          render turbo_stream: resolve_turbo_streams
+        end
+        format.html
+      end
+    end
+
     def create
       create_params = params
-                        .require(:openid_connect_provider)
-                        .permit(:display_name, :oidc_provider, :tenant)
+                        .expect(openid_connect_provider: %i[display_name oidc_provider tenant])
 
       call = ::OpenIDConnect::Providers::CreateService
         .new(user: User.current)
@@ -76,22 +86,10 @@ module OpenIDConnect
       end
     end
 
-    def edit
-      respond_to do |format|
-        format.turbo_stream do
-          update_view_component(view_mode: :edit, new_mode: @new_mode, edit_state: @edit_state)
-          scroll_into_view_via_turbo_stream("openid-connect-providers-edit-form", behavior: :instant)
-          render turbo_stream: resolve_turbo_streams
-        end
-        format.html
-      end
-    end
-
     def update
       update_params = params
-                        .require(:openid_connect_provider)
-                        .permit(:display_name, :oidc_provider, :limit_self_registration,
-                                *OpenIDConnect::Provider.stored_attributes[:options])
+                        .expect(openid_connect_provider: [:display_name, :oidc_provider, :limit_self_registration,
+                                                          *OpenIDConnect::Provider.stored_attributes[:options]])
       call = OpenIDConnect::Providers::UpdateService
         .new(model: @provider, user: User.current, fetch_metadata: fetch_metadata?)
         .call(update_params)
@@ -139,10 +137,10 @@ module OpenIDConnect
     end
 
     def find_provider
-      @provider = OpenIDConnect::Provider.find(params[:id])
+      @provider = OpenIDConnect::Provider.find(params.expect(:id))
     end
 
-    def successful_save_response
+    def successful_save_response # rubocop:disable Metrics/AbcSize
       if @new_mode && !@next_edit_state
         flash[:notice] = I18n.t("openid_connect.providers.notice_created")
         return redirect_to openid_connect_provider_path(@provider)
@@ -186,9 +184,9 @@ module OpenIDConnect
     end
 
     def set_edit_state
-      @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
+      @edit_state = params.expect(:edit_state).to_sym if params.key?(:edit_state)
       @new_mode = ActiveRecord::Type::Boolean.new.cast(params[:new_mode])
-      @next_edit_state = params[:next_edit_state].to_sym if params.key?(:next_edit_state)
+      @next_edit_state = params.expect(:next_edit_state).to_sym if params.key?(:next_edit_state)
     end
 
     def fetch_metadata?
