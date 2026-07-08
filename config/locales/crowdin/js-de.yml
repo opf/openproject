@@ -167,7 +167,7 @@ de:
           text: "[Platzhalter] Liste der Unterseiten von"
           page: Wiki-Seite
           this_page: diese Seite
-          hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
+          hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wiki-Seite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
 
             '
         code_block:
@@ -186,11 +186,11 @@ de:
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
-          button: Inhalt einer anderen Wikiseite einbetten
+          button: Inhalt einer anderen Wiki-Seite einbetten
           text: "[Platzhalter] Eingebetteter Inhalt von"
           page: Wiki-Seite
           not_set: "(Seite noch nicht festgelegt)"
-          hint: 'Fügen Sie den Inhalt einer anderen Wikiseite ein, indem Sie hier ihren Titel oder URL-Slug angeben. Sie können auch die Wikiseite eines anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt angeben.
+          hint: 'Fügen Sie den Inhalt einer anderen Wiki-Seite ein, indem Sie hier ihren Titel oder URL-Slug angeben. Sie können auch die Wiki-Seite eines anderen Projekts angeben, indem Sie Projekt-Identifier und Seite wie folgt angeben.
 
             '
         work_package_button:
@@ -709,7 +709,7 @@ de:
       quote: Zitieren
       unquote: Zitat entfernen
       preformatted_text: Präformatierter Text
-      wiki_link: Link zu einer Wikiseite
+      wiki_link: Link zu einer Wiki-Seite
       image: Bild
     sharing:
       share: Teilen
