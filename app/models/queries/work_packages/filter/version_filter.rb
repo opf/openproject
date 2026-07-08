@@ -57,15 +57,10 @@ class Queries::WorkPackages::Filter::VersionFilter <
     WorkPackage.human_attribute_name("version")
   end
 
-  # filter by target versions when the flag is enabled
-  # this allows old queries and systems to use the new
-  # target_versions field instead of the legacy version_id
+  # Filter on `target_versions` as it is replacing
+  # the legacy `work_package.version_id` column
   def where
-    if filter_on_target_versions?
-      target_versions_where
-    else
-      super
-    end
+    target_versions_where
   end
 
   def joins
