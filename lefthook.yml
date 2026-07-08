@@ -45,3 +45,39 @@ pre-commit:
         else
           echo "warning: yamllint is not installed, skipping" >&2
         fi
+
+# Autofix counterpart of the pre-commit checks. Run explicitly:
+#
+#     # fix staged files
+#     lefthook run fix
+#
+#     # fix files changed since origin/dev (excluding deleted ones)
+#     lefthook run fix --files-from-stdin < <(git diff --name-only --diff-filter=d origin/dev)
+#
+#     # fix all files in the repository
+#     lefthook run fix --all-files
+fix:
+  parallel: true
+  commands:
+    eslint:
+      root: "frontend/"
+      files: git diff --name-only --staged
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx eslint --fix {files}
+    rubocop:
+      files: git diff --name-only --staged
+      glob: "*.rb"
+      run: bin/dirty-rubocop --uncommitted --force-exclusion -a {files}
+    erb_lint:
+      files: git diff --name-only --staged
+      glob: "*.erb"
+      run: erb_lint --autocorrect {files}
+    order_yaml:
+      files: git diff --name-only --staged
+      glob:
+        - ".yamllint.yml"
+        - "config/locales/en.yml"
+        - "config/locales/js-en.yml"
+        - "modules/*/config/locales/en.yml"
+        - "modules/*/config/locales/js-en.yml"
+      run: script/order_yaml -i {files}
