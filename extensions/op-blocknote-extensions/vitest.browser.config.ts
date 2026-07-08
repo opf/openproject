@@ -4,11 +4,12 @@ import { playwright } from '@vitest/browser-playwright';
 
 export default defineConfig({
   plugins: [react()],
-  // Pre-bundle the heavy dependencies pulled in transitively by test/setupTests.ts
-  // Without this, Vite discovers a not-yet-bundled dependency mid-run, re-optimizes, and force-reloads
-  // the page, which drops the in-flight dynamic import() of setupTests.ts and surfaces as
-  // an intermittent "Failed to fetch dynamically imported module" across the browser tests.
+  // Pre-bundle dependencies to eliminate mid-run dependency discovery which can lead to flaky tests.
   optimizeDeps: {
+    entries: [
+      'test/setupTests.ts',
+      'test/**/*.browser.test.tsx',
+    ],
     include: [
       '@blocknote/core',
       '@blocknote/react',
