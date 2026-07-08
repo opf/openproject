@@ -52,13 +52,13 @@ class Backlogs::WorkPackages::UpdateService
 
   def resolve_required_attributes(direction:, target_id:)
     if target_id && direction
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.ambiguous_target"))
     elsif target_id
       attributes_result_from_target(target_id)
     elsif direction
       attributes_result_from_direction(direction)
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.missing_target"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.missing_target"))
     end
   end
 
@@ -71,7 +71,7 @@ class Backlogs::WorkPackages::UpdateService
     in Backlogs::Target::InboxId
       ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
     end
   end
 
@@ -79,7 +79,7 @@ class Backlogs::WorkPackages::UpdateService
     if direction.in? %w(higher highest lower lowest)
       ServiceResult.success(result: { move_to: direction })
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_direction"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_direction"))
     end
   end
 end

@@ -49,7 +49,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
     describe "error handling" do
       shared_examples "returns failure without delegating" do |call_args, i18n_key = nil|
         it "returns failure without delegating", :aggregate_failures do
-          i18n_key ||= "backlogs.stories.update_service.invalid_target_type"
+          i18n_key ||= "backlogs.work_packages.update_service.invalid_target_type"
 
           result = instance.call(**call_args)
 
@@ -62,13 +62,13 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       context "with neither target_id nor direction" do
         it_behaves_like "returns failure without delegating",
                         {},
-                        "backlogs.stories.update_service.missing_target"
+                        "backlogs.work_packages.update_service.missing_target"
       end
 
       context "with both target_id and direction" do
         it_behaves_like "returns failure without delegating",
                         { target_id: "inbox", direction: "highest" },
-                        "backlogs.stories.update_service.ambiguous_target"
+                        "backlogs.work_packages.update_service.ambiguous_target"
       end
 
       context "when target_id contains an invalid type and id" do
@@ -108,7 +108,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       context "with an invalid direction" do
         it_behaves_like "returns failure without delegating",
                         { direction: "sideways" },
-                        "backlogs.stories.update_service.invalid_direction"
+                        "backlogs.work_packages.update_service.invalid_direction"
       end
     end
 

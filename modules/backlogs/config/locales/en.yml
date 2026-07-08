@@ -224,13 +224,6 @@ en:
       Choose the statuses that represent a closed or finished state in your workflow.
       These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning.
       For example, statuses like Done, Resolved, or Won't Fix may all represent a closed work item in your process.
-    stories:
-      update_service:
-        ambiguous_target: "target_id and direction cannot both be present."
-        invalid_direction: "direction must be one of: higher, highest, lower, lowest."
-        invalid_target_type: "target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox."
-        missing_target: "target_id or direction must be present."
-
     story_points:
       one: "%{count} story point"
       other: "%{count} story points"
@@ -252,6 +245,13 @@ en:
         move_to_sprint: "Move to sprint"
 
     work_package_is_closed: "Work package is done, when"
+
+    work_packages:
+      update_service:
+        ambiguous_target: "target_id and direction cannot both be present."
+        invalid_direction: "direction must be one of: higher, highest, lower, lowest."
+        invalid_target_type: "target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox."
+        missing_target: "target_id or direction must be present."
 
   burndown:
     story_points: "Story points"

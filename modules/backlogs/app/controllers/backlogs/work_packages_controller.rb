@@ -66,7 +66,7 @@ module Backlogs
         respond_with_turbo_streams(status: :not_found)
       else
         render_error_flash_message_via_turbo_stream(
-          message: I18n.t("backlogs.stories.update_service.invalid_target_type")
+          message: I18n.t("backlogs.work_packages.update_service.invalid_target_type")
         )
         respond_with_turbo_streams(status: :unprocessable_entity)
       end
