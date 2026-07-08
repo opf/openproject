@@ -123,7 +123,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       render_inline(
         described_class.new(container: "test-list", current_user: user)
       ) do |list|
-        list.with_header(count: 3) { |header| header.with_title { "Header title" } }
+        list.with_header(title: "Header title", count: 3)
         list.with_item(id: "manual-item") { "Manual item" }
         list.with_work_package_item(
           work_package:,
@@ -188,8 +188,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-test")
       ) do |list|
-        list.with_header do |header|
-          header.with_title { "My title" }
+        list.with_header(title: "My title") do |header|
           header.with_description { "Some description" }
         end
         list.with_item { "row" }
@@ -203,8 +202,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-description-args")
       ) do |list|
-        list.with_header do |header|
-          header.with_title { "My title" }
+        list.with_header(title: "My title") do |header|
           header.with_description(display: :flex, direction: :column, classes: "row-gap-2") do
             "Some description"
           end
@@ -221,8 +219,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-actions")
       ) do |list|
-        list.with_header do |header|
-          header.with_title { "Actions" }
+        list.with_header(title: "Actions") do |header|
           header.with_action_button(scheme: :primary) { "Add" }
           header.with_action_button(scheme: :default) { "Edit" }
         end
@@ -237,8 +234,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-menu")
       ) do |list|
-        list.with_header do |header|
-          header.with_title { "With menu" }
+        list.with_header(title: "With menu") do |header|
           header.with_menu do |menu|
             menu.with_item(label: "Option A", value: "a")
           end
@@ -255,7 +251,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-inferred-count")
       ) do |list|
-        list.with_header(count: true) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: true)
         list.with_item { "first row" }
         list.with_item { "second row" }
       end
@@ -267,7 +263,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-false-count")
       ) do |list|
-        list.with_header(count: false) { |header| header.with_title { "Uncounted" } }
+        list.with_header(title: "Uncounted", count: false)
         list.with_item { "row" }
       end
 
@@ -278,7 +274,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-nil-count")
       ) do |list|
-        list.with_header(count: nil) { |header| header.with_title { "Uncounted" } }
+        list.with_header(title: "Uncounted", count: nil)
         list.with_item { "row" }
       end
 
@@ -289,7 +285,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-explicit-count")
       ) do |list|
-        list.with_header(count: 5) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 5)
         list.with_item { "row" }
       end
 
@@ -300,7 +296,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-zero-count")
       ) do |list|
-        list.with_header(count: 0) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 0)
         list.with_item { "row" }
       end
 
@@ -311,7 +307,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-visible-zero-count")
       ) do |list|
-        list.with_header(count: 0, count_arguments: { hide_if_zero: false }) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 0, count_arguments: { hide_if_zero: false })
         list.with_item { "row" }
       end
 
@@ -322,7 +318,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-default-aria")
       ) do |list|
-        list.with_header(count: 5) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 5)
         list.with_item { "row" }
       end
 
@@ -337,7 +333,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-interactive-aria", interactive: true)
       ) do |list|
-        list.with_header(count: 5) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 5)
         list.with_item { "row" }
       end
 
@@ -353,11 +349,10 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         described_class.new(container: "hdr-custom-counter-aria", interactive: true)
       ) do |list|
         list.with_header(
+          title: "Counted",
           count: 5,
           count_arguments: { aria: { describedby: "counter-help", live: "assertive" } }
-        ) do |header|
-          header.with_title { "Counted" }
-        end
+        )
         list.with_item { "row" }
       end
 
@@ -376,7 +371,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-inferred-aria")
       ) do |list|
-        list.with_header(count: true) { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: true)
         list.with_item { "one" }
         list.with_item { "two" }
       end
@@ -392,7 +387,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-custom-label")
       ) do |list|
-        list.with_header(count: 3, count_label: "3 work packages") { |header| header.with_title { "Counted" } }
+        list.with_header(title: "Counted", count: 3, count_label: "3 work packages")
         list.with_item { "row" }
       end
 
@@ -407,7 +402,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "hdr-title-tag")
       ) do |list|
-        list.with_header(title_tag: :h3) { |header| header.with_title { "Custom title" } }
+        list.with_header(title: "Custom title", title_tag: :h3)
         list.with_item { "row" }
       end
 
@@ -419,6 +414,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         described_class.new(container: "hdr-title-args")
       ) do |list|
         list.with_header(
+          title: "Described title",
           title_tag: :h4,
           title_arguments: {
             tag: :h2,
@@ -427,9 +423,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
             data: { title: "custom" },
             aria: { describedby: "goal-text" }
           }
-        ) do |header|
-          header.with_title { "Described title" }
-        end
+        )
         list.with_item { "row" }
       end
 
@@ -446,7 +440,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "collapse-test", collapsible: true)
       ) do |list|
-        list.with_header { |header| header.with_title { "Collapsible" } }
+        list.with_header(title: "Collapsible")
         list.with_item { "row" }
         list.with_footer { "foot" }
       end
@@ -463,7 +457,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "collapse-no-footer", collapsible: true)
       ) do |list|
-        list.with_header { |header| header.with_title { "No footer" } }
+        list.with_header(title: "No footer")
         list.with_item { "row" }
       end
 
@@ -477,10 +471,9 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         described_class.new(container: "collapse-title-args", collapsible: true)
       ) do |list|
         list.with_header(
+          title: "Collapsible",
           title_arguments: { aria: { describedby: "collapsible-help" } }
-        ) do |header|
-          header.with_title { "Collapsible" }
-        end
+        )
         list.with_item(id: "collapsible-help") { "Helpful row" }
       end
 
@@ -730,7 +723,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "my-widget")
       ) do |list|
-        list.with_header { |header| header.with_title { "Header" } }
+        list.with_header(title: "Header")
         list.with_item { "row" }
       end
 
@@ -741,7 +734,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "ignored", id: "explicit-box", collapsible: true)
       ) do |list|
-        list.with_header(id: "explicit-header", list_id: "explicit-list") { |header| header.with_title { "Header" } }
+        list.with_header(title: "Header", id: "explicit-header", list_id: "explicit-list")
         list.with_item { "row" }
       end
 
@@ -767,7 +760,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "ignored", id: "explicit-box", collapsible: true)
       ) do |list|
-        list.with_header { |header| header.with_title { "Header" } }
+        list.with_header(title: "Header")
         list.with_item { "row" }
         list.with_footer(id: "explicit-footer") { "footer" }
       end
@@ -811,8 +804,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "no-collapse")
       ) do |list|
-        list.with_header(count: 3) do |header|
-          header.with_title { "Non-collapsible header" }
+        list.with_header(title: "Non-collapsible header", count: 3) do |header|
           header.with_description { "Description text" }
         end
         list.with_item { "row" }
@@ -829,7 +821,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "explicit-collapse", collapsible: true)
       ) do |list|
-        list.with_header { |header| header.with_title { "Collapsible header" } }
+        list.with_header(title: "Collapsible header")
         list.with_item { "row" }
       end
 
@@ -840,8 +832,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "explicit-collapse", collapsible: true)
       ) do |list|
-        list.with_header do |header|
-          header.with_title { "Collapsible header" }
+        list.with_header(title: "Collapsible header") do |header|
           header.with_description { "Collapsible description" }
         end
         list.with_item { "row" }
@@ -860,7 +851,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "scheme-default")
       ) do |list|
-        list.with_header { |header| header.with_title { "Default" } }
+        list.with_header(title: "Default")
         list.with_item { "row" }
       end
 
@@ -871,7 +862,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "scheme-transparent", scheme: :transparent)
       ) do |list|
-        list.with_header { |header| header.with_title { "Transparent" } }
+        list.with_header(title: "Transparent")
         list.with_item { "row" }
       end
 
@@ -882,7 +873,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "transparent-collapse", scheme: :transparent, collapsible: true)
       ) do |list|
-        list.with_header { |header| header.with_title { "Transparent collapsible" } }
+        list.with_header(title: "Transparent collapsible")
         list.with_item { "row" }
       end
 
@@ -896,7 +887,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "header-padding-inherit")
       ) do |list|
-        list.with_header { |header| header.with_title { "Inherited padding" } }
+        list.with_header(title: "Inherited padding")
         list.with_item { "row" }
       end
 
@@ -908,7 +899,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       rendered = render_inline(
         described_class.new(container: "header-padding-default", padding: :condensed, header_padding: :default)
       ) do |list|
-        list.with_header { |header| header.with_title { "Default header padding" } }
+        list.with_header(title: "Default header padding")
         list.with_item { "row" }
       end
 
@@ -919,6 +910,46 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect do
         described_class.new(container: "header-padding-unsupported", header_padding: :unsupported)
       end.to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
+    end
+  end
+
+  describe "header title" do
+    it "renders the title from the title: string" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-string")
+      ) do |list|
+        list.with_header(title: "String title")
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("String title", level: 4)
+    end
+
+    it "renders the title from the with_title slot" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-slot")
+      ) do |list|
+        list.with_header do |header|
+          header.with_title { "Slot title" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("Slot title", level: 4)
+    end
+
+    it "prefers the with_title slot over the title: string" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-precedence")
+      ) do |list|
+        list.with_header(title: "String title") do |header|
+          header.with_title { "Slot title" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("Slot title", level: 4)
+      expect(rendered).to have_no_text("String title")
     end
   end
 end

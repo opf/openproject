@@ -56,6 +56,10 @@ module OpenProject
         # @!parse
         #   # Renders the header title content.
         #   #
+        #   # Block-based alternative to the `title:` string, for advanced use
+        #   # cases where the title needs more than plain text. Takes precedence
+        #   # over `title:` when both are given.
+        #   #
         #   # @return [ViewComponent::Slot]
         #   def with_title(&block)
         #   end
@@ -108,6 +112,7 @@ module OpenProject
 
         attr_writer :collapsible_id
 
+        # @param title [String] header title.
         # @param count [Integer, Boolean, nil] count badge behavior. Pass
         #   `nil` or `false` to hide it, `true` to infer the rendered item
         #   count, or an integer to render an explicit value.
@@ -132,6 +137,7 @@ module OpenProject
         #   render the description inline on the title row. Defaults to `true`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
+          title: nil,
           count: nil,
           count_label: nil,
           count_arguments: {},
@@ -147,6 +153,7 @@ module OpenProject
         )
           super()
 
+          @title = title
           @count = count
           @count_label = count_label
           @count_arguments = count_arguments
@@ -165,6 +172,18 @@ module OpenProject
         # @return [Boolean] whether a collapsible toggle should be rendered.
         def collapsible?
           collapsible
+        end
+
+        # @return [Boolean] whether a title is present, from either the slot
+        #   or the `title:` string.
+        def title?
+          title.present? || @title.present?
+        end
+
+        # @return [String, ViewComponent::Slot, nil] the title content to
+        #   render. The slot takes precedence over the `title:` string.
+        def title_content
+          title.presence || @title
         end
 
         # Resolves inferred counts after the list slots have been captured.

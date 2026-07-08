@@ -53,6 +53,7 @@ module OpenProject
       # @!parse
       #   # Adds the optional header row.
       #   #
+      #   # @param title [String] header title.
       #   # @param show_drag_handle [Boolean] whether the header renders a
       #   #   leading drag handle.
       #   # @param multi_line [Boolean] for collapsible headers, whether the
@@ -61,7 +62,7 @@ module OpenProject
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(show_drag_handle: false, multi_line: true, **system_arguments, &block)
+      #   def with_header(title: nil, show_drag_handle: false, multi_line: true, **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)
