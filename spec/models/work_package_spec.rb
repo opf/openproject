@@ -920,55 +920,83 @@ RSpec.describe WorkPackage do
     end
   end
 
-  describe "#infoline" do
-    let(:infoline_type) { create(:type, name: "Task") }
-    let(:infoline_work_package) do
-      create(:work_package, subject: "Hello world", project: infoline_project, type: infoline_type)
-    end
+  describe "#to_fs" do
+    describe ":heading style (the default, used by #to_s)" do
+      let(:task_type) { create(:type_task) }
 
-    context "when semantic mode is active",
-            with_settings: { work_packages_identifier: "semantic" } do
-      let(:infoline_project) { create(:project, identifier: "MYPROJ") }
+      context "in classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
 
-      before { infoline_work_package }
+        it "renders the type, the `#`-prefixed numeric id and the subject" do
+          expect(work_package.to_fs(:heading)).to eq("Task ##{work_package.id}: Hello world")
+        end
 
-      it "renders the semantic identifier without a hash prefix" do
-        expect(infoline_work_package.reload.infoline).to eq("Task: Hello world (MYPROJ-1)")
+        it "is the default style, and #to_s delegates to it" do
+          expect(work_package.to_fs).to eq("Task ##{work_package.id}: Hello world")
+          expect(work_package.to_s).to eq(work_package.to_fs(:heading))
+        end
+
+        it "omits the type name for standard types (leading space preserved)" do
+          standard_wp = create(:work_package, project:, type:, subject: "Hello world")
+          expect(standard_wp.to_fs(:heading)).to eq(" ##{standard_wp.id}: Hello world")
+        end
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:project) { create(:project, identifier: "MACROPROJ", types: [task_type]) }
+        let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
+
+        it "renders the semantic identifier without a `#` prefix" do
+          wp = work_package.reload
+          expect(wp.to_fs(:heading)).to eq("Task #{wp.display_id}: Hello world")
+          expect(wp.to_fs(:heading)).not_to include("##{wp.id}")
+        end
       end
     end
 
-    context "when semantic mode is not active",
-            with_settings: { work_packages_identifier: "classic" } do
-      let(:infoline_project) { create(:project) }
+    describe ":caption style" do
+      let(:caption_type) { create(:type, name: "Task") }
+      let(:caption_work_package) do
+        create(:work_package, subject: "Hello world", project: caption_project, type: caption_type)
+      end
 
-      it "renders the hash-prefixed numeric id" do
-        expect(infoline_work_package.infoline).to eq("Task: Hello world (##{infoline_work_package.id})")
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:caption_project) { create(:project, identifier: "MYPROJ") }
+
+        before { caption_work_package }
+
+        it "renders the type, subject and the semantic id in parentheses" do
+          expect(caption_work_package.reload.to_fs(:caption)).to eq("Task: Hello world (MYPROJ-1)")
+        end
+      end
+
+      context "in classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        let(:caption_project) { create(:project) }
+
+        it "renders the type, subject and the `#`-prefixed numeric id in parentheses" do
+          expect(caption_work_package.to_fs(:caption))
+            .to eq("Task: Hello world (##{caption_work_package.id})")
+        end
+      end
+
+      context "with a standard type",
+              with_settings: { work_packages_identifier: "classic" } do
+        let(:standard_work_package) { create(:work_package, project:, type:, subject: "Hello world") }
+
+        it "still shows the type name in the caption" do
+          expect(standard_work_package.to_fs(:caption))
+            .to eq("#{type.name}: Hello world (##{standard_work_package.id})")
+        end
       end
     end
-  end
 
-  describe "#to_s" do
-    let(:task_type) { create(:type_task) }
-
-    context "in classic mode",
-            with_settings: { work_packages_identifier: "classic" } do
-      let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
-
-      it "renders the numeric id with a `#` prefix" do
-        expect(work_package.to_s).to eq("Task ##{work_package.id}: Hello world")
-      end
-    end
-
-    context "in semantic mode",
-            with_settings: { work_packages_identifier: "semantic" } do
-      let(:project) { create(:project, identifier: "MACROPROJ", types: [task_type]) }
-      let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
-
-      it "renders the semantic identifier without a `#` prefix" do
-        wp = work_package.reload
-        expect(wp.to_s).to eq("Task #{wp.display_id}: Hello world")
-        expect(wp.to_s).not_to include("##{wp.id}")
-      end
+    it "raises ArgumentError for an unknown style" do
+      expect { work_package.to_fs(:bogus) }
+        .to raise_error(ArgumentError, /unknown format style/)
     end
   end
 end

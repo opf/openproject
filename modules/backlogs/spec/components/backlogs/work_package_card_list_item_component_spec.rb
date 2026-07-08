@@ -151,6 +151,18 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       )
     end
 
+    it "announces Enter activation to assistive tech without a button or drag role" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card",
+        role: "article",
+        aria: {
+          keyshortcuts: "Enter",
+          label: work_package.to_fs(:caption),
+          roledescription: nil
+        }
+      )
+    end
+
     it "does not wire the card as the draggable item" do
       expect(rendered_card).to have_css(
         ".op-work-package-card[data-controller~='backlogs--work-package']"

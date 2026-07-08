@@ -93,13 +93,13 @@ describe('Backlogs work package controller', () => {
     return event;
   }
 
-  it('prevents Space from scrolling the page without activating the card', async () => {
+  it('lets Space scroll the page natively without hijacking it', async () => {
     const workPackage = renderWorkPackage();
 
     await nextFrame();
     const event = keydown(workPackage, ' ');
 
-    expect(event.defaultPrevented).toBe(true);
+    expect(event.defaultPrevented).toBe(false);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
     expect(navigation.openFullPane).not.toHaveBeenCalled();
   });

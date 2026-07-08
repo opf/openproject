@@ -527,6 +527,15 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         expect(rendered_component).to have_no_css(".Box-card--draggable")
       end
 
+      it "does not claim Enter activation on the base card (no Enter handler there)" do
+        expect(rendered_component).to have_css(".Box-card", aria: { keyshortcuts: nil })
+      end
+
+      it "does not make the base card keyboard-focusable (no Enter handler there)" do
+        expect(rendered_component).to have_css(".op-work-package-card")
+        expect(rendered_component).to have_no_css(".op-work-package-card[tabindex]")
+      end
+
       it "sets the test selector" do
         item = described_class::WorkPackageItem.new(
           work_package:,
