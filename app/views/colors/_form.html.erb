@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
                            color.hexcode,
                            required: true,
                            name: "color[hexcode]",
+                           autocomplete: "off",
                            maxlength: 7 %>
       </span>
       <%= icon_for_color(color, class: "color--preview", data: { target: "#color_hexcode" }) %>
@@ -49,4 +50,4 @@ See COPYRIGHT and LICENSE files for more details.
 </fieldset>
 
 <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<%= link_to t(:button_cancel), colors_path, class: "button -with-icon icon-cancel" %>
+<%= link_to t(:button_cancel), custom_style_path(tab: :default_colors), class: "button -with-icon icon-cancel" %>

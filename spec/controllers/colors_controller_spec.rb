@@ -41,7 +41,16 @@ RSpec.describe ColorsController do
     def fetch
       get "index"
     end
+
+    def expect_redirect_to
+      custom_style_path(tab: :default_colors)
+    end
+
     it_behaves_like "a controller action with require_admin"
+
+    it "redirects to the default colors design tab" do
+      expect(fetch).to redirect_to(custom_style_path(tab: :default_colors))
+    end
   end
 
   describe "new.html" do
@@ -57,7 +66,7 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      Regexp.new(colors_path)
+      Regexp.new(Regexp.escape(custom_style_path(tab: :default_colors)))
     end
     it_behaves_like "a controller action with require_admin"
   end
@@ -77,7 +86,7 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      colors_path
+      custom_style_path(tab: :default_colors)
     end
     it_behaves_like "a controller action with require_admin"
   end
@@ -97,13 +106,13 @@ RSpec.describe ColorsController do
     end
 
     def expect_redirect_to
-      colors_path
+      custom_style_path(tab: :default_colors)
     end
     it_behaves_like "a controller action with require_admin"
 
     it "redirects with 303 See Other" do
       expect(fetch).to have_http_status(:see_other)
-      expect(fetch).to redirect_to(colors_path)
+      expect(fetch).to redirect_to(custom_style_path(tab: :default_colors))
     end
   end
 end

@@ -34,19 +34,16 @@ class ColorsController < ApplicationController
 
   layout "admin"
 
-  menu_item :colors
+  menu_item :custom_style
 
   def index
-    @colors = Color.all.sort_by(&:name)
     respond_to do |format|
-      format.html
+      format.html { redirect_to colors_settings_path }
     end
   end
 
   def show
-    @color = Color.find(params[:id])
-    respond_to do |_format|
-    end
+    @color = Color.find(params.expect(:id))
   end
 
   def new
@@ -57,7 +54,7 @@ class ColorsController < ApplicationController
   end
 
   def edit
-    @color = Color.find(params[:id])
+    @color = Color.find(params.expect(:id))
     respond_to do |format|
       format.html
     end
@@ -68,7 +65,7 @@ class ColorsController < ApplicationController
 
     if @color.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to colors_path
+      redirect_to colors_settings_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
       render action: :new, status: :unprocessable_entity
@@ -76,11 +73,11 @@ class ColorsController < ApplicationController
   end
 
   def update
-    @color = Color.find(params[:id])
+    @color = Color.find(params.expect(:id))
 
     if @color.update(permitted_params.color)
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to colors_path
+      redirect_to colors_settings_path
     else
       flash.now[:error] = I18n.t(:error_color_could_not_be_saved)
       render action: :edit, status: :unprocessable_entity
@@ -88,21 +85,25 @@ class ColorsController < ApplicationController
   end
 
   def confirm_destroy
-    @color = Color.find(params[:id])
+    @color = Color.find(params.expect(:id))
     respond_to do |format|
       format.html
     end
   end
 
   def destroy
-    @color = Color.find(params[:id])
-    @color.destroy
+    @color = Color.find(params.expect(:id))
+    @color.destroy!
 
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to colors_path, status: :see_other
+    redirect_to colors_settings_path, status: :see_other
   end
 
   protected
+
+  def colors_settings_path
+    custom_style_path(tab: :default_colors)
+  end
 
   def require_admin_unless_readonly_api_request
     require_admin unless %w[index show].include? action_name and

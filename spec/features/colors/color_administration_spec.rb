@@ -36,22 +36,20 @@ RSpec.describe "color administration", :js do
   before do
     login_as(admin)
 
-    visit colors_path
+    visit custom_style_path(tab: :default_colors)
   end
 
   describe "listing colors" do
     it "shows no results by default" do
-      expect(page).to have_content(I18n.t(:"colors.index.no_results_title_text"))
+      expect(page).to have_text(I18n.t(:"colors.index.no_results_title_text"))
 
-      click_link I18n.t(:"colors.index.no_results_content_text")
+      click_link accessible_name: "New color"
     end
   end
 
   describe "creating colors" do
     it "creates a color" do
-      within "sub-header" do
-        click_link accessible_name: "New color"
-      end
+      click_link accessible_name: "New color"
 
       fill_in "Name", with: "Vibrant pink"
       fill_in "Hex code", with: "#FF69B4"
@@ -60,15 +58,13 @@ RSpec.describe "color administration", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      within ".color--preview-patch-field" do
+      within_test_selector "default-colors-list" do
         expect(page).to have_link "Vibrant pink"
       end
     end
 
     it "displays validation errors if color values are invalid" do
-      within "sub-header" do
-        click_link accessible_name: "New color"
-      end
+      click_link accessible_name: "New color"
 
       fill_in "Name", with: "Not so vibrant pink"
       fill_in "Hex code", with: "11"
@@ -81,9 +77,7 @@ RSpec.describe "color administration", :js do
 
   describe "updating colors" do
     it "creates and updates a color" do
-      within "sub-header" do
-        click_link accessible_name: "New color"
-      end
+      click_link accessible_name: "New color"
 
       fill_in "Name", with: "Dark Purple"
       fill_in "Hex code", with: "#301934"
@@ -92,7 +86,7 @@ RSpec.describe "color administration", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      within ".color--preview-patch-field" do
+      within_test_selector "default-colors-list" do
         click_on "Dark Purple"
       end
 
@@ -105,7 +99,7 @@ RSpec.describe "color administration", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful update."
 
-      within ".color--preview-patch-field" do
+      within_test_selector "default-colors-list" do
         expect(page).to have_link "Dark Grape (web safe)"
       end
     end
@@ -113,9 +107,7 @@ RSpec.describe "color administration", :js do
 
   describe "deleting colors" do
     it "creates and deletes a color" do
-      within "sub-header" do
-        click_link accessible_name: "New color"
-      end
+      click_link accessible_name: "New color"
 
       fill_in "Name", with: "Dark Purple"
       fill_in "Hex code", with: "#301934"
@@ -124,7 +116,7 @@ RSpec.describe "color administration", :js do
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      within ".color--preview-patch-field" do
+      within_test_selector "default-colors-list" do
         click_on "Dark Purple"
       end
 
