@@ -154,6 +154,63 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
+  describe "embedded query group" do
+    let(:embedded_query) do
+      create(:global_query,
+             column_names: %i[id subject status]).tap do |query|
+        query.add_filter("parent", "=", [Queries::Filters::TemplatedValue::KEY])
+        query.save!
+      end
+    end
+    let(:type) do
+      create(:type_bug).tap do |t|
+        t.attribute_groups = t.default_attribute_groups +
+          [["Related children", [:"query_#{embedded_query.id}"]]]
+        t.save!
+      end
+    end
+    let!(:child_work_package) do
+      create(:work_package,
+             project:,
+             type:,
+             status:,
+             parent: work_package,
+             subject: "The child work package subject")
+    end
+
+    context "as attributes" do
+      before do
+        allow(exporter).to receive(:query_group_as_table?).and_return(false)
+      end
+
+      it "renders the related work packages as attributes with a subject header" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("Related children")
+        # the work package name is rendered as header
+        expect(joined).to include("The child work package subject")
+        # the remaining query columns are rendered as label/value pairs
+        expect(joined).to include(WorkPackage.human_attribute_name(:id))
+        expect(joined).to include(child_work_package.display_id.to_s)
+      end
+    end
+
+    context "as table" do
+      before do
+        allow(exporter).to receive(:query_group_as_table?).and_return(true)
+      end
+
+      it "renders the related work packages as an embedded table" do
+        joined = pdf_strings.join(" ")
+        expect(joined).to include("Related children")
+        # the query columns are rendered as table header row
+        expect(joined).to include(WorkPackage.human_attribute_name(:id))
+        # the related work package is rendered as table row
+        expect(joined).to include("The child work package subject")
+        expect(joined).to include(child_work_package.display_id.to_s)
+      end
+    end
+  end
+
   describe "table of contents" do
     let(:section) { create(:project_custom_field_section, name: "TOC Section") }
     let!(:string_cf) do

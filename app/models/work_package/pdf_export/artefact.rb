@@ -243,6 +243,12 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     write_attributes!(work_package)
   end
 
+  # Override WorkPackage::PDFExport::Wp::Attributes: hierarchy queries are
+  # rendered as per work package attribute tables instead of one table
+  def query_group_as_table?(group)
+    false
+  end
+
   # Override the work package attribute group title in WorkPackage::PDFExport::Wp::Attributes
   def write_group_title(group, with_hr: true) # rubocop:disable Lint/UnusedMethodArgument
     write_optional_page_break

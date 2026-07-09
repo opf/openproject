@@ -333,7 +333,8 @@ work_package:
   margin_bottom: 14
   subject:
     size: 10
-    margin_bottom: 10
+    styles: [ "bold" ]
+    margin_bottom: 4
   subject_level_1:
     size: 14
     styles: [ "bold" ]
