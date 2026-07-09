@@ -37,8 +37,8 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     let(:work_package) { build_stubbed(:work_package) }
     let(:journal) { build_stubbed(:work_package_journal, journable: work_package) }
     let(:instance) { described_class.new(journal) }
-    # The single-version label is kept until the multi-version framework is
-    # fully adopted.
+    # While the multiple versions feature is inactive, the single-version
+    # "Version" label used across the UI is kept.
     let(:label) { "<strong>Version</strong>" }
 
     before do
@@ -78,6 +78,19 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
       it "renders only the existing version names" do
         expect(instance.render(:target_versions, [nil, "#{version.id},99999"]))
           .to eq(I18n.t(:text_journal_set_to, label:, value: "<i>Alpha</i>"))
+      end
+    end
+
+    context "when the multiple versions feature is active",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      it "labels the change with 'Target versions'" do
+        expect(instance.render(:target_versions, [version.id.to_s, other_version.id.to_s]))
+          .to eq(I18n.t(:text_journal_changed_plain,
+                        label: "<strong>Target versions</strong>",
+                        linebreak: nil,
+                        old: "<i>Alpha</i>",
+                        new: "<i>Beta</i>"))
       end
     end
 

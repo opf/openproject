@@ -35,10 +35,14 @@
 class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAssociation
   private
 
-  # The rest of the UI still labels the field "Version"; switch to the
-  # "Target versions" label once the multi-version framework is fully adopted.
-  def label(_key)
-    super("version")
+  # While the multiple versions feature is inactive, the rest of the UI still
+  # labels the attribute "Version"; the journal entry follows suit.
+  def label(key)
+    if Setting::WorkPackageMultipleVersions.active?
+      super
+    else
+      super("version")
+    end
   end
 
   def format_values(values, key, cache:)
