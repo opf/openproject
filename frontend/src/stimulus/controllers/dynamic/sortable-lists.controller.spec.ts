@@ -359,7 +359,7 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('marks the moving state and busy lists while moving an item', async () => {
+  it('marks the root and lists busy while moving an item', async () => {
     let resolveMove:(response:Response) => void;
 
     fetchMock.mockImplementationOnce(() => {
@@ -373,13 +373,13 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(root.dataset.sortableListsMoving).toEqual('true');
+    expect(root.dataset.sortableListsBusy).toEqual('true');
     expect(targetList.getAttribute('aria-busy')).toEqual('true');
 
     resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
 
-    expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
+    expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
     expect(targetList.hasAttribute('aria-busy')).toBe(false);
   });
 
@@ -439,7 +439,7 @@ describe('Sortable lists controller', () => {
     expect(toastEvents).toHaveLength(1);
     expect(typeof toastEvents[0].detail.message).toBe('string');
     expect(toastEvents[0].detail.type).toBe('error');
-    expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
+    expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
 
     window.removeEventListener('op:toasters:add', onToast);
   });

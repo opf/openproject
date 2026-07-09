@@ -69,9 +69,9 @@ describe('Sortable lists list controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { moving = false } = {},
+    { busy = false } = {},
   ):SortableListsRoot {
-    return { element, moving };
+    return { element, busy };
   }
 
   async function connectedListFor({
@@ -229,22 +229,22 @@ describe('Sortable lists list controller', () => {
       .toBe(false);
   });
 
-  it('reflects the root moving state as aria-busy on connect', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+  it('reflects the root busy state as aria-busy on connect', async () => {
+    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
 
     expect(list.getAttribute('aria-busy')).toEqual('true');
   });
 
-  it('clears aria-busy when reflectMoving is turned off', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+  it('clears aria-busy when reflectBusy is turned off', async () => {
+    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
     expect(list.getAttribute('aria-busy')).toEqual('true');
 
-    controller.reflectMoving(false);
+    controller.reflectBusy(false);
     expect(list.hasAttribute('aria-busy')).toBe(false);
   });
 
   it('clears aria-busy when the root outlet disconnects mid-move', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
     expect(list.getAttribute('aria-busy')).toEqual('true');
 
     controller.disconnectRoot();
@@ -252,7 +252,7 @@ describe('Sortable lists list controller', () => {
   });
 
   it('clears aria-busy when the list element disconnects mid-move', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
     expect(list.getAttribute('aria-busy')).toEqual('true');
 
     list.remove();
@@ -300,9 +300,9 @@ describe('Sortable lists list controller', () => {
     expect(list.dataset.dropContainer).toBeUndefined();
   });
 
-  it('rejects drops while the root is moving', async () => {
+  it('rejects drops while the root is busy', async () => {
     const root = document.createElement('div');
-    const { list } = await connectedListFor({ root: fakeRoot(root, { moving: true }) });
+    const { list } = await connectedListFor({ root: fakeRoot(root, { busy: true }) });
 
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(false);

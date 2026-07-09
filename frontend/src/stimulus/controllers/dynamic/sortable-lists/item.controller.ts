@@ -124,7 +124,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
-        if (root == null || root.moving) {
+        if (root == null || root.busy) {
           return false;
         }
         return this.canDragFromPoint(input.clientX, input.clientY);
@@ -165,7 +165,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       element: this.element,
       canDrop: ({ source }) => {
         const { root } = this;
-        if (root == null || root.moving) {
+        if (root == null || root.busy) {
           return false;
         }
 

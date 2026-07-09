@@ -115,18 +115,18 @@ export default class ListController extends Controller<HTMLElement> implements R
   // Called by the root controller's outlet-connected callback.
   connectRoot(root:SortableListsRoot):void {
     this.root = root;
-    this.reflectMoving(root.moving);
+    this.reflectBusy(root.busy);
   }
 
   disconnectRoot():void {
     this.root = undefined;
     // The root only reaches still-connected list outlets when it ends a move, so
     // a list that disconnects mid-move would otherwise keep aria-busy forever.
-    this.reflectMoving(false);
+    this.reflectBusy(false);
   }
 
-  reflectMoving(moving:boolean):void {
-    if (moving) {
+  reflectBusy(busy:boolean):void {
+    if (busy) {
       this.element.setAttribute('aria-busy', 'true');
     } else {
       this.element.removeAttribute('aria-busy');
@@ -155,7 +155,7 @@ export default class ListController extends Controller<HTMLElement> implements R
 
   private canDrop(data:Record<string|symbol, unknown>):boolean {
     const { root } = this;
-    if (root == null || root.moving) {
+    if (root == null || root.busy) {
       return false;
     }
 

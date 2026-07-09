@@ -71,7 +71,7 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 // typed reference instead of walking the DOM.
 export interface SortableListsRoot {
   readonly element:HTMLElement;
-  readonly moving:boolean;
+  readonly busy:boolean;
 }
 
 // Implemented by the list and item controllers so the root can hand them its

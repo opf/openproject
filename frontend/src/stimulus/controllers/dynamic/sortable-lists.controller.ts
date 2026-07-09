@@ -48,7 +48,7 @@ import {
   captureRowPositions,
   reorderRows,
   restoreRowPositions,
-  sortableListsMovingAttribute,
+  sortableListsBusyAttribute,
 } from './sortable-lists/list-dom';
 
 type CleanupFn = () => void;
@@ -72,7 +72,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
-      canMonitor: ({ source }) => !this.moving
+      canMonitor: ({ source }) => !this.busy
         && isSortableItemData(source.data)
         && source.data.rootElement === this.element,
       onDrop: (args) => {
@@ -110,12 +110,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     scrollable.disconnectRoot();
   }
 
-  get moving():boolean {
-    return this.element.hasAttribute(sortableListsMovingAttribute);
+  get busy():boolean {
+    return this.element.hasAttribute(sortableListsBusyAttribute);
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
-    if (this.moving) {
+    if (this.busy) {
       debugLog('sortable-lists: ignoring drop, a move is already in progress');
       return;
     }
@@ -214,7 +214,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       },
     );
 
-    this.setMoving(true);
+    this.setBusy(true);
     try {
       const response = await request.perform();
 
@@ -229,17 +229,17 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       debugLog('Failed to move sortable list item due to request error', error);
       return { ok: false, showToast: true };
     } finally {
-      this.setMoving(false);
+      this.setBusy(false);
     }
   }
 
-  private setMoving(moving:boolean):void {
-    if (moving) {
-      this.element.setAttribute(sortableListsMovingAttribute, 'true');
+  private setBusy(busy:boolean):void {
+    if (busy) {
+      this.element.setAttribute(sortableListsBusyAttribute, 'true');
     } else {
-      this.element.removeAttribute(sortableListsMovingAttribute);
+      this.element.removeAttribute(sortableListsBusyAttribute);
     }
-    this.sortableListsListOutlets.forEach((list) => list.reflectMoving(moving));
+    this.sortableListsListOutlets.forEach((list) => list.reflectBusy(busy));
   }
 
   private dispatchErrorToast():void {

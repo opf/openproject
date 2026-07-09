@@ -35,7 +35,7 @@
 // rows out of a list's rows container (rows are its direct children, whatever
 // their tag) and moving them around. The Pragmatic DnD payloads built on top of
 // it live in drag-and-drop.ts.
-export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
+export const sortableListsBusyAttribute = 'data-sortable-lists-busy';
 export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';

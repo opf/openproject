@@ -90,10 +90,10 @@ describe('Sortable lists item controller', () => {
 
   function fakeRoot(
     element = document.createElement('div'),
-    { moving = false } = {},
+    { busy = false } = {},
   ):SortableListsRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
-    return { element, moving };
+    return { element, busy };
   }
 
   function connectedControllerFor(
@@ -355,11 +355,11 @@ describe('Sortable lists item controller', () => {
     })).toBe(true);
   });
 
-  it('does not accept drops while the root is moving another item', () => {
+  it('does not accept drops while the root is busy moving another item', () => {
     const root = document.createElement('div');
     const targetElement = document.createElement('article');
 
-    connectedControllerFor(targetElement, { root: fakeRoot(root, { moving: true }) });
+    connectedControllerFor(targetElement, { root: fakeRoot(root, { busy: true }) });
 
     expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
       element: targetElement,
@@ -442,13 +442,13 @@ describe('Sortable lists item controller', () => {
     element.remove();
   });
 
-  it('does not start dragging while the root is moving another item', () => {
+  it('does not start dragging while the root is busy moving another item', () => {
     const element = document.createElement('article');
     const text = document.createElement('span');
     element.appendChild(text);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
 
-    connectedControllerFor(element, { root: fakeRoot(document.createElement('div'), { moving: true }) });
+    connectedControllerFor(element, { root: fakeRoot(document.createElement('div'), { busy: true }) });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
       element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
