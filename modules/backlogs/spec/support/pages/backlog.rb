@@ -464,6 +464,12 @@ module Pages
           stop_backlogs_move_request_probe
         end
       end
+
+      # The observable outcomes of releasing in place (no move request,
+      # unchanged order) also hold when the drag never engages, so assert the
+      # drop actually reached the controller — over the list, without an item
+      # target — to keep callers from passing vacuously.
+      expect_backlogs_drop_handled_without_item_target
     end
 
     def apply_sprint_filter(*sprints)
@@ -523,23 +529,6 @@ module Pages
       expect(move_requests).to be_empty
     ensure
       stop_backlogs_move_request_probe
-    end
-
-    def expect_backlogs_drop_handled_without_item_target
-      drop_summary = page.evaluate_script(<<~JS)
-        (() => {
-          const call = window.__opBacklogsDndProbeState?.handleDropCalls?.at(-1);
-
-          return {
-            handled: Boolean(call),
-            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? []
-          };
-        })()
-      JS
-
-      expect(drop_summary.fetch("handled")).to be(true)
-      expect(drop_summary.fetch("dropTargetTypes")).to include("backlog_bucket")
-      expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
     end
 
     def expect_no_filter_count(type)
@@ -756,6 +745,23 @@ module Pages
       # instead of being masked by the JS removal below.
       expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
       clear_pragmatic_dnd_honey_pot
+    end
+
+    def expect_backlogs_drop_handled_without_item_target
+      drop_summary = page.evaluate_script(<<~JS)
+        (() => {
+          const call = window.__opBacklogsDndProbeState?.handleDropCalls?.at(-1);
+
+          return {
+            handled: Boolean(call),
+            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? []
+          };
+        })()
+      JS
+
+      expect(drop_summary.fetch("handled")).to be(true)
+      expect(drop_summary.fetch("dropTargetTypes")).to include("backlog_bucket")
+      expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
     end
 
     def selenium_drag_backlogs_item(source:, target:, edge: nil)

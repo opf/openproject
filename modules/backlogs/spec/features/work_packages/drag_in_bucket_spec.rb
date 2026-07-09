@@ -90,7 +90,6 @@ RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
 
     backlogs_page.pick_up_and_release_work_package(alpha_wp1)
 
-    backlogs_page.expect_backlogs_drop_handled_without_item_target
     backlogs_page.expect_no_backlogs_move_request
     backlogs_page.expect_work_packages_in_backlog_bucket_in_order(
       bucket_alpha, work_packages: [alpha_wp1, alpha_wp2, alpha_wp3]
