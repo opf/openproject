@@ -86,7 +86,7 @@ id:
               not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
     models:
       sprint:
-        other: Sprints
+        other: Sprint
   backlogs:
     administration_blankslate:
       title: Backlog admin settings are evolving

@@ -42,7 +42,7 @@ de:
       external_wiki_providers: Wiki-Anbieter
       internal_wiki_provider: Internes Wiki
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
   project_module_wiki_platforms: Wiki-Anbieter
   wikis:
     admin:
@@ -154,8 +154,8 @@ de:
         xwiki_oauth_token_missing: OpenProject kann die Kommunikation auf Benutzerebene mit XWiki nicht testen, da noch kein XWiki-Konto verknüpft wurde.
         xwiki_oauth_unauthorized: Das Benutzer-Token wurde von XWiki nicht erkannt.
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Vorhandene Wiki-Seite hinzufügen
+      title_create: Neue Wiki-Seite anlegen
     instructions:
       xwiki:
         integration: XWiki Administration

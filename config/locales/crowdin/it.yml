@@ -277,7 +277,7 @@ it:
               label_info: Tieni presente che questo strumento di importazione è in versione beta e non può importare tutti i tipi di dati. Ecco un riepilogo di ciò che l'istanza host di Jira offre per l'importazione e di ciò che questo strumento è in grado di importare al momento.
               description: Seleziona i dati che desideri importare tra quelli disponibili recuperati dall'istanza host di Jira.
               label_supported_data: Dati supportati
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: Prossimamente (terzo trimestre del 2026)
               label_coming_later: Disponibile prossimamente
               label_available_server_data: Dati disponibili su %{server_info}
               button_select_projects: Seleziona i progetti da importare
@@ -4428,7 +4428,7 @@ it:
   label_type_new: Nuovo tipo
   label_type_plural: Tipi
   label_ui: Interfaccia Utente
-  label_upcoming: Upcoming
+  label_upcoming: Prossimamente
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
