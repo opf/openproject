@@ -28,32 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journals::CreateService
-  class Association
-    include Helpers
-
-    # Core associations are defined here. Module-specific associations can be defined in engines
-    # using `Journals::CreateService::Association.register`.
-    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase WorkPackageVersion])
-
-    class << self
-      def register(*names)
-        @registry.merge(names.map(&:to_sym))
-      end
-
-      def for(journable)
-        @registry
-          .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-          .select(&:associated?)
-      end
-    end
-
-    attr_reader :journable
-
-    def initialize(journable)
-      @journable = journable
-    end
-
-    def name = self.class.name.demodulize.underscore
-  end
+FactoryBot.define do
+  factory :journal_work_package_version_journal, class: "Journal::WorkPackageVersionJournal"
 end

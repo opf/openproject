@@ -28,32 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journals::CreateService
-  class Association
-    include Helpers
+# Renders the change to the set of target versions. Each value is the sorted,
+# comma-joined version ids (see JournalChanges#get_target_versions_changes);
+# every id is resolved to the version's name, dropping versions that have
+# been deleted in the meantime.
+class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAssociation
+  private
 
-    # Core associations are defined here. Module-specific associations can be defined in engines
-    # using `Journals::CreateService::Association.register`.
-    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase WorkPackageVersion])
-
-    class << self
-      def register(*names)
-        @registry.merge(names.map(&:to_sym))
-      end
-
-      def for(journable)
-        @registry
-          .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-          .select(&:associated?)
-      end
+  # While the multiple versions feature is inactive, the rest of the UI still
+  # labels the attribute "Version"; the journal entry follows suit.
+  def label(key)
+    if Setting::WorkPackageMultipleVersions.active?
+      super
+    else
+      super("version")
     end
+  end
 
-    attr_reader :journable
+  def format_values(values, key, cache:)
+    klass = class_from_field(key)
 
-    def initialize(journable)
-      @journable = journable
+    values.map do |value|
+      next if value.blank? || klass.nil?
+
+      value.to_s.split(",")
+           .filter_map { |id| associated_object(klass, id.to_i, cache:)&.name }
+           .join(", ")
+           .presence
     end
-
-    def name = self.class.name.demodulize.underscore
   end
 end
