@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Types
     class GroupedListComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
       def initialize(types:)
         super()
@@ -108,6 +109,21 @@ module WorkPackageTypes
         ) do |item|
           item.with_leading_visual_icon(icon:)
         end
+      end
+
+      def drop_target_config
+        {
+          generic_drag_and_drop_target: "container",
+          "target-allowed-drag-type": "work-package-type"
+        }
+      end
+
+      def draggable_item_config(root)
+        {
+          "draggable-type": "work-package-type",
+          "draggable-id": root.id,
+          "drop-url": drop_type_path(root)
+        }
       end
     end
   end
