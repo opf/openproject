@@ -116,19 +116,23 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   private async handleDrop({ location, source }:ElementDropPayload) {
     if (this.moving) {
+      debugLog('sortable-lists: ignoring drop, a move is already in progress');
       return;
     }
 
     if (!isSortableItemData(source.data) || !(source.element instanceof HTMLElement)) {
+      debugLog('sortable-lists: ignoring drop, source is not a sortable item', source.data);
       return;
     }
 
     if (!this.element.contains(source.element)) {
+      debugLog('sortable-lists: ignoring drop, source does not belong to this root');
       return;
     }
 
     const moveUrl = this.resolveMoveUrl(source.data);
     if (!moveUrl) {
+      debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
     }
 
@@ -139,6 +143,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       sourceData: source.data,
     });
     if (!intent) {
+      debugLog('sortable-lists: ignoring drop, it did not resolve to a move '
+        + '(dropped outside a list or back onto its original position)');
       return;
     }
 
@@ -148,6 +154,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // <li>, so this holds today; generalising it is a tracked follow-up.
     const sourceRow = source.element.closest('li');
     if (!(sourceRow instanceof HTMLElement)) {
+      debugLog('sortable-lists: ignoring drop, could not resolve the source row element');
       return;
     }
 
