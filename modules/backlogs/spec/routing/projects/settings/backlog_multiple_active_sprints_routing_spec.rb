@@ -28,28 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::BacklogSharingsController < Projects::SettingsController
-  menu_item :settings_backlogs
+require "spec_helper"
 
-  def show; end
+RSpec.describe Projects::Settings::BacklogMultipleActiveSprintsController do
+  describe "routing" do
+    it {
+      expect(get("/projects/project_42/settings/backlog_multiple_active_sprints")).to route_to(
+        controller: "projects/settings/backlog_multiple_active_sprints",
+        action: "show",
+        project_id: "project_42"
+      )
+    }
 
-  def update
-    call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
-      .call(backlog_settings_params)
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_backlog_sharing_path(@project)
-    else
-      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
-    end
-  end
-
-  private
-
-  def backlog_settings_params
-    params.expect(project: %i[sprint_sharing])
+    it {
+      expect(post("/projects/project_42/settings/backlog_multiple_active_sprints/toggle_multiple_active_sprints")).to route_to(
+        controller: "projects/settings/backlog_multiple_active_sprints",
+        action: "toggle_multiple_active_sprints",
+        project_id: "project_42"
+      )
+    }
   end
 end

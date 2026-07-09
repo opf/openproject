@@ -170,6 +170,7 @@ en:
       label_sprint: "Sprint"
       title: "Move to sprint"
 
+    multiple_active_sprints: "Multiple active sprints"
     points_label:
       one: "point"
       other: "points"
@@ -179,7 +180,7 @@ en:
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Remaining work"
-    sharing: "Sharing"
+    sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"
 
     sprint_component:
@@ -317,7 +318,14 @@ en:
         sprint_sharing: Share sprints
 
       backlogs:
+        multiple_active_sprints:
+          description: "By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be be active in parallel in this project."
+          heading: "Number of active sprints"
+        multiple_active_sprints_component:
+          cannot_turn_off: "Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active."
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: "Sprint sharing is not available when multiple active sprints are enabled."
           sharing_description: "This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing)."
           sharing_fallback_description: "Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active."
 

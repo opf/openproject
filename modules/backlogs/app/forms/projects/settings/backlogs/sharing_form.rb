@@ -31,15 +31,6 @@
 module Projects
   module Settings
     module Backlogs
-      class AllowMultipleActiveSprintsForm < ApplicationForm
-        form do |f|
-          f.check_box(
-            name: :allow_multiple_active_sprints,
-            label: attribute_name(:allow_multiple_active_sprints)
-          )
-        end
-      end
-
       class SharingForm < ApplicationForm
         form do |sharing_form|
           # TODO: Remove this hidden field, once the `radio_button_group` supports rendering
@@ -61,11 +52,8 @@ module Projects
           ) do |group|
             group_radio_button(group,
                                sharing: Project::NO_SHARING,
-                               disabled: false) do |no_sharing|
-              no_sharing.nested_form do |builder|
-                AllowMultipleActiveSprintsForm.new(builder)
-              end
-            end
+                               disabled: false)
+
             group_radio_button(group,
                                sharing: Project::SHARE_ALL_PROJECTS,
                                disabled: only_fallback_allowed || all_projects_shared_by_other_project?,

@@ -27,17 +27,38 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
-    if only_fallback_allowed
-      t(".sharing_fallback_description")
-    else
-      t(".sharing_description")
-    end
-  end
-%>
+<% if available? %>
+  <% if too_many_active_sprints? %>
+    <%=
+      flex_layout(mb: 3, color: :attention) do |flex|
+        flex.with_column do
+          render(Primer::Beta::Octicon.new(mr: 2, icon: :alert))
+        end
+        flex.with_column do
+          render(Primer::Beta::Text.new) do
+            t(".cannot_turn_off")
+          end
+        end
+      end
+    %>
+  <% end %>
 
-<% if project.allow_multiple_active_sprints? %>
+  <%=
+    render(
+      Primer::Forms::ToggleSwitchForm.new(
+        name: :allow_multiple_active_sprints,
+        label: Project.human_attribute_name(:allow_multiple_active_sprints),
+        src: toggle_multiple_active_sprints_project_settings_backlog_multiple_active_sprints_path(project),
+        csrf_token: form_authenticity_token,
+        status_label_position: :start,
+        checked: checked?,
+        enabled: enabled?,
+        data: { turbo: true },
+        mb: 3
+      )
+    )
+  %>
+<% else %>
   <%=
     flex_layout(mb: 3) do |flex|
       flex.with_column do
@@ -45,20 +66,9 @@ See COPYRIGHT and LICENSE files for more details.
       end
       flex.with_column do
         render(Primer::Beta::Text.new) do
-          t(".disabled_due_to_multiple_active_sprints")
+          t(".not_available_html", sprint_sharing_url: project_settings_backlog_sharing_path(project))
         end
       end
-    end
-  %>
-<% else %>
-  <%=
-    settings_primer_form_with(
-      model: project,
-      url: project_settings_backlog_sharing_path(project),
-      method: :patch,
-      data: { turbo_frame: "_top", controller: "show-when-value-selected" }
-    ) do |f|
-      render(Projects::Settings::Backlogs::SharingForm.new(f, only_fallback_allowed:))
     end
   %>
 <% end %>

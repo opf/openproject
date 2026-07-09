@@ -28,28 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::BacklogSharingsController < Projects::SettingsController
+class Projects::Settings::BacklogMultipleActiveSprintsController < Projects::SettingsController
+  include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
+
   menu_item :settings_backlogs
 
   def show; end
 
-  def update
+  def toggle_multiple_active_sprints
     call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
-      .call(backlog_settings_params)
+             .new(user: current_user, model: @project, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
+             .call(allow_multiple_active_sprints: ActiveRecord::Type::Boolean.new.cast(params[:value]))
 
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_backlog_sharing_path(@project)
-    else
-      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+
+    respond_with_turbo_streams do |format|
+      format.html { project_settings_backlog_multiple_active_sprints_path(@project) }
     end
-  end
-
-  private
-
-  def backlog_settings_params
-    params.expect(project: %i[sprint_sharing])
   end
 end

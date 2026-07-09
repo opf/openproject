@@ -28,28 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::BacklogSharingsController < Projects::SettingsController
-  menu_item :settings_backlogs
+module Projects
+  module Settings
+    module Backlogs
+      class MultipleActiveSprintsComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-  def show; end
+        def initialize(project:)
+          super
 
-  def update
-    call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
-      .call(backlog_settings_params)
+          @project = project
+        end
 
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_backlog_sharing_path(@project)
-    else
-      flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
+        private
+
+        attr_reader :project
+
+        def available?
+          return @available if defined?(@available)
+
+          @available = project.not_sharing_sprints?
+        end
+
+        def enabled?
+          return @enabled if defined?(@enabled)
+
+          @enabled = !too_many_active_sprints?
+        end
+
+        def checked?
+          return @checked if defined?(@checked)
+
+          @checked = project.allow_multiple_active_sprints?
+        end
+
+        def too_many_active_sprints?
+          return @too_many_active_sprints if defined?(@too_many_active_sprints)
+
+          @too_many_active_sprints = checked? && project.sprints.active.many?
+        end
+      end
     end
-  end
-
-  private
-
-  def backlog_settings_params
-    params.expect(project: %i[sprint_sharing])
   end
 end

@@ -27,38 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
-    if only_fallback_allowed
-      t(".sharing_fallback_description")
-    else
-      t(".sharing_description")
-    end
-  end
-%>
+<%= turbo_frame_tag "backlogs-settings" do %>
+  <%= render(
+        Projects::Settings::Backlogs::SettingsHeaderComponent.new(
+          project: @project,
+          selected_tab: :multiple_active_sprints
+        )
+      ) %>
 
-<% if project.allow_multiple_active_sprints? %>
-  <%=
-    flex_layout(mb: 3) do |flex|
-      flex.with_column do
-        render(Primer::Beta::Octicon.new(mr: 2, icon: :alert))
+  <div class="op-admin-settings-form-wrapper">
+    <%=
+      render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
+        I18n.t("projects.settings.backlogs.multiple_active_sprints.description")
       end
-      flex.with_column do
-        render(Primer::Beta::Text.new) do
-          t(".disabled_due_to_multiple_active_sprints")
-        end
-      end
-    end
-  %>
-<% else %>
-  <%=
-    settings_primer_form_with(
-      model: project,
-      url: project_settings_backlog_sharing_path(project),
-      method: :patch,
-      data: { turbo_frame: "_top", controller: "show-when-value-selected" }
-    ) do |f|
-      render(Projects::Settings::Backlogs::SharingForm.new(f, only_fallback_allowed:))
-    end
-  %>
+    %>
+    <%= render(Projects::Settings::Backlogs::MultipleActiveSprintsComponent.new(project: @project)) %>
+  </div>
 <% end %>
