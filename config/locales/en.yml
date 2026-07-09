@@ -334,12 +334,15 @@ en:
         attribute_groups: "Form configuration"
         children: "Sub-types"
         color: "Color"
+        dependent_configuration_links: "Linked types"
         description: "Default text for description"
         is_default: "Activated for new projects by default"
         is_in_roadmap: "Displayed in roadmap by default"
         is_milestone: "Is milestone"
         parent: "Parent type"
         patterns: "Patterns"
+      type/configuration_link:
+        source: "Source type"
       user:
         admin: "Administrator"
         auth_source: "Authentication source"
@@ -804,6 +807,10 @@ en:
               standard_type_must_be_root: "can't be set for the standard type."
             patterns:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: "can't be the type itself."
         user:
           attributes:
             base:
