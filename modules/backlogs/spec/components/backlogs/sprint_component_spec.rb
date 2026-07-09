@@ -270,18 +270,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
         end
-
-        context "when there are multiple active sprints" do
-          before do
-            create(:sprint, project:, name: "Sprint 2",
-                            start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                            status: "active")
-          end
-
-          it "renders the start-sprint link enabled" do
-            expect(rendered_component).to have_link("Start sprint")
-          end
-        end
       end
 
       context "when the sprint is in planning without start date" do

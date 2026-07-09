@@ -51,6 +51,8 @@ class Sprint < ApplicationRecord
            inverse_of: :linked,
            dependent: :nullify
 
+  delegate :allow_multiple_active_sprints?, to: :project, allow_nil: true
+
   scopes :assignable,
          :for_project,
          :not_completed,
@@ -74,6 +76,14 @@ class Sprint < ApplicationRecord
   validates :finish_date,
             comparison: { greater_than_or_equal_to: :start_date },
             if: :date_range_set?
+
+  validates :status,
+            uniqueness: {
+              scope: :project_id,
+              conditions: -> { active },
+              message: :only_one_active_sprint_allowed
+            },
+            if: -> { active? && !allow_multiple_active_sprints? }
 
   def date_range_set?
     start_date? && finish_date?

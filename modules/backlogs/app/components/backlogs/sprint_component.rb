@@ -65,7 +65,7 @@ module Backlogs
     end
 
     def disable_start_sprint_action?
-      sprint.in_planning? && !sprint.date_range_set?
+      sprint.in_planning? && !(sprint.date_range_set? && project_is_allowed_to_activate_sprint?)
     end
 
     def start_sprint_button_arguments
@@ -109,6 +109,14 @@ module Backlogs
 
     def story_points_total
       work_packages.filter_map(&:story_points).sum
+    end
+
+    def project_is_allowed_to_activate_sprint?
+      project.allow_multiple_active_sprints? || !project_has_another_active_sprint?
+    end
+
+    def project_has_another_active_sprint?
+      (resolved_active_sprint_ids - [sprint.id]).any?
     end
 
     def start_sprint_disabled_reason

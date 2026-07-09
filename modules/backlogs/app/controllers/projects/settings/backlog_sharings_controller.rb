@@ -50,6 +50,6 @@ class Projects::Settings::BacklogSharingsController < Projects::SettingsControll
   private
 
   def backlog_settings_params
-    params.expect(project: %i[sprint_sharing])
+    params.expect(project: %i[sprint_sharing allow_multiple_active_sprints])
   end
 end

@@ -34,7 +34,7 @@ RSpec.describe Backlogs::Sprints::StartService do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status1) { create(:status) }
   shared_let(:status2) { create(:status) }
-  shared_let(:project) { create(:project, types: [type_task]) }
+  let(:project) { create(:project, types: [type_task]) }
   let(:status) { "in_planning" }
   let(:sprint) { create(:sprint, project:, status:) }
   let(:user) { create(:admin) }
@@ -120,10 +120,26 @@ RSpec.describe Backlogs::Sprints::StartService do
   context "when another active sprint exists in the project" do
     let!(:active_sprint) { create(:sprint, project:, status: "active") }
 
-    it "succeeds with boards created" do
-      expect(result).to be_success
-      expect(sprint.reload).to be_active
-      expect(sprint.task_board_for(project)).to be_present
+    it "fails contract validation without creating a board", :aggregate_failures do
+      expect(result).not_to be_success
+      expect(result.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
+      expect(sprint.reload).to be_in_planning
+      expect(sprint.task_board_for(project)).to be_nil
+    end
+
+    context "and the project allows multiple active sprints" do
+      let(:project) do
+        create(:project, types: [type_task],
+                         sprint_sharing: "no_sharing",
+                         allow_multiple_active_sprints: true)
+      end
+
+      it "creates a board for the sprint project", :aggregate_failures do
+        expect { result }.to change(Boards::Grid, :count).by(1)
+        expect(result).to be_success
+        expect(sprint.reload).to be_active
+        expect(sprint.task_board_for(project)).to be_present
+      end
     end
   end
 

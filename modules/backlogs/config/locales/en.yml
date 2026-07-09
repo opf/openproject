@@ -31,6 +31,7 @@ en:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: "Allow multiple active sprints"
         backlog_excluded_types: "Excluded work package types"
         sprint_sharing: "Sprint sharing"
         statuses_considered_closed: "Statuses considered closed"
@@ -58,10 +59,15 @@ en:
       messages:
         dates_required: "Start and finish dates are required in order to start the sprint."
         must_be_in_planning: "must be in planning to start."
+        only_one_active_sprint_allowed: "only one active sprint is allowed per project."
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: "cannot be changed while multiple active sprints are running."
+              requires_no_sharing: "can only be enabled when sprint sharing is set to 'Don't share'."
             sprint_sharing:
+              locked_by_multiple_active_sprints: "cannot be changed while multiple active sprints are enabled."
               share_all_projects_already_taken: "cannot be set because project \"%{name}\" is already sharing with all projects."
               share_all_projects_already_taken_anonymous: "cannot be set because another project is already sharing with all projects."
           receiving_sprints: "is receiving shared sprints. Own sprints cannot be created."
