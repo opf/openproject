@@ -43,12 +43,6 @@ module WorkPackageTypes
 
       attr_reader :types
 
-      def type_title(root)
-        return root.name unless root.children.any?
-
-        "#{root.name} (#{subtypes_count_label(root)})"
-      end
-
       def subtypes_count_label(root)
         t("types.index.subtypes_count", count: root.children.size)
       end
