@@ -26,8 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
@@ -439,10 +437,8 @@ describe('Sortable lists controller', () => {
     await flushPromises();
 
     expect(toastEvents).toHaveLength(1);
-    expect(toastEvents[0].detail).toEqual(expect.objectContaining({
-      message: expect.any(String),
-      type: 'error',
-    }));
+    expect(typeof toastEvents[0].detail.message).toBe('string');
+    expect(toastEvents[0].detail.type).toBe('error');
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
 
     window.removeEventListener('op:toasters:add', onToast);
