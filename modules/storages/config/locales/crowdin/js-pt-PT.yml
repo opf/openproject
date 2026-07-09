@@ -4,68 +4,19 @@ pt-PT:
   js:
     storages:
       authentication_error: Falha na autenticação com %{storageType}
-      link_files_in_storage: Vincular ficheiros em %{storageType}
-      link_existing_files: Vincular ficheiros existentes
-      upload_files: Carregar ficheiros
+      choose_location: Escolher localização
       drop_files: Largue os ficheiros aqui para os enviar para %{name}.
       drop_or_click_files: Largue os ficheiros aqui ou clique para os carregar para %{name}.
-      login: Início de sessão %{storageType}
-      login_to: Iniciar sessão em %{storageType}
-      no_connection: Sem ligação %{storageType}
-      open_storage: Abrir %{storageType}
-      select_location: Selecionar localização
-      choose_location: Escolher localização
-      new_folder: Nova pasta
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: SharePoint
-        default: Armazenamento
-      information:
-        authentication_error: Não foi possível autenticar o pedido para %{storageType}, o que constitui um erro.
-        connection_error: 'Algumas definições do %{storageType} não estão a funcionar. Contacte a sua administração de %{storageType}.
-
-          '
-        live_data_error: Erro ao obter detalhes do ficheiro
-        live_data_error_description: 'Alguns dados de %{storageType} não puderam ser obtidos. Tente recarregar esta página ou contacte a adminstração de %{storageType}.
-
-          '
-        no_file_links: Para vincular ficheiros a este pacote de trabalho, faça-o através de %{storageType}.
-        not_logged_in: 'Para adicionar um link e ver ou enviar ficheiro relacionados com este pacote de trabalho, inicie sessão em %{storageType}.
-
-          '
-        suggest_logout: Pode tentar terminar a sessão e voltar a iniciar a sessão para resolver o problema.
-        suggest_relink: Pode tentar voltar a ligar à sua conta através do botão de início de sessão abaixo para resolver este problema.
-      files:
-        already_existing_header: Este ficheiro já existe
-        already_existing_body: 'Já existe um ficheiro com o nome "%{fileName}" no local para onde está a tentar enviar este ficheiro. Que quer fazer?
-
-          '
-        directory_not_writeable: 'Não tem permissões para adicionar ficheiros a esta pasta.
-
-          '
-        dragging_many_files: Carregar para %{storageType} suporta apenas um ficheiro de cada vez.
-        dragging_folder: O carregamento para %{storageType} não suporta pastas.
-        empty_folder: Esta pasta está vazia.
-        empty_folder_location_hint: Clique no botão abaixo para enviar o ficheiro para esta localização.
-        file_not_selectable_location: Não é possível selecionar um ficheiro no processo de escolha de uma localização.
-        project_folder_no_access: 'Não tem acesso à pasta do projeto. Contacte o seu administrador para obter acesso ou carregue o ficheiro noutra localização.
-
-          '
-        managed_project_folder_not_available: 'A pasta do projeto gerido automaticamente ainda não foi encontrada. Aguarde um pouco, recarregue a página para obter os dados mais recentes e tente novamente.
-
-          '
-        managed_project_folder_no_access: 'Ainda não tem acesso à pasta do projeto gerido. Aguarde um pouco e tente novamente.
-
-          '
-        cannot_create_folder: Não foi possível criar a pasta. Evite utilizar caracteres especiais e símbolos, e certifique-se de que a pasta ainda não existe.
-        upload_keep_both: Manter ambos
-        upload_replace: Substituir
       file_links:
+        already_linked_directory: Este diretório já está vinculado a este pacote de trabalho.
+        already_linked_file: Este ficheiro já está vinculado a este pacote de trabalho.
+        download: Transferir %{fileName}
         empty: 'Atualmente não há ficheiros vinculados a este pacote de trabalho. Vincule os seus primeiros ficheiros através da ação abaixo ou a partir de %{storageType}.
 
           '
-        download: Transferir %{fileName}
+        link_uploaded_file_error: 'Ocorreu um erro ao vincular o ficheiro ''%{fileName}'', carregado recentemente, ao pacote de trabalho %{workPackageId}.
+
+          '
         open: Abrir ficheiro no armazenamento
         open_location: Abrir o ficheiro no local
         remove: Remover vínculo de ficheiro
@@ -82,10 +33,11 @@ pt-PT:
         success_create:
           one: Criou com sucesso 1 link de ficheiro.
           other: Criou com sucesso %{count} links de ficheiros.
+        tooltip:
+          not_found: Este ficheiro não foi encontrado.
+          not_logged_in: Inicie sessão no armazenamento para aceder a este ficheiro.
+          view_not_allowed: Não tem permissões para ver este ficheiro.
         upload_error:
-          default: 'Não foi possível carregar o seu ficheiro (%{fileName}).
-
-            '
           403: 'Não foi possível carregar o seu ficheiro (%{fileName}) devido a restrições do sistema. Contacte o seu administrador para obter mais informações.
 
             '
@@ -95,16 +47,64 @@ pt-PT:
           507: 'O seu ficheiro (%{fileName}) é maior que o permitido pela cota de armazenamento. Contacte o seu administrador para modificar esta cota.
 
             '
+          default: 'Não foi possível carregar o seu ficheiro (%{fileName}).
+
+            '
           detail:
             nextcloud: 'Verifique se a versão mais recente da aplicação Nextcloud "OpenProject Integration" está instalada e contacte o seu administrador para obter mais informações.
 
               '
-        link_uploaded_file_error: 'Ocorreu um erro ao vincular o ficheiro ''%{fileName}'', carregado recentemente, ao pacote de trabalho %{workPackageId}.
+      files:
+        already_existing_body: 'Já existe um ficheiro com o nome "%{fileName}" no local para onde está a tentar enviar este ficheiro. Que quer fazer?
 
           '
-        tooltip:
-          not_logged_in: Inicie sessão no armazenamento para aceder a este ficheiro.
-          view_not_allowed: Não tem permissões para ver este ficheiro.
-          not_found: Este ficheiro não foi encontrado.
-        already_linked_file: Este ficheiro já está vinculado a este pacote de trabalho.
-        already_linked_directory: Este diretório já está vinculado a este pacote de trabalho.
+        already_existing_header: Este ficheiro já existe
+        cannot_create_folder: Não foi possível criar a pasta. Evite utilizar caracteres especiais e símbolos, e certifique-se de que a pasta ainda não existe.
+        directory_not_writeable: 'Não tem permissões para adicionar ficheiros a esta pasta.
+
+          '
+        dragging_folder: O carregamento para %{storageType} não suporta pastas.
+        dragging_many_files: Carregar para %{storageType} suporta apenas um ficheiro de cada vez.
+        empty_folder: Esta pasta está vazia.
+        empty_folder_location_hint: Clique no botão abaixo para enviar o ficheiro para esta localização.
+        file_not_selectable_location: Não é possível selecionar um ficheiro no processo de escolha de uma localização.
+        managed_project_folder_no_access: 'Ainda não tem acesso à pasta do projeto gerido. Aguarde um pouco e tente novamente.
+
+          '
+        managed_project_folder_not_available: 'A pasta do projeto gerido automaticamente ainda não foi encontrada. Aguarde um pouco, recarregue a página para obter os dados mais recentes e tente novamente.
+
+          '
+        project_folder_no_access: 'Não tem acesso à pasta do projeto. Contacte o seu administrador para obter acesso ou carregue o ficheiro noutra localização.
+
+          '
+        upload_keep_both: Manter ambos
+        upload_replace: Substituir
+      information:
+        authentication_error: Não foi possível autenticar o pedido para %{storageType}, o que constitui um erro.
+        connection_error: 'Algumas definições do %{storageType} não estão a funcionar. Contacte a sua administração de %{storageType}.
+
+          '
+        live_data_error: Erro ao obter detalhes do ficheiro
+        live_data_error_description: 'Alguns dados de %{storageType} não puderam ser obtidos. Tente recarregar esta página ou contacte a adminstração de %{storageType}.
+
+          '
+        no_file_links: Para vincular ficheiros a este pacote de trabalho, faça-o através de %{storageType}.
+        not_logged_in: 'Para adicionar um link e ver ou enviar ficheiro relacionados com este pacote de trabalho, inicie sessão em %{storageType}.
+
+          '
+        suggest_logout: Pode tentar terminar a sessão e voltar a iniciar a sessão para resolver o problema.
+        suggest_relink: Pode tentar voltar a ligar à sua conta através do botão de início de sessão abaixo para resolver este problema.
+      link_existing_files: Vincular ficheiros existentes
+      link_files_in_storage: Vincular ficheiros em %{storageType}
+      login: Início de sessão %{storageType}
+      login_to: Iniciar sessão em %{storageType}
+      new_folder: Nova pasta
+      no_connection: Sem ligação %{storageType}
+      open_storage: Abrir %{storageType}
+      select_location: Selecionar localização
+      types:
+        default: Armazenamento
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Carregar ficheiros

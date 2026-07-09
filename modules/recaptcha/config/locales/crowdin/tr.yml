@@ -2,26 +2,26 @@
 ---
 tr:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: Bu modül giriş sırasında recaptcha kontrolleri yapılmasını sağlar.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Lütfen bekleyin ...
-    verify_account: Hesabınızı doğrulayın
     error_captcha: Hesabınız doğrulanamadı. Lütfen bir yöneticiye başvurun.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Website anahtarı ("Site anahtarı")
+      captcha_description_html: 'reCAPTCHA, OpenProject kurulumunuz için etkinleştirebileceğiniz Google tarafından sunulan ücretsiz bir hizmettir. Etkinleştirildiğinde, henüz captcha doğrulaması yapmamış tüm kullanıcılar için oturum açma sırasında bir captcha formu oluşturacaktır. <br/> reCAPTCHA ve sürümleri ile website ve gizli anahtar oluşturma hakkında detaylı bilgi için bu bağlantıya bakabilirsiniz: %{recaptcha_link} <br/> HCaptcha, reCAPTCHA yerine kullanabileceğiniz Google''dan bağımsız bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{hcaptcha_link} <br/> Cloudflare Turnstile™ kullanıcılar için daha kullanışlı olup da aynı güvenliği sağlayana başka bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{turnstile_link}
+
+        '
       response_limit: HCaptcha için yanıt sınırı
       response_limit_text: HCaptcha yanıtını geçerli olarak değerlendirmek için gereken maksimum karakter sayısı.
-      website_key_text: Bu etki alanı için reCAPTCHA yönetici konsolunda oluşturduğunuz web sitesi anahtarını girin.
       secret_key: Gizli anahtar
       secret_key_text: ReCAPTCHA yönetici konsolunda yarattığınız gizli anahtarı girin.
       type: ReCAPTCHA kullanın
       type_disabled: ReCAPTCHA'yı devre dışı bırak
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: 'HCaptcha '
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA, OpenProject kurulumunuz için etkinleştirebileceğiniz Google tarafından sunulan ücretsiz bir hizmettir. Etkinleştirildiğinde, henüz captcha doğrulaması yapmamış tüm kullanıcılar için oturum açma sırasında bir captcha formu oluşturacaktır. <br/> reCAPTCHA ve sürümleri ile website ve gizli anahtar oluşturma hakkında detaylı bilgi için bu bağlantıya bakabilirsiniz: %{recaptcha_link} <br/> HCaptcha, reCAPTCHA yerine kullanabileceğiniz Google''dan bağımsız bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{hcaptcha_link} <br/> Cloudflare Turnstile™ kullanıcılar için daha kullanışlı olup da aynı güvenliği sağlayana başka bir alternatiftir. Daha fazla bilgi için bu bağlantıya bakın: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Website anahtarı ("Site anahtarı")
+      website_key_text: Bu etki alanı için reCAPTCHA yönetici konsolunda oluşturduğunuz web sitesi anahtarını girin.
+    verify_account: Hesabınızı doğrulayın

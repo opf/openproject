@@ -66,13 +66,13 @@ RSpec.describe CostType, "disabling for_all_projects" do
     expect(CostTypesProject.where(cost_type:, project: project_with_costs)).not_to exist
   end
 
-  it "does not enable it in archived projects" do
+  it "also enables it in archived projects that logged costs (stays consistent once unarchived)" do
     log_costs_in(project_with_costs)
     project_with_costs.update!(active: false)
 
     disable_for_all
 
-    expect(CostTypesProject.where(cost_type:, project: project_with_costs)).not_to exist
+    expect(CostTypesProject.where(cost_type:, project: project_with_costs)).to exist
   end
 
   it "does not create mappings when re-enabling for_all_projects" do

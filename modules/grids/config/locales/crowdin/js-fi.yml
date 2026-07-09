@@ -3,58 +3,58 @@ fi:
   js:
     grid:
       add_widget: Lisää widgetti
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Poista widgetti
       configure: Configure widget
+      remove: Poista widgetti
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: You don't have the necessary permissions to view this widget.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Mukautettu teksti
         documents:
-          title: Asiakirjat
           no_results: No documents yet.
+          title: Asiakirjat
         members:
           title: Jäsenet
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: Uutiset
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favorite projects
         project_status:
-          title: Status
-          not_started: Not started
-          on_track: Hyvä
-          off_track: Huono
           at_risk: Rajalla
-          not_set: Määrittelemätön
-          finished: Valmis
           discontinued: Discontinued
+          finished: Valmis
+          not_set: Määrittelemätön
+          not_started: Not started
+          off_track: Huono
+          on_track: Hyvä
+          title: Status
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Favorite projects
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Käyttämäni aika
           displayed_days: 'Days displayed in the widget:'
+          title: Käyttämäni aika
         time_entries_list:
-          title: Käytetty aika (viimeiset 7 päivää)
           no_results: No time entries for the last 7 days.
+          title: Käytetty aika (viimeiset 7 päivää)
         work_packages_accountable:
           title: Kaikki tehtävät joista olen vastuussa
         work_packages_assigned:
           title: Minulle määritellyt tehtävät
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_table:
-          title: Work packages table
-        work_packages_graph:
-          title: Work packages graph
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Kalenteri
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Work packages graph
         work_packages_overview:
-          title: Tehtävien yleisnäkymä
           placeholder: Muokkaa klikkaamalla...
+          title: Tehtävien yleisnäkymä
+        work_packages_table:
+          title: Work packages table
+        work_packages_watched:
+          title: Work packages watched by me

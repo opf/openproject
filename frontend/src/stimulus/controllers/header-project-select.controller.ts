@@ -106,13 +106,12 @@ export default class HeaderProjectSelectController extends Controller {
     const links = this.element.querySelectorAll<HTMLAnchorElement>(
       'a[role="treeitem"][href]:not([aria-disabled="true"])',
     );
-    for (const link of links) {
-      if (!link.closest('[hidden]')) {
-        event.preventDefault();
-        link.click();
-        return;
-      }
-    }
+    const visibleLinks = [...links].filter((link) => !link.closest('[hidden]'));
+    const link = visibleLinks.find((candidate) => candidate.getAttribute('aria-current') === 'true') ?? visibleLinks[0];
+    if (!link) return;
+
+    event.preventDefault();
+    link.click();
   };
 
   private onFilterModeClick = (event:MouseEvent):void => {

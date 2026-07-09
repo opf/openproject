@@ -22,9 +22,9 @@
 ---
 sv:
   js:
-    work_packages:
-      properties:
-        storyPoints: Berättelsepoäng
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Berättelsepoäng

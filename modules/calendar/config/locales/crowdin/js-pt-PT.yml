@@ -4,7 +4,7 @@ pt-PT:
   js:
     calendar:
       create_new: Criar novo calendário
+      label_calendar_plural: Calendários
       title: Calendário
       too_many: Existem %{count} pacotes de trabalho no total, mas apenas %{max} podem ser mostrados.
       unsaved_title: Calendário sem nome
-      label_calendar_plural: Calendários

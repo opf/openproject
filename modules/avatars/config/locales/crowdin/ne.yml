@@ -1,29 +1,29 @@
 #English strings go here
 ---
 ne:
-  plugin_openproject_avatars:
-    name: 'अवतारहरू '
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: 'अवतार '
-  label_avatar_plural: 'अवतारहरू '
-  label_current_avatar: 'बर्तमान अवतार '
-  label_choose_avatar: 'फाइल बाट अवतार चएन गर्नुहोस '
-  message_avatar_uploaded: 'अवतार सफलतापुर्वक परिवर्तन भयो। '
-  error_image_upload: 'चित्र समावेश गर्न सकिएन। '
-  error_image_size: यो चित्र निकै ठुलो  छ।
   are_you_sure_delete_avatar: 'के तँपाई अवतार हटाउन निश्चित हुनुहुन्छ ? '
   avatar_deleted: 'अवतार सफलतापुर्वक हटाइयो। '
-  unable_to_delete_avatar: 'अवतार हटाऊन सकिएन। '
-  wrong_file_format: 'jpg, png, gif फ़र्मेट मात्र मान्य गरिएको छ '
-  empty_file_error: 'कृपया मान्य चित्र जस्तै जस्तै jpg, png, gif अपलोड गर्नुहोस्। '
   avatars:
     label_avatar: 'अवतार '
     label_gravatar: Gravatar
     label_local_avatar: 'इच्छाएको अवतार '
+    settings:
+      enable_gravatars: Enable user gravatars
+      enable_local_avatars: Enable user custom avatars
+      gravatar_default: Default Gravatar image
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Enable user gravatars
-      gravatar_default: Default Gravatar image
-      enable_local_avatars: Enable user custom avatars
+  empty_file_error: 'कृपया मान्य चित्र जस्तै जस्तै jpg, png, gif अपलोड गर्नुहोस्। '
+  error_image_size: यो चित्र निकै ठुलो  छ।
+  error_image_upload: 'चित्र समावेश गर्न सकिएन। '
+  label_avatar: 'अवतार '
+  label_avatar_plural: 'अवतारहरू '
+  label_choose_avatar: 'फाइल बाट अवतार चएन गर्नुहोस '
+  label_current_avatar: 'बर्तमान अवतार '
+  message_avatar_uploaded: 'अवतार सफलतापुर्वक परिवर्तन भयो। '
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: 'अवतारहरू '
+  unable_to_delete_avatar: 'अवतार हटाऊन सकिएन। '
+  wrong_file_format: 'jpg, png, gif फ़र्मेट मात्र मान्य गरिएको छ '

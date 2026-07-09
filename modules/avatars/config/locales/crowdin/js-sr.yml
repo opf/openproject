@@ -2,11 +2,11 @@
 ---
 sr:
   js:
-    label_preview: Prikaži
-    button_update: Ažuriraj
     avatars:
+      empty_file_error: Molim vas postavite sliku u ispravnom formatu (jpg, png, gif)
+      error_image_too_large: Slika je prevelika.
       label_choose_avatar: Izaberite Avatar iz sopstvene datoteke
       uploading_avatar: Postavite avatar.
-      error_image_too_large: Slika je prevelika.
       wrong_file_format: 'Dozvoljeni formati su: jpg, png, gif'
-      empty_file_error: Molim vas postavite sliku u ispravnom formatu (jpg, png, gif)
+    button_update: Ažuriraj
+    label_preview: Prikaži

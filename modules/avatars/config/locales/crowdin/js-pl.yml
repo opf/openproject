@@ -2,11 +2,11 @@
 ---
 pl:
   js:
-    label_preview: Podgląd
-    button_update: Aktualizacja
     avatars:
+      empty_file_error: Prześlij prawidłowy obraz (jpg, png, gif)
+      error_image_too_large: Obraz jest zbyt duży.
       label_choose_avatar: Wybierz awatar z pliku
       uploading_avatar: Przesyłanie tego awatara.
-      error_image_too_large: Obraz jest zbyt duży.
       wrong_file_format: Dozwolone są formaty jpg, png, gif
-      empty_file_error: Prześlij prawidłowy obraz (jpg, png, gif)
+    button_update: Aktualizacja
+    label_preview: Podgląd

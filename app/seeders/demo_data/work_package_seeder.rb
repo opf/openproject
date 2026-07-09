@@ -185,7 +185,8 @@ module DemoData
         version = seed_data.find_reference(reference)
         next unless version
 
-        work_package.work_package_versions.create!(version_id: version.id, kind: "target")
+        # The first version already has a row, mirrored from version_id on save.
+        work_package.work_package_versions.find_or_create_by!(version_id: version.id, kind: "target")
       end
     end
 

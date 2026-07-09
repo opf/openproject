@@ -3,28 +3,28 @@
 it:
   js:
     bcf:
-      label_bcf: BCF
-      import: Importazione
-      import_bcf_xml_file: Importa file BCF XML (BCF versione 2.1)
+      add_viewpoint: Aggiungi punto di vista
+      delete_viewpoint: Elimina punto di vista
       export: Esporta
       export_bcf_xml_file: Esporta file BCF XML (BCF versione 2.1)
-      viewpoint: Punto di vista
-      add_viewpoint: Aggiungi punto di vista
-      show_viewpoint: Mostra punto di vista
-      delete_viewpoint: Elimina punto di vista
+      import: Importazione
+      import_bcf_xml_file: Importa file BCF XML (BCF versione 2.1)
+      label_bcf: BCF
       management: Gestione BCF
       refresh: Aggiorna
       refresh_work_package: Aggiorna il pacchetto di lavoro
+      show_viewpoint: Mostra punto di vista
+      viewpoint: Punto di vista
     ifc_models:
       empty_warning: Questo progetto non ha ancora nessun modello IFC.
-      use_this_link_to_manage: Usa questo link per caricare e gestire i tuoi modelli IFC
       keyboard_input_disabled: Il visualizzatore non dispone di controlli da tastiera. Clicca sul visualizzatore per dare controlli da tastiera al visualizzatore.
       models:
         ifc_models: Modelli IFC
+      use_this_link_to_manage: Usa questo link per caricare e gestire i tuoi modelli IFC
       views:
-        viewer: Visualizzatore
         split: Visualizzatore e tabella
         split_cards: Visualizzatore e schede
+        viewer: Visualizzatore
     revit:
       revit_add_in: Add-In Revit
       revit_add_in_settings: Impostazioni dell'Add-In Revit

@@ -15,7 +15,7 @@ Project administrators can enable or disable **time tracking activities** and **
 
 Before they can be enabled in a project, time tracking activities and cost types must first be configured by an administrator under **Administration → Time and costs**. For details, see the [Time and costs administration guide](../../../../system-admin-guide/time-and-costs/).
 
-### Manage activities for time tracking
+## Manage activities for time tracking
 
 To enable time tracking activities for a project:
 
@@ -25,7 +25,7 @@ To enable time tracking activities for a project:
 
 ![Activate time tracking activities under the Time and costs section in Project settings](openproject_user_guide_project_settings_time_and_costs.png)
 
-### Manage cost types
+## Manage cost types
 
 To enable cost types for a project:
 
@@ -40,5 +40,6 @@ Enabled cost types are available for logging costs in the project.
 
 > [!NOTE]
 > A cost type is visible to a user only if:
+>
 > - the cost type is enabled in at least one project, and
 > - the user has permission to log costs in that project.

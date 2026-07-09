@@ -21,87 +21,87 @@
 #++
 ---
 zh-TW:
-  plugin_openproject_reporting:
-    name: OpenProject 報表
-    description: 本外掛允許透過OpenProject 時間及成本外掛，建立具篩選及群組的客製化成本報表
   button_save_report_as: 另存報表...
   comments: 留言
   cost_reports_title: 時間與費用
-  label_cost_report: 成本報告
-  label_cost_report_plural: 成本報告
   description_drill_down: 顯示詳細資訊
   description_filter_selection: 選擇
   description_multi_select: 顯示多選
   description_remove_filter: 刪除篩選條件
+  export:
+    cost_reports:
+      end_time: 結束時間
+      start_time: 開始時間
+      title: 您的成本報表(以XLS匯出)
+    timesheet:
+      button: 匯出 PDF 時間表
+      overview_per_user_day: 總覽： 每位使用者每天的使用時數
+      overview_per_user_total: 總覽： 每位使用者的總時數
+      sums_hours: 加總
+      time: 時間
+      timesheet: 時間表
+      title: 您的時間表PDF匯出
   information_restricted_depending_on_permission: 根據您的許可權, 此頁可能包含受限資訊。
   label_click_to_edit: 按一下編輯
   label_closed: 已關閉
   label_columns: 欄位
   label_cost_entry_attributes: 成本項屬性
+  label_cost_report: 成本報告
+  label_cost_report_plural: 成本報告
+  label_count: 數量
   label_days_ago: 期間
   label_entry: 成本項
+  label_filter: 篩選條件
+  label_filter_add: 新增篩選條件
+  label_filter_plural: 篩選條件
   label_filter_text: 文字篩選
   label_filter_value: 值
   label_filters: 篩選器
   label_greater: ">"
+  label_group_by: 分組依據
+  label_group_by_add: 新增群組欄位
+  label_inactive: "«不活動»"
   label_is_not_project_with_subprojects: 不是 (包括子專案)
+  label_is_not_work_package_with_descendants: 不是（包括繼任）
   label_is_project_with_subprojects: 是 (包括子專案)
   label_is_work_package_with_descendants: 是（包括繼任）
-  label_is_not_work_package_with_descendants: 不是（包括繼任）
-  label_work_package_attributes: 工作套件屬性
   label_less: "<"
   label_logged_by_reporting: 記錄者
   label_money: 金額
   label_month_reporting: 月
   label_new_report: 新建成本報表
+  label_no: 否
+  label_no_reports: 尚無費用報告
+  label_none: "(沒有資料)"
   label_open: 開啟中
   label_operator: 操作員
   label_private_report_plural: 私密成本報告
   label_progress_bar_explanation: 產生報告中...
   label_public_report_plural: 公開成本報告
   label_really_delete_question: 你確定你要刪除這個報告？
+  label_report: 報表
   label_rows: 列
   label_saving: 儲存中...
   label_spent_on_reporting: 日期
   label_sum: 總和
   label_units: 單位
   label_week_reporting: 週
+  label_work_package_attributes: 工作套件屬性
   label_year_reporting: 年
-  label_count: 數量
-  label_filter: 篩選條件
-  label_filter_add: 新增篩選條件
-  label_filter_plural: 篩選條件
-  label_group_by: 分組依據
-  label_group_by_add: 新增群組欄位
-  label_inactive: "«不活動»"
-  label_no: 否
-  label_none: "(沒有資料)"
-  label_no_reports: 尚無費用報告
-  label_report: 報表
   label_yes: 是
   load_query_question: 報告含有 %{size} 個儲存格，將要花一些時間呈現。你仍然想要嘗試顯示它嗎？
   permission_save_cost_reports: 保存公開成本報告
   permission_save_private_cost_reports: 保存私密成本報告
+  plugin_openproject_reporting:
+    description: 本外掛允許透過OpenProject 時間及成本外掛，建立具篩選及群組的客製化成本報表
+    name: OpenProject 報表
   project_module_reporting_module: 成本報告
+  reporting:
+    group_by:
+      selected_columns: 選擇列
+      selected_rows: 選定行
   text_costs_are_rounded_note: 顯示的值四捨五入
   toggle_multiselect: 啟動/停用多選
   units: 單位
   validation_failure_date: 不是一個有效日期
   validation_failure_integer: 不是一個有效的整數
-  export:
-    timesheet:
-      title: 您的時間表PDF匯出
-      button: 匯出 PDF 時間表
-      timesheet: 時間表
-      time: 時間
-      sums_hours: 加總
-      overview_per_user_total: 總覽： 每位使用者的總時數
-      overview_per_user_day: 總覽： 每位使用者每天的使用時數
-    cost_reports:
-      title: 您的成本報表(以XLS匯出)
-      start_time: 開始時間
-      end_time: 結束時間
-  reporting:
-    group_by:
-      selected_columns: 選擇列
-      selected_rows: 選定行

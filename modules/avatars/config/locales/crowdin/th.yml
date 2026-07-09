@@ -1,29 +1,29 @@
 #English strings go here
 ---
 th:
-  plugin_openproject_avatars:
-    name: รูปโปรไฟล์
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: รูปโปรไฟล์
-  label_avatar_plural: รูปโปรไฟล์
-  label_current_avatar: รูปปัจจุบัน
-  label_choose_avatar: เลือกรูปจากไฟล์
-  message_avatar_uploaded: เปลี่ยนรูปโปรไฟล์แล้ว
-  error_image_upload: ไม่สามารถบันทึกรูปได้
-  error_image_size: แฟ้มมีขนาดใหญ่เกินไป
   are_you_sure_delete_avatar: คุณแน่ใจหรือไม่ว่าคุณต้องการลบรูปนี้?
   avatar_deleted: ลบรูปโปรไฟล์สำเร็จ
-  unable_to_delete_avatar: ไม่สามารถลบรูปโปรไฟล์ได้
-  wrong_file_format: อนุญาติให้ใช้รูปภาพนามสุกล .jpg, .png, .gif
-  empty_file_error: กรุณาเลือกรูปภาพนามสุกล .jpg .png .gif
   avatars:
     label_avatar: รูปโปรไฟล์
     label_gravatar: รูปโปรไฟล์
     label_local_avatar: เลือกรูปปัจจุบันเอง
+    settings:
+      enable_gravatars: แสดงรูปโปรไฟล์
+      enable_local_avatars: แสดงรูปโปรไฟล์พื้นฐาน
+      gravatar_default: ค่าตั้งต้นของรูป Gravatar
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: แสดงรูปโปรไฟล์
-      gravatar_default: ค่าตั้งต้นของรูป Gravatar
-      enable_local_avatars: แสดงรูปโปรไฟล์พื้นฐาน
+  empty_file_error: กรุณาเลือกรูปภาพนามสุกล .jpg .png .gif
+  error_image_size: แฟ้มมีขนาดใหญ่เกินไป
+  error_image_upload: ไม่สามารถบันทึกรูปได้
+  label_avatar: รูปโปรไฟล์
+  label_avatar_plural: รูปโปรไฟล์
+  label_choose_avatar: เลือกรูปจากไฟล์
+  label_current_avatar: รูปปัจจุบัน
+  message_avatar_uploaded: เปลี่ยนรูปโปรไฟล์แล้ว
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: รูปโปรไฟล์
+  unable_to_delete_avatar: ไม่สามารถลบรูปโปรไฟล์ได้
+  wrong_file_format: อนุญาติให้ใช้รูปภาพนามสุกล .jpg, .png, .gif

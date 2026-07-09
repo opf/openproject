@@ -3,153 +3,78 @@ ms:
   activerecord:
     attributes:
       saml/provider:
-        display_name: Nama
-        identifier: Pengenalan
-        secret: Sulit
-        scope: Skop
         assertion_consumer_service_url: URL ACS (Perkhidmatan pengguna Penegasan).
-        limit_self_registration: Hadkan pendaftaran diri
-        sp_entity_id: ID entiti perkhidmatan
-        metadata_url: URL metadata pembekal identiti
-        name_identifier_format: Format pengecam nama
-        idp_entity_id: Identity provider entity ID
-        idp_sso_service_url: Titik akhir log masuk pembekal identiti
-        idp_slo_service_url: Titik akhir logout pembekal identiti
-        idp_cert: Sijil awam pemberi identiti
         authn_requests_signed: Tandatangan SAML AuthnRequests
-        want_assertions_signed: Memerlukan jawapan yang ditandatangani
-        want_assertions_encrypted: Memerlukan respons yang disulitkan
         certificate: Sijil yang digunakan oleh OpenProject untuk permintaan SAML
-        private_key: Kunci persendirian yang sepadan untuk permintaan OpenProject SAML
-        signature_method: Algoritma tandatangan
         digest_method: Algoritma penghadaman
+        display_name: Nama
         format: Format
         icon: Ikon tersuai
+        identifier: Pengenalan
+        idp_cert: Sijil awam pemberi identiti
+        idp_entity_id: Identity provider entity ID
+        idp_slo_service_url: Titik akhir logout pembekal identiti
+        idp_sso_service_url: Titik akhir log masuk pembekal identiti
+        limit_self_registration: Hadkan pendaftaran diri
+        metadata_url: URL metadata pembekal identiti
+        name_identifier_format: Format pengecam nama
+        private_key: Kunci persendirian yang sepadan untuk permintaan OpenProject SAML
+        scope: Skop
+        secret: Sulit
+        signature_method: Algoritma tandatangan
+        sp_entity_id: ID entiti perkhidmatan
+        want_assertions_encrypted: Memerlukan respons yang disulitkan
+        want_assertions_signed: Memerlukan jawapan yang ditandatangani
     errors:
       models:
         saml/provider:
+          certificate_expired: telah tamat tempoh dan tidak boleh digunakan lagi.
           invalid_certificate: 'bukan sijil berformat PEM yang sah: %{additional_message}'
           invalid_private_key: 'bukan kunci peribadi berformat PEM yang sah: %{additional_message}'
-          certificate_expired: telah tamat tempoh dan tidak boleh digunakan lagi.
           unmatched_private_key: tidak tergolong dalam sijil yang diberikan
   saml:
-    menu_title: Penyedia SAML
-    delete_title: Padam Penyedia SAML
     delete_heading: Delete this SAML provider?
+    delete_title: Padam Penyedia SAML
     info:
-      title: Parameter Konfigurasi Protokol SAML
       description: 'Gunakan parameter ini untuk mengkonfigurasi sambungan pembekal identiti anda kepada OpenProject.
 
         '
-    metadata_parser:
-      success: Berjaya mengemas kini konfigurasi menggunakan metadata pembekal identiti.
-      invalid_url: URL metadata yang diberikan adalah tidak sah. Sediakan URL HTTP.
-      error: 'Gagal mendapatkan semula metadata pembekal identiti: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
-
-        '
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
-    providers:
-      label_empty_title: Tiada pembekal SAML dikonfigurasikan lagi.
-      label_empty_description: Tambah pembekal untuk melihat mereka di sini.
-      label_automatic_configuration: Konfigurasi automatik
-      label_metadata: Metadata
-      label_metadata_endpoint: Titik akhir metadata OpenProject
-      label_openproject_information: Maklumat OpenProject
-      label_configuration_details: Titik akhir dan sijil pembekal identiti
-      label_configuration_encryption: Tandatangan dan Penyulitan
-      label_add_new: Pembekal identiti SAML baharu
-      label_edit: Edit pembekal identiti SAML %{name}
-      label_uid: Id pengguna dalaman
-      label_mapping: Mapping
-      label_requested_attribute_for: 'Atribut yang diminta untuk: %{attribute}'
-      no_results_table: Tiada pembekal identiti SAML telah ditakrifkan lagi.
-      notice_created: A new SAML identity provider was successfully created.
-      plural: Pembekal identiti SAML
-      singular: Pembekal identiti SAML
-      requested_attributes: Atribut yang diminta
-      attribute_mapping: Pemetaan atribut
-      attribute_mapping_text: 'Medan berikut mengawal atribut yang disediakan oleh pembekal identiti SAML digunakan untuk menyediakan atribut pengguna dalam OpenProject
-
-        '
-      metadata:
-        dialog: 'Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda:'
-      upsell:
-        title: Daftar Masuk Sehala ( SSO ) melalui SAML
-        description: Sambungkan OpenProject kepada pembekal identiti SAML
-      request_attributes:
-        title: Atribut yang diminta
-        legend: 'Atribut ini ditambahkan pada metadata XML SAML untuk menandakan kepada pembekal mengenal pasti yang memerlukan atribut OpenProject. Anda mungkin masih perlu mengkonfigurasi pembekal identiti anda secara eksplisit untuk menghantar atribut ini. Sila rujuk kepada dokumentasi IdP anda.
-
-          '
-        name: Kunci atribut yang diminta
-        format: Format atribut
-      section_headers:
-        configuration: Konfigurasi utama
-        attributes: Atribut
-      section_texts:
-        display_name: Konfigurasikan nama paparan pembekal SAML.
-        metadata: Konfigurasi praisi menggunakan URL metadata atau dengan menampal metadata XML
-        metadata_form: Jika pembekal identiti anda mempunyai titik akhir metadata atau muat turun XML, tambahkannya di bawah untuk praisi konfigurasi.
-        metadata_form_banner: Mengedit metadata mungkin mengatasi nilai sedia ada dalam bahagian lain.
-        configuration: Konfigurasikan URL titik akhir untuk pembekal identiti, sijil dan pilihan SAML selanjutnya.
-        configuration_metadata: Maklumat ini telah diisi terlebih dahulu menggunakan metadata yang dibekalkan. Dalam kebanyakan kes, mereka tidak memerlukan penyuntingan.
-        encryption: Konfigurasikan tandatangan penegasan dan penyulitan untuk permintaan dan respons SAML.
-        encryption_form: Anda mungkin mahu menyulitkan respons penegasan atau meminta permintaan daripada OpenProject ditandatangani.
-        mapping: Laraskan pemetaan secara manual antara respons SAML dan atribut pengguna dalam OpenProject.
-        requested_attributes: Tentukan set atribut yang akan diminta dalam permintaan SAML yang dihantar kepada pembekal identiti anda.
-      seeded_from_env: Pembekal ini telah dipilih daripada konfigurasi persekitaran. Ia tidak boleh disunting.
-    settings:
-      metadata_none: Saya tidak mempunyai metadata
-      metadata_url: URL metadata
-      metadata_xml: Metadata XML
+      title: Parameter Konfigurasi Protokol SAML
     instructions:
-      documentation_link: 'Sila rujuk kepada [dokumentasi tentang mengkonfigurasi penyedia SAML](docs_url) kami untuk mendapatkan maklumat lanjut tentang pilihan konfigurasi ini.
+      authn_requests_signed: 'Jika ditandakan, OpenProject akan menandatangani SAML AuthnRequest. Anda perlu memberikan sijil tandatangan dan kunci peribadi menggunakan medan di bawah.
+
+        '
+      certificate: 'Masukkan sijil berformat PEM X509 yang digunakan oleh OpenProject untuk menandatangani permintaan SAML.
+
+        '
+      digest_method: 'Pilih algoritma ringkasan untuk digunakan untuk tandatangan permintaan SAML yang dilakukan oleh OpenProject (Lalai: %{default_option}).
 
         '
       display_name: 'Nama pembekal. Ini akan dipaparkan sebagai butang log masuk dan dalam senarai pembekal.
 
         '
-      metadata_none: 'Pembekal identiti anda tidak mempunyai titik akhir metadata atau pilihan muat turun XML. Anda boleh mengkonfigurasinya secara manual.
+      documentation_link: 'Sila rujuk kepada [dokumentasi tentang mengkonfigurasi penyedia SAML](docs_url) kami untuk mendapatkan maklumat lanjut tentang pilihan konfigurasi ini.
 
         '
-      metadata_url: 'Pembekal identiti anda menyediakan URL metadata.
-
-        '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
-
-        '
-      metadata_xml: 'Pembekal identiti anda menyediakan muat turun XML metadata.
-
-        '
-      limit_self_registration: 'Jika pengguna yang dibenarkan hanya boleh mendaftar menggunakan penyediaan ini jika tetapan pendaftaran sendiri dibenarkan.
-
-        '
-      sp_entity_id: 'ID entiti pembekal perkhidmatan (SP). Kadang-kadang juga dirujuk sebagai Khalayak. Ini ialah pengecam pelanggan unik bagi contoh OpenProject.
-
-        '
-      idp_sso_service_url: 'URL titik akhir log masuk pembekal identiti.
-
-        '
-      idp_slo_service_url: 'The URL of the identity provider logout endpoint.
+      icon: 'Secara pilihan, berikan URL awam kepada grafik ikon yang akan dipaparkan di sebelah nama pembekal.
 
         '
       idp_cert: 'Masukkan sijil awam berformat PEM X509 bagi pembekal identiti. Anda boleh memasukkan berbilang sijil dengan memisahkannya dengan baris baharu.
 
         '
-      name_identifier_format: 'Tetapkan format pengecam nama untuk digunakan untuk penegasan SAML.
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
-      sp_metadata_endpoint: 'Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda.
+      idp_slo_service_url: 'The URL of the identity provider logout endpoint.
+
+        '
+      idp_sso_service_url: 'URL titik akhir log masuk pembekal identiti.
+
+        '
+      limit_self_registration: 'Jika pengguna yang dibenarkan hanya boleh mendaftar menggunakan penyediaan ini jika tetapan pendaftaran sendiri dibenarkan.
 
         '
       mapping: 'Konfigurasikan pemetaan antara respons SAML dan atribut pengguna dalam OpenProject. Anda boleh mengkonfigurasi berbilang nama atribut untuk dicari. OpenProject akan memilih atribut pertama yang tersedia daripada respons SAML.
-
-        '
-      mapping_login: 'Atribut SAML daripada respons yang digunakan untuk log masuk.
-
-        '
-      mapping_mail: 'Atribut SAML daripada respons yang digunakan untuk e-mel pengguna.
 
         '
       mapping_firstname: 'Atribut SAML daripada respons yang digunakan untuk nama yang diberikan.
@@ -158,7 +83,31 @@ ms:
       mapping_lastname: 'Atribut SAML daripada respons yang digunakan untuk nama keluarga.
 
         '
+      mapping_login: 'Atribut SAML daripada respons yang digunakan untuk log masuk.
+
+        '
+      mapping_mail: 'Atribut SAML daripada respons yang digunakan untuk e-mel pengguna.
+
+        '
       mapping_uid: 'Atribut SAML untuk digunakan untuk ID pengguna dalaman. Biarkan kosong untuk menggunakan atribut name_id sebaliknya
+
+        '
+      metadata_for_idp: 'Maklumat ini mungkin diminta oleh pembekal identiti SAML anda.
+
+        '
+      metadata_none: 'Pembekal identiti anda tidak mempunyai titik akhir metadata atau pilihan muat turun XML. Anda boleh mengkonfigurasinya secara manual.
+
+        '
+      metadata_url: 'Pembekal identiti anda menyediakan URL metadata.
+
+        '
+      metadata_xml: 'Pembekal identiti anda menyediakan muat turun XML metadata.
+
+        '
+      name_identifier_format: 'Tetapkan format pengecam nama untuk digunakan untuk penegasan SAML.
+
+        '
+      private_key: 'Masukkan kunci peribadi berformat PEM X509 untuk sijil di atas. Ini mestilah kunci persendirian RSA.
 
         '
       request_uid: 'Atribut SAML untuk meminta ID pengguna dalaman. Secara lalai, name_id akan digunakan untuk medan ini.
@@ -170,28 +119,79 @@ ms:
       requested_format: 'Format atribut yang diminta. Ini digunakan untuk menentukan format atribut dalam permintaan SAML. Sila lihat [dokumentasi tentang mengkonfigurasi atribut yang diminta](docs_url) untuk mendapatkan maklumat lanjut.
 
         '
-      authn_requests_signed: 'Jika ditandakan, OpenProject akan menandatangani SAML AuthnRequest. Anda perlu memberikan sijil tandatangan dan kunci peribadi menggunakan medan di bawah.
-
-        '
-      want_assertions_signed: "Jika ditandakan, OpenProject akan memerlukan respon bertanda daripada pembekal identiti menggunakan sijil pasangan kunci sendiri. OpenProject akan mengesahkan tandatangan terhadap sijil tersebut melalui bahagian konfigurasi asas. \n"
-      want_assertions_encrypted: 'Jika didayakan, minta pembekal identiti menyulitkan respons penegasan menggunakan pasangan sijil yang anda berikan.
-
-        '
-      certificate: 'Masukkan sijil berformat PEM X509 yang digunakan oleh OpenProject untuk menandatangani permintaan SAML.
-
-        '
-      private_key: 'Masukkan kunci peribadi berformat PEM X509 untuk sijil di atas. Ini mestilah kunci persendirian RSA.
-
-        '
       signature_method: 'Pilih algoritma tandatangan untuk digunakan untuk tandatangan permintaan SAML yang dilakukan oleh OpenProject (Lalai: %{default_option}).
 
         '
-      digest_method: 'Pilih algoritma ringkasan untuk digunakan untuk tandatangan permintaan SAML yang dilakukan oleh OpenProject (Lalai: %{default_option}).
+      sp_entity_id: 'ID entiti pembekal perkhidmatan (SP). Kadang-kadang juga dirujuk sebagai Khalayak. Ini ialah pengecam pelanggan unik bagi contoh OpenProject.
 
         '
-      icon: 'Secara pilihan, berikan URL awam kepada grafik ikon yang akan dipaparkan di sebelah nama pembekal.
+      sp_metadata_endpoint: 'Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda.
 
         '
-      metadata_for_idp: 'Maklumat ini mungkin diminta oleh pembekal identiti SAML anda.
+      want_assertions_encrypted: 'Jika didayakan, minta pembekal identiti menyulitkan respons penegasan menggunakan pasangan sijil yang anda berikan.
 
         '
+      want_assertions_signed: "Jika ditandakan, OpenProject akan memerlukan respon bertanda daripada pembekal identiti menggunakan sijil pasangan kunci sendiri. OpenProject akan mengesahkan tandatangan terhadap sijil tersebut melalui bahagian konfigurasi asas. \n"
+    menu_title: Penyedia SAML
+    metadata_parser:
+      error: 'Gagal mendapatkan semula metadata pembekal identiti: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      invalid_url: URL metadata yang diberikan adalah tidak sah. Sediakan URL HTTP.
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      success: Berjaya mengemas kini konfigurasi menggunakan metadata pembekal identiti.
+    providers:
+      attribute_mapping: Pemetaan atribut
+      attribute_mapping_text: 'Medan berikut mengawal atribut yang disediakan oleh pembekal identiti SAML digunakan untuk menyediakan atribut pengguna dalam OpenProject
+
+        '
+      label_add_new: Pembekal identiti SAML baharu
+      label_automatic_configuration: Konfigurasi automatik
+      label_configuration_details: Titik akhir dan sijil pembekal identiti
+      label_configuration_encryption: Tandatangan dan Penyulitan
+      label_edit: Edit pembekal identiti SAML %{name}
+      label_empty_description: Tambah pembekal untuk melihat mereka di sini.
+      label_empty_title: Tiada pembekal SAML dikonfigurasikan lagi.
+      label_mapping: Mapping
+      label_metadata: Metadata
+      label_metadata_endpoint: Titik akhir metadata OpenProject
+      label_openproject_information: Maklumat OpenProject
+      label_requested_attribute_for: 'Atribut yang diminta untuk: %{attribute}'
+      label_uid: Id pengguna dalaman
+      metadata:
+        dialog: 'Ini ialah URL tempat metadata SAML OpenProject tersedia. Gunakan pilihan ini untuk mengkonfigurasi pembekal identiti anda:'
+      no_results_table: Tiada pembekal identiti SAML telah ditakrifkan lagi.
+      notice_created: A new SAML identity provider was successfully created.
+      plural: Pembekal identiti SAML
+      request_attributes:
+        format: Format atribut
+        legend: 'Atribut ini ditambahkan pada metadata XML SAML untuk menandakan kepada pembekal mengenal pasti yang memerlukan atribut OpenProject. Anda mungkin masih perlu mengkonfigurasi pembekal identiti anda secara eksplisit untuk menghantar atribut ini. Sila rujuk kepada dokumentasi IdP anda.
+
+          '
+        name: Kunci atribut yang diminta
+        title: Atribut yang diminta
+      requested_attributes: Atribut yang diminta
+      section_headers:
+        attributes: Atribut
+        configuration: Konfigurasi utama
+      section_texts:
+        configuration: Konfigurasikan URL titik akhir untuk pembekal identiti, sijil dan pilihan SAML selanjutnya.
+        configuration_metadata: Maklumat ini telah diisi terlebih dahulu menggunakan metadata yang dibekalkan. Dalam kebanyakan kes, mereka tidak memerlukan penyuntingan.
+        display_name: Konfigurasikan nama paparan pembekal SAML.
+        encryption: Konfigurasikan tandatangan penegasan dan penyulitan untuk permintaan dan respons SAML.
+        encryption_form: Anda mungkin mahu menyulitkan respons penegasan atau meminta permintaan daripada OpenProject ditandatangani.
+        mapping: Laraskan pemetaan secara manual antara respons SAML dan atribut pengguna dalam OpenProject.
+        metadata: Konfigurasi praisi menggunakan URL metadata atau dengan menampal metadata XML
+        metadata_form: Jika pembekal identiti anda mempunyai titik akhir metadata atau muat turun XML, tambahkannya di bawah untuk praisi konfigurasi.
+        metadata_form_banner: Mengedit metadata mungkin mengatasi nilai sedia ada dalam bahagian lain.
+        requested_attributes: Tentukan set atribut yang akan diminta dalam permintaan SAML yang dihantar kepada pembekal identiti anda.
+      seeded_from_env: Pembekal ini telah dipilih daripada konfigurasi persekitaran. Ia tidak boleh disunting.
+      singular: Pembekal identiti SAML
+      upsell:
+        description: Sambungkan OpenProject kepada pembekal identiti SAML
+        title: Daftar Masuk Sehala ( SSO ) melalui SAML
+    settings:
+      metadata_none: Saya tidak mempunyai metadata
+      metadata_url: URL metadata
+      metadata_xml: Metadata XML

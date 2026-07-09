@@ -30,7 +30,6 @@ Please refer to [Nextcloud integration user guide](./nextcloud-integration) for 
 
 For the initial setup please refer to the [Nextcloud integration setup guide](../../system-admin-guide/integrations/nextcloud/).
 
-
 [feature: one_drive_sharepoint_file_storage]
 
 > [!NOTE]

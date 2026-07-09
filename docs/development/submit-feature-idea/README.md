@@ -20,7 +20,7 @@ keywords: feature requests, ideas, open feature request
 
 ### Subject
 
-* The subject of the feature request should be as concise and crisp as possible.
+- The subject of the feature request should be as concise and crisp as possible.
 
 **Example:**
 
@@ -28,11 +28,11 @@ keywords: feature requests, ideas, open feature request
 
 ### Description
 
-* The feature description should be concise and expressive.
-* Mention the reason why the change is relevant. Describe the associated use case.
-* Add acceptance criteria for clarification.
-* Describe the current behavior if it is to be changed by the request.
-* Using the following (user story) format, describe the intent behind a new feature request:
+- The feature description should be concise and expressive.
+- Mention the reason why the change is relevant. Describe the associated use case.
+- Add acceptance criteria for clarification.
+- Describe the current behavior if it is to be changed by the request.
+- Using the following (user story) format, describe the intent behind a new feature request:
 
 **Example:**
 
@@ -42,16 +42,16 @@ SO THAT I am clearly aware which status transitions are allowed before doing the
 
 ### Acceptance criteria
 
-* State and detail the requirements in the acceptance criteria.
+- State and detail the requirements in the acceptance criteria.
 
 **Example:**
 
-* In the task board only show the status allowed for the role the user has in the project as active.
-  * The status fields which are inactive should have e.g. a grey background to make clear that a user cannot use them.
+- In the task board only show the status allowed for the role the user has in the project as active.
+  - The status fields which are inactive should have e.g. a grey background to make clear that a user cannot use them.
 
 ### Current behavior
 
-* If the feature request is changing existing behavior, briefly explain the current behavior.
+- If the feature request is changing existing behavior, briefly explain the current behavior.
 
 **Example:**
 
@@ -59,8 +59,8 @@ SO THAT I am clearly aware which status transitions are allowed before doing the
 
 ### Wireframes / Screenshots
 
-* If the request is visual, it is helpful to add a short wireframe or a screenshot in which changes are highlighted.
-* The wireframe or screenshot can be attached as a file and can be integrated in the description with the following syntax: "!Name_of_screenshot.png!" (without quotation marks)
+- If the request is visual, it is helpful to add a short wireframe or a screenshot in which changes are highlighted.
+- The wireframe or screenshot can be attached as a file and can be integrated in the description with the following syntax: "!Name_of_screenshot.png!" (without quotation marks)
 (Notice: Name_of_screenshot should be replaced with the respective name of the file. The file ending (here: .png) has to be adjusted to the appropriate file type of the screenshot.)
 
 ## Example of a feature request

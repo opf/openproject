@@ -45,11 +45,13 @@ class HomescreenController < ApplicationController
   end
 
   def robots
-    if Setting.login_required?
-      render template: "homescreen/robots-login-required", format: :text
-    else
-      @projects = Project.active.public_projects
-    end
+    template = if Setting.login_required?
+                 "homescreen/robots-login-required"
+               else
+                 "homescreen/robots"
+               end
+
+    render template:, format: :text
   end
 
   def jump_to_module

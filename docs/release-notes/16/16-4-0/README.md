@@ -20,12 +20,12 @@ Take a look at our release video showing the most important features introduced 
 
 ### Option to automatically sync the color mode with operating system preference
 
-Users can now enable **automatic color mode** under *Account settings → Interface* to match OpenProject’s color mode with their operating system (OS) preference. When enabled, OpenProject automatically switches between light and dark modes based on the OS setting. Please note that your operating system must also be set to automatic switching.
+Users can now enable **automatic color mode** under _Account settings → Interface_ to match OpenProject’s color mode with their operating system (OS) preference. When enabled, OpenProject automatically switches between light and dark modes based on the OS setting. Please note that your operating system must also be set to automatic switching.
 
 > [!NOTE]
 > If a user has enabled dark mode — either by default or through automatic switching — this overrides the instance’s design settings for that user.
 
-[Learn more about the *Look and feel* options in OpenProject](../../../user-guide/account-settings/#look-and-feel). 
+[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/#look-and-feel). 
 
 ![Screenshot of OpenProject 16.4: Account settings to adjust color mode, Automatic mode selected](openproject-16-4-color-mode-light-1.png)
 
@@ -58,7 +58,7 @@ To export a project list, open the **More (three dots)** menu in the top right c
 
 Administrators for the Enterprise Basic plan and higher can now upload a custom font to be used in all PDF exports. This makes it possible to comply with organization-specific requirements, such as corporate design guidelines.
 
-A new section has been added under *Administration → Design → PDF export font* where administrators can:
+A new section has been added under _Administration → Design → PDF export font_ where administrators can:
 
 - Upload one font family in TTF format (regular required; bold, italic, and bold italic optional).
 - Remove previously uploaded fonts.
@@ -78,7 +78,7 @@ When preparing a meeting agenda, you can now search and select participants usin
 
 #### 2. Simplified attendance tracking
 
-If the meeting is set to *In progress*, a **toggle switch next to each participant lets you mark attendance directly**. You can also use a header action to 'Mark all as attended'.
+If the meeting is set to _In progress_, a **toggle switch next to each participant lets you mark attendance directly**. You can also use a header action to 'Mark all as attended'.
 
 Other meetings improvements include:
 

@@ -60,10 +60,6 @@ de:
       make_private: Als Privat festlegen
       make_public: Veröffentlichen
       unfavorite: Aus Favoriten entfernen
-    allocation:
-      hours: "%{value}h"
-      no_work: Keine Arbeit für dieses Arbeitspaket geplant
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ de:
       submit: Zuweisen
       success_message: Ressource zugewiesen.
       title: Ressourcen zuweisen
+    allocation:
+      hours: "%{value}h"
+      no_work: Keine Arbeit für dieses Arbeitspaket geplant
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} verfügbar"
       confirm_overtime: Trotzdem zuweisen
@@ -184,11 +184,11 @@ de:
         remove: Benutzer entfernen
         remove_confirmation: Diesen Benutzer aus der Ansicht entfernen?
       fields:
-        working_times: Arbeitszeiten
-        input_label: Felder
-        input_caption: Wählen Sie die Felder, die in der Benutzerkarte für diese Ansicht angezeigt werden sollen
-        input_placeholder: Feld hinzufügen
         drag_area_label: Angezeigte Felder
+        input_caption: Wählen Sie die Felder, die in der Benutzerkarte für diese Ansicht angezeigt werden sollen
+        input_label: Felder
+        input_placeholder: Feld hinzufügen
+        working_times: Arbeitszeiten
       subheader:
         resource: Ressource
         settings: Ansicht konfigurieren

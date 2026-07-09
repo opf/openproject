@@ -2,6 +2,6 @@
 bg:
   js:
     work_packages:
-      label_gantt_chart_plural: Диаграми на Гант
       default_queries:
         milestones: Етапи
+      label_gantt_chart_plural: Диаграми на Гант

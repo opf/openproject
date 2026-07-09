@@ -2,11 +2,11 @@
 ---
 es:
   js:
-    label_preview: Vista preliminar
-    button_update: Actualizar
     avatars:
+      empty_file_error: Cargue un formato de imagen válido (jpg, png o gif)
+      error_image_too_large: La imagen es demasiado grande.
       label_choose_avatar: Elije un Ávatar desde archivo
       uploading_avatar: Cargando su avatar.
-      error_image_too_large: La imagen es demasiado grande.
       wrong_file_format: Los formatos permitidos son jpg, png y gif
-      empty_file_error: Cargue un formato de imagen válido (jpg, png o gif)
+    button_update: Actualizar
+    label_preview: Vista preliminar

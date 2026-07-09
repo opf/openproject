@@ -60,10 +60,6 @@ zh-CN:
       make_private: 设为私有
       make_public: 设为公开
       unfavorite: 取消收藏
-    allocation:
-      hours: "%{value} 小时"
-      no_work: 此工作包没有计划的工作
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ zh-CN:
       submit: 分配
       success_message: 资源已分配。
       title: 分配资源
+    allocation:
+      hours: "%{value} 小时"
+      no_work: 此工作包没有计划的工作
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -183,11 +183,11 @@ zh-CN:
         remove: 移除用户
         remove_confirmation: 是否将此用户从视图中移除？
       fields:
-        working_times: 工作时间
-        input_label: 字段
-        input_caption: 选择将在此视图的用户卡中显示的字段
-        input_placeholder: 添加字段
         drag_area_label: 显示的字段
+        input_caption: 选择将在此视图的用户卡中显示的字段
+        input_label: 字段
+        input_placeholder: 添加字段
+        working_times: 工作时间
       subheader:
         resource: 资源
         settings: 配置视图

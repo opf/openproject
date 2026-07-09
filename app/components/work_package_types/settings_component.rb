@@ -52,11 +52,18 @@ module WorkPackageTypes
     attr_reader :copy_workflow_from
 
     def create_form_options
-      { url: types_path, method: :post, model:, copy_workflow_from: }
+      { url: types_path, method: :post, model:, copy_workflow_from:, data: core_settings_toggle_data }
     end
 
     def update_form_options
-      { url: type_settings_path(type_id: model.id), method: :patch, model: }
+      { url: type_settings_path(type_id: model.id), method: :patch, model:, data: core_settings_toggle_data }
+    end
+
+    def core_settings_toggle_data
+      {
+        controller: "admin--work-package-type-settings",
+        "admin--work-package-type-settings-inherited-value": model.subtype?
+      }
     end
   end
 end

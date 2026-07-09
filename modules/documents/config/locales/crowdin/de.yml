@@ -21,12 +21,11 @@
 #++
 ---
 de:
-  plugin_openproject_documents:
-    name: OpenProject Dokumente
-    description: Ein OpenProject Plugin, um das Erstellen von Dokumenten in Projekten zu ermöglichen.
-  attributes:
-    collaborative_editing_hocuspocus_url: Hokuspokus-Server-URL
   activerecord:
+    attributes:
+      document:
+        content_binary: Binärinhalt
+        title: Titel
     errors:
       models:
         document_type:
@@ -34,124 +33,125 @@ de:
     models:
       document: Dokument
       documents: Dokumente
-    attributes:
-      document:
-        content_binary: Binärinhalt
-        title: Titel
   activity:
     filter:
       document: Dokumente
+  attributes:
+    collaborative_editing_hocuspocus_url: Hokuspokus-Server-URL
   default_doc_category_tech: Technische Dokumentation
   default_doc_category_user: Benutzerdokumentation
-  enumeration_doc_categories: Dokumentenkategorien
   documents:
-    button_add_type: Typ hinzufügen
-    page_header:
-      heading: Alle Dokumente
-      action_menu:
-        document_actions: Dokument-Aktionen
-        edit_title: Titel bearbeiten
-    subheader:
-      filter:
-        label: Filter nach Dokumentnamen
-        placeholder: Suche nach Dokumentnamen
-    documents_list_blank_slate:
-      heading: Es sind noch keine Dokumente vorhanden
-      description: Es sind keine Dokumente in dieser Ansicht vorhanden. Sie können auf die Schaltfläche unten klicken, um eines hinzuzufügen.
-    document_categories_deprecation_notice:
-      heading: Dateikategorien heißen jetzt 'Dokumenttypen'
-      description: Mit der Einführung des neuen Moduls Dokumente wurden Ihre bestehenden Dateikategorien in Dokumenttypen umgewandelt. Alle bestehenden Dokumente wurden ebenfalls auf diese neuen Typen konvertiert.
-      primary_action: Dokumenttypen konfigurieren
-      secondary_action: Erfahren Sie mehr über das Dokumenten-Modul
-    document_type_actions: Aktionen für diesen Dokument-Typ
-    text_collaboration_disabled_notice:
-      description: |-
-        Das Dokument kann nicht geöffnet werden, da die Echtzeit-Kollaboration deaktiviert ist.
-        Bitte wenden Sie sich an Ihren Administrator, um die Echtzeit-Kollaboration zu aktivieren, wenn Sie auf dieses Dokument zugreifen möchten.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Das Dokument kann nicht geöffnet werden, da der Server für Echtzeit-Kollaboration nicht erreichbar ist.
-          Bitte wenden Sie sich an den Administrator, wenn das Problem weiterhin besteht.
-        action: Noch einmal versuchen
-      tabs: Dokument-Tabs
-    index_page:
-      name: Name
-      type: Typ
-      updated_at: Zuletzt bearbeitet
-      label_legacy: Legacy
-    menu:
-      all: Alle Dokumente
-      types: Typen
-      collaboration_settings: Echtzeit-Kollaboration
-    last_updated_at: Zuletzt gespeichert %{time}.
-    info_line:
-      currently_offline: Sie sind derzeit offline.
-      connection_restored: Sie sind jetzt wieder online.
     active_editors: Aktive Bearbeiter
     active_editors_count:
       one: Ein aktiver Bearbeiter
       other: "%{count} aktive Bearbeiter"
-    label_attachment_author: Autor des Dokuments
-    label_categories: Kategorien
-    new_category: Neue Kategorie
-    new_type: Neuer Typ
-    delete_dialog:
-      title: Dokument löschen
-      heading: Dieses Dokument löschen?
-      confirmation_message_html: Dadurch werden dieses Dokument und seine Anhänge endgültig gelöscht. Sind Sie sicher, dass Sie dies tun möchten?
-    delete_document_type_dialog:
-      title: Dokumenttyp löschen
-      heading: Diesen Dokumenttyp löschen?
-      confirmation_message: Der Typ "%{type_name}" ist derzeit unbenutzt. Das Löschen dieses Typs hat keine Auswirkungen auf bestehende Dokumente.
-      select_reassign_to_label: Dokumente neu zuweisen als
-      reassign_message:
-        one: Der Typ "%{type_name}" wird derzeit im Dokument %{document_count} verwendet. Bitte wählen Sie aus, welchem Typ Sie sie neu zuordnen möchten.
-        other: Der Typ "%{type_name}" wird derzeit in %{document_count} Dokumenten verwendet. Bitte wählen Sie aus, welchem Typ Sie sie neu zuordnen möchten.
-      at_least_one_type_required:
-        title: Dokumenttyp kann nicht gelöscht werden
-        heading: Kann den letzten Dokumenttyp nicht löschen
-        message: Es muss immer mindestens ein Dokumenttyp konfiguriert sein. Erstellen Sie zuerst einen anderen, wenn Sie diesen löschen möchten.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
+          some_unwritable: Einige Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
+        hocuspocus_server: Hokuspokus-Server
+        hocuspocus_server_secret:
+          caption: Fügen Sie das vom Hocuspocus-Server bereitgestellte Secret ein.
+          label: Client-Secret
+        hocuspocus_server_url:
+          caption: Die WebSocket-Adresse eines funktionierenden Hocuspocus-Servers.
+          invalid_scheme: Muss ein WebSocket-Protokoll (ws:// oder wss://) verwenden.
+          label: Hokuspokus-Server-URL
         page_header:
           description: |-
             Wenn die Echtzeit-Kollaboration aktiviert ist, können mehrere Personen ein Dokument zur gleichen Zeit bearbeiten.
             Sie erfordert einen funktionierenden %{hocuspocus_server_link}, um zu funktionieren.
-        banner:
-          none_writable: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
-          some_unwritable: Einige Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
-        hocuspocus_server_url:
-          label: Hokuspokus-Server-URL
-          caption: Die WebSocket-Adresse eines funktionierenden Hocuspocus-Servers.
-          invalid_scheme: Muss ein WebSocket-Protokoll (ws:// oder wss://) verwenden.
-        hocuspocus_server_secret:
-          label: Client-Secret
-          caption: Fügen Sie das vom Hocuspocus-Server bereitgestellte Secret ein.
-        hocuspocus_server: Hokuspokus-Server
-      enable_text_collaboration:
-        heading: Echtzeit-Kollaboration ist nicht aktiv
-        description: |-
-          Sobald diese Funktion aktiviert ist, können mehrere Personen gleichzeitig an einem Dokument arbeiten.
-          Alle neuen Dokumente basieren auf einem neuen Editor (BlockNote) und erfordern eine funktionierende Verbindung zu einem Hocuspocus-Server.
-        primary_action: Echtzeit-Kollaboration aktivieren
-        success: Echtzeit-Kollaboration wurde aktiviert.
       disable_text_collaboration_dialog:
-        title: Echtzeit-Kollaboration deaktivieren
-        heading: Echtzeit-Kollaboration deaktivieren?
+        confirmation_checkbox_message: Ich verstehe, dass ich Daten dauerhaft verlieren könnte
         confirmation_message: |-
           Alle vorhandenen Dokumente können unzugänglich werden. Bitte tun Sie dies nur, wenn Sie sicher sind, dass Sie die
           Echtzeit-Kollaboration und den BlockNote-Editor in diesem Fall deaktivieren möchten.
-        confirmation_checkbox_message: Ich verstehe, dass ich Daten dauerhaft verlieren könnte
+        heading: Echtzeit-Kollaboration deaktivieren?
         success: Echtzeit-Kollaboration wurde deaktiviert.
+        title: Echtzeit-Kollaboration deaktivieren
+      enable_text_collaboration:
+        description: |-
+          Sobald diese Funktion aktiviert ist, können mehrere Personen gleichzeitig an einem Dokument arbeiten.
+          Alle neuen Dokumente basieren auf einem neuen Editor (BlockNote) und erfordern eine funktionierende Verbindung zu einem Hocuspocus-Server.
+        heading: Echtzeit-Kollaboration ist nicht aktiv
+        primary_action: Echtzeit-Kollaboration aktivieren
+        success: Echtzeit-Kollaboration wurde aktiviert.
+    button_add_type: Typ hinzufügen
+    delete_dialog:
+      confirmation_message_html: Dadurch werden dieses Dokument und seine Anhänge endgültig gelöscht. Sind Sie sicher, dass Sie dies tun möchten?
+      heading: Dieses Dokument löschen?
+      title: Dokument löschen
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Kann den letzten Dokumenttyp nicht löschen
+        message: Es muss immer mindestens ein Dokumenttyp konfiguriert sein. Erstellen Sie zuerst einen anderen, wenn Sie diesen löschen möchten.
+        title: Dokumenttyp kann nicht gelöscht werden
+      confirmation_message: Der Typ "%{type_name}" ist derzeit unbenutzt. Das Löschen dieses Typs hat keine Auswirkungen auf bestehende Dokumente.
+      heading: Diesen Dokumenttyp löschen?
+      reassign_message:
+        one: Der Typ "%{type_name}" wird derzeit im Dokument %{document_count} verwendet. Bitte wählen Sie aus, welchem Typ Sie sie neu zuordnen möchten.
+        other: Der Typ "%{type_name}" wird derzeit in %{document_count} Dokumenten verwendet. Bitte wählen Sie aus, welchem Typ Sie sie neu zuordnen möchten.
+      select_reassign_to_label: Dokumente neu zuweisen als
+      title: Dokumenttyp löschen
+    document_categories_deprecation_notice:
+      description: Mit der Einführung des neuen Moduls Dokumente wurden Ihre bestehenden Dateikategorien in Dokumenttypen umgewandelt. Alle bestehenden Dokumente wurden ebenfalls auf diese neuen Typen konvertiert.
+      heading: Dateikategorien heißen jetzt 'Dokumenttypen'
+      primary_action: Dokumenttypen konfigurieren
+      secondary_action: Erfahren Sie mehr über das Dokumenten-Modul
+    document_type_actions: Aktionen für diesen Dokument-Typ
+    documents_list_blank_slate:
+      description: Es sind keine Dokumente in dieser Ansicht vorhanden. Sie können auf die Schaltfläche unten klicken, um eines hinzuzufügen.
+      heading: Es sind noch keine Dokumente vorhanden
+    index_page:
+      label_legacy: Legacy
+      name: Name
+      type: Typ
+      updated_at: Zuletzt bearbeitet
+    info_line:
+      connection_restored: Sie sind jetzt wieder online.
+      currently_offline: Sie sind derzeit offline.
+    label_attachment_author: Autor des Dokuments
+    label_categories: Kategorien
+    last_updated_at: Zuletzt gespeichert %{time}.
+    menu:
+      all: Alle Dokumente
+      collaboration_settings: Echtzeit-Kollaboration
+      types: Typen
+    new_category: Neue Kategorie
+    new_type: Neuer Typ
+    page_header:
+      action_menu:
+        document_actions: Dokument-Aktionen
+        edit_title: Titel bearbeiten
+      heading: Alle Dokumente
+    show_edit_view:
+      connection_error_notice:
+        action: Noch einmal versuchen
+        description_server_unavailable: |-
+          Das Dokument kann nicht geöffnet werden, da der Server für Echtzeit-Kollaboration nicht erreichbar ist.
+          Bitte wenden Sie sich an den Administrator, wenn das Problem weiterhin besteht.
+      tabs: Dokument-Tabs
+    subheader:
+      filter:
+        label: Filter nach Dokumentnamen
+        placeholder: Suche nach Dokumentnamen
+    text_collaboration_disabled_notice:
+      description: |-
+        Das Dokument kann nicht geöffnet werden, da die Echtzeit-Kollaboration deaktiviert ist.
+        Bitte wenden Sie sich an Ihren Administrator, um die Echtzeit-Kollaboration zu aktivieren, wenn Sie auf dieses Dokument zugreifen möchten.
+  enumeration_doc_categories: Dokumentenkategorien
   label_document_added: Dokument hinzugefügt
+  label_document_category: Kategorie
+  label_document_description: Beschreibung
   label_document_new: Neues Dokument
   label_document_plural: Dokumente
-  label_documents: Dokumente
   label_document_title: Titel
-  label_document_description: Beschreibung
-  label_document_category: Kategorie
   label_document_type: Typ
+  label_documents: Dokumente
   permission_manage_documents: Dokumente verwalten
   permission_view_documents: Dokumente ansehen
+  plugin_openproject_documents:
+    description: Ein OpenProject Plugin, um das Erstellen von Dokumenten in Projekten zu ermöglichen.
+    name: OpenProject Dokumente
   project_module_documents: Dokumente

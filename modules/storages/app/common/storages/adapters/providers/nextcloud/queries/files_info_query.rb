@@ -68,7 +68,7 @@ module Storages
             end
 
             def create_storage_file_infos(parsed_json)
-              parsed_json.dig(:ocs, :data)&.filter_map do |(key, value)|
+              json_fetch(parsed_json, :ocs, :data)&.filter_map do |(key, value)|
                 if value[:statuscode] == 200
                   build_file_info(value).bind { it }
                 else

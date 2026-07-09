@@ -1,21 +1,21 @@
 ---
 cs:
-  label_job_status_plural: statusy Jobu
-  plugin_openproject_job_status:
-    name: Stav úlohy OpenProject
-    description: Seznam a stav úkolů na pozadí.
   job_status_dialog:
-    download_starts: Stahování by mělo začít automaticky.
     click_to_download: Or [click here](download_url) to download.
-    title: Stav úlohy na pozadí
-    redirect: Nyní jste přesměrováváni
-    redirect_link: Pro pokračování klikněte prosím zde.
-    redirect_errors: Kvůli těmto chybám nebudete automaticky přesměrováni.
+    download_starts: Stahování by mělo začít automaticky.
     errors: Něco se pokazilo
     generic_messages:
-      not_found: Tento úkol se nepodařilo najít.
-      in_queue: Úkol byl zařazen do fronty a brzy bude zpracován.
-      in_process: Úloha se právě zpracovává.
-      error: Úloha se nepodařilo dokončit.
       cancelled: Úloha byla zrušena z důvodu chyby.
+      error: Úloha se nepodařilo dokončit.
+      in_process: Úloha se právě zpracovává.
+      in_queue: Úkol byl zařazen do fronty a brzy bude zpracován.
+      not_found: Tento úkol se nepodařilo najít.
       success: Úloha byla úspěšně dokončena.
+    redirect: Nyní jste přesměrováváni
+    redirect_errors: Kvůli těmto chybám nebudete automaticky přesměrováni.
+    redirect_link: Pro pokračování klikněte prosím zde.
+    title: Stav úlohy na pozadí
+  label_job_status_plural: statusy Jobu
+  plugin_openproject_job_status:
+    description: Seznam a stav úkolů na pozadí.
+    name: Stav úlohy OpenProject

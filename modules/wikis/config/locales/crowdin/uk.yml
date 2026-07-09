@@ -50,7 +50,7 @@ uk:
       external_wiki_providers: Джерела вікі
       internal_wiki_provider: Внутрішня система вікі
       wikis: Вікі
-  permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Постачальники Wiki
   wikis:
     admin:
@@ -163,8 +163,9 @@ uk:
         xwiki_oauth_request_error: Під час спроби зв’язатися з екземпляром XWiki сталася несподівана помилка.
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
         xwiki_oauth_unauthorized: Платформа XWiki не розпізнала маркер користувача.
-    inline_existing_wiki_page_dialog:
-      title: Додати наявну сторінку вікі
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: Адміністрування XWiki

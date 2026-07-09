@@ -3,28 +3,28 @@
 zh-TW:
   js:
     team_planner:
-      add_existing: 加入現有工作套件
-      label_team_planner_plural: 團隊規劃
-      add_existing_title: 新增現有的工作套件
-      create_label: 團隊規劃
-      create_title: 建立新的團隊規劃
-      unsaved_title: 未命名的團隊規畫
-      no_data: 新增執行者來設定您的團隊規劃。
       add_assignee: 執行者
-      remove_assignee: 刪除執行者
-      two_weeks: 雙週
-      one_week: 單週
-      four_weeks: 四週
-      eight_weeks: 八 週
-      work_week: 工作週
-      today: 今日
-      drag_here_to_remove: 拖曳此處可刪除執行者以及開始和結束日期。
+      add_existing: 加入現有工作套件
+      add_existing_title: 新增現有的工作套件
       cannot_drag_here: 由於權限或編輯限制，無法移動工作套件。
       cannot_drag_to_non_working_day: 此工作套件無法在非工作日開始/完成。
+      create_label: 團隊規劃
+      create_title: 建立新的團隊規劃
+      drag_here_to_remove: 拖曳此處可刪除執行者以及開始和結束日期。
+      eight_weeks: 八 週
+      four_weeks: 四週
+      label_team_planner_plural: 團隊規劃
+      modify:
+        errors:
+          fallback: 此工作套件無法編輯。
+          permission_denied: 您沒有修改權限。
+      no_data: 新增執行者來設定您的團隊規劃。
+      one_week: 單週
       quick_add:
         empty_state: 您可利用搜尋欄位找到工作套件，然後拖曳到規劃器中，即可指派給指定人員並設定起訖日期。
         search_placeholder: 搜尋...
-      modify:
-        errors:
-          permission_denied: 您沒有修改權限。
-          fallback: 此工作套件無法編輯。
+      remove_assignee: 刪除執行者
+      today: 今日
+      two_weeks: 雙週
+      unsaved_title: 未命名的團隊規畫
+      work_week: 工作週

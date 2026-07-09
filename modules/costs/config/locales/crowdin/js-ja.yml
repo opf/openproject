@@ -22,15 +22,15 @@
 ---
 ja:
   js:
-    text_are_you_sure: よろしいですか？
-    myTimeTracking:
-      noSpecificTime: 時間指定なし
-    work_packages:
-      property_groups:
-        costs: コスト
-      properties:
-        overallCosts: 集計コスト
-        spentUnits: 消費した予算
     button_log_costs: 単価を記録
     label_hour: " 時間"
     label_hours: 時間
+    myTimeTracking:
+      noSpecificTime: 時間指定なし
+    text_are_you_sure: よろしいですか？
+    work_packages:
+      properties:
+        overallCosts: 集計コスト
+        spentUnits: 消費した予算
+      property_groups:
+        costs: コスト

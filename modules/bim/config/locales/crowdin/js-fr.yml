@@ -3,28 +3,28 @@
 fr:
   js:
     bcf:
-      label_bcf: BCF
-      import: Importer
-      import_bcf_xml_file: Importer un fichier BCF XML (BCF version 2.1)
+      add_viewpoint: Ajouter un point de vue
+      delete_viewpoint: Supprimer le point de vue
       export: Exporter
       export_bcf_xml_file: Exporter un fichier BCF XML (BCF version 2.1)
-      viewpoint: Point de vue
-      add_viewpoint: Ajouter un point de vue
-      show_viewpoint: Afficher le point de vue
-      delete_viewpoint: Supprimer le point de vue
+      import: Importer
+      import_bcf_xml_file: Importer un fichier BCF XML (BCF version 2.1)
+      label_bcf: BCF
       management: Gestion BCF
       refresh: Actualiser
       refresh_work_package: Actualiser le lot de travaux
+      show_viewpoint: Afficher le point de vue
+      viewpoint: Point de vue
     ifc_models:
       empty_warning: Ce projet n'a encore de modèle IFC pour le moment
-      use_this_link_to_manage: Utilisez ce lien pour importer et gérer vos modèles IFC
       keyboard_input_disabled: La visionneuse n'a pas de commandes de clavier. Cliquez sur la visionneuse pour lui donner le contrôle du clavier.
       models:
         ifc_models: Modèles IFC
+      use_this_link_to_manage: Utilisez ce lien pour importer et gérer vos modèles IFC
       views:
-        viewer: Visionneuse
         split: Visionneuse et tableau
         split_cards: Visionneuse et cartes
+        viewer: Visionneuse
     revit:
       revit_add_in: Module complémentaire Revit
       revit_add_in_settings: Paramètres du module Revit

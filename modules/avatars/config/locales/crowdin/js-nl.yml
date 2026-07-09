@@ -2,11 +2,11 @@
 ---
 nl:
   js:
-    label_preview: Voorbeeld
-    button_update: Bijwerken
     avatars:
+      empty_file_error: Upload een geldige afbeelding (jpg, png, gif)
+      error_image_too_large: De afbeelding is te groot.
       label_choose_avatar: Kies Avatar van bestand
       uploading_avatar: Je afbeelding uploaden.
-      error_image_too_large: De afbeelding is te groot.
       wrong_file_format: Toegestane formaten zijn jpg, png, gif
-      empty_file_error: Upload een geldige afbeelding (jpg, png, gif)
+    button_update: Bijwerken
+    label_preview: Voorbeeld

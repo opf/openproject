@@ -4,7 +4,7 @@ mn:
   js:
     calendar:
       create_new: Шинэ хуанли үүсгэх
+      label_calendar_plural: Хуанли
       title: Хуанли
       too_many: Нийт %{count} ажлын багц байгаа ч зөвхөн %{max}-г харуулах боломжтой.
       unsaved_title: Нэрлэгдээгүй хуанли
-      label_calendar_plural: Хуанли

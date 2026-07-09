@@ -27,8 +27,8 @@ pl:
   ee:
     upsell:
       ldap_departments:
-        title: Synchronizacja działu LDAP
         description: Zsynchronizuj strukturę jednostek organizacyjnych LDAP z hierarchią działów w OpenProject i zapewnij automatyczną synchronizację członków działów.
+        title: Synchronizacja działu LDAP
   ldap_departments:
     label_menu_item: Synchronizacja LDAP działu
     label_synchronize: Zsynchronizuj jednostki organizacyjne
@@ -47,7 +47,6 @@ pl:
       singular: Synchronizowany dział
     synchronized_trees:
       add_new: Dodaj synchronizację LDAP działu
-      synchronization_started: Synchronizacja rozpoczęła się w tle. Działy pojawią się po jej zakończeniu.
       blankslate:
         description: Skonfiguruj synchronizację w celu odzwierciedlenia struktury jednostek organizacyjnych LDAP w hierarchii działów OpenProject.
         heading: Brak synchronizacji LDAP działów
@@ -86,6 +85,7 @@ pl:
       no_results: Nie skonfigurowano jeszcze żadnych synchronizacji LDAP działów.
       plural: Synchronizacje LDAP działów
       singular: Synchronizacja LDAP działu
+      synchronization_started: Synchronizacja rozpoczęła się w tle. Działy pojawią się po jej zakończeniu.
   plugin_openproject_ldap_departments:
     description: Synchronizacja jednostek organizacyjnych LDAP z działami OpenProject.
     name: Działy LDAP OpenProject

@@ -40,7 +40,7 @@ The header navigation in OpenProject is divided into **three sections**:
 
 In the center/main part of the page, there are widgets:
 
-- **Welcome text block** to welcome your team members, share important project information, or any other information. You can configure the [welcome text](../../system-admin-guide/system-settings/general-settings/#welcome-block-text) block under -> *Administration* -> *System settings* -> *General*.
+- **Welcome text block** to welcome your team members, share important project information, or any other information. You can configure the [welcome text](../../system-admin-guide/system-settings/general-settings/#welcome-block-text) block under -> _Administration_ -> _System settings_ -> _General_.
 - The **Favorite projects widget** displays your favorite projects.
 - The **New features widget** displays feature announcements and developments of the latest releases of OpenProject.
 - The **My meetings widget** displays all scheduled meetings in which you are a participant.

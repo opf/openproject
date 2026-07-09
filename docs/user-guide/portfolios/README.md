@@ -27,7 +27,6 @@ In OpenProject, projects, programs, and portfolios are all workspaces. While the
 - Programs group related projects
 - Portfolios provide a high-level overview across multiple programs and projects.
 
-
 | Topic | Content |
 |------|---------|
 | [Portfolios structure in OpenProject](#portfolios-structure-in-openproject) | Understand how portfolios, programs, and projects are structured. |
@@ -38,11 +37,12 @@ In OpenProject, projects, programs, and portfolios are all workspaces. While the
 | [Portfolios filters](#portfolio-filters) | Filter portfolios by status, membership, or favorites. |
 | [Portfolio home page](#portfolio-home-page) | Learn what you can do on a portfolio home page. |
 
-
 ## Portfolios structure in OpenProject
+
 A **portfolio** is a type of workspace that groups related **programs** and **projects** to provide a strategic overview.
 
 A portfolio can contain:
+
 - **Programs** — workspaces that group related projects based on shared strategic goals or business objectives. Programs may exist independently or contain projects.
 - **Projects** — workspaces where teams plan, track, and execute day-to-day work.
 
@@ -51,9 +51,9 @@ A portfolio can contain:
 To prevent invalid or unclear workspace structures, there are certain rules for portfolio structuring in OpenProject. 
 
 - When creating or editing a workspace, following parent assigning rules are true:
-	- Portfolios cannot have a parent and always exist at the top level.
-	- Programs can have a portfolio as a parent, but they can also be created without one. This supports bottom-up portfolio management, where programs exist first and a portfolio may be defined later.
-	- Projects can have a portfolio, program, or another project as a parent.
+  - Portfolios cannot have a parent and always exist at the top level.
+  - Programs can have a portfolio as a parent, but they can also be created without one. This supports bottom-up portfolio management, where programs exist first and a portfolio may be defined later.
+  - Projects can have a portfolio, program, or another project as a parent.
 - Programs and projects can exist at the same hierarchical level within a portfolio. 
 - Programs can, but are not required to contain projects.
 - A portfolio may include:
@@ -68,6 +68,7 @@ The following examples illustrate common (non-exhaustive) portfolio structures i
 #### Example 1: Portfolio with multiple programs and projects
 
 **Portfolio A**
+
 - **Program A.1**
   - Project A.1.1
   - Project A.1.2
@@ -78,6 +79,7 @@ The following examples illustrate common (non-exhaustive) portfolio structures i
 #### Example 2: Mixed hierarchy with programs and standalone projects
 
 **Portfolio X**
+
 - **Program Y**
   - Project Y.1
 - **Program Z**
@@ -88,19 +90,18 @@ The following examples illustrate common (non-exhaustive) portfolio structures i
 #### Example 3: Portfolio containing only programs
 
 **Portfolio D**
+
 - **Program D1**
 - **Program D2**
 - **Program D3**
 
-
 #### Example 4: Portfolio containing only projects
 
-
 **Portfolio 123**
+
 - Project 1
 - Project 2
 - Project 3
-
 
 A portfolio can technically remain empty and function as a standalone workspace. However, in such cases, using a project instead of a portfolio is usually sufficient.
 
@@ -146,7 +147,7 @@ Each portfolio is displayed in a box containing the following information:
 - **Favorite indicator** (star icon), allowing you to mark or unmark a portfolio as a favorite
 - **Number of programs and projects** in the portfolio:
   - This number includes all programs and projects in the hierarchy where the portfolio is the root.
-  - For example, in *Portfolio A → Program B → Project C → Project D → Project E*, the count is **1 program** and **3 projects**.
+  - For example, in _Portfolio A → Program B → Project C → Project D → Project E_, the count is **1 program** and **3 projects**.
   
 - **Last updated** timestamp
 

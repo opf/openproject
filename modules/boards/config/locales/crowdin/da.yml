@@ -1,42 +1,22 @@
 #English strings go here
 ---
 da:
-  plugin_openproject_boards:
-    name: OpenProject-tavler
-    description: Giver tavlevisninger.
-  permission_show_board_views: Vis tavler
-  permission_manage_board_views: Administrer tavler
-  project_module_board_view: Tavler
-  ee:
-    upsell:
-      board_view:
-        description: Vil du automatisere dine arbejdsgange med Tavler? Avancerede tavler er en Enterprise-tilføjelse. Opgrader venligst til en betalt plan.
   boards:
-    label_board: Tavle
-    label_boards: Tavler
-    label_create_new_board: Opret ny tavle
-    label_board_type: Tavletype
-    board_types:
-      free: Grundlæggende
-      action: Handlingstavle (%{attribute})
     board_type_attributes:
       assignee: Tildelt
+      basic: Grundlæggende
       status: Kanban
-      version: Version
       subproject: Underprojekt
       subtasks: overordnet-underordnet
-      basic: Grundlæggende
+      version: Version
     board_type_descriptions:
+      assignee: 'Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
+
+        '
       basic: 'Start fra bunden med en tom tavle. Tilføj manuelt kort og kolonner til denne tavle.
 
         '
       status: 'Grundlæggende kanbantavle med kolonner til status som To Do, I gang, Udført.
-
-        '
-      assignee: 'Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
-
-        '
-      version: 'Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
 
         '
       subproject: 'Tavle med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
@@ -45,3 +25,23 @@ da:
       subtasks: 'Tavle med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
 
         '
+      version: 'Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
+
+        '
+    board_types:
+      action: Handlingstavle (%{attribute})
+      free: Grundlæggende
+    label_board: Tavle
+    label_board_type: Tavletype
+    label_boards: Tavler
+    label_create_new_board: Opret ny tavle
+  ee:
+    upsell:
+      board_view:
+        description: Vil du automatisere dine arbejdsgange med Tavler? Avancerede tavler er en Enterprise-tilføjelse. Opgrader venligst til en betalt plan.
+  permission_manage_board_views: Administrer tavler
+  permission_show_board_views: Vis tavler
+  plugin_openproject_boards:
+    description: Giver tavlevisninger.
+    name: OpenProject-tavler
+  project_module_board_view: Tavler

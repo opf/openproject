@@ -21,24 +21,22 @@
 #++
 ---
 cs:
-  plugin_budgets_engine:
-    name: Rozpočty
   activerecord:
     attributes:
       budget:
         author: Autor
         available: Dostupné
+        base_amount: Základní částka
         budget: Rozpočet
         budget_ratio: Stráveno (poměr)
         description: Popis
+        labor_budget: Plánované mzdové náklady
+        labor_budget_items: Planned labor costs
+        material_budget: Plánované jednotkové náklady
         spent: Strávený čas
         status: Stav
         subject: Předmět
         type: Typ nákladu
-        labor_budget: Plánované mzdové náklady
-        labor_budget_items: Planned labor costs
-        material_budget: Plánované jednotkové náklady
-        base_amount: Základní částka
       work_package:
         budget_subject: Název rozpočtu
     errors:
@@ -56,49 +54,49 @@ cs:
       budget: Rozpočty
   attributes:
     budget: Rozpočet
-  button_add_budget_item: Přidat plánované náklady
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Získejte přehled o svých rozpočtech a nákladech, abyste mohli efektivně sledovat stav svého projektu
+          heading: Zahájit projektový controlling
+        blankslate_zero:
+          description: Přidejte podrobnosti o plánovaném rozpočtu, abyste zde mohli vidět údaje
+          heading: Chybějící údaje o rozpočtu
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: Žádné údaje o rozpočtu.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: Žádné údaje o rozpočtu.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: Žádné údaje o rozpočtu.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: Žádné údaje o rozpočtu.
+        title: Rozpočet podle typu nákladů
+        view_details: Zobrazit podrobnosti o rozpočtu
+      budget_totals:
+        remaining_budget: Zbývající rozpočet
+        spent_budget: Vyčerpaný rozpočet
+        title: Budget totals
+        total_actual_costs: Celkové skutečné náklady
+        total_planned_budget: Celkový plánovaný rozpočet
+  budgets_title: Rozpočty
   button_add_budget: Přidat rozpočet
+  button_add_budget_item: Přidat plánované náklady
   button_add_cost_type: Přidat typ nákladů
   button_cancel_edit_budget: Zrušit úpravu rozpočtu
   button_cancel_edit_costs: Zrušit úpravu nákladů
   caption_labor: Práce
   caption_labor_costs: Aktuální cena práce
   caption_material_costs: Skutečné jednotkové náklady
-  budgets_title: Rozpočty
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Zbývající rozpočet
-        spent_budget: Vyčerpaný rozpočet
-        total_actual_costs: Celkové skutečné náklady
-        total_planned_budget: Celkový plánovaný rozpočet
-      budget_by_cost_type:
-        title: Rozpočet podle typu nákladů
-        blankslate:
-          heading: Zahájit projektový controlling
-          description: Získejte přehled o svých rozpočtech a nákladech, abyste mohli efektivně sledovat stav svého projektu
-        blankslate_zero:
-          heading: Chybějící údaje o rozpočtu
-          description: Přidejte podrobnosti o plánovaném rozpočtu, abyste zde mohli vidět údaje
-        count_caption:
-          zero: Žádné údaje o rozpočtu.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: Žádné údaje o rozpočtu.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: Žádné údaje o rozpočtu.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: Žádné údaje o rozpočtu.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: Zobrazit podrobnosti o rozpočtu
   events:
     budget: Rozpočet editován
   help_click_to_edit: Klikněte zde pro úpravu.
@@ -106,23 +104,25 @@ cs:
   help_override_rate: Zadejte hodnotu zde pro přepsání výchozí sazby.
   label_budget: Rozpočet
   label_budget_available: Dostupný rozpočet
+  label_budget_details: Podrobnosti o rozpočtu
   label_budget_id: Rozpočet č.%{id}
   label_budget_new: Nový rozpočet
   label_budget_planned: Plánovaný rozpočet
   label_budget_plural: Rozpočty
   label_budget_spent: Vyčerpaný rozpočet
   label_budget_spent_ratio: Poměr vyčerpaného rozpočtu
+  label_budget_totals: Součty
   label_deliverable: Rozpočet
   label_example_placeholder: Např. %{decimal}
   label_view_all_budgets: Zobrazit všechny rozpočty
   label_yes: Ano
-  label_budget_totals: Součty
-  label_budget_details: Podrobnosti o rozpočtu
   notice_budget_conflict: Pracovní balíčky musí být ze stejného projektu.
   notice_no_budgets_available: Žádné rozpočty nejsou k dispozici.
   permission_edit_budgets: Upravit rozpočty
   permission_view_budgets: Zobrazit rozpočty
+  plugin_budgets_engine:
+    name: Rozpočty
   project_module_budgets: Rozpočty
-  text_budget_reassign_to: 'Přiřadit je do tohoto rozpočtu:'
   text_budget_delete: Odstranit rozpočet ze všech pracovních balíčků
   text_budget_destroy_assigned_wp: K tomuto rozpočtu je přiřazeno %{count} pracovních balíčků. Co chcete udělat?
+  text_budget_reassign_to: 'Přiřadit je do tohoto rozpočtu:'

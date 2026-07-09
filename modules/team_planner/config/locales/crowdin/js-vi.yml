@@ -3,28 +3,28 @@
 vi:
   js:
     team_planner:
-      add_existing: Thêm hiện có
-      label_team_planner_plural: Người lập kế hoạch nhóm
-      add_existing_title: Thêm các gói công việc hiện có
-      create_label: Người lập kế hoạch nhóm
-      create_title: Tạo người lập kế hoạch nhóm mới
-      unsaved_title: Người lập kế hoạch nhóm không tên
-      no_data: Thêm người được giao để thiết lập kế hoạch nhóm của bạn.
       add_assignee: Người được chuyển nhượng
-      remove_assignee: Xóa người được giao
-      two_weeks: 2 tuần
-      one_week: 1 tuần
-      four_weeks: 4 tuần
-      eight_weeks: 8 tuần
-      work_week: tuần làm việc
-      today: hôm nay
-      drag_here_to_remove: Kéo vào đây để xóa người được giao cũng như ngày bắt đầu và ngày kết thúc.
+      add_existing: Thêm hiện có
+      add_existing_title: Thêm các gói công việc hiện có
       cannot_drag_here: Không thể di chuyển gói công việc do quyền hoặc hạn chế chỉnh sửa.
       cannot_drag_to_non_working_day: Gói công việc này không thể bắt đầu/kết thúc vào một ngày không làm việc.
+      create_label: Người lập kế hoạch nhóm
+      create_title: Tạo người lập kế hoạch nhóm mới
+      drag_here_to_remove: Kéo vào đây để xóa người được giao cũng như ngày bắt đầu và ngày kết thúc.
+      eight_weeks: 8 tuần
+      four_weeks: 4 tuần
+      label_team_planner_plural: Người lập kế hoạch nhóm
+      modify:
+        errors:
+          fallback: Gói công việc này không thể được chỉnh sửa.
+          permission_denied: Bạn không có quyền cần thiết để sửa đổi điều này.
+      no_data: Thêm người được giao để thiết lập kế hoạch nhóm của bạn.
+      one_week: 1 tuần
       quick_add:
         empty_state: Sử dụng trường tìm kiếm để tìm các gói công việc và kéo chúng vào bảng kế hoạch để giao cho ai đó cũng như xác định ngày bắt đầu và ngày kết thúc.
         search_placeholder: Tìm kiếm...
-      modify:
-        errors:
-          permission_denied: Bạn không có quyền cần thiết để sửa đổi điều này.
-          fallback: Gói công việc này không thể được chỉnh sửa.
+      remove_assignee: Xóa người được giao
+      today: hôm nay
+      two_weeks: 2 tuần
+      unsaved_title: Người lập kế hoạch nhóm không tên
+      work_week: tuần làm việc

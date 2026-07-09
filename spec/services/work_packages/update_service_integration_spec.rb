@@ -270,6 +270,17 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject.result.version)
             .to be_nil
         end
+
+        it "still requires assign_versions for a later version change on the same instance" do
+          expect(subject).to be_success
+
+          second_call = described_class
+                          .new(user:, model: work_package)
+                          .call(target_version_ids: [version.id], send_notifications: false)
+
+          expect(second_call).to be_failure
+          expect(second_call.errors.symbols_for(:target_versions)).to include(:error_readonly)
+        end
       end
 
       context "with a system wide shared version" do
@@ -281,6 +292,21 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
           expect(subject.result.version)
             .to eql version
+        end
+      end
+
+      context "with an unshared observed in version" do
+        before do
+          work_package.update(version: nil)
+          WorkPackageVersion.create!(work_package:, version:, kind: "observed_in")
+        end
+
+        it "removes the observed in version" do
+          expect(subject)
+            .to be_success
+
+          expect(subject.result.observed_in_versions.reload)
+            .to be_empty
         end
       end
 
@@ -2165,6 +2191,33 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       it "updates the work_package.version" do
         service
         expect(work_package.reload.version).to be_nil
+      end
+    end
+
+    context "when updating target versions alongside another attribute",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) do
+        instance.call(subject: "Updated subject", target_version_ids: [version1.id], send_notifications: false)
+      end
+
+      it "creates a single journal capturing both changes" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        details = work_package.journals.reload.last.details
+        expect(details["subject"]).to eq(["work_package", "Updated subject"])
+        expect(details["target_versions"]).to eq([nil, version1.id.to_s])
+      end
+    end
+
+    context "when updating only target versions",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
+
+      it "creates a single journal capturing the new target versions" do
+        expect { service }.to change { work_package.journals.count }.by(1)
+
+        expect(work_package.journals.reload.last.details["target_versions"])
+          .to eq([nil, version1.id.to_s])
       end
     end
 

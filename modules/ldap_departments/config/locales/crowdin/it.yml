@@ -27,8 +27,8 @@ it:
   ee:
     upsell:
       ldap_departments:
-        title: Sincronizzazione dei dipartimenti LDAP
         description: Rispecchia la struttura delle unità organizzative LDAP nella gerarchia dei dipartimenti di OpenProject e mantieni automaticamente sincronizzati i membri dei dipartimenti.
+        title: Sincronizzazione dei dipartimenti LDAP
   ldap_departments:
     label_menu_item: Sincronizzazione dei dipartimenti LDAP
     label_synchronize: Sincronizza unità organizzative
@@ -47,7 +47,6 @@ it:
       singular: Dipartimento sincronizzato
     synchronized_trees:
       add_new: Aggiungi sincronizzazione dei dipartimenti LDAP
-      synchronization_started: La sincronizzazione è stata avviata in background. I dipartimenti verranno visualizzati al termine dell'operazione.
       blankslate:
         description: Configura una sincronizzazione per rispecchiare la struttura delle unità organizzative LDAP nella gerarchia dei dipartimenti di OpenProject.
         heading: Nessuna sincronizzazione di dipartimenti LDAP
@@ -84,6 +83,7 @@ it:
       no_results: Non è ancora stata configurata alcuna sincronizzazione dei dipartimenti LDAP.
       plural: Sincronizzazioni dei dipartimenti LDAP
       singular: Sincronizzazione dei dipartimenti LDAP
+      synchronization_started: La sincronizzazione è stata avviata in background. I dipartimenti verranno visualizzati al termine dell'operazione.
   plugin_openproject_ldap_departments:
     description: Sincronizzazione delle unità organizzative LDAP nei dipartimenti di OpenProject.
     name: Dipartimenti LDAP di OpenProject
