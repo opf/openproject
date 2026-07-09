@@ -32,12 +32,104 @@ module WorkPackage::Versions
   extend ActiveSupport::Concern
 
   included do
+    # Deprecated single-version column, kept in sync with the first target
+    # version (see #update_legacy_version_field). Can be dropped once all
+    # subsystems read target_versions instead.
+    belongs_to :version, optional: true
+
+    has_many :work_package_versions, dependent: :delete_all
+    has_many :versions, through: :work_package_versions, source: :version
+    has_many :target_versions,
+             -> { where(work_package_versions: { kind: "target" }) },
+             through: :work_package_versions, source: :version
+    has_many :observed_in_versions,
+             -> { where(work_package_versions: { kind: "observed_in" }) },
+             through: :work_package_versions, source: :version
+
+    scope :without_version, -> {
+      where(version_id: nil)
+    }
+
     # Must be registered before `save_journals` (WorkPackage::Journalized) so
     # that the journal snapshot sees the current version sets in the database.
     after_save :persist_version_associations
 
     attr_accessor :target_version_ids_replacements,
                   :observed_in_version_ids_replacements
+  end
+
+  class_methods do
+    # Unassigns work packages from +version+ if it's no longer shared with
+    # the work package's project
+    def update_versions_from_sharing_change(version)
+      # Update work packages assigned to the version
+      update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
+    end
+
+    # Unassigns work packages from versions that are no longer shared
+    # after +project+ was moved
+    def update_versions_from_hierarchy_change(project)
+      moved_project_ids = project.self_and_descendants.reload.map(&:id)
+      # Update work packages of the moved projects and work packages assigned
+      # to a version of a moved project
+      update_versions(
+        ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
+         moved_project_ids,
+         moved_project_ids]
+      )
+    end
+
+    private
+
+    def having_version_from_other_project
+      where(
+        "#{WorkPackage.table_name}.version_id IS NOT NULL" +
+        " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
+        " AND #{Version.table_name}.sharing <> 'system'"
+      )
+    end
+
+    # Update work packages so their versions are not pointing to a
+    # version that is not shared with the work package's project
+    def update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
+      # Only need to update work packages with a version from
+      # a different project and that is not systemwide shared
+      having_version_from_other_project
+        .where(conditions)
+        .includes(:project, :version)
+        .references(:versions).find_each do |work_package|
+        next if work_package.project.nil? || work_package.version.nil?
+
+        unless work_package.project.shared_versions.include?(work_package.version)
+          # this path clears version_id without going through the services,
+          # so we need to manually drop the matching target association here too.
+          work_package.target_versions.delete(work_package.version)
+          work_package.version = nil
+          unless work_package.save
+            Rails.logger.error "Failed to clear version on work package ##{work_package.id}: " \
+                               "#{work_package.errors.full_messages.to_sentence}"
+          end
+        end
+      end
+    end
+  end
+
+  # Versions that the work_package can be assigned to
+  # A work_package can be assigned to:
+  #   * any open, shared version of the project the wp belongs to
+  #   * the version it was already assigned to
+  #     (to make sure, that you can still update closed tickets)
+  #   * for custom fields only_open: false can be used, if the CF is configured so
+  def assignable_versions(only_open: true)
+    if only_open
+      @assignable_versions ||= begin
+        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
+        ((project&.assignable_versions || []) + [current_version]).compact.uniq
+      end
+    else
+      # The called method memoizes the result, no need to memoize it here.
+      project&.assignable_versions(only_open: false)
+    end
   end
 
   # The *_ids_replacements accessors behave according to these rules:
