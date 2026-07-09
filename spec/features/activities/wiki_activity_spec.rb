@@ -105,7 +105,6 @@ RSpec.describe "Wiki Activity", :js do
 
     visit project_activity_index_path(project)
 
-    expect(page)
-      .to have_no_text("Wiki edits")
+    expect(page).to have_no_text("Wiki edits") # rubocop:disable Capybara/RSpec/NegationMatcherAfterVisit
   end
 end

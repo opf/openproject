@@ -243,7 +243,7 @@ class Project < ApplicationRecord
     name
   end
 
-  def w
+  def workspace_label
     case workspace_type
     when "program"
       I18n.t("label_program")

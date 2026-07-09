@@ -37,8 +37,9 @@ RSpec.describe "Wysiwyg work package button spec", :js do
   let!(:type) { create(:type, name: "MyTaskName") }
   let(:project) do
     create(:valid_project,
+           :with_internal_wiki,
            identifier: "my-project",
-           enabled_module_names: %w[wiki work_package_tracking],
+           enabled_module_names: %w[work_package_tracking],
            name: "My project name",
            types: [type])
   end
