@@ -116,12 +116,7 @@ module Backlogs
           detail: { work_package_id: call.result.id }
         )
 
-        if work_package_invisible_after_move?(call.result)
-          backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
-          render_flash_message_via_turbo_stream(
-            message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
-          )
-        end
+        render_invisible_after_move_flash(call.result)
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
@@ -129,6 +124,15 @@ module Backlogs
       end
 
       respond_with_turbo_streams(status: call)
+    end
+
+    def render_invisible_after_move_flash(work_package)
+      return unless work_package_invisible_after_move?(work_package)
+
+      backlog_name = work_package.backlog_bucket&.name || I18n.t(:label_inbox)
+      render_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
+      )
     end
 
     def load_work_package
