@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
         src: project_settings_wiki_path(@project),
         csrf_token: form_authenticity_token,
         status_label_position: :start,
-        checked: has_wiki?,
+        checked: wiki_enabled?,
         data: { turbo: true },
         mb: 3
       )
