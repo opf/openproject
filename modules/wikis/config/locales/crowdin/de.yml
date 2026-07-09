@@ -130,7 +130,7 @@ de:
     create_new_wiki_page_dialog:
       title: Neue Wikiseite anlegen
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Laden…
     delete_relation_page_link_confirmation_dialog:
       heading: Link zur verknüpften Wikiseite löschen?
       title: Link zur verknüpften Wikiseite löschen
@@ -171,7 +171,7 @@ de:
       remove: Seitenlink entfernen
     page_link_forms:
       labels:
-        page_title: Title
+        page_title: Titel
         parent: Parent wiki page
         wiki_page: Wiki page
       search:

@@ -6,10 +6,10 @@ eo:
       empty: This widget is currently empty.
       not_available: This widget is not available.
       subitems:
-        title: Subitems
+        title: Suberoj
         no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
+        view_all_subitems: Vidi ĉiujn suberojn
+        button_text: Subero
       members:
         title: Members
         no_results: No visible members.

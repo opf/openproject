@@ -294,7 +294,7 @@ cs:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Již brzy (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -2566,6 +2566,8 @@ cs:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- must be 0h when Work is set and % Complete is 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: musí být prázdný, pokud je položka Práce prázdná a % Dokončeno je 100 %.
           readonly_status: Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -3908,14 +3910,14 @@ cs:
         submit_button: Update alerts
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
-        title: Participating
-        submit_button: Update preferences
-        mentioned: Mentioned
-        watched: Watching
-        assignee: Assignee
-        responsible: Accountable
-        shared: Shared with me
+        description: Vždy dostanete oznámení, pokud vás někdo zmíní, a při změnách pracovních balíčků, které sledujete. Tato oznámení nelze vypnout. Můžete si však zapnout nebo vypnout oznámení o změnách pracovních balíčků, které se vás týkají (kde jste zodpovědnou osobou, přiřazenou osobou nebo se s vámi balíček sdílí).
+        title: Účast
+        submit_button: Upravit preference
+        mentioned: Zmíněn(a)
+        watched: Sledované
+        assignee: Přiřazen(a)
+        responsible: Zodpovědný(á)
+        shared: Sdíleno se mnou
       date_alerts:
         description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
@@ -3924,7 +3926,7 @@ cs:
         due_date: Finish date
         overdue: Overdue
         times:
-          same_day: On the same day
+          same_day: Ten samý den
           one_day_before: 1 den předem
           three_days_before: 3 dny předem
           seven_days_before: 7 dní předem

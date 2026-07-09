@@ -917,7 +917,7 @@ it:
         activity: Attività
         files: File
         overview: Panoramica
-        project_attributes: Project attributes
+        project_attributes: Attributi del progetto
         relations: Relazioni
         watchers: Osservatori
       time_relative:

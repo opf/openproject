@@ -65,8 +65,8 @@ eo:
         project_ids:
           title: Ŝaltitaj projektoj
           description: Select for which projects this webhook should be executed for.
-          all: All projects
-          selected: Selected projects only
+          all: Ĉiuj projektoj
+          selected: Nur elektitaj projektoj
         selected_project_ids:
           title: Selected projects
         secret:

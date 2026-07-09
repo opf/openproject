@@ -20,7 +20,7 @@ eo:
         item_1:
           name: Farata
         item_2:
-          name: Resolved
+          name: Solvita
         item_3:
           name: Fermita
       time_entry_activities:
@@ -40,9 +40,9 @@ eo:
         item_3:
           name: Issue
         item_4:
-          name: Remark
+          name: Rimarko
         item_5:
-          name: Request
+          name: Peto
         item_6:
           name: Clash
       global_queries:
@@ -55,7 +55,7 @@ eo:
               group_name: Filo
       groups:
         item_0:
-          name: Architects
+          name: Arĥitektoj
         item_1:
           name: BIM Coordinators
         item_2:
@@ -107,7 +107,7 @@ eo:
             item_2:
               name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           boards:
             bcf:
               name: Simple drag'n drop workflow
@@ -115,7 +115,7 @@ eo:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bonvenon
               item_1:
                 options:
                   name: Getting started
@@ -169,7 +169,7 @@ eo:
             item_2:
               name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           project-overview:
             widgets:
               item_0:
@@ -423,7 +423,7 @@ eo:
             item_2:
               name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           project-overview:
             widgets:
               item_0:
@@ -694,9 +694,9 @@ eo:
             item_5:
               name: Milestones
             item_6:
-              name: Tasks
+              name: Taskoj
             item_7:
-              name: Team planner
+              name: Teama planilo
           boards:
             bcf:
               name: BCF issues

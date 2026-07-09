@@ -22,8 +22,8 @@
 ---
 eo:
   plugin_openproject_documents:
-    name: OpenProject Documents
-    description: An OpenProject plugin to allow creation of documents in projects.
+    name: Malfermu Projekto-Dokumentoj
+    description: Aldonaĵo por OpenProject por permesi krei dokumentojn en projektoj.
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
@@ -33,7 +33,7 @@ eo:
           one_or_more_required: Cannot delete the last document type
     models:
       document: Dokumento
-      documents: Documents
+      documents: Dokumentoj
     attributes:
       document:
         content_binary: Content binary
@@ -47,14 +47,14 @@ eo:
   documents:
     button_add_type: Tipo
     page_header:
-      heading: All documents
+      heading: Ĉiuj dokumentoj
       action_menu:
         document_actions: Document actions
         edit_title: Redaktu titolon
     subheader:
       filter:
         label: Document name filter
-        placeholder: Type here to search document names
+        placeholder: Tajpu ĉi tie por serĉi nomojn de dokumentoj
     documents_list_blank_slate:
       heading: There are no documents yet
       description: There are no documents in this view. You can click the button below to add one.
@@ -86,7 +86,7 @@ eo:
       all: All documents
       types: Specoj
       collaboration_settings: Real-time collaboration
-    last_updated_at: Last saved %{time}.
+    last_updated_at: Laste konservita %{time}.
     info_line:
       currently_offline: You are currently offline.
       connection_restored: You are now back online.
@@ -95,12 +95,12 @@ eo:
       one: 1 aktiva redaktisto
       other: "%{count} active editors"
     label_attachment_author: Aŭtoro de la kunsendaĵo
-    label_categories: Categories
+    label_categories: Kategorioj
     new_category: Nova kategorio
-    new_type: New type
+    new_type: Nova tipo
     delete_dialog:
-      title: Delete document
-      heading: Delete this document?
+      title: Forigi dokumenton
+      heading: Ĉu forigi ĉi tiun dokumenton?
       confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
     delete_document_type_dialog:
       title: Delete document type
@@ -154,7 +154,7 @@ eo:
   label_document_title: Titolo
   label_document_description: Priskribo
   label_document_category: Kategorio
-  label_document_type: Type
+  label_document_type: Tipo
   permission_manage_documents: Administri dokumentojn
   permission_view_documents: Vidi dokumentojn
   project_module_documents: Dokumentoj

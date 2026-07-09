@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
           menu.with_item(
             label: t("resource_management.work_package_list.subheader.allocate"),
             tag: :a,
-            href: new_project_resource_allocation_path(@project),
+            href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
             content_arguments: { data: { controller: "async-dialog" } }
           ) do |item|
             item.with_leading_visual_icon(icon: :people)
@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
         scheme: :primary,
         label: t("resource_management.work_package_list.subheader.allocate"),
         tag: :a,
-        href: new_project_resource_allocation_path(@project),
+        href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
         data: { controller: "async-dialog" }
       ) do
         t("resource_management.work_package_list.subheader.allocate")

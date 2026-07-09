@@ -428,12 +428,13 @@ ms:
       message: 'This meeting series has come to an end. There are no upcoming meetings. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
-      infoline: Mesyuarat ini adalah sebahagian daripada siri mesyuarat berulang.
       error_no_next: Tiada kejadian seterusnya untuk mesyuarat ini.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Kejadian pertama siri mesyuarat ini telah pun dibuat seketika.
       first_created: 'Mesyuarat pertama telah berjaya dibuat daripada templat. Semua mesyuarat akan datang akan dibuat secara automatik pada masa kejadian sebelumnya.
 
         '
+      infoline: Mesyuarat ini adalah sebahagian daripada siri mesyuarat berulang.
     template:
       button_finalize: Open first meeting
       blank_title: Templat siri mesyuarat anda kosong

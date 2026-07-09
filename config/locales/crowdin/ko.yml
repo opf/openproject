@@ -273,7 +273,7 @@ ko:
               label_info: 이 가져오기 도구는 베타 버전이며 일부 유형의 데이터를 가져올 수 없다는 점에 유의하세요. 호스트 Jira 인스턴스에서 가져오기용으로 제공하는 항목과 이 도구에서 현재 가져올 수 있는 항목에 대한 요약은 다음과 같습니다.
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               label_supported_data: 지원되는 데이터
-              label_coming_soon: 곧 제공 예정(2026년 2분기)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: 추후 제공 예정
               label_available_server_data: "%{server_info}의 사용 가능 데이터"
               button_select_projects: 가져올 프로젝트 선택
@@ -2493,6 +2493,8 @@ ko:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- 작업이 설정되고 완료 %가 100%인 경우 0시간이어야 합니다."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: "- 작업이 비어 있고 완료 %가 100%인 경우 비어 있어야 합니다."
           readonly_status: 작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

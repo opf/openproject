@@ -38,8 +38,15 @@ module ResourceAllocations
       include OpPrimer::ComponentHelpers
       include ResourceAllocations::ScheduleSummary
 
+      # `body_id`/`form_id`/`footer ids default to the allocate wizard's so the
+      # create and edit flows are unchanged. The Staffing flow hosts the same
+      # confirmation in its own dialog by passing its ids, a custom `form_url`
+      # and the plain `hidden_fields` to carry through a confirmed resubmit.
       def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
-                     working_schedules: [], filters: nil, resource_planner_id: nil)
+                     working_schedules: [], filters: nil, view: nil,
+                     body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
+                     form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
+                     form_url: nil, form_method: nil, hidden_fields: nil)
         super
         @allocation = allocation
         @project = project
@@ -48,11 +55,16 @@ module ResourceAllocations
         @overbooked_ranges = overbooked_ranges
         @working_schedules = working_schedules
         @filters = filters
-        @resource_planner_id = resource_planner_id
+        @view = view
+        @body_id = body_id
+        @form_id = form_id
+        @form_url = form_url
+        @form_method = form_method
+        @hidden_fields = hidden_fields
       end
 
       def wrapper_key
-        ResourceAllocations::NewDialogComponent::BODY_ID
+        @body_id
       end
 
       def overbooked?
@@ -61,18 +73,22 @@ module ResourceAllocations
 
       private
 
+      attr_reader :form_id, :hidden_fields
+
       # A confirmed resubmit goes back to where the values came from: the
       # update of a persisted allocation or the create flow for a new one.
       def form_url
+        return @form_url if @form_url
+
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_id: @resource_planner_id)
+          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_id: @resource_planner_id)
+          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 
       def form_method
-        @allocation.persisted? ? :patch : :post
+        @form_method || (@allocation.persisted? ? :patch : :post)
       end
 
       def overbooking_heading

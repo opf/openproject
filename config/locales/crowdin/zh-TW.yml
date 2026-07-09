@@ -273,7 +273,7 @@ zh-TW:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
@@ -2491,6 +2491,8 @@ zh-TW:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: 當已設定工作量且完成百分比為 100% 時，必須為 0 小時。
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: 工時未設定設定，但完成度100%時，剩餘工時必須是空白。
           readonly_status: 工作套件處於唯讀狀態，因此無法變更其屬性。
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

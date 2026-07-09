@@ -43,55 +43,55 @@ eo:
         participants_removed: 'Participants removed:'
         project: Projekto
         start_date: Dato
-        start_time: Start time
-        start_time_hour: Start time
-        end_time: End time
-        template: Template
-        notify: Send notifications
+        start_time: Komenca tempo
+        start_time_hour: Komenca tempo
+        end_time: Fina tempo
+        template: Ŝablono
+        notify: Sendi sciigojn
         sharing: Sharing
       meeting_agenda_item:
         title: Titolo
         author: Aŭtoro
         duration_in_minutes: Daŭro
         description: Notoj
-        presenter: Presenter
-        item_type: Type
-        position: Position
-        lock_version: Lock version
-        notes: Notes
+        presenter: Prezentanto
+        item_type: Tipo
+        position: Posicio
+        lock_version: Ŝlosi version
+        notes: Notoj
       meeting_section:
         title: Titolo
-        position: Position
+        position: Posicio
       recurring_meeting:
-        title: Title
-        frequency: Frequency
-        interval: Interval
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
-        start_date: Starts on
-        start_time: Start time
-        start_time_hour: Start time
-        end_after: Meeting series ends
-        end_date: End date
+        title: Titolo
+        frequency: Frekvenco
+        interval: Intervalo
+        monthly_day: Tago de la monato
+        monthly_ordinal: Pozicio
+        monthly_weekday: Semajntagoj
+        start_date: Komenciĝas je
+        start_time: Komenca tempo
+        start_time_hour: Komenca tempo
+        end_after: Serio de kunvenoj finiĝas
+        end_date: Fina dato
         iterations: Occurrences
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: Horzono
+        location: Loko
+        duration: Daŭro
+        notify: Sendi sciigojn
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: Komenca tempo
       meeting_participant:
-        invited: Invited
-        attended: Attended
-        participation_status: Participation status
+        invited: Invitita
+        attended: Ĉeestita
+        participation_status: Partoprena statuso
     errors:
       models:
         meeting_participant:
-          user_invalid: is not a valid participant.
+          user_invalid: ne estas valida partoprenanto.
         meeting_agenda_item:
-          section_not_belong_to_meeting: Section does not belong to the same meeting.
-          user_invalid: is not a valid participant.
+          section_not_belong_to_meeting: Sekcio ne apartenas al la sama kunveno.
+          user_invalid: ne estas valida partoprenanto.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
         recurring_meeting:
@@ -100,13 +100,13 @@ eo:
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
             format: "%{message}"
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: 'ne estas valida tempo. Bezonata formato: HH:MM'
     models:
       recurring_meeting: Ripeta renkontiĝo
-      meeting: One-time meeting
-      meeting_agenda_item: Agenda item
-      meeting_agenda: Agenda
-      meeting_section: Section
+      meeting: Unufoja kunveno
+      meeting_agenda_item: Tagorda punkto
+      meeting_agenda: Tagordo
+      meeting_section: Sekcio
       token/ical_meeting:
         one: iCal Meeting subscription
         other: iCal Meeting subscription
@@ -118,14 +118,14 @@ eo:
         duration:
           added: set to %{value}
           added_html: set to <i>%{value}</i>
-          removed: removed
-          updated: changed from %{old_value} to %{value}
+          removed: forigita
+          updated: ŝanĝita de %{old_value} al %{value}
           updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
         position:
           updated: reordered
         work_package:
-          updated: changed from %{old_value} to %{value}
-          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
+          updated: ŝanĝita de %{old_value} al %{value}
+          updated_html: ŝanĝita de <i>%{old_value}</i> ĝis <i>%{value}</i>
   description_attended: attended
   events:
     meeting: Meeting edited
@@ -134,7 +134,7 @@ eo:
     meeting_agenda_opened: Meeting agenda opened
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
-  error_notification: Failed to send notification.
+  error_notification: Malsukcesis sendi sciigon.
   error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
   label_meeting: Meeting
   label_meeting_plural: Renkontiĝoj
@@ -183,15 +183,15 @@ eo:
   label_recurring_meeting_more_past:
     one: There is one more past meeting.
     other: There are %{count} more past meetings.
-  label_recurring_meeting_show_more: Show more
-  label_recurring_meeting_series_create: Create meeting series
-  label_recurring_meeting_series_edit: Edit meeting series
-  label_recurring_meeting_series_delete: Delete meeting series
-  label_recurring_meeting_series_end: End meeting series
-  label_recurring_meeting_series_end_now: End series now
+  label_recurring_meeting_show_more: Montri pli
+  label_recurring_meeting_series_create: Krei serion de kunvenoj
+  label_recurring_meeting_series_edit: Redakti serion de kunvenoj
+  label_recurring_meeting_series_delete: Forigi serion de kunvenoj
+  label_recurring_meeting_series_end: Finigi serion de kunvenoj
+  label_recurring_meeting_series_end_now: Finu la serion nun
   label_meeting_more:
-    one: There is one more meeting.
-    other: There are %{count} more meetings.
+    one: Estas ankoraŭ unu kunveno.
+    other: Estas %{count} pli da kunvenoj.
   label_my_meetings: Miaj renkontiĝoj
   label_all_meetings: Ĉiaj renkontiĝoj
   label_upcoming_meetings: Venontaj renkontiĝoj
@@ -199,18 +199,18 @@ eo:
   label_upcoming_meetings_short: Venonta
   label_past_meetings_short: Pasinta
   label_involvement: Involvement
-  label_invitations: Invitations
-  label_invited_user: Invited user
-  label_past_invitations: Past invitations
-  label_attended: Attended
-  label_attended_user: Attended user
-  label_created_by_me: Created by me
+  label_invitations: Invitoj
+  label_invited_user: Invitita uzanto
+  label_past_invitations: Pasintaj invitoj
+  label_attended: Ĉeestita
+  label_attended_user: Ĉeestanta uzanto
+  label_created_by_me: Kreita de mi
   label_notify: Send for review
   label_icalendar: Send iCalendar
   label_icalendar_download: Download iCalendar event
-  label_view_meeting: View meeting
-  label_view_meeting_series: View meeting series
-  label_meeting_series: Meeting series
+  label_view_meeting: Vidi kunvenon
+  label_view_meeting_series: Vidi serion de kunvenoj
+  label_meeting_series: Serio de kunvenoj
   label_version: Versio
   label_time_zone: Horzono
   label_start_date: Komencdato
@@ -218,8 +218,8 @@ eo:
   label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Unue elektu projekton
+  placeholder_meeting_template_no_templates_for_project: Por ĉi tiu projekto neniuj ŝablonoj disponeblas
   meeting:
     participants:
       label:
@@ -230,14 +230,14 @@ eo:
         remove_participant: Remove participant
         manage_participants: Manage participants
         no_participants: No participants
-        show_all: Show all
+        show_all: Montru ĉion
         apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
       text:
         template: These participants will be invited automatically to all future meetings as they are created.
         manage_participants: Search for and add project members as participants to this meeting.
-        search_for_members: Search for project members
+        search_for_members: Serĉi projekto-membrojn
       blankslate:
-        heading: No participants
+        heading: Neniuj partoprenantoj
         description: There are no participants yet.
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
@@ -285,8 +285,8 @@ eo:
         header: Meeting '%{title}' has been updated
         summary: Meeting '%{title}' has been updated by %{actor}
         body: The meeting '%{title}' has been updated by %{actor}.
-        old_title: Old title
-        new_title: New title
+        old_title: Malnova titolo
+        new_title: Nova titolo
         old_date_time: Old date/time
         new_date_time: New date/time
         old_location: Old location
@@ -303,8 +303,8 @@ eo:
     copied: 'Copied from Meeting #%{id}'
     delete_dialog:
       one_time:
-        title: Delete meeting
-        heading: Delete this meeting?
+        title: Forigi kunvenon
+        heading: Ĉz forigi ĉi tiun kunvenon?
         confirmation_message_html: 'This action is not reversible. Please proceed with caution.
 
           '
@@ -331,7 +331,7 @@ eo:
     blankslate:
       title: There are no meetings to display
       desc: You can create a new meeting or change filter criteria
-    label_export_pdf: Export PDF
+    label_export_pdf: Eksporti kiel PDF
     export:
       your_meeting_export: Meeting is being exported
       minutes:
@@ -342,7 +342,7 @@ eo:
         location: Location
         title: Minutes
     export_pdf_dialog:
-      title: Export PDF
+      title: Eksporti kiel PDF
       description: Generate a printable PDF file of this meeting at the current state.
       templates:
         default:
@@ -409,9 +409,9 @@ eo:
         description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
-    untitled_title: Untitled section
+    untitled_title: Sekcio sentitola
     delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
-    placeholder_title: New section
+    placeholder_title: Nova sekcio
     empty_text: Drag items here or create a new one
   meeting_participant:
     participation_status:
@@ -422,7 +422,7 @@ eo:
       unknown: Unknown
   recurring_meeting:
     time_zone_difference_banner:
-      title: Time zone difference
+      title: Diferenco de horzonoj
       description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
 
         '
@@ -431,12 +431,13 @@ eo:
       message: 'This meeting series has come to an end. There are no upcoming meetings. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
-      infoline: This meeting is part of a recurring meeting series.
       error_no_next: There is no next occurrence for this meeting.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: The first occurrence of this meeting series is already instantiated.
       first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
+      infoline: This meeting is part of a recurring meeting series.
     template:
       button_finalize: Open first meeting
       blank_title: Your meeting series template is empty
@@ -456,14 +457,14 @@ eo:
         one: Every day
         other: Every %{count} days
       x_weekly:
-        one: Every week
+        one: Ĉiu semajno
         other: Every %{count} weeks
       x_monthly:
         one: Every month
         other: Every %{count} months
       monthly_day_of_month: Day of month
       monthly_nth_weekday: Monthly on a weekday
-      every_weekday: Every %{day_of_the_week}
+      every_weekday: Ĉiu %{day_of_the_week}
       working_days: Every working day
     monthly:
       inflected_ordinal:
@@ -488,7 +489,7 @@ eo:
     in_words:
       daily_interval: Every %{interval} days
       working_days: Every working day
-      weekly: Every week on %{weekday}
+      weekly: Ĉiusemajne je %{weekday}
       weekly_interval: Every %{interval} weeks on %{weekday}
       monthly_day: Every month on the %{day}
       monthly_day_interval: Every %{interval} months on the %{day}
@@ -578,7 +579,7 @@ eo:
   label_meeting_index_today: Hodiaŭ
   label_meeting_index_tomorrow: Morgaŭ
   label_meeting_index_this_week: Later this week
-  label_meeting_index_later: Next week and later
+  label_meeting_index_later: Venontsemajne kaj poste
   label_agenda_items: Agenda items
   label_agenda_items_reordered: reordered
   label_agenda_item_add: Add agenda item

@@ -443,12 +443,13 @@ cs:
       message: 'Tato série schůzek skončila a žádná nadcházející setkání se nekonají. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
-      infoline: Tato schůzka je součástí opakované série schůzek.
       error_no_next: Na této schůzce není žádný další výskyt.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: První výskyt této série schůzek je již vytvořen.
       first_created: 'První schůzka byla úspěšně vytvořena ze šablony. Všechny budoucí schůzky budou vytvořeny automaticky v čase předchozí události.
 
         '
+      infoline: Tato schůzka je součástí opakované série schůzek.
     template:
       button_finalize: Otevřít první schůzku
       blank_title: Vaše šablona série schůzek je prázdná

@@ -170,6 +170,41 @@ RSpec.describe ResourceUserCard do
     end
   end
 
+  describe "#allocation_principal_filters" do
+    before { login_as(user) }
+
+    it "leaves the work package picker unconstrained" do
+      expect(view.allocation_work_package_filters).to be_nil
+    end
+
+    context "in automatic mode" do
+      it "pins the resolved user ids rather than forwarding UserQuery filters" do
+        filters = view.allocation_principal_filters
+
+        expect(filters.size).to eq(1)
+        expect(filters.first).to include(name: "id", operator: "=")
+        expect(filters.first[:values]).to include(member.id.to_s)
+        expect(filters.first[:values]).not_to include(non_member.id.to_s)
+      end
+    end
+
+    context "in manual mode with hand-picked users" do
+      before do
+        view.apply_query_configuration(filter_mode: "manual", filters_json: nil)
+        view.query.save!
+        view.query.ordered_entities.create!(entity: member, position: 1)
+      end
+
+      it "pins the hand-picked user ids" do
+        filters = view.allocation_principal_filters
+
+        expect(filters.size).to eq(1)
+        expect(filters.first).to include(name: "id", operator: "=")
+        expect(filters.first[:values]).to contain_exactly(member.id.to_s)
+      end
+    end
+  end
+
   describe "#card_fields" do
     it "defaults a new view to department and working times" do
       expect(described_class.new.card_fields).to eq(%w[department working_times])

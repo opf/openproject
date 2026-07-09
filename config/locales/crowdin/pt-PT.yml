@@ -280,7 +280,7 @@ pt-PT:
               label_info: Tenha em atenção que esta ferramenta de importação está em fase beta e não consegue importar todos os tipos de dados. Eis um resumo do que a instância do Jira anfitrião oferece para importação, e o que esta ferramenta consegue importar neste momento.
               description: Selecione os dados que pretende importar a partir dos dados disponíveis obtidos na instância anfitriã do Jira.
               label_supported_data: Dados suportados
-              label_coming_soon: Brevemente (segundo trimestre de 2026)
+              label_coming_soon: Coming soon (Q3 2026)
               label_coming_later: Disponível mais tarde
               label_available_server_data: Dados disponíveis em %{server_info}
               button_select_projects: Selecionar projetos para importar
@@ -2516,6 +2516,8 @@ pt-PT:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- deve ser 0h quando o Trabalho estiver definido e % Concluído for 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: tem de estar vazio quando o Trabalho está vazio e % de conclusão é 100 %.
           readonly_status: O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

@@ -33,6 +33,8 @@ require "spec_helper"
 RSpec.describe "Shared Work Package Access",
                :js, with_ee: %i[work_package_sharing] do
   shared_let(:project) { create(:project_with_types) }
+  # A cost type must exist for the unit cost fields (e.g. overallCosts) to be shown.
+  shared_let(:cost_type) { create(:cost_type) }
   # This custom field is not explicitly displayed, but it's purpose is to ensure there are no errors
   # on the overview page while displaying project attributes.
   shared_let(:int_project_custom_field) { create(:integer_project_custom_field, projects: [project]) }
