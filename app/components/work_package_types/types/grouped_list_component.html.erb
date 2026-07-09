@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           <% end %>
 
-          <% root.children.each do |child| %>
+          <% sorted_children(root).each do |child| %>
             <% list.with_item do |item| %>
               <% item.with_menu do |menu| %>
                 <% type_actions(menu, child) %>
