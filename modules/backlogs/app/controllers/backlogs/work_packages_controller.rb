@@ -36,7 +36,7 @@ module Backlogs
     # split view open on the moved work package (see backlogs.controller.ts).
     WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
-    before_action :load_work_package
+    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
@@ -48,6 +48,13 @@ module Backlogs
                current_user:
              ),
              layout: false)
+    end
+
+    def add_existing_dialog
+      respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
+        project: @project,
+        target_id: params.expect(:target_id)
+      )
     end
 
     def move_to_sprint_dialog
@@ -66,10 +73,27 @@ module Backlogs
       )
     end
 
-    def move # rubocop:disable Metrics/AbcSize
-      call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, work_package: @work_package)
-                                   .call(**move_params.to_h.symbolize_keys)
+    def add_existing
+      work_package = WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
 
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package:)
+        .call(target_id: params.expect(:target_id))
+
+      render_update_turbo_streams(call)
+    end
+
+    def move
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package: @work_package)
+        .call(**move_params.to_h.symbolize_keys)
+
+      render_update_turbo_streams(call)
+    end
+
+    private
+
+    def render_update_turbo_streams(call)
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
 
@@ -95,8 +119,6 @@ module Backlogs
 
       respond_with_turbo_streams(status: call)
     end
-
-    private
 
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position

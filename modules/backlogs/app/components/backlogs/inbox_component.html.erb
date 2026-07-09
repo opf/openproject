@@ -61,7 +61,9 @@ See COPYRIGHT and LICENSE files for more details.
 
               menu.with_item(
                 id: dom_target(:inbox, :menu, :add_existing_work_package),
-                label: t(".action_menu.add_existing_work_package")
+                label: t(".action_menu.add_existing_work_package"),
+                href: add_existing_dialog_project_backlogs_work_packages_path(project, target_id: Backlogs::Target::InboxId),
+                content_arguments: { data: { controller: "async-dialog" } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :link)
               end
