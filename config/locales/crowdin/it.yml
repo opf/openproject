@@ -322,13 +322,13 @@ it:
         token_name: Nome del token
       type:
         attribute_groups: Configurazione del modulo
-        children: Sub-types
+        children: Sottotipi
         color: Colore
         description: Testo predefinito per la descrizione
         is_default: Attivato nei nuovi progetti per impostazione predefinita
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_milestone: È un traguardo
-        parent: Parent type
+        parent: Tipo genitore
         patterns: Schemi
       user:
         admin: Amministratore
@@ -443,7 +443,7 @@ it:
         spent_hours: Tempo speso
         spent_time: Tempo speso
         subproject: Sottoprogetto
-        target_versions: Target versions
+        target_versions: Versioni obiettivo
         time_entries: Registra l'orario effettuato
         type: Tipo
         version: Versione
@@ -782,7 +782,7 @@ it:
               group_without_name: Il nome del gruppo non può essere vuoto.
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             parent:
-              cannot_be_self: can't be the type itself.
+              cannot_be_self: non può essere il tipo stesso.
               cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
               cannot_have_children: can't be set because this type already has sub-types.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
@@ -904,7 +904,7 @@ it:
               cannot_be_milestone_due_to_children: non può essere un traguardo, perché questa macro-attività ha figli.
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia.'
           readonly_status: La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati.
-          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          target_versions_only_allow_single_value: Le versioni obiettivo possono contenere un solo valore.
           version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Perfavore controlla i seguenti campi:'
@@ -1296,7 +1296,7 @@ it:
                 workflows: Flussi di lavoro a livello di progetto
               label_available_server_data: Dati disponibili su %{server_info}
               label_coming_later: Disponibile prossimamente
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: Prossimamente (terzo trimestre del 2026)
               label_import: Seleziona quali progetti vuoi importare.
               label_info: Tieni presente che questo strumento di importazione è in versione beta e non può importare tutti i tipi di dati. Ecco un riepilogo di ciò che l'istanza host di Jira offre per l'importazione e di ciò che questo strumento è in grado di importare al momento.
               label_progress: Recupero dei dati da Jira...
@@ -3480,7 +3480,7 @@ it:
   label_type_new: Nuovo tipo
   label_type_plural: Tipi
   label_ui: Interfaccia Utente
-  label_upcoming: Upcoming
+  label_upcoming: Prossimamente
   label_updated_time: Aggiornato %{value} fa
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: Aggiornato da %{author} %{age} fa
@@ -5417,7 +5417,7 @@ it:
           label: Filtra per nome dell'attributo…
         heading_description: Questi attributi utente vengono visualizzati nei profili utente e nelle schede informative. Puoi aggiungere nuovi attributi, raggrupparli in sezioni e riordinarli.
       heading: Attributi dell'utente
-      label_default_section: User attributes
+      label_default_section: Attributi utente
       label_new_attribute: Attributo utente
       label_new_section: Sezione
       new:

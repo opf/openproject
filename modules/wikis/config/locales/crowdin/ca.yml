@@ -42,7 +42,7 @@ ca:
       external_wiki_providers: Wiki providers
       internal_wiki_provider: Internal wiki
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage Wiki Page Links
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Wiki providers
   wikis:
     admin:
@@ -155,8 +155,9 @@ ca:
         xwiki_oauth_request_error: An unexpected error occured when trying to communicate with the XWiki instance.
         xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
         xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
-    inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: XWiki Administration

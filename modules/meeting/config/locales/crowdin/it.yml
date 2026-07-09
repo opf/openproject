@@ -542,7 +542,7 @@ it:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: La prima occorrenza di questa serie sarà il %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Ciò porta a una serie che si conclude il %{date}
       occurrences:
         one: This results in 1 upcoming occurrence
         other: This results in %{count} upcoming occurrences

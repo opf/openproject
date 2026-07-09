@@ -443,7 +443,7 @@ de:
         spent_hours: Aufgewendete Zeit
         spent_time: Aufgewendete Zeit
         subproject: Unterprojekt
-        target_versions: Target versions
+        target_versions: Zielversionen
         time_entries: Zeit buchen
         type: Typ
         version: Version
@@ -5417,7 +5417,7 @@ de:
           label: Nach Attributnamen filtern…
         heading_description: Diese Benutzerattribute werden in Benutzerprofilen und auf Informationskarten angezeigt. Sie können neue Attribute hinzufügen, diese in Abschnitte gruppieren und ihre Reihenfolge ändern.
       heading: Benutzerattribute
-      label_default_section: User attributes
+      label_default_section: Benutzerattribute
       label_new_attribute: Benutzerattribut
       label_new_section: Abschnitt
       new:

@@ -42,7 +42,7 @@ pt-PT:
       external_wiki_providers: Fornecedores Wiki
       internal_wiki_provider: Wiki interna
       wikis: Wikis
-  permission_manage_wiki_page_links: Gerir ligações de páginas Wiki
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Fornecedor de wiki
   wikis:
     admin:
@@ -155,8 +155,9 @@ pt-PT:
         xwiki_oauth_request_error: Ocorreu um erro inesperado ao tentar comunicar com a instância XWiki.
         xwiki_oauth_token_missing: OpenProject não pode testar a comunicação ao nível do utilizador com o XWiki porque o utilizador ainda não ligou a sua conta XWiki.
         xwiki_oauth_unauthorized: O token de utilizador não foi reconhecido pelo XWiki.
-    inline_existing_wiki_page_dialog:
-      title: Adicionar uma página wiki existente
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: Administração de XWiki

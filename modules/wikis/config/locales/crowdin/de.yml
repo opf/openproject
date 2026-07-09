@@ -155,8 +155,9 @@ de:
         xwiki_oauth_request_error: Beim Versuch, mit der XWiki-Instanz zu kommunizieren, ist ein unerwarteter Fehler aufgetreten.
         xwiki_oauth_token_missing: OpenProject kann die Kommunikation auf Benutzerebene mit XWiki nicht testen, da noch kein XWiki-Konto verknüpft wurde.
         xwiki_oauth_unauthorized: Das Benutzer-Token wurde von XWiki nicht erkannt.
-    inline_existing_wiki_page_dialog:
-      title: Vorhandene Wiki-Seite hinzufügen
+    inline_wiki_page_dialog:
+      title_add: Vorhandene Wiki-Seite hinzufügen
+      title_create: Neue Wiki-Seite anlegen
     instructions:
       xwiki:
         integration: XWiki Administration
