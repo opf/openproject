@@ -173,6 +173,17 @@ RSpec.describe "Dragging work packages in and between sprints",
 
       backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp2, bucket_wp1])
     end
+
+    it "accepts a drop below a card that was itself dropped into the sprint" do
+      # Same regression as above, but landing on the lower edge of the
+      # re-rendered card, so the second card is placed after it.
+      backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+
+      backlogs_page.drag_work_package(bucket_wp2, after: bucket_wp1)
+
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1, bucket_wp2])
+    end
   end
 
   context "when lacking the permission to manage sprint items" do

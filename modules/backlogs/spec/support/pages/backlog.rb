@@ -539,18 +539,23 @@ module Pages
       end
     end
 
-    def drag_work_package(moved, before: nil, into: nil)
-      raise ArgumentError, "You must specify either before or into" unless before.present? ^ into.present?
+    def drag_work_package(moved, before: nil, after: nil, into: nil)
+      unless [before, after, into].compact.one?
+        raise ArgumentError, "You must specify exactly one of before, after or into"
+      end
 
       moved_element = find(draggable_work_package_selector(moved))
-      target_element = if before
-                         find(work_package_selector(before))
-                       else
-                         find(sprint_selector(into))
-                       end
+      target_element, edge =
+        if before
+          [find(work_package_selector(before)), :top]
+        elsif after
+          [find(work_package_selector(after)), :bottom]
+        else
+          [find(sprint_selector(into)), nil]
+        end
 
       wait_for_backlogs_turbo_stream(frame_reload: true) do
-        drag_backlogs_item(source: moved_element, target: target_element, edge: before ? :top : nil)
+        drag_backlogs_item(source: moved_element, target: target_element, edge:)
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry

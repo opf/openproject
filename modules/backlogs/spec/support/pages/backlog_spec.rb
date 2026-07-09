@@ -39,14 +39,14 @@ RSpec.describe Pages::Backlog do
   let(:sprint) { build_stubbed(:sprint) }
 
   describe "#drag_work_package" do
-    it "raises when neither before nor into is provided" do
+    it "raises when neither before, after nor into is provided" do
       expect { backlog_page.drag_work_package(work_package) }
-        .to raise_error(ArgumentError, "You must specify either before or into")
+        .to raise_error(ArgumentError, /exactly one/)
     end
 
-    it "raises when both before and into are provided" do
+    it "raises when more than one of before, after and into is provided" do
       expect { backlog_page.drag_work_package(work_package, before: work_package, into: sprint) }
-        .to raise_error(ArgumentError, "You must specify either before or into")
+        .to raise_error(ArgumentError, /exactly one/)
     end
   end
 end
