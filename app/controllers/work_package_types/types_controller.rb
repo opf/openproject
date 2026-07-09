@@ -63,7 +63,7 @@ module WorkPackageTypes
     end
 
     def new
-      @type = Type.new(params[:type])
+      @type = Type.new(new_type_params)
       load_projects_and_types
     end
 
@@ -111,6 +111,12 @@ module WorkPackageTypes
 
     def find_type
       @type = ::Type.find(params[:id])
+    end
+
+    def new_type_params
+      return {} if params[:type].blank?
+
+      permitted_type_params
     end
 
     def permitted_type_params
