@@ -178,7 +178,7 @@ This then has initialized the database under `/var/lib/openproject/pgdata` on yo
 Now we can restore the database. For this we mount the initialized `pgdata` folder using the postgres docker container.
 
 ```shell
-docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:13
+docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:17
 ```
 
 Once the container is ready you can copy your SQL dump onto it and start `psql`.
