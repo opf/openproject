@@ -135,12 +135,12 @@ RSpec.describe WorkPackages::DeleteService do
 
   context "with descendants" do
     let(:child) do
-      build_stubbed(:work_package).tap do |wp|
+      build_stubbed(:work_package, project: work_package.project).tap do |wp|
         allow(wp).to receive(:reload).and_return(wp)
       end
     end
     let(:grandchild) do
-      build_stubbed(:work_package).tap do |wp|
+      build_stubbed(:work_package, project: work_package.project).tap do |wp|
         allow(wp).to receive(:reload).and_return(wp)
       end
     end
@@ -149,6 +149,10 @@ RSpec.describe WorkPackages::DeleteService do
     end
 
     before do
+      allow(instance)
+        .to receive(:validate_descendant_deletions)
+        .and_return(ServiceResult.success(result: work_package))
+
       allow(work_package)
         .to receive(:descendants)
         .and_return(descendants)
