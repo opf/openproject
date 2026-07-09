@@ -69,11 +69,13 @@ module Backlogs
       end
     end
 
-    # Decode a +(list_type, list_id)+ pair from the move UI. Returns +nil+ when
-    # the combination is invalid (unknown type, missing/non-numeric id for a
-    # sprint or bucket, or an id supplied for the inbox).
+    # Decode a +(list_type, list_id)+ pair from the move UI. Both arguments are
+    # normalized to strings, so symbol and integer input decode the same way as
+    # the raw params. Returns +nil+ when the combination is invalid (unknown
+    # type, missing/non-numeric id for a sprint or bucket, or an id supplied
+    # for the inbox).
     def self.from_list(list_type, list_id)
-      case [list_type, list_id.presence&.to_s]
+      case [list_type.to_s, list_id.presence&.to_s]
       in ["sprint", /\A\d+\z/ => id]
         SprintId[id.to_i]
       in ["backlog_bucket", /\A\d+\z/ => id]

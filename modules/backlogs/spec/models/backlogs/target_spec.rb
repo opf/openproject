@@ -107,6 +107,11 @@ RSpec.describe Backlogs::Target do
         .to eq(backlog_bucket_id: nil, sprint_id: 42)
     end
 
+    it "normalizes a symbol list type" do
+      expect(described_class.from_list(:sprint, 42).attributes)
+        .to eq(backlog_bucket_id: nil, sprint_id: 42)
+    end
+
     it "decodes a backlog bucket" do
       expect(described_class.from_list("backlog_bucket", "99").attributes)
         .to eq(backlog_bucket_id: 99, sprint_id: nil)
