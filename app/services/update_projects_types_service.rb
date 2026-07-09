@@ -28,6 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# @deprecated Bulk-assigning the full set of type ids is being replaced by the
+#   granular Projects::Types::AddService, RemoveService and SwitchSubtypeService.
+#   This service remains only until the project settings UI is migrated to them.
 class UpdateProjectsTypesService < BaseProjectService
   def call(type_ids)
     type_ids = standard_types if type_ids.blank?
