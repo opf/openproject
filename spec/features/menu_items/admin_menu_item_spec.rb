@@ -46,8 +46,8 @@ RSpec.describe "Admin menu items",
   context "without having any menu items hidden in configuration" do
     it "must display all menu items" do
       expect(page).to have_test_selector("menu-blocks--container")
-      expect(page).to have_test_selector("menu-block", count: 24)
-      expect(page).to have_test_selector("op-menu--item-action", count: 25) # All plus 'overview'
+      expect(page).to have_test_selector("menu-block", count: 23)
+      expect(page).to have_test_selector("op-menu--item-action", count: 24) # All plus 'overview'
     end
   end
 
