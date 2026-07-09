@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { ChipBase } from './chipLayouts';
+import { ChipBase, ChipBaseXXS } from './chipLayouts';
 import { WorkPackageId } from '../WorkPackage/atoms';
 import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
@@ -16,6 +16,7 @@ import {
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
 } from '../../utils/inlineChipActions';
+import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
@@ -34,6 +35,10 @@ export interface InlineWorkPackageChipProps {
     props:{ wpid:string; size:string; displayId:string };
   }) => void;
 }
+
+const UnavailableLabel = styled.span`
+  color: var(--bn-colors-editor-text);
+`;
 
 const InlineChip = styled.span.attrs({
   className: 'op-bn-inline-wp',
@@ -70,7 +75,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   useColors();
 
-  const { workPackage: wp, loading } = useWorkPackage(wpid);
+  const { workPackage: wp, loading, unauthorized, error } = useWorkPackage(wpid);
 
   useEffect(() => {
     if (!wp || !updateInlineContent) return;
@@ -86,6 +91,13 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
     contentRef(node);
+  };
+
+  const selectWorkPackageNode = () => {
+    if (!editor || !chipRef.current) return;
+    const chip = findInlineChipAtDOM(editor, chipRef.current);
+    if (chip) selectInlineChipAt(editor, chip.position);
+    editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
   // Close the options popover when the user clicks outside the chip
@@ -143,11 +155,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           e.preventDefault();
           e.stopPropagation();
           setIsSelected((prev) => !prev);
-          if (editor && chipRef.current) {
-            const chip = findInlineChipAtDOM(editor, chipRef.current);
-            if (chip) selectInlineChipAt(editor, chip.position);
-            editor.getExtension('formattingToolbar')?.store?.setState(false);
-          }
+          selectWorkPackageNode();
         }}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
@@ -180,7 +188,36 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     );
   }
 
-  // Error / unknown
+  const unavailableWorkPackage = (icon:ReactNode, label:string) => {
+    // xxs stays tiny: icon only, with the label as a tooltip instead
+    const iconOnly = size === 'xxs';
+    const Base = iconOnly ? ChipBaseXXS : ChipBase;
+    return (
+      <InlineChip
+        ref={setRef}
+        data-drag-handle
+        selected={isEditorSelected}
+        // xxs shows no text, so expose the message to the tooltip and to assistive tech
+        title={iconOnly ? label : undefined}
+        aria-label={iconOnly ? label : undefined}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectWorkPackageNode();
+        }}
+      >
+        <Base>
+          {icon}
+          {!iconOnly && <UnavailableLabel>{label}</UnavailableLabel>}
+        </Base>
+      </InlineChip>
+    );
+  };
+
+  if (wpid && unauthorized) return unavailableWorkPackage(<EyeClosedIcon size={12} verticalAlign="middle" />, t('unavailableWorkPackage.unauthorized.short_message'));
+  if (wpid && error) return unavailableWorkPackage(<AlertIcon size={12} verticalAlign="middle" />, t('unavailableWorkPackage.error.short_message'));
+
+  // Unknown / transitional
   if (wpid) {
     return (
       <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected} style={{ opacity: 0.6 }}>

@@ -29,6 +29,7 @@ export function useWorkPackage(wpid:number|undefined) {
     }
     setLoading(true);
     setError(null);
+    setUnauthorized(false);
     try {
       const data = await fetchWorkPackage(wpid);
       workPackageCache[wpid] = data;
