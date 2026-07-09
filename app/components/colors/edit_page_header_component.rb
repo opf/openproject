@@ -41,7 +41,7 @@ module Colors
     def breadcrumb_items
       [
         { href: admin_index_path, text: t(:label_administration) },
-        { href: colors_path, text: t(:label_color_plural) },
+        { href: custom_style_path(tab: :default_colors), text: t(:label_custom_style) },
         @color.name
       ]
     end

@@ -36,6 +36,15 @@ module CustomStylesHelper
     selected && selected[:pdf]
   end
 
+  def theme_tab?
+    selected = selected_tab(design_tabs)
+    selected && %w[interface branding].include?(selected[:name])
+  end
+
+  def default_colors_tab?
+    selected_tab(design_tabs)&.dig(:name) == "default_colors"
+  end
+
   def design_tabs
     [
       {
