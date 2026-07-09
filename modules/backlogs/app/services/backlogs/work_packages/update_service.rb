@@ -29,16 +29,16 @@
 #++
 
 class Backlogs::WorkPackages::UpdateService
-  attr_accessor :user, :story
+  attr_accessor :user, :work_package
 
-  def initialize(user:, story:)
+  def initialize(user:, work_package:)
     self.user = user
-    self.story = story
+    self.work_package = work_package
   end
 
   def call(direction: nil, target_id: nil, position: nil, prev_id: nil)
     resolve_required_attributes(direction:, target_id:)
-      .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: story).call(**attrs) }
+      .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: work_package).call(**attrs) }
       .on_success do |call|
         if prev_id
           call.result.move_after(prev_id:)

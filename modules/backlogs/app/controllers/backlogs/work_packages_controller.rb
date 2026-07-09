@@ -67,7 +67,7 @@ module Backlogs
     end
 
     def move # rubocop:disable Metrics/AbcSize
-      call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
+      call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, work_package: @work_package)
                                    .call(**move_params.to_h.symbolize_keys)
 
       if call.success?
