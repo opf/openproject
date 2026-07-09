@@ -150,6 +150,8 @@ module OpenProject::Backlogs
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
+    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
+
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
 
