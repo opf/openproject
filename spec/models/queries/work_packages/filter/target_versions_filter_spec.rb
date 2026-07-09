@@ -191,6 +191,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
     describe "#where" do
       let(:open_version) { version }
       let(:closed_version) { create(:version, project: actual_project, status: "closed") }
+      let(:locked_version) { create(:version, project: actual_project, status: "locked") }
 
       let!(:wp_targeting_open) do
         create(:work_package, project: actual_project).tap do |wp|
@@ -200,6 +201,11 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
       let!(:wp_targeting_closed) do
         create(:work_package, project: actual_project).tap do |wp|
           create(:work_package_version, work_package: wp, version: closed_version, kind: :target)
+        end
+      end
+      let!(:wp_targeting_locked) do
+        create(:work_package, project: actual_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: locked_version, kind: :target)
         end
       end
       let!(:wp_observed_only) do
@@ -224,7 +230,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
         let(:values) { [open_version.id.to_s] }
 
         it "returns work packages not targeting that version, including ones without target versions" do
-          expect(result).to contain_exactly(wp_targeting_closed, wp_observed_only, wp_without_versions)
+          expect(result).to contain_exactly(wp_targeting_closed, wp_targeting_locked, wp_observed_only, wp_without_versions)
         end
       end
 
@@ -233,7 +239,7 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
         let(:values) { [] }
 
         it "returns work packages with at least one target version" do
-          expect(result).to contain_exactly(wp_targeting_open, wp_targeting_closed)
+          expect(result).to contain_exactly(wp_targeting_open, wp_targeting_closed, wp_targeting_locked)
         end
       end
 
@@ -261,6 +267,15 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
 
         it "returns work packages targeting a closed version" do
           expect(result).to contain_exactly(wp_targeting_closed)
+        end
+      end
+
+      context 'for "l" (locked version)' do
+        let(:operator) { "l" }
+        let(:values) { [] }
+
+        it "returns work packages targeting a locked version" do
+          expect(result).to contain_exactly(wp_targeting_locked)
         end
       end
     end
