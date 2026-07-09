@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,47 +23,40 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Nextcloud VCR credentials
+module Wikis
+  module Adapters
+    module Providers
+      module XWiki
+        module Queries
+          # Fetch page information using a canonical XWiki identifier
+          class CanonicalPageInfo < BaseQuery
+            include Concerns::XWikiRequest
 
-NEXTCLOUD_LOCAL_OAUTH_CLIENT_ID=
-NEXTCLOUD_LOCAL_OAUTH_CLIENT_SECRET=
+            def call(input_data:, auth_strategy:)
+              ref = CanonicalPageReference.parse(input_data.identifier)
+              return failure(code: :not_found) unless ref
 
-NEXTCLOUD_LOCAL_OPENPROJECT_UID=
-NEXTCLOUD_LOCAL_OPENPROJECT_SECRET=
-NEXTCLOUD_LOCAL_OPENPROJECT_REDIRECT_URI=https://nextcloud.local/index.php/apps/integration_openproject/oauth-redirect
+              perform_request(ref, auth_strategy:) do |data|
+                success(StablePageInfo.json_to_page_info(data, provider:))
+              end
+            end
 
-NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN=
-NEXTCLOUD_LOCAL_OAUTH_CLIENT_REFRESH_TOKEN=
-
-NEXTCLOUD_LOCAL_AMPF_PASSWORD=
-
-# Sharepoint/OneDrive VCR credentials
-
-ONE_DRIVE_TEST_TENANT_ID=
-ONE_DRIVE_TEST_DRIVE_ID=
-
-ONE_DRIVE_TEST_OAUTH_CLIENT_ID=
-ONE_DRIVE_TEST_OAUTH_CLIENT_SECRET=
-
-ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN=
-ONE_DRIVE_TEST_OAUTH_CLIENT_REFRESH_TOKEN=
-
-SHAREPOINT_TEST_HOST=
-SHAREPOINT_TEST_TENANT_ID=
-
-SHAREPOINT_TEST_OAUTH_CLIENT_ID=
-SHAREPOINT_TEST_OAUTH_CLIENT_SECRET=
-
-SHAREPOINT_TEST_OAUTH_CLIENT_ACCESS_TOKEN=
-SHAREPOINT_TEST_OAUTH_CLIENT_REFRESH_TOKEN=
-
-# XWiki crendentials
-
-XWIKI_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN=
-XWIKI_LOCAL_OAUTH_CLIENT_ID=
-XWIKI_LOCAL_OAUTH_CLIENT_SECRET=
+            def perform_request(reference, auth_strategy:, &)
+              authenticated(auth_strategy) do |http|
+                handle_response(
+                  http.get(rest_url("openproject/documents", query: { docRef: reference.to_s })),
+                  &
+                )
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

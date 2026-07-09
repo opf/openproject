@@ -31,12 +31,40 @@
 module Wikis
   module Adapters
     module Providers
-      module XWiki
-        module Concerns
-          module XWikiPageQueries
-            def canonical_page_info(identifier:, auth_strategy:)
-              Input::PageInfo.build(identifier:).bind do |input_data|
-                Queries::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+      module Internal
+        module Queries
+          class PageHierarchy < BaseQuery
+            class << self
+              def wiki_page_to_page_hierarchy(wiki_page, provider:)
+                Results::PageHierarchy.new(
+                  wiki: wiki_to_adapter_wiki(wiki_page.wiki, provider:),
+                  page: PageInfo.wiki_page_to_page_info(wiki_page, provider:),
+                  ancestors: wiki_page.ancestors.map { PageInfo.wiki_page_to_page_info(it, provider:) }
+                )
+              end
+
+              def wiki_to_adapter_wiki(wiki, provider:)
+                Results::Wiki.new(
+                  identifier: wiki.id.to_s,
+                  provider:,
+                  name: wiki.project.name,
+                  href: url_helpers.project_overview_path(wiki.project)
+                )
+              end
+
+              private
+
+              def url_helpers
+                @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
+              end
+            end
+
+            def call(input_data:, auth_strategy:)
+              Adapters::Authentication[auth_strategy].call do |user|
+                wiki_page = WikiPage.visible(user).find_by(id: input_data.identifier)
+                return failure(code: :not_found) if wiki_page.nil?
+
+                success(self.class.wiki_page_to_page_hierarchy(wiki_page, provider:))
               end
             end
           end

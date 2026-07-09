@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPageInfo, :disable_ssrf_filter, :webmock do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::CanonicalPageInfo, :disable_ssrf_filter, :webmock do
   it "is not registered" do
     expect(Wikis::Adapters::Registry.resolve("xwiki.queries.page_info")).not_to eq(described_class)
   end

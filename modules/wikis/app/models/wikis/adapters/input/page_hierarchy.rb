@@ -28,37 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module XWiki
-        module Queries
-          module Internal
-            # Fetch page information using a canonical XWiki identifier
-            class CanonicalPageInfo < BaseQuery
-              include Concerns::XWikiRequest
+module Wikis::Adapters::Input
+  PageHierarchy = Data.define(:identifier) do
+    private_class_method :new
 
-              def call(input_data:, auth_strategy:)
-                ref = CanonicalPageReference.parse(input_data.identifier)
-                return failure(code: :not_found) unless ref
-
-                perform_request(ref, auth_strategy:) do |data|
-                  success(StablePageInfo.json_to_page_info(data, provider:))
-                end
-              end
-
-              def perform_request(reference, auth_strategy:, &)
-                authenticated(auth_strategy) do |http|
-                  handle_response(
-                    http.get(rest_url("openproject/documents", query: { docRef: reference.to_s })),
-                    &
-                  )
-                end
-              end
-            end
-          end
-        end
-      end
+    def self.build(identifier:, contract: PageHierarchyContract.new)
+      contract.call(identifier:).to_monad.fmap { new(**it.to_h) }
     end
   end
 end
