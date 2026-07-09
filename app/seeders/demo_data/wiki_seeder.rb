@@ -37,11 +37,10 @@ module DemoData
     end
 
     def seed_data!
-      create_project_wiki!
-
       text = project_data.lookup("wiki")
-
       return if text.blank?
+
+      create_project_wiki!
 
       if text.is_a? String
         text = [{ title: "Wiki", content: text }]

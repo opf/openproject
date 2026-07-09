@@ -32,14 +32,15 @@ See COPYRIGHT and LICENSE files for more details.
     render(
       Primer::Forms::ToggleSwitchForm.new(
         name: "enable_interal_wiki",
-        label: t("projects.settings.internal_wiki.enable"),
-        caption: t("projects.settings.internal_wiki.caption"),
+        label: t(".enable"),
+        caption: t(".caption"),
         src: project_settings_wiki_path(@project),
         csrf_token: form_authenticity_token,
         status_label_position: :start,
         checked: wiki_enabled?,
         data: { turbo: true },
-        mb: 3
+        mb: 3,
+        test_selector: "project-settings-enable-wiki"
       )
     )
   %>

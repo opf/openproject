@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddsEnabledColumnToWikisTable < ActiveRecord::Migration[8.1]
+class AddEnabledColumnToWikisTable < ActiveRecord::Migration[8.1]
   disable_ddl_transaction!
 
   def up

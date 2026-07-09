@@ -45,6 +45,7 @@ module Bim
         ::BasicData::PrioritySeeder,
         ::Bim::BasicData::SettingSeeder,
         ::Bim::BasicData::ThemeSeeder
+
       ]
     end
   end
