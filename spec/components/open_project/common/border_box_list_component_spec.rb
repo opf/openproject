@@ -952,4 +952,28 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_no_text("String title")
     end
   end
+
+  describe "header drag handle" do
+    it "renders a drag handle when `show_drag_handle` is true" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-drag-handle")
+      ) do |list|
+        list.with_header(title: "Draggable", show_drag_handle: true)
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--drag_handle .DragHandle")
+    end
+
+    it "omits the drag handle by default" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-no-drag-handle")
+      ) do |list|
+        list.with_header(title: "Plain")
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_no_css(".op-border-box-list-header--drag_handle")
+    end
+  end
 end

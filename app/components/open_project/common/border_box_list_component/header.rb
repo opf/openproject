@@ -177,13 +177,13 @@ module OpenProject
         # @return [Boolean] whether a title is present, from either the slot
         #   or the `title:` string.
         def title?
-          title.present? || @title.present?
+          super || @title.present?
         end
 
         # @return [String, ViewComponent::Slot, nil] the title content to
         #   render. The slot takes precedence over the `title:` string.
         def title_content
-          title.presence || @title
+          title.presence || @title.presence
         end
 
         # Resolves inferred counts after the list slots have been captured.
