@@ -46,7 +46,7 @@ zh-CN:
       external_wiki_providers: Wiki 提供商
       internal_wiki_provider: 内部 Wiki
       wikis: Wiki
-  permission_manage_wiki_page_links: 管理 Wiki 页面链接
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Wiki 提供商
   wikis:
     admin:
@@ -159,8 +159,9 @@ zh-CN:
         xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
-    inline_existing_wiki_page_dialog:
-      title: 添加现有 Wiki 页面
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -186,6 +187,8 @@ zh-CN:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用
         unexpected: 发生意外错误
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

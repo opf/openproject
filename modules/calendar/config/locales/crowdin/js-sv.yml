@@ -4,7 +4,7 @@ sv:
   js:
     calendar:
       create_new: Skapa ny kalender
+      label_calendar_plural: Kalendrar
       title: Kalender
       too_many: Det finns totalt %{count} arbetspaket, men bara %{max} kan visas.
       unsaved_title: Kalender utan namn
-      label_calendar_plural: Kalendrar

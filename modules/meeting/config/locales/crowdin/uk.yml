@@ -22,93 +22,90 @@
 #English strings go here for Rails i18n
 ---
 uk:
-  plugin_openproject_meeting:
-    name: Зустріч OpenProject
-    description: Цей модуль додає в OpenProject функції для підтримки зустрічей щодо проєкту. Зустрічі можна планувати, вибираючи запрошених з одного проєкту для участі в нараді. Можна створити порядок денний і надіслати його запрошеним. Після зустрічі можна вибрати учасників і створити протокол на основі порядку денного. Наостанок протокол можна надіслати всім учасникам і запрошеним.
   activerecord:
     attributes:
       meeting:
-        type: Тип зустрічі
-        location: Місцезнаходження
         duration: Тривалість
+        end_time: Час завершення
+        location: Місцезнаходження
         notes: Примітки
-        recurrence_start_time: Запланований час початку
-        participants: Учасники
+        notify: Надсилання сповіщень
         participant:
           one: 1 учасник
           few: "%{count} учасники"
           many: "%{count} учасників"
           other: "%{count} учасника"
+        participants: Учасники
+        participants_added: 'Учасників додано:'
         participants_attended: Учасники
         participants_invited: Запрошені
-        participants_added: 'Учасників додано:'
         participants_removed: 'Учасників видалено:'
         project: Проєкт
+        recurrence_start_time: Запланований час початку
+        sharing: Надання доступу
         start_date: Дата
         start_time: Час початку
         start_time_hour: Час початку
-        end_time: Час завершення
         template: Шаблон
-        notify: Надсилання сповіщень
-        sharing: Надання доступу
+        type: Тип зустрічі
       meeting_agenda_item:
-        title: 'Назва '
         author: Автор
-        duration_in_minutes: Тривалість
         description: Примітки
-        presenter: Доповідач
+        duration_in_minutes: Тривалість
         item_type: Тип
-        position: Позиція
         lock_version: Заблокувати версію
         notes: Нотатки
-      meeting_section:
-        title: 'Назва '
         position: Позиція
+        presenter: Доповідач
+        title: 'Назва '
+      meeting_participant:
+        attended: Відвідано
+        invited: Запрошені
+        participation_status: Статус участі
+      meeting_section:
+        position: Позиція
+        title: 'Назва '
       recurring_meeting:
-        title: Назва
+        duration: Тривалість
+        end_after: Серія нарад завершується
+        end_date: Дата завершення
         frequency: Частота
         interval: Інтервал
+        iterations: Повторення
+        location: Місцезнаходження
         monthly_day: День місяця
         monthly_ordinal: Позиція
         monthly_weekday: Будній день
+        notify: Надсилання сповіщень
         start_date: Починається
         start_time: Час початку
         start_time_hour: Час початку
-        end_after: Серія нарад завершується
-        end_date: Дата завершення
-        iterations: Повторення
         time_zone: Часовий пояс
-        location: Місцезнаходження
-        duration: Тривалість
-        notify: Надсилання сповіщень
+        title: Назва
       recurring_meeting_interim_response:
         start_time: Час початку
-      meeting_participant:
-        invited: Запрошені
-        attended: Відвідано
-        participation_status: Статус участі
     errors:
+      messages:
+        invalid_time_format: 'не є допустимим часом. Необхідний формат: HH:MM'
       models:
-        meeting_participant:
-          user_invalid: не є дійсним учасником.
         meeting_agenda_item:
           section_not_belong_to_meeting: Розділ не належить до тієї самої наради.
           user_invalid: не є дійсним учасником.
-        recurring_meeting_interim_response:
-          not_an_occurrence: не є дійсним часом проведення цієї повторюваної наради
+        meeting_participant:
+          user_invalid: не є дійсним учасником.
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: Одна відкрита нарада в серії не входить у новий розклад. Налаштуйте розклад так, щоб він охоплював усі наявні наради.
             other: Кілька відкритих нарад (%{count}) у серії не входить у новий розклад. Налаштуйте розклад так, щоб він охоплював усі наявні наради.
-            format: "%{message}"
-      messages:
-        invalid_time_format: 'не є допустимим часом. Необхідний формат: HH:MM'
+        recurring_meeting_interim_response:
+          not_an_occurrence: не є дійсним часом проведення цієї повторюваної наради
     models:
-      recurring_meeting: Повторювана нарада
       meeting: Одноразова нарада
-      meeting_agenda_item: Пункт порядку денного
       meeting_agenda: Порядок денний
+      meeting_agenda_item: Пункт порядку денного
       meeting_section: Розділ
+      recurring_meeting: Повторювана нарада
       token/ical_meeting:
         one: Підписка на наради iCal
         few: Підписки на наради iCal
@@ -130,7 +127,11 @@ uk:
         work_package:
           updated: змінено з %{old_value} на %{value}
           updated_html: змінено з <i>%{old_value}</i> на <i>%{value}</i>
+  caption_meeting_template_select: Виберіть шаблон, щоб автоматично скопіювати з нього пункти порядку денного
+  caption_template_project_select: Виберіть проєкт, у якому ви хочете створити цей шаблон наради
   description_attended: Участь
+  error_notification: Не вдалося надіслати сповіщення.
+  error_notification_with_errors: 'Не вдалося надіслати сповіщення. Неможливо отримати сповіщення про таких одержувачів: %{recipients}'
   events:
     meeting: Нотатки до зустрічі
     meeting_agenda: Порядок денний зустрічі редагувався
@@ -138,49 +139,132 @@ uk:
     meeting_agenda_opened: Порядок зустрічей був відкритий
     meeting_minutes: Відредаговані хвилини наради
     meeting_minutes_created: Створено протокол зустрічей
-  error_notification: Не вдалося надіслати сповіщення.
-  error_notification_with_errors: 'Не вдалося надіслати сповіщення. Неможливо отримати сповіщення про таких одержувачів: %{recipients}'
+  label_add_work_package_to_meeting_dialog_button: Додати до наради
+  label_add_work_package_to_meeting_dialog_title: Вибрати нараду
+  label_add_work_package_to_meeting_section_label: Розділ
+  label_added_as_outcome: Додано як результат
+  label_agenda_backlog: Черга завдань порядку денного
+  label_agenda_backlog_clear_title: Очистити чергу завдань порядку денного?
+  label_agenda_item_actions: Дії з пунктами порядку денного
+  label_agenda_item_add: Додати пункт порядку денного
+  label_agenda_item_add_notes: Додати примітки
+  label_agenda_item_add_outcome: Додати результат
+  label_agenda_item_convert_to_work_package: Перетворити в пакет робіт
+  label_agenda_item_deleted_wp: Посилання на видалений пакет робіт
+  label_agenda_item_duplicate: Дублювати
+  label_agenda_item_duplicate_in_next: Дублювати в наступну нараду
+  label_agenda_item_duplicate_in_next_title: Дублювати в наступну нараду?
+  label_agenda_item_move: Перемістити
+  label_agenda_item_move_down: Перемістити вниз
+  label_agenda_item_move_to_backlog: Перемістити в чергу завдань
+  label_agenda_item_move_to_bottom: Перемістити в кінець
+  label_agenda_item_move_to_current_meeting: Перемістити в поточну нараду
+  label_agenda_item_move_to_next: Перейти до наступної наради
+  label_agenda_item_move_to_next_title: Перейти до наступної наради?
+  label_agenda_item_move_to_section: Перемістити в розділ
+  label_agenda_item_move_to_top: Перемістити на верх
+  label_agenda_item_move_up: Перемістити вгору
+  label_agenda_item_remove_from_agenda: Зняти з порядку денного
+  label_agenda_item_remove_from_backlog: Вилучити із черги завдань
+  label_agenda_item_undisclosed_wp: 'Пакет робіт #%{id} не видимий'
+  label_agenda_item_work_package: Пакет робіт пункту порядку денного
+  label_agenda_item_work_package_add: Додати пакет робіт
+  label_agenda_items: Пункти порядку денного
+  label_agenda_items_reordered: перевпорядковано
+  label_agenda_new_outcome: Новий результат
+  label_agenda_outcome: Результат
+  label_agenda_outcome_actions: Дії з результатами порядку денного
+  label_agenda_outcome_delete: Вилучити результат
+  label_agenda_outcome_edit: Редагувати результат
+  label_all_meetings: Усі наради
+  label_attended: Відвідано
+  label_attended_user: Користувач-учасник
+  label_backlog_clear: Очистити чергу завдань
+  label_backlog_clear_button: Очистити все
+  label_created_by_me: Створено мною
+  label_existing_work_package: Наявний пакет робіт
+  label_icalendar: Надіслати iCalendar
+  label_icalendar_download: Завантажити подію iCalendar
+  label_initial_meeting_details: Нарада
+  label_invitations: Запрошення
+  label_invited_user: Запрошений користувач
+  label_involvement: Участь
   label_meeting: Зустріч
-  label_meeting_plural: Зустрічі
-  label_meeting_templates: Шаблони
-  label_meeting_template: Шаблон
-  label_meeting_template_new: Новий шаблон
-  label_meeting_template_create: Створити шаблон
-  label_meeting_template_delete: Видалити шаблон
-  label_meeting_template_edit: Редагувати шаблон
+  label_meeting_actions: Дії з нарадою
+  label_meeting_agenda: Порядок денний
+  label_meeting_agenda_close: Закрийте порядок денний, щоб розпочати протоколи
+  label_meeting_close: Закрити
+  label_meeting_close_action: Закрити зустріч
+  label_meeting_create: Створити нараду
   label_meeting_create_from_template: Створити нараду на основі шаблона
+  label_meeting_created_by: Створено
+  label_meeting_date_and_time: Дата й час
+  label_meeting_date_time: Дата, час
+  label_meeting_delete: Видалити нараду
+  label_meeting_details: Інформація про зустріч
+  label_meeting_details_edit: Редагувати інформацію про зустріч
+  label_meeting_diff: Відмінність
+  label_meeting_duplicate: Дублювати нараду
+  label_meeting_edit: Редагувати збори
+  label_meeting_edit_title: Редагувати назву зустрічі
+  label_meeting_empty_action: Додати пункт порядку денного
+  label_meeting_in_progress_action: Почати нараду
+  label_meeting_index_delete: Видалити
+  label_meeting_index_later: Наступного тижня й пізніше
+  label_meeting_index_this_week: Пізніше цього тижня
+  label_meeting_index_today: Сьогодні
+  label_meeting_index_tomorrow: Завтра
+  label_meeting_last_updated: Востаннє оновлено
+  label_meeting_minutes: Хвилини
+  label_meeting_more:
+    one: Є ще одна нарада.
+    few: Є ще %{count} наради.
+    many: Є ще %{count} нарад.
+    other: Є ще %{count} наради.
   label_meeting_new: Нова зустріч
   label_meeting_new_dynamic: Нова одноразова нарада
   label_meeting_new_recurring: Нова повторювана нарада
-  label_meeting_create: Створити нараду
-  label_meeting_duplicate: Дублювати нараду
-  label_meeting_edit: Редагувати збори
-  label_meeting_agenda: Порядок денний
-  label_meeting_minutes: Хвилини
-  label_meeting_close: Закрити
   label_meeting_open: Відкрити
-  label_meeting_index_delete: Видалити
+  label_meeting_open_action: Відкрити нараду
   label_meeting_open_this_meeting: Відкрити цю нараду
-  label_meeting_agenda_close: Закрийте порядок денний, щоб розпочати протоколи
-  label_meeting_date_time: Дата, час
-  label_meeting_date_and_time: Дата й час
-  label_meeting_diff: Відмінність
+  label_meeting_plural: Зустрічі
+  label_meeting_reload: Перезавантажити
+  label_meeting_reopen_action: Відкрити зустріч знову
+  label_meeting_selection_caption: Цей пакет робіт можна додати лише до майбутньої або поточної наради.
   label_meeting_send_updates: Надіслати запрошення та оновлення календаря електронною поштою
   label_meeting_send_updates_caption: Надіслати електронні запрошення всім учасникам цієї наради
+  label_meeting_series: Серія нарад
+  label_meeting_series_details: Деталі серії нарад
+  label_meeting_state: Статус наради
+  label_meeting_state_agenda_created: Порядок денний створено
+  label_meeting_state_cancelled: Скасовано
+  label_meeting_state_closed: Закрито
+  label_meeting_state_draft: Чернетка
+  label_meeting_state_in_progress: Поточна
+  label_meeting_state_open: Відкрито
+  label_meeting_state_planned: Заплановані
+  label_meeting_state_skipped: Пропущено
+  label_meeting_template: Шаблон
+  label_meeting_template_create: Створити шаблон
+  label_meeting_template_delete: Видалити шаблон
+  label_meeting_template_edit: Редагувати шаблон
+  label_meeting_template_new: Новий шаблон
+  label_meeting_template_sharing: Надання доступу
+  label_meeting_template_sharing_descendants: Підпроєктам
+  label_meeting_template_sharing_none: Лише цьому проєкту
+  label_meeting_template_sharing_system: Усім проєктам
+  label_meeting_templates: Шаблони
+  label_my_meetings: Мої наради
+  label_notify: Надіслати на розгляд
+  label_past_invitations: Минулі запрошення
+  label_past_meetings: Минулі заходи
+  label_past_meetings_short: Минулі
+  label_recurring_filter: Рекурентний фільтр
   label_recurring_meeting: Повторювана нарада
-  label_recurring_meeting_part_of: Частина серії нарад
-  label_recurring_meeting_new: Нова повторювана нарада
-  label_recurring_meeting_plural: Повторювані наради
-  label_template: Шаблон
-  label_recurring_meeting_view: Переглянути серію нарад
-  label_recurring_meeting_create: Відкрити
-  label_recurring_meeting_duplicate: Дублювати як одноразову зустріч
   label_recurring_meeting_cancel: Скасувати це повторення
+  label_recurring_meeting_create: Відкрити
   label_recurring_meeting_delete: Видалити повторення
-  label_recurring_meeting_restore: Відновити це повторення
-  label_recurring_meeting_schedule: Розклад
-  label_recurring_meeting_next_occurrence: Наступна нарада серії
-  label_recurring_meeting_no_end_date: Є інші заплановані наради (%{schedule}).
+  label_recurring_meeting_duplicate: Дублювати як одноразову зустріч
   label_recurring_meeting_more:
     one: Є ще одна запланована нарада (%{schedule}).
     few: Є інші (%{count}) заплановані наради (%{schedule}).
@@ -191,255 +275,360 @@ uk:
     few: Є інші (%{count}) завершені наради.
     many: Є інші (%{count}) завершені наради.
     other: Є інші (%{count}) завершені наради.
-  label_recurring_meeting_show_more: Показати більше
+  label_recurring_meeting_new: Нова повторювана нарада
+  label_recurring_meeting_next_occurrence: Наступна нарада серії
+  label_recurring_meeting_no_end_date: Є інші заплановані наради (%{schedule}).
+  label_recurring_meeting_part_of: Частина серії нарад
+  label_recurring_meeting_plural: Повторювані наради
+  label_recurring_meeting_restore: Відновити це повторення
+  label_recurring_meeting_schedule: Розклад
   label_recurring_meeting_series_create: Створити серію нарад
-  label_recurring_meeting_series_edit: Редагувати серію нарад
   label_recurring_meeting_series_delete: Видалити серію нарад
+  label_recurring_meeting_series_edit: Редагувати серію нарад
   label_recurring_meeting_series_end: Завершити серію нарад
   label_recurring_meeting_series_end_now: Завершити серію зараз
-  label_meeting_more:
-    one: Є ще одна нарада.
-    few: Є ще %{count} наради.
-    many: Є ще %{count} нарад.
-    other: Є ще %{count} наради.
-  label_my_meetings: Мої наради
-  label_all_meetings: Усі наради
-  label_upcoming_meetings: Майбутні заходи
-  label_past_meetings: Минулі заходи
-  label_upcoming_meetings_short: Майбутні
-  label_past_meetings_short: Минулі
-  label_involvement: Участь
-  label_invitations: Запрошення
-  label_invited_user: Запрошений користувач
-  label_past_invitations: Минулі запрошення
-  label_attended: Відвідано
-  label_attended_user: Користувач-учасник
-  label_created_by_me: Створено мною
-  label_notify: Надіслати на розгляд
-  label_icalendar: Надіслати iCalendar
-  label_icalendar_download: Завантажити подію iCalendar
-  label_view_meeting: Переглянути зустріч
-  label_view_meeting_series: Переглянути серію нарад
-  label_meeting_series: Серія нарад
-  label_version: Версія
-  label_time_zone: Часовий пояс
+  label_recurring_meeting_show_more: Показати більше
+  label_recurring_meeting_view: Переглянути серію нарад
+  label_section_rename: Перейменувати розділ
+  label_section_selection_caption: Виберіть конкретний розділ порядку денного чи додайте його в чергу завдань.
+  label_series_backlog: Черга завдань серії
+  label_series_backlog_clear_title: Очистити чергу завдань серії?
   label_start_date: Дата початку
   label_subscribe_icalendar: Підписатися на календар
-  label_recurring_filter: Рекурентний фільтр
-  caption_meeting_template_select: Виберіть шаблон, щоб автоматично скопіювати з нього пункти порядку денного
-  caption_template_project_select: Виберіть проєкт, у якому ви хочете створити цей шаблон наради
-  placeholder_meeting_template_select_project_first: Спершу виберіть проєкт
-  placeholder_meeting_template_no_templates_for_project: Немає шаблонів, доступних для цього проєкту
+  label_template: Шаблон
+  label_time_zone: Часовий пояс
+  label_upcoming_meetings: Майбутні заходи
+  label_upcoming_meetings_short: Майбутні
+  label_version: Версія
+  label_view_meeting: Переглянути зустріч
+  label_view_meeting_series: Переглянути серію нарад
+  label_write_outcome: Записати результат
   meeting:
-    participants:
-      label:
-        participants: Учасники
-        attended: Відвідано
-        mark_as_attended: Позначити учасника як присутнього
-        mark_all_as_attended: Позначити всіх як присутніх
-        remove_participant: Вилучити учасника
-        manage_participants: Керувати учасниками
-        no_participants: Немає учасників
-        show_all: Показати всі
-        apply_to_upcoming_meetings: Застосувати ці зміни до всіх майбутніх нарад цієї серії
-      text:
-        template: Ці учасники автоматично отримуватимуть запрошення на всі майбутні наради, які ви створюватимете.
-        manage_participants: Знайдіть учасників проєкту й додайте їх у цю нараду в ролі учасників.
-        search_for_members: Пошук учасників проєкту
-      blankslate:
-        heading: Немає учасників
-        description: Учасників ще немає.
     attachments:
       onetime_template: Ці прикріплені файли додаватимуться в усі наради, які буде створено із використанням цього шаблону в майбутньому.
       series_template: Ці прикріплені файли додаватимуться до всіх майбутніх нарад серії.
       text: Прикріплені файли доступні всім учасникам наради. Ви також можете перетягнути їх у примітки до пунктів порядку денного.
+    blankslate:
+      desc: Створіть зустріч або змініть параметри фільтра
+      title: Зустрічей не знайдено
+    copied: 'Скопійовано з наради #%{id} '
     copy:
-      title: 'Копіювати нараду: %{title}'
-      attachments: Копіювати вкладення
-      attachments_text: Скопіюйте всі прикріплені файли до нової наради
       agenda: Копіювати порядок денний
       agenda_items: Копіювати пункти порядку денного
       agenda_text: Копіювати порядок денний старої наради
+      attachments: Копіювати вкладення
+      attachments_text: Скопіюйте всі прикріплені файли до нової наради
       participants: Копіювати список учасників
+      title: 'Копіювати нараду: %{title}'
       to_clipboard: Копіювати посилання в буфер обміну
+    delete_dialog:
+      occurrence:
+        confirm_button: Скасувати нараду
+        confirmation_message_html: 'Будь-яку інформацію про нараду, відсутню в шаблоні, буде втрачено. Продовжити?
+
+          '
+        heading: Скасувати цю нараду серії?
+        title: Скасувати нараду серії
+      occurrence_past:
+        confirm_button: Видалити повторення
+        confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити.
+
+          '
+        heading: Видалити це повторення?
+        title: Видалити повторення
+      one_time:
+        confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити.
+
+          '
+        heading: Видалити цю нараду?
+        template:
+          confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити. Вона не вплине на наради, які було створено за допомогою цього шаблону раніше.
+
+            '
+          heading: Видалити цей шаблон?
+          title: Видалити шаблон
+        title: Видалити нараду
     email:
+      cancelled:
+        date_time: Заплановані дата/час
+        header: 'Скасовано: нарада «%{title}»'
+        header_occurrence: 'Скасовано: нарада серії «%{title}»'
+        header_series: 'Скасовано: серія нарад «%{title}»'
+        summary: Нараду «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
+        summary_occurrence: Нараду серії «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
+        summary_series: Серію нарад «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
+      ended:
+        header_series: 'Завершено: серія нарад «%{title}»'
+        summary_series: Серію нарад «%{title}» завершив(-ла) %{actor}
+      invited:
+        summary: "%{actor} надіслав(-ла) вам запрошення на нараду «%{title}»"
+      open_meeting_link: Відкрити зустріч
+      open_my_meetings_link: Перейдіть до Моїх нарад
       send_emails: Надіслати електронні листи учасникам
       send_invitation_emails: 'Надішліть запрошення електронною поштою вибраним вище учасникам. Це можна будь-коли зробити вручну.
 
         '
       send_invitation_emails_structured: Надішліть запрошення електронною поштою одразу всім учасникам. Це можна будь-коли зробити вручну.
-      open_meeting_link: Відкрити зустріч
-      open_my_meetings_link: Перейдіть до Моїх нарад
       series:
-        title: "[%{project_name}] – серія нарад «%{title}»"
         summary: "%{actor} запрошує вас на нову серію нарад «%{title}»"
+        title: "[%{project_name}] – серія нарад «%{title}»"
       series_updated:
-        title: "[%{project_name}]: серію нарад «%{title}» оновлено"
-        summary: Серію нарад «%{title}» оновив(-ла) %{actor}
-        old_schedule: Старий розклад
         new_schedule: Новий розклад
-      invited:
-        summary: "%{actor} надіслав(-ла) вам запрошення на нараду «%{title}»"
-      cancelled:
-        header: 'Скасовано: нарада «%{title}»'
-        header_occurrence: 'Скасовано: нарада серії «%{title}»'
-        header_series: 'Скасовано: серія нарад «%{title}»'
-        summary_occurrence: Нараду серії «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
-        summary_series: Серію нарад «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
-        summary: Нараду «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
-        date_time: Заплановані дата/час
-      ended:
-        header_series: 'Завершено: серія нарад «%{title}»'
-        summary_series: Серію нарад «%{title}» завершив(-ла) %{actor}
+        old_schedule: Старий розклад
+        summary: Серію нарад «%{title}» оновив(-ла) %{actor}
+        title: "[%{project_name}]: серію нарад «%{title}» оновлено"
       updated:
-        header: Нараду «%{title}» оновлено
-        summary: Нараду «%{title}» оновив(-ла) %{actor}
+        added_participants: Додано
         body: Нараду «%{title}» оновив(-ла) %{actor}.
-        old_title: Стара назва
+        header: Нараду «%{title}» оновлено
+        new_date_time: Нова дата/час
+        new_location: Нове розташування
         new_title: Нова назва
         old_date_time: Стара дата/час
-        new_date_time: Нова дата/час
         old_location: Старе розташування
-        new_location: Нове розташування
-        added_participants: Додано
+        old_title: Стара назва
         removed_participants: Вилучено
+        summary: Нараду «%{title}» оновив(-ла) %{actor}
+    export:
+      minutes:
+        author: Автор
+        date: Дата
+        footer_page_numbers: С. %{current_page} з %{total_pages}
+        location: Місцезнаходження
+        time: Час
+        title: Хвилини
+      your_meeting_export: Нарада експортується
+    export_pdf_dialog:
+      author:
+        caption: Автора протоколу буде вказано в підзаголовку.
+        label: Автор
+      description: Згенеруйте PDF-файл для друку з поточним змістом наради.
+      first_page_header_left:
+        caption: Цей текст з’явиться на першій сторінці в лівій частині верхнього колонтитула.
+        label: Верхній колонтитул першої сторінки, ліворуч
+      footer_text:
+        caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
+        label: Текст нижнього колонтитула
+      include_attachments:
+        caption: Список з іменами файлів вкладень буде долучено в кінці.
+        label: Включити список вкладень
+      include_backlog:
+        caption: Елементи черги завдань зазвичай не вважають такими, що належать до наради, але ви можете включити їх.
+        label: Включити чергу завдань
+      include_outcomes:
+        caption: Якщо результати порядку денного містять конфіденційну інформацію, ви можете не включати її у файл експорту.
+        label: Включити результати порядку денного
+      include_participants:
+        caption: Список учасників буде розміщено над порядком денним наради.
+        label: Включити список учасників
+      submit_button: Завантажити
+      templates:
+        default:
+          caption: Стандартний шаблон підходить для більшості нарад і відображає поточний статус.
+          label: За замовчуванням
+        minutes:
+          caption: Шаблон протоколу підходить для закритих і архівних нарад.
+          label: Хвилини
+      title: Експорт PDF
+    ical_response:
+      meeting_not_found: Нараду для UID не знайдено.
+      update_failed: Не вдалось оновити статус участі.
+    label_export_pdf: Експорт PDF
     label_mail_all_participants: Надіслати лист із запрошенням усім учасникам
+    notifications:
+      dialog:
+        confirm_label:
+          disable: Вимкнути оновлення електронною поштою
+          enable: Увімкнути оновлення електронною поштою
+        message:
+          disable: Якщо в них уже є запрошення на цю зустріч, тепер зазначена в ньому інформація може бути неточною.
+          enable: Після ввімкнення всі учасники негайно отримають електронний лист.
+        title:
+          disable: Вимкнути оновлення з календаря електронною поштою?
+          enable: Увімкнути оновлення з календаря електронною поштою?
+      disabled: Учасники не отримуватимуть листів з інформацією про зміни, які вносяться в дату, час і список учасників.
+      enabled: Усі учасники отримуватимуть оновлені запрошення з календаря з інформацією про зміни, які вносяться в дату, час і список учасників.
+      sidepanel:
+        description:
+          change_via_template: Щоб змінити це, відредагуйте шаблон серії.
+        title: Оновлення з календаря електронною поштою
+    participants:
+      blankslate:
+        description: Учасників ще немає.
+        heading: Немає учасників
+      label:
+        apply_to_upcoming_meetings: Застосувати ці зміни до всіх майбутніх нарад цієї серії
+        attended: Відвідано
+        manage_participants: Керувати учасниками
+        mark_all_as_attended: Позначити всіх як присутніх
+        mark_as_attended: Позначити учасника як присутнього
+        no_participants: Немає учасників
+        participants: Учасники
+        remove_participant: Вилучити учасника
+        show_all: Показати всі
+      text:
+        manage_participants: Знайдіть учасників проєкту й додайте їх у цю нараду в ролі учасників.
+        search_for_members: Пошук учасників проєкту
+        template: Ці учасники автоматично отримуватимуть запрошення на всі майбутні наради, які ви створюватимете.
+    presentation_mode:
+      button_present: Презентувати
+      current_item: Поточний елемент
+      exit: Завершити режим показу
+      next: Наступний
+      no_items: Не має плану зустрічі
+      no_items_flash: Не доданий план зустрічі.
+      previous: Попереднє
+      title: Режим презентації
+      total_items: "%{current} з %{total}"
     types:
       one_time: Одноразова
       recurring: Повторювана
       recurring_text: Створюйте серії нарад на основі динамічного шаблона для кожної події.
       structured_text: Упорядкуйте нараду у вигляді динамічного переліку пунктів порядку денного, за бажанням пов’язавши їх із пакетом робіт.
       structured_text_copy: Зараз копіювання наради стосується лише докладних даних про неї, але не пов’язаних пунктів її порядку денного
-    copied: 'Скопійовано з наради #%{id} '
-    delete_dialog:
-      one_time:
-        title: Видалити нараду
-        heading: Видалити цю нараду?
-        confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити.
-
-          '
-        template:
-          title: Видалити шаблон
-          heading: Видалити цей шаблон?
-          confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити. Вона не вплине на наради, які було створено за допомогою цього шаблону раніше.
-
-            '
-      occurrence:
-        title: Скасувати нараду серії
-        heading: Скасувати цю нараду серії?
-        confirmation_message_html: 'Будь-яку інформацію про нараду, відсутню в шаблоні, буде втрачено. Продовжити?
-
-          '
-        confirm_button: Скасувати нараду
-      occurrence_past:
-        title: Видалити повторення
-        heading: Видалити це повторення?
-        confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити.
-
-          '
-        confirm_button: Видалити повторення
-    blankslate:
-      title: Зустрічей не знайдено
-      desc: Створіть зустріч або змініть параметри фільтра
-    label_export_pdf: Експорт PDF
-    export:
-      your_meeting_export: Нарада експортується
-      minutes:
-        footer_page_numbers: С. %{current_page} з %{total_pages}
-        author: Автор
-        date: Дата
-        time: Час
-        location: Місцезнаходження
-        title: Хвилини
-    export_pdf_dialog:
-      title: Експорт PDF
-      description: Згенеруйте PDF-файл для друку з поточним змістом наради.
-      templates:
-        default:
-          label: За замовчуванням
-          caption: Стандартний шаблон підходить для більшості нарад і відображає поточний статус.
-        minutes:
-          label: Хвилини
-          caption: Шаблон протоколу підходить для закритих і архівних нарад.
-      first_page_header_left:
-        label: Верхній колонтитул першої сторінки, ліворуч
-        caption: Цей текст з’явиться на першій сторінці в лівій частині верхнього колонтитула.
-      author:
-        label: Автор
-        caption: Автора протоколу буде вказано в підзаголовку.
-      include_participants:
-        label: Включити список учасників
-        caption: Список учасників буде розміщено над порядком денним наради.
-      include_attachments:
-        label: Включити список вкладень
-        caption: Список з іменами файлів вкладень буде долучено в кінці.
-      include_backlog:
-        label: Включити чергу завдань
-        caption: Елементи черги завдань зазвичай не вважають такими, що належать до наради, але ви можете включити їх.
-      include_outcomes:
-        label: Включити результати порядку денного
-        caption: Якщо результати порядку денного містять конфіденційну інформацію, ви можете не включати її у файл експорту.
-      footer_text:
-        label: Текст нижнього колонтитула
-        caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
-      submit_button: Завантажити
-    notifications:
-      disabled: Учасники не отримуватимуть листів з інформацією про зміни, які вносяться в дату, час і список учасників.
-      enabled: Усі учасники отримуватимуть оновлені запрошення з календаря з інформацією про зміни, які вносяться в дату, час і список учасників.
-      sidepanel:
-        title: Оновлення з календаря електронною поштою
-        description:
-          change_via_template: Щоб змінити це, відредагуйте шаблон серії.
-      dialog:
-        title:
-          enable: Увімкнути оновлення з календаря електронною поштою?
-          disable: Вимкнути оновлення з календаря електронною поштою?
-        message:
-          enable: Після ввімкнення всі учасники негайно отримають електронний лист.
-          disable: Якщо в них уже є запрошення на цю зустріч, тепер зазначена в ньому інформація може бути неточною.
-        confirm_label:
-          enable: Увімкнути оновлення електронною поштою
-          disable: Вимкнути оновлення електронною поштою
-    presentation_mode:
-      title: Режим презентації
-      button_present: Презентувати
-      exit: Завершити режим показу
-      current_item: Поточний елемент
-      total_items: "%{current} з %{total}"
-      previous: Попереднє
-      next: Наступний
-      no_items: Не має плану зустрічі
-      no_items_flash: Не доданий план зустрічі.
-    ical_response:
-      update_failed: Не вдалось оновити статус участі.
-      meeting_not_found: Нараду для UID не знайдено.
     widgets:
       blankslate:
-        heading: Немає запланованих нарад
         description: Тут відображатимуться майбутні зустрічі, у яких ви маєте взяти участь.
+        heading: Немає запланованих нарад
       view_details: Переглянути всі наради
-  meeting_section:
-    untitled_title: Розділ без назви
-    delete_confirmation: Видалення цього розділу також призведе до видалення його елементів порядку денного. Ви впевнені?
-    placeholder_title: Новий розділ
-    empty_text: Перетягніть елементи сюди або створіть новий
   meeting_participant:
     participation_status:
-      needs_action: Немає відповіді
       accepted: Схвалено
       declined: Відхилено
+      needs_action: Немає відповіді
       tentative: Можливо
       unknown: Невідомо
+  meeting_section:
+    delete_confirmation: Видалення цього розділу також призведе до видалення його елементів порядку денного. Ви впевнені?
+    empty_text: Перетягніть елементи сюди або створіть новий
+    placeholder_title: Новий розділ
+    untitled_title: Розділ без назви
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: Ставтеся до цієї URL-адреси так, як до пароля. Кожен, хто має до неї доступ, може переглядати всі ваші наради.
+          title: Маркер підписки на наради iCal створено
+      dialog:
+        token/ical_meeting:
+          create_button: Створити підписку
+          dialog_body: Маркер згенерує URL-адресу підписки iCal, за допомогою якої ви зможете переглядати всі свої наради в зовнішньому додатку календаря.
+          dialog_title: Новий маркер підписки iCal для нарад
+          name_caption: Можна назвати відповідно до місця використання, наприклад «Мій телефон» або «Робочий комп’ютер».
+          name_label: Ім’я маркера
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'Не вдалося скасувати підписку на наради iCalendar: %{error}'
+          notice_success: Підписку на наради iCalendar успішно скасовано.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: Підписатися на календар
+        blank_description: Щоб створити нараду, натисніть кнопку нижче.
+        blank_title: Немає маркера наради для iCalendar
+        disabled_text: Підписки на наради iCalendar не активував адміністратор. Зв’яжіться з ним, щоб використовувати цю функцію.
+        table_title: Маркери нарад для iCalendar
+        text_hint: Маркери iCalendar для нарад дають змогу користувачам підписуватися на всі свої наради й переглядати актуальну інформацію про них у зовнішніх клієнтах.
+        title: iCalendar для нарад
+  notice_meeting_template_created: Шаблон успішно створено
+  notice_meeting_updated: Цю сторінку оновив інший користувач. Перезавантажте її, щоб побачити зміни.
+  notice_successful_notification: Оновлення з календаря надіслано електронною поштою всім учасникам
+  notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
+  permission_create_meetings: Створюйте зустрічі
+  permission_delete_meetings: Видалити зустрічі
+  permission_edit_meetings: Редагувати зустрічі
+  permission_manage_agendas: Керувати порядками денними
+  permission_manage_agendas_explanation: Дозволяє створювати, редагувати й видаляти пункти порядків денних
+  permission_manage_outcomes: Керування результатами
+  permission_send_meeting_invites_and_outcomes: Надсилайте запрошення на нараду і її результати учасникам
+  permission_view_meetings: Переглянути зустрічі
+  placeholder_meeting_template_no_templates_for_project: Немає шаблонів, доступних для цього проєкту
+  placeholder_meeting_template_select_project_first: Спершу виберіть проєкт
+  placeholder_section_select_meeting_first: Спочатку потрібно вибрати нараду
+  plugin_openproject_meeting:
+    description: Цей модуль додає в OpenProject функції для підтримки зустрічей щодо проєкту. Зустрічі можна планувати, вибираючи запрошених з одного проєкту для участі в нараді. Можна створити порядок денний і надіслати його запрошеним. Після зустрічі можна вибрати учасників і створити протокол на основі порядку денного. Наостанок протокол можна надіслати всім учасникам і запрошеним.
+    name: Зустріч OpenProject
+  project_module_meetings: Зустрічі
   recurring_meeting:
-    time_zone_difference_banner:
-      title: Різниця в датах через часовий пояс
-      description: 'Дати, наведені нижче, указано з урахуванням часового поясу серії нарад (%{actual_zone}), а не вашого місцевого часового поясу (%{user_zone}).
+    actual_first_occurrence_mismatch_html: Перша нарада цієї серії — %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        one: This results in 1 upcoming occurrence
+        few: This results in %{count} upcoming occurrences
+        many: This results in %{count} upcoming occurrences
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Місяці з меншою кількістю днів, ніж %{monthly_day}, буде пропущено
+    delete_dialog:
+      confirmation_message_html:
+        one: 'Якщо видалити <strong>%{title}</strong>, буде також видалено одну нараду в цій серії. Зверніть увагу: цю дію не можна відмінити.
 
-        '
+          '
+        other: 'Якщо видалити <strong>%{title}</strong>, буде видалено всі наради (%{count}) у цій серії. Зверніть увагу: цю дію не можна відмінити.
+
+          '
+        zero: 'Серія нарад <strong>%{title}</strong> не містить жодних нарад. Зверніть увагу: її буде видалено для всіх.
+
+          '
+      heading: Назавжди видалити цю серію нарад?
+      title: Видалити серію нарад
+    end_after:
+      iterations: Після певної кількості повторень
+      never: Ніколи
+      specific_date: Після конкретної дати
+    end_series_dialog:
+      title: Завершити серію нарад
     ended_blankslate:
-      title: Серія нарад завершилася
-      message: 'Ця серія нарад завершилася. Запланованих нарад немає. '
       action: Ви все одно можете переглянути завершені наради або відредагувати серію нарад, щоб продовжити її.
+      message: 'Ця серія нарад завершилася. Запланованих нарад немає. '
+      title: Серія нарад завершилася
+    frequency:
+      every_weekday: Кожний(-на) %{day_of_the_week}
+      monthly_day_of_month: День місяця
+      monthly_nth_weekday: Щомісяця в будній день
+      working_days: Кожен робочий день
+      x_daily:
+        one: Щодня
+        few: Кожні %{count} дні
+        many: Кожні %{count} днів
+        other: Кожні %{count} дня
+      x_monthly:
+        one: Щомісяця
+        few: Що %{count} місяці
+        many: Що %{count} місяців
+        other: Що %{count} місяця
+      x_weekly:
+        one: Щотижня
+        few: Кожні %{count} тижні
+        many: Кожні %{count} тижнів
+        other: Кожні %{count} тижня
+    in_words:
+      daily_interval: Через %{interval} дн.
+      frequency: "%{base} о %{time}"
+      full: "%{base} о %{time}, закінчується %{end_date}"
+      full_past: "%{base} о %{time}, завершено %{end_date}"
+      monthly_day: 'Щомісяця в цей день: %{day}'
+      monthly_day_interval: 'Що %{interval} міс. у цей день: %{day}'
+      monthly_nth_weekday: 'Щомісяця в цей день: %{ordinal} %{weekday}'
+      monthly_nth_weekday_interval: 'Що %{interval} міс. у цей день: %{ordinal} %{weekday}'
+      never_ending: "%{base} о %{time}"
+      weekly: Щотижня в %{weekday}
+      weekly_interval: Через %{interval} тижн. у %{weekday}
+      working_days: Кожен робочий день
+    monthly:
+      inflected_ordinal:
+        first: перший(-а)
+        fourth: четвертий(-а)
+        last: останній(-я)
+        second: другий(-а)
+        third: третій(-я)
+      ordinal_options:
+        first: Перший(-а)
+        fourth: Четвертий(-а)
+        last: Останній(-я)
+        second: Другий(-а)
+        third: Третій(-я)
     occurrence:
       error_no_next: Це одноразова нарада.
       error_template_draft: The meeting series template is still in draft mode.
@@ -448,301 +637,120 @@ uk:
 
         '
       infoline: Ця нарада належить до серії повторюваних нарад.
-    template:
-      button_finalize: Відкрити першу нараду
-      blank_title: Ваш шаблон серії нарад порожній
-      description: 'Цей шаблон використовуватиметься щоразу, коли створюватимуться нові наради в серії. Ви можете додавати до нього пункти порядку денного, учасників і вкладення.
+    open:
+      blankslate:
+        desc: Ви можете вручну відкрити заплановану нараду, натиснувши кнопку «Відкрити» нижче
+        title: Зараз немає відкритих нарад
+      subtitle: 'Відкриті наради мають порядок денний, який можна редагувати і який відображається в розділі «Мої наради» для окремих користувачів. Зміни в шаблоні серії нарад не впливають на вже відкриті наради.
 
         '
-      label_view_template: Переглянути шаблон
-      label_edit_template: Редагувати шаблон
+      title: Порядок денний відкрито
+    planned:
+      blankslate:
+        desc: 'У цій серії більше немає запланованих нарад. Щоб запланувати додаткові наради або продовжити серію, відкрийте шаблон і відредагуйте деталі наради, змінивши її дату завершення, частоту або інтервал.
+
+          '
+        title: Запланованих нарад більше немає
+      subtitle: 'Наступні наради в серії повторюваної наради заплановані, але не відкриті. Щоразу, коли починається запланована нарада, автоматично відкривається наступна. Ви також можете відкрити заплановані наради вручну, щоб імпортувати шаблон і почати редагування порядку денного.
+
+        '
+      title: Заплановані
+    scheduled_delete_dialog:
+      confirm_button: Скасувати нараду
+      confirmation_message_html: 'Будь-яку інформацію про нараду, відсутню в шаблоні, буде втрачено. Продовжити?
+
+        '
+      heading: Скасувати цю нараду серії?
+      title: Скасувати нараду серії
+    starts: Починається
+    template:
       banner_html: 'Ви редагуєте шаблон серії нарад: %{link}. На основі нього створюватиметься кожна нова нарада цієї серії. Зміни не вплинуть на завершені або вже створені наради.
+
+        '
+      blank_title: Ваш шаблон серії нарад порожній
+      button_finalize: Відкрити першу нараду
+      description: 'Цей шаблон використовуватиметься щоразу, коли створюватимуться нові наради в серії. Ви можете додавати до нього пункти порядку денного, учасників і вкладення.
 
         '
       draft_banner_html: 'Ви редагуєте шаблон серії нарад: %{link}. На основі нього створюватиметься кожна нова нарада цієї серії. Зміни не вплинуть на завершені або вже створені наради. Електронні листи із запрошеннями не надсилатимуться в поточному режимі чернетки, доки ви не відкриєте першу нараду.
 
         '
-    frequency:
-      x_daily:
-        one: Щодня
-        few: Кожні %{count} дні
-        many: Кожні %{count} днів
-        other: Кожні %{count} дня
-      x_weekly:
-        one: Щотижня
-        few: Кожні %{count} тижні
-        many: Кожні %{count} тижнів
-        other: Кожні %{count} тижня
-      x_monthly:
-        one: Щомісяця
-        few: Що %{count} місяці
-        many: Що %{count} місяців
-        other: Що %{count} місяця
-      monthly_day_of_month: День місяця
-      monthly_nth_weekday: Щомісяця в будній день
-      every_weekday: Кожний(-на) %{day_of_the_week}
-      working_days: Кожен робочий день
-    monthly:
-      inflected_ordinal:
-        first: перший(-а)
-        second: другий(-а)
-        third: третій(-я)
-        fourth: четвертий(-а)
-        last: останній(-я)
-      ordinal_options:
-        first: Перший(-а)
-        second: Другий(-а)
-        third: Третій(-я)
-        fourth: Четвертий(-а)
-        last: Останній(-я)
-    actual_first_occurrence_mismatch_html: Перша нарада цієї серії — %{first_occurrence}
-    day_of_month_skipping_info: Місяці з меншою кількістю днів, ніж %{monthly_day}, буде пропущено
-    end_after:
-      never: Ніколи
-      specific_date: Після конкретної дати
-      iterations: Після певної кількості повторень
-    starts: Починається
-    in_words:
-      daily_interval: Через %{interval} дн.
-      working_days: Кожен робочий день
-      weekly: Щотижня в %{weekday}
-      weekly_interval: Через %{interval} тижн. у %{weekday}
-      monthly_day: 'Щомісяця в цей день: %{day}'
-      monthly_day_interval: 'Що %{interval} міс. у цей день: %{day}'
-      monthly_nth_weekday: 'Щомісяця в цей день: %{ordinal} %{weekday}'
-      monthly_nth_weekday_interval: 'Що %{interval} міс. у цей день: %{ordinal} %{weekday}'
-      frequency: "%{base} о %{time}"
-      full: "%{base} о %{time}, закінчується %{end_date}"
-      full_past: "%{base} о %{time}, завершено %{end_date}"
-      never_ending: "%{base} о %{time}"
-    open:
-      title: Порядок денний відкрито
-      subtitle: 'Відкриті наради мають порядок денний, який можна редагувати і який відображається в розділі «Мої наради» для окремих користувачів. Зміни в шаблоні серії нарад не впливають на вже відкриті наради.
+      label_edit_template: Редагувати шаблон
+      label_view_template: Переглянути шаблон
+    time_zone_difference_banner:
+      description: 'Дати, наведені нижче, указано з урахуванням часового поясу серії нарад (%{actual_zone}), а не вашого місцевого часового поясу (%{user_zone}).
 
         '
-      blankslate:
-        title: Зараз немає відкритих нарад
-        desc: Ви можете вручну відкрити заплановану нараду, натиснувши кнопку «Відкрити» нижче
-    planned:
-      title: Заплановані
-      subtitle: 'Наступні наради в серії повторюваної наради заплановані, але не відкриті. Щоразу, коли починається запланована нарада, автоматично відкривається наступна. Ви також можете відкрити заплановані наради вручну, щоб імпортувати шаблон і почати редагування порядку денного.
-
-        '
-      blankslate:
-        title: Запланованих нарад більше немає
-        desc: 'У цій серії більше немає запланованих нарад. Щоб запланувати додаткові наради або продовжити серію, відкрийте шаблон і відредагуйте деталі наради, змінивши її дату завершення, частоту або інтервал.
-
-          '
-    delete_dialog:
-      title: Видалити серію нарад
-      heading: Назавжди видалити цю серію нарад?
-      confirmation_message_html:
-        zero: 'Серія нарад <strong>%{title}</strong> не містить жодних нарад. Зверніть увагу: її буде видалено для всіх.
-
-          '
-        one: 'Якщо видалити <strong>%{title}</strong>, буде також видалено одну нараду в цій серії. Зверніть увагу: цю дію не можна відмінити.
-
-          '
-        other: 'Якщо видалити <strong>%{title}</strong>, буде видалено всі наради (%{count}) у цій серії. Зверніть увагу: цю дію не можна відмінити.
-
-          '
-    scheduled_delete_dialog:
-      title: Скасувати нараду серії
-      heading: Скасувати цю нараду серії?
-      confirmation_message_html: 'Будь-яку інформацію про нараду, відсутню в шаблоні, буде втрачено. Продовжити?
-
-        '
-      confirm_button: Скасувати нараду
-    end_series_dialog:
-      title: Завершити серію нарад
-  notice_successful_notification: Оновлення з календаря надіслано електронною поштою всім учасникам
-  notice_meeting_template_created: Шаблон успішно створено
-  notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
-  notice_meeting_updated: Цю сторінку оновив інший користувач. Перезавантажте її, щоб побачити зміни.
-  permission_create_meetings: Створюйте зустрічі
-  permission_edit_meetings: Редагувати зустрічі
-  permission_delete_meetings: Видалити зустрічі
-  permission_view_meetings: Переглянути зустрічі
-  permission_manage_agendas: Керувати порядками денними
-  permission_manage_agendas_explanation: Дозволяє створювати, редагувати й видаляти пункти порядків денних
-  permission_manage_outcomes: Керування результатами
-  permission_send_meeting_invites_and_outcomes: Надсилайте запрошення на нараду і її результати учасникам
-  project_module_meetings: Зустрічі
-  text_duration_in_hours: Тривалість у годинах
-  text_in_hours: у годинах
-  text_meeting_agenda_for_meeting: порядку денного засідання %{meeting}
-  text_meeting_template_blank_slate_heading: Шаблонів не знайдено
-  text_meeting_template_blank_slate: Ви можете створити шаблон для одноразових нарад
-  text_meeting_series_end_early_heading: Видалити майбутні наради серії?
-  text_meeting_series_end_early: Завершення серії призведе до видалення всіх наступних відкритих або запланованих нарад
-  text_meeting_closing_are_you_sure: Справді закрити порядок денний заходу?
-  text_meeting_agenda_open_are_you_sure: Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?
-  text_meeting_minutes_for_meeting: протокол засідання %{meeting}
-  text_notificiation_invited: 'У цьому листі міститься запис ics для зустрічі нижче:'
-  text_meeting_ics_description: 'Посилання на нараду: %{url}'
-  text_meeting_ics_meeting_series_description: 'Посилання на серію нарад: %{url}'
-  text_meeting_occurrence_ics_description: 'Посилання на нараду серії: %{url} Посилання на серію нарад: %{series_url}'
-  text_meeting_empty_heading: Ваша нарада пуста
-  text_meeting_empty_description1: Спочатку додайте пункти порядку денного нижче. Для кожного з них можна ввести лише назву, але також можна вказати додаткові відомості, наприклад тривалість і примітки.
-  text_meeting_empty_description2: Крім того, можна додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт.
-  label_meeting_empty_action: Додати пункт порядку денного
-  label_meeting_actions: Дії з нарадою
-  label_meeting_edit_title: Редагувати назву зустрічі
-  label_meeting_delete: Видалити нараду
-  label_meeting_created_by: Створено
-  label_meeting_last_updated: Востаннє оновлено
-  label_meeting_reload: Перезавантажити
-  label_meeting_index_today: Сьогодні
-  label_meeting_index_tomorrow: Завтра
-  label_meeting_index_this_week: Пізніше цього тижня
-  label_meeting_index_later: Наступного тижня й пізніше
-  label_agenda_items: Пункти порядку денного
-  label_agenda_items_reordered: перевпорядковано
-  label_agenda_item_add: Додати пункт порядку денного
-  label_agenda_item_remove_from_agenda: Зняти з порядку денного
-  label_agenda_item_remove_from_backlog: Вилучити із черги завдань
-  label_agenda_item_undisclosed_wp: 'Пакет робіт #%{id} не видимий'
-  label_agenda_item_deleted_wp: Посилання на видалений пакет робіт
-  label_agenda_item_actions: Дії з пунктами порядку денного
-  label_agenda_item_move_to_next_title: Перейти до наступної наради?
-  label_agenda_item_move: Перемістити
-  label_agenda_item_move_to_next: Перейти до наступної наради
-  label_agenda_item_move_to_backlog: Перемістити в чергу завдань
-  label_agenda_item_move_to_current_meeting: Перемістити в поточну нараду
-  label_agenda_item_move_to_section: Перемістити в розділ
-  label_agenda_item_move_to_top: Перемістити на верх
-  label_agenda_item_move_to_bottom: Перемістити в кінець
-  label_agenda_item_move_up: Перемістити вгору
-  label_agenda_item_move_down: Перемістити вниз
-  label_agenda_item_duplicate: Дублювати
-  label_agenda_item_duplicate_in_next: Дублювати в наступну нараду
-  label_agenda_item_duplicate_in_next_title: Дублювати в наступну нараду?
-  label_agenda_item_add_notes: Додати примітки
-  label_agenda_item_add_outcome: Додати результат
-  label_agenda_item_convert_to_work_package: Перетворити в пакет робіт
-  label_agenda_item_work_package_add: Додати пакет робіт
-  label_agenda_item_work_package: Пакет робіт пункту порядку денного
-  label_section_rename: Перейменувати розділ
-  label_agenda_outcome: Результат
-  label_agenda_new_outcome: Новий результат
-  label_agenda_outcome_actions: Дії з результатами порядку денного
-  label_agenda_outcome_edit: Редагувати результат
-  label_agenda_outcome_delete: Вилучити результат
-  label_added_as_outcome: Додано як результат
-  label_write_outcome: Записати результат
-  label_existing_work_package: Наявний пакет робіт
-  text_outcome_not_editable_anymore: Цей результат більше не можна редагувати.
-  text_outcome_cannot_be_added: Результат більше не можна додати.
-  label_backlog_clear: Очистити чергу завдань
-  label_backlog_clear_button: Очистити все
-  text_backlog_clear_error: Під час очищення черги завдань сталася принаймні одна помилка.
-  label_agenda_backlog: Черга завдань порядку денного
+      title: Різниця в датах через часовий пояс
+  text_add_work_package_to_meeting_description: Пакет робіт можна додати до однієї або кількох нарад для обговорення. Тут також з’являться всі пов’язані з ним примітки.
+  text_add_work_package_to_meeting_form: Пакет робіт буде додано до вибраної наради чи черги завдань як пункт порядку денного.
   text_agenda_backlog: 'Ця черга завдань стосується лише цієї одноразової наради. Ви можете додавати або вилучати елементи з порядку денного наради, перетягуючи їх.
 
     '
-  label_agenda_backlog_clear_title: Очистити чергу завдань порядку денного?
   text_agenda_backlog_clear_description: 'Справді вилучити всі поточні елементи із черги завдань порядку денного? Цю дію не можна відмінити.
 
     '
-  label_series_backlog: Черга завдань серії
+  text_agenda_item_dialog_skipping_cancelled_many: кілька скасованих нарад (%{count})
+  text_agenda_item_dialog_skipping_cancelled_one: скасована нарада, запланована на %{date}
+  text_agenda_item_dialog_skipping_closed_many: кілька закритих нарад (%{count})
+  text_agenda_item_dialog_skipping_closed_one: закрита нарада, запланована на %{date}
+  text_agenda_item_dialog_skipping_note: 'Примітка: пропускається %{details}.'
+  text_agenda_item_duplicate_in_next_meeting: Справді додати копію цього пункту порядку денного в наступну нараду, що відбудеться %{date} о %{time}? Результати не дублюватимуться.
+  text_agenda_item_duplicated_in_next_meeting: Пункт порядку денного продубльовано в нову нараду, що відбудеться %{date}
+  text_agenda_item_move_next_meeting: Цей пункт буде перенесено на наступну нараду, що відбудеться %{date} о %{time}.
+  text_agenda_item_moved_to_next_meeting: Пункт порядку денного переміщено в нову нараду, що відбудеться %{date}
+  text_agenda_item_no_available_occurrence: Немає майбутніх подій.
+  text_agenda_item_no_notes: Примітки не надано
+  text_agenda_item_not_editable_anymore: Цей пункт порядку денного більше не можна редагувати.
+  text_agenda_item_title: Пункт порядку денного «%{title}»
+  text_agenda_work_package_deleted: Пункт порядку денного для видаленого пакета робіт
+  text_backlog_clear_error: Під час очищення черги завдань сталася принаймні одна помилка.
+  text_deleted_agenda_item: Видалений пункт порядку денного
+  text_duration_in_hours: Тривалість у годинах
+  text_email_updates_enabled: Надсилання електронною поштою оновлень із календаря ввімкнено. Усі учасники отримають листи з оновленими запрошеннями після того, як ви внесете зміни.
+  text_email_updates_muted: Надсилання електронною поштою оновлень із календаря тимчасово вимкнено. Учасники не отримають листи з оновленими запрошеннями після того, як ви внесете зміни.
+  text_exit_draft_mode_dialog_subtitle: Запланувавши нараду, не можна повернутися в режим чернетки.
+  text_exit_draft_mode_dialog_template_subtitle: Після цього не можна буде повернутися в режим чернетки.
+  text_exit_draft_mode_dialog_template_title: Відкрити першу нараду цієї серії?
+  text_exit_draft_mode_dialog_title: Відкрити цю нараду й надіслати запрошення?
+  text_in_hours: у годинах
+  text_meeting_agenda_for_meeting: порядку денного засідання %{meeting}
+  text_meeting_agenda_open_are_you_sure: Це вмить призведе до виправлення усіх змін! Бажаєте продовжити?
+  text_meeting_closed_description: Це закрита нарада. Ви більше не можете додавати або вилучати пункти порядку денного.
+  text_meeting_closed_dropdown_description: Це закрита нарада. Ви більше не можете змінювати пункти порядку денного або результати.
+  text_meeting_closing_are_you_sure: Справді закрити порядок денний заходу?
+  text_meeting_draft_banner: 'Зараз ви працюєте в режимі чернетки: оновлення або запрошення з календаря не надсилатимуться щодо цієї наради, навіть якщо змінити її дані або додати/видалити учасників.'
+  text_meeting_draft_description: 'Готуйте порядок денний у режимі чернетки: оновлення або запрошення з календаря не надсилатимуться щодо цієї наради, навіть якщо змінити її дані або додати/видалити учасників.'
+  text_meeting_empty_description1: Спочатку додайте пункти порядку денного нижче. Для кожного з них можна ввести лише назву, але також можна вказати додаткові відомості, наприклад тривалість і примітки.
+  text_meeting_empty_description2: Крім того, можна додати посилання на наявні пакети робіт. У такому разі пов’язані примітки автоматично з’являться на вкладці «Наради» пакета робіт.
+  text_meeting_empty_heading: Ваша нарада пуста
+  text_meeting_ics_description: 'Посилання на нараду: %{url}'
+  text_meeting_ics_meeting_series_description: 'Посилання на серію нарад: %{url}'
+  text_meeting_in_progress_description: Ви можете змінювати порядок денний, документувати результати для кожного пункту й відстежувати відвідування учасниками. Після завершення наради можна позначити її як закриту, щоб заблокувати.
+  text_meeting_in_progress_dropdown_description: Результати документа, такі як потреби в інформації або рішення, прийняті під час наради.
+  text_meeting_minutes_for_meeting: протокол засідання %{meeting}
+  text_meeting_not_editable_anymore: Цю нараду більше не можна редагувати.
+  text_meeting_not_present_anymore: Цю нараду видалено. Виберіть іншу нараду.
+  text_meeting_occurrence_ics_description: 'Посилання на нараду серії: %{url} Посилання на серію нарад: %{series_url}'
+  text_meeting_open_description: Ви можете додавати/вилучати пункти порядку денного й учасників. Коли порядок денний буде готовий, позначте його як поточний, щоб задокументувати результати.
+  text_meeting_open_dropdown_description: Усі наявні результати будуть і надалі доступні, але користувачі не зможуть додавати нові.
+  text_meeting_series_end_early: Завершення серії призведе до видалення всіх наступних відкритих або запланованих нарад
+  text_meeting_series_end_early_heading: Видалити майбутні наради серії?
+  text_meeting_template_blank_slate: Ви можете створити шаблон для одноразових нарад
+  text_meeting_template_blank_slate_heading: Шаблонів не знайдено
+  text_meeting_template_sharing_description: Цим шаблоном можна поділитися з підпроєктами або іншими проєктами цього екземпляра. Буде скопійовано лише пункти порядку денного й вкладення.
+  text_notificiation_invited: 'У цьому листі міститься запис ics для зустрічі нижче:'
+  text_onetime_meeting_template_banner: Ви редагуєте шаблон наради. Цей шаблон можна використовувати для створення одноразових нарад із заздалегідь визначеним порядком денним. Зміни не вплинуть на вже створені наради.
+  text_onetime_meeting_template_empty_description: Сюди можна додавати пункти порядку денного, розділи й вкладення. Їх буде включено в кожну зустріч, створену з використанням цього шаблону.
+  text_onetime_meeting_template_empty_heading: Цей шаблон наради порожній
+  text_outcome_cannot_be_added: Результат більше не можна додати.
+  text_outcome_not_editable_anymore: Цей результат більше не можна редагувати.
   text_series_backlog: 'Черга завдань стосується всіх нарад цієї серії. Ви можете додавати або вилучати елементи з певної наради, перетягуючи їх.
 
     '
-  label_series_backlog_clear_title: Очистити чергу завдань серії?
   text_series_backlog_clear_description: 'Буде вилучено всі елементи черги завдань цієї серії, спільної для всіх нарад серії. Справді продовжити? Цю дію не можна відмінити.
 
     '
-  text_agenda_item_title: Пункт порядку денного «%{title}»
-  text_agenda_work_package_deleted: Пункт порядку денного для видаленого пакета робіт
-  text_deleted_agenda_item: Видалений пункт порядку денного
-  label_initial_meeting_details: Нарада
-  label_meeting_details: Інформація про зустріч
-  label_meeting_series_details: Деталі серії нарад
-  label_meeting_details_edit: Редагувати інформацію про зустріч
-  label_meeting_state: Статус наради
-  label_meeting_state_draft: Чернетка
-  label_meeting_state_open: Відкрито
-  label_meeting_state_closed: Закрито
-  label_meeting_state_agenda_created: Порядок денний створено
-  label_meeting_state_planned: Заплановані
-  label_meeting_state_cancelled: Скасовано
-  label_meeting_state_skipped: Пропущено
-  label_meeting_state_in_progress: Поточна
-  label_meeting_reopen_action: Відкрити зустріч знову
-  label_meeting_close_action: Закрити зустріч
-  label_meeting_in_progress_action: Почати нараду
-  label_meeting_open_action: Відкрити нараду
-  text_meeting_draft_description: 'Готуйте порядок денний у режимі чернетки: оновлення або запрошення з календаря не надсилатимуться щодо цієї наради, навіть якщо змінити її дані або додати/видалити учасників.'
-  text_meeting_open_description: Ви можете додавати/вилучати пункти порядку денного й учасників. Коли порядок денний буде готовий, позначте його як поточний, щоб задокументувати результати.
-  text_meeting_closed_description: Це закрита нарада. Ви більше не можете додавати або вилучати пункти порядку денного.
-  text_meeting_in_progress_description: Ви можете змінювати порядок денний, документувати результати для кожного пункту й відстежувати відвідування учасниками. Після завершення наради можна позначити її як закриту, щоб заблокувати.
-  text_meeting_open_dropdown_description: Усі наявні результати будуть і надалі доступні, але користувачі не зможуть додавати нові.
-  text_meeting_in_progress_dropdown_description: Результати документа, такі як потреби в інформації або рішення, прийняті під час наради.
-  text_meeting_closed_dropdown_description: Це закрита нарада. Ви більше не можете змінювати пункти порядку денного або результати.
-  text_meeting_draft_banner: 'Зараз ви працюєте в режимі чернетки: оновлення або запрошення з календаря не надсилатимуться щодо цієї наради, навіть якщо змінити її дані або додати/видалити учасників.'
-  text_onetime_meeting_template_banner: Ви редагуєте шаблон наради. Цей шаблон можна використовувати для створення одноразових нарад із заздалегідь визначеним порядком денним. Зміни не вплинуть на вже створені наради.
-  text_onetime_meeting_template_empty_heading: Цей шаблон наради порожній
-  text_onetime_meeting_template_empty_description: Сюди можна додавати пункти порядку денного, розділи й вкладення. Їх буде включено в кожну зустріч, створену з використанням цього шаблону.
-  text_exit_draft_mode_dialog_title: Відкрити цю нараду й надіслати запрошення?
-  text_exit_draft_mode_dialog_subtitle: Запланувавши нараду, не можна повернутися в режим чернетки.
-  text_exit_draft_mode_dialog_template_title: Відкрити першу нараду цієї серії?
-  text_exit_draft_mode_dialog_template_subtitle: Після цього не можна буде повернутися в режим чернетки.
-  label_meeting_template_sharing: Надання доступу
-  label_meeting_template_sharing_none: Лише цьому проєкту
-  label_meeting_template_sharing_descendants: Підпроєктам
-  label_meeting_template_sharing_system: Усім проєктам
-  text_meeting_template_sharing_description: Цим шаблоном можна поділитися з підпроєктами або іншими проєктами цього екземпляра. Буде скопійовано лише пункти порядку денного й вкладення.
-  text_meeting_not_editable_anymore: Цю нараду більше не можна редагувати.
-  text_meeting_not_present_anymore: Цю нараду видалено. Виберіть іншу нараду.
-  label_add_work_package_to_meeting_dialog_title: Вибрати нараду
-  label_add_work_package_to_meeting_section_label: Розділ
-  label_add_work_package_to_meeting_dialog_button: Додати до наради
-  label_meeting_selection_caption: Цей пакет робіт можна додати лише до майбутньої або поточної наради.
-  label_section_selection_caption: Виберіть конкретний розділ порядку денного чи додайте його в чергу завдань.
-  placeholder_section_select_meeting_first: Спочатку потрібно вибрати нараду
-  text_add_work_package_to_meeting_form: Пакет робіт буде додано до вибраної наради чи черги завдань як пункт порядку денного.
-  text_add_work_package_to_meeting_description: Пакет робіт можна додати до однієї або кількох нарад для обговорення. Тут також з’являться всі пов’язані з ним примітки.
-  text_agenda_item_no_notes: Примітки не надано
-  text_agenda_item_not_editable_anymore: Цей пункт порядку денного більше не можна редагувати.
-  text_agenda_item_move_next_meeting: Цей пункт буде перенесено на наступну нараду, що відбудеться %{date} о %{time}.
-  text_agenda_item_moved_to_next_meeting: Пункт порядку денного переміщено в нову нараду, що відбудеться %{date}
-  text_agenda_item_duplicate_in_next_meeting: Справді додати копію цього пункту порядку денного в наступну нараду, що відбудеться %{date} о %{time}? Результати не дублюватимуться.
-  text_agenda_item_duplicated_in_next_meeting: Пункт порядку денного продубльовано в нову нараду, що відбудеться %{date}
-  text_work_package_has_no_upcoming_meeting_agenda_items: Цей пакет робіт ще не заплановано в порядку денному майбутньої наради.
-  text_agenda_item_no_available_occurrence: Немає майбутніх подій.
-  text_agenda_item_dialog_skipping_note: 'Примітка: пропускається %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: скасована нарада, запланована на %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: кілька скасованих нарад (%{count})
-  text_agenda_item_dialog_skipping_closed_one: закрита нарада, запланована на %{date}
-  text_agenda_item_dialog_skipping_closed_many: кілька закритих нарад (%{count})
   text_work_package_add_to_meeting_hint: Натисніть кнопку «Додати до наради», щоб додати цей пакет робіт до майбутньої наради.
   text_work_package_has_no_past_meeting_agenda_items: Цей пакет робіт не було додано як пункт порядку денного в минулу нараду.
-  text_email_updates_muted: Надсилання електронною поштою оновлень із календаря тимчасово вимкнено. Учасники не отримають листи з оновленими запрошеннями після того, як ви внесете зміни.
-  text_email_updates_enabled: Надсилання електронною поштою оновлень із календаря ввімкнено. Усі учасники отримають листи з оновленими запрошеннями після того, як ви внесете зміни.
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: Щоб створити нараду, натисніть кнопку нижче.
-        blank_title: Немає маркера наради для iCalendar
-        title: iCalendar для нарад
-        table_title: Маркери нарад для iCalendar
-        text_hint: Маркери iCalendar для нарад дають змогу користувачам підписуватися на всі свої наради й переглядати актуальну інформацію про них у зовнішніх клієнтах.
-        disabled_text: Підписки на наради iCalendar не активував адміністратор. Зв’яжіться з ним, щоб використовувати цю функцію.
-        add_button: Підписатися на календар
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: Новий маркер підписки iCal для нарад
-          dialog_body: Маркер згенерує URL-адресу підписки iCal, за допомогою якої ви зможете переглядати всі свої наради в зовнішньому додатку календаря.
-          create_button: Створити підписку
-          name_label: Ім’я маркера
-          name_caption: Можна назвати відповідно до місця використання, наприклад «Мій телефон» або «Робочий комп’ютер».
-      created_dialog:
-        token/ical_meeting:
-          title: Маркер підписки на наради iCal створено
-          body: Ставтеся до цієї URL-адреси так, як до пароля. Кожен, хто має до неї доступ, може переглядати всі ваші наради.
-      revocation:
-        token/ical_meeting:
-          notice_success: Підписку на наради iCalendar успішно скасовано.
-          notice_failure: 'Не вдалося скасувати підписку на наради iCalendar: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: Цей пакет робіт ще не заплановано в порядку денному майбутньої наради.

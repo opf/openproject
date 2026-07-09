@@ -1177,6 +1177,30 @@ RSpec.describe PermittedParams do
 
       it_behaves_like "allows params"
     end
+
+    describe "lock_version" do
+      let(:hash) { { "lock_version" => "1" } }
+
+      it_behaves_like "allows params"
+    end
+
+    describe "text" do
+      let(:hash) { { "text" => "blubs" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "parent_id" do
+      let(:hash) { { "parent_id" => "1" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "journal_notes" do
+      let(:hash) { { "journal_notes" => "blubs" } }
+
+      it_behaves_like "forbids params"
+    end
   end
 
   describe "#wiki_page" do

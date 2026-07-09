@@ -1,42 +1,22 @@
 #English strings go here
 ---
 ja:
-  plugin_openproject_boards:
-    name: OpenProjectのカンバン
-    description: カンバンを提供します
-  permission_show_board_views: ボードの表示
-  permission_manage_board_views: ボードの管理
-  project_module_board_view: ボード
-  ee:
-    upsell:
-      board_view:
-        description: ボードでワークフローを自動化しませんか？アドバンスボードはエンタープライズアドオンです。有料プランにアップグレードしてください。
   boards:
-    label_board: ボード
-    label_boards: ボード
-    label_create_new_board: 新しい掲示板を作成
-    label_board_type: ボードの形式
-    board_types:
-      free: 基本
-      action: アクションボード (%{attribute})
     board_type_attributes:
       assignee: 担当者
+      basic: 基本
       status: Kanban
-      version: バージョン
       subproject: 子プロジェクト
       subtasks: 親子
-      basic: 基本
+      version: バージョン
     board_type_descriptions:
+      assignee: '担当者ベースの自動化された列を持つボード。ワークパッケージの割り当てに最適です。
+
+        '
       basic: '空白のボードで一からスタートします。カードと列を手動で追加します。
 
         '
       status: 'To Do、進行中、完了などのステータスの列を持つ基本的なカンバンスタイルボード。
-
-        '
-      assignee: '担当者ベースの自動化された列を持つボード。ワークパッケージの割り当てに最適です。
-
-        '
-      version: 'バージョン属性に基づき自動化される列のボード。製品開発の計画に最適です。
 
         '
       subproject: '子プロジェクトの列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて(サブ)プロジェクトが更新されます。
@@ -45,3 +25,23 @@ ja:
       subtasks: '子要素の列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて親要素が更新されます。
 
         '
+      version: 'バージョン属性に基づき自動化される列のボード。製品開発の計画に最適です。
+
+        '
+    board_types:
+      action: アクションボード (%{attribute})
+      free: 基本
+    label_board: ボード
+    label_board_type: ボードの形式
+    label_boards: ボード
+    label_create_new_board: 新しい掲示板を作成
+  ee:
+    upsell:
+      board_view:
+        description: ボードでワークフローを自動化しませんか？アドバンスボードはエンタープライズアドオンです。有料プランにアップグレードしてください。
+  permission_manage_board_views: ボードの管理
+  permission_show_board_views: ボードの表示
+  plugin_openproject_boards:
+    description: カンバンを提供します
+    name: OpenProjectのカンバン
+  project_module_board_view: ボード

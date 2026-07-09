@@ -60,8 +60,8 @@ These variables are prefixed with `OPENPROJECT_SEED_*` to identify them. Changin
 
 These additional variables are also only useful during seeding:
 
-* `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
-* `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
+- `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
+- `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
 
 ## Passing data structures to the app
 

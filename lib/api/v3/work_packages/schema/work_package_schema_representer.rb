@@ -37,7 +37,9 @@ module API
 
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio]
+                               all_permissions_granted_to_user_under_project +
+                                 [Setting.work_package_done_ratio,
+                                  Setting::WorkPackageMultipleVersions.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -312,8 +314,15 @@ module API
                                          deprecated: true,
                                          description: -> { I18n.t("api_v3.attributes.version.deprecated") }
 
+          # While multiple versions is not enabled, the field keeps the label of the
+          # single-valued version field it replaces and announces via options.multiple
+          # that the UI must restrict it to a single value.
           schema_with_allowed_collection :target_versions,
                                          type: "[]Version",
+                                         name_source: -> {
+                                           attribute = Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version
+                                           WorkPackage.human_attribute_name(attribute)
+                                         },
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: ->(version) {
                                            {
@@ -322,7 +331,8 @@ module API
                                            }
                                          },
                                          writable: ->(*) { represented.writable?(:target_versions) },
-                                         required: false
+                                         required: false,
+                                         options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
 
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,

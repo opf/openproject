@@ -54,6 +54,7 @@ class Sprint < ApplicationRecord
   scopes :assignable,
          :for_project,
          :not_completed,
+         :order_by_activity,
          :order_by_date,
          :receiving_projects,
          :visible,

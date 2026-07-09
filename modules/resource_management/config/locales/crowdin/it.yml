@@ -39,10 +39,10 @@ it:
       resource_user_card: Schede utente
       resource_work_package_list: Elenco macro-attività
   button_next: Avanti
-  label_resource_management: Resource management
+  label_resource_management: Gestione risorse
   permission_allocate_user_resources: Assegnazione delle risorse utente
   permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations: Assegna utenti alle allocazioni generiche
   permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
   permission_manage_public_resource_planners_explanation: Consente agli utenti di creare e gestire pianificatori delle risorse pubblici. Permette loro di visualizzare, creare, gestire e pubblicare i propri pianificatori delle risorse. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
@@ -60,10 +60,6 @@ it:
       make_private: Rendi privato
       make_public: Rendi pubblico
       unfavorite: Rimuovi dai preferiti
-    allocation:
-      hours: "%{value}h"
-      no_work: Nessun lavoro pianificato per questa macro-attività
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,19 +83,23 @@ it:
       submit: Assegna
       success_message: Risorsa assegnata.
       title: Assegna risorsa
+    allocation:
+      hours: "%{value}h"
+      no_work: Nessun lavoro pianificato per questa macro-attività
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assegna comunque
       filter_criteria: Criteri di filtro
       no_candidates:
         description: No project member matches this allocation's filter criteria.
-        title: No matching members
+        title: Nessun membro corrispondente
       no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
       overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
       requested_for: Requested for
       select_user: Selezionare un utente da assegnare.
       submit: Assegna
-      title: Assign %{filter_name}
+      title: Assegna %{filter_name}
     blankslate:
       desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
       title: Ancora nessun pianificatore di risorse
@@ -142,7 +142,7 @@ it:
         resource: Risorsa
         work_package: Work package
       context_menu_label: Azioni di assegnazione
-      delete_confirmation: Are you sure you want to delete this allocation?
+      delete_confirmation: Sicuro di voler eliminare questa allocazione?
       menu_item: Staffing
       starts_in_past: This allocation has already started and is still unassigned.
       success_message: User assigned.
@@ -184,11 +184,11 @@ it:
         remove: Rimuovi utente
         remove_confirmation: Rimuovere questo utente dalla vista?
       fields:
-        working_times: Orari di lavoro
-        input_label: Campi
-        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
-        input_placeholder: Aggiungi un campo
         drag_area_label: Campi visualizzati
+        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
+        input_label: Campi
+        input_placeholder: Aggiungi un campo
+        working_times: Orari di lavoro
       subheader:
         resource: Risorsa
         settings: Configura vista

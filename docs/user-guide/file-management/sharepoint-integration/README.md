@@ -61,7 +61,7 @@ To link a SharePoint file to the current work package, you can either:
 
 ![Select a SharePoint file or folder to link to an OpenProject work package](openproject_user_guide_sharepoint_storage_select_files_to_link.png)
 
-Select any folder or file (or multiple ones) you want to link , then click the *Link* button.
+Select any folder or file (or multiple ones) you want to link , then click the _Link_ button.
 
 ![Select files to link to an OpenProject work package from a SharePoint file storage](openproject_user_guide_sharepoint_storage_select_multiple_files_to_link.png)
 
@@ -121,7 +121,7 @@ When a file or folder from SharePoint is linked to a work package, an OpenProjec
 - See when it was last modified (or created, if it has not yet been modified)
 - See who last modified it (or who created it, if it has not yet been modified)
 
-However, all available actions depend on permissions the OpenProject user (or more precisely, the SharePoint account tied to that user) has in SharePoint. In other words, a user who does not have the permission to access the file in SharePoint will also *not* be able to open, download, or modify the file in OpenProject.
+However, all available actions depend on permissions the OpenProject user (or more precisely, the SharePoint account tied to that user) has in SharePoint. In other words, a user who does not have the permission to access the file in SharePoint will also _not_ be able to open, download, or modify the file in OpenProject.
 
 Please note, that with automatically managed project folders these permissions are set by OpenProject based on user permissions in OpenProject.
 

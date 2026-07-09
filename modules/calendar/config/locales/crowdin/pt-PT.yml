@@ -1,13 +1,13 @@
 #English strings go here
 ---
 pt-PT:
-  plugin_openproject_calendar:
-    name: Calendário OpenProject
-    description: Fornece vistas de calendários.
   label_calendar: Calendários
   label_calendar_plural: Calendários
   label_new_calendar: Novo calendário
-  permission_view_calendar: Ver calendários
   permission_manage_calendars: Gerir calendários
   permission_share_calendars: Subscrever iCalendars
+  permission_view_calendar: Ver calendários
+  plugin_openproject_calendar:
+    description: Fornece vistas de calendários.
+    name: Calendário OpenProject
   project_module_calendar_view: Calendários

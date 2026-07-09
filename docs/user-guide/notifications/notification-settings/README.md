@@ -7,7 +7,7 @@ keywords: notifications settings
 ---
 # Notification settings
 
-You can configure how and for what events you wish to be notified through notifications. To access these settings, you can either click on your avatar on the top right corner > *Account settings* > *Notification settings* or click on **Settings** on the top right corner of the notifications inbox.
+You can configure how and for what events you wish to be notified through notifications. To access these settings, you can either click on your avatar on the top right corner > _Account settings_ > _Notification settings_ or click on **Settings** on the top right corner of the notifications inbox.
 
 ![A screenshot of Notification center with the Notification settings button highlighted](Notification-settings-12.4-fromNotificationCenter.png)
 
@@ -91,7 +91,6 @@ Then select a project from the overlay form that will appear and specify notific
 ![A form to specify project-specific notifications for OpenProject](openproject_user_guide_project_specific_settings_overlay.png)
 
 Once you do so, you will see a list of projects, for which project-specific notification settings were defined. You can modify these settings at any later point.
-
 
 ![Text](Notification-settings-12.4-projectSpecific.png)
 

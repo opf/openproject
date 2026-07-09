@@ -77,7 +77,7 @@ You can make basic date modifications simply by manipulating the work package st
 
 ### Filters
 
-You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
+You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. _Author_, _Due Date_, _Priority_, _Assignee_, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
 Click the **Filter** button on the top right above the calendar to open the filter details.  To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria. The number of different filter criteria is displayed on the filter button.
 

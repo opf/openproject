@@ -1,13 +1,13 @@
 #English strings go here
 ---
 ar:
-  plugin_openproject_calendar:
-    name: فتح تقويم OpenProject
-    description: يوفر مشاهدات التقويم.
   label_calendar: التقويم
   label_calendar_plural: التقويمات
   label_new_calendar: تقويم جديد
-  permission_view_calendar: عرض التقويمات
   permission_manage_calendars: إدارة التقويمات
   permission_share_calendars: الاشتراك في iCalendar
+  permission_view_calendar: عرض التقويمات
+  plugin_openproject_calendar:
+    description: يوفر مشاهدات التقويم.
+    name: فتح تقويم OpenProject
   project_module_calendar_view: التقويمات

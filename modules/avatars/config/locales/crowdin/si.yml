@@ -1,29 +1,29 @@
 #English strings go here
 ---
 si:
-  plugin_openproject_avatars:
-    name: අවතාර්
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: අවතාර්
-  label_avatar_plural: අවතාර්
-  label_current_avatar: වත්මන් අවතාරය
-  label_choose_avatar: ගොනුව සිට Avatar තෝරන්න
-  message_avatar_uploaded: අවතාර් සාර්ථකව වෙනස් විය.
-  error_image_upload: රූපය සුරැකීමේ දෝෂය.
-  error_image_size: රූපය ඉතා විශාලයි.
   are_you_sure_delete_avatar: ඔබට ඔබේ අවතාරය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
   avatar_deleted: අවතාර් සාර්ථකව මකා දැමීය.
-  unable_to_delete_avatar: අවතාර් මකා දැමිය නොහැකි විය.
-  wrong_file_format: අවසර ලත් ආකෘති jpg, png, gif වේ
-  empty_file_error: කරුණාකර වලංගු රූපයක් උඩුගත කරන්න (jpg, png, gif)
   avatars:
     label_avatar: අවතාර්
     label_gravatar: කැටයම්
     label_local_avatar: අභිරුචි අවතාරය
+    settings:
+      enable_gravatars: පරිශීලක ගුරුත්වාකර්ෂණ සක්රිය කරන්න
+      enable_local_avatars: පරිශීලක අභිරුචි අවතාර සක්රීය
+      gravatar_default: පෙරනිමි රූපය
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: පරිශීලක ගුරුත්වාකර්ෂණ සක්රිය කරන්න
-      gravatar_default: පෙරනිමි රූපය
-      enable_local_avatars: පරිශීලක අභිරුචි අවතාර සක්රීය
+  empty_file_error: කරුණාකර වලංගු රූපයක් උඩුගත කරන්න (jpg, png, gif)
+  error_image_size: රූපය ඉතා විශාලයි.
+  error_image_upload: රූපය සුරැකීමේ දෝෂය.
+  label_avatar: අවතාර්
+  label_avatar_plural: අවතාර්
+  label_choose_avatar: ගොනුව සිට Avatar තෝරන්න
+  label_current_avatar: වත්මන් අවතාරය
+  message_avatar_uploaded: අවතාර් සාර්ථකව වෙනස් විය.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: අවතාර්
+  unable_to_delete_avatar: අවතාර් මකා දැමිය නොහැකි විය.
+  wrong_file_format: අවසර ලත් ආකෘති jpg, png, gif වේ

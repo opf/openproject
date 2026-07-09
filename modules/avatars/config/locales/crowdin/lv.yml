@@ -1,29 +1,29 @@
 #English strings go here
 ---
 lv:
-  plugin_openproject_avatars:
-    name: Avatāri
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: Avatārs
-  label_avatar_plural: Avatāri
-  label_current_avatar: Pašreizējais avatārs
-  label_choose_avatar: Izvēlieties avataru no faila
-  message_avatar_uploaded: Avatārs veiksmīgi mainīts.
-  error_image_upload: Kļūda, saglabājot attēlu.
-  error_image_size: Attēls ir pārāk liels.
   are_you_sure_delete_avatar: Vai tiešām vēlies dzēst savu avatāru?
   avatar_deleted: Avatārs veiksmīgi izdzēsts.
-  unable_to_delete_avatar: Avatāru nevarēja izdzēst.
-  wrong_file_format: Atļautie formāti ir jpg, png, gif
-  empty_file_error: Lūdzu, augšupielādējiet atbilstoša formāta attēlu (jpg, png, gif)
   avatars:
     label_avatar: Avatārs
     label_gravatar: Gravatar
     label_local_avatar: Pielāgots avatārs
+    settings:
+      enable_gravatars: Enable user gravatars
+      enable_local_avatars: Enable user custom avatars
+      gravatar_default: Default Gravatar image
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Enable user gravatars
-      gravatar_default: Default Gravatar image
-      enable_local_avatars: Enable user custom avatars
+  empty_file_error: Lūdzu, augšupielādējiet atbilstoša formāta attēlu (jpg, png, gif)
+  error_image_size: Attēls ir pārāk liels.
+  error_image_upload: Kļūda, saglabājot attēlu.
+  label_avatar: Avatārs
+  label_avatar_plural: Avatāri
+  label_choose_avatar: Izvēlieties avataru no faila
+  label_current_avatar: Pašreizējais avatārs
+  message_avatar_uploaded: Avatārs veiksmīgi mainīts.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: Avatāri
+  unable_to_delete_avatar: Avatāru nevarēja izdzēst.
+  wrong_file_format: Atļautie formāti ir jpg, png, gif

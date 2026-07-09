@@ -1,6 +1,6 @@
 ---
 fa:
   overviews:
-    label_home: "%{workspace_type} آغازه"
     label_dashboard: پیشخوان
+    label_home: "%{workspace_type} آغازه"
     label_overview: نمای کلی

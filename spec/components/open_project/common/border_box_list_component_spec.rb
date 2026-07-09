@@ -912,4 +912,79 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       end.to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
     end
   end
+
+  describe "header title" do
+    it "renders the title from the title: string" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-string")
+      ) do |list|
+        list.with_header(title: "String title")
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("String title", level: 4)
+    end
+
+    it "renders the title from the with_title slot" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-slot")
+      ) do |list|
+        list.with_header do |header|
+          header.with_title { "Slot title" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("Slot title", level: 4)
+    end
+
+    it "prefers the with_title slot over the title: string" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-precedence")
+      ) do |list|
+        list.with_header(title: "String title") do |header|
+          header.with_title { "Slot title" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("Slot title", level: 4)
+      expect(rendered).to have_no_text("String title")
+    end
+
+    it "raises when neither the title: string nor the with_title slot is provided" do
+      expect do
+        render_inline(
+          described_class.new(container: "hdr-no-title")
+        ) do |list|
+          list.with_header(count: 1)
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError)
+    end
+  end
+
+  describe "header drag handle" do
+    it "renders a drag handle when `show_drag_handle` is true" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-drag-handle")
+      ) do |list|
+        list.with_header(title: "Draggable", show_drag_handle: true)
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--drag_handle .DragHandle")
+    end
+
+    it "omits the drag handle by default" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-no-drag-handle")
+      ) do |list|
+        list.with_header(title: "Plain")
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_no_css(".op-border-box-list-header--drag_handle")
+    end
+  end
 end

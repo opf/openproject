@@ -22,9 +22,9 @@
 ---
 cs:
   js:
-    work_packages:
-      properties:
-        storyPoints: Body příběhu
     burndown:
       day: Den
       points: Body
+    work_packages:
+      properties:
+        storyPoints: Body příběhu

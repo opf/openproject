@@ -27,8 +27,8 @@ fr:
   ee:
     upsell:
       ldap_departments:
-        title: Synchronisation du service LDAP
         description: Répliquez la structure de vos unités organisationnelles LDAP dans la hiérarchie des services d'OpenProject et synchronisez automatiquement les membres de ces services.
+        title: Synchronisation du service LDAP
   ldap_departments:
     label_menu_item: Synchronisation du service LDAP
     label_synchronize: Synchroniser les unités organisationnelles
@@ -47,12 +47,13 @@ fr:
       singular: Service synchronisé
     synchronized_trees:
       add_new: Ajouter une synchronisation de service LDAP
-      synchronization_started: La synchronisation a démarré en arrière-plan. Les services s'afficheront une fois celle-ci terminée.
       blankslate:
         description: Configurez une synchronisation afin de reproduire la structure des unités organisationnelles LDAP dans la hiérarchie des services d'OpenProject.
         heading: Aucune synchronisation LDAP entre les services
       destroy:
-        confirmation: Si vous continuez, la synchronisation %{name} sera supprimée et ses %{departments_count} services ne seront plus gérés par LDAP.
+        confirmation_message:
+          one: If you continue, the synchronization %{name} is removed and its %{count} department is no longer managed by LDAP.
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: Supprimer la synchronisation %{name} ?
         info: Les services et leurs membres sont conservés et deviennent des services permanents. Vous pouvez ensuite les modifier ou les supprimer manuellement dans la rubrique Administration → Utilisateurs et autorisations → Organisation.
         title: Supprimer la synchronisation %{name}
@@ -82,6 +83,7 @@ fr:
       no_results: Aucune synchronisation LDAP avec les services n'a encore été configurée.
       plural: Synchronisation des services LDAP
       singular: Synchronisation du service LDAP
+      synchronization_started: La synchronisation a démarré en arrière-plan. Les services s'afficheront une fois celle-ci terminée.
   plugin_openproject_ldap_departments:
     description: Synchronisation des unités organisationnelles LDAP avec les services d'OpenProject.
     name: Services LDAP d'OpenProject

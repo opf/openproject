@@ -380,4 +380,73 @@ RSpec.describe Type do
       end
     end
   end
+
+  describe "core settings and display helpers" do
+    let(:color) { create(:color) }
+    let!(:parent) do
+      create(:type,
+             name: "Task",
+             color:,
+             is_milestone: true,
+             is_in_roadmap: false,
+             is_default: true)
+    end
+    let!(:child) do
+      create(:type,
+             name: "Bug",
+             parent:,
+             color: nil,
+             is_milestone: false,
+             is_in_roadmap: true,
+             is_default: false)
+    end
+
+    describe "#subtype?" do
+      it "is true for a child and false for a root" do
+        expect(child).to be_subtype
+        expect(parent).not_to be_subtype
+      end
+    end
+
+    describe "display helpers" do
+      it "#displayed_name returns the root name" do
+        expect(child.displayed_name).to eq("Task")
+        expect(parent.displayed_name).to eq("Task")
+      end
+
+      it "#displayed_color returns the root color" do
+        expect(child.displayed_color).to eq(color)
+        expect(parent.displayed_color).to eq(color)
+      end
+
+      it "#composite_name prefixes the parent name for a sub-type" do
+        expect(child.composite_name).to eq("Task: Bug")
+        expect(parent.composite_name).to eq("Task")
+      end
+    end
+
+    describe "inherited core settings" do
+      it "reads color through to the parent" do
+        expect(child.color).to eq(color)
+        expect(child.color_id).to eq(color.id)
+      end
+
+      it "reads the boolean settings through to the parent, ignoring its own columns" do
+        expect(child.is_milestone?).to be(true)
+        expect(child.is_in_roadmap?).to be(false)
+        expect(child.is_default?).to be(true)
+      end
+
+      it "keeps the sub-type's own name as the variant label" do
+        expect(child.name).to eq("Bug")
+      end
+
+      it "leaves a root's own settings untouched" do
+        expect(parent.color).to eq(color)
+        expect(parent.is_milestone?).to be(true)
+        expect(parent.is_in_roadmap?).to be(false)
+        expect(parent.is_default?).to be(true)
+      end
+    end
+  end
 end

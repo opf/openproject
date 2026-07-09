@@ -261,11 +261,43 @@ RSpec.describe Meetings::IcalendarBuilder,
       meeting
     end
 
+    context "when emitting an instantiated occurrence within the current schedule" do
+      subject(:builder) { described_class.new(timezone:) }
+
+      it "emits it as a RECURRENCE-ID override keyed to its original slot" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        # third_occurence is a past occurrence that still belongs to the current
+        # schedule, so it must be emitted (unlike previous-schedule occurrences).
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
+      end
+    end
+
     context "when using the cache" do
       subject(:builder) { described_class.new(timezone:) }
 
       before do
         builder.preload_for_recurring_meetings(recurring_meetings: [recurring_meeting])
+      end
+
+      it "emits the instantiated occurrence within the current schedule as an override" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        overrides = parsed_calendar.events.select { |e| e.recurrence_id.present? }
+
+        expect(overrides.size).to eq(1)
+        override = overrides.first
+        expect(override.recurrence_id).to eq(third_occurence.recurrence_start_time)
+        expect(override.dtstart).to eq(third_occurence.start_time)
+        expect(override.rrule).to be_empty
       end
 
       it "preloads the correct caches" do

@@ -2,26 +2,26 @@
 ---
 nl:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: Deze module zorgt voor recaptcha controles tijdens het aanmelden.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Even geduld a.u.b.
-    verify_account: Verifieer je account
     error_captcha: Uw account kon niet worden geverifieerd. Neem contact op met een beheerder.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Websleutel (Kan ook "Site key" worden genoemd)
+      captcha_description_html: 'reCAPTCHA is een gratis service van Google die ingeschakeld kan worden voor uw OpenProject-instantie. Indien ingeschakeld, wordt er bij het inloggen een captcha-formulier weergegeven voor alle gebruikers die nog geen captcha hebben geverifieerd. <br/> Zie de volgende link voor meer details over reCAPTCHA en hun versies, en hoe u de website en geheime sleutels aanmaakt: %{recaptcha_link} <br/> HCaptcha is een Google-vrij alternatief dat u kunt gebruiken als u reCAPTCHA niet wilt gebruiken. Zie deze link voor meer informatie: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is een ander alternatief dat handiger is voor gebruikers en toch hetzelfde beveiligingsniveau biedt. Zie deze koppeling voor meer informatie: %{turnstile_link}
+
+        '
       response_limit: Antwoordlimiet voor HCaptcha
       response_limit_text: Het maximum aantal tekens om het HCaptcha antwoord als geldig te behandelen.
-      website_key_text: Vul de website sleutel in die je hebt gemaakt op de reCAPTCHA admin console voor dit domein.
       secret_key: Geheime sleutel
       secret_key_text: Voer de geheime sleutel in die u hebt aangemaakt op de reCAPTCHA admin console.
       type: ReCAPTCHA gebruiken
       type_disabled: ReCAPTCHA uitschakelen
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA is een gratis service van Google die ingeschakeld kan worden voor uw OpenProject-instantie. Indien ingeschakeld, wordt er bij het inloggen een captcha-formulier weergegeven voor alle gebruikers die nog geen captcha hebben geverifieerd. <br/> Zie de volgende link voor meer details over reCAPTCHA en hun versies, en hoe u de website en geheime sleutels aanmaakt: %{recaptcha_link} <br/> HCaptcha is een Google-vrij alternatief dat u kunt gebruiken als u reCAPTCHA niet wilt gebruiken. Zie deze link voor meer informatie: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is een ander alternatief dat handiger is voor gebruikers en toch hetzelfde beveiligingsniveau biedt. Zie deze koppeling voor meer informatie: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Websleutel (Kan ook "Site key" worden genoemd)
+      website_key_text: Vul de website sleutel in die je hebt gemaakt op de reCAPTCHA admin console voor dit domein.
+    verify_account: Verifieer je account

@@ -10,7 +10,7 @@ keywords: project life cycle, project phase, project phase gate, project setting
 
 ## Overview
 
-The *Project life cycle* feature allows organizations to define and visualize structured project phases across all projects and portfolios. This makes it easier to:
+The _Project life cycle_ feature allows organizations to define and visualize structured project phases across all projects and portfolios. This makes it easier to:
 
 - Track the current stage of any project at a glance
 - Understand portfolio-level progress
@@ -27,6 +27,7 @@ Existing projects created before the life cycle feature is enabled will not auto
 > While project phases and gates can be customized globally in system administration, they **cannot** be modified per individual project, only enabled or disabled.
 
 By default, OpenProject includes four standard project phases:
+
 - **Initiating**
 - **Planning**
 - **Executing**
@@ -38,7 +39,7 @@ These four stages, based on the [PM² framework](https://www.openproject.org/pm2
 
 [feature: customize_life_cycle ]
 
-To manage project phases and gates, navigate to:  *Administration → Projects → Project life cycle*.
+To manage project phases and gates, navigate to:  _Administration → Projects → Project life cycle_.
 
 Each phase can have a **start gate** and/or a **finish gate**, which are optional and configurable.
 
@@ -60,13 +61,13 @@ Project phases are listed in order of execution. You can rearrange the order of 
 
 ### Add a project phase 
 
-To add a new project phase go to *Administration → Projects → Project life cycle* and click the **+ Add** button. You can then enter a name for the new phase and choose a color to visually distinguish the phase. Click **Create**. 
+To add a new project phase go to _Administration → Projects → Project life cycle_ and click the **+ Add** button. You can then enter a name for the new phase and choose a color to visually distinguish the phase. Click **Create**. 
 
 ![Add a new project phase under project life cycles in OpenProject system administration](openproject_userguide_project_settings_life_cycle_add_new.png)
 
 ### Add a phase gate
 
-After creating the phase or while setting one up, navigate to the *Phase gate* tab and activate and name start and/or finish phase gates. 
+After creating the phase or while setting one up, navigate to the _Phase gate_ tab and activate and name start and/or finish phase gates. 
 
 ![Add phase gates under project life cycle settings in OpenProject administration](openproject_userguide_project_settings_life_cycle_add_new_gates.png)
 
@@ -75,7 +76,7 @@ After creating the phase or while setting one up, navigate to the *Phase gate* t
 To modify an existing project phase:
 
 - Click the phase name directly, or
-- Click the More menu (three dots icon) next to the phase and choose *Edit*
+- Click the More menu (three dots icon) next to the phase and choose _Edit_
 
 To edit the gates associated with a phase, switch to the Phase gate tab and make the necessary adjustments.
 
@@ -83,6 +84,6 @@ To edit the gates associated with a phase, switch to the Phase gate tab and make
 
 ### Delete a project phase
 
-To delete an existing project phase click the More menu (three dots icon) next to the phase and choose *Delete*.
+To delete an existing project phase click the More menu (three dots icon) next to the phase and choose _Delete_.
 
 ![Delete project phases under OpenProject system settings](openproject_userguide_project_settings_life_cycle_delete.png)

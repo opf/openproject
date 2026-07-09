@@ -1,42 +1,22 @@
 #English strings go here
 ---
 vi:
-  plugin_openproject_boards:
-    name: Ban OpenProject
-    description: Cung cấp chế độ xem bảng.
-  permission_show_board_views: Xem bảng
-  permission_manage_board_views: Quản lý bảng
-  project_module_board_view: bảng
-  ee:
-    upsell:
-      board_view:
-        description: Bạn có muốn tự động hóa quy trình công việc của mình với Bảng không? Bảng nâng cao là một tiện ích bổ sung dành cho Doanh nghiệp. Vui lòng nâng cấp lên gói trả phí.
   boards:
-    label_board: bảng
-    label_boards: bảng
-    label_create_new_board: Tạo bảng mới
-    label_board_type: Loại bảng
-    board_types:
-      free: Cơ bản
-      action: Bảng hành động (%{attribute})
     board_type_attributes:
       assignee: Người được chuyển nhượng
+      basic: Cơ bản
       status: Kanban
-      version: Phiên bản
       subproject: dự án con
       subtasks: Cha-con
-      basic: Cơ bản
+      version: Phiên bản
     board_type_descriptions:
+      assignee: 'Bảng với các cột tự động dựa trên người dùng được chỉ định. Lý tưởng cho việc gửi các gói công việc.
+
+        '
       basic: 'Bắt đầu lại từ đầu với một bảng trống. Thêm thẻ và cột theo cách thủ công vào bảng này.
 
         '
       status: 'Bảng kiểu Kanban cơ bản với các cột cho trạng thái như Việc cần làm, Đang tiến hành, Đã xong.
-
-        '
-      assignee: 'Bảng với các cột tự động dựa trên người dùng được chỉ định. Lý tưởng cho việc gửi các gói công việc.
-
-        '
-      version: 'Bảng với các cột tự động dựa trên thuộc tính phiên bản. Lý tưởng cho việc lập kế hoạch phát triển sản phẩm.
 
         '
       subproject: 'Bảng có các cột tự động cho các tiểu dự án. Kéo các gói công việc vào danh sách khác sẽ cập nhật dự án (phụ) tương ứng.
@@ -45,3 +25,23 @@ vi:
       subtasks: 'Bảng có các cột tự động dành cho các phần tử phụ. Kéo các gói công việc vào danh sách khác sẽ cập nhật gói gốc tương ứng.
 
         '
+      version: 'Bảng với các cột tự động dựa trên thuộc tính phiên bản. Lý tưởng cho việc lập kế hoạch phát triển sản phẩm.
+
+        '
+    board_types:
+      action: Bảng hành động (%{attribute})
+      free: Cơ bản
+    label_board: bảng
+    label_board_type: Loại bảng
+    label_boards: bảng
+    label_create_new_board: Tạo bảng mới
+  ee:
+    upsell:
+      board_view:
+        description: Bạn có muốn tự động hóa quy trình công việc của mình với Bảng không? Bảng nâng cao là một tiện ích bổ sung dành cho Doanh nghiệp. Vui lòng nâng cấp lên gói trả phí.
+  permission_manage_board_views: Quản lý bảng
+  permission_show_board_views: Xem bảng
+  plugin_openproject_boards:
+    description: Cung cấp chế độ xem bảng.
+    name: Ban OpenProject
+  project_module_board_view: bảng

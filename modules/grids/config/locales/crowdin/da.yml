@@ -1,36 +1,36 @@
 ---
 da:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Antal kolonner
+        page: Side
+        row_count: Antal rækker
+        scope: Omfang
+        widgets: Widgets
+    errors:
+      models:
+        grids/grid:
+          end_before_start: Slutværdien skal være større end startværdien.
+          outside: er uden for gitteret.
+          overlaps: overlap.
   grids:
     label_widget_in_grid: Widget indeholdt i gitter %{grid_name}
     widgets:
       empty: Denne widget er i øjeblikket tom.
-      not_available: Denne widget er ikke tilgængelig.
-      subitems:
-        title: Underpunkter
-        no_results: Der er ingen synlige underordnede.
-        view_all_subitems: Vis alle underpunkter
-        button_text: Underpunkt
       members:
-        title: Medlemmer
         no_results: Ingen synlige medlemmer.
-        view_all_members: Vis alle medlemmer
         show_members_count: Vis alle %{count} medlemmer
+        title: Medlemmer
+        view_all_members: Vis alle medlemmer
         x_more:
           one: og et medlem mere.
           other: og %{count} flere medlemmer.
       news:
         no_results: Intet nyt at rapportere.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Side
-        row_count: Antal rækker
-        column_count: Antal kolonner
-        widgets: Widgets
-        scope: Omfang
-    errors:
-      models:
-        grids/grid:
-          overlaps: overlap.
-          outside: er uden for gitteret.
-          end_before_start: Slutværdien skal være større end startværdien.
+      not_available: Denne widget er ikke tilgængelig.
+      subitems:
+        button_text: Underpunkt
+        no_results: Der er ingen synlige underordnede.
+        title: Underpunkter
+        view_all_subitems: Vis alle underpunkter

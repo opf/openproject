@@ -2,11 +2,11 @@
 ---
 id:
   js:
-    label_preview: Preview
-    button_update: Update
     avatars:
+      empty_file_error: Unggah gambar yang valid (jpg, png, gif)
+      error_image_too_large: Gambar terlalu besar
       label_choose_avatar: Pilih avatar dari file
       uploading_avatar: Mengunggah avatar
-      error_image_too_large: Gambar terlalu besar
       wrong_file_format: Format yang diperbolehkan adalah jpg, png, gif
-      empty_file_error: Unggah gambar yang valid (jpg, png, gif)
+    button_update: Update
+    label_preview: Preview

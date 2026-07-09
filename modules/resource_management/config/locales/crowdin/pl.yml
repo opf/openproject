@@ -60,10 +60,6 @@ pl:
       make_private: Ustaw jako prywatny
       make_public: Ustaw jako publiczny
       unfavorite: Usuń z ulubionych
-    allocation:
-      hours: "%{value} h"
-      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ pl:
       submit: Przydziel
       success_message: Zasób przydzielono.
       title: Przydziel zasób
+    allocation:
+      hours: "%{value} h"
+      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -186,11 +186,11 @@ pl:
         remove: Usuń użytkownika
         remove_confirmation: Usunąć tego użytkownika z widoku?
       fields:
-        working_times: Czasy pracy
-        input_label: Pola
-        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
-        input_placeholder: Dodaj pole
         drag_area_label: Wyświetlane pola
+        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
+        input_label: Pola
+        input_placeholder: Dodaj pole
+        working_times: Czasy pracy
       subheader:
         resource: Zasób
         settings: Konfiguruj widok

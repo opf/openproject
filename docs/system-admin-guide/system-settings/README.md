@@ -13,8 +13,6 @@ To modify these settings, navigate to **Administration → System settings**.
 
 ![System settings in OpenProject administration](openproject_system_guide_system_settings.png)
 
-
-
 ## Overview
 
 | Topic                                | Content                                                      |

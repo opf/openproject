@@ -4,7 +4,7 @@ et:
   js:
     calendar:
       create_new: Loo uus kalendet
+      label_calendar_plural: Kalendrid
       title: Kalender
       too_many: Kokku on %{count} tööpaketti, aga näidata saab maksimaalselt ainult %{max}.
       unsaved_title: Nimeta kalender
-      label_calendar_plural: Kalendrid

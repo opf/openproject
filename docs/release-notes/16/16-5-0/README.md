@@ -20,12 +20,12 @@ Take a look at our release video showing the most important features introduced 
 
 ### Add work packages to a meeting section in the Meetings tab
 
-You can now place a work package directly into a specific agenda section when adding it to a meeting from the Meetings tab. Open a work package, go to the tab *Meetings* and select an upcoming meeting. If you selected one, you can now choose in which section the work package should be displayed. 
+You can now place a work package directly into a specific agenda section when adding it to a meeting from the Meetings tab. Open a work package, go to the tab _Meetings_ and select an upcoming meeting. If you selected one, you can now choose in which section the work package should be displayed. 
 
 >[!NOTE]
 > If you choose a one-time meeting with no sections, the work package will automatically be added to the Agenda backlog.
 
-In the *Notes* section, you can add text that will be displayed together with the meeting title in the *Meetings* tab of the work package.
+In the _Notes_ section, you can add text that will be displayed together with the meeting title in the _Meetings_ tab of the work package.
 
 [See our user guide to learn more about how to add work packages to meetings](../../../user-guide/work-packages/add-work-packages-to-meetings).
 
@@ -33,16 +33,17 @@ In the *Notes* section, you can add text that will be displayed together with th
 
 ### Choose color mode more conveniently with "Increase contrast" checkboxes
 
-To give our users a clearer and better selection of the recently released new color modes, we have simplified the settings under *Account settings* → *Interface*. Users can now only choose between:
+To give our users a clearer and better selection of the recently released new color modes, we have simplified the settings under _Account settings_ → _Interface_. Users can now only choose between:
+
 - Light
 - Dark
 - Automatic (match OS color mode)
 
-Additionally, **checkboxes for high contrast** are now displayed, depending on the selection. So if you  selected *Light high contrast* in previous versions, starting with 16.5, you can now select *Light* and check the box for *Increase contrast*.
+Additionally, **checkboxes for high contrast** are now displayed, depending on the selection. So if you  selected _Light high contrast_ in previous versions, starting with 16.5, you can now select _Light_ and check the box for _Increase contrast_.
 
 This new feature is particularly helpful for the automatic mode, where you can now differentiate whether you want high contrast to be displayed only in dark mode or only in light mode, for example.
 
-[Learn more about the *Look and feel* options in OpenProject](../../../user-guide/account-settings/#look-and-feel).
+[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/#look-and-feel).
 
 ![OpenProject account settings / Interface: Look and feel options reduced to "Dark", "Light" and "Automatic". Automatic is selected and below two checkboxes are displayed:" Force high contrast when in Light mode" and "Force high-contrast when in Dark mode".](openproject-16-5-increase-contrast-automatic.png)
 

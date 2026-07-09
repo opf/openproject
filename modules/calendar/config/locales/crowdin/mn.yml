@@ -1,13 +1,13 @@
 #English strings go here
 ---
 mn:
-  plugin_openproject_calendar:
-    name: OpenProject Хуанли
-    description: Хуанли харах боломжийг олгодог.
   label_calendar: Хуанли
   label_calendar_plural: Хуанли
   label_new_calendar: Шинэ хуанли
-  permission_view_calendar: Хуанли харах
   permission_manage_calendars: Хуанли удирдах
   permission_share_calendars: Subscribe to iCalendars
+  permission_view_calendar: Хуанли харах
+  plugin_openproject_calendar:
+    description: Хуанли харах боломжийг олгодог.
+    name: OpenProject Хуанли
   project_module_calendar_view: Хуанли

@@ -21,12 +21,11 @@
 #++
 ---
 pl:
-  plugin_openproject_documents:
-    name: Dokumenty OpenProject
-    description: Wtyczka OpenProject umożliwiająca tworzenie dokumentów w projektach.
-  attributes:
-    collaborative_editing_hocuspocus_url: Adres URL serwera Hocuspocus
   activerecord:
+    attributes:
+      document:
+        content_binary: Treść binarna
+        title: Tytuł
     errors:
       models:
         document_type:
@@ -34,128 +33,129 @@ pl:
     models:
       document: Dokument
       documents: Dokumenty
-    attributes:
-      document:
-        content_binary: Treść binarna
-        title: Tytuł
   activity:
     filter:
       document: Dokumenty
+  attributes:
+    collaborative_editing_hocuspocus_url: Adres URL serwera Hocuspocus
   default_doc_category_tech: Dokumentacja techniczna
   default_doc_category_user: Dokumentacja użytkownika
-  enumeration_doc_categories: Kategoria dokumentu
   documents:
-    button_add_type: Typ
-    page_header:
-      heading: Wszystkie dokumenty
-      action_menu:
-        document_actions: Działania związane z dokumentami
-        edit_title: Edytuj tytuł
-    subheader:
-      filter:
-        label: Filtr nazwy dokumentu
-        placeholder: Wpisz tutaj, aby wyszukać nazwy dokumentów
-    documents_list_blank_slate:
-      heading: Dokumentów jeszcze nie ma
-      description: W tym widoku nie ma żadnych dokumentów. Możesz kliknąć poniższy przycisk, aby je dodać.
-    document_categories_deprecation_notice:
-      heading: Kategorie plików są teraz nazywane „Typami dokumentów”
-      description: |-
-        Twoje istniejące kategorie plików zostały przekształcone w typy dokumentów wraz z wprowadzeniem nowego modułu Dokumenty.
-        Wszystkie istniejące dokumenty zostały również migrowane do tych nowych typów.
-      primary_action: Skonfiguruj typy dokumentów
-      secondary_action: Dowiedz się więcej o module Dokumenty
-    document_type_actions: Działania związane z typem dokumentów
-    text_collaboration_disabled_notice:
-      description: |-
-        Nie można otworzyć dokumentu, ponieważ współpraca tekstowa w czasie rzeczywistym jest wyłączona.
-        Jeśli chcesz uzyskać dostęp do tego dokumentu, skontaktuj się z administratorem, aby włączyć współpracę tekstową w czasie rzeczywistym.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Nie można otworzyć dokumentu, ponieważ serwer współpracy tekstowej w czasie rzeczywistym jest nieosiągalny.
-          Jeśli problem nie ustępuje, skontaktuj się z administratorem.
-        action: Spróbuj ponownie
-      tabs: Karty dokumentów
-    index_page:
-      name: Nazwa
-      type: Typ
-      updated_at: Ostatnio edytowano
-      label_legacy: Starsze
-    menu:
-      all: Wszystkie dokumenty
-      types: Typy
-      collaboration_settings: Współpraca w czasie rzeczywistym
-    last_updated_at: Ostatnio zapisano %{time}.
-    info_line:
-      currently_offline: Jesteś obecnie offline.
-      connection_restored: Znów jesteś online.
     active_editors: Aktywni edytorzy
     active_editors_count:
       one: 1 aktywny edytor
       few: "%{count} aktywnych edytorów"
       many: "%{count} aktywnych edytorów"
       other: "%{count} aktywnego edytora"
-    label_attachment_author: Autor załącznika
-    label_categories: Kategorie
-    new_category: Nowa kategoria
-    new_type: Nowy typ
+    admin:
+      collaboration_settings:
+        banner:
+          none_writable: Wartości te są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
+          some_unwritable: Niektóre wartości są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
+        hocuspocus_server: Serwer Hocuspocus
+        hocuspocus_server_secret:
+          caption: Wklej klucz tajny dostarczony przez serwer Hocuspocus.
+          label: Klucz tajny klienta
+        hocuspocus_server_url:
+          caption: Adres WebSocket działającego serwera Hocuspocus.
+          invalid_scheme: Musi używać protokołu WebSocket (ws:// lub wss://).
+          label: Adres URL serwera Hocuspocus
+        page_header:
+          description: |-
+            Po włączeniu współpraca w czasie rzeczywistym pozwala wielu użytkownikom edytować dokument w tym samym czasie.
+            Do działania wymaga działającego %{hocuspocus_server_link}.
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Rozumiem, że mogę bezpowrotnie utracić dane
+        confirmation_message: Wszystkie istniejące dokumenty mogą stać się niedostępne. Zrób to tylko mając pewność, że chcesz wyłączyć współpracę w czasie rzeczywistym i edytor BlockNote w tym wystąpieniu.
+        heading: Wyłączyć współpracę w czasie rzeczywistym?
+        success: Współpraca w czasie rzeczywistym została wyłączona.
+        title: Wyłącz współpracę w czasie rzeczywistym
+      enable_text_collaboration:
+        description: |-
+          Po włączeniu tej funkcji nad dokumentem będzie mogło jednocześnie pracować wielu użytkowników.
+          Wszystkie nowe dokumenty będą oparte na nowym edytorze (BlockNote) i będą wymagały działającego połączenia z serwerem Hocuspocus.
+        heading: Współpraca w czasie rzeczywistym nie jest włączona
+        primary_action: Włącz współpracę w czasie rzeczywistym
+        success: Współpraca w czasie rzeczywistym została włączona.
+    button_add_type: Typ
     delete_dialog:
-      title: Usuń dokument
-      heading: Usunąć ten dokument?
       confirmation_message_html: Spowoduje to trwałe usunięcie tego dokumentu i wszystkich załączników. Czy na pewno tego chcesz?
+      heading: Usunąć ten dokument?
+      title: Usuń dokument
     delete_document_type_dialog:
-      title: Usuń typ dokumentu
-      heading: Usunąć ten typ dokumentu?
+      at_least_one_type_required:
+        heading: Nie można usunąć ostatniego typu dokumentu
+        message: Zawsze musi być skonfigurowany co najmniej jeden typ dokumentu. Aby usunąć ten typ, utwórz najpierw inny.
+        title: Nie można usunąć typu dokumentu
       confirmation_message: Typ „%{type_name}” jest obecnie nieużywany. Usunięcie tego typu nie będzie miało wpływu na istniejące dokumenty.
-      select_reassign_to_label: Przypisz ponownie dokumenty do
+      heading: Usunąć ten typ dokumentu?
       reassign_message:
         one: Typ „%{type_name}” jest obecnie używany w %{document_count} dokumencie. Wybierz typ, do którego ma zostać ponownie przypisany.
         few: Typ „%{type_name}” jest obecnie używany w %{document_count} dokumentach. Wybierz typ, do którego mają zostać ponownie przypisane.
         many: Typ „%{type_name}” jest obecnie używany w %{document_count} dokumentach. Wybierz typ, do którego mają zostać ponownie przypisane.
         other: Typ „%{type_name}” jest obecnie używany w %{document_count} dokumentu. Wybierz typ, do którego mają zostać ponownie przypisane.
-      at_least_one_type_required:
-        title: Nie można usunąć typu dokumentu
-        heading: Nie można usunąć ostatniego typu dokumentu
-        message: Zawsze musi być skonfigurowany co najmniej jeden typ dokumentu. Aby usunąć ten typ, utwórz najpierw inny.
-    admin:
-      collaboration_settings:
-        page_header:
-          description: |-
-            Po włączeniu współpraca w czasie rzeczywistym pozwala wielu użytkownikom edytować dokument w tym samym czasie.
-            Do działania wymaga działającego %{hocuspocus_server_link}.
-        banner:
-          none_writable: Wartości te są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
-          some_unwritable: Niektóre wartości są konfigurowane za pomocą zmiennych środowiskowych i nie można ich edytować tutaj.
-        hocuspocus_server_url:
-          label: Adres URL serwera Hocuspocus
-          caption: Adres WebSocket działającego serwera Hocuspocus.
-          invalid_scheme: Musi używać protokołu WebSocket (ws:// lub wss://).
-        hocuspocus_server_secret:
-          label: Klucz tajny klienta
-          caption: Wklej klucz tajny dostarczony przez serwer Hocuspocus.
-        hocuspocus_server: Serwer Hocuspocus
-      enable_text_collaboration:
-        heading: Współpraca w czasie rzeczywistym nie jest włączona
-        description: |-
-          Po włączeniu tej funkcji nad dokumentem będzie mogło jednocześnie pracować wielu użytkowników.
-          Wszystkie nowe dokumenty będą oparte na nowym edytorze (BlockNote) i będą wymagały działającego połączenia z serwerem Hocuspocus.
-        primary_action: Włącz współpracę w czasie rzeczywistym
-        success: Współpraca w czasie rzeczywistym została włączona.
-      disable_text_collaboration_dialog:
-        title: Wyłącz współpracę w czasie rzeczywistym
-        heading: Wyłączyć współpracę w czasie rzeczywistym?
-        confirmation_message: Wszystkie istniejące dokumenty mogą stać się niedostępne. Zrób to tylko mając pewność, że chcesz wyłączyć współpracę w czasie rzeczywistym i edytor BlockNote w tym wystąpieniu.
-        confirmation_checkbox_message: Rozumiem, że mogę bezpowrotnie utracić dane
-        success: Współpraca w czasie rzeczywistym została wyłączona.
+      select_reassign_to_label: Przypisz ponownie dokumenty do
+      title: Usuń typ dokumentu
+    document_categories_deprecation_notice:
+      description: |-
+        Twoje istniejące kategorie plików zostały przekształcone w typy dokumentów wraz z wprowadzeniem nowego modułu Dokumenty.
+        Wszystkie istniejące dokumenty zostały również migrowane do tych nowych typów.
+      heading: Kategorie plików są teraz nazywane „Typami dokumentów”
+      primary_action: Skonfiguruj typy dokumentów
+      secondary_action: Dowiedz się więcej o module Dokumenty
+    document_type_actions: Działania związane z typem dokumentów
+    documents_list_blank_slate:
+      description: W tym widoku nie ma żadnych dokumentów. Możesz kliknąć poniższy przycisk, aby je dodać.
+      heading: Dokumentów jeszcze nie ma
+    index_page:
+      label_legacy: Starsze
+      name: Nazwa
+      type: Typ
+      updated_at: Ostatnio edytowano
+    info_line:
+      connection_restored: Znów jesteś online.
+      currently_offline: Jesteś obecnie offline.
+    label_attachment_author: Autor załącznika
+    label_categories: Kategorie
+    last_updated_at: Ostatnio zapisano %{time}.
+    menu:
+      all: Wszystkie dokumenty
+      collaboration_settings: Współpraca w czasie rzeczywistym
+      types: Typy
+    new_category: Nowa kategoria
+    new_type: Nowy typ
+    page_header:
+      action_menu:
+        document_actions: Działania związane z dokumentami
+        edit_title: Edytuj tytuł
+      heading: Wszystkie dokumenty
+    show_edit_view:
+      connection_error_notice:
+        action: Spróbuj ponownie
+        description_server_unavailable: |-
+          Nie można otworzyć dokumentu, ponieważ serwer współpracy tekstowej w czasie rzeczywistym jest nieosiągalny.
+          Jeśli problem nie ustępuje, skontaktuj się z administratorem.
+      tabs: Karty dokumentów
+    subheader:
+      filter:
+        label: Filtr nazwy dokumentu
+        placeholder: Wpisz tutaj, aby wyszukać nazwy dokumentów
+    text_collaboration_disabled_notice:
+      description: |-
+        Nie można otworzyć dokumentu, ponieważ współpraca tekstowa w czasie rzeczywistym jest wyłączona.
+        Jeśli chcesz uzyskać dostęp do tego dokumentu, skontaktuj się z administratorem, aby włączyć współpracę tekstową w czasie rzeczywistym.
+  enumeration_doc_categories: Kategoria dokumentu
   label_document_added: Dodano dokument
+  label_document_category: Kategoria
+  label_document_description: Opis
   label_document_new: Nowy dokument
   label_document_plural: Dokumenty
-  label_documents: Dokumenty
   label_document_title: Tytuł
-  label_document_description: Opis
-  label_document_category: Kategoria
   label_document_type: Typ
+  label_documents: Dokumenty
   permission_manage_documents: Zarządzanie dokumentami
   permission_view_documents: Zobacz dokumenty
+  plugin_openproject_documents:
+    description: Wtyczka OpenProject umożliwiająca tworzenie dokumentów w projektach.
+    name: Dokumenty OpenProject
   project_module_documents: Dokumenty

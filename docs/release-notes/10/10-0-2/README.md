@@ -26,11 +26,11 @@ Thanks to David Haintz from the [SEC Consult Vulnerability Lab](https://www.sec-
 
 ## Incorrect setting results in slow application and RAM usage
 
-The environment variable *WEB_CONCURRENCY* has been used by OpenProject for some time to control the number of web workers to be spawned by the Unicorn application server. It is defaulting to 4 workers which should account to around 1 - 1.2GB of RAM usage.
+The environment variable _WEB_CONCURRENCY_ has been used by OpenProject for some time to control the number of web workers to be spawned by the Unicorn application server. It is defaulting to 4 workers which should account to around 1 - 1.2GB of RAM usage.
 
-In the upgrade to OpenProject 10, a buildpack from Heroku was updated to control the packaging of the frontend and its assets (our Angular frontend), which appears to be using the same variable for setting internal workers that are unrelated to our setup. This has resulted in the *WEB_CONCURRENCY* value to be set to a number that would exhaust many servers being set up for OpenProject and in turn resulting in bad performance of OpenProject and any other service.
+In the upgrade to OpenProject 10, a buildpack from Heroku was updated to control the packaging of the frontend and its assets (our Angular frontend), which appears to be using the same variable for setting internal workers that are unrelated to our setup. This has resulted in the _WEB_CONCURRENCY_ value to be set to a number that would exhaust many servers being set up for OpenProject and in turn resulting in bad performance of OpenProject and any other service.
 
-This has been fixed in this release. We now use the environment variable *OPENPROJECT_WEB_WORKERS* to control the same setting. If you previously set *WEB_CONCURRENCY* in your application to a lower or higher number, please also set the *OPENPROJECT_WEB_WORKERS* variable to the same value.
+This has been fixed in this release. We now use the environment variable _OPENPROJECT_WEB_WORKERS_ to control the same setting. If you previously set _WEB_CONCURRENCY_ in your application to a lower or higher number, please also set the _OPENPROJECT_WEB_WORKERS_ variable to the same value.
 
 ## Other bug fixes and changes
 

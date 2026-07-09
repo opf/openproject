@@ -1,29 +1,29 @@
 #English strings go here
 ---
 pt-BR:
-  plugin_openproject_avatars:
-    name: Avatares
-    description: Este plugin permite que os usuários do OpenProject carreguem uma imagem para ser usada como avatar ou que usem imagens registadas do Gravatar.
-  label_avatar: Imagem do perfil
-  label_avatar_plural: Imagens do perfil
-  label_current_avatar: Imagem atual do perfil
-  label_choose_avatar: Escolher arquivo com Imagem do Perfil
-  message_avatar_uploaded: Imagem do perfil alterada com sucesso.
-  error_image_upload: Erro ao salvar a imagem.
-  error_image_size: A imagem é muito grande.
   are_you_sure_delete_avatar: Tem certeza que deseja excluir sua Imagem do perfil?
   avatar_deleted: Imagem do perfil excluída com sucesso.
-  unable_to_delete_avatar: A Imagem do perfil não pode ser excluída.
-  wrong_file_format: Formatos permitidos são jpg, png, gif
-  empty_file_error: Por favor, envie uma imagem válida (jpg, png, gif)
   avatars:
     label_avatar: Imagem do perfil
     label_gravatar: Gravatar
     label_local_avatar: Imagem do perfil personalizada
+    settings:
+      enable_gravatars: Habilitar Gravatar para o usuário
+      enable_local_avatars: Habilitar Imagem do perfil personalizada
+      gravatar_default: Imagem Gravatar padrão
     text_avatar_gravatar_html: O OpenProject usa seu Gravatar, se você tiver cadastrado em %{gravatar_url}. Caso contrário, será exibida uma imagem ou ícone padrão, quando disponível.
     text_avatar_local: Você também pode enviar um avatar personalizado clicando na imagem. Ele substituirá o Gravatar. Recomendamos uma imagem de 128 × 128 pixels.
     text_avatar_local_only: Você pode enviar um avatar personalizado clicando na imagem. Recomendamos uma imagem de 128 × 128 pixels.
-    settings:
-      enable_gravatars: Habilitar Gravatar para o usuário
-      gravatar_default: Imagem Gravatar padrão
-      enable_local_avatars: Habilitar Imagem do perfil personalizada
+  empty_file_error: Por favor, envie uma imagem válida (jpg, png, gif)
+  error_image_size: A imagem é muito grande.
+  error_image_upload: Erro ao salvar a imagem.
+  label_avatar: Imagem do perfil
+  label_avatar_plural: Imagens do perfil
+  label_choose_avatar: Escolher arquivo com Imagem do Perfil
+  label_current_avatar: Imagem atual do perfil
+  message_avatar_uploaded: Imagem do perfil alterada com sucesso.
+  plugin_openproject_avatars:
+    description: Este plugin permite que os usuários do OpenProject carreguem uma imagem para ser usada como avatar ou que usem imagens registadas do Gravatar.
+    name: Avatares
+  unable_to_delete_avatar: A Imagem do perfil não pode ser excluída.
+  wrong_file_format: Formatos permitidos são jpg, png, gif

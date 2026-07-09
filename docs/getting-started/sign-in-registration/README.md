@@ -50,8 +50,6 @@ If you have activated Two-factor authentication, please enter your second factor
 
 When logging in for the first time, you will be asked to create your OpenProject Account.
 
-
-
 ## Sign in from the OpenProject website
 
 If you are using the OpenProject Enterprise cloud edition, you can sign in to your installation directly from the OpenProject website.
@@ -68,10 +66,10 @@ Please click the link in the invitation email:
 
 Enter the following information:
 
-* First name
-* Last name
-* Company E-Mail address
-* Choose a password
+- First name
+- Last name
+- Company E-Mail address
+- Choose a password
 
 Click the **Create** button.
 

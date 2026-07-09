@@ -4,7 +4,7 @@ bg:
   js:
     calendar:
       create_new: Create new calendar
+      label_calendar_plural: Calendars
       title: Календар
       too_many: Общо има %{count} работни пакети, но могат да бъдат показани само %{max}.
       unsaved_title: Unnamed calendar
-      label_calendar_plural: Calendars

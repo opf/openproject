@@ -1,58 +1,38 @@
 ---
 ro:
-  plugin_openproject_webhooks:
-    name: Webhook-uri OpenProject
-    description: Oferă un plug-in API pentru a sprijini OpenProject webhooks pentru o mai bună integrare a terților.
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: URL de încărcare utilă
-        secret: Secretul semnăturii
-        events: Evenimente
-        enabled: Activat
-        projects: Proiecte activate
       webhooks/log:
         event_name: Numele evenimentului
-        url: URL de încărcare utilă
-        response_code: Un rezumat prietenos al răspunsului, inclusiv codul de răspuns HTTP, mesajul și corpul.
         response_body: Răspuns
+        response_code: Un rezumat prietenos al răspunsului, inclusiv codul de răspuns HTTP, mesajul și corpul.
+        url: URL de încărcare utilă
+      webhooks/webhook:
+        enabled: Activat
+        events: Evenimente
+        projects: Proiecte activate
+        secret: Secretul semnăturii
+        url: URL de încărcare utilă
     models:
       webhooks/outgoing_webhook: Webhook de ieșire
+  plugin_openproject_webhooks:
+    description: Oferă un plug-in API pentru a sprijini OpenProject webhooks pentru o mai bună integrare a terților.
+    name: Webhook-uri OpenProject
   webhooks:
-    singular: Activare Webhook
-    plural: Cârlige web
-    resources:
-      time_entry:
-        name: Înregistrarea timpului
     outgoing:
-      no_results_table: Nu au fost definite încă niciun fel de webhooks.
-      label_add_new: Adaugă un nou webhook
-      label_edit: Editați webhook
-      label_x_events:
-        one: 1 event
-        other: "%{count} events"
-        zero: No events
+      deliveries:
+        no_results_table: Nu au fost efectuate livrări pentru acest webhook în ultimele zile.
+        time: Termen de livrare
+        title: Livrări recente
       events:
-        created: Creat pe
-        updated: Actualizat
         comment: Comentariu
+        created: Creat pe
         internal_comment: Comentariu intern
+        updated: Actualizat
       explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
-      status:
-        enabled: Webhook este activat
-        disabled: Webhook este dezactivat
-        enabled_text: Webhook va emite sarcini utile pentru evenimentele definite mai jos.
-        disabled_text: Clic pe butonul de editare pentru a activa webhook-ul.
-      deliveries:
-        no_results_table: Nu au fost efectuate livrări pentru acest webhook în ultimele zile.
-        title: Livrări recente
-        time: Termen de livrare
       form:
-        introduction: 'Trimiteți o cerere POST la URL-ul de mai jos pentru orice eveniment din proiectul la care vă abonați. Payload va corespunde reprezentării APIv3 a obiectului care este modificat.
-
-          '
         apiv3_doc_url: Pentru mai multe informații, vizitați documentația API
         description:
           placeholder: Descriere opțională pentru webhook.
@@ -62,14 +42,34 @@ ro:
             '
         events:
           title: Evenimente activate
+        introduction: 'Trimiteți o cerere POST la URL-ul de mai jos pentru orice eveniment din proiectul la care vă abonați. Payload va corespunde reprezentării APIv3 a obiectului care este modificat.
+
+          '
         project_ids:
-          title: Proiecte activate
-          description: Selectați pentru ce proiecte ar trebui să fie executat acest webhook.
           all: Toate Proiectele
+          description: Selectați pentru ce proiecte ar trebui să fie executat acest webhook.
           selected: Numai proiectele selectate
-        selected_project_ids:
-          title: Proiecte selectate
+          title: Proiecte activate
         secret:
           description: 'Dacă este setată, această valoare secretă este utilizată de OpenProject pentru a semna încărcătura utilă a webhook-ului.
 
             '
+        selected_project_ids:
+          title: Proiecte selectate
+      label_add_new: Adaugă un nou webhook
+      label_edit: Editați webhook
+      label_x_events:
+        one: 1 event
+        other: "%{count} events"
+        zero: No events
+      no_results_table: Nu au fost definite încă niciun fel de webhooks.
+      status:
+        disabled: Webhook este dezactivat
+        disabled_text: Clic pe butonul de editare pentru a activa webhook-ul.
+        enabled: Webhook este activat
+        enabled_text: Webhook va emite sarcini utile pentru evenimentele definite mai jos.
+    plural: Cârlige web
+    resources:
+      time_entry:
+        name: Înregistrarea timpului
+    singular: Activare Webhook

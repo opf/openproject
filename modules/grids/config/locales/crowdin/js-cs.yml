@@ -3,58 +3,58 @@ cs:
   js:
     grid:
       add_widget: Přidat widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Odstranit widget
       configure: Konfigurovat widget
+      remove: Odstranit widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Nemáte potřebná oprávnění k zobrazení tohoto widgetu.
-        not_available: Tento widget je momentálně nedostupný.
         custom_text:
           title: Vlastní text
         documents:
-          title: Dokumenty
           no_results: Zatím žádné dokumenty.
+          title: Dokumenty
         members:
           title: Členové
+        missing_permission: Nemáte potřebná oprávnění k zobrazení tohoto widgetu.
         news:
           title: Novinky
+        not_available: Tento widget je momentálně nedostupný.
         project_description:
           title: Popis
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Oblíbené projekty
         project_status:
-          title: Stav
-          not_started: Nezahájeno
-          on_track: Dle plánu
-          off_track: Mimo plán
           at_risk: Riziko
-          not_set: Nenastaveno
-          finished: Dokončeno
           discontinued: Zrušeno
+          finished: Dokončeno
+          not_set: Nenastaveno
+          not_started: Nezahájeno
+          off_track: Mimo plán
+          on_track: Dle plánu
+          title: Stav
         subprojects:
           title: Dílčí položky
-        project_favorites:
-          title: Oblíbené projekty
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Můj strávený čas
           displayed_days: 'Dny zobrazené ve widgetu:'
+          title: Můj strávený čas
         time_entries_list:
-          title: Strávený čas (posledních 7 dní)
           no_results: Žádné záznamy za posledních 7 dní.
+          title: Strávený čas (posledních 7 dní)
         work_packages_accountable:
           title: Pracovní balíčky, za které zodpovídám
         work_packages_assigned:
           title: Pracovní balíčky přidělené mně
-        work_packages_created:
-          title: Pracovní balíčky vytvořené mnou
-        work_packages_watched:
-          title: Pracovní balíčky, které sleduji
-        work_packages_table:
-          title: Tabulka pracovních balíčků
-        work_packages_graph:
-          title: Graf pracovních balíčků
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Kalendář
+        work_packages_created:
+          title: Pracovní balíčky vytvořené mnou
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Graf pracovních balíčků
         work_packages_overview:
-          title: Přehled pracovních balíčků
           placeholder: Kliekněte pro editaci...
+          title: Přehled pracovních balíčků
+        work_packages_table:
+          title: Tabulka pracovních balíčků
+        work_packages_watched:
+          title: Pracovní balíčky, které sleduji

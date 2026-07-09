@@ -33,7 +33,7 @@ The **Portfolios** global module displays all portfolios in your OpenProject ins
 
 > [!TIP]
 >
-> This module is only visible if you can see at least one portfolio or if you have the *create projects* permission.
+> This module is only visible if you can see at least one portfolio or if you have the _create projects_ permission.
 
 You can create a new portfolio here directly by using the  **+ Portfolio** button.
 

@@ -4,7 +4,7 @@ ar:
   js:
     calendar:
       create_new: إنشاء تقويم جديد
+      label_calendar_plural: التقويمات
       title: التقويم
       too_many: هناك %{count} عمل إجمالاً، ولكن يمكن عرض %{max} فقط.
       unsaved_title: تقويم غير مسمى
-      label_calendar_plural: التقويمات

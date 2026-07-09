@@ -21,26 +21,42 @@
 #++
 ---
 ca:
-  plugin_costs:
-    name: Temps i costs
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Paquet de treball
+        entity: Registrat per
+        entity_gid: Registrat per
+        entity_id: Registrat per
+        logged_by: Registrat per
         overridden_costs: Costs invalidats
         spent: Gastat
         spent_on: Data
-        logged_by: Registrat per
-        entity: Registrat per
-        entity_id: Registrat per
-        entity_gid: Registrat per
+        work_package: Paquet de treball
       cost_type:
-        unit: Nom d'unitat
-        unit_plural: Noms d'unitat pluralitzats
         default: Cost type by default
         for_all_projects: For all projects
         rates: Rates
+        unit: Nom d'unitat
+        unit_plural: Noms d'unitat pluralitzats
+      rate:
+        rate: Tarifa
+      time_entry:
+        activity: Activitat
+        comments: Comentari
+        end_time: Finish time
+        entity: Registrat per
+        entity_gid: Registrat per
+        entity_id: Registrat per
+        hours: Hores
+        project: Projecte
+        spent_on: Data
+        start_time: Hora d'inici
+        subject: Assumpte
+        time: Hora
+        user: Usuari
+        work_package: Paquet de treball
+      user:
+        default_rates: Tarifes per defecte
       work_package:
         costs_by_type: Unitats gastades
         labor_costs: Costs de treball
@@ -48,71 +64,59 @@ ca:
         overall_costs: Costs generals
         spent_costs: Costs gastats
         spent_units: Unitats gastades
-      rate:
-        rate: Tarifa
-      user:
-        default_rates: Tarifes per defecte
-      time_entry:
-        project: Projecte
-        user: Usuari
-        work_package: Paquet de treball
-        subject: Assumpte
-        hours: Hores
-        comments: Comentari
-        activity: Activitat
-        spent_on: Data
-        start_time: Hora d'inici
-        end_time: Finish time
-        time: Hora
-        entity: Registrat per
-        entity_id: Registrat per
-        entity_gid: Registrat per
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'El paquet de treball #%{id} no és un objectiu vàlid per reassignar les entrades de costs.'
+          nullify_is_not_valid_for_cost_entries: Les entrades de cost no poden ser assignades a un projecte.
     models:
-      time_entry:
-        one: Entrada de temps
-        other: Time entries
       cost_entry:
         one: Entrada de costs
         other: Cost entries
       cost_type:
         one: Estil de cost
         other: Estils de cost
+      rate: Tarifa
+      time_entry:
+        one: Entrada de temps
+        other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Activitats de rastrejament del temps
-      rate: Tarifa
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'El paquet de treball #%{id} no és un objectiu vàlid per reassignar les entrades de costs.'
-          nullify_is_not_valid_for_cost_entries: Les entrades de cost no poden ser assignades a un projecte.
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Please select a project.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Comentari
     cost_type: Estil de cost
     costs: Costs
     current_rate: Tarifa actual
+    fixed_date: Data fixada
     hours: Hores
     units: Unitats
     valid_from: Vàlid des de
-    fixed_date: Data fixada
+  button_add_activity: Activitat
   button_add_rate: Afegeix tarifa
+  button_add_time_entry: Temps de registre
   button_log_costs: Registra unitat de costs
   button_log_time: Log
-  button_add_activity: Activitat
-  button_add_time_entry: Temps de registre
   button_stop_timer: Stop timer
   caption_booked_on_project: Registrat a un projecte
   caption_default: Per defecte
   caption_default_rate_history_for: Història de tarifa per defecte per %{user}
   caption_locked_on: Fixat a
+  caption_log_time_dialog: Temps de registre
   caption_materials: Unitats
   caption_rate_history: Història de tarifa
   caption_rate_history_for: Història de tarifa per %{user}
@@ -120,20 +124,60 @@ ca:
   caption_save_rate: Guardar tarifa
   caption_set_rate: Estableix la tarifa actual
   caption_show_locked: Mostra els estils fixats
-  caption_log_time_dialog: Temps de registre
-  description_date_for_new_rate: Data per una tarifa nova
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
+  description_date_for_new_rate: Data per una tarifa nova
   description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by requiring exact start and finish times when logging time.
   group_by_others: no està a cap grup
+  label_available_cost_types_projects: Available cost types projects
   label_between: entre
+  label_cost: Cost
   label_cost_filter_add: Afegeix un filtre d'entrada de cost
-  label_costlog: Costs d'unitat registrats
   label_cost_plural: Costs
   label_cost_type_plural: Estils de cost
   label_cost_type_specific: 'Estil de cost #%{id}: %{name}'
+  label_costlog: Costs d'unitat registrats
+  label_costs: Costs
   label_costs_per_page: Costs per pàgina
   label_current_default_rate: Tarifa actual per defecte
   label_date_on: en
+  label_day: Dia
   label_deleted_cost_types: Estils de cost eliminats
   label_display_cost_entries: Mostra les unitats de cost
   label_display_time_entries: Mostra les hores reportades
@@ -145,58 +189,54 @@ ca:
   label_group_by_add: Afegeix camp de grup
   label_hourly_rate: Tarifa per hora
   label_include_deleted: Inclou eliminats
-  label_work_package_filter_add: Afegeix un filtre de paquet de treball
   label_kind: Tipus
   label_less_or_equal: "<="
+  label_list: Llista
   label_log_costs: 'Registra costs d''unitats '
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: 'No'
-  label_option_plural: Opcions
-  label_overall_costs: Costs generals
-  label_rate: Tarifa
-  label_rate_plural: Tarifes
-  label_status_finished: Finalitzat
-  label_show: Mostra
-  label_units: Cost d'unitat
-  label_user: Usuari
-  label_until: fins a
-  label_valid_from: Vàlid des de
-  label_yes: Si
-  label_time: Hora
-  label_cost: Cost
-  label_costs: Costs
   label_mandatory_fields: Mandatory fields
+  label_month: Mes
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: New time entry activity
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: Setmana següent
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: 'No'
+  label_no_time: No time tracked
+  label_option_plural: Opcions
+  label_overall_costs: Costs generals
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: Setmana anterior
   label_previous_month: Previous month
+  label_previous_week: Setmana anterior
+  label_previous_workweek: Previous work week
+  label_rate: Tarifa
+  label_rate_plural: Tarifes
+  label_show: Mostra
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_list: Llista
-  label_month: Mes
-  label_workweek: Setmana laboral
-  label_day: Dia
-  label_today_capitalized: Avui
-  label_view_mode_switcher: Change view
+  label_status_finished: Finalitzat
+  label_time: Hora
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Alguna cosa ha anat malament. Si us plau, prova-ho de nou.
-  notice_successful_restore: Restaurat correctament.
-  notice_successful_lock: Fixat correctament.
+  label_today_capitalized: Avui
+  label_units: Cost d'unitat
+  label_until: fins a
+  label_user: Usuari
+  label_valid_from: Vàlid des de
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Afegeix un filtre de paquet de treball
+  label_workweek: Setmana laboral
+  label_yes: Si
   notice_cost_logged_successfully: Cost d'unitat registrat correctament.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Alguna cosa ha anat malament. Si us plau, prova-ho de nou.
+  notice_successful_lock: Fixat correctament.
+  notice_successful_restore: Restaurat correctament.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Editar costs d'unitat registrats
-  permission_edit_own_cost_entries: Editar costs d'unitat registrats propis
   permission_edit_hourly_rates: Editar tarifes per hora
+  permission_edit_own_cost_entries: Editar costs d'unitat registrats propis
   permission_edit_own_hourly_rate: Editar tarifes per hora pròpies
   permission_edit_rates: Editar tarifes
   permission_log_costs: Registra costs d'unitat
@@ -207,67 +247,30 @@ ca:
   permission_view_own_cost_entries: Visualitza costs registrats propis
   permission_view_own_hourly_rate: Visualitza totes les tarifes per hora pròpies
   permission_view_own_time_entries: Visualitzar el propi temps invertit
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Temps i costs
   project_module_costs: Temps i costs
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Divisa
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: Assignar les hores i costs registrats al projecte
   text_destroy_cost_entries_question: "%{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
   text_destroy_time_and_cost_entries: Eliminar hores i costs reportats
   text_destroy_time_and_cost_entries_question: "%{hours} hores, %{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
   text_reassign_time_and_cost_entries: 'Reassignar les hores i costs reportats a aquest paquet de treball:'
   text_warning_hidden_elements: Algunes entrades poden ser excloses de l'agregació
-  week: setmana
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Active projects
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        heading: Cost types
-        none_active: No cost types are currently active in this project.
-        for_all_projects_hint: This cost type is enabled in all projects.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: setmana

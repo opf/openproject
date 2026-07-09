@@ -11,7 +11,7 @@ keywords: queries, query space, work package views
 
 The Query object is the concept of holding the configuration for a specific work package view as well as computing and outputting its results.  They are fundamental building blocks in OpenProject and used in many modules (Work packages, BIM, boards, timeline, embedded tables).  Their flexibility allows for building complex features with relatively little effort on the backend side. For an OpenProject developer who wants to improve or create new features it is fundamental to understand how queries work.
 
-Most of the communication in OpenProject is organized in work packages. Work packages are managed and displayed in many different places, such as the work package table in the *Work packages* module, or as cards the *Boards* module, within the *Calendar* or in *My page* widgets, such as charts for instance. Even the list of child work packages within a work package is a query.
+Most of the communication in OpenProject is organized in work packages. Work packages are managed and displayed in many different places, such as the work package table in the _Work packages_ module, or as cards the _Boards_ module, within the _Calendar_ or in _My page_ widgets, such as charts for instance. Even the list of child work packages within a work package is a query.
 
 For the work packages table, the query object holds the way the table displays (selected columns, display mode) as well as what data it contains (filters, sort criteria).
 
@@ -19,9 +19,9 @@ A query can be persisted by a user or created dynamically through a set of param
 
 ## Key takeaways
 
-*Queries ...*
+_Queries ..._
 
-- are configuration objects for both the *displaying logic* and the *data logic* of (primarily) work packages and other resources
+- are configuration objects for both the _displaying logic_ and the _data logic_ of (primarily) work packages and other resources
 - can be saved to the database connected to a user, privately or publicly accessible
 - can be created on the fly through URL / body parameters
 - can be requested through the APIv3 to get the resulting resources collection of the query in a paginated way
@@ -86,7 +86,7 @@ When accessing a singular query resource, the response will always contain the s
 
 ### Filtering
 
-A major, but complex functionality of the query is the `filters` object to determine what results should be shown. For the user, these filters are shown for example above the work packages table after opening through the *Filter* button.
+A major, but complex functionality of the query is the `filters` object to determine what results should be shown. For the user, these filters are shown for example above the work packages table after opening through the _Filter_ button.
 
 ![Work package query filters](filters.png)
 

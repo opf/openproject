@@ -1,15 +1,12 @@
 #English strings go here for Rails i18n
 ---
 es:
-  plugin_openproject_two_factor_authentication:
-    name: Autenticación en dos pasos de OpenProject
-    description: Este plugin OpenProject autentifica a sus usuarios mediante la autenticación de dos factores por medio de una contraseña única a través del estándar TOTP (Google Authenticator) o se envía al teléfono celular del usuario vía SMS o llamada de voz.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Identificador
-        default: Usar como predeterminado
         channel: Canal
+        default: Usar como predeterminado
+        identifier: Identificador
       two_factor_authentication/device/sms:
         phone_number: Número de teléfono
       two_factor_authentication/device/webauthn:
@@ -28,32 +25,136 @@ es:
       two_factor_authentication/device/sms: Teléfono móvil
       two_factor_authentication/device/totp: Aplicación de autenticador
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Continuar
+  button_make_active: Activar
+  button_make_default: Marcar como predeterminado
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Llamada de voz
+  button_resend_otp_form: Reenviar
+  field_otp: Contraseña de un solo uso
+  label_confirmed: Confirmado
+  label_otp_channel: Canal de entrega
+  notice_account_has_no_phone: No hay un número de teléfono celular asociado a su cuenta.
+  notice_account_otp_expired: La contraseña de un solo uso que ingresó expiró.
+  notice_account_otp_invalid: Contraseña de un solo uso no válida.
+  notice_account_otp_send_failed: No se pudo enviar su contraseña de un solo uso.
+  notice_developer_strategy_otp: 'La estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})'
+  notice_phone_number_format: 'Ingrese el número en el siguiente formato: + XX XXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: Este plugin OpenProject autentifica a sus usuarios mediante la autenticación de dos factores por medio de una contraseña única a través del estándar TOTP (Google Authenticator) o se envía al teléfono celular del usuario vía SMS o llamada de voz.
+    name: Autenticación en dos pasos de OpenProject
+  text_otp_not_receive: Otros métodos de verificación
+  text_send_otp_again: 'Vuelva a ingresar la contraseña de un solo uso de la siguiente manera:'
   two_factor_authentication:
+    admin:
+      all_devices_deleted: Todos los dispositivos 2FA de este usuario han sido eliminados
+      button_delete_all_devices: Eliminar dispositivos 2FA registrados
+      button_register_mobile_phone_for_user: Registrar teléfono móvil
+      delete_all_are_you_sure: "¿Seguro que quieres eliminar todos los dispositivos 2FA para este usuario?"
+      no_devices_for_user: No se ha registrado ningún dispositivo 2FA para este usuario.
+      only_sms_allowed: Solo se puede configurar el envío de SMS para otros usuarios.
+      self_edit_forbidden: No puede editar sus propios dispositivos 2FA en esta ruta. Vaya a Mi cuenta > Autenticación de dos factores en su lugar.
+      self_edit_path_html: Para añadir o modificar tus propios dispositivos de autenticación de dos factores, ve a la [página de autenticación de dos factores de tu cuenta](self_edit_link)
+      text_2fa_disabled: El usuario no configuró un dispositivo 2FA a través de su página «Mi cuenta»
+      text_2fa_enabled: Después de cada inicio de sesión, se le pedirá a este usuario que ingrese un token OTP desde su dispositivo 2FA predeterminado.
+    backup_codes:
+      generate:
+        keep_safe_as_password: "¡Importante! Trate estos códigos como contraseñas."
+        keep_safe_warning: O guárdelos en su administrador de contraseñas o imprima esta página y colóquela en un lugar seguro.
+        regenerate_warning: 'Advertencia: si ha creado códigos de copia de seguridad anteriormente, se invalidarán y ya no funcionarán.'
+        title: Generar códigos de respaldo
+      overview_description: |
+        Si no puede acceder a sus dispositivos de dos factores, puede usar un código de copia de seguridad para recuperar el acceso a su cuenta.
+        Use el siguiente botón para generar un nuevo conjunto de códigos de respaldo.
+      plural: Códigos de respaldo
+      singular: Código de respaldo
+    channel_unavailable: El canal de entrega %{channel} no está disponible.
+    devices:
+      2fa_from_input_html: Ingrese el código de su <strong>%{device_name}</strong> para verificar su identidad.
+      2fa_from_webauthn_html: Indique el dispositivo WebAuthn <strong>%{device_name}</strong>. Si es USB asegúrese de conectarlo y tocarlo. A continuación, haga clic en el botón de inicio de sesión.
+      add_new: Agregar nuevo dispositivo 2FA
+      button_complete_registration: Completar el registro 2FA
+      cannot_delete_default: No se puede eliminar el dispositivo predeterminado
+      confirm_default: Confirmar el cambio del dispositivo predeterminado
+      confirm_device: Confirmar dispositivo
+      confirm_now: No confirmado, haga clic aquí para activar
+      confirm_send_failed: La confirmación de su dispositivo 2FA falló.
+      deletion_are_you_sure: "¿Seguro que quieres eliminar este dispositivo 2FA?"
+      failed_to_delete: Error al eliminar el dispositivo 2FA.
+      is_default_cannot_delete: El dispositivo está marcado como predeterminado y no se puede eliminar debido a una política de seguridad activa. Marque otro dispositivo como predeterminado antes de eliminar.
+      make_default_are_you_sure: "¿Seguro que quieres que este dispositivo 2FA sea tu predeterminado?"
+      make_default_failed: Error al actualizar el dispositivo 2FA predeterminado.
+      not_existing: No se ha registrado ningún dispositivo 2FA para su cuenta.
+      register: Registrar dispositivo
+      registration_complete: Registro del dispositivo 2FA completo!
+      registration_failed_token_invalid: El registro del dispositivo 2FA falló, el token no era válido.
+      registration_failed_update: El registro del dispositivo 2FA falló, el token era válido pero el dispositivo no se pudo actualizar.
+      sms:
+        description: 'Reciba el código 2FA a través de un mensaje de texto en su teléfono cada vez que se conecte.
+
+          '
+        redacted_identifier: Dispositivo móvil (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, le enviamos un código de autenticación a través de %{delivery_channel}"
+        title: Dispositivo móvil
+      text_confirm_to_change_default_html: Por favor confirme el cambio de su dispositivo predeterminado a <strong>%{new_identifier}</strong> ingresando una contraseña única de su dispositivo predeterminado actual.
+      text_confirm_to_complete_html: Por favor complete el registro de su dispositivo <strong>%{identifier}</strong> ingresando una contraseña de un solo uso desde su dispositivo predeterminado.
+      text_identifier: Puede darle al dispositivo un identificador personalizado usando este campo.
+      totp:
+        account: Nombre de la cuenta / Emisor
+        description: 'Utilice un código de un solo uso generado por un autenticador como Authy o Google Authenticator.
+
+          '
+        provisioning_uri: URI de aprovisionamiento
+        question_cannot_scan: "¿No se puede escanear el código usando su aplicación?\n"
+        secret_key: Llave secreta
+        setup: |
+          Para configurar la autenticación de dos factores con Google Authenticator, descargue la aplicación de la App Store de Apple o de Google Play Store.
+          Después de abrir la aplicación, puede escanear el siguiente código QR para registrar el dispositivo.
+        text_cannot_scan: 'Si no puede escanear el código, puede ingresar la entrada manualmente usando los siguientes detalles:
+
+          '
+        time_based: Basado en tiempo
+        title: Autenticador en aplicación
+      webauthn:
+        description: Registre un dispositivo FIDO2 (como YubiKey) o el enclave seguro de su dispositivo móvil.
+        further_steps: Una vez que haya elegido un nombre, puede hacer clic en el botón Continuar. Su navegador le pedirá que presente su dispositivo WebAuthn. Cuando lo haya hecho, habrá terminado de registrar el dispositivo.
+        title: WebAuthn
     error_2fa_disabled: La entrega de 2FA ha sido desactivada.
-    notice_not_writable: Los ajustes 2FA se proporcionaron a través de variables de entorno y no pueden sobrescribirse.
+    error_invalid_backup_code: Código de copia de seguridad 2FA no válido
+    error_is_enforced_not_active: 'Error de configuración: se ha aplicado la autenticación de dos factores, pero no existen estrategias activas.'
     error_no_device: No se ha encontrado ningún dispositivo 2FA registrado para este usuario, a pesar de ser necesario para esta instancia.
     error_no_matching_strategy: No hay una estrategia 2FA coincidente disponible para este usuario. Por favor, póngase en contacto con su administrador.
-    error_is_enforced_not_active: 'Error de configuración: se ha aplicado la autenticación de dos factores, pero no existen estrategias activas.'
-    error_invalid_backup_code: Código de copia de seguridad 2FA no válido
-    channel_unavailable: El canal de entrega %{channel} no está disponible.
-    no_valid_phone_number: No existe un número de teléfono válido.
-    label_device_type: Tipo de dispositivo
+    forced_registration:
+      required_to_add_device: Una política de seguridad activa requiere que habilite la autenticación de dos factores. Utilice el siguiente formulario para registrar un dispositivo.
+    label_2fa_disabled: Autenticación de dos factores no está activa
+    label_2fa_enabled: Autenticación de dos factores está activa
     label_default_device: Dispositivo 2FA predeterminado
     label_device: Dispositivo 2FA
+    label_device_type: Tipo de dispositivo
     label_devices: dispositivo 2FA
-    label_2fa_enabled: Autenticación de dos factores está activa
-    label_2fa_disabled: Autenticación de dos factores no está activa
-    text_otp_delivery_message_sms: Su contraseña de un solo uso de %{app_title} es %{token}
-    text_otp_delivery_message_voice: 'Su contraseña de un solo uso de %{app_title} es: %{pause} %{token}. %{pause} Repito: %{pause} %{token}'
-    text_2fa_enabled: Después de cada inicio de sesión, se le solicitará que ingrese un token OTP desde su dispositivo 2FA predeterminado.
-    text_2fa_disabled: Para habilitar la autenticación de dos factores, use el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, debe convertirlo en predeterminado.
+    label_two_factor_authentication: Autenticación de dos factores
     login:
-      enter_backup_code_title: Ingrese el código de respaldo
       enter_backup_code_text: Ingrese un código de copia de seguridad válido de su lista de códigos en caso de que ya no pueda acceder a sus dispositivos 2FA registrados.
+      enter_backup_code_title: Ingrese el código de respaldo
       other_device: Use otro dispositivo o código de respaldo
+    message_bird:
+      sms_delivery_failed: Error al entregar el mensaje SMS de MessageBird.
+      voice_delivery_failed: Error de llamada de voz de MessageBird.
+    mobile_transmit_notification: Se ha enviado una contraseña de un solo uso a su teléfono celular.
+    no_valid_phone_number: No existe un número de teléfono válido.
+    notice_not_writable: Los ajustes 2FA se proporcionaron a través de variables de entorno y no pueden sobrescribirse.
+    remember:
+      active_session_notice: 'Su cuenta tiene una cookie de recuerdo activa válida hasta %{expires_on}. Esta cookie le permite iniciar sesión sin un segundo factor en su cuenta hasta ese momento.
+
+        '
+      clear_cookie: Elimine todas las sesiones de autenticación de dos factores (2FA) almacenadas.
+      cookie_removed: Se eliminaron todas las sesiones de 2FA recordadas.
+      dont_ask_again: Crea una cookie para recordar la autenticación de 2FA en este cliente durante %{days} días.
+      label: Recuerda
+      other_active_session_notice: Su cuenta tiene una cookie para recordar activa en otra sesión.
     settings:
-      title: Configuración 2FA
       current_configuration: Configuración actual
+      failed_to_save_settings: 'Error al actualizar la configuración 2FA: %{message}'
       label_active_strategies: Estrategias activas 2FA
       label_enforced: Hacer cumplir 2FA
       label_remember: Recuerde inicio de sesión 2FA
@@ -65,116 +166,15 @@ es:
       text_remember: |
         Establezca esto en mayor que cero para permitir a los usuarios recordar su autenticación 2FA para la cantidad de días dada.
         No se les pedirá que lo vuelvan a ingresar durante ese período. Solo se puede configurar cuando no se aplica por configuración.
-      failed_to_save_settings: 'Error al actualizar la configuración 2FA: %{message}'
-    admin:
-      self_edit_path_html: Para añadir o modificar tus propios dispositivos de autenticación de dos factores, ve a la [página de autenticación de dos factores de tu cuenta](self_edit_link)
-      self_edit_forbidden: No puede editar sus propios dispositivos 2FA en esta ruta. Vaya a Mi cuenta > Autenticación de dos factores en su lugar.
-      no_devices_for_user: No se ha registrado ningún dispositivo 2FA para este usuario.
-      all_devices_deleted: Todos los dispositivos 2FA de este usuario han sido eliminados
-      delete_all_are_you_sure: "¿Seguro que quieres eliminar todos los dispositivos 2FA para este usuario?"
-      button_delete_all_devices: Eliminar dispositivos 2FA registrados
-      button_register_mobile_phone_for_user: Registrar teléfono móvil
-      text_2fa_enabled: Después de cada inicio de sesión, se le pedirá a este usuario que ingrese un token OTP desde su dispositivo 2FA predeterminado.
-      text_2fa_disabled: El usuario no configuró un dispositivo 2FA a través de su página «Mi cuenta»
-      only_sms_allowed: Solo se puede configurar el envío de SMS para otros usuarios.
-    backup_codes:
-      singular: Código de respaldo
-      plural: Códigos de respaldo
-      overview_description: |
-        Si no puede acceder a sus dispositivos de dos factores, puede usar un código de copia de seguridad para recuperar el acceso a su cuenta.
-        Use el siguiente botón para generar un nuevo conjunto de códigos de respaldo.
-      generate:
-        title: Generar códigos de respaldo
-        keep_safe_as_password: "¡Importante! Trate estos códigos como contraseñas."
-        keep_safe_warning: O guárdelos en su administrador de contraseñas o imprima esta página y colóquela en un lugar seguro.
-        regenerate_warning: 'Advertencia: si ha creado códigos de copia de seguridad anteriormente, se invalidarán y ya no funcionarán.'
-    devices:
-      add_new: Agregar nuevo dispositivo 2FA
-      register: Registrar dispositivo
-      confirm_default: Confirmar el cambio del dispositivo predeterminado
-      confirm_device: Confirmar dispositivo
-      confirm_now: No confirmado, haga clic aquí para activar
-      cannot_delete_default: No se puede eliminar el dispositivo predeterminado
-      make_default_are_you_sure: "¿Seguro que quieres que este dispositivo 2FA sea tu predeterminado?"
-      make_default_failed: Error al actualizar el dispositivo 2FA predeterminado.
-      deletion_are_you_sure: "¿Seguro que quieres eliminar este dispositivo 2FA?"
-      registration_complete: Registro del dispositivo 2FA completo!
-      registration_failed_token_invalid: El registro del dispositivo 2FA falló, el token no era válido.
-      registration_failed_update: El registro del dispositivo 2FA falló, el token era válido pero el dispositivo no se pudo actualizar.
-      confirm_send_failed: La confirmación de su dispositivo 2FA falló.
-      button_complete_registration: Completar el registro 2FA
-      text_confirm_to_complete_html: Por favor complete el registro de su dispositivo <strong>%{identifier}</strong> ingresando una contraseña de un solo uso desde su dispositivo predeterminado.
-      text_confirm_to_change_default_html: Por favor confirme el cambio de su dispositivo predeterminado a <strong>%{new_identifier}</strong> ingresando una contraseña única de su dispositivo predeterminado actual.
-      text_identifier: Puede darle al dispositivo un identificador personalizado usando este campo.
-      failed_to_delete: Error al eliminar el dispositivo 2FA.
-      is_default_cannot_delete: El dispositivo está marcado como predeterminado y no se puede eliminar debido a una política de seguridad activa. Marque otro dispositivo como predeterminado antes de eliminar.
-      not_existing: No se ha registrado ningún dispositivo 2FA para su cuenta.
-      2fa_from_input_html: Ingrese el código de su <strong>%{device_name}</strong> para verificar su identidad.
-      2fa_from_webauthn_html: Indique el dispositivo WebAuthn <strong>%{device_name}</strong>. Si es USB asegúrese de conectarlo y tocarlo. A continuación, haga clic en el botón de inicio de sesión.
-      webauthn:
-        title: WebAuthn
-        description: Registre un dispositivo FIDO2 (como YubiKey) o el enclave seguro de su dispositivo móvil.
-        further_steps: Una vez que haya elegido un nombre, puede hacer clic en el botón Continuar. Su navegador le pedirá que presente su dispositivo WebAuthn. Cuando lo haya hecho, habrá terminado de registrar el dispositivo.
-      totp:
-        title: Autenticador en aplicación
-        provisioning_uri: URI de aprovisionamiento
-        secret_key: Llave secreta
-        time_based: Basado en tiempo
-        account: Nombre de la cuenta / Emisor
-        setup: |
-          Para configurar la autenticación de dos factores con Google Authenticator, descargue la aplicación de la App Store de Apple o de Google Play Store.
-          Después de abrir la aplicación, puede escanear el siguiente código QR para registrar el dispositivo.
-        question_cannot_scan: "¿No se puede escanear el código usando su aplicación?\n"
-        text_cannot_scan: 'Si no puede escanear el código, puede ingresar la entrada manualmente usando los siguientes detalles:
-
-          '
-        description: 'Utilice un código de un solo uso generado por un autenticador como Authy o Google Authenticator.
-
-          '
-      sms:
-        title: Dispositivo móvil
-        redacted_identifier: Dispositivo móvil (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, le enviamos un código de autenticación a través de %{delivery_channel}"
-        description: 'Reciba el código 2FA a través de un mensaje de texto en su teléfono cada vez que se conecte.
-
-          '
+      title: Configuración 2FA
     sns:
       delivery_failed: 'La entrega de SNS falló:'
-    message_bird:
-      sms_delivery_failed: Error al entregar el mensaje SMS de MessageBird.
-      voice_delivery_failed: Error de llamada de voz de MessageBird.
     strategies:
-      totp: Aplicación de autenticador
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Aplicación de autenticador
       webauthn: WebAuthn
-    mobile_transmit_notification: Se ha enviado una contraseña de un solo uso a su teléfono celular.
-    label_two_factor_authentication: Autenticación de dos factores
-    forced_registration:
-      required_to_add_device: Una política de seguridad activa requiere que habilite la autenticación de dos factores. Utilice el siguiente formulario para registrar un dispositivo.
-    remember:
-      active_session_notice: 'Su cuenta tiene una cookie de recuerdo activa válida hasta %{expires_on}. Esta cookie le permite iniciar sesión sin un segundo factor en su cuenta hasta ese momento.
-
-        '
-      other_active_session_notice: Su cuenta tiene una cookie para recordar activa en otra sesión.
-      label: Recuerda
-      clear_cookie: Elimine todas las sesiones de autenticación de dos factores (2FA) almacenadas.
-      cookie_removed: Se eliminaron todas las sesiones de 2FA recordadas.
-      dont_ask_again: Crea una cookie para recordar la autenticación de 2FA en este cliente durante %{days} días.
-  field_otp: Contraseña de un solo uso
-  notice_account_otp_invalid: Contraseña de un solo uso no válida.
-  notice_account_otp_expired: La contraseña de un solo uso que ingresó expiró.
-  notice_developer_strategy_otp: 'La estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})'
-  notice_account_otp_send_failed: No se pudo enviar su contraseña de un solo uso.
-  notice_account_has_no_phone: No hay un número de teléfono celular asociado a su cuenta.
-  label_confirmed: Confirmado
-  button_continue: Continuar
-  button_make_active: Activar
-  button_make_default: Marcar como predeterminado
-  notice_phone_number_format: 'Ingrese el número en el siguiente formato: + XX XXXXXXXX.'
-  text_otp_not_receive: Otros métodos de verificación
-  text_send_otp_again: 'Vuelva a ingresar la contraseña de un solo uso de la siguiente manera:'
-  button_resend_otp_form: Reenviar
-  button_otp_by_voice: Llamada de voz
-  button_otp_by_sms: SMS
-  label_otp_channel: Canal de entrega
+    text_2fa_disabled: Para habilitar la autenticación de dos factores, use el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, debe convertirlo en predeterminado.
+    text_2fa_enabled: Después de cada inicio de sesión, se le solicitará que ingrese un token OTP desde su dispositivo 2FA predeterminado.
+    text_otp_delivery_message_sms: Su contraseña de un solo uso de %{app_title} es %{token}
+    text_otp_delivery_message_voice: 'Su contraseña de un solo uso de %{app_title} es: %{pause} %{token}. %{pause} Repito: %{pause} %{token}'
