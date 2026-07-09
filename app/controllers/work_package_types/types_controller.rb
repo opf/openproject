@@ -36,6 +36,7 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
+    before_action :require_subtypes_feature, only: %i[drop]
     before_action :find_type, only: %i[move destroy drop]
 
     current_menu_item do
@@ -143,6 +144,10 @@ module WorkPackageTypes
 
     def subtypes_enabled?
       OpenProject::FeatureDecisions.subtypes_active?
+    end
+
+    def require_subtypes_feature
+      render_404 unless subtypes_enabled?
     end
 
     def load_projects_and_types
