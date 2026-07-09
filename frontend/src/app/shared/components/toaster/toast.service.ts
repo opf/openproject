@@ -43,7 +43,6 @@ export function removeSuccessFlashMessages():void {
 }
 
 export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
-export { OPToastEvent };
 
 export interface IToast {
   message:string;
