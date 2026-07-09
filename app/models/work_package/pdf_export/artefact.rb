@@ -244,8 +244,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   # Override WorkPackage::PDFExport::Wp::Attributes: hierarchy queries are
-  # rendered as per work package attribute tables instead of one table
-  def query_group_as_table?(group)
+  # rendered as per work package attributes instead of one table
+  def query_group_as_table?(_group)
     false
   end
 
