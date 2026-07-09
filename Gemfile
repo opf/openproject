@@ -115,7 +115,7 @@ gem "json_schemer", "~> 2.5.0"
 gem "ruby-duration", "~> 3.2.0"
 gem "msgpack", "~> 1.8.3"
 
-gem "mail", "2.9.0"
+gem "mail", "2.9.1"
 
 gem "csv", "~> 3.3"
 
