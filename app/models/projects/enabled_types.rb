@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Types
+module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
