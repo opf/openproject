@@ -84,6 +84,32 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::PageHierarchy do
       expect(ancestors[1].identifier).to eq(wiki_page_grandparent.id.to_s)
     end
 
+    context "if the requested page is a main page" do
+      let(:main_page) { create(:wiki_page, wiki:, title: "Death Star Home") }
+      let(:identifier) { main_page.id.to_s }
+
+      it "returns the page matching the requested identifier" do
+        page = subject.value!.page
+        expect(page.identifier).to eq(identifier)
+        expect(page.provider).to eq(provider)
+        expect(page.title).to eq(main_page.title)
+        expect(page.href).to eq("/projects/#{wiki_project.identifier}/wiki/#{main_page.slug}")
+      end
+
+      it "returns the wiki the requested page belongs to" do
+        wiki_data = subject.value!.wiki
+        expect(wiki_data.identifier).to eq(wiki.id.to_s)
+        expect(wiki_data.provider).to eq(provider)
+        expect(wiki_data.name).to eq(wiki_project.name)
+        expect(wiki_data.href).to eq("/projects/#{wiki_project.identifier}")
+      end
+
+      it "returns an empty list of ancestors" do
+        ancestors = subject.value!.ancestors
+        expect(ancestors).to be_empty
+      end
+    end
+
     context "when identifier is wrong" do
       let(:identifier) { "THIS IS NO MOON!" }
 

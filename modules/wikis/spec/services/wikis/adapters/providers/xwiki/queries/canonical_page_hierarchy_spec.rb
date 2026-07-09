@@ -75,6 +75,31 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::CanonicalPageHierarch
       end
     end
 
+    context "when requesting a root space", vcr: "xwiki/canonical_page_hierarchy_root" do
+      let(:identifier) { "xwiki:VCR.WebHome" }
+
+      it "returns the page matching the requested identifier" do
+        page = subject.value!.page
+        expect(page.identifier).to eq("dc27c")
+        expect(page.provider).to eq(provider)
+        expect(page.title).to eq("VCR")
+        expect(page.href).to eq("https://xwiki.local/bin/view/VCR/")
+      end
+
+      it "returns the wiki the requested page belongs to" do
+        wiki_data = subject.value!.wiki
+        expect(wiki_data.identifier).to eq("xwiki")
+        expect(wiki_data.provider).to eq(provider)
+        expect(wiki_data.name).to eq("xwiki")
+        expect(wiki_data.href).to eq("https://xwiki.local/bin/view/Main/")
+      end
+
+      it "returns an empty list of ancestors" do
+        ancestors = subject.value!.ancestors
+        expect(ancestors).to be_empty
+      end
+    end
+
     context "when the identifier is not a valid XWiki reference" do
       let(:identifier) { "Main.WebHome" }
 
