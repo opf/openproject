@@ -951,6 +951,17 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_heading("Slot title", level: 4)
       expect(rendered).to have_no_text("String title")
     end
+
+    it "raises when neither the title: string nor the with_title slot is provided" do
+      expect do
+        render_inline(
+          described_class.new(container: "hdr-no-title")
+        ) do |list|
+          list.with_header(count: 1)
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError)
+    end
   end
 
   describe "header drag handle" do

@@ -186,6 +186,10 @@ module OpenProject
           title.presence || @title.presence
         end
 
+        def before_render
+          raise ArgumentError, "A header title is required: pass `title:` or use the `with_title` slot." unless title?
+        end
+
         # Resolves inferred counts after the list slots have been captured.
         #
         # @param item_count [Integer] number of rendered item slots.
