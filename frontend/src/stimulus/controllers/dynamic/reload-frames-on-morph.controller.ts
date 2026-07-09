@@ -71,13 +71,16 @@ export default class ReloadFramesOnMorphController extends Controller<HTMLElemen
   private reloadFrameOnMorph = (event:Event):void => {
     const morphEvent = event as CustomEvent<{ newElement:Element }>;
     const frame = morphEvent.target as Element;
-    if (!(frame instanceof FrameElement) || !this.frameTargets.includes(frame) || !frame.hasAttribute('complete')) {
+    if (!(frame instanceof FrameElement) ||
+      !this.frameTargets.includes(frame) ||
+      !frame.hasAttribute('complete') ||
+      !morphEvent.detail.newElement) {
       return;
     }
 
     morphEvent.preventDefault();
 
-    const newSrc = morphEvent.detail.newElement?.getAttribute('src');
+    const newSrc = morphEvent.detail.newElement.getAttribute('src');
     if (newSrc && !frame.getAttribute('src')?.endsWith(newSrc)) {
       frame.setAttribute('src', newSrc);
     } else {
