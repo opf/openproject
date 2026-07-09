@@ -42,7 +42,7 @@ module Backlogs
     # @param work_package [WorkPackage] the work package the frame wraps.
     # @return [String] the turbo-frame id for that work package's card.
     def self.frame_id(work_package)
-      "#{ActionView::RecordIdentifier.dom_id(work_package)}#{FRAME_ID_SUFFIX}"
+      ActionView::RecordIdentifier.dom_id(work_package, FRAME_ID_SUFFIX)
     end
 
     def initialize(work_package:, menu_src: nil)
