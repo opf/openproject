@@ -160,6 +160,19 @@ RSpec.describe "Dragging work packages in and between sprints",
         .to include({ "itemId" => sprint1_wp3.id.to_s, "position" => "top" }),
             JSON.pretty_generate(dnd_probe_state)
     end
+
+    it "accepts a drop relative to a card that was itself dropped into the sprint" do
+      # Regression: dropping a card into the sprint makes Turbo re-render it. The
+      # re-rendered card has to stay a valid drop target so a second card can be
+      # placed relative to it. Previously it was dropped from the drop targets, so
+      # the second card fell to the list end instead of landing above the first.
+      backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp1])
+
+      backlogs_page.drag_work_package(bucket_wp2, before: bucket_wp1)
+
+      backlogs_page.expect_work_packages_in_sprint_in_order(sprint2, work_packages: [bucket_wp2, bucket_wp1])
+    end
   end
 
   context "when lacking the permission to manage sprint items" do
