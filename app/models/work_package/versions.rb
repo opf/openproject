@@ -40,10 +40,12 @@ module WorkPackage::Versions
                   :observed_in_version_ids_replacements
   end
 
-  # The *_replacements accessors default to nil, which means "leave the existing
-  # associations untouched". Once a caller assigns to them (even an empty array),
-  # it signals intent to replace the whole set, so nil vs. non-nil is what tells
-  # us whether an override was requested at all.
+  # The *_ids_replacements accessors behave according to these rules:
+  # - when nil (the default) - leave the existing associations untouched
+  # - when [] - clear the association
+  # - when [<version ids>] - replace the existing set with exactly these
+  # Consequently, nil vs. non-nil tells us whether an override was requested
+  # at all.
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
@@ -85,14 +87,14 @@ module WorkPackage::Versions
       replace_versions("observed_in", observed_in_version_ids_replacements)
     end
 
-    reset_version_overrides
+    clear_version_overrides
   end
 
   # Overrides are consumed by exactly one save. Left in place, they would be
   # re-applied by any later save of the same instance, clobbering version
   # changes made in between, and a stale system mark would exempt a later
   # user-requested override from the permission check.
-  def reset_version_overrides
+  def clear_version_overrides
     self.target_version_ids_replacements = nil
     self.observed_in_version_ids_replacements = nil
     system_version_overrides.clear
