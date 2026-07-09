@@ -232,7 +232,7 @@ class Project < ApplicationRecord
   end
 
   def wiki
-    super.enabled ? super : nil
+    super&.enabled ? super : nil
   end
 
   def <=>(other)
@@ -243,7 +243,7 @@ class Project < ApplicationRecord
     name
   end
 
-  def workspace_label
+  def w
     case workspace_type
     when "program"
       I18n.t("label_program")

@@ -37,6 +37,8 @@ module DemoData
     end
 
     def seed_data!
+      create_project_wiki!
+
       text = project_data.lookup("wiki")
 
       return if text.blank?
@@ -53,6 +55,14 @@ module DemoData
           project:
         )
       end
+    end
+
+    # FIXME: find a better solution to handle all things wiki seeding. - @mereghost
+    def create_project_wiki!
+      return project.reload.wiki if Wiki.exists?(project: @project)
+
+      Wiki.create!(project: @project, start_page: "Wiki")
+      @project.reload
     end
 
     def create_wiki_page!(data, project:, parent: nil)

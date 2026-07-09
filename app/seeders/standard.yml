@@ -215,7 +215,6 @@ projects:
       - work_package_tracking
       - news
       - gantt
-      - wiki
       - board_view
       - team_planner_view
       - meetings
@@ -538,7 +537,6 @@ projects:
     modules:
       - backlogs
       - news
-      - wiki
       - work_package_tracking
       - gantt
       - board_view

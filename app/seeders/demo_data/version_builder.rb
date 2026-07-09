@@ -72,6 +72,13 @@ module DemoData
     def set_wiki!(version, config)
       return unless config
 
+      # FIXME: find a better solution to handle all things wiki seeding. - @mereghost
+
+      unless Wiki.exists?(project: version.project)
+        Wiki.create!(project: version.project, start_page: "Wiki")
+        version.project.reload
+      end
+
       version.wiki_page_title = config["title"]
 
       Journal::NotificationConfiguration.with false do
