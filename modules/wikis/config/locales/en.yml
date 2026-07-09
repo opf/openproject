@@ -43,7 +43,7 @@ en:
       internal_wiki_provider: Internal wiki
       wikis: Wikis
   permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Internal Wiki
+  project_module_wiki_internal: Internal wiki
   project_module_wiki_platforms: Wiki providers
   projects:
     settings:

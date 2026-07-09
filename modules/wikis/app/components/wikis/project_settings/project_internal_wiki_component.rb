@@ -39,8 +39,8 @@ module Wikis
         @project = project
       end
 
-      def has_wiki?
-        Wiki.exists?(project: @project)
+      def wiki_enabled?
+        !!@project.wiki
       end
     end
   end
