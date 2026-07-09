@@ -76,11 +76,5 @@ RSpec.describe Backlogs::WorkPackages::CardsController, with_flag: { backlogs_la
 
       it { is_expected.to have_http_status(:forbidden) }
     end
-
-    context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
-      shared_let(:user) { create(:admin) }
-
-      it { is_expected.to have_http_status(:not_found) }
-    end
   end
 end

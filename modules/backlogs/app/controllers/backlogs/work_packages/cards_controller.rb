@@ -31,7 +31,6 @@
 module Backlogs
   module WorkPackages
     class CardsController < Backlogs::BaseController
-      before_action :ensure_lazy_cards_enabled
       before_action :load_work_package
 
       # Renders the content of a single backlog work package card into its
@@ -54,10 +53,6 @@ module Backlogs
       end
 
       private
-
-      def ensure_lazy_cards_enabled
-        head :not_found unless OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
-      end
 
       def load_work_package
         @work_package = ::WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))

@@ -99,7 +99,9 @@ Rails.application.routes.draw do
           get :move_to_bucket_dialog
         end
 
-        resource :card, only: %i[show], controller: "work_packages/cards"
+        constraints(Constraints::FeatureDecision.new(:backlogs_lazy_cards)) do
+          resource :card, only: %i[show], controller: "work_packages/cards"
+        end
       end
 
       scope "sprints/:sprint_id" do
