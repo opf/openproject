@@ -45,26 +45,15 @@ See COPYRIGHT and LICENSE files for more details.
               <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { subtypes_count_label(root) } %>
             <% end %>
           <% end %>
-          <% header.with_menu %>
+          <% header.with_menu do |menu| %>
+            <% type_actions(menu, root) %>
+          <% end %>
         <% end %>
 
         <% root.children.each do |child| %>
           <% list.with_item do |item| %>
             <% item.with_menu do |menu| %>
-              <% menu.with_item(label: t(:button_configure), href: edit_type_settings_path(type_id: child.id)) do |menu_item| %>
-                <% menu_item.with_leading_visual_icon(icon: :gear) %>
-              <% end %>
-
-              <% menu.with_divider %>
-
-              <% menu.with_item(
-                   label: t(:button_delete),
-                   scheme: :danger,
-                   href: type_path(child),
-                   form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
-                 ) do |menu_item| %>
-                <% menu_item.with_leading_visual_icon(icon: :trash) %>
-              <% end %>
+              <% type_actions(menu, child) %>
             <% end %>
             <%= render(Primer::Box.new(display: :inline_flex, align_items: :center)) do %>
               <%= render(
