@@ -316,7 +316,10 @@ describe('Sortable lists controller', () => {
     );
   });
 
-  it('adds the current turbo frame query to the move URL', async () => {
+  it('ignores the turbo frame query when building the move URL', async () => {
+    // The move endpoint does not read filter params, and the active filter is
+    // preserved by the frame reloading its own src. The move URL is therefore
+    // the bare template, even when the frame carries a filtered src.
     fixture.innerHTML = `
       <turbo-frame
         id="backlogs-list"
@@ -344,7 +347,7 @@ describe('Sortable lists controller', () => {
     );
 
     expect(fetchMock).toHaveBeenCalledWith(
-      '/projects/demo/backlogs/work_packages/1/move?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2',
+      '/projects/demo/backlogs/work_packages/1/move',
       expect.objectContaining({ method: 'PUT' }),
     );
   });

@@ -82,7 +82,7 @@ module Backlogs
     def backlogs_move_url_template(project)
       id_placeholder = "__work_package_id__"
 
-      move_project_backlogs_work_package_path(project, id_placeholder, backlog_filter_params)
+      move_project_backlogs_work_package_path(project, id_placeholder)
         .sub(id_placeholder, "{id}")
     end
   end

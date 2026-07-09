@@ -92,14 +92,16 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       )
     end
 
-    it "passes all=true to the frame src and move URL template when requested" do
+    it "passes all=true to the frame src but keeps it off the move URL template" do
       get "/projects/#{project.identifier}/backlogs/backlog", params: { all: "1" }
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_frame "backlogs_container",
                                            src: "/projects/#{project.identifier}/backlogs/backlog?all=true"
+      # The move endpoint ignores the filter, so it stays out of the move URL
+      # template even when the backlog itself is filtered.
       expect(response.body).to include(
-        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=true")
+        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
       )
     end
 
