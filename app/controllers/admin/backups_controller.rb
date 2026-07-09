@@ -32,6 +32,7 @@ class Admin::BackupsController < ApplicationController
   include PasswordConfirmation
   include ActionView::Helpers::TagHelper
   include BackupHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
 
@@ -55,9 +56,10 @@ class Admin::BackupsController < ApplicationController
     @may_include_attachments = may_include_attachments? ? "true" : "false"
   end
 
-  def reset_token
-    @backup_token = Token::Backup.find_by user: current_user
+  def reset_token_dialog
+    @backup_token = Token::Backup.find_by(user: current_user)
     @user = current_user
+    respond_with_dialog Admin::Backups::ResetTokenDialogComponent.new(user: @user, backup_token: @backup_token)
   end
 
   def perform_token_reset
