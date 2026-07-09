@@ -37,6 +37,15 @@ class UpdateProjectsTypesService < BaseProjectService
                          :in_use_by_work_packages,
                          types: missing_types(type_ids).map(&:name).join(", "))
       false
+    elsif any_type_is_a_subtype?(type_ids) && !OpenProject::FeatureDecisions.subtypes_active?
+      project.errors.add(:types, :cannot_assign_subtypes_yet)
+      false
+    elsif multiple_subtypes_of_parent?(type_ids)
+      project.errors.add(:types, :cannot_assign_multiple_subtypes_of_parent)
+      false
+    elsif subtype_and_parent_enabled?(type_ids)
+      project.errors.add(:types, :cannot_assign_subtype_and_parent)
+      false
     else
       update_project_types(type_ids)
 
@@ -53,6 +62,26 @@ class UpdateProjectsTypesService < BaseProjectService
     else
       [type.id]
     end
+  end
+
+  def any_type_is_a_subtype?(type_ids)
+    Type.where(id: type_ids).where.not(parent_id: nil).exists?
+  end
+
+  def multiple_subtypes_of_parent?(type_ids)
+    Type
+      .reorder(nil)
+      .where(id: type_ids)
+      .where.not(parent_id: nil)
+      .group(:parent_id)
+      .having("COUNT(*) > 1")
+      .exists?
+  end
+
+  def subtype_and_parent_enabled?(type_ids)
+    parent_ids = Type.where(id: type_ids).pluck(:parent_id).compact
+
+    parent_ids.intersect?(type_ids.map(&:to_i))
   end
 
   def types_missing?(type_ids)
