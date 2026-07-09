@@ -1104,10 +1104,13 @@ module Pages
       return if page.has_selector?(:modal, wait: 0)
 
       find(selector, wait: 0).click
-    rescue Capybara::ElementNotFound, Selenium::WebDriver::Error::ElementNotInteractableError
+    rescue Capybara::ElementNotFound,
+           Ferrum::CoordinatesNotFoundError,
+           Selenium::WebDriver::Error::ElementNotInteractableError
       # Menu actions can close the menu or open a modal between the checks
       # above and the click; once the menu is gone or a modal owns focus,
-      # dismissal is moot.
+      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
+      # Selenium ElementNotInteractableError) and dismissal is moot.
       raise unless page.has_selector?(:modal, wait: 0) ||
         page.has_no_css?(selector, visible: true, wait: 0)
     end
