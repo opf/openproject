@@ -35,11 +35,18 @@ module OpenProject::TextFormatting
     # stripping any HTML from both before interpolating.
     module AccessibleLinkLabel
       def accessible_link_label(name, description)
-        visible_name = Nokogiri::HTML.fragment(name.to_s).text.squish
-        plain_description = Nokogiri::HTML.fragment(description.to_s).text.squish
-        I18n.t("js.editor.macro.attribute_reference.aria_label_with_name",
+        visible_name = plain_text(name)
+        plain_description = plain_text(description)
+        I18n.t("accessibility.macro.aria_label_with_name",
                name: visible_name,
                description: plain_description)
+      end
+
+      private
+
+      def plain_text(html)
+        text = CGI.unescapeHTML(html.to_s)
+        text.include?("<") ? Nokogiri::HTML.fragment(text).text.squish : text.squish
       end
     end
   end
