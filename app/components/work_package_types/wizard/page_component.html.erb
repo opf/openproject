@@ -1,0 +1,32 @@
+<%= render(StepWizard::PageLayoutComponent.new) do |layout| %>
+  <%= layout.with_page_header do %>
+    <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+      <% header.with_title { title } %>
+      <% header.with_breadcrumbs(breadcrumb_items) %>
+      <% header.with_action_icon_button(
+           tag: :a,
+           icon: :x,
+           mobile_icon: :x,
+           label: I18n.t(:button_cancel),
+           href: types_path,
+           aria: { label: I18n.t(:button_cancel) }
+         ) %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_wizard_content do %>
+    <%= grid_layout("op-work-package-types-wizard", tag: :div) do |page| %>
+      <% page.with_area("sidebar") do %>
+        <%= render(WorkPackageTypes::Wizard::SidebarComponent.new(type:, current_step:)) %>
+      <% end %>
+
+      <% page.with_area("main") do %>
+        <%= render(step_body) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_footer do %>
+    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:)) %>
+  <% end %>
+<% end %>

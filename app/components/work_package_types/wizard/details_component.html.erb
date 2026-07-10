@@ -1,0 +1,10 @@
+<%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { WorkPackageTypes::Wizard::Steps.first.title } %>
+
+<%= primer_form_with(
+      model: type,
+      url: form_url,
+      method: form_method,
+      html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
+    ) do |f| %>
+  <%= render(WorkPackageTypes::Wizard::DetailsForm.new(f)) %>
+<% end %>

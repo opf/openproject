@@ -49,7 +49,7 @@ module WorkPackageTypes
       end
 
       def add_subtype_path(root)
-        new_type_path(type: { parent_id: root.id })
+        new_creation_wizard_types_path(parent_id: root.id)
       end
 
       def type_actions(menu, type)
