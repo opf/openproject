@@ -33,9 +33,15 @@ module Backlogs
   # Serialized format: "sprint:{id}", "backlog_bucket:{id}", or "inbox".
   module Target
     # Counterpart of InboxId
-    Inbox = Data.define do
-      def name = I18n.t(:label_inbox)
-    end.new
+    class Inbox
+      class << self
+        def name = I18n.t(:label_inbox)
+
+        def model_name
+          @model_name ||= ActiveModel::Name.new(self, nil, "Inbox")
+        end
+      end
+    end
 
     SprintId = Data.define(:id) do
       def type = :sprint
@@ -85,7 +91,7 @@ module Backlogs
         SprintId[container.id]
       in BacklogBucket
         BucketId[container.id]
-      in Inbox
+      in _ if container == Inbox
         InboxId
       end
     end

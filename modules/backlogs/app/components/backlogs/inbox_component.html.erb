@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%=
     render(
       OpenProject::Common::BorderBoxListComponent.new(
-        container: dom_target(:inbox, project),
+        container: dom_target(Backlogs::Target::Inbox, project),
         current_user:,
         interactive: true,
         scheme: :transparent,
