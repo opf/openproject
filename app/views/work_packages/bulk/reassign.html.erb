@@ -28,98 +28,89 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 <%= error_messages_for work_packages.first %>
 
-<%=
-  styled_form_tag(
-    work_packages_bulk_path,
-    method: :delete,
-    class: "form danger-zone",
-    data: {
-      controller: "show-when-value-selected"
-    }
-  ) do
-%>
-  <%= back_url_hidden_field_tag unless back_url_is_wp_show? %>
-  <% work_packages.each do |work_package| %>
-    <%= hidden_field_tag "ids[]", work_package.id %>
+<%= render(Primer::Beta::Subhead.new) do |subhead|
+      subhead.with_heading(tag: :h3) { t("work_package.destroy.title") }
+    end %>
+
+<p class="bold"><%= t(:text_destroy_with_associated) %></p>
+
+<ul>
+  <% associated.each do |ac| %>
+    <li><%= ac.model_name.human %></li>
   <% end %>
+</ul>
 
-  <section class="form--section">
-    <h3 class="form--section-title">
-      <%= t("work_package.destroy.title") %>
-    </h3>
-
-    <p class="bold"><%= t(:text_destroy_with_associated) %></p>
-    <ul>
-      <% associated.each do |associated_class| %>
-      <li class="decorated"><%= associated_class.model_name.human %></li>
-      <% end %>
-    </ul>
-    <p>
-      <strong><%= t(:text_destroy_what_to_do) %></strong>
-    </p>
-
-    <%= fields_for :to_do do |f| %>
-      <div class="form--field -trailing-label">
-        <%= styled_label_tag :to_do_action_destroy, t(:text_destroy) %>
-        <div class="form--field-container">
-          <%= styled_radio_button_tag "to_do[action]", "destroy", nil,
-                                      data: {
-                                        show_when_value_selected_target: "cause",
-                                        target_name: "action"
-                                      } %>
-        </div>
-      </div>
-      <div class="form--field -trailing-label">
-        <%= styled_label_tag "to_do_action_nullify", t(:text_assign_to_project) %>
-        <div class="form--field-container">
-          <%= styled_radio_button_tag "to_do[action]", "nullify", nil,
-                                      data: {
-                                        show_when_value_selected_target: "cause",
-                                        target_name: "action"
-                                      } %>
-        </div>
-      </div>
-      <div class="grid-block">
-        <div class="grid-block small-3">
-          <div class="form--field -trailing-label">
-            <%= styled_label_tag "to_do_action_reassign", t(:text_reassign) %>
-            <div class="form--field-container">
-              <%= styled_radio_button_tag "to_do[action]", "reassign", nil,
-                                          data: {
-                                            show_when_value_selected_target: "cause",
-                                            target_name: "action"
-                                          } %>
-            </div>
-          </div>
-        </div>
-        <div class="grid-block">
-          <div class="form--field">
-            <div class="form--text-field-container -xslim">
-              <%= styled_label_tag "to_do_reassign_to_id", t(:text_reassign), class: "form--label sr-only" %>
-              <%= f.text_field "reassign_to_id",
-                               placeholder: WorkPackage.human_attribute_name(:id), value: params[:reassign_to_id],
-                               size: 6,
-                               hidden: true,
-                               data: {
-                                 show_when_value_selected_target: "effect",
-                                 target_name: "action",
-                                 value: "reassign"
-                               } %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <div class="danger-zone--verification">
-      <%= styled_button_tag title: t(:button_delete), class: "-primary" do
-        concat content_tag :i, "", class: "button--icon icon-delete"
-        concat content_tag :span, t(:button_delete), class: "button--text"
-      end %>
-      <%= link_to_function t(:button_cancel),
-                           "history.back()",
-                           title: t(:button_cancel),
-                           class: "button -with-icon icon-cancel" %>
-    </div>
-  </section>
-
+<%= render(Primer::Beta::Text.new(tag: :p, mt: 3, mb: 2)) do %>
+  <strong><%= t(:text_destroy_what_to_do) %></strong>
 <% end %>
+
+<%=
+  primer_form_with(
+    url: work_packages_bulk_path,
+    method: :delete,
+    scope: :to_do,
+    data: { controller: "show-when-value-selected" }
+  ) do |f|
+    reassign_to_id = params[:reassign_to_id]
+    work_packages_api_url = ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages
+    raw_back_url = (params[:back_url] || request.env["HTTP_REFERER"]).presence
+    cancel_url = raw_back_url || work_packages_path
+    back_url = back_url_is_wp_show? ? nil : raw_back_url
+
+    render_inline_form(f) do |form|
+      form.hidden(name: "back_url", value: back_url, scope_name_to_model: false) if back_url
+
+      work_packages.each do |wp|
+        form.hidden(name: "ids[]", value: wp.id, scope_name_to_model: false)
+      end
+
+      form.radio_button_group(
+        name: :action,
+        label: helpers.t("work_package.destroy.title"),
+        visually_hide_label: true
+      ) do |group|
+        group.radio_button(
+          value: "destroy",
+          label: helpers.t(:text_destroy),
+          data: { show_when_value_selected_target: "cause", target_name: "action" }
+        )
+        group.radio_button(
+          value: "nullify",
+          label: helpers.t(:text_assign_to_project),
+          data: { show_when_value_selected_target: "cause", target_name: "action" }
+        )
+        group.radio_button(
+          value: "reassign",
+          label: helpers.t(:text_reassign),
+          data: { show_when_value_selected_target: "cause", target_name: "action" }
+        ) do |radio|
+          radio.nested_form(
+            hidden: true,
+            data: { show_when_value_selected_target: "effect", target_name: "action", value: "reassign" }
+          ) do |builder|
+            helpers.inline_form(builder) do |nested|
+              nested.work_package_autocompleter(
+                name: :reassign_to_id,
+                label: helpers.t(:text_reassign),
+                visually_hide_label: true,
+                input_width: :large,
+                autocomplete_options: {
+                  resource: "work_packages",
+                  url: work_packages_api_url,
+                  searchKey: "typeahead",
+                  openDirectly: false,
+                  focusDirectly: false
+                }
+              )
+            end
+          end
+        end
+      end
+
+      form.group(layout: :horizontal) do |row|
+        row.submit(name: :submit, label: helpers.t(:button_delete), scheme: :danger)
+        row.button(name: :cancel, tag: :a, label: helpers.t(:button_cancel), href: cancel_url)
+      end
+    end
+  end
+%>
