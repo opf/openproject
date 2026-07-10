@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe Type::ConfigurationLinkable do
   let(:type) { create(:type) }
   let(:source) { create(:type) }
-  let(:aspect) { Type::ConfigurationLink::SUBJECT }
+  let(:aspect) { Type::ConfigurationLink::PATTERNS }
 
   describe "#linked? and #source_for" do
     it "reports Independent (no link) by default" do
@@ -49,9 +49,9 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "tracks each aspect independently" do
-      type.link!(Type::ConfigurationLink::SUBJECT, source:)
+      type.link!(Type::ConfigurationLink::PATTERNS, source:)
 
-      expect(type).to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(type).to be_linked(Type::ConfigurationLink::PATTERNS)
       expect(type).not_to be_linked(Type::ConfigurationLink::PDF_EXPORT)
     end
   end
@@ -69,22 +69,22 @@ RSpec.describe Type::ConfigurationLinkable do
 
   describe "#make_independent!" do
     it "removes the link for that aspect only" do
-      type.link!(Type::ConfigurationLink::SUBJECT, source:)
+      type.link!(Type::ConfigurationLink::PATTERNS, source:)
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
-      type.make_independent!(Type::ConfigurationLink::SUBJECT)
+      type.make_independent!(Type::ConfigurationLink::PATTERNS)
 
-      expect(type).not_to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
       expect(type).to be_linked(Type::ConfigurationLink::PDF_EXPORT)
     end
 
     it "adopts the source's configuration before severing when given a source" do
       configured = create(:type, patterns: { subject: { blueprint: "Adopted {{id}}", enabled: true } })
-      type.link!(Type::ConfigurationLink::SUBJECT, source:)
+      type.link!(Type::ConfigurationLink::PATTERNS, source:)
 
-      type.make_independent!(Type::ConfigurationLink::SUBJECT, source: configured)
+      type.make_independent!(Type::ConfigurationLink::PATTERNS, source: configured)
 
-      expect(type).not_to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
       expect(type.reload.patterns.subject.blueprint).to eq("Adopted {{id}}")
     end
   end
@@ -95,14 +95,14 @@ RSpec.describe Type::ConfigurationLinkable do
       child = create(:type, parent:)
 
       expect(child.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(parent)
-      expect(child.source_for(Type::ConfigurationLink::SUBJECT)).to eq(parent)
+      expect(child.source_for(Type::ConfigurationLink::PATTERNS)).to eq(parent)
     end
 
     it "leaves a root type Independent for both aspects" do
       root = create(:type)
 
       expect(root).not_to be_linked(Type::ConfigurationLink::PDF_EXPORT)
-      expect(root).not_to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(root).not_to be_linked(Type::ConfigurationLink::PATTERNS)
     end
   end
 
@@ -150,7 +150,7 @@ RSpec.describe Type::ConfigurationLinkable do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
     it "resolves patterns from the linked owner" do
-      type.link!(Type::ConfigurationLink::SUBJECT, source: owner)
+      type.link!(Type::ConfigurationLink::PATTERNS, source: owner)
 
       expect(type.effective_patterns.subject.blueprint).to eq("X {{id}}")
     end
@@ -164,7 +164,7 @@ RSpec.describe Type::ConfigurationLinkable do
     it "copies the source's subject patterns onto the type" do
       source = create(:type, patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } })
 
-      type.copy_configuration_from(source, Type::ConfigurationLink::SUBJECT)
+      type.copy_configuration_from(source, Type::ConfigurationLink::PATTERNS)
 
       expect(type.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
     end

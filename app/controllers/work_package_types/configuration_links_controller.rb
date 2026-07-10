@@ -51,7 +51,7 @@ module WorkPackageTypes
 
     def tab_path_for(aspect)
       case aspect
-      when Type::ConfigurationLink::SUBJECT
+      when Type::ConfigurationLink::PATTERNS
         edit_type_subject_configuration_path(type_id: @type.id)
       else
         edit_type_pdf_export_template_index_path(type_id: @type.id)

@@ -34,13 +34,13 @@ RSpec.describe Type::ConfigurationLink do
   describe "aspect enum" do
     it "is string-backed with the two configured aspects" do
       expect(subject).to define_enum_for(:aspect)
-        .with_values(pdf_export: "pdf_export", subject: "subject")
+        .with_values(pdf_export: "pdf_export", patterns: "patterns")
         .backed_by_column_of_type(:string)
     end
 
     it "exposes the aspect identifiers as constants" do
       expect(described_class::ASPECTS)
-        .to contain_exactly(described_class::PDF_EXPORT, described_class::SUBJECT)
+        .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS)
     end
 
     it "rejects an unknown aspect" do
@@ -54,7 +54,7 @@ RSpec.describe Type::ConfigurationLink do
     it "links a type to the source type it borrows from" do
       type = create(:type)
       source = create(:type)
-      link = create(:type_configuration_link, type:, source:, aspect: described_class::SUBJECT)
+      link = create(:type_configuration_link, type:, source:, aspect: described_class::PATTERNS)
 
       expect(link.type).to eq(type)
       expect(link.source).to eq(source)
@@ -65,13 +65,13 @@ RSpec.describe Type::ConfigurationLink do
     let(:type) { create(:type) }
 
     it "requires a source" do
-      link = build(:type_configuration_link, type:, source: nil, aspect: described_class::SUBJECT)
+      link = build(:type_configuration_link, type:, source: nil, aspect: described_class::PATTERNS)
 
       expect(link).not_to be_valid
     end
 
     it "rejects a link whose source is the type itself" do
-      link = build(:type_configuration_link, type:, source: type, aspect: described_class::SUBJECT)
+      link = build(:type_configuration_link, type:, source: type, aspect: described_class::PATTERNS)
 
       expect(link).not_to be_valid
     end
@@ -90,7 +90,7 @@ RSpec.describe Type::ConfigurationLink do
     end
 
     it "allows the other aspect to coexist for the same type" do
-      other = build(:type_configuration_link, type:, source:, aspect: described_class::SUBJECT)
+      other = build(:type_configuration_link, type:, source:, aspect: described_class::PATTERNS)
 
       expect(other).to be_valid
     end

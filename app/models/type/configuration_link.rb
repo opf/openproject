@@ -33,7 +33,7 @@
 class Type::ConfigurationLink < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
-    SUBJECT = "subject"
+    PATTERNS = "patterns"
   ].freeze
 
   belongs_to :type, optional: false
