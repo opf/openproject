@@ -61,6 +61,21 @@ RSpec.describe "Work package canonical URL rewrite",
     end
   end
 
+  describe "on page reload (F5)" do
+    it "keeps the canonical semantic ID after a full page reload" do
+      visit numeric_path
+      expect(page).to have_current_path(semantic_path)
+
+      # A reload is a full page load: the rewrite runs again on DOMContentLoaded
+      # and the self-waiting matcher below covers it. wait_for_turbo cannot be used
+      # across a full load (its listener registry does not survive).
+      page.refresh
+
+      expect(page).to have_current_path(semantic_path)
+      full_screen.ensure_page_loaded
+    end
+  end
+
   describe "after Turbo Drive navigation (turbo:render)" do
     it "rewrites a numeric work package ID to the canonical semantic ID" do
       visit project_path(project)
