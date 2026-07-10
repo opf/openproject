@@ -29,7 +29,7 @@
 #++
 
 require "spec_helper"
-require_relative "backlog"
+require_relative "../../support/pages/backlog"
 
 RSpec.describe Pages::Backlog do
   subject(:backlog_page) { described_class.new(project) }
