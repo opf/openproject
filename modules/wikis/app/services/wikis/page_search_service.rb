@@ -42,13 +42,13 @@ module Wikis
     def search_pages(query)
       return Success([]) if query.blank?
 
-      pages = if url?(query)
-                search_by_url(query)
-              else
-                search_by_query(query)
-              end
+      if url?(query)
+        search_by_url(query).fmap { [to_tree_node(it)] }
+      else
+        search_by_query(query).fmap { build_result_tree(it) }
+      end
 
-      pages.fmap { build_result_tree(it) }
+      Failure("something went wrong")
     end
 
     private
@@ -64,7 +64,7 @@ module Wikis
     def search_by_url(query)
       Adapters::Input::PageInfoForUrl.build(url: query).bind do |input_data|
         provider.auth_strategy_for(user).bind do |auth_strategy|
-          provider.resolve("queries.page_info_for_url").call(input_data:, auth_strategy:).fmap { [it] }
+          provider.resolve("queries.page_info_for_url").call(input_data:, auth_strategy:)
         end
       end
     end
@@ -75,6 +75,14 @@ module Wikis
           provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
         end
       end
+    end
+
+    def to_tree_node(page)
+      Adapters::Results::PageSearchTreeNode.new(identifier: page.identifier,
+                                                type: :page,
+                                                name: page.title,
+                                                children: [],
+                                                enabled: true)
     end
 
     def build_result_tree(pages)

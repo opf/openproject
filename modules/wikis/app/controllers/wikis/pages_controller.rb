@@ -71,14 +71,23 @@ module Wikis
       respond_with_dialog Wikis::CreateNewWikiPageDialog.new(form_object)
     end
 
-    def search
+    def search # rubocop:disable Metrics/AbcSize
       provider = Provider.visible.enabled.find(params.expect(:provider_id))
       query = params[:query]
       form_name = params[:name]
       builder = ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
       search_result = search_pages(query, provider)
 
-      render layout: false, locals: { search_result:, builder:, name: form_name }
+      search_result.either(
+        ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
+        ->(_failure) do
+          # render_error_flash_message_via_turbo_stream(message: failure)
+          # respond_with_turbo_streams
+          # flash.now[:error] = failure
+          # FIXME: Add flash message
+          render(Primer::Alpha::TreeView.new(data: { target: "filterable-tree-view.treeViewList" }), layout: false)
+        end
+      )
     end
 
     private
