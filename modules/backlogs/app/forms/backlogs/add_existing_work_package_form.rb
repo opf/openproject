@@ -28,43 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::Filters::Shared::BooleanFilter
+module Backlogs
+  class AddExistingWorkPackageForm < ApplicationForm
+    def initialize(project:, target_id: nil)
+      super()
 
-  def self.key
-    :is_milestone
-  end
-
-  def available?
-    types.exists?
-  end
-
-  def dependency_class
-    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
-  end
-
-  def where
-    if filtering_for_true?
-      "type_id IN (#{milestone_subselect})"
-    else
-      "type_id NOT IN (#{milestone_subselect})"
+      @project = project
+      @target_id = target_id
     end
-  end
 
-  def human_name
-    I18n.t("activerecord.attributes.type.is_milestone")
-  end
+    form do |f|
+      f.work_package_autocompleter(
+        name: :work_package_id,
+        label: WorkPackage.model_name.human,
+        required: true,
+        autocomplete_options: {
+          url: autocomplete_url,
+          dropdownPosition: "bottom",
+          appendTo: "##{AddExistingWorkPackageDialogComponent::DIALOG_ID}",
+          filters:
+        }
+      )
+    end
 
-  private
+    private
 
-  def types
-    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
-  end
+    def autocomplete_url
+      ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages_by_project(@project.id)
+    end
 
-  def milestone_subselect
-    Type
-      .where(is_milestone: true)
-      .select(:id)
-      .to_sql
+    def filters
+      [
+        { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol },
+        Target.parse(@target_id).to_filter
+      ]
+    end
   end
 end

@@ -44,9 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |list|
       list.with_header(title: backlog_bucket.name) do |header|
-        if show_menu?
-          header.with_menu(button_aria_label: t(".label_actions")) do |menu|
-            with_item_group(menu) do
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if user_allowed?(:create_sprints)
               menu.with_item(
                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
                 label: t(".action_menu.edit_backlog_bucket"),
@@ -67,6 +67,8 @@ See COPYRIGHT and LICENSE files for more details.
               end
             end
           end
+
+          with_add_work_package_menu_group(menu, backlog_bucket)
         end
       end
 

@@ -297,8 +297,21 @@ module Pages
       dismiss_menu(bucket)
     end
 
-    def click_in_backlog_bucket_menu(bucket, item_name)
+    def click_in_bucket_menu(bucket, item_name)
       within_backlog_bucket_menu(bucket) do |menu|
+        menu.find(:menuitem, text: item_name).click
+      end
+    end
+
+    def within_inbox_menu(&)
+      within_backlog_inbox do
+        button = find(:button, accessible_name: "Inbox actions")
+        within(open_controlled_menu(button), &)
+      end
+    end
+
+    def click_in_inbox_menu(item_name)
+      within_inbox_menu do |menu|
         menu.find(:menuitem, text: item_name).click
       end
     end
@@ -331,6 +344,12 @@ module Pages
         wait_for_turbo_stream(wait:) do
           submenu.find(:menuitem, text: item_name).click
         end
+      end
+    end
+
+    def expect_no_inbox_menu
+      within_backlog_inbox do
+        expect(page).to have_no_button(accessible_name: "Inbox actions")
       end
     end
 

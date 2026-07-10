@@ -32,15 +32,15 @@ require "spec_helper"
 
 RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
   let(:user) { build_stubbed(:user) }
-  let(:story) { build_stubbed(:work_package) }
-  let(:instance) { described_class.new(user:, story:) }
+  let(:work_package) { build_stubbed(:work_package) }
+  let(:instance) { described_class.new(user:, work_package:) }
 
   let(:inner_service) { instance_double(WorkPackages::UpdateService) }
-  let(:inner_result) { ServiceResult.success(result: story) }
+  let(:inner_result) { ServiceResult.success(result: work_package) }
 
   before do
     allow(WorkPackages::UpdateService)
-      .to receive(:new).with(user:, model: story)
+      .to receive(:new).with(user:, model: work_package)
       .and_return(inner_service)
     allow(inner_service).to receive(:call).and_return(inner_result)
   end
@@ -49,7 +49,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
     describe "error handling" do
       shared_examples "returns failure without delegating" do |call_args, i18n_key = nil|
         it "returns failure without delegating", :aggregate_failures do
-          i18n_key ||= "backlogs.stories.update_service.invalid_target_type"
+          i18n_key ||= "backlogs.work_packages.update_service.invalid_target_type"
 
           result = instance.call(**call_args)
 
@@ -62,13 +62,13 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       context "with neither target_id nor direction" do
         it_behaves_like "returns failure without delegating",
                         {},
-                        "backlogs.stories.update_service.missing_target"
+                        "backlogs.work_packages.update_service.missing_target"
       end
 
       context "with both target_id and direction" do
         it_behaves_like "returns failure without delegating",
                         { target_id: "inbox", direction: "highest" },
-                        "backlogs.stories.update_service.ambiguous_target"
+                        "backlogs.work_packages.update_service.ambiguous_target"
       end
 
       context "when target_id contains an invalid type and id" do
@@ -108,7 +108,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       context "with an invalid direction" do
         it_behaves_like "returns failure without delegating",
                         { direction: "sideways" },
-                        "backlogs.stories.update_service.invalid_direction"
+                        "backlogs.work_packages.update_service.invalid_direction"
       end
     end
 
@@ -148,43 +148,43 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       let(:inner_result) { ServiceResult.failure(message: "Something went wrong") }
 
       it "returns the failure without calling move_after", :aggregate_failures do
-        allow(story).to receive(:move_after)
+        allow(work_package).to receive(:move_after)
 
         result = instance.call(target_id: "inbox")
 
         expect(result).to be_failure
-        expect(story).not_to have_received(:move_after)
+        expect(work_package).not_to have_received(:move_after)
       end
     end
 
     context "with prev_id" do
       it "calls move_after with the prev_id on success" do
-        allow(story).to receive(:move_after)
+        allow(work_package).to receive(:move_after)
 
         instance.call(target_id: "inbox", prev_id: "5")
 
-        expect(story).to have_received(:move_after).with(prev_id: "5")
+        expect(work_package).to have_received(:move_after).with(prev_id: "5")
       end
     end
 
     context "with position" do
       it "calls move_after with the position on success" do
-        allow(story).to receive(:move_after)
+        allow(work_package).to receive(:move_after)
 
         instance.call(target_id: "inbox", position: "3")
 
-        expect(story).to have_received(:move_after).with(position: "3")
+        expect(work_package).to have_received(:move_after).with(position: "3")
       end
     end
 
     context "with both prev_id and position" do
       it "prefers prev_id over position" do
-        allow(story).to receive(:move_after)
+        allow(work_package).to receive(:move_after)
 
         instance.call(target_id: "inbox", prev_id: "5", position: "3")
 
-        expect(story).to have_received(:move_after).with(prev_id: "5")
-        expect(story).not_to have_received(:move_after).with(position: "3")
+        expect(work_package).to have_received(:move_after).with(prev_id: "5")
+        expect(work_package).not_to have_received(:move_after).with(position: "3")
       end
     end
   end

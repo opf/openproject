@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,45 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::Filters::Shared::BooleanFilter
+module Queries::WorkPackages::Filter
+  class BacklogInboxFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include Queries::Filters::Shared::BooleanFilter
 
-  def self.key
-    :is_milestone
-  end
-
-  def available?
-    types.exists?
-  end
-
-  def dependency_class
-    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
-  end
-
-  def where
-    if filtering_for_true?
-      "type_id IN (#{milestone_subselect})"
-    else
-      "type_id NOT IN (#{milestone_subselect})"
+    def available?
+      if project.present?
+        User.current.allowed_in_project?(:view_sprints, project)
+      else
+        User.current.allowed_in_any_project?(:view_sprints)
+      end
     end
-  end
 
-  def human_name
-    I18n.t("activerecord.attributes.type.is_milestone")
-  end
+    def dependency_class
+      "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+    end
 
-  private
+    def where
+      if filtering_for_true?
+        "work_packages.sprint_id IS NULL AND work_packages.backlog_bucket_id IS NULL"
+      else
+        "work_packages.sprint_id IS NOT NULL OR work_packages.backlog_bucket_id IS NOT NULL"
+      end
+    end
 
-  def types
-    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
-  end
-
-  def milestone_subselect
-    Type
-      .where(is_milestone: true)
-      .select(:id)
-      .to_sql
+    def human_name
+      I18n.t("query_fields.backlog_inbox")
+    end
   end
 end

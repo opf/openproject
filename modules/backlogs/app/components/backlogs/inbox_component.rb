@@ -33,6 +33,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
 
     TRUNCATE_MIDDLE = 50
 

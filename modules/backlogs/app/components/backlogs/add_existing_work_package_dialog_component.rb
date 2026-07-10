@@ -28,43 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::Filters::Shared::BooleanFilter
+module Backlogs
+  class AddExistingWorkPackageDialogComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  def self.key
-    :is_milestone
-  end
+    DIALOG_ID = "add-existing-work-package-dialog"
+    FORM_ID = "add-existing-work-package-form"
 
-  def available?
-    types.exists?
-  end
+    attr_reader :project, :container
 
-  def dependency_class
-    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
-  end
+    def initialize(project:, container:)
+      super()
 
-  def where
-    if filtering_for_true?
-      "type_id IN (#{milestone_subselect})"
-    else
-      "type_id NOT IN (#{milestone_subselect})"
+      @project = project
+      @container = container
     end
-  end
 
-  def human_name
-    I18n.t("activerecord.attributes.type.is_milestone")
-  end
+    def target_id = Target.for(container)
 
-  private
+    private
 
-  def types
-    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
-  end
-
-  def milestone_subselect
-    Type
-      .where(is_milestone: true)
-      .select(:id)
-      .to_sql
+    def form_url
+      add_existing_project_backlogs_work_packages_path(project, target_id:)
+    end
   end
 end

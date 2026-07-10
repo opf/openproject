@@ -28,43 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::Filters::Shared::BooleanFilter
+module Backlogs
+  module ContainerComponentHelper
+    def with_add_work_package_menu_group(menu, container)
+      target_id = Backlogs::Target.for(container)
+      dom_key = container == Backlogs::Target::Inbox ? :inbox : container
 
-  def self.key
-    :is_milestone
-  end
+      with_item_group(menu) do
+        next unless user_allowed?(:manage_sprint_items)
 
-  def available?
-    types.exists?
-  end
+        menu.with_item(
+          id: dom_target(dom_key, :menu, :add_new_work_package),
+          label: t(".action_menu.add_new_work_package"),
+          href: new_project_work_packages_dialog_path(project, **target_id.to_container_params),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :plus)
+        end
 
-  def dependency_class
-    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
-  end
-
-  def where
-    if filtering_for_true?
-      "type_id IN (#{milestone_subselect})"
-    else
-      "type_id NOT IN (#{milestone_subselect})"
+        menu.with_item(
+          id: dom_target(dom_key, :menu, :add_existing_work_package),
+          label: t(".action_menu.add_existing_work_package"),
+          href: add_existing_dialog_project_backlogs_work_packages_path(project, target_id:),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :link)
+        end
+      end
     end
-  end
-
-  def human_name
-    I18n.t("activerecord.attributes.type.is_milestone")
-  end
-
-  private
-
-  def types
-    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
-  end
-
-  def milestone_subselect
-    Type
-      .where(is_milestone: true)
-      .select(:id)
-      .to_sql
   end
 end
