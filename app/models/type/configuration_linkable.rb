@@ -61,8 +61,41 @@ module Type::ConfigurationLinkable
     configuration_links.find_or_initialize_by(aspect:).update!(source:)
   end
 
-  def make_independent!(aspect)
+  # Switch an aspect to Independent. When a source is given, its resolved
+  # configuration is copied onto this type once (adopt) before the link is severed.
+  def make_independent!(aspect, source: nil)
+    copy_configuration_from(source, aspect) if source && source != self
     configuration_links.where(aspect:).destroy_all
+  end
+
+  # Walks the link chain to the type that actually owns the aspect (Independent).
+  # The visited-set guard keeps it terminating even before transitive cycle
+  # prevention lands.
+  def effective_source_for(aspect)
+    node = self
+    seen = Set.new
+    node = node.source_for(aspect) while node.linked?(aspect) && seen.add?(node.id)
+    node
+  end
+
+  def effective_patterns
+    effective_source_for(Type::ConfigurationLink::SUBJECT).patterns
+  end
+
+  def effective_pdf_export_templates
+    effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
+  end
+
+  # One-time adoption: copy the source's resolved configuration for one aspect
+  # onto this type. Used when switching to Independent from a chosen source.
+  def copy_configuration_from(source, aspect)
+    case aspect
+    when Type::ConfigurationLink::SUBJECT
+      update!(patterns: source.effective_patterns)
+    when Type::ConfigurationLink::PDF_EXPORT
+      owner = source.effective_source_for(Type::ConfigurationLink::PDF_EXPORT)
+      update!(pdf_export_templates_config: owner.pdf_export_templates_config.deep_dup)
+    end
   end
 
   private

@@ -29,39 +29,37 @@
 #++
 
 module WorkPackageTypes
-  # Sets one configuration aspect of a type to Linked (a chosen global source) or
-  # Independent. The source-graph invariants (present, global, not-self) are the
-  # link record's own validations; this service maps the UI mode onto them.
-  class SetConfigurationLinkService
-    def initialize(type:, aspect:)
-      @type = type
-      @aspect = aspect
+  class ConfigurationLinksController < ApplicationController
+    layout "admin"
+
+    before_action :require_admin
+    before_action :find_type
+
+    current_menu_item do
+      :types
     end
 
-    def call(mode:, source_id: nil)
-      source = Type.global.find_by(id: source_id)
+    def update
+      result = SetConfigurationLinkService
+                 .new(type: @type, aspect: params[:aspect])
+                 .call(mode: params[:mode], source_id: params[:source_id])
 
-      case mode.to_s
-      when "independent"
-        @type.make_independent!(@aspect, source:)
-        ServiceResult.success(result: @type)
-      when "linked"
-        link_to(source)
-      else
-        ServiceResult.failure(result: @type)
-      end
+      message = result.success? ? { notice: I18n.t(:notice_successful_update) } : { alert: result.message }
+      redirect_to tab_path_for(params[:aspect]), **message
     end
 
     private
 
-    def link_to(source)
-      link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
-      link.source = source
+    def find_type
+      @type = ::Type.find(params.expect(:type_id))
+    end
 
-      if link.save
-        ServiceResult.success(result: @type)
+    def tab_path_for(aspect)
+      case aspect
+      when Type::ConfigurationLink::SUBJECT
+        edit_type_subject_configuration_path(type_id: @type.id)
       else
-        ServiceResult.failure(result: @type, errors: link.errors)
+        edit_type_pdf_export_template_index_path(type_id: @type.id)
       end
     end
   end

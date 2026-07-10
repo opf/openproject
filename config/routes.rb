@@ -187,6 +187,8 @@ Rails.application.routes.draw do
     resource :settings, controller: "settings_tab", only: %i[update edit]
     resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
 
+    resources :configuration_links, only: %i[update], param: :aspect
+
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
                                     path: "pdf_export_template" do

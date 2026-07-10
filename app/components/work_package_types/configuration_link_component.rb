@@ -29,40 +29,39 @@
 #++
 
 module WorkPackageTypes
-  # Sets one configuration aspect of a type to Linked (a chosen global source) or
-  # Independent. The source-graph invariants (present, global, not-self) are the
-  # link record's own validations; this service maps the UI mode onto them.
-  class SetConfigurationLinkService
+  # Mode chooser (Independent/Linked) + source picker, shared by the PDF and
+  # subject tabs. When Independent, the tab's own editor (passed as the block
+  # content) shows; picking Linked swaps it for the source picker + Save.
+  # Toggling is client-side via the show-when-value-selected controller.
+  class ConfigurationLinkComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpPrimer::FormHelpers
+
     def initialize(type:, aspect:)
-      @type = type
       @aspect = aspect
+      super(type)
     end
 
-    def call(mode:, source_id: nil)
-      source = Type.global.find_by(id: source_id)
+    def type = model
 
-      case mode.to_s
-      when "independent"
-        @type.make_independent!(@aspect, source:)
-        ServiceResult.success(result: @type)
-      when "linked"
-        link_to(source)
-      else
-        ServiceResult.failure(result: @type)
-      end
+    def linked? = type.linked?(@aspect)
+
+    def current_source = type.source_for(@aspect)
+
+    def form_options
+      {
+        url: type_configuration_link_path(type_id: type.id, aspect: @aspect),
+        method: :put,
+        linked: linked?,
+        current_source_id: current_source&.id,
+        source_options:
+      }
     end
 
     private
 
-    def link_to(source)
-      link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
-      link.source = source
-
-      if link.save
-        ServiceResult.success(result: @type)
-      else
-        ServiceResult.failure(result: @type, errors: link.errors)
-      end
+    def source_options
+      Type.global.where.not(id: type.id).order(:name)
     end
   end
 end

@@ -27,10 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<div data-controller="show-when-value-selected">
+  <%= settings_primer_form_with(**form_options) do |f| %>
+    <%= render(WorkPackageTypes::ConfigurationLinkForm.new(f)) %>
+  <% end %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-<%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type: @type, aspect: Type::ConfigurationLink::SUBJECT)) do %>
-  <%= render WorkPackageTypes::SubjectConfigurationComponent
-               .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>
-<% end %>
+  <% unless linked? %>
+    <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
+    <%= content_tag(:div, content, data: WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")) %>
+  <% end %>
+</div>

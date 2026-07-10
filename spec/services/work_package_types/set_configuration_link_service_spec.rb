@@ -87,4 +87,18 @@ RSpec.describe WorkPackageTypes::SetConfigurationLinkService do
       expect(type).not_to be_linked(aspect)
     end
   end
+
+  describe "independent mode adopting a source" do
+    subject(:service) { described_class.new(type:, aspect: Type::ConfigurationLink::SUBJECT) }
+
+    it "copies the source's config onto the type once and creates no link" do
+      configured = create(:type, patterns: { subject: { blueprint: "Adopt {{id}}", enabled: true } })
+
+      result = service.call(mode: "independent", source_id: configured.id)
+
+      expect(result).to be_success
+      expect(type).not_to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(type.reload.patterns.subject.blueprint).to eq("Adopt {{id}}")
+    end
+  end
 end

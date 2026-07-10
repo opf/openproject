@@ -77,6 +77,16 @@ RSpec.describe Type::ConfigurationLinkable do
       expect(type).not_to be_linked(Type::ConfigurationLink::SUBJECT)
       expect(type).to be_linked(Type::ConfigurationLink::PDF_EXPORT)
     end
+
+    it "adopts the source's configuration before severing when given a source" do
+      configured = create(:type, patterns: { subject: { blueprint: "Adopted {{id}}", enabled: true } })
+      type.link!(Type::ConfigurationLink::SUBJECT, source:)
+
+      type.make_independent!(Type::ConfigurationLink::SUBJECT, source: configured)
+
+      expect(type).not_to be_linked(Type::ConfigurationLink::SUBJECT)
+      expect(type.reload.patterns.subject.blueprint).to eq("Adopted {{id}}")
+    end
   end
 
   describe "sub-type default seeding" do
@@ -110,6 +120,63 @@ RSpec.describe Type::ConfigurationLinkable do
 
       expect(source.destroy).to be_falsey
       expect(source.errors[:base]).to be_present
+    end
+  end
+
+  describe "#effective_source_for" do
+    it "returns itself when Independent" do
+      expect(type.effective_source_for(aspect)).to eq(type)
+    end
+
+    it "walks the link chain to the owning Independent type" do
+      owner = create(:type)
+      middle = create(:type)
+      middle.link!(aspect, source: owner)
+      type.link!(aspect, source: middle)
+
+      expect(type.effective_source_for(aspect)).to eq(owner)
+    end
+
+    it "terminates on a cycle instead of looping forever" do
+      other = create(:type)
+      type.link!(aspect, source: other)
+      other.link!(aspect, source: type)
+
+      expect { type.effective_source_for(aspect) }.not_to raise_error
+    end
+  end
+
+  describe "effective configuration" do
+    let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
+
+    it "resolves patterns from the linked owner" do
+      type.link!(Type::ConfigurationLink::SUBJECT, source: owner)
+
+      expect(type.effective_patterns.subject.blueprint).to eq("X {{id}}")
+    end
+
+    it "resolves its own patterns when Independent" do
+      expect(type.effective_patterns).to eq(type.patterns)
+    end
+  end
+
+  describe "#copy_configuration_from" do
+    it "copies the source's subject patterns onto the type" do
+      source = create(:type, patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } })
+
+      type.copy_configuration_from(source, Type::ConfigurationLink::SUBJECT)
+
+      expect(type.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
+    end
+
+    it "copies the source's PDF export config onto the type" do
+      source = create(:type)
+      source.pdf_export_templates.disable_all
+      source.save!
+
+      type.copy_configuration_from(source, Type::ConfigurationLink::PDF_EXPORT)
+
+      expect(type.reload.export_templates_disabled).to eq(source.export_templates_disabled)
     end
   end
 end
