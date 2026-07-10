@@ -36,7 +36,7 @@ module CustomStylesHelper
     selected && selected[:pdf]
   end
 
-  def theme_tab?
+  def show_theme_selector?
     selected = selected_tab(design_tabs)
     selected && %w[interface branding].include?(selected[:name])
   end

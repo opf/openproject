@@ -37,22 +37,6 @@ RSpec.describe ColorsController do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe "index.html" do
-    def fetch
-      get "index"
-    end
-
-    def expect_redirect_to
-      custom_style_path(tab: :default_colors)
-    end
-
-    it_behaves_like "a controller action with require_admin"
-
-    it "redirects to the default colors design tab" do
-      expect(fetch).to redirect_to(custom_style_path(tab: :default_colors))
-    end
-  end
-
   describe "new.html" do
     def fetch
       get "new"
@@ -87,14 +71,6 @@ RSpec.describe ColorsController do
 
     def expect_redirect_to
       custom_style_path(tab: :default_colors)
-    end
-    it_behaves_like "a controller action with require_admin"
-  end
-
-  describe "confirm_destroy.html" do
-    def fetch
-      @available_color = create(:color, id: "1337")
-      get "confirm_destroy", params: { id: "1337" }
     end
     it_behaves_like "a controller action with require_admin"
   end

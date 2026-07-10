@@ -30,17 +30,11 @@
 
 class ColorsController < ApplicationController
   before_action :require_admin_unless_readonly_api_request
-  authorization_checked! :index, :show, :new, :edit, :create, :update, :confirm_destroy, :destroy
+  authorization_checked! :show, :new, :edit, :create, :update, :destroy
 
   layout "admin"
 
   menu_item :custom_style
-
-  def index
-    respond_to do |format|
-      format.html { redirect_to colors_settings_path }
-    end
-  end
 
   def show
     @color = Color.find(params.expect(:id))
@@ -84,13 +78,6 @@ class ColorsController < ApplicationController
     end
   end
 
-  def confirm_destroy
-    @color = Color.find(params.expect(:id))
-    respond_to do |format|
-      format.html
-    end
-  end
-
   def destroy
     @color = Color.find(params.expect(:id))
     @color.destroy!
@@ -106,7 +93,7 @@ class ColorsController < ApplicationController
   end
 
   def require_admin_unless_readonly_api_request
-    require_admin unless %w[index show].include? action_name and
+    require_admin unless action_name == "show" and
                          api_request?
   end
 end
