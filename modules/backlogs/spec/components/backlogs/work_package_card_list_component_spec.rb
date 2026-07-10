@@ -98,7 +98,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
     it "renders one lazy card frame per work package" do
       work_packages.each do |work_package|
         expect(rendered_component).to have_css(
-          "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']"
+          "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']"
         )
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
 
       expect(rendered_component).to have_css(
         ".Box-row#work_package_#{work_package.id} " \
-        "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
+        "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
         "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
       )
     end

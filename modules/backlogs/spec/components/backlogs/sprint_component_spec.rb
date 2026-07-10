@@ -92,7 +92,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
         [work_package1, work_package2].each do |work_package|
           expect(rendered_component).to have_css(
             ".Box-row#work_package_#{work_package.id} " \
-            "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
+            "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
             "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
           )
         end

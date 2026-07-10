@@ -114,7 +114,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
       it "lazily loads the work package card through a turbo-frame" do
         expect(rendered_component).to have_css(
           ".Box-row#work_package_#{work_package.id} " \
-          "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
+          "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']" \
           "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
         )
       end

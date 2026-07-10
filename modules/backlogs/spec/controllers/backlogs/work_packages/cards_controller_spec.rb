@@ -52,7 +52,7 @@ RSpec.describe Backlogs::WorkPackages::CardsController, with_flag: { backlogs_la
         request
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to have_css("turbo-frame#work_package_#{work_package.id}_card")
+        expect(response.body).to have_css("turbo-frame#card_work_package_#{work_package.id}")
         expect(response.body).to have_text("A card")
         expect(response.body).to have_css(".sr-only", text: "5 story points")
       end

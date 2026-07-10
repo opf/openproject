@@ -30,10 +30,10 @@
 
 module Backlogs
   class WorkPackageCardComponent < ApplicationComponent
-    # Suffix appended to a work package's dom_id to build its card turbo-frame
+    # Prefix added to a work package's dom_id to build its card turbo-frame
     # id. Shared with WorkPackageCardListItemLoadingComponent so the lazily
     # loaded placeholder and the rendered card target the same frame.
-    FRAME_ID_SUFFIX = "_card"
+    FRAME_ID_PREFIX = "card"
 
     attr_reader :work_package, :menu_src
 
@@ -42,7 +42,7 @@ module Backlogs
     # @param work_package [WorkPackage] the work package the frame wraps.
     # @return [String] the turbo-frame id for that work package's card.
     def self.frame_id(work_package)
-      ActionView::RecordIdentifier.dom_id(work_package, FRAME_ID_SUFFIX)
+      ActionView::RecordIdentifier.dom_id(work_package, FRAME_ID_PREFIX)
     end
 
     def initialize(work_package:, menu_src: nil)

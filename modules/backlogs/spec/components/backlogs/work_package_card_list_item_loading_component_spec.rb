@@ -54,7 +54,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemLoadingComponent, type: :compone
 
   it "renders a lazy turbo-frame targeting the card" do
     expect(rendered_component).to have_css(
-      "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']"
+      "turbo-frame#card_work_package_#{work_package.id}[loading='lazy']"
     )
   end
 

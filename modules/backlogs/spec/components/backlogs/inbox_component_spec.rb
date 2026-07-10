@@ -125,7 +125,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
 
     it "renders a lazy card frame for each work package" do
       work_packages.each do |work_package|
-        expect(page).to have_css("turbo-frame#work_package_#{work_package.id}_card[loading='lazy']")
+        expect(page).to have_css("turbo-frame#card_work_package_#{work_package.id}[loading='lazy']")
       end
     end
 

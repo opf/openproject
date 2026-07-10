@@ -311,7 +311,7 @@ module Pages
         # the frame swap and the menu never opens. There is no such frame when
         # cards are rendered inline.
         if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
-          expect(page).to have_css("turbo-frame#work_package_#{work_package.id}_card[complete]:not([busy])")
+          expect(page).to have_css("turbo-frame#card_work_package_#{work_package.id}[complete]:not([busy])")
         end
         button = find(:button, accessible_name: "Work package actions")
         within(open_controlled_menu(button), &)
