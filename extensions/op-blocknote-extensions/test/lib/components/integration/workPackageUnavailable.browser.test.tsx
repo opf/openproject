@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse } from 'msw';
+import { useState } from 'react';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
@@ -42,7 +43,7 @@ describe('Inline chip - unavailable work package', () => {
 
     render(
       <InlineWorkPackageChip
-        inlineContent={{ props: { wpid: '999', size: 's', instanceId: 'test-unauth' } }}
+        inlineContent={{ props: { wpid: '999', size: 's', displayId: '999' } }}
         contentRef={vi.fn()}
       />
     );
@@ -62,7 +63,7 @@ describe('Inline chip - unavailable work package', () => {
 
     render(
       <InlineWorkPackageChip
-        inlineContent={{ props: { wpid: '999', size: 's', instanceId: 'test-err' } }}
+        inlineContent={{ props: { wpid: '999', size: 's', displayId: '999' } }}
         contentRef={vi.fn()}
       />
     );
@@ -82,7 +83,7 @@ describe('Inline chip - unavailable work package', () => {
 
     render(
       <InlineWorkPackageChip
-        inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs' } }}
+        inlineContent={{ props: { wpid: '999', size: 'xxs', displayId: '999' } }}
         contentRef={vi.fn()}
       />
     );
@@ -150,6 +151,88 @@ describe('Inline chip - unavailable work package', () => {
     await vi.waitFor(() => {
       expect(document.querySelectorAll('.op-bn-inline-wp').length).toBe(2);
     });
+  });
+});
+
+// Unauthorized chip whose size is held in state, so resizing re-renders
+function UnavailableChipWrapper({ initialSize }:{ initialSize:string }) {
+  const [size, setSize] = useState(initialSize);
+
+  return (
+    <div style={{ paddingTop: '200px', paddingLeft: '20px' }}>
+      <InlineWorkPackageChip
+        inlineContent={{ props: { wpid: '999', size, displayId: '999' } }}
+        contentRef={vi.fn()}
+        updateInlineContent={(update) => setSize(update.props.size)}
+      />
+    </div>
+  );
+}
+
+describe('Unavailable work package - options popover (BNE-112)', () => {
+  it('inline chip: opens the popover without the Open button and resizes', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 })
+      )
+    );
+
+    render(<UnavailableChipWrapper initialSize="s" />);
+
+    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
+    await userEvent.click(page.getByText('Unavailable: No permission'));
+
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+    await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
+
+    await userEvent.click(page.getByTitle('Change size'));
+    await expect.element(page.getByTestId('size-menu')).toBeVisible();
+    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
+
+    // xxs renders icon-only with the message exposed to assistive tech via aria-label
+    await vi.waitFor(() => {
+      expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('aria-label')).toBe('Unavailable: No permission');
+    });
+  });
+
+  it('inline chip: removes the chip from the document', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 })
+      )
+    );
+
+    renderEditor();
+    await insertUnavailableInlineWorkPackage();
+
+    await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
+    await userEvent.click(page.getByText('Unavailable: No permission'));
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+
+    await userEvent.click(page.getByTitle('Remove'));
+
+    await expect.element(page.getByText('Unavailable: No permission')).not.toBeInTheDocument();
+  });
+
+  it('block card: opens the popover without the Open button and removes the block', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/123', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 })
+      )
+    );
+
+    renderEditor();
+    await insertBlockWorkPackageViaSlashMenu();
+
+    await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
+    await userEvent.click(page.getByText('Linked work package unavailable'));
+
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+    await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
+
+    await userEvent.click(page.getByTitle('Remove'));
+
+    await expect.element(page.getByTestId('block-wp-wrapper')).not.toBeInTheDocument();
   });
 });
 

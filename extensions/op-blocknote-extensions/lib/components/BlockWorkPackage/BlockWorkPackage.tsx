@@ -34,6 +34,11 @@ const BlockCardWrapper = styled.div`
   display: inline-block;
 `;
 
+const UnavailableCardWrapper = styled(BlockCardWrapper)`
+  display: block;
+  cursor: pointer;
+`;
+
 type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
 
 interface BlockProps {
@@ -110,8 +115,8 @@ export const BlockWorkPackageComponent = ({
   }, [isOptionsOpen]);
 
   const handleConvertToInline = (size:InlineWpSize) => {
-    if (!selectedWorkPackage) return;
-    convertBlockToInlineChip(editor, block.id, selectedWorkPackage.id, size);
+    if (!block.props.wpid) return;
+    convertBlockToInlineChip(editor, block.id, block.props.wpid, size);
   };
 
   const handleResizeBlock = (size:BlockWpSize) => {
@@ -125,6 +130,21 @@ export const BlockWorkPackageComponent = ({
   };
 
   const isPending = pendingBlockRegistry.has(block.id);
+
+  const optionsPopover = (
+    <WpOptionsPopover
+      wp={selectedWorkPackage ?? undefined}
+      currentSize={undefined}
+      currentBlockSize={cardSize}
+      // eslint-disable-next-line react-hooks/refs
+      anchorEl={cardRef.current}
+      onClose={() => setIsOptionsOpen(false)}
+      onConvertToInline={handleConvertToInline}
+      onConvertToBlock={handleResizeBlock}
+      onResizeBlock={handleResizeBlock}
+      onRemove={handleRemove}
+    />
+  );
 
   return (
     <Block $pending={isPending} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
@@ -155,19 +175,29 @@ export const BlockWorkPackageComponent = ({
                 message={t('unavailableWorkPackage.loading.message')}
               />
             )}
-            {!workPackageResult.loading && workPackageResult.error && (
-              <UnavailableCard
-                icon={<AlertIcon size={16} />}
-                header={t('unavailableWorkPackage.error.header')}
-                message={t('unavailableWorkPackage.error.message')}
-              />
-            )}
-            {!workPackageResult.loading && !workPackageResult.error && workPackageResult.unauthorized && (
-              <UnavailableCard
-                icon={<EyeClosedIcon size={16} />}
-                header={t('unavailableWorkPackage.unauthorized.header')}
-                message={t('unavailableWorkPackage.unauthorized.message')}
-              />
+            {!workPackageResult.loading && (workPackageResult.error ?? workPackageResult.unauthorized) && (
+              <UnavailableCardWrapper
+                ref={cardRef}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOptionsOpen((prev) => !prev);
+                }}
+              >
+                {workPackageResult.error ? (
+                  <UnavailableCard
+                    icon={<AlertIcon size={16} />}
+                    header={t('unavailableWorkPackage.error.header')}
+                    message={t('unavailableWorkPackage.error.message')}
+                  />
+                ) : (
+                  <UnavailableCard
+                    icon={<EyeClosedIcon size={16} />}
+                    header={t('unavailableWorkPackage.unauthorized.header')}
+                    message={t('unavailableWorkPackage.unauthorized.message')}
+                  />
+                )}
+                {isOptionsOpen && optionsPopover}
+              </UnavailableCardWrapper>
             )}
             {!workPackageResult.loading &&
               !workPackageResult.error &&
@@ -184,20 +214,7 @@ export const BlockWorkPackageComponent = ({
                       setIsOptionsOpen((prev) => !prev);
                     }}
                   />
-                  {isOptionsOpen && (
-                    <WpOptionsPopover
-                      wp={selectedWorkPackage}
-                      currentSize={undefined}
-                      currentBlockSize={cardSize}
-                      // eslint-disable-next-line react-hooks/refs
-                      anchorEl={cardRef.current}
-                      onClose={() => setIsOptionsOpen(false)}
-                      onConvertToInline={handleConvertToInline}
-                      onConvertToBlock={handleResizeBlock}
-                      onResizeBlock={handleResizeBlock}
-                      onRemove={handleRemove}
-                    />
-                  )}
+                  {isOptionsOpen && optionsPopover}
                 </BlockCardWrapper>
               )}
           </>

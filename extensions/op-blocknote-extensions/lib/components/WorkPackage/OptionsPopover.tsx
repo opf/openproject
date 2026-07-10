@@ -14,7 +14,7 @@ import {
 import {formatWorkPackageId} from '../../utils/id';
 
 export interface WpOptionsProps {
-  wp:WorkPackage;
+  wp?:WorkPackage;
   currentSize?:InlineWpSize;
   currentBlockSize?:BlockWpSize;
   anchorEl?:HTMLElement | null;
@@ -181,18 +181,22 @@ export const WpOptionsPopover = ({
   const content = (
     // Prevent editor/parent handlers from stealing focus or closing the popover
     <Popover ref={popoverRef} onMouseDown={(e) => e.stopPropagation()}>
-      <PopBtn
-        title={t('options.openInNewTab')}
-        aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
-        onClick={(e) => {
-          e.stopPropagation();
-          window.open(linkToWorkPackage(wp.displayId), '_blank', 'noopener,noreferrer');
-        }}
-      >
-        <IcOpen /> {t('options.open')}
-      </PopBtn>
+      {wp && (
+        <>
+          <PopBtn
+            title={t('options.openInNewTab')}
+            aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(linkToWorkPackage(wp.displayId), '_blank', 'noopener,noreferrer');
+            }}
+          >
+            <IcOpen /> {t('options.open')}
+          </PopBtn>
 
-      <Divider />
+          <Divider />
+        </>
+      )}
 
       <SizeButtonWrapper>
         <PopBtn
