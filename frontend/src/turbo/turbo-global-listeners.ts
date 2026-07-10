@@ -1,3 +1,4 @@
+import * as Turbo from '@hotwired/turbo';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
@@ -10,7 +11,21 @@ import {
   focusFirstErroneousField,
   initMainMenuExpandStatus,
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 import { isOpenProjectCustomElement } from './openproject-custom-element';
+
+// `view` exists on the Turbo session at runtime but is absent from the project's
+// hand-written @types/hotwired__turbo typings; narrow-cast here, same precedent
+// as turbo/helpers.ts and turbo-navigation-patch.ts.
+interface TurboSessionWithView extends Turbo.TurboSession {
+  view:{ lastRenderedLocation:URL };
+}
+
+// Compiled once: matches a work package id anywhere in the pathname, reusing the
+// shared WP_ID_URL_PATTERN so numeric ("42") and semantic ("PROJ-42") ids both match.
+const workPackageIdPathPattern = new URLPattern({
+  pathname: `{*}/work_packages/:id(${WP_ID_URL_PATTERN}){/*}?`,
+});
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
@@ -69,23 +84,25 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
 
 export function canonicalizeWorkPackageIdInUrl():void {
   const currentPath = window.location.pathname;
-  const wpIdPattern = /\/work_packages\/([^/]+)/;
-  const currentMatch = wpIdPattern.exec(currentPath);
-  if (!currentMatch) return;
+  const currentId = workPackageIdPathPattern.exec({ pathname: currentPath })?.pathname.groups.id;
+  if (!currentId) return;
 
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!canonical?.href) return;
 
-  const canonicalMatch = wpIdPattern.exec(new URL(canonical.href).pathname);
-  if (!canonicalMatch || canonicalMatch[1] === currentMatch[1]) return;
+  const canonicalPath = new URL(canonical.href).pathname;
+  const canonicalId = workPackageIdPathPattern.exec({ pathname: canonicalPath })?.pathname.groups.id;
+  if (!canonicalId || canonicalId === currentId) return;
 
-  const newPath = currentPath.replace(
-    `/work_packages/${currentMatch[1]}`,
-    `/work_packages/${canonicalMatch[1]}`,
-  );
-  window.history.replaceState(
-    window.history.state,
-    '',
-    newPath + window.location.search + window.location.hash,
-  );
+  const newPath = currentPath.replace(`/work_packages/${currentId}`, `/work_packages/${canonicalId}`);
+  const newUrl = new URL(newPath + window.location.search + window.location.hash, window.location.origin);
+
+  // Use Turbo's history.replace (not window.history.replaceState) so Turbo's internal
+  // location stays in sync — otherwise back/forward popstate resolves the stale URL.
+  // Pass the current restorationIdentifier explicitly: History.replace defaults to a
+  // fresh uuid, orphaning the recorded scroll-restoration data.
+  Turbo.session.history.replace(newUrl, Turbo.session.history.restorationIdentifier);
+  // PageView#cacheSnapshot keys the snapshot cache by lastRenderedLocation; left stale,
+  // back/forward misses the cache and re-fetches instead of restoring instantly.
+  (Turbo.session as TurboSessionWithView).view.lastRenderedLocation = newUrl;
 }

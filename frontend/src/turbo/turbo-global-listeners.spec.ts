@@ -27,8 +27,9 @@
 //++
 
 import {
-  afterEach, beforeEach, describe, expect, it,
+  afterEach, beforeEach, describe, expect, it, vi,
 } from 'vitest';
+import * as Turbo from '@hotwired/turbo';
 import { addTurboGlobalListeners, canonicalizeWorkPackageIdInUrl } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
@@ -71,25 +72,30 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
 });
 
 describe('canonicalizeWorkPackageIdInUrl', () => {
-  let replaceStateSpy:ReturnType<typeof vi.spyOn>;
+  let historyReplaceSpy:ReturnType<typeof vi.spyOn>;
+  let canonicalLink:HTMLLinkElement | null = null;
 
   function setCanonical(href:string) {
     const link = document.createElement('link');
     link.rel = 'canonical';
     link.href = href;
     document.head.appendChild(link);
+    canonicalLink = link;
   }
 
   beforeEach(() => {
-    window.history.pushState({}, '', '/');
-    document.querySelectorAll('link[rel="canonical"]').forEach((element) => element.remove());
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-empty-function */
-    replaceStateSpy = vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
-    /* eslint-enable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-empty-function */
+    /* eslint-disable @typescript-eslint/no-empty-function */
+    historyReplaceSpy = vi.spyOn(Turbo.session.history, 'replace').mockImplementation(() => {});
+    /* eslint-enable @typescript-eslint/no-empty-function */
   });
 
   afterEach(() => {
+    // Deterministic per-test cleanup: restore the spy, drop the injected canonical
+    // link and reset the URL rather than relying on the next test's setup.
     vi.restoreAllMocks();
+    canonicalLink?.remove();
+    canonicalLink = null;
+    window.history.replaceState({}, '', '/');
   });
 
   it('rewrites old id to canonical id', () => {
@@ -98,33 +104,36 @@ describe('canonicalizeWorkPackageIdInUrl', () => {
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).toHaveBeenCalledWith({}, '', '/projects/old-proj/work_packages/NEW-42/activity');
+    const expectedUrl = new URL('/projects/old-proj/work_packages/NEW-42/activity', window.location.origin);
+    expect(historyReplaceSpy).toHaveBeenCalledWith(expectedUrl, Turbo.session.history.restorationIdentifier);
+    expect((Turbo.session as unknown as { view:{ lastRenderedLocation:URL } }).view.lastRenderedLocation.href)
+      .toBe(expectedUrl.href);
   });
 
-  it('does not call replaceState when url already matches canonical', () => {
+  it('does not rewrite when url already matches canonical', () => {
     window.history.pushState({}, '', '/projects/demo/work_packages/DEMO-42');
     setCanonical('http://localhost/projects/demo/work_packages/DEMO-42');
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).not.toHaveBeenCalled();
+    expect(historyReplaceSpy).not.toHaveBeenCalled();
   });
 
-  it('does not call replaceState when no canonical link is present', () => {
+  it('does not rewrite when no canonical link is present', () => {
     window.history.pushState({}, '', '/projects/demo/work_packages/42');
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).not.toHaveBeenCalled();
+    expect(historyReplaceSpy).not.toHaveBeenCalled();
   });
 
-  it('does not call replaceState when url does not contain /work_packages/', () => {
+  it('does not rewrite when url does not contain /work_packages/', () => {
     window.history.pushState({}, '', '/projects/demo/boards');
     setCanonical('http://localhost/projects/demo/boards');
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).not.toHaveBeenCalled();
+    expect(historyReplaceSpy).not.toHaveBeenCalled();
   });
 
   it('preserves query string and hash when rewriting the id', () => {
@@ -133,6 +142,7 @@ describe('canonicalizeWorkPackageIdInUrl', () => {
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).toHaveBeenCalledWith({}, '', '/projects/demo/work_packages/DEMO-42?focus=description#comment-5');
+    const expectedUrl = new URL('/projects/demo/work_packages/DEMO-42?focus=description#comment-5', window.location.origin);
+    expect(historyReplaceSpy).toHaveBeenCalledWith(expectedUrl, Turbo.session.history.restorationIdentifier);
   });
 });
