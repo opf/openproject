@@ -30,9 +30,24 @@ Choose **Account settings**.
 
 ![Account settings in OpenProject](openproject_select_account_settings.png)
 
-## Edit your user information
+## Account
 
-To change your email address or your name, navigate to **Profile** on the left side menu of **Account settings** page.
+#### Set an avatar
+
+To change your profile picture in OpenProject, navigate to **Account settings** and select **Account** from the left-hand menu.
+
+OpenProject uses your Gravatar if you have registered one with the same email address at [gravatar.com](https://documentation.openproject-edge.com/external_redirect?url=https%3A%2F%2Fgravatar.com%2F). Otherwise, it displays a default avatar or icon, if one exists.
+
+To use a different profile picture, click your current avatar to upload a custom image. A custom avatar overrides your Gravatar.
+
+> [!TIP]
+> For the best results, use an image that is 128 × 128 pixels. Larger images will be cropped automatically.
+
+![Avatar settings under OpenProject user account settings](openproject_account_settings_avatar.png)
+
+### User attributes
+
+To change your email address or your name, navigate to **Account** on the left side menu of **Account settings** page and scroll to **User attributes** section.
 
 Here you can **update** or delete your profile. If you're changing the email address of your account, you will be requested to confirm your account password before you can continue. 
 
@@ -57,11 +72,15 @@ To delete your account, navigate to _Account settings_ -> _Account_ and click th
 
 If you cannot see the entry **Delete** button under your **Account settings**, make sure the option "Users allowed to delete their account" is [activated in the administration](../../system-admin-guide/users-permissions/settings/#user-deletion).
 
+## Schedule and availability
+
+update
+
 ## Language and region settings
 
 Within the **Language and region** section of **Account settings** page you can change the language of OpenProject and adapt the time zone.
 
-![OpenProject personal account settings](openproject_account_settings_language_and_regions.png)
+![OpenProject personal account settings](openproject_account_sEttings_language_and_regions.png)
 
 ### Change your language
 
@@ -93,7 +112,7 @@ You can also **disable keyboard shortcuts** . This is useful if you rely on a sc
 
 Click **Update look and feel** to save your changes.
 
-!["Look and feel" section under Interface settings in OpenProject account settings](openproject_account_settings_interface_look_and_feel.png)
+!["Look and feel" section under Interface settings in OpenProject account settings](opEnproject_account_settings_interface_look_and_feel.png)
 
 #### Select the high contrast color mode
 
@@ -101,7 +120,7 @@ In the dropdown menu **Color mode** you can pick the color mode. The default set
 
 This mode is recommended for users with visuals impairment.
 
-![Light mode with increased contrast selected in OpenProject account settings](openproject_account_settings_settings_light_high_contrast_mode.png)
+![Light mode with increased contrast selected in OpenProject account settings](openproject_acCount_settings_settings_light_high_contrast_mode.png)
 
 #### Select the dark mode
 
@@ -110,13 +129,13 @@ In the dropdown menu **Color mode** you can pick the color mode. The default set
 > [!NOTE]
 > Custom colors and themes are only supported in Light mode and changing color modes may override most or all custom configuration. Only some colors (accent and primary button color) are kept but adapted for appropriate contrast in certain modes like dark mode.
 
-![Dark mode in OpenProject account settings](openproject_account_settings_dark_mode.png)
+![Dark mode in OpenProject account settings](openproject_account_settingS_dark_mode.png)
 
 #### Select automatic color mode
 
 In the dropdown menu Color mode, you can now also select the **Automatic option, which will match the color mode of your operating system**. 
 
-![Automatic color mode in OpenProject account settings](openproject_account_settings_automatic_os_mode.png)
+![Automatic color mode in OpenProject account settings](openproject_account_settIngs_automatic_os_mode.png)
 
 If this option is selected, OpenProject will automatically match your operating system’s light or dark theme, including the system's contrast settings. You will also see additional settings to force high-contrast when Light or Dark mode is selected — this would ensure that OpenProject always increases contrast in automatic mode, regardless of the system contrast settings.
 
@@ -141,7 +160,7 @@ Under **Alerts** section you can activate a **warning if you are leaving a work 
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![Alerts section under interface settings in OpenProject account settings](openproject_account_settings_interface_alerts.png)
+![Alerts section under interface settings in OpenProject account settings](Openproject_account_settings_interface_alerts.png)
 
 ## Security
 
@@ -218,7 +237,7 @@ If you have created backup codes before, they will be invalidated and will no lo
 
 To view and manage your OpenProject access tokens navigate to **Account settings** and choose **Access tokens** from the menu. Access tokens allow you to grant external applications access to resources in OpenProject. 
 
-![Access tokens overview in OpenProject account settings](openproject_account_settings_access_tokens.png)
+![Access tokens overview in OpenProject account settings](Openproject_account_settings_access_tokens.png)
 
 Access tokens are organized into two tabs: Provider tokens and Client tokens. Provider tokens are generated by OpenProject and enable other applications to connect to it. Client tokens are generated by external applications and allow OpenProject to connect to them.
 
@@ -350,9 +369,9 @@ To configure the notification settings which you receive from the system, naviga
 
 ### Notification settings
 
-![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
+![Notification settings in OpenProject account settings](openproject_aCcount_settings_notification_settings.png)
 
-![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
+![More notification settings in OpenProject account settings](openproJect_account_settings_more_notification_settings.png)
 
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
@@ -362,7 +381,7 @@ Please also see our detailed [in-app notifications](../../user-guide/notificatio
 
 To configure the email reminders which you receive from the system, switch to the **email reminders tab.** Your system administrator can also set them for you or change the global default settings.
 
-![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
+![Email reminders section in OpenProject account settings](openproject_account_settings_Email_reminders.png)
 
 ![Second part of the page of email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
 

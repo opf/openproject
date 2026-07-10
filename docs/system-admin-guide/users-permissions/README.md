@@ -15,6 +15,7 @@ In this section of the System Administration guide you can learn how to manage u
 | ------------------------------------------ | :----------------------------------------------------------- |
 | [Settings](settings)                       | Configure user settings, e.g. default language, time zone, and more. |
 | [Users](users)                             | Manage users: View all users, invite new users, lock users, and more. |
+| [User attributes](user-attributes)         | Create and manage user attributes.                           |
 | [Placeholder users](placeholder-users)     | Create and manage placeholder users.                         |
 | [Groups](groups)                           | View groups, create new groups, add users to groups.         |
 | [Roles and permissions](roles-permissions) | See / manage roles and permissions and add new roles.        |
