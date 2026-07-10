@@ -1,9 +1,9 @@
 ---
 sidebar_navigation:
-  title: User visibility
+  title: User attributes
   priority: 979
-description: Understand which users and groups a user can see in OpenProject.
-keywords: user visibility, visible users, see users, view all users and groups
+description: How to create and manage user attributes in OpenProject.
+keywords: user attributes, user custom field
 ---
 
 # User attributes

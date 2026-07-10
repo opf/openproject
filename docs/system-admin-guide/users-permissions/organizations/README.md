@@ -1,9 +1,9 @@
 ---
 sidebar_navigation:
-  title: Groups
+  title: Organizations
   priority: 969
-description: Manage groups in OpenProject.
-keywords: manage groups, group, user, organization
+description: Manage organizations and departments in OpenProject.
+keywords: manage organization, group, user, organization, department, resources
 ---
 
 # Manage Organizations
