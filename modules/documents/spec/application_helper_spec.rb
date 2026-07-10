@@ -67,7 +67,7 @@ RSpec.describe ApplicationHelper do
         link_to("Test document",
                 { controller: "documents", action: "show", id: document.id },
                 class: "document op-uc-link",
-                aria: { label: "Test document. A dynamic link to a document placed using a macro" },
+                aria: { label: "Test document: A dynamic link to a document placed using a macro." },
                 target: "_top")
       end
 
@@ -111,7 +111,7 @@ RSpec.describe ApplicationHelper do
         it {
           expect(subject).to be_html_eql(
             "<p class=\"op-uc-p\"><a class=\"document op-uc-link\" " \
-            "aria-label=\"Test document. A dynamic link to a document placed using a macro\" " \
+            "aria-label=\"Test document: A dynamic link to a document placed using a macro.\" " \
             "href=\"/documents/#{document.id}\" target=\"_top\">Test document</a></p>"
           )
         }
@@ -123,7 +123,7 @@ RSpec.describe ApplicationHelper do
         it {
           expect(subject).to be_html_eql(
             "<p class=\"op-uc-p\"><a class=\"document op-uc-link\" " \
-            "aria-label=\"Test document. A dynamic link to a document placed using a macro\" " \
+            "aria-label=\"Test document: A dynamic link to a document placed using a macro.\" " \
             "href=\"/documents/#{document.id}\" target=\"_top\">Test document</a></p>"
           )
         }

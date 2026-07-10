@@ -140,7 +140,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def work_package_link_aria_label
-        I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_link")
+        I18n.t("accessibility.macro.resource_links.work_package")
       end
 
       alias_method :resource_link_aria_label, :work_package_link_aria_label

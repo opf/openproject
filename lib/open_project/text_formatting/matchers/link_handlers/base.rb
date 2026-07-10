@@ -104,15 +104,15 @@ module OpenProject::TextFormatting::Matchers
       def link_to(name = nil, options = nil, html_options = nil, &)
         html_options ||= {}
         title = html_options.delete(:title) || html_options.delete("title")
-        description = [resource_link_aria_label, title].compact.join(". ")
+        description = [resource_link_aria_label, title].compact.join(" ")
         aria = (html_options[:aria] || {}).merge(label: accessible_link_label(name, description))
 
         super(name, options, html_options.merge(aria:), &)
       end
 
       def resource_link_aria_label
-        resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "resource")
-        I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
+        resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "work_package")
+        I18n.t("accessibility.macro.resource_links.#{resource}")
       end
     end
   end

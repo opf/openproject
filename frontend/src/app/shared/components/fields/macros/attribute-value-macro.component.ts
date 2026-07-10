@@ -68,13 +68,15 @@ export class AttributeValueMacroComponent implements OnInit {
   error:string|null = null;
 
   text = {
-    aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_attribute'),
+    aria_label: (model:SupportedAttributeModels) => this.I18n.t(
+      `js.editor.macro.attribute_reference.aria_label_${model === 'workPackage' ? 'work_package' : model}_attribute`,
+    ),
     placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  showAriaContext = false;
+  ariaContext = '';
 
   resource:HalResource;
 
@@ -86,7 +88,7 @@ export class AttributeValueMacroComponent implements OnInit {
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
-    this.showAriaContext = model === 'workPackage';
+    this.ariaContext = this.text.aria_label(model);
 
     if (this.isNestedMacro(model, id, attributeName)) {
       const error = this.I18n.t('js.editor.macro.attribute_reference.nested_macro', { model, id });
@@ -121,7 +123,7 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) || this.dateAttribute(resource, proxied, attributeName);
+    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {

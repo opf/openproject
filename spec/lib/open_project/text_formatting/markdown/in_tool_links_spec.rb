@@ -85,7 +85,7 @@ RSpec.describe OpenProject::TextFormatting,
                 { controller: "repositories", action: "revision", project_id: identifier, rev: changeset1.revision },
                 class: "changeset op-uc-link",
                 aria: {
-                  label: "r#{changeset1.revision}. A dynamic link to a revision placed using a macro. " \
+                  label: "r#{changeset1.revision}: A dynamic link to a revision placed using a macro. " \
                          "#{changeset1.comments}"
                 },
                 target: "_top")
@@ -95,7 +95,7 @@ RSpec.describe OpenProject::TextFormatting,
                 { controller: "repositories", action: "revision", project_id: identifier, rev: changeset2.revision },
                 class: "changeset op-uc-link",
                 aria: {
-                  label: "r#{changeset2.revision}. A dynamic link to a revision placed using a macro. " \
+                  label: "r#{changeset2.revision}: A dynamic link to a revision placed using a macro. " \
                          "#{changeset2.comments}"
                 },
                 target: "_top")
@@ -150,7 +150,7 @@ RSpec.describe OpenProject::TextFormatting,
                 { controller: "versions", action: "show", id: version.id },
                 class: "version op-uc-link",
                 target: "_top",
-                aria: { label: "1.0. A dynamic link to a version placed using a macro" })
+                aria: { label: "1.0: A dynamic link to a version placed using a macro." })
       end
 
       context "Link with version id" do
@@ -207,7 +207,7 @@ RSpec.describe OpenProject::TextFormatting,
           "project plan with milestones",
           project_work_packages_path([query.project.id], query_id: query.id),
           class: "query op-uc-link",
-          aria: { label: "project plan with milestones. A dynamic link to a view placed using a macro" },
+          aria: { label: "project plan with milestones: A dynamic link to a view placed using a macro." },
           target: "_top"
         )
       end
@@ -231,7 +231,7 @@ RSpec.describe OpenProject::TextFormatting,
           "Work packages",
           project_work_packages_path([project.id]),
           class: "query op-uc-link",
-          aria: { label: "Work packages. A dynamic link to a view placed using a macro" },
+          aria: { label: "Work packages: A dynamic link to a view placed using a macro." },
           target: "_top"
         )
       end
@@ -270,8 +270,9 @@ RSpec.describe OpenProject::TextFormatting,
                                                                        project_forum_topic_path(project, forum, message1),
                                                                        class: 'message op-uc-link',
                                                                        aria: {
-                                                                         label: "#{message1.subject}. " \
-                                                                                'A dynamic link to a message placed using a macro'
+                                                                         label: "#{message1.subject}: " \
+                                                                                'A dynamic link to a message placed ' \
+                                                                                'using a macro.'
                                                                        },
                                                                        target: '_top')}</p>")
         }
@@ -284,7 +285,7 @@ RSpec.describe OpenProject::TextFormatting,
           link = link_to(message2.subject,
                          project_forum_topic_path(project, forum, message1, anchor: "message-#{message2.id}", r: message2.id),
                          class: "message op-uc-link",
-                         aria: { label: "#{message2.subject}. A dynamic link to a message placed using a macro" },
+                         aria: { label: "#{message2.subject}: A dynamic link to a message placed using a macro." },
                          target: "_top")
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link}</p>")
         }
@@ -300,7 +301,7 @@ RSpec.describe OpenProject::TextFormatting,
                   hover_card_url: hover_card_work_package_path(work_package.id)
                 },
                 class: "issue work_package op-uc-link",
-                aria: { label: "##{work_package.id}. A dynamic link to a work package placed using a macro" },
+                aria: { label: "##{work_package.id}: A dynamic link to a work package placed using a macro." },
                 target: "_top")
       end
 
@@ -375,7 +376,7 @@ RSpec.describe OpenProject::TextFormatting,
                     hover_card_url: hover_card_work_package_path(work_package.id)
                   },
                   class: "issue work_package op-uc-link",
-                  aria: { label: "##{work_package.id}. A dynamic link to a work package placed using a macro" },
+                  aria: { label: "##{work_package.id}: A dynamic link to a work package placed using a macro." },
                   target: "_top")
         end
 
@@ -404,8 +405,9 @@ RSpec.describe OpenProject::TextFormatting,
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
                                                                        aria: {
-                                                                         label: "#{subproject.name}. " \
-                                                                                'A dynamic link to a project placed using a macro'
+                                                                         label: "#{subproject.name}: " \
+                                                                                'A dynamic link to a project placed ' \
+                                                                                'using a macro.'
                                                                        },
                                                                        class: 'project op-uc-link')}</p>")
         }
@@ -418,8 +420,9 @@ RSpec.describe OpenProject::TextFormatting,
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
                                                                        aria: {
-                                                                         label: "#{subproject.name}. " \
-                                                                                'A dynamic link to a project placed using a macro'
+                                                                         label: "#{subproject.name}: " \
+                                                                                'A dynamic link to a project placed ' \
+                                                                                'using a macro.'
                                                                        },
                                                                        class: 'project op-uc-link')}</p>")
         }
@@ -432,8 +435,9 @@ RSpec.describe OpenProject::TextFormatting,
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
                                                                        aria: {
-                                                                         label: "#{subproject.name}. " \
-                                                                                'A dynamic link to a project placed using a macro'
+                                                                         label: "#{subproject.name}: " \
+                                                                                'A dynamic link to a project placed ' \
+                                                                                'using a macro.'
                                                                        },
                                                                        class: 'project op-uc-link')}</p>")
         }
@@ -632,10 +636,15 @@ RSpec.describe OpenProject::TextFormatting,
       end
 
       def resource_link_to(resource, name, url, **)
+        description = {
+          "export" => "A dynamic link to a source file export placed using a macro.",
+          "source" => "A dynamic link to a source file placed using a macro."
+        }.fetch(resource)
+
         link_to(name,
                 url,
                 **,
-                aria: { label: "#{name}. A dynamic link to a #{resource} placed using a macro" })
+                aria: { label: "#{name}: #{description}" })
       end
 
       before do
@@ -717,7 +726,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class='op-uc-p'><a class="wiki-page op-uc-link" target="_top" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-          <p class='op-uc-p'><a class="issue work_package op-uc-link" data-hover-card-url="/work_packages/#{work_package.id}/hover_card" data-hover-card-trigger-target="trigger" aria-label="##{work_package.id}. A dynamic link to a work package placed using a macro" target="_top" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
+          <p class='op-uc-p'><a class="issue work_package op-uc-link" data-hover-card-url="/work_packages/#{work_package.id}/hover_card" data-hover-card-trigger-target="trigger" aria-label="##{work_package.id}: A dynamic link to a work package placed using a macro." target="_top" href="/work_packages/#{work_package.id}">##{work_package.id}</a></p>
           <pre class="op-uc-code-block">
           [[CookBook documentation]]
 

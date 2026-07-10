@@ -81,7 +81,7 @@ RSpec.describe OpenProject::TextFormatting,
         "My document",
         { controller: "/documents", action: "show", id: document.id, only_path: true },
         class: "document op-uc-link",
-        aria: { label: "My document. A dynamic link to a document placed using a macro" },
+        aria: { label: "My document: A dynamic link to a document placed using a macro." },
         target: "_top"
       )
     end

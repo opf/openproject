@@ -153,11 +153,11 @@ module OpenProject::TextFormatting
       end
 
       def work_package_link_aria_label
-        I18n.t("js.editor.macro.attribute_reference.aria_label_work_package_link")
+        I18n.t("accessibility.macro.resource_links.work_package")
       end
 
       def resource_link_aria_label(resource)
-        I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
+        I18n.t("accessibility.macro.resource_links.#{resource}")
       end
 
       def work_package_link(work_package)
@@ -192,8 +192,8 @@ module OpenProject::TextFormatting
       # For link_to
       def controller; end
 
-      def link_to(name = nil, options = nil, html_options = nil, &)
-        html_options = (html_options || {}).except(:title, "title")
+      def link_to(name = nil, options = nil, html_options = {}, &)
+        html_options = html_options.except(:title, "title")
 
         super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
       end

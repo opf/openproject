@@ -64,12 +64,14 @@ export class AttributeLabelMacroComponent implements OnInit {
   error:string|null = null;
 
   text = {
-    aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_attribute'),
+    aria_label: (model:SupportedAttributeModels) => this.I18n.t(
+      `js.editor.macro.attribute_reference.aria_label_${model === 'workPackage' ? 'work_package' : model}_attribute`,
+    ),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  showAriaContext = false;
+  ariaContext = '';
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -88,7 +90,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
-    this.showAriaContext = model === 'workPackage';
+    this.ariaContext = this.text.aria_label(model);
     this.attributeScope = capitalize(model);
 
     void this.loadResourceAttribute(model, id, attributeName);
@@ -109,7 +111,7 @@ export class AttributeLabelMacroComponent implements OnInit {
     }
 
     const schema = await this.schemaCache.ensureLoaded(this.resource);
-    this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
+    this.attribute = schema.attributeFromLocalizedName(attributeName) ?? attributeName;
     this.label = (schema[this.attribute] as IOPFieldSchema|undefined)?.name;
 
     if (!this.label) {

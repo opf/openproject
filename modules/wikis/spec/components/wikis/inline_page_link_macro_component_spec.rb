@@ -55,7 +55,7 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
 
       expect(link[:href]).to eq(page_info.href)
       expect(link["aria-label"]).to eq(
-        "#{page_info.title}. #{I18n.t('wikis.page_links.aria_label')}"
+        "#{page_info.title}: A dynamic link to a wiki page placed using a macro."
       )
     end
   end
@@ -70,11 +70,11 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
       )
     end
 
-    shared_examples "an unresolved wiki page link" do |error_text_key|
+    shared_examples "an unresolved wiki page link" do |error_text|
       it "renders the error without a link" do
         macro = page.find(".op-inline-macro")
 
-        expect(macro).to have_text(I18n.t(error_text_key))
+        expect(macro).to have_text(error_text)
         expect(macro).to have_no_link
       end
     end
@@ -82,19 +82,19 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
     context "when the page was not found" do
       let(:error_code) { :not_found }
 
-      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.page_not_found"
+      it_behaves_like "an unresolved wiki page link", "Linked wiki page no longer available"
     end
 
     context "when access to the page is forbidden" do
       let(:error_code) { :forbidden }
 
-      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.page_access_forbidden"
+      it_behaves_like "an unresolved wiki page link", "You do not have permission to access this wiki page"
     end
 
     context "when an unexpected error occurs" do
       let(:error_code) { :timeout }
 
-      it_behaves_like "an unresolved wiki page link", "wikis.page_links.errors.unexpected"
+      it_behaves_like "an unresolved wiki page link", "An unexpected error occurred"
     end
   end
 end
