@@ -30,18 +30,12 @@
 
 module McpTools
   class << self
+    def register(*tools)
+      tools.each { |t| all << t }
+    end
+
     def all
-      [
-        McpTools::CurrentUser,
-        McpTools::ListStatuses,
-        McpTools::ListTypes,
-        McpTools::SearchPortfolios,
-        McpTools::SearchPrograms,
-        McpTools::SearchProjects,
-        McpTools::SearchUsers,
-        McpTools::SearchVersions,
-        McpTools::SearchWorkPackages
-      ]
+      @all ||= []
     end
 
     def enabled

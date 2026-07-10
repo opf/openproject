@@ -1,22 +1,21 @@
-#English strings go here
 ---
 eo:
-  plugin_openproject_team_planner:
-    name: OpenProject Teama Planilo
-    description: Provides team planner views.
-  permission_view_team_planner: Vidi teamplanilon
-  permission_manage_team_planner: Manage team planner
-  project_module_team_planner_view: Teamaj planiloj
   ee:
     feature_names:
       team_planner_view: Teama planilo
     upsell:
       team_planner_view:
-        title: Teama planilo
         description: Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees.
+        title: Teama planilo
+  permission_manage_team_planner: Administri teaman planilon
+  permission_view_team_planner: Vidi teamplanilon
+  plugin_openproject_team_planner:
+    description: Provides team planner views.
+    name: OpenProject Teama Planilo
+  project_module_team_planner_view: Teamaj planiloj
   team_planner:
-    label_team_planner: Teama planilo
-    label_new_team_planner: New team planner
-    label_create_new_team_planner: Create new team planner
-    label_team_planner_plural: Teamaj planiloj
     label_assignees: Assignees
+    label_create_new_team_planner: Create new team planner
+    label_new_team_planner: New team planner
+    label_team_planner: Teama planilo
+    label_team_planner_plural: Teamaj planiloj

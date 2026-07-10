@@ -60,10 +60,6 @@ pt-BR:
       make_private: Tornar privado
       make_public: Tornar público
       unfavorite: Remover dos favoritos
-    allocation:
-      hours: "%{value}h"
-      no_work: Nenhum trabalho planejado neste pacote de trabalho
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ pt-BR:
       submit: Alocar
       success_message: Recurso alocado.
       title: Alocar recurso
+    allocation:
+      hours: "%{value}h"
+      no_work: Nenhum trabalho planejado neste pacote de trabalho
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -184,11 +184,11 @@ pt-BR:
         remove: Remover usuário
         remove_confirmation: Remover este usuário da visualização?
       fields:
-        working_times: Tempo de trabalho
-        input_label: Campos
-        input_caption: Selecione os campos que serão exibidos no cartão do usuário nesta visualização
-        input_placeholder: Adicionar um campo
         drag_area_label: Campos exibidos
+        input_caption: Selecione os campos que serão exibidos no cartão do usuário nesta visualização
+        input_label: Campos
+        input_placeholder: Adicionar um campo
+        working_times: Tempo de trabalho
       subheader:
         resource: Recurso
         settings: Configurar exibição

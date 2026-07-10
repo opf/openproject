@@ -47,7 +47,7 @@ de:
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: Der Wiki-Anbieter %{wiki_provider} und alle zugehörigen Wikiseiten-Links werden gelöscht. Zusätzlich wird jeder Inline-Wiki-Link nicht mehr zugänglich sein. Diese Aktion kann nicht rückgängig gemacht werden.
+        description_html: Der Wiki-Anbieter %{wiki_provider} und alle zugehörigen Wiki-Seiten Links werden gelöscht. Zusätzlich wird jeder Inline-Wiki-Link nicht mehr zugänglich sein. Diese Aktion kann nicht rückgängig gemacht werden.
         heading: Diesen Wiki-Anbieter dauerhaft löschen?
         title: Wiki-Anbieter löschen
       forms:
@@ -128,12 +128,12 @@ de:
       save_and_continue: Speichern und fortsetzen
       wiki_page: Wiki-Seite
     create_new_wiki_page_dialog:
-      title: Neue Wikiseite anlegen
+      title: Neue Wiki-Seite anlegen
     deferred_inline_page_link_macro_component:
       loading: Laden…
     delete_relation_page_link_confirmation_dialog:
-      heading: Link zur verknüpften Wikiseite löschen?
-      title: Link zur verknüpften Wikiseite löschen
+      heading: Link zur verknüpften Wiki-Seite löschen?
+      title: Link zur verknüpften Wiki-Seite löschen
     errors:
       connection_error: Verbindung zum Wiki-Anbieter konnte nicht hergestellt werden.
       invalid_parent: Die ausgewählte Seite ist keine gültige übergeordnete Seite.
@@ -155,14 +155,15 @@ de:
         xwiki_oauth_request_error: Beim Versuch, mit der XWiki-Instanz zu kommunizieren, ist ein unerwarteter Fehler aufgetreten.
         xwiki_oauth_token_missing: OpenProject kann die Kommunikation auf Benutzerebene mit XWiki nicht testen, da noch kein XWiki-Konto verknüpft wurde.
         xwiki_oauth_unauthorized: Das Benutzer-Token wurde von XWiki nicht erkannt.
-    inline_existing_wiki_page_dialog:
-      title: Vorhandene Wikiseite hinzufügen
+    inline_wiki_page_dialog:
+      title_add: Vorhandene Wiki-Seite hinzufügen
+      title_create: Neue Wiki-Seite anlegen
     instructions:
       xwiki:
         integration: XWiki Administration
         oauth_application_details_html: Das Client Secret wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die [XWiki OpenProject Integrationseinstellungen](xwiki_admin_link).
     link_existing_wiki_page_dialog:
-      title: Vorhandene Wikiseite hinzufügen
+      title: Vorhandene Wiki-Seite hinzufügen
     oauth_login_component:
       connect_button: "%{provider}-Konto verbinden"
       description: Melden Sie sich bei %{provider} an, um verwandte Wiki-Seiten aus dieser OpenProject-Instanz anzuzeigen und zu verwalten.
@@ -172,24 +173,26 @@ de:
     page_link_forms:
       labels:
         page_title: Titel
-        parent: Übergeordnete Wikiseite
-        wiki_page: Wikiseite
+        parent: Übergeordnete Wiki-Seite
+        wiki_page: Wiki-Seite
       search:
-        no_results: Keine Wikiseiten gefunden
-        placeholder: Suche nach einer Wikiseite (oder gib ihre URL ein)
+        no_results: Keine Wiki-Seiten gefunden
+        placeholder: Suchen Sie nach einer Wiki-Seite (oder geben Sie deren URL ein)
     page_links:
       errors:
-        page_access_forbidden: Sie haben keine Berechtigung, auf diese Wikiseite zuzugreifen
-        page_not_found: Verlinkte Wikiseite nicht mehr verfügbar
+        page_access_forbidden: Sie haben keine Berechtigung, auf diese Wiki-Seite zuzugreifen
+        page_not_found: Verlinkte Wiki-Seite nicht mehr verfügbar
         unexpected: Ein unbekannter Fehler ist aufgetreten
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki
     relation_page_links_component:
       empty_heading: Keine verwandten Seiten
-      empty_text: Fügen Sie Wikiseiten hinzu, die für dieses Arbeitspaket relevant sind.
-      link_existing: Vorhandene Wikiseite
-      link_new: Neue Wikiseite
+      empty_text: Fügen Sie Wiki-Seiten hinzu, die für dieses Arbeitspaket relevant sind.
+      link_existing: Vorhandene Wiki-Seite
+      link_new: Neue Wiki-Seite
     upsell:
       xwiki:
         description: Verbinden Sie XWiki mit OpenProject und halten Sie Dokumentation und Arbeit synchron, verknüpfen Sie Seiten, verfolgen Sie Referenzen und verwalten Sie alles an einem Ort.

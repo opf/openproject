@@ -1,31 +1,30 @@
-#English strings go here
 ---
 fa:
-  plugin_openproject_avatars:
-    name: آواتارها
-    description: این پلاگین به کاربران OpenProject اجازه می‌دهد تا تصویری را بارگذاری کنند که به عنوان یک آواتار یا از تصاویر ثبت‌شده از Gravatar استفاده شود.
-  label_avatar: چهرک
-  label_avatar_plural: آواتارها
-  label_current_avatar: آواتار فعلی
-  label_choose_avatar: انتخاب آواتار از فایل
-  message_avatar_uploaded: آواتار مورد نظر با موفقيت تغيير كرد
-  error_image_upload: خطا در ذخیره عکس
-  error_image_size: عکس بیش از اندازه بزرگ است.
   are_you_sure_delete_avatar: 'آیا مطمئن هستید که می‌خواهید آواتار خود را حذف کنید؟ '
   avatar_deleted: چهرک با کامیابی زدوده شد.
-  unable_to_delete_avatar: حذف آواتار امکان‌پذیر نیست.
-  wrong_file_format: 'چارچوب‌های jpg ، png ، gif رواست 
-
-    '
-  empty_file_error: لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)
   avatars:
     label_avatar: آواتار
     label_gravatar: چهرکنماد (شناسایی چهرک جهانی)
     label_local_avatar: جهرک سفارشی
+    settings:
+      enable_gravatars: چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید
+      enable_local_avatars: کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)
+      gravatar_default: تصویر گراواتار پیش‌فرض
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید
-      gravatar_default: تصویر گراواتار پیش‌فرض
-      enable_local_avatars: کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)
+  empty_file_error: لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)
+  error_image_size: عکس بیش از اندازه بزرگ است.
+  error_image_upload: خطا در ذخیره عکس
+  label_avatar: چهرک
+  label_avatar_plural: آواتارها
+  label_choose_avatar: انتخاب آواتار از فایل
+  label_current_avatar: آواتار فعلی
+  message_avatar_uploaded: آواتار مورد نظر با موفقيت تغيير كرد
+  plugin_openproject_avatars:
+    description: این پلاگین به کاربران OpenProject اجازه می‌دهد تا تصویری را بارگذاری کنند که به عنوان یک آواتار یا از تصاویر ثبت‌شده از Gravatar استفاده شود.
+    name: آواتارها
+  unable_to_delete_avatar: حذف آواتار امکان‌پذیر نیست.
+  wrong_file_format: 'چارچوب‌های jpg ، png ، gif رواست 
+
+    '

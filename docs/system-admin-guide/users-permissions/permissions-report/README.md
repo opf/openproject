@@ -11,7 +11,7 @@ keywords: roles report, permissions report
 
 ## Permissions report overview
 
-In OpenProject administration you can get an overview of the what permissions are currently assigned to which role. To view this **permissions report**, navigate to *Administration -> Users and permissions -> Permissions report*. 
+In OpenProject administration you can get an overview of the what permissions are currently assigned to which role. To view this **permissions report**, navigate to _Administration -> Users and permissions -> Permissions report_. 
 
 ![Permissions report in OpenProject administration](openproject_system_admin_guide_roles_permissions_report_overview.png)
 

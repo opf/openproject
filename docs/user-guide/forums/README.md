@@ -57,8 +57,6 @@ If you want to change the order of the forums in your project, want to edit a fo
 
 ![Manage forums in OpenProject](openproject_user_guide_forums_manage.png)
 
-
-
 ## Create a new message in a forum
 
 To **add a new message** within an existing forum, click the green **+ Message** button on the top right of the selected forum.
@@ -141,8 +139,6 @@ To **edit a message in a forum** select the message from the forum and in the me
 ![Edit a forum message in OpenProject](openproject_user_guide_forums_edit_message_button.png)
 
 The message details will then be opened. You can make your changes  and click the **Save** button.
-
-
 
 ## Delete a forum message
 

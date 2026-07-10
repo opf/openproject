@@ -175,7 +175,7 @@ gem "job-iteration"
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 # Global ID for polymorphic associations
-gem "globalid", "~> 1.3"
+gem "globalid", "~> 1.4"
 
 # Recurring meeting events definition
 gem "ice_cube", "~> 0.17.0"
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.0"
+gem "grape", "~> 3.3.1"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 

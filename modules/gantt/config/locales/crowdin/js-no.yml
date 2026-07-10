@@ -2,6 +2,6 @@
 'no':
   js:
     work_packages:
-      label_gantt_chart_plural: Gantt-diagrammer
       default_queries:
         milestones: Milepæler
+      label_gantt_chart_plural: Gantt-diagrammer

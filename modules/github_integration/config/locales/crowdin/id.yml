@@ -23,47 +23,47 @@
 id:
   attributes:
     additions_count: Jumlah penambahan
-    deletions_count: Jumlah penghapusan
+    changed_files_count: File yang diubah
     comments_count: Jumlah komentar
-    github_html_url: URL permintaan pull
-    github_app_owner_avatar_url: URL avatar pemilik
-    review_comments_count: Jumlah komentar tinjauan
+    deletions_count: Jumlah penghapusan
     github: Tanda pengenal GitHub
+    github_app_owner_avatar_url: URL avatar pemilik
     github_avatar_url: URL avatar
-    github_updated_at: Diperbarui pada
+    github_html_url: URL permintaan pull
     github_login: Masuk melalui GitHub
+    github_updated_at: Diperbarui pada
     host: Host
     labels: Label
     repository: Repositori
-    changed_files_count: File yang diubah
+    review_comments_count: Jumlah komentar tinjauan
   button_add_deploy_target: Tambahkan target penyebaran
   label_deploy_target: Sebarkan target
   label_deploy_target_new: Target penyebaran baru
   label_deploy_target_plural: Sebarkan target
+  label_github_comment_user: GitHub actor
   label_github_integration: Integrasi GitHub
+  label_github_webhook_secret: Webhook secret
   notice_deploy_target_created: Sebaran target telah dibuat
   notice_deploy_target_destroyed: Sebaran target telah dihapus
-  label_github_comment_user: GitHub actor
-  label_github_webhook_secret: Webhook secret
-  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
+  permission_introspection: Baca versi inti OpenProject yang sedang berjalan dan bangun SHA
+  permission_show_github_content: Tampilkan konten GitHub
+  plugin_openproject_github_integration:
+    description: Mengintegrasikan OpenProject dan GitHub untuk alur kerja yang lebih baik
+    name: Integrasi OpenProject dengan GitHub
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Kunci API OpenProject [API key](docs_url) yang dimiliki oleh pengguna yang memiliki izin introspeksi global.
 
     '
-  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+  text_deploy_target_type_info: 'Sampai saat ini, kami hanya mendukung OpenProject saja.
+
+    '
+  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
 
     '
   text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
 
     '
-  plugin_openproject_github_integration:
-    name: Integrasi OpenProject dengan GitHub
-    description: Mengintegrasikan OpenProject dan GitHub untuk alur kerja yang lebih baik
-  project_module_github: GitHub
-  permission_show_github_content: Tampilkan konten GitHub
-  permission_introspection: Baca versi inti OpenProject yang sedang berjalan dan bangun SHA
-  text_deploy_target_type_info: 'Sampai saat ini, kami hanya mendukung OpenProject saja.
-
-    '
-  text_deploy_target_api_key_info: 'Kunci API OpenProject [API key](docs_url) yang dimiliki oleh pengguna yang memiliki izin introspeksi global.
+  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
 
     '
   text_pull_request_deployed_to: "%{pr_link} disebarkan ke %{deploy_target_link}"

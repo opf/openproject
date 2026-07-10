@@ -30,8 +30,17 @@ See COPYRIGHT and LICENSE files for more details.
 <%= grid_layout(
       "op-border-box-list-header",
       tag: :div,
-      classes: { "op-border-box-list-header_collapsible" => collapsible? }
+      classes: {
+        "op-border-box-list-header_collapsible" => collapsible?,
+        "op-border-box-list-header_with-drag-handle" => show_drag_handle?
+      }
     ) do |grid| %>
+  <% if show_drag_handle? %>
+    <% grid.with_area(:drag_handle, classes: "hide-when-print") do %>
+      <%= render(Primer::OpenProject::DragHandle.new) %>
+    <% end %>
+  <% end %>
+
   <% if collapsible? %>
     <% grid.with_area(:heading) do %>
       <%=
@@ -39,11 +48,13 @@ See COPYRIGHT and LICENSE files for more details.
           Primer::OpenProject::BorderBox::CollapsibleHeader.new(
             collapsible_id:,
             collapsed:,
-            multi_line: true
+            multi_line:
           )
         ) do |collapsible|
       %>
-        <% collapsible.with_title(**title_arguments, tag: title_tag) { title } %>
+        <% collapsible.with_title(**title_arguments, tag: title_tag) do %>
+          <%= title_content %>
+        <% end %>
         <% if render_count? %>
           <% collapsible.with_count(**counter_arguments) %>
         <% end %>
@@ -57,7 +68,9 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <% grid.with_area(:heading) do %>
       <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-border-box-list-header--heading-line")) do %>
-        <%= render(Primer::Beta::Truncate.new(**title_arguments, tag: title_tag, classes: title_classes)) { title } %>
+        <%= render(Primer::Beta::Truncate.new(**title_arguments, tag: title_tag, classes: title_classes)) do %>
+          <%= title_content %>
+        <% end %>
         <% if render_count? %>
           <%= render(Primer::Beta::Counter.new(**counter_arguments)) %>
         <% end %>

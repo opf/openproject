@@ -1,42 +1,21 @@
-#English strings go here
 ---
 eo:
-  plugin_openproject_boards:
-    name: OpenProject-tabuloj
-    description: Provides board views.
-  permission_show_board_views: Vidi panelojn
-  permission_manage_board_views: Administri panelojn
-  project_module_board_view: Tabuloj
-  ee:
-    upsell:
-      board_view:
-        description: Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.
   boards:
-    label_board: Tabulo
-    label_boards: Tabuloj
-    label_create_new_board: Krei novan tabulon
-    label_board_type: Speco de panelo
-    board_types:
-      free: Basic
-      action: Agpanelo (%{attribute})
     board_type_attributes:
       assignee: Asignita al
+      basic: Basic
       status: Kanbano
-      version: Versio
       subproject: Subprojekto
       subtasks: Parent-child
-      basic: Basic
+      version: Versio
     board_type_descriptions:
+      assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
+
+        '
       basic: 'Start from scratch with a blank board. Manually add cards and columns to this board.
 
         '
       status: 'Baza kanban-stila tabulo kun kolumnoj por statoj kiel Farenda, En progreso, Farita.
-
-        '
-      assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
-
-        '
-      version: 'Board with automated columns based on the version attribute. Ideal for planning product development.
 
         '
       subproject: 'Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
@@ -45,3 +24,23 @@ eo:
       subtasks: 'Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
 
         '
+      version: 'Board with automated columns based on the version attribute. Ideal for planning product development.
+
+        '
+    board_types:
+      action: Agpanelo (%{attribute})
+      free: Basic
+    label_board: Tabulo
+    label_board_type: Speco de panelo
+    label_boards: Tabuloj
+    label_create_new_board: Krei novan tabulon
+  ee:
+    upsell:
+      board_view:
+        description: Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.
+  permission_manage_board_views: Administri panelojn
+  permission_show_board_views: Vidi panelojn
+  plugin_openproject_boards:
+    description: Provides board views.
+    name: OpenProject-tabuloj
+  project_module_board_view: Tabuloj

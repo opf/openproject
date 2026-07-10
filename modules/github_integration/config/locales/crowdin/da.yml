@@ -23,47 +23,47 @@
 da:
   attributes:
     additions_count: Antal tilføjelser
-    deletions_count: Antal sletninger
+    changed_files_count: Ændrede filer
     comments_count: Antal kommentarer
-    github_html_url: URL til pull-anmodning
-    github_app_owner_avatar_url: URL til Ejeravatar
-    review_comments_count: Antal anmeldelseskommentarer
+    deletions_count: Antal sletninger
     github: GitHub-identifikator
+    github_app_owner_avatar_url: URL til Ejeravatar
     github_avatar_url: Avatar-URL
-    github_updated_at: Opdateret
+    github_html_url: URL til pull-anmodning
     github_login: GitHub-login
+    github_updated_at: Opdateret
     host: Vært
     labels: Etiketter
     repository: Repo
-    changed_files_count: Ændrede filer
+    review_comments_count: Antal anmeldelseskommentarer
   button_add_deploy_target: Tilføj udrulningsmål
   label_deploy_target: Udrulningsmål
   label_deploy_target_new: Nyt udrulningsmål
   label_deploy_target_plural: Udrulningsmål
+  label_github_comment_user: GitHub-initiator (actor)
   label_github_integration: GitHub-integration
+  label_github_webhook_secret: Webhook-hemmelighed
   notice_deploy_target_created: Udrulningsmål oprettet
   notice_deploy_target_destroyed: Udrulningsmål slettet
-  label_github_comment_user: GitHub-initiator (actor)
-  label_github_webhook_secret: Webhook-hemmelighed
-  text_github_comment_user_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når indstillet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om udrulningsstatus på arbejdspakker. Standard er systembrugeren, når ikke indstillet.
+  permission_introspection: Læs kørende OpenProject-kerneversion og build SHA
+  permission_show_github_content: Vis GitHub indhold
+  plugin_openproject_github_integration:
+    description: Integrates OpenProject and GitHub for a better workflow
+    name: OpenProject GitHub Integration
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
 
     '
-  text_github_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
+  text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
+
+    '
+  text_github_comment_user_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når indstillet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om udrulningsstatus på arbejdspakker. Standard er systembrugeren, når ikke indstillet.
 
     '
   text_github_webhook_secret_info: 'Et hemmeligt token delt med GitHub, når webhook''en opsættes. Når indstillet, bekræfter OpenProject X-Hub-Signature-256-headeren på hver indgående anmodning og afviser payloads, som ikke matcher. Lad stå tom for at overspringe bekræftelsen (anbefales ikke!).
 
     '
-  plugin_openproject_github_integration:
-    name: OpenProject GitHub Integration
-    description: Integrates OpenProject and GitHub for a better workflow
-  project_module_github: GitHub
-  permission_show_github_content: Vis GitHub indhold
-  permission_introspection: Læs kørende OpenProject-kerneversion og build SHA
-  text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
-
-    '
-  text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
+  text_github_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
 
     '
   text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

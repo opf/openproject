@@ -33,7 +33,6 @@ A low‑privileged logged-in user can view the full names of other users. The fu
 This vulnerability was assigned to the CVE CVE-2026-22602.
 For more information, please see the [GitHub Advisory GHSA-7fvx-9h6h-g82j](https://github.com/opf/openproject/security/advisories/GHSA-7fvx-9h6h-g82j).
 
-
 ### CVE-2026-22603 - No protection against brute-force attacks in the Change Password function
 
 OpenProject’s unauthenticated password-change endpoint (/account/change_password) was not protected by the same brute-force safeguards that apply to the normal login form.
@@ -49,7 +48,6 @@ When sending a POST request to the /account/change_password endpoint with an arb
 This vulnerability was assigned to the CVE CVE-2026-22604.
 For more information, please see the [GitHub Advisory GHSA-q7qp-p3vw-j2fh](https://github.com/opf/openproject/security/advisories/GHSA-q7qp-p3vw-j2fh).
 
-
 <!--more-->
 
 ## Bug fixes and changes
@@ -61,10 +59,10 @@ For more information, please see the [GitHub Advisory GHSA-q7qp-p3vw-j2fh](https
 - Bugfix: OpenID Connect: Claims escaped twice \[[#69079](https://community.openproject.org/wp/69079)\]
 - Bugfix: Disable editing of sendmail attributes through UI \[[#69577](https://community.openproject.org/wp/69577)\]
 
-
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
+
 A big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 This release, special thanks for reporting and finding bugs go to Александр Татаринцев.

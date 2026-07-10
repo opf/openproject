@@ -1036,10 +1036,14 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like "has basic schema properties" do
           let(:path) { "targetVersions" }
           let(:type) { "[]Version" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:name) { I18n.t("activerecord.attributes.work_package.version") }
           let(:required) { false }
           let(:writable) { true }
           let(:location) { "_links" }
+        end
+
+        it "announces the single value restriction while multiple versions is inactive" do
+          expect(subject).to be_json_eql(false.to_json).at_path("targetVersions/options/multiple")
         end
       end
 
@@ -1049,10 +1053,29 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like "has basic schema properties" do
           let(:path) { "targetVersions" }
           let(:type) { "[]Version" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:name) { I18n.t("activerecord.attributes.work_package.version") }
           let(:required) { false }
           let(:writable) { false }
           let(:location) { "_links" }
+        end
+      end
+
+      context "when multiple versions is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it "announces that multiple values are allowed" do
+          expect(subject).to be_json_eql(true.to_json).at_path("targetVersions/options/multiple")
         end
       end
     end

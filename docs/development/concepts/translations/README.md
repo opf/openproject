@@ -15,7 +15,7 @@ Not all translations are fully translated, and they will fallback to english str
 
 ## Key takeaways
 
-*Translations in OpenProject...*
+_Translations in OpenProject..._
 
 - depend on the [I18n yaml-based Rails standard](https://guides.rubyonrails.org/i18n.html) for translation files
 - are split into backend and frontend strings

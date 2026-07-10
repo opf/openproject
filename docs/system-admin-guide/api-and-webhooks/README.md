@@ -12,11 +12,12 @@ Configure all API-related settings and add and manage webhooks to your OpenProje
 Navigate to **Administration → API and webhooks**.
 
 ## API
+
 ![API settings in OpenProject administration](openproject_system_admin_guide_api.png)
 
 Here, you can manage whether users can create personal API tokens, this setting allows users to access the OpenProject APIs using an API token created from the user's "Account settings" page.
 You can set the **maximum page size** the API will respond with. It will not be possible to perform API requests that return more values on a single page.
-You can also enable **write access to read-only attributes**, which will allow administrators to write static read-only attributes during creation, such as *createdAt* and *author*. This can be useful during data imports.
+You can also enable **write access to read-only attributes**, which will allow administrators to write static read-only attributes during creation, such as _createdAt_ and _author_. This can be useful during data imports.
 
 ### Documentation
 

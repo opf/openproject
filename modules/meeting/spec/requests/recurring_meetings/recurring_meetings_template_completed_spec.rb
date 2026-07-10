@@ -131,11 +131,10 @@ RSpec.describe "Recurring meetings complete template",
 
   context "when first occurrence is cancelled" do
     let!(:cancelled_occurrence) do
-      create(:meeting,
+      create(:recurring_meeting_occurrence,
+             :cancelled,
              recurring_meeting:,
-             start_time: recurring_meeting.start_time,
-             recurrence_start_time: recurring_meeting.start_time,
-             state: :cancelled)
+             start_time: recurring_meeting.start_time)
     end
 
     it "restores that occurrence" do

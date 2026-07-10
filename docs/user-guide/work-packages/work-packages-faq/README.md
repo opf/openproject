@@ -23,7 +23,7 @@ keywords: work packages FAQ, tickets, how to, task
 
 ### How can I add a table with child work packages to my work package?
 
-Please navigate to *Administration ->Work packages ->Types*, choose the respective work package type and navigate to form configuration. Then, use **+Group** to insert a work package table. Don't forget to press **Save**.
+Please navigate to _Administration ->Work packages ->Types_, choose the respective work package type and navigate to form configuration. Then, use **+Group** to insert a work package table. Don't forget to press **Save**.
 
 ### How can I assign users who do not have an account to work packages?
 
@@ -45,7 +45,7 @@ You can set the assignee filter in the work package table to "Assignee and belon
 
 ### How can I track the progress of my work package?
 
-Progress of a work package is demonstrated by the value of **% Complete**. This is calculated either based on the status of the work package or on the values of *Work* and *Remaining work*. Please read more on progress reporting [here](../../time-and-costs/progress-tracking/#progress-reporting-modes).
+Progress of a work package is demonstrated by the value of **% Complete**. This is calculated either based on the status of the work package or on the values of _Work_ and _Remaining work_. Please read more on progress reporting [here](../../time-and-costs/progress-tracking/#progress-reporting-modes).
 
 ### How can I track the progress of work packages with children?
 
@@ -67,7 +67,7 @@ You need to activate the module "Time and costs" in the project settings, first.
 
 ### I receive the error message "subject can't be blank", what's wrong?
 
-One possible solution: If you receive this error message when trying to create a new work package: Please navigate to *Administration ->Work packages ->Status ->[status of the work package you were trying to change, e.g. "New"]* and un-check the box next to "Work package read-only". If this box was checked it could have caused these problems, as project attributes couldn't be changed.
+One possible solution: If you receive this error message when trying to create a new work package: Please navigate to _Administration ->Work packages ->Status ->[status of the work package you were trying to change, e.g. "New"]_ and un-check the box next to "Work package read-only". If this box was checked it could have caused these problems, as project attributes couldn't be changed.
 
 ### How can I change the order of the activities/comments in the Activity tab of a work package?
 
@@ -126,7 +126,7 @@ This is a known behavior of OpenProject, but not trivial to solve. There's alrea
 
 ### When I create a new work package it's always a "Task". How can I change the default work package type?
 
-Please navigate to *Administration ->Work packages ->Types*. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.
+Please navigate to _Administration ->Work packages ->Types_. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.
 
 ### I added new work package types. Why can i not see them?
 
@@ -148,8 +148,8 @@ In the second step you can then [assign them to workflows](../../../system-admin
 ### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?
 
 The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role. Please find the guide [here](../../../system-admin-guide/manage-work-packages/work-package-workflows/#edit-workflows).
-To work with different status, first create those status in *Administration ->Work packages ->Status*.
-Next, go to *Administration ->Work packages ->Workflow* and select the combination of Type and Role for which you would like to set the allowed workflow transition.
+To work with different status, first create those status in _Administration ->Work packages ->Status_.
+Next, go to _Administration ->Work packages ->Workflow_ and select the combination of Type and Role for which you would like to set the allowed workflow transition.
 You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on **Edit**. Now, you can select the correct status transitions.
 Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)).
 Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).
@@ -157,8 +157,8 @@ Please keep in mind that it may not be possible for a member of a different depa
 ## Move and duplicate
 
 > [!TIP]
-> In OpenProject 14.5 the term *Copy a work package* was replaced by *Duplicate a work package*.
-> *Change project* was replaced by *Move to another project*.
+> In OpenProject 14.5 the term _Copy a work package_ was replaced by _Duplicate a work package_.
+> _Change project_ was replaced by _Move to another project_.
 
 ### Which permissions are necessary to move a work package from one project to another?
 
@@ -194,7 +194,7 @@ In the details view of the work package: Click on **More** (button with three do
 
 ### Can I group tasks into folders?
 
-There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work package tables (with a right mouse click -> *Indent hierarchy*) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-packages/#work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
+There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work package tables (with a right mouse click -> _Indent hierarchy_) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-packages/#work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
 
 ## Custom fields
 
