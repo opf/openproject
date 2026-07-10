@@ -1083,10 +1083,10 @@ en:
         primary-button-color: "Strong accent color, used for the most important button on a screen."
       manage_colors: "Edit color select options"
       tab_branding: "Branding"
+      tab_default_colors: "Default colors"
       tab_interface: "Interface"
       tab_pdf_export_font: "PDF export font"
       tab_pdf_export_styles: "PDF export styles"
-      tab_default_colors: "Default colors"
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       add_token: "Upload an Enterprise edition support token"
