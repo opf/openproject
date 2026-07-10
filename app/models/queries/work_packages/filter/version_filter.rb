@@ -30,42 +30,15 @@
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+  # Filters on `target_versions` as it is replacing
+  # the legacy `work_packages.version_id` column.
   include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
-
-  def allowed_values
-    # as we no longer display the allowed values, the first value is irrelevant
-    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
-  end
-
-  def available_operators
-    [
-      Queries::Operators::EqualsOr,
-      Queries::Operators::NotEquals,
-      Queries::Operators::All,
-      Queries::Operators::None,
-      Queries::Operators::Versions::OpenStatus,
-      Queries::Operators::Versions::LockedStatus,
-      Queries::Operators::Versions::ClosedStatus
-    ]
-  end
-
-  def type
-    :list_optional
-  end
 
   def human_name
     WorkPackage.human_attribute_name("version")
   end
 
-  # Filter on `target_versions` as it is replacing
-  # the legacy `work_package.version_id` column
-  def where
-    target_versions_where
-  end
-
   def joins
-    return if filter_on_target_versions?
-
     case operator
     when "o", "c", "l"
       :version
@@ -74,43 +47,5 @@ class Queries::WorkPackages::Filter::VersionFilter <
 
   def self.key
     :version_id
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def value_objects
-    available_versions = versions.index_by(&:id)
-
-    values
-      .filter_map { |version_id| available_versions[version_id.to_i] }
-  end
-
-  def operator_strategy
-    case operator
-    when "o"
-      Queries::Operators::Versions::OpenStatus
-    when "c"
-      Queries::Operators::Versions::ClosedStatus
-    when "l"
-      Queries::Operators::Versions::LockedStatus
-    else
-      super
-    end
-  end
-
-  private
-
-  def filter_on_target_versions?
-    Setting::WorkPackageMultipleVersions.active?
-  end
-
-  def versions
-    if project
-      project.shared_versions
-    else
-      Version.visible
-    end
   end
 end

@@ -31,7 +31,64 @@
 module Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
   STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
 
+  def allowed_values
+    # as we no longer display the allowed values, the first value is irrelevant
+    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
+  end
+
+  def available_operators
+    [
+      Queries::Operators::EqualsOr,
+      Queries::Operators::NotEquals,
+      Queries::Operators::All,
+      Queries::Operators::None,
+      Queries::Operators::Versions::OpenStatus,
+      Queries::Operators::Versions::LockedStatus,
+      Queries::Operators::Versions::ClosedStatus
+    ]
+  end
+
+  def type
+    :list_optional
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def where
+    target_versions_where
+  end
+
+  def value_objects
+    available_versions = versions.index_by(&:id)
+
+    values
+      .filter_map { |version_id| available_versions[version_id.to_i] }
+  end
+
+  def operator_strategy
+    case operator
+    when "o"
+      Queries::Operators::Versions::OpenStatus
+    when "c"
+      Queries::Operators::Versions::ClosedStatus
+    when "l"
+      Queries::Operators::Versions::LockedStatus
+    else
+      super
+    end
+  end
+
   private
+
+  def versions
+    if project
+      project.shared_versions
+    else
+      Version.visible
+    end
+  end
 
   def target_versions_where
     case operator

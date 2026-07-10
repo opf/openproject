@@ -32,62 +32,10 @@ class Queries::WorkPackages::Filter::TargetVersionsFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
 
-  def allowed_values
-    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
-  end
-
-  def available_operators
-    [
-      Queries::Operators::EqualsOr,
-      Queries::Operators::NotEquals,
-      Queries::Operators::All,
-      Queries::Operators::None,
-      Queries::Operators::Versions::OpenStatus,
-      Queries::Operators::Versions::LockedStatus,
-      Queries::Operators::Versions::ClosedStatus
-    ]
-  end
-
   def self.key = :target_version_id
-  def type = :list_optional
   def human_name = WorkPackage.human_attribute_name("target_versions")
-  def ar_object_filter? = true
 
   def available?
     Setting::WorkPackageMultipleVersions.active?
-  end
-
-  def operator_strategy
-    case operator
-    when "o"
-      Queries::Operators::Versions::OpenStatus
-    when "c"
-      Queries::Operators::Versions::ClosedStatus
-    when "l"
-      Queries::Operators::Versions::LockedStatus
-    else
-      super
-    end
-  end
-
-  def value_objects
-    available_versions = versions.index_by(&:id)
-
-    values
-      .filter_map { |version_id| available_versions[version_id.to_i] }
-  end
-
-  def where
-    target_versions_where
-  end
-
-  private
-
-  def versions
-    if project
-      project.shared_versions
-    else
-      Version.visible
-    end
   end
 end
