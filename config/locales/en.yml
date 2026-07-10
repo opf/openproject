@@ -6043,8 +6043,17 @@ en:
             work_package: "Work package"
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: "Add sub-type to %{name}"
+      description: >
+        Each configuration area inside types and sub-types can be independently configured, limited
+        from another type, or fully linked to a source.
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      subtype_label: "Sub-type"
+      subtypes_count:
+        one: "1 sub-type"
+        other: "%{count} sub-types"
+      type_label: "Type"
 
   unsupported_browser:
     close_warning: "Ignore this warning."

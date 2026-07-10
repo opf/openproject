@@ -31,11 +31,13 @@
 module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
+    include OpTurbo::ComponentStream
 
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[move destroy]
+    before_action :require_subtypes_feature, only: %i[drop]
+    before_action :find_type, only: %i[move destroy drop]
 
     current_menu_item do
       :types
@@ -44,13 +46,7 @@ module WorkPackageTypes
     def index
       @types =
         if subtypes_enabled?
-          ::Type
-            .roots
-            .includes(:workflows, :projects, :custom_fields, :color,
-                      children: %i[workflows projects custom_fields color])
-            .page(page_param)
-            .per_page(per_page_param)
-            .flat_map { |root| [root, *root.children] }
+          root_types
         else
           ::Type
             .includes(:workflows, :projects, :custom_fields, :color)
@@ -64,7 +60,7 @@ module WorkPackageTypes
     end
 
     def new
-      @type = Type.new(params[:type])
+      @type = Type.new(new_type_params)
       load_projects_and_types
     end
 
@@ -108,10 +104,34 @@ module WorkPackageTypes
       redirect_to action: "index", status: :see_other
     end
 
+    def drop
+      unless @type.update(params.permit(:position))
+        render_error_flash_message_via_turbo_stream(message: @type.errors.full_messages.to_sentence)
+      end
+
+      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: root_types))
+      respond_to_with_turbo_streams
+    end
+
     protected
 
     def find_type
       @type = ::Type.find(params[:id])
+    end
+
+    def root_types
+      ::Type
+        .roots
+        .includes(:workflows, :projects, :custom_fields, :color,
+                  children: %i[workflows projects custom_fields color])
+        .page(page_param)
+        .per_page(per_page_param)
+    end
+
+    def new_type_params
+      return {} if params[:type].blank?
+
+      permitted_type_params
     end
 
     def permitted_type_params
@@ -124,6 +144,10 @@ module WorkPackageTypes
 
     def subtypes_enabled?
       OpenProject::FeatureDecisions.subtypes_active?
+    end
+
+    def require_subtypes_feature
+      render_404 unless subtypes_enabled?
     end
 
     def load_projects_and_types
