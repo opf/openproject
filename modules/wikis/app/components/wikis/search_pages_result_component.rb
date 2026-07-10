@@ -37,7 +37,7 @@ module Wikis
 
     attr_reader :builder, :form_name
 
-    def initialize(model = nil, builder:, form_name:, **)
+    def initialize(model = [], builder:, form_name:, **)
       @builder = builder
       @form_name = form_name
       super(model, **)
