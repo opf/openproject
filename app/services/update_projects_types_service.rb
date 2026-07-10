@@ -32,7 +32,7 @@
 #   granular Projects::Types::AddService, RemoveService and SwitchSubtypeService.
 #   This service remains only until the project settings UI is migrated to them.
 class UpdateProjectsTypesService < BaseProjectService
-  def call(type_ids)
+  def call(type_ids) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     type_ids = standard_types if type_ids.blank?
 
     if types_missing?(type_ids)
