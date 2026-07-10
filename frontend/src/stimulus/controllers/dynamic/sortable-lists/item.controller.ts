@@ -36,6 +36,7 @@ import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-d
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
@@ -186,7 +187,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
           allowedEdges: ['top', 'bottom'],
         });
       },
-      getIsSticky: () => true,
+      getIsSticky: ({ input }) => this.isWithinRowsSpan(input),
       onDragEnter: ({ self }) => {
         const closestEdge = extractClosestEdge(self.data);
         this.renderDropIndicator(closestEdge);
@@ -214,6 +215,25 @@ export default class ItemController extends Controller<HTMLElement> implements R
     const dragHandle = this.hasHandleTarget ? this.handleTarget : this.element;
 
     return closestInteractiveElement(target, dragHandle) == null;
+  }
+
+  // Stickiness bridges the gaps between rows so the drop indicator does not
+  // flicker while the pointer crosses them. Above the first row (the list
+  // header) or below the last row (empty space) the pointer has left the rows
+  // region, and the list's configured drop position must take over, so the
+  // sticky target lets go there. Rows are direct children of the rows
+  // container, so the item's parent element is that container.
+  private isWithinRowsSpan(input:Input):boolean {
+    const rowsContainer = this.element.parentElement;
+    const firstRow = rowsContainer?.firstElementChild;
+    const lastRow = rowsContainer?.lastElementChild;
+
+    if (!firstRow || !lastRow) {
+      return false;
+    }
+
+    return input.clientY >= firstRow.getBoundingClientRect().top
+      && input.clientY <= lastRow.getBoundingClientRect().bottom;
   }
 
   private getItemData():SortableItemData {

@@ -275,19 +275,69 @@ describe('Sortable lists item controller', () => {
     expect(nextElement.hasAttribute('data-drop-position-owner')).toBe(false);
   });
 
-  it('keeps the item drop target active while moving through row gaps', () => {
-    const element = document.createElement('article');
+  describe('sticky drop target boundaries', () => {
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
 
-    connectedControllerFor(element);
+    function mountedRows() {
+      const list = document.createElement('ul');
+      list.style.cssText = 'margin:0;padding:0;list-style:none;';
 
-    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].getIsSticky?.({
-      element,
-      input: {} as never,
-      source: {
-        data: {},
-        element: document.createElement('article'),
-      } as never,
-    })).toBe(true);
+      const rows = ['1', '2', '3'].map(() => {
+        const row = document.createElement('li');
+        row.style.cssText = 'display:block;height:30px;margin:0 0 10px 0;';
+        list.append(row);
+        return row;
+      });
+
+      document.body.append(list);
+      return rows;
+    }
+
+    function stickyAt(element:HTMLElement, clientY:number) {
+      return vi.mocked(dropTargetForElements).mock.lastCall?.[0].getIsSticky?.({
+        element,
+        input: { clientY } as never,
+        source: {
+          data: {},
+          element: document.createElement('article'),
+        } as never,
+      });
+    }
+
+    it('keeps the item drop target active while moving through row gaps', () => {
+      const [first, second] = mountedRows();
+
+      connectedControllerFor(first);
+
+      const gapY = (first.getBoundingClientRect().bottom + second.getBoundingClientRect().top) / 2;
+      expect(stickyAt(first, gapY)).toBe(true);
+    });
+
+    it('releases the sticky target above the first row, where the list header sits', () => {
+      const [first] = mountedRows();
+
+      connectedControllerFor(first);
+
+      expect(stickyAt(first, first.getBoundingClientRect().top - 5)).toBe(false);
+    });
+
+    it('releases the sticky target below the last row, over the empty space', () => {
+      const [first, , third] = mountedRows();
+
+      connectedControllerFor(first);
+
+      expect(stickyAt(first, third.getBoundingClientRect().bottom + 5)).toBe(false);
+    });
+
+    it('releases the sticky target once the row is detached from a rows container', () => {
+      const row = document.createElement('li');
+
+      connectedControllerFor(row);
+
+      expect(stickyAt(row, 0)).toBe(false);
+    });
   });
 
   it('does not accept itself as an item drop target', () => {
