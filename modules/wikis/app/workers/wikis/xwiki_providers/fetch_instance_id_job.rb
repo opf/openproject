@@ -28,22 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Admin
-  class XWikiAuthenticationMethodSelectForm < ApplicationForm
-    form do |f|
-      f.select_list(
-        name: :authentication_method,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_method"),
-        required: true,
-        input_width: :large,
-        disabled: model.configured_from_env?
-      ) do |select|
-        Wikis::XWikiProvider::AUTHENTICATION_METHODS.each do |method|
-          select.option(
-            label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_methods.#{method}"),
-            value: method
-          )
-        end
+module Wikis
+  module XWikiProviders
+    class FetchInstanceIdJob < ApplicationJob
+      class FetchError < StandardError
+      end
+
+      retry_on FetchError, wait: 1.minute, attempts: 120
+
+      def perform(provider)
+        FetchInstanceIdService.new(provider:).call.either(
+          ->(universal_identifier) { provider.update!(universal_identifier:) },
+          ->(error) { raise FetchError, error.to_s }
+        )
       end
     end
   end

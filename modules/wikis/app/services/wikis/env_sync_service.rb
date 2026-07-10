@@ -28,23 +28,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Admin
-  class XWikiAuthenticationMethodSelectForm < ApplicationForm
-    form do |f|
-      f.select_list(
-        name: :authentication_method,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_method"),
-        required: true,
-        input_width: :large,
-        disabled: model.configured_from_env?
-      ) do |select|
-        Wikis::XWikiProvider::AUTHENTICATION_METHODS.each do |method|
-          select.option(
-            label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_methods.#{method}"),
-            value: method
-          )
+module Wikis
+  class EnvSyncService
+    attr_reader :config
+
+    def initialize(env_config)
+      @config = env_config.deep_symbolize_keys
+    end
+
+    def call
+      existing_provider = find_existing_provider
+      ActiveRecord::Base.transaction do
+        if existing_provider
+          update!(existing_provider)
+        else
+          create!
         end
+
+        ServiceResult.success
       end
+    end
+
+    private
+
+    def find_existing_provider
+      (config.key?(:uid) && Provider.find_by(universal_identifier: config.fetch(:uid))) ||
+        Provider.find_by(name: config.fetch(:name))
+    end
+
+    def user = User.system
+
+    def result!(service_result)
+      raise service_result.message if service_result.failure?
+
+      service_result.result
+    end
+
+    def config_dig!(*args)
+      result = config.dig(*args)
+      raise "Could not find configuration value for #{args.join('.')}" if result.nil?
+
+      result
     end
   end
 end

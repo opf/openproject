@@ -23,25 +23,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module OAuthClients
-    class CreateService < ::OAuthClients::CreateService
-      def initialize(**)
-        super(contract_class: ::OAuthClients::CreateContract, **)
-      end
-
-      def attributes_service_class
-        ::OAuthClients::SetAttributesService
-      end
-
-      def instance_class
-        ::OAuthClient
-      end
-    end
+module OAuthClients
+  class UpdateContract < BaseContract
+    attribute :integration_id, writable: false
+    attribute :integration_type, writable: false
   end
 end
