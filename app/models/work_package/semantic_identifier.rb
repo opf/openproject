@@ -186,6 +186,16 @@ module WorkPackage::SemanticIdentifier
     WorkPackage::SemanticIdentifier.format_display_id(display_id)
   end
 
+  # Identifier attributes are cleared for the project move. If validation
+  # fails and moving is not possible, they need to be restored to show
+  # correct error messages.
+  def restore_identifier_after_failed_move
+    return unless cleared_for_project_move?
+
+    self.identifier = identifier_was
+    self.sequence_number = sequence_number_was
+  end
+
   # Override ActiveRecord's default `to_param` so Rails URL helpers
   # (work_package_path, polymorphic_path, form_for, etc.) automatically
   # produce semantic-id URLs in semantic mode. In classic mode display_id

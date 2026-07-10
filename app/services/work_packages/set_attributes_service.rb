@@ -33,6 +33,13 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   private
 
+  def validate_and_result
+    result = super
+    # restore identifier for error messages
+    work_package.restore_identifier_after_failed_move unless result.success?
+    result
+  end
+
   def set_attributes(attributes)
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
