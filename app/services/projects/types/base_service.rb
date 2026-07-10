@@ -28,24 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Types
-  extend ActiveSupport::Concern
+module Projects
+  module Types
+    class BaseService < ::BaseServices::BaseContracted
+      def initialize(user:, model:, contract_class: Projects::ManageTypesContract)
+        super(user:, contract_class:)
+        self.model = model
+      end
 
-  included do
-    def types_used_by_work_packages
-      ::Type.where(id: WorkPackage.where(project_id: project.id)
-                                  .select(:type_id)
-                                  .distinct)
-    end
+      private
 
-    # Returns a scope of the types used by the project and its active sub projects
-    def rolled_up_types
-      ::Type
-        .joins(:projects)
-        .select("DISTINCT #{::Type.table_name}.*")
-        .where(projects: { id: self_and_descendants.select(:id) })
-        .merge(Project.active)
-        .order("#{::Type.table_name}.position")
+      def failure(error, **)
+        model.errors.add(:types, error, **)
+        ServiceResult.failure(result: model, errors: model.errors)
+      end
+
+      def enable_work_package_custom_fields(type)
+        model.work_package_custom_field_ids |=
+          WorkPackageCustomField.joins(:types).where(types: { id: type.id }).ids
+      end
     end
   end
 end
