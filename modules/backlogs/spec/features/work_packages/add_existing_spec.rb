@@ -32,8 +32,6 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Add existing work package", :js do
-  include Components::Autocompleter::NgSelectAutocompleteHelpers
-
   shared_let(:default_status) { create(:default_status) }
   shared_let(:default_priority) { create(:default_priority) }
   shared_let(:project) { create(:project) }
@@ -54,6 +52,7 @@ RSpec.describe "Add existing work package", :js do
   end
 
   let(:backlogs_page) { Pages::Backlog.new(project) }
+  let(:autocomplete) { FormFields::Primerized::AutocompleteField.new(:work_package_id, selector: "ng-select") }
 
   current_user { user }
 
@@ -65,7 +64,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_a.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -74,8 +73,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package to #{bucket_a.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
 
@@ -84,7 +83,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
 
       within_modal "Add existing work package to #{sprint_a.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -93,8 +92,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
       within_modal "Add existing work package to #{sprint_a.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
   end
@@ -107,7 +106,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_inbox_menu("Add existing work package")
 
       within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -116,8 +115,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
       within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
 
@@ -126,7 +125,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_b.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -135,8 +134,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
       within_modal "Add existing work package to #{bucket_b.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
 
@@ -145,7 +144,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
 
       within_modal "Add existing work package to #{sprint_a.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -154,8 +153,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
       within_modal "Add existing work package to #{sprint_a.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
   end
@@ -168,7 +167,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_inbox_menu("Add existing work package")
 
       within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -177,8 +176,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
       within_modal "Add existing work package to #{I18n.t(:label_inbox)}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
 
@@ -187,7 +186,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_a.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -196,8 +195,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package to #{bucket_a.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
 
@@ -206,7 +205,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.click_in_sprint_menu(sprint_b, "Add existing work package")
 
       within_modal "Add existing work package to #{sprint_b.name}" do
-        select_autocomplete(find("ng-select"), query: work_package.subject)
+        autocomplete.search_and_select_option work_package.subject
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
@@ -215,8 +214,8 @@ RSpec.describe "Add existing work package", :js do
 
       backlogs_page.click_in_sprint_menu(sprint_b, "Add existing work package")
       within_modal "Add existing work package to #{sprint_b.name}" do
-        search_autocomplete(find("ng-select"), query: work_package.subject)
-        expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
+        autocomplete.search work_package.subject
+        autocomplete.expect_not_selected work_package.subject
       end
     end
   end
