@@ -118,8 +118,13 @@ Read more about [project initiation request (Enterprise add-on)](../../user-guid
 The project members of a newly created project depend on how the project was created:
 
 - **Blank project**: The user creating the project will be added automatically as a member, project role is based on the [corresponding setting in administration](../../system-admin-guide/projects/new-project/). 
+
 - **From a template**: The project inherits the same members and roles as defined in the template.
+
 - **Copied from another project**: The project inherits the members and roles from the original project. See here [how to copy a project](../../user-guide/projects/project-settings/project-information/#copy-a-project).
+
+> [!TIP]
+> A user copying a project is also assigned a **New role for users that create projects** in the newly created project. Depending on your configuration, this role may grant more permissions than the user had in the original project. Keep this in mind when granting users permission to copy projects.
 
 To continue configuring your project, see the documentation on [project settings](../../user-guide/projects/project-settings/project-information/).
 
