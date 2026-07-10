@@ -3,7 +3,6 @@ import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listene
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
 import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
 import { makeColorPreviews } from 'core-app/core/setup/globals/global-listeners/color-preview';
-import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listeners/danger-zone-validation';
 import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 import {
   activateFlashError,
@@ -44,9 +43,6 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
 
     // Color patches preview the color
     makeColorPreviews();
-
-    // Danger zone input validation
-    dangerZoneValidation();
 
     // Replace fragment
     fixFragmentAnchors();
