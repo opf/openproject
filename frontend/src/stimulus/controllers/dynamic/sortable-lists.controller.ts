@@ -48,6 +48,7 @@ import {
   captureRowPositions,
   reorderRows,
   restoreRowPositions,
+  rowsRemainAt,
   sortableListsBusyAttribute,
 } from './sortable-lists/list-dom';
 
@@ -164,6 +165,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, rowsContainer: intent.rowsContainer, previousItemId: intent.previousItemId });
+    const optimisticPlacement = captureRowPositions(rows);
 
     const result = await this.moveItem({
       listData: intent.listData,
@@ -173,7 +175,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     if (!result.ok) {
       try {
-        flipMove(rows, () => restoreRowPositions(rollback));
+        // A concurrent morph that removed or repositioned the rows carries
+        // fresher server state than the pre-move snapshot; roll back only
+        // while the rows still sit where the optimistic move put them.
+        if (rowsRemainAt(optimisticPlacement)) {
+          flipMove(rows, () => restoreRowPositions(rollback));
+        }
       } catch (error) {
         debugLog('Failed to roll back sortable list item move', error);
       }

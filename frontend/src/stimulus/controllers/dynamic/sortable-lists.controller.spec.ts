@@ -481,6 +481,37 @@ describe('Sortable lists controller', () => {
     expect(itemIds(targetList)).toEqual(['4', '5']);
   });
 
+  it('skips the rollback when a concurrent morph relocated the row before the move request fails', async () => {
+    let rejectMove:(error:Error) => void;
+
+    fetchMock.mockImplementationOnce(() => {
+      return new Promise<Response>((_resolve, reject) => {
+        rejectMove = reject;
+      });
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    // The optimistic reorder has already happened while the move request is
+    // still pending.
+    expect(itemIds(targetList)).toEqual(['4', '5', '1']);
+
+    // A concurrent morph (e.g. an unrelated list refresh) relocates the row
+    // before the failure resolves. Its placement is fresher server state, so
+    // the eventual rollback must yield to it rather than restoring the row
+    // to where the optimistic move first put it.
+    sourceList.append(firstSourceItem);
+
+    rejectMove!(new Error('Network failure'));
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['2', '3', '1']);
+    expect(itemIds(targetList)).toEqual(['4', '5']);
+  });
+
   it('does not dispatch a generic toast when a 422 turbo stream rejects the move', async () => {
     const toastEvents:CustomEvent[] = [];
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);

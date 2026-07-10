@@ -32,6 +32,7 @@ import {
   resolveListAppendPreviousItemId,
   restoreRowPositions,
   rowOf,
+  rowsRemainAt,
 } from './list-dom';
 
 describe('sortable lists DOM helpers', () => {
@@ -225,6 +226,94 @@ describe('sortable lists DOM helpers', () => {
       // The row is not pulled back into the detached list; it stays live.
       expect(one.isConnected).toBe(true);
       expect(itemIdOrder(destination)).toEqual(['1']);
+    });
+  });
+
+  describe('rowsRemainAt', () => {
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
+
+    it('is true while rows still sit at their captured placement', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      document.body.append(list);
+
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: null });
+      const optimistic = captureRowPositions([three]);
+
+      expect(rowsRemainAt(optimistic)).toBe(true);
+    });
+
+    it('is true when every row of a multi-row group remains at its captured placement', () => {
+      const list = listElement();
+      const [one, two, three, four] = ['1', '2', '3', '4'].map(itemRow);
+
+      list.append(one, two, three, four);
+      document.body.append(list);
+
+      reorderRows({ rows: [two, three], rowsContainer: list, previousItemId: '4' });
+      const optimistic = captureRowPositions([two, three]);
+
+      expect(rowsRemainAt(optimistic)).toBe(true);
+    });
+
+    it('is false once a captured row has been removed', () => {
+      const list = listElement();
+      const [one, two] = ['1', '2'].map(itemRow);
+
+      list.append(one, two);
+      document.body.append(list);
+      const optimistic = captureRowPositions([two]);
+
+      // A morph removing the row (e.g. it moved lists server-side) must not be
+      // undone by a later rollback re-inserting the detached node.
+      two.remove();
+
+      expect(rowsRemainAt(optimistic)).toBe(false);
+    });
+
+    it('is false once a captured row has been repositioned', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      document.body.append(list);
+      const optimistic = captureRowPositions([one]);
+
+      list.append(one);
+
+      expect(rowsRemainAt(optimistic)).toBe(false);
+    });
+
+    it('is false when a sibling was inserted at the captured next-sibling slot', () => {
+      const list = listElement();
+      const [one, two] = ['1', '2'].map(itemRow);
+
+      list.append(one, two);
+      document.body.append(list);
+      const optimistic = captureRowPositions([one]);
+
+      // Deliberately conservative: any churn around the row counts as a morph
+      // owning the region, so the rollback yields to the fresher server state.
+      one.after(itemRow('99'));
+
+      expect(rowsRemainAt(optimistic)).toBe(false);
+    });
+
+    it('checks every row of a multi-row group', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      document.body.append(list);
+      const optimistic = captureRowPositions([one, two]);
+
+      list.append(one);
+
+      expect(rowsRemainAt(optimistic)).toBe(false);
     });
   });
 });

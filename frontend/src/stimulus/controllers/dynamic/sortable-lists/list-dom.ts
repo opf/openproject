@@ -153,6 +153,17 @@ export function restoreRowPositions(positions:RowPlacement[]):void {
   }
 }
 
+// A rollback may only reinsert rows it still owns: if a concurrent morph
+// removed or repositioned a row after the optimistic move, the morph reflects
+// fresher server state and the rollback must yield. Deliberately strict —
+// any deviation from the captured placement (even a replaced or inserted
+// sibling) counts as foreign ownership.
+export function rowsRemainAt(positions:RowPlacement[]):boolean {
+  return positions.every(({ row, parent, nextSibling }) => (
+    row.parentNode === parent && row.nextSibling === nextSibling
+  ));
+}
+
 // Optimistically move rows on the client without waiting for the server.
 // `rows` are the moved rows in order (one today, the selected set once
 // multi-item DnD lands); `previousItemId` of null means top of list.
