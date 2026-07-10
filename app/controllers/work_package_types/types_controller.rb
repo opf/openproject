@@ -32,6 +32,7 @@ module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
     include OpTurbo::ComponentStream
+    include SubtypesFeature
 
     layout "admin"
 
@@ -140,14 +141,6 @@ module WorkPackageTypes
       params = permitted_params.type.to_unsafe_h
       params = params.except(:parent_id) unless subtypes_enabled?
       params
-    end
-
-    def subtypes_enabled?
-      OpenProject::FeatureDecisions.subtypes_active?
-    end
-
-    def require_subtypes_feature
-      render_404 unless subtypes_enabled?
     end
 
     def load_projects_and_types

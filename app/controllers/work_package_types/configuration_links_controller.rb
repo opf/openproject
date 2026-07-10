@@ -29,11 +29,10 @@
 #++
 
 module WorkPackageTypes
-  class ConfigurationLinksController < ApplicationController
-    layout "admin"
+  class ConfigurationLinksController < BaseTabController
+    include SubtypesFeature
 
-    before_action :require_admin
-    before_action :find_type
+    before_action :require_subtypes_feature
 
     current_menu_item do
       :types
@@ -49,10 +48,6 @@ module WorkPackageTypes
     end
 
     private
-
-    def find_type
-      @type = ::Type.find(params.expect(:type_id))
-    end
 
     def tab_path_for(aspect)
       case aspect

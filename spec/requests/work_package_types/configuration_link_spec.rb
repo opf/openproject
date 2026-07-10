@@ -32,7 +32,8 @@ require "spec_helper"
 
 RSpec.describe "Work package type configuration source",
                :skip_csrf,
-               type: :rails_request do
+               type: :rails_request,
+               with_flag: { subtypes: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -40,6 +41,23 @@ RSpec.describe "Work package type configuration source",
   let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 
   before { login_as admin }
+
+  context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    it "renders the tab's own editor without the reuse mode toggle" do
+      get edit_type_pdf_export_template_index_path(type_id: type.id)
+
+      expect(response.body).to include("PDF Export templates")
+      expect(response.body).not_to include("These settings belong to this type")
+    end
+
+    it "blocks the update endpoint" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: source.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(type).not_to be_linked(aspect)
+    end
+  end
 
   describe "rendering the tabs" do
     it "renders the PDF tab with the mode toggle" do

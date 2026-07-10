@@ -27,13 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div data-controller="show-when-value-selected">
-  <%= settings_primer_form_with(**form_options) do |f| %>
-    <%= render(WorkPackageTypes::ConfigurationLinkForm.new(f)) %>
-  <% end %>
+<% if feature_active? %>
+  <div data-controller="show-when-value-selected">
+    <%= settings_primer_form_with(**form_options) do |f| %>
+      <%= render(WorkPackageTypes::ConfigurationLinkForm.new(f)) %>
+    <% end %>
 
-  <% unless linked? %>
-    <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
-    <%= content_tag(:div, content, data: WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")) %>
-  <% end %>
-</div>
+    <% unless linked? %>
+      <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
+      <%= content_tag(:div, content, data: WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")) %>
+    <% end %>
+  </div>
+<% else %>
+  <%# Reuse feature off: the tab manages its own configuration directly. %>
+  <%= content %>
+<% end %>

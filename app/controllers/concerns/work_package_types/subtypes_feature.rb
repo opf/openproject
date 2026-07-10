@@ -28,42 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Shared gating for the work package sub-types feature flag.
 module WorkPackageTypes
-  # Mode chooser (Independent/Linked) + source picker, shared by the PDF and
-  # subject tabs. When Independent, the tab's own editor (passed as the block
-  # content) shows; picking Linked swaps it for the source picker + Save.
-  # Toggling is client-side via the show-when-value-selected controller.
-  class ConfigurationLinkComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpPrimer::FormHelpers
-
-    def initialize(type:, aspect:)
-      @aspect = aspect
-      super(type)
-    end
-
-    def type = model
-
-    def feature_active? = OpenProject::FeatureDecisions.subtypes_active?
-
-    def linked? = type.linked?(@aspect)
-
-    def current_source = type.source_for(@aspect)
-
-    def form_options
-      {
-        url: type_configuration_link_path(type_id: type.id, aspect: @aspect),
-        method: :put,
-        linked: linked?,
-        current_source_id: current_source&.id,
-        source_options:
-      }
-    end
+  module SubtypesFeature
+    extend ActiveSupport::Concern
 
     private
 
-    def source_options
-      Type.global.where.not(id: type.id).order(:name)
+    def subtypes_enabled?
+      OpenProject::FeatureDecisions.subtypes_active?
+    end
+
+    def require_subtypes_feature
+      render_404 unless subtypes_enabled?
     end
   end
 end
