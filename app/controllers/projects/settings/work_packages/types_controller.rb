@@ -29,6 +29,8 @@
 #++
 
 class Projects::Settings::WorkPackages::TypesController < Projects::SettingsController
+  include WorkPackageTypes::TypeDeactivationErrorMessage
+
   menu_item :settings_work_packages
 
   def show
@@ -36,10 +38,12 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
   end
 
   def update
-    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
+    type_ids = permitted_params.projects_type_ids
+
+    if UpdateProjectsTypesService.new(@project).call(type_ids)
       flash[:notice] = success_message
     else
-      flash[:error] = @project.errors.full_messages
+      flash[:error] = type_deactivation_error_messages(types_missing_from(type_ids), project_ids: [@project.id])
     end
 
     redirect_to project_settings_types_path(@project.identifier)
@@ -52,5 +56,15 @@ class Projects::Settings::WorkPackages::TypesController < Projects::SettingsCont
       t(:notice_successful_update_custom_fields_added_to_project, url: project_settings_custom_fields_path(@project)),
       attributes: %w(href target)
     )
+  end
+
+  def types_missing_from(type_ids)
+    @project
+      .types_used_by_work_packages
+      .where.not(id: type_ids.presence || standard_type_ids)
+  end
+
+  def standard_type_ids
+    [::Type.standard_type&.id].compact
   end
 end

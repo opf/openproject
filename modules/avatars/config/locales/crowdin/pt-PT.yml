@@ -1,29 +1,28 @@
-#English strings go here
 ---
 pt-PT:
-  plugin_openproject_avatars:
-    name: Avatares
-    description: Este plugin permite aos utilizadores do OpenProject carregar uma imagem para ser utilizada como avatar ou utilizar imagens registadas do Gravatar.
-  label_avatar: Avatar
-  label_avatar_plural: Avatares
-  label_current_avatar: Avatar Atual
-  label_choose_avatar: Escolher Avatar a partir de ficheiro
-  message_avatar_uploaded: Avatar alterado com sucesso.
-  error_image_upload: Erro ao guardar a imagem.
-  error_image_size: A imagem é demasiado grande.
   are_you_sure_delete_avatar: Tem a certeza de que deseja apagar o seu avatar?
   avatar_deleted: Avatar apagado com sucesso.
-  unable_to_delete_avatar: Não foi possível eliminar o avatar.
-  wrong_file_format: Os formatos permitidos são jpg, png, gif
-  empty_file_error: Por favor carregue uma imagem válida (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Avatar personalizado
+    settings:
+      enable_gravatars: Ativar Gravatars de utilizadores
+      enable_local_avatars: Ativar avatares personalizados de utilizador
+      gravatar_default: Imagem Gravatar predefinida
     text_avatar_gravatar_html: O OpenProject utiliza o seu Gravatar, caso o tenha registado em %{gravatar_url}, uma imagem ou um ícone predefinido, caso exista.
     text_avatar_local: Também clicar na imagem para carregar um avatar personalizado que substitua o Gravatar. Recomendamos uma imagem com 128 por 128 píxeis.
     text_avatar_local_only: Pode carregar um avatar personalizado clicando na imagem. Recomendamos uma imagem com 128 por 128 píxeis.
-    settings:
-      enable_gravatars: Ativar Gravatars de utilizadores
-      gravatar_default: Imagem Gravatar predefinida
-      enable_local_avatars: Ativar avatares personalizados de utilizador
+  empty_file_error: Por favor carregue uma imagem válida (jpg, png, gif)
+  error_image_size: A imagem é demasiado grande.
+  error_image_upload: Erro ao guardar a imagem.
+  label_avatar: Avatar
+  label_avatar_plural: Avatares
+  label_choose_avatar: Escolher Avatar a partir de ficheiro
+  label_current_avatar: Avatar Atual
+  message_avatar_uploaded: Avatar alterado com sucesso.
+  plugin_openproject_avatars:
+    description: Este plugin permite aos utilizadores do OpenProject carregar uma imagem para ser utilizada como avatar ou utilizar imagens registadas do Gravatar.
+    name: Avatares
+  unable_to_delete_avatar: Não foi possível eliminar o avatar.
+  wrong_file_format: Os formatos permitidos são jpg, png, gif

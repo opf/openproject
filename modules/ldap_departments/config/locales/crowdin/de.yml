@@ -27,8 +27,8 @@ de:
   ee:
     upsell:
       ldap_departments:
-        title: LDAP-Abteilungssynchronisierung
         description: Spiegeln Sie Ihre LDAP-Organisationseinheitenstruktur in die Abteilungshierarchie von OpenProject ab und sorgen Sie dafür, dass die Abteilungsmitglieder automatisch synchronisiert werden.
+        title: LDAP-Abteilungssynchronisierung
   ldap_departments:
     label_menu_item: LDAP-Abteilungssynchronisierung
     label_synchronize: Organisationseinheiten synchronisieren
@@ -47,12 +47,13 @@ de:
       singular: Synchronisierte Abteilung
     synchronized_trees:
       add_new: LDAP-Abteilungssynchronisierung hinzufügen
-      synchronization_started: Die Synchronisierung wurde im Hintergrund gestartet. Die Abteilungen werden angezeigt, sobald der Vorgang abgeschlossen ist.
       blankslate:
         description: Richten Sie eine Synchronisierung ein, um Ihre LDAP-Organisationseinheitenstruktur in die Abteilungshierarchie von OpenProject abzubilden.
         heading: Keine synchronisierte Abteilungen
       destroy:
-        confirmation: Wenn Sie fortfahren, wird die Synchronisierung %{name} entfernt, und die darin enthaltenen %{departments_count} Abteilungen werden nicht mehr über LDAP verwaltet.
+        confirmation_message:
+          one: Wenn Sie fortfahren, wird die Synchronisierung %{name} entfernt, und die darin enthaltene %{count} Abteilung wird nicht mehr über LDAP verwaltet.
+          other: Wenn Sie fortfahren, wird die Synchronisierung %{name} entfernt, und die darin enthaltenen %{count} Abteilungen werden nicht mehr über LDAP verwaltet.
         heading: Synchronisierung %{name} aufheben?
         info: Die Abteilungen und ihre Mitglieder bleiben erhalten und werden zu regulären Abteilungen. Sie können diese anschließend manuell unter „Administration“ → „Benutzer und Berechtigungen“ → „Organisation“ bearbeiten oder löschen.
         title: Synchronisierung %{name} aufheben
@@ -82,6 +83,7 @@ de:
       no_results: Es wurden noch keine synchronisierten Abteilungen konfiguriert.
       plural: LDAP-Abteilungssynchronisierungen
       singular: LDAP-Abteilungssynchronisierung
+      synchronization_started: Die Synchronisierung wurde im Hintergrund gestartet. Die Abteilungen werden angezeigt, sobald der Vorgang abgeschlossen ist.
   plugin_openproject_ldap_departments:
     description: Synchronisierung von LDAP-Organisationseinheiten mit den Abteilungen in OpenProject.
     name: OpenProject-LDAP-Abteilungen

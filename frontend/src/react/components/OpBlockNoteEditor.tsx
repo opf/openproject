@@ -41,8 +41,6 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
-  useOpBlockNoteExtensions,
-  PasteDeduplicateInstanceIdsExtension,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -119,7 +117,6 @@ export function OpBlockNoteEditor({
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
-        PasteDeduplicateInstanceIdsExtension,
         ExternalLinkA11yExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
       ],
@@ -131,7 +128,6 @@ export function OpBlockNoteEditor({
   // the editor (wiping `Y.UndoManager` history) whenever a fresh `activeUser` reference
   // reached this component, e.g. on Stimulus reconnect / Turbo morph.
   const editor = useCreateBlockNote(editorParams, []);
-  useOpBlockNoteExtensions(editor);
   type EditorType = typeof editor;
   const theme = useOpTheme();
 

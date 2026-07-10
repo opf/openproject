@@ -234,5 +234,23 @@ module WorkPackageTypes
                                                       .from([])
       end
     end
+
+    context "when removing the type from a project with work packages" do
+      let(:contract_class) { UpdateProjectsContract }
+      let(:project) { create(:project, types: [type]) }
+      let!(:work_package) { create(:work_package, project:, type:) }
+      let(:params) { { project_ids: [] } }
+
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
+
+      it "fails and keeps the type active in the project" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.messages_for(:project_ids))
+          .to contain_exactly(I18n.t(:error_can_not_deactivate_type,
+                                     type: type.name,
+                                     work_packages_link: I18n.t(:label_work_package_plural).downcase))
+        expect(project.reload.types).to include(type)
+      end
+    end
   end
 end

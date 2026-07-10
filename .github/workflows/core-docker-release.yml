@@ -1,0 +1,40 @@
+name: Core / Docker Tagged builds
+
+# NOTE: The core docker image build + SBOM/VEX/signing pipeline moved to
+# opf/openproject-flavours (.github/workflows/core-docker-release.yml). This thin dispatcher
+# forwards core `v*` tag pushes to that workflow via the GitHub workflow-dispatch API,
+# using the same token/mechanism as continuous-delivery.yml.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to release (e.g. v16.3.0). Use only when the automatic tag-push dispatch went wrong."
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  trigger_flavours_docker_release:
+    if: github.repository == 'opf/openproject'
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch flavours core-docker-release workflow
+        env:
+          TOKEN: ${{ secrets.OPENPROJECTCI_FLAVOUR_TRIGGER_TOKEN }}
+          REPOSITORY: opf/openproject-flavours
+          WORKFLOW_ID: core-docker-release.yml
+          # On a tag push github.ref_name is the tag (e.g. v16.3.0); inputs.tag overrides on manual runs.
+          TAG_NAME: ${{ inputs.tag || github.ref_name }}
+        run: |
+          PAYLOAD=$(jq -n --arg tag "$TAG_NAME" '{"ref": "dev", "inputs": {"tag": $tag}}')
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d "$PAYLOAD"

@@ -21,26 +21,42 @@
 #++
 ---
 tr:
-  plugin_costs:
-    name: Zaman ve maliyetler
-    description: Bu modül, projelerin maliyetlerini planlamak ve izlemek için özellikler ekler.
   activerecord:
     attributes:
       cost_entry:
-        work_package: İş paketi
+        entity: Şunun için kaydedildi
+        entity_gid: Şunun için kaydedildi
+        entity_id: Şunun için kaydedildi
+        logged_by: 'Giriş yapan:'
         overridden_costs: Geçersiz kılınmış maliyetler
         spent: Harcanan
         spent_on: Tarih
-        logged_by: 'Giriş yapan:'
-        entity: Şunun için kaydedildi
-        entity_id: Şunun için kaydedildi
-        entity_gid: Şunun için kaydedildi
+        work_package: İş paketi
       cost_type:
-        unit: Birim adı
-        unit_plural: Birimin çoğul adı
         default: Varsayılan maliyet türü
         for_all_projects: For all projects
         rates: Rates
+        unit: Birim adı
+        unit_plural: Birimin çoğul adı
+      rate:
+        rate: Oran
+      time_entry:
+        activity: Etkinlik
+        comments: Yorum
+        end_time: Bitiş zamanı
+        entity: Şunun için kaydedildi
+        entity_gid: Şunun için kaydedildi
+        entity_id: Şunun için kaydedildi
+        hours: Saat
+        project: Proje
+        spent_on: Tarih
+        start_time: Başlama tarihi
+        subject: Konu
+        time: Zaman
+        user: Kullanıcı
+        work_package: İş paketi
+      user:
+        default_rates: Varsayılan ücretler
       work_package:
         costs_by_type: Harcanan birimler
         labor_costs: İş gücü maliyetleri
@@ -48,71 +64,59 @@ tr:
         overall_costs: Tüm maliyetler
         spent_costs: Harcanan maliyet
         spent_units: Harcanan birimler
-      rate:
-        rate: Oran
-      user:
-        default_rates: Varsayılan ücretler
-      time_entry:
-        project: Proje
-        user: Kullanıcı
-        work_package: İş paketi
-        subject: Konu
-        hours: Saat
-        comments: Yorum
-        activity: Etkinlik
-        spent_on: Tarih
-        start_time: Başlama tarihi
-        end_time: Bitiş zamanı
-        time: Zaman
-        entity: Şunun için kaydedildi
-        entity_id: Şunun için kaydedildi
-        entity_gid: Şunun için kaydedildi
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Bu iş paketi için zaman kaydedilemiyor.
+          duplicate_ongoing: Bu kullanıcı için devam eden bir zaman girişi zaten var.
+          invalid_time: 00:00 ile 23:59 arasında olmalı.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'İş numarası # {id}, maliyet girişlerini yeniden atamak için geçerli bir hedef değil.%{id}.'
+          nullify_is_not_valid_for_cost_entries: Maliyet girdileri bir projeye atanamaz.
     models:
-      time_entry:
-        one: Zaman girişi
-        other: Zaman girişleri
       cost_entry:
         one: Maliyet girişi
         other: Maliyet girişleri
       cost_type:
         one: Maliyet türü
         other: Maliyet türü
+      rate: Oran
+      time_entry:
+        one: Zaman girişi
+        other: Zaman girişleri
       time_entry_activity:
         one: Zaman izleme etkinliği
         other: Zaman izleme faaliyetleri
-      rate: Oran
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: 00:00 ile 23:59 arasında olmalı.
-          cannot_log_for_this_work_package: Bu iş paketi için zaman kaydedilemiyor.
-          duplicate_ongoing: Bu kullanıcı için devam eden bir zaman girişi zaten var.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'İş numarası # {id}, maliyet girişlerini yeniden atamak için geçerli bir hedef değil.%{id}.'
-          nullify_is_not_valid_for_cost_entries: Maliyet girdileri bir projeye atanamaz.
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Please select a project.
+      validation:
+        start_time_different_date: StartTime (%{start_time}) öğesinin tarih kısmı, spentOn (%{spent_on}) tarihi ile aynı olmalıdır.
   attributes:
     comment: Yorum
     cost_type: Maliyet türü
     costs: Ücretler
     current_rate: Aktüel oran
+    fixed_date: Düzenleme tarihi
     hours: Saat
     units: Birimler
     valid_from: Geçerlilik
-    fixed_date: Düzenleme tarihi
+  button_add_activity: Etkinlik
   button_add_rate: Oran ekle
+  button_add_time_entry: Zaman kaydet
   button_log_costs: Günlük birim maliyetleri
   button_log_time: Kayıt
-  button_add_activity: Etkinlik
-  button_add_time_entry: Zaman kaydet
   button_stop_timer: Zamanlayıcıyı durdur
   caption_booked_on_project: Proje rezervasyonu yaptırdı
   caption_default: Varsayılan
   caption_default_rate_history_for: "%{user} için varsayılan değerleme geçmişi"
   caption_locked_on: Kilitli
+  caption_log_time_dialog: Zaman kaydet
   caption_materials: Birimler
   caption_rate_history: Değerleme geçmişi
   caption_rate_history_for: "%{user} için ücret geçmişi"
@@ -120,20 +124,60 @@ tr:
   caption_save_rate: Oranı kaydet
   caption_set_rate: Güncel oranı ayarla
   caption_show_locked: Kilitli türleri göster
-  caption_log_time_dialog: Zaman kaydet
-  description_date_for_new_rate: Yeni oran için tarih
+  cost_types:
+    admin:
+      columns:
+        active_projects: Aktif projeler
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: Atanmış proje yok
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Maliyet türleri
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Günlük zamanı
+          description: Projenizin ilerleyişini izlemek için maliyetlerinize ve kaydedilen zamana genel bir bakış elde edin. İş paketlerinin doğru bütçe ile ilişkilendirildiğinden emin olun.
+          heading: Zamanınızı ve maliyetlerinizi takip etmeye başlayın
+        title: Aylara göre gerçek maliyetler
+        view_details: Gerçek maliyet ayrıntılarını görüntüleyin
   description_costs_settings: Tüm projelerdeki maliyetler için istenen biçimi tanımlayın.
+  description_date_for_new_rate: Yeni oran için tarih
   description_time_settings: Tüm projelerde zaman kaydı yapılırken hangi alanların doldurulmasının zorunlu olduğunu tanımlayın.
+  ee:
+    features:
+      time_entry_time_restrictions: Tam zaman takibi gerektirir
+    upsell:
+      time_entry_time_restrictions:
+        description: Zaman kaydı yaparken tam başlangıç ve bitiş zamanlarını zorunlu tutarak zaman takibinizi geliştirin.
   group_by_others: herhangi bir grupta değil
+  label_available_cost_types_projects: Available cost types projects
   label_between: arasında
+  label_cost: Maliyet
   label_cost_filter_add: Maliyet girişi filtresi ekle
-  label_costlog: Günlüğe kaydedilen birim maliyetler
   label_cost_plural: Maliyetler
   label_cost_type_plural: Maliyet türleri
   label_cost_type_specific: 'Maliyet türü #%{id}: %{name}'
+  label_costlog: Günlüğe kaydedilen birim maliyetler
+  label_costs: Maliyetler
   label_costs_per_page: Her sayfa için maliyet
   label_current_default_rate: Güncel varsayılan oran
   label_date_on: tarihinde
+  label_day: Gün
   label_deleted_cost_types: Silinmiş maliyet türleri
   label_display_cost_entries: Birim maliyetlerini göster
   label_display_time_entries: Raporlanan saatleri göster
@@ -145,58 +189,54 @@ tr:
   label_group_by_add: Gruplama alanı ekle
   label_hourly_rate: Saatlik ücret
   label_include_deleted: Silinenleri ekle
-  label_work_package_filter_add: İş paketi filtresi ekle
   label_kind: Tür
   label_less_or_equal: "<="
+  label_list: Liste
   label_log_costs: Günlük birim maliyetleri
-  label_new_time_entry_activity: Yeni zaman girişi etkinliği
-  label_time_entry_activity_form_description: Bu zaman girişi etkinliğinde yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır.
-  label_no: Hayır
-  label_option_plural: Ayarlar
-  label_overall_costs: Tüm maliyetler
-  label_rate: Oranlar
-  label_rate_plural: Oranlar
-  label_status_finished: Tamamlandı
-  label_show: Göster
-  label_units: Maliyet birimleri
-  label_user: Kullanıcı
-  label_until: kadar
-  label_valid_from: Geçerlilik
-  label_yes: Evet
-  label_time: Zaman
-  label_cost: Maliyet
-  label_costs: Maliyetler
   label_mandatory_fields: Zorunlu alanlar
+  label_month: Ay
   label_my_time_tracking: Zaman takibim
-  label_no_time: Zaman takibi yok
+  label_new_time_entry_activity: Yeni zaman girişi etkinliği
   label_next_day: Sonraki gün
+  label_next_month: Sonraki ay
   label_next_week: Gelecek hafta
   label_next_workweek: Sonraki çalışma haftası
-  label_next_month: Sonraki ay
+  label_no: Hayır
+  label_no_time: Zaman takibi yok
+  label_option_plural: Ayarlar
+  label_overall_costs: Tüm maliyetler
   label_previous_day: Önceki gün
-  label_previous_workweek: Önceki çalışma haftası
-  label_previous_week: Geçen Hafta
   label_previous_month: Önceki ay
+  label_previous_week: Geçen Hafta
+  label_previous_workweek: Önceki çalışma haftası
+  label_rate: Oranlar
+  label_rate_plural: Oranlar
+  label_show: Göster
   label_specific_day: Gün %{day}
   label_specific_month: Ay %{month}
-  label_list: Liste
-  label_month: Ay
-  label_workweek: Çalışma haftası
-  label_day: Gün
-  label_today_capitalized: Bugün
-  label_view_mode_switcher: Görünümü değiştir
+  label_status_finished: Tamamlandı
+  label_time: Zaman
+  label_time_entry_activity_form_description: Bu zaman girişi etkinliğinde yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır.
   label_timer_since: "%{time} zamanında başladı"
-  placeholder_activity_select_work_package_first: Öncelikle iş paketi seçimi gereklidir
-  notice_something_wrong: Bir şeyler yanlış gitti. Lütfen tekrar deneyin.
-  notice_successful_restore: Başarılı bir geri yükleme.
-  notice_successful_lock: Başarıyla kilitlendi.
+  label_today_capitalized: Bugün
+  label_units: Maliyet birimleri
+  label_until: kadar
+  label_user: Kullanıcı
+  label_valid_from: Geçerlilik
+  label_view_mode_switcher: Görünümü değiştir
+  label_work_package_filter_add: İş paketi filtresi ekle
+  label_workweek: Çalışma haftası
+  label_yes: Evet
   notice_cost_logged_successfully: Birim maliyet başarıyla kaydedildi.
   notice_different_time_zones: Bu kullanıcı farklı bir saat dilimine sahiptir (%{tz}). Zaman, onun zaman dilimi kullanılarak kaydedilecektir.
-  notice_time_entry_update_failed: 'Zaman girişi güncellenemedi. Hatalar: %{errors}'
+  notice_something_wrong: Bir şeyler yanlış gitti. Lütfen tekrar deneyin.
+  notice_successful_lock: Başarıyla kilitlendi.
+  notice_successful_restore: Başarılı bir geri yükleme.
   notice_time_entry_delete_failed: 'Zaman girişi silinemedi. Hatalar: %{errors}'
+  notice_time_entry_update_failed: 'Zaman girişi güncellenemedi. Hatalar: %{errors}'
   permission_edit_cost_entries: Rezervasyon birimi maliyetlerini düzenle
-  permission_edit_own_cost_entries: Kendi rezervasyonu birim maliyetlerini düzenleme
   permission_edit_hourly_rates: Saatlik oranları düzenleme
+  permission_edit_own_cost_entries: Kendi rezervasyonu birim maliyetlerini düzenleme
   permission_edit_own_hourly_rate: Kendi saatlik ücretleri düzenleme
   permission_edit_rates: Oranları düzenle
   permission_log_costs: Kitap birimi maliyetleri
@@ -207,67 +247,30 @@ tr:
   permission_view_own_cost_entries: Kendi rezervasyonu maliyetleri görüntüleyin
   permission_view_own_hourly_rate: Kendi saatlik ücreti görüntüleyin
   permission_view_own_time_entries: Kendi harcanan zamanı görüntüleyin
+  placeholder_activity_select_work_package_first: Öncelikle iş paketi seçimi gereklidir
+  plugin_costs:
+    description: Bu modül, projelerin maliyetlerini planlamak ve izlemek için özellikler ekler.
+    name: Zaman ve maliyetler
   project_module_costs: Zaman ve maliyetler
   setting_allow_tracking_start_and_end_times: Başlangıç ve bitiş saatlerine izin verin
+  setting_allow_tracking_start_and_end_times_caption: Zaman kaydı yaparken başlangıç ve bitiş zamanlarının girilmesini sağlar.
   setting_costs_currency: Para birimi
   setting_costs_currency_caption: Bu para birimidir. EUR, USD veya JPY gibi üç harfli bir ISO kodu veya €, $ veya ¥ gibi bir sembol olabilir.
   setting_costs_currency_format: Para birimi formatı
   setting_costs_currency_format_prefix: Rakamdan önce (örn. EUR 100)
   setting_costs_currency_format_suffix: Rakamdan sonra (örn. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Başlangıç ve bitiş saatleri gerektir
-  setting_enforce_without_allow: Başlangıç ve bitiş saatlerini zorunlu tutmak, bunlara izin vermeden mümkün değildir
-  setting_allow_tracking_start_and_end_times_caption: Zaman kaydı yaparken başlangıç ve bitiş zamanlarının girilmesini sağlar.
   setting_enforce_tracking_start_and_end_times_caption: Zaman kaydı yaparken başlangıç ve bitiş zamanlarının girilmesini zorunlu hale getirir.
+  setting_enforce_without_allow: Başlangıç ve bitiş saatlerini zorunlu tutmak, bunlara izin vermeden mümkün değildir
   text_assign_time_and_cost_entries_to_project: Raporlanan saatleri ve maliyetleri projeye tahsis edin
   text_destroy_cost_entries_question: "%{cost_entries} silmek üzere olduğunuz iş paketleri hakkında rapor edildi. Ne yapmak istiyorsun ?"
   text_destroy_time_and_cost_entries: Raporlanan saat ve masrafları sil
   text_destroy_time_and_cost_entries_question: "% {hours} saat,% {maliyet_entries}, silmek üzere olduğunuz iş paketlerinde bildirildi. Ne yapmak istiyorsun ? %{hours} %{cost_entries}"
   text_reassign_time_and_cost_entries: 'Raporlanan saatleri ve maliyetleri bu iş paketine yeniden atayın:'
   text_warning_hidden_elements: Bazı girdiler toplama işleminden dışlanmış olabilir.
-  week: hafta
   total_times:
-    workweek: 'Çalışma Haftası Toplamı: %{hours}'
-    week: 'Hafta Toplamı: %{hours}'
-    month: 'Ay Toplamı: %{hours}'
     day: 'Gün Toplamı: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: StartTime (%{start_time}) öğesinin tarih kısmı, spentOn (%{spent_on}) tarihi ile aynı olmalıdır.
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Aktif projeler
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: Atanmış proje yok
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        heading: Maliyet türleri
-        none_active: No cost types are currently active in this project.
-        for_all_projects_hint: This cost type is enabled in all projects.
-  costs:
-    widgets:
-      actual_costs:
-        title: Aylara göre gerçek maliyetler
-        blankslate:
-          heading: Zamanınızı ve maliyetlerinizi takip etmeye başlayın
-          description: Projenizin ilerleyişini izlemek için maliyetlerinize ve kaydedilen zamana genel bir bakış elde edin. İş paketlerinin doğru bütçe ile ilişkilendirildiğinden emin olun.
-          action: Günlük zamanı
-        view_details: Gerçek maliyet ayrıntılarını görüntüleyin
-  ee:
-    features:
-      time_entry_time_restrictions: Tam zaman takibi gerektirir
-    upsell:
-      time_entry_time_restrictions:
-        description: Zaman kaydı yaparken tam başlangıç ve bitiş zamanlarını zorunlu tutarak zaman takibinizi geliştirin.
+    month: 'Ay Toplamı: %{hours}'
+    week: 'Hafta Toplamı: %{hours}'
+    workweek: 'Çalışma Haftası Toplamı: %{hours}'
+  week: hafta

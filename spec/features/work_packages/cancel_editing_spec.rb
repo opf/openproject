@@ -111,7 +111,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
 
     # Edit subject in split page
     split_page = wp_table.open_split_view(work_package)
-    version = split_page.edit_field :version
+    version = split_page.edit_field :targetVersions
     version.activate!
 
     # Decline move, expect field still active
@@ -124,7 +124,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
     # Now accept to move to the second page
     split_page = wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.accept
-    version = split_page.edit_field :version
+    version = split_page.edit_field :targetVersions
     version.expect_inactive!
   end
 

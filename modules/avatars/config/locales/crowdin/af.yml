@@ -1,29 +1,28 @@
-#English strings go here
 ---
 af:
-  plugin_openproject_avatars:
-    name: Avatars
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: Avatar
-  label_avatar_plural: Avatars
-  label_current_avatar: Huidige Avatar
-  label_choose_avatar: Kies Avatar uit lêer
-  message_avatar_uploaded: Avatar is suksesvol verander.
-  error_image_upload: Fout met berging van die beeld.
-  error_image_size: Die beeld is te groot.
   are_you_sure_delete_avatar: Is jy seker jy wil jou avatar uitvee?
   avatar_deleted: Avatar is suksesvol uitgevee.
-  unable_to_delete_avatar: Avatar kon nie uitgevee word nie.
-  wrong_file_format: Toegelate formate is jpg, png, gif
-  empty_file_error: Laai asseblief 'n geldige prent op (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Doelgemaakte avatar
+    settings:
+      enable_gravatars: Aktiveer gebruikers-gravatars
+      enable_local_avatars: Aktiveer gebruikers-gepasmaakte avatars
+      gravatar_default: Verstek Gravatar-beeld
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Aktiveer gebruikers-gravatars
-      gravatar_default: Verstek Gravatar-beeld
-      enable_local_avatars: Aktiveer gebruikers-gepasmaakte avatars
+  empty_file_error: Laai asseblief 'n geldige prent op (jpg, png, gif)
+  error_image_size: Die beeld is te groot.
+  error_image_upload: Fout met berging van die beeld.
+  label_avatar: Avatar
+  label_avatar_plural: Avatars
+  label_choose_avatar: Kies Avatar uit lêer
+  label_current_avatar: Huidige Avatar
+  message_avatar_uploaded: Avatar is suksesvol verander.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: Avatars
+  unable_to_delete_avatar: Avatar kon nie uitgevee word nie.
+  wrong_file_format: Toegelate formate is jpg, png, gif

@@ -11,7 +11,7 @@ keywords: custom color, theme, logo, PDF
 
 As an OpenProject Enterprise add-on you can replace the default OpenProject logo with your own logo. In addition, you can define your own color theme which allows you to implement your corporate identity in OpenProject.
 
-Navigate to *Administration* → *Design* in order to customize your OpenProject theme and logo.
+Navigate to _Administration_ → _Design_ in order to customize your OpenProject theme and logo.
 
 The design page provides several options to customize your OpenProject Enterprise edition, grouped in four tabs, **Interface, Branding, PDF export styles and PDF export font**. 
 You can [choose a color theme](#choose-a-color-theme) in the first two tabs. 
@@ -30,9 +30,9 @@ meetings, timesheets…
 
 You can
 
-* upload a logo to be used in the exported PDF header
-* upload a custom background image for exports with a cover page
-* adjust the text color of the text overlay at the custom background image of the cover page
+- upload a logo to be used in the exported PDF header
+- upload a custom background image for exports with a cover page
+- adjust the text color of the text overlay at the custom background image of the cover page
 
 > [!TIP]
 > You can generate a demo PDF to see a preview of your settings. Click the **Generate Demo PDF** button.
@@ -48,7 +48,6 @@ The font files must be in the TrueType Font (TTF) format. Maximum font file size
 > [!TIP]
 > You can generate a demo PDF to see a preview of your settings. Click the **Generate Demo PDF** button.
 
-
 > [!IMPORTANT]
 > Only the regular style of a font family is required. Italic and bold text will be formatted in regular style of the uploaded font if these font files are omitted.
 
@@ -58,23 +57,25 @@ The font files must be in the TrueType Font (TTF) format. Maximum font file size
 
 You can choose between the three default color themes for OpenProject:
 
-* OpenProject
-* OpenProject Gray (previously called OpenProject Light)
-* OpenProject Navy Blue (previously called OpenProject Dark)
+- OpenProject
+- OpenProject Gray (previously called OpenProject Light)
+- OpenProject Navy Blue (previously called OpenProject Dark)
 
 Press the Save button to apply your changes. The theme will then be changed.
 
 ![Change color theme in OpenProject administration settings](openproject_system_guide_design_color_theme_navy_blue.png)
 
 ## Upload a custom logo
+
 In the Administration → Design area, you can replace the standard OpenProject logo with your own branding.
 
 ### Custom logo desktop
+
 This field to upload the version of your logo that should appear on larger screens. The logo you upload will automatically scale to fit the header. For best results, we recommend uploading a white logo on a transparent 130×47px image. You can add as much spacing inside that image as you like. 
 
-Select the *Browse* button and select the file from your hard drive to upload it.
+Select the _Browse_ button and select the file from your hard drive to upload it.
 
-Click the *Upload* button to confirm and upload your logo.
+Click the _Upload_ button to confirm and upload your logo.
 
 ![Upload custom logo in OpenProject administration settings](openproject_system_guide_design_upload_custom_logo.png)
 
@@ -94,20 +95,19 @@ Depending on which custom logos are uploaded, OpenProject will adjust the displa
 - If no logo is uploaded, OpenProject continues to display its default logo.
 - When a custom logo is in use, a separate high-contrast version is no longer enforced.
 
-
 ## Set a custom favicon
 
-To set a custom favicon to be shown in your browser’s tab, make sure you have a PNG file with the dimensions 32 by 32 pixels. Select the *Choose File* button and select the file from your hard drive to upload it.
+To set a custom favicon to be shown in your browser’s tab, make sure you have a PNG file with the dimensions 32 by 32 pixels. Select the _Choose File_ button and select the file from your hard drive to upload it.
 
-Then click the *Upload* button to confirm and upload your favicon.
+Then click the _Upload_ button to confirm and upload your favicon.
 
 ![Custom favicon in OpenProject design settings](openproject_system_guide_design_custom_favicon.png)
 
 ## Set a custom touch icon
 
-To set a custom touch icon that appears on your smartphone’s or tablet’s homescreen when you bookmark a page, make sure you have a PNG file with the dimensions 180 by 180 pixels. Select the *Choose File* button and select the file from your hard drive to upload it.
+To set a custom touch icon that appears on your smartphone’s or tablet’s homescreen when you bookmark a page, make sure you have a PNG file with the dimensions 180 by 180 pixels. Select the _Choose File_ button and select the file from your hard drive to upload it.
 
-Click the *Upload* button to confirm and upload your custom touch icon.
+Click the _Upload_ button to confirm and upload your custom touch icon.
 
 When you bookmark your OpenProject environment’s URL, you will see that the uploaded icon is used as a custom touch icon.
 

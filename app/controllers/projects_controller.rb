@@ -83,11 +83,12 @@ class ProjectsController < ApplicationController
         )
         replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
 
-        current_url = url_for(params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
+        filtered_params = params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page)
+        current_url = url_for(filtered_params)
         turbo_streams << turbo_stream.push_state(current_url)
         turbo_streams << turbo_stream.turbo_frame_set_src(
           "projects_sidemenu",
-          projects_menu_url(query_id: @query.id, controller_path: "projects")
+          projects_menu_url(**filtered_params.except(:controller, :action, :page, :per_page), controller_path: "projects")
         )
 
         turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)

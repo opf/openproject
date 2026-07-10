@@ -1,10 +1,9 @@
-#English strings go here
 ---
 fa:
   js:
     calendar:
       create_new: ساخت تقویم جدید
+      label_calendar_plural: تقویم‌ها
       title: تقویم
       too_many: در کل %{count} بسته کاری وجود دارد، اما فقط %{max} می‌تواند نشان داده شود.
       unsaved_title: تقویم بی نام
-      label_calendar_plural: تقویم‌ها

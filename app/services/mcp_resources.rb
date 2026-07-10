@@ -30,18 +30,12 @@
 
 module McpResources
   class << self
+    def register(*resources)
+      resources.each { |r| all << r }
+    end
+
     def all
-      [
-        CurrentUser,
-        Project,
-        Status,
-        StatusList,
-        Type,
-        TypeList,
-        User,
-        Version,
-        WorkPackage
-      ]
+      @all ||= []
     end
 
     def enabled

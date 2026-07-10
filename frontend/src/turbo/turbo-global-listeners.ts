@@ -11,6 +11,7 @@ import {
   focusFirstErroneousField,
   initMainMenuExpandStatus,
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
+import { isOpenProjectCustomElement } from './openproject-custom-element';
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
@@ -60,10 +61,8 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
   target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
 
   target.addEventListener('turbo:before-morph-element', (event) => {
-    const element = event.target as HTMLElement;
-
     // In case the element is an OpenProject custom dom element, morphing is prevented.
-    if (element.tagName.toUpperCase().startsWith('OPCE-')) {
+    if (isOpenProjectCustomElement(event.target)) {
       event.preventDefault();
     }
   }, { signal });

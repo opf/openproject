@@ -35,7 +35,8 @@ class RecurringMeeting::EndAfter < ApplicationForm
       label: I18n.t("activerecord.attributes.recurring_meeting.end_after"),
       data: {
         target_name: "end_after",
-        "show-when-value-selected-target": "cause"
+        "show-when-value-selected-target": "cause",
+        action: "input->recurring-meetings--form#updateFrequencyText"
       }
     ) do |list|
       list.option(value: "never", label: I18n.t("recurring_meeting.end_after.never"))

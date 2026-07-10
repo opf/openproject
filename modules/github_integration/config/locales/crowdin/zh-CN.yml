@@ -23,47 +23,47 @@
 zh-CN:
   attributes:
     additions_count: 新增的数量
-    deletions_count: 删除的数量
+    changed_files_count: 已更改的文件
     comments_count: 评论数
-    github_html_url: 拉取请求 URL
-    github_app_owner_avatar_url: 所有者头像 URL
-    review_comments_count: 评审意见计数
+    deletions_count: 删除的数量
     github: GitHub 标识
+    github_app_owner_avatar_url: 所有者头像 URL
     github_avatar_url: 头像 URL
-    github_updated_at: 更新于
+    github_html_url: 拉取请求 URL
     github_login: 登录 GitHub
+    github_updated_at: 更新于
     host: 主机
     labels: 标签
     repository: 存储库
-    changed_files_count: 已更改的文件
+    review_comments_count: 评审意见计数
   button_add_deploy_target: 添加部署目标
   label_deploy_target: 部署目标
   label_deploy_target_new: 新的部署目标
   label_deploy_target_plural: 部署目标
+  label_github_comment_user: GitHub 执行者
   label_github_integration: GitHub 集成
+  label_github_webhook_secret: 网络钩子密钥
   notice_deploy_target_created: 部署目标已创建
   notice_deploy_target_destroyed: 部署目标已删除
-  label_github_comment_user: GitHub 执行者
-  label_github_webhook_secret: 网络钩子密钥
-  text_github_comment_user_info: '必须使用其 API 密钥对传入的网络钩子请求进行身份验证的 OpenProject 用户。如果设置，则会拒绝使用其他任何用户凭据进行身份验证的请求。此用户还会对工作包发布自动部署状态评论。如果不设置，则默认为系统用户。
+  permission_introspection: 读取运行 OpenProject 核心版本并编译SHA
+  permission_show_github_content: 显示 GitHub 内容
+  plugin_openproject_github_integration:
+    description: 将 OpenProject 和 GitHub 进行集成，以实现更好的工作流程。
+    name: OpenProject GitHub 集成
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: '拥有全局内省权限的用户的 OpenProject [API 密钥](docs_url)。
 
     '
-  text_github_webhook_secret_missing_warning: '未配置网络钩子密钥。任何向 GitHub 网络钩子端点发出的请求都会被接受，无需验证，这可能导致未经授权的执行者伪造事件。强烈建议设置密钥 。
+  text_deploy_target_type_info: '到目前为止，我们只支持 OpenProject 本身。
+
+    '
+  text_github_comment_user_info: '必须使用其 API 密钥对传入的网络钩子请求进行身份验证的 OpenProject 用户。如果设置，则会拒绝使用其他任何用户凭据进行身份验证的请求。此用户还会对工作包发布自动部署状态评论。如果不设置，则默认为系统用户。
 
     '
   text_github_webhook_secret_info: '配置网络钩子时与 GitHub 共享的秘密令牌。设置后，OpenProject 会验证每个传入请求的 X-Hub-Signature-256 标头，拒绝不匹配的有效负载。留空表示跳过验证（不推荐）。
 
     '
-  plugin_openproject_github_integration:
-    name: OpenProject GitHub 集成
-    description: 将 OpenProject 和 GitHub 进行集成，以实现更好的工作流程。
-  project_module_github: GitHub
-  permission_show_github_content: 显示 GitHub 内容
-  permission_introspection: 读取运行 OpenProject 核心版本并编译SHA
-  text_deploy_target_type_info: '到目前为止，我们只支持 OpenProject 本身。
-
-    '
-  text_deploy_target_api_key_info: '拥有全局内省权限的用户的 OpenProject [API 密钥](docs_url)。
+  text_github_webhook_secret_missing_warning: '未配置网络钩子密钥。任何向 GitHub 网络钩子端点发出的请求都会被接受，无需验证，这可能导致未经授权的执行者伪造事件。强烈建议设置密钥 。
 
     '
   text_pull_request_deployed_to: "%{pr_link} 部署到 %{deploy_target_link}"

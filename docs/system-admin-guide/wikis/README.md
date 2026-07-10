@@ -8,20 +8,38 @@ keywords: wikis, xwiki, wiki integration, wiki provider, internal wiki
 
 # Wikis
 
-Under *Administration → Wikis* you can manage the application wide available wikis. Generally, there is a distinction
-between internal and external wikis. The application provides the possibility to configure wiki providers, which are
-considered to contain multiple wikis. Wikis are globally available in the application.
+Under **Administration → Wikis** you can configure the wiki providers that OpenProject uses when linking to or creating wiki pages from work packages.
+
+OpenProject supports two types of wiki providers:
+
+- **Internal wiki**: the built-in OpenProject Wiki as a wiki provider.
+- **External wikis**: third-party wiki systems, such as XWiki.
+
+Wiki providers are configured globally and are available to all projects. Each provider may expose one or more wikis, depending on configuration.
 
 ## Internal wiki
 
-Under *Administration → Wikis → Internal wiki* you can enable or disable the internal wiki provider. If the wiki
-provider is enabled, each project can have its own wiki. If disabled, no project will be able to have a wiki. Projects,
-which already had a wiki when the internal provider gets disabled, will lose access to their wiki as long as the
-internal provider is disabled. Permissions for the project's wiki are set by the member's role in the project.
+The **Internal wiki** setting enables the built-in OpenProject wiki as a **wiki provider** for the wiki integration used in work packages.
+
+> [!NOTE]
+> As of OpenProject 17.6, this setting **does not affect the regular OpenProject Wiki module**. Projects can continue to use their project wiki as usual when the **Wiki** module is enabled under **Project settings → Modules**. This WILL CHANGE in the upcoming releases. We therefore advise to only disable the internal provider, if you are not planning to use internal wikis at all.
+
+When the internal wiki provider is enabled:
+
+- The OpenProject wiki is available as a wiki provider when linking to or creating wiki pages from a work package.
+- Each project's existing wiki can be selected through this integration.
+
+When the internal wiki provider is disabled:
+
+- The OpenProject wiki is no longer available as a wiki provider for work packages.
+- Existing project wikis remain available through the project's **Wiki** module, provided that module is enabled.
+
+Permissions for pages accessed through the internal wiki provider are determined by the user's role in the corresponding project.
 
 ![OpenProject administration showing internal wiki settings](openproject_system_admin_wikis_internal_wiki.png)
 
 ## External wikis
 
-Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their
-own user permissions, thus it is required to connect the OpenProject user to a user on the external provider's instance.
+Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their own user permissions, so each OpenProject user must be connected to a corresponding user account on the external wiki instance.
+
+To learn how to link a wiki page to a work package or create a new one, refer to [this user guide](../../user-guide/work-packages/edit-work-package#link-to-or-create-a-wiki-page).

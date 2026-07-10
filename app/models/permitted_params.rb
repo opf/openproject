@@ -258,9 +258,7 @@ class PermittedParams
   end
 
   def wiki_page_rename
-    permitted = permitted_attributes(:wiki_page)
-
-    params.require(:page).permit(*permitted)
+    params.require(:page).permit(:title, :redirect_existing_links, :lock_version)
   end
 
   def wiki_page
@@ -659,6 +657,7 @@ class PermittedParams
         ),
         type: [
           :name,
+          :parent_id,
           :is_in_roadmap,
           :is_milestone,
           :is_default,

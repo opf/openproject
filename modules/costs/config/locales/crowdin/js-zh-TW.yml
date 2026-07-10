@@ -22,15 +22,15 @@
 ---
 zh-TW:
   js:
-    text_are_you_sure: 是否確定？
-    myTimeTracking:
-      noSpecificTime: 無指定時間
-    work_packages:
-      property_groups:
-        costs: 費用
-      properties:
-        overallCosts: 總費用
-        spentUnits: 支出單位
     button_log_costs: 紀錄支出單位
     label_hour: 小時
     label_hours: 小時
+    myTimeTracking:
+      noSpecificTime: 無指定時間
+    text_are_you_sure: 是否確定？
+    work_packages:
+      properties:
+        overallCosts: 總費用
+        spentUnits: 支出單位
+      property_groups:
+        costs: 費用

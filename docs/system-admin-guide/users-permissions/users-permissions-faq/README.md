@@ -34,8 +34,6 @@ When a user is deleted his/her change history is preserved. All actions made by 
 
 It is possible to give users the ability to change status without that user having the rights to edit the rest of the work package. To do that you need to grant the **Change work package status** permission to the role this user is assigned.
 
-
-
 ### Can Administrators delegate the task to delete users?
 
 No, only Administrators can delete other users.
@@ -48,7 +46,7 @@ No, only Administrators can update other Administrators attributes like name or 
 
 You can set a [default role](../../projects/new-project) that users with this permission will have in a project they created.
 
-### Users do not see the action *Create project* in the main navigation even though they have the create project permission?
+### Users do not see the action _Create project_ in the main navigation even though they have the create project permission?
 
 This is UX bug tracked in [#50123](https://community.openproject.org/wp/50123).
 
@@ -58,8 +56,8 @@ Project permissions controls what a user can see and do within a project scope. 
 
 Examples for project permissions:
 
-* Create work packages
-* Add comments to a work package
+- Create work packages
+- Add comments to a work package
 
 Global permissions are system wide. They are attached to **global roles** and controls what a user can do and see independent of a specific project memberships.
 
@@ -69,7 +67,7 @@ No this is not possible. You need to create a new role instead.
 
 ### What permissions exist for file storages?
 
-Permissions related to the external file storages are part of the *Projects* and *Work packages and Gantt charts*:
+Permissions related to the external file storages are part of the _Projects_ and _Work packages and Gantt charts_:
 
 ![Files storages permissions in OpenProject](openproject_user_guide_file_storages_permissions.png)
 
@@ -90,8 +88,6 @@ Following user permissions are set on files and folder in **External Storages**:
 - **Automatically managed folders: Delete files (Nextcloud)**
 
 - **Automatically managed folders: Share files (Nextcloud)**
-
-  
 
 > [!NOTE]
 >

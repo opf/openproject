@@ -42,11 +42,7 @@ OpenProject follows semantic versioning, and tags are pushed on [Docker Hub open
 - `X`, `X-slim` **floating** tags that get pushed whenever a new patch or minor release is made. If you use these tags, you are aware that application changes will occur.
 - `dev`, `dev-slim` **floating** tag that gets pushed nightly with the latest development version. These tags are automatically deployed to our QA instances, and are useful for testing and _early_ feedback. We try to keep these versions usable, but we strongly recommend against using them for anything with production data.
 
-
-
 We recommend to use non-floating tags for production systems, and use the built-in version check, or our release notes (subscribe to them through GitHub, or release newsletters) to be informed of updates.
-
-
 
 ## Installation overview
 
@@ -202,10 +198,10 @@ and [nginx](https://nginx.org/en/) web servers.
 
 For both configurations the following Apache mods are required:
 
-* proxy
-* proxy_http
-* rewrite
-* ssl (optional)
+- proxy
+- proxy_http
+- rewrite
+- ssl (optional)
 
 In each case you will create a file `/usr/local/apache2/conf/sites/openproject.conf`
 with the contents as described in the respective sections.
@@ -218,11 +214,11 @@ The nginx configuration will go into `/etc/nginx/conf.d/openproject.conf`.
 
 All examples are based on the following assumptions:
 
-* the site is accessed via https
-* certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
-* the OpenProject docker container's port 80 is mapped to the docker host's port 8080
+- the site is accessed via https
+- certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
+- the OpenProject docker container's port 80 is mapped to the docker host's port 8080
 
-*Important:* Once OpenProject is running make sure to also set the host name accordingly under Administration -> System Settings or set it directly during startup by setting `OPENPROJECT_HOST__NAME`.
+_Important:_ Once OpenProject is running make sure to also set the host name accordingly under Administration -> System Settings or set it directly during startup by setting `OPENPROJECT_HOST__NAME`.
 
 > **NOTE:** There is [another example](../packaged/#external-ssltls-termination) for external SSL/TLS termination for **packaged** installations
 
@@ -300,8 +296,8 @@ server {
 
 #### 2) Location (subdirectory)
 
-Let's assume you want OpenProject to run on your host with the *server name* `example.com`
-under the *subdirectory* `/openproject`.
+Let's assume you want OpenProject to run on your host with the _server name_ `example.com`
+under the _subdirectory_ `/openproject`.
 
 If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:

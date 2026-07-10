@@ -99,7 +99,8 @@ module McpTools
       # Filters defined here can later be applied by the tool implementation using #apply_filters.
       #
       # @param name [Symbol] The name of the input parameter used for filtering.
-      # @param filter_class [Queries::Filters::Base] A shared filter implementation to be used to perform filtering.
+      # @param filter_class [String] Class name of a shared filter implementation to be used to perform filtering,
+      #                              inheriting from Queries::Filters::Base.
       # @param operator [String] When using a filter_class, this is the operator that will be used for filtering. Default: "="
       # @param filter_proc [Proc] A callback procedure used for filtering that must accept two arguments:
       #                           The base scope that the filter applies to and the value that's used as a filter input.
@@ -117,7 +118,7 @@ module McpTools
         end
 
         if filter_class
-          filter_proc = ->(scope, value) { filter_class.create!(operator:, values: Array(value)).apply_to(scope) }
+          filter_proc = ->(scope, value) { filter_class.constantize.create!(operator:, values: Array(value)).apply_to(scope) }
         elsif !filter_proc
           filter_proc = ->(scope, value) { scope.where(name.to_sym => value) }
         end

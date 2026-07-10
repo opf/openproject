@@ -69,9 +69,9 @@ A new test plan project is created based on a predefined template using the [cre
 
 In the next step the [newly created test plan](https://testmanagement.openproject.com/projects/regression-test-openproject-16-dot-1/work_packages?query_id=90) is adjusted by specifying the test object. The easiest way is to select all work packages (`CMD + A`) -> right click -> `bulk edit`.
 
-* Version of the test object (version ideally shared from the development project)
-* Tester
-* Environment
+- Version of the test object (version ideally shared from the development project)
+- Tester
+- Environment
 
 For all test runs which are not planned the status should be adjusted to something like `Not planned`.
 
@@ -98,28 +98,31 @@ As previously stated, agile boards (Kanban or Scrum) can help us track the test 
 ![board-for-test-case-tracking](board-for-test-case-tracking.png)
 
 Comments and activity log (`Activity` tab) complement custom fields in the sense that they can also be used to record:
-* Time and date of the execution
-* Environment details (e.g., Browser, OS, Build version)
-* Qualitative data and detailed explanations, as well as communication and collaboration between testers, developers and other stakeholders around a specific test case.
 
-Activity tab is especially beneficial during the *static testing* phase. As a reminder, static testing is, among other things, verification of the test cases themselves (sort of testing of test case). Testers review the test cases/test runs searching for inconsistencies, errors, unclarity. Activity tab is a good place to discuss their findings, as well as track the complete and chronological history of a test.
+- Time and date of the execution
+- Environment details (e.g., Browser, OS, Build version)
+- Qualitative data and detailed explanations, as well as communication and collaboration between testers, developers and other stakeholders around a specific test case.
+
+Activity tab is especially beneficial during the _static testing_ phase. As a reminder, static testing is, among other things, verification of the test cases themselves (sort of testing of test case). Testers review the test cases/test runs searching for inconsistencies, errors, unclarity. Activity tab is a good place to discuss their findings, as well as track the complete and chronological history of a test.
 
 Further tools can be used for reporting and metrics purposes with OpenProject:
-* Saved filters: Create and save filters for "Failed Test Cases," "Tests for Feature X," "Tests due this week."
-* Export data: Apart from PDF, XLS and CSV are also supported.
-* Custom dashboards: On Overview page of your Test plan project, you can create graphs to:
-  * Count test cases by status (Passed, Failed, Blocked)
-  * Show tests assigned to each tester
-  * Track the number of open vs. closed defects, or simply have an overview of the bugs by priority.
+
+- Saved filters: Create and save filters for "Failed Test Cases," "Tests for Feature X," "Tests due this week."
+- Export data: Apart from PDF, XLS and CSV are also supported.
+- Custom dashboards: On Overview page of your Test plan project, you can create graphs to:
+  - Count test cases by status (Passed, Failed, Blocked)
+  - Show tests assigned to each tester
+  - Track the number of open vs. closed defects, or simply have an overview of the bugs by priority.
 
 ![graph-for-bugs-overview](graph-for-bugs-overview.png)
 
 ### 1.5 Test case evolution: reusability and standardization
 
 As test cases evolve, we need to track changes and reuse them across different cycles. There are several possibilities to achieve this:
-* Duplicating work packages, copying projects, creating projects from template, moving work packages to another projects are all good methods for reusing test cases for new test cycles or for creating variations.
-* Manual history can be tracked on the activity/comment log for any manual changes to test case steps.
-* Naming conventions can be implemented (e.g., "TC-Login-ValidCredentials-v1.0") to help manage variations.
+
+- Duplicating work packages, copying projects, creating projects from template, moving work packages to another projects are all good methods for reusing test cases for new test cycles or for creating variations.
+- Manual history can be tracked on the activity/comment log for any manual changes to test case steps.
+- Naming conventions can be implemented (e.g., "TC-Login-ValidCredentials-v1.0") to help manage variations.
 
 To support consistency and standardization, OpenProject allows administrators to define **automatically generated subjects** for work packages. This feature enables the use of predefined patterns for naming, including for work package types such as `Test Case` and `Test Run`. As a result, newly created test cases and test runs automatically follow a consistent naming structure. This approach helps eliminate manual errors, improves searchability, and enhances filtering capabilities.
 
@@ -139,7 +142,7 @@ Automatically generated subjects reduce manual effort and ensure that the name r
 
 OpenProject enables seamless integration between software development and test automation workflows in GitHub and GitLab with planning and specification in OpenProject. Work packages can display information from [GitHub pull requests](../../system-admin-guide/integrations/github-integration/) and [GitLab merge requests](../../system-admin-guide/integrations/gitlab-integration) in a dedicated tab.
 
-This tab lists all pull or merge requests linked to a work package, showing their status (e.g., *Ready* or *Merged*) as well as the current state (e.g., *success* or *queued*) of the actions configured to run for each request—whether in GitHub or GitLab. The results of these actions are also displayed within the tab.
+This tab lists all pull or merge requests linked to a work package, showing their status (e.g., _Ready_ or _Merged_) as well as the current state (e.g., _success_ or _queued_) of the actions configured to run for each request—whether in GitHub or GitLab. The results of these actions are also displayed within the tab.
 
 The relationship between work packages and pull/merge requests is many-to-many: a single work package can be linked to multiple pull or merge requests, and a single pull or merge request can be associated with multiple work packages.
 
@@ -163,14 +166,12 @@ This section provides guidance on how to configure OpenProject for test manageme
 
 The work package type `Test case` can be configured so it shows the relevant information:
 
-* Test runs (related work packages table `children`)
-* Tested features (related work packages `requires`)
-* Priority
-* Tested module (custom field of type `Hierarchy`)
+- Test runs (related work packages table `children`)
+- Tested features (related work packages `requires`)
+- Priority
+- Tested module (custom field of type `Hierarchy`)
 
 Here you find an [example for a test case](https://testmanagement.openproject.com/wp/37).
-
-
 
 ![test case configuration example](test-case-configuration-example.png)
 
@@ -178,16 +179,15 @@ Here you find an [example for a test case](https://testmanagement.openproject.co
 
 The work package type `Test run` can be configured so it shows the relevant information:
 
-* Test specification including preconditions, execution steps and test results: Description field
-* Tested features (related work packages `requires`)
-* Priority
-* Tester (custom field of type user)
-* Identified bugs (related work packages `related to`)
+- Test specification including preconditions, execution steps and test results: Description field
+- Tested features (related work packages `requires`)
+- Priority
+- Tester (custom field of type user)
+- Identified bugs (related work packages `related to`)
 
 Here you find an [example for a test run](https://testmanagement.openproject.com/wp/65).
 
 ![test run configuration example](test-run-configuration-example.png)
-
 
 ### 3.3 Roles and permissions
 

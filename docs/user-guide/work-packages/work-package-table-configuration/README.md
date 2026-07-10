@@ -79,7 +79,7 @@ Multi-select attributes also have one extra options:
 
 - **is (AND)**: returns all work packages that match _all_ of the entered values.
 
-Other attributes like Version might offer additional criteria like *open*, *closed* or *locked*. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
+Other attributes like Version might offer additional criteria like _open_, _closed_ or _locked_. Required attributes might only offer two options, _is (OR)_ and _is not_, since they cannot be empty.
 
 ### Filter by text
 
@@ -123,7 +123,7 @@ If you want to [create a work package view](#save-work-package-views) that inclu
 
 Depending on your OpenProject configuration, work package IDs can be numerical (for example, 12345) or project-based (for example, PROJ-123).
 
-Another use case is *excluding* specific work packages — for example, if you want to display all milestones except one. To do this, use the **is not** option next to the filter name on the left.
+Another use case is _excluding_ specific work packages — for example, if you want to display all milestones except one. To do this, use the **is not** option next to the filter name on the left.
 
 ![Filter a work package table by work package ID](openproject_user_guide_wp_table_filter_by_id.png)
 
@@ -144,7 +144,7 @@ There are several options to filter for the assignee of a work package. You can 
 
 You can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
 
-Use the filter *Attachment content* or *Attachment file name* to filter attached documents in the work package table.
+Use the filter _Attachment content_ or _Attachment file name_ to filter attached documents in the work package table.
 
 ![Filter a work package table by work package assignee](openproject_user_guide_wp_table_filter_by_attachment.png)
 
@@ -214,9 +214,9 @@ Please note: This has no effect on the "All open" view; you have to save your so
 
 You have three different options to display results in the work package table.
 
-* A **Flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
-* A **Hierarchy**, which will display the filtered results within the parent-child-relation.
-* **Group by** will group the table according to a defined attribute.
+- A **Flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
+- A **Hierarchy**, which will display the filtered results within the parent-child-relation.
+- **Group by** will group the table according to a defined attribute.
 
 To display the work package table you have to choose one of these options.
 
@@ -243,9 +243,9 @@ You can highlight attributes in the work package table to emphasize the importan
 
 The following attributes can be highlighted in the table:
 
-* Priority
-* Status
-* Finish date
+- Priority
+- Status
+- Finish date
 
 ![Highlighting settings in work package configuration table in OpenProject](openproject_user_guide_wp_table_configuration_highlighting.png)
 
@@ -253,9 +253,8 @@ The following attributes can be highlighted in the table:
 
 Furthermore, you can highlight the entire row by an attribute. The following attributes can be highlighted as a complete row:
 
-* Priority
-* Status
-
+- Priority
+- Status
 
 ![Highlighting of an entire row in work packages table is activated in OpenProject](openproject_user_guide_wp_table_highlighting_row_on.png)
 
@@ -268,8 +267,6 @@ When you have configured your work package table, you can save the views to acce
 Press the **Settings icon** with the three dots on the top right corner of the work package table and choose **Save as...**
 
 ![Button to save a work package table configured view](openproject_user_guide_wp_table_save_as.png)
-
-
 
 Enter a **Name** for your saved view (according to the criteria you have chosen in your work package table configuration).
 
