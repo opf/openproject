@@ -54,14 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do %>
       <%= render(Primer::Beta::Link.new(href: edit_color_path(color), font_weight: :bold)) { color.name } %>
       <%= render(Primer::Beta::Text.new(display: :flex, align_items: :center, font_size: :small)) do %>
-        <%= render(
-              Primer::Box.new(
-                tag: :span,
-                classes: "color--default-color-swatch",
-                aria: { hidden: true },
-                style: "background-color: #{color.hexcode}"
-              )
-            ) %>
+        <%= render(Colors::DefaultColorSwatchComponent.new(color:)) %>
         <%= color.hexcode %>
       <% end %>
     <% end %>

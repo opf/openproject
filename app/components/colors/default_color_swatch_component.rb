@@ -29,21 +29,26 @@
 # ++
 
 module Colors
-  class EditPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-
+  class DefaultColorSwatchComponent < ApplicationComponent
     def initialize(color:)
-      super
+      super()
+
       @color = color
     end
 
-    def breadcrumb_items
-      [
-        { href: admin_index_path, text: t(:label_administration) },
-        { href: custom_style_path(tab: :default_colors), text: t(:label_custom_style) },
-        helpers.nested_breadcrumb_element(t(:"admin.custom_styles.tab_default_colors"), @color.name)
-      ]
+    def call
+      render(
+        Primer::Box.new(
+          tag: :span,
+          classes: "color--default-color-swatch",
+          aria: { hidden: true },
+          style: "background-color: #{color.hexcode}"
+        )
+      )
     end
+
+    private
+
+    attr_reader :color
   end
 end
