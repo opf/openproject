@@ -46,7 +46,7 @@ module WorkPackageTypes
       ALL = [
         Step.new(key: :details, submit: true),
         Step.new(key: :form_configuration, submit: false),
-        Step.new(key: :workflows, submit: false),
+        Step.new(key: :workflows, submit: true),
         Step.new(key: :automations, submit: false),
         Step.new(key: :projects, submit: false),
         Step.new(key: :pdf, submit: false)

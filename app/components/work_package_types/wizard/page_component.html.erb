@@ -21,6 +21,7 @@
       <% end %>
 
       <% page.with_area("main") do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
         <%= render(step_body) %>
       <% end %>
     <% end %>

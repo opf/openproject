@@ -86,12 +86,47 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
         end
       end
 
+      describe "GET show for every step" do
+        WorkPackageTypes::Wizard::Steps.all.each do |step|
+          it "renders the #{step.key} step without error" do
+            get :show, params: { type_id: subtype.id, step: step.key }
+
+            expect(response).to have_http_status(:ok)
+          end
+        end
+      end
+
       describe "PATCH update on the details step" do
         it "updates and advances to the next step" do
           patch :update, params: { type_id: subtype.id, step: :details, type: { name: "Blocker" } }
 
           expect(subtype.reload.name).to eq("Blocker")
           expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
+        end
+      end
+
+      describe "PATCH update on the workflows step" do
+        shared_let(:workflow_source) { create(:type, name: "Task") }
+        shared_let(:status) { create(:status) }
+        shared_let(:role) { create(:project_role) }
+        shared_let(:workflow) do
+          create(:workflow, type: workflow_source, role:, old_status: status, new_status: status)
+        end
+
+        it "copies workflows from the chosen source and advances" do
+          expect do
+            patch :update, params: { type_id: subtype.id, step: :workflows,
+                                     type: { copy_workflow_from: workflow_source.id } }
+          end.to change { subtype.reload.workflows.count }.from(0).to(1)
+
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
+        end
+
+        it "advances without copying when no source is chosen" do
+          patch :update, params: { type_id: subtype.id, step: :workflows, type: { copy_workflow_from: "" } }
+
+          expect(subtype.reload.workflows).to be_empty
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :automations))
         end
       end
 

@@ -67,6 +67,8 @@ module WorkPackageTypes
       case @current_step.key
       when :details
         update_details
+      when :workflows
+        copy_workflows
       else
         advance
       end
@@ -88,6 +90,12 @@ module WorkPackageTypes
       else
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def copy_workflows
+      source = ::Type.find_by(id: params.dig(:type, :copy_workflow_from))
+      @type.workflows.copy_from_type(source) if source
+      advance
     end
 
     def advance

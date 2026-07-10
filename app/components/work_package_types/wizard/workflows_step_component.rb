@@ -30,47 +30,17 @@
 
 module WorkPackageTypes
   module Wizard
-    class PageComponent < ApplicationComponent
+    class WorkflowsStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:)
         super(type)
-
-        @current_step = current_step
       end
 
       private
 
-      attr_reader :current_step
-
-      def type = model
-
-      def title = I18n.t("types.creation_wizard.create_subtype")
-
-      def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          title
-        ]
-      end
-
-      def step_body
-        case current_step.key
-        when :details
-          DetailsComponent.new(type:)
-        when :form_configuration
-          FormConfigurationStepComponent.new(type:)
-        when :workflows
-          WorkflowsStepComponent.new(type:)
-        when :projects
-          WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
-        when :pdf
-          WorkPackageTypes::ExportConfigurationComponent.new(type)
-        else
-          PlaceholderComponent.new(step: current_step)
-        end
+      def form_url
+        type_creation_wizard_path(model, step: :workflows)
       end
     end
   end

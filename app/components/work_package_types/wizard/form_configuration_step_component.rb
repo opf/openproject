@@ -30,47 +30,29 @@
 
 module WorkPackageTypes
   module Wizard
-    class PageComponent < ApplicationComponent
+    # Embeds the existing form configuration editor, which self-persists through
+    # its own turbo endpoints; the wizard only navigates between steps.
+    class FormConfigurationStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, current_step:)
+      def initialize(type:)
         super(type)
+      end
 
-        @current_step = current_step
+      def call
+        render(WorkPackageTypes::FormConfigurationComponent.new(
+                 type: model,
+                 form_attributes: helpers.form_configuration_groups(model),
+                 no_filter_query:
+               ))
       end
 
       private
 
-      attr_reader :current_step
-
-      def type = model
-
-      def title = I18n.t("types.creation_wizard.create_subtype")
-
-      def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          title
-        ]
-      end
-
-      def step_body
-        case current_step.key
-        when :details
-          DetailsComponent.new(type:)
-        when :form_configuration
-          FormConfigurationStepComponent.new(type:)
-        when :workflows
-          WorkflowsStepComponent.new(type:)
-        when :projects
-          WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
-        when :pdf
-          WorkPackageTypes::ExportConfigurationComponent.new(type)
-        else
-          PlaceholderComponent.new(step: current_step)
-        end
+      def no_filter_query
+        ::API::V3::Queries::QueryParamsRepresenter
+          .new(Query.new_default.tap { |query| query.filters = [] })
+          .to_json
       end
     end
   end
