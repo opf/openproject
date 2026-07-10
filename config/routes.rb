@@ -899,6 +899,7 @@ Rails.application.routes.draw do
       collection do
         get :reset_token_dialog
         post :perform_token_reset
+        post :request_backup
 
         post :delete_token
       end

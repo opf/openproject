@@ -60,7 +60,7 @@ Rails.application.reloader.to_prepare do
       map.permission :create_backup,
                      {
                        admin: %i[index],
-                       "admin/backups": %i[delete_token perform_token_reset reset_token_dialog show]
+                       "admin/backups": %i[delete_token perform_token_reset request_backup reset_token_dialog show]
                      },
                      permissible_on: :global,
                      require: :loggedin,
