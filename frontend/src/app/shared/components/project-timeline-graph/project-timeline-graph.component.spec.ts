@@ -130,6 +130,8 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(startGate!.group).toBe('gates');
       expect(startGate!.title).toBe('Build Start');
       expect(startGate!.className).toContain('op-timeline-gate');
+      expect(startGate!.content instanceof HTMLElement).toBe(true);
+      expect((startGate!.content as HTMLElement).querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
 
       const finishGate = items.find((i) => i.id === 'gate-finish-2');
       expect(finishGate).toBeDefined();
@@ -199,7 +201,7 @@ describe('ProjectTimelineGraphComponent', () => {
           group: 'gates',
           type: 'point',
           start: new Date('2024-04-01'),
-          content: '',
+          content: document.createElement('i'),
           title: 'Build Start',
           className: 'op-timeline-gate __hl_background_project_phase_definition_5',
           definitionId: 5,

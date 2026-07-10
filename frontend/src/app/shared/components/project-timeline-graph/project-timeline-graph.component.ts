@@ -42,6 +42,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
+import type { DataItem } from 'vis-timeline/standalone';
 import { opGateIconData, opPhaseIconData } from '@openproject/octicons-angular';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 
@@ -61,7 +62,7 @@ export interface ProjectTimelineItem {
   group:string;
   start:Date|string;
   end?:Date|string;
-  content:string;
+  content:string|HTMLElement;
   title:string;
   type:'range'|'point'|'background';
   className:string;
@@ -114,6 +115,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     for (const phase of phases) {
       const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
+      const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
 
       if (phase.startDate && phase.endDate) {
         items.push({
@@ -130,11 +132,12 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
       }
 
       if (phase.startGate && phase.startDate) {
+        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
         items.push({
           id: `gate-start-${phase.id}`,
           group: GROUP_GATES,
           start: phase.startDate,
-          content: '',
+          content: icon,
           title: phase.startGateName ?? phase.name,
           type: 'point',
           className: `op-timeline-gate ${hlClass}`,
@@ -143,14 +146,15 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
       }
 
       if (phase.finishGate && phase.endDate) {
+        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
         items.push({
           id: `gate-finish-${phase.id}`,
           group: GROUP_GATES,
           start: phase.endDate,
-          content: '',
+          content: icon,
           title: phase.finishGateName ?? phase.name,
           type: 'point',
-          className: `op-timeline-gate ${hlClass}`,
+          className: `op-timeline-gate op-timeline-gate--finish ${hlClass}`,
           definitionId: phase.definitionId,
         });
       }
@@ -169,7 +173,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     this.timeline = new Timeline(
       this.containerRef.nativeElement,
-      new DataSet(items),
+      new DataSet(items as unknown as DataItem[]),
       new DataSet(groups),
       {
         editable: false,
@@ -179,7 +183,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         groupHeightMode: 'fixed',
         showMajorLabels: true,
         showMinorLabels: true,
-        margin: { item: { horizontal: 0, vertical: 24 }, axis: 32 },
+        margin: { item: { horizontal: 0, vertical: 16 } },
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
@@ -223,6 +227,6 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
   private updateTimeline(phases:ProjectPhaseData[]):void {
     const { items, groups } = this.buildData(phases);
-    this.timeline!.setData({ items: new DataSet(items), groups: new DataSet(groups) });
+    this.timeline!.setData({ items: new DataSet(items as unknown as DataItem[]), groups: new DataSet(groups) });
   }
 }

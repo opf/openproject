@@ -34,6 +34,9 @@ en:
           off_track: 'Off track'
           on_track: 'On track'
           title: 'Status'
+        project_timeline:
+          tooltip_type_gate: 'Phase gate'
+          tooltip_type_phase: 'Phase'
         subprojects:
           title: 'Subitems'
         time_entries_current_user:
@@ -42,9 +45,6 @@ en:
         time_entries_list:
           no_results: 'No time entries for the last 7 days.'
           title: 'Spent time (last 7 days)'
-        project_timeline:
-          tooltip_type_phase: 'Phase'
-          tooltip_type_gate: 'Phase gate'
         work_packages_accountable:
           title: "Work packages I am accountable for"
         work_packages_assigned:

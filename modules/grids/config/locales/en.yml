@@ -32,8 +32,8 @@ en:
         no_results: "Nothing new to report."
       not_available: "This widget is not available."
       project_timeline:
-        title: "Project timeline"
         no_lifecycle_results: "No project life cycle phases configured"
+        title: "Project timeline"
       subitems:
         button_text: "Subitem"
         no_results: "There are no visible children."

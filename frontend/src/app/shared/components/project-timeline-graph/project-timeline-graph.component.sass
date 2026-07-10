@@ -60,19 +60,24 @@
       @include text-shortener
       line-height: inherit
 
-  // The highlight class uses `background: ... !important`, so we need !important
-  // to suppress it on the point container (vis-timeline applies className to both
-  // .vis-point and .vis-dot, but we only want the color on the dot).
+  // Gates: show the gate SVG icon instead of the default vis-timeline dot.
+  // vis-timeline applies className to both .vis-point and .vis-dot, so we
+  // suppress the background highlight and dot on the container/dot elements
+  // and let the icon in .vis-item-content carry the color via __hl_inline_*.
   .vis-item.vis-point.op-timeline-gate
     background: none !important
     border-color: transparent !important
 
-  // Gates: diamond shape via `rotate` (CSS Transforms Level 2).
-  // vis-timeline sets `transform: translateX()` on the dot via JS inline style —
-  // `rotate` is a separate CSS property and is not affected by that.
+    .vis-item-content
+      display: flex
+      align-items: center
+      padding: 0
+
   .vis-item.vis-dot.op-timeline-gate
-    width: 10px
-    height: 10px
-    border-width: 0
-    border-radius: 0
-    rotate: 45deg
+    display: none
+
+  // Finish gate: shift the icon left so its right edge aligns with the phase end date,
+  // matching the right edge of the phase bar.
+  .vis-item.vis-point.op-timeline-gate--finish
+    .vis-item-content
+      transform: translateX(-100%)
