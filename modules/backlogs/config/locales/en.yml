@@ -118,9 +118,9 @@ en:
       action_menu:
         delete_backlog_bucket: "Delete backlog bucket"
         edit_backlog_bucket: "Edit backlog bucket"
-      blankslate_description: "Drag items here to add them."
+      blankslate_description: "Drag items here to add them"
       blankslate_title: "Backlog bucket is empty"
-      drop_zone_label: "Drop here to add item to this bucket"
+      drop_zone_label: "Drop here to add this item"
       label_actions: "Backlog bucket actions"
 
     bucket_destroy_modal_component:
@@ -148,9 +148,9 @@ en:
       title: "There are work in progress items"
 
     inbox_component:
-      blankslate_description: "All open work packages in this project will automatically appear here."
+      blankslate_description: "Open work packages that are not in a sprint or backlog bucket automatically appear here"
       blankslate_title: "Backlog inbox is empty"
-      drop_zone_label: "Drop here to add item to inbox"
+      drop_zone_label: "Drop here to add this item"
       show_more:
         one: "Show 1 more item"
         other: "Show %{count} more items"
@@ -185,7 +185,7 @@ en:
         edit_sprint: "Edit sprint"
       blankslate_description: "No items planned yet. Drag items here to add them."
       blankslate_title: "%{name} is empty"
-      drop_zone_label: "Drop here to add item to this sprint"
+      drop_zone_label: "Drop here to add this item"
       label_actions: "Sprint actions"
       label_complete_sprint: "Complete sprint"
       label_start_sprint: "Start sprint"

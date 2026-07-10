@@ -162,7 +162,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it "renders the bucket empty-state blankslate" do
         expect(rendered_component).to have_text("Backlog bucket is empty")
-        expect(rendered_component).to have_text("Drag items here to add them.")
+        expect(rendered_component).to have_text("Drag items here to add them")
       end
     end
   end

@@ -108,7 +108,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
     it "shows the blankslate heading and description" do
       expect(page).to have_css("h4", text: "Backlog inbox is empty")
-      expect(page).to have_text("All open work packages in this project will automatically appear here.")
+      expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
     end
   end
 
