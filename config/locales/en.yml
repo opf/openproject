@@ -28,6 +28,25 @@
 
 ---
 en:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: "A dynamic link to an attachment placed using a macro."
+        commit: "A dynamic link to a commit placed using a macro."
+        document: "A dynamic link to a document placed using a macro."
+        export: "A dynamic link to a source file export placed using a macro."
+        group: "A dynamic link to a group placed using a macro."
+        meeting: "A dynamic link to a meeting placed using a macro."
+        message: "A dynamic link to a message placed using a macro."
+        project: "A dynamic link to a project placed using a macro."
+        revision: "A dynamic link to a revision placed using a macro."
+        source: "A dynamic link to a source file placed using a macro."
+        user: "A dynamic link to a user placed using a macro."
+        version: "A dynamic link to a version placed using a macro."
+        view: "A dynamic link to a view placed using a macro."
+        work_package: "A dynamic link to a work package placed using a macro."
+
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: "Delete account"
@@ -991,25 +1010,6 @@ en:
       wiki_page: "Wiki page"
       work_package: "Work package"
       workflow: "Workflow"
-
-  accessibility:
-    macro:
-      aria_label_with_name: "%{name}: %{description}"
-      resource_links:
-        attachment: "A dynamic link to an attachment placed using a macro."
-        commit: "A dynamic link to a commit placed using a macro."
-        document: "A dynamic link to a document placed using a macro."
-        export: "A dynamic link to a source file export placed using a macro."
-        group: "A dynamic link to a group placed using a macro."
-        meeting: "A dynamic link to a meeting placed using a macro."
-        message: "A dynamic link to a message placed using a macro."
-        project: "A dynamic link to a project placed using a macro."
-        revision: "A dynamic link to a revision placed using a macro."
-        source: "A dynamic link to a source file placed using a macro."
-        user: "A dynamic link to a user placed using a macro."
-        version: "A dynamic link to a version placed using a macro."
-        view: "A dynamic link to a view placed using a macro."
-        work_package: "A dynamic link to a work package placed using a macro."
 
   activities:
     index:
