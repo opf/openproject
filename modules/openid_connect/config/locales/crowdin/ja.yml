@@ -1,104 +1,83 @@
 ---
 ja:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID 連携
-    description: OmniAuth OpenID Connect ストラテジープロバイダを OpenProject に追加します。
-  logout_warning: 'ログアウトしています。送信したフォームの内容は失われる可能性があります。 [ログイン] してください。
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: OpenIDグループ識別子
       openid_connect/provider:
-        name: 名称
-        slug: 一意な識別子
-        display_name: 表示名
+        acr_values: ACR値
+        authorization_endpoint: 認証エンドポイント
+        claims: クレーム
         client_id: クライアントID
         client_secret: クライアントシークレット
-        groups_claim: 各団体の主張
-        group_regexes: パターン（正規表現）
-        secret: シークレット
-        scope: スコープ
-        sync_groups: グループの同期
-        grant_types_supported: サポートされている権限タイプ
-        limit_self_registration: 自己登録を制限
-        authorization_endpoint: 認証エンドポイント
-        userinfo_endpoint: ユーザー情報エンドポイント
-        token_endpoint: トークンエンドポイント
+        display_name: 表示名
         end_session_endpoint: エンドセッションエンドポイント
-        post_logout_redirect_uri: ログアウト後のリダイレクトURI
-        jwks_uri: JWKS URI
-        issuer: 発行者
-        tenant: テナント
-        metadata_url: メタデータURL
+        grant_types_supported: サポートされている権限タイプ
+        group_regexes: パターン（正規表現）
+        groups_claim: 各団体の主張
         icon: カスタムアイコン
-        claims: クレーム
-        acr_values: ACR値
+        issuer: 発行者
+        jwks_uri: JWKS URI
+        limit_self_registration: 自己登録を制限
+        metadata_url: メタデータURL
+        name: 名称
+        post_logout_redirect_uri: ログアウト後のリダイレクトURI
         redirect_url: リダイレクトURL
+        scope: スコープ
+        secret: シークレット
+        slug: 一意な識別子
+        sync_groups: グループの同期
+        tenant: テナント
+        token_endpoint: トークンエンドポイント
+        userinfo_endpoint: ユーザー情報エンドポイント
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: ディスカバリー・エンドポイントURL %{message}
-              response_is_not_successful: " 応答は %{status} です。"
               response_is_not_json: " はJSONのBodyを返しません。"
+              response_is_not_successful: " 応答は %{status} です。"
               response_misses_required_attributes: " は必須属性を返しません。欠けている属性は次のとおりです: %{missing_attributes}."
           invalid_claims_essential: does not define a boolean at %{attribute}.
           invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
           invalid_claims_values: does not define an array at %{attribute}.
           non_object_attribute: does not define a JSON object at %{attribute}.
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: ワークパッケージの削除は復元できない操作です。
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
-      delete_result_1: 利用可能なプロバイダのリストからプロバイダを削除します。
-      delete_result_user_count:
-        zero: 現在、このプロバイダを使用しているユーザーはいません。これ以上の操作は必要ありません。
-        one: 1人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。
-        other: "%{count}人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。"
-      delete_result_direct: このプロバイダは直接ログインプロバイダとしてマークされています。この設定は削除され、ユーザはログインのためにプロバイダにリダイレクトされなくなります。
+  logout_warning: 'ログアウトしています。送信したフォームの内容は失われる可能性があります。 [ログイン] してください。
+
+    '
   openid_connect:
-    menu_title: OpenID プロバイダー
-    delete_title: OpenID Connectプロバイダの削除
     delete_heading: Delete this OpenID Connect provider?
+    delete_title: OpenID Connectプロバイダの削除
     group_links_heading: OpenID Connectグループリンク
     groups:
       match_preview_component:
-        title: Extracted group names
         placeholder_none: No groups currently match the pattern.
+        title: Extracted group names
       match_preview_dialog_component:
         description: This allows you to test your regular expression pattern against sample data to verify that the group names you want extracted are indeed extracted properly. You can modify your pattern here but the test string and matches themselves will not be saved with the configuration.
-        group_names_label: Test group names
         group_names_description: Enter one group name per line as it would appear in the OIDC claim, to see how your regular expression patterns affect them.
+        group_names_label: Test group names
         show_button: Test pattern
         title: Test regular expressions
     instructions:
+      acr_values: 'より簡単なフォーマットで非必須クレームをリクエストする。詳しくは[acr_valuesに関するドキュメント](docs_url)を参照のこと。
+
+        '
+      claims: 'userinfoとidトークンのエンドポイントに対して追加のクレームを要求することができます。詳しくは [OpenID connect documentation](docs_url) を参照してください。
+
+        '
+      client_id: これは、OpenID Connectプロバイダから与えられたクライアントIDです。
+      client_secret: これは、OpenID Connectプロバイダから与えられたクライアントシークレットです。
+      display_name: プロバイダーの名前。これはログインボタンとプロバイダーリストに表示されます。
       endpoint_url: OpenID Connectプロバイダーから与えられたエンドポイントURL
       group_regexes: 1行に1つの正規表現パターン。この方法については[ドキュメント](docs_url)を読んでください。
       group_regexes_detail: オプションで、正規表現を使用してパターンを定義し、グループ・クレームからグループ名をマッ チさせます。例えば、<code>^Level1/Level2/([ \w/]+)$ の</code>ようなパターンを入力すると、"Level1/Level2/GroupName/SubGroup" を含む応答から "Groupname/SubGroup" というグループが抽出されます。パターンが一致しない場合、グループは無視されます。完全なグループ名を使用してすべてのグループを同期するには、空のままにします。
       group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
       group_sync: アイデンティティ・プロバイダからグループ・メンバーシップ情報を自動的に抽出し、同期する。
       groups_claim: ユーザーがメンバーであるグループ名を示すと予想される請求の名前を指定する。
-      metadata_none: この情報がありません
-      metadata_url: ディスカバリーのエンドポイントURL
-      oidc_information: これらの値は OpenID Connect プロバイダーを構成するために必要です。
-      client_id: これは、OpenID Connectプロバイダから与えられたクライアントIDです。
-      client_secret: これは、OpenID Connectプロバイダから与えられたクライアントシークレットです。
       limit_self_registration: 有効にした場合、ユーザーはプロバイダーのエンドに設定が許可されている場合にのみ、このプロバイダーを使用して登録できます。
-      display_name: プロバイダーの名前。これはログインボタンとプロバイダーリストに表示されます。
-      tenant: 該当する場合は、デフォルトのテナントをご自身のテナントに置き換えてください。<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">こちらを</a>ご覧ください。
-      scope: カスタムスコープをリクエストしたい場合は、スペースで区切られた1つまたは複数のスコープ値を追加できます。 詳細については、[OpenID Connect documentation](docs_url)を参照してください。
-      post_logout_redirect_uri: ログアウト要求後にOpenID ConnectプロバイダがリダイレクトすべきURL。
-      claims: 'userinfoとidトークンのエンドポイントに対して追加のクレームを要求することができます。詳しくは [OpenID connect documentation](docs_url) を参照してください。
-
-        '
-      acr_values: 'より簡単なフォーマットで非必須クレームをリクエストする。詳しくは[acr_valuesに関するドキュメント](docs_url)を参照のこと。
-
-        '
-      mapping_login: 'userinfoレスポンスに、ログイン属性に使用するカスタム・マッピングを指定する。
+      mapping_admin: 'userinfo レスポンスに、admin ステータスに使用するカスタムマッピングを指定します。boolean 属性が返されることを期待します。
 
         '
       mapping_email: 'userinfo レスポンスに、email 属性に使用するカスタム・マッピングを指定します。
@@ -110,57 +89,77 @@ ja:
       mapping_last_name: 'userinfoレスポンスに、姓に使用するカスタムマッピングを指定する。
 
         '
-      mapping_admin: 'userinfo レスポンスに、admin ステータスに使用するカスタムマッピングを指定します。boolean 属性が返されることを期待します。
+      mapping_login: 'userinfoレスポンスに、ログイン属性に使用するカスタム・マッピングを指定する。
 
         '
-    settings:
-      metadata_none: 私はこの情報を持っていない
-      metadata_url: 私はディスカバリーエンドポイントURLを持っています
-      endpoint_url: エンドポイントURL
+      metadata_none: この情報がありません
+      metadata_url: ディスカバリーのエンドポイントURL
+      oidc_information: これらの値は OpenID Connect プロバイダーを構成するために必要です。
+      post_logout_redirect_uri: ログアウト要求後にOpenID ConnectプロバイダがリダイレクトすべきURL。
+      scope: カスタムスコープをリクエストしたい場合は、スペースで区切られた1つまたは複数のスコープ値を追加できます。 詳細については、[OpenID Connect documentation](docs_url)を参照してください。
+      tenant: 該当する場合は、デフォルトのテナントをご自身のテナントに置き換えてください。<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">こちらを</a>ご覧ください。
+    menu_title: OpenID プロバイダー
     providers:
-      label_providers: プロバイダー
-      seeded_from_env: このプロバイダーは環境設定からシードされたものです。編集することはできません。
-      google:
-        name: グーグル
-      microsoft_entra:
-        name: マイクロソフト・エントラ
+      client_details_description: OIDCクライアントとしてのOpenProjectの設定詳細
       custom:
         name: カスタム
-      upsell:
-        title: OpenID connectによるシングルサインオン(SSO)
-        description: OpenProjectをOpenIDコネクトIDプロバイダに接続する
+      google:
+        name: グーグル
       label_add_new: 新しい OpenID プロバイダーを追加
+      label_advanced_configuration: 高度な設定
+      label_attribute_mapping: 属性のマッピング
+      label_automatic_configuration: 自動設定
+      label_client_details: クライアント詳細
+      label_configuration_details: メタデータ
       label_edit: OpenID プロバイダー %{name} を編集
-      label_empty_title: OpenIDプロバイダはまだ設定されていません。
       label_empty_description: プロバイダーを追加して、ここでご覧ください。
+      label_empty_title: OpenIDプロバイダはまだ設定されていません。
       label_group_mapping: グループマッピング
       label_metadata: OpenID Connectディスカバリー・エンドポイント
-      label_automatic_configuration: 自動設定
       label_optional_configuration: オプション構成
-      label_advanced_configuration: 高度な設定
-      label_configuration_details: メタデータ
-      label_client_details: クライアント詳細
-      label_attribute_mapping: 属性のマッピング
-      notice_created: A new OpenID provider was successfully created.
-      client_details_description: OIDCクライアントとしてのOpenProjectの設定詳細
+      label_providers: プロバイダー
+      microsoft_entra:
+        name: マイクロソフト・エントラ
       no_results_table: プロバイダーが定義されていません。
+      notice_created: A new OpenID provider was successfully created.
       plural: OpenID プロバイダー
-      singular: OpenID プロバイダー
       section_texts:
+        attribute_mapping: OpenProject と OpenID Connect プロバイダ間の属性のマッピングを設定します。
+        claims: ID トークンまたは userinfo レスポンスの追加クレームを要求する。
+        configuration: OpenID Connectプロバイダーの設定詳細
+        configuration_metadata: 情報は、提供されたディスカバリー・エンドポイントを使用して事前に入力されている。ほとんどの場合、編集の必要はありません。
+        display_name: ユーザーに見える表示名。
         group_mapping: ID プロバイダが提供するグループ名を OpenProject のグループにマップします。
         metadata: OpenID Connectディスカバリー・エンドポイントURLを使用したプリフィル設定
         metadata_form_banner: ディスカバリーエンドポイントを編集すると、事前に入力された既存のメタデータ値が上書きされる場合があります。
-        metadata_form_title: OpenID Connectディスカバリー・エンドポイント
         metadata_form_description: IDプロバイダがディスカバリ・エンドポイントURLを持っている場合。以下を使用して設定を事前に入力します。
-        configuration_metadata: 情報は、提供されたディスカバリー・エンドポイントを使用して事前に入力されている。ほとんどの場合、編集の必要はありません。
-        configuration: OpenID Connectプロバイダーの設定詳細
-        display_name: ユーザーに見える表示名。
-        attribute_mapping: OpenProject と OpenID Connect プロバイダ間の属性のマッピングを設定します。
-        claims: ID トークンまたは userinfo レスポンスの追加クレームを要求する。
+        metadata_form_title: OpenID Connectディスカバリー・エンドポイント
       side_panel:
         information_component:
           backchannel_logout_url: バックチャンネルのログアウトURL
+      singular: OpenID プロバイダー
+      upsell:
+        description: OpenProjectをOpenIDコネクトIDプロバイダに接続する
+        title: OpenID connectによるシングルサインオン(SSO)
     setting_instructions:
       limit_self_registration: '有効にした場合、ユーザーは自己登録設定が許可されている場合にのみ、このプロバイダを使用して登録することができます。
 
         '
+    settings:
+      endpoint_url: エンドポイントURL
+      metadata_none: 私はこの情報を持っていない
+      metadata_url: 私はディスカバリーエンドポイントURLを持っています
+  plugin_openproject_openid_connect:
+    description: OmniAuth OpenID Connect ストラテジープロバイダを OpenProject に追加します。
+    name: OpenProject OpenID 連携
+  provider:
+    delete_warning:
+      delete_result_1: 利用可能なプロバイダのリストからプロバイダを削除します。
+      delete_result_direct: このプロバイダは直接ログインプロバイダとしてマークされています。この設定は削除され、ユーザはログインのためにプロバイダにリダイレクトされなくなります。
+      delete_result_user_count:
+        one: 1人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。
+        other: "%{count}人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。"
+        zero: 現在、このプロバイダを使用しているユーザーはいません。これ以上の操作は必要ありません。
+      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: ワークパッケージの削除は復元できない操作です。
+      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'

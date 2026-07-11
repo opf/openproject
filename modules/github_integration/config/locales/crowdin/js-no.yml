@@ -23,33 +23,33 @@
 'no':
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Pull requests
-        copy_menu:
-          label: Git snippets
-          description: Kopier git snippets til utklippstavle
-        git_actions:
-          branch_name: Navn på filial
-          commit_message: Send inn meldingen
-          cmd: Opprett gren med tom commit
-          title: Quick snippets for Git
-          copy_success: "✅ Kopiert!"
-          copy_error: "❌ Kopiering mislyktes!"
-      tab_prs:
-        empty: Det er ingen pull requests koblet til ennå. Koble til en eksisterende PR ved å benytte koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opprette en ny PR.
       github_actions: Handlinger
       pull_requests:
-        message: 'Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} har blitt %{pr_state}.'
         merged_message: 'Forespørsel #%{pr_number} %{pr_link} for %{repository_link} er %{pr_state} av %{github_user_link}.'
+        message: 'Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} har blitt %{pr_state}.'
         referenced_message: 'Forespørsel #%{pr_number} %{pr_link} for %{repository_link} forfattet av %{github_user_link} refererte til denne arbeidspakken.'
         states:
-          opened: åpnet
           closed: lukket
           draft: utkast
           merged: slått sammen
+          opened: åpnet
           ready_for_review: klar til gjennomsyn
+      tab_header:
+        copy_menu:
+          description: Kopier git snippets til utklippstavle
+          label: Git snippets
+        git_actions:
+          branch_name: Navn på filial
+          cmd: Opprett gren med tom commit
+          commit_message: Send inn meldingen
+          copy_error: "❌ Kopiering mislyktes!"
+          copy_success: "✅ Kopiert!"
+          title: Quick snippets for Git
+        title: Pull requests
+      tab_prs:
+        empty: Det er ingen pull requests koblet til ennå. Koble til en eksisterende PR ved å benytte koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opprette en ny PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

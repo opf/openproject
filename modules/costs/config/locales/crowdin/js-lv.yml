@@ -22,15 +22,15 @@
 ---
 lv:
   js:
-    text_are_you_sure: Vai esat pārliecināts?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Izmaksas
-      properties:
-        overallCosts: Kopējās izmaksas
-        spentUnits: Izlietotās vienības
     button_log_costs: Uzskaitīt vienības izmaksas
     label_hour: stunda
     label_hours: stundas
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Vai esat pārliecināts?
+    work_packages:
+      properties:
+        overallCosts: Kopējās izmaksas
+        spentUnits: Izlietotās vienības
+      property_groups:
+        costs: Izmaksas

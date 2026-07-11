@@ -22,9 +22,9 @@
 ---
 sl:
   js:
-    work_packages:
-      properties:
-        storyPoints: Točke v zgodbi
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Točke v zgodbi

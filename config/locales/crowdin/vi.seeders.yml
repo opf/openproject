@@ -93,6 +93,21 @@ vi:
           name: cao
         item_3:
           name: ngay lập tức
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Dự án demo
@@ -182,21 +197,23 @@ vi:
                 item_2:
                   subject: Thiết lập trang web hội nghị
             item_2:
-              subject: hội nghị
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Nhiệm vụ tiếp theo
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Tải bài thuyết trình lên trang web
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Tiệc dành cho những người ủng hộ hội nghị :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Bia
-                    * [ ] Đồ ăn nhẹ
-                    * [ ] Âm nhạc
-                    * [ ] Thêm bia nữa
-            item_4:
-              subject: Kết thúc dự án
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _Trong wiki này bạn có thể cộng tác tạo và chỉnh sửa các trang và trang con để tạo một dự án wiki._
 

@@ -22,9 +22,9 @@
 ---
 lt:
   js:
-    work_packages:
-      properties:
-        storyPoints: Istorijos taškai
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Istorijos taškai

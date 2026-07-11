@@ -24,31 +24,31 @@
 uk:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Конвеєри
       tab_header_issue:
         title: Задачі
       tab_header_mr:
-        title: Запити на злиття
-        create_mr:
-          label: Створити MR
-          description: Створити запит на злиття
         copy_menu:
-          label: Фрагменти Git
           description: Копіювати git-фрагменти у буфер обміну
+          label: Фрагменти Git
+        create_mr:
+          description: Створити запит на злиття
+          label: Створити MR
         git_actions:
           branch_name: Назва гілки
-          commit_message: Створити коміт із повідомленням
           cmd: Створити гілку з пустим комітом
-          title: Швидкі фрагменти для Git
-          copy_success: "✅ Скопійовано!"
+          commit_message: Створити коміт із повідомленням
           copy_error: "❌ Не скопійовано!"
+          copy_success: "✅ Скопійовано!"
+          title: Швидкі фрагменти для Git
+        title: Запити на злиття
       tab_issue:
         empty: Зараз немає жодної зв’язаної задачі. Зв’яжіть наявну задачу, використовуючи код <code>OP#%{wp_id}</code> (або <code>PP#%{wp_id}</code> для приватних посилань) у назві / описі задачі, або створіть нову задачу.
       tab_mrs:
         empty: Зараз немає жодного зв’язаного запиту на злиття. Зв’яжіть наявний запит MR, використовуючи код <code>OP#%{wp_id}</code> (або <code>PP#%{wp_id}</code> для приватних посилань) у назві / описі MR, або створіть новий запит MR.
-      gitlab_pipelines: Конвеєри
       updated_on: Оновлено
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

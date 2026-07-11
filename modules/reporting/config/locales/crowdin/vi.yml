@@ -21,87 +21,87 @@
 #++
 ---
 vi:
-  plugin_openproject_reporting:
-    name: Báo cáo OpenProject
-    description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận
   cost_reports_title: Thời gian và chi phí
-  label_cost_report: Báo cáo chi phí
-  label_cost_report_plural: Báo cáo chi phí
   description_drill_down: Hiển thị chi tiết
   description_filter_selection: lựa chọn
   description_multi_select: Hiển thị nhiều lựa chọn
   description_remove_filter: Xóa bộ lọc
+  export:
+    cost_reports:
+      end_time: Thời gian kết thúc
+      start_time: Thời gian bắt đầu
+      title: Xuất báo cáo chi phí XLS của bạn
+    timesheet:
+      button: Xuất bảng chấm công PDF
+      overview_per_user_day: 'Tổng quan: Số giờ mỗi người dùng mỗi ngày'
+      overview_per_user_total: 'Tổng quan: Tổng số giờ trên mỗi người dùng'
+      sums_hours: Tổng
+      time: thời gian
+      timesheet: bảng chấm công
+      title: Xuất bảng chấm công PDF của bạn
   information_restricted_depending_on_permission: Tùy thuộc vào quyền của bạn, trang này có thể chứa thông tin bị hạn chế.
   label_click_to_edit: Bấm để chỉnh sửa.
   label_closed: đóng cửa
   label_columns: Cột
   label_cost_entry_attributes: Thuộc tính mục nhập chi phí
+  label_cost_report: Báo cáo chi phí
+  label_cost_report_plural: Báo cáo chi phí
+  label_count: đếm
   label_days_ago: trong những ngày qua
   label_entry: Nhập chi phí
+  label_filter: bộ lọc
+  label_filter_add: Thêm bộ lọc
+  label_filter_plural: Bộ lọc
   label_filter_text: Lọc văn bản
   label_filter_value: giá trị
   label_filters: bộ lọc
   label_greater: ">"
+  label_group_by: Nhóm theo
+  label_group_by_add: Thêm thuộc tính theo nhóm
+  label_inactive: "«không hoạt động»"
   label_is_not_project_with_subprojects: không (bao gồm các tiểu dự án)
+  label_is_not_work_package_with_descendants: không phải (bao gồm cả con cháu)
   label_is_project_with_subprojects: là (bao gồm các tiểu dự án)
   label_is_work_package_with_descendants: là (bao gồm con cháu)
-  label_is_not_work_package_with_descendants: không phải (bao gồm cả con cháu)
-  label_work_package_attributes: Thuộc tính gói công việc
   label_less: "<"
   label_logged_by_reporting: Đăng nhập bởi
   label_money: Giá trị tiền mặt
   label_month_reporting: Tháng (Chi tiêu)
   label_new_report: Báo cáo chi phí mới
+  label_no: Không
+  label_no_reports: Chưa có báo cáo chi phí.
+  label_none: "(không có dữ liệu)"
   label_open: mở
   label_operator: Toán tử
   label_private_report_plural: Báo cáo chi phí riêng
   label_progress_bar_explanation: Đang tạo báo cáo...
   label_public_report_plural: Báo cáo chi phí công
   label_really_delete_question: Bạn có chắc chắn muốn xóa báo cáo này?
+  label_report: Báo cáo
   label_rows: hàng
   label_saving: Đang lưu ...
   label_spent_on_reporting: Ngày (Đã chi tiêu)
   label_sum: tổng hợp
   label_units: đơn vị
   label_week_reporting: Tuần (Đã chi tiêu)
+  label_work_package_attributes: Thuộc tính gói công việc
   label_year_reporting: Năm (Chi tiêu)
-  label_count: đếm
-  label_filter: bộ lọc
-  label_filter_add: Thêm bộ lọc
-  label_filter_plural: Bộ lọc
-  label_group_by: Nhóm theo
-  label_group_by_add: Thêm thuộc tính theo nhóm
-  label_inactive: "«không hoạt động»"
-  label_no: không
-  label_none: "(không có dữ liệu)"
-  label_no_reports: Chưa có báo cáo chi phí.
-  label_report: Báo cáo
   label_yes: Có
   load_query_question: Báo cáo sẽ có %{size} ô bảng và có thể mất chút thời gian để hiển thị. Bạn vẫn muốn thử kết xuất nó chứ?
   permission_save_cost_reports: Lưu báo cáo chi phí công
   permission_save_private_cost_reports: Lưu báo cáo chi phí riêng
+  plugin_openproject_reporting:
+    description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
+    name: Báo cáo OpenProject
   project_module_reporting_module: Các báo cáo chi phí
+  reporting:
+    group_by:
+      selected_columns: Cột đã chọn
+      selected_rows: Hàng đã chọn
   text_costs_are_rounded_note: Các giá trị hiển thị được làm tròn. Tất cả các tính toán đều dựa trên các giá trị không làm tròn.
   toggle_multiselect: kích hoạt/hủy kích hoạt đa lựa chọn
   units: đơn vị
   validation_failure_date: không phải là một ngày hợp lệ
   validation_failure_integer: không phải là số nguyên hợp lệ
-  export:
-    timesheet:
-      title: Xuất bảng chấm công PDF của bạn
-      button: Xuất bảng chấm công PDF
-      timesheet: bảng chấm công
-      time: thời gian
-      sums_hours: Tổng
-      overview_per_user_total: 'Tổng quan: Tổng số giờ trên mỗi người dùng'
-      overview_per_user_day: 'Tổng quan: Số giờ mỗi người dùng mỗi ngày'
-    cost_reports:
-      title: Xuất báo cáo chi phí XLS của bạn
-      start_time: Thời gian bắt đầu
-      end_time: Thời gian kết thúc
-  reporting:
-    group_by:
-      selected_columns: Cột đã chọn
-      selected_rows: Hàng đã chọn

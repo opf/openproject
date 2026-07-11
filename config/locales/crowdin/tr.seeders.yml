@@ -93,6 +93,21 @@ tr:
           name: Yüksek
         item_3:
           name: Acil
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo proje
@@ -182,21 +197,23 @@ tr:
                 item_2:
                   subject: Konferans web sitesi kurulumu
             item_2:
-              subject: Konferans
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Takip görevleri
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Sunumları web sitesine yükleyin
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Konferans destekçileri için parti :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Bira
-                    * [ ] Atıştırmalıklar
-                    * [ ] Müzik
-                    * [ ] Daha da fazla bira
-            item_4:
-              subject: Proje sonu
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             Bu wiki'de bir proje wiki'si oluşturmak için sayfaları ve alt sayfaları işbirliği içinde oluşturabilir ve düzenleyebilirsiniz._
 

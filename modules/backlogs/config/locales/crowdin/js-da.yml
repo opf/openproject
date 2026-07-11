@@ -22,9 +22,9 @@
 ---
 da:
   js:
-    work_packages:
-      properties:
-        storyPoints: Historiepoint
     burndown:
       day: Dag
       points: Point
+    work_packages:
+      properties:
+        storyPoints: Historiepoint

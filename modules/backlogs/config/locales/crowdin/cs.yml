@@ -21,14 +21,11 @@
 #++
 ---
 cs:
-  plugin_openproject_backlogs:
-    name: OpenProject Backlogy
-    description: Tento modul přidává funkce umožňující agilním týmům pracovat s OpenProject v Scrum projektech.
   activerecord:
     attributes:
       project:
-        sprint_sharing: Sdílení sprintu
         backlog_excluded_types: Vyloučené typy pracovních balíčků
+        sprint_sharing: Sdílení sprintu
         statuses_considered_closed: Stavy považované za uzavřené
       sprint:
         duration: Doba trvání
@@ -37,56 +34,57 @@ cs:
         name: Název sprintu
         sharing: Sdílení
         statuses:
-          in_planning: V plánování
           active: Aktivní
           completed: Dokončen
+          in_planning: V plánování
         work_packages: Pracovní balíčky
       sprint_goal:
         text: Cíl sprintu
       work_package:
         backlog_bucket: Sekce backlogu
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Typ backlogu
         position: Pozice
         sprint: Sprint
         story_points: Body příběhu
     errors:
       messages:
+        dates_required: Pro zahájení sprintu je nutné datum zahájení a ukončení.
         must_be_in_planning: musí být v plánu pro zahájení.
         only_one_active_sprint_allowed: na jeden projekt je povolen pouze jeden aktivní sprint.
-        dates_required: Pro zahájení sprintu je nutné datum zahájení a ukončení.
       models:
         project:
-          receiving_sprints: dostává sdílené sprinty. Vlastní sprinty nelze vytvářet.
           attributes:
             sprint_sharing:
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
-        sprint_goal:
-          project_already_has_goal: už má stanovený cíl pro tento sprint.
+          receiving_sprints: dostává sdílené sprinty. Vlastní sprinty nelze vytvářet.
         sprint:
           attributes:
             base:
+              format: "%{message}"
               unfinished_work_packages:
                 one: Jeden pracovní balíček nebyl v tomto sprintu dokončen.
                 few: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
                 many: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
                 other: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
-              format: "%{message}"
             status:
               not_active: není aktivní, takže jej nelze uzavřít.
+        sprint_goal:
+          project_already_has_goal: už má stanovený cíl pro tento sprint.
         work_package:
-          backlog_bucket_xor_sprint: nelze přiřadit zároveň ke sprintu a k sekci backlogu.
           attributes:
             backlog_bucket:
               backlog_bucket_from_another_project: musí patřit ke stejnému projektu jako pracovní balíček.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: může obsahovat pouze ID pracovních balíčků v aktuálním sprintu.
               must_block_at_least_one_work_package: musí obsahovat ID alespoň jednoho tiketu.
-            version_id:
-              task_version_must_be_the_same_as_story_version: musí být stejná jako verze nadřazeného příběhu.
             sprint:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: není aktivní sprint v projektu, v němž se koná sprint, z něhož je pracovní balíček přesunut.
+            version_id:
+              task_version_must_be_the_same_as_story_version: musí být stejná jako verze nadřazeného příběhu.
+          backlog_bucket_xor_sprint: nelze přiřadit zároveň ke sprintu a k sekci backlogu.
     models:
       sprint:
         one: Sprint
@@ -94,53 +92,73 @@ cs:
         many: Sprints
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
-      title: Nastavení backlogu se vyvíjí
       text: V současné době přepracováváme modul Backlogů. V blízké budoucnosti zde budou viditelná administrátorská nastavení pro sprinty a backlogy. Nastavení na úrovni projektů zůstávají k dispozici.
-    bucket_destroy_modal_component:
-      title: Smazat sekci backlogu?
-      details: Sekce backlogu '%{name}' bude smazána a všechny pracovní balíčky budou přesunuty do složky nevyřízených úkolů. Žádný pracovní balíček nebude odstraněn.
+      title: Nastavení backlogu se vyvíjí
+    backlog_component:
+      button_new_backlog_bucket: Nová sekce backlogu
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Sekce backlogu
+        other: Sekce backlogu
+        zero: Všechny sekce backlogu
+      label_sprint_filter:
+        one: Sprint
+        other: Sprinty
+        zero: Všechny sprinty
+      select_panel_title: Vybrat položky
     bucket_component:
-      blankslate_title: Sekce backlogu je prázdná
-      blankslate_description: Přetažením položek sem je přidáte.
-      label_actions: Operace sekce backlogu
       action_menu:
-        edit_backlog_bucket: Upravit sekci backlogu
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Smazat sekci backlogu
+        edit_backlog_bucket: Upravit sekci backlogu
+      blankslate_description: Přetažením položek sem je přidáte.
+      blankslate_title: Sekce backlogu je prázdná
+      label_actions: Operace sekce backlogu
+    bucket_destroy_modal_component:
+      details: Sekce backlogu '%{name}' bude smazána a všechny pracovní balíčky budou přesunuty do složky nevyřízených úkolů. Žádný pracovní balíček nebude odstraněn.
+      title: Smazat sekci backlogu?
     burndown_chart:
       show:
-        blankslate_title: Nedostupná data pro Burndown
         blankslate_description: Nastavte datum začátku a konce sprintu pro vygenerování Burndown grafu.
+        blankslate_title: Nedostupná data pro Burndown
     excluded_work_package_types_caption: 'Zvolte, které typy pracovních balíčků se mají skrýt z backlogu. Položky vybraných typů se v backlogu automaticky nezobrazí, takže zůstane soustředěn na práci, která je pro váš tým důležitá. Například typy jako Epicy nebo Milníky, které jsou řízeny na vyšší úrovni, lze skrýt, aby se backlog soustředil na položky, které lze realizovat.
 
       '
     finish_sprint_dialog_component:
-      title: Existují rozpracované položky
-      body: "%{message} Co byste s nimi chtěli udělat?"
-      legend: Akce pro nedokončené pracovní balíčky
       actions:
-        move_to_top_of_backlog: Přesunout je na vrchol backlogu
         move_to_bottom_of_backlog: Přesunout je dospod backlogu
         move_to_sprint: Přesunout je do jiného sprintu
-      select_sprint_label: Vyberte sprint
+        move_to_top_of_backlog: Přesunout je na vrchol backlogu
+      body: "%{message} Co byste s nimi chtěli udělat?"
       button_complete_sprint: Dokončit sprint
+      legend: Akce pro nedokončené pracovní balíčky
+      select_sprint_label: Vyberte sprint
+      title: Existují rozpracované položky
     inbox_component:
-      title: Nevyřízené
-      blankslate_title: Žádné nevyřízené položky
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: Zde se automaticky zobrazí všechny otevřené pracovní balíčky tohoto projektu.
+      blankslate_title: Žádné nevyřízené položky
+      label_actions: Inbox actions
       show_more:
         one: Zobrazit ještě 1 položku
         few: Zobrazit ještě %{count} položek
         many: Zobrazit ještě %{count} položek
         other: Zobrazit ještě %{count} položek
+      title: Nevyřízené
     label_burndown_chart: Graf Burndown
     label_is_done_status: Stav %{status_name} znamená hotovo
     label_sprint_board: Sprint board
     move_to_bucket_dialog_component:
       title: Přesunout do sekce backlogu
     move_to_sprint_dialog_component:
-      title: Přesunout do sprintu
       label_sprint: Sprint
+      title: Přesunout do sprintu
     points_label:
       one: bod
       few: body
@@ -154,16 +172,17 @@ cs:
     sharing: Sdílení
     show_burndown_chart: Graf Burndown
     sprint_component:
-      blankslate_title: "%{name} je prázdný"
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        edit_sprint: Upravit sprint
       blankslate_description: Zatím nejsou naplánovány žádné položky. Přetažením položek sem je přidáte.
+      blankslate_title: "%{name} je prázdný"
       label_actions: Operace sprintu
-      label_start_sprint: Zahájit sprint
       label_complete_sprint: Dokončit sprint
+      label_start_sprint: Zahájit sprint
       start_sprint_disabled_reason_active_sprint: Jiný sprint je již aktivní.
       start_sprint_disabled_reason_missing_dates: Pro zahájení sprintu je nutné datum zahájení a ukončení.
-      action_menu:
-        edit_sprint: Upravit sprint
-        add_work_package: Přidat pracovní balíček
     sprint_form:
       goal_caption: Cíl sprintu je specifický pro tento projekt a nesdílí jej žádné jiné projekty, které rovněž využívají tento sprint.
       goal_for_this_project_label: "%{attribute} (pro tento projekt)"
@@ -172,33 +191,28 @@ cs:
       shared_sprint_warning_banner: Toto je sdílený sprint. Nemáte potřebná oprávnění k jeho úpravě.
     sprints_component:
       blankslate:
-        title: Zatím nejsou přítomny žádné sprinty
-        settings_link_text: nastavení projektu
-        receive_and_manage_description_html: Tento projekt přijímá sprinty z jiného projektu. Spravujte je v %{settings_link}.
-        receive_description_text: Tento projekt přijímá sdílené sprinty z jiného projektu, ale žádný není momentálně k dispozici.
         create_and_manage_description_html: Chcete-li začít plánovat svůj sprint, vytvořte si jeden zde, nebo přejděte na %{settings_link}, abyste mohli dostávat sprinty z jiného projektu.
         create_description_text: Chcete-li začít plánovat sprint, vytvořte si ho zde.
         manage_description_html: Chcete-li začít plánovat sprint, přejděte na stránku %{settings_link} a získejte sprinty z jiného projektu.
         no_actions_description_text: Pro tento projekt zatím nejsou k dispozici žádné sprinty.
+        receive_and_manage_description_html: Tento projekt přijímá sprinty z jiného projektu. Spravujte je v %{settings_link}.
+        receive_description_text: Tento projekt přijímá sdílené sprinty z jiného projektu, ale žádný není momentálně k dispozici.
+        settings_link_text: nastavení projektu
+        title: Zatím nejsou přítomny žádné sprinty
+      button_new_sprint: Nový sprint
+    statuses_considered_closed_caption: 'Vyberte stavy, které představují uzavřený nebo dokončený stav vašeho pracovního postupu. Tyto stavy budou považovány za stav "Uzavřeno" v rámci reportingu (např. Burndown) a plánování sprintu. Například stavy jako "Hotovo", "Vyřešeno" nebo "Nebude opraveno" mohou ve vašem procesu představovat uzavřenou pracovní položku.
+
+      '
     story_points:
       one: "%{count} story point"
       few: "%{count} story pointy"
       many: "%{count} story pointy"
       other: "%{count} story pointy"
-    statuses_considered_closed_caption: 'Vyberte stavy, které představují uzavřený nebo dokončený stav vašeho pracovního postupu. Tyto stavy budou považovány za stav "Uzavřeno" v rámci reportingu (např. Burndown) a plánování sprintu. Například stavy jako "Hotovo", "Vyřešeno" nebo "Nebude opraveno" mohou ve vašem procesu představovat uzavřenou pracovní položku.
-
-      '
     types_and_statuses: Typy a stavy
     unassigned: Nepřiřazeno
     user_preference:
-      header_backlogs: Modul backlogů
       button_update_backlogs: Upravit backlog modul
-    stories:
-      update_service:
-        missing_target: musí být přítomno target_id nebo direction.
-        ambiguous_target: target_id a direction nemohou být přítomny zároveň.
-        invalid_target_type: 'target_type musí být jeden z následujících: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        invalid_direction: 'směr musí být jeden z následujících: vyšší, nejvyšší, nižší, nejnižší.'
+      header_backlogs: Modul backlogů
     work_package_card_menu_component:
       action_menu:
         copy_url_to_clipboard: Kopírovst adresu URL
@@ -208,6 +222,15 @@ cs:
         move_to_inbox: Přesunout do Nevyřízených
         move_to_sprint: Přesunout do sprintu
     work_package_is_closed: Pracovní balíček je hotov, když
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Story pointy
     story_points_ideal: Story pointy (ideální)
@@ -219,24 +242,24 @@ cs:
         description: Sdílení sprintů napříč projekty za účelem sladění týmů a koordinace práce v rámci škálovaných agilních prostředí (SAFe).
   label_all_sprints: Všechny sprinty
   label_backlog: Backlog
-  label_backlogs: Backlogy
   label_backlog_and_sprints: Backlogy a sprinty
   label_backlog_bucket_edit: Upravit sekci backlogu
   label_backlog_bucket_new: Nová sekce backlogu
+  label_backlogs: Backlogy
   label_burndown_chart: Graf Burndown
   label_inbox: Příchozí
-  label_sprint_board: Sprint board
   label_points_burn_down: Dolů
   label_points_burn_up: Nahoru
+  label_sprint_board: Sprint board
   label_sprint_edit: Upravit sprint
   label_sprint_new: Nový sprint
   label_task_board: Tabule úkolů
-  notice_successful_start: Sprint byl zahájen.
   notice_successful_finish: Sprint byl dokončen.
-  notice_unsuccessful_start: Sprint nebylo možné zahájit.
-  notice_unsuccessful_start_with_reason: 'Sprint nebylo možné zahájit: %{reason}'
+  notice_successful_start: Sprint byl zahájen.
   notice_unsuccessful_finish: Sprint nebylo možné dokončit.
   notice_unsuccessful_finish_with_reason: 'Sprint nebylo možné dokončit: %{reason}'
+  notice_unsuccessful_start: Sprint nebylo možné zahájit.
+  notice_unsuccessful_start_with_reason: 'Sprint nebylo možné zahájit: %{reason}'
   notice_work_package_invisible_after_move: 'Pracovní balíček byl přesunut do %{backlog}, ale není viditelný, protože jeho typ nebo stav je vyloučen z backlogu.
 
     '
@@ -249,30 +272,35 @@ cs:
   permission_share_sprint: Sdílení sprintu
   permission_start_complete_sprint: Zahájení/ukončení sprintu
   permission_view_sprints: Zobrazení sprintů
+  plugin_openproject_backlogs:
+    description: Tento modul přidává funkce umožňující agilním týmům pracovat s OpenProject v Scrum projektech.
+    name: OpenProject Backlogy
   project_module_backlogs: Backlogy
   projects:
     settings:
       backlog_sharing:
         options:
           no_sharing:
-            label: Nesdílet
             caption: Sprinty vytvořené v tomto projektu budou dostupné a viditelné pouze pro tento projekt. Nebudou viditelné ani pro podprojekty.
+            label: Nesdílet
           receive_shared:
-            label: Přijem sdílených sprintů
             caption: Tento projekt může používat pouze sprinty sdílené jinými projekty.
+            label: Přijem sdílených sprintů
             warning: Tento projekt může používat pouze sprinty sdílené jinými projekty. Nepoužité sprinty vytvořené v tomto projektu v minulosti již nebudou viditelné.
           share_all_projects:
-            label: Všechny projekty
             caption: Sprinty vytvořené v tomto projektu budou dostupné pro všechny projekty v této instanci. Pokud tuto možnost vyberete, nebudou již dostupná pro ostatní projekty.
             disabled_caption: Tato možnost není k dispozici, protože projekt ''%{name}" momentálně sdílí se všemi projekty, což může dělat pouze jeden projekt.
             disabled_caption_anonymous: Tato možnost není k dispozici, protože jiný projekt je v současné době sdílen se všemi projekty a tuto možnost může použít pouze jeden projekt.
+            label: Všechny projekty
           share_subprojects:
-            label: Podprojekty
             caption: Sprinty vytvořené v tomto projektu budou k dispozici všem podprojektům aktuálního projektu.
             info: Sdílením sprintu se sdílí název, stav a datum zahájení a ukončení všech projektů. V projektech, které tyto sprinty přijímají a používají, je nelze měnit.
+            label: Podprojekty
         sprint_sharing: Sdílet sprinty
       backlogs:
         sharing_form_component:
           sharing_description: Tento projekt může buď sdílet vlastní sprinty, přijímat sdílené sprinty, nebo sprinty zpracovávat samostatně (bez sdílení).
           sharing_fallback_description: Vzhledem k tomu, že chybí podnikový plán, jsou možnosti sdílení omezeny na vlastní sprinty projektu. Aktuálně aktivní nastavení zůstává aktivní.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: Zbývající práce
