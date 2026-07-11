@@ -158,6 +158,30 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with the target versions column",
+          with_flag: { work_package_multiple_versions: true },
+          with_settings: { work_package_multiple_versions: true } do
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let(:version_two) { create(:version, project:, name: "2.0") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a).tap do |wp|
+        wp.target_version_ids_replacements = [version_one.id, version_two.id]
+        wp.save!
+      end
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject target_versions))
+    end
+
+    it "exports the joined target version names" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(pairs["Target versions"]).to eq "1.0; 2.0"
+    end
+  end
+
   context "with multiple work packages" do
     shared_let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
     shared_let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a, id: 2) }
