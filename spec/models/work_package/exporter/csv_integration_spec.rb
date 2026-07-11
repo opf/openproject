@@ -178,7 +178,8 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       headers, values = CSV.parse instance.export!.content
       pairs = headers.zip(values).to_h
 
-      expect(pairs["Target versions"]).to eq "1.0; 2.0"
+      # the association carries no order, so compare the cell as a set
+      expect(pairs["Target versions"].split("; ")).to match_array %w[1.0 2.0]
     end
   end
 
