@@ -33,6 +33,17 @@ module FormFields
         field_container.find(".ng-select-container input").set text
       end
 
+      # For remote typeahead autocompleters, where options are only loaded for
+      # the typed search term. Unlike select_option, it does not reopen the
+      # dropdown, as that would discard the term.
+      def search_and_select_option(*values)
+        values.each do |value|
+          search(value)
+          wait_for_autocompleter_options_to_be_loaded
+          page.find(".ng-option", text: value, visible: :all).click
+        end
+      end
+
       def close_autocompleter
         if page.has_css?(".ng-select-container input", wait: 0.1)
           field_container.find(".ng-select-container input").send_keys :escape

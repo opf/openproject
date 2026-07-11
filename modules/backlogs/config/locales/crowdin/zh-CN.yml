@@ -42,6 +42,7 @@ zh-CN:
         text: 冲刺目标
       work_package:
         backlog_bucket: 积压工作存储桶
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: 待办清单类型
         position: 位置
         sprint: 冲刺
@@ -85,6 +86,8 @@ zh-CN:
       sprint:
         other: 冲刺
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -102,6 +105,8 @@ zh-CN:
       select_panel_title: 选择条目
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: 删除积压工作存储桶
         edit_backlog_bucket: 编辑积压工作存储桶
       blankslate_description: 将项目拖到此处添加。
@@ -128,8 +133,12 @@ zh-CN:
       select_sprint_label: 选择冲刺
       title: 有工作正在进行中的条目
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: 此项目中所有未完成的工作包都会自动出现在此处。
       blankslate_title: 积压工作收件箱为空
+      label_actions: Inbox actions
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
@@ -152,7 +161,8 @@ zh-CN:
     show_burndown_chart: 燃尽图
     sprint_component:
       action_menu:
-        add_work_package: 添加工作包
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: 编辑冲刺
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
@@ -181,12 +191,6 @@ zh-CN:
     statuses_considered_closed_caption: '选择在您的工作流中代表已关闭或已完成状态的状态。这些状态将在报告（如燃尽图）和冲刺计划中被视为“已关闭”状态。例如，“已完成”、“已解决”或“不会修复”等状态都可能代表流程中的已关闭工作项。
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id 和 direction 不能同时存在。
-        invalid_direction: direction 必须是以下类型之一：higher、highest、lower、lowest。
-        invalid_target_type: target_type 必须是以下类型之一：backlog_bucket:<backlog_bucket_id>、sprint:<sprint_id>、inbox。
-        missing_target: target_id 或 direction 必须存在。
     story_points:
       other: "%{count} 个故事点"
     types_and_statuses: 类型和状态
@@ -203,6 +207,15 @@ zh-CN:
         move_to_inbox: 移至积压工作收件箱
         move_to_sprint: 移至冲刺
     work_package_is_closed: 工作包已完成，当
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: 故事点
     story_points_ideal: 故事点（理想）
@@ -273,4 +286,6 @@ zh-CN:
         sharing_form_component:
           sharing_description: 此项目可以共享自己的冲刺、接收共享的冲刺或独立处理冲刺（不共享）。
           sharing_fallback_description: 由于缺少公司企业计划，共享选项仅限于项目自身的冲刺。当前的有效设置将保持有效状态。
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: 剩余工时

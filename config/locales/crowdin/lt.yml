@@ -672,7 +672,13 @@ lt:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'vis dar naudojama darbų paketuose: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Darbų paketai iš kitų projektų medžių turi nuorodas į versijas šiame projekte arba jo subprojektuose.
         project/phase:
@@ -5954,8 +5960,19 @@ lt:
             work_package: Darbų paketas
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Sukurti naują rūšį
       no_results_title_text: Nėra jokių rūšių.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        few: "%{count} sub-types"
+        many: "%{count} sub-types"
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Ignoruoti šį perspėjimą.
     message: Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti.

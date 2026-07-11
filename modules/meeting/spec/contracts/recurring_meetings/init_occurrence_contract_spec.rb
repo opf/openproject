@@ -23,39 +23,40 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module XWikiProviders
-    module Concerns
-      module FetchesInstanceId
-        private
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-        def after_validate(service_call)
-          call = super
-          return call unless call.success?
+RSpec.describe RecurringMeetings::InitOccurrenceContract do
+  include_context "ModelContract shared context"
 
-          model = call.result
-          return call unless should_fetch_instance_id?(model)
+  shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
+  let(:recurring_meeting) { create(:recurring_meeting, project:) }
+  let(:contract) { described_class.new(recurring_meeting, user) }
 
-          result = Wikis::XWikiProviders::FetchInstanceIdService.new(provider: model).call
-          if result.success?
-            model.universal_identifier = result.value!
-          else
-            call.errors.add(:url, :wiki_provider_unreachable)
-            call.success = false
-          end
-
-          call
-        end
-
-        def should_fetch_instance_id?(_model)
-          raise SubclassResponsibilityError
-        end
-      end
+  context "with create_meetings permission" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] })
     end
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "with only view_meetings permission" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings] })
+    end
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  context "without permission" do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 end

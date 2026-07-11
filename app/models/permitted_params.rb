@@ -578,7 +578,6 @@ class PermittedParams
           :priority_id,
           :remaining_hours,
           :responsible_id,
-          :sprint_id,
           :start_date,
           :status_id,
           :type_id,

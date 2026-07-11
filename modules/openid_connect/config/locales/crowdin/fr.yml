@@ -134,7 +134,6 @@ fr:
         metadata_form_banner: La modification du point de terminaison de découverte peut remplacer les valeurs de métadonnées préremplies existantes.
         metadata_form_description: Si votre fournisseur d'identité dispose d'une URL de point de terminaison de découverte. Utilisez-la ci-dessous pour préremplir la configuration.
         metadata_form_title: Point de terminaison de découverte OpenID Connect
-      seeded_from_env: Ce fournisseur a été ajouté à partir de la configuration de l'environnement. Il ne peut pas être modifié.
       side_panel:
         information_component:
           backchannel_logout_url: URL de déconnexion du canal de retour

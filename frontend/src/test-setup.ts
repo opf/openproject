@@ -29,10 +29,14 @@ if (typeof CSS === 'undefined' || typeof CSS.escape !== 'function') {
   (globalThis as any).CSS.escape = (value:string) => String(value).replace(/[^a-zA-Z0-9_\-]/g, (ch) => `\\${ch}`);
 }
 
-// jsdom does not implement ResizeObserver.
+// jsdom does not implement ResizeObserver. The shim declares the native
+// constructor signature so static analysis resolving the global to this class
+// still accepts the callback every real call site passes.
 if (typeof (globalThis as any).ResizeObserver === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).ResizeObserver = class {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    constructor(_callback:ResizeObserverCallback) {}
     observe() {}
     unobserve() {}
     disconnect() {}

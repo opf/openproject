@@ -23,24 +23,29 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module OAuthClients
-    class CreateService < ::OAuthClients::CreateService
-      def initialize(**)
-        super(contract_class: ::OAuthClients::CreateContract, **)
+module Projects
+  module Types
+    class BaseService < ::BaseServices::BaseContracted
+      def initialize(user:, model:, contract_class: Projects::ManageTypesContract)
+        super(user:, contract_class:)
+        self.model = model
       end
 
-      def attributes_service_class
-        ::OAuthClients::SetAttributesService
+      private
+
+      def failure(error, **)
+        model.errors.add(:types, error, **)
+        ServiceResult.failure(result: model, errors: model.errors)
       end
 
-      def instance_class
-        ::OAuthClient
+      def enable_work_package_custom_fields(type)
+        model.work_package_custom_field_ids |=
+          WorkPackageCustomField.joins(:types).where(types: { id: type.id }).ids
       end
     end
   end

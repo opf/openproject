@@ -669,7 +669,13 @@ vi:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'gói công việc vẫn được sử dụng: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: Người dùng đã chọn không được phép gán cho các gói công việc.
           foreign_wps_reference_version: Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó.
         project/phase:
@@ -5765,8 +5771,16 @@ vi:
             work_package: Gói công việc
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Tạo loại mới
       no_results_title_text: Hiện tại không có loại nào.
+      subtype_label: Sub-type
+      subtypes_count:
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Bỏ qua cảnh báo này.
     message: Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này.

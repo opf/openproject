@@ -101,6 +101,29 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         aria: { label: I18n.t(:label_x_items, count: 2) }
       )
     end
+
+    it "renders the add work package menu actions" do
+      expect(page).to have_selector(:menuitem, "Add new work package") do |link|
+        expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
+      end
+      expect(page).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "inbox")
+      end
+    end
+
+    context "when the user lacks the manage_sprint_items permission" do
+      let(:user) do
+        create(:user,
+               member_with_roles: {
+                 project => create(:project_role, permissions: %i[view_sprints view_work_packages])
+               })
+      end
+
+      it "does not render the add work package menu actions" do
+        expect(page).to have_no_selector(:menuitem, "Add new work package")
+        expect(page).to have_no_selector(:menuitem, "Add existing work package")
+      end
+    end
   end
 
   describe "empty state" do

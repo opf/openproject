@@ -33,6 +33,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
 
     attr_reader :backlog_bucket, :work_packages, :project, :current_user
 
@@ -54,10 +55,6 @@ module Backlogs
 
     def list_type
       Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
-    end
-
-    def show_menu?
-      backlog_bucket.persisted? && current_user.allowed_in_project?(:create_sprints, project)
     end
   end
 end

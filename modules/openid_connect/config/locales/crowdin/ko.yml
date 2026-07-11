@@ -134,7 +134,6 @@ ko:
         metadata_form_banner: 검색 엔드포인트를 편집하면 미리 채워진 기존 메타데이터 값이 재정의될 수 있습니다.
         metadata_form_description: ID 공급자에게 검색 엔드포인트 URL이 있는 경우. 구성을 미리 채우려면 아래 항목을 사용하세요.
         metadata_form_title: OpenID Connect 검색 엔드포인트
-      seeded_from_env: 이 공급자는 환경 구성에서 시드되었으며, 편집할 수 없습니다.
       side_panel:
         information_component:
           backchannel_logout_url: 백채널 로그아웃 URL

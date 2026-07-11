@@ -19,7 +19,6 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-#English strings go here for Rails i18n
 ---
 fr:
   activerecord:
@@ -542,11 +541,11 @@ fr:
   recurring_meeting:
     actual_first_occurrence_mismatch_html: La première occurrence de cette série sera %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: On obtient ainsi une série qui se termine par %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
+        one: Cela donne donc 1 événement à venir
+        other: 'Cela donne les événements à venir suivants : %{count}'
+      occurrences_capped: Cela donne plus de %{count} événements à venir
     day_of_month_skipping_info: Les mois comportant moins de %{monthly_day} jours seront ignorés
     delete_dialog:
       confirmation_message_html:

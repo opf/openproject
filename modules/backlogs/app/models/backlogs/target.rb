@@ -29,17 +29,31 @@
 #++
 
 module Backlogs
-  # Discriminated union describing where a story lives (or should move to):
-  # a sprint, a backlog bucket, or the inbox. It is the single place that maps
-  # between the +(list_type, list_id)+ wire format used by the move UI and the
-  # +(sprint_id, backlog_bucket_id)+ columns persisted on the work package.
+  # Discriminated union describing where a work package lives (or should move
+  # to): a sprint, a backlog bucket, or the inbox. It is the single place that
+  # maps between the +(list_type, list_id)+ wire format used by the move and
+  # add-existing UIs and the +(sprint_id, backlog_bucket_id)+ columns persisted
+  # on the work package.
   module Target
+    # Counterpart of InboxId
+    Inbox = Data.define do
+      def name = I18n.t(:label_inbox)
+    end.new
+
     SprintId = Data.define(:id) do
       def list_type = "sprint"
 
       def list_id = id
 
+      def to_list_params = { list_type:, list_id: }
+
       def attributes = { sprint_id: id, backlog_bucket_id: nil }
+
+      def to_filter = { name: "sprint", operator: "!", values: [id] }
+
+      def to_container_params = { sprint_id: id }
+
+      def container_for(project) = Sprint.for_project(project).visible.find_by(id:)
     end
 
     BucketId = Data.define(:id) do
@@ -47,7 +61,15 @@ module Backlogs
 
       def list_id = id
 
+      def to_list_params = { list_type:, list_id: }
+
       def attributes = { sprint_id: nil, backlog_bucket_id: id }
+
+      def to_filter = { name: "backlogBucket", operator: "!", values: [id] }
+
+      def to_container_params = { backlog_bucket_id: id }
+
+      def container_for(project) = BacklogBucket.for_project(project).visible.find_by(id:)
     end
 
     InboxId = Data.define do
@@ -55,11 +77,30 @@ module Backlogs
 
       def list_id = nil
 
+      def to_list_params = { list_type: }
+
       def attributes = { sprint_id: nil, backlog_bucket_id: nil }
+
+      def to_filter = { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
+
+      def to_container_params = {}
+
+      def container_for(_project) = Inbox
     end.new
 
+    def self.for(container)
+      case container
+      in Sprint
+        SprintId[container.id]
+      in BacklogBucket
+        BucketId[container.id]
+      in Inbox
+        InboxId
+      end
+    end
+
     # Encode the current location of a work package.
-    def self.for(work_package)
+    def self.for_work_package(work_package)
       if work_package.backlog_bucket_id
         BucketId[work_package.backlog_bucket_id]
       elsif work_package.sprint_id

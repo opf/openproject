@@ -28,24 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Types
-  extend ActiveSupport::Concern
+module RecurringMeetings
+  class ResetToTemplateContract < Meetings::BaseContract
+    validate :user_allowed_to_reset
 
-  included do
-    def types_used_by_work_packages
-      ::Type.where(id: WorkPackage.where(project_id: project.id)
-                                  .select(:type_id)
-                                  .distinct)
-    end
+    private
 
-    # Returns a scope of the types used by the project and its active sub projects
-    def rolled_up_types
-      ::Type
-        .joins(:projects)
-        .select("DISTINCT #{::Type.table_name}.*")
-        .where(projects: { id: self_and_descendants.select(:id) })
-        .merge(Project.active)
-        .order("#{::Type.table_name}.position")
+    def user_allowed_to_reset
+      project = model.recurring_meeting&.project || model.project
+      return if project.nil?
+
+      permission = options[:reopening] ? :create_meetings : :edit_meetings
+      return if user.allowed_in_project?(permission, project)
+
+      errors.add :base, :error_unauthorized
     end
   end
 end

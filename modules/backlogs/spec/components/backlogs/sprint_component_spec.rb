@@ -135,6 +135,16 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       it "renders the sprint kebab menu in the header" do
         expect(rendered_component).to have_element :"action-menu"
       end
+
+      it "renders the add work package menu actions" do
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, sprint_id: sprint.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href])
+            .to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "sprint", list_id: sprint.id)
+        end
+      end
     end
 
     context "when the user lacks the manage_sprint_items permission" do
@@ -154,6 +164,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
         expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
         expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
+      end
+
+      it "does not render the add work package menu actions" do
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
       end
     end
 
@@ -324,9 +339,18 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         it "preserves the grouped sprint action-menu structure" do
           rendered_component
 
-          expect(menu_items).to eq(["Edit sprint", "Add work package", "Sprint board", "Burndown chart"])
+          expect(menu_items).to eq(
+            [
+              "Edit sprint",
+              "Add new work package",
+              "Add existing work package",
+              "Sprint board",
+              "Burndown chart"
+            ]
+          )
           # The three item groups are separated by presentation-only dividers.
-          expect(page).to have_css("li[role='presentation']", count: 2)
+          expect(page).to have_css('li[role="presentation"]:nth-child(2)')
+          expect(page).to have_css('li[role="presentation"]:nth-child(5)')
         end
       end
     end

@@ -51,6 +51,16 @@ RSpec.describe Backlogs::WorkPackagesController do
   let(:sprint) { create(:sprint, name: "Agile Sprint 1", project:) }
   let(:work_package) { create(:work_package, status:, sprint:, project:, type: type_feature) }
 
+  shared_examples "shows a flash message after moving a work package that turns invisible" do |target_name|
+    it "shows a flash message after moving the work package" do
+      message = "The work package was moved to #{target_name} but is not visible"
+      expect(response).to be_successful
+      expect(response).to have_http_status :ok
+      expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+      expect(turbo_stream_template(action: "flash")).to include(message)
+    end
+  end
+
   describe "load_work_package" do
     let(:params) { { project_id: project.id, id: work_package.id } }
 
@@ -87,16 +97,6 @@ RSpec.describe Backlogs::WorkPackagesController do
     end
 
     context "with a Sprint as source" do
-      shared_examples "shows a flash message after moving a work package that turns invisible" do |target_name|
-        it "shows a flash message after moving the work package" do
-          message = "The work package was moved to #{target_name} but is not visible"
-          expect(response).to be_successful
-          expect(response).to have_http_status :ok
-          expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-          expect(turbo_stream_template(action: "flash")).to include(message)
-        end
-      end
-
       context "with the same Sprint as target" do
         let(:list_type) { "sprint" }
         let(:list_id) { sprint.id }
@@ -673,6 +673,382 @@ RSpec.describe Backlogs::WorkPackagesController do
             expect(body).not_to include(I18n.t(:label_sort_lower))
           end
         end
+      end
+    end
+  end
+
+  describe "GET #add_existing_dialog" do
+    let(:sprint) { create(:sprint, name: "Sprint 1", project:) }
+    let(:bucket) { create(:backlog_bucket, name: "My Bucket", project:) }
+
+    let(:form_action) { "backlogs/work_packages/add_existing?#{CGI.escapeHTML(list_params.to_query)}" }
+
+    subject(:response) { get :add_existing_dialog, params: { project_id: project.id, **list_params }, format: :turbo_stream }
+
+    context "with a Sprint as target" do
+      let(:list_params) { { list_type: "sprint", list_id: sprint.id } }
+
+      it "responds with a dialog turbo stream", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dialog"
+      end
+
+      it "includes the sprint name in the dialog title" do
+        expect(body).to include(sprint.name)
+      end
+
+      it "sets the form action to the add_existing endpoint with the sprint target" do
+        expect(body).to include(form_action)
+      end
+    end
+
+    context "with a Backlog bucket as target" do
+      let(:list_params) { { list_type: "backlog_bucket", list_id: bucket.id } }
+
+      it "responds with a dialog turbo stream", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dialog"
+      end
+
+      it "includes the bucket name in the dialog title" do
+        expect(body).to include(bucket.name)
+      end
+
+      it "sets the form action to the add_existing endpoint with the bucket target" do
+        expect(body).to include(form_action)
+      end
+    end
+
+    context "with Inbox as target" do
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with a dialog turbo stream", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "dialog"
+      end
+
+      it "includes 'Inbox' in the dialog title" do
+        expect(body).to include(I18n.t(:label_inbox))
+      end
+
+      it "sets the form action to the add_existing endpoint with the inbox target" do
+        expect(body).to include(form_action)
+      end
+    end
+
+    context "with a Backlog bucket that can't be found" do
+      let(:list_params) { { list_type: "backlog_bucket", list_id: bucket.id + 1 } }
+
+      it "responds with 404 and an error flash instead of a dialog", :aggregate_failures do
+        expect(response).to have_http_status :not_found
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with a Sprint that can't be found" do
+      let(:list_params) { { list_type: "sprint", list_id: sprint.id + 1 } }
+
+      it "responds with 404 and an error flash instead of a dialog", :aggregate_failures do
+        expect(response).to have_http_status :not_found
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with no list params" do
+      let(:list_params) { {} }
+
+      it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with an invalid list_type" do
+      let(:list_params) { { list_type: "garbage" } }
+
+      it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with a user lacking manage_sprint_items permission" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with 403" do
+        expect(response).to have_http_status :forbidden
+      end
+    end
+
+    context "with a user lacking project permission" do
+      let(:user) { create(:user) }
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with 404" do
+        expect(response).to have_http_status :not_found
+      end
+    end
+  end
+
+  describe "POST #add_existing" do
+    shared_let(:sprint) { create(:sprint, name: "Sprint 1", project:) }
+    shared_let(:target_sprint) { create(:sprint, name: "Sprint 2", project:) }
+    shared_let(:bucket) { create(:backlog_bucket, name: "Bucket 1", project:) }
+    shared_let(:target_bucket) { create(:backlog_bucket, name: "Bucket 2", project:) }
+
+    let(:work_package_id) { work_package.id }
+
+    subject(:response) do
+      post :add_existing, params: { project_id: project.id, work_package_id:, **list_params }, format: :turbo_stream
+    end
+
+    context "when the work package is in a sprint" do
+      let(:work_package) { create(:work_package, status:, sprint:, project:) }
+
+      context "with another sprint as target" do
+        let(:list_params) { { list_type: "sprint", list_id: target_sprint.id } }
+
+        it "responds with success and reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_http_status :ok
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package to the target sprint" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket_id: nil)
+        end
+      end
+
+      context "with inbox as target" do
+        let(:list_params) { { list_type: "inbox" } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package to the inbox" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil)
+        end
+
+        context "when the work package turns invisible (excluded status)" do
+          before { project.done_statuses << status }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
+        end
+
+        context "when the work package turns invisible (excluded type)" do
+          before { project.backlog_excluded_types << type_feature }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
+        end
+      end
+
+      context "with a backlog bucket as target" do
+        let(:list_params) { { list_type: "backlog_bucket", list_id: bucket.id } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package into the bucket" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint_id: nil, backlog_bucket: bucket)
+        end
+
+        context "when the work package turns invisible (excluded status)" do
+          before { project.done_statuses << status }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Bucket 1"
+        end
+      end
+
+      context "with the same sprint as target" do
+        let(:list_params) { { list_type: "sprint", list_id: sprint.id } }
+
+        it "responds with success and reloads the backlogs container without a flash", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_http_status :ok
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+          expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        end
+
+        it "does not change the WP backlog container attributes" do
+          expect { response }.not_to change { work_package.reload.attributes.slice(:sprint_id, :backlog_bucket_id) }
+        end
+      end
+    end
+
+    context "when the work package is in the inbox" do
+      let(:work_package) { create(:work_package, status:, project:) }
+
+      context "with a sprint as target" do
+        let(:list_params) { { list_type: "sprint", list_id: target_sprint.id } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package into the sprint" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket_id: nil)
+        end
+      end
+
+      context "with a backlog bucket as target" do
+        let(:list_params) { { list_type: "backlog_bucket", list_id: bucket.id } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package into the bucket" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint_id: nil, backlog_bucket: bucket)
+        end
+
+        context "when the work package turns invisible (excluded type)" do
+          before { project.backlog_excluded_types << type_feature }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Bucket 1"
+        end
+      end
+
+      context "with inbox as target" do
+        let(:list_params) { { list_type: "inbox" } }
+
+        it "responds with success and reloads the backlogs container without a flash", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_http_status :ok
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+          expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        end
+
+        it "does not change the WP backlog container attributes" do
+          expect { response }.not_to change { work_package.reload.attributes.slice(:sprint_id, :backlog_bucket_id) }
+        end
+      end
+    end
+
+    context "when the work package is in a backlog bucket" do
+      shared_let(:work_package) { create(:work_package, status:, project:, backlog_bucket: bucket) }
+
+      context "with a sprint as target" do
+        let(:list_params) { { list_type: "sprint", list_id: target_sprint.id } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package into the sprint" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket_id: nil)
+        end
+      end
+
+      context "with inbox as target" do
+        let(:list_params) { { list_type: "inbox" } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package to the inbox" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil)
+        end
+      end
+
+      context "with another backlog bucket as target" do
+        let(:list_params) { { list_type: "backlog_bucket", list_id: target_bucket.id } }
+
+        it "reloads the backlogs container", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+        end
+
+        it "moves the work package into the target bucket" do
+          response
+
+          expect(work_package.reload).to have_attributes(sprint_id: nil, backlog_bucket: target_bucket)
+        end
+      end
+
+      context "with the same backlog bucket as target" do
+        let(:list_params) { { list_type: "backlog_bucket", list_id: bucket.id } }
+
+        it "responds with success and reloads the backlogs container without a flash", :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to have_http_status :ok
+          expect(response).to have_turbo_stream action: "turbo_frame_reload", target: "backlogs_container"
+          expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        end
+
+        it "does not change the WP backlog container attributes" do
+          expect { response }.not_to change { work_package.reload.attributes.slice(:sprint_id, :backlog_bucket_id) }
+        end
+      end
+    end
+
+    context "when service call fails" do
+      let(:list_params) { { list_type: "inbox" } }
+
+      before do
+        allow(Backlogs::WorkPackages::UpdateService)
+          .to receive(:new)
+          .and_return(instance_double(Backlogs::WorkPackages::UpdateService, call: ServiceResult.failure(message: "Error")))
+      end
+
+      it "renders an error flash with 422", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+      end
+    end
+
+    context "when the work package belongs to another project" do
+      let(:work_package) { create(:work_package, status:) }
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with 404" do
+        expect(response).to have_http_status :not_found
+      end
+    end
+
+    context "with a user lacking manage_sprint_items permission" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with 403" do
+        expect(response).to have_http_status :forbidden
+      end
+    end
+
+    context "with a user lacking project permission" do
+      let(:user) { create(:user) }
+      let(:list_params) { { list_type: "inbox" } }
+
+      it "responds with 404" do
+        expect(response).to have_http_status :not_found
       end
     end
   end

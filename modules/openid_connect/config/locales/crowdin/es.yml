@@ -134,7 +134,6 @@ es:
         metadata_form_banner: La edición del terminal de descubrimiento puede reemplazar los valores de metadatos prerellenados existentes.
         metadata_form_description: Si su proveedor de identidad tiene una URL de terminal de descubrimiento. Utilícela a continuación para prerellenar la configuración.
         metadata_form_title: Terminal de descubrimiento de OpenID Connect
-      seeded_from_env: Este proveedor fue sembrado desde la configuración del entorno. No puede editarse.
       side_panel:
         information_component:
           backchannel_logout_url: URL de cierre de sesión de backchannel

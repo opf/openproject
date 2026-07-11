@@ -204,6 +204,10 @@ Rails.application.routes.draw do
     collection do
       post "move/:id", action: "move"
     end
+
+    member do
+      put :drop
+    end
   end
 
   resources :statuses, except: :show

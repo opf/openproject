@@ -42,6 +42,7 @@ et:
         text: Sprint goal
       work_package:
         backlog_bucket: Backlog bucket
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Backlog type
         position: Asukoht
         sprint: Sprint
@@ -87,6 +88,8 @@ et:
         one: Sprint
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
       title: Backlog admin settings are evolving
@@ -104,6 +107,8 @@ et:
       select_panel_title: Select items
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Delete backlog bucket
         edit_backlog_bucket: Edit backlog bucket
       blankslate_description: Drag items here to add them.
@@ -130,8 +135,12 @@ et:
       select_sprint_label: Select sprint
       title: There are work in progress items
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: All open work packages in this project will automatically appear here.
       blankslate_title: Backlog inbox is empty
+      label_actions: Inbox actions
       show_more:
         one: Show 1 more item
         other: Show %{count} more items
@@ -156,7 +165,8 @@ et:
     show_burndown_chart: Burndown chart
     sprint_component:
       action_menu:
-        add_work_package: Add work package
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Edit sprint
       blankslate_description: No items planned yet. Drag items here to add them.
       blankslate_title: "%{name} is empty"
@@ -185,12 +195,6 @@ et:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       one: "%{count} story point"
       other: "%{count} story points"
@@ -208,6 +212,15 @@ et:
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: Work package is done, when
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Story points
     story_points_ideal: Story points (ideal)
@@ -278,4 +291,6 @@ et:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: remaining work

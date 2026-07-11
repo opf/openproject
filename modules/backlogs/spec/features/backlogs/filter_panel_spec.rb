@@ -207,7 +207,7 @@ RSpec.describe "Backlog filter panel", :js do
         backlogs_page.expect_no_sprint(Sprint.find_by!(project:, name: "Sprint C"))
         expect_selected_filters_preserved
 
-        backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Edit backlog bucket")
+        backlogs_page.click_in_bucket_menu(bucket_a, "Edit backlog bucket")
         within_dialog "Edit backlog bucket" do
           fill_in "Name", with: "Bucket A Renamed"
           click_on "Save"
