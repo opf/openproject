@@ -994,6 +994,19 @@ RSpec.describe WorkPackage do
       end
     end
 
+    describe "without a type (only possible while unpersisted)",
+             with_settings: { work_packages_identifier: "classic" } do
+      let(:untyped_work_package) { build_stubbed(:work_package, project:, type: nil, subject: "Hello world") }
+
+      it "renders the heading like a standard type, without a type name" do
+        expect(untyped_work_package.to_fs(:heading)).to eq(" ##{untyped_work_package.id}: Hello world")
+      end
+
+      it "renders the caption without the type prefix and its colon" do
+        expect(untyped_work_package.to_fs(:caption)).to eq("Hello world (##{untyped_work_package.id})")
+      end
+    end
+
     it "raises ArgumentError for an unknown style" do
       expect { work_package.to_fs(:bogus) }
         .to raise_error(ArgumentError, /unknown format style/)

@@ -265,8 +265,8 @@ class WorkPackage < ApplicationRecord
   # @return [String]
   def to_fs(style = :heading)
     case style
-    when :heading then "#{type.name unless type.is_standard} #{formatted_id}: #{subject}"
-    when :caption then "#{type.name}: #{subject} (#{formatted_id})"
+    when :heading then "#{type&.name unless type&.is_standard} #{formatted_id}: #{subject}"
+    when :caption then "#{"#{type.name}: " if type}#{subject} (#{formatted_id})"
     else raise ArgumentError, "unknown format style: #{style.inspect}"
     end
   end
