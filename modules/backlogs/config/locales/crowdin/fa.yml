@@ -42,6 +42,7 @@ fa:
         text: هدف اسپرینت
       work_package:
         backlog_bucket: مخزن بک‌لاگ
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Backlog type
         position: Position
         sprint: اسپرینت
@@ -87,6 +88,8 @@ fa:
         one: اسپرینت
         other: اسپرینت‌ها
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: ما در حال بازطراحی ماژول بک‌لاگ هستیم. تنظیمات مدیریتی اسپرینت‌ها و بک‌لاگ‌ها به‌زودی در اینجا نمایش داده می‌شود. تنظیمات سطح پروژه همچنان در دسترس است.
       title: تنظیمات مدیریتی بک‌لاگ در حال تکمیل است
@@ -104,6 +107,8 @@ fa:
       select_panel_title: انتخاب موارد
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: حذف مخزن بک‌لاگ
         edit_backlog_bucket: ویرایش مخزن بک‌لاگ
       blankslate_description: برای افزودن موارد، آن‌ها را اینجا بکشید.
@@ -130,8 +135,12 @@ fa:
       select_sprint_label: انتخاب اسپرینت
       title: مواردی در حال انجام هستند
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: همه بسته‌های کاری بازِ این پروژه به‌صورت خودکار اینجا نمایش داده می‌شوند.
       blankslate_title: صندوق ورودی بک‌لاگ خالی است
+      label_actions: Inbox actions
       show_more:
         one: نمایش ۱ مورد دیگر
         other: نمایش %{count} مورد دیگر
@@ -156,7 +165,8 @@ fa:
     show_burndown_chart: Burndown chart
     sprint_component:
       action_menu:
-        add_work_package: Add work package
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Edit sprint
       blankslate_description: No items planned yet. Drag items here to add them.
       blankslate_title: "%{name} is empty"
@@ -185,12 +195,6 @@ fa:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       one: "%{count} امتیاز داستان"
       other: "%{count} امتیاز های داستان"
@@ -208,6 +212,15 @@ fa:
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: Work package is done, when
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Story points
     story_points_ideal: Story points (ideal)
@@ -278,4 +291,6 @@ fa:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: کار باقیمانده

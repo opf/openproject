@@ -672,7 +672,13 @@ pl:
               must_start_with_letter: musi zaczynać się literą
               no_special_characters: może zawierać tylko wielkie litery, cyfry i znaki podkreślenia
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: Wybranemu użytkownikowi nie można przypisywać pakietów roboczych.
           foreign_wps_reference_version: Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.
         project/phase:
@@ -5944,8 +5950,19 @@ pl:
             work_package: Zadanie
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        few: "%{count} sub-types"
+        many: "%{count} sub-types"
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.
     message: Na tej stronie mogą wystąpić błędy i pogorszenie działania.

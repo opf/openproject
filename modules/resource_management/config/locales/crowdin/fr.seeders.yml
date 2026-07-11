@@ -8,14 +8,14 @@ fr:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Répartition des équipes
             work_package_list:
-              name: Work packages
+              name: Lots de travaux
             work_package_timeline:
-              name: Work package timeline
+              name: Calendrier des lots de travail
             user_card:
-              name: Team members
+              name: Membres de l'équipe
             user_timeline:
-              name: Team timeline
+              name: Chronologie de l'équipe
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Développeur logiciel

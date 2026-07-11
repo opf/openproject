@@ -669,7 +669,13 @@ ko:
               must_start_with_letter: "- 문자로 시작해야 합니다"
               no_special_characters: "- 대문자, 숫자 및 밑줄만 포함될 수 있습니다"
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: 선택한 사용자는 작업 패키지에 할당할 수 없습니다.
           foreign_wps_reference_version: 하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.
         project/phase:
@@ -5762,8 +5768,16 @@ ko:
             work_package: 작업 패키지
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
+      subtype_label: Sub-type
+      subtypes_count:
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.
     message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.

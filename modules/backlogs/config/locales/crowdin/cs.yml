@@ -42,6 +42,7 @@ cs:
         text: Cíl sprintu
       work_package:
         backlog_bucket: Sekce backlogu
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Typ backlogu
         position: Pozice
         sprint: Sprint
@@ -91,6 +92,8 @@ cs:
         many: Sprints
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: V současné době přepracováváme modul Backlogů. V blízké budoucnosti zde budou viditelná administrátorská nastavení pro sprinty a backlogy. Nastavení na úrovni projektů zůstávají k dispozici.
       title: Nastavení backlogu se vyvíjí
@@ -108,6 +111,8 @@ cs:
       select_panel_title: Vybrat položky
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Smazat sekci backlogu
         edit_backlog_bucket: Upravit sekci backlogu
       blankslate_description: Přetažením položek sem je přidáte.
@@ -134,8 +139,12 @@ cs:
       select_sprint_label: Vyberte sprint
       title: Existují rozpracované položky
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: Zde se automaticky zobrazí všechny otevřené pracovní balíčky tohoto projektu.
       blankslate_title: Žádné nevyřízené položky
+      label_actions: Inbox actions
       show_more:
         one: Zobrazit ještě 1 položku
         few: Zobrazit ještě %{count} položek
@@ -164,7 +173,8 @@ cs:
     show_burndown_chart: Graf Burndown
     sprint_component:
       action_menu:
-        add_work_package: Přidat pracovní balíček
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Upravit sprint
       blankslate_description: Zatím nejsou naplánovány žádné položky. Přetažením položek sem je přidáte.
       blankslate_title: "%{name} je prázdný"
@@ -193,12 +203,6 @@ cs:
     statuses_considered_closed_caption: 'Vyberte stavy, které představují uzavřený nebo dokončený stav vašeho pracovního postupu. Tyto stavy budou považovány za stav "Uzavřeno" v rámci reportingu (např. Burndown) a plánování sprintu. Například stavy jako "Hotovo", "Vyřešeno" nebo "Nebude opraveno" mohou ve vašem procesu představovat uzavřenou pracovní položku.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id a direction nemohou být přítomny zároveň.
-        invalid_direction: 'směr musí být jeden z následujících: vyšší, nejvyšší, nižší, nejnižší.'
-        invalid_target_type: 'target_type musí být jeden z následujících: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: musí být přítomno target_id nebo direction.
     story_points:
       one: "%{count} story point"
       few: "%{count} story pointy"
@@ -218,6 +222,15 @@ cs:
         move_to_inbox: Přesunout do Nevyřízených
         move_to_sprint: Přesunout do sprintu
     work_package_is_closed: Pracovní balíček je hotov, když
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Story pointy
     story_points_ideal: Story pointy (ideální)
@@ -288,4 +301,6 @@ cs:
         sharing_form_component:
           sharing_description: Tento projekt může buď sdílet vlastní sprinty, přijímat sdílené sprinty, nebo sprinty zpracovávat samostatně (bez sdílení).
           sharing_fallback_description: Vzhledem k tomu, že chybí podnikový plán, jsou možnosti sdílení omezeny na vlastní sprinty projektu. Aktuálně aktivní nastavení zůstává aktivní.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: Zbývající práce

@@ -134,7 +134,6 @@ nl:
         metadata_form_banner: Het bewerken van het zoekeindpunt kan bestaande, vooraf ingevulde metadatawaarden overschrijven.
         metadata_form_description: Als uw identity provider een discovery eindpunt URL heeft. Gebruik deze hieronder om de configuratie te vooraf in te vullen.
         metadata_form_title: OpenID Connect Discovery eindpunt
-      seeded_from_env: Deze provider is geplaatst vanuit de omgevingsconfiguratie. Deze kan niet worden bewerkt.
       side_panel:
         information_component:
           backchannel_logout_url: Backchannel logout URL
