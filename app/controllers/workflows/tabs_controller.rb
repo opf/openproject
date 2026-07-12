@@ -42,7 +42,7 @@ class Workflows::TabsController < ApplicationController
 
   def edit
     unless turbo_frame_request?
-      redirect_to edit_workflow_path(@type, role_ids: params[:role_ids], tab: @tab)
+      redirect_to edit_type_workflow_path(@type, role_ids: params[:role_ids], tab: @tab)
       return
     end
 
@@ -149,7 +149,7 @@ class Workflows::TabsController < ApplicationController
   private
 
   def set_type
-    @type = ::Type.find(params[:workflow_type_id])
+    @type = ::Type.find(params.expect(:type_id))
   end
 
   def set_tab

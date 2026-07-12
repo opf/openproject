@@ -74,17 +74,43 @@ See COPYRIGHT and LICENSE files for more details.
         scheme: :secondary,
         leading_icon: :plus,
         label: t("admin.workflows.status_button"),
-        href: helpers.status_dialog_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id), status_ids: @statuses.pluck(:id).presence),
+        href: helpers.status_dialog_type_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id), status_ids: @statuses.pluck(:id).presence),
         data: { controller: "async-dialog" }
       ) do
         t("admin.workflows.status_button")
       end
+
+      subheader.with_action_button(
+        tag: :a,
+        scheme: :secondary,
+        leading_icon: :copy,
+        label: t(:button_copy),
+        href: helpers.new_type_workflow_copy_path(@type, source_role_id: @roles.first&.id),
+        aria: { label: t(:button_copy) },
+        title: t(:button_copy),
+        data: { controller: "async-dialog", "admin--workflow-checkbox-state-confirmation-trigger": "click" }
+      ) do
+        t(:button_copy)
+      end
     end
   %>
 
+  <% transition_tabs = helpers.workflow_tabs(@type) %>
+  <%= render(Primer::Alpha::SegmentedControl.new("aria-label": t("admin.workflows.tabs.aria_label"), mb: 3)) do |control| %>
+    <% transition_tabs.each do |tab| %>
+      <% control.with_item(
+           tag: :a,
+           href: tab[:path],
+           label: helpers.tab_label(tab),
+           selected: helpers.selected_tab(transition_tabs) == tab,
+           data: tab[:data]
+         ) %>
+    <% end %>
+  <% end %>
+
   <% if @statuses.any? %>
     <%= form_tag(
-          workflow_tab_path(@type),
+          type_workflow_tab_path(@type),
           id: form_id,
           method: :patch,
           autocomplete: "off",

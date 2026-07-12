@@ -40,6 +40,19 @@ See COPYRIGHT and LICENSE files for more details.
     if OpenProject::FeatureDecisions.subtypes_active?
       header.with_description { t("types.index.description") }
     end
+
+    header.with_action_menu(
+      menu_arguments: { anchor_align: :end },
+      button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more) }
+    ) do |menu|
+      menu.with_item(
+        tag: :a,
+        label: t(:label_workflow_summary),
+        href: workflow_summary_types_path
+      ) do |item|
+        item.with_leading_visual_icon(icon: :workflow)
+      end
+    end
   end
 %>
 <%=

@@ -38,7 +38,7 @@ module Workflows
       params = {}
       params[:role_ids] = roles.map(&:id) if roles.any?
       params[:tab] = tab if tab
-      visit edit_workflow_path(type, **params)
+      visit edit_type_workflow_path(type, **params)
     end
 
     def switch_role_via_panel(from_role, to_role)

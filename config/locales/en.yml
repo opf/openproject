@@ -1558,6 +1558,7 @@ en:
           other: "Remove %{count} statuses?"
         title: "Remove statuses"
       tabs:
+        aria_label: "Workflow transitions"
         default_transitions: "Default transitions"
         user_assignee: "User is assignee"
         user_author: "User is author"
@@ -3667,7 +3668,7 @@ en:
   label_workflow: "Workflow"
   label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
-  label_workflow_summary: "Summary"
+  label_workflow_summary: "Workflow summary"
   label_working_days: "Working days"
   label_working_days_and_hours: "Working days and hours"
   label_working_hours: "Work schedule"
@@ -6079,6 +6080,8 @@ en:
             project: "Project"
             work_package: "Work package"
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: "Workflow"
     index:
       add_subtype: "Add sub-type to %{name}"
       description: >

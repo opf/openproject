@@ -617,9 +617,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "with copy dialog" do
     it "allows navigating to any Copy page", :js do
-      within ".PageHeader-actions" do
-        click_on "Copy"
-      end
+      click_on "Copy"
 
       expect(page).to have_dialog "Copy workflow"
     end

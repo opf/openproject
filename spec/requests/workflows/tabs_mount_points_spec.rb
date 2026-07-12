@@ -30,23 +30,33 @@
 
 require "spec_helper"
 
-RSpec.describe "workflows routes" do
-  it { expect(get("/workflows")).to route_to("workflows#index") }
-
-  it { expect(get("/workflows/42/edit")).to route_to("workflows#edit", type_id: "42") }
-
-  it { expect(get("/workflows/42/tabs/always/edit")).to route_to("workflows/tabs#edit", workflow_type_id: "42", tab: "always") }
-  it { expect(patch("/workflows/42/tabs/always")).to route_to("workflows/tabs#update", workflow_type_id: "42", tab: "always") }
-
-  it { expect(get("/workflows/42/copy/new")).to route_to("workflows/copies#new", workflow_type_id: "42") }
-
-  it do
-    expect(get("/workflows/42/copy/new?source_role_id=23"))
-    .to route_to("workflows/copies#new", workflow_type_id: "42", source_role_id: "23")
+# The workflow matrix lives only under the type edit page now. This exercises the
+# frame body end-to-end, ensuring every route helper resolves and the matrix renders.
+RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:role) { create(:project_role) }
+  shared_let(:type) { create(:type) }
+  shared_let(:status_a) { create(:status) }
+  shared_let(:status_b) { create(:status) }
+  shared_let(:workflow) do
+    create(:workflow, type:, role:, old_status: status_a, new_status: status_b)
   end
 
-  it { expect(post("/workflows/42/copy/from_type")).to route_to("workflows/copies/from_types#create", workflow_type_id: "42") }
-  it { expect(post("/workflows/42/copy/from_role")).to route_to("workflows/copies/from_roles#create", workflow_type_id: "42") }
+  before { login_as admin }
 
-  it { expect(get("/workflows/summary")).to route_to("workflows/summaries#show") }
+  it "renders the matrix frame with the segmented control and posts to the type-nested path" do
+    get edit_type_workflow_tab_path(type, "always", role_ids: [role.id]),
+        headers: { "Turbo-Frame" => "workflow-table" }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Default transitions")
+    expect(response.body).to include("action=\"#{type_workflow_tab_path(type)}\"")
+  end
+
+  it "renders the type edit page shell with the lazy workflow frame" do
+    get edit_type_workflow_path(type)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("turbo-frame")
+  end
 end
