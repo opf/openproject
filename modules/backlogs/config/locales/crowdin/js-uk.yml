@@ -22,9 +22,9 @@
 ---
 uk:
   js:
-    work_packages:
-      properties:
-        storyPoints: Сторі-поінти
     burndown:
       day: День
       points: Одиниці
+    work_packages:
+      properties:
+        storyPoints: Сторі-поінти

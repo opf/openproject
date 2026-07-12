@@ -1,20 +1,28 @@
 ---
 sl:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Število stolpcev
+        page: Stran
+        row_count: Število vrstic
+        scope: Področje
+        widgets: Gradniki
+    errors:
+      models:
+        grids/grid:
+          end_before_start: končna vrednost mora biti večja od začetne vrednosti.
+          outside: je zunaj omrežja.
+          overlaps: prekrivanje.
   grids:
     label_widget_in_grid: Gradnik je vsebovan v mreži %{grid_name}
     widgets:
       empty: This widget is currently empty.
-      not_available: This widget is not available.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Members
         no_results: 'Ni še vidnih članov. '
-        view_all_members: Poglej vse člane
         show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: Poglej vse člane
         x_more:
           one: and one more member.
           two: and %{count} more members.
@@ -22,17 +30,9 @@ sl:
           other: and %{count} more members.
       news:
         no_results: Ni ničesar novega za poročati.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Stran
-        row_count: Število vrstic
-        column_count: Število stolpcev
-        widgets: Gradniki
-        scope: Področje
-    errors:
-      models:
-        grids/grid:
-          overlaps: prekrivanje.
-          outside: je zunaj omrežja.
-          end_before_start: končna vrednost mora biti večja od začetne vrednosti.
+      not_available: This widget is not available.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

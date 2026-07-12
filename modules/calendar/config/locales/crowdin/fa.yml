@@ -1,13 +1,12 @@
-#English strings go here
 ---
 fa:
-  plugin_openproject_calendar:
-    name: OpenProject Calendar
-    description: Provides calendar views.
   label_calendar: تقویم‌ها
   label_calendar_plural: تقویم‌ها
   label_new_calendar: تقویم جدید
-  permission_view_calendar: نمایش تقویم ها
   permission_manage_calendars: مدیریت تقویم ها
   permission_share_calendars: مشترک شدن در iCalendars
+  permission_view_calendar: نمایش تقویم ها
+  plugin_openproject_calendar:
+    description: Provides calendar views.
+    name: OpenProject Calendar
   project_module_calendar_view: تقویم‌ها

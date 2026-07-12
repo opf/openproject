@@ -22,15 +22,15 @@
 ---
 ru:
   js:
-    text_are_you_sure: Уверены?
-    myTimeTracking:
-      noSpecificTime: Нет определенного времени
-    work_packages:
-      property_groups:
-        costs: Затраты
-      properties:
-        overallCosts: Общие расходы
-        spentUnits: Затраченное количество
     button_log_costs: Внести расходы на единицу
     label_hour: час
     label_hours: часы
+    myTimeTracking:
+      noSpecificTime: Нет определенного времени
+    text_are_you_sure: Уверены?
+    work_packages:
+      properties:
+        overallCosts: Общие расходы
+        spentUnits: Затраченное количество
+      property_groups:
+        costs: Затраты

@@ -93,6 +93,21 @@ pl:
           name: Wysokie
         item_3:
           name: Natychmiastowe
+      departments:
+        item_0:
+          name: Marketing i komunikacja
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Projekt i treść
+        item_3:
+          name: Zdarzenia i operacje
+        item_4:
+          name: Sieć i IT
+        item_5:
+          name: Finanse i administracja
+        item_6:
+          name: Zapewnienie jakości
       projects:
         demo-project:
           name: Projekt demo
@@ -182,8 +197,10 @@ pl:
                 item_2:
                   subject: Skonfiguruj witrynę internetową konferencji
             item_2:
-              subject: Konferencja
+              subject: Przetestuj witrynę internetową konferencji i sprawdź jej jakość
             item_3:
+              subject: Konferencja
+            item_4:
               subject: Zadania następcze
               children:
                 item_0:
@@ -191,11 +208,11 @@ pl:
                 item_1:
                   subject: Przyjęcie dla osób wspierających konferencję :-)
                   description: |-
-                    * [ ] Piwo
-                    * [ ] Przekąski
-                    * [ ] Muzyka
-                    * [ ] Jeszcze więcej piwa
-            item_4:
+                    *   [ ] Piwo
+                    *   [ ] Przekąski
+                    *   [ ] Muzyka
+                    *   [ ] Jeszcze więcej piwa
+            item_5:
               subject: Zakończenie projektu
           wiki: |
             _W tej wiki można wspólnie tworzyć i edytować strony i podstrony, aby stworzyć wiki projektu._

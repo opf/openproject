@@ -93,6 +93,21 @@ cs:
           name: Vysoká
         item_3:
           name: Okamžitá
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo projekt
@@ -167,21 +182,23 @@ cs:
                 item_2:
                   subject: Nastavit web konference
             item_2:
-              subject: Konference
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Následné úkoly
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Nahrát prezentace na webové stránky
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Party pro podporovatele konferencí :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Pivo
-                    * [ ] Pivo
-                    * [ ] Hudba
-                    * [ ] Ještě více piva
-            item_4:
-              subject: Ukončení projektu
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
 

@@ -1,30 +1,29 @@
-#English strings go here
 ---
 tr:
   js:
     team_planner:
-      add_existing: Mevcut olanı ekle
-      label_team_planner_plural: Takım planlayıcıları
-      add_existing_title: Mevcut iş paketlerini ekle
-      create_label: Takım planlayıcısı
-      create_title: Yeni takım planlayıcısı oluştur
-      unsaved_title: İsimsiz takım planlayıcısı
-      no_data: Takım planlayıcınızı ayarlamak için atanan kişileri ekleyin.
       add_assignee: Atanan
-      remove_assignee: Atananı kaldır
-      two_weeks: 2 haftalık
-      one_week: 1 haftalık
-      four_weeks: 4 haftalık
-      eight_weeks: 8 haftalık
-      work_week: Çalışma haftası
-      today: Bugün
-      drag_here_to_remove: Atanan kişiyi ve başlangıç ve bitiş tarihlerini kaldırmak için buraya sürükleyin.
+      add_existing: Mevcut olanı ekle
+      add_existing_title: Mevcut iş paketlerini ekle
       cannot_drag_here: İzinler veya düzenleme kısıtlamaları nedeniyle iş paketi taşınamıyor.
       cannot_drag_to_non_working_day: Bu iş paketi, çalışma dışı bir günde başlayamaz veya bitemez.
+      create_label: Takım planlayıcısı
+      create_title: Yeni takım planlayıcısı oluştur
+      drag_here_to_remove: Atanan kişiyi ve başlangıç ve bitiş tarihlerini kaldırmak için buraya sürükleyin.
+      eight_weeks: 8 haftalık
+      four_weeks: 4 haftalık
+      label_team_planner_plural: Takım planlayıcıları
+      modify:
+        errors:
+          fallback: Bu iş paketi düzenlenemez.
+          permission_denied: Bunu değiştirmek için gerekli izinlere sahip değilsiniz.
+      no_data: Takım planlayıcınızı ayarlamak için atanan kişileri ekleyin.
+      one_week: 1 haftalık
       quick_add:
         empty_state: İş paketlerini bulmak için arama alanını kullanın ve bunları birine atamak için planlayıcıya sürükleyin ve başlangıç ve bitiş tarihlerini tanımlayın.
         search_placeholder: Ara...
-      modify:
-        errors:
-          permission_denied: Bunu değiştirmek için gerekli izinlere sahip değilsiniz.
-          fallback: Bu iş paketi düzenlenemez.
+      remove_assignee: Atananı kaldır
+      today: Bugün
+      two_weeks: 2 haftalık
+      unsaved_title: İsimsiz takım planlayıcısı
+      work_week: Çalışma haftası

@@ -1,10 +1,9 @@
-#English strings go here
 ---
 sl:
   js:
     calendar:
       create_new: Ustvari nov koledar
+      label_calendar_plural: Koledarji
       title: Koledar
       too_many: Obstaja %{count} delovnih paketov, vendar je lahko prikazanih samo %{max}.
       unsaved_title: Neimenovani koledar
-      label_calendar_plural: Koledarji

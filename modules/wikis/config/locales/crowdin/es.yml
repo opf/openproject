@@ -129,6 +129,8 @@ es:
       wiki_page: Página wiki
     create_new_wiki_page_dialog:
       title: Crear nueva página de wiki
+    deferred_inline_page_link_macro_component:
+      loading: Cargando…
     delete_relation_page_link_confirmation_dialog:
       heading: "¿Eliminar el enlace a la página wiki relacionada?"
       title: Eliminar el enlace a la página wiki relacionada
@@ -181,6 +183,8 @@ es:
         page_access_forbidden: No tienes permiso para acceder a esta página wiki
         page_not_found: La página wiki enlazada ya no está disponible
         unexpected: Se ha producido un error desconocido
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

@@ -1,36 +1,36 @@
 ---
 hu:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Oszlopok száma
+        page: Oldal
+        row_count: Sorok száma
+        scope: Terjedelem
+        widgets: Kisalkalmazások
+    errors:
+      models:
+        grids/grid:
+          end_before_start: a befejező értéknek nagyobbnak kell lennie mint a kezdőnek
+          outside: hatókörön kívül van.
+          overlaps: átfedés
   grids:
     label_widget_in_grid: A Widget Gridet-et%{grid_name} tartalmaz
     widgets:
       empty: Ez a widget jelenleg üres.
-      not_available: Ez a widget nem elérhető.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Tagok
         no_results: Nincsenek látható tagok.
-        view_all_members: Az összes tag megtekintése
         show_members_count: Show all %{count} members
+        title: Tagok
+        view_all_members: Az összes tag megtekintése
         x_more:
           one: and one more member.
           other: and %{count} more members.
       news:
         no_results: Semmi új jelenteni való.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Oldal
-        row_count: Sorok száma
-        column_count: Oszlopok száma
-        widgets: Kisalkalmazások
-        scope: Terjedelem
-    errors:
-      models:
-        grids/grid:
-          overlaps: átfedés
-          outside: hatókörön kívül van.
-          end_before_start: a befejező értéknek nagyobbnak kell lennie mint a kezdőnek
+      not_available: Ez a widget nem elérhető.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

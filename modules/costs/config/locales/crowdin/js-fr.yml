@@ -22,15 +22,15 @@
 ---
 fr:
   js:
-    text_are_you_sure: Êtes-vous sûr ?
-    myTimeTracking:
-      noSpecificTime: Aucune heure spécifique
-    work_packages:
-      property_groups:
-        costs: Coûts
-      properties:
-        overallCosts: Coûts globaux
-        spentUnits: Unités consommées
     button_log_costs: Consigner des coûts unitaires
     label_hour: heure
     label_hours: heures
+    myTimeTracking:
+      noSpecificTime: Aucune heure spécifique
+    text_are_you_sure: Êtes-vous sûr ?
+    work_packages:
+      properties:
+        overallCosts: Coûts globaux
+        spentUnits: Unités consommées
+      property_groups:
+        costs: Coûts

@@ -1,15 +1,11 @@
-#English strings go here
 ---
 uk:
   js:
-    label_preview: Попередній перегляд
-    button_update: Оновити
     avatars:
+      empty_file_error: Будь ласка, завантажте зображення вірного формату (jpg, png, gif)
+      error_image_too_large: Зображення завелике.
       label_choose_avatar: Оберіть ваш Avatar з файлу
       uploading_avatar: Завантаження вашого аватару.
-      text_upload_instructions: |
-        Завантажте власний аватар розміром 128 × 128 пікселів. Якщо зображення більше, його буде автоматично змінено до потрібного розміру й обрізано.
-        Коли ви виберете зображення, то зможете переглянути аватар, перш ніж завантажувати його.
-      error_image_too_large: Зображення завелике.
       wrong_file_format: 'Дозволені формати: jpg, png, gif'
-      empty_file_error: Будь ласка, завантажте зображення вірного формату (jpg, png, gif)
+    button_update: Оновити
+    label_preview: Попередній перегляд

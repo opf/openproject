@@ -22,15 +22,15 @@
 ---
 es:
   js:
-    text_are_you_sure: "¿Estás seguro?"
-    myTimeTracking:
-      noSpecificTime: No se ha especificado el tiempo
-    work_packages:
-      property_groups:
-        costs: Costos
-      properties:
-        overallCosts: Costos totales
-        spentUnits: Unidades usadas
     button_log_costs: Registrar costos unitarios
     label_hour: hora
     label_hours: horas
+    myTimeTracking:
+      noSpecificTime: No se ha especificado el tiempo
+    text_are_you_sure: "¿Estás seguro?"
+    work_packages:
+      properties:
+        overallCosts: Costos totales
+        spentUnits: Unidades usadas
+      property_groups:
+        costs: Costos
