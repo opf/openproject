@@ -15,7 +15,7 @@
     "npm": "^11.0.0"
   },
   "devDependencies": {
-    "@herb-tools/linter": "^0.8.5",
+    "@herb-tools/linter": "^0.10.1",
     "@redocly/cli": "^2.32.0"
   },
   "dependencies": {
