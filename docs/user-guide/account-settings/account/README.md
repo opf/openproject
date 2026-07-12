@@ -32,7 +32,7 @@ Here you can **update** or delete your profile. If you're changing the email add
 > This applies only to internal accounts where OpenProject can verify the password.
 
 > [!TIP]
-> Please note that 'Hide my email' checkbox was removed from account settings with OpenProject 15.0.  The function was replaced by [the new Standard global role](../../system-admin-guide/users-permissions/roles-permissions/#standard), which regulates this permission on an instance level. 
+> Please note that 'Hide my email' checkbox was removed from account settings with OpenProject 15.0.  The function was replaced by [the new Standard global role](../../../system-admin-guide/users-permissions/roles-permissions/#standard), which regulates this permission on an instance level. 
 
 ![Profile settings in OpenProject](openproject_account_settings_profile.png)
 
@@ -47,4 +47,4 @@ To delete your account, navigate to _Account settings_ -> _Account_ and click th
 > [!WARNING]
 > Deleting a user account is permanent and cannot be reversed.
 
-If you cannot see the entry **Delete** button under your **Account settings**, make sure the option "Users allowed to delete their account" is [activated in the administration](../../system-admin-guide/users-permissions/settings/#user-deletion).
+If you cannot see the entry **Delete** button under your **Account settings**, make sure the option "Users allowed to delete their account" is [activated in the administration](../../../system-admin-guide/users-permissions/settings/#user-deletion).

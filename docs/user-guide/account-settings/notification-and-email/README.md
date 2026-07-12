@@ -16,9 +16,9 @@ To configure the notification settings which you receive from the system, naviga
 
 ![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
 
-In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
+In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../notifications/notification-settings/).
 
-Please also see our detailed [in-app notifications](../../user-guide/notifications/) guide to gain a general understanding.
+Please also see our detailed [in-app notifications](../../notifications/) guide to gain a general understanding.
 
 ## Email reminders
 
@@ -39,11 +39,11 @@ You can choose to receive emails immediately, or only on certain days and times,
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
-- **News added** - ...adds or updates news in the [News Page](../../user-guide/news/)
+- **News added** - ...adds or updates news in the [News Page](../../news/)
 - **Comment on a news item** - ...adds a comment on a news item
 - **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
-- **New forum message** - ...sends a new message into the [Forum](../../user-guide/forums/)
-- **Wiki page added** - ...adds a new [Wiki page](../../user-guide/wiki/)
-- **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki/)
-- **Membership added** - ...adds you to a new [Work package](../../getting-started/work-packages-introduction/)
+- **New forum message** - ...sends a new message into the [Forum](../../forums/)
+- **Wiki page added** - ...adds a new [Wiki page](../../wiki/)
+- **Wiki page updated** - ...updates a [Wiki page](../../wiki/)
+- **Membership added** - ...adds you to a new [Work package](../../../getting-started/work-packages-introduction/)
 - **Membership updated** - ...updates your membership associations

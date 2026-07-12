@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Organizations
+  title: Organization
   priority: 969
-description: Manage organizations and departments in OpenProject.
+description: Define your company organization and departments in OpenProject.
 keywords: manage organization, group, user, organization, department, resources
 ---
 
-# Manage Organizations
+# Manage organization
 
 <div class="glossary">
 

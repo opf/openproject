@@ -20,7 +20,7 @@ Provider tokens are created in OpenProject and allow external applications to ac
 
 ### API
 
-API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [_Administration -> API and webhooks_](../../system-admin-guide/api-and-webhooks/).
+API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [_Administration -> API and webhooks_](../../../system-admin-guide/api-and-webhooks/).
 
 ![Access tokens in OpenProject account settings](openproject_account_settings_access_tokens_api.png)
 
@@ -42,7 +42,7 @@ This list will be empty if you have no calendar subscriptions yet.
 
 ![OpenProject calendar list under account settings showing no calendars were subscribed to yet](openproject_account_settings_access_tokens_calendar_list.png)
 
-Once you [subscribe to a calendar](../../user-guide/calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject.
+Once you [subscribe to a calendar](../../calendar/#subscribe-to-a-calendar), a list of all the calendars that you have subscribed to will appear here. The name of the calendar is clickable and will lead you directly to the respective calendar in OpenProject.
 
 ![OpenProject calendar list under account settings showing calendar tokens](openproject_account_settings_access_tokens_calendar_list_with_content.png)
 
@@ -60,7 +60,7 @@ iCalendar meeting tokens allow users to subscribe to all their meetings and view
 
 This list will be empty if you have no calendar subscriptions yet. Once you subscribe to a meetings calendar, a list of all the iCalendar meeting tokens will appear here. 
 
-To subscribe click the **Subscribe to calendar** button directly in your account settings or in the [meetings module](../meetings/#subscribe-to-meetings). 
+To subscribe click the **Subscribe to calendar** button directly in your account settings or in the [meetings module](../../meetings/#subscribe-to-meetings). 
 
 ![A "subscribe to calendar" button to subscribe to OpenProject meetings under account settings](openproject_account_settings_access_tokens_subscribe_button.png)
 
@@ -81,7 +81,7 @@ To delete an iCal meeting token under Account settings click the _Delete_ icon n
 
 ### OAuth
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [_Administration-> Authentication_](../../system-admin-guide/authentication/).
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [_Administration-> Authentication_](../../../system-admin-guide/authentication/).
 
 OAuth tokens are not created directly in OpenProject. Instead, the authorization process is started from the external application. During setup, you will be redirected to OpenProject to confirm access and then returned to the external application to complete the connection.
 

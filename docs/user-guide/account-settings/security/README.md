@@ -35,7 +35,7 @@ If you have already registered one or multiple 2FA devices, you will see the lis
 
 ![List of two-factor authenticated devices](openproject_account_settings_two_factor_authentication_devices_overview.png)
 
-In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
+In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../../system-admin-guide/authentication/two-factor-authentication/):
 
 - Mobile phone
 - App-based authenticator
