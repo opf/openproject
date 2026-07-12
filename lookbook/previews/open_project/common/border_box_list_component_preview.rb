@@ -224,6 +224,21 @@ module OpenProject
         end
       end
 
+      # @label With header drag handle
+      # Reorderable list whose header and rows show a drag handle.
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      # @param collapsible toggle
+      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
+        render_with_template(
+          locals: {
+            padding:,
+            header_padding:,
+            collapsible: boolean_preview_param(collapsible)
+          }
+        )
+      end
+
       # @label Empty state
       # List with a header and an empty state (Blankslate), no items.
       # @param padding [Symbol] select [default, condensed, spacious]
@@ -289,24 +304,6 @@ module OpenProject
           header_padding:,
           collapsible: true
         )
-      end
-
-      # @label With header drag handle
-      # @param padding [Symbol] select [default, condensed, spacious]
-      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
-      # @param collapsible toggle
-      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
-        render OpenProject::Common::BorderBoxListComponent.new(
-          container: "border-box-list-header-drag-handle-preview",
-          padding:,
-          header_padding:,
-          collapsible: boolean_preview_param(collapsible)
-        ) do |list|
-          list.with_header(title: "Reorderable section", count: true, show_drag_handle: true)
-
-          list.with_item { "First item" }
-          list.with_item { "Second item" }
-        end
       end
 
       private
