@@ -101,15 +101,15 @@ RSpec.describe "Time entries widget on dashboard", :js, :selenium do
     spent_time_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within spent_time_widget.area do
-      expect(page).to have_content "Total: 11 h"
+      expect(page).to have_text "Total: 11 h"
 
-      expect(page).to have_content Time.zone.today.strftime("%m/%d/%Y")
+      expect(page).to have_text Time.zone.today.strftime("%m/%d/%Y")
       expect(page).to have_css(".activity", text: visible_time_entry.activity.name)
       expect(page).to have_css(".subject", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
       expect(page).to have_css(".comments", text: visible_time_entry.comments)
       expect(page).to have_css(".hours", text: visible_time_entry.hours)
 
-      expect(page).to have_content(1.day.ago.strftime("%m/%d/%Y"))
+      expect(page).to have_text(1.day.ago.strftime("%m/%d/%Y"))
       expect(page).to have_css(".activity", text: other_visible_time_entry.activity.name)
       expect(page).to have_css(".subject", text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
       expect(page).to have_css(".comments", text: other_visible_time_entry.comments)

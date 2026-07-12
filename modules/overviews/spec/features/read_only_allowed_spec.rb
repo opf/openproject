@@ -89,7 +89,7 @@ RSpec.describe "Read only mode when user lacks edit permission on dashboard", :j
 
     within table_widget.area do
       expect(page)
-        .to have_content(work_package.subject)
+        .to have_text(work_package.subject)
     end
   end
 end

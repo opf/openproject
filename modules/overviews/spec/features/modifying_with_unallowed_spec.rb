@@ -71,7 +71,7 @@ RSpec.describe "Modifying a dashboard which already has widgets for which permis
 
     within news_widget.area do
       expect(page)
-        .to have_content(news.title)
+        .to have_text(news.title)
     end
 
     visit root_path
@@ -82,7 +82,7 @@ RSpec.describe "Modifying a dashboard which already has widgets for which permis
 
     within news_widget.area do
       expect(page)
-        .to have_content(news.title)
+        .to have_text(news.title)
     end
 
     news_widget.remove

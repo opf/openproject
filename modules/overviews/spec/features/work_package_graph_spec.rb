@@ -111,7 +111,7 @@ RSpec.describe "Arbitrary WorkPackage query graph widget dashboard",
       dashboard_page.expect_and_dismiss_toaster(message: "Successful update.")
 
       expect(page)
-        .to have_content(type_work_package.subject)
+        .to have_text(type_work_package.subject)
 
       dashboard_page.add_widget(1, 1, :column, "Work packages graph")
 
@@ -146,7 +146,7 @@ RSpec.describe "Arbitrary WorkPackage query graph widget dashboard",
       visit root_path
       dashboard_page.visit!
       expect(page)
-        .to have_content(type_work_package.subject)
+        .to have_text(type_work_package.subject)
 
       filter_area.configure_wp_table
       modal.switch_to("Filters")
@@ -164,7 +164,7 @@ RSpec.describe "Arbitrary WorkPackage query graph widget dashboard",
 
       within filter_area.area do
         expect(page)
-          .to have_content(I18n.t("js.work_packages.no_results.title"))
+          .to have_text(I18n.t("js.work_packages.no_results.title"))
       end
     end
   end

@@ -89,10 +89,10 @@ RSpec.describe "Project status widget on dashboard", :js, :selenium do
       within(status_widget.area) do
         # The description is visible
         expect(page)
-          .to have_content("ON TRACK")
+          .to have_text("ON TRACK")
 
         expect(page)
-          .to have_content(project.status_explanation)
+          .to have_text(project.status_explanation)
 
         # The status selector does not open
         field = EditField.new(dashboard_page, "status")
@@ -124,7 +124,7 @@ RSpec.describe "Project status widget on dashboard", :js, :selenium do
         field.set_to("AT RISK")
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content("AT RISK", wait: 5)
+        expect(page).to have_text("AT RISK", wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 
@@ -134,7 +134,7 @@ RSpec.describe "Project status widget on dashboard", :js, :selenium do
         field.set_to("NOT SET")
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content("NOT SET", wait: 5)
+        expect(page).to have_text("NOT SET", wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 
@@ -149,7 +149,7 @@ RSpec.describe "Project status widget on dashboard", :js, :selenium do
         field.save!
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content("A completely new explanation which is super cool.")
+        expect(page).to have_text("A completely new explanation which is super cool.")
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
       end
