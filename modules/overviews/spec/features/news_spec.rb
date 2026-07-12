@@ -79,16 +79,16 @@ RSpec.describe "News widget on dashboard", :js, :selenium do
 
     within news_widget.area do
       expect(page)
-        .to have_content visible_news.title
+        .to have_text visible_news.title
       expect(page)
-        .to have_content visible_news.author.name
+        .to have_text visible_news.author.name
       expect(page)
-        .to have_content visible_news.project.name
+        .to have_text visible_news.project.name
       expect(page)
-        .to have_content visible_news.created_at.strftime("%m/%d/%Y")
+        .to have_text visible_news.created_at.strftime("%m/%d/%Y")
 
       expect(page)
-        .to have_no_content invisible_news.title
+        .to have_no_text invisible_news.title
     end
   end
 end

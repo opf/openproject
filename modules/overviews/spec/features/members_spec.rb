@@ -90,19 +90,19 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
   def expect_all_members_visible(area)
     within area do
       expect(page)
-        .to have_content role.name
+        .to have_text role.name
       expect(page)
-        .to have_content manager_user.name
+        .to have_text manager_user.name
       expect(page)
-        .to have_content no_edit_member_role
+        .to have_text no_edit_member_role
       expect(page)
-        .to have_content no_edit_member_user.name
+        .to have_text no_edit_member_user.name
       expect(page)
-        .to have_content no_view_member_role
+        .to have_text no_view_member_role
       expect(page)
-        .to have_content no_view_member_user.name
+        .to have_text no_view_member_user.name
       expect(page)
-        .to have_content placeholder_user.name
+        .to have_text placeholder_user.name
     end
   end
 
@@ -115,7 +115,7 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
     expect_all_members_visible(members_area.area)
 
     expect(page)
-      .to have_no_content invisible_user.name
+      .to have_no_text invisible_user.name
 
     within members_area.area do
       expect(page)
@@ -144,10 +144,10 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
 
     within members_area.area do
       expect(page)
-        .to have_no_content manager_user.name
+        .to have_no_text manager_user.name
 
       expect(page)
-        .to have_content("No visible members")
+        .to have_text("No visible members")
 
       expect(page)
         .to have_no_link("Member")

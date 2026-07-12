@@ -177,7 +177,7 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
 
       within custom_text_widget.area do
         expect(page)
-          .to have_content(dashboard.widgets.first.options[:text])
+          .to have_text(dashboard.widgets.first.options[:text])
 
         expect(page)
           .to have_no_css(".inplace-editing--container")

@@ -87,7 +87,7 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
       within(description_widget.area) do
         # The description is visible
         expect(page)
-          .to have_content(project_description)
+          .to have_text(project_description)
 
         # The description is not editable
         field = TextEditorField.new dashboard_page, "description"
@@ -116,7 +116,7 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
         field.save!
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content("A completely new description which is super cool.")
+        expect(page).to have_text("A completely new description which is super cool.")
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
       end
