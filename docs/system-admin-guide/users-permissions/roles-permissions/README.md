@@ -15,7 +15,7 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
-For more detailed description of each permission please refer to [Permissions guide](./permissions-guide)
+For more detailed description of each permission please refer to [Permissions guide](../permissions-guide)
 
 ## Roles
 
