@@ -73,7 +73,7 @@ describe('Inline chip - unavailable work package', () => {
     ).not.toBeNull();
   });
 
-  it('renders only the icon with a tooltip for size xxs', async () => {
+  it('renders only the icon with an aria-label and no native tooltip for size xxs', async () => {
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/999', () =>
         HttpResponse.json({ message: 'Not found' }, { status: 404 })
@@ -92,7 +92,36 @@ describe('Inline chip - unavailable work package', () => {
     });
     const chip = document.querySelector('.op-bn-inline-wp');
     expect(chip?.textContent).toBe('');
-    expect(chip?.getAttribute('title')).toBe('Unavailable: No permission');
+    // The full message now lives in the hover/long-press preview, not a native tooltip.
+    expect(chip?.getAttribute('title')).toBeNull();
+    expect(chip?.getAttribute('aria-label')).toBe('Unavailable: No permission');
+  });
+
+  it('shows the unavailable card in the preview on hover for size xxs', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 })
+      )
+    );
+
+    render(
+      <InlineWorkPackageChip
+        inlineContent={{ props: { wpid: '999', size: 'xxs', instanceId: 'test-xxs-preview' } }}
+        contentRef={vi.fn()}
+      />
+    );
+
+    await vi.waitFor(() => {
+      expect(document.querySelector('.op-bn-inline-wp .octicon-eye-closed')).not.toBeNull();
+    });
+
+    await userEvent.hover(page.getByRole('img'));
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
+    await expect.element(page.getByText('You do not have permission to see this')).toBeVisible();
+    // The known-format card icon is reused from the block card.
+    expect(document.querySelector('.op-bn-unavailable-message--header .octicon-eye-closed')).not.toBeNull();
   });
 
   it('gets the selection outline on click and can be copied and pasted', async () => {

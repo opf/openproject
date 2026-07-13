@@ -1,11 +1,11 @@
-import { useState, useEffect, useLayoutEffect, useRef, type CSSProperties } from 'react';
-import { createPortal } from 'react-dom';
+import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
 import { defaultWpVariables } from './atoms';
+import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
 import {
   LinkExternalIcon,
   TrashIcon,
@@ -141,17 +141,6 @@ const SizeBtnDesc = styled.span`
   opacity: 0.6;
 `;
 
-// For a chip wrapped across lines, getBoundingClientRect() returns the union
-// of its line fragments (left edge = start of line). The first fragment is
-// where the link actually starts, so anchor to it.
-const getAnchorRect = (el:HTMLElement):DOMRect =>
-  el.getClientRects()[0] ?? el.getBoundingClientRect();
-
-const VIEWPORT_MARGIN = 8;
-
-const clampLeft = (left:number, width:number):number =>
-  Math.max(VIEWPORT_MARGIN, Math.min(left, window.innerWidth - width - VIEWPORT_MARGIN));
-
 const IcOpen = () => <LinkExternalIcon size={13} />;
 const IcDelete = () => <TrashIcon size={13} />;
 const IcChevron = () => <ChevronDownIcon size={10} />;
@@ -171,39 +160,13 @@ export const WpOptionsPopover = ({
   const { t } = useTranslation();
   const [showSizes, setShowSizes] = useState(false);
 
-  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
-    () => (anchorEl ? getAnchorRect(anchorEl) : null)
-  );
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const [popoverWidth, setPopoverWidth] = useState<number | null>(null);
-
-  // Measure before paint so the clamped position is applied without a flash.
-  useLayoutEffect(() => {
-    if (popoverRef.current) setPopoverWidth(popoverRef.current.offsetWidth);
-  }, []);
-
-  useEffect(() => {
-    if (!anchorEl) return;
-    const update = () => setAnchorRect(getAnchorRect(anchorEl));
-    const handleScroll = () => onClose();
-
-    update();
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', update);
-    return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('resize', update);
-    };
-  }, [anchorEl, onClose]);
-
-  const fixedStyle:CSSProperties | undefined = anchorRect
-    ? {
-        position: 'fixed',
-        bottom: window.innerHeight - anchorRect.top + 6,
-        left: clampLeft(anchorRect.left, popoverWidth ?? 0),
-        visibility: popoverWidth === null ? 'hidden' : undefined,
-      }
-    : undefined;
+  const popoverRef = useRef<HTMLDivElement | null>(null);
+  useAnchoredPopover({
+    anchorEl,
+    popoverRef,
+    placement: 'above',
+    onClose,
+  });
 
   const isBlock = currentSize === undefined;
 
@@ -217,7 +180,7 @@ export const WpOptionsPopover = ({
 
   const content = (
     // Prevent editor/parent handlers from stealing focus or closing the popover
-    <Popover ref={popoverRef} style={fixedStyle} onMouseDown={(e) => e.stopPropagation()}>
+    <Popover ref={popoverRef} onMouseDown={(e) => e.stopPropagation()}>
       <PopBtn
         title={t('options.openInNewTab')}
         aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
@@ -317,9 +280,5 @@ export const WpOptionsPopover = ({
     </Popover>
   );
 
-  if (anchorEl) {
-    const portalTarget = (anchorEl.closest('.bn-container')) ?? document.body;
-    return createPortal(content, portalTarget);
-  }
-  return content;
+  return <PopoverPortal anchorEl={anchorEl}>{content}</PopoverPortal>;
 };
