@@ -19,7 +19,7 @@ To manage your organization, navigate to **Administration** → **Users and perm
 The **Organization** page lets you create and maintain your company's organizational hierarchy.
 
 > [!TIP]
-> You can also import an existing organizational structure through [LDAP department synchronization](../../authentication/ldap-connections/ldap-group-synchronisation).
+> You can also import an existing organizational structure through [LDAP department synchronization](../../authentication/ldap-connections/ldap-group-synchronization/).
 
 ## Organization overview
 

@@ -58,7 +58,7 @@ If you choose newest on top, the latest comment will appear on top in the Activi
 
 ### Disable keyboard shortcuts
 
-If you use a screen reader or want to avoid accidentally triggering an action with a  shortcut, you can choose to disable default [keyboard shortcuts](../../user-guide/keyboard-shortcuts-access-keys/) by selecting the respective option.
+If you use a screen reader or want to avoid accidentally triggering an action with a  shortcut, you can choose to disable default [keyboard shortcuts](../../keyboard-shortcuts-access-keys/) by selecting the respective option.
 
 ## Alerts
 

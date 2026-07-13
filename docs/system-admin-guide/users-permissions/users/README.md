@@ -220,7 +220,7 @@ Under **Notification settings** tab you can edit the [notification settings](../
 
 ### Email reminders
 
-Under **Email reminders** tab you can edit the [email reminders settings](../../../user-guide/account-settings/#email-reminders). Each user can adjust these settings under [Account settings](../../../user-guide/account-settings) on their own.
+Under **Email reminders** tab you can edit the [email reminders settings](../../../user-guide/notifications/notification-settings/#email-reminders). Each user can adjust these settings under [Account settings](../../../user-guide/account-settings) on their own.
 
 ### Rate history
 
@@ -244,7 +244,7 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 
 ### Avatar
 
-The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). Users can manage this under their [profile settings](../../../user-guide/account-settings/#set-an-avatar). These features can be disabled in the [avatar settings](../avatars).
+The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). Users can manage this under their [profile settings](../../../user-guide/account-settings/account/#set-an-avatar). These features can be disabled in the [avatar settings](../avatars).
 
 > [!TIP]
 > Hovering over a user's avatar or name, for example on the Members page or the Activity page, will display their information. 

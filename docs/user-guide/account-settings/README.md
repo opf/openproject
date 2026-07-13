@@ -12,7 +12,7 @@ Change your personal settings under Account settings (earlier called My account)
 
 | Topic                                                      | Content                                                      |
 | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| [Open account settings](open-account-settings)            | How to open your personal settings in OpenProject            |
+| [Open account settings](#open-account-settings)            | How to open your personal settings in OpenProject            |
 | [Edit your user information](account)                      | How to change the name, email address in OpenProject         |
 | [See schedule and availability](schedule-and-availability) | How to see and manage your schedule and availability in OpenProject |
 | [Language and region](language-and-region)                 | How to change the language and the time zone in OpenProject  |

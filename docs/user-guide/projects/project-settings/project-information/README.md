@@ -21,7 +21,7 @@ Project settings are grouped into three sections:
 
 3. **Project status**. Here you can: 
 
-   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
+   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects).
    - Add a **project status description**. The status description will be shown on the [project home](../../project-home/) page.
 
 4. **Project relations**, where you can select the **parent project**.
