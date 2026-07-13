@@ -51,11 +51,9 @@ See COPYRIGHT and LICENSE files for more details.
     scope: :to_do,
     data: { controller: "show-when-value-selected" }
   ) do |f|
-    reassign_to_id = params[:reassign_to_id]
-    work_packages_api_url = ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages
     raw_back_url = (params[:back_url] || request.env["HTTP_REFERER"]).presence
-    cancel_url = raw_back_url || work_packages_path
-    back_url = back_url_is_wp_show? ? nil : raw_back_url
+    cancel_url = RedirectPolicy.new(raw_back_url, hostname: request.host, default: work_packages_path).redirect_url
+    back_url = back_url_is_wp_show? ? nil : raw_back_url&.then { |url| CGI.escape(CGI.unescape(url.to_s)) }
 
     render_inline_form(f) do |form|
       form.hidden(name: "back_url", value: back_url, scope_name_to_model: false) if back_url
@@ -95,9 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
                 visually_hide_label: true,
                 input_width: :large,
                 autocomplete_options: {
-                  resource: "work_packages",
-                  url: work_packages_api_url,
-                  searchKey: "typeahead",
+                  url: ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages,
                   openDirectly: false,
                   focusDirectly: false
                 }
