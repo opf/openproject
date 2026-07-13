@@ -65,5 +65,6 @@ If you use a screen reader or want to avoid accidentally triggering an action wi
 Under **Alerts** section you can activate a **warning if you are leaving a work package with unsaved changes**.
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
-
+> [!TIP]
+> Even if auto-hide is enabled, banners remain visible while you hover over them or move your mouse pointer over them. This gives you more time to read the message before it disappears.
 ![Alerts section under interface settings in OpenProject account settings](openproject_account_settings_interface_alerts.png)

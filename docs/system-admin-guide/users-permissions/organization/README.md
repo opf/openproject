@@ -28,7 +28,9 @@ The page is divided into two parts:
 - **My organization** (hierarchy view) on the left.
 - **My organization** (table view) on the right.
 
-The hierarchy view displays your departments as a tree structure. Each department can contain multiple sub-departments, allowing you to build your organizational hierarchy. The table view lists the same departments in tabular form.
+The hierarchy view displays your departments as a tree structure. Each department can contain multiple sub-departments, allowing you to build your organizational hierarchy.
+
+Selecting a department in the hierarchy updates the table view to display its direct sub-departments and members. This lets you navigate your organizational structure in the hierarchy while viewing and managing the contents of the selected department in the table.
 
 ![Organization hierarchy view in OpenProject administration](openproject_system_admin_organization.png)
 

@@ -11,7 +11,8 @@ keywords: schedule, availability, working hours, work schedule, working time, ca
 The **Schedule and availability** page allows you to define your working schedule, plan future schedule changes, and manage your time off.
 
 To access your schedule settings, navigate to **Account settings** → **Schedule and availability**.
-
+> [!NOTE]
+> Depending on your organization's configuration and your permissions, you may only be able to view your schedule and availability. If your working schedule is managed externally or you do not have permission to edit it, the editing options described on this page are not available.
 The page consists of two tabs:
 
 - **Work schedule**
