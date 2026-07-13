@@ -41,10 +41,6 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @color,
-                              url: colors_url,
-                              html: { method: "post" },
-                              as: :color do |f| %>
-  <%= render partial: "form",
-             locals: { f: f, color: @color } %>
+<%= settings_primer_form_with(model: @color, url: colors_url, method: :post) do |form| %>
+  <%= render(Admin::Settings::ColorForm.new(form)) %>
 <% end %>

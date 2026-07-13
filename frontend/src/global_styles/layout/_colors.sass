@@ -88,12 +88,22 @@
 
 .color--default-color-swatch
   border: 1px solid var(--borderColor-default)
-  border-radius: var(--borderRadius-medium)
+  border-radius: var(--borderRadius-small)
   display: inline-block
   height: var(--base-size-12)
-  margin-right: var(--base-size-8)
-  width: var(--base-size-12)
+  min-height: var(--base-size-12)
+  min-width: var(--base-size-12)
 
+.color--default-color-list-swatch
+  margin-right: var(--base-size-8)
+
+.color--hexcode-form-row
+  align-items: flex-end
+  width: fit-content
+
+
+.color--hexcode-form-swatch
+  margin-bottom: var(--base-size-8)
 
 // -------------------------- Highlighting colors -----------------------------
 // Inline: type

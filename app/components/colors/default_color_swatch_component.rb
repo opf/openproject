@@ -30,19 +30,17 @@
 
 module Colors
   class DefaultColorSwatchComponent < ApplicationComponent
-    def initialize(color:)
+    def initialize(color:, **system_arguments)
       super()
 
       @color = color
+      @system_arguments = system_arguments
     end
 
     def call
       render(
         Primer::Box.new(
-          tag: :span,
-          classes: "color--default-color-swatch",
-          aria: { hidden: true },
-          style: "background-color: #{color.hexcode}"
+          **system_arguments
         )
       )
     end
@@ -50,5 +48,14 @@ module Colors
     private
 
     attr_reader :color
+
+    def system_arguments
+      @system_arguments.merge(
+        tag: :span,
+        classes: helpers.class_names("color--default-color-swatch", @system_arguments[:classes]),
+        aria: @system_arguments.fetch(:aria, {}).merge(hidden: true),
+        style: [@system_arguments[:style], "background-color: #{color.hexcode}"].compact.join("; ")
+      )
+    end
   end
 end

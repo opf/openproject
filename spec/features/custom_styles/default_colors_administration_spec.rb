@@ -71,7 +71,7 @@ RSpec.describe "default colors administration", :js do
 
       click_on "Save"
 
-      expect_and_dismiss_flash type: :error, message: /not a valid 6-digit hexadecimal color code/
+      expect(page).to have_text("not a valid 6-digit hexadecimal color code")
     end
   end
 
