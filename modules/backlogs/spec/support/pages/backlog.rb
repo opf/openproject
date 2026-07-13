@@ -226,6 +226,14 @@ module Pages
       end
     end
 
+    def expect_sprints_total_count(count)
+      expect(page).to have_test_selector("op-sprints--total-counter", text: count.to_s)
+    end
+
+    def expect_no_sprints_total_counter
+      expect(page).to have_no_test_selector("op-sprints--total-counter")
+    end
+
     def expect_sprint_work_package_count(sprint, count)
       within(sprint_selector(sprint)) do
         expect(page).to have_css(
