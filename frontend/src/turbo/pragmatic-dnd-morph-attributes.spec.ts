@@ -56,14 +56,18 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     document.body.replaceChildren();
   });
 
-  it('preserves Pragmatic DnD drop target markers during Turbo morphs', () => {
+  it('lets the Pragmatic DnD drop target marker morph away', () => {
+    // The sortable-lists root re-registers its children after a morph, which
+    // restores the marker together with its registry entry; preserving only
+    // the marker could leave it without a registration, and Pragmatic
+    // silently aborts its drop-target search at such an element.
     const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('data-drop-target-for-element');
 
     element.setAttribute('data-drop-target-for-element', 'true');
     element.dispatchEvent(event);
 
-    expect(event.defaultPrevented).toBe(true);
+    expect(event.defaultPrevented).toBe(false);
   });
 
   it('preserves the active drag marker during Turbo morphs', () => {

@@ -95,15 +95,16 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // outlet-connected callbacks do not fire reliably for elements a morph
   // replaces, so those children never receive the root reference and refuse
   // every drag and drop (canDrag/canDrop gate on it). And Pragmatic DnD tracks
-  // drop targets in both a marker attribute (which the morph attribute
-  // preservation keeps alive) and a WeakMap registration (which nothing
-  // preserves); an element left with the attribute but no registration
-  // silently aborts Pragmatic's drop-target search, killing every row
-  // rendered underneath it. Re-hand the root and re-register all children
-  // once per morph batch — the outlet getters query the DOM live, so they see
-  // even the children whose connected callbacks were skipped. The microtask
-  // runs before any further drag event can observe the desync, so a morph
-  // mid-drag stays safe too.
+  // drop targets in both a marker attribute and a WeakMap registration, which
+  // a morph can strip or orphan; an element left with the attribute but no
+  // registration silently aborts Pragmatic's drop-target search, killing
+  // every row rendered underneath it. Re-hand the root and re-register all
+  // children once per morph batch — reregistration restores attribute and
+  // registration together (which is why the morph attribute preservation
+  // deliberately lets the marker be stripped), and the outlet getters query
+  // the DOM live, so they see even the children whose connected callbacks
+  // were skipped. The microtask runs before any further drag event can
+  // observe the desync, so a morph mid-drag stays safe too.
   private scheduleRegistrationHeal = ():void => {
     if (this.healScheduled) {
       return;

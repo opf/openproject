@@ -30,10 +30,15 @@ import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sorta
 
 // `data-dragging` is shared with the legacy generic-drag-and-drop controller,
 // so preservation is scoped to elements inside a sortable-lists root.
+//
+// Pragmatic's internal drop-target marker (`data-drop-target-for-element`) is
+// deliberately NOT preserved: the sortable-lists root re-registers all
+// children after a morph, which restores the marker together with the
+// registry entry it stands for. Preserving only the marker would let it
+// outlive the registration, and Pragmatic silently aborts its drop-target
+// search at such an element.
 const preservedAttributes = new Set([
   'data-dragging',
-  // Internal Pragmatic DnD marker (not a documented public API); re-verify on PDD upgrades.
-  'data-drop-target-for-element',
   // Drop indicator markers rendered by the sortable-lists item/list
   // controllers; a list refresh morphing mid-drag must not strip the
   // landing cue while the drag is still active.
