@@ -31,24 +31,25 @@
 require "spec_helper"
 
 RSpec.describe Queries::Wikis::WikiPages::WikiPageQuery do
-  let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
-  let(:project) { create(:project, members: { user => role }) }
-  let(:wiki) { project.wiki }
-  let!(:older_main_page) { create(:wiki_page, wiki:) }
-  let!(:newer_main_page) { create(:wiki_page, wiki:) }
-  let!(:sub_page) { create(:wiki_page, wiki:, parent: older_main_page) }
-  let!(:invisible_page) { create(:wiki_page, wiki: create(:project).wiki) }
-
   subject(:query) { described_class.new(user:) }
 
-  before do
-    older_main_page.update_column(:updated_at, 2.days.ago)
-    newer_main_page.update_column(:updated_at, 1.day.ago)
-    sub_page.update_column(:updated_at, 1.hour.ago)
-  end
+  let(:user) { create(:user) }
 
   describe "#results" do
+    let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
+    let(:project) { create(:project, members: { user => role }) }
+    let(:wiki) { project.wiki }
+    let!(:older_main_page) { create(:wiki_page, wiki:) }
+    let!(:newer_main_page) { create(:wiki_page, wiki:) }
+    let!(:sub_page) { create(:wiki_page, wiki:, parent: older_main_page) }
+    let!(:invisible_page) { create(:wiki_page, wiki: create(:project).wiki) }
+
+    before do
+      older_main_page.update_column(:updated_at, 2.days.ago)
+      newer_main_page.update_column(:updated_at, 1.day.ago)
+      sub_page.update_column(:updated_at, 1.hour.ago)
+    end
+
     it "returns the main pages of projects visible to the given user, most recently edited first" do
       expect(query.results).to eq [newer_main_page, older_main_page]
     end
