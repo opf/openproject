@@ -9,9 +9,17 @@ updates:
     labels:
       - "dependencies"
     groups:
-      npm-minor-patch:
+      blocknote-minor-patch:
+        patterns:
+          - "@blocknote/*"
+        update-types:
+          - "minor"
+          - "patch"
+      other-minor-patch:
         patterns:
           - "*"
+        exclude-patterns:
+          - "@blocknote/*"
         update-types:
           - "minor"
           - "patch"
