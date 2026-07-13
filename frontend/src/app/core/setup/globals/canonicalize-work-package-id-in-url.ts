@@ -31,13 +31,6 @@
 import * as Turbo from '@hotwired/turbo';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
-// `view` exists on the Turbo session at runtime but is absent from the project's
-// hand-written @types/hotwired__turbo typings; narrow-cast here, same precedent
-// as turbo/helpers.ts and turbo-navigation-patch.ts.
-interface TurboSessionWithView extends Turbo.TurboSession {
-  view:{ lastRenderedLocation:URL };
-}
-
 // Compiled once: matches a work package id anywhere in the pathname, reusing the
 // shared WP_ID_URL_PATTERN so numeric ("42") and semantic ("PROJ-42") ids both match.
 const workPackageIdPathPattern = new URLPattern({
@@ -66,5 +59,5 @@ export function canonicalizeWorkPackageIdInUrl():void {
   Turbo.session.history.replace(newUrl, Turbo.session.history.restorationIdentifier);
   // PageView#cacheSnapshot keys the snapshot cache by lastRenderedLocation; left stale,
   // back/forward misses the cache and re-fetches instead of restoring instantly.
-  (Turbo.session as TurboSessionWithView).view.lastRenderedLocation = newUrl;
+  Turbo.session.view.lastRenderedLocation = newUrl;
 }
