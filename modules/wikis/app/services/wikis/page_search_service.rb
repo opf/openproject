@@ -47,8 +47,6 @@ module Wikis
       else
         search_by_query(query).fmap { build_result_tree(it) }
       end
-
-      Failure("something went wrong")
     end
 
     private

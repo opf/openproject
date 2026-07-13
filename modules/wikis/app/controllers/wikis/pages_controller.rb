@@ -84,6 +84,7 @@ module Wikis
           # render_error_flash_message_via_turbo_stream(message: failure)
           # respond_with_turbo_streams
           # flash.now[:error] = failure
+          # flash[:error] = failure
           # FIXME: Add flash message
           render(Primer::Alpha::TreeView.new(data: { target: "filterable-tree-view.treeViewList" }), layout: false)
         end
