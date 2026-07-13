@@ -32,76 +32,83 @@
 # source type. Mode is derived from link presence: a link means Linked, its
 # absence means Independent. This is the shared seam FND-101/102 extend with
 # further aspects, and the deferred resolution/copy/cycle work builds on top of.
-module Type::ConfigurationLinkable
-  extend ActiveSupport::Concern
+class Type
+  module ConfigurationLinkable
+    extend ActiveSupport::Concern
 
-  included do
-    has_many :configuration_links,
-             class_name: "Type::ConfigurationLink",
-             dependent: :destroy
-    has_many :dependent_configuration_links,
-             class_name: "Type::ConfigurationLink",
-             foreign_key: :source_id,
-             inverse_of: :source,
-             dependent: :restrict_with_error
+    included do
+      has_many :configuration_links,
+               class_name: "Type::ConfigurationLink",
+               dependent: :destroy
+      has_many :dependent_configuration_links,
+               class_name: "Type::ConfigurationLink",
+               foreign_key: :source_id,
+               inverse_of: :source,
+               dependent: :restrict_with_error
 
-    # A sub-type defaults to Linked-to-parent for every reusable aspect.
-    after_create :seed_default_configuration_links, if: :subtype?
-  end
-
-  def linked?(aspect)
-    configuration_links.exists?(aspect:)
-  end
-
-  def source_for(aspect)
-    configuration_links.find_by(aspect:)&.source
-  end
-
-  def link!(aspect, source:)
-    configuration_links.find_or_initialize_by(aspect:).update!(source:)
-  end
-
-  # Switch an aspect to Independent. When a source is given, its resolved
-  # configuration is copied onto this type once (adopt) before the link is severed.
-  def make_independent!(aspect, source: nil)
-    copy_configuration_from(source, aspect) if source && source != self
-    configuration_links.where(aspect:).destroy_all
-  end
-
-  # Walks the link chain to the type that actually owns the aspect (Independent).
-  # The visited-set guard keeps it terminating even before transitive cycle
-  # prevention lands.
-  def effective_source_for(aspect)
-    node = self
-    seen = Set.new
-    node = node.source_for(aspect) while node.linked?(aspect) && seen.add?(node.id)
-    node
-  end
-
-  def effective_patterns
-    effective_source_for(Type::ConfigurationLink::PATTERNS).patterns
-  end
-
-  def effective_pdf_export_templates
-    effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
-  end
-
-  # One-time adoption: copy the source's resolved configuration for one aspect
-  # onto this type. Used when switching to Independent from a chosen source.
-  # deep_dup keeps the copy from aliasing the source's stored value.
-  def copy_configuration_from(source, aspect)
-    owner = source.effective_source_for(aspect)
-    case aspect
-    when Type::ConfigurationLink::PATTERNS
-      update!(patterns: owner.patterns.deep_dup)
-    when Type::ConfigurationLink::PDF_EXPORT
-      update!(pdf_export_templates_config: owner.pdf_export_templates_config.deep_dup)
+      # A sub-type defaults to Linked-to-parent for every reusable aspect.
+      after_create :seed_default_configuration_links, if: :subtype?
     end
-  end
 
-  private
+    def linked?(aspect)
+      configuration_links.exists?(aspect:)
+    end
 
-  def seed_default_configuration_links
-    Type::ConfigurationLink::ASPECTS.each { |aspect| link!(aspect, source: parent) }
+    def source_for(aspect)
+      configuration_links.find_by(aspect:)&.source
+    end
+
+    def link!(aspect, source:)
+      configuration_links.find_or_initialize_by(aspect:).update!(source:)
+    end
+
+    # Switch an aspect to Independent. When a source is given, its resolved
+    # configuration is copied onto this type once (adopt) before the link is severed.
+    def make_independent!(aspect, source: nil)
+      copy_configuration_from(source, aspect) if source && source != self
+      configuration_links.where(aspect:).destroy_all
+    end
+
+    # Walks the link chain to the type that actually owns the aspect (Independent).
+    # The visited-set guard keeps it terminating even before transitive cycle
+    # prevention lands.
+    #
+    # Guarded by the subtypes feature flag: with the flag off, links are ignored
+    # and every type resolves to its own stored configuration.
+    def effective_source_for(aspect)
+      return self unless OpenProject::FeatureDecisions.subtypes_active?
+
+      node = self
+      seen = Set.new
+      node = node.source_for(aspect) while node.linked?(aspect) && seen.add?(node.id)
+      node
+    end
+
+    def effective_patterns
+      effective_source_for(Type::ConfigurationLink::PATTERNS).patterns
+    end
+
+    def effective_pdf_export_templates
+      effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
+    end
+
+    # One-time adoption: copy the source's resolved configuration for one aspect
+    # onto this type. Used when switching to Independent from a chosen source.
+    # deep_dup keeps the copy from aliasing the source's stored value.
+    def copy_configuration_from(source, aspect)
+      owner = source.effective_source_for(aspect)
+      case aspect
+      when Type::ConfigurationLink::PATTERNS
+        update!(patterns: owner.patterns.deep_dup)
+      when Type::ConfigurationLink::PDF_EXPORT
+        update!(pdf_export_templates_config: owner.pdf_export_templates_config.deep_dup)
+      end
+    end
+
+    private
+
+    def seed_default_configuration_links
+      Type::ConfigurationLink::ASPECTS.each { |aspect| link!(aspect, source: parent) }
+    end
   end
 end

@@ -28,27 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A single reuse link: a type borrows one configuration aspect from a source type.
-# Absence of a row for (type, aspect) means the type owns that aspect (Independent).
-class Type
-  class ConfigurationLink < ApplicationRecord
-    ASPECTS = [
-      PDF_EXPORT = "pdf_export",
-      PATTERNS = "patterns"
-    ].freeze
+require "spec_helper"
 
-    belongs_to :type, optional: false
-    belongs_to :source, class_name: "Type", optional: false
+RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :component do
+  subject(:component) { described_class.new(work_package:, params: {}) }
 
-    enum :aspect, ASPECTS.index_with(&:itself), validate: true
+  let(:type) { create(:type) }
+  let(:work_package) { build_stubbed(:work_package, type:) }
 
-    validates :type_id, uniqueness: { scope: :aspect }
-    validate :source_differs_from_type
+  describe "#templates_options", with_flag: { subtypes: true } do
+    it "lists the enabled templates of the type the PDF config is linked to" do
+      source = create(:type)
+      source.pdf_export_templates.disable_all
+      source.save!
+      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
-    private
-
-    def source_differs_from_type
-      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+      expect(component.templates_options).to be_empty
     end
   end
 end

@@ -1801,6 +1801,29 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  context "with a type whose subject configuration is linked to a source type",
+          with_flag: { subtypes: true } do
+    shared_let(:linked_type) do
+      create(:type, name: "Linked").tap do |t|
+        t.link!(Type::ConfigurationLink::PATTERNS, source: autosubject_type)
+        project.types << t
+      end
+    end
+
+    shared_let(:work_package, reload: true) { create(:work_package, type: linked_type, project:) }
+
+    let(:attributes) { { description: "new description" } }
+
+    it "generates the subject from the linked source type's pattern" do
+      expect(subject).to be_success
+
+      expect(work_package.reload).to have_attributes(
+        description: "new description",
+        subject: "##{work_package.id} by #{user.name} - #{default_status.name}"
+      )
+    end
+  end
+
   describe "replacing the attachments" do
     let!(:old_attachment) do
       create(:attachment, container: work_package)
