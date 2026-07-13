@@ -62,18 +62,18 @@ See COPYRIGHT and LICENSE files for more details.
       <%
         flex.with_column do
           render Primer::Beta::Button.new(
-              tag: :a,
-              href: new_dialog_project_backlogs_sprints_path(project, backlog_filter_params),
-              aria: { label: t(".button_new_sprint") },
-              data: {
-                controller: "async-dialog",
-                test_selector: "op-sprints--new-sprint-button"
-              }
-            ) do |button|
-              button.with_leading_visual_icon(icon: :plus)
-              Sprint.human_model_name
-            end
+            tag: :a,
+            href: new_dialog_project_backlogs_sprints_path(project, backlog_filter_params),
+            aria: { label: t(".button_new_sprint") },
+            data: {
+              controller: "async-dialog",
+              test_selector: "op-sprints--new-sprint-button"
+            }
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            Sprint.human_model_name
           end
+        end
       %>
     <% end %>
   <% end %>
