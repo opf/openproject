@@ -112,8 +112,8 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "ruby-duration", "~> 3.2.0"
 gem "msgpack", "~> 1.8.3"
+gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
 
@@ -432,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.89.1"
+  gem "openproject-primer_view_components", "~>0.89.2"
 end
