@@ -57,9 +57,10 @@ export const handlers = [
   ),
 
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-    const id = Number(params.id);
-    if (id === 456) return HttpResponse.json(mockWorkPackage2);
-    if (id === 789) return HttpResponse.json(mockWorkPackageWithSemanticId);
+    const raw = String(params.id);
+    if (raw === '789' || raw === 'DWPS-1') return HttpResponse.json(mockWorkPackageWithSemanticId);
+    if (raw === '456') return HttpResponse.json(mockWorkPackage2);
+    const id = Number(raw);
     return HttpResponse.json({ ...mockWorkPackage, id, displayId: String(id) });
   }),
 

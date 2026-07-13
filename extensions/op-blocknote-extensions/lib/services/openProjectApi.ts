@@ -36,28 +36,36 @@ export function linkToWorkPackage(displayId:string):string {
   return `${baseUrl}/wp/${encodeURIComponent(displayId)}`;
 }
 
+const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
+
+const WP_ID_REGEX = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
+const WP_URL_REGEX = new RegExp(`^/(?:wp|(?:projects/[^/]+/)?work_packages)(?:/details)?/(${WP_ID_URL_PATTERN})(?:[/?#]|$)`);
+
 /**
  * Parses a URL of this OpenProject instance pointing to a work package.
  * Recognizes `/wp/{id}`, `/work_packages/{id}` and
  * `/projects/{identifier}/work_packages/{id}` paths, including
  * `/work_packages/details/{id}`, trailing tab segments (`/activity`, ...),
- * query strings and hashes. Returns the numeric work package id, or null
- * for any other URL.
+ * query strings and hashes. The id may be numeric (`123`) or a semantic
+ * identifier (`PROJ-42`, mirroring WP_ID_URL_PATTERN in the frontend).
+ * Returns the work package identifier as a string, or null for any other URL.
  */
-export function parseWorkPackageUrl(url:string):number | null {
+export function parseWorkPackageUrl(url:string):string | null {
   if (!url.startsWith(`${baseUrl}/`)) return null;
   const path = url.slice(baseUrl.length);
-  const match = /^\/(?:wp|(?:projects\/[^/]+\/)?work_packages)(?:\/details)?\/(\d+)(?:[/?#]|$)/.exec(path);
+  const match = WP_URL_REGEX.exec(path);
   if (!match) return null;
-  const id = Number(match[1]);
-  return id > 0 ? id : null;
+  const id = match[1];
+  if (/^\d+$/.test(id)) return Number(id) > 0 ? id : null;
+  return id;
 }
 
-export function fetchWorkPackage(id:number):Promise<WorkPackage> {
-  if (isNaN(id) || id <= 0) {
+export function fetchWorkPackage(id:string | number):Promise<WorkPackage> {
+  const identifier = String(id);
+  if (!WP_ID_REGEX.test(identifier)) {
     return Promise.reject(new OpenProjectApiError(`Invalid work package ID: ${id}`));
   }
-  return get<WorkPackage>(`/api/v3/work_packages/${id}`);
+  return get<WorkPackage>(`/api/v3/work_packages/${encodeURIComponent(identifier)}`);
 }
 
 export function fetchStatuses():Promise<StatusCollection> {

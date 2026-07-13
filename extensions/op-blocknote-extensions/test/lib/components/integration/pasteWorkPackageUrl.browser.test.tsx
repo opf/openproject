@@ -38,6 +38,50 @@ describe('Paste work package URL', () => {
     await expect.element(page.getByText('Add dark mode')).toBeVisible();
   });
 
+  it('creates a block card from a semantic identifier URL', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+
+    pastePlainText('http://localhost:3000/projects/DWPS/work_packages/DWPS-1/activity');
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
+  });
+
+  it('creates an inline chip from a semantic identifier URL', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+    await userEvent.type(page.getByRole('textbox'), 'See ');
+
+    pastePlainText('http://localhost:3000/wp/DWPS-1');
+
+    await expect.element(page.getByText('DWPS-1')).toBeVisible();
+    await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
+  });
+
+  it('creates an inline chip and keeps the surrounding text around a bare URL', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+
+    pastePlainText('before http://localhost:3000/work_packages/456/activity after');
+
+    await expect.element(page.getByText('#456')).toBeVisible();
+    await expect.element(page.getByText('before', { exact: false })).toBeVisible();
+    await expect.element(page.getByText('after', { exact: false })).toBeVisible();
+    expect(document.querySelector('[data-testid="block-card"]')).toBeNull();
+  });
+
+  it('creates an inline chip and keeps the trailing text around a markdown WP link', async () => {
+    renderEditor();
+    await userEvent.click(page.getByRole('textbox'));
+
+    pastePlainText('[custom label](http://localhost:3000/work_packages/456) text after');
+
+    await expect.element(page.getByText('#456')).toBeVisible();
+    await expect.element(page.getByText('text after', { exact: false })).toBeVisible();
+    expect(document.body.textContent).not.toContain('custom label');
+  });
+
   it('keeps foreign URLs as plain text', async () => {
     renderEditor();
     await userEvent.click(page.getByRole('textbox'));

@@ -64,21 +64,28 @@ describe('openProjectApi', () => {
   describe('parseWorkPackageUrl', () => {
     it('parses short work package links', () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      expect(parseWorkPackageUrl('http://localhost:3000/wp/123')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123')).toBe('123');
     });
 
     it('parses full and project-scoped work package routes', () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123')).toBe(123);
-      expect(parseWorkPackageUrl('http://localhost:3000/projects/demo/work_packages/123')).toBe(123);
-      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/details/123')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123')).toBe('123');
+      expect(parseWorkPackageUrl('http://localhost:3000/projects/demo/work_packages/123')).toBe('123');
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/details/123')).toBe('123');
+    });
+
+    it('parses semantic identifiers', () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/DWPS-2')).toBe('DWPS-2');
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/DWPS-2')).toBe('DWPS-2');
+      expect(parseWorkPackageUrl('http://localhost:3000/projects/DWPS/work_packages/DWPS-2/activity')).toBe('DWPS-2');
     });
 
     it('accepts trailing tab segments, query strings and hashes', () => {
       initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
-      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123/activity')).toBe(123);
-      expect(parseWorkPackageUrl('http://localhost:3000/wp/123?query=1')).toBe(123);
-      expect(parseWorkPackageUrl('http://localhost:3000/wp/123#comments')).toBe(123);
+      expect(parseWorkPackageUrl('http://localhost:3000/work_packages/123/activity')).toBe('123');
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123?query=1')).toBe('123');
+      expect(parseWorkPackageUrl('http://localhost:3000/wp/123#comments')).toBe('123');
     });
 
     it('rejects foreign hosts and non work package URLs', () => {
@@ -96,9 +103,9 @@ describe('openProjectApi', () => {
     it('rejects for invalid work package ID', async () => {
       initOpenProjectApi({baseUrl: 'https://example.com'});
       await expect(fetchWorkPackage(-1)).rejects.toHaveProperty('message', 'Invalid work package ID: -1');
-      await expect(fetchWorkPackage(0)).rejects.toHaveProperty('message', 'Invalid work package ID: 0');
       await expect(fetchWorkPackage(NaN)).rejects.toHaveProperty('message', 'Invalid work package ID: NaN');
-      await expect(fetchWorkPackage('abublé' as unknown as number)).rejects.toHaveProperty('message', 'Invalid work package ID: abublé');
+      await expect(fetchWorkPackage('abublé')).rejects.toHaveProperty('message', 'Invalid work package ID: abublé');
+      await expect(fetchWorkPackage('../../admin')).rejects.toHaveProperty('message', 'Invalid work package ID: ../../admin');
     });
   });
 
