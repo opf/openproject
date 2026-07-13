@@ -32,8 +32,8 @@ require "spec_helper"
 
 RSpec.describe API::V3::Queries::Schemas::HasSpentTimeFilterDependencyRepresenter do
   let(:filter) { instance_double(Queries::WorkPackages::Filter::HasSpentTimeFilter) }
-  let(:operator) { instance_double(Queries::Operators::BetweenDate, to_sym: :"<>d") }
-  let(:representer) { described_class.new(filter, operator, current_user: nil) }
+  let(:operator) { Queries::Operators::BetweenDate }
+  let(:representer) { described_class.new(filter, operator) }
 
   describe "#type" do
     it 'returns "[2]Date"' do

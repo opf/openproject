@@ -52,6 +52,7 @@ class Queries::WorkPackages::Filter::HasSpentTimeFilter < Queries::WorkPackages:
 
     from_date = Date.parse(values[0]) if values[0].present?
     to_date   = Date.parse(values[1]) if values[1].present?
+    return nil if from_date.nil? && to_date.nil?
 
     allowed_project_ids = Project.allowed_to(User.current, :view_time_entries).select(:id).to_sql
 
