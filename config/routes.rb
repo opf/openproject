@@ -189,9 +189,7 @@ Rails.application.routes.draw do
 
     resources :configuration_links, only: %i[update], param: :aspect
 
-    resource :creation_wizard, controller: "creation_wizard", only: %i[show update] do
-      get :finish, on: :member
-    end
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",

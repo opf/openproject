@@ -130,10 +130,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
         end
       end
 
-      describe "GET finish" do
-        before { get :finish, params: { type_id: subtype.id } }
+      describe "PATCH update on the last step" do
+        before { patch :update, params: { type_id: subtype.id, step: WorkPackageTypes::Wizard::Steps.last } }
 
         it { expect(response).to redirect_to(types_path) }
+
+        it { expect(flash[:notice]).to eq(I18n.t("types.creation_wizard.success")) }
       end
     end
   end

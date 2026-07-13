@@ -40,7 +40,7 @@ module WorkPackageTypes
 
     before_action :require_admin
     before_action :require_subtypes_feature
-    before_action :find_type, only: %i[show update finish]
+    before_action :find_type, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
 
     def show; end
@@ -75,10 +75,6 @@ module WorkPackageTypes
       else
         advance
       end
-    end
-
-    def finish
-      redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
     end
 
     private
@@ -129,7 +125,7 @@ module WorkPackageTypes
       if step
         redirect_to type_creation_wizard_path(@type, step:), status: :see_other
       else
-        redirect_to finish_type_creation_wizard_path(@type), status: :see_other
+        redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
       end
     end
 
