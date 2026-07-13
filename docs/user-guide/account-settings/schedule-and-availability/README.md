@@ -142,7 +142,7 @@ On the right side of the calendar, two summary panels display your yearly totals
 
 ### Add time off
 
-To add personal time off, click **+ Time off**. 
+To add personal time off, click **+ Time off**. You can also click on any day in the calendar to create a new entry.
 
 In the form that opens, specify the following information:
 
