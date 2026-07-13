@@ -46,7 +46,7 @@ module OpenProject::TextFormatting
 
       def plain_text(html)
         text = CGI.unescapeHTML(html.to_s)
-        text.include?("<") ? Nokogiri::HTML.fragment(text).text.squish : text.squish
+        Nokogiri::HTML.fragment(text).text.squish
       end
     end
   end

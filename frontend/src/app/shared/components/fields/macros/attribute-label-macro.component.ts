@@ -38,6 +38,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { snakeCase } from 'lodash-es';
 import { capitalize } from 'core-app/shared/helpers/string-helpers';
 import { firstValueFrom } from 'rxjs';
 import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
@@ -65,7 +66,7 @@ export class AttributeLabelMacroComponent implements OnInit {
 
   text = {
     aria_label: (model:SupportedAttributeModels) => this.I18n.t(
-      `js.editor.macro.attribute_reference.aria_label_${model === 'workPackage' ? 'work_package' : model}_attribute`,
+      `js.editor.macro.attribute_reference.aria_label_${snakeCase(model)}_attribute`,
     ),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),

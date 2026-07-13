@@ -40,13 +40,13 @@ RSpec.describe Wikis::DeferredInlinePageLinkMacroComponent, type: :component do
 
   before { render_component }
 
-  it "renders a frame that loads the requested wiki page link" do
-    frame = page.find("turbo-frame[data-type='wiki-page-link']")
-
-    expect(frame[:id]).to eq(component.frame_id)
-    expect(frame[:src]).to eq(component.frame_src)
-    expect(frame["data-provider-id"]).to eq(provider_id)
-    expect(frame["data-page-identifier"]).to eq(identifier)
+  it "renders a frame that loads the requested wiki page link", :aggregate_failures do
+    expect(page).to have_element :"turbo-frame", "data-type": "wiki-page-link" do |frame|
+      expect(frame[:id]).to eq(component.frame_id)
+      expect(frame[:src]).to eq(component.frame_src)
+      expect(frame["data-provider-id"]).to eq(provider_id)
+      expect(frame["data-page-identifier"]).to eq(identifier)
+    end
   end
 
   it "renders the loading macro" do

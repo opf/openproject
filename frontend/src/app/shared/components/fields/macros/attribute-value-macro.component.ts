@@ -39,6 +39,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { snakeCase } from 'lodash-es';
 import { firstValueFrom } from 'rxjs';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
@@ -69,7 +70,7 @@ export class AttributeValueMacroComponent implements OnInit {
 
   text = {
     aria_label: (model:SupportedAttributeModels) => this.I18n.t(
-      `js.editor.macro.attribute_reference.aria_label_${model === 'workPackage' ? 'work_package' : model}_attribute`,
+      `js.editor.macro.attribute_reference.aria_label_${snakeCase(model)}_attribute`,
     ),
     placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),

@@ -193,9 +193,7 @@ module OpenProject::TextFormatting
       def controller; end
 
       def link_to(name = nil, options = nil, html_options = {}, &)
-        html_options = html_options.except(:title, "title")
-
-        super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
+        super(name, options, html_options.except(:title, "title"), &)
       end
 
       def mention_id(mention)

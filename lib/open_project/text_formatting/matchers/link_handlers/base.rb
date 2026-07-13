@@ -112,7 +112,7 @@ module OpenProject::TextFormatting::Matchers
 
       def resource_link_aria_label
         resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "work_package")
-        I18n.t("accessibility.macro.resource_links.#{resource}")
+        I18n.t(resource, scope: "accessibility.macro.resource_links")
       end
     end
   end
