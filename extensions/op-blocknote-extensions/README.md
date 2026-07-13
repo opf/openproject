@@ -43,23 +43,15 @@ const schema = BlockNoteSchema.create().extend({
 type EditorType = typeof schema.BlockNoteEditor;
 ```
 
-Create the editor, passing `PasteDeduplicateInstanceIdsExtension` in `extensions`.
-This must be done at construction time — registering the plugin post-mount via
-`editor.registerPlugin()` triggers ProseMirror's `reconfigure()`, which destroys
-the Y.js `UndoManager` and silently breaks Ctrl+Z.
+Create the editor:
 
 ```tsx
-const editor = useCreateBlockNote({
-  schema,
-  extensions: [PasteDeduplicateInstanceIdsExtension],
-});
+const editor = useCreateBlockNote({ schema });
 ```
 
-Wire the runtime hooks and build the slash and hash menus:
+Build the slash and hash menus:
 
 ```tsx
-useOpBlockNoteExtensions(editor);
-
 const getSlashItems = useCallback(
   async (query: string) =>
     filterSuggestionItems(
