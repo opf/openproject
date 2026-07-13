@@ -113,14 +113,19 @@ module Meetings
                      attachment_target])
     end
 
-    def copy_meeting_agenda(copy)
+    def copy_meeting_agenda(copy) # rubocop:disable Metrics/AbcSize
       meeting.sections.each do |section|
         copy.sections << section.dup
         copied_section = copy.reload.sections.last
         section.agenda_items.each do |agenda_item|
           copied_agenda_item = agenda_item.dup
           copied_agenda_item.meeting_id = copy.id
-          copied_section.agenda_items << copied_agenda_item
+          copied_agenda_item.meeting_section = copied_section
+
+          # A work_package agenda item whose WP was deleted has work_package_id nullified but
+          # item_type still set. Skip validations for this state
+          skip_validation = copied_agenda_item.work_package? && copied_agenda_item.work_package_id.nil?
+          copied_agenda_item.save!(validate: !skip_validation)
         end
       end
     end

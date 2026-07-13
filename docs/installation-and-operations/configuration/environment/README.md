@@ -60,8 +60,8 @@ These variables are prefixed with `OPENPROJECT_SEED_*` to identify them. Changin
 
 These additional variables are also only useful during seeding:
 
-* `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
-* `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
+- `OPENPROJECT_OPENID__CONNECT`: A hash to configure OIDC providers seeded into the application
+- `OPENPROJECT_SAML`: A hash to configure SAML providers seeded into the application
 
 ## Passing data structures to the app
 
@@ -180,6 +180,7 @@ OPENPROJECT_COST__REPORTING__CACHE__FILTER__CLASSES (default=true)
 OPENPROJECT_COSTS__CURRENCY (default="EUR") Currency
 OPENPROJECT_COSTS__CURRENCY__FORMAT (default="%n %u") Format of currency
 OPENPROJECT_CROSS__PROJECT__WORK__PACKAGE__RELATIONS (default=true) Allow cross-project work package relations
+OPENPROJECT_CSP__IMG__SRC (default=["*", "data:", "blob:"]) Allowed sources for the CSP img-src directive.
 OPENPROJECT_DATABASE__CIPHER__KEY (default=nil) Encryption key for repository credentials
 OPENPROJECT_DATE__FORMAT (default=nil) Date
 OPENPROJECT_DAYS__PER__MONTH (default=20) This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.

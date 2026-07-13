@@ -36,7 +36,14 @@ RSpec.describe RecurringMeetings::TableComponent, type: :component do
   end
 
   let(:recurring_meeting) { create(:recurring_meeting) }
-  let(:meetings) { create_list(:scheduled_meeting, count, :persisted, recurring_meeting:) }
+  let(:meetings) do
+    Array.new(count) do |i|
+      create(:meeting,
+             recurring_meeting:,
+             recurrence_start_time: (i + 1).days.from_now,
+             start_time: (i + 1).days.from_now)
+    end
+  end
 
   let(:current_project) { nil }
   let(:direction) { "upcoming" }

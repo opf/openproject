@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector, Input, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, TemplateRef, ViewChild, inject } from '@angular/core';
 import {
   IAutocompleterTemplateComponent,
   OpAutocompleterComponent,
@@ -41,6 +41,8 @@ import {
   standalone: false,
 })
 export class TimeEntriesWorkPackageAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
+  readonly injector = inject(Injector);
+
   @Input() public mode:string|undefined;
   @Input() public isOpenedInModal = false;
   @Input() public hoverCards = true;
@@ -48,9 +50,4 @@ export class TimeEntriesWorkPackageAutocompleterTemplateComponent implements IAu
   @ViewChild('headerTemplate') headerTemplate:TemplateRef<Element>;
 
   autocompleter:TimeEntriesWorkPackageAutocompleterComponent = this.injector.get(OpAutocompleterComponent) as TimeEntriesWorkPackageAutocompleterComponent;
-
-  constructor(
-    readonly injector:Injector,
-  ) {
-  }
 }

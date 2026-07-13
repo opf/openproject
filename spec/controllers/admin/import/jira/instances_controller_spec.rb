@@ -358,6 +358,7 @@ RSpec.describe Admin::Import::Jira::InstancesController do
         jira_to_delete = create(:jira)
         delete :destroy, params: { id: jira_to_delete.id }
         expect(response).to redirect_to(action: :index)
+        expect(response).to have_http_status(:see_other)
       end
     end
 
@@ -378,6 +379,7 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       it "redirects to index" do
         delete :destroy, params: { id: jira.id }
         expect(response).to redirect_to(action: :index)
+        expect(response).to have_http_status(:see_other)
       end
     end
 

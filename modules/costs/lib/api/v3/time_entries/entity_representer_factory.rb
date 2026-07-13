@@ -76,14 +76,36 @@ module API
 
         def create_link_lambda(name, getter: "#{name}_id")
           ->(*) {
-            v3_path = API::V3::TimeEntries::EntityRepresenterFactory.representer_type(represented.send(name))
-            title_attribute = API::V3::TimeEntries::EntityRepresenterFactory.title_attribute(represented.send(name))
+            entity = represented.send(name)
 
-            instance_exec(&self.class.associated_resource_default_link_lambda(name,
-                                                                              v3_path:,
-                                                                              skip_link: -> { false },
-                                                                              title_attribute:,
-                                                                              getter:))
+            unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
+              next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
+            end
+
+            v3_path = API::V3::TimeEntries::EntityRepresenterFactory.representer_type(entity)
+            title_attribute = API::V3::TimeEntries::EntityRepresenterFactory.title_attribute(entity)
+
+            link = instance_exec(&self.class.associated_resource_default_link_lambda(name,
+                                                                                     v3_path:,
+                                                                                     skip_link: -> { false },
+                                                                                     title_attribute:,
+                                                                                     getter:))
+
+            entity.is_a?(WorkPackage) ? link.merge(displayId: entity.display_id.to_s) : link
+          }
+        end
+
+        # Renders the deprecated `workPackage` link, gated on work package visibility.
+        def create_work_package_link_lambda
+          ->(*) {
+            entity = represented.entity
+            next unless entity.is_a?(WorkPackage)
+
+            unless entity.visible?(current_user)
+              next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
+            end
+
+            { href: api_v3_paths.work_package(entity.id), title: entity.subject }
           }
         end
 
@@ -93,9 +115,18 @@ module API
 
             instance = represented.send(name)
             next if instance.nil?
+            next unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(instance, current_user)
 
             ::API::V3::TimeEntries::EntityRepresenterFactory.create(instance, current_user:)
           }
+        end
+
+        def entity_visible?(entity, user)
+          !entity.is_a?(WorkPackage) || entity.visible?(user)
+        end
+
+        def undisclosed_link
+          { href: ::API::V3::URN_UNDISCLOSED, title: I18n.t(:"api_v3.undisclosed.workPackage") }
         end
 
         def create_setter_lambda(name)

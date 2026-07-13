@@ -3,13 +3,13 @@ import { CardEventHandler } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { StateService } from '@uirouter/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardDblClickHandler implements CardEventHandler {
-  @InjectField() $state:StateService;
+  @LazyInject() $state:StateService;
 
-  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
     card:WorkPackageCardViewComponent) {

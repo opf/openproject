@@ -24,31 +24,31 @@
 ko:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: 파이프라인
       tab_header_issue:
         title: 이슈
       tab_header_mr:
-        title: 병합 요청
-        create_mr:
-          label: MR 만들기
-          description: 병합 요청 만들기
         copy_menu:
-          label: Git 코드 조각
           description: 클립보드에 Git 코드 조각 복사
+          label: Git 코드 조각
+        create_mr:
+          description: 병합 요청 만들기
+          label: MR 만들기
         git_actions:
           branch_name: 브랜치 이름
-          commit_message: 커밋 메시지
           cmd: 빈 커밋으로 브랜치 만들기
-          title: Git용 빠른 코드 조각
-          copy_success: "✅ 복사 완료!"
+          commit_message: 커밋 메시지
           copy_error: "❌ 복사 실패!"
+          copy_success: "✅ 복사 완료!"
+          title: Git용 빠른 코드 조각
+        title: 병합 요청
       tab_issue:
         empty: 아직 링크된 이슈가 없습니다. 이슈 제목/설명에 <code>OP#%{wp_id}</code>(또는 비공개 링크의 경우 <code>PP#%{wp_id}</code>) 코드를 사용하여 기존 이슈를 링크하거나 새 이슈를 만드세요.
       tab_mrs:
         empty: 아직 링크된 병합 요청이 없습니다. MR 제목/설명에 <code>OP#%{wp_id}</code>(또는 비공개 링크의 경우 <code>PP#%{wp_id}</code>) 코드를 사용하여 기존 MR을 링크하거나 새 MR을 만드세요.
-      gitlab_pipelines: 파이프라인
       updated_on: 업데이트 날짜
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

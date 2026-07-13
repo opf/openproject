@@ -263,6 +263,10 @@ $scrollbar-size: 10px
     .work-packages--filters-optional-container
       margin-right: 15px
 
+@mixin split-pane-active
+  #content:has(#content-bodyRight > *)
+    @content
+
 @mixin modifying--placeholder
   border: 1px dashed var(--accent-color)
   pointer-events: none
@@ -275,17 +279,13 @@ $scrollbar-size: 10px
 @mixin macro--text-style
   @media screen
     display: inline
-    background: rgba(218,223,225,0.19)
-    border: 1px solid transparent
-    padding: 2px
+    background: var(--bgColor-muted)
+    border-radius: var(--borderRadius-default)
+    // 2px vertical ensures that line-height is not overflowed excessively
+    padding: 2px var(--control-xsmall-paddingInline-condensed)
 
     &:has(.-multiline)
       display: inline-flex
-
-    &:hover
-      cursor: default
-      border-color: var(--fgColor-muted)
-      background: rgba(218,223,225,0.75)
 
 @mixin unset-button-styles
   padding: 0
@@ -345,6 +345,10 @@ $scrollbar-size: 10px
   background: var(--bgColor-accent-emphasis)
   color: white
   flex-shrink: 0
+
+@mixin focus
+  outline: var(--focus-outline, 2px solid #0969da)
+  outline-offset: -2px
 
 @mixin show-on-focus
   position: absolute

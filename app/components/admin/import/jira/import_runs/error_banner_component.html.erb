@@ -37,5 +37,5 @@ See COPYRIGHT and LICENSE files for more details.
     href: continue_admin_import_jira_run_path(jira_id: import_run.jira.id, id: import_run.id, step: step),
     data: { turbo_stream: true }
   ) { I18n.t(:"admin.jira.run.wizard.button_retry") } %>
-  <%= import_run.error || I18n.t('js.error.internal') %>
+  <%= import_run.error&.html_safe || I18n.t('js.error.internal') %>
 <% end %>

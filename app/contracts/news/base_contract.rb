@@ -37,7 +37,6 @@ class News::BaseContract < ModelContract
     News
   end
 
-  attribute :project
   attribute :title
   attribute :summary
   attribute :description

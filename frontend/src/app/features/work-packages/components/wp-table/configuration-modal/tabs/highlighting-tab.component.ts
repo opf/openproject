@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  ViewChild, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild, OnInit, inject } from '@angular/core';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -22,6 +17,13 @@ import { repositionDropdownBugfix } from 'core-app/shared/components/autocomplet
   standalone: false,
 })
 export class WpTableConfigurationHighlightingTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly states = inject(States);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly Banners = inject(BannersService);
+  readonly wpTableHighlight = inject(WorkPackageViewHighlightingService);
+
   // Display mode
   public highlightingMode:HighlightingMode = 'inline';
 
@@ -53,14 +55,6 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     },
     more_info_link: enterpriseDocsUrl.tableHighlighting,
   };
-
-  constructor(readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly Banners:BannersService,
-    readonly wpTableHighlight:WorkPackageViewHighlightingService) {
-  }
 
   ngOnInit() {
     this.availableInlineHighlightedAttributes = this.availableHighlightedAttributes;

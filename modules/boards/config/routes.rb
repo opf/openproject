@@ -19,7 +19,6 @@ Rails.application.routes.draw do
             as: :details,
             work_package_split_view: true
       end
-      get "(/*state)" => "boards/boards#show", on: :member, as: "", constraints: { id: /\d+/ }
     end
   end
 end

@@ -157,17 +157,17 @@ RSpec.describe "Wysiwyg paragraphs in lists behavior (Regression #28765)", :js d
       # To avoid mixing them up, we need to select the appropriate one
       table = container.find(".op-uc-figure:first-of-type .op-uc-table")
 
-      editor.align_table_by_label(editor, table, "Align table to the left")
+      editor.align_table_by_label(editor, table, "Align table to the left with no text wrapping")
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_css("figure.op-uc-figure_align-start")
 
-      editor.align_table_by_label(editor, table, "Align table to the right")
+      editor.align_table_by_label(editor, table, "Align table to the right with no text wrapping")
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_css("figure.op-uc-figure_align-end")
 
-      editor.align_table_by_label(editor, table, "Center table")
+      editor.align_table_by_label(editor, table, "Center table with no text wrapping")
 
       # Table figure should now has the proper alignment class
       expect(editable).to have_css("figure.op-uc-figure_align-center")

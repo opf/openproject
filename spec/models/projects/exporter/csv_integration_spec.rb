@@ -128,7 +128,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       let(:current_user) { create(:admin) }
 
       it "renders all globally available project custom fields including hidden ones in the header" do
-        expect(parsed.size).to eq 2
+        expect(parsed.size).to eq 3
 
         cf_names = global_project_custom_fields.map(&:name)
 
@@ -205,7 +205,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       let(:current_user) { create(:admin) }
 
       it "renders all custom comment columns including hidden ones in the header" do
-        expect(parsed.size).to eq 2
+        expect(parsed.size).to eq 3
 
         expect(header).to eq %w[Name Description Status Public] + [version_cf, hidden_cf].map { "#{it.name} comment" }
       end

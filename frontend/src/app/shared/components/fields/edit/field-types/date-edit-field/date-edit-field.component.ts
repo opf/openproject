@@ -26,10 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import moment from 'moment';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -49,7 +48,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
   standalone: false,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
-  @InjectField() readonly timezoneService:TimezoneService;
+  readonly timezoneService = inject(TimezoneService);
 
   autofocus = false;
 

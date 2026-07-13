@@ -10,11 +10,15 @@ module FormFields
       # Capybara's native .click on a checkbox can update the DOM property directly
       # without dispatching a browser click event, so Stimulus event handlers won't fire.
       # Using execute_script with element.click() fires a real browser event.
+      # We first wait for the element via Capybara's find (which retries until it appears)
+      # to avoid null reference errors when the DOM is still being updated by Turbo.
       def check
+        page.find(selector)
         page.execute_script("document.querySelector(\"#{selector}\").click()")
       end
 
       def uncheck
+        page.find(selector)
         page.execute_script("document.querySelector(\"#{selector}\").click()")
       end
 

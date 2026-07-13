@@ -1,0 +1,73 @@
+<%=
+  component_wrapper(
+    class: "type-form-configuration-page--main-inner"
+  ) do
+    flex_layout do |main|
+      main.with_row do
+        render(Primer::OpenProject::SubHeader.new(mb: 0)) do |subheader|
+          subheader.with_action_button(
+            tag: :a,
+            scheme: :secondary,
+            leading_icon: :undo,
+            label: t("types.edit.form_configuration.reset_to_defaults"),
+            href: reset_dialog_type_form_configuration_path(@type),
+            "data-test-selector": "type-form-configuration-reset-button",
+            data: { controller: "async-dialog" }
+          ) do
+            t("types.edit.form_configuration.reset_to_defaults")
+          end
+
+          if ee_available?
+            subheader.with_action_menu(
+              leading_icon: :plus,
+              trailing_icon: :"triangle-down",
+              label: t(:button_add),
+              anchor_align: :end,
+              button_arguments: {
+                scheme: :primary,
+                "aria-label": t(:button_add),
+                "data-test-selector": "type-form-configuration-add-button"
+              }
+            ) do |menu|
+              menu.with_item(
+                label: t("types.edit.form_configuration.add_attribute_group"),
+                tag: :a,
+                href: add_group_type_form_configuration_groups_path(@type, group_type: :attribute),
+                content_arguments: {
+                  data: { turbo_method: :post, turbo_stream: true }
+                }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :rows)
+              end
+
+              menu.with_item(
+                label: t("types.edit.form_configuration.add_query_group"),
+                tag: :button,
+                content_arguments: {
+                  data: { action: "click->admin--type-form-configuration--main#addQueryGroup",
+                          test_selector: "admin--type-form-configuration--add-query-group" }
+                }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :table)
+              end
+            end
+          end
+        end
+      end
+
+      main.with_row do
+        content_tag(
+          :div,
+          id: "type-form-configuration-groups-container",
+          data: groups_container_data
+        ) do
+          if @group_components.empty?
+            render(WorkPackageTypes::FormConfiguration::BlankslateComponent.new)
+          else
+            safe_join(@group_components.map { |group| render(group) })
+          end
+        end
+      end
+    end
+  end
+%>

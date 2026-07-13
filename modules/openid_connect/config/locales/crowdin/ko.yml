@@ -1,103 +1,83 @@
 ---
 ko:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID Connect
-    description: OpenProject에 OmniAuth OpenID Connect 전략 공급자를 추가합니다.
-  logout_warning: '로그아웃되었습니다. 제출한 양식의 내용이 손실될 수 있습니다. [로그인]하십시오.
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: OpenID 그룹 식별자
       openid_connect/provider:
-        name: 이름
-        slug: 고유 식별자
-        display_name: 표시 이름
+        acr_values: ACR 값
+        authorization_endpoint: 권한 부여 엔드포인트
+        claims: 클레임
         client_id: 클라이언트 ID
         client_secret: 클라이언트 비밀번호
-        groups_claim: 그룹 클레임
-        group_regexes: 패턴(정규 표현식)
-        secret: 비밀번호
-        scope: 범위
-        sync_groups: 그룹 동기화
-        grant_types_supported: 지원되는 인증 유형
-        limit_self_registration: 자체 등록 제한
-        authorization_endpoint: 권한 부여 엔드포인트
-        userinfo_endpoint: 사용자 정보 엔드포인트
-        token_endpoint: 토큰 엔드포인트
+        display_name: 표시 이름
         end_session_endpoint: 세션 종료 엔드포인트
-        post_logout_redirect_uri: 사후 로그아웃 리디렉션 URI
-        jwks_uri: JWKS URI
-        issuer: 발급자
-        tenant: 테넌트
-        metadata_url: 메타데이터 URL
+        grant_types_supported: 지원되는 인증 유형
+        group_regexes: 패턴(정규 표현식)
+        groups_claim: 그룹 클레임
         icon: 사용자 지정 아이콘
-        claims: 클레임
-        acr_values: ACR 값
+        issuer: 발급자
+        jwks_uri: JWKS URI
+        limit_self_registration: 자체 등록 제한
+        metadata_url: 메타데이터 URL
+        name: 이름
+        post_logout_redirect_uri: 사후 로그아웃 리디렉션 URI
         redirect_url: 리디렉션 URL
+        scope: 범위
+        secret: 비밀번호
+        slug: 고유 식별자
+        sync_groups: 그룹 동기화
+        tenant: 테넌트
+        token_endpoint: 토큰 엔드포인트
+        userinfo_endpoint: 사용자 정보 엔드포인트
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: 검색 엔드포인트 URL %{message}
-              response_is_not_successful: " - 응답 상태는 %{status}입니다."
               response_is_not_json: " - JSON 본문을 반환하지 않습니다."
+              response_is_not_successful: " - 응답 상태는 %{status}입니다."
               response_misses_required_attributes: " - 필수 특성을 반환하지 않습니다. 누락된 특성: %{missing_attributes}."
           invalid_claims_essential: "- %{attribute}에서 부울을 정의하지 않습니다."
           invalid_claims_location: "- 지원되지 않는 위치가 포함되어 있습니다: %{invalid}. 지원되는 위치는 다음과 같습니다: %{supported}."
           invalid_claims_values: "- %{attribute}에서 배열을 정의하지 않습니다."
           non_object_attribute: "- %{attribute}에서 JSON 개체를 정의하지 않습니다."
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: 삭제를 확인하려면 공급자 이름 %{name}(을)를 입력하세요.
-      irreversible_notice: SSO 공급자를 삭제하면 되돌릴 수 없습니다.
-      provider_html: SSO 공급자 %{name}을(를) 삭제하시겠습니까? 이 액션을 확인하려면 아래 필드에 공급자 이름을 입력하세요. 이렇게 하면 다음과 같이 됩니다.
-      delete_result_1: 사용 가능한 공급자 목록에서 공급자를 제거합니다.
-      delete_result_user_count:
-        zero: 현재 이 공급자를 사용하는 사용자가 없습니다. 추가 조치가 필요하지 않습니다.
-        one: 1명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다.
-        other: "%{count}명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다."
-      delete_result_direct: 이 공급자는 직접 로그인 공급자로 표시됩니다. 이 설정은 제거되며 사용자는 더 이상 로그인을 위해 해당 공급자로 리디렉션되지 않습니다.
+  logout_warning: '로그아웃되었습니다. 제출한 양식의 내용이 손실될 수 있습니다. [로그인]하십시오.
+
+    '
   openid_connect:
-    menu_title: OpenID 공급자
+    delete_heading: 이 OpenID Connect 공급자를 삭제하시겠습니까?
     delete_title: OpenID Connect 공급자 삭제
     group_links_heading: OpenID Connect 그룹 링크
     groups:
       match_preview_component:
-        title: 추출된 그룹 이름
         placeholder_none: 패턴과 일치하는 그룹이 현재 없습니다.
+        title: 추출된 그룹 이름
       match_preview_dialog_component:
         description: 샘플 데이터에 대해 정규 표현식 패턴을 테스트하여, 추출하려는 그룹 이름이 실제로 제대로 추출되는지 확인할 수 있습니다. 여기에서 패턴을 수정할 수 있지만, 테스트 문자열과 일치 항목 자체가 구성과 함께 저장되지는 않습니다.
-        group_names_label: 그룹 이름 테스트
         group_names_description: 정규 표현식 패턴이 그룹에 어떤 영향을 미치는지 확인하려면 OIDC 클레임에 표시되는 대로 라인당 그룹 이름을 하나씩 입력하세요.
+        group_names_label: 그룹 이름 테스트
         show_button: 패턴 테스트
         title: 정규 표현식 테스트
     instructions:
+      acr_values: '필수적이지 않은 클레임은 더 간편한 형식으로 요청하세요. 자세한 내용은 [acr_values에 대한 문서](docs_url)를 참조하세요.
+
+        '
+      claims: '사용자 정보 및 ID 토큰 엔드포인트에 대한 추가 클레임을 요청할 수 있습니다. 자세한 내용은 [OpenID Connect 문서](docs_url)를 참조하세요.
+
+        '
+      client_id: OpenID Connect 공급자가 귀하에게 제공한 클라이언트 ID입니다
+      client_secret: OpenID Connect 공급자가 귀하에게 제공한 클라이언트 비밀번호입니다
+      display_name: 공급자 이름입니다. 로그인 버튼으로 표시되며 공급자 목록에 표시됩니다.
       endpoint_url: OpenID Connect 공급자가 귀하에게 제공한 엔드포인트 URL
       group_regexes: 라인별로 하나의 정규 표현식 패턴을 사용하세요. 작업 방법에 대한 자세한 내용은 [설명서](docs_url)를 참조하세요.
       group_regexes_detail: 선택적으로 정규 표현식을 사용하여 그룹 클레임의 그룹 이름과 일치하는 패턴을 정의할 수 있습니다. 예를 들어, <code>^Level1/Level2/([\w/]+)$</code> 같은 패턴을 입력하면 응답에서 “Level1/Level2/GroupName/SubGroup”을 포함한 “Groupname/SubGroup” 그룹이 추출됩니다. 일치하는 패턴이 없으면 해당 그룹은 무시됩니다. 전체 그룹 이름을 사용하여 모든 그룹을 동기화하려면 비워 두세요.
       group_regexes_testing: "'패턴 테스트'를 클릭하여 샘플 OIDC 사용자 정보에 대해 정규 표현식 패턴을 테스트하세요."
       group_sync: ID 공급자로부터 그룹 멤버십 정보를 자동으로 추출하고 동기화합니다.
       groups_claim: 사용자가 속한 그룹 이름을 나타내는 클레임의 이름을 지정합니다.
-      metadata_none: 이 정보가 없습니다
-      metadata_url: 검색 엔드포인트 URL이 있습니다
-      oidc_information: 이러한 값은 OpenID Connect 공급자를 구성하는 데 필요합니다.
-      client_id: OpenID Connect 공급자가 귀하에게 제공한 클라이언트 ID입니다
-      client_secret: OpenID Connect 공급자가 귀하에게 제공한 클라이언트 비밀번호입니다
       limit_self_registration: 활성화된 경우, 사용자는 공급자 측의 구성에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.
-      display_name: 공급자 이름입니다. 로그인 버튼으로 표시되며 공급자 목록에 표시됩니다.
-      tenant: 해당되는 경우 기본 테넌트를 고유한 테넌트로 교체하세요. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">여기</a>를 참조하세요.
-      scope: 사용자 지정 범위를 요청하려면 여기에 하나 이상의 범위 값을 공백으로 구분하여 추가할 수 있습니다. 자세한 내용은 [OpenID Connect 설명서](docs_url)를 참조하세요.
-      post_logout_redirect_uri: 로그아웃 요청 후 OpenID Connect 공급자가 리디렉션해야 하는 URL입니다.
-      claims: '사용자 정보 및 ID 토큰 엔드포인트에 대한 추가 클레임을 요청할 수 있습니다. 자세한 내용은 [OpenID Connect 문서](docs_url)를 참조하세요.
-
-        '
-      acr_values: '필수적이지 않은 클레임은 더 간편한 형식으로 요청하세요. 자세한 내용은 [acr_values에 대한 문서](docs_url)를 참조하세요.
-
-        '
-      mapping_login: '로그인 특성에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다.
+      mapping_admin: '관리자 상태에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다. 부울 특성이 반환될 것으로 예상됩니다.
 
         '
       mapping_email: '이메일 특성에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다.
@@ -109,57 +89,77 @@ ko:
       mapping_last_name: '성에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다.
 
         '
-      mapping_admin: '관리자 상태에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다. 부울 특성이 반환될 것으로 예상됩니다.
+      mapping_login: '로그인 특성에 사용할 사용자 정보 응답에 사용자 지정 매핑을 제공합니다.
 
         '
-    settings:
       metadata_none: 이 정보가 없습니다
       metadata_url: 검색 엔드포인트 URL이 있습니다
-      endpoint_url: 엔드포인트 URL
+      oidc_information: 이러한 값은 OpenID Connect 공급자를 구성하는 데 필요합니다.
+      post_logout_redirect_uri: 로그아웃 요청 후 OpenID Connect 공급자가 리디렉션해야 하는 URL입니다.
+      scope: 사용자 지정 범위를 요청하려면 여기에 하나 이상의 범위 값을 공백으로 구분하여 추가할 수 있습니다. 자세한 내용은 [OpenID Connect 설명서](docs_url)를 참조하세요.
+      tenant: 해당되는 경우 기본 테넌트를 고유한 테넌트로 교체하세요. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">여기</a>를 참조하세요.
+    menu_title: OpenID 공급자
     providers:
-      label_providers: 공급자
-      seeded_from_env: 이 공급자는 환경 구성에서 시드되었으며, 편집할 수 없습니다.
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: OIDC 클라이언트인 OpenProject의 구성 세부 정보
       custom:
         name: 사용자 지정
-      upsell:
-        title: SSO(Single Sign-On)와 OpenID Connect
-        description: OpenID Connect ID 공급자에 OpenProject 연결
+      google:
+        name: Google
       label_add_new: 새로운 OpenID 공급자 추가
+      label_advanced_configuration: 고급 구성
+      label_attribute_mapping: 특성 매핑
+      label_automatic_configuration: 자동 구성
+      label_client_details: 클라이언트 세부 정보
+      label_configuration_details: 메타데이터
       label_edit: OpenID 공급자 %{name} 편집
-      label_empty_title: 아직 구성된 OpenID 공급자가 없습니다.
       label_empty_description: 여기에서 보려면 공급자를 추가합니다.
+      label_empty_title: 아직 구성된 OpenID 공급자가 없습니다.
       label_group_mapping: 그룹 매핑
       label_metadata: OpenID Connect 검색 엔드포인트
-      label_automatic_configuration: 자동 구성
       label_optional_configuration: 옵션 구성
-      label_advanced_configuration: 고급 구성
-      label_configuration_details: 메타데이터
-      label_client_details: 클라이언트 세부 정보
-      label_attribute_mapping: 특성 매핑
-      notice_created: 새로운 OpenID 공급자가 생성되었습니다.
-      client_details_description: OIDC 클라이언트인 OpenProject의 구성 세부 정보
+      label_providers: 공급자
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: 아직 정의된 공급자가 없습니다.
+      notice_created: 새로운 OpenID 공급자가 생성되었습니다.
       plural: OpenID 공급자
-      singular: OpenID 공급자
       section_texts:
+        attribute_mapping: OpenProject와 OpenID Connect 공급자 간의 특성 매핑을 구성합니다.
+        claims: ID 토큰 또는 사용자 정보 응답에 대한 추가 클레임을 요청합니다.
+        configuration: OpenID Connect 공급자의 구성 세부 정보
+        configuration_metadata: 이 정보는 제공된 검색 엔드포인트를 사용하여 미리 채워졌습니다. 대부분의 경우 편집할 필요가 없습니다.
+        display_name: 사용자에게 표시되는 표시 이름입니다.
         group_mapping: ID 공급자에 의해 제공된 그룹 이름을 OpenProject의 그룹에 매핑합니다.
         metadata: OpenID Connect 검색 엔드포인트 URL을 사용하여 구성 미리 채우기
         metadata_form_banner: 검색 엔드포인트를 편집하면 미리 채워진 기존 메타데이터 값이 재정의될 수 있습니다.
-        metadata_form_title: OpenID Connect 검색 엔드포인트
         metadata_form_description: ID 공급자에게 검색 엔드포인트 URL이 있는 경우. 구성을 미리 채우려면 아래 항목을 사용하세요.
-        configuration_metadata: 이 정보는 제공된 검색 엔드포인트를 사용하여 미리 채워졌습니다. 대부분의 경우 편집할 필요가 없습니다.
-        configuration: OpenID Connect 공급자의 구성 세부 정보
-        display_name: 사용자에게 표시되는 표시 이름입니다.
-        attribute_mapping: OpenProject와 OpenID Connect 공급자 간의 특성 매핑을 구성합니다.
-        claims: ID 토큰 또는 사용자 정보 응답에 대한 추가 클레임을 요청합니다.
+        metadata_form_title: OpenID Connect 검색 엔드포인트
       side_panel:
         information_component:
           backchannel_logout_url: 백채널 로그아웃 URL
+      singular: OpenID 공급자
+      upsell:
+        description: OpenID Connect ID 공급자에 OpenProject 연결
+        title: SSO(Single Sign-On)와 OpenID Connect
     setting_instructions:
       limit_self_registration: '활성화되면, 사용자는 자체 등록 설정에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.
 
         '
+    settings:
+      endpoint_url: 엔드포인트 URL
+      metadata_none: 이 정보가 없습니다
+      metadata_url: 검색 엔드포인트 URL이 있습니다
+  plugin_openproject_openid_connect:
+    description: OpenProject에 OmniAuth OpenID Connect 전략 공급자를 추가합니다.
+    name: OpenProject OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: 사용 가능한 공급자 목록에서 공급자를 제거합니다.
+      delete_result_direct: 이 공급자는 직접 로그인 공급자로 표시됩니다. 이 설정은 제거되며 사용자는 더 이상 로그인을 위해 해당 공급자로 리디렉션되지 않습니다.
+      delete_result_user_count:
+        one: 1명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다.
+        other: "%{count}명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다."
+        zero: 현재 이 공급자를 사용하는 사용자가 없습니다. 추가 조치가 필요하지 않습니다.
+      input_delete_confirmation_html: 삭제를 확인하려면 공급자 이름 %{name}(을)를 입력하세요.
+      irreversible_notice: SSO 공급자를 삭제하면 되돌릴 수 없습니다.
+      provider_html: 'SSO 공급자 %{name}을(를) 삭제하시겠습니까? 이렇게 하면 다음과 같이 된다는 점에 유의하세요:'

@@ -21,24 +21,42 @@
 #++
 ---
 de:
-  plugin_costs:
-    name: Zeit und Kosten
-    description: Dieses Modul fügt Funktionen für die Planung und Überwachung der Kosten von Projekten hinzu.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Arbeitspaket
+        entity: Eintrag für
+        entity_gid: Gebucht für
+        entity_id: Eintrag für
+        logged_by: Gebucht von
         overridden_costs: Überschriebene Kosten
         spent: Verbraucht
         spent_on: Datum
-        logged_by: Gebucht von
-        entity: Eintrag für
-        entity_id: Eintrag für
-        entity_gid: Eintrag für
+        work_package: Arbeitspaket
       cost_type:
+        default: Standardkostentyp
+        for_all_projects: Für alle Projekte
+        rates: Preise
         unit: Einheit
         unit_plural: Einheit plural
-        default: Standardkostentyp
+      rate:
+        rate: Satz
+      time_entry:
+        activity: Aktivität
+        comments: Kommentar
+        end_time: Endzeit
+        entity: Geloggt für
+        entity_gid: Geloggt für
+        entity_id: Geloggt für
+        hours: Stunden
+        project: Projekt
+        spent_on: Datum
+        start_time: Startzeit
+        subject: Thema
+        time: Zeit
+        user: Benutzer
+        work_package: Arbeitspaket
+      user:
+        default_rates: Standardsätze
       work_package:
         costs_by_type: Gebuchte Einheiten
         labor_costs: Personaleinzelkosten
@@ -46,67 +64,59 @@ de:
         overall_costs: Gesamtkosten
         spent_costs: Gebuchte Kosten
         spent_units: Gebuchte Einheiten
-      rate:
-        rate: Satz
-      user:
-        default_rates: Standardsätze
-      time_entry:
-        project: Projekt
-        user: Benutzer
-        work_package: Arbeitspaket
-        subject: Thema
-        hours: Stunden
-        comments: Kommentar
-        activity: Aktivität
-        spent_on: Datum
-        start_time: Startzeit
-        end_time: Endzeit
-        time: Zeit
-        entity: Eintrag für
-        entity_id: Eintrag für
-        entity_gid: Eintrag für
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: kann nicht deaktiviert werden, da hierfür in diesem Projekt bereits Kosten erfasst wurden.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Bitte wählen Sie ein Projekt aus.
+        time_entry:
+          cannot_log_for_this_work_package: Für dieses Arbeitspaket kann keine Zeit gebucht werden.
+          duplicate_ongoing: Für diese Person besteht bereits eine laufende Zeitbuchung.
+          invalid_time: muss zwischen 00:00 und 23:59 liegen.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
+          nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
     models:
-      time_entry:
-        one: Zeitbuchung
-        other: Zeitbuchungen
       cost_entry:
         one: Kosteneintrag
         other: Kosteneinträge
       cost_type:
         one: Kostentyp
         other: Kostentypen
+      rate: Satz
+      time_entry:
+        one: Zeitbuchung
+        other: Zeitbuchungen
       time_entry_activity:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
-      rate: Satz
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: muss zwischen 00:00 und 23:59 liegen.
-          cannot_log_for_this_work_package: Für dieses Arbeitspaket kann keine Zeit gebucht werden.
-          duplicate_ongoing: Eine laufende Zeitbuchung existiert bereits für diesen Nutzer.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
-          nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
+      validation:
+        start_time_different_date: Der Datumsteil der Startzeit (%{start_time}) muss mit dem Datum (%{spent_on}) übereinstimmen.
   attributes:
     comment: Kommentar
     cost_type: Kostentyp
     costs: Kosten
     current_rate: Aktueller Satz
+    fixed_date: Referenzdatum
     hours: Stunden
     units: Stücke
     valid_from: Gültig ab
-    fixed_date: Referenzdatum
+  button_add_activity: Aktivität
   button_add_rate: Satz hinzufügen
+  button_add_time_entry: Zeit buchen
   button_log_costs: Stückkosten buchen
   button_log_time: Buchen
-  button_add_activity: Aktivität
-  button_add_time_entry: Zeit buchen
   button_stop_timer: Timer stoppen
   caption_booked_on_project: Auf das Projekt gebucht
   caption_default: Standard
   caption_default_rate_history_for: Standardsatz-Historie für %{user}
   caption_locked_on: Gesperrt am
+  caption_log_time_dialog: Zeit buchen
   caption_materials: Einheiten
   caption_rate_history: Stundensatz-Historie
   caption_rate_history_for: Stundensatz-Historie für %{user}
@@ -114,22 +124,61 @@ de:
   caption_save_rate: Satz speichern
   caption_set_rate: Aktuellen Satz festlegen
   caption_show_locked: Gesperrte Typen anzeigen
-  caption_log_time_dialog: Zeit buchen
-  description_date_for_new_rate: Datum für neuen Satz
+  cost_types:
+    admin:
+      columns:
+        active_projects: Aktive Projekte
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Deaktivieren Sie auf der Registerkarte "Details" die Option "Für alle Projekte", um diese Kostenart auf bestimmte Projekte zu beschränken.
+          heading: Diese Kostenart ist in allen Projekten aktiviert
+        no_projects:
+          description: Fügen Sie Projekte hinzu, damit diese Kostenart in ihnen verwendet werden kann.
+          heading: Keine zugewiesenen Projekte
+      rates:
+        title: Stückpreise-Historie
+    errors:
+      no_cost_types_available: In diesem Projekt sind keine Kostenarten verfügbar. Bitte kontaktieren Sie einen Administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: Diese Kostenart ist in allen Projekten aktiviert.
+        heading: Kostentypen
+        in_use_hint: Diese Kostenart kann nicht deaktiviert werden, da in diesem Projekt bereits Kosten dafür erfasst wurden.
+        none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
+      time_and_costs: Zeit und Kosten
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Zeit buchen
+          description: Erhalten Sie einen Überblick über Ihre Kosten und protokollierte Zeit, um den Fortschritt Ihres Projekts zu verfolgen. Stellen Sie sicher, dass Arbeitspakete mit dem richtigen Budget verknüpft sind.
+          heading: Erfassen Sie Ihre Zeiten und Kosten
+        title: Tatsächliche Kosten pro Monat
+        view_details: Details zu den tatsächlichen Kosten anzeigen
   description_costs_settings: Definieren Sie das gewünschte Format für Kosten in allen Projekten.
+  description_date_for_new_rate: Datum für neuen Satz
   description_time_settings: Legen Sie fest, welche Felder bei Zeitbuchungen in allen Projekten ausgefüllt werden müssen.
+  ee:
+    features:
+      time_entry_time_restrictions: Genaue Zeiterfassung erforderlich machen
+    upsell:
+      time_entry_time_restrictions:
+        description: Verbessern Sie Ihre Zeiterfassung, indem Sie genaue Start- und Endzeiten für jede Zeitbuchung erfordern.
   group_by_others: In keiner der Gruppen
+  label_available_cost_types_projects: Verfügbare Kostenarten in Projekten
   label_between: zwischen
+  label_cost: Kosten
   label_cost_filter_add: Kostenfilter hinzufügen
-  label_costlog: Gebuchte Stückkosten
   label_cost_plural: Kosten
   label_cost_type_plural: Kostentypen
   label_cost_type_specific: 'Kostentyp #%{id}: %{name}'
+  label_costlog: Gebuchte Stückkosten
+  label_costs: Kosten
   label_costs_per_page: Kosten dieser Seite
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
+  label_day: Tag
   label_deleted_cost_types: Gelöschte Kostentypen
-  label_locked_cost_types: Gesperrte Kostentypen
   label_display_cost_entries: Stückkosten anzeigen
   label_display_time_entries: Personaleinzelkosten anzeigen
   label_display_types: Angezeigte Eintragsarten
@@ -140,59 +189,54 @@ de:
   label_group_by_add: Gruppierungsfeld hinzufügen
   label_hourly_rate: Stundensatz
   label_include_deleted: Gelöschte anzeigen
-  label_work_package_filter_add: Ticketfilter hinzufügen
   label_kind: Typ
   label_less_or_equal: "<="
+  label_list: Liste
   label_log_costs: Stückkosten buchen
-  label_new_time_entry_activity: Neue Aktivität für Zeiterfassung
-  label_time_entry_activity_form_description: Änderungen an dieser Aktivität für Zeitbuchungen werden in allen verwendenden Projekten sichtbar.
-  label_no: Nein
-  label_option_plural: Optionen
-  label_overall_costs: Gesamtkosten
-  label_rate: Satz
-  label_rate_plural: Sätze
-  label_status_finished: Abgeschlossen
-  label_show: Anzeigen
-  label_units: Einheiten
-  label_user: Benutzer
-  label_until: bis
-  label_valid_from: Gültig ab
-  label_yes: Ja
-  label_time: Zeit
-  label_cost: Kosten
-  label_costs: Kosten
   label_mandatory_fields: Pflichtfelder
+  label_month: Monat
   label_my_time_tracking: Meine Zeiterfassung
-  label_no_time: Keine Zeit erfasst
+  label_new_time_entry_activity: Neue Aktivität für Zeiterfassung
   label_next_day: Nächster Tag
+  label_next_month: Nächster Monat
   label_next_week: Woche vor
   label_next_workweek: Nächste Arbeitswoche
-  label_next_month: Nächster Monat
+  label_no: Nein
+  label_no_time: Keine Zeit erfasst
+  label_option_plural: Optionen
+  label_overall_costs: Gesamtkosten
   label_previous_day: Vorheriger Tag
-  label_previous_workweek: Vorherige Arbeitswoche
-  label_previous_week: Woche zurück
   label_previous_month: Vorheriger Monat
+  label_previous_week: Woche zurück
+  label_previous_workweek: Vorherige Arbeitswoche
+  label_rate: Satz
+  label_rate_plural: Sätze
+  label_show: Anzeigen
   label_specific_day: Tag %{day}
-  label_specific_week: Kalenderwoche %{week}
   label_specific_month: Monat %{month}
-  label_list: Liste
-  label_month: Monat
-  label_workweek: Arbeitswoche
-  label_day: Tag
-  label_today_capitalized: Heute
-  label_view_mode_switcher: Ansicht ändern
+  label_status_finished: Abgeschlossen
+  label_time: Zeit
+  label_time_entry_activity_form_description: Änderungen an dieser Aktivität für Zeitbuchungen werden in allen verwendenden Projekten sichtbar.
   label_timer_since: Begonnen um %{time}
-  placeholder_activity_select_work_package_first: Zunächst muss ein Arbeitspaket ausgewählt werden
-  notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
-  notice_successful_restore: Erfolgreich wiederhergestellt.
-  notice_successful_lock: Erfolgreich gesperrt.
+  label_today_capitalized: Heute
+  label_units: Einheiten
+  label_until: bis
+  label_user: Benutzer
+  label_valid_from: Gültig ab
+  label_view_mode_switcher: Ansicht ändern
+  label_work_package_filter_add: Ticketfilter hinzufügen
+  label_workweek: Arbeitswoche
+  label_yes: Ja
   notice_cost_logged_successfully: Stückkosten erfolgreich gebucht.
-  notice_different_time_zones: Dieser Benutzer hat eine andere Zeitzone (%{tz}). Die Zeit wird unter Verwendung seiner Zeitzone protokolliert.
-  notice_time_entry_update_failed: 'Fehler beim Aktualisieren des Zeiteintrags. Fehler: %{errors}'
+  notice_different_time_zones: Diese Person hat eine andere Zeitzone (%{tz}). Die Zeit wird unter Verwendung seiner Zeitzone protokolliert.
+  notice_something_wrong: Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.
+  notice_successful_lock: Erfolgreich gesperrt.
+  notice_successful_restore: Erfolgreich wiederhergestellt.
   notice_time_entry_delete_failed: 'Fehler beim Löschen des Zeiteintrags. Fehler: %{errors}'
+  notice_time_entry_update_failed: 'Fehler beim Aktualisieren der Zeitbuchung. Fehler: %{errors}'
   permission_edit_cost_entries: Bearbeiten gebuchter Stückkosten
-  permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten
   permission_edit_hourly_rates: Stundensätze bearbeiten
+  permission_edit_own_cost_entries: Bearbeiten eigener gebuchter Stückkosten
   permission_edit_own_hourly_rate: Eigene Stundensätze bearbeiten
   permission_edit_rates: Stundensätze editieren
   permission_log_costs: Stückkosten buchen
@@ -203,45 +247,30 @@ de:
   permission_view_own_cost_entries: Eigene gebuchte Kosten ansehen
   permission_view_own_hourly_rate: Eigene Stundensätze ansehen
   permission_view_own_time_entries: Eigene gebuchte Aufwände ansehen
+  placeholder_activity_select_work_package_first: Zuerst ein Arbeitspaket auswählen.
+  plugin_costs:
+    description: Dieses Modul fügt Funktionen für die Planung und Überwachung der Kosten von Projekten hinzu.
+    name: Zeit und Kosten
   project_module_costs: Zeit und Kosten
   setting_allow_tracking_start_and_end_times: Start- und Endzeiten erlaubt
+  setting_allow_tracking_start_and_end_times_caption: Erlaubt es bei der Zeitbuchung die genaue Start- und Endzeiten der Buchung zu erfassen.
   setting_costs_currency: Währung
   setting_costs_currency_caption: Dies ist die Einheit der Währung. Es kann ein ISO-Code mit drei Buchstaben wie EUR, USD oder JPY sein oder ein Symbol wie €, $ oder ¥.
   setting_costs_currency_format: Format der Währung
   setting_costs_currency_format_prefix: Vor der Zahl (z.B. EUR 100)
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
-  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
-  setting_allow_tracking_start_and_end_times_caption: Erlaubt es bei der Zeitbuchung die genaue Start- und Endzeiten der Buchung zu erfassen.
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
+  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries: Gebuchte Aufwände löschen
   text_destroy_time_and_cost_entries_question: Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_reassign_time_and_cost_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_warning_hidden_elements: Es wurden möglicherweise nicht alle Einträge berücksichtigt.
-  week: Woche
   total_times:
-    workweek: 'Gesamte Arbeitswoche: %{hours}'
-    week: 'Gesamte Woche: %{hours}'
-    month: 'Gesamter Monat: %{hours}'
     day: 'Gesamter Tag: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Der Datumsteil von startTime (%{start_time}) muss mit dem Datum von spentOn (%{spent_on}) übereinstimmen.
-  costs:
-    widgets:
-      actual_costs:
-        title: Tatsächliche Kosten pro Monat
-        blankslate:
-          heading: Erfassen Sie Ihre Zeit und Kosten
-          description: Erhalten Sie einen Überblick über Ihre Kosten und protokollierte Zeit, um den Fortschritt Ihres Projekts zu verfolgen. Stellen Sie sicher, dass Arbeitspakete mit dem richtigen Budget verknüpft sind.
-          action: Zeit buchen
-        view_details: Details zu den tatsächlichen Kosten anzeigen
-  ee:
-    features:
-      time_entry_time_restrictions: Genaue Zeiterfassung erforderlich machen
-    upsell:
-      time_entry_time_restrictions:
-        description: Verbessern Sie Ihre Zeiterfassung, indem Sie genaue Start- und Endzeiten für jede Zeitbuchung erfordern.
+    month: 'Gesamter Monat: %{hours}'
+    week: 'Gesamte Woche: %{hours}'
+    workweek: 'Gesamte Arbeitswoche: %{hours}'
+  week: Woche

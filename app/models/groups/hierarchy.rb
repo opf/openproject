@@ -47,8 +47,22 @@ module Groups::Hierarchy
   end
 
   # All groups above this one in the tree up to the root.
-  def ancestors
-    Group.where(id: ancestor_ids)
+  # Pass `order: :asc` to get root-first, `:desc` for closest-ancestor-first.
+  def ancestors(order: nil)
+    ids = ancestor_ids
+    scope = Group.where(id: ids)
+
+    if order
+      # ancestor_ids are returned child-first by the CTE.
+      # Use array_position to preserve that order, then apply asc/desc.
+      ordered_ids = order == :asc ? ids.reverse : ids
+      order_sql = OpenProject::SqlSanitization.sanitize(
+        "array_position(ARRAY[?]::bigint[], #{Group.table_name}.id)", ordered_ids
+      )
+      scope.order(Arel.sql(order_sql))
+    else
+      scope
+    end
   end
 
   # Self and all ancestor groups, ordered from root down.

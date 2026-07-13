@@ -1,4 +1,4 @@
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -9,11 +9,11 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export class GroupSumsBuilder extends SingleRowBuilder {
-  @InjectField() readonly querySpace:IsolatedQuerySpace;
+  @LazyInject() readonly querySpace:IsolatedQuerySpace;
 
-  @InjectField() readonly schemaCache:SchemaCacheService;
+  @LazyInject() readonly schemaCache:SchemaCacheService;
 
-  @InjectField() readonly displayFieldService:DisplayFieldService;
+  @LazyInject() readonly displayFieldService:DisplayFieldService;
 
   public text = {
     sum: this.I18n.t('js.label_sum'),

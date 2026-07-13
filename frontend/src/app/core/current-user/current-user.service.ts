@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
@@ -38,12 +38,12 @@ import { CurrentUser, CurrentUserStore } from './current-user.store';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private currentUserStore:CurrentUserStore,
-    private currentUserQuery:CurrentUserQuery,
-    private capabilitiesService:CapabilitiesResourceService,
-  ) {
+  private apiV3Service = inject(ApiV3Service);
+  private currentUserStore = inject(CurrentUserStore);
+  private currentUserQuery = inject(CurrentUserQuery);
+  private capabilitiesService = inject(CapabilitiesResourceService);
+
+  constructor() {
     this.setupLegacyDataListeners();
   }
 
@@ -80,7 +80,7 @@ export class CurrentUserService {
       .principalFilter$()
       .pipe(
         map((userFilter) => {
-          const filters:ApiV3ListFilter[] = _.compact([userFilter]);
+          const filters:ApiV3ListFilter[] = [userFilter].filter((x):x is NonNullable<typeof x> => Boolean(x));
 
           if (projectContext) {
             filters.push(['context', '=', [projectContext === 'global' || projectContext === 'projects' ? 'g' : `w${projectContext}`]]);
@@ -101,7 +101,7 @@ export class CurrentUserService {
    * in the provided context.
    */
   public hasCapabilities$(action:string|string[], projectContext:string|null):Observable<boolean> {
-    const actions = _.castArray(action);
+    const actions = Array.isArray(action) ? action : [action];
     return this
       .capabilities$(actions, projectContext)
       .pipe(
@@ -118,7 +118,7 @@ export class CurrentUserService {
    * has any of the required capabilities in the provided context.
    */
   public hasAnyCapabilityOf$(actions:string|string[], projectContext:string|null):Observable<boolean> {
-    const actionsToFilter = _.castArray(actions);
+    const actionsToFilter = Array.isArray(actions) ? actions : [actions];
     return this
       .capabilities$(actionsToFilter, projectContext)
       .pipe(

@@ -33,7 +33,6 @@ require "digest/sha1"
 module ::Widget
   class Base < Widget::ReportingWidget
     attr_reader :engine, :output
-    attr_accessor :request
 
     ##
     # Deactivate caching for certain widgets. If called on Widget::Base,

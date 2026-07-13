@@ -30,6 +30,7 @@ import { WorkPackageNewSplitViewComponent } from 'core-app/features/work-package
 import { Ng2StateDeclaration } from '@uirouter/angular';
 import { ComponentType } from '@angular/cdk/overlay';
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -66,7 +67,7 @@ export function makeSplitViewRoutes(baseRoute:string,
   return [
     {
       name: `${routeName}.details`,
-      url: '/details/{workPackageId:[0-9]+}',
+      url: `/details/{workPackageId:${WP_ID_URL_PATTERN}}`,
       redirectTo: (trans) => {
         const params = trans.params('to');
         return {

@@ -31,13 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
 
-<%=
-  primer_form_with(
-    model: @type,
-    url: type_form_configuration_path(@type),
-    builder: TabularFormBuilder,
-    lang: current_language
-  ) do |f|
-    render partial: "form", locals: { f: f }
-  end
-%>
+<% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
+<%= render(
+      WorkPackageTypes::FormConfigurationComponent.new(
+        type: @type,
+        form_attributes: form_configuration_groups(@type),
+        no_filter_query:
+      )
+    ) %>

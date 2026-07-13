@@ -32,11 +32,11 @@ module Workflows
   class StatusFormComponent < ApplicationComponent
     FORM_ID = "status-selection-form"
 
-    def initialize(all_statuses:, current_statuses:, role:, type:, tab:)
+    def initialize(all_statuses:, current_statuses:, roles:, type:, tab:)
       super
       @all_statuses = all_statuses
       @current_statuses = current_statuses
-      @role = role
+      @roles = roles
       @type = type
       @tab = tab
     end

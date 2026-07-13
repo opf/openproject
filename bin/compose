@@ -13,6 +13,10 @@ fi
 
 COMPOSE_FILE=docker-compose.yml
 
+if [ -f docker-compose.override.yml ]; then
+  COMPOSE_FILE="$COMPOSE_FILE -f docker-compose.override.yml"
+fi
+
 if [ $# -eq 0 ]; then
   echo "Usage: bin/compose <command> [args*]"
   echo
@@ -21,6 +25,7 @@ if [ $# -eq 0 ]; then
   echo "    reset - Resets everything by removing all containers and deleting all volumes. You need to run \`setup\` again afterwards. "
   echo "    start - Starts both backend and frontend in the background. Access via http://localhost:3000/ by default."
   echo "    run   - Starts the frontend in the background and backend in the foreground. Useful for debugging using pry."
+  echo "    restart [service] - Restarts one or all running services."
   echo "    rspec - Runs rspec inside the \`backend-test\` container which will be started if it's not running yet."
   echo "    *     - Everything else will be passed straight to \`docker-compose\`."
   echo
@@ -52,8 +57,11 @@ elif [[ "$@" = "run" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
   $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
 elif [[ "$1" = "setup" ]]; then
-  $DOCKER_COMPOSE -f $COMPOSE_FILE run backend setup
-  yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run frontend npm install
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend setup
+  yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm frontend npm install
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm hocuspocus npm install
+elif [[ "$1" = "restart" ]]; then
+  $DOCKER_COMPOSE -f $COMPOSE_FILE restart "${@:2}"
 elif [[ "$1" = "reset" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
 elif [[ "$1" = "rspec" ]]; then
@@ -84,5 +92,5 @@ elif [[ "$1" = "rspec" ]]; then
 
   $DOCKER_COMPOSE -f $COMPOSE_FILE exec backend-test bundle exec rspec "${@:2}"
 else
-  $DOCKER_COMPOSE -f $COMPOSE_FILE $*
+  $DOCKER_COMPOSE -f $COMPOSE_FILE "$@"
 fi

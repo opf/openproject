@@ -4,10 +4,10 @@ module Components::Autocompleter
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: "body", wait_dropdown_open: true, wait_for_fetched_options: true)
       SeleniumHubWaiter.wait unless using_cuprite?
-      ng_click_autocompleter(element)
 
       # Wait for dropdown to open
-      ng_find_dropdown(element, results_selector:) if wait_dropdown_open
+      dropdown_open = ng_dropdown_open?(element, results_selector:) if wait_dropdown_open
+      ng_click_autocompleter(element) unless dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
@@ -33,25 +33,47 @@ module Components::Autocompleter
     end
 
     def ng_click_autocompleter(target)
-      target.click
+      input = ng_select_input(target)
+
+      scroll_to_element(input, block: :nearest)
+      input.click
     end
 
-    def ng_find_dropdown(element, results_selector: "body")
+    def ng_find_dropdown(element, results_selector: "body", raise_on_missing: true)
       retry_block do
         if results_selector
           results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == "body"
           within_window(current_window) do
-            page.find(results_selector, wait: 5)
+            page.find(results_selector, wait: raise_on_missing ? 5 : 0)
           end
         else
           within(element) do
-            page.find("ng-select .ng-dropdown-panel", wait: 5)
+            page.find("ng-select .ng-dropdown-panel", wait: raise_on_missing ? 5 : 0)
           end
         end
-      rescue StandardError => e
-        ng_select_input(element)&.click
+      rescue Capybara::ElementNotFound => e
+        return nil unless raise_on_missing
+
+        ng_click_autocompleter(element)
         raise e
       end
+    end
+
+    def ng_dropdown_open?(element, results_selector: "body")
+      if results_selector
+        within_window(current_window) do
+          page.has_css?(ng_panel_selector(results_selector), wait: 0)
+        end
+      else
+        element.has_css?("ng-select .ng-dropdown-panel", wait: 0)
+      end
+    end
+
+    def ng_panel_selector(results_selector)
+      return "body .ng-dropdown-panel" if results_selector == "body"
+      return results_selector if results_selector.include?(".ng-dropdown-panel")
+
+      "#{results_selector} .ng-dropdown-panel"
     end
 
     def expect_ng_option(element, option, grouping: nil, results_selector: "body", present: true)
@@ -133,7 +155,10 @@ module Components::Autocompleter
     # clear the ng select field
     def ng_select_clear(from_element, raise_on_missing: true)
       if raise_on_missing || from_element.has_css?(".ng-clear-wrapper", visible: :all, wait: 1)
-        from_element.find(".ng-clear-wrapper", visible: :all).click
+        clear_button = from_element.find(".ng-clear-wrapper", visible: :all)
+
+        scroll_to_element(clear_button, block: :nearest)
+        clear_button.click
       end
     end
 
@@ -143,11 +168,11 @@ module Components::Autocompleter
                             results_selector: "body",
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true)
-      target_dropdown = search_autocomplete(element,
-                                            query:,
-                                            results_selector:,
-                                            wait_dropdown_open:,
-                                            wait_for_fetched_options:)
+      search_autocomplete(element,
+                          query:,
+                          results_selector:,
+                          wait_dropdown_open:,
+                          wait_for_fetched_options:)
 
       ##
       # If a specific select_text is given, use that to locate the match,

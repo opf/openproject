@@ -82,6 +82,19 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
       .at_path("name")
   end
 
+  context "with an all-numeric name and no identifier",
+          with_settings: { work_packages_identifier: "classic" } do
+    let(:body) { { name: "12345" }.to_json }
+
+    it "responds with 201 CREATED" do
+      expect(last_response).to have_http_status(:created)
+    end
+
+    it "creates the project with a valid non-all-numeric identifier" do
+      expect(Project.last.identifier).to match(Projects::Identifier::CLASSIC_FORMAT)
+    end
+  end
+
   context "with a status" do
     let(:body) do
       {
@@ -464,14 +477,17 @@ RSpec.describe "API v3 Project resource create", content_type: :json do
 
     context "when auto-generated identifier already exists" do
       # The outer before already created a project with identifier "FPA".
-      # A second request with the same name must fail with a conflict.
+      # A second request with the same name must resolve the collision automatically.
       let(:body) do
         { name: "Flight Planning Algorithm" }.to_json
       end
 
-      it "responds with 422" do
+      it "responds with 201 and generates the next unique identifier" do
         post path, body
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:created)
+        expect(last_response.body)
+          .to be_json_eql("FLPA".to_json)
+          .at_path("identifier")
       end
     end
 

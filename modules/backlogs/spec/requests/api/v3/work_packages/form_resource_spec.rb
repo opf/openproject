@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -38,10 +40,6 @@ RSpec.describe "API v3 Work package form resource" do
   let(:authorized_user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
   let(:unauthorized_user) { create(:user) }
 
-  before do
-    allow(Story).to receive(:types).and_return([work_package.type_id])
-  end
-
   describe "#post" do
     shared_examples_for "valid payload" do
       subject { response.body }
@@ -58,7 +56,7 @@ RSpec.describe "API v3 Work package form resource" do
         let(:format) { "markdown" }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
         let(:html) do
-          defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + "</p>")
+          defined?(html_value) ? html_value : "<p class=\"op-uc-p\">#{work_package.description}</p>"
         end
       end
     end
@@ -109,7 +107,7 @@ RSpec.describe "API v3 Work package form resource" do
     shared_context "post request" do
       before do
         allow(User).to receive(:current).and_return current_user
-        post post_path, (params ? params.to_json : nil), "CONTENT_TYPE" => "application/json"
+        post post_path, params&.to_json, "CONTENT_TYPE" => "application/json"
       end
     end
 

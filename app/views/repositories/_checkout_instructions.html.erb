@@ -30,9 +30,10 @@ See COPYRIGHT and LICENSE files for more details.
 <div id="repository--checkout-instructions"
      class="op-toast -info persistent-toggle--toaster"
      hidden>
-  <a title="{{ ::I18n.t('js.close_popup_title') }}"
-     class="op-toast--close icon-context icon-close">
-  </a>
+  <button type="button"
+          aria-label="{{ ::I18n.t('js.close_popup_title') }}"
+          class="op-toast--close icon-context icon-close button--link">
+  </button>
   <div class="op-toast--content">
     <p>
     <%= simple_format instructions.instructions %>
@@ -45,12 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 <% elsif @instructions.supported_but_not_enabled? %>
-<div class="op-toast -warning">
-  <a title="{{ ::I18n.t('js.close_popup_title') }}"
-     class="op-toast--close icon-context icon-close">
-  </a>
-  <div class="op-toast--content">
-    <p><%= t("repositories.checkout.not_available") %></p>
-  </div>
-</div>
+  <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, dismiss_scheme: :hide)) do %>
+    <%= t("repositories.checkout.not_available") %>
+  <% end %>
 <% end %>

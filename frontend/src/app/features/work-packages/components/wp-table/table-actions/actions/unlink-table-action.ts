@@ -33,7 +33,7 @@ export class OpUnlinkTableAction extends OpTableAction {
       identifier,
       title,
       applicable,
-      onClick) as OpTableAction;
+      onClick);
   }
 
   public buildElement() {

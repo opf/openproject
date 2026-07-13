@@ -21,24 +21,42 @@
 #++
 ---
 lt:
-  plugin_costs:
-    name: Laikas ir išlaidos
-    description: Šis modulis prideda funkcijas projekto kaštų planavimui ir sekimui.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Darbų paketas
+        entity: Registruota
+        entity_gid: Registruota
+        entity_id: Registruota
+        logged_by: Registravo
         overridden_costs: Perrašytos išlaidos
         spent: Praleista
         spent_on: Data
-        logged_by: Registravo
-        entity: Registruota
-        entity_id: Registruota
-        entity_gid: Registruota
+        work_package: Darbų paketas
       cost_type:
+        default: Cost type by default
+        for_all_projects: For all projects
+        rates: Rates
         unit: Vieneto pavadinimas
         unit_plural: Daugiaskaitinis vienetų pavadinimas
-        default: Cost type by default
+      rate:
+        rate: Koeficientas
+      time_entry:
+        activity: Veikla
+        comments: Komentaras
+        end_time: Finish time
+        entity: Registruota
+        entity_gid: Registruota
+        entity_id: Registruota
+        hours: Valandų
+        project: Projektas
+        spent_on: Data
+        start_time: Pradžios laikas
+        subject: Tema
+        time: Laikas
+        user: Naudotojas
+        work_package: Darbų paketas
+      user:
+        default_rates: Numatytasis koeficientas
       work_package:
         costs_by_type: Panaudota vienetų
         labor_costs: Darbų kaštai
@@ -46,31 +64,22 @@ lt:
         overall_costs: Bendri kaštai
         spent_costs: Panaudoti kaštai
         spent_units: Panaudota vienetų
-      rate:
-        rate: Koeficientas
-      user:
-        default_rates: Numatytasis koeficientas
-      time_entry:
-        project: Projektas
-        user: Naudotojas
-        work_package: Darbų paketas
-        subject: Tema
-        hours: Valandų
-        comments: Komentaras
-        activity: Veikla
-        spent_on: Data
-        start_time: Pradžios laikas
-        end_time: Finish time
-        time: Laikas
-        entity: Registruota
-        entity_id: Registruota
-        entity_gid: Registruota
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Darbų paketas #%{id} nėra tinkamas kaštų perskirstymo pasirinkimas.'
+          nullify_is_not_valid_for_cost_entries: Kaštų įrašai negali būti priskirti šiam projektui.
     models:
-      time_entry:
-        one: Laiko įrašas
-        few: Time entries
-        many: Time entries
-        other: Time entries
       cost_entry:
         one: Kaštų įrašas
         few: Cost entries
@@ -81,40 +90,41 @@ lt:
         few: Kaštų tipai
         many: Kaštų tipų
         other: Kaštų tipai
+      rate: Koeficientas
+      time_entry:
+        one: Laiko įrašas
+        few: Time entries
+        many: Time entries
+        other: Time entries
       time_entry_activity:
         one: Time tracking activity
         few: Laiko sekimo veiklos
         many: Laiko sekimo veiklos
         other: Laiko sekimo veiklos
-      rate: Koeficientas
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Darbų paketas #%{id} nėra tinkamas kaštų perskirstymo pasirinkimas.'
-          nullify_is_not_valid_for_cost_entries: Kaštų įrašai negali būti priskirti šiam projektui.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Komentaras
     cost_type: Kaštų tipas
     costs: Kaštai
     current_rate: Dabartinis koeficientas
+    fixed_date: Fiksuota data
     hours: Valandos
     units: Vienetai
     valid_from: Galioja nuo
-    fixed_date: Fiksuota data
+  button_add_activity: Veikla
   button_add_rate: Pridėti koeficientą
+  button_add_time_entry: Registruoti laiką
   button_log_costs: Vesti į žurnalą vieneto kaštus
   button_log_time: Log
-  button_add_activity: Veikla
-  button_add_time_entry: Registruoti laiką
   button_stop_timer: Stop timer
   caption_booked_on_project: Įrašytas projektui
   caption_default: Numatytasis
   caption_default_rate_history_for: "%{user} numatytojo koeficiento istorija"
   caption_locked_on: Užrakinta
+  caption_log_time_dialog: Registruoti laiką
   caption_materials: Vienetai
   caption_rate_history: Koeficiento istorija
   caption_rate_history_for: "%{user} koeficiento istorija"
@@ -122,22 +132,61 @@ lt:
   caption_save_rate: Išsaugoti koeficientą
   caption_set_rate: Nustatyti esamą koeficientą
   caption_show_locked: Rodyti užrakintus tipus
-  caption_log_time_dialog: Registruoti laiką
-  description_date_for_new_rate: Naujo koeficiento data
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
+  description_date_for_new_rate: Naujo koeficiento data
   description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by requiring exact start and finish times when logging time.
   group_by_others: nėra jokioje grupėje
+  label_available_cost_types_projects: Available cost types projects
   label_between: tarp
+  label_cost: Cost
   label_cost_filter_add: Pridėti kaštų įrašo filtrą
-  label_costlog: Į žurnalą surinkti vieneto kaštai
   label_cost_plural: Kaštai
   label_cost_type_plural: Kaštų tipai
   label_cost_type_specific: 'Išlaidų tipas #%{id}: %{name}'
+  label_costlog: Į žurnalą surinkti vieneto kaštai
+  label_costs: Kaštai
   label_costs_per_page: Kaštų puslapyje
   label_current_default_rate: Esamas numatytasis koeficientas
   label_date_on: įjungta
+  label_day: Diena
   label_deleted_cost_types: Panaikinti kaštų tipai
-  label_locked_cost_types: Užrakinti kaštų tipai
   label_display_cost_entries: Rodyti vieneto kaštus
   label_display_time_entries: Rodyti atsiskaitytas valandas
   label_display_types: Rodyti tipus
@@ -148,59 +197,54 @@ lt:
   label_group_by_add: Pridėti grupavimo lauką
   label_hourly_rate: Valandinis koeficientas
   label_include_deleted: Įtraukti ištrintus
-  label_work_package_filter_add: Pridėti darbų paketo filtrą
   label_kind: Tipas
   label_less_or_equal: "<="
+  label_list: Sąrašas
   label_log_costs: Vesti į žurnalą vieneto kaštus
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: Ne
-  label_option_plural: Nustatymai
-  label_overall_costs: Bendri kaštai
-  label_rate: Koeficientas
-  label_rate_plural: Koeficientai
-  label_status_finished: Baigta
-  label_show: Rodyti
-  label_units: Kaštų vienetai
-  label_user: Vartotojas
-  label_until: iki
-  label_valid_from: Galioja nuo
-  label_yes: Taip
-  label_time: Laikas
-  label_cost: Cost
-  label_costs: Kaštai
   label_mandatory_fields: Mandatory fields
+  label_month: Mėnuo
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: New time entry activity
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: Sekanti savaitė
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: Ne
+  label_no_time: No time tracked
+  label_option_plural: Nustatymai
+  label_overall_costs: Bendri kaštai
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: Ankstesnė savaitė
   label_previous_month: Previous month
+  label_previous_week: Ankstesnė savaitė
+  label_previous_workweek: Previous work week
+  label_rate: Koeficientas
+  label_rate_plural: Koeficientai
+  label_show: Rodyti
   label_specific_day: Day %{day}
-  label_specific_week: Calendar week %{week}
   label_specific_month: Month %{month}
-  label_list: Sąrašas
-  label_month: Mėnuo
-  label_workweek: Darbo savaitė
-  label_day: Diena
-  label_today_capitalized: Šiandien
-  label_view_mode_switcher: Change view
+  label_status_finished: Baigta
+  label_time: Laikas
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Įvyko klaida. Bandykite dar kartą.
-  notice_successful_restore: Sėkmingas atkūrimas.
-  notice_successful_lock: Sėkmingai užrakinta.
+  label_today_capitalized: Šiandien
+  label_units: Kaštų vienetai
+  label_until: iki
+  label_user: Vartotojas
+  label_valid_from: Galioja nuo
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Pridėti darbų paketo filtrą
+  label_workweek: Darbo savaitė
+  label_yes: Taip
   notice_cost_logged_successfully: Vieneto kaštai į žurnalą įrašyti sėkmingai.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Įvyko klaida. Bandykite dar kartą.
+  notice_successful_lock: Sėkmingai užrakinta.
+  notice_successful_restore: Sėkmingas atkūrimas.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Redaguoti įrašytų vienetų kaštus
-  permission_edit_own_cost_entries: Redaguoti paties įrašytų vienetų kaštus
   permission_edit_hourly_rates: Redaguoti valandinius koeficientus
+  permission_edit_own_cost_entries: Redaguoti paties įrašytų vienetų kaštus
   permission_edit_own_hourly_rate: Redaguoti savo valandinius koeficientus
   permission_edit_rates: Redaguoti koeficientus
   permission_log_costs: Įrašyti vieneto kaštus
@@ -211,45 +255,30 @@ lt:
   permission_view_own_cost_entries: Peržiūrėti savo įrašytus kaštus
   permission_view_own_hourly_rate: Peržiūrėti savo valandinį koeficientą
   permission_view_own_time_entries: Peržiūrėti savo sugaištą laiką
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: Šis modulis prideda funkcijas projekto kaštų planavimui ir sekimui.
+    name: Laikas ir išlaidos
   project_module_costs: Laikas ir išlaidos
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Valiuta
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: Priskirti praleistas valandas ir kaštus projektui
   text_destroy_cost_entries_question: "%{cost_entries} buvo pranešta Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
   text_destroy_time_and_cost_entries: Ištrinti praneštas valandas ir kaštus
   text_destroy_time_and_cost_entries_question: "%{hours} valandos, %{cost_entries} buvo pranešti Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
   text_reassign_time_and_cost_entries: 'Iš naujo priskirti praneštas valandas ir kaštus šiam darbų paketui:'
   text_warning_hidden_elements: Kai kurie įrašai galimai atskirti nuo agregacijos.
-  week: savaitė
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: savaitė

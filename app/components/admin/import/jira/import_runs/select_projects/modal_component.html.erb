@@ -39,11 +39,24 @@
           I18n.t(:button_cancel)
         end
         modal_footer.with_component(
-          Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
-            jira_import: @jira_import,
-            count: selected_count
-          )
+          content_tag(:div, data: { "admin--jira-projects-target": "submitButton" }) {
+            render(Admin::Import::Jira::ImportRuns::SelectProjects::ModalSubmitComponent.new(
+                     jira_import: @jira_import,
+                     count: selected_count
+                   ))
+          }
         )
+        modal_footer.with_component(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            tag: :a,
+            hidden: true,
+            data: { "admin--jira-projects-target": "spinnerButton" }
+          )
+        ) do |spinner_button|
+          spinner_button.with_trailing_visual_icon(icon: :sync, animation: :rotate, style: "min-width: 2rem")
+          I18n.t(:button_continue)
+        end
       end
     end
   end

@@ -2,7 +2,10 @@ import { BlockNoteSchema } from "@blocknote/core";
 import { ServerBlockNoteEditor } from "@blocknote/server-util";
 import type { beforeHandleMessagePayload, onAuthenticatePayload, onLoadDocumentPayload, onStoreDocumentPayload, onTokenSyncPayload } from "@hocuspocus/server";
 import { Extension } from "@hocuspocus/server";
-import { openProjectWorkPackageStaticBlockSpec } from "op-blocknote-extensions";
+import {
+  openProjectWorkPackageStaticBlockSpec,
+  openProjectWorkPackageStaticInlineSpec,
+} from "op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
@@ -11,7 +14,10 @@ import { fetchResource } from "../services/resourceService";
 
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    "openProjectWorkPackage": openProjectWorkPackageStaticBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
   },
 });
 
@@ -35,7 +41,7 @@ export class OpenProjectApi implements Extension {
       throw new Error('Unauthorized: Missing auth params');
     }
 
-    const requestOrigin = data.request?.headers?.origin;
+    const requestOrigin = data.requestHeaders?.get("origin") ?? undefined;
     const result = await decryptAndValidateToken(token, resourceUrl, requestOrigin);
 
     const tokenExpiresAtDate = new Date(result.tokenExpiresAt);
@@ -97,7 +103,7 @@ export class OpenProjectApi implements Extension {
     * Store data to the API. The data is a YDoc update
     */
   async onStoreDocument(data: onStoreDocumentPayload): Promise<void> {
-    const { resourceUrl, readonly } = data.context;
+    const { resourceUrl, readonly } = data.lastContext;
 
     if (!resourceUrl) {
       console.warn("Missing parameters in context. Skipping store.");
@@ -116,10 +122,9 @@ export class OpenProjectApi implements Extension {
     Y.applyUpdate(tempYdoc, Y.encodeStateAsUpdate(data.document));
     const tempFragment = tempYdoc.getXmlFragment("document-store");
     const editorData = editor.yXmlFragmentToBlocks(tempFragment);
-    // @ts-expect-error BlockNote types are complicated
     const markdownData = await editor.blocksToMarkdownLossy(editorData);
 
-    const response = await fetchResource(resourceUrl, data.context.token, {
+    const response = await fetchResource(resourceUrl, data.lastContext.token, {
       method: "PATCH",
       body: JSON.stringify({
         content_binary: base64Data,
@@ -132,7 +137,7 @@ export class OpenProjectApi implements Extension {
       return;
     }
 
-    data.document.connections.forEach(({ connection }) => connection.sendStateless("storeEvent"));
+    data.document.broadcastStateless("storeEvent");
   }
 
   /**

@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe Project do
   describe "associations" do
-    it { is_expected.to have_many(:sprints).class_name("Agile::Sprint").dependent(:destroy) }
+    it { is_expected.to have_many(:sprints).class_name("Sprint").dependent(:destroy) }
+    it { is_expected.to have_many(:backlog_buckets).class_name("BacklogBucket").dependent(:destroy) }
   end
 end

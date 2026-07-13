@@ -1,0 +1,87 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper(tag: :turbo_frame, refresh: :morph) do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { t(".title") }
+
+      flex_layout do |container|
+        if report.present?
+          container.with_row do
+            header = summary_header
+
+            concat(render(Primer::Beta::Octicon.new(icon: header[:icon], color: header[:icon_color], mr: 2)))
+            concat(render(Primer::Beta::Text.new(font_weight: :bold)) { header[:text] })
+          end
+
+          container.with_row(mt: 2) do
+            render(Primer::Beta::Text.new(color: :muted)) { summary_description }
+          end
+
+          container.with_row(mt: 2) do
+            render(
+              Primer::Beta::Button.new(
+                scheme: :link,
+                color: :default,
+                font_weight: :bold,
+                tag: :a,
+                href: admin_settings_wiki_provider_health_status_report_path(model)
+              )
+            ) do |button|
+              button.with_leading_visual_icon(icon: :meter)
+              t(".open_report")
+            end
+          end
+        else
+          container.with_row do
+            primer_form_with(
+              model:,
+              url: create_health_status_report_admin_settings_wiki_provider_health_status_report_path(model),
+              method: :post,
+              data: { turbo: true }
+            ) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :link,
+                  color: :default,
+                  font_weight: :bold,
+                  type: :submit
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :meter)
+                t(".run_checks")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

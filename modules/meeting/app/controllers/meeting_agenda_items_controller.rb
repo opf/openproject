@@ -35,6 +35,10 @@ class MeetingAgendaItemsController < ApplicationController
   include Meetings::AgendaComponentStreams
 
   load_and_authorize_with_permission_in_project :manage_agendas
+  authorize_with_permission :add_work_packages,
+                            only: %i[convert_to_work_package_dialog
+                                     convert_to_work_package
+                                     refresh_convert_to_work_package_dialog]
 
   before_action :set_meeting
   before_action :set_agenda_item_type, only: %i[new create]
@@ -42,7 +46,8 @@ class MeetingAgendaItemsController < ApplicationController
                 except: %i[new cancel_new create]
   before_action :set_current_occurrence,
                 :set_presentation_mode,
-                only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog]
+                only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog
+                         convert_to_work_package]
   before_action :check_recurring_meeting_param,
                 only: %i[move_to_next_meeting move_to_next_meeting_dialog duplicate_in_next_meeting
                          duplicate_in_next_meeting_dialog]
@@ -227,7 +232,8 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_dialog MeetingAgendaItems::MoveToNextMeetingDialogComponent.new(
       agenda_item: @meeting_agenda_item,
       datetime: params[:datetime],
-      skipped: params[:skipped],
+      skipped_cancelled: params[:skipped_cancelled],
+      skipped_closed: params[:skipped_closed],
       next_occurrence:
     )
   end
@@ -239,7 +245,8 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_dialog MeetingAgendaItems::DuplicateInNextMeetingDialogComponent.new(
       agenda_item: @meeting_agenda_item,
       datetime: params[:datetime],
-      skipped: params[:skipped],
+      skipped_cancelled: params[:skipped_cancelled],
+      skipped_closed: params[:skipped_closed],
       next_occurrence:
     )
   end
@@ -289,8 +296,65 @@ class MeetingAgendaItemsController < ApplicationController
     )
   end
 
+  def convert_to_work_package_dialog
+    work_package = convert_to_work_package_service
+      .build_work_package(meeting_agenda_item: @meeting_agenda_item)
+
+    respond_with_dialog MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent.new(
+      work_package:,
+      project: @project,
+      meeting: @meeting,
+      meeting_agenda_item: @meeting_agenda_item
+    )
+  end
+
+  def refresh_convert_to_work_package_dialog
+    work_package = convert_to_work_package_service
+      .build_work_package(meeting_agenda_item: @meeting_agenda_item, params: permitted_params.update_work_package)
+
+    form_component = MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
+      work_package:,
+      project: @project,
+      meeting: @meeting,
+      meeting_agenda_item: @meeting_agenda_item
+    )
+
+    update_via_turbo_stream(component: form_component)
+    respond_with_turbo_streams
+  end
+
+  def convert_to_work_package
+    call = convert_to_work_package_service.call(
+      meeting_agenda_item: @meeting_agenda_item,
+      work_package_params: permitted_params.update_work_package
+    )
+
+    if call.success?
+      reset_meeting_from_agenda_item
+      update_item_via_turbo_stream(current_occurrence: @current_occurrence,
+                                   presentation_mode: @presentation_mode)
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+    else
+      form_component = MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
+        work_package: call.result,
+        project: @project,
+        meeting: @meeting,
+        meeting_agenda_item: @meeting_agenda_item
+      )
+      update_via_turbo_stream(component: form_component, status: :bad_request)
+    end
+
+    respond_with_turbo_streams
+  end
+
   def move_to_section
-    meeting_section = MeetingSection.find_by(id: params[:meeting_agenda_item][:meeting_section_id])
+    section_scope = if @meeting.recurring_meeting_id.present?
+                      MeetingSection.joins(:meeting).where(meetings: { recurring_meeting_id: @meeting.recurring_meeting_id })
+                    else
+                      @meeting.sections
+                    end
+    meeting_section = section_scope.find_by(id: params[:meeting_agenda_item][:meeting_section_id])
     @meeting = meeting_section.meeting unless meeting_section.backlog?
 
     call = update_agenda_item(meeting_section:)
@@ -299,6 +363,11 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   private
+
+  def convert_to_work_package_service
+    @convert_to_work_package_service ||=
+      ::MeetingAgendaItems::ConvertToWorkPackageService.new(user: current_user, project: @project)
+  end
 
   def update_agenda_item(params)
     ::MeetingAgendaItems::UpdateService
@@ -312,10 +381,11 @@ class MeetingAgendaItemsController < ApplicationController
 
     attributes[:meeting_id] = target_meeting.id
     attributes[:meeting_section_id] = MeetingSection.find_by(id: params.dig(:meeting_agenda_item, :meeting_section_id))&.id
+    attributes[:source_meeting_id] = @meeting_agenda_item.meeting_id
 
     ::MeetingAgendaItems::CreateService
       .new(user: current_user)
-      .call(attributes, source_meeting_id: @meeting_agenda_item.meeting_id)
+      .call(attributes)
   end
 
   def init_next_meeting_occurrence
@@ -386,20 +456,20 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def find_existing_occurrence
-    next_occurrence = @series.scheduled_meetings.find_by(start_time: @next_meeting_time)
+    next_occurrence = @series.meetings.not_templated.find_by(recurrence_start_time: @next_meeting_time)
 
-    if next_occurrence&.cancelled?
-      result = @series.first_non_cancelled_occurrence(from_time: @next_meeting_time)
+    if next_occurrence&.cancelled? || next_occurrence&.closed?
+      result = @series.first_available_occurrence(from_time: @next_meeting_time)
 
       if result.nil?
         return respond_with_flash_error(message: I18n.t(:text_agenda_item_no_available_occurrence))
       end
 
       @next_meeting_time = result[:occurrence]
-      next_occurrence = @series.scheduled_meetings.find_by(start_time: @next_meeting_time)
+      next_occurrence = @series.meetings.not_templated.find_by(recurrence_start_time: @next_meeting_time)
     end
 
-    @next_occurrence = next_occurrence&.meeting
+    @next_occurrence = next_occurrence&.cancelled? ? nil : next_occurrence
   end
 
   def render_next_meeting_flash(base_key, next_occurrence)

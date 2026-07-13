@@ -32,22 +32,36 @@ require "spec_helper"
 
 # End-to-end tests verifying that the registry is maintained correctly through
 # the full service stack: CreateService, UpdateService, and Projects::UpdateService.
-RSpec.describe "SemanticIds registry integration", type: :model do
+RSpec.describe "SemanticIds registry integration",
+               type: :model,
+               with_settings: { work_packages_identifier: "semantic" } do
   shared_let(:role) do
     create(:project_role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages move_work_packages edit_project])
   end
   shared_let(:user) { create(:user) }
 
-  # Projects with uppercase identifiers require alphanumeric mode — stub before creating.
   let(:project) { create(:project, identifier: "PROJ", wp_sequence_counter: 0) }
   let(:target_project) { create(:project, identifier: "DEST", wp_sequence_counter: 0) }
 
   before do
-    allow(Setting::WorkPackageIdentifier).to receive_messages(semantic?: true, classic?: false)
     create(:member, principal: user, project:, roles: [role])
     create(:member, principal: user, project: target_project, roles: [role])
     login_as(user)
+  end
+
+  describe "find_by guard rejects semantic identifiers" do
+    let!(:work_package) { create(:work_package, project:) }
+
+    it "raises ArgumentError for find_by(id:) with a semantic string" do
+      expect { WorkPackage.find_by(id: "PROJ-1") }
+        .to raise_error(ArgumentError, /find_by_display_id/)
+    end
+
+    it "raises ArgumentError for find_by(id:) with a semantic string on a relation" do
+      expect { WorkPackage.where(project:).find_by(id: "PROJ-1") }
+        .to raise_error(ArgumentError, /find_by_display_id/)
+    end
   end
 
   describe "WP creation via CreateService" do
@@ -95,14 +109,65 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       expect(work_package.reload.identifier).to start_with("DEST-")
     end
 
+    it "allocates sequence numbers in a single batch when moving a WP with descendants" do
+      children = create_list(:work_package, 4, project:, parent: work_package)
+
+      WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
+
+      moved = [work_package, *children].map { |wp| wp.reload.identifier }
+      expect(moved).to all(start_with("DEST-"))
+      expect(moved.map { |id| id.split("-").last.to_i }).to match_array(1..5)
+    end
+
     it "old identifier still resolves to the WP" do
       WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-5")).to eq(work_package)
+      expect(WorkPackage.find_by_display_id("PROJ-5")).to eq(work_package)
     end
 
     it "new identifier also resolves to the WP" do
       WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
-      expect(WorkPackage.find_by_id_or_identifier(work_package.reload.identifier)).to eq(work_package)
+      expect(WorkPackage.find_by_display_id(work_package.reload.identifier)).to eq(work_package)
+    end
+
+    it "refreshes the in-memory identifier so to_param produces the semantic URL" do
+      WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
+
+      expect(work_package.identifier).to start_with("DEST-")
+      expect(work_package.to_param).to start_with("DEST-")
+    end
+  end
+
+  describe "WP move in classic mode when sequence numbers linger from semantic mode" do
+    # The outer before block stubs semantic?: true, so both WPs automatically receive
+    # sequence_number = 1 in their respective projects — simulating the state after the
+    # user enabled semantic IDs and then switched back to classic.
+    let!(:work_package) { create(:work_package, project:) }
+    let!(:conflict_wp)  { create(:work_package, project: target_project) }
+
+    before do
+      # Simulate the user switching back to classic mode after semantic IDs were active.
+      allow(Setting::WorkPackageIdentifier).to receive_messages(semantic?: false, classic?: true)
+    end
+
+    it "succeeds without PG::UniqueViolation and clears the sequence number" do
+      result = WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
+
+      expect(result).to be_success
+      expect(work_package.reload.project).to eq(target_project)
+      expect(work_package.reload.sequence_number).to be_nil
+    end
+
+    it "also clears sequence numbers on descendants to avoid conflicts" do
+      child = create(:work_package, project:, parent: work_package)
+      # Manually assign a sequence_number to the child to simulate leftover semantic state,
+      # then create a conflicting WP in the target project with the same sequence number.
+      child.update_columns(sequence_number: 2, identifier: "PROJ-2")
+      create(:work_package, project: target_project).tap { |wp| wp.update_columns(sequence_number: 2) }
+
+      result = WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
+
+      expect(result).to be_success
+      expect(child.reload.sequence_number).to be_nil
     end
   end
 
@@ -130,15 +195,15 @@ RSpec.describe "SemanticIds registry integration", type: :model do
     it "old identifiers still resolve to the correct WPs" do
       Projects::UpdateService.new(user:, model: project).call(identifier: "RENAMED")
 
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-1")).to eq(wp1)
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-2")).to eq(wp2)
+      expect(WorkPackage.find_by_display_id("PROJ-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("PROJ-2")).to eq(wp2)
     end
 
     it "new identifiers resolve to the correct WPs" do
       Projects::UpdateService.new(user:, model: project).call(identifier: "RENAMED")
 
-      expect(WorkPackage.find_by_id_or_identifier("RENAMED-1")).to eq(wp1)
-      expect(WorkPackage.find_by_id_or_identifier("RENAMED-2")).to eq(wp2)
+      expect(WorkPackage.find_by_display_id("RENAMED-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("RENAMED-2")).to eq(wp2)
     end
 
     it "old prefix resolves for WPs created after the rename" do
@@ -147,8 +212,8 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       Projects::UpdateService.new(user:, model: project).call(identifier: "RENAMED")
       wp3 = create(:work_package, project: project.reload)
 
-      expect(WorkPackage.find_by_id_or_identifier("RENAMED-3")).to eq(wp3)
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-3")).to eq(wp3)
+      expect(WorkPackage.find_by_display_id("RENAMED-3")).to eq(wp3)
+      expect(WorkPackage.find_by_display_id("PROJ-3")).to eq(wp3)
     end
   end
 
@@ -161,7 +226,7 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       # PROJ is then renamed to RENAMED (bulk-inserts RENAMED-1 from the retired PROJ-1 row)
       Projects::UpdateService.new(user:, model: project).call(identifier: "RENAMED")
 
-      expect(WorkPackage.find_by_id_or_identifier("RENAMED-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("RENAMED-1")).to eq(wp1)
     end
 
     it "rename then move: both old identifiers resolve after the WP moves" do
@@ -170,8 +235,8 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       # WP moves to DEST (appends DEST-1 registry row, updates identifier)
       WorkPackages::UpdateService.new(user:, model: wp1.reload).call(project: target_project)
 
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-1")).to eq(wp1)
-      expect(WorkPackage.find_by_id_or_identifier("RENAMED-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("PROJ-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("RENAMED-1")).to eq(wp1)
     end
 
     it "rename then new WP then move: pre-rename identifier resolves via alias table" do
@@ -183,7 +248,64 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       # wp2 moves to DEST — old identifier RENAMED-2 kept as alias, gets DEST-1
       WorkPackages::UpdateService.new(user:, model: wp2).call(project: target_project)
 
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-2")).to eq(wp2)
+      expect(WorkPackage.find_by_display_id("PROJ-2")).to eq(wp2)
+    end
+  end
+
+  describe "semantic_identifier_fields_consistent validation does not block service paths" do
+    let(:attributes) do
+      {
+        subject: "A task",
+        project:,
+        type: project.types.first,
+        status: create(:default_status),
+        priority: create(:default_priority)
+      }
+    end
+
+    context "in classic mode", with_settings: { work_packages_identifier: "classic" } do
+      let(:project) { create(:project, wp_sequence_counter: 0) }
+      let(:target_project) { create(:project, wp_sequence_counter: 0) }
+
+      it "CreateService succeeds with both identifier fields absent" do
+        result = WorkPackages::CreateService.new(user:).call(**attributes)
+        expect(result).to be_success
+        expect(result.result.identifier).to be_nil
+        expect(result.result.sequence_number).to be_nil
+      end
+
+      it "UpdateService succeeds when identifier fields remain nil" do
+        wp = WorkPackages::CreateService.new(user:).call(**attributes).result
+        result = WorkPackages::UpdateService.new(user:, model: wp).call(subject: "Updated subject")
+        expect(result).to be_success
+      end
+
+      it "UpdateService clears stale identifier fields on a project move" do
+        wp = WorkPackages::CreateService.new(user:).call(**attributes).result
+        # Simulate a WP that received a semantic id before the instance was
+        # switched (back) to classic mode.
+        wp.update_columns(identifier: "OLDPROJ-7", sequence_number: 7)
+
+        result = WorkPackages::UpdateService.new(user:, model: wp).call(project: target_project)
+
+        expect(result).to be_success
+        expect(wp.identifier).to be_nil
+        expect(wp.sequence_number).to be_nil
+        expect(wp.reload.identifier).to be_nil
+        expect(wp.sequence_number).to be_nil
+      end
+    end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      it "UpdateService on a plain attribute change does not disturb identifier fields" do
+        wp = WorkPackages::CreateService.new(user:).call(**attributes).result
+        original_identifier = wp.identifier
+
+        result = WorkPackages::UpdateService.new(user:, model: wp).call(subject: "Updated subject")
+        expect(result).to be_success
+        expect(wp.reload.identifier).to eq(original_identifier)
+        expect(wp.reload.sequence_number).to be_present
+      end
     end
   end
 
@@ -202,9 +324,9 @@ RSpec.describe "SemanticIds registry integration", type: :model do
       WorkPackages::UpdateService.new(user:, model: wp1.reload).call(project: project_c)
       projc_identifier = wp1.reload.identifier
 
-      expect(WorkPackage.find_by_id_or_identifier("PROJ-1")).to eq(wp1)
-      expect(WorkPackage.find_by_id_or_identifier(dest_identifier)).to eq(wp1)
-      expect(WorkPackage.find_by_id_or_identifier(projc_identifier)).to eq(wp1)
+      expect(WorkPackage.find_by_display_id("PROJ-1")).to eq(wp1)
+      expect(WorkPackage.find_by_display_id(dest_identifier)).to eq(wp1)
+      expect(WorkPackage.find_by_display_id(projc_identifier)).to eq(wp1)
     end
   end
 end

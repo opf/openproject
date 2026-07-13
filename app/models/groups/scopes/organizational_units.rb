@@ -36,6 +36,10 @@ module Groups::Scopes
       def organizational_units
         where_detail(organizational_unit: true)
       end
+
+      def not_organizational_units
+        where_detail(organizational_unit: false)
+      end
     end
   end
 end

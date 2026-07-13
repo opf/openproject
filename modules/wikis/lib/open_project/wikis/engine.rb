@@ -53,22 +53,59 @@ module OpenProject::Wikis
       end
     end
 
+    initializer "openproject_wikis.configuration" do
+      ::Settings::Definition.add :internal_wiki_provider,
+                                 description: "Overwrite settings of the internal wiki provider through environment variables",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
+      ::Settings::Definition.add :wiki_providers,
+                                 description: "Configure external wiki providers through environment variables",
+                                 writable: false,
+                                 default: [],
+                                 format: :array
+    end
+
     config.to_prepare do
       API::V3::Configuration::ConfigurationRepresenter.property(
         :wikisAvailable,
         getter: ->(*) { ::Wikis::Provider.enabled.exists? }
       )
+
+      OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::WikiLinkMatcher
+
+      # Registering queries and filters
+      ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
+        filter ::Queries::Wikis::PageLinks::Filter::IdentifierFilter
+        filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
+        filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
+      end
     end
 
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
     register "openproject-wikis", author_url: "https://openproject.org" do
+      project_module :work_package_tracking do
+        permission :manage_wiki_page_links,
+                   {
+                     "wikis/pages": %i[create_and_link create_new_page_dialog],
+                     "wikis/relation_page_links": %i[create
+                                                     destroy
+                                                     confirm_delete_dialog
+                                                     link_existing_dialog]
+                   },
+                   permissible_on: :project,
+                   dependencies: %i[edit_work_packages],
+                   contract_actions: { wiki_page_links: %i[manage] }
+      end
+
       menu :work_package_split_view,
            :wikis,
            { tab: :wikis },
            skip_permissions_check: true,
            after: :relations,
-           if: ->(_project) {
+           badge: ->(work_package:, **) { Wikis::PageLinkService.new.count(work_package) },
+           if: lambda { |_project|
              Wikis::Provider.enabled.exists? &&
                OpenProject::FeatureDecisions.wiki_enhancements_active?
            }
@@ -76,9 +113,41 @@ module OpenProject::Wikis
       menu :admin_menu,
            :wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
-           if: ->(_) { OpenProject::FeatureDecisions.wiki_enhancements_active? },
-           caption: :project_module_wiki_platforms,
-           icon: "browser"
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.wikis",
+           icon: :book
+
+      menu :admin_menu,
+           :internal_wiki_provider,
+           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
+           parent: :wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.internal_wiki_provider"
+
+      menu :admin_menu,
+           :external_wiki_providers,
+           { controller: "/wikis/admin/wiki_providers", action: :index },
+           parent: :wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.external_wiki_providers"
+    end
+
+    patch_with_namespace :WikiPages, :CreateService
+    patch_with_namespace :WikiPages, :UpdateService
+    patch_with_namespace :WorkPackages, :CreateService
+    patch_with_namespace :WorkPackages, :UpdateService
+
+    add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
+    add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
+    add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
+    add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::PageLinks::PageLinksAPI
+    end
+
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
+      mount ::API::V3::PageLinks::WorkPackageWikiPageLinksAPI
     end
   end
 end

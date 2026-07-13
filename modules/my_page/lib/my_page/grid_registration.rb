@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MyPage
   class GridRegistration < ::Grids::Configuration::Registration
     grid_class "Grids::MyPage"
@@ -77,7 +79,7 @@ module MyPage
               queryProps: {
                 "columns[]": %w(id project type subject),
                 filters: JSON.dump([{ status: { operator: "o", values: [] } },
-                                    { assigned_to: { operator: "=", values: ["me"] } }])
+                                    { assignee: { operator: "=", values: ["me"] } }])
               }
             }
           },

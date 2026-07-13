@@ -32,25 +32,21 @@ module Wikis
   module Adapters
     module Providers
       module Internal
-        Registry = Dry::Container::Namespace.new("internal") do
+        Registry = Dry::Core::Container::Namespace.new("internal") do
           namespace("authentication") do
-            # ...
+            register(:user_bound, Authentication::UserBound)
           end
 
           namespace("commands") do
-            # ...
-          end
-
-          namespace("components") do
-            # ...
-          end
-
-          namespace("contracts") do
-            # ...
+            register(:create_page, Commands::CreatePage)
           end
 
           namespace("queries") do
-            register(:test, Queries::Test)
+            register(:page_info, Queries::PageInfo)
+            register(:page_info_for_url, Queries::PageInfoForUrl)
+            register(:referencing_pages, Queries::ReferencingPages)
+            register(:relation_page_links, Queries::RelationPageLinks)
+            register(:search_pages, Queries::SearchPages)
           end
         end
       end

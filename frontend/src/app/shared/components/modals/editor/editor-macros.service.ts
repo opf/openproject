@@ -27,7 +27,7 @@
 //++
 
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   WpButtonMacroModalComponent,
 } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
@@ -44,22 +44,25 @@ import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outl
 
 @Injectable()
 export class EditorMacrosService {
-  constructor(
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-  ) {
-  }
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+
 
   /**
    * Show a modal to edit the work package button macro settings.
    * Used from within ckeditor-augmented-textarea.
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
+    const target = document.querySelector('opce-custom-modal-overlay') ? PortalOutletTarget.Custom : PortalOutletTarget.Default;
+
     return new Promise<{ type:string, classes:string }>((resolve, _) => {
       this.opModalService.show(
         WpButtonMacroModalComponent,
         this.injector,
         { type: typeName, classes },
+        false,
+        false,
+        target,
       ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({ type: modal.type, classes: modal.classes });

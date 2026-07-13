@@ -41,7 +41,7 @@ module Calendar
 
     def dynamic_path
       if current_project
-        new_project_calendars_path(current_project)
+        new_project_calendar_path(current_project)
       else
         new_calendar_path
       end

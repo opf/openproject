@@ -139,8 +139,7 @@ See COPYRIGHT and LICENSE files for more details.
                   Primer::BaseComponent.new(
                     tag: :div,
                     display: :flex,
-                    align_items: :center,
-                    data: { controller: "truncation" },
+                    align_items: :flex_start,
                     classes: "gap-1",
                     ml: 1,
                     mr: 3
@@ -165,31 +164,17 @@ See COPYRIGHT and LICENSE files for more details.
                     )
                   )
                 %>
-                <%=
-                  render(
-                    Primer::Beta::Truncate.new(
-                      data: { truncation_target: "truncate" },
-                      flex: 1
-                    )
-                  ) do
-                    old_status.name
-                  end
-                %>
-                <%=
-                  render(
-                    Primer::Alpha::HiddenTextExpander.new(
-                      hidden: true,
-                      aria: { label: t(:"js.label_expand_text") },
-                      data: { truncation_target: "expander" }
-                    )
-                  )
-                %>
+                <%= render(OpPrimer::ExpandableTextComponent.new(flex: 1)) do %>
+                  <%= old_status.name %>
+                <% end %>
               <% end %>
             </th>
             <% @statuses.each do |new_status| -%>
-              <% transition_saved = workflows.any? { it.old_status_id == old_status.id && it.new_status_id == new_status.id }
-                 newly_added_status = @added_status_ids.include?(old_status.id) || @added_status_ids.include?(new_status.id) %>
+              <% transition_role_ids = workflows.select { it.old_status_id == old_status.id && it.new_status_id == new_status.id }.map(&:role_id).uniq
+                 newly_added_status = @added_status_ids.include?(old_status.id) || @added_status_ids.include?(new_status.id)
+                 some_roles = !transition_role_ids.empty? && transition_role_ids.size < @roles.size && !newly_added_status %>
               <td>
+                <%= hidden_field_tag "indeterminate_status[#{old_status.id}][#{new_status.id}]", "1" if some_roles %>
                 <%=
                   render(Primer::BaseComponent.new(tag: :div, display: :flex, align_items: :center, mx: 1)) do
                     render(
@@ -198,13 +183,14 @@ See COPYRIGHT and LICENSE files for more details.
                         name: "status[#{old_status.id}][#{new_status.id}]",
                         id: "status_#{old_status.id}_#{new_status.id}", # See BUG https://github.com/primer/view_components/issues/3811
                         value: name,
-                        checked: transition_saved || newly_added_status,
+                        checked: !some_roles && (transition_role_ids.any? || newly_added_status),
                         label: t(".matrix_checkbox_label", old_status: old_status.name, new_status: new_status.name),
                         visually_hide_label: true,
                         data: {
                           checkable_target: "checkbox",
                           old_status: old_status.id,
-                          new_status: new_status.id
+                          new_status: new_status.id,
+                          indeterminate: (true if some_roles)
                         }
                       )
                     )

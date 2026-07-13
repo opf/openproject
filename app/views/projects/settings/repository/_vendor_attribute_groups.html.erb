@@ -16,11 +16,11 @@
         <%= render partial: "projects/settings/repository/repository_committers_link", locals: { repository: repository } %>
         <% if type === 'managed' %>
           <%= link_to t(:button_delete), destroy_info_project_repository_path(repository.project),
-                      method: :get,
+                      data: { controller: "async-dialog" },
                       class: "icon icon-delete" %>
         <% else %>
           <%= link_to t(:button_remove), destroy_info_project_repository_path(repository.project),
-                      method: :get,
+                      data: { controller: "async-dialog" },
                       class: "icon icon-remove" %>
         <% end %>
       </div>

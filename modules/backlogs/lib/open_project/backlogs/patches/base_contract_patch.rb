@@ -34,19 +34,45 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
   included do
     attribute :story_points,
               writable: -> { model.backlogs_enabled? }
+    attribute :backlog_bucket,
+              permission: :manage_sprint_items
     attribute :sprint,
               # This also covers the check for backlogs being active
               permission: :manage_sprint_items
 
-    validate :sprint_shared_with_project
+    validate :backlog_bucket_xor_sprint
+    validate :backlog_bucket_belongs_to_project
+    validate :validate_sprint_is_assignable
+
+    def assignable_sprints
+      if model.project
+        Sprint.assignable(project: model.project, user:)
+      else
+        Sprint.none
+      end
+    end
 
     private
 
-    def sprint_shared_with_project
-      return if model.sprint.nil? ||
-                Agile::Sprint.for_project(model.project).exists?(id: model.sprint_id)
+    def backlog_bucket_xor_sprint
+      return unless model.backlog_bucket && model.sprint
 
-      errors.add :sprint, :not_shared_with_project
+      errors.add :base, :backlog_bucket_xor_sprint
+    end
+
+    def backlog_bucket_belongs_to_project
+      return unless model.backlog_bucket
+      return if model.backlog_bucket.project == model.project
+
+      errors.add :backlog_bucket, :backlog_bucket_from_another_project
+    end
+
+    def validate_sprint_is_assignable
+      if model.sprint_id &&
+         model.sprint_id_changed? &&
+         !assignable_sprints.exists?(id: model.sprint_id)
+        errors.add :sprint, :not_assignable
+      end
     end
   end
 end

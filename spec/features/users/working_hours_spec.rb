@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "User working hours", :js, with_flag: { user_working_times: true } do
+RSpec.describe "User working hours", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:managed_user) { create(:user) }
 

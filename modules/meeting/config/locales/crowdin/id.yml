@@ -19,74 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-#English strings go here for Rails i18n
 ---
 id:
-  plugin_openproject_meeting:
-    name: Rapat OpenProject
-    description: Modul ini menambahkan fungsi untuk mendukung rapat proyek di OpenProject. Rapat dapat dijadwalkan dengan memilih peserta undangan dari proyek yang sama untuk ikut serta dalam rapat. Agenda dapat dibuat dan dikirimkan kepada peserta undangan. Setelah rapat, peserta dapat dipilih dan notulen dapat dibuat berdasarkan agenda. Akhirnya, notulen dapat dikirimkan kepada semua peserta dan peserta undangan.
   activerecord:
     attributes:
       meeting:
-        type: Jenis rapat
-        location: Lokasi
         duration: Durasi
+        end_time: End time
+        location: Lokasi
         notes: Note
-        participants: Partisipan
+        notify: Send notifications
         participant:
           other: "%{count} Peserta"
+        participants: Partisipan
+        participants_added: 'Participants added:'
         participants_attended: Peserta
         participants_invited: Undangan
+        participants_removed: 'Participants removed:'
         project: Project
+        recurrence_start_time: Scheduled start time
+        sharing: Sharing
         start_date: Tanggal
         start_time: Waktu mulai
         start_time_hour: Waktu mulai
-        sharing: Sharing
+        template: Template
+        type: Jenis rapat
       meeting_agenda_item:
-        title: Judul
         author: Penulis
-        duration_in_minutes: Durasi
         description: Note
+        duration_in_minutes: Durasi
+        item_type: Type
+        lock_version: Lock version
+        notes: Notes
+        position: Position
         presenter: Pembawa acara
+        title: Judul
+      meeting_participant:
+        attended: Telah hadir
+        invited: Terundang
+        participation_status: Status partisipasi
       meeting_section:
+        position: Position
         title: Judul
       recurring_meeting:
+        duration: Duration
+        end_after: Seri pertemuan berakhir
+        end_date: Tanggal finish
         frequency: Kekerapan
         interval: Sela Waktu
+        iterations: Kejadian
+        location: Location
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
+        notify: Send notifications
         start_date: Mulai pada
         start_time: Waktu mulai
         start_time_hour: Waktu mulai
-        end_after: Seri pertemuan berakhir
-        end_date: Tanggal finish
-        iterations: Kejadian
+        time_zone: Time zone
+        title: Title
       recurring_meeting_interim_response:
         start_time: Start time
-      meeting_participant:
-        invited: Terundang
-        attended: Telah hadir
-        participation_status: Status partisipasi
     errors:
+      messages:
+        invalid_time_format: bukanlah waktu yang valid. Format seharusnya; JJ:MM
       models:
-        meeting_participant:
-          user_invalid: is not a valid participant.
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
-        recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+        meeting_participant:
+          user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: Terdapat satu pertemuan terbuka dalam rangkaian pertemuan yang tidak tercakup dalam jadwal baru. Sesuaikan jadwal untuk mencakup semua pertemuan yang sudah ada.
             other: Terdapat %{count} pertemuan terbuka dalam rangkaian pertemuan yang tidak tercakup dalam jadwal baru. Sesuaikan jadwal untuk mencakup semua pertemuan yang sudah ada.
-            format: "%{message}"
-      messages:
-        invalid_time_format: bukanlah waktu yang valid. Format seharusnya; JJ:MM
+        recurring_meeting_interim_response:
+          not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      recurring_meeting: Rapat berulang
       meeting: Rapat satu waktu
-      meeting_agenda_item: Item agenda
       meeting_agenda: Agenda
+      meeting_agenda_item: Item agenda
       meeting_section: Bagian
+      recurring_meeting: Rapat berulang
       token/ical_meeting:
         other: Langganan iCal Meeting
   activity:
@@ -105,7 +120,11 @@ id:
         work_package:
           updated: diubah dari %{old_value} menjadi %{value}
           updated_html: berubah dari <i>%{old_value}</i> menjadi <i>%{value}</i>
+  caption_meeting_template_select: Select a template to automatically copy its agenda items
+  caption_template_project_select: Please select the project in which to create this meeting template
   description_attended: hadir
+  error_notification: Gagal mengirim notifikasi.
+  error_notification_with_errors: 'Gagal mengirim notifikasi. Berikut penerima yang tidak terkirim: %{recipients}'
   events:
     meeting: Rapat diedit
     meeting_agenda: Agenda rapat diedit
@@ -113,595 +132,597 @@ id:
     meeting_agenda_opened: Agenda rapat dibuka
     meeting_minutes: Laporan rapat diedit
     meeting_minutes_created: Laporan rapat dibuat
-  error_notification: Gagal mengirim notifikasi.
-  error_notification_with_errors: 'Gagal mengirim notifikasi. Berikut penerima yang tidak terkirim: %{recipients}'
+  label_add_work_package_to_meeting_dialog_button: Tambahkan ke rapat
+  label_add_work_package_to_meeting_dialog_title: Pilih rapat
+  label_add_work_package_to_meeting_section_label: Bagian
+  label_added_as_outcome: Ditambahkan sebagai hasil
+  label_agenda_backlog: Backlog agenda
+  label_agenda_backlog_clear_title: Hapus backlog agenda?
+  label_agenda_item_actions: Tindakan item agenda
+  label_agenda_item_add: Tambahkan item agenda
+  label_agenda_item_add_notes: Tambahkan catatan
+  label_agenda_item_add_outcome: Tambahkan hasil
+  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_deleted_wp: Referensi paket kerja yang terhapus
+  label_agenda_item_duplicate: Duplikat
+  label_agenda_item_duplicate_in_next: Duplicate in next meeting
+  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_move: Pindahkan
+  label_agenda_item_move_down: Pindahkan ke bawah
+  label_agenda_item_move_to_backlog: Pindahkan ke backlog
+  label_agenda_item_move_to_bottom: Pindahkan paling bawah
+  label_agenda_item_move_to_current_meeting: Pindahkan ke rapat saat ini
+  label_agenda_item_move_to_next: Pindahkan ke rapat selanjutnya
+  label_agenda_item_move_to_next_title: Pindahkan ke rapat selanjutnya?
+  label_agenda_item_move_to_section: Pindahkan ke bagian
+  label_agenda_item_move_to_top: Pindah paling atas
+  label_agenda_item_move_up: Naikkan
+  label_agenda_item_remove_from_agenda: Hapus dari agenda
+  label_agenda_item_remove_from_backlog: Hapus dari backlog
+  label_agenda_item_undisclosed_wp: 'Paket kerja #%{id} tidak terlihat'
+  label_agenda_item_work_package: Paket kerja item agenda
+  label_agenda_item_work_package_add: Tambahkan paket kerja
+  label_agenda_items: Item agenda
+  label_agenda_items_reordered: disusun ulang
+  label_agenda_new_outcome: Hasil baru
+  label_agenda_outcome: Hasil
+  label_agenda_outcome_actions: Tindakan hasil agenda
+  label_agenda_outcome_delete: Hapus hasil
+  label_agenda_outcome_edit: Sunting hasil
+  label_all_meetings: Seluruh rapat
+  label_attended: Telah hadir
+  label_attended_user: Pengguna yang hadir
+  label_backlog_clear: Hapus backlog
+  label_backlog_clear_button: Hapus semua
+  label_created_by_me: Dibuat oleh saya
+  label_existing_work_package: Paket kerja yang tersedia
+  label_icalendar: Kirim iCalendar
+  label_icalendar_download: Unduh acara iCalendar
+  label_initial_meeting_details: Rapat
+  label_invitations: Undangan
+  label_invited_user: Pengguna yang terundang
+  label_involvement: Keterlibatan
   label_meeting: Rapat
-  label_meeting_plural: Rapat
-  label_meeting_templates: Templates
-  label_meeting_template: Template
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_actions: Tindakan rapat
+  label_meeting_agenda: Agenda
+  label_meeting_agenda_close: Tutup agenda untuk memulai Laporan
+  label_meeting_close: Tutup
+  label_meeting_close_action: Tutup rapat
+  label_meeting_create: Buat rapat
   label_meeting_create_from_template: Create meeting from template
+  label_meeting_created_by: Created by
+  label_meeting_date_and_time: Tanggal dan waktu
+  label_meeting_date_time: Tanggal/Waktu
+  label_meeting_delete: Hapus rapat
+  label_meeting_details: Rincian rapat
+  label_meeting_details_edit: Sunting rincian rapat
+  label_meeting_diff: Perbedaan
+  label_meeting_duplicate: Pertemuan duplikat
+  label_meeting_edit: Edit Rapat
+  label_meeting_edit_title: Sunting judul rapat
+  label_meeting_empty_action: Tambahkan item agenda
+  label_meeting_in_progress_action: Mulai rapat
+  label_meeting_index_delete: Hapus
+  label_meeting_index_later: Minggu depan dan selanjutnya
+  label_meeting_index_this_week: Akhir pekan ini
+  label_meeting_index_today: Hari Ini
+  label_meeting_index_tomorrow: Besok
+  label_meeting_last_updated: Terakhir diperbarui
+  label_meeting_minutes: Laporan
+  label_meeting_more:
+    other: Terdapat %{count} rapat lagi.
   label_meeting_new: Rapat Baru
   label_meeting_new_dynamic: Rapat satu waktu baru
   label_meeting_new_recurring: Rapat berulang baru
-  label_meeting_create: Buat rapat
-  label_meeting_duplicate: Pertemuan duplikat
-  label_meeting_edit: Edit Rapat
-  label_meeting_agenda: Agenda
-  label_meeting_minutes: Laporan
-  label_meeting_close: Tutup
   label_meeting_open: Buka
-  label_meeting_index_delete: Hapus
+  label_meeting_open_action: Buka rapat
   label_meeting_open_this_meeting: Buka rapat ini
-  label_meeting_agenda_close: Tutup agenda untuk memulai Laporan
-  label_meeting_date_time: Tanggal/Waktu
-  label_meeting_date_and_time: Tanggal dan waktu
-  label_meeting_diff: Perbedaan
+  label_meeting_plural: Rapat
+  label_meeting_reload: Muat ulang
+  label_meeting_reopen_action: Buka rapat kembali
+  label_meeting_selection_caption: Paket pekerjaan ini hanya dapat ditambahkan ke rapat yang akan datang atau yang sedang berlangsung.
   label_meeting_send_updates: Kirim undangan kalender melalui email dan pembaruan
   label_meeting_send_updates_caption: Kirim undangan email kepada semua peserta rapat ini
+  label_meeting_series: Seri rapat
+  label_meeting_series_details: Rincian seri rapat
+  label_meeting_state: Status rapat
+  label_meeting_state_agenda_created: Agenda telah dibuat
+  label_meeting_state_cancelled: Dibatalkan
+  label_meeting_state_closed: Closed
+  label_meeting_state_draft: Draf
+  label_meeting_state_in_progress: In Progress
+  label_meeting_state_open: Buka
+  label_meeting_state_planned: Terencana
+  label_meeting_state_skipped: Dilewati
+  label_meeting_template: Template
+  label_meeting_template_create: Create template
+  label_meeting_template_delete: Delete template
+  label_meeting_template_edit: Edit template
+  label_meeting_template_new: New template
+  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_system: With all projects
+  label_meeting_templates: Templates
+  label_my_meetings: Rapat saya
+  label_notify: Kirim untuk ulasan
+  label_past_invitations: Undangan sebelumnya
+  label_past_meetings: Rapat sebelumnya
+  label_past_meetings_short: Lalu
+  label_recurring_filter: Recurring filter
   label_recurring_meeting: Rapat berulang
-  label_recurring_meeting_part_of: Bagian dari jajaran rapat
-  label_recurring_meeting_new: Rapat berulang baru
-  label_recurring_meeting_plural: Rapat berulang
-  label_template: Templat
-  label_recurring_meeting_view: Lihat jajaran rapat
-  label_recurring_meeting_create: Buka
-  label_recurring_meeting_duplicate: Duplikat sebagai pertemuan sekali saja
   label_recurring_meeting_cancel: Batalkan acara ini
+  label_recurring_meeting_create: Buka
   label_recurring_meeting_delete: Hapus acara
-  label_recurring_meeting_restore: Kembalikan acara ini
-  label_recurring_meeting_schedule: Jadwal
-  label_recurring_meeting_next_occurrence: Acara berikutnya
-  label_recurring_meeting_no_end_date: Ada lebih banyak rapat yang dijadwalkan (%{schedule}).
+  label_recurring_meeting_duplicate: Duplikat sebagai pertemuan sekali saja
   label_recurring_meeting_more:
     other: Terdapat %{count} rapat terjadwal lagi (%{schedule}).
   label_recurring_meeting_more_past:
     other: Terdapat %{count} rapat sebelumnya lagi.
-  label_recurring_meeting_show_more: Tampilkan lebih
+  label_recurring_meeting_new: Rapat berulang baru
+  label_recurring_meeting_next_occurrence: Acara berikutnya
+  label_recurring_meeting_no_end_date: Ada lebih banyak rapat yang dijadwalkan (%{schedule}).
+  label_recurring_meeting_part_of: Bagian dari jajaran rapat
+  label_recurring_meeting_plural: Rapat berulang
+  label_recurring_meeting_restore: Kembalikan acara ini
+  label_recurring_meeting_schedule: Jadwal
   label_recurring_meeting_series_create: Buat seri rapat
-  label_recurring_meeting_series_edit: Sunting seri rapat
   label_recurring_meeting_series_delete: Hapus seri rapat
+  label_recurring_meeting_series_edit: Sunting seri rapat
   label_recurring_meeting_series_end: Akhiri seri rapat
   label_recurring_meeting_series_end_now: Akhiri seri sekarang
-  label_meeting_more:
-    other: Terdapat %{count} rapat lagi.
-  label_my_meetings: Rapat saya
-  label_all_meetings: Seluruh rapat
-  label_upcoming_meetings: Rapat mendatang
-  label_past_meetings: Rapat sebelumnya
-  label_upcoming_meetings_short: Mendatang
-  label_past_meetings_short: Lalu
-  label_involvement: Keterlibatan
-  label_invitations: Undangan
-  label_invited_user: Pengguna yang terundang
-  label_past_invitations: Undangan sebelumnya
-  label_attended: Telah hadir
-  label_attended_user: Pengguna yang hadir
-  label_created_by_me: Dibuat oleh saya
-  label_notify: Kirim untuk ulasan
-  label_icalendar: Kirim iCalendar
-  label_icalendar_download: Unduh acara iCalendar
-  label_view_meeting: View meeting
-  label_view_meeting_series: Lihat jajaran rapat
-  label_meeting_series: Seri rapat
-  label_version: Versi
-  label_time_zone: Zona waktu
+  label_recurring_meeting_show_more: Tampilkan lebih
+  label_recurring_meeting_view: Lihat jajaran rapat
+  label_section_rename: Ganti nama bagian
+  label_section_selection_caption: Pilih bagian tertentu dari agenda tersebut atau tambahkan ke backlog.
+  label_series_backlog: Backlog seri
+  label_series_backlog_clear_title: Hapus backlog seri?
   label_start_date: Tanggal mulai
   label_subscribe_icalendar: Langganan ke kalender
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  label_template: Templat
+  label_time_zone: Zona waktu
+  label_upcoming_meetings: Rapat mendatang
+  label_upcoming_meetings_short: Mendatang
+  label_version: Versi
+  label_view_meeting: View meeting
+  label_view_meeting_series: Lihat jajaran rapat
+  label_write_outcome: Tulis hasil
   meeting:
-    participants:
-      label:
-        participants: Partisipan
-        attended: Telah hadir
-        mark_as_attended: Tandai telah hadir
-        mark_all_as_attended: Tandai semua telah hadir
-        remove_participant: Hapus peserta
-        manage_participants: Kelola peserta
-        no_participants: Tidak ada peserta
-        show_all: Tampilkan semua
-      text:
-        template: Para peserta ini akan diundang secara otomatis ke semua pertemuan mendatang yang akan dibuat.
-        manage_participants: Cari dan tambahkan anggota proyek sebagai peserta dalam pertemuan ini.
-        search_for_members: Cari anggota proyek
-      blankslate:
-        heading: Tidak ada peserta
-        description: Belum ada peserta.
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
       text: File terlampir tersedia untuk semua peserta rapat. Anda juga dapat menyeret dan meletakkannya ke dalam catatan item agenda.
+    blankslate:
+      desc: Anda dapat membuat pertemuan baru atau mengubah kriteria filter
+      title: Tidak ada rapat yang ditampilkan
+    copied: 'Disalin dari Meeting #%{id}'
     copy:
-      title: 'Salinan rapat: %{title}'
-      attachments: Salinan lampiran
-      attachments_text: Salin semua file terlampir ke rapat baru
       agenda: Salin agenda
       agenda_items: Salin item agenda
       agenda_text: Salin agenda rapat lama
+      attachments: Salinan lampiran
+      attachments_text: Salin semua file terlampir ke rapat baru
       participants: Salin daftar peserta
+      title: 'Salinan rapat: %{title}'
       to_clipboard: Salin tautan ke papan klip
+    delete_dialog:
+      occurrence:
+        confirm_button: Cancel occurrence
+        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+
+          '
+        heading: Cancel this meeting occurrence?
+        title: Cancel meeting occurrence
+      occurrence_past:
+        confirm_button: Delete occurrence
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        heading: Delete this occurrence?
+        title: Delete occurrence
+      one_time:
+        confirmation_message_html: 'Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
+
+          '
+        heading: Hapus rapat ini?
+        template:
+          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+
+            '
+          heading: Delete this template?
+          title: Delete template
+        title: Hapus rapat
     email:
+      cancelled:
+        date_time: Tanggal/waktu yang dijadwalkan
+        header: 'Dibatalkan: Rapat ''%{title}'''
+        header_occurrence: 'Dibatalkan: Rapat terjadwal ''%{title}'''
+        header_series: 'Dibatalkan: Seri rapat ''%{title}'''
+        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
+        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+      ended:
+        header_series: 'Selesai: Seri rapat ''%{title}'''
+        summary_series: Meeting series '%{title}' has been ended by %{actor}
+      invited:
+        summary: "%{actor} telah mengirim undangan kepada Anda untuk rapat '%{title}'"
+      open_meeting_link: Rapat terbuka
+      open_my_meetings_link: Buka Rapat Saya
       send_emails: Email peserta
       send_invitation_emails: 'Kirim undangan melalui email segera kepada peserta yang telah dipilih di atas. Anda juga dapat melakukannya secara manual kapan saja nanti.
 
         '
       send_invitation_emails_structured: Kirim undangan melalui email segera kepada semua peserta. Anda juga dapat melakukannya secara manual kapan saja nanti.
-      open_meeting_link: Rapat terbuka
-      open_my_meetings_link: Buka Rapat Saya
       series:
-        title: "[%{project_name}] Seri rapat '%{title}'"
         summary: "%{actor} telah mengundang Anda ke seri rapat baru berjudul ‘%{title}’"
+        title: "[%{project_name}] Seri rapat '%{title}'"
       series_updated:
-        title: "[%{project_name}] Seri rapat ‘%{title}’ telah diperbarui"
-        summary: Seri rapat '%{title}' telah diperbarui oleh %{actor}
-        old_schedule: Jadwal sebelumnya
         new_schedule: Jadwal baru
-      invited:
-        summary: "%{actor} telah mengirim undangan kepada Anda untuk rapat '%{title}'"
-      cancelled:
-        header: 'Dibatalkan: Rapat ''%{title}'''
-        header_occurrence: 'Dibatalkan: Rapat terjadwal ''%{title}'''
-        header_series: 'Dibatalkan: Seri rapat ''%{title}'''
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        date_time: Tanggal/waktu yang dijadwalkan
-      participant_added:
-        header: Rapat '%{title}' - Peserta telah ditambahkan
-        header_series: Seri rapat '%{title}' - Peserta telah ditambahkan
-        summary: "%{actor} menambahkan %{participant} ke rapat '%{title}'"
-        summary_series: "%{actor} menambahkan %{participant} ke seri rapat '%{title}'"
-      participant_removed:
-        header: Rapat '%{title}' - Peserta telah dihapus
-        header_series: Seri rapat '%{title}' - Peserta telah dihapus
-        summary: "%{actor} menghapus %{participant} ke rapat '%{title}'"
-        summary_series: "%{actor} menghapus %{participant} ke seri rapat '%{title}'"
-      ended:
-        header_series: 'Selesai: Seri rapat ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
-      updated:
-        header: Rapat '%{title}' telah diperbarui
+        old_schedule: Jadwal sebelumnya
         summary: Seri rapat '%{title}' telah diperbarui oleh %{actor}
+        title: "[%{project_name}] Seri rapat ‘%{title}’ telah diperbarui"
+      updated:
+        added_participants: Added
         body: Tapat '%{title}' telah diperbarui oleh %{actor}.
-        old_title: Old title
+        header: Rapat '%{title}' telah diperbarui
+        new_date_time: Tanggal/waktu baru
+        new_location: Lokasi baru
         new_title: New title
         old_date_time: Tanggal/waktu lama
-        new_date_time: Tanggal/waktu baru
         old_location: Lokasi sebelumnya
-        new_location: Lokasi baru
+        old_title: Old title
+        removed_participants: Removed
+        summary: Seri rapat '%{title}' telah diperbarui oleh %{actor}
+    export:
+      minutes:
+        author: Penulis
+        date: Tanggal
+        footer_page_numbers: H. %{current_page} dari %{total_pages}
+        location: Lokasi
+        time: Waktu
+        title: Laporan
+      your_meeting_export: Rapat sedang diekspor
+    export_pdf_dialog:
+      author:
+        caption: Penulis notulen akan ditampilkan di subjudul.
+        label: Penulis
+      description: Generate a printable PDF file of this meeting at the current state.
+      first_page_header_left:
+        caption: Teks ini akan muncul di halaman pertama sebelah kiri tajuk.
+        label: Tajuk kiri halaman pertama
+      footer_text:
+        caption: Teks ini akan muncul di setiap halaman di tengah footer.
+        label: Teks footer
+      include_attachments:
+        caption: A list containing the filenames of attachments will be appended at the end.
+        label: Sertakan daftar lampiran
+      include_backlog:
+        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
+        label: Sertakan backlog
+      include_outcomes:
+        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
+        label: Sertakan hasil dari agenda
+      include_participants:
+        caption: A list of participants will be preset above the meeting agenda.
+        label: Sertakan daftar peserta
+      submit_button: Download
+      templates:
+        default:
+          caption: Templat default cocok untuk sebagian besar pertemuan dan mewakili keadaan saat ini.
+          label: Default
+        minutes:
+          caption: Templat notulen ini cocok untuk rapat tertutup dan yang telah diarsipkan.
+          label: Laporan
+      title: Ekspor PDF
+    ical_response:
+      meeting_not_found: Rapat tidak ditemukan untuk UID yang diberikan.
+      update_failed: Tidak dapat memperbarui status partisipasi.
+    label_export_pdf: Ekspor PDF
     label_mail_all_participants: Kirim undangan melalui email kepada peserta
+    notifications:
+      dialog:
+        confirm_label:
+          disable: Nonaktifkan pembaruan email
+          enable: Aktifkan pembaruan email
+        message:
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Once enabled, an email will be sent out immediately to all participants.
+        title:
+          disable: Nonaktifkan pembaruan kalender melalui email?
+          enable: Aktifkan pembaruan kalender melalui email?
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      sidepanel:
+        description:
+          change_via_template: Untuk mengubahnya, sunting templat serinya.
+        title: Pembaruan kalender email
+    participants:
+      blankslate:
+        description: Belum ada peserta.
+        heading: Tidak ada peserta
+      label:
+        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        attended: Telah hadir
+        manage_participants: Kelola peserta
+        mark_all_as_attended: Tandai semua telah hadir
+        mark_as_attended: Tandai telah hadir
+        no_participants: Tidak ada peserta
+        participants: Partisipan
+        remove_participant: Hapus peserta
+        show_all: Tampilkan semua
+      text:
+        manage_participants: Cari dan tambahkan anggota proyek sebagai peserta dalam pertemuan ini.
+        search_for_members: Cari anggota proyek
+        template: Para peserta ini akan diundang secara otomatis ke semua pertemuan mendatang yang akan dibuat.
+    presentation_mode:
+      button_present: Presentasikan
+      current_item: Item saat ini
+      exit: Keluar dari presentasi
+      next: Selanjutnya
+      no_items: Tidak ada agenda
+      no_items_flash: Tidak ada agenda yang akan dibahas.
+      previous: Sebelumnya
+      title: Mode Presentasi
+      total_items: "%{current} dari %{total}"
     types:
       one_time: Satu kali
       recurring: Berulang
       recurring_text: Buat seri rapat dengan templat dinamis untuk setiap acara.
       structured_text: Atur rapat Anda sebagai daftar agenda yang dinamis dengan opsi untuk menghubungkannya ke paket kerja.
       structured_text_copy: Saat ini, menyalin rapat tidak akan menyalin item agenda rapat yang terkait, hanya detailnya saja
-    copied: 'Disalin dari Meeting #%{id}'
-    delete_dialog:
-      one_time:
-        title: Hapus rapat
-        heading: Hapus rapat ini?
-        confirmation_message_html: 'Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
-
-          '
-        template:
-          title: Delete template
-          heading: Delete this template?
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
-
-            '
-      occurrence:
-        title: Cancel meeting occurrence
-        heading: Cancel this meeting occurrence?
-        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
-
-          '
-        confirm_button: Cancel occurrence
-    blankslate:
-      title: Tidak ada rapat yang ditampilkan
-      desc: Anda dapat membuat pertemuan baru atau mengubah kriteria filter
-    label_export_pdf: Ekspor PDF
-    export:
-      your_meeting_export: Rapat sedang diekspor
-      minutes:
-        footer_page_numbers: H. %{current_page} dari %{total_pages}
-        author: Penulis
-        date: Tanggal
-        time: Waktu
-        location: Lokasi
-        title: Laporan
-    export_pdf_dialog:
-      title: Ekspor PDF
-      description: Generate a printable PDF file of this meeting at the current state.
-      templates:
-        default:
-          label: Default
-          caption: Templat default cocok untuk sebagian besar pertemuan dan mewakili keadaan saat ini.
-        minutes:
-          label: Laporan
-          caption: Templat notulen ini cocok untuk rapat tertutup dan yang telah diarsipkan.
-      first_page_header_left:
-        label: Tajuk kiri halaman pertama
-        caption: Teks ini akan muncul di halaman pertama sebelah kiri tajuk.
-      author:
-        label: Penulis
-        caption: Penulis notulen akan ditampilkan di subjudul.
-      include_participants:
-        label: Sertakan daftar peserta
-        caption: A list of participants will be preset above the meeting agenda.
-      include_attachments:
-        label: Sertakan daftar lampiran
-        caption: A list containing the filenames of attachments will be appended at the end.
-      include_backlog:
-        label: Sertakan backlog
-        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
-      include_outcomes:
-        label: Sertakan hasil dari agenda
-        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
-      footer_text:
-        label: Teks footer
-        caption: Teks ini akan muncul di setiap halaman di tengah footer.
-      submit_button: Download
-    notifications:
-      sidepanel:
-        title: Pembaruan kalender email
-        description:
-          disabled: Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan.
-          enabled: Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email yang memberitahukan mereka tentang perubahan.
-          change_via_template: Untuk mengubahnya, sunting templat serinya.
-      dialog:
-        title:
-          enable: Aktifkan pembaruan kalender melalui email?
-          disable: Nonaktifkan pembaruan kalender melalui email?
-        message:
-          enable: 'All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants. Once enabled, an email will be sent out immediately to all participants.
-
-            '
-          disable: 'Peserta tidak lagi akan menerima undangan kalender yang diperbarui melalui email ketika ada perubahan pada tanggal, waktu, lokasi, atau peserta rapat. Jika mereka sudah menerima undangan untuk rapat ini, undangan tersebut mungkin tidak lagi akurat.
-
-            '
-        confirm_label:
-          enable: Aktifkan pembaruan email
-          disable: Nonaktifkan pembaruan email
-      banner:
-        participants:
-          enabled: 'Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email saat Anda menambahkan atau menghapus peserta.
-
-            '
-          disabled: 'Pembaruan kalender melalui email telah dinonaktifkan. Peserta tidak akan menerima email pemberitahuan ketika Anda menambahkan atau menghapus peserta.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email saat Anda menambahkan atau menghapus peserta.
-
-            '
-          disabled: 'Peserta tidak akan menerima email yang memberitahukan perubahan tanggal, waktu, atau peserta rapat.
-
-            '
-        occurrence:
-          enabled: 'Pembaruan kalender melalui email telah diaktifkan untuk rangkaian pertemuan ini. Semua peserta akan menerima undangan kalender yang diperbarui yang memberitahukan mereka tentang perubahan yang Anda lakukan pada pertemuan ini.
-
-            '
-          disabled: 'Pembaruan kalender melalui email dinonaktifkan untuk seri pertemuan ini. Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan yang Anda lakukan pada pertemuan ini.
-
-            '
-        template:
-          enabled: 'Pembaruan kalender melalui email telah diaktifkan untuk rangkaian pertemuan ini. Semua peserta akan menerima undangan kalender yang diperbarui yang memberitahukan mereka tentang perubahan yang Anda lakukan pada templat ini atau pada acara individu.
-
-            '
-          disabled: 'Pembaruan kalender melalui email dinonaktifkan untuk seri pertemuan ini. Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan yang Anda lakukan pada templat ini atau pada kejadian individu.
-
-            '
-    presentation_mode:
-      title: Mode Presentasi
-      button_present: Presentasikan
-      exit: Keluar dari presentasi
-      current_item: Item saat ini
-      total_items: "%{current} dari %{total}"
-      previous: Sebelumnya
-      next: Selanjutnya
-      no_items: Tidak ada agenda
-      no_items_flash: Tidak ada agenda yang akan dibahas.
-    ical_response:
-      update_failed: Tidak dapat memperbarui status partisipasi.
-      meeting_not_found: Rapat tidak ditemukan untuk UID yang diberikan.
-  meeting_section:
-    untitled_title: Untitled section
-    delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
-    placeholder_title: New section
-    empty_text: Seret item ke sini atau buat yang baru
+    widgets:
+      blankslate:
+        description: Upcoming meetings you are participating in will appear here.
+        heading: No upcoming meetings
+      view_details: View all meetings
   meeting_participant:
     participation_status:
-      needs_action: Tidak ada respons
       accepted: Diterima
       declined: Ditolak
+      needs_action: Tidak ada respons
       tentative: Mungkin
       unknown: Tidak diketahui
+  meeting_section:
+    delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
+    empty_text: Seret item ke sini atau buat yang baru
+    placeholder_title: New section
+    untitled_title: Untitled section
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: Perlakukan URL berikut ini seperti Anda memperlakukan kata sandi. Siapa pun yang memiliki akses ke URL tersebut dapat melihat semua pertemuan Anda.
+          title: Token langganan pertemuan iCal telah dibuat
+      dialog:
+        token/ical_meeting:
+          create_button: Buat langganan
+          dialog_body: Token ini akan menghasilkan URL langganan iCal yang memungkinkan Anda melihat semua pertemuan Anda di aplikasi kalender eksternal.
+          dialog_title: Token langganan iCal baru untuk rapat
+          name_caption: Anda dapat memberikan nama sesuai dengan tempat Anda akan menggunakannya, misalnya “Ponsel saya” atau “Komputer kerja”.
+          name_label: Nama token
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'Gagal membatalkan langganan pertemuan iCalendar: %{error}'
+          notice_success: Langganan pertemuan iCalendar telah dibatalkan dengan sukses.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: Langganan ke kalender
+        blank_description: Anda dapat membuatnya melalui tombol di bawah ini.
+        blank_title: Tidak ada token rapat iCalendar
+        disabled_text: Langganan rapat iCalendar tidak diaktifkan oleh administrator. Silakan hubungi administrator Anda untuk menggunakan fitur ini.
+        table_title: Token rapat iCalendar
+        text_hint: Token rapat iCalendar memungkinkan pengguna untuk berlangganan ke semua rapat mereka dan melihat informasi pertemuan terbaru di klien eksternal.
+        title: Rapat untuk iCalendar
+  notice_meeting_template_created: Template successfully created
+  notice_meeting_updated: Halaman ini telah diperbarui oleh orang lain. Segarkan halaman untuk melihat perubahan.
+  notice_successful_notification: Email calendar update sent to all participants
+  notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
+  permission_create_meetings: Membuat rapat
+  permission_delete_meetings: Hapus rapat
+  permission_edit_meetings: Edit rapat
+  permission_manage_agendas: Kelola agenda
+  permission_manage_agendas_explanation: Memungkinkan untuk membuat, menyunting, dan menghapus item agenda
+  permission_manage_outcomes: Kelola hasil
+  permission_send_meeting_invites_and_outcomes: Kirim undangan rapat dan hasil rapat kepada peserta
+  permission_view_meetings: Lihat rapat
+  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_section_select_meeting_first: Diperlukan pemilihan rapat terlebih dahulu
+  plugin_openproject_meeting:
+    description: Modul ini menambahkan fungsi untuk mendukung rapat proyek di OpenProject. Rapat dapat dijadwalkan dengan memilih peserta undangan dari proyek yang sama untuk ikut serta dalam rapat. Agenda dapat dibuat dan dikirimkan kepada peserta undangan. Setelah rapat, peserta dapat dipilih dan notulen dapat dibuat berdasarkan agenda. Akhirnya, notulen dapat dikirimkan kepada semua peserta dan peserta undangan.
+    name: Rapat OpenProject
+  project_module_meetings: Rapat
   recurring_meeting:
-    time_zone_difference_banner:
-      title: Time zone difference
-      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
-
-        '
-    ended_blankslate:
-      title: Seri rapat berakhir
-      message: 'Seri rapat ini telah berakhir. Tidak ada rapat yang akan datang. '
-      action: Anda masih dapat melihat acara sebelumnya atau mengedit seri rapat untuk memperpanjangnya.
-    occurrence:
-      infoline: Rapat ini merupakan bagian dari rangkaian rapat yang berkala.
-      error_no_next: Tidak ada jadwal acara berikutnya untuk rapat ini.
-      first_already_exists: Rapat pertama dalam rangkaian rapat ini telah dilaksanakan.
-      first_created: 'Rapat pertama telah berhasil dibuat dari templat. Semua rapat berikutnya akan dibuat secara otomatis pada waktu terjadinya acara sebelumnya.
-
-        '
-    template:
-      button_finalize: Open first meeting
-      blank_title: Template seri rapat Anda kosong
-      description: 'Templat ini akan digunakan setiap kali rapat baru dalam seri ini dibuat. Anda dapat menambahkan poin agenda, peserta, dan lampiran ke templat ini.
-
-        '
-      label_view_template: Lihat templat
-      label_edit_template: Sunting templat
-      banner_html: 'Saat ini, Anda sedang menyunting templat untuk serangkaian rapat: %{link}. Setiap rapat baru dalam serangkaian ini akan menggunakan templat ini. Perubahan yang dilakukan tidak akan memengaruhi rapat yang sudah ada atau yang telah dibuat sebelumnya.
-
-        '
-      draft_banner_html: 'Saat ini, Anda sedang menyunting templat untuk serangkaian rapat: %{link}. Setiap rapat baru dalam serangkaian ini akan menggunakan templat ini. Perubahan tidak akan memengaruhi rapat yang sudah ada atau yang telah dibuat sebelumnya. Undangan email tidak akan dikirim dalam mode draf saat ini hingga Anda membuka rapat pertama.
-
-        '
-    frequency:
-      x_daily:
-        other: Setiap %{count} hari
-      x_weekly:
-        other: Setiap %{count} mingu
-      every_weekday: Setiap %{day_of_the_week}
-      working_days: Setiap hari kerja
-    end_after:
-      never: tidak pernah
-      specific_date: setelah tanggal tertentu
-      iterations: setelah beberapa acara
-    starts: Mulai
-    in_words:
-      daily_interval: Setiap %{interval} hari
-      working_days: Setiap hari kerja
-      weekly: Setiap minggu pada hari %{weekday}
-      weekly_interval: Setiap %{interval} minggu pada hari %{weekday}
-      frequency: "%{base} pada %{time}"
-      full: "%{base} pada %{time}, berakhir pada %{end_date}"
-      full_past: "%{base} pada %{time}, berakhir pada %{end_date}"
-      never_ending: "%{base} pada %{time}"
-    open:
-      title: Agenda dibuka
-      subtitle: 'Rapat terbuka memiliki agenda yang dapat diedit dan muncul di bagian ‘Rapat Saya’ masing-masing pengguna. Perubahan pada templat seri rapat tidak memengaruhi rapat yang sudah dibuka.
-
-        '
-      blankslate:
-        title: Tidak ada rapat terbuka untuk saat ini
-        desc: Anda dapat membuka rapat yang telah dijadwalkan secara manual dengan mengklik tombol ‘Buka’ di bawah ini
-    planned:
-      title: Terencana
-      subtitle: 'Pertemuan-pertemuan berikut ini telah dijadwalkan dalam jadwal pertemuan berulang, tetapi belum dibuka. Setiap kali pertemuan yang dijadwalkan dimulai, pertemuan berikutnya akan secara otomatis dibuka untuk Anda. Anda juga dapat membuka pertemuan yang dijadwalkan secara manual untuk mengimpor templat dan mulai mengedit agenda.
-
-        '
-      blankslate:
-        title: Tidak ada pertemuan yang direncanakan lagi
-        desc: 'Tidak ada pertemuan tambahan yang direncanakan dalam seri ini. Untuk menjadwalkan pertemuan tambahan atau memperpanjang seri, buka templat dan sunting detail pertemuan untuk mengubah tanggal akhir, frekuensi, atau interval.
-
-          '
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
-      title: Hapus seri rapat
-      heading: Hapus seri rapat ini secara permanen?
       confirmation_message_html:
-        zero: 'Seri pertemuan <strong>%{title}</strong> tidak memiliki jadwal pertemuan. Seri ini akan dihapus untuk semua orang. Harap berhati-hati.
-
-          '
         one: 'Menghapus <strong>%{title}</strong> juga akan menghapus satu entri dalam seri ini. Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
 
           '
         other: 'Menghapus <strong>%{title}</strong> akan menghapus %{count} entri dalam seri ini. Tindakan ini tidak dapat dibatalkan. Harap berhati-hati saat melakukannya.
 
           '
+        zero: 'Seri pertemuan <strong>%{title}</strong> tidak memiliki jadwal pertemuan. Seri ini akan dihapus untuk semua orang. Harap berhati-hati.
+
+          '
+      heading: Hapus seri rapat ini secara permanen?
+      title: Hapus seri rapat
+    end_after:
+      iterations: After a number of occurrences
+      never: Never
+      specific_date: After a specific date
+    end_series_dialog:
+      title: Akhiri seri rapat
+    ended_blankslate:
+      action: Anda masih dapat melihat acara sebelumnya atau mengedit seri rapat untuk memperpanjangnya.
+      message: 'Seri rapat ini telah berakhir. Tidak ada rapat yang akan datang. '
+      title: Seri rapat berakhir
+    frequency:
+      every_weekday: Setiap %{day_of_the_week}
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
+      working_days: Setiap hari kerja
+      x_daily:
+        other: Setiap %{count} hari
+      x_monthly:
+        other: Every %{count} months
+      x_weekly:
+        other: Setiap %{count} mingu
+    in_words:
+      daily_interval: Setiap %{interval} hari
+      frequency: "%{base} pada %{time}"
+      full: "%{base} pada %{time}, berakhir pada %{end_date}"
+      full_past: "%{base} pada %{time}, berakhir pada %{end_date}"
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      never_ending: "%{base} pada %{time}"
+      weekly: Setiap minggu pada hari %{weekday}
+      weekly_interval: Setiap %{interval} minggu pada hari %{weekday}
+      working_days: Setiap hari kerja
+    monthly:
+      inflected_ordinal:
+        first: first
+        fourth: fourth
+        last: last
+        second: second
+        third: third
+      ordinal_options:
+        first: First
+        fourth: Fourth
+        last: Last
+        second: Second
+        third: Third
+    occurrence:
+      error_no_next: Tidak ada jadwal acara berikutnya untuk rapat ini.
+      error_template_draft: The meeting series template is still in draft mode.
+      first_already_exists: Rapat pertama dalam rangkaian rapat ini telah dilaksanakan.
+      first_created: 'Rapat pertama telah berhasil dibuat dari templat. Semua rapat berikutnya akan dibuat secara otomatis pada waktu terjadinya acara sebelumnya.
+
+        '
+      infoline: Rapat ini merupakan bagian dari rangkaian rapat yang berkala.
+    open:
+      blankslate:
+        desc: Anda dapat membuka rapat yang telah dijadwalkan secara manual dengan mengklik tombol ‘Buka’ di bawah ini
+        title: Tidak ada rapat terbuka untuk saat ini
+      subtitle: 'Rapat terbuka memiliki agenda yang dapat diedit dan muncul di bagian ‘Rapat Saya’ masing-masing pengguna. Perubahan pada templat seri rapat tidak memengaruhi rapat yang sudah dibuka.
+
+        '
+      title: Agenda dibuka
+    planned:
+      blankslate:
+        desc: 'Tidak ada pertemuan tambahan yang direncanakan dalam seri ini. Untuk menjadwalkan pertemuan tambahan atau memperpanjang seri, buka templat dan sunting detail pertemuan untuk mengubah tanggal akhir, frekuensi, atau interval.
+
+          '
+        title: Tidak ada pertemuan yang direncanakan lagi
+      subtitle: 'Pertemuan-pertemuan berikut ini telah dijadwalkan dalam jadwal pertemuan berulang, tetapi belum dibuka. Setiap kali pertemuan yang dijadwalkan dimulai, pertemuan berikutnya akan secara otomatis dibuka untuk Anda. Anda juga dapat membuka pertemuan yang dijadwalkan secara manual untuk mengimpor templat dan mulai mengedit agenda.
+
+        '
+      title: Terencana
     scheduled_delete_dialog:
-      title: Batalkan pelaksanaan rapat
-      heading: Batalkan pelaksanaan rapat ini?
+      confirm_button: Batalkan acara
       confirmation_message_html: 'Informasi rapat yang tidak tercantum dalam templat akan hilang. Apakah Anda ingin melanjutkan?
 
         '
-      confirm_button: Batalkan acara
-    end_series_dialog:
-      title: Akhiri seri rapat
-  notice_successful_notification: Email calendar update sent to all participants
-  notice_meeting_template_created: Template successfully created
-  notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
-  notice_meeting_updated: Halaman ini telah diperbarui oleh orang lain. Segarkan halaman untuk melihat perubahan.
-  permission_create_meetings: Membuat rapat
-  permission_edit_meetings: Edit rapat
-  permission_delete_meetings: Hapus rapat
-  permission_view_meetings: Lihat rapat
-  permission_manage_agendas: Kelola agenda
-  permission_manage_agendas_explanation: Memungkinkan untuk membuat, menyunting, dan menghapus item agenda
-  permission_manage_outcomes: Kelola hasil
-  permission_send_meeting_invites_and_outcomes: Kirim undangan rapat dan hasil rapat kepada peserta
-  project_module_meetings: Rapat
-  text_duration_in_hours: Durasi dalam jam
-  text_in_hours: dalam jam
-  text_meeting_agenda_for_meeting: agenda untuk rapat "%{meeting}"
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_series_end_early_heading: Hapus acara yang akan datang?
-  text_meeting_series_end_early: Mengakhiri seri ini akan menghapus semua rapat terbuka atau rapat yang akan datang
-  text_meeting_closing_are_you_sure: Apakah Anda yakin ingin menutup agenda rapat?
-  text_meeting_agenda_open_are_you_sure: Ini akan mengganti semua perubahan dalam beberapa menit! Apakah anda ingin lanjut?
-  text_meeting_minutes_for_meeting: laporan untuk rapat "%{meeting}"
-  text_notificiation_invited: 'Surel ini berisi entri ics untuk rapat di bawah:'
-  text_meeting_ics_description: 'Tautan ke rapat: %{url}'
-  text_meeting_ics_meeting_series_description: 'Tautan ke seri rapat: %{url}'
-  text_meeting_occurrence_ics_description: 'Tautan untuk acara rapat: %{url} Tautan untuk seri rapat: %{series_url}'
-  text_meeting_empty_heading: Rapat anda kosong
-  text_meeting_empty_description1: Mulailah dengan menambahkan item agenda di bawah ini. Setiap item dapat sesederhana hanya judul, tetapi Anda juga dapat menambahkan detail tambahan seperti durasi dan catatan.
-  text_meeting_empty_description2: Anda juga dapat menambahkan referensi ke paket kerja yang sudah ada. Saat Anda melakukannya, catatan terkait akan secara otomatis terlihat di tab “Pertemuan” paket kerja tersebut.
-  label_meeting_empty_action: Tambahkan item agenda
-  label_meeting_actions: Tindakan rapat
-  label_meeting_edit_title: Sunting judul rapat
-  label_meeting_delete: Hapus rapat
-  label_meeting_created_by: Created by
-  label_meeting_last_updated: Terakhir diperbarui
-  label_meeting_reload: Muat ulang
-  label_meeting_index_today: Hari Ini
-  label_meeting_index_tomorrow: Besok
-  label_meeting_index_this_week: Akhir pekan ini
-  label_meeting_index_later: Minggu depan dan selanjutnya
-  label_agenda_items: Item agenda
-  label_agenda_items_reordered: disusun ulang
-  label_agenda_item_add: Tambahkan item agenda
-  label_agenda_item_remove_from_agenda: Hapus dari agenda
-  label_agenda_item_remove_from_backlog: Hapus dari backlog
-  label_agenda_item_undisclosed_wp: 'Paket kerja #%{id} tidak terlihat'
-  label_agenda_item_deleted_wp: Referensi paket kerja yang terhapus
-  label_agenda_item_actions: Tindakan item agenda
-  label_agenda_item_move_to_next_title: Pindahkan ke rapat selanjutnya?
-  label_agenda_item_move: Pindahkan
-  label_agenda_item_move_to_next: Pindahkan ke rapat selanjutnya
-  label_agenda_item_move_to_backlog: Pindahkan ke backlog
-  label_agenda_item_move_to_current_meeting: Pindahkan ke rapat saat ini
-  label_agenda_item_move_to_section: Pindahkan ke bagian
-  label_agenda_item_move_to_top: Pindah paling atas
-  label_agenda_item_move_to_bottom: Pindahkan paling bawah
-  label_agenda_item_move_up: Naikkan
-  label_agenda_item_move_down: Pindahkan ke bawah
-  label_agenda_item_duplicate: Duplikat
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_add_notes: Tambahkan catatan
-  label_agenda_item_add_outcome: Tambahkan hasil
-  label_agenda_item_work_package_add: Tambahkan paket kerja
-  label_agenda_item_work_package: Paket kerja item agenda
-  label_section_rename: Ganti nama bagian
-  label_agenda_outcome: Hasil
-  label_agenda_new_outcome: Hasil baru
-  label_agenda_outcome_actions: Tindakan hasil agenda
-  label_agenda_outcome_edit: Sunting hasil
-  label_agenda_outcome_delete: Hapus hasil
-  label_added_as_outcome: Ditambahkan sebagai hasil
-  label_write_outcome: Tulis hasil
-  label_existing_work_package: Paket kerja yang tersedia
-  text_outcome_not_editable_anymore: Hasil ini tidak dapat disunting lagi.
-  text_outcome_cannot_be_added: Hasil tidak dapat ditambahkan lagi.
-  label_backlog_clear: Hapus backlog
-  label_backlog_clear_button: Hapus semua
-  text_backlog_clear_error: Terjadi satu atau beberapa kesalahan saat mencoba menghapus backlog.
-  label_agenda_backlog: Backlog agenda
+      heading: Batalkan pelaksanaan rapat ini?
+      title: Batalkan pelaksanaan rapat
+    starts: Mulai
+    template:
+      banner_html: 'Saat ini, Anda sedang menyunting templat untuk serangkaian rapat: %{link}. Setiap rapat baru dalam serangkaian ini akan menggunakan templat ini. Perubahan yang dilakukan tidak akan memengaruhi rapat yang sudah ada atau yang telah dibuat sebelumnya.
+
+        '
+      blank_title: Template seri rapat Anda kosong
+      button_finalize: Open first meeting
+      description: 'Templat ini akan digunakan setiap kali rapat baru dalam seri ini dibuat. Anda dapat menambahkan poin agenda, peserta, dan lampiran ke templat ini.
+
+        '
+      draft_banner_html: 'Saat ini, Anda sedang menyunting templat untuk serangkaian rapat: %{link}. Setiap rapat baru dalam serangkaian ini akan menggunakan templat ini. Perubahan tidak akan memengaruhi rapat yang sudah ada atau yang telah dibuat sebelumnya. Undangan email tidak akan dikirim dalam mode draf saat ini hingga Anda membuka rapat pertama.
+
+        '
+      label_edit_template: Sunting templat
+      label_view_template: Lihat templat
+    time_zone_difference_banner:
+      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
+
+        '
+      title: Time zone difference
+  text_add_work_package_to_meeting_description: Paket kerja dapat ditambahkan ke satu atau beberapa rapat untuk dibahas. Catatan apa pun yang berkaitan dengannya juga dapat dilihat di sini.
+  text_add_work_package_to_meeting_form: Paket kerja akan ditambahkan ke rapat yang dipilih atau backlog sebagai item agenda.
   text_agenda_backlog: 'Backlog ini khusus untuk pertemuan satu kali ini. Anda dapat menyeret item masuk dan keluar untuk menambahkan atau menghapusnya dari agenda pertemuan.
 
     '
-  label_agenda_backlog_clear_title: Hapus backlog agenda?
   text_agenda_backlog_clear_description: 'Are you sure you want to remove all items currently in the agenda backlog? This action is not reversible.
 
     '
-  label_series_backlog: Backlog seri
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
+  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_duplicate_in_next_meeting: Apakah Anda yakin ingin menambahkan salinan item agenda ini ke rapat berikutnya pada %{date} pukul %{time}? Hasil rapat tidak akan diduplikasi.
+  text_agenda_item_duplicated_in_next_meeting: Agenda item yang sama terulang dalam rapat berikutnya, yaitu pada %{date}
+  text_agenda_item_move_next_meeting: Item ini akan dipindahkan ke rapat selanjutnya pada %{date} pukul %{time}.
+  text_agenda_item_moved_to_next_meeting: Item agenda ini dipindahkan ke rapat berikutnya, yaitu pada %{date}
+  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_notes: Tidak ada catatan yang diberikan
+  text_agenda_item_not_editable_anymore: Item agenda ini tidak dapat disunting kembali.
+  text_agenda_item_title: Item agenda "%{title}"
+  text_agenda_work_package_deleted: Agenda item untuk paket kerja yang dihapus
+  text_backlog_clear_error: Terjadi satu atau beberapa kesalahan saat mencoba menghapus backlog.
+  text_deleted_agenda_item: Item agenda yang terhapus
+  text_duration_in_hours: Durasi dalam jam
+  text_email_updates_enabled: Pembaruan kalender melalui email telah diaktifkan. Seluruh peserta akan menerima undangan yang diperbarui melalui email saat Anda melakukan perubahan.
+  text_email_updates_muted: Pembaruan kalender melalui email telah dinonaktifkan. Peserta tidak akan menerima undangan yang diperbarui melalui email saat Anda melakukan perubahan.
+  text_exit_draft_mode_dialog_subtitle: Anda tidak dapat kembali ke mode draf setellah Anda menjadwalkan rapat.
+  text_exit_draft_mode_dialog_template_subtitle: Anda tidak dapat kembali ke mode draf setelah ini.
+  text_exit_draft_mode_dialog_template_title: Buka acara yang pertama dalam seri rapat ini?
+  text_exit_draft_mode_dialog_title: Buka rapat ini dan kirim undangan?
+  text_in_hours: dalam jam
+  text_meeting_agenda_for_meeting: agenda untuk rapat "%{meeting}"
+  text_meeting_agenda_open_are_you_sure: Ini akan mengganti semua perubahan dalam beberapa menit! Apakah anda ingin lanjut?
+  text_meeting_closed_description: Rapat ini telah ditutup. Anda tidak dapat menambahkan atau menghapus item agenda lagi.
+  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
+  text_meeting_closing_are_you_sure: Apakah Anda yakin ingin menutup agenda rapat?
+  text_meeting_draft_banner: Saat ini, Anda berada dalam mode draf. Rapat ini tidak akan mengirimkan pembaruan kalender atau undangan, bahkan jika Anda mengubah detail rapat atau menambahkan/menghapus peserta.
+  text_meeting_draft_description: Siapkan agenda Anda dalam mode draf. Rapat ini tidak akan mengirimkan pembaruan kalender atau undangan bahkan jika Anda mengubah detail rapat atau menambahkan/menghapus peserta.
+  text_meeting_empty_description1: Mulailah dengan menambahkan item agenda di bawah ini. Setiap item dapat sesederhana hanya judul, tetapi Anda juga dapat menambahkan detail tambahan seperti durasi dan catatan.
+  text_meeting_empty_description2: Anda juga dapat menambahkan referensi ke paket kerja yang sudah ada. Saat Anda melakukannya, catatan terkait akan secara otomatis terlihat di tab “Pertemuan” paket kerja tersebut.
+  text_meeting_empty_heading: Rapat anda kosong
+  text_meeting_ics_description: 'Tautan ke rapat: %{url}'
+  text_meeting_ics_meeting_series_description: 'Tautan ke seri rapat: %{url}'
+  text_meeting_in_progress_description: Anda dapat mengubah agenda, mencatat hasil untuk setiap item, dan melacak kehadiran peserta. Setelah rapat selesai, Anda dapat menandainya sebagai selesai untuk mengunci rapat tersebut.
+  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
+  text_meeting_minutes_for_meeting: laporan untuk rapat "%{meeting}"
+  text_meeting_not_editable_anymore: Rapat ini tidak dapat disunting kembali.
+  text_meeting_not_present_anymore: Rapat ini telah dihapus. Silakan pilih rapat yang lain.
+  text_meeting_occurrence_ics_description: 'Tautan untuk acara rapat: %{url} Tautan untuk seri rapat: %{series_url}'
+  text_meeting_open_description: Anda dapat menambahkan/menghapus item agenda dan peserta. Setelah agenda siap, tandai sebagai sedang berlangsung untuk mencatat hasilnya.
+  text_meeting_open_dropdown_description: Hasil yang sudah ada akan tetap ada, tetapi pengguna tidak akan dapat menambahkan hasil baru.
+  text_meeting_series_end_early: Mengakhiri seri ini akan menghapus semua rapat terbuka atau rapat yang akan datang
+  text_meeting_series_end_early_heading: Hapus acara yang akan datang?
+  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_meeting_template_blank_slate_heading: There are no templates to display
+  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_notificiation_invited: 'Surel ini berisi entri ics untuk rapat di bawah:'
+  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
+  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
+  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_outcome_cannot_be_added: Hasil tidak dapat ditambahkan lagi.
+  text_outcome_not_editable_anymore: Hasil ini tidak dapat disunting lagi.
   text_series_backlog: 'Backlog dibagikan dengan semua acara dalam seri ini. Anda dapat menyeret item masuk dan keluar untuk menambahkan atau menghapusnya dari pertemuan tertentu.
 
     '
-  label_series_backlog_clear_title: Hapus backlog seri?
   text_series_backlog_clear_description: 'Ini akan menghapus semua item dalam backlog seri yang dibagikan dengan semua pertemuan dalam seri tersebut. Apakah Anda yakin ingin melanjutkan? Tindakan ini tidak dapat dibatalkan.
 
     '
-  text_agenda_item_title: Item agenda "%{title}"
-  text_agenda_work_package_deleted: Agenda item untuk paket kerja yang dihapus
-  text_deleted_agenda_item: Item agenda yang terhapus
-  label_initial_meeting_details: Rapat
-  label_meeting_details: Rincian rapat
-  label_meeting_series_details: Rincian seri rapat
-  label_meeting_details_edit: Sunting rincian rapat
-  label_meeting_state: Status rapat
-  label_meeting_state_draft: Draf
-  label_meeting_state_open: Buka
-  label_meeting_state_closed: Closed
-  label_meeting_state_agenda_created: Agenda telah dibuat
-  label_meeting_state_planned: Terencana
-  label_meeting_state_cancelled: Dibatalkan
-  label_meeting_state_skipped: Dilewati
-  label_meeting_state_in_progress: In Progress
-  label_meeting_reopen_action: Buka rapat kembali
-  label_meeting_close_action: Tutup rapat
-  label_meeting_in_progress_action: Mulai rapat
-  label_meeting_open_action: Buka rapat
-  text_meeting_draft_description: Siapkan agenda Anda dalam mode draf. Rapat ini tidak akan mengirimkan pembaruan kalender atau undangan bahkan jika Anda mengubah detail rapat atau menambahkan/menghapus peserta.
-  text_meeting_open_description: Anda dapat menambahkan/menghapus item agenda dan peserta. Setelah agenda siap, tandai sebagai sedang berlangsung untuk mencatat hasilnya.
-  text_meeting_closed_description: Rapat ini telah ditutup. Anda tidak dapat menambahkan atau menghapus item agenda lagi.
-  text_meeting_in_progress_description: Anda dapat mengubah agenda, mencatat hasil untuk setiap item, dan melacak kehadiran peserta. Setelah rapat selesai, Anda dapat menandainya sebagai selesai untuk mengunci rapat tersebut.
-  text_meeting_open_dropdown_description: Hasil yang sudah ada akan tetap ada, tetapi pengguna tidak akan dapat menambahkan hasil baru.
-  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
-  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
-  text_meeting_draft_banner: Saat ini, Anda berada dalam mode draf. Rapat ini tidak akan mengirimkan pembaruan kalender atau undangan, bahkan jika Anda mengubah detail rapat atau menambahkan/menghapus peserta.
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_exit_draft_mode_dialog_title: Buka rapat ini dan kirim undangan?
-  text_exit_draft_mode_dialog_subtitle: Anda tidak dapat kembali ke mode draf setellah Anda menjadwalkan rapat.
-  text_exit_draft_mode_dialog_template_title: Buka acara yang pertama dalam seri rapat ini?
-  text_exit_draft_mode_dialog_template_subtitle: Anda tidak dapat kembali ke mode draf setelah ini.
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_none: Only this project
-  label_meeting_template_sharing_descendants: Subprojects
-  label_meeting_template_sharing_system: All projects
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
-  text_meeting_not_editable_anymore: Rapat ini tidak dapat disunting kembali.
-  text_meeting_not_present_anymore: Rapat ini telah dihapus. Silakan pilih rapat yang lain.
-  label_add_work_package_to_meeting_dialog_title: Pilih rapat
-  label_add_work_package_to_meeting_section_label: Bagian
-  label_add_work_package_to_meeting_dialog_button: Tambahkan ke rapat
-  label_meeting_selection_caption: Paket pekerjaan ini hanya dapat ditambahkan ke rapat yang akan datang atau yang sedang berlangsung.
-  label_section_selection_caption: Pilih bagian tertentu dari agenda tersebut atau tambahkan ke backlog.
-  placeholder_section_select_meeting_first: Diperlukan pemilihan rapat terlebih dahulu
-  text_add_work_package_to_meeting_form: Paket kerja akan ditambahkan ke rapat yang dipilih atau backlog sebagai item agenda.
-  text_add_work_package_to_meeting_description: Paket kerja dapat ditambahkan ke satu atau beberapa rapat untuk dibahas. Catatan apa pun yang berkaitan dengannya juga dapat dilihat di sini.
-  text_agenda_item_no_notes: Tidak ada catatan yang diberikan
-  text_agenda_item_not_editable_anymore: Item agenda ini tidak dapat disunting kembali.
-  text_agenda_item_move_next_meeting: Item ini akan dipindahkan ke rapat selanjutnya pada %{date} pukul %{time}.
-  text_agenda_item_moved_to_next_meeting: Item agenda ini dipindahkan ke rapat berikutnya, yaitu pada %{date}
-  text_agenda_item_duplicate_in_next_meeting: Apakah Anda yakin ingin menambahkan salinan item agenda ini ke rapat berikutnya pada %{date} pukul %{time}? Hasil rapat tidak akan diduplikasi.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item yang sama terulang dalam rapat berikutnya, yaitu pada %{date}
-  text_work_package_has_no_upcoming_meeting_agenda_items: Paket kerja ini belum dijadwalkan dalam agenda rapat mendatang.
-  text_agenda_item_no_available_occurrence: All upcoming occurrences have been cancelled.
-  text_agenda_item_dialog_skipping_cancelled_one: 'Note: Skipping cancelled occurrence on %{date}.'
-  text_agenda_item_dialog_skipping_cancelled_many: 'Note: Skipping %{count} cancelled occurrences.'
   text_work_package_add_to_meeting_hint: Gunakan tombol “Tambahkan ke rapat” untuk menambahkan paket kerja ini ke rapat yang akan datang.
   text_work_package_has_no_past_meeting_agenda_items: Paket kerja ini tidak ditambahkan sebagai agenda dalam rapat sebelumnya.
-  text_email_updates_muted: Pembaruan kalender melalui email telah dinonaktifkan. Peserta tidak akan menerima undangan yang diperbarui melalui email saat Anda melakukan perubahan.
-  text_email_updates_enabled: Pembaruan kalender melalui email telah diaktifkan. Seluruh peserta akan menerima undangan yang diperbarui melalui email saat Anda melakukan perubahan.
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: Anda dapat membuatnya melalui tombol di bawah ini.
-        blank_title: Tidak ada token rapat iCalendar
-        title: Rapat untuk iCalendar
-        table_title: Token rapat iCalendar
-        text_hint: Token rapat iCalendar memungkinkan pengguna untuk berlangganan ke semua rapat mereka dan melihat informasi pertemuan terbaru di klien eksternal.
-        disabled_text: Langganan rapat iCalendar tidak diaktifkan oleh administrator. Silakan hubungi administrator Anda untuk menggunakan fitur ini.
-        add_button: Langganan ke kalender
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: Token langganan iCal baru untuk rapat
-          dialog_body: Token ini akan menghasilkan URL langganan iCal yang memungkinkan Anda melihat semua pertemuan Anda di aplikasi kalender eksternal.
-          create_button: Buat langganan
-          name_label: Nama token
-          name_caption: Anda dapat memberikan nama sesuai dengan tempat Anda akan menggunakannya, misalnya “Ponsel saya” atau “Komputer kerja”.
-      created_dialog:
-        token/ical_meeting:
-          title: Token langganan pertemuan iCal telah dibuat
-          body: Perlakukan URL berikut ini seperti Anda memperlakukan kata sandi. Siapa pun yang memiliki akses ke URL tersebut dapat melihat semua pertemuan Anda.
-      revocation:
-        token/ical_meeting:
-          notice_success: Langganan pertemuan iCalendar telah dibatalkan dengan sukses.
-          notice_failure: 'Gagal membatalkan langganan pertemuan iCalendar: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: Paket kerja ini belum dijadwalkan dalam agenda rapat mendatang.

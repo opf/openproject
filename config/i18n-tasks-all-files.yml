@@ -19,3 +19,10 @@ data:
     - modules/*/config/locales/crowdin/%{locale}.seeders.yml
     - modules/*/config/locales/crowdin/%{locale}.yml
     - modules/*/config/locales/crowdin/js-%{locale}.yml
+
+ignore_inconsistent_interpolations:
+  # Ignore interpolations checks in the singular form.
+  # Some languages have simple pluralization form where 'one' is only used for exactly 1 item.
+  # Other languages such as Ukrainian and Serbian use 'one' also for 21, 31, 101, etc.
+  # Those will use the %{count} interpolation while the english source language will not have it.
+  - '*.one'

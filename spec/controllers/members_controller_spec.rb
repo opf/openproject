@@ -211,6 +211,26 @@ RSpec.describe MembersController do
     end
   end
 
+  describe "#index" do
+    let(:role) { create(:project_role, permissions: [:manage_members]) }
+    let!(:member) { create(:member, project:, user:, roles: [role]) }
+
+    let!(:visible_group) { create(:group, members: [user]) }
+    let!(:hidden_group) { create(:group) }
+
+    before { login_as(user) }
+
+    it "only includes groups the user is a member of in the filter options" do
+      get :index, params: { project_id: project.id }
+
+      expect(response).to be_successful
+
+      groups = assigns(:members_filter_options)[:groups]
+      expect(groups).to include(visible_group)
+      expect(groups).not_to include(hidden_group)
+    end
+  end
+
   describe "#create with reduced visibility" do
     let(:project_permissions) { %i[manage_members invite_members_by_email] }
     let!(:other_project) { create(:project) }

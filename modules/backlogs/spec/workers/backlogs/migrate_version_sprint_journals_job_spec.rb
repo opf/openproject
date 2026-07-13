@@ -34,8 +34,8 @@ RSpec.describe Backlogs::MigrateVersionSprintJournalsJob, type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:version_a) { create(:version, project:, name: "Version A") }
   shared_let(:version_b) { create(:version, project:, name: "Version B") }
-  shared_let(:sprint_a) { create(:agile_sprint, name: "Sprint A", project:) }
-  shared_let(:sprint_b) { create(:agile_sprint, name: "Sprint B", project:) }
+  shared_let(:sprint_a) { create(:sprint, name: "Sprint A", project:) }
+  shared_let(:sprint_b) { create(:sprint, name: "Sprint B", project:) }
   shared_let(:wp1) { create(:work_package, project:, version: version_a, sprint: sprint_a) }
   shared_let(:wp2) { create(:work_package, project:, version: version_b, sprint: sprint_b) }
   shared_let(:wp_no_version) { create(:work_package, project:, sprint: sprint_a) }

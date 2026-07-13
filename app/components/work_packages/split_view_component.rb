@@ -39,7 +39,7 @@ class WorkPackages::SplitViewComponent < ApplicationComponent
 
     @id = id
     @tab = tab
-    @work_package = WorkPackage.visible.find_by(id:)
+    @work_package = WorkPackage.visible.find_by_display_id(id)
     @base_route = base_route
   end
 

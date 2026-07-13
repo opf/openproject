@@ -1,5 +1,5 @@
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { ElementRef, Injectable, Injector } from '@angular/core';
+import { ElementRef, Injectable, Injector, inject } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
@@ -13,6 +13,11 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected injector = inject(Injector);
+  protected halResource = inject(HalResourceService);
+  protected schemaCache = inject(SchemaCacheService);
+
   public fieldName = 'text';
 
   public valueChanged$:BehaviorSubject<string>;
@@ -22,15 +27,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   public changeset:ResourceChangeset;
 
   public active:boolean;
-
-  constructor(
-    protected elementRef:ElementRef,
-    protected injector:Injector,
-    protected halResource:HalResourceService,
-    protected schemaCache:SchemaCacheService,
-  ) {
-    super();
-  }
 
   public initialize(value:GridWidgetResource) {
     this.initializeChangeset(value);
@@ -77,11 +73,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public get rawText() {
-    return _.get(this.textValue, 'raw', '');
+    return (this.textValue as { raw?:string } | null)?.raw ?? '';
   }
 
   public get htmlText() {
-    return _.get(this.textValue, 'html', '');
+    return (this.textValue as { html?:string } | null)?.html ?? '';
   }
 
   public get textValue() {
@@ -112,7 +108,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
+    const trigger = this.elementRef.nativeElement.querySelector<HTMLElement>('.inplace-editing--trigger-container');
     if (trigger) {
       trigger.focus();
     }

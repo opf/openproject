@@ -32,9 +32,7 @@ require "spec_helper"
 require_relative "../format_field_expectations"
 
 RSpec.describe "Project calculated value custom fields", :js do
-  context "with feature flag", with_flag: { calculated_value_project_attribute: true } do
-    context "with enterprise token", with_ee: %i[calculated_values] do
-      it_behaves_like "expected fields for the Project custom field's format", "Calculated value"
-    end
+  context "with enterprise token", with_ee: %i[calculated_values] do
+    it_behaves_like "expected fields for the Project custom field's format", "Calculated value"
   end
 end

@@ -44,8 +44,8 @@ module OpenProject
     # Displays a link to user's account page if active or registered
     # Will attach a user hover card to the link.
     def link_to_user(user, options = {}) # rubocop:disable Metrics/AbcSize
-      return h(user.to_s) unless user.is_a?(User)
-      return h(user.name) if (user.locked? || user.deleted?) && !User.current.admin?
+      return content_tag(:span, h(user.to_s), class: options[:class]) unless user.is_a?(User)
+      return content_tag(:span, h(user.name), class: options[:class]) if user_not_linkable?(user)
 
       only_path = options.delete(:only_path) { true }
       name = options.delete(:name) { user.name }
@@ -58,7 +58,7 @@ module OpenProject
 
     # Displays a link to group's account page
     def link_to_group(group, options = {})
-      return h(group.to_s) unless group.is_a?(Group)
+      return content_tag(:span, h(group.to_s), class: options[:class]) unless group.is_a?(Group)
 
       name = group.name
       href = show_group_url(group,
@@ -196,6 +196,10 @@ module OpenProject
     def v3_paths
       # Including the module breaks the application in strange and mysterious ways
       API::V3::Utilities::PathHelper::ApiV3Path
+    end
+
+    def user_not_linkable?(user)
+      (user.locked? || user.deleted?) && !User.current.admin?
     end
   end
 end

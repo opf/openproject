@@ -1,8 +1,8 @@
 <%=
-  helpers.content_controller "poll-for-changes keep-scroll-position",
+  helpers.content_controller "poll-for-changes",
                              poll_for_changes_url_value: check_for_updates_project_meeting_path(@meeting.project, @meeting),
-                             poll_for_changes_interval_value: check_for_updates_interval,
-                             keep_scroll_position_url_value: meeting_path(@meeting)
+                             poll_for_changes_interval_value: check_for_updates_interval
+  helpers.body_controller "keep-scroll-position"
 
   component_wrapper do
     render(

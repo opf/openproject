@@ -25,13 +25,12 @@ import {
   teamPlannerEventAdded,
   teamPlannerPageRefresh,
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 
 @Component({
-  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  selector: 'op-team-planner-page',
+  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
     '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
@@ -45,7 +44,6 @@ import { OpCalendarService } from 'core-app/features/calendar/op-calendar.servic
   standalone: false,
 })
 export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
-  @InjectField() actions$:ActionsService;
 
   text = {
     title: this.I18n.t('js.team_planner.title'),
@@ -97,6 +95,17 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
 
   public ngOnInit():void {
     super.ngOnInit();
+
+    // Fix showToolbarSaveButton from actual URL params (not uiRouter state)
+    this.showToolbarSaveButton = !!new URLSearchParams(window.location.search).get('query_props');
+
+    // Update save button reactively when query_props changes via pushState
+    this.wpListChecksumService.visibleChecksum$
+      .pipe(this.untilDestroyed())
+      .subscribe((checksum) => {
+        this.showToolbarSaveButton = !!checksum;
+        this.cdRef.detectChanges();
+      });
 
     registerEffectCallbacks(this, this.untilDestroyed());
 

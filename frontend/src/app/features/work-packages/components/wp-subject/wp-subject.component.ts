@@ -26,11 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { randomString } from 'core-app/shared/helpers/random-string';
@@ -44,17 +40,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
+  protected uiRouterGlobals = inject(UIRouterGlobals);
+  protected apiV3Service = inject(ApiV3Service);
+
   @Input() workPackage:WorkPackageResource;
 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
-
-  constructor(
-    protected uiRouterGlobals:UIRouterGlobals,
-    protected apiV3Service:ApiV3Service,
-  ) {
-    super();
-  }
 }

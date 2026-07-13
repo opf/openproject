@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -40,8 +40,8 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   id:string,
@@ -63,9 +63,9 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
 
   @Input() hiddenOverflowContainer = 'body';
 
-  @InjectField(WorkPackageNotificationService) notificationService:WorkPackageNotificationService;
+  readonly notificationService = inject(WorkPackageNotificationService);
 
-  @InjectField(SchemaCacheService) schemaCacheService:SchemaCacheService;
+  readonly schemaCacheService = inject(SchemaCacheService);
 
   resource:TOpAutocompleterResource = 'work_packages';
 
@@ -92,16 +92,7 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
   }
 
   opened() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.ngSelectInstance.dropdownPanel.adjustPosition();
-        document.querySelector(this.hiddenOverflowContainer)?.addEventListener('scroll', () => {
-          this.ngSelectInstance.close();
-        }, { once: true });
-      }, 25);
-    });
+    repositionDropdownBugfix(this.ngSelectInstance);
   }
 
   getAutocompleterData(query:string|null):Observable<HalResource[]> {

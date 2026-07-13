@@ -53,6 +53,14 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
 
   before do
     Storages::Adapters::Registry.stub("nextcloud.queries.user", ->(_) { user_query_result })
+    allow(OpenProject::SsrfProtection).to receive(:safe_ip?) do |host|
+      case host
+      when "172.16.193.146", "localhost"
+        nil
+      else
+        IPAddr.new("93.184.216.34")
+      end
+    end
     login_as current_user
   end
 

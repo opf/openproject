@@ -1,0 +1,19 @@
+<div class="FormControl-filterable-tree-view-wrap">
+  <%= content_tag(:fieldset, **@fieldset_arguments) do %>
+    <% if @input.label %>
+      <%= content_tag(:legend, **@input.label_arguments) do %>
+        <%= @input.label %>
+      <% end %>
+    <% end %>
+    <div class="mb-2">
+      <%= render(Caption.new(input: @input)) %>
+    </div>
+    <%= render(SpacingWrapper.new) do %>
+      <%=
+        render(Primer::OpenProject::FilterableTreeView.new(**@tree_view_arguments)) do |tree_view|
+          @input.block&.call(tree_view)
+        end
+      %>
+    <% end %>
+  <% end %>
+</div>

@@ -85,6 +85,16 @@ RSpec.describe "Open the GitHub tab", :js do
       expect(page).to have_text("a check run name")
     end
 
+    it "shows a commit message with newlines between title and link" do
+      work_package_page.visit!
+      work_package_page.switch_to_tab(tab: "github")
+      github_tab.git_actions_menu_button.click
+
+      commit_message_input_text = page.find_field("Commit message").value
+      expect(commit_message_input_text)
+        .to eq("[##{work_package.id}] A test work_package\n\n#{work_package_short_url(work_package)}")
+    end
+
     context "when there are no pull requests" do
       let(:check_run) {}
       let(:pull_request) {}

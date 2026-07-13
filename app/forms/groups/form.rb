@@ -47,10 +47,13 @@ module Groups
         caption: I18n.t(:label_parent_group_caption),
         input_width: :medium
       ) do |list|
-        excluded_ids = model.self_and_descendants.pluck(:id).to_set
-        Group.in_tree_order.reject { |g| excluded_ids.include?(g.id) }.each do |group|
+        parent_candidates.each do |group|
           prefix = "\u00A0\u00A0" * (group.hierarchy_depth || 0)
-          list.option(label: "#{prefix}#{group.name}", value: group.id, selected: model.parent_id == group.id)
+          # Departments managed by LDAP own their sub-tree and cannot be chosen as a manual parent.
+          list.option(label: "#{prefix}#{group.name}",
+                      value: group.id,
+                      selected: model.parent_id == group.id,
+                      disabled: group.ldap_managed?)
         end
       end
 
@@ -74,6 +77,19 @@ module Groups
 
     def custom_fields
       model.available_custom_fields
+    end
+
+    def parent_candidates
+      @parent_candidates ||= begin
+        scope = if model.organizational_unit
+                  Group.organizational_units
+                else
+                  Group.not_organizational_units
+                end
+
+        excluded_ids = model.self_and_descendants.pluck(:id).to_set
+        scope.in_tree_order.reject { |group| excluded_ids.include?(group.id) }
+      end
     end
   end
 end

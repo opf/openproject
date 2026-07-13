@@ -27,14 +27,14 @@
 //++
 
 import { Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { SimpleResource } from 'core-app/core/apiv3/paths/path-resources';
 
 export type QueryOrder = Record<string, number>;
 
 export class ApiV3QueryOrder extends SimpleResource {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   constructor(readonly injector:Injector,
     readonly basePath:string,

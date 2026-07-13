@@ -34,15 +34,13 @@ module API
       class SprintsByProjectAPI < ::API::OpenProjectAPI
         resources :sprints do
           after_validation do
-            guard_feature_flag(:scrum_projects)
-
             authorize_in_project(:view_sprints, project: @project)
           end
 
           get &::API::V3::Utilities::Endpoints::Index
                  .new(
-                   model: Agile::Sprint,
-                   scope: -> { Agile::Sprint.for_project(@project) }
+                   model: Sprint,
+                   scope: -> { Sprint.for_project(@project).visible }
                  )
                  .mount
         end

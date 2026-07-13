@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output, ViewChild, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
@@ -28,9 +17,12 @@ export type SpotSwitchState = boolean;
   standalone: false,
 })
 export class SpotSwitchComponent implements ControlValueAccessor {
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.spot-switch') public className = true;
 
-  @ViewChild('input') public input:ElementRef;
+  @ViewChild('input') public input:ElementRef<HTMLInputElement>;
 
   /**
    * The tabindex for the underlying HTML input
@@ -60,15 +52,12 @@ export class SpotSwitchComponent implements ControlValueAccessor {
    */
   @Output() checkedChange = new EventEmitter<boolean>();
 
-  constructor(
-    public elementRef:ElementRef,
-    public cdRef:ChangeDetectorRef,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 
   onStateChange():void {
-    const value = (this.input.nativeElement as HTMLInputElement).checked;
+    const value = this.input.nativeElement.checked;
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);

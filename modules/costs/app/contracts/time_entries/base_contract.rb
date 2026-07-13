@@ -92,13 +92,9 @@ module TimeEntries
     private
 
     def validate_entity
-      if model.entity.is_a?(WorkPackage)
-        if work_package_invisible? || work_package_not_in_project?
-          errors.add :entity, :invalid
-        end
-      elsif model.entity.is_a?(Meeting)
-        # TODO: Add validation for meeting
-      end
+      return if model.entity.nil?
+
+      errors.add :entity, :invalid if entity_invisible? || entity_not_in_project?
     end
 
     def validate_user
@@ -122,11 +118,11 @@ module TimeEntries
       errors.add :activity_id, :inclusion if model.activity_id && !assignable_activities.exists?(model.activity_id)
     end
 
-    def work_package_invisible?
+    def entity_invisible?
       model.entity.nil? || !model.entity.visible?(user)
     end
 
-    def work_package_not_in_project?
+    def entity_not_in_project?
       model.entity && model.project != model.entity.project
     end
 

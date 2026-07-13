@@ -1,0 +1,76 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%=
+  widget_wrapper do |container|
+    if next_meetings.empty?
+      render(Primer::Beta::Blankslate.new(test_selector: "meetings-widget-empty")) do |component|
+        component.with_visual_icon(icon: :"comment-discussion")
+        component.with_heading(tag: :h3).with_content(t("meeting.widgets.blankslate.heading"))
+        component.with_description { t("meeting.widgets.blankslate.description") }
+
+        if can_manage_meetings?
+          component.with_primary_action(
+            data: { controller: "async-dialog" },
+            href: new_meetings_link,
+            test_selector: "meetings-widget-add-button",
+            scheme: :secondary
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            t(:label_meeting)
+          end
+        end
+      end
+    else
+      next_meetings.each do |item|
+        container.with_row do
+          render(Primer::Box.new(classes: "meeting-widget-item")) do
+            component_collection do |body|
+              body.with_component(
+                flex_layout(flex_wrap: :wrap) do |layout|
+                  layout.with_column do
+                    render(Primer::Beta::Link.new(font_weight: :bold, href: project_meeting_path(item.project, item))) { item.title }
+                  end
+                end
+              )
+
+              body.with_component(
+                render(Primer::Beta::Text.new(tag: :p, color: :subtle)) { details_row_string(item) }
+              )
+            end
+          end
+        end
+      end
+
+      container.with_footer do
+        render(Primer::Beta::Link.new(href: all_meetings_link)) { t("meeting.widgets.view_details") }
+      end
+    end
+  end
+%>

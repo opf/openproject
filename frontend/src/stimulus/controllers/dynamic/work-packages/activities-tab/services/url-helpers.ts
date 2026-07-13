@@ -64,4 +64,23 @@ export namespace UrlHelpers {
     }
     return null;
   }
+
+  /**
+   * Translates a legacy `activity` anchor into its canonical `comment` anchor
+   * using the comment id the server resolved it to. Comment anchors, and activity
+   * anchors the server could not resolve, are returned unchanged.
+   *
+   * @example
+   * ```typescript
+   * canonicalActivityAnchor({ type: "activity", id: "5" }, 456);
+   * // Returns: { type: "comment", id: "456" }
+   * ```
+   */
+  export function canonicalActivityAnchor(anchor:ActivityAnchor, resolvedCommentId:number | null):ActivityAnchor {
+    if (anchor.type !== ActivityAnchorType.Activity || !resolvedCommentId) {
+      return anchor;
+    }
+
+    return { type: ActivityAnchorType.Comment, id: String(resolvedCommentId) };
+  }
 }

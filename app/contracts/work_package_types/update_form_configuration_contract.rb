@@ -48,7 +48,9 @@ module WorkPackageTypes
       seen = Set.new
       model.attribute_groups.each do |group|
         errors.add(:attribute_groups, :group_without_name) if group.key.blank?
-        errors.add(:attribute_groups, :duplicate_group, group: group.key) if seen.add?(group.key).nil?
+
+        group_name = visible_group_name(group)
+        errors.add(:attribute_groups, :duplicate_group, group: group_name) if seen.add?(group_name).nil?
       end
     end
 
@@ -65,14 +67,10 @@ module WorkPackageTypes
     end
 
     def validate_query_group(group)
-      query = group.query
+      query_call = rebuild_query_group(group)
+      return add_invalid_query_error(group, query_call.errors) unless query_call.success?
 
-      contract_class = query.persisted? ? Queries::UpdateContract : Queries::CreateContract
-      contract = contract_class.new(query, user)
-
-      unless contract.validate
-        errors.add(:attribute_groups, :query_invalid, group: group.key, details: contract.errors.full_messages.join)
-      end
+      validate_rebuilt_query_group(group, query_call.result)
     end
 
     def validate_attribute_group(group)
@@ -92,10 +90,42 @@ module WorkPackageTypes
     def custom_groups_modified?
       return false unless model.attribute_groups_changed?
 
-      old_keys = model.attribute_groups_was.map(&:first)
+      old_keys = normalized_old_keys
       new_keys = model.attribute_groups.map(&:key)
 
       (new_keys - old_keys - Type.default_groups.keys).any?
+    end
+
+    def normalized_old_keys
+      seen_keys = model.attribute_groups_was.filter_map(&:first).compact_blank.map(&:to_s)
+
+      model.attribute_groups_was.map do |group|
+        key = group.first.presence&.to_s
+        key || normalized_legacy_group_key(seen_keys).tap { |legacy_key| seen_keys << legacy_key }
+      end
+    end
+
+    def normalized_legacy_group_key(seen_keys)
+      Type::FormGroup.next_untitled_key(seen_keys)
+    end
+
+    def visible_group_name(group)
+      group.translated_key.to_s.strip
+    end
+
+    def rebuild_query_group(group)
+      ::WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.rebuild(query: group.query, user:)
+    end
+
+    def validate_rebuilt_query_group(group, query)
+      contract = Queries::CreateContract.new(query, user)
+      return if contract.validate
+
+      add_invalid_query_error(group, contract.errors)
+    end
+
+    def add_invalid_query_error(group, error_collection)
+      errors.add(:attribute_groups, :query_invalid, group: group.key, details: error_collection.full_messages.to_sentence)
     end
   end
 end

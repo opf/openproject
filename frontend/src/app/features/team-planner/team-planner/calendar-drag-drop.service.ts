@@ -1,7 +1,4 @@
-import {
-  ElementRef,
-  Injectable,
-} from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { ThirdPartyDraggable } from '@fullcalendar/interaction';
 import { DragMetaInput } from '@fullcalendar/common';
 import dragula, { Drake } from 'dragula';
@@ -15,6 +12,11 @@ import moment from 'moment-timezone';
 
 @Injectable()
 export class CalendarDragDropService {
+  readonly authorisation = inject(AuthorisationService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly workPackagesCalendarService = inject(OpWorkPackagesCalendarService);
+  readonly I18n = inject(I18nService);
+
   drake:Drake;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
@@ -28,21 +30,13 @@ export class CalendarDragDropService {
     },
   };
 
-  constructor(
-    readonly authorisation:AuthorisationService,
-    readonly schemaCache:SchemaCacheService,
-    readonly workPackagesCalendarService:OpWorkPackagesCalendarService,
-    readonly I18n:I18nService,
-  ) {
-  }
-
   destroyDrake():void {
     if (this.drake) {
       this.drake.destroy();
     }
   }
 
-  registerDrag(container:ElementRef, itemSelector:string):void {
+  registerDrag(container:ElementRef<HTMLElement>, itemSelector:string):void {
     this.drake = dragula({
       containers: [container.nativeElement],
       revertOnSpill: true,

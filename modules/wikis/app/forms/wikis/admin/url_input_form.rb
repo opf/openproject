@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +39,8 @@ module Wikis::Admin
         pattern: ".{1,255}",
         placeholder: "https://xwiki.my-organisation.com",
         caption: I18n.t("wikis.admin.wiki_providers.url_caption"),
-        input_width: :large
+        input_width: :large,
+        disabled: model.configured_from_env?
       )
     end
   end

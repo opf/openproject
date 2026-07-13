@@ -22,7 +22,7 @@ This page will give you an overview of how to register or sign in to an existing
 | [Choose your language](#choose-your-language)                                 | How to select your language in OpenProject.                        |
 | [Reset your password](#reset-your-password)                                   | If you forgot your password find out how to reset it.              |
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Sign-in-and-Registration-2.mp4"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Sign-in-and-Registration.mp4"></video>
 
 ## Sign in with an existing account
 
@@ -50,8 +50,6 @@ If you have activated Two-factor authentication, please enter your second factor
 
 When logging in for the first time, you will be asked to create your OpenProject Account.
 
-
-
 ## Sign in from the OpenProject website
 
 If you are using the OpenProject Enterprise cloud edition, you can sign in to your installation directly from the OpenProject website.
@@ -68,10 +66,10 @@ Please click the link in the invitation email:
 
 Enter the following information:
 
-* First name
-* Last name
-* Company E-Mail address
-* Choose a password
+- First name
+- Last name
+- Company E-Mail address
+- Choose a password
 
 Click the **Create** button.
 

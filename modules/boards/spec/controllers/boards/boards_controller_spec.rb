@@ -49,6 +49,7 @@ RSpec.describe Boards::BoardsController do
 
         expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
         expect(response).to redirect_to(project_work_package_boards_path(project))
+        expect(response).to have_http_status(:see_other)
       end
     end
 

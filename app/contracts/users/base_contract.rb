@@ -78,7 +78,16 @@ module Users
     private
 
     def password_writable?
-      user.admin? || user.id == model.id
+      return true if user.admin? && !editing_self?
+
+      editing_self? && current_password_valid?
+    end
+
+    def current_password_valid?
+      return true if model.password.blank?
+
+      provided_current_password = model.current_password_input
+      provided_current_password.present? && model.check_password?(provided_current_password)
     end
 
     def identity_url_writable?
@@ -90,10 +99,14 @@ module Users
     # but just an accessor, so we need to identify it being written there.
     # It is only present when freshly written
     def validate_password_writable
-      # Only admins or the user themselves can set the password
+      return if model.password.blank?
       return if password_writable?
 
-      errors.add :password, :error_readonly if model.password.present?
+      if editing_self?
+        errors.add :current_password, :invalid
+      else
+        errors.add :password, :error_readonly
+      end
     end
 
     def validate_identity_url_writable
@@ -102,13 +115,11 @@ module Users
       errors.add(:identity_url, :error_readonly) if model.user_auth_provider_links.any?(&:changed?)
     end
 
-    # rubocop:disable Rails/DynamicFindBy
     def existing_auth_source
       if ldap_auth_source_id && LdapAuthSource.find_by_unique(ldap_auth_source_id).nil?
         errors.add :auth_source, :error_not_found
       end
     end
-    # rubocop:enable Rails/DynamicFindBy
 
     def can_create_or_manage_users?
       user.allowed_globally?(:manage_user) || user.allowed_globally?(:create_user)

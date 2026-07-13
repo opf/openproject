@@ -10,7 +10,7 @@
       }
     )
   ) do |button|
-    button.with_trailing_visual_counter(count: count)
+    button.with_trailing_visual_counter(count: count, style: "min-width: 2rem")
     I18n.t(:button_continue)
   end
 end %>

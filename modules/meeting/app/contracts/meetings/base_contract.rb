@@ -48,6 +48,9 @@ module Meetings
       validate_sharing_only_on_onetime_templates
     end
 
+    attribute :recurrence_start_time,
+              writable: ->(*) { model.recurring? }
+
     private
 
     def validate_sharing_only_on_onetime_templates

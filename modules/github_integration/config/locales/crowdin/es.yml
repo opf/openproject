@@ -23,47 +23,47 @@
 es:
   attributes:
     additions_count: Número de adiciones
-    deletions_count: Número de eliminaciones
+    changed_files_count: Archivos modificados
     comments_count: Número de comentarios
-    github_html_url: URL de solicitud de incorporación de cambios
-    github_app_owner_avatar_url: URL del avatar del propietario
-    review_comments_count: Número de comentarios de revisión
+    deletions_count: Número de eliminaciones
     github: Identificador de GitHub
+    github_app_owner_avatar_url: URL del avatar del propietario
     github_avatar_url: URL del avatar
-    github_updated_at: Actualizado a las
+    github_html_url: URL de solicitud de incorporación de cambios
     github_login: Inicio de sesión en GitHub
+    github_updated_at: Actualizado a las
     host: Host
     labels: Etiquetas
     repository: Repositorio
-    changed_files_count: Archivos modificados
+    review_comments_count: Número de comentarios de revisión
   button_add_deploy_target: Añadir objetivo de despliegue
   label_deploy_target: Objetivo de despliegue
   label_deploy_target_new: Nuevo objetivo de despliegue
   label_deploy_target_plural: Objetivos de despliegue
+  label_github_comment_user: Usuario de GitHub
   label_github_integration: Integración con GitHub
+  label_github_webhook_secret: Secreto de webhook
   notice_deploy_target_created: Objetivo de despliegue creado
   notice_deploy_target_destroyed: Objetivo de despliegue eliminado
-  label_github_comment_user: GitHub actor
-  label_github_webhook_secret: Webhook secret
-  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
-
-    '
-  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
-
-    '
-  text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
-
-    '
-  plugin_openproject_github_integration:
-    name: Integración de OpenProject y GitHub
-    description: Integra OpenProject y GitHub para un mejor flujo de trabajo
-  project_module_github: GitHub
-  permission_show_github_content: Mostrar contenido de GitHub
   permission_introspection: Leer la versión del núcleo de OpenProject en ejecución y construir SHA
+  permission_show_github_content: Mostrar contenido de GitHub
+  plugin_openproject_github_integration:
+    description: Integra OpenProject y GitHub para un mejor flujo de trabajo
+    name: Integración de OpenProject y GitHub
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Un OpenProject [clave API](docs_url) perteneciente a un usuario que tiene el permiso de introspección global.
+
+    '
   text_deploy_target_type_info: 'Hasta ahora solo damos soporte al propio OpenProject.
 
     '
-  text_deploy_target_api_key_info: 'Un OpenProject [clave API](docs_url) perteneciente a un usuario que tiene el permiso de introspección global.
+  text_github_comment_user_info: 'El usuario de OpenProject cuya clave API debe utilizarse para autenticar las solicitudes de webhook entrantes. Cuando se configura, se rechazan las solicitudes autenticadas con las credenciales de cualquier otro usuario. Este usuario también publica comentarios automáticos sobre el estado de las implementaciones en los paquetes de trabajo. Si no se configura, el valor predeterminado es el usuario del sistema.
+
+    '
+  text_github_webhook_secret_info: 'Un token secreto que se comparte con GitHub al configurar el webhook. Cuando se activa, OpenProject verifica el encabezado «X-Hub-Signature-256» en cada solicitud entrante y rechaza las cargas útiles que no coincidan. Déjalo en blanco para omitir la verificación (no recomendado).
+
+    '
+  text_github_webhook_secret_missing_warning: 'No hay ningún secreto de webhook configurado. Cualquier solicitud al punto final del webhook de GitHub se aceptará sin verificación, lo que podría permitir que personas no autorizadas falsifiquen eventos. Se recomienda encarecidamente establecer un secreto.
 
     '
   text_pull_request_deployed_to: "%{pr_link} desplegado en %{deploy_target_link}"

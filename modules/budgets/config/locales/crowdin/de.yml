@@ -21,23 +21,22 @@
 #++
 ---
 de:
-  plugin_budgets_engine:
-    name: Budgets
   activerecord:
     attributes:
       budget:
         author: Autor
         available: Verfügbar
+        base_amount: Grundbetrag
         budget: Geplant
         budget_ratio: Verbraucht (Prozent)
         description: Beschreibung
+        labor_budget: Geplante Personaleinzelkosten
+        labor_budget_items: Geplante Personaleinzelkosten
+        material_budget: Geplante Stückkosten
         spent: Verbraucht
         status: Status
         subject: Thema
         type: Kostentyp
-        labor_budget: Geplante Personaleinzelkosten
-        material_budget: Geplante Stückkosten
-        base_amount: Grundbetrag
       work_package:
         budget_subject: Budgettitel
     errors:
@@ -48,55 +47,56 @@ de:
               not_a_member_of_budget_project: ist kein Mitglied des Budgetprojekts
     models:
       budget: Budget
+      labor_budget_item: Geplante Personaleinzelkosten
       material_budget_item: Stück
   activity:
     filter:
       budget: Budgets
   attributes:
     budget: Budget
-  button_add_budget_item: Budgetposition hinzufügen
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Erhalten Sie einen Überblick über Ihre Budgets und Kosten, um den Status Ihres Projekts effizient zu verfolgen
+          heading: Projektcontrolling starten
+        blankslate_zero:
+          description: Fügen Sie Details zu Ihrem geplanten Budget hinzu, um die Daten hier zu sehen
+          heading: Budgetdetails fehlen
+        count_caption:
+          one: Daten aggregiert aus %{count} Budget
+          other: Daten aggregiert aus %{count} Budgets
+          zero: Keine Budgetdaten.
+        count_caption_with_subitems:
+          portfolio:
+            one: Daten aggregiert aus %{count} Budget in diesem Portfolio und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Portfolio und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+          program:
+            one: Daten aggregiert aus %{count} Budget in diesem Programm und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Programm und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+          project:
+            one: Daten aggregiert aus %{count} Budget in diesem Projekt und seinen Unterelementen.
+            other: Daten aggregiert aus %{count} Budgets in diesem Projekt und seinen Unterelementen.
+            zero: Keine Budgetdaten.
+        title: Budget nach Kostenart
+        view_details: Budgetdetails anzeigen
+      budget_totals:
+        remaining_budget: Verbleibendes Budget
+        spent_budget: Verwendetes Budget
+        title: Budgetsumme
+        total_actual_costs: Gesamte tatsächlichen Kosten
+        total_planned_budget: Gesamtes geplantes Budget
+  budgets_title: Budgets
   button_add_budget: Neues Budget anlegen
+  button_add_budget_item: Budgetposition hinzufügen
   button_add_cost_type: Kostentyp anlegen
   button_cancel_edit_budget: Budget bearbeiten abbrechen
   button_cancel_edit_costs: Kosten bearbeiten abbrechen
   caption_labor: Personal
   caption_labor_costs: Ist-Personaleinzelkosten
   caption_material_costs: Ist-Stückkosten
-  budgets_title: Budgets
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budgetsumme
-        remaining_budget: Verbleibendes Budget
-        spent_budget: Verwendetes Budget
-        total_actual_costs: Gesamte tatsächlichen Kosten
-        total_planned_budget: Gesamtes geplantes Budget
-      budget_by_cost_type:
-        title: Budget nach Kostenart
-        blankslate:
-          heading: Projektcontrolling starten
-          description: Erhalten Sie einen Überblick über Ihre Budgets und Kosten, um den Status Ihres Projekts effizient zu verfolgen
-        blankslate_zero:
-          heading: Budgetdetails fehlen
-          description: Fügen Sie Details zu Ihrem geplanten Budget hinzu, um die Daten hier zu sehen
-        count_caption:
-          zero: Keine Budgetdaten.
-          one: Daten aggregiert aus %{count} Budget
-          other: Daten aggregiert aus %{count} Budgets
-        count_caption_with_subitems:
-          project:
-            zero: Keine Budgetdaten.
-            one: Daten aggregiert aus %{count} Budget in diesem Projekt und seinen Unterelementen.
-            other: Daten aggregiert aus %{count} Budgets in diesem Projekt und seinen Unterelementen.
-          program:
-            zero: Keine Budgetdaten.
-            one: Daten aggregiert aus %{count} Budget in diesem Programm und seinen Unterelementen.
-            other: Daten aggregiert aus %{count} Budgets in diesem Programm und seinen Unterelementen.
-          portfolio:
-            zero: Keine Budgetdaten.
-            one: Daten aggregiert aus %{count} Budget in diesem Portfolio und seinen Unterelementen.
-            other: Daten aggregiert aus %{count} Budgets in diesem Portfolio und seinen Unterelementen.
-        view_details: Budgetdetails anzeigen
   events:
     budget: Budget bearbeitet
   help_click_to_edit: Hier Klicken zum bearbeiten.
@@ -104,23 +104,25 @@ de:
   help_override_rate: Hier einen Wert eingeben um den Standardwert zu Überschreiben.
   label_budget: Budget
   label_budget_available: Verfügbares Budget
+  label_budget_details: Budgetdetails
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Neues Budget
   label_budget_planned: Geplantes Budget
   label_budget_plural: Budgets
   label_budget_spent: Ausgegebenes Budget
   label_budget_spent_ratio: Anteil verbrauchtes Budget
+  label_budget_totals: Summe
   label_deliverable: Budget
   label_example_placeholder: z. B. %{decimal}
   label_view_all_budgets: Alle Budgets anzeigen
   label_yes: Ja
-  label_budget_totals: Summe
-  label_budget_details: Budgetdetails
   notice_budget_conflict: Arbeitspakete müssen dem gleichen Projekt angehören.
   notice_no_budgets_available: Kein Budget verfügbar.
   permission_edit_budgets: Budgets bearbeiten
   permission_view_budgets: Budgets ansehen
+  plugin_budgets_engine:
+    name: Budgets
   project_module_budgets: Budgets
-  text_budget_reassign_to: 'Auf dieses Budget umbuchen:'
   text_budget_delete: Budget aus allen Arbeitspaketen löschen
   text_budget_destroy_assigned_wp: Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?
+  text_budget_reassign_to: 'Auf dieses Budget umbuchen:'

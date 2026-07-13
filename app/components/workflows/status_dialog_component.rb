@@ -35,11 +35,11 @@ module Workflows
 
     DIALOG_ID = "workflows-status-dialog"
 
-    def initialize(all_statuses:, current_statuses:, role:, type:, tab:)
+    def initialize(all_statuses:, current_statuses:, roles:, type:, tab:)
       super
       @all_statuses = all_statuses
       @current_statuses = current_statuses
-      @role = role
+      @roles = roles
       @type = type
       @tab = tab
     end

@@ -11,6 +11,7 @@ module Saml
     store_attribute :options, :metadata_xml, :string
     store_attribute :options, :last_metadata_update, :datetime
 
+    store_attribute :options, :idp_entity_id, :string
     store_attribute :options, :idp_sso_service_url, :string
     store_attribute :options, :idp_slo_service_url, :string
 

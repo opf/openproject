@@ -49,7 +49,11 @@ module WorkPackages::Costs
     end
 
     def validate_budget
-      if budget_id_changed? && !(budget_id.blank? || project.budget_ids.include?(budget_id))
+      # Also re-validate when the work package is moved to another project, since
+      # the set of valid budgets is project-scoped. Otherwise a budget belonging
+      # to the source project would silently survive the move.
+      if (budget_id_changed? || project_id_changed?) &&
+         !(budget_id.blank? || project.budget_ids.include?(budget_id))
         errors.add :budget, :inclusion
       end
     end
@@ -118,7 +122,7 @@ module WorkPackages::Costs
       reassign_to = ::WorkPackage
                       .joins(:project)
                       .merge(Project.allowed_to(user, :edit_cost_entries))
-                      .find_by_id(ids)
+                      .find_by(id: ids)
 
       if reassign_to.nil?
         work_packages.each do |wp|

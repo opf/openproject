@@ -56,6 +56,11 @@ FactoryBot.define do
       initialize_with { ProjectRole.where(builtin: Role::BUILTIN_ANONYMOUS).first_or_initialize }
     end
 
+    factory :project_creator_role do
+      name { "Project creator" }
+      permissions { ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR }
+    end
+
     factory :existing_project_role do
       name { "Role #{Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4]}" }
       permissions { [] }

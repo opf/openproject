@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 import { AbstractWorkPackageButtonComponent } from '../wp-buttons.module';
@@ -39,6 +39,9 @@ import screenfull from 'screenfull';
   standalone: false,
 })
 export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
+  readonly I18n:I18nService;
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public buttonId = 'work-packages-zen-mode-toggle-button';
 
   public buttonClass = 'toolbar-icon';
@@ -51,13 +54,12 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
   private deactivateLabel:string;
 
-  constructor(
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    readonly I18n:I18nService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    readonly cdRef:ChangeDetectorRef
-  ) {
+  constructor() {
+    const I18n = inject(I18nService);
+
     super(I18n);
+    this.I18n = I18n;
+
 
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');

@@ -100,6 +100,15 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
   let(:storage_creator) { current_user }
 
   before do
+    allow(OpenProject::SsrfProtection).to receive(:safe_ip?) do |host|
+      case host
+      when "172.16.193.146", "localhost"
+        nil
+      else
+        IPAddr.new("93.184.216.34")
+      end
+    end
+
     if storage_host.present?
       mock_server_capabilities_response(storage_host)
       mock_server_config_check_response(storage_host)
@@ -266,13 +275,20 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "when host is localhost" do
         let(:storage_host) { "http://localhost:1234" }
 
-        include_examples "contract is valid"
+        include_examples "contract is invalid", host: :ssrf_filtered
+
+        it "does not perform metadata discovery requests" do
+          contract.validate
+
+          expect(WebMock).not_to have_requested(:get, "http://localhost:1234/ocs/v2.php/cloud/capabilities")
+          expect(WebMock).not_to have_requested(:get, "http://localhost:1234/index.php/apps/integration_openproject/check-config")
+        end
       end
 
       context "when host uses https protocol" do
         let(:storage_host) { "https://172.16.193.146" }
 
-        include_examples "contract is valid"
+        include_examples "contract is invalid", host: :ssrf_filtered
       end
     end
 

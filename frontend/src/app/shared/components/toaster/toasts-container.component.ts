@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IToast, ToastService } from './toast.service';
 
@@ -46,14 +46,10 @@ import { IToast, ToastService } from './toast.service';
   standalone: false,
 })
 export class ToastsContainerComponent extends UntilDestroyedMixin implements OnInit {
-  public stack:IToast[] = [];
+  readonly toastService = inject(ToastService);
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  constructor(
-    readonly toastService:ToastService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
+  public stack:IToast[] = [];
 
   ngOnInit():void {
     this.toastService

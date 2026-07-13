@@ -170,6 +170,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             "title" => version.name
           },
           "parent" => {
+            "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
             "title" => parent.subject
           },
@@ -431,6 +432,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             "title" => version.name
           },
           "parent" => {
+            "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
             "title" => parent.subject
           },

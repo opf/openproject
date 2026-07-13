@@ -1,21 +1,8 @@
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import {
-  ApplicationRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import {
   CustomTextEditFieldService,
 } from 'core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
@@ -30,29 +17,23 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: false,
 })
 export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnChanges, OnDestroy {
+  handler = inject(CustomTextEditFieldService);
+  protected cdr = inject(ChangeDetectorRef);
+  protected sanitization = inject(DomSanitizer);
+  protected appRef = inject(ApplicationRef);
+  protected layout = inject(GridAreaService);
+
   protected currentRawText:string;
 
   public customText:SafeHtml;
 
-  public text = {
-    attachments: this.I18n.t('js.label_attachments'),
-  };
+  public text!:{ attachments:string };
 
   @ViewChild('displayContainer') readonly displayContainer:ElementRef<HTMLElement>;
 
-  constructor(
-    protected I18n:I18nService,
-    protected injector:Injector,
-    public handler:CustomTextEditFieldService,
-    protected cdr:ChangeDetectorRef,
-    protected sanitization:DomSanitizer,
-    protected appRef:ApplicationRef,
-    protected layout:GridAreaService,
-  ) {
-    super(I18n, injector);
-  }
-
   ngOnInit():void {
+    this.text = { attachments: this.i18n.t('js.label_attachments') };
+
     this.setupVariables(true);
 
     this
@@ -96,7 +77,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get placeholderText() {
-    return this.I18n.t('js.grid.widgets.work_packages_overview.placeholder');
+    return this.i18n.t('js.grid.widgets.work_packages_overview.placeholder');
   }
 
   public get inplaceEditClasses() {

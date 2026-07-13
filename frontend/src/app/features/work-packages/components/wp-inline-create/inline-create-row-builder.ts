@@ -8,7 +8,7 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {
@@ -22,13 +22,13 @@ export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
   // Injections
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() public I18n:I18nService;
+  @LazyInject() public I18n:I18nService;
 
   protected text:{ cancelButton:string };
 

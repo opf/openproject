@@ -32,28 +32,19 @@ module Admin::Settings
   class WorkPackagesIdentifierController < ::Admin::SettingsController
     include OpTurbo::ComponentStream
 
-    before_action :check_feature_flag
-
     current_menu_item :show do
       :work_packages_identifier
     end
 
     def show
-      @form_state = WorkPackages::IdentifierAutofix.job_in_progress? ? :change_in_progress : :edit
+      @form_state = ProjectIdentifiers::IdentifierAutofix.job_in_progress? ? :change_in_progress : :edit
     end
 
     def update
-      return render_400 unless params[:settings]
-
-      if autofix_requested?
-        call = update_service.new(user: current_user).call(settings_params)
-        call.on_success do
-          WorkPackages::IdentifierAutofix::ApplyHandlesJob.perform_later
-          redirect_to action: "show"
-        end
-        call.on_failure { failure_callback(call) }
-      else
-        super
+      case params.dig(:settings, :work_packages_identifier)
+      when Setting::WorkPackageIdentifier::SEMANTIC  then switch_to_semantic
+      when Setting::WorkPackageIdentifier::CLASSIC   then switch_to_classic
+      else                                                render_400
       end
     end
 
@@ -62,24 +53,33 @@ module Admin::Settings
     end
 
     def status
-      if WorkPackages::IdentifierAutofix.job_in_progress?
-        head :no_content
-      else
-        replace_via_turbo_stream(
-          component: WorkPackages::Admin::Settings::IdentifierSettingsFormComponent.new(state: :completed)
-        )
-        respond_with_turbo_streams
-      end
+      state = ProjectIdentifiers::IdentifierAutofix.job_in_progress? ? :change_in_progress : :completed
+      replace_via_turbo_stream(
+        component: WorkPackages::Admin::Settings::IdentifierSettingsFormComponent.new(state:)
+      )
+      respond_with_turbo_streams
     end
 
     private
 
-    def check_feature_flag
-      render_404 unless OpenProject::FeatureDecisions.semantic_work_package_ids_active?
+    def switch_to_semantic
+      unless ProjectIdentifiers::IdentifierAutofix.job_in_progress?
+        ProjectIdentifiers::ConvertInstanceToSemanticIdsJob.perform_later
+      end
+      redirect_to action: "show"
     end
 
-    def autofix_requested?
-      ActiveRecord::Type::Boolean.new.cast(params[:confirm_dangerous_action])
+    def switch_to_classic
+      call = update_service.new(user: current_user)
+                                    .call(work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC)
+      call.on_success do
+        unless ProjectIdentifiers::IdentifierAutofix.job_in_progress?
+          ProjectIdentifiers::RevertInstanceToClassicIdsJob.perform_later
+        end
+        redirect_to action: "show"
+      end
+      call.on_failure { failure_callback(call) }
     end
+
   end
 end

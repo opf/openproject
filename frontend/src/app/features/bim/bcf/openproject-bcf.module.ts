@@ -29,6 +29,8 @@
 import {
   Injector,
   NgModule,
+  inject,
+  runInInjectionContext,
 } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
@@ -57,9 +59,12 @@ import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar
  */
 export const viewerBridgeServiceFactory = (injector:Injector) => {
   if (window.navigator.userAgent.search('Revit') > -1) {
-    return new RevitBridgeService(injector);
+    return runInInjectionContext(injector, () => new RevitBridgeService());
   }
-  return injector.get(IFCViewerService, new IFCViewerService(injector));
+
+  const ifcViewerService = injector.get(IFCViewerService, null);
+
+  return ifcViewerService ?? runInInjectionContext(injector, () => new IFCViewerService());
 };
 
 @NgModule({
@@ -93,7 +98,9 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
 export class OpenprojectBcfModule {
   static bootstrapCalled = false;
 
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     OpenprojectBcfModule.bootstrap(injector);
   }
 

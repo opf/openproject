@@ -1,9 +1,6 @@
 interface NgSelectShim {
   appendTo?:string;
-  dropdownPanel?:{
-    _updateXPosition():void;
-    _updateYPosition():void;
-  }
+  dropdownPanel?:(() => { adjustPosition():void })|{ adjustPosition():void };
 }
 
 // Force reposition as a workaround for BUG
@@ -12,10 +9,10 @@ export function repositionDropdownBugfix(component?:unknown) {
   const instance = component as NgSelectShim;
   if (instance?.appendTo && instance?.dropdownPanel) {
     setTimeout(() => {
-      // eslint-disable-next-line no-underscore-dangle
-      instance.dropdownPanel?._updateXPosition();
-      // eslint-disable-next-line no-underscore-dangle
-      instance.dropdownPanel?._updateYPosition();
+      // dropdownPanel is a Signal in ng-select v21+, call it to get the panel instance
+      const panelOrSignal = instance.dropdownPanel;
+      const panel = typeof panelOrSignal === 'function' ? panelOrSignal() : panelOrSignal;
+      panel?.adjustPosition();
     }, 25);
   }
 }

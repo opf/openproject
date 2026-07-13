@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -66,6 +57,13 @@ import { attributeTokenList, ensureId } from 'core-app/shared/helpers/dom-helper
   standalone: false,
 })
 export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected pathHelper = inject(PathHelperService);
+  protected halResourceService = inject(HalResourceService);
+  protected Notifications = inject(ToastService);
+  protected I18n = inject(I18nService);
+  protected states = inject(States);
+
   // Track form submission "in-flight" state per form, to prevent multiple
   // submissions from multiple CKEditor instances on the same form.
   private static inFlight = new WeakMap<HTMLFormElement, boolean>();
@@ -135,14 +133,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private labelClickSubscription:Subscription;
 
-  constructor(
-    readonly elementRef:ElementRef<HTMLElement>,
-    protected pathHelper:PathHelperService,
-    protected halResourceService:HalResourceService,
-    protected Notifications:ToastService,
-    protected I18n:I18nService,
-    protected states:States,
-  ) {
+  constructor() {
     super();
     populateInputsFromDataset(this);
   }
@@ -177,6 +168,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     this.registerFormSubmitListener();
+    this.registerRefreshSyncListener();
   }
 
   private registerFormSubmitListener():void {
@@ -189,6 +181,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         evt.preventDefault();
         void this.saveForm(evt);
       });
+  }
+
+  private registerRefreshSyncListener():void {
+    fromEvent(this.formElement, 'refresh-on-form-changes:beforeSnapshot')
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.syncToTextarea());
   }
 
   public editorFocused():void {
@@ -305,7 +303,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-    this.attachments = _.clone((this.halResource as HalResource).attachments.elements);
+    this.attachments = [...(this.halResource as HalResource).attachments.elements];
 
     this
       .states
@@ -316,11 +314,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         filter((resource) => !!resource),
       )
       .subscribe((resource:HalResource&{ attachments:AttachmentCollectionResource }) => {
-        const missingAttachments = _.differenceBy(
-          this.attachments,
-          resource.attachments.elements,
-          (attachment:HalResource) => attachment.id,
-        );
+        const presentIds = new Set<string|null>(resource.attachments.elements.map((other:HalResource) => other.id));
+        const missingAttachments = this.attachments.filter((attachment:HalResource) => !presentIds.has(attachment.id));
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
@@ -329,7 +324,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
           editor.model.fire('op:attachment-removed', removedUrls);
         }
 
-        this.attachments = _.clone(resource.attachments.elements);
+        this.attachments = [...resource.attachments.elements];
       });
   }
 

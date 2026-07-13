@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -38,17 +38,14 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   standalone: false,
 })
 export class BackButtonComponent {
+  readonly backRoutingService = inject(BackRoutingService);
+  readonly I18n = inject(I18nService);
+
   @Input() public linkClass:string;
 
   public text = {
     goBack: this.I18n.t('js.button_back'),
   };
-
-  constructor(
-    readonly backRoutingService:BackRoutingService,
-    readonly I18n:I18nService,
-  ) {
-  }
 
   public goBack():void {
     this.backRoutingService.goBack();

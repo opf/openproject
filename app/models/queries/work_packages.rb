@@ -59,6 +59,7 @@ module Queries::WorkPackages
     filter Filter::TypeFilter
     filter Filter::UpdatedAtFilter
     filter Filter::VersionFilter
+    filter Filter::TargetVersionsFilter
     filter Filter::WatcherFilter
     filter Filter::DatesIntervalFilter
     filter Filter::ParentFilter

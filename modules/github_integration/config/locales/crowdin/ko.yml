@@ -23,47 +23,47 @@
 ko:
   attributes:
     additions_count: 추가 항목 수
-    deletions_count: 삭제 항목 수
+    changed_files_count: 파일 변경
     comments_count: 코멘트 수
-    github_html_url: 끌어오기 요청 URL
-    github_app_owner_avatar_url: 소유자 아바타 URL
-    review_comments_count: 리뷰 코멘트 수
+    deletions_count: 삭제 항목 수
     github: GitHub ID
+    github_app_owner_avatar_url: 소유자 아바타 URL
     github_avatar_url: 아바타 URL
-    github_updated_at: '업데이트:'
+    github_html_url: 끌어오기 요청 URL
     github_login: GitHub 로그인
+    github_updated_at: '업데이트:'
     host: 호스트
     labels: 레이블
     repository: 리포지토리
-    changed_files_count: 파일 변경
+    review_comments_count: 리뷰 코멘트 수
   button_add_deploy_target: 배포 대상 추가
   label_deploy_target: 배포 대상
   label_deploy_target_new: 새로운 배포 대상
   label_deploy_target_plural: 배포 대상
+  label_github_comment_user: GitHub 수행자
   label_github_integration: GitHub 통합
+  label_github_webhook_secret: Webhook 비밀번호
   notice_deploy_target_created: 배포 대상 생성됨
   notice_deploy_target_destroyed: 배포 대상 삭제됨
-  label_github_comment_user: GitHub actor
-  label_github_webhook_secret: Webhook secret
-  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
-
-    '
-  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
-
-    '
-  text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
-
-    '
-  plugin_openproject_github_integration:
-    name: OpenProject GitHub 통합
-    description: 개선된 워크플로를 위해 OpenProject와 GitHub를 통합합니다
-  project_module_github: GitHub
-  permission_show_github_content: GitHub 콘텐츠 표시
   permission_introspection: 실행 중인 OpenProject 코어 버전 읽기 및 SHA 빌드
+  permission_show_github_content: GitHub 콘텐츠 표시
+  plugin_openproject_github_integration:
+    description: 개선된 워크플로를 위해 OpenProject와 GitHub를 통합합니다
+    name: OpenProject GitHub 통합
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: '글로벌 인트로스펙션 권한이 있는 사용자에게 속한 OpenProject [API 키](docs_url)입니다.
+
+    '
   text_deploy_target_type_info: '현재로서는 OpenProject 자체만 지원됩니다.
 
     '
-  text_deploy_target_api_key_info: '글로벌 인트로스펙션 권한이 있는 사용자에게 속한 OpenProject [API 키](docs_url)입니다.
+  text_github_comment_user_info: '들어오는 webhook 요청을 인증하는 데 API 키를 사용해야 하는 OpenProject 사용자입니다. 설정하면, 다른 사용자의 자격 증명으로 인증된 요청은 거부됩니다. 이 사용자는 작업 패키지에 자동화된 배포 상태 코멘트를 게시하기도 합니다. 설정하지 않으면, 시스템 사용자로 기본 설정됩니다.
+
+    '
+  text_github_webhook_secret_info: 'Webhook을 구성할 때 GitHub와 공유되는 비밀 토큰입니다. 설정하면, OpenProject는 들어오는 모든 요청에서 X-Hub-Signature-256 헤더를 확인하여 일치하지 않는 페이로드를 거부합니다. 확인을 건너뛰려면 비워 두세요(권장하지 않음).
+
+    '
+  text_github_webhook_secret_missing_warning: 'Webhook 비밀번호가 구성되지 않았습니다. GitHub webhook 엔드포인트에 대한 모든 요청이 확인 없이 수락되므로 권한이 없는 수행자가 이벤트를 위조할 수 있습니다. 비밀번호를 설정하는 것이 좋습니다.
 
     '
   text_pull_request_deployed_to: "%{pr_link}이(가) %{deploy_target_link}에 배포되었습니다"

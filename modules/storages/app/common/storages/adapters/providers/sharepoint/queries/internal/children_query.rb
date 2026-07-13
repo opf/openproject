@@ -121,12 +121,14 @@ module Storages
               end
 
               def build_empty_root_folder(json)
+                name = CGI.unescapeURIComponent(json[:webUrl].delete_prefix(host_uri))
+
                 Results::StorageFileCollection.build(
                   files: [],
                   parent: Results::StorageFile.new(
-                    name: CGI.unescape(json[:webUrl].gsub(/.*#{site_name}\//, "")),
+                    name:,
                     id: json[:parentReference][:driveId],
-                    location: json[:webUrl].gsub(/.*#{site_name}/, ""),
+                    location: "/#{name}",
                     permissions: %i[readable writeable]
                   ),
                   ancestors: [site_root]

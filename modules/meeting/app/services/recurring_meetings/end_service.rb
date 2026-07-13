@@ -49,7 +49,7 @@ module RecurringMeetings
 
       result.on_success do
         send_cancellation_for_future_instantiated_occurrences if recurring_meeting.notify?
-        remove_scheduled_meetings
+        remove_future_meetings
         send_ended_mail if recurring_meeting.notify?
       end
 
@@ -58,10 +58,8 @@ module RecurringMeetings
 
     private
 
-    def send_cancellation_for_future_instantiated_occurrences # rubocop:disable Metrics/AbcSize
-      recurring_meeting.scheduled_meetings.upcoming.instantiated.find_each do |scheduled_meeting|
-        meeting = scheduled_meeting.meeting
-
+    def send_cancellation_for_future_instantiated_occurrences
+      upcoming_non_cancelled_meetings.find_each do |meeting|
         meeting.participants.where(invited: true).find_each do |participant|
           MeetingMailer
             .cancelled(meeting, participant.user, current_user)
@@ -75,18 +73,22 @@ module RecurringMeetings
     end
 
     ##
-    # Delete any upcoming scheduled meetings and their instantiated meetings
-    # (e.g., those that are instantiated or non-instantiated)
-    def remove_scheduled_meetings
-      upcoming = recurring_meeting.scheduled_meetings.upcoming
+    # Delete any upcoming occurrence meetings
+    def remove_future_meetings
+      recurring_meeting
+        .meetings
+        .not_templated
+        .where(recurrence_start_time: Time.current..)
+        .destroy_all
+    end
 
-      # First destroy the instantiated meetings
-      upcoming.instantiated.find_each do |scheduled|
-        scheduled.meeting.destroy!
-      end
-
-      # Then destroy all scheduled meetings
-      upcoming.destroy_all
+    def upcoming_non_cancelled_meetings
+      recurring_meeting
+        .meetings
+        .not_templated
+        .not_cancelled
+        .where.not(recurrence_start_time: nil)
+        .where(recurrence_start_time: Time.current..)
     end
 
     def send_ended_mail # rubocop:disable Metrics/AbcSize

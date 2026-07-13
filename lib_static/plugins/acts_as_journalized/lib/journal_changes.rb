@@ -40,11 +40,15 @@ module JournalChanges
       get_custom_comments_changes,
       get_custom_fields_changes,
       get_project_phases_changes,
+      get_target_versions_changes,
       get_file_links_changes,
+      get_participants_changes,
       get_agenda_items_changes
     ].compact
 
-    @changes = changes.reduce({}.with_indifferent_access, :merge!)
+    merged = changes.reduce({}.with_indifferent_access, :merge!)
+
+    @changes = suppress_mirrored_version_change(merged)
   end
 
   def get_cause_changes
@@ -126,6 +130,19 @@ module JournalChanges
     )
   end
 
+  # The whole set of target versions is diffed as a single value (the sorted,
+  # comma-joined version ids), matching how the change is rendered: one
+  # "Target versions" line with the old and the new list.
+  def get_target_versions_changes
+    return unless journable.respond_to?(:target_versions)
+
+    old_value = predecessor && joined_target_version_ids(predecessor)
+    new_value = joined_target_version_ids(self)
+    return if old_value == new_value
+
+    { target_versions: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -150,7 +167,61 @@ module JournalChanges
     )
   end
 
+  def get_participants_changes
+    return unless journable.respond_to?(:participants)
+
+    baseline = participant_baseline_journal
+    return unless baseline
+
+    previous = participant_names_for(baseline, :invited)
+    current = participant_names_for(self, :invited)
+
+    added = current - previous
+    removed = previous - current
+
+    {
+      participants_added: participant_change_detail(added),
+      participants_removed: participant_change_detail(removed)
+    }.compact
+  end
+
   private
+
+  # While the deprecated version_id column mirrors the target versions, a
+  # version change diffs under both keys; only the target_versions
+  # representation is rendered. Historical journals render the same way,
+  # since every versioned journal has a backfilled target snapshot.
+  def suppress_mirrored_version_change(changes)
+    changes.delete("version_id") if changes.key?("target_versions")
+
+    changes
+  end
+
+  def joined_target_version_ids(journal)
+    journal.target_version_journals.map(&:version_id).sort.join(",").presence
+  end
+
+  def participant_baseline_journal
+    journals = journable.journals.to_a
+    current_index = journals.index { |entry| entry.id == id }
+    return unless current_index
+
+    journals[0...current_index].reverse.find { |entry| entry.participant_journals.any? }
+  end
+
+  def participant_names_for(journal, attribute)
+    journal
+      .participant_journals
+      .select { |entry| entry.public_send(attribute) }
+      .filter_map { |entry| entry.user&.name }
+      .sort
+  end
+
+  def participant_change_detail(names)
+    return if names.empty?
+
+    [nil, names.join(", ")]
+  end
 
   def filter_admin_only_custom_fields(relation)
     return relation if User.current.admin?

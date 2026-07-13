@@ -27,43 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_workflow_plural), @type.name -%>
-
 <% content_for :content_header do %>
-  <%= render Workflows::EditPageHeaderComponent.new(@type, tabs: workflow_tabs(@type, current_role: @role, current_tab: @current_tab)) %>
+  <%= render Workflows::PageHeaders::EditComponent.new(@type, roles: @roles, tabs: workflow_tabs(@type)) %>
 <% end %>
 
-<% if @type && @role %>
-  <%= turbo_frame_tag "workflow-table", data: { turbo_cache: false } do %>
-    <%= render Workflows::EditSubHeaderComponent.new(tab: @current_tab, current_role: @role, type: @type, available_roles: @roles, status_ids: @statuses.pluck(:id)) %>
-
-    <% if @statuses.any? %>
-      <%= form_tag(
-            { action: :update },
-            id: "workflow_form",
-            method: :patch,
-            data: {
-              turbo_frame: "_top",
-              controller: "admin--workflow-checkbox-state",
-              has_status_changes: ("true" if @has_status_changes),
-              turbo_temporary: true
-            }
-          ) do %>
-          <%= hidden_field_tag "type_id", @type.id %>
-          <%= hidden_field_tag "role_id", @role.id %>
-          <%= hidden_field_tag "tab", @current_tab %>
-
-    <%= render_tabs workflow_tabs(@type) %>
-
-          <div class="workflow-save-bar">
-            <%=
-              render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
-                t(:button_save)
-              end
-            %>
-          </div>
-        <% end %>
-    <% else %>
-      <%= render Workflows::BlankslateComponent.new(role: @role, type: @type, tab: @current_tab) %>
-    <% end %>
-  <% end %>
+<% if @type && @roles.any? %>
+  <%= turbo_frame_tag "workflow-table", src: edit_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
 <% end %>

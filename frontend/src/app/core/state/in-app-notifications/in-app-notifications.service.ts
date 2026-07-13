@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
@@ -47,12 +47,11 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
-@EffectHandler
 @Injectable()
+@EffectHandler
 export class InAppNotificationsResourceService extends ResourceStoreService<INotification> {
-  @InjectField() actions$:ActionsService;
+  readonly actions$ = inject(ActionsService);
 
   update(id:ID, inAppNotification:Partial<INotification>):void {
     this.store.update(id, inAppNotification);

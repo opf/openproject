@@ -60,7 +60,7 @@ module Bim
         if attachments.loaded?
           attachments.detect { |a| a.description == key.to_s && !a.marked_for_destruction? }
         else
-          attachments.find_by_description(key.to_s)
+          attachments.find_by(description: key.to_s)
         end
       end
 

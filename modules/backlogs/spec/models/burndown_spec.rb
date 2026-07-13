@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,12 +31,14 @@
 require "spec_helper"
 
 RSpec.describe Burndown do
-  def set_attribute_journalized(story, attribute, value, day)
-    story.reload
-    story.send(attribute, value)
-    story.save!
-    story.journals[-2].update_columns(validity_period: story.journals[-2].created_at...day) if story.journals.count > 1
-    story.journals[-1].update_columns(created_at: day, updated_at: day, validity_period: day..Float::INFINITY)
+  def set_attribute_journalized(work_package, attribute, value, day)
+    work_package.reload
+    work_package.send(attribute, value)
+    work_package.save!
+    if work_package.journals.many?
+      work_package.journals[-2].update_columns(validity_period: work_package.journals[-2].created_at...day)
+    end
+    work_package.journals[-1].update_columns(created_at: day, updated_at: day, validity_period: day..Float::INFINITY)
   end
 
   let(:project) { create(:project) }
@@ -60,139 +64,8 @@ RSpec.describe Burndown do
 
   subject(:burndown) { described_class.new(sprint, project) }
 
-  describe "for a version sprint" do
-    let(:version) { create(:version, project:) }
-    let(:sprint) { Sprint.find(version.id) }
-
-    before do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "points_burn_direction" => "down",
-                                                                           "wiki_template" => "",
-                                                                           "story_types" => [type_feature.id.to_s],
-                                                                           "task_type" => type_task.id.to_s })
-    end
-
-    describe "WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint" do
-      around do |example|
-        travel_to(Time.utc(2011, "apr", 4, 20, 15, 1)) { example.run }
-      end
-
-      describe "WITH having a version in the future" do
-        before do
-          version.start_date = Time.zone.today + 1.day
-          version.effective_date = Time.zone.today + 6.days
-          version.save!
-        end
-
-        it "generates an empty burndown" do
-          expect(burndown.series[:story_points]).to be_empty
-        end
-      end
-
-      describe "WITH having a 10 (working days) sprint and being 5 (working) days into it" do
-        before do
-          version.start_date = Time.zone.today - 7.days
-          version.effective_date = Time.zone.today + 6.days
-          version.save!
-        end
-
-        describe "WITH 1 story assigned to the sprint" do
-          let(:story) do
-            build(:story, subject: "Story 1",
-                          project:,
-                          version:,
-                          type: type_feature,
-                          status: issue_open,
-                          priority: issue_priority,
-                          created_at: Time.zone.today - 20.days,
-                          updated_at: Time.zone.today - 20.days)
-          end
-
-          describe "WITH the story having story_point defined on creation" do
-            before do
-              story.story_points = 9
-              story.save!
-              story.last_journal.update_columns(created_at: story.created_at, updated_at: story.created_at)
-            end
-
-            describe "WITH the story being closed and opened again within the sprint duration" do
-              before do
-                set_attribute_journalized story, :status_id=, issue_closed.id, 6.days.ago
-                set_attribute_journalized story, :status_id=, issue_open.id, 3.days.ago
-              end
-
-              it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-              it { expect(burndown.story_points.unit).to be :points }
-              it { expect(burndown.days).to eql(sprint.days) }
-              it { expect(burndown.max[:hours]).to be 0.0 }
-              it { expect(burndown.max[:points]).to be 9.0 }
-              it { expect(burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
-            end
-
-            describe "WITH the story marked as resolved and consequently 'done'" do
-              before do
-                set_attribute_journalized story, :status_id=, issue_resolved.id, 6.days.ago
-                set_attribute_journalized story, :status_id=, issue_open.id, 3.days.ago
-                project.done_statuses << issue_resolved
-              end
-
-              it { expect(story.done?).to be false }
-              it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
-            end
-          end
-        end
-
-        describe "WITH 10 stories assigned to the sprint" do
-          let!(:stories) do
-            stories = []
-
-            10.times do |i|
-              stories[i] = create(:story, subject: "Story #{i}",
-                                          project:,
-                                          version:,
-                                          type: type_feature,
-                                          status: issue_open,
-                                          priority: issue_priority,
-                                          created_at: Time.zone.today - (20 - i).days,
-                                          updated_at: Time.zone.today - (20 - i).days)
-              stories[i].last_journal.update_columns(created_at: stories[i].created_at,
-                                                     updated_at: stories[i].created_at,
-                                                     validity_period: stories[i].created_at..Float::INFINITY)
-            end
-
-            stories
-          end
-
-          describe "WITH each story having story points defined at start" do
-            before do
-              stories.each_with_index do |s, _i|
-                set_attribute_journalized s, :story_points=, 10, version.start_date - 3.days
-              end
-            end
-
-            describe "WITH 5 stories having been reduced to 0 story points, one story per day" do
-              before do
-                5.times do |i|
-                  set_attribute_journalized stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
-                end
-              end
-
-              describe "THEN" do
-                it { expect(burndown.story_points).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 50.0] }
-                it { expect(burndown.story_points.unit).to be :points }
-                it { expect(burndown.days).to eql(sprint.days) }
-                it { expect(burndown.max[:hours]).to be 0.0 }
-                it { expect(burndown.max[:points]).to be 90.0 }
-                it { expect(burndown.story_points_ideal).to eql [90.0, 80.0, 70.0, 60.0, 50.0, 40.0, 30.0, 20.0, 10.0, 0.0] }
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
   describe "for an agile sprint" do
-    let(:sprint) { create(:agile_sprint, project:) }
+    let(:sprint) { create(:sprint, project:) }
 
     describe "WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint" do
       around do |example|
@@ -218,29 +91,30 @@ RSpec.describe Burndown do
           sprint.save!
         end
 
-        describe "WITH 1 story assigned to the sprint" do
-          let(:story) do
-            build(:story, subject: "Story 1",
-                          project:,
-                          sprint:,
-                          type: type_feature,
-                          status: issue_open,
-                          priority: issue_priority,
-                          created_at: Time.zone.today - 20.days,
-                          updated_at: Time.zone.today - 20.days)
+        describe "WITH 1 work_package assigned to the sprint" do
+          let(:work_package) do
+            build(:work_package,
+                  subject: "WorkPackage 1",
+                  project:,
+                  sprint:,
+                  type: type_feature,
+                  status: issue_open,
+                  priority: issue_priority,
+                  created_at: Time.zone.today - 20.days,
+                  updated_at: Time.zone.today - 20.days)
           end
 
-          describe "WITH the story having story_point defined on creation" do
+          describe "WITH the work_package having story_point defined on creation" do
             before do
-              story.story_points = 9
-              story.save!
-              story.last_journal.update_columns(created_at: story.created_at, updated_at: story.created_at)
+              work_package.story_points = 9
+              work_package.save!
+              work_package.last_journal.update_columns(created_at: work_package.created_at, updated_at: work_package.created_at)
             end
 
-            describe "WITH the story being closed and opened again within the sprint duration" do
+            describe "WITH the work_package being closed and opened again within the sprint duration" do
               before do
-                set_attribute_journalized story, :status_id=, issue_closed.id, 6.days.ago
-                set_attribute_journalized story, :status_id=, issue_open.id, 3.days.ago
+                set_attribute_journalized work_package, :status_id=, issue_closed.id, 6.days.ago
+                set_attribute_journalized work_package, :status_id=, issue_open.id, 3.days.ago
               end
 
               it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
@@ -255,15 +129,34 @@ RSpec.describe Burndown do
               it { expect(burndown.story_points_ideal).to eql [9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0] }
             end
 
-            describe "WITH the story marked as resolved and consequently 'done'" do
+            describe "WITH the work_package marked as resolved and consequently 'done'" do
               before do
-                set_attribute_journalized story, :status_id=, issue_resolved.id, 6.days.ago
-                set_attribute_journalized story, :status_id=, issue_open.id, 3.days.ago
+                set_attribute_journalized work_package, :status_id=, issue_resolved.id, 6.days.ago
+                set_attribute_journalized work_package, :status_id=, issue_open.id, 3.days.ago
                 project.done_statuses << issue_resolved
               end
 
-              it { expect(story.done?).to be false }
               it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
+            end
+
+            describe "WITH all non-closed statuses also configured as done for the project" do
+              # Edge case: every status (open, resolved) is treated as done.
+              # open_status_ids becomes empty, so the query should return 0
+              # remaining story points rather than incorrectly
+              # summing *everything*.
+              before do
+                work_package.story_points = 9
+                work_package.save!
+                work_package.last_journal.update_columns(created_at: work_package.created_at,
+                                                         updated_at: work_package.created_at)
+                # Configure every non-closed status as a done status for the project
+                project.done_statuses << issue_open
+                project.done_statuses << issue_resolved
+              end
+
+              it "shows 0.0 remaining story points for all days" do
+                expect(burndown.story_points).to eql [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+              end
             end
           end
         end
@@ -273,14 +166,15 @@ RSpec.describe Burndown do
             stories = []
 
             10.times do |i|
-              stories[i] = create(:story, subject: "Story #{i}",
-                                          project:,
-                                          sprint:,
-                                          type: type_feature,
-                                          status: issue_open,
-                                          priority: issue_priority,
-                                          created_at: Time.zone.today - (20 - i).days,
-                                          updated_at: Time.zone.today - (20 - i).days)
+              stories[i] = create(:work_package,
+                                  subject: "WorkPackage #{i}",
+                                  project:,
+                                  sprint:,
+                                  type: type_feature,
+                                  status: issue_open,
+                                  priority: issue_priority,
+                                  created_at: Time.zone.today - (20 - i).days,
+                                  updated_at: Time.zone.today - (20 - i).days)
               stories[i].last_journal.update_columns(created_at: stories[i].created_at,
                                                      updated_at: stories[i].created_at,
                                                      validity_period: stories[i].created_at..Float::INFINITY)
@@ -289,14 +183,14 @@ RSpec.describe Burndown do
             stories
           end
 
-          describe "WITH each story having story points defined at start" do
+          describe "WITH each work_package having story points defined at start" do
             before do
               stories.each do |s|
                 set_attribute_journalized s, :story_points=, 10, sprint.start_date - 3.days
               end
             end
 
-            describe "WITH 5 stories having been reduced to 0 story points, one story per day" do
+            describe "WITH 5 stories having been reduced to 0 story points, one work_package per day" do
               before do
                 5.times do |i|
                   set_attribute_journalized stories[i], :story_points=, nil, sprint.start_date + i.days + 1.hour
@@ -322,11 +216,11 @@ RSpec.describe Burndown do
     end
 
     context "without dates on the sprint" do
-      let(:sprint) { create(:agile_sprint, project:, start_date: nil, finish_date: nil) }
-      let(:story) do
-        build(:story,
+      let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
+      let(:work_package) do
+        build(:work_package,
               :created_in_past,
-              subject: "Story 1",
+              subject: "WorkPackage 1",
               project:,
               sprint:,
               type: type_feature,

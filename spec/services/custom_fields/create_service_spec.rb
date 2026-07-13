@@ -62,9 +62,7 @@ RSpec.describe CustomFields::CreateService, type: :model do
 
     subject(:instance_call) { instance.call(attributes) }
 
-    describe "calculated value custom field",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "calculated value custom field", with_ee: %i[calculated_values] do
       using CustomFieldFormulaReferencing
 
       shared_let(:project_custom_field_section) { create(:project_custom_field_section) }

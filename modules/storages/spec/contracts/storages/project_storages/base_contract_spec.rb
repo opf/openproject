@@ -52,15 +52,32 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
       end
 
       it_behaves_like "contract is valid"
-    end
 
-    context "when the project folder mode is `automatic` but the storage is not automatically managed" do
-      before do
-        project_storage.project_folder_mode = "automatic"
-        project_storage.storage.automatic_management_enabled = false
+      context "and when the storage is not automatically managed" do
+        before do
+          project_storage.storage.automatic_management_enabled = false
+        end
+
+        it_behaves_like "contract is invalid", project_folder_mode: :mode_unavailable
       end
 
-      it_behaves_like "contract is invalid", project_folder_mode: :mode_unavailable
+      context "and when setting project storage to an existing project_folder_id" do
+        before do
+          create(:project_storage, storage:, project_folder_id: "existing-project-folder")
+          project_storage.project_folder_id = "existing-project-folder"
+        end
+
+        it_behaves_like "contract is invalid", project_folder_id: :taken
+      end
+
+      context "and when setting project storage to project_folder_id existing on other storage" do
+        before do
+          create(:project_storage, project_folder_id: "existing-project-folder")
+          project_storage.project_folder_id = "existing-project-folder"
+        end
+
+        it_behaves_like "contract is valid"
+      end
     end
 
     context "if the project folder mode is `manual`" do
@@ -79,6 +96,15 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
 
         it_behaves_like "contract is valid"
       end
+
+      context "and when setting project storage to an existing project_folder_id" do
+        before do
+          create(:project_storage, storage:, project_folder_id: "existing-project-folder")
+          project_storage.project_folder_id = "existing-project-folder"
+        end
+
+        it_behaves_like "contract is valid"
+      end
     end
 
     include_examples "contract reuses the model errors"
@@ -86,7 +112,7 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
 
   describe "For a nextcloud storage" do
     let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-    let(:storage) { build_stubbed(:nextcloud_storage) }
+    let(:storage) { create(:nextcloud_storage) }
     let(:project_storage) { build(:project_storage, storage:) }
 
     it_behaves_like "a ProjectStorage BaseContract"
@@ -104,7 +130,7 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
 
   describe "For a one drive storage" do
     let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-    let(:storage) { build_stubbed(:one_drive_storage) }
+    let(:storage) { create(:one_drive_storage) }
     let(:project_storage) { build(:project_storage, storage:) }
 
     it_behaves_like "a ProjectStorage BaseContract"

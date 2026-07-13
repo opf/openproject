@@ -46,7 +46,7 @@ module API
 
           route_param :id, type: Integer, desc: "Group ID" do
             after_validation do
-              @group = Group.visible(current_user).find(params[:id])
+              @group = Group.visible(current_user).includes(:group_detail).find(params[:id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show

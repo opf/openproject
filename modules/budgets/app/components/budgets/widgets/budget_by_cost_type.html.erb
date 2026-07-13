@@ -28,35 +28,40 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%=
-  widget_wrapper do
+  widget_wrapper do |container|
     if has_budgets_data?
-      flex_layout do |flex|
-        flex.with_row do
-          render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-            if project.children.any?
-              t(".count_caption_with_subitems.#{project.workspace_type.presence_in(%w[project program portfolio]) || 'project'}",
-                count: budget_count)
-            else
-              t(".count_caption", count: budget_count)
+      container.with_body do
+        flex_layout do |flex|
+          flex.with_row do
+            render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
+              if project.children.any?
+                t(
+                  ".count_caption_with_subitems.#{project.workspace_type.presence_in(%w[project program portfolio]) || 'project'}",
+                  count: budget_count
+                )
+              else
+                t(".count_caption", count: budget_count)
+              end
             end
           end
+          flex.with_row(mt: 3, align: :center) do
+            helpers.angular_component_tag(
+              "opce-budget-by-cost-type",
+              currency: Setting.costs_currency,
+              "chart-data": {
+                labels: chart_labels,
+                datasets: [{
+                  label: t(:label_budget),
+                  data: chart_data
+                }]
+              }.to_json
+            )
+          end
         end
-        flex.with_row(mt: 3, align: :center) do
-          helpers.angular_component_tag(
-            "opce-budget-by-cost-type",
-            currency: Setting.costs_currency,
-            "chart-data": {
-              labels: chart_labels,
-              datasets: [{
-                label: t(:label_budget),
-                data: chart_data
-              }]
-            }.to_json
-          )
-        end
-        flex.with_row(mt: 3) do
-          render(Primer::Beta::Link.new(href: projects_budgets_path(project))) { t(".view_details") }
-        end
+      end
+
+      container.with_footer(test_selector: "budget-by-cost-type-widget-footer") do
+        render(Primer::Beta::Link.new(href: projects_budgets_path(project))) { t(".view_details") }
       end
     elsif has_budgets?
       render(Primer::Beta::Blankslate.new) do |blankslate|

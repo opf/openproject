@@ -35,7 +35,7 @@ module Storages
     module Providers
       module Nextcloud
         module Queries
-          RSpec.describe FileInfoQuery, :webmock do
+          RSpec.describe FileInfoQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) do
               create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
@@ -62,7 +62,7 @@ module Storages
                   last_modified_by_name: "admin",
                   last_modified_by_id: "admin",
                   permissions: "RGDNVW",
-                  location: "/Reasons%20to%20use%20Nextcloud.pdf"
+                  location: "/Reasons to use Nextcloud.pdf"
                 )
               end
 
@@ -86,7 +86,7 @@ module Storages
                   last_modified_by_name: nil,
                   last_modified_by_id: nil,
                   permissions: "RGDNVCK",
-                  location: "/Folder/%C3%9Cml%C3%A6%C3%BBts"
+                  location: "/Folder/Ümlæûts"
                 )
               end
 
@@ -111,8 +111,7 @@ module Storages
                   last_modified_by_name: nil,
                   last_modified_by_id: nil,
                   permissions: "RGDNVW",
-                  location:
-                    "/Folder%20with%20spaces/%C3%9Cml%C3%A4uts%20%26%20spe%C2%A2i%C3%A6l%20characters/what_have_you_done.md"
+                  location: "/Folder with spaces/Ümläuts & spe¢iæl characters/what_have_you_done.md"
                 )
               end
 

@@ -1,0 +1,358 @@
+diff --git a/node_modules/ng-dynamic-component/esm2020/lib/io/io.service.mjs b/node_modules/ng-dynamic-component/esm2020/lib/io/io.service.mjs
+index c6494ab..e0b43d3 100644
+--- a/node_modules/ng-dynamic-component/esm2020/lib/io/io.service.mjs
++++ b/node_modules/ng-dynamic-component/esm2020/lib/io/io.service.mjs
+@@ -23,14 +23,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImpor
+  * @public
+  */
+ export class IoService {
+-    constructor(injector, differs, 
+-    // TODO: Replace ComponentFactoryResolver once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+-    cfr, options, compInjector, eventArgument, cdr, eventContextProvider) {
++    constructor(injector, differs, options, compInjector, eventArgument, cdr, eventContextProvider) {
+         this.injector = injector;
+         this.differs = differs;
+-        this.cfr = cfr;
+         this.options = options;
+         this.compInjector = compInjector;
+         this.eventArgument = eventArgument;
+@@ -39,9 +34,6 @@ export class IoService {
+         this.lastComponentInst = null;
+         this.lastChangedInputs = new Set();
+         this.inputsDiffer = this.differs.find({}).create();
+-        // TODO: Replace ComponentFactory once new API is created
+-        // @see https://github.com/angular/angular/issues/44926
+-        // eslint-disable-next-line deprecation/deprecation
+         this.compFactory = null;
+         this.outputsShouldDisconnect$ = new Subject();
+         this.inputs = {};
+@@ -156,26 +148,20 @@ export class IoService {
+         differ.forEachChangedItem(addRecordKeyToSet);
+         differ.forEachRemovedItem(addRecordKeyToSet);
+     }
+-    // TODO: Replace ComponentFactory once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+     resolveCompFactory() {
+         if (!this.compRef) {
+             return null;
+         }
+-        try {
+-            try {
+-                return this.cfr.resolveComponentFactory(this.compRef.componentType);
+-            }
+-            catch (e) {
+-                // Fallback if componentType does not exist (happens on NgComponentOutlet)
+-                return this.cfr.resolveComponentFactory(this.compRef.instance.constructor);
+-            }
+-        }
+-        catch (e) {
+-            // Factory not available - bailout
++        const componentType = this.compRef.componentType ?? this.compRef.instance.constructor;
++        const componentDef = componentType?.ɵcmp ?? componentType?.ɵdir;
++        const outputs = componentDef?.outputs;
++        if (!outputs) {
+             return null;
+         }
++        return Object.keys(outputs).map((propName) => ({
++            propName,
++            templateName: outputs[propName],
++        }));
+     }
+     updateCompFactory() {
+         this.compFactory = this.resolveCompFactory();
+@@ -186,7 +172,7 @@ export class IoService {
+         if (!this.compFactory) {
+             return outputs;
+         }
+-        return this.remapIO(outputs, this.compFactory.outputs);
++        return this.remapIO(outputs, this.compFactory);
+     }
+     updateOutputsEventContext() {
+         if (this.eventContextProvider) {
+@@ -255,11 +241,11 @@ export class IoService {
+         return null;
+     }
+ }
+-/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: i0.ComponentFactoryResolver }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
++/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
+ /** @nocollapse */ IoService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService });
+ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, decorators: [{
+             type: Injectable
+-        }], ctorParameters: function () { return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: i0.ComponentFactoryResolver }, { type: IoServiceOptions }, { type: undefined, decorators: [{
++        }], ctorParameters: function () { return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: IoServiceOptions }, { type: undefined, decorators: [{
+                     type: Inject,
+                     args: [DynamicComponentInjectorToken]
+                 }] }, { type: undefined, decorators: [{
+diff --git a/node_modules/ng-dynamic-component/fesm2015/ng-dynamic-component.mjs b/node_modules/ng-dynamic-component/fesm2015/ng-dynamic-component.mjs
+index 856c361..4ec7055 100644
+--- a/node_modules/ng-dynamic-component/fesm2015/ng-dynamic-component.mjs
++++ b/node_modules/ng-dynamic-component/fesm2015/ng-dynamic-component.mjs
+@@ -60,14 +60,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImpor
+  * @public
+  */
+ class IoService {
+-    constructor(injector, differs, 
+-    // TODO: Replace ComponentFactoryResolver once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+-    cfr, options, compInjector, eventArgument, cdr, eventContextProvider) {
++    constructor(injector, differs, options, compInjector, eventArgument, cdr, eventContextProvider) {
+         this.injector = injector;
+         this.differs = differs;
+-        this.cfr = cfr;
+         this.options = options;
+         this.compInjector = compInjector;
+         this.eventArgument = eventArgument;
+@@ -76,9 +71,6 @@ class IoService {
+         this.lastComponentInst = null;
+         this.lastChangedInputs = new Set();
+         this.inputsDiffer = this.differs.find({}).create();
+-        // TODO: Replace ComponentFactory once new API is created
+-        // @see https://github.com/angular/angular/issues/44926
+-        // eslint-disable-next-line deprecation/deprecation
+         this.compFactory = null;
+         this.outputsShouldDisconnect$ = new Subject();
+         this.inputs = {};
+@@ -193,26 +185,20 @@ class IoService {
+         differ.forEachChangedItem(addRecordKeyToSet);
+         differ.forEachRemovedItem(addRecordKeyToSet);
+     }
+-    // TODO: Replace ComponentFactory once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+     resolveCompFactory() {
+         if (!this.compRef) {
+             return null;
+         }
+-        try {
+-            try {
+-                return this.cfr.resolveComponentFactory(this.compRef.componentType);
+-            }
+-            catch (e) {
+-                // Fallback if componentType does not exist (happens on NgComponentOutlet)
+-                return this.cfr.resolveComponentFactory(this.compRef.instance.constructor);
+-            }
+-        }
+-        catch (e) {
+-            // Factory not available - bailout
++        const componentType = this.compRef.componentType ?? this.compRef.instance.constructor;
++        const componentDef = componentType?.ɵcmp ?? componentType?.ɵdir;
++        const outputs = componentDef?.outputs;
++        if (!outputs) {
+             return null;
+         }
++        return Object.keys(outputs).map((propName) => ({
++            propName,
++            templateName: outputs[propName],
++        }));
+     }
+     updateCompFactory() {
+         this.compFactory = this.resolveCompFactory();
+@@ -223,7 +209,7 @@ class IoService {
+         if (!this.compFactory) {
+             return outputs;
+         }
+-        return this.remapIO(outputs, this.compFactory.outputs);
++        return this.remapIO(outputs, this.compFactory);
+     }
+     updateOutputsEventContext() {
+         if (this.eventContextProvider) {
+@@ -292,12 +278,12 @@ class IoService {
+         return null;
+     }
+ }
+-/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: i0.ComponentFactoryResolver }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
++/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
+ /** @nocollapse */ IoService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService });
+ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, decorators: [{
+             type: Injectable
+         }], ctorParameters: function () {
+-        return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: i0.ComponentFactoryResolver }, { type: IoServiceOptions }, { type: undefined, decorators: [{
++        return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: IoServiceOptions }, { type: undefined, decorators: [{
+                         type: Inject,
+                         args: [DynamicComponentInjectorToken]
+                     }] }, { type: undefined, decorators: [{
+diff --git a/node_modules/ng-dynamic-component/fesm2020/ng-dynamic-component.mjs b/node_modules/ng-dynamic-component/fesm2020/ng-dynamic-component.mjs
+index 3104fcc..23c4c7e 100644
+--- a/node_modules/ng-dynamic-component/fesm2020/ng-dynamic-component.mjs
++++ b/node_modules/ng-dynamic-component/fesm2020/ng-dynamic-component.mjs
+@@ -60,14 +60,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImpor
+  * @public
+  */
+ class IoService {
+-    constructor(injector, differs, 
+-    // TODO: Replace ComponentFactoryResolver once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+-    cfr, options, compInjector, eventArgument, cdr, eventContextProvider) {
++    constructor(injector, differs, options, compInjector, eventArgument, cdr, eventContextProvider) {
+         this.injector = injector;
+         this.differs = differs;
+-        this.cfr = cfr;
+         this.options = options;
+         this.compInjector = compInjector;
+         this.eventArgument = eventArgument;
+@@ -76,9 +71,6 @@ class IoService {
+         this.lastComponentInst = null;
+         this.lastChangedInputs = new Set();
+         this.inputsDiffer = this.differs.find({}).create();
+-        // TODO: Replace ComponentFactory once new API is created
+-        // @see https://github.com/angular/angular/issues/44926
+-        // eslint-disable-next-line deprecation/deprecation
+         this.compFactory = null;
+         this.outputsShouldDisconnect$ = new Subject();
+         this.inputs = {};
+@@ -193,26 +185,20 @@ class IoService {
+         differ.forEachChangedItem(addRecordKeyToSet);
+         differ.forEachRemovedItem(addRecordKeyToSet);
+     }
+-    // TODO: Replace ComponentFactory once new API is created
+-    // @see https://github.com/angular/angular/issues/44926
+-    // eslint-disable-next-line deprecation/deprecation
+     resolveCompFactory() {
+         if (!this.compRef) {
+             return null;
+         }
+-        try {
+-            try {
+-                return this.cfr.resolveComponentFactory(this.compRef.componentType);
+-            }
+-            catch (e) {
+-                // Fallback if componentType does not exist (happens on NgComponentOutlet)
+-                return this.cfr.resolveComponentFactory(this.compRef.instance.constructor);
+-            }
+-        }
+-        catch (e) {
+-            // Factory not available - bailout
++        const componentType = this.compRef.componentType ?? this.compRef.instance.constructor;
++        const componentDef = componentType?.ɵcmp ?? componentType?.ɵdir;
++        const outputs = componentDef?.outputs;
++        if (!outputs) {
+             return null;
+         }
++        return Object.keys(outputs).map((propName) => ({
++            propName,
++            templateName: outputs[propName],
++        }));
+     }
+     updateCompFactory() {
+         this.compFactory = this.resolveCompFactory();
+@@ -223,7 +209,7 @@ class IoService {
+         if (!this.compFactory) {
+             return outputs;
+         }
+-        return this.remapIO(outputs, this.compFactory.outputs);
++        return this.remapIO(outputs, this.compFactory);
+     }
+     updateOutputsEventContext() {
+         if (this.eventContextProvider) {
+@@ -292,11 +278,11 @@ class IoService {
+         return null;
+     }
+ }
+-/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: i0.ComponentFactoryResolver }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
++/** @nocollapse */ IoService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, deps: [{ token: i0.Injector }, { token: i0.KeyValueDiffers }, { token: IoServiceOptions }, { token: DynamicComponentInjectorToken }, { token: IoEventArgumentToken }, { token: i0.ChangeDetectorRef }, { token: IoEventContextProviderToken, optional: true }], target: i0.ɵɵFactoryTarget.Injectable });
+ /** @nocollapse */ IoService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService });
+ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.1.3", ngImport: i0, type: IoService, decorators: [{
+             type: Injectable
+-        }], ctorParameters: function () { return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: i0.ComponentFactoryResolver }, { type: IoServiceOptions }, { type: undefined, decorators: [{
++        }], ctorParameters: function () { return [{ type: i0.Injector }, { type: i0.KeyValueDiffers }, { type: IoServiceOptions }, { type: undefined, decorators: [{
+                     type: Inject,
+                     args: [DynamicComponentInjectorToken]
+                 }] }, { type: undefined, decorators: [{
+diff --git a/node_modules/ng-dynamic-component/lib/io/io.service.d.ts b/node_modules/ng-dynamic-component/lib/io/io.service.d.ts
+index ee7e9a8..b306207 100644
+--- a/node_modules/ng-dynamic-component/lib/io/io.service.d.ts
++++ b/node_modules/ng-dynamic-component/lib/io/io.service.d.ts
+@@ -1,4 +1,4 @@
+-import { ChangeDetectorRef, ComponentFactoryResolver, Injector, KeyValueDiffers, OnDestroy, StaticProvider } from '@angular/core';
++import { ChangeDetectorRef, Injector, KeyValueDiffers, OnDestroy, StaticProvider } from '@angular/core';
+ import { DynamicComponentInjector } from '../component-injector';
+ import { InputsType, OutputsType } from './types';
+ import * as i0 from "@angular/core";
+@@ -16,7 +16,6 @@ export declare class IoServiceOptions {
+ export declare class IoService implements OnDestroy {
+     private injector;
+     private differs;
+-    private cfr;
+     private options;
+     private compInjector;
+     private eventArgument;
+@@ -34,7 +33,7 @@ export declare class IoService implements OnDestroy {
+     private get compRef();
+     private get componentInst();
+     private get componentInstChanged();
+-    constructor(injector: Injector, differs: KeyValueDiffers, cfr: ComponentFactoryResolver, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
++    constructor(injector: Injector, differs: KeyValueDiffers, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
+     ngOnDestroy(): void;
+     /**
+      * Call update whenever inputs/outputs may or did change.
+@@ -56,7 +55,7 @@ export declare class IoService implements OnDestroy {
+     private processOutputArgs;
+     private remapIO;
+     private findPropByTplInMapping;
+-    static ɵfac: i0.ɵɵFactoryDeclaration<IoService, [null, null, null, null, null, null, null, { optional: true; }]>;
++    static ɵfac: i0.ɵɵFactoryDeclaration<IoService, [null, null, null, null, null, null, { optional: true; }]>;
+     static ɵprov: i0.ɵɵInjectableDeclaration<IoService>;
+ }
+ //# sourceMappingURL=io.service.d.ts.map
+diff --git a/node_modules/ng-dynamic-component/public-api-alpha.d.ts b/node_modules/ng-dynamic-component/public-api-alpha.d.ts
+index 843e418..1b4b790 100644
+--- a/node_modules/ng-dynamic-component/public-api-alpha.d.ts
++++ b/node_modules/ng-dynamic-component/public-api-alpha.d.ts
+@@ -1,5 +1,4 @@
+ import { ChangeDetectorRef } from '@angular/core';
+-import { ComponentFactoryResolver } from '@angular/core';
+ import { ComponentRef } from '@angular/core';
+ import { DoCheck } from '@angular/core';
+ import { ElementRef } from '@angular/core';
+@@ -387,7 +386,7 @@ export declare class IoService implements OnDestroy {
+     private get compRef();
+     private get componentInst();
+     private get componentInstChanged();
+-    constructor(injector: Injector, differs: KeyValueDiffers, cfr: ComponentFactoryResolver, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
++    constructor(injector: Injector, differs: KeyValueDiffers, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
+     ngOnDestroy(): void;
+     /**
+      * Call update whenever inputs/outputs may or did change.
+diff --git a/node_modules/ng-dynamic-component/public-api-beta.d.ts b/node_modules/ng-dynamic-component/public-api-beta.d.ts
+index 843e418..1b4b790 100644
+--- a/node_modules/ng-dynamic-component/public-api-beta.d.ts
++++ b/node_modules/ng-dynamic-component/public-api-beta.d.ts
+@@ -1,5 +1,4 @@
+ import { ChangeDetectorRef } from '@angular/core';
+-import { ComponentFactoryResolver } from '@angular/core';
+ import { ComponentRef } from '@angular/core';
+ import { DoCheck } from '@angular/core';
+ import { ElementRef } from '@angular/core';
+@@ -387,7 +386,7 @@ export declare class IoService implements OnDestroy {
+     private get compRef();
+     private get componentInst();
+     private get componentInstChanged();
+-    constructor(injector: Injector, differs: KeyValueDiffers, cfr: ComponentFactoryResolver, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
++    constructor(injector: Injector, differs: KeyValueDiffers, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
+     ngOnDestroy(): void;
+     /**
+      * Call update whenever inputs/outputs may or did change.
+diff --git a/node_modules/ng-dynamic-component/public-api.d.ts b/node_modules/ng-dynamic-component/public-api.d.ts
+index 843e418..1b4b790 100644
+--- a/node_modules/ng-dynamic-component/public-api.d.ts
++++ b/node_modules/ng-dynamic-component/public-api.d.ts
+@@ -1,5 +1,4 @@
+ import { ChangeDetectorRef } from '@angular/core';
+-import { ComponentFactoryResolver } from '@angular/core';
+ import { ComponentRef } from '@angular/core';
+ import { DoCheck } from '@angular/core';
+ import { ElementRef } from '@angular/core';
+@@ -387,7 +386,7 @@ export declare class IoService implements OnDestroy {
+     private get compRef();
+     private get componentInst();
+     private get componentInstChanged();
+-    constructor(injector: Injector, differs: KeyValueDiffers, cfr: ComponentFactoryResolver, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
++    constructor(injector: Injector, differs: KeyValueDiffers, options: IoServiceOptions, compInjector: DynamicComponentInjector, eventArgument: string, cdr: ChangeDetectorRef, eventContextProvider: StaticProvider);
+     ngOnDestroy(): void;
+     /**
+      * Call update whenever inputs/outputs may or did change.

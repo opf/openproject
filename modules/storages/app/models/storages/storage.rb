@@ -52,6 +52,7 @@ module Storages
     has_one :oauth_client, as: :integration, dependent: :destroy
     has_one :oauth_application, class_name: "::Doorkeeper::Application", as: :integration, dependent: :destroy
     has_many :remote_identities, as: :integration, dependent: :destroy
+    has_many :health_reports, as: :subject, dependent: :delete_all
 
     validates :host, uniqueness: { allow_nil: true }
     validates :name, uniqueness: { case_sensitive: false }
@@ -158,6 +159,8 @@ module Storages
     def configured? = configuration_checks.values.all?
 
     def configuration_checks = raise SubclassResponsibilityError
+
+    def skip_client_secret_validation? = false
 
     def uri
       return unless host

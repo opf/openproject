@@ -82,12 +82,51 @@ RSpec.describe OpenProject::Configuration, :settings_reset do
           it "sets the cache to :redis_cache_store" do
             expect(subject.first).to eq(:redis_cache_store)
           end
+
+          it "uses a strict serializer that rejects Marshal payloads" do
+            serializer_options = subject.grep(Hash).find { |options| options[:serializer].present? }
+            expect(serializer_options).to include(serializer: described_class::StrictMessagePackCoder)
+          end
+
+          it "merges serializer into redis options hash" do
+            expect(subject).to have_attributes(length: 2)
+            expect(subject.second).to include(:url, :error_handler, serializer: described_class::StrictMessagePackCoder)
+          end
         end
 
         it "raises an error trying to set redis without an URL" do
           expect { subject }.to raise_error(ArgumentError, /CACHE_REDIS_URL is not set/)
         end
       end
+
+      context "setting rails cache to memcache",
+              with_config: { "rails_cache_store" => "memcache", "cache_memcache_server" => "localhost:11211" } do
+        it "sets the cache to :mem_cache_store" do
+          expect(subject.first).to eq(:mem_cache_store)
+        end
+
+        it "uses a strict serializer that rejects Marshal payloads" do
+          serializer_options = subject.grep(Hash).find { |options| options[:serializer].present? }
+          expect(serializer_options).to include(serializer: described_class::StrictMessagePackCoder)
+        end
+      end
+    end
+  end
+
+  describe OpenProject::Configuration::StrictMessagePackCoder do
+    subject(:coder) { described_class }
+
+    it "roundtrips MessagePack-serialized data" do
+      value = { "key" => "value" }
+      dumped = coder.dump(value)
+
+      expect(coder.load(dumped)).to eq(value)
+    end
+
+    it "treats Marshal payloads as cache misses" do
+      dumped = Marshal.dump({ "key" => "value" })
+
+      expect(coder.load(dumped)).to be_nil
     end
   end
 

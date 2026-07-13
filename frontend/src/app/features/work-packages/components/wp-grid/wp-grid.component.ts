@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -74,6 +72,12 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
   standalone: false,
 })
 export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit {
+  readonly wpTableHighlight = inject(WorkPackageViewHighlightingService);
+  readonly wpTableSortBy = inject(WorkPackageViewSortByService);
+  readonly wpList = inject(WorkPackagesListService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public configuration:WorkPackageTableConfiguration;
 
   @Input() public showResizer = false;
@@ -95,13 +99,6 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
   public gridOrientation:CardViewOrientation = 'horizontal';
 
   public highlightingMode:HighlightingMode = 'none';
-
-  constructor(readonly wpTableHighlight:WorkPackageViewHighlightingService,
-    readonly wpTableSortBy:WorkPackageViewSortByService,
-    readonly wpList:WorkPackagesListService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly cdRef:ChangeDetectorRef) {
-  }
 
   ngOnInit() {
     this.dragInto = this.configuration.dragAndDropEnabled;

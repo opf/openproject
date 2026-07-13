@@ -5,6 +5,6 @@
   ></p>
 }
 
-@for (mergeRequest of mergeRequests; track mergeRequest) {
+@for (mergeRequest of mergeRequests; track mergeRequest.id || mergeRequest.htmlUrl) {
   <gitlab-merge-request [mergeRequest]="mergeRequest" />
 }

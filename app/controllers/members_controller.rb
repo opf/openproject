@@ -166,7 +166,7 @@ class MembersController < ApplicationController
   end
 
   def members_filter_options(roles)
-    groups = Group.all.sort
+    groups = Group.visible.sort
     shares = WorkPackageRole.all
     status = Members::UserFilterComponent.status_param(params)
 

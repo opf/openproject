@@ -67,7 +67,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       )
     end
 
-    respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: create_service)
   end
 
   def destroy
@@ -83,7 +83,7 @@ class Admin::CustomFields::CustomFieldProjectsController < ApplicationController
       )
     end
 
-    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: delete_service)
   end
 
   private

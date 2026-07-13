@@ -190,7 +190,7 @@ module Storages
         service_result.on_success do
           flash[:notice] = I18n.t(:notice_successful_delete)
         end
-        redirect_to admin_settings_storages_path
+        redirect_to admin_settings_storages_path, status: :see_other
       end
 
       def replace_oauth_application

@@ -6,17 +6,16 @@ import {
   Observable,
 } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
 
 @Injectable({ providedIn: 'root' })
 export class BcfAuthorizationService {
+  readonly bcfApi = inject(BcfApiService);
+
   // Poor mans caching to avoid repeatedly fetching from the backend.
   protected authorizationMap = multiInput<BcfExtensionResource>();
-
-  constructor(readonly bcfApi:BcfApiService) {
-  }
 
   /**
    * Returns an observable boolean whether the given action

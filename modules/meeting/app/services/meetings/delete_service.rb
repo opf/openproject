@@ -33,10 +33,21 @@ module Meetings
     protected
 
     def after_validate(call)
+      Meetings::NotificationDebounceJob.cancel_pending(model)
       send_cancellation_mail(model) if model.notify?
-      cancel_scheduled_meeting(model)
 
       call
+    end
+
+    # For occurrences of a recurring series, keep the record and set state to
+    # cancelled instead of destroying it, so the slot remains visible in the series.
+    def destroy(meeting)
+      if meeting.recurring? && meeting.recurrence_start_time.present?
+        meeting.update_column(:state, Meeting.states[:cancelled])
+        true
+      else
+        meeting.destroy # rubocop:disable Rails/SaveBang
+      end
     end
 
     def send_cancellation_mail(meeting)
@@ -49,13 +60,6 @@ module Meetings
           "Failed to deliver meeting cancellation for meeting #{meeting.id} to #{participant.user.mail}: #{e.message}"
         end
       end
-    end
-
-    def cancel_scheduled_meeting(meeting)
-      schedule = meeting.scheduled_meeting
-      return if schedule.nil?
-
-      schedule.update_column(:cancelled, true)
     end
   end
 end

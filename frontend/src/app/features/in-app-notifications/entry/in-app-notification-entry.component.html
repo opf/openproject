@@ -7,7 +7,7 @@
   (keydown.space)="$event.preventDefault(); onClick()"
   (dblclick)="onDoubleClick()"
   >
-  @if (workPackage$ && (workPackage$ | async); as workPackage) {
+  @if (workPackage$ | async; as workPackage) {
     <div
       class="op-ian-item--top-line"
       >
@@ -18,8 +18,8 @@
         class="op-ian-item--work-package-id-link spot-link"
         [class.spot-link_inactive]="isMobile()"
         [attr.title]="workPackage.subject"
-        [textContent]="'#' + workPackage.id"
-        [attr.href]="fullScreenLink()"
+        [textContent]="workPackage.formattedId"
+        [attr.href]="pathHelper.workPackagePath(workPackage.displayId)"
         (click)="onLinkClick($event)"
         >
       </a>
@@ -45,10 +45,12 @@
       }
     </div>
   @if (!notification.readIAN) {
-    <span
-      class="op-ian-item--reason-count"
-      [textContent]="aggregatedNotifications.length"
-    ></span>
+    <span class="op-ian-item--reason-count">
+      <primer-counter
+        [count]="aggregatedNotifications.length"
+        scheme="secondary"
+      ></primer-counter>
+    </span>
   }
   <div class="op-ian-item--buttons">
     @if (!notification.readIAN) {
@@ -108,7 +110,7 @@
 </div>
 } @else {
   <div class="op-ian-item--loading">
-    @if (workPackage$) {
+    @if (workPackageId) {
       <op-content-loader
         class="op-ian-item--loading-indicator"
         viewBox="0 0 200 20"
@@ -118,7 +120,12 @@
         <svg:rect x="0" y="14" width="80%" height="5" rx="1" />
       </op-content-loader>
     }
-    <span class="op-ian-item--reason-count"></span>
+    <span class="op-ian-item--reason-count">
+      <primer-counter
+        [count]="null"
+        scheme="secondary"
+      ></primer-counter>
+    </span>
     <div class="op-ian-item--buttons">
       <i class="op-ian-item--button icon-mark-read">
       </i>

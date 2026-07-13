@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
         action: destroy_scheduled_project_recurring_meeting_path(
           @project,
           @series,
-          start_time: @scheduled_meeting.start_time.iso8601
+          start_time: @scheduled_meeting.recurrence_start_time.iso8601
         ),
         method: :delete,
         data: { turbo: true }

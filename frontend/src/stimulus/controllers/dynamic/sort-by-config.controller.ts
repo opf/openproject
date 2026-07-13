@@ -29,7 +29,6 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { compact } from 'lodash';
 
 export default class SortByConfigController extends Controller {
   static targets = [
@@ -74,7 +73,7 @@ export default class SortByConfigController extends Controller {
       return null;
     });
 
-    return JSON.stringify(compact(filters));
+    return JSON.stringify(filters.filter(Boolean));
   }
 
   // Tries to find the parent form in the DOM. If present and the form contains a `page` field marked
@@ -84,9 +83,9 @@ export default class SortByConfigController extends Controller {
     this.parentForm = this.sortByFieldTarget.closest('form');
 
     if (this.parentForm) {
-      this.pageTarget = this.parentForm.querySelector('input[data-sort-by-config-target="page"]')!;
-
-      if (this.pageTarget) {
+      const pageTarget = this.parentForm.querySelector<HTMLInputElement>('input[data-sort-by-config-target="page"]');
+      if (pageTarget) {
+        this.pageTarget = pageTarget;
         this.parentForm.addEventListener('submit', this.onFormSubmit.bind(this));
       }
     }
@@ -116,7 +115,8 @@ export default class SortByConfigController extends Controller {
 
   fieldChanged(event:Event):void {
     const target = event.target as HTMLElement;
-    const row = target.closest('div[data-sort-by-config-target="inputRow"]') as HTMLElement;
+    const row = target.closest<HTMLElement>('div[data-sort-by-config-target="inputRow"]');
+    if (!row) { return; }
 
     this.manageRow(row);
 
@@ -208,18 +208,20 @@ export default class SortByConfigController extends Controller {
   }
 
   getSelectedField(row:HTMLElement):string|null {
-    const selectedField = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
-    return selectedField?.value || null;
+    const selectedField = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+    return selectedField?.value ?? null;
   }
 
   getSelectedDirection(row:HTMLElement):string|null {
     const selectedSegment = row.querySelector('li.SegmentedControl-item--selected > button');
-    return selectedSegment?.getAttribute('data-direction') || null;
+    return selectedSegment?.getAttribute('data-direction') ?? null;
   }
 
   unsetField(row:HTMLElement):void {
-    const select = row.querySelector('select[name="sort_field"]') as HTMLSelectElement;
-    select.value = '';
+    const select = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+    if (select) {
+      select.value = '';
+    }
   }
 
   unsetDirection(row:HTMLElement):void {
@@ -267,12 +269,12 @@ export default class SortByConfigController extends Controller {
   }
 
   getAllSelectedFields(...excludedRows:HTMLElement[]):string[] {
-    return compact(this.inputRowTargets.map((row) => {
+    return this.inputRowTargets.map((row) => {
       if (!excludedRows.includes(row)) {
         return this.getSelectedField(row);
       }
       return null;
-    }));
+    }).filter((x):x is NonNullable<typeof x> => Boolean(x));
   }
 
   moveRowToBottom(row:HTMLElement):void {
@@ -283,8 +285,8 @@ export default class SortByConfigController extends Controller {
   disableSelectedFieldsForOtherSelects():void {
     this.inputRowTargets.forEach((row) => {
       const selectedFieldsInOtherRows = this.getAllSelectedFields(row);
-      const otherSelect = row.querySelector('select[name="sort_field"]')!;
-      otherSelect.querySelectorAll('option').forEach((option) => {
+      const otherSelect = row.querySelector<HTMLSelectElement>('select[name="sort_field"]');
+      otherSelect?.querySelectorAll('option').forEach((option) => {
         option.disabled = selectedFieldsInOtherRows.includes(option.value);
       });
     });

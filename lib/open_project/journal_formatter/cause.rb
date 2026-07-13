@@ -243,7 +243,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     if related_work_package
       I18n.t(
         "journals.cause_descriptions.#{cause['type']}",
-        link: html? ? link_to_work_package(related_work_package, link_subject: true) : "##{related_work_package.id}"
+        link: html? ? link_to_work_package(related_work_package, link_subject: true) : related_work_package.formatted_id
       )
 
     else

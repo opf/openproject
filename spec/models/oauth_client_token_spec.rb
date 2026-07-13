@@ -54,14 +54,6 @@ RSpec.describe OAuthClientToken do
       end
     end
 
-    context "with refresh_token too short" do
-      let(:refresh_token) { "" }
-
-      it "fails with refresh_token too short" do
-        expect(subject).to be_falsey
-      end
-    end
-
     context "without access_token" do
       let(:access_token) { nil }
 
@@ -71,10 +63,20 @@ RSpec.describe OAuthClientToken do
     end
 
     context "without refresh_token" do
-      let(:refresh_token) { nil }
+      context "when expires_in is blank" do
+        let(:instance) { described_class.new(access_token:, refresh_token: nil, user:, oauth_client:) }
 
-      it "fails with refresh_token is nil" do
-        expect(subject).to be_falsey
+        it "succeeds — token does not expire so no refresh needed" do
+          expect(subject).to be_truthy
+        end
+      end
+
+      context "when expires_in is present" do
+        let(:instance) { described_class.new(access_token:, refresh_token: nil, expires_in: 3600, user:, oauth_client:) }
+
+        it "fails — refresh_token is required when token expires" do
+          expect(subject).to be_falsey
+        end
       end
     end
 

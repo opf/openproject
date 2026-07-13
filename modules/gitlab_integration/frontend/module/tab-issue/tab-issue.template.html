@@ -5,6 +5,6 @@
   ></p>
 }
 
-@for (gitlabIssue of gitlabIssues; track gitlabIssue) {
+@for (gitlabIssue of gitlabIssues; track gitlabIssue.id || gitlabIssue.htmlUrl) {
   <gitlab-issue [gitlabIssue]="gitlabIssue" />
 }

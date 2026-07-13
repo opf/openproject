@@ -57,7 +57,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       create(
         :board_grid,
         project: source,
-        linked: create(:agile_sprint, project: source),
+        linked: create(:sprint, project: source),
         options: {
           "filters" => [{ "sprint_id" => { "operator" => "=", "values" => ["123"] } }]
         }

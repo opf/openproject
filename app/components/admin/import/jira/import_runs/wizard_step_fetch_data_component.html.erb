@@ -31,27 +31,13 @@ See COPYRIGHT and LICENSE files for more details.
   box.with_row do
     flex_layout do |row|
       row.with_column(flex: 1) do
-        concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+        concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
           I18n.t(:"admin.jira.run.wizard.sections.fetch_data.title")
         })
         if model.status_equal_or_after?(:instance_meta_done)
           concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
             I18n.t(:"admin.jira.run.wizard.sections.fetch_data.caption_done")
           })
-        end
-      end
-      if model.in_state?(:instance_meta_done, :configuring)
-        row.with_column do
-          render(
-            Primer::Beta::IconButton.new(
-              icon: :"op-reload",
-              tag: :a,
-              scheme: :invisible,
-              href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'fetch_instance_meta'),
-              aria: { label: "Back to fetch data" },
-              data: { turbo_stream: true }
-            )
-          )
         end
       end
     end

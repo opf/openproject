@@ -91,7 +91,7 @@ RSpec.describe(
                            edit_project_attributes
                            select_project_custom_fields])
   end
-  shared_let(:new_project_role) { create(:project_role, permissions: %i[]) }
+  shared_let(:new_project_role) { create(:project_creator_role) }
 
   before do
     allow(Setting)
@@ -267,9 +267,7 @@ RSpec.describe(
           end
         end
 
-        context "with calculated custom fields",
-                with_ee: %i[calculated_values],
-                with_flag: { calculated_value_project_attribute: true } do
+        context "with calculated custom fields", with_ee: %i[calculated_values] do
           using CustomFieldFormulaReferencing
           let(:integer_custom_field) { create(:integer_project_custom_field, projects: [source]) }
           let(:calculated_custom_field) do
@@ -315,9 +313,7 @@ RSpec.describe(
             expect(calculated_cv.value).to eq "16"
           end
 
-          context "with calculation errors",
-                  with_ee: %i[calculated_values],
-                  with_flag: { calculated_value_project_attribute: true } do
+          context "with calculation errors", with_ee: %i[calculated_values] do
             let(:calculated_custom_field) do
               create(:calculated_value_project_custom_field, :skip_validations,
                      projects: [source],
@@ -378,6 +374,20 @@ RSpec.describe(
             expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
           end
         end
+      end
+    end
+
+    context "when source project has a non-zero wp_sequence_counter",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:target_project_params) { { name: "Target Project Name", identifier: "COPY1" } }
+
+      before do
+        source.update_column(:wp_sequence_counter, 5)
+      end
+
+      it "succeeds and resets wp_sequence_counter to 0 on the copy" do
+        expect(subject).to be_success
+        expect(project_copy.wp_sequence_counter).to eq(0)
       end
     end
 
@@ -695,6 +705,101 @@ RSpec.describe(
             expect(wp.version.name).to eq "Assigned Issues"
             expect(wp.version).to be_closed
             expect(wp.version.id).not_to eq assigned_version.id
+          end
+        end
+
+        context "with target_versions" do
+          let(:only_args) { %i[work_packages versions] }
+          let(:version_one) { create(:version, name: "Target One", project: source, status: "open") }
+          let(:version_two) { create(:version, name: "Target Two", project: source, status: "open") }
+
+          before do
+            source_wp.work_package_versions.where(kind: "target").delete_all
+            # Contract validation rejects more than one target version, so we bypass it
+            # here to exercise the copy remapping of multiple target versions
+            [version_one, version_two].each do |v|
+              source_wp.work_package_versions.create!(version_id: v.id, kind: "target")
+            end
+          end
+
+          it "copies the target_versions remapped to the copied project's versions" do
+            expect(subject).to be_success
+
+            wp = copy_of(source_wp)
+            copied_names = wp.target_versions.map(&:name).sort
+            expect(copied_names).to eq(["Target One", "Target Two"])
+            wp.target_versions.each do |v|
+              expect(v.project_id).to eq(project_copy.id)
+              expect([version_one.id, version_two.id]).not_to include(v.id)
+            end
+          end
+        end
+
+        context "with observed_in_versions" do
+          let(:only_args) { %i[work_packages versions] }
+          let(:observed_one) { create(:version, name: "Observed One", project: source, status: "open") }
+          let(:observed_two) { create(:version, name: "Observed Two", project: source, status: "open") }
+
+          before do
+            source_wp.work_package_versions.where(kind: "observed_in").delete_all
+            [observed_one, observed_two].each do |v|
+              source_wp.work_package_versions.create!(version_id: v.id, kind: "observed_in")
+            end
+          end
+
+          it "copies the observed_in_versions remapped to the copied project's versions" do
+            expect(subject).to be_success
+
+            wp = copy_of(source_wp)
+            copied_names = wp.observed_in_versions.map(&:name).sort
+            expect(copied_names).to eq(["Observed One", "Observed Two"])
+            wp.observed_in_versions.each do |v|
+              expect(v.project_id).to eq(project_copy.id)
+              expect([observed_one.id, observed_two.id]).not_to include(v.id)
+            end
+          end
+        end
+
+        context "when a referenced version is not among the copied versions" do
+          let(:only_args) { %i[work_packages versions] }
+          let(:other_project) { create(:project, name: "Other Project") }
+          let(:foreign_version) { create(:version, name: "Foreign", project: other_project, status: "open") }
+
+          before do
+            source_wp.work_package_versions.delete_all
+            source_wp.work_package_versions.create!(version_id: foreign_version.id, kind: "target")
+            source_wp.work_package_versions.create!(version_id: foreign_version.id, kind: "observed_in")
+          end
+
+          it "drops the unmapped versions instead of copying dangling ids" do
+            expect(subject).to be_success
+
+            wp = copy_of(source_wp)
+            expect(wp.target_versions).to be_empty
+            expect(wp.observed_in_versions).to be_empty
+          end
+        end
+
+        context "when versions are not copied along" do
+          let(:only_args) { %i[work_packages] }
+          let(:assigned_version) { create(:version, name: "Assigned", project: source, status: "open") }
+          let(:observed_version) { create(:version, name: "Observed", project: source, status: "open") }
+
+          before do
+            source_wp.work_package_versions.delete_all
+            # Saving the version also creates the target association
+            source_wp.update!(version: assigned_version)
+            source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
+          end
+
+          it "copies the work package without any version assignments" do
+            expect(subject).to be_success
+
+            wp = copy_of(source_wp)
+            expect(wp).not_to be_nil
+            expect(wp.version).to be_nil
+            expect(wp.target_versions).to be_empty
+            expect(wp.observed_in_versions).to be_empty
           end
         end
 

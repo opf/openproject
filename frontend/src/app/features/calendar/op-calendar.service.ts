@@ -1,7 +1,4 @@
-import {
-  ElementRef,
-  Injectable,
-} from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -13,19 +10,15 @@ import { DayHeaderContentArg } from '@fullcalendar/core';
 
 @Injectable()
 export class OpCalendarService extends UntilDestroyedMixin {
+  readonly weekdayService = inject(WeekdayService);
+  readonly dayService = inject(DayResourceService);
+  readonly configurationService = inject(ConfigurationService);
+
   resize$ = new Subject<void>();
 
   resizeObs:ResizeObserver;
 
-  constructor(
-    readonly weekdayService:WeekdayService,
-    readonly dayService:DayResourceService,
-    readonly configurationService:ConfigurationService,
-  ) {
-    super();
-  }
-
-  resizeObserver(v:ElementRef|undefined):void {
+  resizeObserver(v:ElementRef<HTMLElement>|undefined):void {
     if (!v) {
       return;
     }
@@ -34,7 +27,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       this.resizeObs = new ResizeObserver(() => this.resize$.next());
     }
 
-    this.resizeObs.observe(v.nativeElement as Element);
+    this.resizeObs.observe(v.nativeElement);
   }
 
   applyNonWorkingDay({ date }:{ date?:Date }, nonWorkingDays:IDay[]):string[] {

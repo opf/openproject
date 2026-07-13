@@ -6,14 +6,13 @@ release_version: 17.2.0
 release_date: 2026-03-11
 ---
 
- # OpenProject 17.2.0
+# OpenProject 17.2.0
 
- Release date: 2026-03-11
+Release date: 2026-03-11
 
- We released OpenProject [OpenProject 17.2.0](https://community.openproject.org/versions/2246).
- The release contains several bug fixes and we recommend updating to the newest version.
- In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
-
+We released OpenProject [OpenProject 17.2.0](https://community.openproject.org/versions/2246).
+The release contains several bug fixes and we recommend updating to the newest version.
+In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important feature changes
 
@@ -47,7 +46,7 @@ When creating a new one-time meeting, users can choose from the available templa
 
 For more details, please refer to the [Meetings documentation](../../user-guide/meetings/one-time-meetings/).
 
-###  Allow requiring to be logged in to open external links (Enterprise add-on)
+### Allow requiring to be logged in to open external links (Enterprise add-on)
 
 [feature: capture_external_links ]
 
@@ -121,14 +120,13 @@ The Backlogs module has been updated using Primer components. This resulted in a
 
 Read more about [Backlogs](../../user-guide/backlogs-scrum/).
 
-
 #### Improvements in administration interface
 
 Administrative interfaces for Custom Fields, Versions, and Groups have been further aligned with Primer. 
 
 In particular, custom field forms are now consistently styled across all field types. Previously, the appearance varied depending on the type of custom field. This has been unified to provide a clearer and more predictable configuration experience for administrators.
 
-###  Jira importer (feature flag)
+### Jira importer (feature flag)
 
 We are working on a new Jira import wizard (Jira Migrator) designed to help teams migrate core project data from Jira into OpenProject more easily. The importer focuses on bringing over essential user-generated content such as issues, comments, attachments, and project structures, reducing the need for manual recreation or fragile third-party workarounds. 
 
@@ -158,97 +156,57 @@ Newly generated API tokens can directly be used as Bearer tokens and do not need
 
 ## Security fixes
 
-
-
-### CVE-2026-30234 - OpenProject BIM BCF XML Import: <Snapshot> Path Traversal Leads to Arbitrary Local File Read (AFR)
+### CVE-2026-30234 - OpenProject BIM BCF XML Import: {Snapshot} Path Traversal Leads to Arbitrary Local File Read (AFR)
 
 An authenticated project member with BCF import permissions can upload a crafted `.bcf` archive where the `<Snapshot>` value in `markup.bcf` is manipulated to contain an absolute or traversal local path (for example: `/etc/passwd` or `../../../../etc/passwd`).
-
-
 
 During import, this untrusted `<Snapshot>` value is used as `file.path` during attachment processing.
 
 As a result, local filesystem content can be read outside the intended ZIP scope.
 
-
-
 This results in an **Arbitrary File Read (AFR)** within the read permissions of the OpenProject application user.
-
-
 
 This vulnerability was reported independently by users sam91281 and DQH1 as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-q8c5-vpmm-xrxv](https://github.com/opf/openproject/security/advisories/GHSA-q8c5-vpmm-xrxv)
-
-
 
 ### CVE-2026-30235 - Business Logic Error on OpenProject through hyperlinks in markdown using DOM clobbering
 
 This vulnerability occurs due to improper validation of OpenProject’s Markdown rendering, specifically in the hyperlink handling. This allows an attacker to inject malicious hyperlink payloads that perform DOM clobbering. DOM clobbering can crash or blank the entire page by overwriting native DOM functions with HTML elements, causing critical JavaScript calls to throw runtime errors during application initialization and halt further execution.
 
-
-
 This vulnerability was reported by user frozzipies as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-9rv2-9xv5-gpq8](https://github.com/opf/openproject/security/advisories/GHSA-9rv2-9xv5-gpq8)
-
-
 
 ### CVE-2026-30236 - Users that are not project members can be used to calculate Labor Budget, leaking their global hourly rate
 
 When editing a project budget and planning the labor cost, it was not checked that the user that was planned in the budget is actually a project member. This exposed the user&#39;s default rate (if one was set up) to users that should only see that information for project members.
 
-
-
 Also, the endpoint that handles the pre-calculation for the frontend to display a preview of the costs, while it was being entered, did not properly validate the membership of the user as well. This also allowed to calculate costs with the default rate of non-members.
-
-
 
 This vulnerability was reported by user Thesecret2055 as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-p747-569x-3v3f](https://github.com/opf/openproject/security/advisories/GHSA-p747-569x-3v3f)
-
-
 
 ### CVE-2026-30239 - Permission Check bypass on Budget deletion allows reassignment of WorkPackages into other budgets
 
 When budgets are deleted, the work packages that were assigned to this budget need to be moved to a different budget. This action was performed before the permission check on the delete action was executed. This allowed all users in the application to delete work package budget assignments.
 
-
-
 This vulnerability was reported by user cavid as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-gpvh-g967-g4h8](https://github.com/opf/openproject/security/advisories/GHSA-gpvh-g967-g4h8)
-
-
 
 ### CVE-2026-31974 - Blind SSRF on OpenProject instance via webhooks, and through /admin/test_email via POST request leads to internal network reconnaissance
 
 OpenProject SMTP test endpoint (POST /admin/settings/mail\_notifications) accepts arbitrary host and port values and exhibits measurable differences in response behaviour depending on whether the target IP exists and whether the port is open. An attacker with access can use these timing and error distinctions to map internal hosts and identify which services/ports are reachable.
 
-
-
 Similarly, you can create webhooks in OpenProject and point them to arbitrary IPs, resulting in the same kind of SSRF issue which allows attackers to scan the internal network.
-
-
 
 This vulnerability was reported by user [drak3hft7](https://yeswehack.com/hunters/drak3hft7) and [adilburak](https://yeswehack.com/hunters/drak3hft7) as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-9wr7-j98g-2jh3](https://github.com/opf/openproject/security/advisories/GHSA-9wr7-j98g-2jh3)
 
-
 <!-- END CVE AUTOMATED SECTION -->
-
 
 ## Bug fixes and changes
 
@@ -350,6 +308,7 @@ For more information, please see the [GitHub advisory #GHSA-9wr7-j98g-2jh3](http
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
+
 A very special thank you goes to AMG, Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Alexander Aleschenko, Gabor Alexovics, Jörg Mollowitz and Александр Татаринцев. 

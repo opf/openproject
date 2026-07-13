@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 
 @Injectable()
 export class WorkPackageCardViewService {
-  public constructor(readonly querySpace:IsolatedQuerySpace) {
-  }
+  readonly querySpace = inject(IsolatedQuerySpace);
+
 
   public classIdentifier(wp:WorkPackageResource) {
     // The same class names are used for the proximity to the table representation.
     return `wp-row-${wp.id}`;
   }
 
-  public get renderedCards() {
+  public get renderedCards():RenderedWorkPackage[] {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedCard(classIdentifier:string):number {
-    const index = _.findIndex(this.renderedCards, (card) => card.classIdentifier === classIdentifier);
+    const index = this.renderedCards.findIndex((card) => card.classIdentifier === classIdentifier);
 
     return index;
   }

@@ -1,0 +1,89 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+require_module_spec_helper
+
+module Wikis
+  module RelationPageLinks
+    RSpec.describe SetAttributesService do
+      let(:model_instance) { RelationPageLink.new }
+      let(:contract_instance) do
+        instance_double(CreateContract, validate: contract_valid, errors: contract_errors)
+      end
+
+      let(:contract_class) do
+        class_double(CreateContract, new: contract_instance)
+      end
+
+      let(:contract_errors) { instance_double(ActiveModel::Errors) }
+      let(:contract_valid) { true }
+
+      let(:current_user) { build(:user) }
+
+      let(:service) do
+        described_class.new(user: current_user, model: model_instance, contract_class:, contract_options: {})
+      end
+
+      let(:params) { {} }
+
+      subject(:result) { service.call(params) }
+
+      it "returns the instance as the result" do
+        expect(subject.result).to eql model_instance
+      end
+
+      it "is a success" do
+        expect(subject).to be_success
+      end
+
+      context "with params" do
+        let(:params) { { identifier: "Foobar" } }
+
+        it "assigns the params" do
+          service.call(params)
+          expect(model_instance.identifier).to eq "Foobar"
+        end
+      end
+
+      context "with an invalid contract" do
+        let(:contract_valid) { false }
+
+        it "returns failure" do
+          expect(subject).to be_failure
+        end
+
+        it "returns the contract's errors" do
+          expect(subject.errors).to eql(contract_errors)
+        end
+      end
+    end
+  end
+end

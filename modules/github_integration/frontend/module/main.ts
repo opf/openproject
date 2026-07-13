@@ -24,7 +24,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import {
@@ -34,7 +34,7 @@ import { GitHubTabComponent } from './github-tab/github-tab.component';
 import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabPrsComponent } from './tab-prs/tab-prs.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
-import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
+import { GitHubActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
@@ -83,7 +83,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabHeaderComponent,
     TabPrsComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitHubActionsMenuComponent,
     PullRequestComponent,
     PullRequestMacroComponent,
     PullRequestStateComponent,
@@ -93,12 +93,14 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabHeaderComponent,
     TabPrsComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitHubActionsMenuComponent,
     PullRequestMacroComponent,
   ],
 })
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeGithubIntegrationPlugin(injector);
     registerCustomElement('opce-github-pull-request', PullRequestMacroComponent, { injector });
   }

@@ -34,6 +34,8 @@ module Import
 
     class ConnectionError < Error; end
 
+    class SsrfError < ConnectionError; end
+
     class ParseError < Error; end
 
     class ApiError < Error
@@ -46,23 +48,19 @@ module Import
       end
     end
 
+    HTTP_OPTIONS = {
+      open_timeout: 30,
+      read_timeout: 30
+    }.freeze
+
     def initialize(url:, personal_access_token:)
       raise ApiError.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
 
-      @httpx = OpenProject
-                 .httpx
-                 .plugin(:auth)
-                 .bearer_auth(personal_access_token)
-                 .with(
-                   headers: { "accept" => "application/json" },
-                   timeout: {
-                     connect_timeout: 30,
-                     operation_timeout: 30,
-                     request_timeout: 30,
-                     read_timeout: 30
-                   }
-                 )
       @url = url.chomp("/")
+      @headers = {
+        "Accept" => "application/json",
+        "Authorization" => "Bearer #{personal_access_token}"
+      }
     end
 
     def mypermissions
@@ -83,6 +81,10 @@ module Import
 
     def all_cluster_nodes
       get("/rest/api/2/cluster/nodes")
+    end
+
+    def issue(issue_id, fields: "*all", expand: nil)
+      get("/rest/api/2/issue/#{issue_id}", params: { fields:, expand: }.compact)
     end
 
     def issues(jql: nil, start_at: 0, max_results: 100, fields: "*all", expand: "changelog")
@@ -124,7 +126,7 @@ module Import
 
     def issue_types_count
       response = get_response("/rest/api/2/issuetype/page", params: { maxResults: 0 })
-      if response.status == 200
+      if response.is_a?(Net::HTTPSuccess)
         parse_json(response)["total"]
       else
         issue_types.count
@@ -149,7 +151,7 @@ module Import
 
     def statuses_count
       response = get_response("/rest/api/2/status/search", params: { maxResults: 0 })
-      if response.status == 200
+      if response.is_a?(Net::HTTPSuccess)
         parse_json(response)["total"]
       else
         statuses.count
@@ -182,6 +184,18 @@ module Import
 
     def fields
       get("/rest/api/2/field")
+    end
+
+    def issue_createmeta(project_keys: nil, project_ids: nil, issuetype_ids: nil, expand: "projects.issuetypes.fields")
+      params = { expand: }
+      params[:projectKeys] = Array(project_keys).join(",") if project_keys.present?
+      params[:projectIds] = Array(project_ids).join(",") if project_ids.present?
+      params[:issuetypeIds] = Array(issuetype_ids).join(",") if issuetype_ids.present?
+      get("/rest/api/2/issue/createmeta", params:)
+    end
+
+    def issue_editmeta(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/editmeta")
     end
 
     def users_search(username: ".", start_at: 0, max_results: 50)
@@ -223,24 +237,44 @@ module Import
         })
     end
 
-    def download_attachment(content_url)
-      case (response = @httpx.get(content_url))
-      in { status: 200..299 }
-        response.body
-      in { status: 300..399 }
-        case (redirect_response = @httpx.get(response.headers["location"]))
-        in { status: 200..299 }
-          redirect_response.body
-        in { status: 300.. }
-          raise "BAD RESPONSE: #{redirect_response.status}, #{redirect_response.body}"
-        in { error: error }
-          raise error
+    ##
+    # Downloads a file from the given URL and saves it to a temporary file.
+    #
+    # The temporary file is automatically deleted after the block completes.
+    # Use the block to process or copy the file contents before it is removed.
+    #
+    # @param content_url [String] The URL to download the attachment from
+    # @param filename [String] The name to use for the temporary file
+    # @yield [File] The temporary file containing the downloaded content
+    # @return [nil]
+    # @raise [ConnectionError] If SSRF protection blocks the request or connection fails
+    # @raise [ApiError] If the server returns a non-success response
+    def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
+      tempfile = nil
+      OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 1) do |response|
+        case response
+        when Net::HTTPSuccess
+          tempfile = Tempfile.create(filename, binmode: true)
+          response.read_body do |chunk|
+            tempfile.write chunk
+          end
+          yield tempfile
+        else
+          status = response.code.to_i
+          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:), status:, response_body: response.body)
         end
-      in { status: 400.. }
-        raise "BAD RESPONSE: #{response}"
-      in { error: error }
-        raise error
       end
+      nil
+    rescue SsrfFilter::PrivateIPAddress
+      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
+    rescue SsrfFilter::Error => e
+      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
+    rescue OpenSSL::SSL::SSLError => e
+      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
+    rescue Timeout::Error => e
+      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
+    ensure
+      File.unlink(tempfile) if tempfile
     end
 
     private
@@ -251,34 +285,38 @@ module Import
     end
 
     def get_response(path, params: {})
-      response = @httpx.get("#{@url}#{path}", params:)
-
-      if response.is_a?(HTTPX::ErrorResponse)
-        raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: response.error.message)
-      end
-
-      response
-    rescue HTTPX::ConnectionError, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
+      OpenProject::SsrfProtection.get(
+        "#{@url}#{path}",
+        headers: @headers,
+        params:,
+        http_options: HTTP_OPTIONS
+      )
+    rescue SsrfFilter::PrivateIPAddress
+      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
+    rescue SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
+    rescue OpenSSL::SSL::SSLError => e
+      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
     rescue Timeout::Error => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
     end
 
     def handle_response(response)
-      if response.status >= 200 && response.status < 300
+      status = response.code.to_i
+      if response.is_a?(Net::HTTPSuccess)
         parse_json(response)
       else
         raise ApiError.new(
-          I18n.t("admin.jira.client.api_error", status: response.status),
-          status: response.status,
+          I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
+          status:,
           response_body: response.body.to_s
         )
       end
     end
 
     def parse_json(response)
-      response.json
-    rescue JSON::ParserError, HTTPX::Error => e
+      JSON.parse(response.body)
+    rescue JSON::ParserError => e
       raise ParseError, I18n.t("admin.jira.client.parse_error", message: e.message)
     end
   end

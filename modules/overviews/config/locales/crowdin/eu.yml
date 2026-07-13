@@ -1,6 +1,6 @@
 ---
 eu:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Panela
+    label_home: "%{workspace_type} home"
     label_overview: Overview

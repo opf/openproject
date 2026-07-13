@@ -52,7 +52,9 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def description
-      I18n.t("admin.jira.run.wizard.import_dialog.description")
+      link_translate("admin.jira.run.wizard.import_dialog.description",
+                     links: { link: %i[backup_guide] },
+                     external: true)
     end
 
     def confirm_button_text

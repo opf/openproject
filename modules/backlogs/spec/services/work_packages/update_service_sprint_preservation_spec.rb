@@ -58,7 +58,7 @@ RSpec.describe WorkPackages::UpdateService, "sprint preservation on project chan
   end
 
   let(:sprint_in_source_project) do
-    create(:agile_sprint,
+    create(:sprint,
            project: source_project,
            name: "Sprint 1",
            start_date: Time.zone.today,
@@ -77,21 +77,34 @@ RSpec.describe WorkPackages::UpdateService, "sprint preservation on project chan
   current_user { user }
 
   describe "when changing the project" do
-    context "when scrum_projects feature flag is active", with_flag: { scrum_projects: true } do
-      context "when the work package has a sprint" do
-        context "when moving to a project that does NOT have access to the sprint" do
-          it "nullifies the sprint_id" do
-            result = instance.call(project: target_project)
+    context "when the work package has a sprint" do
+      context "when moving to a project that does NOT have access to the sprint" do
+        it "nullifies the sprint_id" do
+          result = instance.call(project: target_project)
 
-            expect(result).to be_success
-            expect(work_package.reload.sprint_id).to be_nil
-            expect(work_package.project).to eq(target_project)
-          end
+          expect(result).to be_success
+          expect(work_package.reload.sprint_id).to be_nil
+          expect(work_package.project).to eq(target_project)
+        end
+      end
+
+      context "when moving to a project that HAS access to the sprint" do
+        let(:source_sharing) { "share_all_projects" }
+
+        it "preserves the sprint_id" do
+          result = instance.call(project: target_project)
+
+          expect(result).to be_success
+          expect(work_package.reload.sprint_id).to eq(sprint_in_source_project.id)
+          expect(work_package.project).to eq(target_project)
         end
 
-        context "when moving to a project that HAS access to the sprint" do
-          let(:source_sharing) { "share_all_projects" }
+        context "with the manage_sprint_items permission missing" do
+          let(:source_project_permissions) { project_permissions - %i[manage_sprint_items] }
+          let(:target_project_permissions) { project_permissions - %i[manage_sprint_items] }
 
+          # Usually this should not work without the permission, but since the change is
+          # performed via `change_by_system`, this is bypassed.
           it "preserves the sprint_id" do
             result = instance.call(project: target_project)
 
@@ -99,59 +112,44 @@ RSpec.describe WorkPackages::UpdateService, "sprint preservation on project chan
             expect(work_package.reload.sprint_id).to eq(sprint_in_source_project.id)
             expect(work_package.project).to eq(target_project)
           end
-
-          context "with the manage_sprint_items permission missing" do
-            let(:source_project_permissions) { project_permissions - %i[manage_sprint_items] }
-            let(:target_project_permissions) { project_permissions - %i[manage_sprint_items] }
-
-            # Usually this should not work without the permission, but since the change is
-            # performed via `change_by_system`, this is bypassed.
-            it "preserves the sprint_id" do
-              result = instance.call(project: target_project)
-
-              expect(result).to be_success
-              expect(work_package.reload.sprint_id).to eq(sprint_in_source_project.id)
-              expect(work_package.project).to eq(target_project)
-            end
-          end
-        end
-
-        context "when the work package project is NOT changing" do
-          it "preserves the sprint_id" do
-            original_sprint_id = work_package.sprint_id
-            result = instance.call(subject: "Updated Subject")
-
-            expect(result).to be_success
-            expect(work_package.reload.sprint_id).to eq(original_sprint_id)
-          end
         end
       end
 
-      context "when the work package does NOT have a sprint" do
-        let(:work_package_without_sprint) do
-          create(:work_package,
-                 subject: "Work Package Without Sprint",
-                 project: source_project,
-                 sprint: nil)
-        end
-
-        let(:instance) { described_class.new(user:, model: work_package_without_sprint) }
-
-        it "keeps sprint_id nil when moving to another project" do
-          result = instance.call(project: target_project)
+      context "when the work package project is NOT changing" do
+        it "preserves the sprint_id" do
+          original_sprint_id = work_package.sprint_id
+          result = instance.call(subject: "Updated Subject")
 
           expect(result).to be_success
-          expect(work_package_without_sprint.reload.sprint_id).to be_nil
-          expect(work_package_without_sprint.project).to eq(target_project)
+          expect(work_package.reload.sprint_id).to eq(original_sprint_id)
         end
+      end
+    end
+
+    context "when the work package does NOT have a sprint" do
+      let(:work_package_without_sprint) do
+        create(:work_package,
+               subject: "Work Package Without Sprint",
+               project: source_project,
+               sprint: nil)
+      end
+
+      let(:instance) { described_class.new(user:, model: work_package_without_sprint) }
+
+      it "keeps sprint_id nil when moving to another project" do
+        result = instance.call(project: target_project)
+
+        expect(result).to be_success
+        expect(work_package_without_sprint.reload.sprint_id).to be_nil
+        expect(work_package_without_sprint.project).to eq(target_project)
       end
     end
   end
 
-  describe "Integration with sprint visibility logic", with_flag: { scrum_projects: true } do
+  describe "Integration with sprint visibility logic" do
     context "when sprint is owned by the target project" do
       let(:sprint_in_target_project) do
-        create(:agile_sprint,
+        create(:sprint,
                project: target_project,
                name: "Target Sprint",
                start_date: Time.zone.today,

@@ -29,28 +29,13 @@
 import { attributeTokenList } from 'core-app/shared/helpers/dom-helpers';
 import { ApplicationController } from 'stimulus-use';
 import { useMutation } from 'stimulus-use';
+import { buildExternalRedirectUrl, isExternalLinkCandidate, isLinkBlank, isLinkExternal } from '../helpers/external-link-helpers';
 
 const BLANK_LINK_DESCRIPTION_ID = 'open-blank-target-link-description';
 const LINK_QUERY = 'a[target="_blank"], a[href^="http://"], a[href^="https://"]';
 
-const isLinkBlank = (link:HTMLAnchorElement) => link.target === '_blank';
-const isLinkExternal = (link:HTMLAnchorElement) => {
-  try {
-    const linkUrl = new URL(link.href, window.location.origin);
-    return linkUrl.origin !== window.location.origin;
-  } catch {
-    // Do nothing if the url is invalid.
-    return false;
-  }
-};
 const isElement = (node:Node):node is Element => node.nodeType === Node.ELEMENT_NODE;
 const isLink = (elem:Element):elem is HTMLAnchorElement => elem.matches(LINK_QUERY);
-const shouldProcessLink = (link:HTMLAnchorElement) => {
-  const href = link.href || '';
-  // Skip links with empty href or with download attribute
-  if (href === '' || link.hasAttribute('download')) return false;
-  return true;
-};
 
 /**
  * Dynamically observes and processes all links on the page, including those added later via Turbo
@@ -81,7 +66,7 @@ export default class ExternalLinksController extends ApplicationController {
 
     // Initial pass: handle existing external links (accessibility)
     this.element.querySelectorAll<HTMLAnchorElement>(LINK_QUERY).forEach((link)=>{
-      if (!shouldProcessLink(link)) return;
+      if (!isExternalLinkCandidate(link)) return;
 
       if (isLinkBlank(link)) this.updateBlankLink(link);
 
@@ -94,13 +79,13 @@ export default class ExternalLinksController extends ApplicationController {
       mutation.addedNodes.forEach((node) => {
         if (isElement(node)) {
           // Added element itself is an external link
-          if (isLink(node) && shouldProcessLink(node)) {
+          if (isLink(node) && isExternalLinkCandidate(node)) {
             if (isLinkBlank(node)) this.updateBlankLink(node);
             if (isLinkExternal(node)) this.updateExternalLink(node);
           }
 
           node.querySelectorAll<HTMLAnchorElement>(LINK_QUERY).forEach((link)=>{
-            if (!shouldProcessLink(link)) return;
+            if (!isExternalLinkCandidate(link)) return;
 
             if (isLinkBlank(link)) this.updateBlankLink(link);
 
@@ -114,7 +99,7 @@ export default class ExternalLinksController extends ApplicationController {
         mutation.type === 'attributes' &&
         isElement(mutation.target) &&
         isLink(mutation.target) &&
-        shouldProcessLink(mutation.target)
+        isExternalLinkCandidate(mutation.target)
       ) {
         if (mutation.attributeName === 'target' && isLinkBlank(mutation.target)) this.updateBlankLink(mutation.target);
         if (mutation.attributeName === 'href' && isLinkExternal(mutation.target)) this.updateExternalLink(mutation.target);
@@ -123,21 +108,19 @@ export default class ExternalLinksController extends ApplicationController {
   }
 
   private updateBlankLink(link:HTMLAnchorElement) {
-    // Ensure accessibility description
     attributeTokenList(link, 'aria-describedby').add(BLANK_LINK_DESCRIPTION_ID);
   }
 
   private updateExternalLink(link:HTMLAnchorElement) {
-    // Ensure external link behavior
-    link.target = '_blank';
+    if (!link.dataset.skipExternalLinkBlank) {
+      link.target = '_blank';
+    }
     attributeTokenList(link, 'rel').add('noopener', 'noreferrer');
 
     // Capture external links through redirect page
     // The backend controller will redirect directly if the feature is disabled
     if (this.enabledValue && !link.dataset.allowExternalLink) {
-      const originalHref = link.href;
-      const basePath = window.appBasePath ?? '';
-      link.href = `${basePath}/external_redirect?url=${encodeURIComponent(originalHref)}`;
+      link.href = buildExternalRedirectUrl(link.href);
     }
   }
 

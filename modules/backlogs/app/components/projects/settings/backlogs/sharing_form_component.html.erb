@@ -29,7 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
-    I18n.t("backlogs.sharing_description")
+    if only_fallback_allowed
+      t(".sharing_fallback_description")
+    else
+      t(".sharing_description")
+    end
   end
 %>
 
@@ -40,6 +44,6 @@ See COPYRIGHT and LICENSE files for more details.
     method: :patch,
     data: { turbo_frame: "_top", controller: "show-when-value-selected" }
   ) do |f|
-    render(Projects::Settings::Backlogs::SharingForm.new(f))
+    render(Projects::Settings::Backlogs::SharingForm.new(f, only_fallback_allowed:))
   end
 %>

@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe "WorkPackage sprint association journaling", # rubocop:disable RSpec/DescribeClass
                with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:project) { create(:project) }
-  shared_let(:sprint1) { create(:agile_sprint, name: "Sprint 1", project:) }
-  shared_let(:sprint2) { create(:agile_sprint, name: "Sprint 2", project:) }
+  shared_let(:sprint1) { create(:sprint, name: "Sprint 1", project:) }
+  shared_let(:sprint2) { create(:sprint, name: "Sprint 2", project:) }
   shared_let(:work_package_with_sprint) do
     create(:work_package, :created_in_past, created_at: 1.day.ago, project:, sprint: sprint1)
   end

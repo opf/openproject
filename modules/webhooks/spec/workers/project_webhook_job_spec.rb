@@ -29,7 +29,7 @@
 require "spec_helper"
 
 RSpec.describe ProjectWebhookJob, :webmock, type: :job do
-  include_context "with ssrf webhook stubs"
+  include_context "with ssrf stubs"
 
   shared_let(:request_url) { "http://example.net/test/42" }
   shared_let(:project) { create(:project, name: "Foo Bar") }

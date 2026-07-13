@@ -620,13 +620,13 @@ RSpec.describe "Open the Meetings tab",
             create(:recurring_meeting, project:)
           end
           shared_let(:empty_recurring_meeting_occurrence) do
-            create(:meeting,
+            create(:recurring_meeting_occurrence,
                    project:,
                    recurring_meeting:,
                    start_time: 3.hours.from_now)
           end
           shared_let(:recurring_meeting_occurrence) do
-            create(:meeting,
+            create(:recurring_meeting_occurrence,
                    project:,
                    recurring_meeting:,
                    start_time: 4.hours.from_now).tap do |meeting|
@@ -666,24 +666,10 @@ RSpec.describe "Open the Meetings tab",
             expect(page).to have_css(".ng-option", text: "Series backlog")
           end
 
-          it "shows no preselection when no sections exist for recurring meeting occurrences" do
+          it "shows the automatically created untitled section when no sections exist for recurring meeting occurrences" do
             meeting = empty_recurring_meeting_occurrence
 
-            work_package_page.visit!
-            switch_to_meetings_tab
-
-            meetings_tab.open_add_to_meeting_dialog
-
-            fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
-            page.find(".ng-option-marked", text: meeting.title)
-            page.find(".ng-option-marked").click
-
-            wait_for_network_idle
-
-            section_field = find_field("meeting_agenda_item_meeting_section_id")
-            expect(section_field).not_to be_disabled
-
-            expect(page).to have_no_css(".ng-value-label")
+            check_section_auto_selection(meeting, "Untitled section")
           end
 
           it "updates section selection when switching between meetings" do

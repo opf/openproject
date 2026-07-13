@@ -58,8 +58,7 @@ RSpec.describe CustomFields::UpdateContract do
 
     subject(:contract) { described_class.new(custom_field, current_user) }
 
-    context "for a calculated field", with_ee: %i[calculated_values],
-                                      with_flag: { calculated_value_project_attribute: true } do
+    context "for a calculated field", with_ee: %i[calculated_values] do
       let(:custom_field_field_format) { "calculated_value" }
 
       let(:custom_field_formula) { "1 + 1" }

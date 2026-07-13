@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     blankslate.with_heading(tag: :h2).with_content(t("admin.workflows.blankslate.title"))
     blankslate.with_description_content(t("admin.workflows.blankslate.description"))
     blankslate.with_primary_action(
-      href: helpers.status_dialog_workflows_path(role_id: @role.id, type_id: @type.id, tab: @tab),
+      href: helpers.status_dialog_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id)),
       scheme: :secondary,
       data: { controller: "async-dialog" }
     ) do |button|

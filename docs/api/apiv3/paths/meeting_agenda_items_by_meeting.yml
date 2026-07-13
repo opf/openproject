@@ -1,0 +1,38 @@
+# /api/v3/meetings/{id}/agenda_items
+---
+get:
+  summary: List meeting agenda items
+  operationId: list_meeting_agenda_items
+  tags:
+    - Meetings
+  description: Lists all agenda items for the given meeting.
+  parameters:
+    - description: Meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_agenda_item_collection_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings

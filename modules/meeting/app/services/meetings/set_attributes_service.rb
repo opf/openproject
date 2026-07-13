@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -48,12 +49,37 @@ module Meetings
         model.state = "draft" if !model.recurring? || model.template?
         model.notify = false
         model.sharing = "none" if model.onetime_template?
+        model.recurrence_start_time ||= model.start_time if model.recurring? && !model.template?
       end
     end
 
+    private
+
     def set_participants(participants_attributes)
-      model.participants.clear if model.new_record?
-      model.participants_attributes = participants_attributes
+      if model.new_record?
+        model.participants.clear
+        model.participants_attributes = participants_attributes
+      else
+        replace_participants(participants_attributes)
+      end
+    end
+
+    def replace_participants(participants_attributes)
+      incoming_user_ids = participants_attributes.to_set { |attrs| attrs[:user_id].to_i }
+      existing_participants = model.participants.index_by { |p| p.user_id.to_i }
+
+      mark_removed_participants(incoming_user_ids, existing_participants)
+      model.participants_attributes = added_participant_attributes(participants_attributes, existing_participants)
+    end
+
+    def mark_removed_participants(incoming_user_ids, existing_participants)
+      existing_participants.each do |user_id, participant|
+        participant.mark_for_destruction unless incoming_user_ids.include?(user_id)
+      end
+    end
+
+    def added_participant_attributes(participants_attributes, existing_participants)
+      participants_attributes.reject { |attrs| existing_participants.key?(attrs[:user_id].to_i) }
     end
 
     def set_default_participant

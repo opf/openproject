@@ -44,7 +44,7 @@ module API
         link :status do
           {
             href: "#{::API::V3::URN_PREFIX}sprints:status:#{represented.status}",
-            title: I18n.t("activerecord.attributes.agile/sprint.statuses.#{represented.status}")
+            title: I18n.t("activerecord.attributes.sprint.statuses.#{represented.status}")
           }
         end
 

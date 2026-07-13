@@ -21,23 +21,22 @@
 #++
 ---
 vi:
-  plugin_budgets_engine:
-    name: ngân sách
   activerecord:
     attributes:
       budget:
         author: tác giả
         available: có sẵn
+        base_amount: Số tiền cơ bản
         budget: Đã lên kế hoạch
         budget_ratio: Đã chi tiêu (tỷ lệ)
         description: mô tả
+        labor_budget: Chi phí lao động dự kiến
+        labor_budget_items: Planned labor costs
+        material_budget: Chi phí đơn vị dự kiến
         spent: chi tiêu
         status: trạng thái
         subject: Chủ đề
         type: Loại chi phí
-        labor_budget: Chi phí lao động dự kiến
-        material_budget: Chi phí đơn vị dự kiến
-        base_amount: Số tiền cơ bản
       work_package:
         budget_subject: Tiêu đề ngân sách
     errors:
@@ -48,55 +47,56 @@ vi:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Ngân sách
+      labor_budget_item: Planned labor cost
       material_budget_item: Đơn vị
   activity:
     filter:
       budget: ngân sách
   attributes:
     budget: Ngân sách
-  button_add_budget_item: Thêm chi phí đã lên kế hoạch
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: ngân sách
   button_add_budget: Thêm ngân sách
+  button_add_budget_item: Thêm chi phí đã lên kế hoạch
   button_add_cost_type: Thêm kiểu chi phí
   button_cancel_edit_budget: Hủy chỉnh sửa ngân sách
   button_cancel_edit_costs: Hủy chi phí chỉnh sửa
   caption_labor: Lao động
   caption_labor_costs: Chi phí lao động thực tế
   caption_material_costs: Chi phí đơn vị thực tế
-  budgets_title: ngân sách
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Đã chỉnh sửa ngân sách
   help_click_to_edit: Nhấn vào đây để chỉnh sửa.
@@ -104,23 +104,25 @@ vi:
   help_override_rate: Nhập một giá trị vào đây để ghi đè tỷ lệ mặc định.
   label_budget: Ngân sách
   label_budget_available: Ngân sách có sẵn
+  label_budget_details: Chi tiết ngân sách
   label_budget_id: 'Ngân sách #%{id}'
   label_budget_new: Ngân sách mới
   label_budget_planned: Ngân sách dự kiến
   label_budget_plural: ngân sách
   label_budget_spent: Ngân sách chi tiêu
   label_budget_spent_ratio: Tỷ lệ chi ngân sách
+  label_budget_totals: tổng cộng
   label_deliverable: Ngân sách
   label_example_placeholder: 'ví dụ: %{decimal}'
   label_view_all_budgets: Xem tất cả ngân sách
   label_yes: Có
-  label_budget_totals: tổng cộng
-  label_budget_details: Chi tiết ngân sách
   notice_budget_conflict: Các gói công việc phải thuộc cùng một dự án.
   notice_no_budgets_available: Không có sẵn ngân sách.
   permission_edit_budgets: Chỉnh sửa ngân sách
   permission_view_budgets: Xem ngân sách
+  plugin_budgets_engine:
+    name: ngân sách
   project_module_budgets: ngân sách
-  text_budget_reassign_to: 'Chỉ định lại chúng cho ngân sách này:'
   text_budget_delete: Xóa ngân sách khỏi tất cả các gói công việc
   text_budget_destroy_assigned_wp: Có %{count} gói công việc được giao cho ngân sách này. Bạn muốn làm gì?
+  text_budget_reassign_to: 'Chỉ định lại chúng cho ngân sách này:'

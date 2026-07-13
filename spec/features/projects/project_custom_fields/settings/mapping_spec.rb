@@ -401,7 +401,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
         expect(custom_fields[2].text).to include("Int field")
       end
 
-      boolean_project_custom_field.move_to_bottom
+      section_for_input_fields.reload.move_in_order(boolean_project_custom_field.column_name, :lowest)
 
       visit project_settings_project_custom_fields_path(project)
 
@@ -521,9 +521,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
       end
     end
 
-    describe "calculated value fields",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "calculated value fields", with_ee: %i[calculated_values] do
       let!(:admin) do
         create(:admin)
       end

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -42,19 +42,17 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterIntegerValueComponent extends UntilDestroyedMixin {
+  readonly I18n = inject(I18nService);
+  readonly schemaCache = inject(SchemaCacheService);
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
-
-  constructor(readonly I18n:I18nService,
-    readonly schemaCache:SchemaCacheService) {
-    super();
-  }
 
   public get value() {
     return parseInt(this.filter.values[0] as string);

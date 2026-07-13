@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Dragging work packages in and between sprints",
-               :js, :settings_reset, with_flag: { scrum_projects: true } do
+               :js, :settings_reset do
   let!(:project) do
     create(:project,
            types: [type],
@@ -55,8 +55,8 @@ RSpec.describe "Dragging work packages in and between sprints",
 
   let(:type) { create(:type) }
 
-  let!(:sprint1) { create(:agile_sprint, project:) }
-  let!(:sprint2) { create(:agile_sprint, project:) }
+  let!(:sprint1) { create(:sprint, project:) }
+  let!(:sprint2) { create(:sprint, project:) }
 
   let!(:sprint1_wp1) { create(:work_package, sprint: sprint1, type:, project:) }
   let!(:sprint1_wp2) { create(:work_package, sprint: sprint1, type:, project:) }
@@ -77,13 +77,6 @@ RSpec.describe "Dragging work packages in and between sprints",
   end
 
   before do
-    # Faulty and mostly irrelevant for the test. Only needed to make the sprints appear on the page.
-    # To be removed once the setting is removed.
-    Setting.plugin_openproject_backlogs = {
-      "story_types" => [type.id.to_s],
-      "task_type" => type.id.to_s
-    }
-
     backlogs_page.visit!
   end
 

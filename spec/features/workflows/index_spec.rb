@@ -65,10 +65,27 @@ RSpec.describe "Workflows index" do
 
     some_type = types.sample
     within "ul.Box-list" do
-      click_link some_type.name
+      within "li", text: some_type.name do
+        click_link some_type.name
+      end
     end
 
     expect(page).to have_heading some_type.name
+    expect(page).to have_current_path(edit_workflow_path(some_type))
+  end
+
+  it "allows navigating to any Copy page", :js do
+    expect(page).to have_heading("Workflows")
+
+    some_type = types.sample
+    within "ul.Box-list" do
+      within "li", text: some_type.name do
+        find("button[aria-haspopup=true]").click
+        click_link "Copy"
+      end
+    end
+
+    expect(page).to have_heading "Copy workflow"
   end
 
   it "allows navigating to Workflow summary page" do
@@ -77,15 +94,6 @@ RSpec.describe "Workflows index" do
     end
 
     expect(page).to have_heading "Summary"
-    expect(page).to have_current_path(summarized_workflows_path)
-  end
-
-  it "allows navigating to Workflow copy page" do
-    within ".PageHeader-actions" do
-      click_on "Copy"
-    end
-
-    expect(page).to have_heading "Copy workflow"
-    expect(page).to have_current_path(copy_workflows_path)
+    expect(page).to have_current_path(workflows_summary_path)
   end
 end

@@ -32,9 +32,9 @@ module Workflows
   class BlankslateComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(role:, type:, tab:)
+    def initialize(roles:, type:, tab:)
       super
-      @role = role
+      @roles = roles
       @type = type
       @tab = tab
     end

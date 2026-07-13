@@ -44,18 +44,6 @@ module PasswordHelper
     form_for(record, options, &)
   end
 
-  ##
-  # Decorate the form_tag helper with the request-for-confirmation directive
-  # when the user is internally authenticated.
-  def password_confirmation_form_tag(url_for_options = {}, options = {}, &)
-    if password_confirmation_required?
-      options[:data] ||= {}
-      options[:data] = password_confirmation_data_attribute(options[:data])
-    end
-
-    form_tag(url_for_options, options, &)
-  end
-
   def password_confirmation_data_attribute(with_data = {})
     controller = with_data.fetch(:controller, "")
 
@@ -67,32 +55,6 @@ module PasswordHelper
   end
 
   def render_password_complexity_hint
-    rules = password_rules_description
-
-    capture do
-      concat OpenProject::Passwords::Evaluator.min_length_description
-      if rules.present?
-        concat tag(:br)
-        concat rules
-      end
-    end
-  end
-
-  private
-
-  # Return a HTML list with active password complexity rules
-  def password_active_rules
-    rules = OpenProject::Passwords::Evaluator.active_rules_list
-    content_tag :ul do
-      rules.map { |item| concat(content_tag(:li, item)) }
-    end
-  end
-
-  # Returns a text describing the active password complexity rules,
-  # the minimum number of rules to adhere to and the total number of rules.
-  def password_rules_description
-    return "" if OpenProject::Passwords::Evaluator.min_adhered_rules == 0
-
-    OpenProject::Passwords::Evaluator.rules_description_locale(password_active_rules)
+    render_password_requirements
   end
 end

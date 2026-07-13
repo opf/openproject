@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= flex_layout do |box|
   box.with_row do
-    concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
       I18n.t(:"admin.jira.run.wizard.sections.confirm_import.title")
     })
     if model.status_before?(:projects_meta_done)
@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
       render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
         title: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_available_data"),
         list: import_selection,
-        show_icon: false
+        show_icon: true
       ))
     end
     if model.in_state?(:projects_meta_done)
@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
       render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
         title: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_import_data"),
         list: import_selection,
-        show_icon: false
+        show_icon: true
       ))
     end
   end

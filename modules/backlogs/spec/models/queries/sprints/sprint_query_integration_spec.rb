@@ -34,9 +34,9 @@ RSpec.describe Queries::Sprints::SprintQuery, "integration" do
   shared_let(:project) { create(:project, public: false) }
   shared_let(:other_project) { create(:project, public: false) }
   shared_let(:project_without_permission) { create(:project, public: false) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
-  shared_let(:other_sprint) { create(:agile_sprint, project: other_project) }
-  shared_let(:sprint_without_permission) { create(:agile_sprint, project: project_without_permission) }
+  shared_let(:sprint) { create(:sprint, project:, name: "Alpha Sprint") }
+  shared_let(:other_sprint) { create(:sprint, project: other_project, name: "Beta Sprint") }
+  shared_let(:sprint_without_permission) { create(:sprint, project: project_without_permission) }
 
   let(:instance) { described_class.new }
   let(:permissions) { %i[view_sprints] }
@@ -76,6 +76,58 @@ RSpec.describe Queries::Sprints::SprintQuery, "integration" do
       before { instance.where("defining_workspace", "!", [project.id.to_s]) }
 
       it "returns sprints not belonging to the given project" do
+        expect(instance.results).to contain_exactly(other_sprint)
+      end
+    end
+  end
+
+  context "with a name filter" do
+    context "when searching by a letter" do
+      before { instance.where("name", "~", ["a"]) }
+
+      it "returns all sprints matching the name" do
+        expect(instance.results).to contain_exactly(sprint, other_sprint)
+      end
+    end
+
+    context "when searching more precisely" do
+      before { instance.where("name", "~", ["alpha"]) }
+
+      it "returns only sprints matching the name" do
+        expect(instance.results).to contain_exactly(sprint)
+      end
+    end
+
+    context "when searching exactly" do
+      before { instance.where("name", "=", ["alpha sprint"]) }
+
+      it "returns only sprints matching the name" do
+        expect(instance.results).to contain_exactly(sprint)
+      end
+    end
+
+    context "when containing SQL intjection attempt" do
+      before { instance.where("name", "=", ["'); DROP TABLE sprints; --", "beta sprint"]) }
+
+      it "does not allow it" do
+        expect(instance.results).to contain_exactly(other_sprint)
+      end
+    end
+  end
+
+  context "with a typeahead filter" do
+    context "when searching by a letter" do
+      before { instance.where("typeahead", "**", ["a"]) }
+
+      it "returns only sprints matching the search term" do
+        expect(instance.results).to contain_exactly(sprint, other_sprint)
+      end
+    end
+
+    context "when searching more precisely" do
+      before { instance.where("typeahead", "**", ["Beta"]) }
+
+      it "returns only sprints matching the search term" do
         expect(instance.results).to contain_exactly(other_sprint)
       end
     end

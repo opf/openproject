@@ -30,7 +30,9 @@
 
 class My::Reminders::EmailAlertsForm < ApplicationForm
   form do |f|
-    f.fieldset_group(title: helpers.t("my_account.email_reminders.email_alerts.title"), mt: 3) do |fg|
+    f.fieldset_group(title: helpers.t("my_account.email_reminders.email_alerts.title"),
+                     description: helpers.t("my_account.email_reminders.email_alerts.description"),
+                     mt: 3) do |fg|
       NotificationSetting.email_settings.each do |setting|
         fg.check_box(
           name: setting,

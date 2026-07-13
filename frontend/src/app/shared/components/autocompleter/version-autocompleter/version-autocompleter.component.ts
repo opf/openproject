@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Injector,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output, inject } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -52,6 +44,13 @@ import { firstValueFrom } from 'rxjs';
   standalone: false,
 })
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
+  readonly I18n = inject(I18nService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly pathHelper = inject(PathHelperService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly halNotification = inject(HalResourceNotificationService);
+
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   groupByFn = (item:HalResource):string|null => {
@@ -59,18 +58,6 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     const project = item.definingProject as HalResource | undefined;
     return project?.name || this.I18n.t('js.project.not_available');
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly currentProject:CurrentProjectService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly halNotification:HalResourceNotificationService,
-  ) {
-    super(injector);
-  }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();

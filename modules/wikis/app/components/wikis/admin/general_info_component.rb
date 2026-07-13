@@ -23,18 +23,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Wikis::Admin
-  class GeneralInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
+  class GeneralInfoComponent < WikiProviderComponent
     def self.wrapper_key = :wiki_provider_general_info_section
-
-    alias_method :wiki_provider, :model
   end
 end

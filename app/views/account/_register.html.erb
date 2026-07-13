@@ -68,11 +68,12 @@ See COPYRIGHT and LICENSE files for more details.
         <br>
         <br>
         <% if @user.change_password_allowed? %>
-          <div class="form--field -required -wide-label -reduced-margin">
+          <div class="form--field -required -wide-label -reduced-margin" data-controller="password-requirements">
             <%= f.password_field :password,
                                  required: true,
                                  size: 25,
-                                 autocomplete: "off" %>
+                                 autocomplete: "off",
+                                 data: { "password-requirements-target": "passwordInput" } %>
             <div class="form--field-instructions">
               <%= password_complexity_requirements %>
             </div>

@@ -21,23 +21,22 @@
 #++
 ---
 tr:
-  plugin_budgets_engine:
-    name: Bütçe
   activerecord:
     attributes:
       budget:
         author: Sahibi
         available: Uygun
+        base_amount: Matrah tutarı
         budget: Planlanmış
         budget_ratio: Harcanan (oran)
         description: Açıklama
+        labor_budget: Planlanmış iş gücü maliyetleri
+        labor_budget_items: Planned labor costs
+        material_budget: Planlanan birim maliyetler
         spent: Harcanan
         status: Durum
         subject: Konu
         type: Maliyet türü
-        labor_budget: Planlanmış iş gücü maliyetleri
-        material_budget: Planlanan birim maliyetler
-        base_amount: Matrah tutarı
       work_package:
         budget_subject: Bütçe başlığı
     errors:
@@ -48,55 +47,56 @@ tr:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Bütçe
+      labor_budget_item: Planned labor cost
       material_budget_item: Birim
   activity:
     filter:
       budget: Bütçe
   attributes:
     budget: Bütçe
-  button_add_budget_item: Planlanan maliyetlere ekle
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Projenizin sağlık durumunu verimli bir şekilde takip etmek için bütçelerinize ve maliyetlerinize genel bir bakış elde edin
+          heading: Proje kontrolüne başlayın
+        blankslate_zero:
+          description: Verileri burada görmek için planladığınız bütçeyle ilgili ayrıntıları ekleyin
+          heading: Bütçe detayları eksik
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Maliyet türüne göre bütçe
+        view_details: Bütçe ayrıntılarını görüntüle
+      budget_totals:
+        remaining_budget: Kalan bütçe
+        spent_budget: Harcanan bütçe
+        title: Bütçe toplamları
+        total_actual_costs: Toplam gerçek maliyetler
+        total_planned_budget: Planlanan toplam bütçe
+  budgets_title: Bütçeler
   button_add_budget: Bütçe ekle
+  button_add_budget_item: Planlanan maliyetlere ekle
   button_add_cost_type: Maliyet türü ekle
   button_cancel_edit_budget: Bütçeyi düzenleme iptal et
   button_cancel_edit_costs: Düzenleme maliyetlerini iptal et
   caption_labor: İş gücü
   caption_labor_costs: Gerçek iş gücü maliyetleri
   caption_material_costs: Gerçek birim maliyetler
-  budgets_title: Bütçeler
-  budgets:
-    widgets:
-      budget_totals:
-        title: Bütçe toplamları
-        remaining_budget: Kalan bütçe
-        spent_budget: Harcanan bütçe
-        total_actual_costs: Toplam gerçek maliyetler
-        total_planned_budget: Planlanan toplam bütçe
-      budget_by_cost_type:
-        title: Maliyet türüne göre bütçe
-        blankslate:
-          heading: Proje kontrolüne başlayın
-          description: Projenizin sağlık durumunu verimli bir şekilde takip etmek için bütçelerinize ve maliyetlerinize genel bir bakış elde edin
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: Bütçe ayrıntılarını görüntüle
   events:
     budget: Bütçe düzenlendi
   help_click_to_edit: Düzenlemek için buraya tıklayın.
@@ -104,23 +104,25 @@ tr:
   help_override_rate: Varsayılan oranı geçersiz kılmak için buraya bir değer girin.
   label_budget: Bütçe
   label_budget_available: Mevcut bütçe
+  label_budget_details: Bütçe ayrıntıları
   label_budget_id: 'Bütçe #%{id}'
   label_budget_new: Yeni bütçe
   label_budget_planned: Planlanan bütçe
   label_budget_plural: Bütçeler
   label_budget_spent: Harcanan bütçe
   label_budget_spent_ratio: Bütçe harcama oranı
+  label_budget_totals: Toplamlar
   label_deliverable: Bütçe
   label_example_placeholder: ör. %{decimal}
   label_view_all_budgets: Tüm bütçeleri görüntüle
   label_yes: Evet
-  label_budget_totals: Toplamlar
-  label_budget_details: Bütçe ayrıntıları
   notice_budget_conflict: İş paketleri aynı projeye ait olmalıdır.
   notice_no_budgets_available: Hiçbir bütçe yok.
   permission_edit_budgets: Bütçeleri düzenleme
   permission_view_budgets: Bütçeleri görüntüleme
+  plugin_budgets_engine:
+    name: Bütçe
   project_module_budgets: Bütçeler
-  text_budget_reassign_to: 'Bu bütçeye yeniden ata:'
   text_budget_delete: Bütçeyi tüm çalışma paketlerinden sil
   text_budget_destroy_assigned_wp: Bu bütçeye atanmış %{count} çalışma paketi bulunmakta. Ne yapmak istersiniz?
+  text_budget_reassign_to: 'Bu bütçeye yeniden ata:'

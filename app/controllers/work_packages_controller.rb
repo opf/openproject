@@ -243,7 +243,7 @@ class WorkPackagesController < ApplicationController
   def work_package
     return @work_package if defined?(@work_package)
 
-    @work_package = WorkPackage.visible(current_user).find_by(id: params[:id])
+    @work_package = WorkPackage.visible(current_user).find_by_display_id(params[:id])
   end
 
   def journals
@@ -286,18 +286,23 @@ class WorkPackagesController < ApplicationController
   end
 
   def login_back_url_params
-    params.permit(:query_id, :state, :query_props)
+    params.permit(:query_id, :state, :query_props, :type, :parent_id)
   end
 
   def redirect_to_complete_route
-    # redirect /work_packages/:id to a full route with project and tab
+    # Redirect to the canonical show route: the work package's *current* display
+    # identifier and its project's current slug. Upgrades historical semantic
+    # aliases (and numeric ids in semantic mode) to the present identifier, and
+    # fills in a missing project or tab.
     redirect_to action: "show",
-                id: params[:id],
-                project_id: params[:project_id] || work_package.project.identifier,
+                id: work_package.display_id,
+                project_id: work_package.project.identifier,
                 tab: params[:tab] || "activity"
   end
 
   def show_route_incomplete?
-    params[:project_id].blank? || params[:tab].blank?
+    params[:project_id].blank? ||
+      params[:tab].blank? ||
+      params[:id].to_s != work_package.display_id.to_s
   end
 end

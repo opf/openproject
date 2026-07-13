@@ -30,6 +30,8 @@
 
 module Workflows
   class TableComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+
     def types = model
   end
 end

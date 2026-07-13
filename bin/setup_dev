@@ -41,5 +41,10 @@ echo 'prefer using Overmind over Foreman if available.'
 
 echo ""
 echo 'Setting up git hooks'
-echo 'If you want to have commit hooks for rubocop and eslint errors, you can install lefthook like so:'
-echo '`bundle exec lefthook install`'
+echo 'If you want to have commit hooks for rubocop and eslint errors, you can use lefthook.'
+echo 'We provide a `lefthook.yml`. To install lefthook, use an installation method of your choice, e.g.:'
+echo '`gem install lefthook`'
+echo '(Do not forget to make the executable available on the $PATH.)'
+echo ""
+echo 'To configure the git hooks:'
+echo '`lefthook install`'

@@ -46,10 +46,16 @@ module Import
       )
 
       def initialize(text)
-        @text = text.dup
+        # Normalize any input into a safe, mutable UTF-8 string: nil becomes "",
+        # and invalid byte sequences are dropped so downstream regex/StringScanner
+        # operations cannot raise ArgumentError on malformed input.
+        @text = text.to_s.dup
+        @text.scrub!("?") unless @text.valid_encoding?
       end
 
       def parse
+        return N::Document.new(children: []) if @text.blank?
+
         preprocess
         blocks = parse_blocks
         N::Document.new(children: blocks)
@@ -515,7 +521,9 @@ module Import
         return if inner[-1] == " "
         return if followed_by_word?(rest, close_idx)
 
-        scanner.pos += 1 + close_idx + 1
+        # StringScanner#pos is byte-based; advance by byte length, not char count,
+        # so multi-byte UTF-8 content inside the delimiters does not land pos mid-character.
+        scanner.pos += inner.bytesize + 2
         inner
       end
 
@@ -527,7 +535,7 @@ module Import
       def scan_subscript(scanner, buffer, nodes)
         return unless scanner.rest[0] == "~"
 
-        scanned = scanner.string[0...scanner.pos]
+        scanned = scanner.string.byteslice(0, scanner.pos)
         return if (scanned + buffer).end_with?("~")
 
         inner = extract_subscript_content(scanner)
@@ -549,7 +557,8 @@ module Import
         after = rest[(close_idx + 1)..]
         return if after.present? && after[0] == "~"
 
-        scanner.pos += 1 + close_idx + 1
+        # StringScanner#pos is byte-based; advance by byte length to stay on a char boundary.
+        scanner.pos += inner.bytesize + 2
         inner
       end
 

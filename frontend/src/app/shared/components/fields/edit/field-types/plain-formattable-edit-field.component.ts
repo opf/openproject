@@ -35,7 +35,7 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PlainFormattableEditFieldComponent extends EditFieldComponent {
   // only exists because the template is reused and the property is required there.

@@ -28,12 +28,12 @@
 
 import { ApiV3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 
 export class ApiV3UserPreferencesPaths extends ApiV3ResourcePath<IUserPreference> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   /**
    * Perform a request to the backend to load preferences

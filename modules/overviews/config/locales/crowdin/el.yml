@@ -1,6 +1,6 @@
 ---
 el:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Πίνακας Ελέγχου
+    label_home: "%{workspace_type} home"
     label_overview: Επισκόπηση

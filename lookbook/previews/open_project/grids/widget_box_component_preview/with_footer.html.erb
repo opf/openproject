@@ -1,0 +1,15 @@
+<div class="widget-boxes -flex" style="height: 280px;">
+  <%= render(::Grids::WidgetBoxComponent.new(key: "widget-box-footer-preview", title: "Widget title")) do |widget| %>
+    <% widget.with_row do %>
+      First row
+    <% end %>
+
+    <% widget.with_row do %>
+      Second row
+    <% end %>
+
+    <% widget.with_footer do %>
+      <%= render(Primer::Beta::Link.new(href: "#")) { "View all items" } %>
+    <% end %>
+  <% end %>
+</div>

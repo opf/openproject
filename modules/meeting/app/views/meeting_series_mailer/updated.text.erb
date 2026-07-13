@@ -59,3 +59,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= auto_link @series.location %>
 <% end %>
 <% end %>
+<% if @added_participants.any? %>
+<%= I18n.t("meeting.email.updated.added_participants") %>: <%= @added_participants.join(", ") %>
+<% end %>
+<% if @removed_participants.any? %>
+<%= I18n.t("meeting.email.updated.removed_participants") %>: <%= @removed_participants.join(", ") %>
+<% end %>

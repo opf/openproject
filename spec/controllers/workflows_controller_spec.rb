@@ -40,7 +40,7 @@ RSpec.describe WorkflowsController do
             .and_return(role_scope)
 
     allow(role_scope)
-      .to receive_messages(order: role_scope, find_by: nil)
+      .to receive_messages(order: role_scope, find_by: nil, first: role)
 
     allow(role_scope)
       .to receive(:find)
@@ -51,6 +51,11 @@ RSpec.describe WorkflowsController do
       .to receive(:find_by)
             .with(id: role.id.to_s)
             .and_return(role)
+
+    allow(role_scope)
+      .to receive(:where)
+            .with(id: nil)
+            .and_return([])
 
     role_scope
   end
@@ -78,48 +83,6 @@ RSpec.describe WorkflowsController do
 
   current_user { build_stubbed(:admin) }
 
-  describe "#summarized" do
-    let(:counts) { [] }
-
-    before do
-      allow(Workflow)
-        .to receive(:count_by_type_and_role)
-        .and_return(counts)
-
-      get :summarized
-    end
-
-    it "is successful" do
-      expect(response)
-        .to be_successful
-    end
-
-    context "when counts is empty" do
-      it "assigns the workflows by type and role" do
-        expect(assigns[:workflow_counts]).to eql counts
-      end
-
-      it "assigns roles" do
-        expect(assigns[:roles]).to be_nil
-      end
-    end
-
-    context "when counts is present" do
-      let(:type) { build_stubbed(:type) }
-      let(:project_role) { build_stubbed(:project_role) }
-      let(:global_role) { build_stubbed(:global_role) }
-      let(:counts) { [[type, [[project_role, 25], [global_role, 0]]]] }
-
-      it "assigns the workflows by type and role" do
-        expect(assigns[:workflow_counts]).to eql counts
-      end
-
-      it "assigns roles" do
-        expect(assigns[:roles]).to contain_exactly(project_role, global_role)
-      end
-    end
-  end
-
   describe "#edit" do
     let(:non_type_status) { build_stubbed(:status) }
     let(:type_status) { build_stubbed(:status) }
@@ -132,10 +95,6 @@ RSpec.describe WorkflowsController do
       allow(Status)
         .to receive(:all)
               .and_return [type_status, non_type_status]
-
-      allow(role_scope)
-        .to receive(:order)
-              .and_return([role])
     end
 
     context "without parameters" do
@@ -153,399 +112,69 @@ RSpec.describe WorkflowsController do
           .to render_template :edit
       end
 
-      it "assigns the first role" do
-        expect(assigns[:role])
-          .to eq role
+      it "assigns @roles as the canonical collection" do
+        expect(assigns[:roles]).to contain_exactly(role)
       end
 
       it "does assign type" do
         expect(assigns[:type])
           .to eq type
       end
-
-      it "assigns roles" do
-        expect(assigns[:roles])
-          .to eq [role]
-      end
     end
 
-    context "with role and type params" do
+    context "with a single role param" do
       before do
-        get :edit, params: { role_id: role.id.to_s, type_id: type.id.to_s }
-      end
+        allow(role_scope)
+          .to receive(:where)
+                .with(id: [role.id.to_s])
+                .and_return([role])
 
-      it "responds with the role type statuses", :aggregate_failures do
-        expect(response)
-          .to have_http_status(:ok)
-        expect(response)
-          .to render_template :edit
-        expect(assigns[:role])
-          .to eq role
-        expect(assigns[:type])
-          .to eq type
-        expect(assigns[:roles])
-          .to eq [role]
-        expect(assigns[:statuses])
-          .to eq type.statuses
+        get :edit, params: { role_ids: [role.id.to_s], type_id: type.id.to_s }
       end
 
       it "is successful" do
-        expect(response)
-          .to have_http_status(:ok)
+        expect(response).to have_http_status(:ok)
       end
 
       it "renders the edit template" do
-        expect(response)
-          .to render_template :edit
+        expect(response).to render_template :edit
       end
 
-      it "assigns role" do
-        expect(assigns[:role])
-          .to eq role
+      it "assigns the selected role" do
+        expect(assigns[:roles]).to contain_exactly(role)
       end
 
-      it "assign type" do
-        expect(assigns[:type])
-          .to eq type
-      end
-
-      it "assigns roles" do
-        expect(assigns[:roles])
-          .to eq [role]
-      end
-
-      it "assigns statuses" do
-        expect(assigns[:statuses])
-          .to eq type.statuses
-      end
-    end
-  end
-
-  describe "#confirm_statuses" do
-    before do
-      allow(controller)
-        .to receive(:respond_with_dialog)
-              .and_call_original
-      allow(role_scope)
-        .to receive(:order)
-              .and_return([role])
-    end
-
-    context "when no statuses were removed" do
-      before do
-        post :confirm_statuses,
-             params: {
-               role_id: role.id.to_s,
-               type_id: type.id.to_s,
-               status_ids: ["1", "2"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
-      end
-
-      it "redirects to the edit page" do
-        expect(response)
-          .to redirect_to(edit_workflow_path(type.id, role_id: role.id.to_s, tab: "always", status_ids: [1, 2]))
-
-        expect(response).to have_http_status(:see_other)
+      it "assigns type" do
+        expect(assigns[:type]).to eq type
       end
     end
 
-    context "when statuses were removed" do
-      before do
-        post :confirm_statuses,
-             params: {
-               role_id: role.id.to_s,
-               type_id: type.id.to_s,
-               status_ids: ["1"],
-               original_status_ids: ["1", "2"],
-               tab: "always"
-             },
-             as: :turbo_stream
-      end
-
-      it "responds with the danger dialog" do
-        expect(controller)
-          .to have_received(:respond_with_dialog)
-                .with(an_instance_of(Workflows::StatusRemovalDangerDialogComponent))
-      end
-    end
-  end
-
-  describe "#update" do
-    let(:status_params) { { "1" => { "2" => ["always"] } } }
-    let(:service) do
-      service = instance_double(Workflows::BulkUpdateService)
-
-      allow(Workflows::BulkUpdateService)
-        .to receive(:new)
-              .with(role: role, type: type, tab: "always")
-              .and_return(service)
-
-      service
-    end
-    let!(:call) do
-      expect(service)
-        .to receive(:call)
-        .with(status_params)
-        .and_return(call_result)
-    end
-    let(:call_result) { ServiceResult.success }
-    let(:params) do
-      {
-        role_id: role.id,
-        type_id: type.id,
-        status: status_params
-      }
-    end
-
-    before do
-      post :update, params:
-    end
-
-    it "redirects to edit" do
-      expect(response)
-        .to redirect_to edit_workflow_path(type, role_id: role.id, tab: "always")
-    end
-  end
-
-  describe "#copy" do
-    let(:target_type1) { build_stubbed(:type) }
-    let(:target_type2) { build_stubbed(:type) }
-
-    let(:target_role1) { build_stubbed(:project_role) }
-    let(:target_role2) { build_stubbed(:project_role) }
-
-    let(:params) do
-      {
-        source_type_id: type.id.to_s,
-        source_role_id: role.id.to_s,
-        target_type_ids: [target_type1.id.to_s, target_type2.id.to_s],
-        target_role_ids: [target_role1.id.to_s, target_role2.id.to_s]
-      }
-    end
-
-    before do
-      allow(role_scope)
-        .to receive(:where)
-              .with(id: [target_role1.id.to_s, target_role2.id.to_s])
-              .and_return([target_role1, target_role2])
-
-      allow(Type)
-        .to receive(:where)
-              .with(id: [target_type1.id.to_s, target_type2.id.to_s])
-              .and_return([target_type1, target_type2])
-
-      allow(Workflow)
-        .to receive(:copy)
-    end
-
-    context "with a get request" do
-      before do
-        get :copy, params:
-      end
-
-      it "is a success" do
-        expect(response)
-          .to have_http_status(:ok)
-      end
-
-      it "renders the copy template" do
-        expect(response)
-          .to render_template :copy
-      end
-
-      it "assigns the source_type" do
-        expect(assigns[:source_type])
-          .to eq type
-      end
-
-      it "assigns the source_role" do
-        expect(assigns[:source_role])
-          .to eq role
-      end
-
-      it "assigns the target_types" do
-        expect(assigns[:target_types])
-          .to eq [target_type1, target_type2]
-      end
-
-      it "assigns the target_roles" do
-        expect(assigns[:target_roles])
-          .to eq [target_role1, target_role2]
-      end
-    end
-
-    context "when posting with all the params" do
-      before do
-        post :copy, params:
-      end
-
-      it "calls the Workflow.copy method" do
-        expect(Workflow)
-          .to have_received(:copy)
-                .with(type, role, [target_type1, target_type2], [target_role1, target_role2])
-      end
-
-      it "sets a flash notice" do
-        expect(flash[:notice])
-          .to eq I18n.t(:notice_successful_update)
-      end
-
-      it "redirects to the copy action" do
-        expect(response)
-          .to redirect_to copy_workflows_path(source_type_id: type, source_role_id: role)
-      end
-    end
-
-    context "when posting with 'any' for source_type" do
-      let(:params) do
-        {
-          source_type_id: "any",
-          source_role_id: role.id.to_s,
-          target_type_ids: [target_type1.id.to_s, target_type2.id.to_s],
-          target_role_ids: [target_role1.id.to_s, target_role2.id.to_s]
-        }
-      end
+    context "with multiple role params" do
+      let(:role2) { build_stubbed(:project_role) }
 
       before do
-        post :copy, params:
+        allow(role_scope)
+          .to receive(:where)
+                .with(id: [role.id.to_s, role2.id.to_s])
+                .and_return([role, role2])
+
+        get :edit, params: { role_ids: [role.id.to_s, role2.id.to_s], type_id: type.id.to_s }
       end
 
-      it "calls the Workflow.copy method" do
-        expect(Workflow)
-          .to have_received(:copy)
-                .with(nil, role, [target_type1, target_type2], [target_role1, target_role2])
+      it "is successful" do
+        expect(response).to have_http_status(:ok)
       end
 
-      it "sets a flash notice" do
-        expect(flash[:notice])
-          .to eq I18n.t(:notice_successful_update)
+      it "renders the edit template" do
+        expect(response).to render_template :edit
       end
 
-      it "redirects to the copy action" do
-        expect(response)
-          .to redirect_to copy_workflows_path(source_role_id: role)
-      end
-    end
-
-    context "when posting with 'any' for source_role" do
-      let(:params) do
-        {
-          source_type_id: type.id.to_s,
-          source_role_id: "any",
-          target_type_ids: [target_type1.id.to_s, target_type2.id.to_s],
-          target_role_ids: [target_role1.id.to_s, target_role2.id.to_s]
-        }
+      it "assigns all selected roles" do
+        expect(assigns[:roles]).to contain_exactly(role, role2)
       end
 
-      before do
-        post :copy, params:
-      end
-
-      it "calls the Workflow.copy method" do
-        expect(Workflow)
-          .to have_received(:copy)
-                .with(type, nil, [target_type1, target_type2], [target_role1, target_role2])
-      end
-
-      it "sets a flash notice" do
-        expect(flash[:notice])
-          .to eq I18n.t(:notice_successful_update)
-      end
-
-      it "redirects to the copy action" do
-        expect(response)
-          .to redirect_to copy_workflows_path(source_type_id: type)
-      end
-    end
-
-    context "when posting with 'any' for both sources" do
-      let(:params) do
-        {
-          source_type_id: "any",
-          source_role_id: "any",
-          target_type_ids: [target_type1.id.to_s, target_type2.id.to_s],
-          target_role_ids: [target_role1.id.to_s, target_role2.id.to_s]
-        }
-      end
-
-      before do
-        post :copy, params:
-      end
-
-      it "does not call the Workflow.copy method" do
-        expect(Workflow)
-          .not_to have_received(:copy)
-      end
-
-      it "sets a flash error" do
-        expect(flash[:error])
-          .to eq I18n.t(:error_workflow_copy_source)
-      end
-
-      it "renders the copy action" do
-        expect(response)
-          .to render_template :copy
-      end
-    end
-
-    context "when posting without target_type_ids" do
-      let(:params) do
-        {
-          source_type_id: type.id.to_s,
-          source_role_id: role.id.to_s,
-          target_role_ids: [target_role1.id.to_s, target_role2.id.to_s]
-        }
-      end
-
-      before do
-        post :copy, params:
-      end
-
-      it "does not call the Workflow.copy method" do
-        expect(Workflow)
-          .not_to have_received(:copy)
-      end
-
-      it "sets a flash error" do
-        expect(flash[:error])
-          .to eq I18n.t(:error_workflow_copy_target)
-      end
-
-      it "renders the copy action" do
-        expect(response)
-          .to render_template :copy
-      end
-    end
-
-    context "when posting without target_role_ids" do
-      let(:params) do
-        {
-          source_type_id: type.id.to_s,
-          source_role_id: role.id.to_s,
-          target_type_ids: [target_type1.id.to_s, target_type2.id.to_s]
-        }
-      end
-
-      before do
-        post :copy, params:
-      end
-
-      it "does not call the Workflow.copy method" do
-        expect(Workflow)
-          .not_to have_received(:copy)
-      end
-
-      it "sets a flash error" do
-        expect(flash[:error])
-          .to eq I18n.t(:error_workflow_copy_target)
-      end
-
-      it "renders the copy action" do
-        expect(response)
-          .to render_template :copy
+      it "assigns type" do
+        expect(assigns[:type]).to eq type
       end
     end
   end

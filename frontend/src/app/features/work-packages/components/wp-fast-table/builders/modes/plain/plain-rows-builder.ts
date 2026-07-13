@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { PrimaryRenderPass } from '../../primary-render-pass';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
@@ -9,7 +9,7 @@ import { PlainRenderPass } from './plain-render-pass';
 
 export class PlainRowsBuilder extends RowsBuilder {
   // Injections
-  @InjectField() public I18n:I18nService;
+  @LazyInject() public I18n:I18nService;
 
   // The group expansion state
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {

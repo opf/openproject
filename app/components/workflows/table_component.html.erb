@@ -36,7 +36,33 @@ See COPYRIGHT and LICENSE files for more details.
     end
     types.each do |type|
       component.with_row(data: { "filter--filter-list-target": "searchItem" }) do
-        link_to type.name, edit_workflow_path(type), class: "text-bold"
+        flex_layout(align_items: :center, justify_content: :space_between) do |type_row|
+          type_row.with_column do
+            link_to type.name, edit_workflow_path(type), class: "text-bold"
+          end
+          type_row.with_column do
+            render(Primer::Alpha::ActionMenu.new(test_selector: "op-action-menu")) do |menu|
+              menu.with_show_button(
+                icon: "kebab-horizontal",
+                scheme: :invisible,
+                "aria-label": "Actions"
+              )
+
+              menu.with_item(label:t("button_edit"),
+                             tag: :a,
+                             href: edit_workflow_path(type)) do |item|
+                item.with_leading_visual_icon(icon: :pencil)
+              end
+              menu.with_divider
+              menu.with_item(label: t("button_copy"),
+                             content_arguments: { data: { controller: "async-dialog" }},
+                             tag: :a,
+                             href: new_workflow_copy_path(type)) do |item|
+                item.with_leading_visual_icon(icon: :copy)
+              end
+            end
+          end
+        end
       end
     end
     if types.empty?

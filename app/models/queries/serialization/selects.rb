@@ -34,8 +34,6 @@ class Queries::Serialization::Selects
   def load(serialized_selects)
     return [] if serialized_selects.nil?
 
-    load_custom_field_context(serialized_selects)
-
     serialized_selects.map do |o|
       select_for(o.to_sym)
     end
@@ -56,13 +54,4 @@ class Queries::Serialization::Selects
   end
 
   attr_reader :klass
-
-  private
-
-  def load_custom_field_context(serialized_selects)
-    cf_ids = serialized_selects.filter_map { |s| s[/\Acf_(\d+)\z/, 1] }
-    return if cf_ids.empty?
-
-    Queries::Projects::CustomFieldContext.preload_custom_fields(cf_ids)
-  end
 end

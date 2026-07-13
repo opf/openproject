@@ -31,11 +31,11 @@
 require "spec_helper"
 require_relative "../../support/pages/backlog"
 
-RSpec.describe "Show burndown chart", :js, with_flag: { scrum_projects: true } do
+RSpec.describe "Show burndown chart", :js do
   include Redmine::I18n
 
   shared_let(:project) { create(:project, enabled_module_names: %w(backlogs)) }
-  shared_let(:sprint) { create(:agile_sprint, status: "active", project:, start_date: 1.week.ago, finish_date: 1.week.from_now) }
+  shared_let(:sprint) { create(:sprint, status: "active", project:, start_date: 1.week.ago, finish_date: 1.week.from_now) }
 
   let(:planning_page) { Pages::Backlog.new(project) }
   let(:role) do
@@ -51,9 +51,9 @@ RSpec.describe "Show burndown chart", :js, with_flag: { scrum_projects: true } d
     planning_page.click_in_sprint_menu(sprint, "Burndown chart")
 
     expect(page)
-      .to have_heading(sprint.name, level: 2)
+      .to have_heading(sprint.name, level: 2, exact: true)
     expect(page)
-      .to have_content "#{sprint.start_date.strftime('%m/%d/%Y')} – #{sprint.finish_date.strftime('%m/%d/%Y')}"
+      .to have_text "#{sprint.start_date.strftime('%m/%d/%Y')} – #{sprint.finish_date.strftime('%m/%d/%Y')}"
     expect(page)
       .to have_element :"opce-burndown-chart"
   end

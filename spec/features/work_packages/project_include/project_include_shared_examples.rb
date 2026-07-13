@@ -33,18 +33,18 @@ require "spec_helper"
 RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
-  shared_let(:project) do
-    create(:project, name: "Parent", enabled_module_names: enabled_modules)
+  shared_let(:portfolio) do
+    create(:portfolio, name: "Portfolio", enabled_module_names: enabled_modules)
   end
 
-  shared_let(:sub_project) do
-    create(:project, name: "Direct Child", parent: project, enabled_module_names: enabled_modules)
+  shared_let(:program) do
+    create(:program, name: "Program", parent: portfolio, enabled_module_names: enabled_modules)
   end
 
   # The user will not receive a membership in this project
   # which is why it is invisible to the user.
   shared_let(:sub_sub_project_invisible) do
-    create(:project, name: "Invisible Grandchild", parent: sub_project, enabled_module_names: enabled_modules)
+    create(:project, name: "Invisible Grandchild", parent: program, enabled_module_names: enabled_modules)
   end
 
   shared_let(:sub_sub_sub_project) do
@@ -70,8 +70,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   shared_let(:user) do
     create(:user,
            member_with_permissions: {
-             project => permissions,
-             sub_project => permissions,
+             portfolio => permissions,
+             program => permissions,
              sub_sub_sub_project => permissions,
              other_project => permissions,
              other_sub_project => permissions,
@@ -85,8 +85,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
            firstname: "Other",
            lastname: "User",
            member_with_permissions: {
-             project => permissions,
-             sub_project => permissions,
+             portfolio => permissions,
+             program => permissions,
              sub_sub_sub_project => permissions,
              other_project => permissions,
              other_sub_project => permissions,
@@ -103,7 +103,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
 
   shared_let(:task) do
     create(:work_package,
-           project:,
+           project: portfolio,
            type: type_task,
            assigned_to: user,
            start_date: Time.zone.today - 2.days,
@@ -113,7 +113,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
 
   shared_let(:sub_bug) do
     create(:work_package,
-           project: sub_project,
+           project: program,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
@@ -133,7 +133,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
 
   shared_let(:other_task) do
     create(:work_package,
-           project:,
+           project: portfolio,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today,
@@ -152,10 +152,10 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   end
 
   before do
-    project.types << type_bug
-    project.types << type_task
-    sub_project.types << type_bug
-    sub_project.types << type_task
+    portfolio.types << type_bug
+    portfolio.types << type_task
+    program.types << type_bug
+    program.types << type_task
     sub_sub_sub_project.types << type_bug
     sub_sub_sub_project.types << type_task
 
@@ -181,8 +181,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id, true)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
@@ -191,8 +191,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.toggle_checkbox(other_sub_project.id)
@@ -202,8 +202,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_checkbox(sub_sub_sub_project.id)
@@ -212,8 +212,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button "Apply"
@@ -239,8 +239,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id, true)
     dropdown.expect_checkbox(another_sub_sub_project.id, true)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id, true)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
@@ -249,8 +249,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_checkbox(sub_sub_sub_project.id)
@@ -266,15 +266,17 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_open
 
     dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(project.id)
+    # Clicking here does not change anything as the checkbox is disabled.
+    # It is disabled because it is the current workspace.
+    dropdown.toggle_checkbox(portfolio.id)
     dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
     dropdown.expect_checkbox(other_project.id, true)
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id, true)
     dropdown.expect_checkbox(another_sub_sub_project.id, true)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id, true)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.click_button "Apply"
@@ -289,8 +291,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id, true)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.toggle_include_all_subprojects
@@ -302,8 +304,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id, true)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.click_button "Apply"
@@ -318,8 +320,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.expect_checkbox(other_sub_project.id)
     dropdown.expect_checkbox(other_sub_sub_project.id)
     dropdown.expect_checkbox(another_sub_sub_project.id)
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(portfolio.id, true)
+    dropdown.expect_checkbox(program.id)
     dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button "Apply"
@@ -339,8 +341,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_no_checkbox(other_sub_project.id)
       dropdown.expect_no_checkbox(other_sub_sub_project.id)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
@@ -351,8 +353,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_no_checkbox(other_sub_project.id)
       dropdown.expect_no_checkbox(other_sub_sub_project.id)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_no_checkbox(project.id)
-      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(portfolio.id)
+      dropdown.expect_no_checkbox(program.id)
       dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
@@ -363,8 +365,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id)
       dropdown.expect_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
@@ -377,8 +379,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
@@ -398,8 +400,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(other_sub_project.id, true)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
       dropdown.expect_checkbox(another_sub_sub_project.id, true)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
       dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
@@ -412,8 +414,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_no_checkbox(program.id)
       dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
@@ -424,8 +426,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_no_checkbox(other_sub_project.id)
       dropdown.expect_no_checkbox(other_sub_sub_project.id)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_no_checkbox(project.id)
-      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(portfolio.id)
+      dropdown.expect_no_checkbox(program.id)
       dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
@@ -436,8 +438,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_no_checkbox(other_sub_project.id)
       dropdown.expect_no_checkbox(other_sub_sub_project.id)
       dropdown.expect_no_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_no_checkbox(program.id)
       dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
@@ -448,8 +450,8 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(other_sub_project.id)
       dropdown.expect_checkbox(other_sub_sub_project.id, true)
       dropdown.expect_checkbox(another_sub_sub_project.id)
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id)
       dropdown.expect_checkbox(sub_sub_sub_project.id)
     end
   end

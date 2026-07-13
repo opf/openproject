@@ -1,0 +1,68 @@
+# /api/v3/recurring_meetings/{id}/occurrences/{start_time}/init
+---
+post:
+  summary: Instantiate an occurrence
+  operationId: init_recurring_meeting_occurrence
+  tags:
+    - Recurring Meetings
+  description: |-
+    Instantiates the occurrence at the given `start_time` by creating a real meeting from
+    the recurring meeting's template. Returns the newly created `Meeting` resource.
+  parameters:
+    - description: Recurring meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: The ISO 8601 start time of the occurrence to instantiate (e.g. `2025-06-02T10:00:00Z`)
+      example: "2025-06-02T10:00:00Z"
+      in: path
+      name: start_time
+      required: true
+      schema:
+        type: string
+        format: date-time
+  responses:
+    '201':
+      description: Created — the occurrence was successfully instantiated as a meeting.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_model.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** create meetings in the recurring meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

@@ -40,7 +40,6 @@ class Meeting < ApplicationRecord
   belongs_to :author, class_name: "User"
 
   belongs_to :recurring_meeting, optional: true
-  has_one :scheduled_meeting, inverse_of: :meeting
 
   has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
 
@@ -64,8 +63,13 @@ class Meeting < ApplicationRecord
   scope :not_recurring, -> { where(recurring_meeting_id: nil) }
   scope :recurring, -> { where.not(recurring_meeting_id: nil) }
 
+  # Meetings that represent an occurrence of a recurring series
+  scope :recurring_occurrence, -> { not_templated.recurring }
+
   scope :from_tomorrow, -> { where(start_time: Date.tomorrow.beginning_of_day..) }
   scope :from_today, -> { where(start_time: Time.zone.today.beginning_of_day..) }
+  scope :started, -> { where(state: [states[:in_progress], states[:closed]]) }
+  scope :from_today_or_recently_started, -> { from_today.or(Meeting.started.where(start_time: Setting.ical_feed_keep_closed_meetings_days.days.ago..)) }
 
   scope :upcoming, -> { where("start_time + (interval '1 hour' * duration) >= ?", Time.current) }
   scope :past, -> { where("start_time + (interval '1 hour' * duration) < ?", Time.current) }
@@ -76,7 +80,8 @@ class Meeting < ApplicationRecord
   }
 
   scope :visible, ->(*args) {
-    includes(:project)
+    not_cancelled
+      .includes(:project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
@@ -123,13 +128,16 @@ class Meeting < ApplicationRecord
 
   validates :title, :project_id, presence: true
   validates :sharing, absence: true, unless: :onetime_template?
+  validates :recurrence_start_time, absence: true, if: :template?
+  validates :recurrence_start_time, presence: true, if: -> { recurring? && !template? }
 
   validates :duration, numericality: { greater_than: 0 }
 
   before_save :add_new_participants_as_watcher
 
-  after_update :send_updated_mail, if: -> {
-    saved_change_to_start_time? || saved_change_to_duration? || saved_change_to_location? || saved_change_to_title?
+  after_commit :send_updated_mail, on: :update, if: -> {
+    !template? &&
+      (saved_change_to_start_time? || saved_change_to_duration? || saved_change_to_location? || saved_change_to_title?)
   }
 
   enum :state, {
@@ -145,6 +153,12 @@ class Meeting < ApplicationRecord
     descendants: "descendants",
     system: "system"
   }, prefix: :sharing, validate: { allow_nil: true }
+
+  # Debounce meeting emails by one minute
+  # this is currently hard coded
+  def self.journal_aggregation_time_minutes
+    1
+  end
 
   def self.templates_visible_in_project(project, user = User.current)
     accessible_ids = Project.allowed_to(user, :view_meetings).select(:id)
@@ -202,6 +216,10 @@ class Meeting < ApplicationRecord
     return nil if start_time.nil?
 
     start_time + duration.hours
+  end
+
+  def past?
+    end_time < Time.current
   end
 
   def to_s
@@ -305,7 +323,8 @@ class Meeting < ApplicationRecord
 
   def send_emails?
     return false if onetime_template?
-    return false if template? && recurring_meeting.scheduled_meetings.none?
+    return false if template? && recurring_meeting.meetings.not_templated.not_cancelled.none?
+    return false if closed? || cancelled?
 
     persisted? && notify?
   end
@@ -334,22 +353,18 @@ class Meeting < ApplicationRecord
   def send_updated_mail
     return unless send_emails?
 
-    MeetingNotificationService
-      .new(self)
-      .call :updated,
-            changes: updated_mail_changes
+    Meetings::NotificationDebounceJob.debounce(
+      self,
+      since_journal_id: last_journal&.predecessor&.id,
+      since_invited_ids: participants.invited.pluck(:user_id),
+      since_attributes: updated_mail_since_attributes
+    )
   end
 
-  def updated_mail_changes # rubocop:disable Metrics/AbcSize
-    {
-      old_start: saved_change_to_start_time? ? saved_change_to_start_time.first : start_time,
-      new_start: start_time,
-      old_duration: saved_change_to_duration? ? saved_change_to_duration.first : duration,
-      new_duration: duration,
-      old_location: saved_change_to_location? ? saved_change_to_location.first : location,
-      new_location: location,
-      old_title: saved_change_to_title? ? saved_change_to_title.first : title,
-      new_title: title
-    }
+  def updated_mail_since_attributes
+    %w[title location start_time duration].index_with do |attribute|
+      value = saved_change_to_attribute(attribute)&.first || public_send(attribute)
+      value.respond_to?(:iso8601) ? value.iso8601 : value
+    end
   end
 end

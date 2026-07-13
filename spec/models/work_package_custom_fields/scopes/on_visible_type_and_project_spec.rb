@@ -40,5 +40,21 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     it "returns custom fields for types that are enabled in projects the user can see" do
       expect(subject).to contain_exactly(type_enabled_and_member_cf, type_enabled_for_all_cf)
     end
+
+    context "with project: provided" do
+      subject { WorkPackageCustomField.on_visible_type_and_project(user, project: project_with_user_and_feature) }
+
+      it "returns only fields enabled in the given project" do
+        expect(subject).to contain_exactly(type_enabled_and_member_cf, type_enabled_for_all_cf)
+      end
+
+      context "when the project has a different type than where the CF is active" do
+        subject { WorkPackageCustomField.on_visible_type_and_project(user, project: project_with_user_and_bug) }
+
+        it "returns nothing" do
+          expect(subject).to be_empty
+        end
+      end
+    end
   end
 end

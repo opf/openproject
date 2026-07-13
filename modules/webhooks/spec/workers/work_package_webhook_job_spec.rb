@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageWebhookJob, :webmock, type: :model do
-  include_context "with ssrf webhook stubs"
+  include_context "with ssrf stubs"
 
   shared_let(:user) { create(:admin) }
   shared_let(:title) { "Some workpackage subject" }

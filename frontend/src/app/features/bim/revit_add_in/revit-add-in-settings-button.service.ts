@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -36,13 +36,15 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
  */
 @Injectable()
 export class RevitAddInSettingsButtonService {
+  private readonly i18n = inject(I18nService);
+
   private readonly labelText:string;
 
   private readonly groupLabelText:string;
 
-  constructor(
-    private readonly i18n:I18nService,
-  ) {
+  constructor() {
+    const i18n = this.i18n;
+
     const onRevitAddInEnvironment = window.navigator.userAgent.search('Revit') > -1;
 
     if (onRevitAddInEnvironment) {

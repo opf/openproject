@@ -28,18 +28,18 @@
  * ++
  */
 
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import type AutoScrollingController from './auto-scrolling.controller';
 import BaseController from './base.controller';
-import type StemsController from './stems.controller';
 
 export default class PollingController extends BaseController {
-  static outlets = ['work-packages--activities-tab--auto-scrolling', 'work-packages--activities-tab--stems'];
+  static services:ServiceKey[] = ['turboRequests', 'apiV3Service'];
+
+  static outlets = ['work-packages--activities-tab--auto-scrolling'];
   declare readonly workPackagesActivitiesTabAutoScrollingOutlet:AutoScrollingController;
-  declare readonly workPackagesActivitiesTabStemsOutlet:StemsController;
   private get autoScrollingOutlet() { return this.workPackagesActivitiesTabAutoScrollingOutlet; }
-  private get stemsOutlet() { return this.workPackagesActivitiesTabStemsOutlet; }
 
   static values = {
     lastServerTimestamp: String,
@@ -57,19 +57,20 @@ export default class PollingController extends BaseController {
   declare readonly editFormTargets:HTMLFormElement[];
   declare readonly reactionButtonTargets:HTMLElement[];
 
+  declare turboRequests:TurboRequestsService;
+  declare apiV3Service:ApiV3Service;
+  declare services:Promise<PickedServices<'turboRequests'|'apiV3Service'>>;
+
   private updateInProgress = false;
   private intervallId:number;
-  private turboRequests:TurboRequestsService;
-  private apiV3Service:ApiV3Service;
   private abortController = new AbortController();
 
-  async connect() {
-    super.connect();
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
 
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.apiV3Service = context.services.apiV3Service;
-
+  servicesConnected() {
     this.setupEventListeners();
     this.safeUpdateWorkPackageFormsWithStateChecks();
     this.setLatestKnownChangesetUpdatedAt();
@@ -202,7 +203,6 @@ export default class PollingController extends BaseController {
     // the methods below partially rely on the DOM to be updated
     // a specific signal would be way better than a static timeout, but I couldn't find a suitable one
     setTimeout(() => {
-      this.stemsOutlet.handleStemVisibility();
       this.setLastServerTimestampViaHeaders(headers);
       this.checkForAndHandleWorkPackageUpdate(html);
       this.checkForNewNotifications(html);

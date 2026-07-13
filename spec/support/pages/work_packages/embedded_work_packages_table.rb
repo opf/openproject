@@ -44,7 +44,7 @@ module Pages
     end
 
     def table_container
-      container.find(".work-package-table")
+      container.find("table.work-package-table", wait: 10)
     end
 
     def click_reference_inline_create

@@ -36,7 +36,7 @@ RSpec.describe "API v3 Sprint resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project, public: false) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
 
   let(:permissions) { %i[view_sprints] }
 
@@ -44,7 +44,7 @@ RSpec.describe "API v3 Sprint resource", content_type: :json do
     create(:user, member_with_permissions: { project => permissions })
   end
 
-  describe "GET /api/v3/sprints/:id", with_flag: :scrum_projects do
+  describe "GET /api/v3/sprints/:id" do
     let(:get_path) { api_v3_paths.sprint(sprint.id) }
 
     before do
@@ -70,10 +70,6 @@ RSpec.describe "API v3 Sprint resource", content_type: :json do
     context "for a sprint that does not exist" do
       let(:get_path) { api_v3_paths.sprint(0) }
 
-      it_behaves_like "not found"
-    end
-
-    context "when the feature flag is turned off", with_flag: { scrum_projects: false } do
       it_behaves_like "not found"
     end
   end

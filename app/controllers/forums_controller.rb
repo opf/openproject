@@ -120,7 +120,7 @@ class ForumsController < ApplicationController
     @forum.destroy!
 
     flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to project_forums_path(@project)
+    redirect_to project_forums_path(@project), status: :see_other
   end
 
   private

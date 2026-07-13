@@ -21,11 +21,11 @@ export class BeforeunloadController extends ApplicationController {
     this.abortController.abort();
   }
 
-  handleEvent(evt:BeforeUnloadEvent|TurboBeforeVisitEvent|CustomEvent) {
+  handleEvent(evt:Event) {
     switch (evt.type) {
       case 'beforeunload':
       case 'turbo:before-visit':
-        this.beforeunloadHandler(evt as BeforeUnloadEvent|TurboBeforeVisitEvent);
+        this.beforeunloadHandler(evt);
         break;
       case 'turbo:submit-end':
       case 'turbo:load':
@@ -41,7 +41,11 @@ export class BeforeunloadController extends ApplicationController {
   }
 
   private beforeunloadHandler(evt:BeforeUnloadEvent|TurboBeforeVisitEvent) {
-    if (window.OpenProject.pageState !== 'edited') {
+    const hasUnsavedChanges = evt.type === 'turbo:before-visit'
+      ? window.OpenProject.pageHasUnsavedChanges
+      : window.OpenProject.pageWasEdited;
+
+    if (!hasUnsavedChanges) {
       return;
     }
 

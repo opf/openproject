@@ -1,27 +1,26 @@
-#English strings go here for Rails i18n
 ---
 sv:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: Denna modul tillhandahåller recaptcha-kontroller under inloggning.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Vänligen vänta ...
-    verify_account: Bekräfta ditt konto
     error_captcha: Ditt konto kunde inte bekräftas. Kontakta en administratör.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Webbplatsnyckel (kan även kallas "Webbplatsnyckel")
+      captcha_description_html: 'reCAPTCHA är en gratis tjänst från Google som kan aktiveras för din OpenProject instans. Om aktiverad, kommer ett captcha-formulär att renderas vid inloggning för alla användare som inte har verifierat en captcha ännu. <br/> Se följande länk för mer information om reCAPTCHA och deras versioner, och hur du skapar webbplatsen och hemliga nycklar: %{recaptcha_link} <br/> HCaptcha är ett Google-fritt alternativ som du kan använda om du inte vill använda reCAPTCHA. Se denna länk för mer information: %{hcaptcha_link} <br/> Cloudflare TurnstileTM är ett annat alternativ som är mer praktiskt för användare samtidigt som samma nivå av säkerhet. Se denna länk för mer information: %{turnstile_link}
+
+        '
       response_limit: Svarsgräns för HCaptcha
       response_limit_text: Det maximala antalet tecken för att behandla HCaptcha-svaret som giltigt.
-      website_key_text: Ange webbplatsnyckeln du skapade på reCAPTCHA adminkonsolen för denna domän.
       secret_key: Hemlig nyckel
       secret_key_text: Ange den hemliga nyckel du skapade på reCAPTCHA administratörskonsolen.
       type: Använd reCAPTCHA
       type_disabled: Inaktivera reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare TurnstileTM
-      captcha_description_html: 'reCAPTCHA är en gratis tjänst från Google som kan aktiveras för din OpenProject instans. Om aktiverad, kommer ett captcha-formulär att renderas vid inloggning för alla användare som inte har verifierat en captcha ännu. <br/> Se följande länk för mer information om reCAPTCHA och deras versioner, och hur du skapar webbplatsen och hemliga nycklar: %{recaptcha_link} <br/> HCaptcha är ett Google-fritt alternativ som du kan använda om du inte vill använda reCAPTCHA. Se denna länk för mer information: %{hcaptcha_link} <br/> Cloudflare TurnstileTM är ett annat alternativ som är mer praktiskt för användare samtidigt som samma nivå av säkerhet. Se denna länk för mer information: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Webbplatsnyckel (kan även kallas "Webbplatsnyckel")
+      website_key_text: Ange webbplatsnyckeln du skapade på reCAPTCHA adminkonsolen för denna domän.
+    verify_account: Bekräfta ditt konto

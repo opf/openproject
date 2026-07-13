@@ -44,8 +44,7 @@ module Queries::Operators
           sql = "#{db_table}.#{db_field} IS NULL OR "
         end
 
-        sql += "#{db_table}.#{db_field} IN (" +
-               values.map { |val| "'#{connection.quote_string(val)}'" }.join(",") + ")"
+        sql += OpenProject::SqlSanitization.sanitize("#{db_table}.#{db_field} IN (?)", values)
       else
         # empty set of allowed values produces no result
         sql = "0=1"

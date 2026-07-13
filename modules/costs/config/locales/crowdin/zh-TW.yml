@@ -21,24 +21,42 @@
 #++
 ---
 zh-TW:
-  plugin_costs:
-    name: 時間與費用
-    description: 此模組增加了規劃和追蹤專案成本的功能。
   activerecord:
     attributes:
       cost_entry:
-        work_package: 工作套件
+        entity: 登錄為
+        entity_gid: 登錄為
+        entity_id: 登錄為
+        logged_by: 記錄者
         overridden_costs: 覆蓋成本
         spent: 花費
         spent_on: 日期
-        logged_by: 記錄者
-        entity: 登錄為
-        entity_id: 登錄為
-        entity_gid: 登錄為
+        work_package: 工作套件
       cost_type:
+        default: 預設成本類型
+        for_all_projects: For all projects
+        rates: Rates
         unit: 單位名稱
         unit_plural: 單位名稱(複數)
-        default: 預設成本類型
+      rate:
+        rate: 費率
+      time_entry:
+        activity: 活動
+        comments: 留言
+        end_time: 完成時間
+        entity: 登錄為
+        entity_gid: 登錄為
+        entity_id: 登錄為
+        hours: 小時
+        project: 專案
+        spent_on: 日期
+        start_time: 開始時間
+        subject: 標題
+        time: 時間
+        user: 使用者
+        work_package: 工作套件
+      user:
+        default_rates: 預設費率
       work_package:
         costs_by_type: 支出單位
         labor_costs: 工資
@@ -46,63 +64,55 @@ zh-TW:
         overall_costs: 總計
         spent_costs: 支出成本
         spent_units: 支出單位
-      rate:
-        rate: 費率
-      user:
-        default_rates: 預設費率
-      time_entry:
-        project: 專案
-        user: 使用者
-        work_package: 工作套件
-        subject: 標題
-        hours: 小時
-        comments: 留言
-        activity: 活動
-        spent_on: 日期
-        start_time: 開始時間
-        end_time: 完成時間
-        time: 時間
-        entity: 登錄為
-        entity_id: 登錄為
-        entity_gid: 登錄為
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: 無法記錄此工作套件的時間。
+          duplicate_ongoing: 此使用者已有一筆正在進行中的工時紀錄。
+          invalid_time: 必須在 00:00 到 23:59 之間。
+        work_package:
+          is_not_a_valid_target_for_cost_entries: '工作套件 #%{id} 無法作為有效的支出重新分配目標。'
+          nullify_is_not_valid_for_cost_entries: 支出項目無法分配至專案
     models:
-      time_entry:
-        other: 時間項
       cost_entry:
         other: 成本項
       cost_type:
         other: 費用類別
+      rate: 費率
+      time_entry:
+        other: 時間項
       time_entry_activity:
         other: 工時紀錄活動
-      rate: 費率
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: 必須在 00:00 到 23:59 之間。
-          cannot_log_for_this_work_package: 無法記錄此工作套件的時間。
-          duplicate_ongoing: 此使用者已有一筆正在進行中的工時紀錄。
-        work_package:
-          is_not_a_valid_target_for_cost_entries: '工作套件 #%{id} 無法作為有效的支出重新分配目標。'
-          nullify_is_not_valid_for_cost_entries: 支出項目無法分配至專案
+      validation:
+        start_time_different_date: startTime (%{start_time}) 的日期部分必須與 spentOn (%{spent_on}) 的日期相同。
   attributes:
     comment: 留言
     cost_type: 費用類別
     costs: 費用
     current_rate: 目前費率
+    fixed_date: 固定日期
     hours: 小時
     units: 單位
     valid_from: 有效期從
-    fixed_date: 固定日期
+  button_add_activity: 活動
   button_add_rate: 新增費率
+  button_add_time_entry: 工時紀錄
   button_log_costs: 紀錄單位成本
   button_log_time: 日誌
-  button_add_activity: 活動
-  button_add_time_entry: 工時紀錄
   button_stop_timer: 停止計時器
   caption_booked_on_project: 已記錄在專案上
   caption_default: 預設
   caption_default_rate_history_for: "%{user} 的費率歷史記錄"
   caption_locked_on: 鎖定於
+  caption_log_time_dialog: 工作紀錄
   caption_materials: 單位
   caption_rate_history: 費率歷史紀錄
   caption_rate_history_for: "%{user} 的費率歷史記錄"
@@ -110,22 +120,61 @@ zh-TW:
   caption_save_rate: 保存費率
   caption_set_rate: 設定當前費率
   caption_show_locked: 顯示鎖定類型
-  caption_log_time_dialog: 工作紀錄
-  description_date_for_new_rate: 新費率的日期
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: 工作紀錄
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: 定義所有專案中所需的成本格式。
+  description_date_for_new_rate: 新費率的日期
   description_time_settings: 定義在所有專案中記錄時間時，哪些欄位是必須填寫的。
+  ee:
+    features:
+      time_entry_time_restrictions: 需精確追蹤時間
+    upsell:
+      time_entry_time_restrictions:
+        description: 提升時間追蹤效率！記錄工時時輸入精確的開始與結束時間。
   group_by_others: 不在任何群組中
+  label_available_cost_types_projects: Available cost types projects
   label_between: 介於
+  label_cost: 成本
   label_cost_filter_add: 增加成本篩選條件
-  label_costlog: 已紀錄的單位成本
   label_cost_plural: 費用
   label_cost_type_plural: 費用類別
   label_cost_type_specific: '成本類型 #%{id}：%{name}'
+  label_costlog: 已紀錄的單位成本
+  label_costs: 費用
   label_costs_per_page: 每頁的成本
   label_current_default_rate: 目前基本費率
   label_date_on: 開啟
+  label_day: 日
   label_deleted_cost_types: 已刪除的成本類型
-  label_locked_cost_types: 鎖定成本類型
   label_display_cost_entries: 顯示單位成本
   label_display_time_entries: 顯示已回報的工作時數
   label_display_types: 顯示類型
@@ -136,59 +185,54 @@ zh-TW:
   label_group_by_add: 增加群組欄位
   label_hourly_rate: 小時費率
   label_include_deleted: 包含已刪除的
-  label_work_package_filter_add: 新增工作套件篩選條件
   label_kind: 類型
   label_less_or_equal: 之後
+  label_list: 清單
   label_log_costs: 紀錄支出單位
-  label_new_time_entry_activity: 新的時間記錄活動
-  label_time_entry_activity_form_description: 此時間記錄活動的變更會反映在啟用此功能的所有專案中。
-  label_no: 否
-  label_option_plural: 選項
-  label_overall_costs: 總計
-  label_rate: 費率
-  label_rate_plural: 費率
-  label_status_finished: 已完成
-  label_show: 顯示
-  label_units: 單位成本
-  label_user: 使用者
-  label_until: 到
-  label_valid_from: 有效期從
-  label_yes: 是
-  label_time: 時間
-  label_cost: 成本
-  label_costs: 費用
   label_mandatory_fields: 必要欄位
+  label_month: 月
   label_my_time_tracking: 我的工作記錄
-  label_no_time: 無時間追蹤
+  label_new_time_entry_activity: 新的時間記錄活動
   label_next_day: 下一天
+  label_next_month: 下個月
   label_next_week: 下一週
   label_next_workweek: 下個工作週
-  label_next_month: 下個月
+  label_no: 否
+  label_no_time: 無時間追蹤
+  label_option_plural: 選項
+  label_overall_costs: 總計
   label_previous_day: 前一天
-  label_previous_workweek: 前個工作週
-  label_previous_week: 前一週
   label_previous_month: 前一個月
+  label_previous_week: 前一週
+  label_previous_workweek: 前個工作週
+  label_rate: 費率
+  label_rate_plural: 費率
+  label_show: 顯示
   label_specific_day: "%{day} 日"
-  label_specific_week: "%{week} 日曆週"
   label_specific_month: "%{month} 月"
-  label_list: 清單
-  label_month: 月
-  label_workweek: 工作週
-  label_day: 日
-  label_today_capitalized: 今天
-  label_view_mode_switcher: 變更檢視
+  label_status_finished: 已完成
+  label_time: 時間
+  label_time_entry_activity_form_description: 此時間記錄活動的變更會反映在啟用此功能的所有專案中。
   label_timer_since: 從 %{time}開始
-  placeholder_activity_select_work_package_first: 需要先選擇工作套件
-  notice_something_wrong: 發生錯誤，請重試。
-  notice_successful_restore: 復原成功。
-  notice_successful_lock: 停用成功。
+  label_today_capitalized: 今天
+  label_units: 單位成本
+  label_until: 到
+  label_user: 使用者
+  label_valid_from: 有效期從
+  label_view_mode_switcher: 變更檢視
+  label_work_package_filter_add: 新增工作套件篩選條件
+  label_workweek: 工作週
+  label_yes: 是
   notice_cost_logged_successfully: 單位成本紀錄成功。
   notice_different_time_zones: 此使用者使用不同的時區 (%{tz})。將使用他們的時區記錄時間。
-  notice_time_entry_update_failed: 更新工時紀錄失敗。錯誤內容：%{errors}
+  notice_something_wrong: 發生錯誤，請重試。
+  notice_successful_lock: 停用成功。
+  notice_successful_restore: 復原成功。
   notice_time_entry_delete_failed: 刪除時間紀錄時發生錯誤：%{errors}
+  notice_time_entry_update_failed: 更新工時紀錄失敗。錯誤內容：%{errors}
   permission_edit_cost_entries: 編輯自己紀錄的單位成本
-  permission_edit_own_cost_entries: 編輯自己紀錄的單位成本
   permission_edit_hourly_rates: 編輯小時費率
+  permission_edit_own_cost_entries: 編輯自己紀錄的單位成本
   permission_edit_own_hourly_rate: 編輯自己的小時費率
   permission_edit_rates: 編輯費率
   permission_log_costs: 已紀錄的單位成本
@@ -199,45 +243,30 @@ zh-TW:
   permission_view_own_cost_entries: 查看自己紀錄的成本
   permission_view_own_hourly_rate: 查看自己的小時費率
   permission_view_own_time_entries: 查看自己的耗時
+  placeholder_activity_select_work_package_first: 需要先選擇工作套件
+  plugin_costs:
+    description: 此模組增加了規劃和追蹤專案成本的功能。
+    name: 時間與費用
   project_module_costs: 時間與費用
   setting_allow_tracking_start_and_end_times: 允許起迄時間
+  setting_allow_tracking_start_and_end_times_caption: 啟用記錄工時時輸入開始與結束時間的功能。
   setting_costs_currency: 貨幣
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: 需要起迄時間
-  setting_enforce_without_allow: 在不允許的情況下，要求開始和結束時間是不可能的
-  setting_allow_tracking_start_and_end_times_caption: 啟用記錄工時時輸入開始與結束時間的功能。
   setting_enforce_tracking_start_and_end_times_caption: 在記錄工時時，強制要求輸入開始與結束時間。
+  setting_enforce_without_allow: 在不允許的情況下，要求開始和結束時間是不可能的
   text_assign_time_and_cost_entries_to_project: 將已回報的小時數和成本提交到專案中
   text_destroy_cost_entries_question: 您即將刪除的工作套件中已有 %{cost_entries} 筆成本項目被回報。請問您希望如何處理？
   text_destroy_time_and_cost_entries: 刪除已回報的小時數和成本
   text_destroy_time_and_cost_entries_question: 您即將刪除的工作套件中，已回報 %{hours} 小時的工時及 %{cost_entries} 筆成本。請問您要如何處理？
   text_reassign_time_and_cost_entries: 將已回報的工時與成本重新指派給此工作套件：
   text_warning_hidden_elements: 一些資料可能已排除在合併之外。
-  week: 週
   total_times:
-    workweek: 本週總計：%{hours} 小時
-    week: 本週總計：%{hours} 小時
-    month: 本月總計：%{hours} 小時
     day: 日總計：%{hours} 小時
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: startTime (%{start_time}) 的日期部分必須與 spentOn (%{spent_on}) 的日期相同。
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: 工作紀錄
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: 需精確追蹤時間
-    upsell:
-      time_entry_time_restrictions:
-        description: 提升時間追蹤效率！記錄工時時輸入精確的開始與結束時間。
+    month: 本月總計：%{hours} 小時
+    week: 本週總計：%{hours} 小時
+    workweek: 本週總計：%{hours} 小時
+  week: 週

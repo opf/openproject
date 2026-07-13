@@ -37,7 +37,13 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
 
   self.property_selects = {
     id: {
-      sortable: "#{WorkPackage.table_name}.id",
+      sortable: -> {
+        if Setting::WorkPackageIdentifier.semantic?
+          ["#{Project.table_name}.identifier", "#{WorkPackage.table_name}.sequence_number"]
+        else
+          "#{WorkPackage.table_name}.id"
+        end
+      },
       groupable: false
     },
     project: {
@@ -98,6 +104,11 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       association: "version",
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.version_id"
+    },
+    target_versions: {
+      # version will be replaced by target_versions but during the transition
+      # we exclude target_versions from user-facing work package selects
+      if: -> { false }
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"

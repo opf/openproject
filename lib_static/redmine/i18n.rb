@@ -94,6 +94,22 @@ module Redmine
       format.present? ? ::I18n.l(local, format:) : ::I18n.l(local)
     end
 
+    # Formats the given date pair as an HTML date range with each date
+    # wrapped in a <time> element. Dates are joined by a non-breaking
+    # space, an en-dash, and a non-breaking space.
+    #
+    # @param dates [Array<Date, nil>] A two-element array +[from, to]+;
+    #   either element may be nil.
+    # @return [ActiveSupport::SafeBuffer, nil] The formatted range, or nil
+    #   when both dates are nil.
+    def format_date_range(dates)
+      return nil if dates.all?(&:nil?)
+
+      helpers = ApplicationController.helpers
+      from, to = dates.map { |date| helpers.tag.time(datetime: date.iso8601) { format_date(date) } if date }
+      helpers.safe_join([from, "–", to], " ") # &ndash; and &nbsp;
+    end
+
     ##
     # Gives a translation and inserts links into designated spots within it
     # in the style of markdown links. Instead of the actual URL only names for
@@ -215,6 +231,30 @@ module Redmine
 
     def month_name(month)
       ::I18n.t("date.month_names")[month]
+    end
+
+    # Localized ordinalization with optional context-specific forms.
+    # This allows locales to provide different grammatical forms for the same
+    # ordinal depending on usage (e.g. standalone vs. before weekday name).
+    #
+    # Lookup order:
+    # 1. number.ordinalize.contexts.<context>.<number>
+    # 2. number.ordinalize.contexts.<context>.other
+    # 3. number.ordinalize.contexts.default.<number>
+    # 4. number.ordinalize.contexts.default.other
+    # 5. ActiveSupport fallback (e.g. 1st, 2nd, 3rd, ...)
+    def ordinalize(number, context: :default)
+      value = number.to_i
+      context_key = :"number.ordinalize.contexts.#{context}.#{value}"
+      context_other_key = :"number.ordinalize.contexts.#{context}.other"
+      default_context_key = :"number.ordinalize.contexts.default.#{value}"
+      default_context_other_key = :"number.ordinalize.contexts.default.other"
+
+      ::I18n.t(
+        context_key,
+        default: [context_other_key, default_context_key, default_context_other_key, ActiveSupport::Inflector.ordinalize(value)],
+        number: value
+      )
     end
 
     def valid_languages

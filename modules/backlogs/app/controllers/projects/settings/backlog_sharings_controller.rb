@@ -35,7 +35,7 @@ class Projects::Settings::BacklogSharingsController < Projects::SettingsControll
 
   def update
     call = Projects::UpdateService
-      .new(model: @project, user: current_user, contract_class: Projects::BacklogSettingsContract)
+      .new(model: @project, user: current_user, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
       .call(backlog_settings_params)
 
     if call.success?

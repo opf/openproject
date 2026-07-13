@@ -21,24 +21,42 @@
 #++
 ---
 ar:
-  plugin_costs:
-    name: الوقت والتكاليف
-    description: تضيف هذه الوحدة ميزات لتخطيط وتتبع تكاليف المشاريع.
   activerecord:
     attributes:
       cost_entry:
-        work_package: مجموعة العمل
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        logged_by: '"تم تسجيل الدخول بواسطة "'
         overridden_costs: تكاليف متجاوزة
         spent: أنفق
         spent_on: التاريخ
-        logged_by: '"تم تسجيل الدخول بواسطة "'
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        work_package: مجموعة العمل
       cost_type:
+        default: Cost type by default
+        for_all_projects: For all projects
+        rates: Rates
         unit: اسم الوحدة
         unit_plural: اسم الوحدة متعددة الأقطاب
-        default: Cost type by default
+      rate:
+        rate: المعدل
+      time_entry:
+        activity: النشاط
+        comments: تعليق
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: الساعات
+        project: مشروع
+        spent_on: التاريخ
+        start_time: Start time
+        subject: الموضوع
+        time: الوقت
+        user: المستخدم
+        work_package: مجموعة العمل
+      user:
+        default_rates: المعدلات المفترضة
       work_package:
         costs_by_type: الوحدات المستهلكة
         labor_costs: تكاليف العمل
@@ -46,33 +64,22 @@ ar:
         overall_costs: التكاليف الإجمالية
         spent_costs: التكاليف المستهلكة
         spent_units: الوحدات المستهلكة
-      rate:
-        rate: المعدل
-      user:
-        default_rates: المعدلات المفترضة
-      time_entry:
-        project: مشروع
-        user: المستخدم
-        work_package: مجموعة العمل
-        subject: الموضوع
-        hours: الساعات
-        comments: تعليق
-        activity: النشاط
-        spent_on: التاريخ
-        start_time: Start time
-        end_time: Finish time
-        time: الوقت
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: تعذر تسجيل الوقت لهذا العمل.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة.'
+          nullify_is_not_valid_for_cost_entries: لا يمكن تعيين إدخالات التكلفة للمشروع.
     models:
-      time_entry:
-        zero: Time entries
-        one: Time entry
-        two: Time entries
-        few: Time entries
-        many: Time entries
-        other: Time entries
       cost_entry:
         zero: Cost entries
         one: قيد التكلفة
@@ -87,6 +94,14 @@ ar:
         few: أنواع التكلفة
         many: أنواع التكلفة
         other: أنواع التكلفة
+      rate: المعدل
+      time_entry:
+        zero: Time entries
+        one: Time entry
+        two: Time entries
+        few: Time entries
+        many: Time entries
+        other: Time entries
       time_entry_activity:
         zero: Time tracking activities
         one: Time tracking activity
@@ -94,35 +109,30 @@ ar:
         few: Time tracking activities
         many: Time tracking activities
         other: Time tracking activities
-      rate: المعدل
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: تعذر تسجيل الوقت لهذا العمل.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة.'
-          nullify_is_not_valid_for_cost_entries: لا يمكن تعيين إدخالات التكلفة للمشروع.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: التعليق
     cost_type: أنواع التكلفة
     costs: التكاليف
     current_rate: المعدل الحالي
+    fixed_date: تاريخ ثابت
     hours: الساعات
     units: الوحدات
     valid_from: صالح من
-    fixed_date: تاريخ ثابت
+  button_add_activity: النشاط
   button_add_rate: أضِف المعدل
+  button_add_time_entry: وقت السجل
   button_log_costs: سجل تكاليف الوحدة
   button_log_time: Log
-  button_add_activity: النشاط
-  button_add_time_entry: وقت السجل
   button_stop_timer: Stop timer
   caption_booked_on_project: حُجِِز على المشروع
   caption_default: الافتراضي
   caption_default_rate_history_for: تاريخ المعدل الافتراضي ل %{user}
   caption_locked_on: مؤمّن عليه
+  caption_log_time_dialog: وقت السجل
   caption_materials: الوحدات
   caption_rate_history: تاريخ السعر
   caption_rate_history_for: تاريخ السعر ل %{user}
@@ -130,22 +140,61 @@ ar:
   caption_save_rate: معدل التوفير
   caption_set_rate: ضبط المعدل الحالي
   caption_show_locked: إظهار الأنواع المغلقة
-  caption_log_time_dialog: وقت السجل
-  description_date_for_new_rate: تاريخ المعدل الجديد
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: تحديد التنسيق المطلوب لتكاليف جميع المشروعات.
+  description_date_for_new_rate: تاريخ المعدل الجديد
   description_time_settings: تحديد الحقول التي يستلزم ملؤها عند إدخال الوقت لجميع المشروعات.
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by requiring exact start and finish times when logging time.
   group_by_others: ليس في أي مجموعة
+  label_available_cost_types_projects: Available cost types projects
   label_between: بين
+  label_cost: Cost
   label_cost_filter_add: أضِف عامل تصفية لإدخال التكلفة
-  label_costlog: تكاليف الوحدة المسجلة
   label_cost_plural: التكاليف
   label_cost_type_plural: أنواع التكلفة
   label_cost_type_specific: 'نوع التكلفة #%{id}:%{name}'
+  label_costlog: تكاليف الوحدة المسجلة
+  label_costs: التكاليف
   label_costs_per_page: التكاليف للصفحة
   label_current_default_rate: المعدل الافتراضي الحالي
   label_date_on: على
+  label_day: اليوم
   label_deleted_cost_types: أنواع التكلفة المحذوفة
-  label_locked_cost_types: أنواع التكلفة المغلقة
   label_display_cost_entries: عرض تكاليف الوحدة
   label_display_time_entries: عرض الساعات المبلّغ عنها
   label_display_types: أنواع العرض
@@ -156,59 +205,54 @@ ar:
   label_group_by_add: أضِف حقل التجميع
   label_hourly_rate: الأجر بالساعة
   label_include_deleted: يتضمن المحذوف
-  label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل
   label_kind: النّوع
   label_less_or_equal: "=>"
+  label_list: القائمة
   label_log_costs: سجل تكاليف الوحدة
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: لا
-  label_option_plural: الخيارات
-  label_overall_costs: التكاليف الإجمالية
-  label_rate: المعدل
-  label_rate_plural: الأسعار
-  label_status_finished: مكتمل
-  label_show: إظهار
-  label_units: وحدات التكلفة
-  label_user: المستخدم
-  label_until: حتى
-  label_valid_from: صالح من
-  label_yes: نعم
-  label_time: الوقت
-  label_cost: Cost
-  label_costs: التكاليف
   label_mandatory_fields: حقول إلزامية
+  label_month: شهر
   label_my_time_tracking: تتبع الوقت الخاص بي
-  label_no_time: لا يوجد وقت مسجل
+  label_new_time_entry_activity: New time entry activity
   label_next_day: اليوم التالي
+  label_next_month: الشهر القادم
   label_next_week: الأسبوع القادم
   label_next_workweek: Next work week
-  label_next_month: الشهر القادم
+  label_no: لا
+  label_no_time: لا يوجد وقت مسجل
+  label_option_plural: الخيارات
+  label_overall_costs: التكاليف الإجمالية
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: الأسبوع الماضي
   label_previous_month: الشهر السابق
+  label_previous_week: الأسبوع الماضي
+  label_previous_workweek: Previous work week
+  label_rate: المعدل
+  label_rate_plural: الأسعار
+  label_show: إظهار
   label_specific_day: Day %{day}
-  label_specific_week: Calendar week %{week}
   label_specific_month: Month %{month}
-  label_list: القائمة
-  label_month: شهر
-  label_workweek: أسبوع العمل
-  label_day: اليوم
-  label_today_capitalized: اليوم
-  label_view_mode_switcher: Change view
+  label_status_finished: مكتمل
+  label_time: الوقت
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: حصل خطأ ما. من فضلك حاول مرة أخرى.
-  notice_successful_restore: استعادة ناجحة.
-  notice_successful_lock: أغلِقت بنجاح.
+  label_today_capitalized: اليوم
+  label_units: وحدات التكلفة
+  label_until: حتى
+  label_user: المستخدم
+  label_valid_from: صالح من
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل
+  label_workweek: أسبوع العمل
+  label_yes: نعم
   notice_cost_logged_successfully: تمّ تسجيل تكلفة الوحدة بنجاح.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: حصل خطأ ما. من فضلك حاول مرة أخرى.
+  notice_successful_lock: أغلِقت بنجاح.
+  notice_successful_restore: استعادة ناجحة.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: تحرير تكاليف الوحدة المحجوزة
-  permission_edit_own_cost_entries: تحرير تكاليف الوحدة المحجوزة الخاصة
   permission_edit_hourly_rates: تحرير الأجور الساعيّة
+  permission_edit_own_cost_entries: تحرير تكاليف الوحدة المحجوزة الخاصة
   permission_edit_own_hourly_rate: تعديل الأجور الساعيّة الخاصة
   permission_edit_rates: تعديل الأسعار
   permission_log_costs: حجز تكاليف الوحدة
@@ -219,45 +263,30 @@ ar:
   permission_view_own_cost_entries: عرض تكاليف الحجز الخاصة
   permission_view_own_hourly_rate: عرض الأجور الساعيّة الخاصة
   permission_view_own_time_entries: عرض الوقت الخاص الذي تم قضاؤه
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: تضيف هذه الوحدة ميزات لتخطيط وتتبع تكاليف المشاريع.
+    name: الوقت والتكاليف
   project_module_costs: الوقت والتكاليف
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: العملة
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: تعيين الساعات والتكاليف التي تمّ الإبلاغ عنها للمشروع
   text_destroy_cost_entries_question: "%{cost_entries} تم الإبلاغ عنها في مجموعات العمل التي توشك أن تلغيها. ماذا تريد أن تفعل؟"
   text_destroy_time_and_cost_entries: إلغاء الساعات والتكاليف التي تم الإبلاغ عنها
   text_destroy_time_and_cost_entries_question: "%{hours} ساعات، %{cost_entries} تم الإبلاغ عنها في مجموعات العمل التي توشك على إلغائها. ماذا تريد أن تفعل؟"
   text_reassign_time_and_cost_entries: 'إعادة تعيين الساعات والتكاليف التي تم التبليغ عنها لمجموعة العمل هذه:'
   text_warning_hidden_elements: من الممكن أنه تمّ استبعاد بعض الإدخالات من التجميع.
-  week: الأسبوع
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: الأسبوع

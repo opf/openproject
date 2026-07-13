@@ -35,7 +35,7 @@ module Queries::WorkPackages::Filter
     end
 
     def available?
-      scrum_projects_active? && allowed?
+      allowed?
     end
 
     def type
@@ -44,10 +44,6 @@ module Queries::WorkPackages::Filter
 
     def self.key
       :sprint_id
-    end
-
-    def human_name
-      WorkPackage.human_attribute_name(:sprint)
     end
 
     def ar_object_filter?
@@ -71,13 +67,9 @@ module Queries::WorkPackages::Filter
       end
     end
 
-    def scrum_projects_active?
-      OpenProject::FeatureDecisions.scrum_projects_active?
-    end
-
     def sprints
       @sprints ||= begin
-        scope = Agile::Sprint.visible
+        scope = Sprint.visible
         project ? scope.for_project(project) : scope
       end
     end

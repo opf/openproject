@@ -46,7 +46,7 @@ module WorkPackages
           super()
           @state = state
           if state == :edit
-            result         = WorkPackages::IdentifierAutofix::PreviewQuery.new.call
+            result         = ProjectIdentifiers::IdentifierAutofix::PreviewQuery.new.call
             @projects_data = result.projects_data
             @total_count   = result.total_count
           else
@@ -63,12 +63,49 @@ module WorkPackages
 
         def form_id = "wp-identifier-settings-form"
 
+        def in_progress_banner_message
+          key = if ProjectIdentifiers::IdentifierAutofix.reversion_in_progress?
+                  "admin.settings.work_packages_identifier.in_progress.reverting_banner_message"
+                else
+                  "admin.settings.work_packages_identifier.in_progress.converting_banner_message"
+                end
+          I18n.t(key)
+        end
+
         def show_autofix_section?
           state == :edit && Setting::WorkPackageIdentifier.semantic? && has_problematic_projects?
         end
 
         def change_in_progress? = state == :change_in_progress
         def completed?          = state == :completed
+
+        def total_projects_count
+          @total_projects_count ||= Project.count
+        end
+
+        def processed_projects_count
+          [total_projects_count - remaining_projects_count, 0].max
+        end
+
+        def progress_percentage
+          return 100 if total_projects_count.zero?
+
+          [(processed_projects_count.to_f / total_projects_count * 100), 100].min.round
+        end
+
+        def in_progress_header
+          key = ProjectIdentifiers::IdentifierAutofix.reversion_in_progress? ? :header_classic : :header_semantic
+          I18n.t("admin.settings.work_packages_identifier.in_progress.#{key}")
+        end
+
+        def remaining_projects_count
+          @remaining_projects_count ||=
+            if ProjectIdentifiers::IdentifierAutofix.reversion_in_progress?
+              Project.with_non_classic_identifier.count
+            else
+              ProjectIdentifiers::PendingProjectsFinder.count
+            end
+        end
 
         def wrapper_data_attrs
           if change_in_progress?
@@ -83,7 +120,7 @@ module WorkPackages
             data: {
               controller: "poll-for-changes",
               poll_for_changes_url_value: url_helpers.status_admin_settings_work_packages_identifier_path,
-              poll_for_changes_interval_value: 5000
+              poll_for_changes_interval_value: 3000
             }
           }
         end
@@ -92,16 +129,28 @@ module WorkPackages
           {
             data: {
               controller: "admin--work-packages-identifier",
-              admin__work_packages_identifier_has_problematic_projects_value: has_problematic_projects?
+              admin__work_packages_identifier_has_problematic_projects_value: has_problematic_projects?,
+              admin__work_packages_identifier_current_value_value: Setting[:work_packages_identifier]
             }
           }
         end
 
         def radio_button_options
           if change_in_progress?
-            { button_options: { disabled: true } }
+            {
+              values: identifier_values(checked: nil),
+              button_options: { disabled: true }
+            }
+          elsif completed?
+            { values: identifier_values(checked: Setting[:work_packages_identifier]) }
           else
             { button_options: { data: { action: "change->admin--work-packages-identifier#handleChange" } } }
+          end
+        end
+
+        def identifier_values(checked:)
+          Setting::WorkPackageIdentifier::ALLOWED_VALUES.map do |v|
+            { name: v, value: v, checked: v == checked }
           end
         end
       end

@@ -4,15 +4,15 @@
       component.with_header(color: :muted) do
         grid_layout("op-wiki-provider-list--header", tag: :div, align_items: :center) do |grid|
           grid.with_area(:name, tag: :div, mr: 3) do
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("storages.label_name") }
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { t(".label_name") }
           end
 
           grid.with_area(:provider, tag: :div, color: :muted, mr: 3, hide: :sm) do
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("storages.label_provider") }
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { t(".label_provider") }
           end
 
           grid.with_area(:time, tag: :div, color: :muted, hide: :sm) do
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("storages.label_creation_time") }
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { t(".label_creation_time") }
           end
         end
       end
@@ -25,15 +25,15 @@
                 href: url_helpers.edit_admin_settings_wiki_provider_path(wiki_provider),
                 font_weight: :bold
               )) { wiki_provider.name })
-              concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small, display: :block)) { wiki_provider.url })
+              concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small, display: :block)) { provider_url(wiki_provider) }) if provider_url(wiki_provider)
             end
 
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm) do
-              render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t("activerecord.models.#{wiki_provider.class.model_name.i18n_key}") }
+              render(Primer::Beta::Text.new(color: :subtle)) { t("wikis.provider_types.#{wiki_provider}.name") }
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, hide: :sm) do
-              render(Primer::Beta::Text.new(font_weight: :light)) { I18n.t("activity.item.created_on", datetime: helpers.format_time(wiki_provider.created_at)).capitalize }
+              render(Primer::Beta::Text.new(color: :subtle)) { t("activity.item.created_on", datetime: helpers.format_time(wiki_provider.created_at)).capitalize }
             end
           end
         end
@@ -42,8 +42,8 @@
   else
     render(Primer::Beta::Blankslate.new(border: true, test_selector: "wiki-providers-blank-slate")) do |blank_slate|
       blank_slate.with_visual_icon(icon: :browser)
-      blank_slate.with_heading(tag: :h2).with_content(I18n.t("wikis.admin.wiki_providers.no_results_title"))
-      blank_slate.with_description { I18n.t("wikis.admin.wiki_providers.no_results_description") }
+      blank_slate.with_heading(tag: :h2).with_content(t(".no_results_title"))
+      blank_slate.with_description { t(".no_results_description") }
     end
   end
 %>

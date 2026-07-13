@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,11 +33,12 @@ module Wikis::Admin
     form do |f|
       f.text_field(
         name: :name,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.name"),
+        label: model.class.human_attribute_name(:name),
         required: true,
         caption: I18n.t("wikis.admin.wiki_providers.name_caption"),
         placeholder: I18n.t("wikis.admin.wiki_providers.name_placeholder"),
-        input_width: :large
+        input_width: :large,
+        disabled: model.configured_from_env?
       )
     end
   end

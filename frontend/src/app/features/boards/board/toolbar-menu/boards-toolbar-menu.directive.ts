@@ -26,13 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Directive, ElementRef, Injector, Input,
-} from '@angular/core';
+import { Directive, Injector, Input, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Board } from 'core-app/features/boards/board/board';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
@@ -46,21 +43,16 @@ import { selectableTitleIdentifier, triggerEditingEvent } from 'core-app/shared/
   standalone: false,
 })
 export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
-  @Input('boardsToolbarMenu-resource') public board:Board;
+  readonly opModalService = inject(OpModalService);
+  readonly boardService = inject(BoardService);
+  readonly Notifications = inject(ToastService);
+  readonly State = inject(StateService);
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly http = inject(HttpClient);
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly opModalService:OpModalService,
-    readonly boardService:BoardService,
-    readonly Notifications:ToastService,
-    readonly State:StateService,
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly http:HttpClient,
-  ) {
-    super(elementRef, opContextMenu);
-  }
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('boardsToolbarMenu-resource') public board:Board;
 
   public get locals() {
     return {

@@ -1,19 +1,4 @@
-import {
-  ApplicationRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentFactoryResolver,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  InjectionToken,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
-} from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -27,9 +12,7 @@ import { WorkPackageStatesInitializationService } from 'core-app/features/work-p
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ComponentType } from '@angular/cdk/portal';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -45,9 +28,22 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+  prependModalComponent = inject<ComponentType<unknown> | null>(WpTableConfigurationModalPrependToken, { optional: true });
+  readonly I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly appRef = inject(ApplicationRef);
+  readonly loadingIndicator = inject(LoadingIndicatorService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+  readonly ConfigurationService = inject(ConfigurationService);
+  readonly $state = inject(StateService);
+
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -67,43 +63,21 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public selectedColumnMap:Record<string, boolean> = {};
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
   // Try to load an optional provided configuration service, and fall back to the default one
   private wpTableConfigurationService:WpTableConfigurationService =
-  this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n, this.$state));
-
-  constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
-    readonly I18n:I18nService,
-    readonly injector:Injector,
-    readonly appRef:ApplicationRef,
-    readonly componentFactoryResolver:ComponentFactoryResolver,
-    readonly loadingIndicator:LoadingIndicatorService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly apiV3Service:ApiV3Service,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly ConfigurationService:ConfigurationService,
-    readonly elementRef:ElementRef,
-    readonly $state:StateService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
+  this.injector.get(WpTableConfigurationService);
 
   ngOnInit() {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.wpTableConfigurationService.tabs,
       this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
       this.appRef,
       this.injector,
     );

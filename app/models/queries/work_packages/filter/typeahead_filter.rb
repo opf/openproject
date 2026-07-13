@@ -44,6 +44,7 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
     parts.map do |part|
       conditions = [subject_condition(part),
                     project_name_condition(part),
+                    work_package_identifier_condition(part),
                     type_name_condition(part),
                     status_condition(part)]
 
@@ -61,6 +62,14 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
 
   def project_name_condition(string)
     Queries::Operators::Contains.sql_for_field([string], Project.table_name, "name")
+  end
+
+  def work_package_identifier_condition(string)
+    alias_condition = Queries::Operators::StartsWith.sql_for_field(
+      [string], WorkPackageSemanticAlias.table_name, "identifier"
+    )
+    "#{WorkPackage.table_name}.id IN " \
+      "(SELECT work_package_id FROM #{WorkPackageSemanticAlias.table_name} WHERE #{alias_condition})"
   end
 
   def type_name_condition(string)

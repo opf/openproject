@@ -47,10 +47,13 @@ module OpenProject::TextFormatting
         Sanitize::Config.merge(
           base,
           elements: base[:elements] + %w[macro mention],
+          # Strip SVG entirely (tag + all nested content). SVG is not on the allowlist, but
+          # without remove_contents Sanitize would keep SVG child nodes as orphaned content.
+          remove_contents: Array(base[:remove_contents]) | %w[svg style],
 
           attributes: base_attrs.deep_merge(
-            # Whitelist class and data-* attributes on all macros
-            "macro" => ["class", :data],
+            # Explicit allowlist of data-* attributes used by registered macros.
+            "macro" => %w[class data-type data-classes data-page data-include-parent data-macro-name data-query-props data-pull-request-id data-pull-request-state],
             # mentions
             "mention" => %w[data-type data-text data-id class],
             # add styles to tables
@@ -71,8 +74,21 @@ module OpenProject::TextFormatting
           # Add custom transformer logic for more complex modifications
           transformers: base[:transformers] + transformers,
 
-          # Allow relaxed CSS styles for the given attributes
-          css: ::Sanitize::Config::RELAXED[:css],
+          # Restrict CSS to still allow some basic color and text styles
+          # used within the CKEditor table layout plugins
+          css: {
+            properties: %w[
+              text-align vertical-align font-weight font-style font-size
+              text-decoration color background-color
+              border border-collapse border-spacing border-color border-style border-width
+              width height max-width max-height min-width min-height
+              padding padding-top padding-right padding-bottom padding-left
+              margin margin-top margin-right margin-bottom margin-left
+              white-space word-wrap overflow-wrap
+              list-style-type
+              float clear
+            ]
+          },
 
           # Allow our protocols, and relative links always
           protocols: {

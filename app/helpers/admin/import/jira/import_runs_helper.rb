@@ -34,7 +34,9 @@ module Admin::Import::Jira::ImportRunsHelper
   end
 
   def issues_label(count)
-    I18n.t(:"admin.jira.run.wizard.parts.issues", count: count || 0)
+    return nil if count.nil?
+
+    I18n.t(:"admin.jira.run.wizard.parts.issues", count:)
   end
 
   def work_packages_label(count)
@@ -42,11 +44,15 @@ module Admin::Import::Jira::ImportRunsHelper
   end
 
   def statuses_label(count)
-    I18n.t(:"admin.jira.run.wizard.parts.statuses", count: count || 0)
+    return nil if count.nil?
+
+    I18n.t(:"admin.jira.run.wizard.parts.statuses", count:)
   end
 
   def types_label(count)
-    I18n.t(:"admin.jira.run.wizard.parts.types", count: count || 0)
+    return nil if count.nil?
+
+    I18n.t(:"admin.jira.run.wizard.parts.types", count:)
   end
 
   def users_label(count)

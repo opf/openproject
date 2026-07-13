@@ -37,6 +37,7 @@ module MeetingAgendaItems
     end
 
     validate :presenter_can_participate
+    validate :validate_work_package_visible
 
     attribute :meeting
     attribute :work_package
@@ -56,6 +57,15 @@ module MeetingAgendaItems
       return if model.presenter.allowed_in_project?(:view_meetings, model.meeting.project)
 
       errors.add(:presenter, :user_invalid)
+    end
+
+    def validate_work_package_visible
+      return if model.work_package_id.blank?
+      return unless model.new_record? || model.work_package_id_changed?
+
+      unless WorkPackage.visible(user).exists?(id: model.work_package_id)
+        errors.add :work_package, :error_not_found
+      end
     end
   end
 end

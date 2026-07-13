@@ -38,7 +38,7 @@ module PaginationHelper
   def pagination_links_full(paginator, params: {}, allowed_params: nil, per_page_links: true, **)
     return unless paginator.total_entries > 0
 
-    content_tag(:div, class: "op-pagination") do
+    content_tag(:div, class: ["op-pagination", { "op-pagination--single-page": paginator.total_pages <= 1 }]) do
       concat pagination_pages_section(paginator, params:, allowed_params:, **)
       concat pagination_options_section(paginator, params:, allowed_params:) if per_page_links
     end

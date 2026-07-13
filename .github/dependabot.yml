@@ -1,54 +1,107 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/frontend"
+    directories:
+      - "/"
+      - "/frontend"
+      - "/extensions/op-blocknote-hocuspocus"
     schedule:
       interval: "daily"
     target-branch: "dev"
     cooldown:
-      default-days: 5
+      default-days: 7
       semver-major-days: 30
       semver-minor-days: 14
       semver-patch-days: 5
     groups:
       angular:
         patterns:
-          - '@angular*'
-      blocknote:
+          - '@angular/*'
+          - '@angular-devkit/*'
+          - '@angular-builders/*'
+      angular-eslint:
         patterns:
-          - '@blocknote/*'
-      fullcalendar:
-        patterns:
-          - '@fullcalendar/*'
-      html-eslint:
-        patterns:
-          - '@html-eslint/*'
-      ng-select:
-        patterns:
-          - '@ng-select/*'
+          - 'angular-eslint'
+          - '@angular-eslint/*'
       appsignal:
         patterns:
           - '@appsignal/*'
+      blocknote:
+        patterns:
+          - '@blocknote/*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-plugin-*'
+          - '@eslint/*'
+          - '@stylistic/eslint-plugin'
+          - 'globals'
+      fullcalendar:
+        patterns:
+          - '@fullcalendar/*'
+      hocuspocus:
+        patterns:
+          - '@hocuspocus/*'
+      hotwired:
+        patterns:
+          - '@hotwired/turbo'
+          - '@hotwired/turbo-rails'
+      html-eslint:
+        patterns:
+          - '@html-eslint/*'
+      jquery:
+        patterns:
+          - 'jquery'
+          - 'jquery-migrate'
+      mantine:
+        patterns:
+          - '@mantine/*'
+      ng-select:
+        patterns:
+          - '@ng-select/*'
       react:
         patterns:
           - 'react'
           - 'react-dom'
           - '@types/react'
           - '@types/react-dom'
+      testing-library:
+        patterns:
+          - '@testing-library/*'
+      typescript-eslint:
+        patterns:
+          - 'typescript-eslint'
+          - '@typescript-eslint/*'
+      uirouter:
+        patterns:
+          - '@uirouter/*'
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
     ignore:
-      - dependency-name: "@angular*"
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-builders/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "angular-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-eslint/*"
         update-types: ["version-update:semver-major"]
       - dependency-name: "@openproject/octicons"
       - dependency-name: "@openproject/primer-view-components"
       - dependency-name: "@primer/primitives"
       - dependency-name: "@primer/css"
+
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
       interval: "daily"
     target-branch: "dev"
     cooldown:
-      default-days: 5
+      default-days: 7
       semver-major-days: 30
       semver-minor-days: 14
       semver-patch-days: 5
@@ -60,24 +113,11 @@ updates:
       - dependency-name: "openproject-octicons"
       - dependency-name: "openproject-octicons_helper"
       - dependency-name: "openproject-primer_view_components"
-  - package-ecosystem: "npm"
-    directory: "/extensions/op-blocknote-hocuspocus"
-    schedule:
-      interval: "weekly"
-    target-branch: "dev"
-    commit-message:
-      prefix: "deps(hocuspocus)"
-    labels:
-      - "dependencies"
-    groups:
-      npm-minor-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     target-branch: "dev"
+    cooldown:
+      default-days: 7

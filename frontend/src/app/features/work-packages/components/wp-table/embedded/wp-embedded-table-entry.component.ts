@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, ElementRef, Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -20,16 +18,18 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableEntryComponent {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   @Input() public queryProps:unknown;
 
   @Input() public configuration:unknown;
 
   @Input() public initialLoadingIndicator = true;
 
-  constructor(readonly elementRef:ElementRef) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 }

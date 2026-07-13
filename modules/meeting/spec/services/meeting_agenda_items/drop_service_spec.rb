@@ -140,7 +140,7 @@ RSpec.describe MeetingAgendaItems::DropService do
       end
 
       context "when moving to a section from another meeting in the same series" do
-        let(:occurrence_meeting) { create(:meeting, project: project, recurring_meeting: recurring_meeting) }
+        let(:occurrence_meeting) { create(:recurring_meeting_occurrence, project:, recurring_meeting:) }
         let(:target_section) { create(:meeting_section, meeting: occurrence_meeting) }
         let(:target_id) { target_section.id }
 
@@ -180,7 +180,7 @@ RSpec.describe MeetingAgendaItems::DropService do
     context "when moving an agenda item from a recurring meeting to a backlog" do
       let(:recurring_meeting) { create(:recurring_meeting, project: project) }
       let(:template) { recurring_meeting.template }
-      let(:occurrence_meeting) { create(:meeting, project: project, recurring_meeting: recurring_meeting) }
+      let(:occurrence_meeting) { create(:recurring_meeting_occurrence, project: project, recurring_meeting: recurring_meeting) }
       let(:meeting_section) { create(:meeting_section, meeting: occurrence_meeting) }
       let(:meeting_agenda_item) do
         create(:meeting_agenda_item, meeting: occurrence_meeting, meeting_section: meeting_section)

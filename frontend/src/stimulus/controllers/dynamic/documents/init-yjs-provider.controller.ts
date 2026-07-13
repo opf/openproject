@@ -74,6 +74,17 @@ export default class extends Controller {
   connect():void {
     this.currentToken = this.tokenPayloadValue;
 
+    // If a provider for this document is already live, don't build a duplicate
+    // — adopt it. Stimulus can fire connect() a second time (HMR replay, Turbo
+    // morph, parent re-attach) without firing disconnect(); building a fresh
+    // Y.Doc + provider in that case would destroy the live one and wipe the
+    // editor's Y.UndoManager mid-session.
+    const existing = LiveCollaborationManager.getCurrentSessionFor(this.documentNameValue);
+    if (existing) {
+      this.ownedProvider = existing.provider;
+      return;
+    }
+
     const ydoc:Doc = new Y.Doc();
     const provider = new HocuspocusProvider({
       url: this.hocuspocusUrlValue,
@@ -87,7 +98,7 @@ export default class extends Controller {
       },
     });
 
-    LiveCollaborationManager.initializeYjsProvider(provider, ydoc);
+    LiveCollaborationManager.initializeYjsProvider(provider, ydoc, this.documentNameValue);
     this.ownedProvider = provider;
 
     if (this.refreshUrlValue && this.tokenExpiresInSecondsValue) {

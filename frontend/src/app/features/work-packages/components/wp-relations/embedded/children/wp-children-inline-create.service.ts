@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -41,11 +41,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
-  constructor(readonly injector:Injector,
-    protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-    protected readonly schemaCache:SchemaCacheService) {
-    super(injector);
-  }
+  protected readonly wpRelationsHierarchyService = inject(WorkPackageRelationsHierarchyService);
+  protected readonly schemaCache = inject(SchemaCacheService);
 
   /**
    * A separate reference pane for the inline create component

@@ -18,6 +18,7 @@
       size: :medium,
       href: confirm_destroy_saml_provider_path(@provider),
       aria: { label: I18n.t(:button_delete) },
+      data: { turbo_stream: true },
       title: I18n.t(:button_delete)
     ) do |button|
       button.with_leading_visual_icon(icon: :trash)

@@ -34,6 +34,14 @@ module Wikis
       def registry_prefix = "internal"
     end
 
+    def user_connected?(_user) = true
+
+    def configured? = true
+
+    def configured_from_env?
+      Setting.internal_wiki_provider.present?
+    end
+
     def name
       model_name.human
     end

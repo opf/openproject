@@ -34,7 +34,6 @@
 # projects in these cases.
 class PortfoliosController < ProjectsController
   before_action :authorize_portfolio_access, only: %i[index]
-  before_action :not_authorized_on_feature_flag_inactive
 
   skip_before_action :load_query_or_deny_access # skip using the superclass's before action because the next must be called first
   before_action :set_default_query, only: %i[index] # Must be called before `load_query_or_deny_access`
@@ -61,11 +60,12 @@ class PortfoliosController < ProjectsController
         )
         replace_via_turbo_stream(component: Portfolios::IndexComponent.new(query: @query, current_user:))
 
-        current_url = url_for(params.permit(:controller, :action, :query_id, :filters, :sortBy, :page, :per_page))
+        filtered_params = params.permit(:controller, :action, :query_id, :filters, :sortBy, :page, :per_page)
+        current_url = url_for(filtered_params)
         turbo_streams << turbo_stream.push_state(current_url)
         turbo_streams << turbo_stream.turbo_frame_set_src(
           "portfolios_sidemenu",
-          portfolios_menu_url(query_id: @query.id, controller_path: "portfolios")
+          portfolios_menu_url(**filtered_params.except(:controller, :action, :page, :per_page), controller_path: "portfolios")
         )
 
         turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)

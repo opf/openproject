@@ -48,25 +48,11 @@
       end
 
       flex.with_column(data: { "documents--connection-status-target": "offline" }, hidden: true) do
-        flex_layout(align_items: :center) do |row|
-          row.with_column(mr: 1) do
-            render(Primer::Beta::Octicon.new(icon: :alert, color: :attention, size: :small))
-          end
-          row.with_column do
-            render(Primer::Beta::Text.new(color: :attention)) { t("documents.info_line.currently_offline") }
-          end
-        end
+        render(Primer::OpenProject::InlineMessage.new(scheme: :warning)) { t("documents.info_line.currently_offline") }
       end
 
       flex.with_column(data: { "documents--connection-status-target": "recovered" }, hidden: true) do
-        flex_layout(align_items: :center) do |row|
-          row.with_column(mr: 1) do
-            render(Primer::Beta::Octicon.new(icon: :"check-circle", color: :success, size: :small))
-          end
-          row.with_column do
-            render(Primer::Beta::Text.new(color: :success)) { t("documents.info_line.connection_restored") }
-          end
-        end
+        render(Primer::OpenProject::InlineMessage.new(scheme: :success)) { t("documents.info_line.connection_restored") }
       end
     end
   end

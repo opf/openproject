@@ -101,4 +101,84 @@ RSpec.describe OpenProject::TextFormatting::Filters::SanitizationFilter do
       end
     end
   end
+
+  describe "CSS injection prevention" do
+    context "when trying an overlay via position:fixed" do
+      it "strips position and z-index from figure elements" do
+        html = '<figure class="image" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999">content</figure>'
+        output = sanitize(html)
+        expect(output).not_to include("position")
+        expect(output).not_to include("z-index")
+        expect(output).not_to include("top:0")
+        expect(output).not_to include("left:0")
+      end
+
+      it "strips position and z-index from table cells" do
+        html = '<table><tr><td style="position:fixed;z-index:99998;width:100%;height:100%">content</td></tr></table>'
+        output = sanitize(html)
+        expect(output).not_to include("position")
+        expect(output).not_to include("z-index")
+      end
+    end
+
+    context "when trying CSS-based images with URL" do
+      it "strips background-image with url() from table cells" do
+        html = '<table><tr><td style="background-image:url(https://attacker.example.com/track);width:0;height:0">content</td></tr></table>'
+        output = sanitize(html)
+        expect(output).not_to include("background-image")
+        expect(output).not_to include("attacker.example.com")
+      end
+
+      it "strips border-image with url() from table cells" do
+        html = <<~HTML
+          <table>
+            <tr>
+              <td style="border-image:url(https://attacker.example.com/exfil) 30;border-width:1px">
+                content
+              </td>
+            </tr>
+          </table>
+        HTML
+
+        output = sanitize(html)
+        expect(output).not_to include("border-image")
+        expect(output).not_to include("attacker.example.com")
+      end
+    end
+
+    context "when safe formatting CSS is preserved" do
+      it "preserves text-align on table cells" do
+        html = '<table><tr><td style="text-align:center">content</td></tr></table>'
+        output = sanitize(html)
+        expect(output).to include("text-align")
+      end
+
+      it "preserves background-color on table cells" do
+        html = '<table><tr><td style="background-color:#ff0000">content</td></tr></table>'
+        output = sanitize(html)
+        expect(output).to include("background-color")
+      end
+
+      it "preserves width and height on img elements" do
+        html = '<p><img src="image.png" alt="" style="width:100px;height:50px" /></p>'
+        output = sanitize(html)
+        expect(output).to include("width")
+        expect(output).to include("height")
+      end
+
+      it "preserves border styling on tables" do
+        html = '<table style="border-collapse:collapse"><tr><td style="border:1px solid #ccc">content</td></tr></table>'
+        output = sanitize(html)
+        expect(output).to include("border-collapse")
+        expect(output).to include("border")
+      end
+
+      it "preserves float on figure for image alignment" do
+        html = '<figure class="image" style="float:left;margin:1em">content</figure>'
+        output = sanitize(html)
+        expect(output).to include("float")
+        expect(output).to include("margin")
+      end
+    end
+  end
 end

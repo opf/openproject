@@ -29,88 +29,86 @@
 #++
 
 Rails.application.routes.draw do
-  constraints(Constraints::FeatureDecision.new(:scrum_projects)) do
-    # Routes for the new Agile::Sprint
-    # Scoped under projects for permissions:
-    resources :projects, only: [] do
-      resources :sprints, controller: :rb_sprints, only: %i[create] do
+  rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
+  backlogs_redirect = lambda do |params, request, target|
+    query = request.query_string.presence
+    path = "#{rails_relative_url_root}/projects/#{params[:project_id]}/backlogs/#{target}"
+
+    query ? "#{path}?#{query}" : path
+  end
+
+  scope "admin" do
+    resource :backlogs, only: :show, controller: "backlogs/settings", as: "admin_backlogs_settings"
+  end
+
+  scope "projects/:project_id", as: "project", module: "projects" do
+    namespace "settings" do
+      resource :backlog_sharing, only: %i[show update]
+    end
+  end
+
+  resources :projects, only: [] do
+    get "backlogs",
+        to: redirect { |params, request| backlogs_redirect.call(params, request, "backlog") },
+        as: :backlogs
+
+    # TODO: Remove these legacy (version 17.3) compatibility redirects in OpenProject 18.
+    get "sprints/:sprint_id/taskboard",
+        to: redirect { |params, request| backlogs_redirect.call(params, request, "sprints/#{params[:sprint_id]}/taskboard") }
+    get "sprints/:sprint_id/burndown_chart",
+        to: redirect { |params, request| backlogs_redirect.call(params, request, "sprints/#{params[:sprint_id]}/burndown_chart") }
+
+    namespace :backlogs do
+      resource :backlog, controller: :backlog, only: :show
+      get "backlog/details/:work_package_id(/:tab)",
+          to: "backlog#details",
+          as: :backlog_details,
+          work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT },
+          defaults: { tab: :overview }
+
+      resources :buckets, only: %i[create update destroy] do
         collection do
           get :new_dialog
-          get :refresh_form
+        end
+
+        member do
+          get :edit_dialog
+          get :destroy_dialog
+        end
+      end
+
+      resources :sprints, param: :sprint_id, only: %i[index create update] do
+        collection do
+          get :new_dialog
+          post :refresh_form
         end
 
         member do
           post :start
           post :finish
           get :edit_dialog
-          put :update_agile_sprint
-        end
-
-        resources :stories, controller: :rb_stories, only: [] do
-          member do
-            put :move
-          end
         end
       end
 
-      resources :inbox, only: [] do
-        member do
-          put :move
-          post :reorder
-          get :move_to_sprint_dialog
-        end
-      end
-    end
-
-    scope "projects/:project_id", as: "project", module: "projects" do
-      namespace "settings" do
-        resource :backlog_sharing, only: %i[show update]
-      end
-    end
-  end
-
-  # Legacy routes
-  scope "", as: "backlogs" do
-    scope "projects/:project_id", as: "project" do
-      resources :backlogs, controller: :rb_master_backlogs, only: :index do
+      resources :work_packages, controller: :work_packages, only: [] do
         collection do
-          get "details/:work_package_id(/:tab)",
-              action: :details,
-              as: :details,
-              work_package_split_view: true,
-              defaults: { tab: :overview }
-
-          get :backlog
-        end
-      end
-
-      resources :sprints, controller: :rb_sprints, only: %i[update] do
-        resource :query,            controller: :rb_queries,          only: :show
-
-        resource :taskboard,        controller: :rb_taskboards,       only: :show
-
-        resource :wiki,             controller: :rb_wikis,            only: %i[show edit]
-
-        resource :burndown_chart,   controller: :rb_burndown_charts,  only: :show
-
-        resources :impediments,      controller: :rb_impediments,      only: %i[create update]
-
-        resources :tasks,            controller: :rb_tasks,            only: %i[create update]
-
-        resources :stories, controller: :rb_stories, only: [] do
-          member do
-            put :move_legacy
-            post :reorder
-          end
+          get :add_existing_dialog
+          post :add_existing
         end
 
         member do
-          get :edit_name
-          get :show_name
+          get :menu
+          put :move
+          get :move_to_sprint_dialog
+          get :move_to_bucket_dialog
         end
       end
 
-      resource :query, controller: :rb_queries, only: :show
+      scope "sprints/:sprint_id" do
+        get "taskboard", to: "taskboard#show", as: :sprint_taskboard
+        get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
+      end
     end
   end
 
@@ -122,12 +120,5 @@ Rails.application.routes.draw do
         end
       end
     end
-  end
-
-  scope "admin" do
-    resource :backlogs,
-             only: %i[show update],
-             controller: :backlogs_settings,
-             as: "admin_backlogs_settings"
   end
 end

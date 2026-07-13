@@ -78,7 +78,7 @@ module Boards
 
     def statuses_from_last_sprint_board
       last_board = Boards::Grid
-        .where(project: params[:project], linked_type: "Agile::Sprint")
+        .where(project: params[:project], linked_type: "Sprint")
         .order(created_at: :desc)
         .first
 

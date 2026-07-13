@@ -29,7 +29,7 @@
 #++
 
 module WorkflowHelper
-  def workflow_tabs(type, current_role: nil, current_tab: nil)
+  def workflow_tabs(type)
     [
       { name: "always", label: I18n.t(:"admin.workflows.tabs.default_transitions") },
       { name: "author", label: I18n.t(:"admin.workflows.tabs.user_author") },
@@ -37,20 +37,10 @@ module WorkflowHelper
     ].map do |tab|
       tab.merge(
         partial: "workflows/form",
-        path: edit_workflow_path(type, { tab: tab[:name] }.merge(params.permit(:role_id))),
-        data: if current_role
-                {
-                  workflow_tab_link: true,
-                  workflow_tab_current: tab[:name] == current_tab,
-                  confirmation_url: confirmation_dialog_workflows_path(
-                    type_id: type.id,
-                    role_id: current_role.id,
-                    next_tab: tab[:name],
-                    tab: current_tab || "always",
-                    dirty: true
-                  )
-                }
-              end
+        path: edit_workflow_tab_path(type, tab[:name], params.permit(role_ids: [])),
+        data: { "admin--workflow-checkbox-state-confirmation-trigger": "click",
+                turbo_frame: "workflow-table",
+                turbo_action: "advance" }
       )
     end
   end

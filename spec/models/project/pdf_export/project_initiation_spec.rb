@@ -127,19 +127,19 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
         "The description of the project",
 
         "Section A",
-        link_cf.name, "https://www.example.com",
+        bool_cf.name, "Yes",
         text_cf.name, "Some ", "long", " text",
         string_cf.name, "Some small text",
-        bool_cf.name, "Yes",
+        link_cf.name, "https://www.example.com",
         unset_string_cf.name, "–",
 
         "Section B",
         version_cf.name, system_version,
         "#{version_cf.name} comment", "Comment visible to members",
         user_cf.name, "Other User",
-        date_cf.name, format_date(Time.zone.today),
-        float_cf.name, "4.5",
         int_cf.name, "5",
+        float_cf.name, "4.5",
+        date_cf.name, format_date(Time.zone.today),
 
         "1/1", heading, project.name
       ].join(" ")
@@ -160,21 +160,21 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
           "The description of the project",
 
           "Section A",
+          bool_cf.name, "Yes",
+          text_cf.name, "Some ", "long", " text",
+          string_cf.name, "Some small text",
           hidden_cf.name, "hidden",
           "#{hidden_cf.name} comment", "Comment visible to admins",
           link_cf.name, "https://www.example.com",
-          text_cf.name, "Some ", "long", " text",
-          string_cf.name, "Some small text",
-          bool_cf.name, "Yes",
           unset_string_cf.name, "–",
 
           "Section B",
           version_cf.name, system_version,
           "#{version_cf.name} comment", "Comment visible to members",
           user_cf.name, "Other User",
-          date_cf.name, format_date(Time.zone.today),
-          float_cf.name, "4.5",
           int_cf.name, "5",
+          float_cf.name, "4.5",
+          date_cf.name, format_date(Time.zone.today),
 
           "1/1", heading, project.name
         ].join(" ")

@@ -44,7 +44,7 @@
             id="selected_grouping"
             name="selected_grouping"
             class="form--select form--inline-select option-label--select">
-            @for (group of availableGroups; track group) {
+            @for (group of availableGroups; track group.href) {
               <option
                 [textContent]="group.name"
                 [selected]="currentGroup && currentGroup!.href === group.href"

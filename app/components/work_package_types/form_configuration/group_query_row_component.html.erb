@@ -1,0 +1,49 @@
+<%=
+  flex_layout(justify_content: :space_between, align_items: :center) do |row|
+    row.with_column(flex_layout: true, align_items: :center, flex: 1) do |left|
+      left.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
+      left.with_column(flex: 1) do
+        if ee_available?
+          render(
+            Primer::Beta::Button.new(
+              scheme: :link,
+              data: { action: "click->admin--type-form-configuration--main#editQuery" }
+            )
+          ) do
+            t("types.edit.form_configuration.query_group_label")
+          end
+        else
+          render(Primer::Beta::Text.new(color: :subtle, font_style: :italic)) do
+            t("types.edit.form_configuration.query_group_label")
+          end
+        end
+      end
+    end
+
+    if ee_available?
+      row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            scheme: :invisible,
+            size: :small,
+            classes: "type-form-configuration-page--actions-button",
+            test_selector: "type-form-configuration-query-actions-#{@group[:key]}",
+            "aria-label": t("types.edit.form_configuration.row_actions")
+          )
+
+          menu.with_item(
+            label: t("types.edit.form_configuration.edit_query"),
+            test_selector: "type-form-configuration-edit-query-#{@group[:key]}",
+            tag: :button,
+            content_arguments: {
+              data: { action: "click->admin--type-form-configuration--main#editQuery" }
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
+        end
+      end
+    end
+  end
+%>

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -46,6 +46,9 @@ import {
 
 @Injectable()
 export class StorageInformationService {
+  private readonly i18n = inject(I18nService);
+  private readonly currentUserService = inject(CurrentUserService);
+
   private text = {
     fileLinkErrorHeader: this.i18n.t('js.storages.information.live_data_error'),
     fileLinkErrorContent: (storageType:string):string => this.i18n.t('js.storages.information.live_data_error_description', { storageType }),
@@ -59,11 +62,6 @@ export class StorageInformationService {
     suggestLogout: this.i18n.t('js.storages.information.suggest_logout'),
     suggestRelink: this.i18n.t('js.storages.information.suggest_relink'),
   };
-
-  constructor(
-    private readonly i18n:I18nService,
-    private readonly currentUserService:CurrentUserService,
-  ) {}
 
   public storageInformation(storage:IStorage, fileLinks:IFileLink[]):Observable<StorageInformationBox[]> {
     return this.currentUserService.isLoggedIn$

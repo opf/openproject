@@ -33,12 +33,19 @@ module OpenProject
     module Handlers
       class ProjectUpdate
         def self.call(model:, params:, user:)
+          contract_options = project_attributes_only?(params) ? { project_attributes_only: true } : {}
+
           call = ::Projects::UpdateService
-                   .new(model:, user:)
+                   .new(model:, user:, contract_options:)
                    .call(params)
 
           call.success?
         end
+
+        def self.project_attributes_only?(params)
+          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
+        end
+        private_class_method :project_attributes_only?
       end
     end
   end

@@ -59,6 +59,7 @@ module HasDetailsTable
       setup_detail_association(association_name, detail_class, foreign_key)
       setup_detail_aliases(association_name)
       setup_detail_delegation(detail_class, foreign_key)
+      setup_detail_changed_tracking(detail_class, foreign_key)
       setup_detail_dup
     end
 
@@ -118,6 +119,112 @@ module HasDetailsTable
       alias_method :build_detail, :"build_#{association_name}"
     end
 
+    # Include detail column changes in the owner's `changed` and `changes` so
+    # that ModelContract can detect unauthorized writes to delegated attributes.
+    def setup_detail_changed_tracking(detail_class, foreign_key)
+      setup_changed_method(detail_class, foreign_key)
+      setup_changes_method(detail_class, foreign_key)
+      setup_changed_question_method(detail_class, foreign_key)
+      setup_changed_attributes_method(detail_class, foreign_key)
+      setup_previous_changes_method(detail_class, foreign_key)
+      setup_restore_attributes_method(detail_class, foreign_key)
+      setup_reload_method
+
+      # Rails 5.1+ alias - only define if the original method exists
+      alias_method :saved_changes, :previous_changes if method_defined?(:saved_changes)
+    end
+
+    def setup_changed_method(detail_class, foreign_key)
+      define_method(:changed) do
+        result = super()
+        return result unless detail&.persisted?
+
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+        result | (detail.changed & detail_columns)
+      end
+    end
+
+    def setup_changes_method(detail_class, foreign_key)
+      define_method(:changes) do
+        result = super()
+        return result unless detail&.persisted?
+
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+        detail_changes = detail.changes.slice(*detail_columns)
+        result.merge(detail_changes)
+      end
+    end
+
+    def setup_changed_question_method(detail_class, foreign_key) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+      define_method(:changed?) do |attr = nil| # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+
+        if attr.nil?
+          return true if super()
+          return false unless detail&.persisted?
+
+          detail.changed.intersect?(detail_columns)
+        else
+          attr = attr.to_s
+          if detail_columns.include?(attr)
+            detail.persisted? && detail.changed.include?(attr)
+          else
+            return false unless super()
+
+            changed.include?(attr)
+          end
+        end
+      end
+    end
+
+    def setup_changed_attributes_method(detail_class, foreign_key)
+      define_method(:changed_attributes) do
+        result = super()
+        return result unless detail&.persisted?
+
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+        detail_changed = detail.changed_attributes.slice(*detail_columns)
+        result.merge(detail_changed)
+      end
+    end
+
+    def setup_previous_changes_method(detail_class, foreign_key)
+      define_method(:previous_changes) do
+        result = super()
+        return result unless detail&.persisted?
+
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+        detail_previous = detail.previous_changes.slice(*detail_columns)
+        result.merge(detail_previous)
+      end
+    end
+
+    def setup_restore_attributes_method(detail_class, foreign_key)
+      define_method(:restore_attributes) do |attributes = changed|
+        attributes = Array(attributes).map(&:to_s)
+        internal_columns = %w[id created_at updated_at] + [foreign_key]
+        detail_columns = detail_class.column_names - internal_columns
+        owner_attrs = attributes - detail_columns
+        detail_attrs = attributes & detail_columns
+
+        super(owner_attrs) if owner_attrs.any?
+        detail.restore_attributes(detail_attrs) if detail_attrs.any? && detail&.persisted?
+      end
+    end
+
+    def setup_reload_method
+      define_method(:reload) do |*args|
+        result = super(*args)
+        detail&.reload
+        result
+      end
+    end
+
     def setup_detail_delegation(detail_class, foreign_key)
       # Try to set up delegation eagerly so that writer methods exist
       # during assign_attributes in new/create. Requires DB + table.
@@ -156,6 +263,9 @@ module HasDetailsTable
 
     def finalize_detail_delegation!(detail_class, foreign_key)
       return if @_detail_delegation_set_up
+      # The detail table may not yet exist during early migrations on a fresh
+      # database. Skip — the next instance will retry once the table is there.
+      return unless ActiveRecord::Base.connected? && detail_class.table_exists?
 
       @_detail_delegation_set_up = true
 
@@ -169,6 +279,10 @@ module HasDetailsTable
       (detail_class.column_names - internal_columns).each do |col|
         delegate col.to_sym, to: :detail
         define_detail_writer(:"#{col}=")
+
+        if detail_class.columns_hash[col]&.type == :boolean
+          delegate :"#{col}?", to: :detail
+        end
       end
     end
 

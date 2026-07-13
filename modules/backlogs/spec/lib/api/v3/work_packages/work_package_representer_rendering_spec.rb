@@ -41,11 +41,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
                   project:,
                   story_points:,
                   position:,
-                  sprint:)
+                  sprint:,
+                  backlog_bucket:)
   end
-  let(:type) { story_type }
-  let(:story_type) { build_stubbed(:type) }
-  let(:task_type) { build_stubbed(:type) }
+  let(:type) { build_stubbed(:type) }
   let(:enabled_module_names) { %w[backlogs] }
   let(:project) do
     build_stubbed(:project, enabled_module_names:)
@@ -53,7 +52,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
   let(:story_points) { 23 }
   let(:position) { 123 }
-  let(:sprint) { build_stubbed(:agile_sprint) }
+  let(:sprint) { build_stubbed(:sprint) }
+  let(:backlog_bucket) { build_stubbed(:backlog_bucket) }
   let(:embed_links) { true }
   let(:representer) do
     described_class.create(work_package, current_user:, embed_links:)
@@ -67,11 +67,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   current_user { build_stubbed(:user) }
 
   before do
-    allow(Setting)
-      .to receive(:plugin_openproject_backlogs)
-            .and_return("story_types" => [story_type.id.to_s],
-                        "task_type" => task_type.id.to_s)
-
     mock_permissions_for(current_user) do |mock|
       permissions.each do |permission|
         mock.allow_in_project(*permission, project:) if project
@@ -81,30 +76,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
   describe "properties" do
     describe "storyPoints" do
-      context "when it is a story (without the feature flag on)", with_flag: { scrum_projects: false } do
-        it_behaves_like "property", :storyPoints do
-          let(:value) { story_points }
-        end
-      end
-
-      context "when it is a story (with the feature flag on)", with_flag: { scrum_projects: true } do
-        it_behaves_like "property", :storyPoints do
-          let(:value) { story_points }
-        end
-      end
-
-      context "when it is a task (without the feature flag on)", with_flag: { scrum_projects: false } do
-        let(:type) { task_type }
-
-        it_behaves_like "no property", :storyPoints
-      end
-
-      context "when it is a task (with the feature flag on)", with_flag: { scrum_projects: true } do
-        let(:type) { task_type }
-
-        it_behaves_like "property", :storyPoints do
-          let(:value) { story_points }
-        end
+      it_behaves_like "property", :storyPoints do
+        let(:value) { story_points }
       end
 
       context "when backlogs is disabled" do
@@ -115,30 +88,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
     end
 
     describe "position" do
-      context "when it is a story (without the feature flag on)", with_flag: { scrum_projects: false } do
-        it_behaves_like "property", :position do
-          let(:value) { position }
-        end
-      end
-
-      context "when it is a story (with the feature flag on)", with_flag: { scrum_projects: true } do
-        it_behaves_like "property", :position do
-          let(:value) { position }
-        end
-      end
-
-      context "when it is a task (with the feature flag on)", with_flag: { scrum_projects: true } do
-        let(:type) { task_type }
-
-        it_behaves_like "property", :position do
-          let(:value) { position }
-        end
-      end
-
-      context "when it is a task (without the feature flag on)", with_flag: { scrum_projects: false } do
-        let(:type) { task_type }
-
-        it_behaves_like "no property", :position
+      it_behaves_like "property", :position do
+        let(:value) { position }
       end
 
       context "when backlogs is disabled" do
@@ -150,14 +101,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   end
 
   describe "links" do
-    describe "sprint", with_flag: { scrum_projects: true } do
+    describe "sprint" do
       let(:link) { "sprint" }
       let(:href) { api_v3_paths.sprint(sprint.id) }
       let(:title) { sprint.name }
 
-      context "when it is a story" do
-        it_behaves_like "has a titled link"
-      end
+      it_behaves_like "has a titled link"
 
       context "when lacking the permission" do
         let(:permissions) { [] }
@@ -165,26 +114,46 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
         it_behaves_like "has no link"
       end
 
-      context "when the feature flag is inactive", with_flag: { scrum_projects: false } do
-        it_behaves_like "has no link"
-      end
-
-      context "when it is a task with the feature flag off", with_flag: { scrum_projects: false } do
-        let(:type) { task_type }
+      context "when the project is empty (because the work package is not persisted yet)" do
+        let(:project) { nil }
 
         it_behaves_like "has no link"
       end
 
-      context "when it is a task with the feature flag on" do
-        let(:type) { task_type }
+      context "when the work package has no backlog bucket assigned" do
+        let(:sprint) { nil }
 
-        it_behaves_like "has a titled link"
+        it_behaves_like "has an empty link" do
+          let(:link) { "sprint" }
+        end
+      end
+    end
+
+    describe "backlogBucket" do
+      let(:link) { "backlogBucket" }
+      let(:href) { api_v3_paths.backlog_bucket(backlog_bucket.id) }
+      let(:title) { backlog_bucket.name }
+
+      it_behaves_like "has a titled link"
+
+      context "when lacking the permission" do
+        let(:permissions) { [] }
+
+        it_behaves_like "has no link"
       end
 
       context "when the project is empty (because the work package is not persisted yet)" do
         let(:project) { nil }
 
         it_behaves_like "has no link"
+      end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:backlog_bucket) { nil }
+
+        it_behaves_like "has an empty link" do
+          let(:link) { "backlogBucket" }
+        end
       end
     end
 
@@ -206,14 +175,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   end
 
   describe "embedded" do
-    describe "sprint", with_flag: { scrum_projects: true } do
+    describe "sprint" do
       let(:embedded_path) { "_embedded/sprint" }
       let(:embedded_resource) { sprint }
       let(:embedded_resource_type) { "Sprint" }
 
-      context "when it is a story" do
-        it_behaves_like "has the resource embedded"
-      end
+      it_behaves_like "has the resource embedded"
 
       context "when lacking the permission" do
         let(:permissions) { [] }
@@ -221,20 +188,30 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
         it_behaves_like "has the resource not embedded"
       end
 
-      context "when the feature flag is inactive", with_flag: { scrum_projects: false } do
-        it_behaves_like "has the resource not embedded"
-      end
-
-      context "when it is a type with the feature flag off", with_flag: { scrum_projects: false } do
-        let(:type) { task_type }
+      context "when the work package has no sprint assigned" do
+        let(:sprint) { nil }
 
         it_behaves_like "has the resource not embedded"
       end
+    end
 
-      context "when it is a type with the feature flag on" do
-        let(:type) { task_type }
+    describe "backlogBucket" do
+      let(:embedded_path) { "_embedded/backlogBucket" }
+      let(:embedded_resource) { backlog_bucket }
+      let(:embedded_resource_type) { "BacklogBucket" }
 
-        it_behaves_like "has the resource embedded"
+      it_behaves_like "has the resource embedded"
+
+      context "when lacking the permission" do
+        let(:permissions) { [] }
+
+        it_behaves_like "has the resource not embedded"
+      end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:backlog_bucket) { nil }
+
+        it_behaves_like "has the resource not embedded"
       end
     end
   end

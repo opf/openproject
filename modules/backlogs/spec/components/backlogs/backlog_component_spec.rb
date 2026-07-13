@@ -31,122 +31,98 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::BacklogComponent, type: :component do
-  include Rails.application.routes.url_helpers
-
-  shared_let(:type_feature) { create(:type_feature) }
-  shared_let(:type_task) { create(:type_task) }
   shared_let(:default_status) { create(:default_status) }
-  shared_let(:default_priority) { create(:default_priority) }
+  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:project) { create(:project) }
+  shared_let(:bucket) { create(:backlog_bucket, project:) }
+  shared_let(:buckets) { BacklogBucket.for_project(project) }
   shared_let(:user) { create(:admin) }
+
   current_user { user }
 
-  let(:project) { create(:project, types: [type_feature, type_task]) }
-  let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, effective_date: Date.tomorrow) }
-  let(:stories) { [] }
-  let(:backlog) { Backlog.new(sprint:, stories:) }
-
-  before do
-    allow(Setting)
-      .to receive(:plugin_openproject_backlogs)
-      .and_return("story_types" => [type_feature.id.to_s], "task_type" => type_task.id.to_s)
-
-    allow(user).to receive(:backlogs_preference).with(:versions_default_fold_state).and_return("open")
+  let(:work_packages_by_backlog_id) do
+    WorkPackage.in_backlog_for(project:).group_by(&:backlog_bucket_id)
   end
 
   def render_component
-    render_inline(described_class.new(backlog:, project:, current_user: user))
+    render_inline described_class.new(work_packages_by_backlog_id:, buckets:, project:, current_user:)
   end
 
-  describe "rendering" do
-    context "with stories" do
-      let(:story1) do
-        create(:story,
-               project:,
-               type: type_feature,
-               status: default_status,
-               priority: default_priority,
-               story_points: 5,
-               position: 1,
-               version: sprint)
+  describe "total counter" do
+    context "when buckets contain only open work packages" do
+      let!(:work_packages) do
+        create_list(:work_package, 2, project:, backlog_bucket: bucket, status: default_status)
       end
-      let(:story2) do
-        create(:story,
-               project:,
-               type: type_feature,
-               status: default_status,
-               priority: default_priority,
-               story_points: 3,
-               position: 2,
-               version: sprint)
-      end
-      let(:stories) { [story1, story2] }
 
-      it "renders a Primer::Beta::BorderBox" do
+      it "counts all bucket work packages" do
         render_component
-
-        expect(page).to have_css(".Box")
-      end
-
-      it "has the sprint ID in the DOM id" do
-        render_component
-
-        expect(page).to have_css(".Box#backlog_#{sprint.id}")
-      end
-
-      it "renders BacklogHeaderComponent in header" do
-        render_component
-
-        expect(page).to have_css(".Box-header h3", text: "Sprint 1")
-      end
-
-      it "renders a stable id on the backlog header" do
-        render_component
-
-        expect(page).to have_element(:div, class: "Box-header", id: /\Abacklog_#{sprint.id}_header\z/)
-      end
-
-      it "renders StoryComponent for each story" do
-        render_component
-
-        expect(page).to have_css(".Box-row", count: 2) # 2 stories
-        expect(page).to have_text(story1.subject)
-        expect(page).to have_text(story2.subject)
-      end
-
-      it "has drop target data attributes" do
-        render_component
-
-        box = page.find(".Box")
-        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-        expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-        expect(box["data-target-id"]).to eq("version:#{sprint.id}")
-        expect(box["data-target-allowed-drag-type"]).to eq("story")
-      end
-
-      it "has draggable data attributes on story rows" do
-        render_component
-
-        story_row = page.find(".Box-row[id='story_#{story1.id}']")
-        expect(story_row["data-draggable-id"]).to eq(story1.id.to_s)
-        expect(story_row["data-draggable-type"]).to eq("story")
-        expect(story_row["data-drop-url"]).to end_with(move_legacy_backlogs_project_sprint_story_path(project, sprint, story1))
-      end
-
-      it "renders story rows with proper classes" do
-        render_component
-
-        story_row = page.find(".Box-row[id='story_#{story1.id}']")
-        expect(story_row[:class]).to include("Box-row--hover-blue")
-        expect(story_row[:class]).to include("Box-row--focus-gray")
-        expect(story_row[:class]).to include("Box-row--clickable")
+        expect(page).to have_css(".Counter", text: "2")
       end
     end
 
-    context "without stories" do
-      let(:stories) { [] }
-      let(:rendered_component) { render_component }
+    context "when buckets contain a mix of open and closed work packages" do
+      let!(:open_wp) do
+        create(:work_package, project:, backlog_bucket: bucket, status: default_status)
+      end
 
-      it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
+      let!(:closed_wp) do
+        create(:work_package, project:, backlog_bucket: bucket, status: closed_status)
+      end
+
+      it "counts only displayed (non-closed) work packages" do
+        render_component
+        expect(page).to have_css(".Counter", text: "1")
+      end
+    end
+
+    context "when a bucket filter is active" do
+      shared_let(:bucket_a) { create(:backlog_bucket, project:) }
+      shared_let(:bucket_b) { create(:backlog_bucket, project:) }
+
+      let!(:wps_in_bucket_a) do
+        create_list(:work_package, 2, project:, backlog_bucket: bucket_a, status: default_status)
+      end
+      let!(:wps_in_bucket_b) do
+        create_list(:work_package, 3, project:, backlog_bucket: bucket_b, status: default_status)
+      end
+      let!(:inbox_wps) { create_list(:work_package, 1, project:, backlog_bucket: nil, status: default_status) }
+
+      # Simulate the controller: work_packages_by_backlog_id loads all buckets unfiltered,
+      # while buckets is the filtered subset.
+      let(:buckets) { BacklogBucket.where(id: bucket_a.id) }
+
+      it "counts only work packages in the visible buckets" do
+        render_component
+        expect(page).to have_css(".Counter", text: "2")
+      end
+    end
+
+    context "when a bucket filter and the inbox is active" do
+      shared_let(:bucket_a) { create(:backlog_bucket, project:) }
+      shared_let(:bucket_b) { create(:backlog_bucket, project:) }
+
+      let!(:wps_in_bucket_a) { create_list(:work_package, 2, project:, backlog_bucket: bucket_a, status: default_status) }
+      let!(:wps_in_bucket_b) { create_list(:work_package, 3, project:, backlog_bucket: bucket_b, status: default_status) }
+      let!(:inbox_wps) { create_list(:work_package, 1, project:, backlog_bucket: nil, status: default_status) }
+
+      let(:buckets) { BacklogBucket.where(id: bucket_a.id) }
+
+      it "counts work packages in the visible bucket and the inbox" do
+        render_component
+        expect(page).to have_css(".Counter", text: "3")
+      end
+    end
+
+    context "when the inbox is active" do
+      let!(:inbox_wps) { create_list(:work_package, 4, project:, backlog_bucket: nil, status: default_status) }
+      let!(:wps_in_bucket) { create_list(:work_package, 2, project:, backlog_bucket: bucket, status: default_status) }
+
+      let(:buckets) { BacklogBucket.none }
+
+      it "counts only inbox work packages" do
+        render_component
+        expect(page).to have_css(".Counter", text: "4")
+      end
     end
   end
 end

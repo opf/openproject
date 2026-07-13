@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -56,7 +50,7 @@ import {
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import {
   SearchableProjectListService,
@@ -78,6 +72,13 @@ import { calculatePositions } from 'core-app/shared/components/project-include/c
   standalone: false,
 })
 export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  readonly I18n = inject(I18nService);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpIncludeSubprojects = inject(WorkPackageViewIncludeSubprojectsService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly searchableProjectListService = inject(SearchableProjectListService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -96,7 +97,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public textFieldFocused = false;
 
-  public query$ = this.wpTableFilters.querySpace.query.values$();
+  public query$ = this.querySpace.query.values$();
 
   public displayModeOptions = [
     { value: 'all', title: this.text.filter_all },
@@ -131,6 +132,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   private _selectedProjects:string[] = [];
 
+  private queryWorkspaceHref:string | null;
+
   public get selectedProjects():string[] {
     return this._selectedProjects;
   }
@@ -150,13 +153,12 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       map((queryFilters) => {
         const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
         const selectedProjectHrefs = ((projectFilter?.values || []) as HalResource[]).map((p) => p.href);
-        const currentProjectHref = this.currentProjectService.apiv3Path;
-        if (selectedProjectHrefs.includes(currentProjectHref)) {
+        if (selectedProjectHrefs.includes(this.queryWorkspaceHref)) {
           return selectedProjectHrefs;
         }
         const selectedProjects = [...selectedProjectHrefs];
-        if (currentProjectHref) {
-          selectedProjects.push(currentProjectHref);
+        if (this.queryWorkspaceHref) {
+          selectedProjects.push(this.queryWorkspaceHref);
         }
         return selectedProjects;
       }),
@@ -234,7 +236,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
           return true;
         }
 
-        if (project.href === this.currentProjectService.apiv3Path) {
+        if (project.href === this.queryWorkspaceHref) {
           return true;
         }
 
@@ -258,14 +260,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
-    readonly halResourceService:HalResourceService,
-    readonly currentProjectService:CurrentProjectService,
-    readonly searchableProjectListService:SearchableProjectListService,
-  ) {
+  constructor() {
     super();
 
     this.projects$
@@ -289,6 +284,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       )
       .subscribe((includeSubprojects) => {
         this.includeSubprojects = includeSubprojects;
+      });
+
+    this
+      .query$
+      .pipe(
+        this.untilDestroyed(),
+        take(1))
+      .subscribe((query) => {
+        this.queryWorkspaceHref = query.project?.href;
       });
 
     this.onTextInput = this.searchableProjectListService.queriedSearchText$.subscribe(() => this.loading$.next(true));
@@ -321,7 +325,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
   }
 
   public clearSelection():void {
-    this.selectedProjects = [this.currentProjectService.apiv3Path || ''];
+    this.selectedProjects = [this.queryWorkspaceHref ?? ''];
   }
 
   public onSubmit(e:Event):void {

@@ -33,8 +33,8 @@ require_relative Rails.root.join("spec/lib/api/v3/work_packages/eager_loading/ea
 
 RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum, "integration" do
   shared_let(:project) { create(:project) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
-  shared_let(:other_sprint) { create(:agile_sprint, project:) }
+  shared_let(:sprint) { create(:sprint, project:) }
+  shared_let(:other_sprint) { create(:sprint, project:) }
   shared_let(:work_package) do
     create(:work_package,
            project:,

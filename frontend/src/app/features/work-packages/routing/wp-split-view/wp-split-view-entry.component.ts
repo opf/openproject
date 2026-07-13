@@ -26,11 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+
+const splitViewBodyClass = 'router--work-packages-partitioned-split-view-details';
 
 /**
  * An entry component to be rendered by Rails which opens an isolated query space
@@ -48,14 +50,20 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WorkPackageSplitViewEntryComponent {
+export class WorkPackageSplitViewEntryComponent implements OnDestroy {
   @Input() workPackageId:string;
   @Input() activeTab:string;
   @Input() resizerClass:string;
 
-  constructor(readonly elementRef:ElementRef) {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  constructor() {
     populateInputsFromDataset(this);
 
-    document.body.classList.add('router--work-packages-partitioned-split-view-details');
+    document.body.classList.add(splitViewBodyClass);
+  }
+
+  ngOnDestroy():void {
+    document.body.classList.remove(splitViewBodyClass);
   }
 }

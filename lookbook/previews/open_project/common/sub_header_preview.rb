@@ -37,7 +37,7 @@ module OpenProject
           component.with_filter_input(name: "filter", label: "Filter")
           component.with_filter_button do |button|
             button.with_trailing_visual_counter(count: "15")
-            "Filter"
+            "All Filters"
           end
           component.with_action_button(
             leading_icon: :plus,
@@ -60,7 +60,7 @@ module OpenProject
           if show_filter_button
             component.with_filter_button do |button|
               button.with_trailing_visual_counter(count: "15")
-              "Filter"
+              "All filters"
             end
           end
 

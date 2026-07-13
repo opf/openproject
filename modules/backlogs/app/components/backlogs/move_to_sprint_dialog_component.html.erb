@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     d.with_body do
       primer_form_with(
-        url: move_project_inbox_path(project, work_package),
+        url: move_action,
         method: :put,
         id: FORM_ID,
         data: { turbo_stream: true }
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           Primer::Alpha::Select.new(
             name: "target_id",
-            label: Agile::Sprint.human_model_name,
+            label: Sprint.human_model_name,
             visually_hide_label: true
           )
         ) do |select|
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         buttons.with_component(
-          Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, data: { turbo: true }, type: :submit)
+          Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)
         ) do
           t(:button_move)
         end

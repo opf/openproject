@@ -26,12 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Board } from 'core-app/features/boards/board/board';
 import { BoardService } from 'core-app/features/boards/board/board.service';
@@ -55,9 +51,17 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
+  readonly boardActions = inject(BoardActionsRegistryService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly boardService = inject(BoardService);
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly pathHelper = inject(PathHelperService);
+
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
@@ -111,19 +115,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   /** Whether the no results warning is displayed */
   showWarning = false;
-
-  constructor(readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly boardActions:BoardActionsRegistryService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly boardService:BoardService,
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly currentProject:CurrentProjectService,
-    readonly pathHelper:PathHelperService) {
-    super(locals, cdRef, elementRef);
-  }
 
   ngOnInit() {
     super.ngOnInit();

@@ -70,6 +70,8 @@ class Widget::Filters::WorkPackage < Widget::Filters::Base
     expand_comma_separated_values!
 
     work_packages = WorkPackage.visible.where(id: filter.values)
-    work_packages.map { |wp| { id: wp.id, name: wp.subject } }
+    work_packages.map do |wp|
+      { id: wp.id, displayId: wp.display_id.to_s, formattedId: wp.formatted_id, subject: wp.subject, name: wp.subject }
+    end
   end
 end

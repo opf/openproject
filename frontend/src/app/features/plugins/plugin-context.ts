@@ -1,4 +1,4 @@
-import { ApplicationRef, Injector, NgZone } from '@angular/core';
+import { ApplicationRef, Injector } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -15,7 +15,7 @@ import { CKEditorPreviewService } from 'core-app/shared/components/editor/compon
 import {
   ExternalRelationQueryConfigurationService,
 } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
@@ -89,11 +89,16 @@ export class OpenProjectPluginContext {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   public readonly hooks:Record<string, (callback:(...args:any[]) => unknown) => void> = {};
 
-  // Angular zone reference
-  @InjectField() public readonly zone:NgZone;
+  /**
+   * @deprecated Noop shim — the app is zoneless. Remove usages.
+   */
+  public readonly zone = {
+    run: <T>(cb:() => T):T => cb(),
+    runOutsideAngular: <T>(cb:() => T):T => cb(),
+  };
 
   // Angular application reference
-  @InjectField() public readonly appRef:ApplicationRef;
+  @LazyInject() public readonly appRef:ApplicationRef;
 
   // Angular2 global injector reference
   constructor(public readonly injector:Injector) {
@@ -105,12 +110,10 @@ export class OpenProjectPluginContext {
   }
 
   /**
-   * Run the given callback in the angular zone,
-   * resulting in triggered change detection that would otherwise not occur.
-   *
-   * @param cb
+   * @deprecated This method is a no-op since the app is zoneless.
+   * Replace calls with direct invocation of the callback.
    */
   public runInZone(cb:() => void) {
-    this.zone.run(cb);
+    cb();
   }
 }

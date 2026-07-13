@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe "Project attributes activity", :js do
   let(:user) do
     create(:user, member_with_permissions: {
-             project => %i[view_work_packages edit_work_packages],
-             project2 => %i[view_work_packages edit_work_packages]
+             project => %i[view_work_packages edit_work_packages view_project_attributes],
+             project2 => %i[view_work_packages edit_work_packages view_project_attributes]
            })
   end
   let(:parent_project) { create(:project, name: "parent") }
@@ -122,8 +122,10 @@ RSpec.describe "Project attributes activity", :js do
         # custom fields
         activity_page.expect_activity("#{list_project_custom_field.name} " \
                                       "set to #{project.send(list_project_custom_field.attribute_getter)}")
-        activity_page.expect_activity("#{version_project_custom_field.name} " \
-                                      "set to #{old_version[project].name}, #{next_version[project].name}")
+        sorted_version_names = [old_version[project], next_version[project]]
+                                  .sort_by { |v| v.id.to_s }
+                                  .map(&:name).join(", ")
+        activity_page.expect_activity("#{version_project_custom_field.name} set to #{sorted_version_names}")
         activity_page.expect_activity("#{bool_project_custom_field.name} set to Yes")
         activity_page.expect_activity("#{user_project_custom_field.name} set to #{current_user.name}")
         activity_page.expect_activity("#{int_project_custom_field.name} set to 42")
@@ -131,6 +133,46 @@ RSpec.describe "Project attributes activity", :js do
         activity_page.expect_activity("#{text_project_custom_field.name} set (Details)")
         activity_page.expect_activity("#{string_project_custom_field.name} set to a new string CF value")
         activity_page.expect_activity("#{date_project_custom_field.name} set to 01/31/2023")
+      end
+    end
+  end
+
+  describe "custom field visibility enforcement on the project activity page" do
+    let!(:string_cf) { create(:string_project_custom_field) }
+    let(:cf_project) { create(:project) }
+    let(:activity_page) { Pages::Projects::Activity.new(cf_project) }
+
+    let(:user_without_cf_permission) do
+      create(:user, member_with_permissions: { cf_project => %i[view_work_packages] })
+    end
+    let(:user_with_cf_permission) do
+      create(:user, member_with_permissions: { cf_project => %i[view_work_packages view_project_attributes] })
+    end
+
+    before do
+      cf_project.update!(custom_field_values: { "#{string_cf.id}": "initial" })
+      cf_project.update!(custom_field_values: { "#{string_cf.id}": "changed" })
+    end
+
+    context "when the user lacks view_project_attributes" do
+      current_user { user_without_cf_permission }
+
+      it "does not show the custom field change in the activity feed" do
+        activity_page.visit!
+        activity_page.show_details
+
+        expect(page).to have_no_text(string_cf.name)
+      end
+    end
+
+    context "when the user has view_project_attributes" do
+      current_user { user_with_cf_permission }
+
+      it "shows the custom field change in the activity feed" do
+        activity_page.visit!
+        activity_page.show_details
+
+        expect(page).to have_text(string_cf.name)
       end
     end
   end

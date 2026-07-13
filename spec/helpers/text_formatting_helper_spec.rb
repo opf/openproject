@@ -135,10 +135,12 @@ RSpec.describe TextFormattingHelper do
     end
 
     context "with potentially harmful code" do
-      it "escapes" do
+      it "strips script tags and their content" do
         text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-        expect(truncate_formatted_text(text))
-          .to include("&lt;script&gt;alert('pwnd');&lt;/script&gt;")
+        result = truncate_formatted_text(text)
+        expect(result).not_to include("<script>")
+        expect(result).not_to include("alert('pwnd')")
+        expect(result).to include("Lorem ipsum dolor")
       end
     end
   end

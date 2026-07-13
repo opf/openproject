@@ -32,6 +32,7 @@ module Users
   class UpdateContract < BaseContract
     validate :user_allowed_to_update
     validate :at_least_one_admin_is_active
+    validate :user_limit_not_exceeded
 
     ##
     # Users can only be updated when
@@ -60,6 +61,12 @@ module Users
       end
     end
 
+    def user_limit_not_exceeded
+      if activating_user? && OpenProject::Enterprise.user_limit_reached?
+        errors.add :base, :user_limit_reached
+      end
+    end
+
     def editing_themself?
       user == model
     end
@@ -68,6 +75,10 @@ module Users
     # Only users with manage_user permission can edit other users
     def can_manage_user?
       user.allowed_globally?(:manage_user) && (user.admin? || !model.admin?)
+    end
+
+    def activating_user?
+      model.status_changed? && model.active?
     end
   end
 end

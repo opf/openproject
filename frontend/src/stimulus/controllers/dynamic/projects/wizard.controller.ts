@@ -29,23 +29,17 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class WizardController extends Controller {
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService', 'currentProject'];
+
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'|'currentProject'>>;
+
   private currentFieldId:string|null = null;
 
-  private turboRequests:TurboRequestsService;
-  private pathHelper:PathHelperService;
-  private currentProject:CurrentProjectService;
-
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async connect() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
-    this.currentProject = context.services.currentProject;
+  initialize() {
+    useAngularServices(this);
   }
 
   handleFieldFocus(event:FocusEvent):void {
@@ -68,8 +62,9 @@ export default class WizardController extends Controller {
     return null;
   }
 
-  private updateHelpText(customFieldId:string) {
-    const url = this.pathHelper.projectCreationWizardHelpTextPath(this.currentProject.identifier!, customFieldId);
-    void this.turboRequests.requestStream(url);
+  private async updateHelpText(customFieldId:string) {
+    const { turboRequests, pathHelperService, currentProject } = await this.services;
+    const url = pathHelperService.projectCreationWizardHelpTextPath(currentProject.identifier!, customFieldId);
+    void turboRequests.requestStream(url);
   }
 }

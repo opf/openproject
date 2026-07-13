@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= flex_layout do |box|
   if model.in_state?(:reverting, :reverted, :revert_error)
     box.with_row do
-      concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
         I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert")
       })
     end
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
   elsif model.in_state?(:finalizing, :finalizing_done, :finalizing_error)
     box.with_row do
-      concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
         I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalize_import")
       })
     end
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
   else
     box.with_row do
-      concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
         I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
       })
       if model.status_before?(:imported)
@@ -98,7 +98,8 @@ See COPYRIGHT and LICENSE files for more details.
       box.with_row(mt: 3, mb: 3) do
         render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
           title: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_results"),
-          list: imported_data
+          list: imported_data,
+          show_icon: false
         ))
       end
     end

@@ -17,6 +17,10 @@ export const formControlBinding = {
 export class SpotFormBindingDirective extends NgControl {
   @Input('spotFormBinding') form!:UntypedFormControl|UntypedFormGroup|UntypedFormArray;
 
+  constructor() {
+    super();
+  }
+
   get control():UntypedFormControl|UntypedFormGroup|UntypedFormArray {
     return this.form;
   }

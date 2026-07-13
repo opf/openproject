@@ -39,11 +39,12 @@ module Admin::Import::Jira::ImportRuns
 
     def import_selection
       [
-        { label: projects_label(selected_projects_count), checked: true },
-        { label: issues_label(selected_issues_count), checked: true },
-        { label: statuses_label(selected_statuses_count), checked: true },
-        { label: types_label(selected_types_count), checked: true }
-      ]
+        projects_label(selected_projects_count),
+        issues_label(selected_issues_count),
+        statuses_label(selected_statuses_count),
+        types_label(selected_types_count)
+      ].compact
+       .map { |label| { label:, checked: true } }
     end
 
     def selected_projects_count
@@ -51,15 +52,15 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def selected_issues_count
-      model.selected["issues_count"] || 0
+      model.selected["issues_count"]
     end
 
     def selected_types_count
-      model.selected["issue_type_ids"]&.count || 0
+      model.selected["issue_type_ids"]&.count
     end
 
     def selected_statuses_count
-      model.selected["status_ids"]&.count || 0
+      model.selected["status_ids"]&.count
     end
   end
 end

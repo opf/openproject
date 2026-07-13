@@ -13,7 +13,7 @@ This guide covers all of OpenProject's functionalities from a user's perspective
 
 ## Overview of projects in OpenProject
 
-Your work within OpenProject can be organized into multiple projects, each with a distinct set of members and their respective roles in that project.  In turn, each project can be individually configured with regards to the enabled features, called *Modules* in OpenProject. This distinction between projects provides you with a lot of flexibility to set up your work, and control what users are allowed to view and/or collaborate on in each individual project.
+Your work within OpenProject can be organized into multiple projects, each with a distinct set of members and their respective roles in that project.  In turn, each project can be individually configured with regards to the enabled features, called _Modules_ in OpenProject. This distinction between projects provides you with a lot of flexibility to set up your work, and control what users are allowed to view and/or collaborate on in each individual project.
 
 Both the Community edition and Enterprise edition allow you to create an unlimited number of projects to separate your work. To learn more about the creation and management of projects within OpenProject, [please visit our separate section on projects](projects/).
 

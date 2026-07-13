@@ -132,7 +132,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   def work_package_columns(work_package)
     [
-      work_package.id.to_s,
+      work_package.display_id.to_s,
       work_package.subject,
       work_package.status.name,
       work_package.story_points.to_s,
@@ -148,7 +148,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   def work_package_details(work_package, index, ltfs = [])
     result = [
       "#{index}.", work_package.subject,
-      column_title(:id), work_package.id.to_s,
+      column_title(:id), work_package.display_id.to_s,
       column_title(:status), work_package.status.name,
       column_title(:story_points), work_package.story_points.to_s,
       column_title(:done_ratio), work_package_done_ratio(work_package),
@@ -250,12 +250,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
             project_phase_with_gates.name,
             *column_titles - ["Project phase"],
-            work_package_parent.id.to_s,
+            work_package_parent.display_id.to_s,
             work_package_parent.subject,
 
             project_phase.name,
             *column_titles - ["Project phase"],
-            work_package_child.id.to_s,
+            work_package_child.display_id.to_s,
             work_package_child.subject
           ]
           strings = pdf_strings_without_footers(1)
@@ -453,7 +453,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     def relation_table_row(work_package)
       [
-        work_package.id.to_s,
+        work_package.display_id.to_s,
         work_package.type.name,
         work_package.subject,
         work_package.status.name
@@ -463,7 +463,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     def detail_attributes(work_package, index)
       [
         "#{index}.", work_package.subject,
-        column_title(:id), work_package.id.to_s,
+        column_title(:id), work_package.display_id.to_s,
         column_title(:status), work_package.status.name
       ]
     end
@@ -548,7 +548,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
       it "contains related work packages of the specified type" do
         strings = pdf_strings_without_footers(2)
-        show
         expect(strings).to eq [
           *cover_page_content,
           query.name,
@@ -562,6 +561,93 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
           *detail_attributes(work_package_child, "2"),
           *detail_attributes(work_package_related, "3")
         ].join(" ")
+      end
+    end
+  end
+
+  describe "timezone handling" do
+    let(:options) { { pdf_export_type: "table" } }
+    let(:column_names) { %w[id subject] }
+
+    context "when user has a timezone different from UTC" do
+      let(:user) do
+        create(:user,
+               preferences: { "time_zone" => "America/Los_Angeles" },
+               member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+      end
+      # This is 2023-07-01 00:59 UTC, which should be 2023-06-30 17:59 in America/Los_Angeles (UTC-7 during PDT)
+      let(:export_time) { DateTime.new(2023, 7, 1, 0, 59, 0, "+00:00") }
+
+      it "uses user's timezone for title_datetime in filename" do
+        login_as(user)
+        exporter = described_class.new(query, options)
+        Timecop.freeze(export_time) do
+          # title_datetime should be in user's timezone: 2023-06-30_17-59
+          expect(exporter.send(:title_datetime)).to eq("2023-06-30_17-59")
+        end
+      end
+
+      it "uses user's timezone for footer_date" do
+        login_as(user)
+        exporter = described_class.new(query, options)
+        Timecop.freeze(export_time) do
+          # footer_date should show June 30, 2023 (user's local date)
+          user_date = format_date(export_time.in_time_zone(user.time_zone))
+          expect(exporter.send(:footer_date)).to eq(user_date)
+        end
+      end
+
+      it "uses user's timezone for export_datetime" do
+        login_as(user)
+        exporter = described_class.new(query, options)
+        Timecop.freeze(export_time) do
+          export_datetime = exporter.send(:export_datetime)
+          # Should be in user's timezone
+          expect(export_datetime.zone).to eq("PDT") # Pacific Daylight Time
+          expect(export_datetime.year).to eq(2023)
+          expect(export_datetime.month).to eq(6)
+          expect(export_datetime.day).to eq(30)
+          expect(export_datetime.hour).to eq(17)
+          expect(export_datetime.min).to eq(59)
+        end
+      end
+    end
+
+    context "when user has UTC timezone" do
+      let(:user) do
+        create(:user,
+               preferences: { "time_zone" => "Etc/UTC" },
+               member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+      end
+      let(:export_time) { DateTime.new(2023, 6, 30, 23, 59, 0, "+00:00") }
+
+      it "uses UTC for title_datetime" do
+        login_as(user)
+        exporter = described_class.new(query, options)
+        Timecop.freeze(export_time) do
+          expect(exporter.send(:title_datetime)).to eq("2023-06-30_23-59")
+        end
+      end
+    end
+
+    context "when user has positive offset timezone" do
+      let(:user) do
+        create(:user,
+               preferences: { "time_zone" => "Asia/Tokyo" },
+               member_with_permissions: { project => %w[view_work_packages export_work_packages] })
+      end
+      # This is 2023-06-30 15:59 UTC, which should be 2023-07-01 00:59 in Tokyo (UTC+9)
+      let(:export_time) { DateTime.new(2023, 6, 30, 15, 59, 0, "+00:00") }
+
+      it "uses user's timezone and crosses day boundary correctly" do
+        login_as(user)
+        exporter = described_class.new(query, options)
+        Timecop.freeze(export_time) do
+          # Should show July 1st in Tokyo timezone
+          expect(exporter.send(:title_datetime)).to eq("2023-07-01_00-59")
+          user_date = format_date(export_time.in_time_zone(user.time_zone))
+          expect(exporter.send(:footer_date)).to eq(user_date)
+        end
       end
     end
   end

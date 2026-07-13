@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Pagy initializer file (43.0.2)
+# Pagy initializer file (43.5.4)
 # See https://ddnexus.github.io/pagy/resources/initializer/
 
 ############ Global Options ################################################################
@@ -37,8 +37,7 @@
 # For example:
 #
 # Pagy.options[:limit] = 10               # Limit the items per page
-# Pagy.options[:client_max_limit] = 100   # The client can request a limit up to 100
-# Pagy.options[:max_pages] = 200          # Allow only 200 pages
+# Pagy.options[:max_limit] = 100           # The client can request a limit up to 100
 # Pagy.options[:jsonapi] = true           # Use JSON:API compliant URLs
 
 ############ JavaScript ####################################################################

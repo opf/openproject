@@ -26,31 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  Injector,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from } from 'rxjs';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   EditFieldComponent,
-  OpEditingPortalChangesetToken,
-  OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ResourceChangeset } from '../../changeset/resource-changeset';
-import { IFieldSchema } from '../../field.base';
-import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { take, tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -66,32 +49,13 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
   standalone: false,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
-  isNew = isNewResource(this.resource);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly http = inject(HttpClient);
+  readonly halResourceService = inject(HalResourceService);
+
+  isNew = isNewResource(this.resource as { id:string | null });
 
   url:string;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-    @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-    @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-    @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-    readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly http:HttpClient,
-    readonly halResourceService:HalResourceService,
-  ) {
-    super(
-      I18n,
-      elementRef,
-      change,
-      schema,
-      handler,
-      cdRef,
-      injector,
-    );
-  }
 
   initialize():void {
     if (this.schema.allowedValues) {
@@ -120,9 +84,10 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
         { name: 'active', operator: '=' as FilterOperator, values: ['t'] },
     ];
 
-    if (isNewResource(this.resource) && this.change.value('type')) {
-      const typeId = idFromLink((this.change.value('type') as { href:string }).href);
-      filters.push({ name: 'type_id', operator: '=' as FilterOperator, values: [typeId] });
+    const type = this.change.value<{ href:string }|null>('type');
+    if (isNewResource(this.resource as { id:string | null }) && type) {
+      const typeId = idFromLink(type.href);
+      filters.push({ name: 'type_id', operator: '=', values: [typeId] });
     }
 
     return filters;

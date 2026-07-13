@@ -21,12 +21,11 @@
 #++
 ---
 it:
-  plugin_openproject_documents:
-    name: Documenti OpenProject
-    description: Un plugin OpenProject per consentire la creazione di documenti nei progetti.
-  attributes:
-    collaborative_editing_hocuspocus_url: URL del server Hocuspocus
   activerecord:
+    attributes:
+      document:
+        content_binary: Contenuto binario
+        title: Titolo
     errors:
       models:
         document_type:
@@ -34,123 +33,125 @@ it:
     models:
       document: Documento
       documents: Documenti
-    attributes:
-      document:
-        content_binary: Contenuto binario
-        title: Titolo
   activity:
     filter:
       document: Documenti
+  attributes:
+    collaborative_editing_hocuspocus_url: URL del server Hocuspocus
   default_doc_category_tech: Documentazione tecnica
   default_doc_category_user: Documentazione utente
-  enumeration_doc_categories: Categorie di documenti
   documents:
-    page_header:
-      heading: Tutti i documenti
-      action_menu:
-        document_actions: Azioni sul documento
-        edit_title: Modifica titolo
-    subheader:
-      filter:
-        label: Filtro per nome documento
-        placeholder: Digita qui per cercare i nomi dei documenti
-    documents_list_blank_slate:
-      heading: Non ci sono ancora documenti
-      description: Non ci sono documenti in questa vista. Puoi cliccare sul pulsante qui sotto per aggiungerne uno.
-    document_categories_deprecation_notice:
-      heading: Le categorie di file sono ora chiamate 'Tipi di documento'
-      description: |-
-        Le categorie di file esistenti sono state convertite in tipi di documento con l'introduzione del nuovo modulo Documenti.
-        Tutti i documenti esistenti sono stati migrati verso questi nuovi tipi.
-      primary_action: Configura tipi di documento
-      secondary_action: Scopri di più sul modulo Documenti
-    document_type_actions: Azioni sul tipo di documento
-    text_collaboration_disabled_notice:
-      description: |-
-        Impossibile aprire il documento perché la collaborazione in tempo reale sul testo è disattivata.
-        Contatta l'amministratore per abilitare la collaborazione in tempo reale se desideri accedere a questo documento.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-        action: Riprova
-      tabs: Schede dei documenti
-    index_page:
-      name: Nome
-      type: Tipo
-      updated_at: Ultima modifica
-      label_legacy: Legacy
-    menu:
-      all: Tutti i documenti
-      types: Tipi
-      collaboration_settings: Collaborazione in tempo reale
-    last_updated_at: Ultimo salvataggio %{time}.
-    info_line:
-      currently_offline: You are currently offline.
-      connection_restored: You are now back online.
     active_editors: Editor attivi
     active_editors_count:
       one: 1 editor attivo
       other: "%{count} editor attivi"
-    label_attachment_author: Autore allegato
-    label_categories: Categorie
-    new_category: Nuova categoria
-    new_type: Nuovo tipo
-    delete_dialog:
-      title: Elimina documento
-      heading: Eliminare questo documento?
-      confirmation_message_html: Questa operazione eliminerà definitivamente il documento e tutti gli allegati. Vuoi davvero procedere?
-    delete_document_type_dialog:
-      title: Elimina tipo di documento
-      heading: Eliminare questo tipo di documento?
-      confirmation_message: Il tipo "%{type_name}" non è attualmente utilizzato. L'eliminazione di questo tipo non avrà alcun effetto sui documenti esistenti.
-      select_reassign_to_label: Riassegna i documenti a
-      reassign_message:
-        one: Il tipo "%{type_name}" è attualmente utilizzato in %{document_count} documento. Seleziona il tipo a cui riassegnarli.
-        other: Il tipo "%{type_name}" è attualmente utilizzato in %{document_count} documenti. Seleziona il tipo a cui riassegnarli.
-      at_least_one_type_required:
-        title: Non è possibile eliminare il tipo di documento
-        heading: Non è possibile eliminare l'ultimo tipo di documento
-        message: Deve essere sempre configurato almeno un tipo di documento. Creane prima un altro se vuoi eliminare questo.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Questi valori sono configurati tramite variabili di ambiente e non possono essere modificati qui.
+          some_unwritable: Alcuni valori sono configurati tramite variabili di ambiente e non possono essere modificati qui.
+        hocuspocus_server: Server Hocuspocus
+        hocuspocus_server_secret:
+          caption: Incolla il segreto fornito dal server Hocuspocus.
+          label: Segreto client
+        hocuspocus_server_url:
+          caption: L'indirizzo WebSocket di un server Hocuspocus funzionante.
+          invalid_scheme: Deve usare un protocollo WebSocket (ws:// o wss://).
+          label: URL del server Hocuspocus
         page_header:
           description: |-
             Quando è attiva, la collaborazione in tempo reale consente a più utenti di modificare un documento contemporaneamente.
             Per funzionare è necessario un %{hocuspocus_server_link} operativo.
-        banner:
-          none_writable: Questi valori sono configurati tramite variabili di ambiente e non possono essere modificati qui.
-          some_unwritable: Alcuni valori sono configurati tramite variabili di ambiente e non possono essere modificati qui.
-        hocuspocus_server_url:
-          label: URL del server Hocuspocus
-          caption: L'indirizzo WebSocket di un server Hocuspocus funzionante.
-          invalid_scheme: Deve usare un protocollo WebSocket (ws:// o wss://).
-        hocuspocus_server_secret:
-          label: Segreto client
-          caption: Incolla il segreto fornito dal server Hocuspocus.
-        hocuspocus_server: Server Hocuspocus
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Sono consapevole che potrei perdere dati in modo permanente
+        confirmation_message: Tutti i documenti esistenti potrebbero diventare inaccessibili. Procedi solo se hai certezza di voler disattivare la collaborazione in tempo reale e l'editor BlockNote in questa istanza.
+        heading: Disabilitare la collaborazione in tempo reale?
+        success: La collaborazione in tempo reale è stata disattivata.
+        title: Disabilita la collaborazione in tempo reale
       enable_text_collaboration:
-        heading: La collaborazione in tempo reale non è abilitata
         description: |-
           Una volta attivata, più utenti potranno lavorare contemporaneamente sullo stesso documento.
           Tutti i nuovi documenti utilizzeranno un nuovo editor, BlockNote, e richiederanno una connessione funzionante a un server Hocuspocus.
+        heading: La collaborazione in tempo reale non è abilitata
         primary_action: Abilita collaborazione in tempo reale
         success: La collaborazione in tempo reale è stata attivata.
-      disable_text_collaboration_dialog:
-        title: Disabilita la collaborazione in tempo reale
-        heading: Disabilitare la collaborazione in tempo reale?
-        confirmation_message: Tutti i documenti esistenti potrebbero diventare inaccessibili. Procedi solo se hai certezza di voler disattivare la collaborazione in tempo reale e l'editor BlockNote in questa istanza.
-        confirmation_checkbox_message: Sono consapevole che potrei perdere dati in modo permanente
-        success: La collaborazione in tempo reale è stata disattivata.
+    button_add_type: Tipo
+    delete_dialog:
+      confirmation_message_html: Questa operazione eliminerà definitivamente il documento e tutti gli allegati. Vuoi davvero procedere?
+      heading: Eliminare questo documento?
+      title: Elimina documento
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Non è possibile eliminare l'ultimo tipo di documento
+        message: Deve essere sempre configurato almeno un tipo di documento. Creane prima un altro se vuoi eliminare questo.
+        title: Non è possibile eliminare il tipo di documento
+      confirmation_message: Il tipo "%{type_name}" non è attualmente utilizzato. L'eliminazione di questo tipo non avrà alcun effetto sui documenti esistenti.
+      heading: Eliminare questo tipo di documento?
+      reassign_message:
+        one: Il tipo "%{type_name}" è attualmente utilizzato in %{document_count} documento. Seleziona il tipo a cui riassegnarli.
+        other: Il tipo "%{type_name}" è attualmente utilizzato in %{document_count} documenti. Seleziona il tipo a cui riassegnarli.
+      select_reassign_to_label: Riassegna i documenti a
+      title: Elimina tipo di documento
+    document_categories_deprecation_notice:
+      description: |-
+        Le categorie di file esistenti sono state convertite in tipi di documento con l'introduzione del nuovo modulo Documenti.
+        Tutti i documenti esistenti sono stati migrati verso questi nuovi tipi.
+      heading: Le categorie di file sono ora chiamate 'Tipi di documento'
+      primary_action: Configura tipi di documento
+      secondary_action: Scopri di più sul modulo Documenti
+    document_type_actions: Azioni sul tipo di documento
+    documents_list_blank_slate:
+      description: Non ci sono documenti in questa vista. Puoi cliccare sul pulsante qui sotto per aggiungerne uno.
+      heading: Non ci sono ancora documenti
+    index_page:
+      label_legacy: Legacy
+      name: Nome
+      type: Tipo
+      updated_at: Ultima modifica
+    info_line:
+      connection_restored: Ora sei di nuovo online.
+      currently_offline: Sei attualmente offline.
+    label_attachment_author: Autore allegato
+    label_categories: Categorie
+    last_updated_at: Ultimo salvataggio %{time}.
+    menu:
+      all: Tutti i documenti
+      collaboration_settings: Collaborazione in tempo reale
+      types: Tipi
+    new_category: Nuova categoria
+    new_type: Nuovo tipo
+    page_header:
+      action_menu:
+        document_actions: Azioni sul documento
+        edit_title: Modifica titolo
+      heading: Tutti i documenti
+    show_edit_view:
+      connection_error_notice:
+        action: Riprova
+        description_server_unavailable: |-
+          Impossibile aprire il documento perché il server della collaborazione in tempo reale sul testo non è raggiungibile.
+          Se il problema persiste, contatta l'amministratore.
+      tabs: Schede dei documenti
+    subheader:
+      filter:
+        label: Filtro per nome documento
+        placeholder: Digita qui per cercare i nomi dei documenti
+    text_collaboration_disabled_notice:
+      description: |-
+        Impossibile aprire il documento perché la collaborazione in tempo reale sul testo è disattivata.
+        Contatta l'amministratore per abilitare la collaborazione in tempo reale se desideri accedere a questo documento.
+  enumeration_doc_categories: Categorie di documenti
   label_document_added: Documento aggiunto
+  label_document_category: Categoria
+  label_document_description: Descrizione
   label_document_new: Nuovo Documento
   label_document_plural: Documenti
-  label_documents: Documenti
   label_document_title: Titolo
-  label_document_description: Descrizione
-  label_document_category: Categoria
   label_document_type: Tipo
+  label_documents: Documenti
   permission_manage_documents: Gestione documenti
   permission_view_documents: Visualizzare i documenti
+  plugin_openproject_documents:
+    description: Un plugin OpenProject per consentire la creazione di documenti nei progetti.
+    name: Documenti OpenProject
   project_module_documents: Documenti

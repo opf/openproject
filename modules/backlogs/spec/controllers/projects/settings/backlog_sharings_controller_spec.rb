@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Settings::BacklogSharingsController, with_flag: { scrum_projects: true } do
+RSpec.describe Projects::Settings::BacklogSharingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
@@ -21,7 +21,7 @@ RSpec.describe Projects::Settings::BacklogSharingsController, with_flag: { scrum
     before do
       allow(Projects::UpdateService)
         .to receive(:new)
-        .with(model: project, user:, contract_class: Projects::BacklogSettingsContract)
+        .with(model: project, user:, contract_class: Backlogs::Projects::BacklogSettingsContract)
         .and_return(update_service)
 
       patch :update, params: { project_id: project.identifier, project: project_params }

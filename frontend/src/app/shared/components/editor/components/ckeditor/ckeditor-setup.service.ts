@@ -1,5 +1,6 @@
+import { escapeRegExp } from 'lodash-es';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ICKEditorContext,
   ICKEditorStatic,
@@ -21,17 +22,14 @@ declare global {
 
 @Injectable()
 export class CKEditorSetupService {
+  readonly PathHelper = inject(PathHelperService);
+  readonly configurationService = inject(ConfigurationService);
+
   /** The language CKEditor was able to load, falls back to 'en' */
   private loadedLocale = 'en';
 
   /** Prefetch ckeditor when browser is idle */
   private prefetch:Promise<unknown>;
-
-  constructor(
-    readonly PathHelper:PathHelperService,
-    readonly configurationService:ConfigurationService,
-    ) {
-  }
 
   public initialize() {
     this.prefetch = this.load();
@@ -61,14 +59,25 @@ export class CKEditorSetupService {
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
-    const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar')!;
-    const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
+    const toolbarWrapper = wrapper.querySelector<HTMLElement>('.document-editor__toolbar');
+    const contentWrapper = wrapper.querySelector<HTMLElement>('.document-editor__editable');
+    if (!toolbarWrapper || !contentWrapper) {
+      throw new Error('Missing CKEditor wrapper elements.');
+    }
     const config = this.createConfig(context, initialData);
 
     return this
       .createWatchdog(editorClass, contentWrapper, config)
       .then((watchdog:ICKEditorWatchdog) => {
         const { editor } = watchdog;
+        const updateLastUpdated = () => {
+          const editable = wrapper.querySelector<HTMLElement>('.ck-editor__editable_inline');
+          if (!editable) {
+            return;
+          }
+
+          editable.dataset.lastUpdated = String(new Date().getTime());
+        };
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
 
@@ -78,9 +87,11 @@ export class CKEditorSetupService {
         });
         wrapper.addEventListener('op:ckeditor:setData', (event:CustomEvent<string>) => {
           editor.setData(event.detail);
+          updateLastUpdated();
         });
         wrapper.addEventListener('op:ckeditor:clear', () => {
           editor.setData(' ');
+          updateLastUpdated();
         });
         wrapper.addEventListener('op:ckeditor:getData', (event:CustomEvent<(data:string) => void>) => {
           event.detail(editor.getData({ trim: false }));
@@ -113,7 +124,7 @@ export class CKEditorSetupService {
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
     if (allowedLinkProtocols) {
-      config.link = { allowedProtocols: allowedLinkProtocols.map((el:string) => _.escapeRegExp(el)) };
+      config.link = { allowedProtocols: allowedLinkProtocols.map((el:string) => escapeRegExp(el)) };
     }
 
     return config;
@@ -146,21 +157,23 @@ export class CKEditorSetupService {
    * Load the ckeditor asset
    */
   private async load():Promise<void> {
-    // untyped module cannot be dynamically imported
+    // untyped modules cannot be dynamically imported
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    await import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor');
+    const loadEditorScript = import('core-vendor/ckeditor/ckeditor');
+
+    const promises = [loadEditorScript];
 
     if (I18n.locale !== 'en') {
-      await this.loadLocale();
+      promises.push(this.loadLocale());
     }
+
+    await Promise.all(promises);
   }
 
   private async loadLocale():Promise<void> {
     try {
-      await import(
-        /* webpackPrefetch: true; webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
-      );
+      await import(`../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`);
       this.loadedLocale = I18n.locale;
     } catch (e:unknown) {
       console.warn(`Failed to load translation for CKEditor: ${e as string}`);
@@ -175,6 +188,7 @@ export class CKEditorSetupService {
         'OPMacroToc',
         'OPMacroEmbeddedTable',
         'OPMacroWpButton',
+        'OPMacroWpQuickinfo',
       ];
     }
 

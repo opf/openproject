@@ -380,4 +380,41 @@ RSpec.describe "Create meeting from template", :js do
       end
     end
   end
+
+  describe "autocompleter labels and ordering", with_ee: [:meeting_templates] do
+    let(:project_a) { create(:project, name: "Project A", enabled_module_names: %i[meetings]) }
+    let(:project_b) { create(:project, name: "Project B", enabled_module_names: %i[meetings]) }
+
+    let!(:template_a1) { create(:onetime_template, project: project_a, title: "Template A1") }
+    let!(:template_a2) { create(:onetime_template, project: project_a, title: "Template A2") }
+    let!(:template_b1) { create(:onetime_template, project: project_b, title: "Template A1", sharing: :system) }
+
+    let(:project_a_meetings_page) { Pages::Meetings::Index.new(project: project_a) }
+
+    before { project_a_meetings_page.visit! }
+
+    it "prefixes templates from other projects with their project name" do
+      project_a_meetings_page.click_on "add-meeting-button"
+      project_a_meetings_page.click_on "One-time"
+
+      within_dialog "New one-time meeting" do
+        find('[data-test-selector="template_id"]').click
+
+        expect(page).to have_text("Template A1")
+        expect(page).to have_text("Template A2")
+        expect(page).to have_text("Project B: Template A1")
+      end
+    end
+
+    it "orders options such that all templates from a project are grouped together" do
+      project_a_meetings_page.click_on "add-meeting-button"
+      project_a_meetings_page.click_on "One-time"
+
+      within_dialog "New one-time meeting" do
+        find('[data-test-selector="template_id"]').click
+
+        expect(all(".ng-option").map(&:text)).to eq(["Template A1", "Template A2", "Project B: Template A1"])
+      end
+    end
+  end
 end

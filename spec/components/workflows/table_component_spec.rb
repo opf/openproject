@@ -64,9 +64,13 @@ RSpec.describe Workflows::TableComponent, type: :component do
     it "renders row content" do
       expect(rendered_component).to have_css("li", text: types.first.name) do |row|
         expect(row).to have_link(types.first.name, href: edit_workflow_path(types.first))
+        expect(row).to have_link("Edit", href: edit_workflow_path(types.first))
+        expect(row).to have_link("Copy", href: new_workflow_copy_path(types.first))
       end
       expect(rendered_component).to have_css("li", text: types.second.name) do |row|
         expect(row).to have_link(types.second.name, href: edit_workflow_path(types.second))
+        expect(row).to have_link("Edit", href: edit_workflow_path(types.second))
+        expect(row).to have_link("Copy", href: new_workflow_copy_path(types.second))
       end
     end
   end

@@ -49,6 +49,9 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
+    patches %i[WorkPackage]
+    patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
+
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
     end
@@ -256,6 +259,8 @@ module OpenProject::Storages
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
+      Journals::CreateService::Association.register(:Storable)
+
       # Load Storages::Storage descendants due to STI
       Storages::Storage::InexistentStorage
       Storages::OneDriveStorage
@@ -294,6 +299,16 @@ module OpenProject::Storages
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
       end
+
+      WorkPackages::SetAttributesService.include Storages::FileLinks::SetReplacements
+
+      WorkPackages::CreateService.include Storages::FileLinks::ReplaceFileLinks
+      WorkPackages::UpdateService.include Storages::FileLinks::ReplaceFileLinks
+
+      WorkPackages::CreateContract.include Storages::FileLinks::ValidateReplacements
+      WorkPackages::UpdateContract.include Storages::FileLinks::ValidateReplacements
+
+      API::V3::WorkPackages::WorkPackageRepresenter.include ::API::V3::FileLinks::FileLinkRelationRepresenter
     end
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)

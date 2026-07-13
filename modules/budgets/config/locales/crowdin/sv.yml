@@ -21,23 +21,22 @@
 #++
 ---
 sv:
-  plugin_budgets_engine:
-    name: Budgetar
   activerecord:
     attributes:
       budget:
         author: Upphovsman
         available: Tillgängliga
+        base_amount: Basbelopp
         budget: Planerade
         budget_ratio: Spenderade (förhållande)
         description: Beskrivning
+        labor_budget: Planerade arbetskostnader
+        labor_budget_items: Planned labor costs
+        material_budget: Planerade enhetskostnader
         spent: Spenderat
         status: Status
         subject: Ämne
         type: Kostnadstyp
-        labor_budget: Planerade arbetskostnader
-        material_budget: Planerade enhetskostnader
-        base_amount: Basbelopp
       work_package:
         budget_subject: Budgettitel
     errors:
@@ -48,55 +47,56 @@ sv:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Budget
+      labor_budget_item: Planned labor cost
       material_budget_item: Enhet
   activity:
     filter:
       budget: Budgetar
   attributes:
     budget: Budget
-  button_add_budget_item: Lägg till planerade kostnader
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Budget
   button_add_budget: Lägg till budget
+  button_add_budget_item: Lägg till planerade kostnader
   button_add_cost_type: Lägg till kostnadstyp
   button_cancel_edit_budget: Avbryt redigering av budget
   button_cancel_edit_costs: Avbryt redigering av kostnader
   caption_labor: Arbetskraft
   caption_labor_costs: Faktiska arbetskraftskostnader
   caption_material_costs: Faktiska enhetskostnader
-  budgets_title: Budget
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Budget redigerad
   help_click_to_edit: Klicka här för att redigera.
@@ -104,23 +104,25 @@ sv:
   help_override_rate: Ange ett värde här om du vill åsidosätta standardtimpriset.
   label_budget: Budget
   label_budget_available: Budget tillgänglig
+  label_budget_details: Detaljer om budgeten
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Ny budget
   label_budget_planned: Budget planerad
   label_budget_plural: Budget
   label_budget_spent: Budget spenderad
   label_budget_spent_ratio: Förhållande mellan budget och utgifter
+  label_budget_totals: Totalsummor
   label_deliverable: Budget
   label_example_placeholder: t.ex., %{decimal}
   label_view_all_budgets: Visa alla budgetar
   label_yes: Ja
-  label_budget_totals: Totalsummor
-  label_budget_details: Detaljer om budgeten
   notice_budget_conflict: Arbetspaketen måste vara av samma projekt.
   notice_no_budgets_available: Inga budgetar tillgängliga.
   permission_edit_budgets: Redigera budgetar
   permission_view_budgets: Visa budgetar
+  plugin_budgets_engine:
+    name: Budgetar
   project_module_budgets: Budget
-  text_budget_reassign_to: 'Omfördela dessa till denna budget:'
   text_budget_delete: Ta bort budgeten från alla arbetspaket
   text_budget_destroy_assigned_wp: Det finns %{count} arbetspaket tilldelade till denna budget. Vad vill du göra?
+  text_budget_reassign_to: 'Omfördela dessa till denna budget:'

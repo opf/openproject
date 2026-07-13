@@ -1,83 +1,93 @@
 ---
 tr:
-  ee:
-    upsell:
-      ldap_groups:
-        title: LDAP grup senkronizasyonu
-        description: Kullanıcıları yönetmek, izinlerini değiştirmek ve gruplar arasında kullanıcı yönetimini kolaylaştırmak için LDAP gruplarını OpenProject gruplarıyla senkronize edin.
-  plugin_openproject_ldap_groups:
-    name: OpenProject LDAP grupları
-    description: LDAP grup üyeliklerinin senkronizasyonu.
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: DN
-        auth_source: Doğrulama kaynağı
-        ldap_auth_source: LDAP bağlantısı
-        sync_users: Kullanıcıları senkronize et
       ldap_groups/synchronized_filter:
-        filter_string: LDAP süzgeçi
         auth_source: Doğrulama kaynağı
-        ldap_auth_source: LDAP bağlantısı
-        group_name_attribute: Grup adı özelliği
-        sync_users: Kullanıcıları senkronize et
         base_dn: Arama tabanı DN
-    models:
-      ldap_groups/synchronized_group: Senkronize LDAP grubu
-      ldap_groups/synchronized_filter: LDAP Grubu senkronizasyon filtresi
+        filter_string: LDAP süzgeçi
+        group_name_attribute: Grup adı özelliği
+        ldap_auth_source: LDAP bağlantısı
+        member_lookup_attribute: Group member attribute
+        sync_users: Kullanıcıları senkronize et
+      ldap_groups/synchronized_group:
+        auth_source: Doğrulama kaynağı
+        dn: DN
+        ldap_auth_source: LDAP bağlantısı
+        sync_users: Kullanıcıları senkronize et
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filtre tabanı DN'si, LDAP bağlantısının temel DN'si içinde yer almalıdır
+    models:
+      ldap_groups/synchronized_filter: LDAP Grubu senkronizasyon filtresi
+      ldap_groups/synchronized_group: Senkronize LDAP grubu
+  ee:
+    upsell:
+      ldap_groups:
+        description: Kullanıcıları yönetmek, izinlerini değiştirmek ve gruplar arasında kullanıcı yönetimini kolaylaştırmak için LDAP gruplarını OpenProject gruplarıyla senkronize edin.
+        title: LDAP grup senkronizasyonu
   ldap_groups:
-    label_menu_item: LDAP grup senkronizasyonu
     label_group_key: LDAP grubu filtre anahtarı
-    label_synchronize: Senkronize et
+    label_menu_item: LDAP grup senkronizasyonu
+    label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP grupları ad özelliği
       name_attribute_text: Bir filtre tarafından oluşturulduğunda OpenProject grubunu adlandırmak için kullanılan LDAP özelliği
     synchronized_filters:
       add_new: Senkronize LDAP filtresi ekle
-      singular: LDAP Grubu senkronizasyon filtresi
-      plural: LDAP Grubu senkronizasyon filtreleri
+      destroy:
+        confirmation: Devam ederseniz, senkronize edilmiş %{name} filtresi ve bu kanaldan oluşturulan %{groups_count} tüm gruplar kaldırılacak.
+        heading: "%{name} senkronize filtresini kaldırmak istiyor musunuz?"
+        removed_groups: 'Uyarı: Bu işlem aşağıdaki grupları OpenProject''ten kaldıracak ve tüm projelerden kaldıracaktır!'
+        title: "%{name} senkronize filtresini kaldır"
+        verification_html: Silme işlemini doğrulamak için %{name} filtre adını girin.
+      form:
+        base_dn_text: 'Bu filtre için kullanmak üzere arama tabanı DN''sini girin. Seçilen LDAP bağlantısının temel DN''sinin altında olması gerekir. Bağlantının temel DN''sini yeniden kullanmak için bu seçeneği boş bırakın
+
+          '
+        filter_string_text: OpenProject ile senkronize etmek için LDAP'nizdeki grupları döndüren RFC4515 LDAP filtresini girin.
+        group_name_attribute_text: OpenProject grup adını ayarlamak için kullanılan LDAP grubunun niteliğini girin.
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
       label_n_groups_found:
         one: Filtre tarafından 1 grup bulundu
         other: Filtrede %{count} grup bulundu
         zero: Filtrede grup bulunamadı
-      destroy:
-        title: "%{name} senkronize filtresini kaldır"
-        confirmation: Devam ederseniz, senkronize edilmiş %{name} filtresi ve bu kanaldan oluşturulan %{groups_count} tüm gruplar kaldırılacak.
-        removed_groups: 'Uyarı: Bu işlem aşağıdaki grupları OpenProject''ten kaldıracak ve tüm projelerden kaldıracaktır!'
-        verification_html: Enter the filter name %{name} to verify the deletion.
-      form:
-        group_name_attribute_text: OpenProject grup adını ayarlamak için kullanılan LDAP grubunun niteliğini girin.
-        filter_string_text: OpenProject ile senkronize etmek için LDAP'nizdeki grupları döndüren RFC4515 LDAP filtresini girin.
-        base_dn_text: 'Bu filtre için kullanmak üzere arama tabanı DN''sini girin. Seçilen LDAP bağlantısının temel DN''sinin altında olması gerekir. Bağlantının temel DN''sini yeniden kullanmak için bu seçeneği boş bırakın
-
-          '
+      plural: LDAP Grubu senkronizasyon filtreleri
+      singular: LDAP Grubu senkronizasyon filtresi
     synchronized_groups:
       add_new: Senkronize LDAP grubu ekle
       destroy:
-        title: "%{name} adlı senkronize grubu kaldır"
         confirmation: Devam ederseniz, %{name}} ile senkronize edilmiş grup ve içinden senkronize olan tüm %{users_count} kullanıcısı kaldırılacak.
-        info: 'Not: OpenProject grubunun kendisi ve bu LDAP senkronizasyonunun dışına eklenen üyeler kaldırılmaz.'
-        verification_html: Enter the group's name %{name} to verify the deletion.
-      help_text_html: |
-        Bu modül, LDAP ve OpenProject grupları arasında bir senkronizasyon ayarlamanıza izin verir.
-        Bu, LDAP gruplarının OpenProject ile çalışmak için ayarlanmış <em> groupOfNames / memberOf </em> özelliğini kullanması gerektiğine bağlıdır.
-        <br/>
-        Gruplar bir cron işi aracılığıyla saatlik olarak senkronize edilir.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Lütfen bu konudaki belgelere bakın </a>.
-      no_results: Senkronize edilmiş grup bulunamadı.
-      no_members: Bu grubun henüz senkronize edilmiş üyesi yok.
-      plural: Senkronize LDAP grupları
-      singular: Senkronize LDAP grubu
+        heading: "%{name} adlı senkronize grubu kaldırmak istiyor musunuz?"
+        info: OpenProject grubunun kendisi ve bu LDAP senkronizasyonunun dışına eklenen üyeler kaldırılmaz.
+        title: "%{name} adlı senkronize grubu kaldır"
       form:
         auth_source_text: Hangi LDAP bağlantısının kullanılması gerektiğini seçin.
+        dn_text: LDAP'ye grubun tam DN'sini girin
+        group_text: LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.
         sync_users_text: 'Bu seçeneği etkinleştirirseniz, bulunan kullanıcılar da otomatik olarak OpenProject''te oluşturulur. Bu olmadan, yalnızca OpenProject''teki mevcut hesaplar gruplara eklenecektir.
 
           '
-        dn_text: LDAP'ye grubun tam DN'sini girin
-        group_text: LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        [Please see our documentation on this topic](docs_url).
+      no_members: Bu grubun henüz senkronize edilmiş üyesi yok.
+      no_results: Senkronize edilmiş grup bulunamadı.
+      plural: Senkronize LDAP grupları
+      singular: Senkronize LDAP grubu
       upsell:
         description: Kullanıcıları yönetmek, izinlerini değiştirmek ve gruplar arasında kullanıcı yönetimini kolaylaştırmak için senkronize LDAP gruplarından yararlanın.
+  plugin_openproject_ldap_groups:
+    description: LDAP grup üyeliklerinin senkronizasyonu.
+    name: OpenProject LDAP grupları

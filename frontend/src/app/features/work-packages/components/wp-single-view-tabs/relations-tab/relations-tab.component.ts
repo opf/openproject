@@ -27,7 +27,7 @@
 //++
 
 import { UIRouterGlobals } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -40,21 +40,17 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public workPackageId?:string;
 
   @Input() public workPackage:WorkPackageResource;
-
-  public constructor(
-    readonly I18n:I18nService,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };

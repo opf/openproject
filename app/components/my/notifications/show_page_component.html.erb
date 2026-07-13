@@ -59,6 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% else %>
   <%= render(Primer::Beta::Subhead.new(mt: 3)) do |component|
         component.with_heading(size: :medium) { t("my_account.notifications.date_alerts.title") }
+        component.with_description { t("my_account.notifications.date_alerts.description") }
       end %>
   <%= render(EnterpriseEdition::BannerComponent.new(:date_alerts, variant: :inline)) %>
 <% end %>
@@ -78,6 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do %>
   <%= render(Primer::Beta::Subhead.new(mt: 3)) do |component|
         component.with_heading(size: :medium) { t("my_account.notifications.project_specific_settings.title") }
+        component.with_description { t("my_account.notifications.project_specific_settings.description") }
       end %>
 
   <% if project_notification_settings.any? %>

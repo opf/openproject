@@ -21,23 +21,22 @@
 #++
 ---
 zh-TW:
-  plugin_budgets_engine:
-    name: 預算
   activerecord:
     attributes:
       budget:
         author: 作者
         available: 可用的
+        base_amount: 基本金額
         budget: 已計畫
         budget_ratio: 已支出（比例）
         description: 說明
+        labor_budget: 規劃人工成本
+        labor_budget_items: Planned labor costs
+        material_budget: 規畫單位成本
         spent: 花費
         status: 狀態
         subject: 名稱
         type: 費用類別
-        labor_budget: 規劃人工成本
-        material_budget: 規畫單位成本
-        base_amount: 基本金額
       work_package:
         budget_subject: 預算標題
     errors:
@@ -48,55 +47,56 @@ zh-TW:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: 預算
+      labor_budget_item: Planned labor cost
       material_budget_item: 單位
   activity:
     filter:
       budget: 預算
   attributes:
     budget: 預算
-  button_add_budget_item: 新增計畫費用
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: 預算
   button_add_budget: 新增預算
+  button_add_budget_item: 新增計畫費用
   button_add_cost_type: 新增費用類別
   button_cancel_edit_budget: 取消編輯預算
   button_cancel_edit_costs: 取消編輯花費
   caption_labor: 人工
   caption_labor_costs: 實際人工成本
   caption_material_costs: 實際單位成本
-  budgets_title: 預算
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: 預算已編輯
   help_click_to_edit: 點擊這裡編輯
@@ -104,23 +104,25 @@ zh-TW:
   help_override_rate: 在此輸入一個值以覆蓋預設費率。
   label_budget: 預算
   label_budget_available: 可用預算
+  label_budget_details: 預算細節
   label_budget_id: '預算 #%{id}'
   label_budget_new: 新預算
   label_budget_planned: 計劃預算
   label_budget_plural: 預算
   label_budget_spent: 花費的預算
   label_budget_spent_ratio: 預算支出比率
+  label_budget_totals: 總計
   label_deliverable: 預算
   label_example_placeholder: 例如，%{decimal}
   label_view_all_budgets: 檢視所有預算
   label_yes: 是
-  label_budget_totals: 總計
-  label_budget_details: 預算細節
   notice_budget_conflict: 工作套件必須是同一個專案。
   notice_no_budgets_available: 無可用預算
   permission_edit_budgets: 編輯預算
   permission_view_budgets: 檢視預算
+  plugin_budgets_engine:
+    name: 預算
   project_module_budgets: 預算
-  text_budget_reassign_to: 將它們重新分配到此預算：
   text_budget_delete: 從所有工作套件中刪除預算
   text_budget_destroy_assigned_wp: 有 %{count} 個工作套件被分配到此預算。您想怎麼做？
+  text_budget_reassign_to: 將它們重新分配到此預算：

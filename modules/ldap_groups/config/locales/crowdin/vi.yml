@@ -1,83 +1,93 @@
 ---
 vi:
-  ee:
-    upsell:
-      ldap_groups:
-        title: Đồng bộ hóa nhóm LDAP
-        description: Đồng bộ hóa các nhóm LDAP với các nhóm OpenProject để quản lý người dùng, thay đổi quyền của họ và tạo điều kiện thuận lợi cho việc quản lý người dùng giữa các nhóm.
-  plugin_openproject_ldap_groups:
-    name: Nhóm LDAP OpenProject
-    description: Đồng bộ hóa tư cách thành viên nhóm LDAP.
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: DN
-        auth_source: Nguồn xác thực
-        ldap_auth_source: Kết nối LDAP
-        sync_users: Đồng bộ hóa người dùng
       ldap_groups/synchronized_filter:
-        filter_string: Bộ lọc LDAP
         auth_source: Nguồn xác thực
-        ldap_auth_source: Kết nối LDAP
-        group_name_attribute: Thuộc tính tên nhóm
-        sync_users: Đồng bộ hóa người dùng
         base_dn: Tìm kiếm cơ sở DN
-    models:
-      ldap_groups/synchronized_group: Nhóm LDAP được đồng bộ hóa
-      ldap_groups/synchronized_filter: Bộ lọc đồng bộ hóa nhóm LDAP
+        filter_string: Bộ lọc LDAP
+        group_name_attribute: Thuộc tính tên nhóm
+        ldap_auth_source: Kết nối LDAP
+        member_lookup_attribute: Group member attribute
+        sync_users: Đồng bộ hóa người dùng
+      ldap_groups/synchronized_group:
+        auth_source: Nguồn xác thực
+        dn: DN
+        ldap_auth_source: Kết nối LDAP
+        sync_users: Đồng bộ hóa người dùng
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: DN cơ sở bộ lọc phải nằm trong DN cơ sở của kết nối LDAP
+    models:
+      ldap_groups/synchronized_filter: Bộ lọc đồng bộ hóa nhóm LDAP
+      ldap_groups/synchronized_group: Nhóm LDAP được đồng bộ hóa
+  ee:
+    upsell:
+      ldap_groups:
+        description: Đồng bộ hóa các nhóm LDAP với các nhóm OpenProject để quản lý người dùng, thay đổi quyền của họ và tạo điều kiện thuận lợi cho việc quản lý người dùng giữa các nhóm.
+        title: Đồng bộ hóa nhóm LDAP
   ldap_groups:
-    label_menu_item: Đồng bộ hóa nhóm LDAP
     label_group_key: Khóa bộ lọc nhóm LDAP
-    label_synchronize: Đồng bộ
+    label_menu_item: Đồng bộ hóa nhóm LDAP
+    label_synchronize: Discover LDAP groups
     settings:
       name_attribute: Thuộc tính tên nhóm LDAP
       name_attribute_text: Thuộc tính LDAP được sử dụng để đặt tên cho nhóm OpenProject khi được tạo bởi bộ lọc
     synchronized_filters:
       add_new: Thêm bộ lọc LDAP được đồng bộ hóa
-      singular: Bộ lọc đồng bộ hóa nhóm LDAP
-      plural: Bộ lọc đồng bộ hóa nhóm LDAP
+      destroy:
+        confirmation: Nếu bạn tiếp tục, bộ lọc đã đồng bộ hóa %{name} và tất cả các nhóm %{groups_count} được tạo thông qua bộ lọc đó sẽ bị xóa.
+        heading: Remove synchronized filter %{name}?
+        removed_groups: 'Cảnh báo: Thao tác này sẽ xóa các nhóm sau khỏi OpenProject và xóa nó khỏi tất cả các dự án!'
+        title: Xóa bộ lọc đã đồng bộ hóa %{name}
+        verification_html: Enter the filter name %{name} to verify the deletion.
+      form:
+        base_dn_text: 'Nhập DN cơ sở tìm kiếm để sử dụng cho bộ lọc này. Nó phải ở dưới DN cơ sở của kết nối LDAP đã chọn. Để trống tùy chọn này để sử dụng lại DN cơ sở của kết nối
+
+          '
+        filter_string_text: Nhập bộ lọc LDAP RFC4515 trả về các nhóm trong LDAP của bạn để đồng bộ hóa với OpenProject.
+        group_name_attribute_text: Nhập thuộc tính của nhóm LDAP được sử dụng để đặt tên nhóm OpenProject.
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
       label_n_groups_found:
         one: 1 nhóm được tìm thấy bởi bộ lọc
         other: "%{count} nhóm được bộ lọc tìm thấy"
         zero: Không có nhóm nào được bộ lọc tìm thấy
-      destroy:
-        title: Xóa bộ lọc đã đồng bộ hóa %{name}
-        confirmation: Nếu bạn tiếp tục, bộ lọc đã đồng bộ hóa %{name} và tất cả các nhóm %{groups_count} được tạo thông qua bộ lọc đó sẽ bị xóa.
-        removed_groups: 'Cảnh báo: Thao tác này sẽ xóa các nhóm sau khỏi OpenProject và xóa nó khỏi tất cả các dự án!'
-        verification_html: Enter the filter name %{name} to verify the deletion.
-      form:
-        group_name_attribute_text: Nhập thuộc tính của nhóm LDAP được sử dụng để đặt tên nhóm OpenProject.
-        filter_string_text: Nhập bộ lọc LDAP RFC4515 trả về các nhóm trong LDAP của bạn để đồng bộ hóa với OpenProject.
-        base_dn_text: 'Nhập DN cơ sở tìm kiếm để sử dụng cho bộ lọc này. Nó phải ở dưới DN cơ sở của kết nối LDAP đã chọn. Để trống tùy chọn này để sử dụng lại DN cơ sở của kết nối
-
-          '
+      plural: Bộ lọc đồng bộ hóa nhóm LDAP
+      singular: Bộ lọc đồng bộ hóa nhóm LDAP
     synchronized_groups:
       add_new: Thêm nhóm LDAP được đồng bộ hóa
       destroy:
-        title: Xóa nhóm đã đồng bộ hóa %{name}
         confirmation: Nếu bạn tiếp tục, nhóm được đồng bộ hóa %{name} và tất cả người dùng %{users_count} được đồng bộ hóa thông qua nhóm đó sẽ bị xóa.
-        info: 'Lưu ý: Bản thân nhóm OpenProject và các thành viên được thêm vào bên ngoài quá trình đồng bộ hóa LDAP này sẽ không bị xóa.'
-        verification_html: Enter the group's name %{name} to verify the deletion.
-      help_text_html: |
-        Mô-đun này cho phép bạn thiết lập đồng bộ hóa giữa các nhóm LDAP và OpenProject.
-        Nó phụ thuộc vào các nhóm LDAP cần sử dụng thuộc tính <em>groupOfNames / memberOf</em> để hoạt động với OpenProject.
-        <br/>
-        Các nhóm được đồng bộ hóa hàng giờ thông qua một công việc định kỳ.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Xin vui lòng xem tài liệu của chúng tôi về chủ đề này</a>.
-      no_results: Không tìm thấy nhóm được đồng bộ hóa nào.
-      no_members: Nhóm này chưa có thành viên đồng bộ nào.
-      plural: Nhóm LDAP được đồng bộ hóa
-      singular: Nhóm LDAP được đồng bộ hóa
+        heading: Remove synchronized group %{name}?
+        info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
+        title: Xóa nhóm đã đồng bộ hóa %{name}
       form:
         auth_source_text: Chọn kết nối LDAP nào sẽ được sử dụng.
+        dn_text: Nhập đầy đủ DN của nhóm vào LDAP
+        group_text: Chọn nhóm OpenProject hiện có mà các thành viên của nhóm LDAP sẽ được đồng bộ hóa với
         sync_users_text: 'Nếu bạn bật tùy chọn này, những người dùng được tìm thấy cũng sẽ được tạo tự động trong OpenProject. Nếu không có nó, chỉ những tài khoản hiện có trong OpenProject mới được thêm vào nhóm.
 
           '
-        dn_text: Nhập đầy đủ DN của nhóm vào LDAP
-        group_text: Chọn nhóm OpenProject hiện có mà các thành viên của nhóm LDAP sẽ được đồng bộ hóa với
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        [Please see our documentation on this topic](docs_url).
+      no_members: Nhóm này chưa có thành viên đồng bộ nào.
+      no_results: Không tìm thấy nhóm được đồng bộ hóa nào.
+      plural: Nhóm LDAP được đồng bộ hóa
+      singular: Nhóm LDAP được đồng bộ hóa
       upsell:
         description: Tận dụng các nhóm LDAP được đồng bộ hóa để quản lý người dùng, thay đổi quyền của họ và tạo điều kiện thuận lợi cho việc quản lý người dùng giữa các nhóm.
+  plugin_openproject_ldap_groups:
+    description: Đồng bộ hóa tư cách thành viên nhóm LDAP.
+    name: Nhóm LDAP OpenProject

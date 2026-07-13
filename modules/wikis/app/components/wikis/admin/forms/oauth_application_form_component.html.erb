@@ -1,0 +1,57 @@
+<%=
+  component_wrapper do
+    flex_layout(flex_items: :center) do |credentials_row|
+      credentials_row.with_row(mb: 3) do
+        render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
+          helpers.link_translate(
+            "wikis.instructions.xwiki.oauth_application_details_html",
+            links: { xwiki_admin_link: xwiki_admin_url },
+            external: true
+          )
+        end
+      end
+
+      credentials_row.with_row(mb: 3) do
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(
+            name: :openproject_oauth_application_uid,
+            label: t(".application_id"),
+            visually_hide_label: false,
+            value: oauth_application.uid,
+            required: true
+          )
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.uid,
+            aria: { label: t("button_copy_to_clipboard") }
+          )
+        end
+      end
+
+      credentials_row.with_row(mb: 3) do
+        render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+          input_group.with_text_input(
+            name: :openproject_oauth_application_secret,
+            label: t(".application_secret"),
+            visually_hide_label: false,
+            value: oauth_application.plaintext_secret,
+            required: true
+          )
+          input_group.with_trailing_action_clipboard_copy_button(
+            value: oauth_application.plaintext_secret,
+            aria: { label: t("button_copy_to_clipboard") }
+          )
+        end
+      end
+
+      credentials_row.with_row do
+        render(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            tag: :a,
+            href: done_button_path
+          )
+        ) { t("wikis.buttons.done_continue") }
+      end
+    end
+  end
+%>

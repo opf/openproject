@@ -91,6 +91,26 @@ RSpec.describe MeetingAgendaItems::CreateContract do
         end
       end
     end
+
+    context "when work_package_id is set" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas view_work_packages] })
+      end
+      let(:other_project) { create(:project) }
+      let(:work_package) { create(:work_package, project:) }
+      let(:other_work_package) { create(:work_package, project: other_project) }
+      let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package:) }
+
+      context "when user can view the work package" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when user cannot view the work package" do
+        let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package: other_work_package) }
+
+        it_behaves_like "contract is invalid", work_package: :error_not_found
+      end
+    end
   end
 
   context "without permission" do
@@ -121,7 +141,7 @@ RSpec.describe MeetingAgendaItems::CreateContract do
   context "when creating an agenda item for a recurring meeting occurrence using the template's backlog (Regression #73170)" do
     let(:recurring_meeting) { create(:recurring_meeting, project:) }
     let(:occurrence) do
-      create(:meeting, recurring_meeting:, project:, template: false)
+      create(:recurring_meeting_occurrence, recurring_meeting:, project:, template: false)
     end
     let(:backlog_section) { recurring_meeting.template.backlog }
     let(:user) do

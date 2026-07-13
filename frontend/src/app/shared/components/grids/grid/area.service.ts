@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { range } from 'lodash-es';
+import { Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridGap } from 'core-app/shared/components/grids/areas/grid-gap';
@@ -26,6 +27,10 @@ interface GridPatchPayload {
 
 @Injectable()
 export class GridAreaService {
+  private apiV3Service = inject(ApiV3Service);
+  private toastService = inject(ToastService);
+  private i18n = inject(I18nService);
+
   private resource:GridResource;
 
   public schema:SchemaResource;
@@ -50,13 +55,6 @@ export class GridAreaService {
 
   public helpMode = false;
 
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private toastService:ToastService,
-    private i18n:I18nService,
-  ) {
-  }
-
   public set gridResource(value:GridResource) {
     this.resource = value;
     this.fetchSchema();
@@ -79,7 +77,7 @@ export class GridAreaService {
 
   public cleanupUnusedAreas() {
     // array containing Numbers from this.numRows to 1
-    let unusedRows = _.range(this.numRows, 0, -1);
+    let unusedRows = range(this.numRows, 0, -1);
 
     this.widgetAreas.forEach((widget) => {
       unusedRows = unusedRows.filter((item) => item !== widget.startRow);
@@ -91,7 +89,7 @@ export class GridAreaService {
       }
     });
 
-    let unusedColumns = _.range(this.numColumns, 0, -1);
+    let unusedColumns = range(this.numColumns, 0, -1);
 
     this.widgetAreas.forEach((widget) => {
       unusedColumns = unusedColumns.filter((item) => item !== widget.startColumn);
@@ -143,6 +141,16 @@ export class GridAreaService {
     }
 
     Object.assign(payloadWidget, changeset.changes);
+
+    /* Special case for the initial creation of the MyPage with two widgets:
+     * Synchronously update the in-memory widget resource so that concurrent
+     * saveWidgetChangeset calls see the updated state before the async save completes.
+     * Without this, the second call reads stale widget options and overwrites the
+     * first widget's queryId/queryProps with the old values, permanently breaking it. */
+    const inMemoryWidget = this.resource.widgets.find((w) => w.id === changeset.pristineResource.id);
+    if (inMemoryWidget) {
+      Object.assign(inMemoryWidget, changeset.changes);
+    }
 
     // Adding the id so that the url can be deduced
     payload.id = gridId;
@@ -392,7 +400,7 @@ export class GridAreaService {
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
-    this.widgetAreas.filter((area) => !ignoredArea || area.guid !== ignoredArea.guid).forEach((area) => area.reset());
+    this.widgetAreas.filter((area) => area.guid !== ignoredArea?.guid).forEach((area) => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;

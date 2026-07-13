@@ -46,7 +46,7 @@ module API
           private
 
           def determine_path_method(record)
-            # since not all things are equally named between APIv3 and the rails code,
+            # Since not all things are equally named between APIv3 and the rails code,
             # we need to convert some names manually
             case record
             when Project

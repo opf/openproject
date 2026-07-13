@@ -28,7 +28,7 @@
 
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HighlightableDisplayField } from 'core-app/shared/components/fields/display/field-types/highlightable-display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
@@ -37,9 +37,9 @@ import {
 } from '@openproject/octicons-angular';
 
 export class DateDisplayField extends HighlightableDisplayField {
-  @InjectField() timezoneService:TimezoneService;
+  @LazyInject() timezoneService:TimezoneService;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);

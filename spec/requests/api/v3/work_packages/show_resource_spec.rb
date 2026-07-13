@@ -217,6 +217,32 @@ RSpec.describe "API v3 Work package resource",
       it_behaves_like "not found response based on login_required",
                       I18n.t("api_v3.errors.not_found.work_package")
     end
+
+    context "with a semantic identifier",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, :semantic) }
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      end
+      let(:work_package) do
+        create(:work_package, project:, description: "lorem ipsum")
+      end
+      let(:get_path) { api_v3_paths.work_package work_package.display_id }
+
+      before do
+        get get_path
+      end
+
+      it "resolves the semantic identifier and responds with 200" do
+        expect(last_response).to have_http_status(:ok)
+      end
+
+      it "returns the correct work package" do
+        expect(last_response.body)
+          .to be_json_eql(work_package.id.to_json)
+                .at_path("id")
+      end
+    end
   end
 
   describe "GET /api/v3/work_packages/:id?timestamps=" do

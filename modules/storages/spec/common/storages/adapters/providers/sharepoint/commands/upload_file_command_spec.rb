@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe UploadFileCommand, :webmock do
+          RSpec.describe UploadFileCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:auth_strategy) { Registry["sharepoint.authentication.userless"].call }
             let(:base_drive) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY9jo6leJDqrT7muzvmiWjFW" }

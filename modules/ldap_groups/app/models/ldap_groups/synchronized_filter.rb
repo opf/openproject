@@ -24,6 +24,10 @@ module LdapGroups
       base_dn.presence || ldap_auth_source.base_dn
     end
 
+    def forward_member_lookup?
+      member_lookup_attribute.present?
+    end
+
     def seeded_from_env?
       return false if ldap_auth_source.nil?
 

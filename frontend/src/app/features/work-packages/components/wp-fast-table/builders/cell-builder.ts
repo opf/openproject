@@ -8,7 +8,7 @@ import {
 import { Injector } from '@angular/core';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
@@ -16,9 +16,9 @@ export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 
 export class CellBuilder {
-  @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
+  @LazyInject(SchemaCacheService) schemaCache:SchemaCacheService;
 
-  @InjectField(WorkPackageViewBaselineService) wpTableBaseline:WorkPackageViewBaselineService;
+  @LazyInject(WorkPackageViewBaselineService) wpTableBaseline:WorkPackageViewBaselineService;
 
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
 

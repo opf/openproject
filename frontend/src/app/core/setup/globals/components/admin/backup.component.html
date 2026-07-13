@@ -34,25 +34,31 @@
         <span class="icon icon-error"></span>
         <span>{{ text.note }}</span>
       </p>
-      <div>
-        <fieldset class="form--fieldset">
-          <legend class="form--fieldset-legend">
-            {{ text.options }}
-          </legend>
-          <label class="form--label-with-check-box" [title]="includeAttachmentsTitle()">
-            <div class="form--check-box-container">
-              <input
-                type="checkbox"
-                class="form--check-box"
-                [checked]="includeAttachments"
-                (change)="includeAttachments = !includeAttachments"
-                [disabled]="!mayIncludeAttachments"
-              >
-            </div>
-            {{ text.includeAttachments }}
-          </label>
-        </fieldset>
-      </div>
+      @if (mayIncludeAttachments) {
+        <div>
+          <fieldset class="form--fieldset">
+            <legend class="form--fieldset-legend">
+              {{ text.options }}
+            </legend>
+            <label class="form--label-with-check-box">
+              <div class="form--check-box-container">
+                <input
+                  type="checkbox"
+                  class="form--check-box"
+                  [checked]="includeAttachments"
+                  (change)="includeAttachments = !includeAttachments"
+                >
+              </div>
+              {{ text.includeAttachments }}
+            </label>
+          </fieldset>
+        </div>
+      } @else {
+        <p class="danger-zone--warning">
+          <span class="icon icon-error"></span>
+          <span>{{ text.attachmentsDisabled }}</span>
+        </p>
+      }
       <div class="danger-zone--verification">
         <input
           type="password"

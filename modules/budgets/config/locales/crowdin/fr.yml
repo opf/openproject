@@ -21,23 +21,22 @@
 #++
 ---
 fr:
-  plugin_budgets_engine:
-    name: Budgets
   activerecord:
     attributes:
       budget:
         author: Auteur
         available: Disponible
+        base_amount: Montant de base
         budget: Planifié
         budget_ratio: Consommé (ratio)
         description: Description
+        labor_budget: Coûts de main d'œuvre planifiés
+        labor_budget_items: Coûts de main d'œuvre planifiés
+        material_budget: Coûts unitaires estimés
         spent: Consommé
         status: Statut
         subject: Sujet
         type: Types de coût
-        labor_budget: Coûts de main d'œuvre planifiés
-        material_budget: Coûts unitaires estimés
-        base_amount: Montant de base
       work_package:
         budget_subject: Titre du budget
     errors:
@@ -48,55 +47,56 @@ fr:
               not_a_member_of_budget_project: n'est pas membre du projet du budget
     models:
       budget: Budget
+      labor_budget_item: Coût de main-d'œuvre prévu
       material_budget_item: Unité
   activity:
     filter:
       budget: Budgets
   attributes:
     budget: Budget
-  button_add_budget_item: Ajouter des coûts planifiés
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Profitez d'une vue d'ensemble de vos budgets et de vos coûts pour suivre efficacement l'état de santé de votre projet
+          heading: Démarrer le contrôle du projet
+        blankslate_zero:
+          description: Ajoutez les détails de votre budget prévisionnel pour voir les données ici
+          heading: Détails du budget manquant
+        count_caption:
+          one: Données agrégées à partir de %{count} budget
+          other: Données agrégées à partir de %{count} budgets
+          zero: Aucune donnée budgétaire.
+        count_caption_with_subitems:
+          portfolio:
+            one: Données agrégées à partir de %{count} budget inclus dans ce portefeuille et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce portefeuille et leurs sous-éléments.
+            zero: Aucune donnée budgétaire.
+          program:
+            one: Données agrégées à partir de %{count} budget inclus dans ce programme et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce programme et leurs sous-éléments.
+            zero: Aucune donnée budgétaire.
+          project:
+            one: Données agrégées à partir de %{count} budget inclus dans ce projet et ses sous-éléments.
+            other: Données agrégées à partir de %{count} budgets inclus dans ce projet et leurs sous-éléments.
+            zero: Aucune donnée budgétaire.
+        title: Budget par type de coût
+        view_details: Voir les détails du budget
+      budget_totals:
+        remaining_budget: Budget restant
+        spent_budget: Budget dépensé
+        title: Totaux du budget
+        total_actual_costs: Total des coûts réels
+        total_planned_budget: Budget total prévu
+  budgets_title: Budgets
   button_add_budget: Ajouter budget
+  button_add_budget_item: Ajouter des coûts planifiés
   button_add_cost_type: Ajouter type de coût
   button_cancel_edit_budget: Annuler l'édition du budget
   button_cancel_edit_costs: Annuler l'édition des coûts
   caption_labor: Main d'œuvre
   caption_labor_costs: Coûts de main d'œuvre réels
   caption_material_costs: Coûts unitaires réels
-  budgets_title: Budgets
-  budgets:
-    widgets:
-      budget_totals:
-        title: Totaux du budget
-        remaining_budget: Budget restant
-        spent_budget: Budget dépensé
-        total_actual_costs: Total des coûts réels
-        total_planned_budget: Budget total prévu
-      budget_by_cost_type:
-        title: Budget par type de coût
-        blankslate:
-          heading: Démarrer le contrôle du projet
-          description: Profitez d'une vue d'ensemble de vos budgets et de vos coûts pour suivre efficacement l'état de santé de votre projet
-        blankslate_zero:
-          heading: Détails du budget manquant
-          description: Ajoutez les détails de votre budget prévisionnel pour voir les données ici
-        count_caption:
-          zero: Aucune donnée budgétaire.
-          one: Données agrégées à partir de %{count} budget
-          other: Données agrégées à partir de %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: Aucune donnée budgétaire.
-            one: Données agrégées à partir de %{count} budget inclus dans ce projet et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce projet et leurs sous-éléments.
-          program:
-            zero: Aucune donnée budgétaire.
-            one: Données agrégées à partir de %{count} budget inclus dans ce programme et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce programme et leurs sous-éléments.
-          portfolio:
-            zero: Aucune donnée budgétaire.
-            one: Données agrégées à partir de %{count} budget inclus dans ce portefeuille et ses sous-éléments.
-            other: Données agrégées à partir de %{count} budgets inclus dans ce portefeuille et leurs sous-éléments.
-        view_details: Voir les détails du budget
   events:
     budget: Budget modifié
   help_click_to_edit: Cliquez ici pour modifier.
@@ -104,23 +104,25 @@ fr:
   help_override_rate: Entrez une valeur ici pour outrepasser les tarifs de défaut.
   label_budget: Budget
   label_budget_available: Budget disponible
+  label_budget_details: Détails du budget
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Nouveau budget
   label_budget_planned: Budget prévu
   label_budget_plural: Budgets
   label_budget_spent: Budget dépensé
   label_budget_spent_ratio: Ratio budget/dépenses
+  label_budget_totals: Totaux
   label_deliverable: Budget
   label_example_placeholder: par ex. %{decimal}
   label_view_all_budgets: Afficher tous les budgets
   label_yes: Oui
-  label_budget_totals: Totaux
-  label_budget_details: Détails du budget
   notice_budget_conflict: Les lots de travaux doivent appartenir au même projet.
   notice_no_budgets_available: Aucun budget disponible.
   permission_edit_budgets: Éditer les budgets
   permission_view_budgets: Voir les budgets
+  plugin_budgets_engine:
+    name: Budgets
   project_module_budgets: Budgets
-  text_budget_reassign_to: 'Les réassigner à ce budget :'
   text_budget_delete: Supprimer le budget de tous les lots de travaux
   text_budget_destroy_assigned_wp: Il y a %{count} lots de travaux assignés à ce budget. Que voulez-vous faire ?
+  text_budget_reassign_to: 'Les réassigner à ce budget :'

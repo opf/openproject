@@ -141,7 +141,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       .require(:storages_project_storage)
       .permit("storage_id", "project_folder_mode", "project_folder_id")
       .to_h
-      .reverse_merge(project_id: @project.id)
+      .merge(project_id: @project.id)
   end
 
   def project_folder_mode_from_params

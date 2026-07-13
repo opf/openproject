@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   primer_form_with(
-    url: helpers.confirm_statuses_workflows_path,
+    url: helpers.confirm_statuses_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id)),
     method: :post,
     id: FORM_ID,
     data: { turbo_frame: "workflow-table" }
@@ -39,7 +39,6 @@ See COPYRIGHT and LICENSE files for more details.
         f,
         all_statuses: @all_statuses,
         current_statuses: @current_statuses,
-        role: @role,
         type: @type,
         tab: @tab,
         dialog_id:

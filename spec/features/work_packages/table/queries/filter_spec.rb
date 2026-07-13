@@ -484,6 +484,7 @@ RSpec.describe "filter work packages", :js do
 
         # content contains single hit with numbers
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         filters.add_filter_by("Attachment content",
                               "contains",
@@ -495,6 +496,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # content does not contain
         filters.add_filter_by("Attachment content",
@@ -507,6 +509,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_with_attachment_a
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # ignores special characters
         filters.add_filter_by("Attachment content",
@@ -519,6 +522,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # file name contains
         filters.add_filter_by("Attachment file name",
@@ -531,6 +535,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentFileName"
+        loading_indicator_saveguard
 
         # file name does not contain
         filters.add_filter_by("Attachment file name",

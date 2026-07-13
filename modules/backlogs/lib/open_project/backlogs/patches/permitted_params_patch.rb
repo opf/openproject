@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -41,11 +43,8 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
       permitted_params
     end
 
-    def backlogs_admin_settings
-      params
-        .require(:settings)
-        .permit(:task_type, :points_burn_direction, :wiki_template, story_types: [])
+    def backlog_filters
+      params.permit(:all, bucket_ids: [], sprint_ids: [])
     end
   end
 end
-PermittedParams.include OpenProject::Backlogs::Patches::PermittedParamsPatch

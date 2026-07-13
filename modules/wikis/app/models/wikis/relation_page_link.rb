@@ -29,7 +29,12 @@
 #++
 
 module Wikis
+  # An explicit, user-created link between a linkable and a wiki page.
+  # This link has no implied direction.
+  # Not persisted for all wiki providers.
   class RelationPageLink < PageLink
     belongs_to :author, class_name: "User"
+
+    def relation? = true
   end
 end

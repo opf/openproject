@@ -7,7 +7,7 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { tdClassName } from '../../builders/cell-builder';
@@ -15,13 +15,13 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class RowDoubleClickHandler implements TableEventHandler {
   // Injections
-  @InjectField() public $state:StateService;
+  @LazyInject() public $state:StateService;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() public wpTableFocus:WorkPackageViewFocusService;
+  @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector) {
   }

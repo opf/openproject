@@ -22,6 +22,11 @@
 ---
 uk:
   js:
+    editor:
+      macro:
+        wikis:
+          add_existing: Наявна сторінка вікі
+          create_new: Нова сторінка вікі
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: Wiki-сторінки

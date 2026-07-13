@@ -39,7 +39,7 @@ class Meeting::TemplateAutocompleter < ApplicationForm
       templates.each do |template|
         select.option(
           value: template.id,
-          label: template.title,
+          label: label(template),
           selected: template.id == @selected_id
         )
       end
@@ -74,6 +74,16 @@ class Meeting::TemplateAutocompleter < ApplicationForm
   def templates
     return [] if @disabled
 
-    Meeting.templates_visible_in_project(@project).order(:title)
+    Meeting.templates_visible_in_project(@project)
+           .includes(:project)
+           .order("projects.name ASC, meetings.title ASC")
+  end
+
+  def label(template)
+    if template.project_id == @project.id
+      template.title
+    else
+      "#{template.project.name}: #{template.title}"
+    end
   end
 end

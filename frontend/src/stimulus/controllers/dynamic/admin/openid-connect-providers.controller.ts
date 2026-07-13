@@ -13,6 +13,6 @@ export default class OpenidConnectProvidersController extends Controller {
     this
       .azureFormTarget
       .querySelectorAll('input')
-      .forEach((el) => (el.disabled = this.azureFormTarget.hidden));
+      .forEach((el) => (el.disabled = this.azureFormTarget.hidden === true));
   }
 }

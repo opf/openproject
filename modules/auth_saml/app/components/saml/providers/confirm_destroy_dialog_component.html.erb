@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      title: I18n.t("saml.delete_title"),
+      form_arguments:,
+      size: :large
+    )
+  ) do |dialog|
+%>
+    <% dialog.with_confirmation_message do |message|
+         message.with_heading(tag: :h2) { I18n.t("saml.delete_heading") }
+         message.with_description_content(
+           I18n.t("provider.delete_warning.provider_html", name: @provider.display_name)
+         )
+       end %>
+    <% dialog.with_additional_details do %>
+      <ul>
+        <li><%= I18n.t("provider.delete_warning.delete_result_1") %></li>
+        <li><%= I18n.t("provider.delete_warning.delete_result_user_count", count: @provider.user_count) %></li>
+        <% if direct_login? %>
+          <li><%= I18n.t("provider.delete_warning.delete_result_direct") %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% dialog.with_confirmation_check_box_content(I18n.t(:text_permanent_delete_confirmation_checkbox_label)) %>
+<% end %>

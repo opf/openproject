@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -32,9 +32,10 @@
 class GitlabUser < ApplicationRecord
   has_many :gitlab_merge_requests
 
-  validates_presence_of :gitlab_id,
-                        :gitlab_name,
-                        :gitlab_username,
-                        :gitlab_email,
-                        :gitlab_avatar_url
+  validates :gitlab_id,
+            :gitlab_name,
+            :gitlab_username,
+            :gitlab_email,
+            :gitlab_avatar_url,
+            presence: true
 end

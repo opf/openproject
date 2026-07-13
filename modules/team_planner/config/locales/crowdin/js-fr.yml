@@ -1,30 +1,29 @@
-#English strings go here
 ---
 fr:
   js:
     team_planner:
+      add_assignee: Attributaire
       add_existing: Ajouter existant
-      label_team_planner_plural: Planificateurs d'équipe
       add_existing_title: Ajouter des lots de travaux existants
+      cannot_drag_here: Impossible de déplacer le lot de travaux en raison de restrictions d'autorisation ou d'édition.
+      cannot_drag_to_non_working_day: Ce lot de travaux ne peut pas démarrer/terminer sur un jour non ouvré.
       create_label: Planificateur d'équipe
       create_title: Créer un nouveau planificateur d'équipe
-      unsaved_title: Planificateur d'équipe sans nom
-      no_data: Ajoutez des personnes pour configurer votre planificateur d'équipe.
-      add_assignee: Attributaire
-      remove_assignee: Retirer l'assigné
-      two_weeks: 2 semaines
-      one_week: 1 semaine
-      four_weeks: 4 semaines
-      eight_weeks: 8 semaines
-      work_week: Semaine de travail
-      today: Aujourd'hui
       drag_here_to_remove: Faites glisser ici pour supprimer le responsable et les dates de début et de fin.
-      cannot_drag_here: Impossible de déplacer le lot de travail en raison de restrictions d'autorisation ou d'édition.
-      cannot_drag_to_non_working_day: Ce lot de travail ne peut pas démarrer/terminer sur un jour non ouvré.
+      eight_weeks: 8 semaines
+      four_weeks: 4 semaines
+      label_team_planner_plural: Planificateurs d'équipe
+      modify:
+        errors:
+          fallback: Ce lot de travaux ne peut pas être modifié.
+          permission_denied: Vous n'avez pas les autorisations nécessaires pour modifier ceci.
+      no_data: Ajoutez des personnes pour configurer votre planificateur d'équipe.
+      one_week: 1 semaine
       quick_add:
         empty_state: Utilisez le champ de recherche pour trouver des lots de travaux et faites-les glisser vers le planificateur pour l'assigner à quelqu'un et définir des dates de début et de fin.
         search_placeholder: Rechercher...
-      modify:
-        errors:
-          permission_denied: Vous n’avez pas les autorisations nécessaires pour modifier ceci.
-          fallback: Ce lot de travaux ne peut pas être modifié.
+      remove_assignee: Retirer l'assigné
+      today: Aujourd'hui
+      two_weeks: 2 semaines
+      unsaved_title: Planificateur d'équipe sans nom
+      work_week: Semaine de travail

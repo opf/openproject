@@ -39,11 +39,17 @@ module WorkPackageCustomFields::Scopes
       # * on a type which in turn is active in a project the user has access to
       # * on a project the user has access to
       # Both conditions need to be met on the same project.
-      def on_visible_type_and_project(user = User.current)
+      #
+      # Pass +project:+ to restrict the check to a single known project instead of
+      # scanning all projects visible to the user.
+      def on_visible_type_and_project(user = User.current, project: nil)
+        visible_projects = Project.visible(user)
+        visible_projects = visible_projects.where(id: project.id) if project&.persisted?
+
         where(<<~SQL.squish)
           EXISTS (
             SELECT 1
-            FROM (#{Project.visible(user).select(:id).to_sql}) vp
+            FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN projects_types pt
               ON pt.project_id = vp.id
             JOIN custom_fields_types cft

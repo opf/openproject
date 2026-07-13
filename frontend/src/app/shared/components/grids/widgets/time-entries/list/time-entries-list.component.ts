@@ -1,20 +1,12 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Directive,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import {
@@ -27,6 +19,13 @@ import { MeetingResource } from 'core-app/features/hal/resources/meeting-resourc
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit, AfterViewInit, OnDestroy {
+  readonly injector = inject(Injector);
+  readonly timezone = inject(TimezoneService);
+  readonly i18n = inject(I18nService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly confirmDialog = inject(ConfirmDialogService);
+  protected readonly cdr = inject(ChangeDetectorRef);
+
   public text = {
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
@@ -48,19 +47,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
 
-  @InjectField() public readonly apiV3Service:ApiV3Service;
-  @InjectField() public readonly turboRequests:TurboRequestsService;
-
-  constructor(
-    readonly injector:Injector,
-    readonly timezone:TimezoneService,
-    readonly i18n:I18nService,
-    readonly pathHelper:PathHelperService,
-    readonly confirmDialog:ConfirmDialogService,
-    protected readonly cdr:ChangeDetectorRef,
-  ) {
-    super(i18n, injector);
-  }
+  public readonly apiV3Service = inject(ApiV3Service);
+  public readonly turboRequests = inject(TurboRequestsService);
 
   ngOnInit():void {
     this.loadTimeEntries();
@@ -112,7 +100,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public entityName(entry:TimeEntryResource):string {
-    return `#${entry.entity.id!}: ${entry.entity.name}`;
+    return formatTimeEntryEntityName(entry.entity);
   }
 
   public entityId(entry:TimeEntryResource):string {
@@ -156,7 +144,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       showClose: true,
       closeByDocument: true,
       passedData: [
-        `#${idFromLink(entry.workPackage?.href)} ${entry.workPackage?.name}`,
+        entry.entity ? this.entityName(entry) : '',
         `${this.i18n.t(
           'js.units.hour',
           { count: this.timezone.toHours(entry.hours) },

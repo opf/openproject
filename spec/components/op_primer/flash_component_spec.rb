@@ -48,6 +48,54 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
       it "renders the banner text" do
         expect(rendered_component).to have_css ".Banner-message .Banner-title", text: "Flash Text"
       end
+
+      it "marks the flash for polite announcement" do
+        expect(rendered_component).to have_css '[data-announcement="Flash Text"][data-politeness="polite"]'
+      end
+    end
+
+    context "with danger scheme" do
+      let(:content) { "Flash Error" }
+
+      subject(:rendered_component) { render_component(content, scheme: :danger) }
+
+      it "marks the flash for assertive announcement" do
+        expect(rendered_component).to have_css '[data-announcement="Flash Error"][data-politeness="assertive"]'
+      end
+
+      context "with description" do
+        subject(:rendered_component) do
+          render_component(
+            content,
+            scheme: :danger,
+            description: "There was a problem with the following field:<br>Name can't be blank.".html_safe
+          )
+        end
+
+        it "includes the description in the announcement" do
+          expect(rendered_component).to have_css(
+            "[data-announcement=\"Flash Error There was a problem with the following field: Name can't be blank.\"]"
+          )
+        end
+      end
+    end
+
+    context "with success scheme" do
+      let(:content) { "Flash Text" }
+
+      subject(:rendered_component) { render_component(content, scheme: :success) }
+
+      it "marks the flash for autohide" do
+        expect(rendered_component).to have_css '[data-autohide="true"]'
+      end
+
+      context "with disabled dismissing" do
+        subject(:rendered_component) { render_component(content, scheme: :success, dismiss_scheme: :none) }
+
+        it "does not mark the flash for autohide" do
+          expect(rendered_component).to have_css '[data-autohide="false"]'
+        end
+      end
     end
 
     context "with blank content" do
@@ -94,6 +142,20 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
 
       it "renders the banner text within the template" do
         expect(rendered_template).to have_css ".Banner-message .Banner-title", text: "Flash Text"
+      end
+
+      it "renders announcement data within the template" do
+        expect(rendered_template).to have_css '[data-announcement="Flash Text"][data-politeness="polite"]'
+      end
+    end
+
+    context "with HTML content" do
+      let(:content) { "First line<br />Second line<ul><li>First item</li><li>Second item</li></ul>".html_safe }
+
+      it "provides a text-only live region message" do
+        component = described_class.new.with_content(content)
+
+        expect(component.live_region_message).to eq "First line Second line First item Second item"
       end
     end
 

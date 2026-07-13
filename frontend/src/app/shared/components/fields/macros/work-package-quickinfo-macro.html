@@ -10,10 +10,10 @@
     fieldName="type" />
   <a data-hover-card-trigger-target="trigger"
     target="_top"
-    [href]="workPackageLink"
+    [href]="pathHelper.workPackagePath(workPackage.displayId)"
     [attr.data-work-package-id]="workPackage.id"
     [attr.data-hover-card-url]="workPackageHoverCardUrl">
-    #{{workPackage.id}}:
+    {{workPackage.formattedId}}:
   </a>
   <display-field [resource]="workPackage"
     [displayFieldOptions]="{ writable: false }"
@@ -40,6 +40,12 @@
       containerType="single-view" />
     })
   }
+} @else if (!error) {
+  <op-content-loader
+    class="op-wp-quickinfo-macro--loading-indicator"
+    viewBox="0 0 120 16">
+    <svg:rect x="0" y="0" width="100%" height="100%" rx="2" ry="2" />
+  </op-content-loader>
 }
 @if (error) {
   <span>

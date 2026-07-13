@@ -79,7 +79,7 @@ module Components
 
       def drag_to(row, column)
         handle = drag_handle
-        drop_area = self.class.of(row * 2, column * 2).area
+        target = self.class.of(row * 2, column * 2)
 
         scroll_to_element(handle)
 
@@ -87,13 +87,14 @@ module Components
           action.click_and_hold(handle.native)
         end
 
-        scroll_to_element(drop_area)
-        drop_area.hover
+        scroll_to_element(target.area)
+        target.area.hover
 
         sleep(1)
 
-        # Re-find drop_area to get a fresh native reference after CDK drag has modified the DOM
-        move_to(self.class.of(row * 2, column * 2).area, &:release)
+        # `target.area` calls page.find on each access, so this re-queries the DOM
+        # to get a fresh native reference after CDK drag has updated it.
+        move_to(target.area, &:release)
       end
 
       def expect_to_exist

@@ -26,7 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TestBed } from '@angular/core/testing';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from './current-project.service';
 
 describe('currentProject service', () => {
@@ -40,7 +42,15 @@ describe('currentProject service', () => {
   };
 
   beforeEach(() => {
-    currentProject = new CurrentProjectService(new PathHelperService(), apiV3Stub);
+    TestBed.configureTestingModule({
+      providers: [
+        CurrentProjectService,
+        PathHelperService,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        { provide: ApiV3Service, useValue: apiV3Stub },
+      ],
+    });
+    currentProject = TestBed.inject(CurrentProjectService);
   });
 
   describe('with no meta present', () => {

@@ -54,6 +54,15 @@ class Meeting::Participant < ApplicationForm
         }
       }
     )
+
+    if meeting.series_template?
+      participant_form.check_box(
+        name: :apply_to_upcoming,
+        label: I18n.t("meeting.participants.label.apply_to_upcoming_meetings"),
+        checked: true,
+        data: { "meetings--participants--update-occurrence-participants-target": "controlCheckbox" }
+      )
+    end
   end
 
   private

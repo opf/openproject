@@ -30,20 +30,31 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
+  include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize_move_or_copy
-  authorization_checked! :new, :create
+  authorization_checked! :new, :create, :refresh_form
 
   def new
     prepare_for_work_package_move
+
+    @move_form_component = move_form_component
   end
 
   def create
     prepare_for_work_package_move
 
     perform_operation
+  end
+
+  def refresh_form
+    prepare_for_work_package_move
+
+    update_via_turbo_stream(component: move_form_component)
+
+    respond_with_turbo_streams
   end
 
   private
@@ -114,34 +125,25 @@ class WorkPackages::MovesController < ApplicationController
     end
   end
 
-  def prepare_for_work_package_move
-    @copy = params.has_key? :copy
-    @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
-    @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
-    @target_project ||= @project
-    @types = @target_project.types.order(:position)
-    @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
-    @unavailable_type_in_target_project = set_unavailable_type_in_target_project
-    @available_versions = @target_project.assignable_versions
-    @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes] || ""
+  def move_form_component
+    WorkPackages::Moves::FormComponent.new(
+      work_packages: @work_packages,
+      project: @project,
+      target_project: @target_project,
+      notes: @notes,
+      copy: @copy,
+      selected_values: permitted_params.move_work_package_form_values,
+      current_user:
+    )
   end
 
-  def set_unavailable_type_in_target_project
-    if @target_project == @project
-      false
-    elsif @target_type.nil?
-      hierarchies = WorkPackageHierarchy
-                      .includes(:ancestor)
-                      .where(ancestor_id: @work_packages.select(:id))
-      Type.where(id: hierarchies.map { it.ancestor.type_id })
-          .select("distinct id")
-          .pluck(:id)
-          .difference(@types.pluck(:id))
-          .any?
-    else
-      @types.exclude?(@target_type)
+  def prepare_for_work_package_move
+    @copy = params.has_key? :copy
+    if params[:new_project_id]
+      @target_project = WorkPackage.allowed_target_projects_on_move(current_user).find_by(id: params[:new_project_id])
     end
+    @target_project ||= @project
+    @notes = params[:notes] || ""
   end
 
   def attributes_for_create

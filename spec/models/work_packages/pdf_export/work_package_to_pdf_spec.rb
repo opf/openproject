@@ -235,7 +235,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:expected_details) do
     [
-      "#{type.name} ##{work_package.id} - #{work_package.subject}",
+      "#{type.name} #{work_package.formatted_id} - #{work_package.subject}",
       " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
       "People",
       "Assignee", user.name,
@@ -245,13 +245,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Remaining work", "9h",
       "% Complete", "25%",
       "Spent time", "0h",
+      "Story Points", "1",
       "Details",
       "Priority", "Normal",
+      *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
       "Version", work_package.version,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
       "Other",
+      "Position", "1",
       "Work Package Custom Field Long Text", "foo   faa",
       "Empty Work Package Custom Field Long Text",
       "Work Package Custom Field Boolean", "Yes",
@@ -310,7 +314,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
           "Image Caption",
           "Image Redirect",
-          "Foo",
+          "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
         expect(result).not_to include("DisabledCustomField")
@@ -471,7 +475,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "My link in table", "https://example.com",
           "No replacement of:", "workPackageValue:1:assignee", "workPackageLabel:assignee",
           "workPackageValue:2:assignee workPackageLabel:assignee",
-          "workPackageValue:3:assignee", "workPackageLabel:assignee",
+          "workPackageValue:3:assignee", "workPackageLabel:assignee"
         ]
       end
 
@@ -502,7 +506,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             ), embed[1]]
           end,
           *expected_description_first,
-          *expected_description_second,
+          *expected_description_second
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
       end
@@ -627,43 +631,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
-    context "with the backlogs module enabled and the feature flag active", with_flag: { scrum_projects: true } do
+    context "with the backlogs module enabled" do
       let(:enabled_module_names) { %i[backlogs] }
-      let(:sprint) { create(:agile_sprint, name: "Sprint name for export", project:) }
-
-      let(:expected_details) do
-        [
-          "#{type.name} ##{work_package.id} - #{work_package.subject}",
-          " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
-          "People",
-          "Assignee", user.name,
-          "Accountable", user.name,
-          "Estimates and progress",
-          "Work", "10h",
-          "Remaining work", "9h",
-          "% Complete", "25%",
-          "Spent time", "0h",
-          # Story points added by the backlogs module:
-          "Story Points", "1",
-          "Details",
-          "Priority", "Normal",
-          # Sprint added by the backlogs module and feature flag:
-          "Sprint", work_package.sprint,
-          "Version", work_package.version,
-          "Category", work_package.category,
-          "Project phase",
-          "Date", "05/30/2024 - 03/13/2025",
-          "Other",
-          # Position added by the backlogs module:
-          "Position", "1",
-          "Work Package Custom Field Long Text", "foo   faa",
-          "Empty Work Package Custom Field Long Text",
-          "Work Package Custom Field Boolean", "Yes",
-          "My Link", "https://example.com",
-          "Costs",
-          "Spent units", "Labor costs", "Unit costs", "Overall costs", "Budget"
-        ]
-      end
+      let(:sprint) { create(:sprint, name: "Sprint name for export", project:) }
 
       before do
         work_package.sprint = sprint

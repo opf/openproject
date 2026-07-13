@@ -26,12 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual, uniqBy } from 'lodash-es';
 import { combine } from '@openproject/reactivestates';
 import { mapTo } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -40,11 +40,8 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
-  constructor(protected readonly states:States,
-    protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly pathHelper:PathHelperService) {
-    super(querySpace);
-  }
+  protected readonly states = inject(States);
+  protected readonly pathHelper = inject(PathHelperService);
 
   public valueFromQuery(query:QueryResource) {
     return [...query.sortBy];
@@ -61,7 +58,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public hasChanged(query:QueryResource) {
     const comparer = (sortBy:QuerySortByResource[]) => sortBy.map((el) => el.href);
 
-    return !_.isEqual(
+    return !isEqual(
       comparer(query.sortBy),
       comparer(this.current),
     );
@@ -77,10 +74,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public isSortable(column:QueryColumn):boolean {
-    return !!_.find(
-      this.available,
-      (candidate) => candidate.column.href === column.href,
-    );
+    return this.available.some((candidate) => candidate.column.href === column.href);
   }
 
   public addSortCriteria(column:QueryColumn, criteria:string) {
@@ -100,16 +94,12 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource | undefined {
-    return _.find(
-      this.available,
-      (candidate) => (candidate.column.href === column.href
-        && candidate.direction.href === direction),
-    );
+    return this.available.find((candidate) => candidate.column.href === column.href
+      && candidate.direction.href === direction);
   }
 
   public add(sortBy:QuerySortByResource) {
-    const newValue = _
-      .uniqBy([sortBy, ...this.current], (sortBy) => sortBy.column.href)
+    const newValue = uniqBy([sortBy, ...this.current], (item) => item.column.href)
       .slice(0, 3);
 
     this.update(newValue);
@@ -150,6 +140,6 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   private get manualSortObject() {
-    return _.find(this.available, (sort) => sort.column.href!.endsWith('/manualSorting'));
+    return this.available.find((sort) => sort.column.href!.endsWith('/manualSorting'));
   }
 }

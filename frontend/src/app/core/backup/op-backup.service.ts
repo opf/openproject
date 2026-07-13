@@ -26,17 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
-  constructor(
-    protected apiV3Service:ApiV3Service,
-  ) {
-  }
+  protected apiV3Service = inject(ApiV3Service);
+
 
   public triggerBackup(backupToken:string, includeAttachments = true):Observable<HalResource> {
     return this

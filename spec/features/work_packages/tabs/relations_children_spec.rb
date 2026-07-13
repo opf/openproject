@@ -58,6 +58,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
       wait_for_network_idle
 
+      expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
+
       page.within("#work-package-relations-tab-content") do
         expect(page).to have_content("Hello there")
         expect(page).to have_content("RISK")
@@ -82,6 +84,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
         create_dialog.submit
 
         wait_for_network_idle
+
+        expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
         page.within("#work-package-relations-tab-content") do
           expect(page).to have_content("Hello there")
@@ -135,6 +139,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
         create_dialog.submit
 
         wait_for_network_idle
+
+        expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
         page.within("#work-package-relations-tab-content") do
           expect(page).to have_content("Hello there")

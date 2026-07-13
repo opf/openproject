@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::BaseComponent.new(tag: :section, mb: 4)) do %>
   <%=
     render(Primer::Beta::Subhead.new) do |component|
-      component.with_heading(tag: :h3, size: :medium) { t(:label_identifier) }
+      component.with_heading(tag: :h3, size: :medium) { I18n.t("projects.settings.header_identifier") }
     end
   %>
   <%=

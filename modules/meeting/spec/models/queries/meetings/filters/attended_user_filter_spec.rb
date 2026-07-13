@@ -50,6 +50,8 @@ RSpec.describe Queries::Meetings::Filters::AttendedUserFilter do
   end
 
   describe "#where clause" do
+    let(:current_user) { create(:user) }
+    let(:role) { create(:project_role) }
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
     let(:project) { create(:project) }
@@ -66,9 +68,16 @@ RSpec.describe Queries::Meetings::Filters::AttendedUserFilter do
     let!(:participant3) { create(:meeting_participant, :invitee, meeting: meeting3, user: user1) }
     let!(:participant4) { create(:meeting_participant, :invitee, meeting: meeting4, user: user2) }
 
+    # Add all users to the same project so they are visible to each other
+    let!(:current_member) { create(:member, user: current_user, project:, roles: [role]) }
+    let!(:member1) { create(:member, user: user1, project:, roles: [role]) }
+    let!(:member2) { create(:member, user: user2, project:, roles: [role]) }
+
     let(:instance) do
       described_class.create!(name: :attended_user_id, operator:, values:)
     end
+
+    before { login_as(current_user) }
 
     context 'for "="' do
       let(:operator) { "=" }
@@ -124,6 +133,50 @@ RSpec.describe Queries::Meetings::Filters::AttendedUserFilter do
         expect(meetings).to include(meeting3)
         expect(meetings).to include(meeting4)
       end
+    end
+  end
+
+  describe "#values visibility filtering" do
+    let(:role) { create(:project_role) }
+    let(:project) { create(:project) }
+    let(:current_user) { create(:user) }
+    let(:visible_user) { create(:user) }
+    let(:invisible_user) { create(:user) }
+
+    let!(:current_member) { create(:member, user: current_user, project:, roles: [role]) }
+    let!(:visible_member) { create(:member, user: visible_user, project:, roles: [role]) }
+
+    before { login_as(current_user) }
+
+    it "keeps IDs of users visible to the current user" do
+      filter = described_class.create!(name: :attended_user_id, operator: "=", values: [visible_user.id.to_s])
+      expect(filter.values).to eq([visible_user.id.to_s])
+    end
+
+    it "strips IDs of users not visible to the current user" do
+      filter = described_class.create!(name: :attended_user_id, operator: "=", values: [invisible_user.id.to_s])
+      expect(filter.values).to be_empty
+    end
+
+    it "returns no meetings for a non-visible user ID, indistinguishable from a non-existent ID" do
+      create(:meeting, project:).tap do |m|
+        create(:meeting_participant, :attendee, meeting: m, user: invisible_user)
+      end
+
+      filter = described_class.create!(name: :attended_user_id, operator: "=", values: [invisible_user.id.to_s])
+      meetings = Meeting.left_outer_joins(:participants).where(filter.where)
+      expect(meetings).to be_empty
+    end
+
+    it "returns no meetings for a non-existent user ID" do
+      filter = described_class.create!(name: :attended_user_id, operator: "=", values: ["999999999"])
+      meetings = Meeting.left_outer_joins(:participants).where(filter.where)
+      expect(meetings).to be_empty
+    end
+
+    it "returns no meetings for '!' operator with a non-visible user ID (no constraint applied)" do
+      filter = described_class.create!(name: :attended_user_id, operator: "!", values: [invisible_user.id.to_s])
+      expect(filter.where).to eq("1=1")
     end
   end
 end

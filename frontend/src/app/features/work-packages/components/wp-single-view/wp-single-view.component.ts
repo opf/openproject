@@ -26,15 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { isEqual } from 'lodash-es';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
@@ -64,6 +57,7 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export interface FieldDescriptor {
   name:string;
@@ -99,6 +93,23 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
   standalone: false,
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
+  protected readonly injector = inject(Injector);
+  private readonly states = inject(States);
+  private readonly I18n = inject(I18nService);
+  private readonly hook = inject(HookService);
+  private readonly $state = inject(StateService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly PathHelper = inject(PathHelperService);
+  private readonly schemaCache = inject(SchemaCacheService);
+  private readonly currentProject = inject(CurrentProjectService);
+  private readonly halEditing = inject(HalResourceEditingService);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly currentUserService = inject(CurrentUserService);
+  private readonly displayFieldService = inject(DisplayFieldService);
+  private readonly projectsResourceService = inject(ProjectsResourceService);
+  private readonly projectStoragesService = inject(ProjectStoragesResourceService);
+
   @Input() public workPackage:WorkPackageResource;
 
   /** Should we show the project field */
@@ -145,29 +156,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
 
-  constructor(
-    protected readonly injector:Injector,
-    private readonly states:States,
-    private readonly I18n:I18nService,
-    private readonly hook:HookService,
-    private readonly $state:StateService,
-    private readonly elementRef:ElementRef,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly PathHelper:PathHelperService,
-    private readonly schemaCache:SchemaCacheService,
-    private readonly currentProject:CurrentProjectService,
-    private readonly halEditing:HalResourceEditingService,
-    private readonly halResourceService:HalResourceService,
-    private readonly currentUserService:CurrentUserService,
-    private readonly displayFieldService:DisplayFieldService,
-    private readonly projectsResourceService:ProjectsResourceService,
-    private readonly projectStoragesService:ProjectStoragesResourceService,
-  ) {
-    super();
-  }
-
   public ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
 
@@ -184,7 +174,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       .pipe(
         this.untilDestroyed(),
         map((resource) => this.contextFrom(resource)),
-        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
+        distinctUntilChanged<ResourceContextChange>((a, b) => isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage)),
       )
       .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
@@ -205,7 +195,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
       this.projectContext = {
         id: project.id,
-        href: this.PathHelper.projectWorkPackagePath(project.id, workPackageId),
+        href: this.PathHelper.projectWorkPackagePath(project.id, this.workPackage.displayId),
         matches: project.href === this.currentProject.apiv3Path,
       };
     }
@@ -294,7 +284,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Returns the work package label
    */
   public get idLabel():string {
-    return `#${this.workPackage.id || ''}`;
+    return this.workPackage.formattedId;
+  }
+
+  public get selectEntireId():boolean {
+    return isSemanticWorkPackageId(this.idLabel);
   }
 
   public showSwitchToProjectBanner():boolean {

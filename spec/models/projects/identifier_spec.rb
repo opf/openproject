@@ -35,7 +35,16 @@ RSpec.describe Projects::Identifier do
     subject { create(:project) }
 
     it { is_expected.to validate_uniqueness_of(:identifier).case_insensitive }
-    it { is_expected.to validate_length_of(:identifier).is_at_most(100) }
+
+    context "with classic identifiers", with_settings: { work_packages_identifier: "classic" } do
+      it { is_expected.to validate_length_of(:identifier).is_at_most(100) }
+    end
+
+    context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+      subject { build(:project, identifier: "PROJ") }
+
+      it { is_expected.to validate_length_of(:identifier).is_at_most(10) }
+    end
   end
 
   describe "database indexes" do
@@ -66,6 +75,14 @@ RSpec.describe Projects::Identifier do
       expect(project.identifier).to eq("foo")
     end
 
+    it "generates a valid identifier for an all-numeric name" do
+      project = Project.new(name: "12345")
+
+      project.validate
+
+      expect(project.identifier).to match(Projects::Identifier::CLASSIC_FORMAT)
+    end
+
     it "is not allowed to clash with projects routing" do
       expect(reserved).not_to be_empty
 
@@ -94,43 +111,9 @@ RSpec.describe Projects::Identifier do
       end.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
-    it "is not allowed to clash with a former identifier of another project" do
-      other_project = create(:project, identifier: "former-id")
-      other_project.update!(identifier: "new-id")
-
-      project = build(:project, identifier: "former-id")
-      expect(project).not_to be_valid
-      expect(project.errors[:identifier]).to include("has already been taken.")
-    end
-
-    it "is not allowed to clash with a former identifier of another project case-insensitively" do
-      other_project = create(:project, identifier: "former-id")
-      other_project.update!(identifier: "new-id")
-
-      # Bypass format validation to test the LOWER() slug check directly
-      project = create(:project)
-      project.identifier = "FORMER-ID"
-      project.valid?
-      expect(project.errors[:identifier]).to include("has already been taken.")
-    end
-
-    it "is allowed to be the same as its own former identifier" do
-      project = create(:project, identifier: "old-id")
-      project.update!(identifier: "new-id")
-
-      project.identifier = "old-id"
-      expect(project).to be_valid
-    end
-
-    it "rejects reserved identifiers case-insensitively" do
-      project = build(:project, identifier: "NEW")
-      expect(project).not_to be_valid
-      expect(project.errors[:identifier]).to include("is reserved.")
-    end
-
-    # The acts_as_url plugin defines validation callbacks on :create and it is not automatically
-    # called when calling a custom context. However we need the acts_as_url callback to set the
-    # identifier when the validations are called with the :saving_custom_fields context.
+    # The identifier-generation callback fires on :create and is not automatically called when
+    # validating with a custom context. The validation_context override ensures it still runs
+    # when the validations are called with the :saving_custom_fields context.
     context "when validating with :saving_custom_fields context" do
       it "is set from name" do
         project = Project.new(name: "foo")
@@ -194,12 +177,12 @@ RSpec.describe Projects::Identifier do
 
   describe ".suggest_identifier" do
     context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
-      it "delegates to ProjectIdentifierSuggestionGenerator" do
-        allow(WorkPackages::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
-          .to receive(:suggest_identifier).with("My Project").and_return("MP")
+      it "delegates to ProjectIdentifierSuggestionGenerator with an exclusion set" do
+        allow(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+          .to receive(:suggest_identifier).and_return("MP")
         expect(Project.suggest_identifier("My Project")).to eq("MP")
-        expect(WorkPackages::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
-          .to have_received(:suggest_identifier).with("My Project")
+        expect(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+          .to have_received(:suggest_identifier).with("My Project", exclude: a_kind_of(Set))
       end
     end
 
@@ -207,6 +190,141 @@ RSpec.describe Projects::Identifier do
       it "returns a slugified lowercase identifier" do
         expect(Project.suggest_identifier("My Cool Project")).to eq("my-cool-project")
       end
+
+      it "returns a unique project-NNNNN fallback when the name produces no slug" do
+        result = Project.suggest_identifier("!!!")
+        expect(result).to match(/\Aproject-[a-z0-9]{5}\z/)
+      end
+    end
+
+    context "with explicit mode: parameter" do
+      context "when mode: semantic overrides a classic setting",
+              with_settings: { work_packages_identifier: "classic" } do
+        it "uses the semantic generator" do
+          allow(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+            .to receive(:suggest_identifier).and_return("MP")
+
+          Project.suggest_identifier("My Project", mode: Setting::WorkPackageIdentifier::SEMANTIC)
+
+          expect(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+            .to have_received(:suggest_identifier).with("My Project", exclude: a_kind_of(Set))
+        end
+      end
+
+      context "when mode: classic overrides a semantic setting",
+              with_settings: { work_packages_identifier: "semantic" } do
+        it "uses the classic generator" do
+          generator = instance_double(ProjectIdentifiers::ClassicIdentifierSuggestionGenerator)
+          allow(ProjectIdentifiers::ClassicIdentifierSuggestionGenerator).to receive(:new).and_return(generator)
+          allow(generator).to receive(:suggest_identifier).and_return("my-project")
+
+          result = Project.suggest_identifier("My Project", mode: Setting::WorkPackageIdentifier::CLASSIC)
+
+          expect(result).to eq("my-project")
+        end
+      end
+    end
+  end
+
+  describe "#suggest_identifier" do
+    subject(:project) { build(:project, name: "My Project") }
+
+    context "with no mode argument", with_settings: { work_packages_identifier: "classic" } do
+      it "delegates to the class method using the current setting" do
+        expect(project.suggest_identifier).to eq(Project.suggest_identifier("My Project"))
+      end
+    end
+
+    context "with explicit mode: semantic", with_settings: { work_packages_identifier: "classic" } do
+      it "passes the mode through to the class method" do
+        allow(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+          .to receive(:suggest_identifier).and_return("MP")
+
+        project.suggest_identifier(mode: Setting::WorkPackageIdentifier::SEMANTIC)
+
+        expect(ProjectIdentifiers::IdentifierAutofix::ProjectIdentifierSuggestionGenerator)
+          .to have_received(:suggest_identifier).with("My Project", exclude: a_kind_of(Set))
+      end
+    end
+
+    context "with explicit mode: classic", with_settings: { work_packages_identifier: "semantic" } do
+      it "passes the mode through to the class method" do
+        result = project.suggest_identifier(mode: Setting::WorkPackageIdentifier::CLASSIC)
+
+        expect(result).to eq("my-project")
+      end
+    end
+  end
+
+  describe ".identifier_slugs scopes" do
+    let!(:active_project) { create(:project, identifier: "active-id") }
+    let!(:renamed_project) { create(:project, identifier: "current-id") }
+
+    before do
+      # Slug history mirrors active identifiers for both projects (FriendlyId :history records the
+      # current slug on save). Add an extra historical slug for renamed_project to exercise the
+      # `historically_reserved` filter — it doesn't match any active project's identifier.
+      FriendlyId::Slug.create!(sluggable: renamed_project, slug: "old-slug")
+    end
+
+    describe "#historically_reserved" do
+      it "returns slugs whose lowercase value isn't any active project's identifier" do
+        slugs = Project.identifier_slugs.historically_reserved.pluck(:slug)
+        expect(slugs).to contain_exactly("old-slug")
+      end
+    end
+
+    describe "#for_identifier" do
+      it "returns slugs whose lowercase equals the lowercased input" do
+        match = Project.identifier_slugs.for_identifier("OLD-SLUG")
+        expect(match.pluck(:slug)).to contain_exactly("old-slug")
+      end
+
+      it "matches case-insensitively when stored slug differs in case" do
+        FriendlyId::Slug.create!(sluggable: renamed_project, slug: "MixedCase")
+        match = Project.identifier_slugs.for_identifier("mixedcase")
+        expect(match.pluck(:slug)).to contain_exactly("MixedCase")
+      end
+    end
+
+    describe "#upcased_values" do
+      it "returns uppercased slugs as a plain array" do
+        values = Project.identifier_slugs.upcased_values
+        expect(values).to contain_exactly("ACTIVE-ID", "CURRENT-ID", "OLD-SLUG")
+      end
+    end
+
+    describe "#downcased_values" do
+      it "returns downcased slugs as a plain array" do
+        FriendlyId::Slug.create!(sluggable: renamed_project, slug: "MixedCase")
+        values = Project.identifier_slugs.downcased_values
+        expect(values).to include("active-id", "current-id", "old-slug", "mixedcase")
+      end
+    end
+
+    describe "#raw_values" do
+      it "returns slug values verbatim (no case folding)" do
+        FriendlyId::Slug.create!(sluggable: renamed_project, slug: "MixedCase")
+        values = Project.identifier_slugs.raw_values
+        expect(values).to contain_exactly("active-id", "current-id", "old-slug", "MixedCase")
+      end
+    end
+
+    describe "#excluding_project" do
+      it "drops the given project's slug history from the relation" do
+        values = Project.identifier_slugs.excluding_project(renamed_project).raw_values
+        expect(values).to contain_exactly("active-id")
+      end
+
+      it "is a no-op when project is nil" do
+        values = Project.identifier_slugs.excluding_project(nil).raw_values
+        expect(values).to contain_exactly("active-id", "current-id", "old-slug")
+      end
+    end
+
+    it "composes scopes (historically_reserved + upcased_values)" do
+      values = Project.identifier_slugs.historically_reserved.upcased_values
+      expect(values).to contain_exactly("OLD-SLUG")
     end
   end
 end

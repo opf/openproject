@@ -11,7 +11,7 @@ keywords: ldap authentication
 > [!NOTE]
 > In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
-To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP connections* from the menu on the left. You will see the list of all available connections already created.
+To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > _Administration_ and select _-> Authentication_ -> _LDAP connections_ from the menu on the left. You will see the list of all available connections already created.
 
 ## Add a new LDAP connection
 
@@ -73,15 +73,15 @@ Next you can define what sections OpenProject will look for in the LDAP and also
 
 ![Defining the attribute map for users in OpenProject administration](openproject_system_guide_ldap_connections_new_attribute_mapping.png)
 
-The attribute mapping is used to identify attributes of OpenProject with attributes of the LDAP directory. At least the *login* attribute is required to create DNs from the login credentials.
+The attribute mapping is used to identify attributes of OpenProject with attributes of the LDAP directory. At least the _login_ attribute is required to create DNs from the login credentials.
 
-- **Login:** The login attribute in the ldap. Will be used to construct the DN from `login-attribute=value,`. Most often, this will be *uid.*
-- **First name:** The attribute name in the LDAP that maps to first name. Most often, this will be *givenName.* If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
-- **Last name:** The attribute name in the LDAP that maps to last name. Most often, this will be *sn.* If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
-- **Email:** The attribute name in the LDAP that maps to the user’s mail address. This will usually be *mail.* If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
+- **Login:** The login attribute in the ldap. Will be used to construct the DN from `login-attribute=value,`. Most often, this will be _uid._
+- **First name:** The attribute name in the LDAP that maps to first name. Most often, this will be _givenName._ If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
+- **Last name:** The attribute name in the LDAP that maps to last name. Most often, this will be _sn._ If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
+- **Email:** The attribute name in the LDAP that maps to the user’s mail address. This will usually be _mail._ If left empty, user will be prompted to enter upon registration if **automatic user creation** is true.
 - **Admin:** Specify an attribute that if it has a truthy value, results in the user in OpenProject becoming an admin account.  Leave empty to never set admin status from LDAP attributes.
 
-Lastly, click on *Create* to save the LDAP authentication  mode. You will be redirected to the index page with the created  LDAP connection. Click the *test*  button to create a test connection using the system user’s bind credentials.
+Lastly, click on _Create_ to save the LDAP authentication  mode. You will be redirected to the index page with the created  LDAP connection. Click the _test_  button to create a test connection using the system user’s bind credentials.
 
 ![New LDAP connection created in OpenProject administration](openproject_system_guide_ldap_connections_new_created.png)
 
@@ -103,7 +103,7 @@ Please see the [advanced configuration guide](../../../installation-and-operatio
 
 By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours.
 
-### **Enable status synchronization**
+### Enable status synchronization
 
 If you wish to synchronize the account status from the LDAP, you can enable status synchronization using the following configuration:
 

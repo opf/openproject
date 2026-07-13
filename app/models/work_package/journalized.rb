@@ -79,7 +79,7 @@ module WorkPackage::Journalized
 
       def self.event_url
         Proc.new do |o|
-          { controller: :work_packages, action: :show, id: o.id }
+          { controller: :work_packages, action: :show, id: o.display_id }
         end
       end
     end
@@ -102,6 +102,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "cause", formatter_key: :cause
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
     register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
+    register_journal_formatted_fields "target_versions", formatter_key: :target_versions
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,

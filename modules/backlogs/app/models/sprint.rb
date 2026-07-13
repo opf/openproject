@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,151 +28,98 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "date"
+class Sprint < ApplicationRecord
+  include ::Scopes::Scoped
 
-class Sprint < Version
-  scope :open_sprints, lambda { |project|
-    where(["versions.status = 'open' and versions.project_id = ?", project.id])
-      .order_by_date
-  }
+  belongs_to :project
+  has_many :work_packages, inverse_of: :sprint, dependent: :nullify
+  has_many :goals,
+           class_name: "SprintGoal",
+           inverse_of: :sprint,
+           dependent: :delete_all
 
-  # null last ordering
-  scope :order_by_date, -> {
-    reorder(Arel.sql("start_date ASC NULLS LAST, effective_date ASC NULLS LAST"))
-  }
+  accepts_nested_attributes_for :goals,
+                                allow_destroy: true,
+                                reject_if: ->(attributes) {
+                                  attributes["id"].blank? && attributes["text"].blank?
+                                },
+                                limit: 1
 
-  scope :apply_to, lambda { |project|
-    where("#{Version.table_name}.project_id = #{project.id}" +
-        " OR (#{Project.table_name}.active = #{true} AND (" +
-        " #{Version.table_name}.sharing = 'system'" +
-        " OR (#{Project.table_name}.lft >= #{project.root.lft} AND #{Project.table_name}.rgt <= #{project.root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-        " OR (#{Project.table_name}.lft < #{project.lft} AND #{Project.table_name}.rgt > #{project.rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-        " OR (#{Project.table_name}.lft > #{project.lft} AND #{Project.table_name}.rgt < #{project.rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-        "))")
-      .includes(:project)
-      .references(:projects)
-  }
+  has_many :task_boards,
+           as: :linked,
+           class_name: "Boards::Grid",
+           inverse_of: :linked,
+           dependent: :nullify
 
-  scope :displayed_left, lambda { |project|
-    joins(sanitize_sql_array([
-                               "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
-                                 " WHERE project_id = ? ) version_settings" +
-                                 " ON version_settings.version_id = versions.id",
-                               project.id
-                             ]))
-      .where([
-               "(version_settings.project_id = ? AND version_settings.display = ?)" +
-                 " OR (version_settings.project_id is NULL)",
-               project.id,
-               VersionSetting::DISPLAY_LEFT
-             ])
-      .joins("
-        LEFT OUTER JOIN (SELECT * FROM #{VersionSetting.table_name}) AS vs
-        ON vs.version_id = #{Version.table_name}.id AND vs.project_id = #{Version.table_name}.project_id
-      ") # next take only those versions which define 'display left' in their home project or the given project (or don't define anything)
-      .where(
-        "(version_settings.display = ? OR vs.display = ? OR vs.display IS NULL)",
-        VersionSetting::DISPLAY_LEFT,
-        VersionSetting::DISPLAY_LEFT
-      )
-  }
+  scopes :assignable,
+         :for_project,
+         :not_completed,
+         :order_by_activity,
+         :order_by_date,
+         :receiving_projects,
+         :visible,
+         :native_to_sprint_source
 
-  scope :displayed_right, lambda { |project|
-    where(["version_settings.project_id = ? AND version_settings.display = ?",
-           project.id, VersionSetting::DISPLAY_RIGHT])
-      .includes(:version_settings)
-      .references(:version_settings)
-  }
+  enum :status,
+       {
+         in_planning: "in_planning",
+         active: "active",
+         completed: "completed"
+       },
+       default: "in_planning",
+       validate: true
 
-  def stories(project, options = {})
-    Story.sprint_backlog(project, self, options)
+  validates :name, :project, presence: true
+  validates :start_date, :finish_date, presence: true, if: :active?
+  validates :finish_date,
+            comparison: { greater_than_or_equal_to: :start_date },
+            if: :date_range_set?
+
+  validates :status,
+            uniqueness: {
+              scope: :project_id,
+              conditions: -> { active },
+              message: :only_one_active_sprint_allowed
+            },
+            if: :active?
+
+  def date_range_set?
+    start_date? && finish_date?
   end
 
-  def points
-    stories.inject(0) { |sum, story| sum + story.story_points.to_i }
+  def duration
+    return nil unless date_range_set?
+
+    Day.working.from_range(from: start_date, to: finish_date).count
   end
 
-  def has_wiki_page
-    return false if wiki_page_title.blank?
-
-    page = project.wiki.find_page(wiki_page_title)
-    return false if !page
-
-    template = project.wiki.find_page(Setting.plugin_openproject_backlogs["wiki_template"])
-    return false if template && page.text == template.text
-
-    true
+  def task_board_for(project)
+    task_boards.find { it.project_id == project.id }
   end
 
-  def wiki_page
-    return "" unless project.wiki
-
-    create_wiki_page(name) unless project.wiki.find_page(name)
-    update_attribute(:wiki_page_title, name) if wiki_page_title.blank?
-
-    wiki_page_title
+  def work_packages_for(project)
+    work_packages.where(project:).order_by_position
   end
 
-  def days(cutoff = nil, alldays = false)
-    # TODO: Assumes mon-fri are working days, sat-sun are not. This assumption
-    # is not globally right, we need to make this configurable.
-    cutoff = effective_date if cutoff.nil?
-
-    (start_date..cutoff).select { |d| alldays || (d.wday > 0 and d.wday < 6) }
+  def owned_by?(project)
+    project_id == project.id
   end
 
-  def has_burndown?
-    !!(effective_date and start_date)
+  def shared_with?(project)
+    self.class.for_project(project).exists?(id:) && !owned_by?(project)
   end
 
-  def activity
-    bd = burndown("up")
-    return false if bd.blank?
-
-    # Assume a sprint is active if it's only 2 days old
-    return true if bd.remaining_hours.size <= 2
-
-    WorkPackage.exists?(["version_id = ? and ((updated_at between ? and ?) or (created_at between ? and ?))",
-                         id, -2.days.from_now, Time.now, -2.days.from_now, Time.now])
+  def visible_to?(project)
+    self.class.for_project(project).exists?(id:)
   end
 
-  def burndown(project, burn_direction = nil)
-    return nil unless has_burndown?
-
-    @cached_burndown ||= Burndown.new(self, project, burn_direction)
+  def goal_for(project)
+    goals.find { |goal| goal.project_id == project.id }
   end
 
-  def self.generate_burndown(only_current = true)
-    conditions = if only_current
-                   ["? BETWEEN start_date AND effective_date", Date.today]
-                 else
-                   "1 = 1"
-                 end
-
-    Version.where(conditions).each(&:burndown)
+  def goal_text_for(project)
+    goal_for(project)&.text
   end
 
-  def impediments(project)
-    # for reasons beyond me,
-    # the default_scope needs to be explicitly applied.
-    Impediment.default_scope.where(version_id: self, project_id: project)
-  end
-
-  def settings(project)
-    version_settings.find { it.project_id == project.id || it.project_id.nil? }
-  end
-
-  private
-
-  def create_wiki_page(page_title, author: User.current)
-    template = project.wiki.find_page(Setting.plugin_openproject_backlogs["wiki_template"])
-    page_text = if template
-                  "h1. #{name}\n\n#{template.text}"
-                else
-                  "h1. #{name}"
-                end
-
-    page = project.wiki.pages.build(title: page_title, text: page_text, author:)
-    page.save!
-  end
+  def to_s = name
 end

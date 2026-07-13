@@ -41,7 +41,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%# Set meta tags %>
 <% title "#{t(:project_module_wiki)} | #{title}" %>
 <% @formatted_text = format_text @page, :text, attachments: @page.attachments %>
-<% description strip_tags(@formatted_text) %>
+<%# Prevent passing the entire formatted text to strip_tags, as that would be quite slow. Numbers used are arbitrary. %>
+<% description strip_tags(@formatted_text.to_s.first(500)).truncate(160) %>
 
 <% if params[:version] %>
   <hr>

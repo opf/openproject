@@ -104,9 +104,8 @@ module Pages
       def open_inplace_edit_field_for_custom_field(custom_field)
         scroll_to_element(page.find("[data-test-selector='project-custom-field-#{custom_field.id}']"))
         field = Components::Common::InplaceEditField.new(project, custom_field.attribute_name.to_sym)
-        field.open_field
 
-        wait_for_network_idle
+        wait_for_turbo_stream { field.open_field }
 
         field
       end

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
@@ -8,13 +8,13 @@ import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/dr
 
 @Injectable()
 export class GridResizeService {
+  readonly layout = inject(GridAreaService);
+  readonly move = inject(GridMoveService);
+  readonly drag = inject(GridDragAndDropService);
+
   private resizedArea:GridWidgetArea|null;
 
   private targetIds:string[];
-
-  constructor(readonly layout:GridAreaService,
-    readonly move:GridMoveService,
-    readonly drag:GridDragAndDropService) { }
 
   public end(area:GridWidgetArea):Promise<GridResource>|undefined {
     if (!this.resizedArea) {
@@ -88,7 +88,7 @@ export class GridResizeService {
   }
 
   public isResized(area:GridWidgetArea) {
-    return this.resizedArea && this.resizedArea.guid === area.guid;
+    return this.resizedArea?.guid === area.guid;
   }
 
   public isPassive(area:GridWidgetArea) {

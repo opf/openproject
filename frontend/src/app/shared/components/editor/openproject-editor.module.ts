@@ -86,6 +86,4 @@ export function initializeServices(injector:Injector) {
   ],
 })
 export class OpenprojectEditorModule {
-  constructor(injector:Injector) {
-  }
 }

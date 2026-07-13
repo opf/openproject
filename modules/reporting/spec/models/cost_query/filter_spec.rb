@@ -208,6 +208,13 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.count).to eq(Entry.all.count { |e| e.updated_at.to_date > Time.zone.today.years_ago(20) })
     end
 
+    it "ignores positive-arity date filters without values" do
+      query.filter :updated_on, values: [], operator: ">d"
+
+      expect { query.result }.not_to raise_error
+      expect(query.result.count).to eq(Entry.count)
+    end
+
     it "filters user_id" do
       old_user = User.current
       # create non-matching entry

@@ -21,23 +21,22 @@
 #++
 ---
 id:
-  plugin_budgets_engine:
-    name: Anggaran
   activerecord:
     attributes:
       budget:
         author: Penulis
         available: Tersedia
+        base_amount: Jumlah dasar
         budget: Terencana
         budget_ratio: Spent (rasio)
         description: Deskripsi
+        labor_budget: Rencana biaya tenaga
+        labor_budget_items: Planned labor costs
+        material_budget: Rencana biaya unit
         spent: Dihabiskan
         status: Status
         subject: Perihal
         type: Jenis biaya
-        labor_budget: Rencana biaya tenaga
-        material_budget: Rencana biaya unit
-        base_amount: Jumlah dasar
       work_package:
         budget_subject: Judul anggaran
     errors:
@@ -48,55 +47,56 @@ id:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Anggaran
+      labor_budget_item: Planned labor cost
       material_budget_item: Unit
   activity:
     filter:
       budget: Anggaran
   attributes:
     budget: Anggaran
-  button_add_budget_item: Tambahkan biaya terencana
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Anggaran
   button_add_budget: Tambahkan budget
+  button_add_budget_item: Tambahkan biaya terencana
   button_add_cost_type: Tambahkan jenis biaya
   button_cancel_edit_budget: Batalkan edit budget
   button_cancel_edit_costs: Batalkan edit biaya
   caption_labor: Tenaga kerja
   caption_labor_costs: Biaya tenaga aktual
   caption_material_costs: Biaya unit aktual
-  budgets_title: Anggaran
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Buget telah di-edit
   help_click_to_edit: Klik untuk edit.
@@ -104,23 +104,25 @@ id:
   help_override_rate: Masukkan nilai untuk mengubah rate default.
   label_budget: Anggaran
   label_budget_available: Anggaran yang tersedia
+  label_budget_details: Rincian anggaran
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Tambah budget
   label_budget_planned: Anggaran yang direncanakan
   label_budget_plural: Anggaran
   label_budget_spent: Anggaran yang terpakai
   label_budget_spent_ratio: Rasio pengeluaran anggaran
+  label_budget_totals: Total
   label_deliverable: Anggaran
   label_example_placeholder: mis., %{decimal}
   label_view_all_budgets: Lihat semua budget
   label_yes: 'Yes'
-  label_budget_totals: Total
-  label_budget_details: Rincian anggaran
   notice_budget_conflict: Paket kerja harus berasal dari proyek yang sama.
   notice_no_budgets_available: Pilihan budget tidak tersedia.
   permission_edit_budgets: Edit budget
   permission_view_budgets: Tampilkan seluruh budget
+  plugin_budgets_engine:
+    name: Anggaran
   project_module_budgets: Anggaran
-  text_budget_reassign_to: 'Tetapkan kembali mereka ke anggaran ini:'
   text_budget_delete: Hapus anggaran dari semua paket pekerjaan
   text_budget_destroy_assigned_wp: Ada %{count} paket pekerjaan yang ditugaskan ke anggaran ini.  Apa yang ingin kamu lakukan?
+  text_budget_reassign_to: 'Tetapkan kembali mereka ke anggaran ini:'

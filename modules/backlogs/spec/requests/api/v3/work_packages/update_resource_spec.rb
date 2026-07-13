@@ -35,19 +35,23 @@ RSpec.describe "API v3 Work package resource",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project, public: false) }
+  shared_let(:project) { create(:project, public: false, enabled_module_names: %w[work_package_tracking backlogs]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs]) }
   shared_let(:type) { project.types.first }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
-  shared_let(:sprint) { create(:agile_sprint, project:) }
-  shared_let(:outside_sprint) { create(:agile_sprint, project: create(:project)) }
+  shared_let(:sprint) { create(:sprint, project:) }
+  shared_let(:completed_sprint) { create(:sprint, project:, status: :completed) }
+  shared_let(:outside_sprint) { create(:sprint, project: other_project) }
   shared_let(:work_package) { create(:work_package, project:, type:, status:, priority:) }
 
   let(:role) { create(:project_role, permissions:) }
-  let(:permissions) { %i[edit_work_packages view_work_packages manage_sprint_items] }
+  let(:permissions) { %i[edit_work_packages view_work_packages manage_sprint_items view_sprints] }
+  let(:other_role) { create(:project_role, permissions: other_permissions) }
+  let(:other_permissions) { permissions }
 
   current_user do
-    create(:user, member_with_roles: { project => role })
+    create(:user, member_with_roles: { project => role, other_project => other_role })
   end
 
   describe "PATCH /api/v3/work_packages/:id" do
@@ -82,13 +86,21 @@ RSpec.describe "API v3 Work package resource",
     end
 
     context "when the user does not have permission to manage sprint items" do
-      let(:permissions) { %i[edit_work_packages view_work_packages] }
+      let(:permissions) { %i[edit_work_packages view_work_packages view_sprints] }
 
       it_behaves_like "read-only violation", "sprint", WorkPackage
     end
 
-    context "when the user has only the permission to manage sprint items and changes only the sprint" do
-      let(:permissions) { %i[view_work_packages manage_sprint_items] }
+    context "when the user does not have permission to view sprints" do
+      let(:permissions) { %i[edit_work_packages view_work_packages manage_sprint_items] }
+
+      it_behaves_like "constraint violation" do
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
+      end
+    end
+
+    context "when the user has only the permission to manage sprint items/view sprints and changes only the sprint" do
+      let(:permissions) { %i[view_work_packages manage_sprint_items view_sprints] }
 
       let(:parameters) do
         {
@@ -109,8 +121,8 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
-    context "when the user has only the permission to manage sprint items and changes more than the sprint" do
-      let(:permissions) { %i[view_work_packages manage_sprint_items] }
+    context "when the user has only the permission to manage sprint items/view sprints and changes more than the sprint" do
+      let(:permissions) { %i[view_work_packages manage_sprint_items view_sprints] }
 
       let(:parameters) do
         {
@@ -127,7 +139,26 @@ RSpec.describe "API v3 Work package resource",
       it_behaves_like "read-only violation", "subject", WorkPackage
     end
 
+    context "when attempting to assign the work package to a completed sprint" do
+      let(:parameters) do
+        {
+          storyPoints: 5,
+          lockVersion: work_package.lock_version,
+          _links: {
+            sprint: {
+              href: api_v3_paths.sprint(completed_sprint.id)
+            }
+          }
+        }
+      end
+
+      it_behaves_like "constraint violation" do
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
+      end
+    end
+
     context "when attempting to assign the work package to a non valid sprint" do
+      let(:other_permissions) { [] }
       let(:parameters) do
         {
           storyPoints: 5,
@@ -141,7 +172,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       it_behaves_like "constraint violation" do
-        let(:message) { "Sprint is not shared with the project the work package is in." }
+        let(:message) { "Sprint is not assignable since it is either not shared with the project or already finished." }
       end
     end
   end

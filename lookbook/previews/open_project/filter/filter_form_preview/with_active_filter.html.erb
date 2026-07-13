@@ -1,0 +1,14 @@
+<%# An active filter on the query renders its row visible (no `hidden` %>
+<%# attribute) and pre-fills operator/values; inactive filters still %>
+<%# render but are hidden until added from the "Add filter" select. %>
+<%= primer_form_with(url: "/foo", method: :post) do |f| %>
+  <%=
+    render(
+      Filters::FilterFormComponent.new(
+        builder: f,
+        query: query,
+        wrap_with_controller: true
+      )
+    )
+  %>
+<% end %>

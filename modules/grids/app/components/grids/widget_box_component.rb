@@ -40,6 +40,7 @@ module Grids
     }
 
     renders_one :body, Body
+    renders_one :footer, Footer
 
     renders_many :rows, Row
 
@@ -88,7 +89,7 @@ module Grids
     end
 
     def render?
-      rows.any? || header? || body?
+      rows.any? || header? || body? || footer?
     end
 
     def default_header

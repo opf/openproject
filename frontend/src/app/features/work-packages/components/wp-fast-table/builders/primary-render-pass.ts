@@ -4,7 +4,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HighlightingRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/row-highlight-render-pass';
 import { DragDropHandleRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { timeOutput } from 'core-app/shared/helpers/debug_output';
 import { TimelineRenderPass } from './timeline/timeline-render-pass';
@@ -41,11 +41,11 @@ export interface RowRenderInfo {
 }
 
 export abstract class PrimaryRenderPass {
-  @InjectField() halEditing:HalResourceEditingService;
+  @LazyInject() halEditing:HalResourceEditingService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];

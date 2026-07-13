@@ -29,6 +29,8 @@
  */
 
 import type { Plugin } from 'esbuild';
+import * as fs from 'fs';
+import * as path from 'node:path';
 
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
@@ -36,7 +38,68 @@ const customConfigPlugin:Plugin = {
     if (options.chunkNames === '[name]-[hash]') { // named chunks
       options.chunkNames = '[dir]/[name]-[hash]';
     }
-  }
+  },
+};
+
+const jqueryInjectionPlugin:Plugin = {
+  name: 'jquery-injection',
+  setup(build) {
+    // Intercept legacy jQuery plugins that need the ESM jQuery instance.
+    build.onResolve({ filter: /^(core-vendor\/enjoyhint|tablesorter)$/ }, (args) => {
+      return {
+        path: args.path,
+        namespace: 'jquery-wrapper',
+      };
+    });
+
+    // Provide the wrapper content
+    build.onLoad({ filter: /.*/, namespace: 'jquery-wrapper' }, async (args) => {
+      const workingDir = build.initialOptions.absWorkingDir ?? process.cwd();
+      const modulePath = args.path === 'tablesorter'
+        ? path.join(workingDir, 'node_modules', 'tablesorter', 'dist', 'js', 'jquery.tablesorter.combined.js')
+        : path.join(workingDir, 'src', 'vendor', 'enjoyhint.js');
+      const contents = await fs.promises.readFile(modulePath, 'utf8');
+
+      // Wrap with jQuery import
+      const wrappedCode = `
+import jQuery from 'jquery';
+import 'jquery-migrate';
+
+const previousJQuery = window.jQuery;
+const previousDollar = window.$;
+const hadPreviousJQuery = 'jQuery' in window;
+const hadPreviousDollar = '$' in window;
+
+// Legacy jQuery plugins expect global jQuery while they load.
+window.jQuery = jQuery;
+window.$ = jQuery;
+
+const define = undefined;
+const module = undefined;
+const exports = undefined;
+
+${contents}
+
+if (hadPreviousJQuery) {
+  window.jQuery = previousJQuery;
+} else {
+  delete window.jQuery;
 }
 
-export default [customConfigPlugin];
+if (hadPreviousDollar) {
+  window.$ = previousDollar;
+} else {
+  delete window.$;
+}
+`;
+
+      return {
+        contents: wrappedCode,
+        loader: 'js',
+        resolveDir: path.join(workingDir, 'src'),
+      };
+    });
+  },
+};
+
+export default [customConfigPlugin, jqueryInjectionPlugin];

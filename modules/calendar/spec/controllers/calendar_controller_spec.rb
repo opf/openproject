@@ -73,4 +73,30 @@ RSpec.describe Calendar::CalendarsController do
       it_behaves_like "calendar#index"
     end
   end
+
+  describe "#destroy" do
+    let(:permissions) { [:manage_calendars] }
+    let(:query) { create(:query, project:, user:) }
+
+    before do
+      create(:view_work_packages_calendar, query:)
+      allow(Query)
+        .to receive(:visible)
+        .and_return(Query.where(id: query.id))
+    end
+
+    context "within a project context" do
+      subject { delete :destroy, params: { project_id: project.id, id: query.id } }
+
+      it "redirects to index with 303 See Other" do
+        subject
+        expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(project_calendars_path(project.id))
+      end
+
+      it "deletes the calendar" do
+        expect { subject }.to change { Query.exists?(query.id) }.from(true).to(false)
+      end
+    end
+  end
 end

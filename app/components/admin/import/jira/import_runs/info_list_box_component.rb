@@ -34,11 +34,14 @@ module Admin::Import::Jira::ImportRuns
 
     attr_reader :title, :list, :system_arguments
 
-    def initialize(title:, list:, show_icon: true, **system_arguments)
+    def initialize(title:, list:, subtitle: nil, show_icon: true, icon: :"dot-fill", icon_color: :default, **system_arguments)
       super()
       @title = title
+      @subtitle = subtitle
       @list = list
       @show_icon = show_icon
+      @icon = icon
+      @icon_color = icon_color
       @system_arguments = system_arguments
     end
 
@@ -47,6 +50,11 @@ module Admin::Import::Jira::ImportRuns
         flex_layout do |flex|
           flex.with_row(mb: 1) do
             render(Primer::Beta::Text.new(font_weight: :bold)) { title }
+          end
+          if @subtitle
+            flex.with_row(mb: 1) do
+              @subtitle
+            end
           end
           list.each do |item|
             flex.with_row(mt: 2) do
@@ -59,12 +67,7 @@ module Admin::Import::Jira::ImportRuns
 
     def render_item(item)
       if @show_icon
-        concat(render(
-                 Primer::Beta::Octicon.new(
-                   icon: item[:checked] ? :"check-circle" : :"x-circle",
-                   color: item[:checked] ? :success : :danger
-                 )
-               ))
+        concat(render(Primer::Beta::Octicon.new(icon: @icon, color: @icon_color)))
       end
       if item[:url].present?
         concat(render(Primer::Beta::Link.new(href: item[:url], ml: 1, target: "_blank")) { item[:label] })

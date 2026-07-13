@@ -51,7 +51,7 @@ module OpenProject
           end
 
           def authenticate!
-            token = ::Token::API.find_by_plaintext_value(@access_token) # rubocop:disable Rails/DynamicFindBy
+            token = ::Token::API.find_by_plaintext_value(@access_token)
             return fail_with_header!(error: "invalid_token") if token.nil?
 
             authentication_result(token.user)

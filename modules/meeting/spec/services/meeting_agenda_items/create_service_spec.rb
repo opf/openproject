@@ -37,7 +37,7 @@ RSpec.describe MeetingAgendaItems::CreateService do
   let(:meeting_b) { create(:meeting, project:) }
   let(:source_meeting_id) { meeting_a.id }
 
-  subject(:service_call) { described_class.new(user:).call(params, source_meeting_id: source_meeting_id) }
+  subject(:service_call) { described_class.new(user:).call(**params, source_meeting_id: source_meeting_id) }
 
   describe "duplicating agenda item to a different meeting" do
     context "when agenda item has attachments referenced in notes" do

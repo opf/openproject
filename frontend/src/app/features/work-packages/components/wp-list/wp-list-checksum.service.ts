@@ -28,21 +28,25 @@
 
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class WorkPackagesListChecksumService {
-  constructor(protected UrlParamsHelper:UrlParamsHelperService,
-    protected $state:StateService) {
-  }
+  protected UrlParamsHelper = inject(UrlParamsHelperService);
+  protected $state = inject(StateService);
+
 
   public id:string|null;
 
   public checksum:string|null;
 
   public visibleChecksum:string|null;
+
+  /** Emits whenever visibleChecksum changes (useful for non-uiRouter pages to react to URL param changes) */
+  public readonly visibleChecksum$ = new Subject<string|null>();
 
   public updateIfDifferent(query:QueryResource,
     pagination:WorkPackageViewPagination):Promise<unknown> {
@@ -153,6 +157,28 @@ export class WorkPackagesListChecksumService {
 
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
     this.visibleChecksum = checksum;
+    this.visibleChecksum$.next(checksum);
+
+    // When uiRouter is not managing the current page (e.g. calendar after Turbo migration),
+    // $state.current.name is empty and state.go('.') does nothing. Fall back to pushState.
+    if (!this.$state.current.name) {
+      const url = new URL(window.location.href);
+
+      if (checksum) {
+        url.searchParams.set('query_props', checksum);
+      } else {
+        url.searchParams.delete('query_props');
+      }
+
+      if (id) {
+        url.searchParams.set('query_id', id);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+
+      window.history.pushState({}, '', url.toString());
+      return Promise.resolve() as unknown as TransitionPromise;
+    }
 
     return this.$state.go(
       '.',

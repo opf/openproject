@@ -22,7 +22,7 @@
         [uiParams]="{ workPackageId: active.entity.id }"
         (click)="closeMe()"
       >
-        #{{ active.workPackage.id }}: {{ active.workPackage.name }}
+        {{ active.workPackage.formattedId }}: {{ active.workPackage.name }}
       </a>
     </p>
 

@@ -37,6 +37,20 @@ RSpec.describe OpenProject::AccessControl, "Backlogs module permissions" do # ru
     it "depends on view_work_packages and show_board_views" do
       expect(subject.dependencies).to contain_exactly(:view_work_packages, :show_board_views)
     end
+
+    it "includes the namespaced backlog page and sprint controller actions" do
+      expect(subject.controller_actions).to include(
+        "backlogs/backlog/show",
+        "backlogs/backlog/details",
+        "backlogs/burndown_chart/show",
+        "backlogs/taskboard/show"
+      )
+      expect(subject.controller_actions).not_to include("backlogs/backlog/index")
+    end
+
+    it "includes deferred backlog story and inbox menu fragments" do
+      expect(subject.controller_actions).to include("backlogs/work_packages/menu", "backlogs/inbox/menu")
+    end
   end
 
   describe "create_sprints" do
@@ -45,13 +59,23 @@ RSpec.describe OpenProject::AccessControl, "Backlogs module permissions" do # ru
     it "depends on view_sprints" do
       expect(subject.dependencies).to contain_exactly(:view_sprints)
     end
+
+    it "uses the namespaced sprint controller actions" do
+      expect(subject.controller_actions).to include(
+        "backlogs/sprints/new_dialog",
+        "backlogs/sprints/refresh_form",
+        "backlogs/sprints/create",
+        "backlogs/sprints/edit_dialog",
+        "backlogs/sprints/update"
+      )
+    end
   end
 
   describe "manage_sprint_items" do
     subject { described_class.permission(:manage_sprint_items) }
 
-    it "depends on view_sprints, add_work_packages, and edit_work_packages" do
-      expect(subject.dependencies).to contain_exactly(:view_sprints)
+    it "depends on view_sprints and edit_work_packages" do
+      expect(subject.dependencies).to contain_exactly(:view_sprints, :edit_work_packages)
     end
   end
 
@@ -63,16 +87,10 @@ RSpec.describe OpenProject::AccessControl, "Backlogs module permissions" do # ru
     end
 
     it "covers both start and finish sprint actions" do
-      expect(subject.controller_actions).to include("rb_sprints/start", "rb_sprints/finish")
+      expect(subject.controller_actions).to include("backlogs/sprints/start", "backlogs/sprints/finish")
     end
 
-    context "when scrum_projects feature flag is active", with_flag: { scrum_projects: true } do
-      it { is_expected.to be_visible }
-    end
-
-    context "when scrum_projects feature flag is inactive", with_flag: { scrum_projects: false } do
-      it { is_expected.to be_hidden }
-    end
+    it { is_expected.to be_visible }
   end
 
   describe "share_sprint" do
@@ -82,12 +100,6 @@ RSpec.describe OpenProject::AccessControl, "Backlogs module permissions" do # ru
       expect(subject.dependencies).to contain_exactly(:create_sprints)
     end
 
-    context "when scrum_projects feature flag is active", with_flag: { scrum_projects: true } do
-      it { is_expected.to be_visible }
-    end
-
-    context "when scrum_projects feature flag is inactive", with_flag: { scrum_projects: false } do
-      it { is_expected.to be_hidden }
-    end
+    it { is_expected.to be_visible }
   end
 end

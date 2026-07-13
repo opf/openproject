@@ -34,6 +34,7 @@ FactoryBot.define do
     project
     start_time { Date.tomorrow + 10.hours }
     recurring_meeting { nil }
+    recurrence_start_time { nil }
     duration { 1.0 }
     location { "https://some-url.com" }
     m.sequence(:title) { |n| "Meeting #{n}" }
@@ -51,9 +52,30 @@ FactoryBot.define do
       create(:meeting_section, meeting:, backlog: true, title: I18n.t(:label_agenda_backlog))
     end
 
+    # A meeting occurrence that belongs to a recurring series.
+    # Pass recurring_meeting: and start_time: when building.
+    factory :recurring_meeting_occurrence do
+      recurring_meeting
+      recurrence_start_time { start_time }
+      template { false }
+
+      after(:build) do |meeting, evaluator|
+        # Occurrences must inherit the series project/author to keep permissions consistent.
+        meeting.project = evaluator.recurring_meeting.project
+        meeting.author = evaluator.recurring_meeting.author
+        meeting.title ||= evaluator.recurring_meeting.template&.title || "Occurrence"
+        meeting.duration ||= evaluator.recurring_meeting.template&.duration || 1.0
+      end
+
+      trait :cancelled do
+        state { :cancelled }
+      end
+    end
+
     factory :meeting_template do |meeting|
       meeting.sequence(:title) { |n| "Meeting template #{n}" }
       template { true }
+      recurrence_start_time { nil }
       recurring_meeting
 
       after(:build) do |template, evaluator|

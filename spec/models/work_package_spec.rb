@@ -84,6 +84,10 @@ RSpec.describe WorkPackage do
     it { is_expected.to have_many(:member_principals).through(:members).class_name("Principal").source(:principal) }
     it { is_expected.to have_many(:meeting_agenda_items) }
     it { is_expected.to have_many(:meetings).through(:meeting_agenda_items).source(:meeting) }
+    it { is_expected.to have_many(:work_package_versions).dependent(:delete_all) }
+    it { is_expected.to have_many(:versions).through(:work_package_versions).source(:version) }
+    it { is_expected.to have_many(:target_versions).through(:work_package_versions).source(:version) }
+    it { is_expected.to have_many(:observed_in_versions).through(:work_package_versions).source(:version) }
   end
 
   describe ".new" do
@@ -912,6 +916,58 @@ RSpec.describe WorkPackage do
 
       it "returns nil" do
         expect(work_package.project_phase).to be_nil
+      end
+    end
+  end
+
+  describe "#infoline" do
+    let(:infoline_type) { create(:type, name: "Task") }
+    let(:infoline_work_package) do
+      create(:work_package, subject: "Hello world", project: infoline_project, type: infoline_type)
+    end
+
+    context "when semantic mode is active",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:infoline_project) { create(:project, identifier: "MYPROJ") }
+
+      before { infoline_work_package }
+
+      it "renders the semantic identifier without a hash prefix" do
+        expect(infoline_work_package.reload.infoline).to eq("Task: Hello world (MYPROJ-1)")
+      end
+    end
+
+    context "when semantic mode is not active",
+            with_settings: { work_packages_identifier: "classic" } do
+      let(:infoline_project) { create(:project) }
+
+      it "renders the hash-prefixed numeric id" do
+        expect(infoline_work_package.infoline).to eq("Task: Hello world (##{infoline_work_package.id})")
+      end
+    end
+  end
+
+  describe "#to_s" do
+    let(:task_type) { create(:type_task) }
+
+    context "in classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
+
+      it "renders the numeric id with a `#` prefix" do
+        expect(work_package.to_s).to eq("Task ##{work_package.id}: Hello world")
+      end
+    end
+
+    context "in semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, identifier: "MACROPROJ", types: [task_type]) }
+      let(:work_package) { create(:work_package, project:, type: task_type, subject: "Hello world") }
+
+      it "renders the semantic identifier without a `#` prefix" do
+        wp = work_package.reload
+        expect(wp.to_s).to eq("Task #{wp.display_id}: Hello world")
+        expect(wp.to_s).not_to include("##{wp.id}")
       end
     end
   end

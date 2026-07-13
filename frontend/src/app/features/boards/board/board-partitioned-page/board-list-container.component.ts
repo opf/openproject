@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   Injector,
   OnInit,
@@ -39,6 +40,8 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { States } from 'core-app/core/states/states.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
   selector: 'board-list-container',
@@ -51,6 +54,24 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   standalone: false,
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly state = inject(StateService);
+  readonly toastService = inject(ToastService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly boardComponent = inject(BoardPartitionedPageComponent);
+  readonly BoardList = inject(BoardListsService);
+  readonly boardActionRegistry = inject(BoardActionsRegistryService);
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly Boards = inject(BoardService);
+  readonly boardListCrossSelectionService = inject(BoardListCrossSelectionService);
+  readonly Drag = inject(DragAndDropService);
+  readonly apiv3Service = inject(ApiV3Service);
+  readonly QueryUpdated = inject(QueryUpdatedService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @Input() boardId:string;
   text = {
     delete: this.I18n.t('js.button_delete'),
@@ -67,7 +88,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   public _container:HTMLElement;
 
   @ViewChild('container')
-  set container(v:ElementRef|undefined) {
+  set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
@@ -91,27 +112,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   private currentQueryUpdatedMonitoring:Subscription;
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly state:StateService,
-    readonly toastService:ToastService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly boardComponent:BoardPartitionedPageComponent,
-    readonly BoardList:BoardListsService,
-    readonly boardActionRegistry:BoardActionsRegistryService,
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly Boards:BoardService,
-    readonly boardListCrossSelectionService:BoardListCrossSelectionService,
-    readonly Drag:DragAndDropService,
-    readonly apiv3Service:ApiV3Service,
-    readonly QueryUpdated:QueryUpdatedService,
-    readonly pathHelper:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-) {
-    super();
-  }
+  private readonly wpStates = inject(States);
 
   ngOnInit():void {
     const id:string = this.boardId || this.state.params.board_id?.toString();
@@ -134,7 +135,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         filter(() => window.location.pathname.includes('/details/')),
       ).subscribe((selection) => {
         // Update split screen
-        const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, selection.focusedWorkPackage!);
+        const routingId = resolveRoutingId(this.wpStates, selection.focusedWorkPackage!);
+        const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, routingId);
         const search = window.location.search;
         Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
       });
@@ -237,7 +239,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const { filterName } = service;
         const idFilterName = `${filterName}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
-        const instance = _.find(options.filters, (f) => !!f[filterName] || !!f[idFilterName]);
+        const instance = options.filters.find((f) => !!f[filterName] || !!f[idFilterName]);
 
         if (instance) {
           return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;

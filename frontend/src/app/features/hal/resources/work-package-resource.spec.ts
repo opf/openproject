@@ -49,7 +49,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { of } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -70,8 +70,8 @@ describe('WorkPackage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [OpenprojectHalModule],
-    providers: [
+      imports: [OpenprojectHalModule],
+      providers: [
         HalResourceService,
         States,
         TimezoneService,
@@ -87,26 +87,161 @@ describe('WorkPackage', () => {
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
     halResourceService = TestBed.inject(HalResourceService);
     injector = TestBed.inject(Injector);
     halResourceNotification = injector.get(HalResourceNotificationService);
 
-    halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });
+    halResourceService.registerResource('WorkPackage', {
+      cls: WorkPackageResource,
+      attrTypes: {
+        parent: 'WorkPackage',
+        ancestors: 'WorkPackage',
+        children: 'WorkPackage',
+      },
+    });
   });
 
   describe('when creating an empty work package', () => {
     beforeEach(createWorkPackage);
 
     it('should have an attachments property of type `AttachmentCollectionResource`', () => {
-      expect(workPackage.attachments).toEqual(jasmine.any(AttachmentCollectionResource));
+      expect(workPackage.attachments).toEqual(expect.any(AttachmentCollectionResource));
     });
 
     it('should return true for `isNewResource`', () => {
       expect(isNewResource(workPackage)).toBeTruthy();
+    });
+  });
+
+  describe('displayId', () => {
+    afterEach(() => {
+      source = undefined;
+    });
+
+    describe('when displayId is present (semantic mode)', () => {
+      beforeEach(() => {
+        source = { id: 42, displayId: 'PROJ-7' };
+        createWorkPackage();
+      });
+
+      it('should return the semantic identifier', () => {
+        expect(workPackage.displayId).toEqual('PROJ-7');
+      });
+
+      it('should not override the numeric id', () => {
+        expect(workPackage.id).toEqual('42');
+      });
+    });
+
+    describe('when displayId is present (classic mode)', () => {
+      beforeEach(() => {
+        source = { id: 42, displayId: '42' };
+        createWorkPackage();
+      });
+
+      it('should return the numeric displayId as string', () => {
+        expect(workPackage.displayId).toEqual('42');
+      });
+    });
+
+    describe('when displayId is absent but present on the self link (linked ancestor/child)', () => {
+      beforeEach(() => {
+        source = {
+          _links: {
+            self: {
+              href: '/api/v3/work_packages/11099',
+              title: 'subj child',
+              displayId: 'ACSMT-15',
+            },
+          },
+        };
+        createWorkPackage();
+      });
+
+      it('should fall back to the semantic identifier on the self link', () => {
+        expect(workPackage.displayId).toEqual('ACSMT-15');
+      });
+    });
+
+    describe('when built from a parent work package _links.ancestors array', () => {
+      // Mirrors the real HAL pipeline: the parent exposes an ancestors link
+      // array; each entry carries displayId alongside href/title; the builder
+      // creates an ancestor WorkPackageResource through HalLink, which must
+      // preserve displayId end-to-end.
+      beforeEach(() => {
+        source = {
+          _links: {
+            self: { href: '/api/v3/work_packages/42' },
+            ancestors: [
+              {
+                href: '/api/v3/work_packages/11099',
+                title: 'subj child',
+                displayId: 'ACSMT-15',
+              },
+            ],
+          },
+        };
+        createWorkPackage();
+      });
+
+      it('surfaces the semantic displayId on each ancestor resource', () => {
+        const ancestor = (workPackage as any).ancestors[0] as WorkPackageResource;
+
+        expect(ancestor.displayId).toEqual('ACSMT-15');
+      });
+    });
+
+  });
+
+  describe('formattedId', () => {
+    afterEach(() => {
+      source = undefined;
+    });
+
+    it('should return semantic identifier without hash prefix', () => {
+      source = { id: 42, displayId: 'PROJ-7' };
+      createWorkPackage();
+
+      expect(workPackage.formattedId).toEqual('PROJ-7');
+    });
+
+    it('should prefix numeric id with # in classic mode', () => {
+      source = { id: 42, displayId: '42' };
+      createWorkPackage();
+
+      expect(workPackage.formattedId).toEqual('#42');
+    });
+
+  });
+
+  describe('subjectWithId', () => {
+    afterEach(() => {
+      source = undefined;
+    });
+
+    it('should include semantic displayId without hash in parentheses', () => {
+      source = { id: 42, displayId: 'PROJ-7', subject: 'Fix the bug' };
+      createWorkPackage();
+
+      expect(workPackage.subjectWithId()).toEqual('Fix the bug (PROJ-7)');
+    });
+
+    it('should include hash-prefixed numeric id in classic mode', () => {
+      source = { id: 42, displayId: '42', subject: 'Fix the bug' };
+      createWorkPackage();
+
+      expect(workPackage.subjectWithId()).toEqual('Fix the bug (#42)');
+    });
+
+    it('should omit id suffix for new resources', () => {
+      source = { subject: 'New task' };
+      createWorkPackage();
+
+      expect(workPackage.subjectWithId()).toEqual('New task');
     });
   });
 
@@ -131,7 +266,7 @@ describe('WorkPackage', () => {
     });
 
     it('when the work package has an `addAttachment` link', () => {
-      workPackage.$links.addAttachment = _.noop as any;
+      workPackage.$links.addAttachment = () => Promise.resolve();
 
       expect(workPackage.canAddAttachments).toEqual(true);
     });

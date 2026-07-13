@@ -50,12 +50,13 @@ class ApplicationController < ActionController::Base
   include Accounts::UserLogin
   include Accounts::Authorization
   include Accounts::EnterpriseGuard
-  include ::OpenProject::Authentication::SessionExpiration
+  include Accounts::SessionLifetime
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
   include Security::DefaultUrlOptions
   include OpModalFlashable
   include DynamicContentSecurityPolicy
+  include PermittedParamsHelper
 
   layout "base"
 
@@ -268,10 +269,12 @@ class ApplicationController < ActionController::Base
     @project = @object.project
   end
 
-  # Filter for bulk work package operations
+  # Filter for bulk work package operations. Either :work_package_id (single-WP
+  # routes) or :ids (bulk routes) may carry numeric or semantic identifiers
+  # ("PROJ-42") since both originate from human-facing URLs or forms.
   def find_work_packages
-    @work_packages = WorkPackage.includes(:project)
-                                .where(id: params[:work_package_id] || params[:ids])
+    @work_packages = WorkPackage.where_display_id_in(params[:work_package_id] || params[:ids])
+                                .includes(:project)
                                 .order("id ASC")
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
 
@@ -389,16 +392,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :admin_first_level_menu_entry
 
-  def check_session_lifetime
-    if session_expired?
-      self.logged_user = nil
-
-      flash[:warning] = I18n.t("notice_forced_logout", ttl_time: Setting.session_ttl)
-      redirect_to(controller: "/account", action: "login", back_url: login_back_url)
-    end
-    session[:updated_at] = Time.now
-  end
-
   def feed_request?
     if params[:format].nil?
       %w(application/rss+xml application/atom+xml).include? request.format.to_s
@@ -415,12 +408,12 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
-  end
-
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
+  end
+
+  def session_expired?
+    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

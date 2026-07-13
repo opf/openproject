@@ -140,6 +140,14 @@ RSpec.describe HasDetailsTable do
       expect(widget.detail.fancy).to be true
     end
 
+    it "delegates boolean predicate methods" do
+      widget.fancy = true
+      expect(widget.fancy?).to be true
+
+      widget.fancy = false
+      expect(widget.fancy?).to be false
+    end
+
     describe "belongs_to association delegation" do
       let(:related) { TestWidget.create!(name: "Related") }
 
@@ -217,6 +225,271 @@ RSpec.describe HasDetailsTable do
     it "is valid when the detail is valid" do
       widget = TestWidget.create!(name: "Valid Test")
       expect(widget).to be_valid
+    end
+  end
+
+  describe "change tracking" do
+    let(:widget) { TestWidget.create!(name: "Change Test") }
+    let(:related) { TestWidget.create!(name: "Related") }
+
+    describe "#changed" do
+      it "includes detail column changes for persisted records" do
+        widget.fancy = true
+        expect(widget.changed).to include("fancy")
+      end
+
+      it "includes detail association changes for persisted records" do
+        widget.related_widget = related
+        expect(widget.changed).to include("related_widget_id")
+      end
+
+      it "combines owner and detail changes" do
+        widget.name = "New Name"
+        widget.fancy = true
+        changed = widget.changed
+
+        expect(changed).to include("name")
+        expect(changed).to include("fancy")
+      end
+
+      it "does not include internal detail columns" do
+        # Directly modify internal columns on the detail
+        widget.detail.update_column(:created_at, 1.day.ago)
+        widget.detail.created_at = 2.days.ago
+
+        expect(widget.changed).not_to include("created_at")
+        expect(widget.changed).not_to include("updated_at")
+        expect(widget.changed).not_to include("test_widget_id")
+      end
+
+      it "does not include detail changes for non-persisted records" do
+        new_widget = TestWidget.new(name: "New", fancy: true)
+        expect(new_widget.changed).to eq(["name"])
+      end
+
+      it "handles nil detail gracefully" do
+        allow(widget).to receive(:detail).and_return(nil)
+        expect(widget.changed).to be_an(Array)
+      end
+    end
+
+    describe "#changes" do
+      it "includes detail column changes for persisted records" do
+        widget.fancy = true
+        changes = widget.changes
+
+        expect(changes).to have_key("fancy")
+        expect(changes["fancy"]).to eq([false, true])
+      end
+
+      it "includes detail association changes for persisted records" do
+        widget.related_widget = related
+        changes = widget.changes
+
+        expect(changes).to have_key("related_widget_id")
+        expect(changes["related_widget_id"]).to eq([nil, related.id])
+      end
+
+      it "combines owner and detail changes" do
+        widget.name = "New Name"
+        widget.fancy = true
+        changes = widget.changes
+
+        expect(changes).to have_key("name")
+        expect(changes).to have_key("fancy")
+        expect(changes["name"]).to eq(["Change Test", "New Name"])
+        expect(changes["fancy"]).to eq([false, true])
+      end
+
+      it "does not include internal detail columns" do
+        # Directly modify internal columns on the detail
+        widget.detail.update_column(:created_at, 1.day.ago)
+        widget.detail.created_at = 2.days.ago
+
+        changes = widget.changes
+        expect(changes).not_to have_key("created_at")
+        expect(changes).not_to have_key("updated_at")
+        expect(changes).not_to have_key("test_widget_id")
+      end
+
+      it "does not include detail changes for non-persisted records" do
+        new_widget = TestWidget.new(name: "New", fancy: true)
+        expect(new_widget.changes.keys).to eq(["name"])
+      end
+
+      it "handles nil detail gracefully" do
+        allow(widget).to receive(:detail).and_return(nil)
+        expect(widget.changes).to be_a(Hash)
+      end
+    end
+
+    it "works with ModelContract change detection" do
+      # Simulate what ModelContract might do - check if attributes are changed
+      widget.fancy = true
+      widget.related_widget_id = related.id
+
+      # These should be detected as changed even though they're on the detail record
+      expect(widget.changed?("fancy")).to be true
+      expect(widget.changed?("related_widget_id")).to be true
+    end
+
+    describe "#changed?" do
+      it "returns true when owner has changes" do
+        widget.name = "New Name"
+        expect(widget.changed?).to be true
+      end
+
+      it "returns true when detail has changes" do
+        widget.fancy = true
+        expect(widget.changed?).to be true
+      end
+
+      it "returns true when both owner and detail have changes" do
+        widget.name = "New Name"
+        widget.fancy = true
+        expect(widget.changed?).to be true
+      end
+
+      it "returns false when neither owner nor detail have changes" do
+        expect(widget.changed?).to be false
+      end
+
+      it "checks specific owner attributes" do
+        widget.name = "New Name"
+        expect(widget.changed?("name")).to be true
+        expect(widget.changed?(:name)).to be true
+        expect(widget.changed?("fancy")).to be false
+      end
+
+      it "checks specific detail attributes" do
+        widget.fancy = true
+        expect(widget.changed?("fancy")).to be true
+        expect(widget.changed?(:fancy)).to be true
+        expect(widget.changed?("name")).to be false
+      end
+
+      it "handles non-persisted records" do
+        new_widget = TestWidget.new(name: "New")
+        expect(new_widget.changed?).to be true
+        expect(new_widget.changed?("fancy")).to be false
+      end
+    end
+
+    describe "#changed_attributes" do
+      it "includes detail attribute original values" do
+        widget.fancy = true
+        widget.related_widget_id = related.id
+        changed_attrs = widget.changed_attributes
+
+        expect(changed_attrs["fancy"]).to be false
+        expect(changed_attrs["related_widget_id"]).to be_nil
+      end
+
+      it "combines owner and detail changed attributes" do
+        widget.name = "New Name"
+        widget.fancy = true
+        changed_attrs = widget.changed_attributes
+
+        expect(changed_attrs["name"]).to eq("Change Test")
+        expect(changed_attrs["fancy"]).to be false
+      end
+
+      it "handles non-persisted records" do
+        new_widget = TestWidget.new(name: "New")
+        expect(new_widget.changed_attributes.keys).to eq(["name"])
+      end
+    end
+
+    describe "#previous_changes" do
+      it "includes detail changes after save" do
+        widget.fancy = true
+        widget.related_widget_id = related.id
+        widget.save!
+
+        previous = widget.previous_changes
+        expect(previous["fancy"]).to eq([false, true])
+        expect(previous["related_widget_id"]).to eq([nil, related.id])
+      end
+
+      it "combines owner and detail previous changes" do
+        widget.name = "Updated Name"
+        widget.fancy = true
+        widget.save!
+
+        previous = widget.previous_changes
+        expect(previous["name"]).to eq(["Change Test", "Updated Name"])
+        expect(previous["fancy"]).to eq([false, true])
+      end
+    end
+
+    describe "#restore_attributes" do
+      it "restores detail attributes" do
+        widget.fancy = true
+        widget.related_widget_id = related.id
+
+        widget.restore_attributes(["fancy", "related_widget_id"])
+
+        expect(widget.fancy).to be false
+        expect(widget.related_widget_id).to be_nil
+      end
+
+      it "restores owner attributes" do
+        widget.name = "New Name"
+        widget.fancy = true
+
+        widget.restore_attributes(["name"])
+
+        expect(widget.name).to eq("Change Test")
+        expect(widget.fancy).to be true # unchanged
+      end
+
+      it "restores all changed attributes by default" do
+        widget.name = "New Name"
+        widget.fancy = true
+
+        widget.restore_attributes
+
+        expect(widget.name).to eq("Change Test")
+        expect(widget.fancy).to be false
+      end
+
+      it "handles mixed owner and detail attributes" do
+        widget.name = "New Name"
+        widget.fancy = true
+
+        widget.restore_attributes(["name", "fancy"])
+
+        expect(widget.name).to eq("Change Test")
+        expect(widget.fancy).to be false
+      end
+
+      it "handles string and symbol attribute names" do
+        widget.fancy = true
+        widget.restore_attributes([:fancy])
+        expect(widget.fancy).to be false
+      end
+    end
+
+    describe "#reload" do
+      it "reloads both owner and detail" do
+        widget.name = "Changed Name"
+        widget.fancy = true
+
+        # Save changes in another instance
+        other = TestWidget.find(widget.id)
+        other.update!(name: "Other Name", fancy: false)
+
+        widget.reload
+
+        expect(widget.name).to eq("Other Name")
+        expect(widget.fancy).to be false
+        expect(widget.changed?).to be false
+      end
+
+      it "handles detail being nil" do
+        allow(widget).to receive(:detail).and_return(nil)
+        expect { widget.reload }.not_to raise_error
+      end
     end
   end
 end

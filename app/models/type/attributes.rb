@@ -46,7 +46,8 @@ module Type::Attributes
                 parent_id
                 parent
                 readonly
-                schedule_manually].freeze
+                schedule_manually
+                target_versions].freeze
 
   included do
     # Allow plugins to define constraints
@@ -153,7 +154,8 @@ module Type::Attributes
           required: field.is_required,
           has_default: field.default_value.present?,
           is_cf: true,
-          display_name: field.name
+          display_name: field.name,
+          field_format: field.field_format
         }
       end
     end

@@ -22,9 +22,9 @@
 ---
 sr:
   js:
-    work_packages:
-      properties:
-        storyPoints: Poeni Priče
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Poeni Priče

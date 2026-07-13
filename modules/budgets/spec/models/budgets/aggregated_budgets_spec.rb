@@ -93,7 +93,7 @@ RSpec.describe Budgets::AggregatedBudgets do
     context "with all components" do
       let(:user_with_rates) do
         create(:user,
-               member_with_permissions: { project => %i[view_budgets view_cost_rates view_hourly_rates] })
+               member_with_permissions: { project => %i[view_budgets view_cost_rates view_hourly_rates work_package_assigned] })
       end
       let(:aggregated) { described_class.new(project:, current_user: user_with_rates) }
       let!(:cost_type) { create(:cost_type) }

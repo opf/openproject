@@ -28,22 +28,25 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%=
-  widget_wrapper do
+  widget_wrapper do |container|
     if has_spending_data?
-      flex_layout do |flex|
-        flex.with_row(mt: 3, align: :center) do
-          helpers.angular_component_tag(
-            "opce-actual-costs",
-            currency: Setting.costs_currency,
-            "chart-data": {
-              labels: chart_labels,
-              datasets: chart_datasets
-            }.to_json
-          )
+      container.with_body do
+        flex_layout do |flex|
+          flex.with_row(mt: 3, align: :center) do
+            helpers.angular_component_tag(
+              "opce-actual-costs",
+              currency: Setting.costs_currency,
+              "chart-data": {
+                labels: chart_labels,
+                datasets: chart_datasets
+              }.to_json
+            )
+          end
         end
-        flex.with_row(mt: 3) do
-          render(Primer::Beta::Link.new(href: cost_reports_path(project))) { t(".view_details") }
-        end
+      end
+
+      container.with_footer(test_selector: "actual-costs-widget-footer") do
+        render(Primer::Beta::Link.new(href: cost_reports_path(project))) { t(".view_details") }
       end
     else
       render(Primer::Beta::Blankslate.new) do |blankslate|

@@ -1,0 +1,14 @@
+// Vertical (multi-line) truncation, the counterpart to Primer's `.Truncate`.
+// `OpPrimer::VerticalTruncateComponent` clamps content to the number of rows in
+// the `--op-vertical-truncate-lines` custom property (set inline by the
+// component); the `expandable-text` Stimulus controller toggles `--expanded`
+// for inline expansion.
+.op-vertical-truncate
+  min-width: 0
+  @include line-clamp(var(--op-vertical-truncate-lines, 3))
+
+  // Defined after the line-clamp declaration so it wins on equal specificity.
+  &--expanded
+    display: block
+    overflow: visible
+    -webkit-line-clamp: unset

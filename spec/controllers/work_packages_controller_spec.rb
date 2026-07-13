@@ -37,14 +37,8 @@ RSpec.describe WorkPackagesController do
 
   let(:project) { create(:project, identifier: "test_project", public: false) }
   let(:other_project) { build_stubbed(:project) }
-  let(:stub_project) { build_stubbed(:project, identifier: "test_project", public: false) }
-  let(:type) { build_stubbed(:type) }
-  let(:stub_work_package) do
-    build_stubbed(:work_package,
-                  id: 1337,
-                  type:,
-                  project: stub_project)
-  end
+  let(:type) { create(:type) }
+  let(:work_package) { create(:work_package, type:, project:) }
 
   let(:current_user) { create(:user) }
 
@@ -63,11 +57,10 @@ RSpec.describe WorkPackagesController do
 
     describe "with the permission to see the project " \
              "with having the necessary permissions" do
+      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+
       before do
-        expect(WorkPackage).to receive_message_chain("visible.find_by").and_return(stub_work_package)
-        mock_permissions_for(current_user) do |mock|
-          mock.allow_in_project :view_work_packages, project: stub_work_package.project
-        end
+        create(:member, project: work_package.project, principal: current_user, roles: [role])
       end
 
       instance_eval(&)
@@ -261,19 +254,33 @@ RSpec.describe WorkPackagesController do
   end
 
   describe "show.html" do
-    let(:call_action) { get("show", params: { id: "1337" }) }
+    let(:call_action) { get("show", params: { id: work_package.id.to_s }) }
 
     requires_permission_in_project do
       it "redirects to the full url" do
         call_action
 
-        expect(response).to redirect_to("/projects/test_project/work_packages/1337/activity")
+        expect(response).to redirect_to("/projects/test_project/work_packages/#{work_package.id}/activity")
+      end
+    end
+  end
+
+  describe "show.html with semantic identifier",
+           with_settings: { work_packages_identifier: "semantic" } do
+    let(:project) { create(:project, identifier: "TESTPROJ") }
+    let(:call_action) { get("show", params: { id: work_package.display_id.to_s }) }
+
+    requires_permission_in_project do
+      it "resolves the semantic identifier and redirects to the full url" do
+        call_action
+
+        expect(response).to redirect_to("/projects/TESTPROJ/work_packages/#{work_package.display_id}/activity")
       end
     end
   end
 
   describe "show.pdf" do
-    let(:call_action) { get("show", params: { format: "pdf", id: "1337" }) }
+    let(:call_action) { get("show", params: { format: "pdf", id: work_package.id.to_s }) }
     let(:exporter) { WorkPackage::PDFExport::WorkPackageToPdf }
     let(:exporter_instance) { instance_double(exporter) }
 
@@ -286,8 +293,8 @@ RSpec.describe WorkPackagesController do
         pdf_data = "foobar"
         time = DateTime.new(2023, 6, 30, 23, 59)
         allow(DateTime).to receive(:now).and_return(time)
-        expected_name = [stub_work_package.project.identifier, "##{stub_work_package.id}",
-                         stub_work_package.subject, "2023-06-30_23-59"].join("_").tr(" ", "-")
+        expected_name = [work_package.project.identifier, "##{work_package.id}",
+                         work_package.subject, "2023-06-30_23-59"].join("_").tr(" ", "-")
         expected_type = "application/pdf"
         pdf_result = double("pdf_result",
                             error?: false,
@@ -309,7 +316,7 @@ RSpec.describe WorkPackagesController do
   end
 
   describe "show.atom" do
-    let(:call_action) { get("show", params: { format: "atom", id: "1337" }) }
+    let(:call_action) { get("show", params: { format: "atom", id: work_package.id.to_s }) }
 
     requires_permission_in_project do
       it "render the journal/index template" do

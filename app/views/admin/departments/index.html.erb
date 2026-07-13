@@ -1,0 +1,3 @@
+<%= render(Admin::Departments::PageHeaderComponent.new) %>
+
+<%= render(Admin::Departments::HierarchyLayoutComponent.new(groups: @groups, active_group: @group, add_user: @add_user, add_subgroup: @add_subgroup)) %>

@@ -26,10 +26,15 @@
       </div>
     }
     @if (showHiddenListWarning) {
-      <span
-        class="boards-list--tooltip tooltip--right"
-        [attr.data-tooltip]="text.hiddenListWarning">
-        <i class="icon icon-attention"></i>
+      <span class="boards-list--tooltip">
+        <i id="boards-list--warning" class="icon icon-attention"></i>
+        <tool-tip
+          class="sr-only position-absolute"
+          popover="manual"
+          for="boards-list--warning"
+          id="boards-list--warning-tooltip"
+          data-direction="s"
+        >{{ text.hiddenListWarning }}</tool-tip>
       </span>
     }
     @if (board.editable) {

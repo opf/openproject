@@ -34,7 +34,8 @@ module WorkPackages
       class ModalBodyComponent < BaseModalComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
         def initialize(work_package,
                        focused_field: nil,
-                       touched_field_map: {})
+                       touched_field_map: {},
+                       submit_path: nil)
           super
 
           @mode = :status_based

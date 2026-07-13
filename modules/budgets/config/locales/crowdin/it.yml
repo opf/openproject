@@ -21,23 +21,22 @@
 #++
 ---
 it:
-  plugin_budgets_engine:
-    name: Budget
   activerecord:
     attributes:
       budget:
         author: Autore
         available: Disponibile
+        base_amount: Importo base
         budget: Pianificata
         budget_ratio: Trascorso (tasso)
         description: Descrizione
+        labor_budget: Costo del lavoro pianificato
+        labor_budget_items: Costi del lavoro pianificati
+        material_budget: Costi pianificati per unità
         spent: Trascorso
         status: Stato
         subject: Soggetto
         type: Tipo di costo
-        labor_budget: Costo del lavoro pianificato
-        material_budget: Costi pianificati per unità
-        base_amount: Importo base
       work_package:
         budget_subject: Titolo del bilancio
     errors:
@@ -48,55 +47,56 @@ it:
               not_a_member_of_budget_project: non è un membro del progetto di budget
     models:
       budget: Bilancio
+      labor_budget_item: Costo del lavoro pianificato
       material_budget_item: Unità
   activity:
     filter:
       budget: Budget
   attributes:
     budget: Bilancio
-  button_add_budget_item: Aggiungi costi pianificati
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Ottieni una panoramica dei tuoi budget e costi per monitorare in modo efficiente lo stato di salute del tuo progetto
+          heading: Avvia il controllo del progetto
+        blankslate_zero:
+          description: Aggiungi dettagli sul tuo budget pianificato per visualizzare i dati qui
+          heading: Dettagli del budget mancanti
+        count_caption:
+          one: Dati aggregati da %{count} budget
+          other: Dati aggregati da %{count} budget
+          zero: Nessun dato di budget.
+        count_caption_with_subitems:
+          portfolio:
+            one: Dati aggregati da %{count} budget incluso in questo portfolio e nei suoi sottoelementi.
+            other: Dati aggregati da %{count} budget inclusi in questo portfolio e nei suoi sottoelementi.
+            zero: Nessun dato di budget.
+          program:
+            one: Dati aggregati da %{count} budget incluso in questo programma e nei suoi sottoelementi.
+            other: Dati aggregati da %{count} budget inclusi in questo programma e nei suoi sottoelementi.
+            zero: Nessun dato di budget.
+          project:
+            one: Dati aggregati da %{count} budget incluso in questo progetto e nei suoi sottoelementi.
+            other: Dati aggregati da %{count} budget inclusi in questo progetto e nei suoi sottoelementi.
+            zero: Nessun dato di budget.
+        title: Budget per tipo di costo
+        view_details: Visualizza i dettagli del budget
+      budget_totals:
+        remaining_budget: Budget rimanente
+        spent_budget: Budget speso
+        title: Totali del budget
+        total_actual_costs: Totale costi effettivi
+        total_planned_budget: Budget totale pianificato
+  budgets_title: Budget
   button_add_budget: Aggiungi bilancio
+  button_add_budget_item: Aggiungi costi pianificati
   button_add_cost_type: Aggiungi tipo di costo
   button_cancel_edit_budget: Annulla modifica budget
   button_cancel_edit_costs: Annulla modifica dei costi
   caption_labor: Lavoro
   caption_labor_costs: Costo del lavoro effettivo
   caption_material_costs: Costi effettivi unitari
-  budgets_title: Budget
-  budgets:
-    widgets:
-      budget_totals:
-        title: Totali del budget
-        remaining_budget: Budget rimanente
-        spent_budget: Budget speso
-        total_actual_costs: Totale costi effettivi
-        total_planned_budget: Budget totale pianificato
-      budget_by_cost_type:
-        title: Budget per tipo di costo
-        blankslate:
-          heading: Avvia il controllo del progetto
-          description: Ottieni una panoramica dei tuoi budget e costi per monitorare in modo efficiente lo stato di salute del tuo progetto
-        blankslate_zero:
-          heading: Dettagli del budget mancanti
-          description: Aggiungi dettagli sul tuo budget pianificato per visualizzare i dati qui
-        count_caption:
-          zero: Nessun dato di budget.
-          one: Dati aggregati da %{count} budget
-          other: Dati aggregati da %{count} budget
-        count_caption_with_subitems:
-          project:
-            zero: Nessun dato di budget.
-            one: Dati aggregati da %{count} budget incluso in questo progetto e nei suoi sottoelementi.
-            other: Dati aggregati da %{count} budget inclusi in questo progetto e nei suoi sottoelementi.
-          program:
-            zero: Nessun dato di budget.
-            one: Dati aggregati da %{count} budget incluso in questo programma e nei suoi sottoelementi.
-            other: Dati aggregati da %{count} budget inclusi in questo programma e nei suoi sottoelementi.
-          portfolio:
-            zero: Nessun dato di budget.
-            one: Dati aggregati da %{count} budget incluso in questo portfolio e nei suoi sottoelementi.
-            other: Dati aggregati da %{count} budget inclusi in questo portfolio e nei suoi sottoelementi.
-        view_details: Visualizza i dettagli del budget
   events:
     budget: Bilancio modificato
   help_click_to_edit: Clicca qui per modificare.
@@ -104,23 +104,25 @@ it:
   help_override_rate: Immettere qui un valore per ignorare la tariffa di default.
   label_budget: Bilancio
   label_budget_available: Budget disponibile
+  label_budget_details: Dettagli del budget
   label_budget_id: 'Budget #%{id}'
   label_budget_new: Nuovo budget
   label_budget_planned: Budget previsto
   label_budget_plural: Budget
   label_budget_spent: Budget speso
   label_budget_spent_ratio: Rapporto budget speso
+  label_budget_totals: Totali
   label_deliverable: Bilancio
   label_example_placeholder: es. %{decimal}
   label_view_all_budgets: Mostra tutti i budget
   label_yes: Si
-  label_budget_totals: Totali
-  label_budget_details: Dettagli del budget
   notice_budget_conflict: Le macro-attività devono essere dello stesso progetto.
   notice_no_budgets_available: Nessun budget disponibile.
   permission_edit_budgets: Modifica budget
   permission_view_budgets: Visualizza budget
+  plugin_budgets_engine:
+    name: Budget
   project_module_budgets: Budget
-  text_budget_reassign_to: 'Riassegnali a questo valore:'
   text_budget_delete: Elimina il budget da tutti i pacchetti di lavoro
   text_budget_destroy_assigned_wp: Ci sono %{count} pacchetti di lavoro assegnati a questo budget. Cosa vuoi fare?
+  text_budget_reassign_to: 'Riassegnali a questo valore:'

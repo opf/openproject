@@ -111,7 +111,7 @@
 
     @if (floatingActions.length > 0) {
       <div class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile">
-        @for (action of floatingActions; track action) {
+        @for (action of floatingActions; track action.iconClass) {
           @if (!!action.href) {
             <a
               class="spot-link spot-link_octicon"

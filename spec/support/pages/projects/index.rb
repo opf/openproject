@@ -34,46 +34,39 @@ module Pages
   module Projects
     class Index < ::Pages::Page
       include ::Components::Common::Filters
-      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def path(*)
         "/projects"
       end
 
       def expect_projects_listed(*projects, archived: false)
-        within_table do
-          projects.each do |project|
-            displayed_name = if archived
-                               "#{project.name} (Archived)"
-                             else
-                               project.name
-                             end
+        projects.each do |project|
+          displayed_name = if archived
+                             "#{project.name} (Archived)"
+                           else
+                             project.name
+                           end
 
-            expect(page).to have_text(displayed_name, normalize_ws: true)
-          end
+          expect(page).to have_css("#project-table", text: displayed_name, normalize_ws: true)
         end
       end
 
       def expect_projects_not_listed(*projects)
-        within_table do
-          projects.each do |project|
-            case project
-            when Project
-              expect(page).to have_no_text(project.name)
-            when String
-              expect(page).to have_no_text(project)
-            else
-              raise ArgumentError, "#{project.inspect} is not a Project or a String"
-            end
+        projects.each do |project|
+          case project
+          when Project
+            expect(page).to have_no_css("#project-table", text: project.name)
+          when String
+            expect(page).to have_no_css("#project-table", text: project)
+          else
+            raise ArgumentError, "#{project.inspect} is not a Project or a String"
           end
         end
       end
 
       def expect_project_at_place(project, place)
-        within_table do
-          expect(page)
-            .to have_css(".project:nth-of-type(#{place}) td.name", text: project.name)
-        end
+        expect(page)
+          .to have_css("#project-table .project:nth-of-type(#{place}) td.name", text: project.name)
       end
 
       def expect_projects_in_order(*projects)
@@ -88,6 +81,10 @@ module Pages
 
       def expect_sidebar_filter(filter_name, selected: false, favorited: false, visible: true)
         submenu.expect_item(filter_name, selected:, favorited:, visible:)
+      end
+
+      def expect_no_sidebar_filter_selected
+        submenu.expect_no_selected_item
       end
 
       def expect_no_sidebar_filter(filter_name)
@@ -244,22 +241,27 @@ module Pages
       end
 
       def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
-        selected_filter = select_filter(name, human_name)
+        select_filter(name, human_name)
 
-        within(selected_filter) do
+        # Classify the row before apply_operator re-renders it. Skipped when
+        # there is nothing to set.
+        kind = filter_kind(name) if values.any?
+
+        within(filter_selector(name)) do
           apply_operator(name, human_operator)
+        end
 
-          return unless values.any?
+        return unless values.any?
 
+        # Re-find again as apply_operator may have triggered further DOM updates
+        within(filter_selector(name)) do
           if boolean_filter?(name)
             set_toggle_filter(values)
-          elsif autocomplete_filter?(selected_filter)
-            select(human_operator, from: "operator")
+          elsif kind == :autocomplete
             set_autocomplete_filter(values)
-          elsif date_filter?(selected_filter) || date_time_filter?(selected_filter)
-            select(human_operator, from: "operator")
+          elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
-            set_created_at_filter(human_operator, values, send_keys:)
+            set_datetime_filter(name, human_operator, values, send_keys:)
           end
         end
       end
@@ -348,8 +350,15 @@ module Pages
         end
       end
 
-      def create_new_workspace
-        page.find('[data-test-selector="workspace-new-button"]').click
+      def create_new_workspace(type, open_menu: false)
+        label = I18n.t(:"label_#{type}")
+
+        if open_menu
+          click_on I18n.t(:button_add)
+          page.find(".ActionListItem", exact_text: label).click
+        else
+          page.find('[data-test-selector="workspace-new-button"]', exact_text: label).click
+        end
       end
 
       def save_query

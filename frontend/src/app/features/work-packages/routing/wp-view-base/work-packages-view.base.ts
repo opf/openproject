@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -83,7 +83,6 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
@@ -94,73 +93,71 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @InjectField() $state:StateService;
+  injector = inject(Injector);
 
-  @InjectField() states:States;
+  readonly $state = inject(StateService);
 
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly states = inject(States);
 
-  @InjectField() authorisationService:AuthorisationService;
+  readonly querySpace = inject(IsolatedQuerySpace);
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  readonly authorisationService = inject(AuthorisationService);
 
-  @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
 
-  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  readonly wpTableHighlighting = inject(WorkPackageViewHighlightingService);
 
-  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  readonly wpTableSortBy = inject(WorkPackageViewSortByService);
 
-  @InjectField() wpTableFilters:WorkPackageViewFiltersService;
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
 
-  @InjectField() wpTableSum:WorkPackageViewSumService;
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
 
-  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  readonly wpTableSum = inject(WorkPackageViewSumService);
 
-  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
 
-  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+  readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
 
-  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  readonly wpTablePagination = inject(WorkPackageViewPaginationService);
 
-  @InjectField() wpListService:WorkPackagesListService;
+  readonly wpTableOrder = inject(WorkPackageViewOrderService);
 
-  @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
+  readonly wpListService = inject(WorkPackagesListService);
 
-  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  readonly wpListChecksumService = inject(WorkPackagesListChecksumService);
 
-  @InjectField() $transitions:TransitionService;
+  readonly loadingIndicatorService = inject(LoadingIndicatorService);
 
-  @InjectField() I18n!:I18nService;
+  readonly $transitions = inject(TransitionService);
 
-  @InjectField() opStaticQueries:StaticQueriesService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  readonly opStaticQueries = inject(StaticQueriesService);
 
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
 
-  @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService;
+  readonly wpDisplayRepresentation = inject(WorkPackageViewDisplayRepresentationService);
 
-  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
+  readonly wpIncludeSubprojects = inject(WorkPackageViewIncludeSubprojectsService);
 
-  @InjectField() halEvents:HalEventsService;
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
 
-  @InjectField() deviceService:DeviceService;
+  readonly halEvents = inject(HalEventsService);
 
-  @InjectField() currentProject:CurrentProjectService;
+  readonly deviceService = inject(DeviceService);
 
-  @InjectField() actions$:ActionsService;
+  readonly currentProject = inject(CurrentProjectService);
+
+  readonly actions$ = inject(ActionsService);
 
   /** Determine when query is initially loaded */
   queryLoaded = false;
 
   /** Remember explicitly when this component was destroyed */
   destroyed = false;
-
-  constructor(public injector:Injector) {
-    super();
-  }
 
   ngOnInit() {
     // Listen to changes on the query state objects

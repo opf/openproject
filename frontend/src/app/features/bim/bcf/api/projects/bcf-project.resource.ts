@@ -2,9 +2,9 @@ import { jsonMember, jsonObject } from 'typedjson';
 
 @jsonObject
 export class BcfProjectResource {
-  @jsonMember
+  @jsonMember(Number)
   project_id:number;
 
-  @jsonMember
+  @jsonMember(String)
   name:string;
 }

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with_flag: { scrum_projects: true } do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:custom_field) { build(:custom_field) }
@@ -38,8 +38,14 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
     API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
   let(:representer) { described_class.create(schema, form_embedded: true, self_link: nil, current_user:) }
-  let(:project) { work_package.project }
-  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
+  let(:backlogs_enabled) { true }
+  let(:project) do
+    work_package.project.tap do |p|
+      allow(p).to receive(:backlogs_enabled?).and_return(backlogs_enabled)
+    end
+  end
+  let(:work_package_type) { build_stubbed(:type, attribute_groups: [["Agile", %w[position sprint story_points backlog_bucket]]]) }
+  let(:work_package) { build_stubbed(:work_package, type: work_package_type) }
 
   let(:current_user) { build_stubbed(:user) }
   let(:permissions) { %i(view_work_packages edit_work_packages view_sprints manage_sprint_items) }
@@ -50,10 +56,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
     end
 
     login_as(current_user)
-
-    allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
-    allow(work_package.type).to receive(:story?).and_return(true)
-    allow(work_package).to receive(:leaf?).and_return(true)
   end
 
   subject { representer.to_json }
@@ -68,36 +70,10 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
     end
 
     context "when backlogs module is disabled" do
-      before do
-        allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
-      end
+      let(:backlogs_enabled) { false }
 
       it "does not show story points" do
         expect(subject).not_to have_json_path("storyPoints")
-      end
-    end
-
-    context "when not a story with the feature flag inactive", with_flag: { scrum_projects: false } do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
-
-      it "does not show story points" do
-        expect(subject).not_to have_json_path("storyPoints")
-      end
-    end
-
-    context "when not a story with the feature flag active" do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
-
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "storyPoints" }
-        let(:type) { "Integer" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.story_points") }
-        let(:required) { false }
-        let(:writable) { true }
       end
     end
   end
@@ -112,36 +88,10 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
     end
 
     context "when backlogs module is disabled" do
-      before do
-        allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
-      end
+      let(:backlogs_enabled) { false }
 
       it "does not show position" do
         expect(subject).not_to have_json_path("position")
-      end
-    end
-
-    context "when not a story with the feature flag inactive", with_flag: { scrum_projects: false } do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
-
-      it "does not show position" do
-        expect(subject).not_to have_json_path("position")
-      end
-    end
-
-    context "when not a story with the feature flag active" do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
-
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "position" }
-        let(:type) { "Integer" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.position") }
-        let(:required) { false }
-        let(:writable) { false }
       end
     end
   end
@@ -158,7 +108,10 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
     end
 
     it_behaves_like "links to allowed values via collection link" do
-      let(:href) { api_v3_paths.project_sprints(project.id) }
+      let(:filters) do
+        CGI.escape(JSON.dump([{ status: { operator: "!", values: [Sprint.statuses["completed"]] } }]))
+      end
+      let(:href) { "#{api_v3_paths.project_sprints(project.id)}?filters=#{filters}&pageSize=-1" }
     end
 
     context "when lacking permission to set the sprint" do
@@ -180,34 +133,67 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter, with
         expect(subject).not_to have_json_path(path)
       end
     end
+  end
 
-    context "when the feature flag is disabled", with_flag: { scrum_projects: false } do
-      it "has no reference to the sprint" do
+  describe "backlogBucket" do
+    let(:path) { "backlogBucket" }
+
+    it_behaves_like "has basic schema properties" do
+      let(:type) { "BacklogBucket" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+      let(:required) { false }
+      let(:writable) { true }
+      let(:location) { "_links" }
+    end
+
+    it_behaves_like "links to allowed values via collection link" do
+      let(:href) { "#{api_v3_paths.project_backlog_buckets(project.id)}?filters=%5B%5D&pageSize=-1" }
+    end
+
+    context "when lacking permission to see the sprints (or if backlogs is disabled)" do
+      let(:permissions) { %i(view_work_packages edit_work_packages) }
+
+      it "has no reference to the backlog bucket" do
         expect(subject).not_to have_json_path(path)
       end
     end
 
-    context "when not a story with the feature flag inactive", with_flag: { scrum_projects: false } do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
+    context "when lacking permission to set the backlog bucket" do
+      let(:permissions) { %i(view_work_packages edit_work_packages view_sprints) }
 
-      it "does not show sprint" do
-        expect(subject).not_to have_json_path("sprint")
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "BacklogBucket" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+        let(:required) { false }
+        let(:writable) { false }
+        let(:location) { "_links" }
+      end
+    end
+  end
+
+  describe "attribute_groups" do
+    context "with backlogs enabled" do
+      it "has backlogs properties listed in the right group" do
+        expect(subject).to be_json_eql(%w[position sprint storyPoints backlogBucket])
+                             .at_path("_attributeGroups/0/attributes")
       end
     end
 
-    context "when not a story with the feature flag active" do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
+    context "with backlogs enabled and permissions missing" do
+      let(:permissions) { %i(view_work_packages edit_work_packages) }
 
-      it_behaves_like "has basic schema properties" do
-        let(:type) { "Sprint" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.sprint") }
-        let(:required) { false }
-        let(:writable) { true }
-        let(:location) { "_links" }
+      it "has backlogs properties listed in the right group" do
+        expect(subject).to be_json_eql(%w[position sprint storyPoints backlogBucket])
+                             .at_path("_attributeGroups/0/attributes")
+      end
+    end
+
+    context "with backlogs disabled" do
+      let(:backlogs_enabled) { false }
+
+      it "lacks the backlogs properties" do
+        expect(subject).to be_json_eql(%w[])
+                             .at_path("_attributeGroups/0/attributes")
       end
     end
   end

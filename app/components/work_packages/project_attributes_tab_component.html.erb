@@ -1,0 +1,19 @@
+<turbo-frame id="work-package-project-attributes-tab-content">
+  <%=
+    component_wrapper do
+      if project_custom_fields_grouped_by_section.any?
+        render(Primer::OpenProject::SidePanel.new) do |panel|
+          project_custom_fields_grouped_by_section.each do |project_custom_field_section, project_custom_fields|
+            panel.with_section(
+              WorkPackages::ProjectCustomFields::SectionComponent.new(
+                project: @project,
+                project_custom_field_section:,
+                project_custom_fields:
+              )
+            )
+          end
+        end
+      end
+    end
+  %>
+</turbo-frame>

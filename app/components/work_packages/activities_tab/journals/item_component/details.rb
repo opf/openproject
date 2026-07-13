@@ -69,7 +69,6 @@ module WorkPackages
             justify_content: :space_between,
             classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header-container",
             data: {
-              "anchor-activity-id": journal.sequence_version,
               "anchor-comment-id": journal.id
             }
           ) do |header_container|

@@ -7,7 +7,7 @@ keywords: authentication
 ---
 # Authentication
 
-Configure **authentication** settings and authentication providers in OpenProject.  To adapt these authentication settings, navigate to your user name and select -> *Administration* -> *Authentication*.
+Configure **authentication** settings and authentication providers in OpenProject.  To adapt these authentication settings, navigate to your user name and select -> _Administration_ -> _Authentication_.
 
 ![Authentication settings in OpenProject system administration](openproject_system_guide_authentication_settings.png)
 

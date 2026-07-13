@@ -94,10 +94,8 @@ RSpec.describe "API v3 Work package form resource" do
 
         include_context "with post request"
 
-        it_behaves_like "param validation error" do
-          let(:id) { "eeek" }
-          let(:type) { "WorkPackage" }
-        end
+        it_behaves_like "not found",
+                        I18n.t("api_v3.errors.not_found.work_package")
       end
 
       context "with existing work package" do
@@ -208,7 +206,7 @@ RSpec.describe "API v3 Work package form resource" do
               end
 
               it_behaves_like "parse error",
-                              "unexpected comma (after ) at line 1, column 3"
+                              "expected object key, got ',' at line 1 column 3"
             end
 
             describe "lock version" do

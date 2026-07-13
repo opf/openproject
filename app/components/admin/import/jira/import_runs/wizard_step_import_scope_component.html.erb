@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= flex_layout do |box|
   box.with_row do
-    concat(render(Primer::Beta::Text.new(font_weight: :semibold, tag: :div)) {
+    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
       I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
     })
     if model.status_before?(:instance_meta_done)
@@ -43,29 +43,13 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
   if model.in_state?(:instance_meta_done)
-    box.with_row(mb: 3, mt: 3) do
-      render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert)) {
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_info")
-      }
-    end
-    box.with_row(mb: 1) do
-      render(Primer::Beta::Text.new(font_size: :small, color: :muted)) {
-        server_info
-      }
-    end
     box.with_row(mb: 3) do
       flex_layout do |flex|
         flex.with_column(flex: 1, mr: 1) do
           render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_available_data"),
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_available_server_data",  server_info: model.jira.name),
+            subtitle: server_info,
             list: import_stats_available,
-            h: :full
-          ))
-        end
-        flex.with_column(flex: 1, ml: 1) do
-          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_not_available_data"),
-            list: import_stats_unavailable,
             h: :full
           ))
         end

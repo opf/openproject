@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
@@ -34,13 +34,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Injectable()
 export class GlobalSearchService {
-  constructor(
-    protected I18n:I18nService,
-    protected injector:Injector,
-    protected PathHelper:PathHelperService,
-    protected currentProjectService:CurrentProjectService,
-  ) {
-  }
+  protected I18n = inject(I18nService);
+  protected injector = inject(Injector);
+  protected PathHelper = inject(PathHelperService);
+  protected currentProjectService = inject(CurrentProjectService);
+
 
   public submitSearch(query:string, scope:string):void {
     const path = this.searchPath(scope);

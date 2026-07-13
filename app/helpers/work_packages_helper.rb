@@ -35,9 +35,9 @@ module WorkPackagesHelper
   # Displays a link to +work_package+ with its subject.
   # Examples:
   #
-  #   link_to_work_package(package)                            # => Defect #6: This is the subject
-  #   link_to_work_package(package, link_subject: true)        # => Defect #6: This is the subject (everything within the link)
-  #   link_to_work_package(package, display_project: true)     # => Foo - Defect #6: This is the subject
+  #   link_to_work_package(package)                            # => Defect <id>: This is the subject
+  #   link_to_work_package(package, link_subject: true)        # => Defect <id>: This is the subject (everything within the link)
+  #   link_to_work_package(package, display_project: true)     # => Foo - Defect <id>: This is the subject
   def link_to_work_package(work_package, display_project: false, link_subject: false) # rubocop:disable Metrics/AbcSize
     output = ActiveSupport::SafeBuffer.new
     output << "#{work_package.project} - " if display_project && work_package.project_id
@@ -47,7 +47,7 @@ module WorkPackagesHelper
                    class: link_to_work_package_css_classes(work_package)) do
       link_parts = []
       link_parts << work_package.type.to_s if work_package.type_id
-      link_parts << "##{work_package.id}:"
+      link_parts << "#{work_package.formatted_id}:"
       link_parts << content_tag(:span, I18n.t(:label_closed_work_packages), class: "sr-only") if work_package.closed?
       link_parts << work_package.subject if link_subject
 
@@ -102,7 +102,9 @@ module WorkPackagesHelper
   end
 
   def back_url_is_wp_show?
-    route = Rails.application.routes.recognize_path(params[:back_url] || request.env["HTTP_REFERER"])
+    route = OpenProject::StaticRouting.recognize_route(params[:back_url] || request.env["HTTP_REFERER"])
+    return false if route.nil?
+
     route[:controller] == "work_packages" && route[:action] == "index" && route[:state]&.match?(/^\d+/)
   end
 
@@ -130,6 +132,25 @@ module WorkPackagesHelper
     protected_columns = %w[id subject]
     work_packages_columns_options
       .select { |column| protected_columns.include?(column[:id]) }
+  end
+
+  # Label for the version(s) attribute, driven by the multiple-versions feature.
+  # While the feature is off we keep the legacy singular "Version" wording even
+  # though the value now comes from the target_versions association.
+  def work_package_versions_label
+    attribute = Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version
+    WorkPackage.human_attribute_name(attribute)
+  end
+
+  # Presented value for the version(s) attribute, read from target_versions.
+  # Legacy behaviour surfaces the single associated version; with the feature on
+  # it lists all target versions, ordered by name for a stable rendering.
+  def work_package_versions_value(work_package)
+    if Setting::WorkPackageMultipleVersions.active?
+      work_package.target_versions.sort_by(&:name).join(", ")
+    else
+      work_package.target_versions.first
+    end
   end
 
   private

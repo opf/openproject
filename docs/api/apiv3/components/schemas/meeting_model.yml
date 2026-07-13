@@ -36,10 +36,45 @@ properties:
   endTime:
     type: string
     format: date-time
-    description: The scheduled meeting start time.
+    description: The scheduled meeting end time.
   duration:
-    type: number
+    type: string
+    format: duration
     description: The meeting duration in hours.
+  state:
+    type: string
+    description: |-
+      The current state of the meeting. Possible values:
+
+      - *open*: the meeting is open
+      - *draft*: the meeting is in draft state
+      - *in_progress*: the meeting is currently in progress
+      - *cancelled*: the meeting has been cancelled
+      - *closed*: the meeting is closed
+    enum:
+      - open
+      - draft
+      - in_progress
+      - cancelled
+      - closed
+  sharing:
+    type: string
+    description: |-
+      How the meeting template is shared. Only applicable for one-time templates. Possible values:
+
+      - *none*: not shared
+      - *descendants*: shared with descendant projects
+      - *system*: shared globally
+    enum:
+      - none
+      - descendants
+      - system
+  template:
+    type: boolean
+    description: Whether this meeting is a template.
+  notify:
+    type: boolean
+    description: Whether to send email notifications to participants.
   createdAt:
     type: string
     format: date-time
@@ -70,6 +105,40 @@ properties:
               This meeting
 
               **Resource**: Meeting
+      schema:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The meeting schema
+
+              **Resource**: Schema
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Form endpoint to update this meeting
+
+              # Conditions
+
+              **Permission**: edit meetings
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Directly update this meeting
+
+              # Conditions
+
+              **Permission**: edit meetings
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Delete this meeting
+
+              # Conditions
+
+              **Permission**: delete meetings
       author:
         allOf:
           - $ref: './link.yml'
@@ -88,7 +157,7 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              The attachment collection of this grid.
+              The attachment collection of this meeting.
 
               **Resource**: AttachmentCollection
       addAttachment:
@@ -99,4 +168,4 @@ properties:
 
               # Conditions
 
-              **Permission**: edit meeting
+              **Permission**: edit meetings

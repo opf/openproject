@@ -21,12 +21,11 @@
 #++
 ---
 ru:
-  plugin_openproject_documents:
-    name: Документы OpenProject
-    description: Плагин OpenProject позволяет создавать документы в проектах.
-  attributes:
-    collaborative_editing_hocuspocus_url: URL-адрес сервера Hocuspocus
   activerecord:
+    attributes:
+      document:
+        content_binary: Содержимое бинарное
+        title: Заголовок
     errors:
       models:
         document_type:
@@ -34,125 +33,127 @@ ru:
     models:
       document: Документ
       documents: Документы
-    attributes:
-      document:
-        content_binary: Содержимое бинарное
-        title: Заголовок
   activity:
     filter:
       document: Документы
+  attributes:
+    collaborative_editing_hocuspocus_url: URL-адрес сервера Hocuspocus
   default_doc_category_tech: Техническая документация
   default_doc_category_user: Документация пользователя
-  enumeration_doc_categories: Категории документов
   documents:
-    page_header:
-      heading: Все документы
-      action_menu:
-        document_actions: Действия с документом
-        edit_title: Редактировать заголовок
-    subheader:
-      filter:
-        label: Фильтр по названию документа
-        placeholder: Введите здесь для поиска по названию документа
-    documents_list_blank_slate:
-      heading: Пока нет никаких документов
-      description: В этом представлении нет документов. Нажмите на кнопку ниже, чтобы добавить документ.
-    document_categories_deprecation_notice:
-      heading: Категории файлов теперь называются "Типы документов"
-      description: |-
-        C введением нового модуля "Документы" ваши существующие категории файлов были преобразованы в типы документов.
-        Все существующие документы также были перенесены в новые типы.
-      primary_action: Настроить типы документов
-      secondary_action: Подробнее о модуле Документы
-    document_type_actions: Действия с типом документа
-    text_collaboration_disabled_notice:
-      description: |-
-        Невозможно открыть документ, потому что совместная работа с текстом в реальном времени отключена.
-        Если Вы хотите получить доступ к этому документу, обратитесь к своему администратору, чтобы включить совместную работу с текстом в реальном времени.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Невозможно открыть документ, потому что сервер совместной работы с текстом в реальном времени недоступен.
-          Пожалуйста, свяжитесь с администратором, если проблема сохраняется.
-        action: Попробуйте еще раз
-      tabs: Вкладки документа
-    index_page:
-      name: Имя
-      type: Тип
-      updated_at: Последнее редактирование
-      label_legacy: Старый вариант
-    menu:
-      all: Все документы
-      types: Типы
-      collaboration_settings: Командная работа в режиме реального времени
-    last_updated_at: Последнее сохранение %{time}.
-    info_line:
-      currently_offline: Вы сейчас не в сети.
-      connection_restored: Теперь Вы снова в сети.
     active_editors: Активные редакторы
     active_editors_count:
       one: 1 активный редактор
       few: "%{count} активных редактора"
       many: "%{count} активных редакторов"
       other: "%{count} активных редакторов"
-    label_attachment_author: Автор вложения
-    label_categories: Категории
-    new_category: Новая категория
-    new_type: Новый тип
-    delete_dialog:
-      title: Удалить документ
-      heading: Удалить этот документ?
-      confirmation_message_html: Это навсегда удалит этот документ и все вложения с ним. Вы уверены, что хотите это сделать?
-    delete_document_type_dialog:
-      title: Удалить тип документа
-      heading: Удалить этот тип документа?
-      confirmation_message: Тип "%{type_name}" в настоящее время не используется. Удаление этого типа не повлияет на существующие документы.
-      select_reassign_to_label: Переназначить документы на
-      reassign_message:
-        one: Тип "%{type_name}" в настоящее время используется в документе %{document_count}. Пожалуйста, выберите, в какой тип его переназначить.
-        few: Тип "%{type_name}" в настоящее время используется в документах %{document_count}. Пожалуйста, выберите, в какой тип их переназначить.
-        many: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-        other: Тип "%{type_name}" в настоящее время используется в документах %{document_count}. Пожалуйста, выберите, в какой тип их переназначить.
-      at_least_one_type_required:
-        title: Невозможно удалить тип документа
-        heading: Невозможно удалить последний тип документа
-        message: Всегда должен быть настроен по крайней мере один тип документа. Создайте другой, если вы хотите удалить этот тип.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Эти значения настраиваются через переменные окружения и не могут быть отредактированы здесь.
+          some_unwritable: Некоторые значения настраиваются через переменные окружения и не могут быть отредактированы здесь.
+        hocuspocus_server: Сервер Hocuspocus
+        hocuspocus_server_secret:
+          caption: Вставьте ключ, предоставленный сервером Hocuspocus.
+          label: Закрытый ключ клиента
+        hocuspocus_server_url:
+          caption: Адрес WebSocket работающего сервера Hocuspocus.
+          invalid_scheme: Должен использоваться протокол WebSocket (ws:// или wss://).
+          label: URL-адрес сервера Hocuspocus
         page_header:
           description: |-
             Когда эта функция включена, совместная работа в реальном времени позволяет нескольким пользователям редактировать документ одновременно.
             Для его функционирования требуется работающий %{hocuspocus_server_link}.
-        banner:
-          none_writable: Эти значения настраиваются через переменные окружения и не могут быть отредактированы здесь.
-          some_unwritable: Некоторые значения настраиваются через переменные окружения и не могут быть отредактированы здесь.
-        hocuspocus_server_url:
-          label: URL-адрес сервера Hocuspocus
-          caption: Адрес WebSocket работающего сервера Hocuspocus.
-          invalid_scheme: Должен использоваться протокол WebSocket (ws:// или wss://).
-        hocuspocus_server_secret:
-          label: Закрытый ключ клиента
-          caption: Вставьте ключ, предоставленный сервером Hocuspocus.
-        hocuspocus_server: Сервер Hocuspocus
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Я понимаю, что могу безвозвратно потерять данные
+        confirmation_message: Все существующие документы могут стать недоступными. Пожалуйста, делайте это только в том случае, если Вы уверены, что хотите отключить совместную работу в реальном времени и редактор BlockNote.
+        heading: Выключить совместную работу в режиме реального времени?
+        success: Совместная работа в режиме реального времени выключена.
+        title: Выключить совместную работу в режиме реального времени
       enable_text_collaboration:
-        heading: Совместная работа в режиме реального времени не включена
         description: После включения несколько пользователей смогут одновременно работать над одним документом. Все новые документы будут основаны на новом редакторе (BlockNote) и потребуют рабочего соединения с сервером Hocuspocus.
+        heading: Совместная работа в режиме реального времени не включена
         primary_action: Включить совместную работу в режиме реального времени
         success: Совместная работа в режиме реального времени включена.
-      disable_text_collaboration_dialog:
-        title: Выключить совместную работу в режиме реального времени
-        heading: Выключить совместную работу в режиме реального времени?
-        confirmation_message: Все существующие документы могут стать недоступными. Пожалуйста, делайте это только в том случае, если Вы уверены, что хотите отключить совместную работу в реальном времени и редактор BlockNote.
-        confirmation_checkbox_message: Я понимаю, что могу безвозвратно потерять данные
-        success: Совместная работа в режиме реального времени выключена.
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: Это навсегда удалит этот документ и все вложения с ним. Вы уверены, что хотите это сделать?
+      heading: Удалить этот документ?
+      title: Удалить документ
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Невозможно удалить последний тип документа
+        message: Всегда должен быть настроен по крайней мере один тип документа. Создайте другой, если вы хотите удалить этот тип.
+        title: Невозможно удалить тип документа
+      confirmation_message: Тип "%{type_name}" в настоящее время не используется. Удаление этого типа не повлияет на существующие документы.
+      heading: Удалить этот тип документа?
+      reassign_message:
+        one: Тип "%{type_name}" в настоящее время используется в документе %{document_count}. Пожалуйста, выберите, в какой тип его переназначить.
+        few: Тип "%{type_name}" в настоящее время используется в документах %{document_count}. Пожалуйста, выберите, в какой тип их переназначить.
+        many: Тип "%{type_name}" в настоящее время используется в документах %{document_count}. Пожалуйста, выберите, в какой тип их переназначить.
+        other: Тип "%{type_name}" в настоящее время используется в документах %{document_count}. Пожалуйста, выберите, в какой тип их переназначить.
+      select_reassign_to_label: Переназначить документы на
+      title: Удалить тип документа
+    document_categories_deprecation_notice:
+      description: |-
+        C введением нового модуля "Документы" ваши существующие категории файлов были преобразованы в типы документов.
+        Все существующие документы также были перенесены в новые типы.
+      heading: Категории файлов теперь называются "Типы документов"
+      primary_action: Настроить типы документов
+      secondary_action: Подробнее о модуле Документы
+    document_type_actions: Действия с типом документа
+    documents_list_blank_slate:
+      description: В этом представлении нет документов. Нажмите на кнопку ниже, чтобы добавить документ.
+      heading: Пока нет никаких документов
+    index_page:
+      label_legacy: Старый вариант
+      name: Имя
+      type: Тип
+      updated_at: Последнее редактирование
+    info_line:
+      connection_restored: Теперь Вы снова в сети.
+      currently_offline: Вы сейчас не в сети.
+    label_attachment_author: Автор вложения
+    label_categories: Категории
+    last_updated_at: Последнее сохранение %{time}.
+    menu:
+      all: Все документы
+      collaboration_settings: Командная работа в режиме реального времени
+      types: Типы
+    new_category: Новая категория
+    new_type: Новый тип
+    page_header:
+      action_menu:
+        document_actions: Действия с документом
+        edit_title: Редактировать заголовок
+      heading: Все документы
+    show_edit_view:
+      connection_error_notice:
+        action: Попробуйте еще раз
+        description_server_unavailable: |-
+          Невозможно открыть документ, потому что сервер совместной работы с текстом в реальном времени недоступен.
+          Пожалуйста, свяжитесь с администратором, если проблема сохраняется.
+      tabs: Вкладки документа
+    subheader:
+      filter:
+        label: Фильтр по названию документа
+        placeholder: Введите здесь для поиска по названию документа
+    text_collaboration_disabled_notice:
+      description: |-
+        Невозможно открыть документ, потому что совместная работа с текстом в реальном времени отключена.
+        Если Вы хотите получить доступ к этому документу, обратитесь к своему администратору, чтобы включить совместную работу с текстом в реальном времени.
+  enumeration_doc_categories: Категории документов
   label_document_added: Документ добавлен
+  label_document_category: Категория
+  label_document_description: Описание
   label_document_new: Новый документ
   label_document_plural: Документы
-  label_documents: Документы
   label_document_title: Заголовок
-  label_document_description: Описание
-  label_document_category: Категория
   label_document_type: Тип
+  label_documents: Документы
   permission_manage_documents: Управление документами
   permission_view_documents: Просмотр документов
+  plugin_openproject_documents:
+    description: Плагин OpenProject позволяет создавать документы в проектах.
+    name: Документы OpenProject
   project_module_documents: Документы

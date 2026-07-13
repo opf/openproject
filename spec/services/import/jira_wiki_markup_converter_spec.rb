@@ -51,6 +51,52 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
       it { is_expected.to eq("This is not {code} and not [a link]") }
     end
+
+    context "with invalid UTF-8 byte sequences in the input" do
+      it "drops a stray invalid byte and keeps the surrounding text" do
+        input = "Hello \xFF world".dup
+        expect(input.valid_encoding?).to be(false)
+        expect(described_class.new(input).convert).to eq("Hello ? world")
+      end
+
+      it "drops a stray continuation byte" do
+        input = "abc \x80 def".dup
+        expect(input.valid_encoding?).to be(false)
+        expect(described_class.new(input).convert).to eq("abc ? def")
+      end
+
+      it "drops a truncated multi-byte sequence" do
+        input = "pre \xC3 post".dup
+        expect(input.valid_encoding?).to be(false)
+        expect(described_class.new(input).convert).to eq("pre ? post")
+      end
+
+      it "preserves valid multi-byte characters while dropping only the invalid byte" do
+        input = "héllo \xFF world".dup
+        expect(input.valid_encoding?).to be(false)
+        expect(described_class.new(input).convert).to eq("héllo ? world")
+      end
+
+      it "still parses formatting around invalid bytes inside delimiters" do
+        input = "*bold\xFFtext*".dup
+        expect(input.valid_encoding?).to be(false)
+        expect(described_class.new(input).convert).to eq("**bold?text**")
+      end
+    end
+
+    context "with in between horizontal lines" do
+      let(:input) do
+        "start\n----\nGot it? Now click *Resolve this issue* " \
+          "and add a comment to complete this request.\n----\nend"
+      end
+
+      it do
+        expect(subject).to eq(
+          "start\n<hr>\n\nGot it? Now click **Resolve this issue** " \
+          "and add a comment to complete this request.\n<hr>\n\nend"
+        )
+      end
+    end
   end
 
   describe "line ending normalization" do
@@ -241,6 +287,70 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
       it { is_expected.to eq("H<sub>2</sub>O") }
     end
+
+    context "with multi-byte UTF-8 characters inside formatting delimiters" do
+      it "handles bold with multi-byte characters" do
+        expect(described_class.new("This is *héllo* text.").convert)
+          .to eq("This is **héllo** text.")
+      end
+
+      it "handles italic with multi-byte characters" do
+        expect(described_class.new("This is _äöü_ text.").convert)
+          .to eq("This is *äöü* text.")
+      end
+
+      it "handles strikethrough with multi-byte characters" do
+        expect(described_class.new("This is -déléted- text.").convert)
+          .to eq("This is ~~déléted~~ text.")
+      end
+
+      it "handles underline with multi-byte characters" do
+        expect(described_class.new("This is +éàü+ text.").convert)
+          .to eq("This is <u>éàü</u> text.")
+      end
+
+      it "handles subscript with multi-byte characters" do
+        expect(described_class.new("H~äö~O").convert)
+          .to eq("H<sub>äö</sub>O")
+      end
+
+      it "handles multiple formatted multi-byte segments in one line" do
+        expect(described_class.new("*éé* and _öü_").convert)
+          .to eq("**éé** and *öü*")
+      end
+
+      it "handles Arabic inside bold" do
+        expect(described_class.new("*مرحبا*").convert).to eq("**مرحبا**")
+      end
+
+      it "handles Chinese inside bold" do
+        expect(described_class.new("*你好*").convert).to eq("**你好**")
+      end
+
+      it "handles Japanese inside italic" do
+        expect(described_class.new("_日本語_").convert).to eq("*日本語*")
+      end
+
+      it "handles Cyrillic inside bold" do
+        expect(described_class.new("*Привет*").convert).to eq("**Привет**")
+      end
+
+      it "handles Hebrew inside bold" do
+        expect(described_class.new("*שלום*").convert).to eq("**שלום**")
+      end
+
+      it "handles 4-byte emoji inside bold" do
+        expect(described_class.new("*🎉*").convert).to eq("**🎉**")
+      end
+
+      it "handles subscript after a macro preceded by a multi-byte character" do
+        # Regression: scanner.string[0...scanner.pos] mixed byte-pos with char-slicing,
+        # causing "é*x*~2~" to spuriously "see" the closing ~ in the already-scanned
+        # prefix and skip subscript parsing.
+        expect(described_class.new("é*x*~2~").convert).to eq("é**x**<sub>2</sub>")
+        expect(described_class.new("🎉*x*~2~").convert).to eq("🎉**x**<sub>2</sub>")
+      end
+    end
   end
 
   describe "links" do
@@ -374,7 +484,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
   describe "horizontal rule" do
     let(:input) { "Above\n----\nBelow" }
 
-    it { is_expected.to eq("Above\n<hr>\nBelow") }
+    it { is_expected.to eq("Above\n<hr>\n\nBelow") }
   end
 
   describe "dashes" do
@@ -393,7 +503,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "with dashes and line breaks" do
       let(:input) { "HR:\n----\nEm-Dash\n---\nEn-Dash\n--\n" }
 
-      it { is_expected.to eq("HR:\n<hr>\nEm-Dash\n\n\u2014\n\nEn-Dash\n\n\u2013\n\n") }
+      it { is_expected.to eq("HR:\n<hr>\n\nEm-Dash\n\n\u2014\n\nEn-Dash\n\n\u2013\n\n") }
     end
   end
 

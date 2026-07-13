@@ -21,24 +21,42 @@
 #++
 ---
 id:
-  plugin_costs:
-    name: Waktu dan biaya
-    description: Modul ini menambahkan fitur untuk perencanaan dan pelacakan biaya proyek.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Work Package
+        entity: Masuk untuk
+        entity_gid: Masuk untuk
+        entity_id: Masuk untuk
+        logged_by: Dicatat oleh
         overridden_costs: Overridden costs
         spent: Dihabiskan
         spent_on: Tanggal
-        logged_by: Dicatat oleh
-        entity: Masuk untuk
-        entity_id: Masuk untuk
-        entity_gid: Masuk untuk
+        work_package: Work Package
       cost_type:
+        default: Jenis biaya secara default
+        for_all_projects: For all projects
+        rates: Rates
         unit: Nama unit
         unit_plural: Nama plural unit
-        default: Jenis biaya secara default
+      rate:
+        rate: Rate
+      time_entry:
+        activity: Activity
+        comments: Komentar
+        end_time: Waktu penyelesaian
+        entity: Masuk untuk
+        entity_gid: Masuk untuk
+        entity_id: Masuk untuk
+        hours: Jam
+        project: Project
+        spent_on: Tanggal
+        start_time: Waktu mulai
+        subject: Perihal
+        time: Waktu
+        user: User
+        work_package: Paket-Penugasan
+      user:
+        default_rates: Rate standart
       work_package:
         costs_by_type: Unit terpakai
         labor_costs: Biaya tenaga
@@ -46,63 +64,55 @@ id:
         overall_costs: Biaya keseluruhan
         spent_costs: Biaya terpakai
         spent_units: Unit terpakai
-      rate:
-        rate: Rate
-      user:
-        default_rates: Rate standart
-      time_entry:
-        project: Project
-        user: User
-        work_package: Paket-Penugasan
-        subject: Perihal
-        hours: Jam
-        comments: Komentar
-        activity: Activity
-        spent_on: Tanggal
-        start_time: Waktu mulai
-        end_time: Waktu penyelesaian
-        time: Waktu
-        entity: Masuk untuk
-        entity_id: Masuk untuk
-        entity_gid: Masuk untuk
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Tidak dapat mencatat waktu untuk paket kerja ini.
+          duplicate_ongoing: Entri waktu yang sedang berlangsung sudah ada untuk pengguna ini.
+          invalid_time: harus diantara pukul 00:00 dan 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Reassign biaya tidak dapat dilakukan pada Work package #%{id}.'
+          nullify_is_not_valid_for_cost_entries: Masukan biaya tidak dapat di-assign ke proyek.
     models:
-      time_entry:
-        other: Entri waktu
       cost_entry:
         other: Biaya masuk
       cost_type:
         other: Jenis biaya
+      rate: Rate
+      time_entry:
+        other: Entri waktu
       time_entry_activity:
         other: Kegiatan pelacakan waktu
-      rate: Rate
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: harus diantara pukul 00:00 dan 23:59.
-          cannot_log_for_this_work_package: Tidak dapat mencatat waktu untuk paket kerja ini.
-          duplicate_ongoing: Entri waktu yang sedang berlangsung sudah ada untuk pengguna ini.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Reassign biaya tidak dapat dilakukan pada Work package #%{id}.'
-          nullify_is_not_valid_for_cost_entries: Masukan biaya tidak dapat di-assign ke proyek.
+      validation:
+        start_time_different_date: Bagian tanggal dari startTime (%{start_time}) harus sama dengan tanggal spentOn (%{spent_on}).
   attributes:
     comment: Komentar
     cost_type: Jenis biaya
     costs: Biaya
     current_rate: Rate saat ini
+    fixed_date: Tanggal fix
     hours: Jam
     units: Unit
     valid_from: Berlaku dari
-    fixed_date: Tanggal fix
+  button_add_activity: Activity
   button_add_rate: Tambahkan rate
+  button_add_time_entry: Catatan waktu
   button_log_costs: Log biaya unit
   button_log_time: Log
-  button_add_activity: Activity
-  button_add_time_entry: Catatan waktu
   button_stop_timer: Hentikan penghitung waktu
   caption_booked_on_project: Telah dipesan pada proyek
   caption_default: Default
   caption_default_rate_history_for: Default rate history for %{user}
   caption_locked_on: Terkunci
+  caption_log_time_dialog: Catatan waktu
   caption_materials: Unit
   caption_rate_history: Histori rate
   caption_rate_history_for: Histori rate untuk %{user}
@@ -110,22 +120,61 @@ id:
   caption_save_rate: Simpan rate
   caption_set_rate: Set rate saat ini
   caption_show_locked: Tampilkan tipe yang terkunci
-  caption_log_time_dialog: Catatan waktu
-  description_date_for_new_rate: Tanggal berlaku rate
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Tentukan format yang diinginkan untuk biaya dalam semua proyek.
+  description_date_for_new_rate: Tanggal berlaku rate
   description_time_settings: Tentukan bidang yang wajib diisi saat mencatat waktu di semua proyek.
+  ee:
+    features:
+      time_entry_time_restrictions: Memerlukan pelacakan waktu yang tepat
+    upsell:
+      time_entry_time_restrictions:
+        description: Perbaiki pelacakan waktu Anda dengan mengharuskan pencatatan waktu yang tepat pada waktu mulai dan selesai saat mencatat waktu.
   group_by_others: tidak dalam grup manapun
+  label_available_cost_types_projects: Available cost types projects
   label_between: antara
+  label_cost: Biaya
   label_cost_filter_add: Tambahkan filter entri biaya
-  label_costlog: Catatan biaya unit
   label_cost_plural: Biaya
   label_cost_type_plural: Jenis biaya
   label_cost_type_specific: 'Jenis biaya #%{id}: %{name}'
+  label_costlog: Catatan biaya unit
+  label_costs: Biaya
   label_costs_per_page: Tampilan biaya perhalaman
   label_current_default_rate: Rate saat ini
   label_date_on: pada
+  label_day: Hari
   label_deleted_cost_types: Jenis biaya terhapus
-  label_locked_cost_types: Locked cost types
   label_display_cost_entries: Tampilkan biaya unit
   label_display_time_entries: Tampilkan jumlah jam
   label_display_types: Tampilkan tipe
@@ -136,59 +185,54 @@ id:
   label_group_by_add: Tambahkan grup
   label_hourly_rate: Rate per-jam
   label_include_deleted: Termasuk yang telah dihapus
-  label_work_package_filter_add: Tambahkan filter
   label_kind: Tipe
   label_less_or_equal: "<="
+  label_list: List
   label_log_costs: Log biaya unit
-  label_new_time_entry_activity: Aktivitas baru pada entri waktu
-  label_time_entry_activity_form_description: Perubahan pada aktivitas entri waktu ini akan tercermin di semua proyek ketika fitur ini diaktifkan.
-  label_no: 'No'
-  label_option_plural: Opsi
-  label_overall_costs: Biaya keseluruhan
-  label_rate: Rate
-  label_rate_plural: Rate
-  label_status_finished: Selesai
-  label_show: Tampilkan
-  label_units: Biaya unit
-  label_user: User
-  label_until: hingga
-  label_valid_from: Berlaku dari
-  label_yes: 'Yes'
-  label_time: Waktu
-  label_cost: Biaya
-  label_costs: Biaya
   label_mandatory_fields: Kolom wajib
+  label_month: Bulan
   label_my_time_tracking: Pelacakan waktu saya
-  label_no_time: Tidak ada waktu yang dilacak
+  label_new_time_entry_activity: Aktivitas baru pada entri waktu
   label_next_day: Besok
+  label_next_month: Bulan selanjutnya
   label_next_week: Minggu depan
   label_next_workweek: Minggu kerja berikutnya
-  label_next_month: Bulan selanjutnya
+  label_no: 'No'
+  label_no_time: Tidak ada waktu yang dilacak
+  label_option_plural: Opsi
+  label_overall_costs: Biaya keseluruhan
   label_previous_day: Kemarin
-  label_previous_workweek: Minggu kerja sebelumnya
-  label_previous_week: Minggu sebelumnya
   label_previous_month: Bulan sebelumnya
+  label_previous_week: Minggu sebelumnya
+  label_previous_workweek: Minggu kerja sebelumnya
+  label_rate: Rate
+  label_rate_plural: Rate
+  label_show: Tampilkan
   label_specific_day: Hari %{day}
-  label_specific_week: Minggu kalender %{week}
   label_specific_month: Bulan %{month}
-  label_list: List
-  label_month: Bulan
-  label_workweek: Minggu kerja
-  label_day: Hari
-  label_today_capitalized: Hari Ini
-  label_view_mode_switcher: Ubah tampilan
+  label_status_finished: Selesai
+  label_time: Waktu
+  label_time_entry_activity_form_description: Perubahan pada aktivitas entri waktu ini akan tercermin di semua proyek ketika fitur ini diaktifkan.
   label_timer_since: Dimulai dari %{time}
-  placeholder_activity_select_work_package_first: Pemilihan paket kerja harus dilakukan terlebih dahulu
-  notice_something_wrong: Terjadi suatu kesalahan. Silahkan coba lagi.
-  notice_successful_restore: Restore berhasil.
-  notice_successful_lock: Locked successfully.
+  label_today_capitalized: Hari Ini
+  label_units: Biaya unit
+  label_until: hingga
+  label_user: User
+  label_valid_from: Berlaku dari
+  label_view_mode_switcher: Ubah tampilan
+  label_work_package_filter_add: Tambahkan filter
+  label_workweek: Minggu kerja
+  label_yes: 'Yes'
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: Pengguna ini berada di zona waktu yang berbeda (%{tz}). Waktu akan dicatat menggunakan zona waktu mereka.
-  notice_time_entry_update_failed: 'Gagal memperbarui entri waktu. Kesalahan: %{errors}'
+  notice_something_wrong: Terjadi suatu kesalahan. Silahkan coba lagi.
+  notice_successful_lock: Locked successfully.
+  notice_successful_restore: Restore berhasil.
   notice_time_entry_delete_failed: 'Gagal menghapus entri waktu. Kesalahan: %{errors}'
+  notice_time_entry_update_failed: 'Gagal memperbarui entri waktu. Kesalahan: %{errors}'
   permission_edit_cost_entries: Ubah booked biaya unit
-  permission_edit_own_cost_entries: Edit booked biaya unit sendiri
   permission_edit_hourly_rates: Edit rate per jam
+  permission_edit_own_cost_entries: Edit booked biaya unit sendiri
   permission_edit_own_hourly_rate: Edit rate per-jam milik sendiri
   permission_edit_rates: Edit rate
   permission_log_costs: Biaya unit pada buku
@@ -199,45 +243,30 @@ id:
   permission_view_own_cost_entries: Tampilkan booked biaya sendiri
   permission_view_own_hourly_rate: Tampilkan rate per-jam diri sendiri
   permission_view_own_time_entries: Tampilan jumlah waktu diri sendiri
+  placeholder_activity_select_work_package_first: Pemilihan paket kerja harus dilakukan terlebih dahulu
+  plugin_costs:
+    description: Modul ini menambahkan fitur untuk perencanaan dan pelacakan biaya proyek.
+    name: Waktu dan biaya
   project_module_costs: Waktu dan biaya
   setting_allow_tracking_start_and_end_times: Izinkan waktu mulai dan waktu selesai
+  setting_allow_tracking_start_and_end_times_caption: Memungkinkan untuk memasukkan waktu mulai dan selesai saat mencatat waktu.
   setting_costs_currency: Mata Uang
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Butuh waktu mulai dan selesai
-  setting_enforce_without_allow: Membutuhkan waktu mulai dan selesai tidak mungkin dilakukan tanpa mengizinkannya
-  setting_allow_tracking_start_and_end_times_caption: Memungkinkan untuk memasukkan waktu mulai dan selesai saat mencatat waktu.
   setting_enforce_tracking_start_and_end_times_caption: Membuat pengisian waktu mulai dan selesai menjadi wajib saat mencatat waktu.
+  setting_enforce_without_allow: Membutuhkan waktu mulai dan selesai tidak mungkin dilakukan tanpa mengizinkannya
   text_assign_time_and_cost_entries_to_project: Masukkan laporan per-jam dan laporan biaya ke proyek
   text_destroy_cost_entries_question: "%{cost_entries} digunakan pada work package yang akan dihapus. Keputusan anda?"
   text_destroy_time_and_cost_entries: Hapus jumlah jam dan biaya yang terlapor
   text_destroy_time_and_cost_entries_question: "%{hours} jam, %{cost_entries} digunakan pada works package yang akan anda hapus. Keputusan anda?"
   text_reassign_time_and_cost_entries: 'Assign ulang laporan jam dan biaya pada work package ini:'
   text_warning_hidden_elements: Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan.
-  week: minggu
   total_times:
-    workweek: 'Total minggu kerja: %{hours}'
-    week: 'Total minggu: %{hours}'
-    month: 'Total bulan: %{hours}'
     day: 'Total hari: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Bagian tanggal dari startTime (%{start_time}) harus sama dengan tanggal spentOn (%{spent_on}).
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Memerlukan pelacakan waktu yang tepat
-    upsell:
-      time_entry_time_restrictions:
-        description: Perbaiki pelacakan waktu Anda dengan mengharuskan pencatatan waktu yang tepat pada waktu mulai dan selesai saat mencatat waktu.
+    month: 'Total bulan: %{hours}'
+    week: 'Total minggu: %{hours}'
+    workweek: 'Total minggu kerja: %{hours}'
+  week: minggu

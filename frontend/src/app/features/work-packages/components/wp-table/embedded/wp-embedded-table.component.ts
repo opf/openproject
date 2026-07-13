@@ -1,10 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import {
-  WorkPackageViewTimelineService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import {
-  WorkPackageViewPaginationService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import {
   OpTableActionsService,
@@ -19,13 +13,14 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { distinctUntilChanged, map, take, withLatestFrom } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import {
   KeepTabService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { firstValueFrom } from 'rxjs';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -34,7 +29,7 @@ import { QueryRequestParams } from 'core-app/features/work-packages/components/w
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public queryId?:string;
@@ -51,17 +46,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  @InjectField() apiv3Service:ApiV3Service;
+  readonly apiv3Service = inject(ApiV3Service);
 
-  @InjectField() opModalService:OpModalService;
+  readonly opModalService = inject(OpModalService);
 
-  @InjectField() tableActionsService:OpTableActionsService;
+  readonly tableActionsService = inject(OpTableActionsService);
 
-  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
-
-  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
-
-  @InjectField() keepTab:KeepTabService;
+  readonly keepTab = inject(KeepTabService);
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource|undefined>|undefined;
@@ -110,8 +101,9 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   public async openConfigurationModal(onUpdated:() => void):Promise<void> {
     await this.querySpace.query.valuesPromise();
 
+    const target = document.querySelector('opce-custom-modal-overlay') ? PortalOutletTarget.Custom : PortalOutletTarget.Default;
     this.opModalService
-      .show(WpTableConfigurationModalComponent, this.injector)
+      .show(WpTableConfigurationModalComponent, this.injector, {}, false, false, target)
       // Detach this component when the modal closes and pass along the query data
       .subscribe((modal) => modal.onDataUpdated.subscribe(onUpdated));
   }
@@ -172,13 +164,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.cdRef.markForCheck();
         return query;
       })
-      .catch((error) => {
+      .catch((error:unknown) => {
+        const message = (error as { message?:unknown } | null | undefined)?.message;
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',
-          { message: _.get(error, 'message', error) },
+          { message: message !== undefined ? message : error },
         );
         this.cdRef.markForCheck();
-        this.onError.emit(error);
+        this.onError.emit(error as string);
       });
 
     if (visible) {
@@ -190,15 +183,17 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
     if (event.double) {
+      const routingId = resolveRoutingId(this.states, event.workPackageId);
       const projectIdentifier = this.currentProject.identifier;
-      const link = this.pathHelper.genericWorkPackagePath(projectIdentifier, event.workPackageId) + window.location.search;
+      const link = this.pathHelper.genericWorkPackagePath(projectIdentifier, routingId) + window.location.search;
       Turbo.visit(link, { action: 'advance' });
     }
   }
 
   openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
+    const routingId = resolveRoutingId(this.states, event.workPackageId);
     const params = {
-      workPackageId: event.workPackageId,
+      workPackageId: routingId,
       focus: true,
     };
 

@@ -222,14 +222,15 @@ RSpec.describe Type do
 
       other_group = type.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
-      expect(other_group.attributes).to eq([custom_field.attribute_name])
+      expect(other_group.attributes).to eq(%w[position] + [custom_field.attribute_name])
 
       # It is removed again when resetting it
       type.reset_attribute_groups
       expect(type.custom_field_ids).to be_empty
 
       other_group = type.attribute_groups.detect { |g| g.key == :other }
-      expect(other_group).not_to be_present
+      expect(other_group).to be_present
+      expect(other_group.attributes).to eq(%w[position])
     end
   end
 

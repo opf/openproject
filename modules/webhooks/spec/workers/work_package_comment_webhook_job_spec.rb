@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageCommentWebhookJob, :webmock, type: :model do
-  include_context "with ssrf webhook stubs"
+  include_context "with ssrf stubs"
 
   let(:user) { create(:admin) }
   let(:request_url) { "http://example.net/test/42" }

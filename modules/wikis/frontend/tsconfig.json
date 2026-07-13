@@ -1,0 +1,13 @@
+{
+  "extends": "../../../frontend/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../../frontend",
+    "typeRoots": [
+      "../../../frontend/node_modules/@types",
+      "../../../frontend/node_modules"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}

@@ -85,31 +85,10 @@ module EnvData
     end
 
     def seed_remote_url(custom_style, key, url)
-      response = HTTPX.get(url)
-      raise "Failed to set #{key} from #{url}: #{response}" unless response.status == 200
-
-      build_attachable_file(key.to_s, response.body.to_s) do |file|
-        custom_style.public_send(:"#{key}=", file)
-        custom_style.save!
-      end
-    end
-
-    def build_attachable_file(file_name, data)
-      Tempfile.open(file_name) do |tempfile|
-        tempfile.binmode
-        tempfile.write(data)
-        tempfile.rewind
-
-        content_type = OpenProject::ContentTypeDetector.new(tempfile.path).detect
-        mime_type = MIME::Types[content_type].last
-        raise ArgumentError, "Unknown mime type: #{content_type}" if mime_type.nil?
-
-        file = OpenProject::Files.build_uploaded_file(tempfile,
-                                                      content_type,
-                                                      file_name: "#{file_name}.#{mime_type.preferred_extension}")
-
-        yield(file)
-      end
+      custom_style.public_send(:"remote_#{key}_url=", url)
+      custom_style.save!
+    rescue StandardError => e
+      Rails.logger.error "Failed to seed remote URL for design variable '#{key}': #{e.message}"
     end
 
     class Base64StringIO < StringIO

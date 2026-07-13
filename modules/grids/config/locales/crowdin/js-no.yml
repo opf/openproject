@@ -3,58 +3,58 @@
   js:
     grid:
       add_widget: Legg til widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Fjern widget
       configure: Konfigurer widget
+      remove: Fjern widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Du har ikke nødvendige tillatelser til å se denne widgeten.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Tilpasset tekst
         documents:
-          title: Dokumenter
           no_results: Ingen dokumenter ennå.
+          title: Dokumenter
         members:
           title: Medlemmer
+        missing_permission: Du har ikke nødvendige tillatelser til å se denne widgeten.
         news:
           title: Nyheter
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favorittprosjekter
         project_status:
-          title: Status
-          not_started: Ikke påbegynt
-          on_track: På rett spor
-          off_track: Sporet av
           at_risk: I fare
-          not_set: Ikke angitt
-          finished: Fullført
           discontinued: Utløpt
+          finished: Fullført
+          not_set: Ikke angitt
+          not_started: Ikke påbegynt
+          off_track: Sporet av
+          on_track: På rett spor
+          title: Status
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Favorittprosjekter
-          no_results: Du har ingen prosjektfavoritter. Klikk på stjerneikonet i prosjektdashbordet for å legge til en i favorittene dine.
         time_entries_current_user:
-          title: Min tidsbruk
           displayed_days: 'Dager vist i widgetet:'
+          title: Min tidsbruk
         time_entries_list:
-          title: Brukstid (siste 7 dager)
           no_results: Ingen timeføringer de siste 7 dagene.
+          title: Brukstid (siste 7 dager)
         work_packages_accountable:
           title: Arbeidspakker jeg er ansvarlig for
         work_packages_assigned:
           title: Arbeidspakker tildelt meg
-        work_packages_created:
-          title: Arbeidspakker laget av meg
-        work_packages_watched:
-          title: Arbeidspakker sett av meg
-        work_packages_table:
-          title: Tabell for arbeidspakker
-        work_packages_graph:
-          title: Arbeidspakkediagram
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Kalender
+        work_packages_created:
+          title: Arbeidspakker laget av meg
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Arbeidspakkediagram
         work_packages_overview:
-          title: Oversikt over arbeidspakker
           placeholder: Klikk for å redigere...
+          title: Oversikt over arbeidspakker
+        work_packages_table:
+          title: Tabell for arbeidspakker
+        work_packages_watched:
+          title: Arbeidspakker sett av meg

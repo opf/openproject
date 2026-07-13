@@ -31,10 +31,12 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title do
-      concat(render(Primer::Beta::Text.new(mr: 2)) {
-        "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
-      })
-      concat(render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import.current_state)))
+      render(Primer::BaseComponent.new(tag: :span, display: :flex, align_items: :center, style: "line-height: 1")) do
+        concat(render(Primer::Beta::Text.new(mr: 2)) {
+          "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
+        })
+        concat(render(Admin::Import::Jira::ImportRuns::StreamableStatusBadgeComponent.new(@jira_import.current_state)))
+      end
     end
     header.with_breadcrumbs(
       [
@@ -45,6 +47,15 @@ See COPYRIGHT and LICENSE files for more details.
         "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
       ]
     )
+    header.with_description(underlined_links: false) do 
+      render(
+        Primer::Beta::Link.new(
+          href: history_admin_import_jira_run_path(jira_id: @jira_import.jira.id, id: @jira_import.id),
+          underline: false,
+      )) do |link|
+        I18n.t(:"admin.jira.run.history")
+      end
+    end
   end
 %>
 <%=

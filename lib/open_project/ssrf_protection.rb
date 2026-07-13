@@ -47,7 +47,7 @@ module OpenProject
       # @option options [Integer] :max_redirects Maximum number of redirects to follow (default: 10)
       # @option options [Hash] :http_options Options passed directly to Net::HTTP.start (e.g. read_timeout:, open_timeout:)
       # @option options [Proc] :resolver Custom DNS resolver; receives a hostname and returns an array of IPAddr objects
-      # @yield [Net::HTTP::Post] Optional block to further configure the request object before it is sent
+      # @yield [Net::HTTPResponse] Optional block to handle response object
       # @return [Net::HTTPResponse] The HTTP response
       # @raise [SsrfFilter::InvalidUriScheme] If the URI scheme is not in the whitelist
       # @raise [SsrfFilter::UnresolvedHostname] If the hostname cannot be resolved
@@ -76,6 +76,54 @@ module OpenProject
       #   )
       def post(url, options = {}, &)
         super(url, { max_redirects: 0, resolver: resolver }.merge(options), &)
+      end
+
+      ##
+      # Performs an SSRF-safe HTTP GET request to the given URL.
+      #
+      # Resolves the hostname and blocks requests to private/reserved IP ranges
+      # (loopback, link-local, RFC 1918, etc.) to prevent server-side request forgery.
+      # Use OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST to explicitly permit specific private IPs.
+      #
+      # @param url [String, URI] The URL to GET from (must use http or https)
+      # @param options [Hash] Request options
+      # @option options [Hash] :headers Additional HTTP headers, e.g. { "Authorization" => "Bearer token" }
+      # @option options [Hash] :params Query parameters to merge into the URL
+      # @option options [Array<String>] :scheme_whitelist Allowed URI schemes (default: ["http", "https"])
+      # @option options [Integer] :max_redirects Maximum number of redirects to follow (default: 10)
+      # @option options [Hash] :http_options Options passed directly to Net::HTTP.start (e.g. read_timeout:, open_timeout:)
+      # @option options [Proc] :resolver Custom DNS resolver; receives a hostname and returns an array of IPAddr objects
+      # @yield [Net::HTTPResponse] Optional block to handle response object
+      # @return [Net::HTTPResponse] The HTTP response
+      # @raise [SsrfFilter::InvalidUriScheme] If the URI scheme is not in the whitelist
+      # @raise [SsrfFilter::UnresolvedHostname] If the hostname cannot be resolved
+      # @raise [SsrfFilter::PrivateIPAddress] If all resolved IPs are private/blocked
+      # @raise [SsrfFilter::CRLFInjection] If CRLF characters are detected in headers
+      # @raise [SsrfFilter::TooManyRedirects] If the redirect limit is exceeded
+      #
+      # @example Simple GET with authorization
+      #   response = OpenProject::SsrfProtection.get(
+      #     "https://example.com/api/data",
+      #     headers: { "Authorization" => "Bearer token123" }
+      #   )
+      #
+      # @example GET with custom timeout
+      #   response = OpenProject::SsrfProtection.get(
+      #     "https://example.com/api/resource",
+      #     http_options: { open_timeout: 5, read_timeout: 10 }
+      #   )
+      #
+      # @example GET with streamed response
+      #   response = OpenProject::SsrfProtection.get(
+      #     "https://example.com/api/resource",
+      #     http_options: { open_timeout: 5, read_timeout: 10 }
+      #   ) do |response|
+      #     response.read_body do |chunk|
+      #       print chunk
+      #     end
+      #   end
+      def get(url, options = {}, &)
+        super(url, { resolver: resolver }.merge(options), &)
       end
 
       ##

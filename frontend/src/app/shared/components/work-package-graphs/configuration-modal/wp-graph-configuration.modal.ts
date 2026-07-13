@@ -1,21 +1,5 @@
-import {
-  ApplicationRef,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentFactoryResolver,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ActiveTabInterface,
@@ -38,7 +22,14 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   standalone: false,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  public element:HTMLElement;
+  prependModalComponent = inject<ComponentType<unknown> | null>(WpTableConfigurationModalPrependToken, { optional: true });
+  readonly I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly appRef = inject(ApplicationRef);
+  readonly loadingIndicator = inject(LoadingIndicatorService);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly configurationService = inject(ConfigurationService);
+  readonly graphConfiguration = inject(WpGraphConfigurationService);
 
   public text = {
     title: this.I18n.t('js.chart.modal_title'),
@@ -51,37 +42,19 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   public configuration:WpGraphConfiguration;
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
-  constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
-    readonly I18n:I18nService,
-    readonly injector:Injector,
-    readonly appRef:ApplicationRef,
-    readonly componentFactoryResolver:ComponentFactoryResolver,
-    readonly loadingIndicator:LoadingIndicatorService,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly configurationService:ConfigurationService,
-    readonly elementRef:ElementRef,
-    readonly graphConfiguration:WpGraphConfigurationService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
-
   ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
       .then(() => {
         this.tabPortalHost = new TabPortalOutlet(
           this.graphConfiguration.tabs,
           this.tabContentOutlet.nativeElement,
-          this.componentFactoryResolver,
           this.appRef,
           this.injector,
         );

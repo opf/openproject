@@ -43,97 +43,27 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                              less_than: 10_000,
                                              if: -> { backlogs_enabled? }
 
-    belongs_to :sprint, class_name: "Agile::Sprint", optional: true
+    belongs_to :sprint, optional: true
+    belongs_to :backlog_bucket, optional: true
 
     include OpenProject::Backlogs::List
+
+    scopes :in_backlog_for
+    scopes :in_inbox_for
+    scopes :with_backlogs_neighbours
+    scopes :without_status_considered_closed
+    scopes :without_excluded_type
   end
 
   module ClassMethods
     def order_by_position
       order(arel_table[:position].asc.nulls_last)
     end
-
-    def backlogs_types
-      return [] if OpenProject::FeatureDecisions.scrum_projects_active?
-
-      # Unfortunately, this is not cachable so the following line would be wrong
-      # @backlogs_types ||= Story.types << Task.type
-      # Caching like in the line above would prevent the types selected
-      # for backlogs to be changed without restarting all app server.
-      (Story.types << Task.type).compact
-    end
-
-    def children_of(ids)
-      where(parent_id: ids)
-    end
   end
 
   module InstanceMethods
-    def done?
-      project.done_statuses.to_a.include?(status)
-    end
-
-    def to_story
-      Story.find(id) if is_story?
-    end
-
-    def is_story?
-      return false if OpenProject::FeatureDecisions.scrum_projects_active?
-
-      backlogs_enabled? && Story.types.include?(type_id)
-    end
-
-    def to_task
-      Task.find(id) if is_task?
-    end
-
-    def is_task?
-      return false if OpenProject::FeatureDecisions.scrum_projects_active?
-
-      backlogs_enabled? && parent_id && type_id == Task.type && Task.type.present?
-    end
-
-    def is_impediment?
-      return false if OpenProject::FeatureDecisions.scrum_projects_active?
-
-      backlogs_enabled? && parent_id.nil? && type_id == Task.type && Task.type.present?
-    end
-
-    def types
-      if is_story?
-        Story.types
-      elsif is_task?
-        Task.types
-      else
-        []
-      end
-    end
-
-    def story
-      if is_story?
-        Story.find(id)
-      elsif is_task?
-        ancestors.where(type_id: Story.types).first
-      end
-    end
-
-    def blocks
-      # return work_packages that I block that aren't closed
-      return [] if closed?
-
-      blocks_relations.includes(:to).merge(WorkPackage.with_status_open).map(&:to)
-    end
-
     def backlogs_enabled?
       project&.backlogs_enabled?
     end
-
-    def in_backlogs_type?
-      return false if OpenProject::FeatureDecisions.scrum_projects_active?
-
-      backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
-    end
   end
 end
-
-WorkPackage.include OpenProject::Backlogs::Patches::WorkPackagePatch

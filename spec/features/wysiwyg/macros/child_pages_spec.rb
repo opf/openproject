@@ -81,10 +81,10 @@ RSpec.describe "Wysiwyg child pages spec", :js do
         editor.in_editor do |_container, editable|
           expect(editable).to have_css("h1", text: "My page")
 
-          editor.insert_macro "Links to child pages"
+          editor.insert_macro "List of sub-pages"
 
           # Find widget, click to show toolbar
-          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
+          placeholder = find(".op-uc-placeholder", text: "List of sub-pages")
 
           # Placeholder states `this page` and no `Include parent`
           expect(placeholder).to have_text("this page")
@@ -127,7 +127,7 @@ RSpec.describe "Wysiwyg child pages spec", :js do
 
         editor.in_editor do |_container, _editable|
           # Find widget, click to show toolbar
-          placeholder = find(".op-uc-placeholder", text: "Links to child pages")
+          placeholder = find(".op-uc-placeholder", text: "List of sub-pages")
 
           # Edit widget and save
           placeholder.click

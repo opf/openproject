@@ -36,21 +36,47 @@ type Listener = (provider:HocuspocusProvider) => void;
 class LiveCollaborationManagerClass {
   yjsProviderInstance:HocuspocusProvider|null = null;
   yjsDocInstance:Doc|null = null;
+  private currentDocumentName:string|null = null;
 
   private listeners:Listener[] = [];
 
   /**
-   * Initializes the YJS Provider
+   * Returns the active session for the given document, or null if none.
+   *
+   * Used by the init-yjs-provider Stimulus controller to detect that a
+   * provider for the same document is already live — letting it adopt the
+   * existing session instead of building a duplicate Y.Doc + provider pair.
+   * Stimulus can fire `connect()` a second time (HMR replay, Turbo morph)
+   * without firing `disconnect()`; without this check, the spurious re-init
+   * would tear down the live Y.Doc and wipe the editor's Y.UndoManager
+   * history mid-session.
+   */
+  getCurrentSessionFor(documentName:string):{provider:HocuspocusProvider; doc:Doc} | null {
+    if (this.yjsProviderInstance && this.yjsDocInstance && this.currentDocumentName === documentName) {
+      return { provider: this.yjsProviderInstance, doc: this.yjsDocInstance };
+    }
+    return null;
+  }
+
+  /**
+   * Initializes the YJS Provider for the given document.
+   *
+   * Callers SHOULD first check {@link getCurrentSessionFor} and adopt any
+   * existing session rather than calling this with a fresh provider, since
+   * this method unconditionally tears down the previous provider/doc.
+   *
    * @param provider The provider to use
    * @param doc The Y.Doc instance to use
+   * @param documentName Logical identifier of the document being edited
    * @returns void
    */
-  initializeYjsProvider(provider:HocuspocusProvider, doc:Doc) {
+  initializeYjsProvider(provider:HocuspocusProvider, doc:Doc, documentName:string) {
     this.destroyYjsProvider();
     this.destroyYjsDoc();
 
     this.yjsProviderInstance = provider;
     this.yjsDocInstance = doc;
+    this.currentDocumentName = documentName;
     this.listeners.forEach((listener) => listener(this.yjsProviderInstance!));
   }
 
@@ -82,6 +108,7 @@ class LiveCollaborationManagerClass {
   private destroy():void {
     this.destroyYjsProvider();
     this.destroyYjsDoc();
+    this.currentDocumentName = null;
 
     this.listeners = [];
   }

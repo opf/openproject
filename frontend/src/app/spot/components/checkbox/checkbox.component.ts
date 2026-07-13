@@ -1,15 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -29,9 +18,11 @@ export type SpotCheckboxState = true|false|null;
   standalone: false,
 })
 export class SpotCheckboxComponent implements ControlValueAccessor {
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.spot-checkbox') public className = true;
 
-  @ViewChild('input') public input:ElementRef;
+  @ViewChild('input') public input:ElementRef<HTMLInputElement>;
 
   /**
    * The tabindex for the underlying HTML input
@@ -61,12 +52,8 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
    */
   @Output() checkedChange = new EventEmitter<boolean>();
 
-  constructor(
-    readonly cdRef:ChangeDetectorRef,
-  ) {}
-
   onStateChange():void {
-    const value = (this.input.nativeElement as HTMLInputElement).checked;
+    const value = this.input.nativeElement.checked;
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);
@@ -76,7 +63,7 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
     // This is set in a timeout because the initial value is set before the template is ready,
     // which causes the input nativeElement to not be available yet.
     setTimeout(() => {
-      const input = this.input.nativeElement as HTMLInputElement;
+      const input = this.input.nativeElement;
       input.indeterminate = value === null;
 
       this.checked = !!value;

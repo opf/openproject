@@ -61,10 +61,14 @@ module Meetings::PDF::Common::Agenda
     make_link_href(
       href,
       prawn_table_cell_inline_formatting_data(
-        "#{work_package.type.name} ##{work_package.id} #{work_package.subject}",
+        work_package_title_text(work_package),
         { styles: [:underline] }
       )
     )
+  end
+
+  def work_package_title_text(work_package)
+    "#{work_package.type.name} #{work_package.formatted_id} #{work_package.subject}"
   end
 
   def agenda_wp_title_row(agenda_item)
@@ -109,7 +113,7 @@ module Meetings::PDF::Common::Agenda
 
   def write_visible_work_package_outcome(work_package)
     href = url_helpers.work_package_url(work_package)
-    link_text = "#{work_package.type.name} ##{work_package.id} #{work_package.subject}"
+    link_text = work_package_title_text(work_package)
     status_text = " (#{work_package.status.name})"
     base_style = styles.outcome_work_package
     pdf.formatted_text([

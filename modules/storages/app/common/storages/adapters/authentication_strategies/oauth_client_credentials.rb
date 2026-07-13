@@ -43,7 +43,7 @@ module Storages
           config = validate_configuration(storage).value_or { return Failure(it) }
 
           token_cache_key = TOKEN_CACHE_KEY % storage.id
-          access_token = @use_cache ? Rails.cache.read(token_cache_key) : nil
+          access_token = @use_cache ? OpenProject::ConfidentialCache.read(token_cache_key) : nil
 
           session = build_http_session(access_token, config, http_options).value_or { Failure(it) }
 
@@ -86,10 +86,10 @@ module Storages
 
         def write_cache(key, httpx_session)
           access_token = httpx_session.send(:oauth_session).access_token
-          Rails.cache.write(key, access_token, expires_in: 50.minutes)
+          OpenProject::ConfidentialCache.write(key, access_token, expires_in: 50.minutes)
         end
 
-        def clear_cache(key) = Rails.cache.delete(key)
+        def clear_cache(key) = OpenProject::ConfidentialCache.delete(key)
 
         def build_http_session(access_token, config, http_options)
           Success(OpenProject.httpx.plugin(:oauth)

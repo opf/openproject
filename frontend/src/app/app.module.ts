@@ -28,7 +28,7 @@
 
 import { ApplicationRef, DoBootstrap, inject, Injector, NgModule, provideAppInitializer } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   OpContextMenuTrigger,
@@ -68,13 +68,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
-import {
-  OpHeaderProjectSelectComponent,
-} from 'core-app/shared/components/header-project-select/header-project-select.component';
-import {
-  OpHeaderProjectSelectListComponent,
-} from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
-
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -145,8 +138,14 @@ import {
   WorkPackageSplitViewEntryComponent,
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view-entry.component';
 import {
+  WorkPackageSplitCreateEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
+import {
   BoardEntryComponent,
 } from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
+import { CalendarEntryComponent } from 'core-app/features/calendar/calendar-entry.component';
+import { TeamPlannerEntryComponent } from 'core-app/features/team-planner/team-planner/team-planner-entry.component';
+import { TeamPlannerModule } from 'core-app/features/team-planner/team-planner/team-planner.module';
 import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
@@ -175,7 +174,6 @@ import {
   OpNonWorkingDaysListComponent,
 } from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
 import { PersistentToggleComponent } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
-import { TypeFormConfigurationComponent } from 'core-app/features/admin/types/type-form-configuration.component';
 import { ToastsContainerComponent } from 'core-app/shared/components/toaster/toasts-container.component';
 import { GlobalSearchWorkPackagesComponent } from 'core-app/core/global_search/global-search-work-packages.component';
 import {
@@ -258,10 +256,6 @@ export function runBootstrap(appRef:ApplicationRef) {
     // Main menu
     MainMenuResizerComponent,
 
-    // Project selector
-    OpHeaderProjectSelectComponent,
-    OpHeaderProjectSelectListComponent,
-
     // Form configuration
     OpDragScrollDirective,
   ],
@@ -300,6 +294,8 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpenprojectWorkPackageGraphsModule,
     // Calendar module
     OpenprojectCalendarModule,
+    // Team Planner module
+    TeamPlannerModule,
 
     // MyPage
     OpenprojectMyPageModule,
@@ -357,7 +353,7 @@ export function runBootstrap(appRef:ApplicationRef) {
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
     CopyToClipboardService,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
   ],
 })
 export class OpenProjectModule implements DoBootstrap {
@@ -392,7 +388,10 @@ export class OpenProjectModule implements DoBootstrap {
 
     registerCustomElement('opce-notification-center', InAppNotificationCenterComponent, { injector });
     registerCustomElement('opce-wp-split-view', WorkPackageSplitViewEntryComponent, { injector });
+    registerCustomElement('opce-wp-split-create', WorkPackageSplitCreateEntryComponent, { injector });
     registerCustomElement('opce-board-view', BoardEntryComponent, { injector });
+    registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
+    registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
@@ -407,12 +406,10 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
-    registerCustomElement('opce-header-project-select', OpHeaderProjectSelectComponent, { injector });
     registerCustomElement('opce-no-results', NoResultsComponent, { injector });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });
     registerCustomElement('opce-persistent-toggle', PersistentToggleComponent, { injector });
-    registerCustomElement('opce-admin-type-form-configuration', TypeFormConfigurationComponent, { injector });
     registerCustomElement('opce-toasts-container', ToastsContainerComponent, { injector });
     registerCustomElement('opce-global-search-work-packages', GlobalSearchWorkPackagesComponent, { injector });
     registerCustomElement('opce-custom-date-action-admin', CustomDateActionAdminComponent, { injector });

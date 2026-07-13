@@ -1,4 +1,33 @@
-require "fastimage"
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+require "mini_magick"
 
 module ::Avatars
   class UpdateService
@@ -8,27 +37,24 @@ module ::Avatars
       @user = user
     end
 
-    def replace(avatar)
+    def replace(avatar) # rubocop:disable Metrics/AbcSize
       if avatar.nil?
         return ServiceResult.failure.tap do |_result|
           return error_result(I18n.t(:empty_file_error))
         end
       end
 
-      unless /\.(jpe?g|gif|png)\z/i.match?(avatar.original_filename)
+      content_type = OpenProject::ContentTypeDetector.new(avatar.path).detect
+      unless allowed_content_types.include?(content_type)
         return error_result(I18n.t(:wrong_file_format))
       end
 
-      image_data = FastImage.new avatar.path
-      unless %i(jpeg jpg png gif).include? image_data.type
-        return error_result(I18n.t(:wrong_file_format))
-      end
-
-      if image_data.content_length > 2.5.megabytes
+      if avatar.size > 2.5.megabytes
         return error_result(I18n.t(:error_image_size))
       end
 
-      if image_data.size.any? { |dim| dim > 128 }
+      image = MiniMagick::Image.open(avatar.path)
+      if image.dimensions.any? { |dim| dim > 128 }
         return error_result(I18n.t(:error_image_size))
       end
 
@@ -53,6 +79,10 @@ module ::Avatars
     end
 
     private
+
+    def allowed_content_types
+      %w[image/jpeg image/png image/gif]
+    end
 
     def error_result(message)
       ServiceResult.failure.tap do |result|

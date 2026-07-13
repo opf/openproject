@@ -108,6 +108,12 @@ module Storages
 
     # rubocop:disable Metrics/AbcSize
     def set_folder_permissions(remote_admins, project_storage)
+      project_folder_id = project_storage.project_folder_id
+
+      if project_folder_id_collision?(project_storage)
+        return add_error(:set_folder_permission, collision_error, options: { folder: project_folder_id })
+      end
+
       admin_permissions = remote_admins.to_set.map { |username| { user_id: username, permissions: FILE_PERMISSIONS } }
       base_permissions = base_remote_permissions(admin_permissions)
 
@@ -117,7 +123,6 @@ module Storages
       end
 
       permissions = base_permissions + users_permissions
-      project_folder_id = project_storage.project_folder_id
 
       input_data = build_set_permissions_input_data(project_folder_id, permissions).value_or do |failure|
         log_validation_error(failure, project_folder_id:, permissions:)
@@ -157,6 +162,19 @@ module Storages
       @commands[:group_users].call(auth_strategy:, input_data:).or do |error|
         Failure(add_error(:group_users, error, options: { group: group }))
       end
+    end
+
+    # We refuse to overwrite an ACL when another project_storage on the same storage holds the same folder id
+    # (defense in depth in case the contract check is bypassed or a folder id collision is written directly to the DB)
+    def project_folder_id_collision?(project_storage)
+      ::Storages::ProjectStorage
+        .where(storage_id: project_storage.storage_id, project_folder_id: project_storage.project_folder_id)
+        .where.not(id: project_storage.id)
+        .exists?
+    end
+
+    def collision_error
+      ::Storages::Adapters::Results::Error.new(source: self.class, code: :folder_id_collision)
     end
 
     ### Model Scopes

@@ -486,19 +486,75 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         end
       end
 
-      context "for a local text file" do
+      context "for a local text file (no stored charset, uses configured default)" do
         it_behaves_like "for a local file" do
-          let(:expected_content_type) { "text/plain" }
+          let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.txt" }
           let(:content_disposition) { "inline; filename=foobar.txt" }
+          let(:attachment) do
+            att = create(:attachment, container:, file: mock_file, author: current_user)
+            att.file.store!
+            att.send :write_attribute, :file, mock_file.original_filename
+            att.send :write_attribute, :content_type, "text/plain"
+            att.send :write_attribute, :charset, nil
+            att.save!
+            att
+          end
         end
       end
 
-      context "for a local JS file" do
+      context "for a local JS file (normalised to text/plain, uses configured default charset)" do
         it_behaves_like "for a local file" do
-          let(:expected_content_type) { "text/plain" }
+          let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.js", content_type: "text/x-javascript" }
           let(:content_disposition) { "inline; filename=foobar.js" }
+          let(:attachment) do
+            att = create(:attachment, container:, file: mock_file, author: current_user)
+            att.file.store!
+            att.send :write_attribute, :file, mock_file.original_filename
+            att.send :write_attribute, :content_type, "text/x-javascript"
+            att.send :write_attribute, :charset, nil
+            att.save!
+            att
+          end
+        end
+      end
+
+      context "for a local UTF-8 text file" do
+        it_behaves_like "for a local file" do
+          let(:expected_content_type) { "text/plain; charset=utf-8" }
+          let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.txt" }
+          let(:content_disposition) { "inline; filename=foobar.txt" }
+          let(:attachment) do
+            att = create(:attachment, container:, file: mock_file, author: current_user)
+            att.file.store!
+            att.send :write_attribute, :file, mock_file.original_filename
+            att.send :write_attribute, :content_type, "text/plain"
+            att.send :write_attribute, :charset, "utf-8"
+            att.save!
+            att
+          end
+        end
+      end
+
+      context "for a local ISO-8859-1 text file" do
+        it_behaves_like "for a local file" do
+          let(:expected_content_type) { "text/plain; charset=iso-8859-1" }
+          let(:mock_file) do
+            FileHelpers.mock_uploaded_file name: "iso.txt",
+                                           content: Rails.root.join("spec/fixtures/encoding/iso-8859-1.txt").binread,
+                                           binary: true
+          end
+          let(:content_disposition) { "inline; filename=iso.txt" }
+          let(:attachment) do
+            att = create(:attachment, container:, file: mock_file, author: current_user)
+            att.file.store!
+            att.send :write_attribute, :file, mock_file.original_filename
+            att.send :write_attribute, :content_type, "text/plain"
+            att.send :write_attribute, :charset, "iso-8859-1"
+            att.save!
+            att
+          end
         end
       end
 

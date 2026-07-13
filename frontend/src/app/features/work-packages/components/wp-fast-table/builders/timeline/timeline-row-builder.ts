@@ -1,16 +1,16 @@
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { commonRowClassName } from '../rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
 export class TimelineRowBuilder {
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableTimeline:WorkPackageViewTimelineService;
+  @LazyInject() public wpTableTimeline:WorkPackageViewTimelineService;
 
   constructor(public readonly injector:Injector,
     protected workPackageTable:WorkPackageTable) {

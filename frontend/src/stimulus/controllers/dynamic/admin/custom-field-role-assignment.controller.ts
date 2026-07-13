@@ -29,10 +29,11 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class CustomFieldRoleAssignmentController extends ApplicationController {
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
+
   static values = {
     initialRole: Number,
     customFieldId: Number
@@ -49,13 +50,11 @@ export default class CustomFieldRoleAssignmentController extends ApplicationCont
   declare readonly previewHintBoxTarget:HTMLDivElement;
   declare readonly hasPreviewHintBoxTarget:boolean;
 
-  protected turboRequests:TurboRequestsService;
-  protected pathHelper:PathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
-  async connect() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
   }
 
   changeRole(event:Event):void {
@@ -67,11 +66,11 @@ export default class CustomFieldRoleAssignmentController extends ApplicationCont
     this.previewHintBoxTarget.classList.toggle('d-none', this.currentRoleValue === this.initialRoleValue);
   }
 
-  showPreviewModal():void {
-    void this
-      .turboRequests
+  async showPreviewModal() {
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests
       .request(
-        this.pathHelper.previewCustomFieldRoleAssignmentDialog(this.customFieldIdValue, this.currentRoleValue),
+        pathHelperService.previewCustomFieldRoleAssignmentDialog(this.customFieldIdValue, this.currentRoleValue),
         {
           headers: {
             Accept: 'text/vnd.turbo-stream.html',

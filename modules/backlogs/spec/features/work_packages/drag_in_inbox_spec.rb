@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Dragging work packages in the inbox",
-               :js, with_flag: { scrum_projects: true } do
+               :js do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:project) { create(:project) }
@@ -49,7 +49,6 @@ RSpec.describe "Dragging work packages in the inbox",
                            view_work_packages
                            edit_work_packages))
   end
-  # The explicit positioning can be removed once the scrum_projects flag is removed
   shared_let(:inbox_wp1) { create(:work_package, sprint: nil, project:, position: 1) }
   shared_let(:inbox_wp2) { create(:work_package, sprint: nil, project:, position: 2) }
   shared_let(:inbox_wp3) { create(:work_package, sprint: nil, project:, position: 3) }
@@ -98,6 +97,8 @@ RSpec.describe "Dragging work packages in the inbox",
     let(:closed_status) { create(:closed_status) }
 
     before do
+      project.done_statuses << closed_status
+
       inbox_wp2.update!(status: closed_status)
       inbox_wp3.update!(status: closed_status)
     end

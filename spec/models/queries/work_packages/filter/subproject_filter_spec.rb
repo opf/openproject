@@ -144,7 +144,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
 
         it "returns an sql filtering for project id eql self or specified values" do
           expect(instance.where)
-            .to eql("projects.id IN (#{project.id},#{subproject1.id})")
+            .to eql("work_packages.project_id IN (#{project.id},#{subproject1.id})")
         end
       end
 
@@ -154,7 +154,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
 
         it "returns an sql filtering for project id eql self and all subprojects excluding specified values" do
           expect(instance.where)
-            .to eql("projects.id IN (#{project.id},#{subproject2.id})")
+            .to eql("work_packages.project_id IN (#{project.id},#{subproject2.id})")
         end
       end
 
@@ -164,7 +164,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
 
         it "returns an sql filtering for project id eql self and all subprojects" do
           expect(instance.where)
-            .to eql("projects.id IN (#{project.id},#{subproject1.id},#{subproject2.id})")
+            .to eql("work_packages.project_id IN (#{project.id},#{subproject1.id},#{subproject2.id})")
         end
       end
 
@@ -174,7 +174,7 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
 
         it "returns an sql filtering for only the project id (and by that excluding all subprojects)" do
           expect(instance.where)
-            .to eql("projects.id IN (#{project.id})")
+            .to eql("work_packages.project_id IN (#{project.id})")
         end
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -37,64 +39,48 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
     def set_attributes(attributes)
       super
 
-      if OpenProject::FeatureDecisions.scrum_projects_active? && moved_to_project_that_has_no_access_to_sprint?
+      if moved_to_another_project? && model.backlog_bucket_id
+        model.change_by_system do
+          model.backlog_bucket = nil
+        end
+      end
+
+      if moved_to_project_that_has_no_access_to_sprint?
         model.change_by_system do
           model.sprint = nil
         end
-      elsif should_inherit_version_from_parent?
-        closest = closest_story_or_impediment(work_package.parent_id)
-        work_package.version_id = closest.version_id if closest
       end
+
+      clear_conflicting_sprint_or_bucket
+    end
+
+    # A work package may only have either a sprint *or* a bucket assigned. Not both at the
+    # same time. Instead of throwing a validation error and making the user resolve it,
+    # we resolve it implicitly: whichever attribute was just changed wins, the other is cleared.
+    def clear_conflicting_sprint_or_bucket
+      # No conflict to resolve? Abort.
+      return unless model.sprint_id? && model.backlog_bucket_id?
+
+      # Both attributes were set at the same time. It is unknown what the users
+      # intentions are here. We should not clear a previously set value in this case
+      # and let the user deal with the validation error.
+      return if model.sprint_id_changed? && model.backlog_bucket_id_changed?
+
+      if model.sprint_id_changed?
+        model.backlog_bucket = nil
+      else
+        model.sprint = nil
+      end
+    end
+
+    def moved_to_another_project?
+      work_package.persisted? && work_package.project_id_changed?
     end
 
     def moved_to_project_that_has_no_access_to_sprint?
-      work_package.project_id &&
-        work_package.project_id_changed? &&
+      moved_to_another_project? &&
         work_package.sprint_id &&
         !work_package.sprint.visible_to?(work_package.project)
-    end
-
-    def should_inherit_version_from_parent?
-      work_package.parent_id_changed? &&
-        work_package.parent_id &&
-        !work_package.version_id_changed? &&
-        work_package.in_backlogs_type?
-    end
-
-    def closest_story_or_impediment(parent_id)
-      return work_package if work_package.is_story? || work_package.is_impediment?
-
-      closest = nil
-      ancestor_chain(parent_id).each do |i|
-        # break if we found an element in our chain that is not relevant in backlogs
-        break unless i.in_backlogs_type?
-
-        if i.is_story? || i.is_impediment?
-          closest = i
-          break
-        end
-      end
-      closest
-    end
-
-    # ancestors array similar to Module#ancestors
-    # i.e. returns immediate ancestors first
-    def ancestor_chain(parent_id)
-      ancestors = []
-      unless parent_id.nil?
-        real_parent = WorkPackage.visible(user).find_by(id: parent_id)
-
-        # Sort immediate ancestors first
-        ancestors = real_parent
-                    .ancestors
-                    .visible(user)
-                    .includes(project: :enabled_modules)
-                    .order_by_ancestors("desc")
-                    .select("work_packages.*, COALESCE(max_depth.depth, 0)")
-
-        ancestors = [real_parent] + ancestors
-      end
-      ancestors
     end
   end
 end

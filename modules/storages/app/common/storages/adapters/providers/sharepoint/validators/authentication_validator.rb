@@ -33,7 +33,7 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          class AuthenticationValidator < ConnectionValidators::BaseValidatorGroup
+          class AuthenticationValidator < HealthReports::ValidatorGroup
             def self.key = :authentication
 
             def initialize(storage)
@@ -50,7 +50,7 @@ module Storages
             end
 
             def oauth_token
-              if OAuthClientToken.for_user_and_client(@user, @storage.oauth_client).exists?
+              if OAuthClientToken.for_user_and_client(@user, subject.oauth_client).exists?
                 pass_check(:existing_token)
               else
                 warn_check(:existing_token, :sp_oauth_token_missing, halt_validation: true)
@@ -58,13 +58,13 @@ module Storages
             end
 
             def user_bound_request
-              Registry["sharepoint.queries.user"].call(storage: @storage, auth_strategy:).either(
+              Registry["sharepoint.queries.user"].call(storage: subject, auth_strategy:).either(
                 ->(_) { pass_check(:user_bound_request) },
                 -> { fail_check(:user_bound_request, :"sp_oauth_request_#{it.code}") }
               )
             end
 
-            def auth_strategy = Registry["sharepoint.authentication.user_bound"].call(@user, @storage)
+            def auth_strategy = Registry["sharepoint.authentication.user_bound"].call(@user, subject)
           end
         end
       end

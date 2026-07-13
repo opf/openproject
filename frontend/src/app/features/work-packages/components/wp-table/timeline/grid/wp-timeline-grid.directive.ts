@@ -25,12 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
 import moment, { Moment } from 'moment';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
@@ -50,22 +45,20 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  wpTimeline = inject(WorkPackageTimelineTableController);
+  private weekdaysService = inject(WeekdayService);
+
   private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:HTMLElement;
 
-  constructor(
-    private elementRef:ElementRef,
-    public wpTimeline:WorkPackageTimelineTableController,
-    private weekdaysService:WeekdayService,
-  ) {}
-
   ngAfterViewInit():void {
     const element = this.elementRef.nativeElement;
-    this.gridContainer = element.querySelector('.wp-table-timeline--grid');
+    this.gridContainer = element.querySelector<HTMLElement>('.wp-table-timeline--grid')!;
     this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 

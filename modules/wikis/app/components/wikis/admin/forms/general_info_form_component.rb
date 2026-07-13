@@ -23,25 +23,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Wikis::Admin::Forms
-  class GeneralInfoFormComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
+  class GeneralInfoFormComponent < Wikis::Admin::WikiProviderComponent
     def self.wrapper_key = :wiki_provider_general_info_section
 
-    alias_method :wiki_provider, :model
+    options in_wizard: false
 
     def form_url
+      query = { origin_component: "general_information" }
+      query[:continue_wizard] = wiki_provider.id if in_wizard
+
       if wiki_provider.persisted?
-        admin_settings_wiki_provider_path(wiki_provider)
+        admin_settings_wiki_provider_path(wiki_provider, query)
       else
-        admin_settings_wiki_providers_path
+        admin_settings_wiki_providers_path(query)
       end
     end
 

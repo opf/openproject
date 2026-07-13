@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -38,9 +38,19 @@ export const GRID_PROVIDERS = [
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class GridComponent implements OnDestroy, OnInit {
+  private sanitization = inject(DomSanitizer);
+  private widgetsService = inject(GridWidgetsService);
+  drag = inject(GridDragAndDropService);
+  resize = inject(GridResizeService);
+  layout = inject(GridAreaService);
+  add = inject(GridAddWidgetService);
+  remove = inject(GridRemoveWidgetService);
+  readonly browserDetector = inject(BrowserDetector);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public uiWidgets:ComponentRef<any>[] = [];
 
   public GRID_AREA_HEIGHT = 'auto';
@@ -50,18 +60,6 @@ export class GridComponent implements OnDestroy, OnInit {
   public component = WidgetWpGraphComponent;
 
   @Input() grid:GridResource;
-
-  constructor(private sanitization:DomSanitizer,
-    private widgetsService:GridWidgetsService,
-    public drag:GridDragAndDropService,
-    public resize:GridResizeService,
-    public layout:GridAreaService,
-    public add:GridAddWidgetService,
-    public remove:GridRemoveWidgetService,
-    readonly browserDetector:BrowserDetector,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
 
   ngOnInit() {
     this.layout.gridResource = this.grid;

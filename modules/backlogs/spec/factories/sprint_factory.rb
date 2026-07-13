@@ -30,14 +30,8 @@
 
 FactoryBot.define do
   factory :sprint do
-    name { "version" }
-    effective_date { Date.today + 14.days }
-    sharing { "none" }
-    status { "open" }
-  end
-
-  factory :agile_sprint, class: "Agile::Sprint" do
     sequence(:name) { |n| "Sprint #{n}" }
+    project
     status { "in_planning" }
     start_date { Time.zone.today }
     finish_date { Time.zone.today + 14.days }

@@ -24,7 +24,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
 
 <% html_title t(:label_administration), t(:label_cost_type_plural) %>
@@ -42,54 +41,40 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
-  <% subheader.with_action_button(
-       scheme: :primary,
-       leading_icon: :plus,
-       label: I18n.t(:button_add_cost_type),
-       tag: :a,
-       href: new_admin_cost_type_path
-     ) do
-       CostType.model_name.human
-     end %>
+<%=
+  render(
+    Primer::OpenProject::SubHeader.new(
+      data: {
+        controller: "filter--filters-form",
+        "filter--filters-form-output-format-value": "json",
+        "filter--filters-form-display-filters-value": @query.filters.any?
+      }
+    )
+  ) do |subheader|
+    subheader.with_quick_filter do
+      render(
+        OpPrimer::QuickFilter::SegmentedControlComponent.new(
+          name: t(:label_filter_plural),
+          query: @query,
+          filter_key: :status,
+          path_args: %i[admin cost_types]
+        )
+      ) do |component|
+        component.with_item(label: t(:label_active), value: "active")
+        component.with_item(label: t("members.menu.locked"), value: "locked")
+      end
+    end
 
-   <% subheader.with_bottom_pane_component do %>
-    <%= styled_form_tag(admin_cost_types_path, { method: :get, id: "query_form" }) do %>
-      <fieldset id="filters" class="simple-filters--container">
-        <legend><%= t(:label_filter_plural) %></legend>
-        <ul class="simple-filters--filters">
-          <li class="simple-filters--filter">
-            <%= styled_label_tag :fixed_date, t(:"attributes.fixed_date"), class: "simple-filters--filter-name" %>
-            <div class='simple-filters--filter-value'>
-              <%= angular_component_tag "opce-basic-single-date-picker",
-                                        inputs: {
-                                          value: @fixed_date,
-                                          id: :start_date,
-                                          name: :fixed_date
-                                        } %>
-            </div>
-          </li>
-          <li class="simple-filters--filter">
-            <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: "simple-filters--filter-name -small" %>
-            <div class="simple-filters--filter-value">
-              <%= styled_check_box_tag :include_deleted, "1", @include_deleted, autocomplete: "off" %>
-            </div>
-          </li>
-          <li class="simple-filters--controls">
-            <%= submit_tag t(:button_apply), class: "button -primary -small" %>
-            <%= link_to t(:button_clear), cost_types_path, class: "button -small -with-icon icon-undo" %>
-          </li>
-        </ul>
-      </fieldset>
-    <% end %>
-   <% end %>
- <% end %>
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: I18n.t(:button_add_cost_type),
+      tag: :a,
+      href: new_admin_cost_type_path
+    ) do
+      CostType.model_name.human
+    end
+  end
+%>
 
-<%= render partial: "list" %>
-
-<% if @include_deleted %>
-  <div class="cost-types--list-deleted">
-    <h3><%= t(:label_locked_cost_types) %></h3>
-    <%= render partial: "list_deleted" %>
-  </div>
-<% end %>
+<%= render(Admin::CostTypes::TableComponent.new(rows: @cost_types, status: @status)) %>

@@ -94,26 +94,26 @@ RSpec.describe "Recurring meetings show",
   end
 
   describe "past quick filter" do
-    let!(:past_instance) { create(:meeting, recurring_meeting:, start_time: 1.day.ago + 10.hours) }
-    let!(:past_schedule) do
-      create :scheduled_meeting,
-             meeting: past_instance,
+    let!(:past_instance) do
+      create(:meeting,
              recurring_meeting:,
-             start_time: 1.day.ago + 10.hours
+             start_time: 1.day.ago + 10.hours,
+             recurrence_start_time: 1.day.ago + 10.hours)
     end
 
-    let!(:past_schedule_cancelled) do
-      create :scheduled_meeting,
+    let!(:past_cancelled) do
+      create(:meeting,
              recurring_meeting:,
              start_time: 2.days.ago + 10.hours,
-             cancelled: true
+             recurrence_start_time: 2.days.ago + 10.hours,
+             state: :cancelled)
     end
 
     it "does not show the cancelled meeting" do
       get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
 
       expect(page).to have_text format_time(past_instance.start_time)
-      expect(page).to have_no_text format_time(past_schedule_cancelled.start_time)
+      expect(page).to have_no_text format_time(past_cancelled.start_time)
       expect(page).to have_no_row("Cancelled")
     end
 
@@ -131,20 +131,19 @@ RSpec.describe "Recurring meetings show",
 
   describe "upcoming tab" do
     let!(:upcoming_open_meeting) do
-      create(:meeting, recurring_meeting:, start_time: Time.zone.today + 1.day + 10.hours, state: :open)
-    end
-    let!(:open_meeting) do
-      create :scheduled_meeting,
-             meeting: upcoming_open_meeting,
+      create(:meeting,
              recurring_meeting:,
-             start_time: Time.zone.today + 1.day + 10.hours
+             start_time: Time.zone.today + 1.day + 10.hours,
+             recurrence_start_time: Time.zone.today + 1.day + 10.hours,
+             state: :open)
     end
 
     let!(:cancelled_meeting) do
-      create :scheduled_meeting,
+      create(:meeting,
              recurring_meeting:,
              start_time: Time.zone.today + 2.days + 10.hours,
-             cancelled: true
+             recurrence_start_time: Time.zone.today + 2.days + 10.hours,
+             state: :cancelled)
     end
 
     it "sorts meetings into two tables based on state" do
@@ -154,16 +153,14 @@ RSpec.describe "Recurring meetings show",
       expect(content).to have_text "Open"
       expect(content).to have_text "Planned"
 
-      open_meeting_date = format_time(open_meeting.start_time)
+      open_meeting_date = format_time(upcoming_open_meeting.start_time)
       cancelled_meeting_date = format_time(cancelled_meeting.start_time)
-      scheduled_meeting_date = format_time(Time.zone.today + 2.days + 10.hours)
 
       agenda_opened = page.find("[data-test-selector='agenda-opened-table']")
       expect(agenda_opened).to have_text open_meeting_date
 
       planned = page.find("[data-test-selector='planned-table']")
       expect(planned).to have_text cancelled_meeting_date
-      expect(planned).to have_text scheduled_meeting_date
     end
   end
 
@@ -179,13 +176,11 @@ RSpec.describe "Recurring meetings show",
     end
 
     let!(:ongoing_meeting) do
-      create(:meeting, recurring_meeting:, start_time: Time.zone.today + 10.hours, state: :open)
-    end
-    let!(:ongoing_schedule) do
-      create :scheduled_meeting,
-             meeting: ongoing_meeting,
+      create(:meeting,
              recurring_meeting:,
-             start_time: Time.zone.today + 10.hours
+             start_time: Time.zone.today + 10.hours,
+             recurrence_start_time: Time.zone.today + 10.hours,
+             state: :open)
     end
 
     it "does not show the meeting ended blankslate" do
@@ -212,19 +207,14 @@ RSpec.describe "Recurring meetings show",
       let!(:rescheduled_instance) do
         create :meeting,
                recurring_meeting:,
-               start_time: Time.zone.today + 2.days + 10.hours
-      end
-      let!(:rescheduled) do
-        create :scheduled_meeting,
-               meeting: rescheduled_instance,
-               recurring_meeting:,
-               start_time: Time.zone.today + 1.day + 10.hours
+               start_time: Time.zone.today + 2.days + 10.hours,
+               recurrence_start_time: Time.zone.today + 1.day + 10.hours
       end
 
       it "shows rescheduled occurrences" do
         get project_recurring_meeting_path(project, recurring_meeting)
 
-        old_date = format_time(rescheduled.start_time)
+        old_date = format_time(rescheduled_instance.recurrence_start_time)
         new_date = format_time(rescheduled_instance.start_time)
         expect(page).to have_css("[role='row'] s", text: old_date)
         expect(page).to have_text("#{old_date}\n#{new_date}")
@@ -245,25 +235,15 @@ RSpec.describe "Recurring meetings show",
         create :meeting,
                recurring_meeting:,
                start_time: Time.zone.today + 2.days + 10.hours,
+               recurrence_start_time: Time.zone.today + 2.days + 10.hours,
                state: :open
-      end
-      let!(:first) do
-        create :scheduled_meeting,
-               meeting: first_instance,
-               recurring_meeting:,
-               start_time: Time.zone.today + 2.days + 10.hours
       end
       let!(:second_instance) do
         create :meeting,
                recurring_meeting:,
                start_time: Time.zone.today + 3.days + 10.hours,
+               recurrence_start_time: Time.zone.today + 3.days + 10.hours,
                state: :open
-      end
-      let!(:second) do
-        create :scheduled_meeting,
-               meeting: second_instance,
-               recurring_meeting:,
-               start_time: Time.zone.today + 3.days + 10.hours
       end
 
       before do
@@ -273,8 +253,8 @@ RSpec.describe "Recurring meetings show",
       it "shows all open meetings in 'Open', even if they no longer match the schedule (Regression #61301)" do
         get project_recurring_meeting_path(project, recurring_meeting)
 
-        first_date = format_time(first.start_time)
-        second_date = format_time(second.start_time)
+        first_date = format_time(first_instance.start_time)
+        second_date = format_time(second_instance.start_time)
 
         open = page.find("[data-test-selector='agenda-opened-table']")
         expect(open).to have_text first_date
@@ -283,17 +263,18 @@ RSpec.describe "Recurring meetings show",
     end
 
     context "with a cancelled meeting" do
-      let!(:rescheduled) do
-        create :scheduled_meeting,
-               :cancelled,
+      let!(:cancelled_occurrence) do
+        create :meeting,
                recurring_meeting:,
-               start_time: Time.zone.today + 1.day + 10.hours
+               start_time: Time.zone.today + 1.day + 10.hours,
+               recurrence_start_time: Time.zone.today + 1.day + 10.hours,
+               state: :cancelled
       end
 
       it "shows the cancelled occurrences" do
         get project_recurring_meeting_path(project, recurring_meeting)
 
-        expect(page).to have_role(:cell, text: format_time(rescheduled.start_time))
+        expect(page).to have_role(:cell, text: format_time(cancelled_occurrence.recurrence_start_time))
         expect(page).to have_role(:cell, text: "Cancelled")
       end
     end
@@ -325,13 +306,8 @@ RSpec.describe "Recurring meetings show",
     let!(:ongoing_instance) do
       create :meeting,
              recurring_meeting:,
-             start_time: Time.zone.today + 10.hours
-    end
-    let!(:ongoing) do
-      create :scheduled_meeting,
-             recurring_meeting:,
-             meeting: ongoing_instance,
-             start_time: Time.zone.today + 10.hours
+             start_time: Time.zone.today + 10.hours,
+             recurrence_start_time: Time.zone.today + 10.hours
     end
 
     it "shows the correct number of next occurrences (Regression #61194)" do
@@ -358,10 +334,11 @@ RSpec.describe "Recurring meetings show",
     end
 
     let!(:cancelled_ongoing) do
-      create :scheduled_meeting,
+      create :meeting,
              recurring_meeting:,
              start_time: Time.zone.today + 10.hours,
-             cancelled: true
+             recurrence_start_time: Time.zone.today + 10.hours,
+             state: :cancelled
     end
 
     it "shows the cancelled ongoing meeting in the planned section (Bug #70609)" do
@@ -369,7 +346,7 @@ RSpec.describe "Recurring meetings show",
         get project_recurring_meeting_path(project, recurring_meeting)
       end
 
-      cancelled_meeting_time = format_time(cancelled_ongoing.start_time)
+      cancelled_meeting_time = format_time(cancelled_ongoing.recurrence_start_time)
 
       planned = page.find("[data-test-selector='planned-table']")
       expect(planned).to have_text cancelled_meeting_time

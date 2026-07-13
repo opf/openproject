@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -45,13 +47,24 @@ RSpec.describe "Filter work packages by backlog filters", :js do
            parent: work_package_with_story_type,
            project:)
   end
-  shared_let(:own_sprint) { create(:agile_sprint, project:) }
-  shared_let(:shared_sprint) { create(:agile_sprint, project: create(:project)) }
+  shared_let(:own_sprint) { create(:sprint, project:) }
+  shared_let(:shared_sprint) { create(:sprint, project: create(:project)) }
   shared_let(:work_package_in_own_sprint) { create(:work_package, type: task_type, project:, sprint: own_sprint) }
   shared_let(:work_package_in_shared_sprint) { create(:work_package, type: task_type, project:, sprint: shared_sprint) }
 
-  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
-  let(:permissions) { %i(view_work_packages save_queries view_sprints) }
+  shared_let(:bucket_a) { create(:backlog_bucket, project:) }
+  shared_let(:bucket_b) { create(:backlog_bucket, project:) }
+  shared_let(:work_package_in_bucket_a) { create(:work_package, type: task_type, project:, backlog_bucket: bucket_a) }
+  shared_let(:work_package_in_bucket_b) { create(:work_package, type: task_type, project:, backlog_bucket: bucket_b) }
+
+  let(:user) do
+    create(:user,
+           member_with_permissions: {
+             project => permissions,
+             shared_sprint.project => %i[show_board_views view_sprints]
+           })
+  end
+  let(:permissions) { %i(view_work_packages save_queries show_board_views view_sprints) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -59,61 +72,10 @@ RSpec.describe "Filter work packages by backlog filters", :js do
   before do
     login_as(user)
 
-    allow(Setting)
-      .to receive(:plugin_openproject_backlogs)
-      .and_return("story_types" => [story_type.id.to_s],
-                  "task_type" => task_type.id.to_s)
-
     wp_table.visit!
   end
 
-  context "on the backlog type" do
-    it "allows filtering, saving and retaining the filter" do
-      filters.open
-
-      filters.add_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
-
-      wp_table.expect_work_package_listed work_package_with_story_type
-      wp_table.ensure_work_package_not_listed! work_package_with_task_type
-
-      wp_table.save_as("Some query name")
-
-      filters.remove_filter "backlogsWorkPackageType"
-
-      wp_table.expect_work_package_listed work_package_with_story_type, work_package_with_task_type
-
-      last_query = Query.last
-
-      wp_table.visit_query(last_query)
-
-      wp_table.expect_work_package_listed work_package_with_story_type
-      wp_table.ensure_work_package_not_listed! work_package_with_task_type
-
-      filters.open
-
-      filters.expect_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
-    end
-
-    it "can filter by task or any" do
-      filters.open
-
-      filters.add_filter_by("Backlog type", "is (OR)", "Story", "backlogsWorkPackageType")
-
-      wp_table.ensure_work_package_not_listed! work_package_with_task_type
-
-      filters.remove_filter "backlogsWorkPackageType"
-      filters.add_filter_by("Backlog type", "is (OR)", "Task", "backlogsWorkPackageType")
-
-      wp_table.expect_work_package_listed work_package_with_task_type
-
-      filters.remove_filter "backlogsWorkPackageType"
-      filters.add_filter_by("Backlog type", "is (OR)", "any", "backlogsWorkPackageType")
-
-      wp_table.expect_work_package_listed work_package_with_story_type, work_package_with_task_type
-    end
-  end
-
-  context "on the sprint", with_flag: { scrum_projects: true } do
+  context "on the sprint" do
     shared_examples_for "filtering on sprints" do
       it "allows filtering by sprint" do
         filters.open
@@ -125,9 +87,8 @@ RSpec.describe "Filter work packages by backlog filters", :js do
                                                  work_package_with_task_type
         wp_table.expect_work_package_listed work_package_in_own_sprint
 
-        filters.remove_filter "sprint"
-
-        filters.add_filter_by("Sprint", "is (OR)", shared_sprint.name)
+        filters.clear_filter_value "sprint"
+        filters.set_filter("Sprint", "is (OR)", shared_sprint.name)
 
         wp_table.ensure_work_package_not_listed! work_package_in_own_sprint,
                                                  work_package_with_story_type,
@@ -168,6 +129,69 @@ RSpec.describe "Filter work packages by backlog filters", :js do
       let(:wp_table) { Pages::WorkPackagesTable.new }
 
       include_examples "filtering on sprints"
+    end
+  end
+
+  context "on the backlog bucket" do
+    shared_examples_for "filtering on backlog buckets" do
+      it "allows filtering by backlog bucket" do
+        filters.open
+
+        filters.add_filter_by("Backlog bucket", "is (OR)", bucket_a.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_b,
+                                                 work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is (OR)", bucket_b.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_a,
+                                                 work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is (OR)", [bucket_a.name, bucket_b.name], "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is not", bucket_b.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_with_story_type,
+                                            work_package_with_task_type
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_b
+
+        filters.set_operator "Backlog bucket", "is empty", "backlogBucket"
+
+        wp_table.expect_work_package_listed work_package_with_story_type,
+                                            work_package_with_task_type
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_a,
+                                                 work_package_in_bucket_b
+
+        filters.set_operator "Backlog bucket", "is not empty", "backlogBucket"
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_with_story_type,
+                                                 work_package_with_task_type
+      end
+    end
+
+    context "when filtering inside a project" do
+      include_examples "filtering on backlog buckets"
+    end
+
+    context "when filtering globally" do
+      let(:wp_table) { Pages::WorkPackagesTable.new }
+
+      include_examples "filtering on backlog buckets"
     end
   end
 end

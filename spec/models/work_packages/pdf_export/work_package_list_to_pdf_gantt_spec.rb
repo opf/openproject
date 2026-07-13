@@ -177,7 +177,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   end
 
   def wp_title_column(work_package)
-    "#{work_package.type} ##{work_package.id} • #{work_package.status} • #{wp_title_dates work_package} #{work_package.subject}"
+    "#{work_package.type} #{work_package.formatted_id} • #{work_package.status} • " \
+      "#{wp_title_dates work_package} #{work_package.subject}"
   end
 
   subject(:pdf) do
@@ -222,6 +223,23 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
+    end
+  end
+
+  describe "work package id formatting" do
+    context "in classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      it "uses the numeric id and not the semantic identifier in the gantt chart" do
+        expect(pdf[:strings]).to include("##{work_package_task.id}")
+      end
+    end
+
+    context "in semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      it "uses the semantic identifier and not the numeric id in the gantt chart" do
+        expect(pdf[:strings]).to include(work_package_task.identifier)
+        expect(pdf[:strings]).not_to include("##{work_package_task.id}")
+      end
     end
   end
 

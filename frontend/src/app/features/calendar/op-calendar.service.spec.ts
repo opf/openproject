@@ -26,16 +26,25 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TestBed } from '@angular/core/testing';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 describe('OP calendar service', () => {
   let service:OpCalendarService;
 
   beforeEach(() => {
-    // This is not a valid constructor call, but since we only want to test a helper method that does not
-    // depend on injected services, we can pass null values here.
-    // @ts-expect-error ignore invalid constructor call since we don't need a completely valid instance
-    service = new OpCalendarService(null, null, null);
+    TestBed.configureTestingModule({
+      providers: [
+        OpCalendarService,
+        { provide: WeekdayService, useValue: {} },
+        { provide: DayResourceService, useValue: {} },
+        { provide: ConfigurationService, useValue: {} },
+      ],
+    });
+    service = TestBed.inject(OpCalendarService);
   });
 
   describe('stripYearFromDateFormat', () => {

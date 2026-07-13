@@ -34,7 +34,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
   subject(:component) { described_class.new(state:) }
 
   let(:empty_result) do
-    WorkPackages::IdentifierAutofix::PreviewQuery::Result.new(projects_data: [], total_count: 0)
+    ProjectIdentifiers::IdentifierAutofix::PreviewQuery::Result.new(projects_data: [], total_count: 0)
   end
 
   def render_component(component)
@@ -46,16 +46,54 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
   end
 
   before do
-    preview_stub = instance_double(WorkPackages::IdentifierAutofix::PreviewQuery, call: empty_result)
-    allow(WorkPackages::IdentifierAutofix::PreviewQuery).to receive(:new).and_return(preview_stub)
+    preview_stub = instance_double(ProjectIdentifiers::IdentifierAutofix::PreviewQuery, call: empty_result)
+    allow(ProjectIdentifiers::IdentifierAutofix::PreviewQuery).to receive(:new).and_return(preview_stub)
   end
 
   context "when state is :change_in_progress" do
     let(:state) { :change_in_progress }
 
-    it "renders the in-progress spinner message" do
+    before do
+      allow(ProjectIdentifiers::IdentifierAutofix).to receive(:reversion_in_progress?).and_return(false)
+      allow(ProjectIdentifiers::PendingProjectsFinder).to receive(:count).and_return(7)
+      allow(Project).to receive(:count).and_return(10)
+    end
+
+    it "renders the semantic conversion header label" do
       render_component(component)
-      expect(page).to have_text("Project identifiers are currently being updated to project-based semantic identifiers.")
+      expect(page).to have_text("Converting to project-based identifiers")
+    end
+
+    it "renders the processed / total counter" do
+      render_component(component)
+      expect(page).to have_text("3 / 10")
+    end
+
+    it "renders a progress bar reflecting conversion progress" do
+      render_component(component)
+      expect(page).to have_test_selector("conversion-progress-bar")
+      expect(page).to have_css(".Progress-item[style*='width: 30%']")
+    end
+
+    it "renders the footer message" do
+      render_component(component)
+      expect(page).to have_text("Background conversion is in progress. You can safely leave this page.")
+    end
+
+    context "when reversion is in progress" do
+      before do
+        allow(ProjectIdentifiers::IdentifierAutofix).to receive(:reversion_in_progress?).and_return(true)
+        allow(Project).to receive(:with_non_classic_identifier).and_return(
+          instance_double(ActiveRecord::Relation, count: 4)
+        )
+      end
+
+      it "shows the classic conversion header, correct counter, and does not call PendingProjectsFinder" do
+        render_component(component)
+        expect(page).to have_text("Converting to numeric identifiers")
+        expect(page).to have_text("6 / 10")
+        expect(ProjectIdentifiers::PendingProjectsFinder).not_to have_received(:count)
+      end
     end
 
     it "does not render the success banner" do
@@ -71,13 +109,13 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
 
     it "does not render the save or autofix buttons" do
       render_component(component)
-      expect(page).to have_no_button("Save")
-      expect(page).to have_no_link("Autofix and save")
+      expect(page).to have_no_button("Convert identifiers")
+      expect(page).to have_no_link("Convert identifiers")
     end
 
     it "does not call PreviewQuery" do
       render_component(component)
-      expect(WorkPackages::IdentifierAutofix::PreviewQuery).not_to have_received(:new)
+      expect(ProjectIdentifiers::IdentifierAutofix::PreviewQuery).not_to have_received(:new)
     end
   end
 
@@ -89,9 +127,10 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
       expect(page).to have_text("Successfully updated work package identifier format.")
     end
 
-    it "does not render the in-progress spinner message" do
+    it "does not render the in-progress content" do
       render_component(component)
-      expect(page).to have_no_text("Project identifiers are currently being updated to project-based semantic identifiers.")
+      expect(page).to have_no_text("Converting to")
+      expect(page).to have_no_test_selector("conversion-progress-bar")
     end
 
     it "renders the radio buttons as enabled" do
@@ -102,7 +141,23 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
 
     it "does not call PreviewQuery" do
       render_component(component)
-      expect(WorkPackages::IdentifierAutofix::PreviewQuery).not_to have_received(:new)
+      expect(ProjectIdentifiers::IdentifierAutofix::PreviewQuery).not_to have_received(:new)
+    end
+
+    context "with semantic setting", with_settings: { work_packages_identifier: "semantic" } do
+      it "shows semantic as selected" do
+        render_component(component)
+        expect(page).to have_field("Project-based semantic identifiers", checked: true)
+        expect(page).to have_field("Instance-wide numerical sequence (default)", checked: false)
+      end
+    end
+
+    context "with classic setting", with_settings: { work_packages_identifier: "classic" } do
+      it "shows classic as selected" do
+        render_component(component)
+        expect(page).to have_field("Instance-wide numerical sequence (default)", checked: true)
+        expect(page).to have_field("Project-based semantic identifiers", checked: false)
+      end
     end
   end
 
@@ -111,17 +166,18 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
 
     it "calls PreviewQuery" do
       render_component(component)
-      expect(WorkPackages::IdentifierAutofix::PreviewQuery).to have_received(:new).once
+      expect(ProjectIdentifiers::IdentifierAutofix::PreviewQuery).to have_received(:new).once
     end
 
-    it "renders the save button" do
+    it "renders the save button (hidden until a change is made)" do
       render_component(component)
-      expect(page).to have_button("Save")
+      expect(page).to have_button("Convert identifiers", visible: :all)
     end
 
     it "does not render in-progress or success content" do
       render_component(component)
-      expect(page).to have_no_text("Project identifiers are currently being updated to project-based semantic identifiers.")
+      expect(page).to have_no_text("Converting to")
+      expect(page).to have_no_test_selector("conversion-progress-bar")
       expect(page).to have_no_text("Successfully updated work package identifier format.")
     end
 
@@ -129,7 +185,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { instance_double(Project, name: "Bad Project", id: 1, to_param: "bad-proj") }
       let(:problematic_result) do
-        WorkPackages::IdentifierAutofix::PreviewQuery::Result.new(
+        ProjectIdentifiers::IdentifierAutofix::PreviewQuery::Result.new(
           projects_data: [
             { project:, current_identifier: "bad-proj", suggested_identifier: "BP", error_reason: :special_characters }
           ],
@@ -138,18 +194,18 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
       end
 
       before do
-        stub = instance_double(WorkPackages::IdentifierAutofix::PreviewQuery, call: problematic_result)
-        allow(WorkPackages::IdentifierAutofix::PreviewQuery).to receive(:new).and_return(stub)
+        stub = instance_double(ProjectIdentifiers::IdentifierAutofix::PreviewQuery, call: problematic_result)
+        allow(ProjectIdentifiers::IdentifierAutofix::PreviewQuery).to receive(:new).and_return(stub)
       end
 
       it "hides the plain save button" do
         render_component(component)
-        expect(page).to have_no_button("Save")
+        expect(page).to have_no_button("Convert identifiers")
       end
 
       it "renders the autofix button" do
         render_component(component)
-        expect(page).to have_link("Autofix and save")
+        expect(page).to have_link("Convert identifiers")
       end
     end
   end

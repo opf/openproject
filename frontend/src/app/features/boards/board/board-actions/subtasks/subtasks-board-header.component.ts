@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -40,9 +40,12 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SubtasksBoardHeaderComponent implements OnInit {
+  readonly pathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input() public resource:WorkPackageResource;
 
   idFromLink = idFromLink;
@@ -52,10 +55,6 @@ export class SubtasksBoardHeaderComponent implements OnInit {
   };
 
   typeHighlightingClass:string;
-
-  constructor(readonly pathHelper:PathHelperService,
-    readonly I18n:I18nService) {
-  }
 
   ngOnInit() {
     this.typeHighlightingClass = Highlighting.inlineClass('type', this.resource.type.id!);

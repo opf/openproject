@@ -77,6 +77,9 @@ class Principal < ApplicationRecord
            inverse_of: :principal
   has_many :auth_providers, through: :user_auth_provider_links
 
+  has_many :persisted_views, inverse_of: :principal, dependent: :nullify
+  has_many :persisted_queries, inverse_of: :principal, dependent: :nullify
+
   has_paper_trail
 
   scopes :like,

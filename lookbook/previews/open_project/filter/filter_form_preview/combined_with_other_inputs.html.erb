@@ -1,0 +1,22 @@
+<%# `Filters::FilterFormComponent` is a ViewComponent that shares the %>
+<%# surrounding Primer form builder with other form objects. Render normal %>
+<%# Primer form objects through FormList, then render the filter component %>
+<%# next to that list with the same builder. %>
+<%
+  note_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.text_field(name: :note, label: "Note", scope_name_to_model: false)
+    end
+  end
+%>
+<%= primer_form_with(url: "/foo", method: :post) do |f| %>
+  <%= render(Primer::Forms::FormList.new(note_form.new(f))) %>
+  <%= render(
+        Filters::FilterFormComponent.new(
+          builder: f,
+          query: query,
+          wrap_with_controller: true,
+          hidden_input_name: "filters"
+        )
+      ) %>
+<% end %>

@@ -36,6 +36,7 @@ module WorkPackage::PDFExport::Generator::Generator
     include MarkdownToPDF::Core
     include MarkdownToPDF::Parser
     include MarkdownToPDF::StyleSchema
+    include Exports::PDF::Common::WorkPackageMentions
 
     def initialize(styling_yml)
       symbol_yml = symbolize(styling_yml)
@@ -94,17 +95,40 @@ module WorkPackage::PDFExport::Generator::Generator
       @hyphens.hyphenate(text)
     end
 
+    def handle_wp_mention_html_tag(tag, node, opts)
+      # <mention class="mention" data-id="185" data-type="work_package" data-text="#185">#185</mention>
+      # <mention class="mention" data-id="185" data-type="work_package" data-text="##185">##185</mention>
+      # <mention class="mention" data-id="185" data-type="work_package" data-text="###185">###185</mention>
+      next_node = node&.next
+      if next_node && next_node.type == :text && next_node.respond_to?(:string_content)
+        next_node.string_content = ""
+      end
+      render_wp_mention(tag.attr("data-text") || "", tag.attr("data-id") || "", opts)
+    end
+
+    def render_wp_mention(content, id, opts)
+      return [text_hash(content, opts)] if id.blank?
+
+      work_package = WorkPackage.find_by_display_id(id)
+      return [text_hash(content, opts)] unless work_package&.visible?
+
+      [text_hash(expand_wp_mention(work_package, content), opts)]
+    end
+
     def handle_mention_html_tag(tag, node, opts)
-      if tag.text.blank?
-        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
+      if tag.attr("data-type") == "work_package"
+        handle_wp_mention_html_tag(tag, node, opts)
+      elsif tag.text.blank?
         # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">
         text = tag.attr("data-text")
         if text.present? && !node.next.respond_to?(:string_content) && node.next.string_content != text
           return [text_hash(text, opts)]
         end
+        []
+      else
+        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
+        []
       end
-      # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
-      []
     end
 
     def handle_unknown_inline_html_tag(tag, node, opts)

@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, inject } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -11,9 +9,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SpotFormFieldComponent {
+  private _formGroupDirective = inject(FormGroupDirective, { optional: true });
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.spot-form-field') className = true;
 
   @HostBinding('class.spot-form-field_invalid') get errorClassName():boolean {
@@ -93,7 +94,7 @@ export class SpotFormFieldComponent {
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this._formGroupDirective?.submitted;
+      return this.formControl.invalid && (this._formGroupDirective?.submitted ?? false);
     } if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
     } if (this.showValidationErrorOn === 'change') {
@@ -102,9 +103,4 @@ export class SpotFormFieldComponent {
 
     return false;
   }
-
-  constructor(
-    @Optional() private _formGroupDirective:FormGroupDirective,
-    readonly I18n:I18nService,
-  ) {}
 }

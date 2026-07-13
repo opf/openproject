@@ -170,15 +170,16 @@ RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups
         let!(:group) { build_stubbed(:ldap_synchronized_group) }
         let(:id) { "foo" }
 
-        it "renders the page" do
+        it "renders the dialog" do
           expect(LdapGroups::SynchronizedGroup)
               .to receive(:find)
               .with("foo")
               .and_return(group)
 
-          get :destroy_info, params: { ldap_group_id: id }
+          get :destroy_info, params: { ldap_group_id: id }, format: :turbo_stream
           expect(response).to be_successful
-          expect(response).to render_template "destroy_info"
+          expect(response).to have_turbo_stream action: "dialog",
+                                                target: "ldap-groups-synchronized-groups-destroy-dialog-component"
         end
       end
     end

@@ -38,9 +38,11 @@ module Admin::Import::Jira::ImportRuns
         projects_label(selected_projects_count),
         issues_label(selected_issues_count),
         statuses_label(selected_statuses_count),
-        types_label(selected_types_count),
-        users_label(available_users_count)
-      ].map { |label| { label:, checked: true } }
+        types_label(selected_types_count)
+      ]
+        .compact
+        .map { |label| { label:, checked: true } }
+        .push({ label: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation") })
     end
 
     def selected_projects_count
@@ -48,19 +50,15 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def selected_issues_count
-      model.selected["issues_count"] || 0
+      model.selected["issues_count"]
     end
 
     def selected_types_count
-      model.selected["issue_type_ids"]&.count || 0
+      model.selected["issue_type_ids"]&.count
     end
 
     def selected_statuses_count
-      model.selected["status_ids"]&.count || 0
-    end
-
-    def available_users_count
-      model.available["total_users"]
+      model.selected["status_ids"]&.count
     end
   end
 end

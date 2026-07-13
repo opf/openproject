@@ -35,6 +35,13 @@ class WorkPackages::StatusBadgeComponent < ApplicationComponent
     super
 
     @status = status
-    @system_arguments = system_arguments.merge({ classes: "__hl_background_status_#{@status.id}" })
+    @system_arguments = system_arguments
+    if @system_arguments[:scheme].nil? || @system_arguments[:scheme] == :default
+      @system_arguments.delete(:scheme)
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "__hl_background_status_#{@status.id}"
+      )
+    end
   end
 end

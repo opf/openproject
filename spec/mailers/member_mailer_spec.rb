@@ -168,6 +168,41 @@ RSpec.describe MemberMailer do
       end
     end
     it_behaves_like "fails for a group"
+
+    describe "with a custom message referencing a work package" do
+      shared_let(:persisted_project) { create(:project, identifier: "memberproj") }
+      shared_let(:persisted_principal) { create(:admin) }
+      shared_let(:persisted_role) { create(:project_role) }
+      shared_let(:persisted_member) do
+        create(:member, principal: persisted_principal, project: persisted_project, roles: [persisted_role])
+      end
+      shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
+
+      let(:html_body) do
+        User.execute_as(persisted_principal) do
+          mail = described_class.added_project(persisted_principal, persisted_member, "see ##{referenced_wp.id}")
+          mail.body.parts.detect { |part| part["Content-Type"].value == "text/html" }.body.to_s
+        end
+      end
+
+      context "with classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        it "renders the numeric reference as an absolute work-package link" do
+          expect(html_body).to match(%r{href="http[^"]*/work_packages/#{referenced_wp.id}"})
+        end
+      end
+
+      context "with semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        before do
+          referenced_wp.update_columns(identifier: "MEMBERPROJ-1", sequence_number: 1)
+        end
+
+        it "renders the formatted_id in the html body" do
+          expect(html_body).to include("MEMBERPROJ-1")
+        end
+      end
+    end
   end
 
   describe "#updated_project" do

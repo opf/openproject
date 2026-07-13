@@ -46,7 +46,7 @@ class CustomActions::Actions::Base
   end
 
   def value_objects
-    values.map do |value|
+    values.filter_map do |value|
       allowed_values.find { |v| v[:value] == value }
     end
   end

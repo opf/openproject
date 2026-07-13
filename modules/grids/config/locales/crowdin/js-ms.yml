@@ -3,58 +3,58 @@ ms:
   js:
     grid:
       add_widget: Tambah widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Buang widget
       configure: Konfigurasi widget
+      remove: Buang widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Teks tersuai
         documents:
-          title: Dokumen
           no_results: Tiada dokumen lagi.
+          title: Dokumen
         members:
           title: Ahli-ahli
+        missing_permission: Anda tidak mempunyai kebenaran yang diperlukan untuk melihat widget ini.
         news:
           title: Berita
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Projek kegemaran
         project_status:
-          title: Status
-          not_started: Belum dimulakan
-          on_track: Ikut jadual
-          off_track: Lari jadual
           at_risk: Berisiko
-          not_set: Belum ditetapkan
-          finished: Telah selesai
           discontinued: Dihentikan
+          finished: Telah selesai
+          not_set: Belum ditetapkan
+          not_started: Belum dimulakan
+          off_track: Lari jadual
+          on_track: Ikut jadual
+          title: Status
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Projek kegemaran
-          no_results: Kini anda tiada projek kegemaran. Tekan ikon bintang di papan pemuka projek untuk tambahkan ke kegemaran anda.
         time_entries_current_user:
-          title: Masa yang saya gunakan
           displayed_days: 'Hari yang dipaparkan dalam widget:'
+          title: Masa yang saya gunakan
         time_entries_list:
-          title: Masa yang digunakan (7 hari lepas)
           no_results: Tiada catatan masa untuk 7 hari yang lalu.
+          title: Masa yang digunakan (7 hari lepas)
         work_packages_accountable:
           title: Pakej kerja yang saya bertanggungjawab
         work_packages_assigned:
           title: Pakej kerja yang ditugaskan kepada saya
-        work_packages_created:
-          title: Pakej kerja yang saya cipta
-        work_packages_watched:
-          title: Pakej kerja yang saya pantau
-        work_packages_table:
-          title: Jadual pakej kerja
-        work_packages_graph:
-          title: Graf pakej kerja
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Kalendar
+        work_packages_created:
+          title: Pakej kerja yang saya cipta
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Graf pakej kerja
         work_packages_overview:
-          title: Gambaran keseluruhan pakej kerja
           placeholder: Klik untuk edit ...
+          title: Gambaran keseluruhan pakej kerja
+        work_packages_table:
+          title: Jadual pakej kerja
+        work_packages_watched:
+          title: Pakej kerja yang saya pantau

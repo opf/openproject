@@ -30,115 +30,109 @@
 
 module Import
   class JiraFetchProjectsJob < ApplicationJob
-    # rubocop:disable Metrics/AbcSize
-    def perform(jira_import_id)
-      jira_import = Import::JiraImport.find(jira_import_id)
-      project_ids = jira_import.project_ids
-      jira = jira_import.jira
-      jira_id = jira.id
-      updated_at = Time.zone.now
-      created_at = updated_at
-      jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+    include JiraFetchCustomFields
 
-      # ISSUE TYPES SYNC
-      issue_types = jira_client.issue_types
-      issue_types_upsert_data = issue_types.map do |issue_type|
+    def perform(jira_import_id)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      @jira_id = jira.id
+      @updated_at = Time.zone.now
+      @created_at = @updated_at
+      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+
+      sync_issue_types
+      sync_priorities
+      sync_statuses
+      sync_projects
+      sync_issues
+      sync_custom_fields
+    end
+
+    private
+
+    def sync_issue_types
+      issue_types_upsert_data = @jira_client.issue_types.map do |issue_type|
         {
           payload: issue_type,
-          jira_id:,
+          jira_id: @jira_id,
           jira_issue_type_id: issue_type.fetch("id"),
-          jira_import_id: jira_import.id,
-          created_at:,
-          updated_at:
+          jira_import_id: @jira_import.id,
+          created_at: @created_at,
+          updated_at: @updated_at
         }
       end
       Import::JiraIssueType.upsert_all(issue_types_upsert_data, unique_by: %i[jira_id jira_issue_type_id])
+    end
 
-      # PRIORITIES SYNC
-      priorities = jira_client.priorities
-      priorities_upsert_data = priorities.map do |priority|
+    def sync_priorities
+      priorities_upsert_data = @jira_client.priorities.map do |priority|
         {
           payload: priority,
-          jira_id:,
+          jira_id: @jira_id,
           jira_priority_id: priority.fetch("id"),
-          jira_import_id: jira_import.id,
-          created_at:,
-          updated_at:
+          jira_import_id: @jira_import.id,
+          created_at: @created_at,
+          updated_at: @updated_at
         }
       end
       Import::JiraPriority.upsert_all(priorities_upsert_data, unique_by: %i[jira_id jira_priority_id])
+    end
 
-      # STATUSES SYNC
-      statuses = jira_client.statuses
-      statuses_upsert_data = statuses.map do |status|
+    def sync_statuses
+      statuses_upsert_data = @jira_client.statuses.map do |status|
         {
           payload: status,
-          jira_id:,
+          jira_id: @jira_id,
           jira_status_id: status.fetch("id"),
-          jira_import_id: jira_import.id,
-          created_at:,
-          updated_at:
+          jira_import_id: @jira_import.id,
+          created_at: @created_at,
+          updated_at: @updated_at
         }
       end
       Import::JiraStatus.upsert_all(statuses_upsert_data, unique_by: %i[jira_id jira_status_id])
+    end
 
-      # PROJECTS SYNC
-      projects_upsert_data = jira_client.projects.map do |p|
+    def sync_projects
+      projects_upsert_data = @jira_client.projects.map do |p|
         {
           payload: p,
-          jira_id:,
+          jira_id: @jira_id,
           jira_project_id: p.fetch("id"),
-          jira_import_id: jira_import.id,
-          created_at:,
-          updated_at:
+          jira_import_id: @jira_import.id,
+          created_at: @created_at,
+          updated_at: @updated_at
         }
       end
       Import::JiraProject.upsert_all(projects_upsert_data, unique_by: %i[jira_id jira_project_id])
+    end
 
-      # ISSUES SYNC
-      Import::JiraProject.where(jira_id:, jira_project_id: project_ids).find_each do |jira_project|
-        jql = "project=#{jira_project.payload['key']}"
-        result = jira_client.issues(jql:,
-                                    start_at: 0,
-                                    max_results: 5)
-        total = result["total"]
-        start_at = result["startAt"]
-        max_results = result["maxResults"]
-        issues_upsert_data = result["issues"].map do |issue|
+    def sync_issues
+      Import::JiraProject.where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids).find_each do |jira_project|
+        sync_project_issues(jira_project)
+      end
+    end
+
+    def sync_project_issues(jira_project)
+      jql = "project = '#{jira_project.payload['key']}'"
+      start_at = 0
+      loop do
+        result = @jira_client.issues(jql:, start_at:, max_results: 5)
+        issues = result["issues"]
+        issues_upsert_data = issues.map do |issue|
           {
             payload: issue,
-            jira_id:,
+            jira_id: @jira_id,
             jira_project_id: jira_project.id,
             jira_issue_id: issue.fetch("id"),
-            jira_import_id: jira_import.id,
-            created_at:,
-            updated_at:
+            jira_import_id: @jira_import.id,
+            created_at: @created_at,
+            updated_at: @updated_at
           }
         end
         Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
-        while total > start_at + max_results
-          start_at += max_results
-          result = jira_client.issues(jql:,
-                                      start_at:,
-                                      max_results: 5)
-          total = result["total"]
-          start_at = result["startAt"]
-          max_results = result["maxResults"]
-          issues_upsert_data = result["issues"].map do |issue|
-            {
-              payload: issue,
-              jira_id:,
-              jira_project_id: jira_project.id,
-              jira_issue_id: issue.fetch("id"),
-              jira_import_id: jira_import.id,
-              created_at:,
-              updated_at:
-            }
-          end
-          Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
-        end
+        start_at = result["startAt"] + result["maxResults"]
+        break if start_at >= result["total"]
       end
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

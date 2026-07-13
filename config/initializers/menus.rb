@@ -37,8 +37,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t("label_portfolio_plural"),
             icon: "briefcase",
             if: ->(_) {
-              OpenProject::FeatureDecisions.portfolio_models_active? &&
-                (User.current.logged? || !Setting.login_required?) &&
+              (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
                   Project.portfolio.allowed_to(User.current, :view_project).any?)
             },
@@ -198,8 +197,7 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: "briefcase",
             after: :my_page,
             if: ->(_) {
-              OpenProject::FeatureDecisions.portfolio_models_active? &&
-                (User.current.logged? || !Setting.login_required?) &&
+              (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
                   Project.portfolio.allowed_to(User.current, :view_project).any?)
             },
@@ -279,8 +277,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :working_hours,
             { controller: "/my", action: "working_hours" },
             caption: :label_schedule_and_availability,
-            icon: "calendar",
-            if: ->(_) { OpenProject::FeatureDecisions.user_working_times_active? }
+            icon: "calendar"
   menu.push :locale,
             { controller: "/my", action: "locale" },
             caption: :label_locale,
@@ -289,11 +286,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my", action: "interface" },
             caption: :label_interface,
             icon: "device-desktop"
-  menu.push :password,
-            { controller: "/my", action: "password" },
-            caption: :button_change_password,
-            if: ->(_) { User.current.change_password_allowed? },
-            icon: "lock"
+  menu.push :security,
+            { controller: "/my", action: "security" },
+            caption: :label_my_security,
+            icon: "shield-lock"
   menu.push :access_tokens,
             { controller: "/my/access_tokens", action: "index" },
             caption: I18n.t("my_account.access_tokens.access_tokens"),
@@ -356,10 +352,22 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions,
             enterprise_feature: "placeholder_users"
 
+  menu.push :user_custom_fields_settings,
+            { controller: "/admin/settings/user_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_user_attributes_plural,
+            parent: :users_and_permissions
+
   menu.push :groups,
             { controller: "/groups" },
             if: ->(_) { User.current.admin? },
             caption: :label_group_plural,
+            parent: :users_and_permissions
+
+  menu.push :departments,
+            { controller: "/admin/departments" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_departments,
             parent: :users_and_permissions
 
   menu.push :roles,
@@ -412,7 +420,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :work_packages_identifier,
             { controller: "/admin/settings/work_packages_identifier", action: :show },
-            if: ->(_) { OpenProject::FeatureDecisions.semantic_work_package_ids_active? && User.current.admin? },
+            if: ->(_) { User.current.admin? },
             caption: :label_identifier,
             parent: :admin_work_packages
 
@@ -456,6 +464,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/projects_settings", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_project_list_plural,
+            parent: :admin_projects_settings
+
+  menu.push :project_reserved_identifiers_settings,
+            { controller: "/admin/settings/project_reserved_identifiers", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_reserved_identifiers,
             parent: :admin_projects_settings
 
   menu.push :custom_fields,
@@ -537,6 +551,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/external_links_settings", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_external_links,
+            parent: :settings
+
+  menu.push :settings_exports,
+            { controller: "/admin/settings/exports_settings", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_export_plural,
             parent: :settings
 
   menu.push :settings_repositories,
@@ -671,21 +691,15 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "op-enterprise-addons",
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
-  menu.push :admin_backlogs,
-            { controller: "/backlogs_settings", action: :show },
-            if: ->(_) { User.current.admin? },
-            caption: :label_backlogs,
-            icon: "op-backlogs"
-
   menu.push :import,
             { controller: "/admin/import/jira/instances", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.jira_import_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_import,
             icon: "desktop-download"
 
   menu.push :jira_import,
             { controller: "/admin/import/jira/instances", action: :index },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.jira_import_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_jira_import,
             parent: :import
 end
@@ -784,15 +798,21 @@ Redmine::MenuManager.map :project_menu do |menu|
     },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
-    time_entry_activities: { caption: :enumeration_activities },
+    time_and_costs: {
+      caption: :"cost_types.settings.time_and_costs",
+      controller: "/projects/settings/time_entry_activities"
+    },
     storage: { caption: :label_required_disk_storage }
   }
 
   project_menu_items.each do |key, options|
     menu.push :"settings_#{key}",
-              { controller: "/projects/settings/#{key}", action: "show" }.merge(options.slice(:action)),
+              {
+                controller: options[:controller] || "/projects/settings/#{key}",
+                action: options[:action] || "show"
+              },
               parent: :settings,
-              **options.except(:action)
+              **options.except(:action, :controller)
   end
 end
 

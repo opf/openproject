@@ -41,6 +41,7 @@ class Group < Principal
   end
 
   validate :no_circular_parent, if: -> { parent_id.present? }
+  validate :no_organizational_unit_mismatch, if: -> { parent_id.present? }
 
   # Register a partial to be rendered on the synchronized groups tab of the groups admin page
   #
@@ -53,6 +54,20 @@ class Group < Principal
 
   def self.synchronized_group_partials
     @synchronized_group_partials ||= []
+  end
+
+  # Register a predicate that determines whether a group is managed by an external synchronization
+  # (e.g. the LDAP department sync). Modules register their own check so the core stays agnostic of
+  # them; when no module is loaded a group is never considered managed.
+  #
+  # @yieldparam group[Group] the group to check
+  # @yieldreturn [Boolean] whether the group is managed by that source
+  def self.register_ldap_managed_check(&block)
+    ldap_managed_checks.push(block)
+  end
+
+  def self.ldap_managed_checks
+    @ldap_managed_checks ||= []
   end
 
   has_many :group_users,
@@ -87,6 +102,12 @@ class Group < Principal
                :create_preference!
 
   scopes :visible, :containing_user, :organizational_units
+
+  # Whether this group is managed by an external synchronization (e.g. LDAP department sync).
+  # Managed departments are read-only in the admin UI and may only be changed by the sync itself.
+  def ldap_managed?
+    self.class.ldap_managed_checks.any? { |check| check.call(self) }
+  end
 
   # Columns required for formatting the group's name.
   def self.columns_for_name(_formatter = nil)
@@ -155,10 +176,18 @@ class Group < Principal
   private
 
   def uniqueness_of_name
-    groups_with_name = Group.where("lastname = ? AND id <> ?", name, id || 0).count
-    if groups_with_name > 0
-      errors.add :name, :taken
-    end
+    scope = Group.where(lastname: name).where.not(id: id || 0)
+
+    # Regular groups must be globally unique. Organizational units (departments) only need to be
+    # unique among their siblings: LDAP directories routinely repeat the same OU name on different
+    # branches (e.g. OU=Support under both IT and HR), so we scope uniqueness to the parent.
+    scope = if organizational_unit?
+              scope.where_detail(organizational_unit: true, parent_id:)
+            else
+              scope.where_detail(organizational_unit: false)
+            end
+
+    errors.add(:name, :taken) if scope.exists?
   end
 
   def fail_add
@@ -168,6 +197,15 @@ class Group < Principal
   def no_circular_parent
     if parent_id == id || descendant_ids.include?(parent_id)
       errors.add(:parent_id, :circular_dependency)
+    end
+  end
+
+  def no_organizational_unit_mismatch
+    parent = self.class.find_by(id: parent_id)
+    return unless parent
+
+    if organizational_unit? != parent.organizational_unit?
+      errors.add(:parent_id, :organizational_unit_mismatch)
     end
   end
 end

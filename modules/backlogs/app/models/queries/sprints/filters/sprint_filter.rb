@@ -29,9 +29,9 @@
 # ++
 
 class Queries::Sprints::Filters::SprintFilter < Queries::Filters::Base
-  self.model = ::Agile::Sprint
+  self.model = ::Sprint
 
   def human_name
-    ::Agile::Sprint.human_attribute_name(name)
+    ::Sprint.human_attribute_name(name)
   end
 end

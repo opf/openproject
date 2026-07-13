@@ -37,7 +37,7 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -50,13 +50,13 @@ export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
   // Injections
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() halEditing:HalResourceEditingService;
+  @LazyInject() halEditing:HalResourceEditingService;
 
-  @InjectField() halNotification:HalResourceNotificationService;
+  @LazyInject() halNotification:HalResourceNotificationService;
 
-  @InjectField() halEvents:HalEventsService;
+  @LazyInject() halEvents:HalEventsService;
 
   // All current active (open) edit fields
   public activeFields:Record<string, EditFieldHandler> = {};
@@ -101,7 +101,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * Return whether this form has any active fields
    */
   public hasActiveFields():boolean {
-    return !_.isEmpty(this.activeFields);
+    return Object.keys(this.activeFields).length > 0;
   }
 
   /**
@@ -151,7 +151,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return this.change.getForm().then((form:FormResource) => {
       const activateFields:Promise<unknown>[] = [];
 
-      _.each(form.validationErrors, (_:ErrorResource, key:string) => {
+      Object.entries(form.validationErrors ?? {}).forEach(([key]) => {
         if (key === 'id') {
           return;
         }
@@ -183,10 +183,10 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     this.errorsPerAttribute = {};
 
     // Notify all fields of upcoming save
-    const openFields = _.keys(this.activeFields);
+    const openFields = Object.keys(this.activeFields);
 
     // Call onSubmit handlers
-    await Promise.all(_.map(this.activeFields, (handler:EditFieldHandler) => handler.onSubmit()));
+    await Promise.all(Object.values(this.activeFields).map((handler:EditFieldHandler) => handler.onSubmit()));
 
     return new Promise<T>((resolve, reject) => {
       this.halEditing.save<T, ResourceChangeset<T>>(this.change)
@@ -231,7 +231,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    */
   public closeEditFields(fields:string[]|'all' = 'all', resetChange = true) {
     if (fields === 'all') {
-      fields = _.keys(this.activeFields);
+      fields = Object.keys(this.activeFields);
     }
 
     fields.forEach((name:string) => {
@@ -317,7 +317,16 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       .getForm()
       .then(() => {
         // Look up whether we're actually editable
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const fieldSchema = this.change.schema.ofProperty(fieldName);
+
+        // If the type changed while we tried to activate the form
+        // silently close the field as it will no longer be writable
+        if (!fieldSchema) {
+          this.closeEditFields([fieldName]);
+          return;
+        }
+
         if (!fieldSchema.writable && !noWarnings) {
           this.halNotification.showEditingBlockedError(fieldSchema.name || fieldName);
           this.closeEditFields([fieldName]);

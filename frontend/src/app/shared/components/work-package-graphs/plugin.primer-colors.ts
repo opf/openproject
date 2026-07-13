@@ -162,10 +162,12 @@ function buildLabelColorMap(labels:string[]):Map<string, number> {
 
   for (const { label, preferred } of items) {
     let slot = preferred;
-    while (used.has(slot)) {
-      slot = (slot + 1) % paletteSize;
+    if (used.size < paletteSize) {
+      while (used.has(slot)) {
+        slot = (slot + 1) % paletteSize;
+      }
+      used.add(slot);
     }
-    used.add(slot);
     map.set(label, slot);
   }
 

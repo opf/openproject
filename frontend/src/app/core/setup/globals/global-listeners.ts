@@ -57,7 +57,7 @@ export function initializeGlobalListeners():void {
       }
 
       // Prevent angular handling clicks on href="#..." links from other libraries
-      // (especially jquery-ui and its datepicker) from routing to <base url>/#
+      // from routing to <base url>/#
       if (performAnchorHijacking(evt, linkElement)) {
         evt.preventDefault();
       }

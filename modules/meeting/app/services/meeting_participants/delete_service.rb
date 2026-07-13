@@ -30,57 +30,24 @@
 
 module MeetingParticipants
   class DeleteService < BaseServices::Delete
+    def initialize(user:, model:, contract_class: nil, contract_options: {}, notify: true)
+      @notify = notify
+      super(user:, model:, contract_class:, contract_options:)
+    end
+
     protected
 
-    def after_validate(call)
-      send_notifications if should_send_notification?
+    def after_perform(call)
+      meeting = model.meeting
+      meeting.touch_and_save_journals
+
+      if @notify
+        since_invited_ids = meeting.participants.where(invited: true).pluck(:user_id)
+        since_invited_ids |= [model.user_id] if model.invited?
+        Meetings::NotificationDebounceJob.debounce(meeting, since_invited_ids:)
+      end
 
       call
-    end
-
-    def send_notifications
-      remaining_participants = fetch_remaining_participants
-
-      send_cancellation_notification(model)
-      notify_remaining_participants(model.meeting, remaining_participants, model.user)
-    end
-
-    def fetch_remaining_participants
-      model.meeting.participants.invited
-           .where.not(id: model.id)
-           .includes(:user).to_a
-    end
-
-    def send_cancellation_notification(participant)
-      meeting = participant.meeting
-
-      if meeting.template?
-        MeetingMailer.cancelled_series(meeting.recurring_meeting, participant.user, user).deliver_later
-      else
-        MeetingMailer.cancelled(meeting, participant.user, user).deliver_later
-      end
-    end
-
-    def notify_remaining_participants(meeting, remaining_participants, removed_user)
-      removed_participant_name = removed_user.name
-
-      remaining_participants.each do |participant|
-        send_participant_removed_notification(meeting, participant.user, removed_participant_name)
-      end
-    end
-
-    def send_participant_removed_notification(meeting, recipient, removed_participant_name)
-      if meeting.template?
-        MeetingSeriesMailer.participant_removed(meeting.recurring_meeting, recipient, user,
-                                                removed_participant: removed_participant_name).deliver_later
-      else
-        MeetingMailer.participant_removed(meeting, recipient, user,
-                                          removed_participant: removed_participant_name).deliver_later
-      end
-    end
-
-    def should_send_notification?
-      Journal::NotificationConfiguration.active? && model.meeting.send_emails?
     end
   end
 end

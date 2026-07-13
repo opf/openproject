@@ -29,6 +29,29 @@
 #++
 
 class MigrateVersionsToSprints < ActiveRecord::Migration[8.0]
+  class MigrationVersionSetting < ApplicationRecord
+    self.table_name = "version_settings"
+
+    DISPLAY_LEFT = 2
+    DISPLAY_RIGHT = 3
+  end
+
+  class MigrationWorkPackage < ApplicationRecord
+    self.table_name = "work_packages"
+  end
+
+  class MigrationVersion < ApplicationRecord
+    self.table_name = "versions"
+
+    has_many :work_packages,
+             class_name: "MigrateVersionsToSprints::MigrationWorkPackage",
+             foreign_key: "version_id"
+
+    has_many :version_settings,
+             class_name: "MigrateVersionsToSprints::MigrationVersionSetting",
+             foreign_key: "version_id"
+  end
+
   def up
     return if sprint_versions_with_work_package_ids.none?
 
@@ -50,16 +73,17 @@ class MigrateVersionsToSprints < ActiveRecord::Migration[8.0]
     # Load versions used as sprints including work package ids associated with the version.
     # Since the same version can be used as a sprint in one project but not in another,
     # the work package ids are filtered by projects where the version is used as a sprint.
-    display_versions = [VersionSetting::DISPLAY_LEFT, VersionSetting::DISPLAY_RIGHT]
-    Version.joins(:version_settings, :work_packages)
-           .where(version_settings: { display: display_versions })
-           .where("work_packages.project_id = version_settings.project_id")
-           .group("versions.id")
-           .select("versions.*, array_agg(DISTINCT work_packages.id) AS wp_ids")
+
+    MigrationVersion
+      .joins(:version_settings, :work_packages)
+      .where(version_settings: { display: [MigrationVersionSetting::DISPLAY_LEFT, MigrationVersionSetting::DISPLAY_RIGHT] })
+      .where("work_packages.project_id = version_settings.project_id")
+      .group("versions.id")
+      .select("versions.*, array_agg(DISTINCT work_packages.id) AS wp_ids")
   end
 
   def create_sprint(version)
-    Agile::Sprint.create!(
+    Sprint.create!(
       name: version.name,
       project_id: version.project_id,
       status: version.status == "open" ? "in_planning" : "completed",

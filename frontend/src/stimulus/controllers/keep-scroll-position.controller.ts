@@ -31,15 +31,9 @@
 import { ApplicationController } from 'stimulus-use';
 
 export default class KeepScrollPositionController extends ApplicationController {
-  static values = {
-    url: String,
-  };
-
   static targets = ['triggerButton'];
 
   declare triggerButtonTarget:HTMLLinkElement;
-
-  declare urlValue:string;
 
   connect() {
     super.connect();
@@ -80,6 +74,6 @@ export default class KeepScrollPositionController extends ApplicationController 
   }
 
   private scrollPositionKey():string {
-    return `${this.urlValue}/scrollPosition`;
+    return `${window.location.pathname}/scrollPosition`;
   }
 }

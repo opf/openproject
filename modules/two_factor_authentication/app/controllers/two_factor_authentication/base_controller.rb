@@ -8,7 +8,7 @@ module ::TwoFactorAuthentication
     before_action :ensure_enabled_2fa
 
     # Locate the user we're editing
-    prepend_before_action :find_user
+    before_action :find_user
 
     before_action :find_device, only: %i[confirm make_default destroy]
 

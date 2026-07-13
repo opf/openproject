@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_projects: true } do
+RSpec.describe Queries::WorkPackages::Filter::SprintFilter do
   let(:scope_class) do
     Class.new do
       def for_project(_project); end
@@ -38,7 +38,7 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
       def pluck(*_args); end
     end
   end
-  let(:sprint) { build_stubbed(:agile_sprint) }
+  let(:sprint) { build_stubbed(:sprint) }
 
   it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
@@ -53,7 +53,7 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
     current_user { build_stubbed(:user) }
 
     before do
-      allow(Agile::Sprint)
+      allow(Sprint)
         .to receive(:visible)
         .and_return(visible_scope)
 
@@ -62,10 +62,11 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
           .to receive(:for_project)
           .with(project)
           .and_return(scope)
-      end
 
-      allow(scope).to receive(:pluck).with(:id, :id).and_return([[sprint.id, sprint.id]])
-      allow(visible_scope).to receive(:pluck).with(:id, :id).and_return([[sprint.id, sprint.id]])
+        allow(scope).to receive(:pluck).with(:id).and_return([sprint.id])
+      else
+        allow(visible_scope).to receive(:pluck).with(:id).and_return([sprint.id])
+      end
 
       mock_permissions_for current_user do |mock|
         if project
@@ -77,20 +78,37 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
       end
     end
 
+    describe "#allowed_values" do
+      let(:sprint2) { build_stubbed(:sprint) }
+
+      before do
+        allow(scope).to receive(:pluck).with(:id).and_return([sprint.id, sprint2.id])
+      end
+
+      it "returns id pairs for sprints visible in the project" do
+        expect(instance.allowed_values).to contain_exactly(
+          [sprint.id.to_s, sprint.id.to_s],
+          [sprint2.id.to_s, sprint2.id.to_s]
+        )
+      end
+
+      context "when outside a project" do
+        let(:project) { nil }
+
+        it "returns id pairs for all visible sprints" do
+          expect(instance.allowed_values).to contain_exactly([sprint.id.to_s, sprint.id.to_s])
+        end
+      end
+    end
+
     describe "#available?" do
-      context "when in a project, scrum projects is active and user has the permission" do
+      context "when in a project and the user has the permission" do
         it "is true" do
           expect(instance).to be_available
         end
       end
 
-      context "when in a project, scrum projects is inactive and user has the permission", with_flag: { scrum_projects: false } do
-        it "is false" do
-          expect(instance).not_to be_available
-        end
-      end
-
-      context "when in a project, scrum projects is active and user lacks the permission" do
+      context "when in a project and the user lacks the permission" do
         let(:project_permissions) { [] }
 
         it "is false" do
@@ -98,7 +116,7 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
         end
       end
 
-      context "when outside a project, scrum projects is active and user has the permission" do
+      context "when outside a project and the user has the permission" do
         let(:project) { nil }
 
         it "is true" do
@@ -106,16 +124,7 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
         end
       end
 
-      context "when outside a project, scrum projects is inactive and user has the permission",
-              with_flag: { scrum_projects: false } do
-        let(:project) { nil }
-
-        it "is false" do
-          expect(instance).not_to be_available
-        end
-      end
-
-      context "when outside a project, scrum projects is active and user lacks the permission" do
+      context "when outside a project and the user lacks the permission" do
         let(:project) { nil }
         let(:project_permissions) { [] }
 
@@ -133,16 +142,16 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
 
     describe "dependency representer" do
       it "maps to the sprint dependency representer" do
-        dependency = API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(instance,
-                                                                                          Queries::Operators::Equals)
+        dependency = API::V3::Queries::Schemas::FilterDependencyRepresenterFactory
+          .create(instance, Queries::Operators::Equals)
 
         expect(dependency).to be_a(API::V3::Queries::Schemas::SprintFilterDependencyRepresenter)
       end
     end
 
     describe "#value_objects" do
-      let(:sprint1) { build_stubbed(:agile_sprint) }
-      let(:sprint2) { build_stubbed(:agile_sprint) }
+      let(:sprint1) { build_stubbed(:sprint) }
+      let(:sprint2) { build_stubbed(:sprint) }
 
       before do
         allow(visible_scope)
@@ -154,8 +163,7 @@ RSpec.describe Queries::WorkPackages::Filter::SprintFilter, with_flag: { scrum_p
       end
 
       it "returns an array of sprints" do
-        expect(instance.value_objects)
-          .to contain_exactly(sprint1)
+        expect(instance.value_objects).to contain_exactly(sprint1)
       end
     end
   end

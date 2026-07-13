@@ -1,4 +1,4 @@
-import { Inject, Injectable, DOCUMENT } from '@angular/core';
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
@@ -6,7 +6,9 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 export class ActiveWindowService {
   private activeState$ = new BehaviorSubject<boolean>(true);
 
-  constructor(@Inject(DOCUMENT) document:Document) {
+  constructor() {
+    const document = inject<Document>(DOCUMENT);
+
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState) {
         debugLog(`Browser window has visibility state changed to ${document.visibilityState}`);

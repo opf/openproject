@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
@@ -7,7 +7,6 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
@@ -21,9 +20,21 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
-  @InjectField() halNotification:HalResourceNotificationService;
+  readonly halNotification = inject(HalResourceNotificationService);
 
   filterName = 'version';
+
+  /**
+   * The work package show view writes the version via the targetVersions
+   * attribute, while dragging a card between lists still writes the
+   * deprecated version attribute. Watch both so either change moves the card.
+   *
+   * TODO: Reduce to targetVersions once boards write it as well
+   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   */
+  get watchedAttributes():string[] {
+    return [this.filterName, 'targetVersions'];
+  }
 
   resourceName = 'version';
 
@@ -42,7 +53,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
   localizedName = this.I18n.t('js.work_packages.properties.version');
 
   public canAddToQuery(query:QueryResource):Promise<boolean> {
-    const formLink = _.get(query, 'results.createWorkPackage.href', null);
+    const formLink = (query?.results?.createWorkPackage as { href?:string }|undefined)?.href ?? null;
 
     if (!formLink) {
       return Promise.resolve(false);

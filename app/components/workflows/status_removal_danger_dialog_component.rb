@@ -35,9 +35,9 @@ module Workflows
 
     DIALOG_ID = "workflows-status-removal-dialog"
 
-    def initialize(role:, type:, tab:, status_ids:, removed_count:)
+    def initialize(roles:, type:, tab:, status_ids:, removed_count:)
       super
-      @role = role
+      @roles = roles
       @type = type
       @tab = tab
       @status_ids = Array(status_ids).flatten.map(&:to_i)

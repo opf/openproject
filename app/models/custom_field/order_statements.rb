@@ -113,16 +113,20 @@ module CustomField::OrderStatements
   #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
   #
   def join_for_order_sql(value:, add_select: nil, join: nil, multi_value: false)
-    <<-SQL.squish
+    customized_type_condition = OpenProject::SqlSanitization.sanitize(
+      "cv.customized_type = ?", self.class.customized_class.base_class.name
+    )
+
+    <<~SQL.squish
       LEFT OUTER JOIN (
         SELECT
-          #{multi_value ? '' : 'DISTINCT ON (cv.customized_id)'}
+          #{'DISTINCT ON (cv.customized_id)' unless multi_value}
             cv.customized_id
             , #{value} "value"
             #{", #{add_select}" if add_select}
           FROM #{CustomValue.quoted_table_name} cv
           #{join}
-          WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
+          WHERE #{customized_type_condition}
             AND cv.custom_field_id = #{id}
             AND cv.value IS NOT NULL
             AND cv.value != ''

@@ -33,21 +33,19 @@ import {
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
+  protected readonly querySpace = inject(IsolatedQuerySpace);
+
   /** Internal state to push non-persisted updates */
   protected updatesState = input<T>();
 
   /** Internal pristine state filled during +initialize+ only */
   protected pristineState = input<T>();
-
-  constructor(
-    protected readonly querySpace:IsolatedQuerySpace,
-  ) { }
 
   /**
    * Get the state value from the current query.

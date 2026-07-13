@@ -1,0 +1,47 @@
+# Schema: MeetingAgendaItemWriteModel
+---
+type: object
+properties:
+  title:
+    type: string
+    description: The agenda item's title.
+  notes:
+    $ref: "./formattable.yml"
+  durationInMinutes:
+    type:
+      - integer
+      - "null"
+    description: The agenda item's duration in minutes.
+  itemType:
+    type: string
+    description: The type of this agenda item (simple or work_package).
+    enum:
+      - simple
+      - work_package
+  lockVersion:
+    type: integer
+    description: The version of the item as used for optimistic locking. Required for PATCH operations.
+  _links:
+    type: object
+    properties:
+      workPackage:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The linked work package (for work_package type items)
+
+              **Resource**: WorkPackage
+      presenter:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The user presenting this agenda item
+
+              **Resource**: User
+      section:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The section this agenda item belongs to
+
+              **Resource**: MeetingSection

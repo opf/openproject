@@ -78,7 +78,27 @@ RSpec.describe "Meeting templates requests",
       end
     end
 
-    context "without view_meetings permission" do
+    context "with view_meetings permission only" do
+      shared_let(:user_view_only) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+
+      before { login_as user_view_only }
+
+      it "returns 403" do
+        get templates_project_meetings_path(project)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "returns 403 for global templates path" do
+        get templates_meetings_path
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "without any permission" do
       before { login_as user_without_permissions }
 
       it "returns 403" do
@@ -212,7 +232,7 @@ RSpec.describe "Meeting templates requests",
     shared_let(:unrelated_project) { create(:project, enabled_module_names: %i[meetings]) }
 
     shared_let(:user) do
-      create(:user, member_with_permissions: { current_project => %i[view_meetings] })
+      create(:user, member_with_permissions: { current_project => %i[view_meetings create_meetings] })
     end
 
     shared_let(:own_template) { create(:onetime_template, project: current_project, title: "Own template") }
@@ -248,7 +268,7 @@ RSpec.describe "Meeting templates requests",
     shared_let(:inaccessible_project) { create(:project, enabled_module_names: %i[meetings]) }
 
     shared_let(:user) do
-      create(:user, member_with_permissions: { accessible_project => %i[view_meetings] })
+      create(:user, member_with_permissions: { accessible_project => %i[view_meetings create_meetings] })
     end
 
     shared_let(:own_template) { create(:onetime_template, project: accessible_project, title: "Own template") }

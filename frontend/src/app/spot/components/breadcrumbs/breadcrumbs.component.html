@@ -1,4 +1,4 @@
-@for (crumb of content.crumbs; track crumb; let i = $index, first = $first, last = $last) {
+@for (crumb of content.crumbs; track crumb.text + ':' + (crumb.icon || '') + ':' + $index; let i = $index, first = $first, last = $last) {
   @if ((first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3) {
     <div
       class="spot-breadcrumbs--crumb"

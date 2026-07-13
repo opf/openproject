@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -84,6 +84,7 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
 import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.component';
+import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
 
 export function bootstrapModule(injector:Injector):void {
@@ -127,6 +128,7 @@ export function bootstrapModule(injector:Injector):void {
     FullCalendarModule,
     OpDatePickerModule,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   exports: [
@@ -181,6 +183,7 @@ export function bootstrapModule(injector:Injector):void {
 
     OpNonWorkingDaysListComponent,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   providers: [
@@ -222,7 +225,9 @@ export function bootstrapModule(injector:Injector):void {
   ],
 })
 export class OpSharedModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     bootstrapModule(injector);
   }
 }

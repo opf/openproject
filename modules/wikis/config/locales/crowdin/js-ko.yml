@@ -22,6 +22,11 @@
 ---
 ko:
   js:
+    editor:
+      macro:
+        wikis:
+          add_existing: 기존 위키 페이지
+          create_new: 새 위키 페이지
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: 위키

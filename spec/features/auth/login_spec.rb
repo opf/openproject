@@ -94,7 +94,7 @@ RSpec.describe "Login" do
             fill_in("password", with: user_password)
             fill_in("new_password", with: new_user_password)
             fill_in("new_password_confirmation", with: "#{new_user_password}typo")
-            click_link_or_button I18n.t(:button_save)
+            click_button I18n.t(:button_change_password)
           end
           expect(page).to have_current_path account_change_password_path
 
@@ -103,7 +103,7 @@ RSpec.describe "Login" do
             fill_in("password", with: user_password)
             fill_in("new_password", with: new_user_password)
             fill_in("new_password_confirmation", with: new_user_password)
-            click_link_or_button I18n.t(:button_save)
+            click_button I18n.t(:button_change_password)
           end
 
           # on the my page
@@ -128,7 +128,7 @@ RSpec.describe "Login" do
             fill_in("password", with: user_password)
             fill_in("new_password", with: new_user_password)
             fill_in("new_password_confirmation", with: new_user_password)
-            click_link_or_button I18n.t(:button_save)
+            click_button I18n.t(:button_change_password)
           end
 
           # on the my page
@@ -208,7 +208,7 @@ RSpec.describe "Login" do
         fill_in "New password", with: new_user_password
         fill_in "Confirmation", with: new_user_password
 
-        click_button "Save"
+        click_button "Change password"
 
         expect_being_logged_in(user)
 

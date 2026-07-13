@@ -30,18 +30,16 @@
 
 module Workflows
   class StatusSelectForm < ApplicationForm
-    def initialize(all_statuses:, current_statuses:, role:, type:, tab:, dialog_id:)
+    def initialize(all_statuses:, current_statuses:, type:, tab:, dialog_id:)
       super()
       @all_statuses = all_statuses
       @current_statuses = current_statuses
-      @role = role
       @type = type
       @tab = tab
       @dialog_id = dialog_id
     end
 
     form do |f|
-      f.hidden(name: :role_id, value: @role.id)
       f.hidden(name: :type_id, value: @type.id)
       f.hidden(name: :tab, value: @tab || "always")
       @current_statuses.each { |status| f.hidden(name: "original_status_ids[]", value: status.id) }

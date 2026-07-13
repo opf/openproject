@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -28,6 +28,5 @@ import { OpBasicSingleDatePickerComponent } from './basic-single-date-picker/bas
   ],
 })
 export class OpBasicDatePickerModule {
-  constructor(readonly injector:Injector) {
-  }
+  readonly injector = inject(Injector);
 }

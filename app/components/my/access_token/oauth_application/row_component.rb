@@ -46,9 +46,13 @@ module My
           end
         end
 
+        def active_token_count
+          oauth_application_tokens.count { |t| !t.expired? && !t.revoked? }
+        end
+
         def active_tokens
           render(Primer::Beta::Text.new(test_selector: "oauth-application-#{oauth_application.id}-active-tokens")) do
-            oauth_application_tokens.count { |t| !t.expired? && !t.revoked? }.to_s
+            active_token_count.to_s
           end
         end
 
@@ -74,11 +78,8 @@ module My
                    data: {
                      turbo_method: :post,
                      turbo_confirm: t(
-                       "oauth.revoke_my_application_confirmation",
-                       token_count: t(
-                         "oauth.x_active_tokens",
-                         count: oauth_application_tokens.count
-                       )
+                       "oauth.confirm_revoke_my_application",
+                       count: active_token_count
                      )
                    }
                  ))

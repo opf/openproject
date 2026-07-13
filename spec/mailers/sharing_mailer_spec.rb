@@ -59,10 +59,46 @@ RSpec.describe SharingMailer do
         .to contain_exactly(shared_with_user.mail)
     end
 
-    it "sets the appropriate subject" do
-      expect(mail.subject)
-        .to eq(I18n.t("mail.sharing.work_packages.subject",
-                      id: work_package.id))
+    context "with classic mode", with_settings: { work_packages_identifier: "classic" } do
+      it "sets the subject with # prefixed numeric id" do
+        expect(mail.subject)
+          .to eq(I18n.t("mail.sharing.work_packages.subject", id: "##{work_package.id}"))
+      end
+
+      it "links to the work package by its numeric id" do
+        expect(mail.html_part.body.encoded).to include("/work_packages/#{work_package.id}")
+        expect(mail.text_part.body.encoded).to include("/work_packages/#{work_package.id}")
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:work_package) do
+        build_stubbed(:work_package,
+                      type: build_stubbed(:type_standard),
+                      author: build_stubbed(:user),
+                      project:,
+                      identifier: "PROJ-42",
+                      sequence_number: 42)
+      end
+
+      it "sets the subject with the semantic identifier without # prefix" do
+        expect(mail.subject)
+          .to eq(I18n.t("mail.sharing.work_packages.subject", id: "PROJ-42"))
+      end
+
+      it "links to the work package by its semantic identifier, not the numeric id" do
+        expect(mail.html_part.body.encoded).to include("/work_packages/PROJ-42")
+        expect(mail.html_part.body.encoded).not_to include("/work_packages/#{work_package.id}")
+
+        expect(mail.text_part.body.encoded).to include("/work_packages/PROJ-42")
+        expect(mail.text_part.body.encoded).not_to include("/work_packages/#{work_package.id}")
+      end
+
+      it "renders the text-part heading with the semantic identifier, not the numeric id" do
+        expect(mail.text_part.body.encoded).to include("= PROJ-42 #{work_package.subject} =")
+        expect(mail.text_part.body.encoded).not_to include("##{work_package.id}")
+      end
     end
 
     it "has a project header" do

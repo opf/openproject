@@ -8,12 +8,20 @@ keywords: wiki, documentation
 
 # Wiki
 
-In a project wiki you can collaboratively create and document information with your team, such as project documentation, specifications, guidelines, or any other important project information.
+OpenProject offers two different ways to work with project documentation:
+
+- **Internal wiki** – the built-in OpenProject wiki described on this page.
+- **External wiki providers** – integrations with external documentation platforms, including **XWiki**.
+
+This page explains how to use the **internal OpenProject wiki**.
+
+If you want to connect an external documentation platform such as XWiki to your projects, see the documentation on **[external wiki providers setup](../../system-admin-guide/wikis/wiki-providers)**.
 
 <div class="glossary">
 
-**Wiki** is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings.
+**Wiki** is the built-in OpenProject module for collaboratively creating and editing project documentation. It uses GitHub-flavored CommonMark (GFM) and must be enabled in the project settings before it can be used.
 
+For organizations that prefer to manage documentation outside of OpenProject, external wiki providers such as XWiki can be connected through an integration.
 </div>
 
 | Topic                                                        | Content                                                      |
@@ -108,7 +116,7 @@ Use it to embed views in other pages, create reporting of multiple results, or t
 
 Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
 
-### Links to child pages
+### List of sub-pages
 
 Create a hierarchical list of all child pages of the current page.
 
@@ -158,4 +166,7 @@ Wiki systems contain all the answers !#42
 
 ### Autocompletion for work packages
 
-For work packages, typing # will open an autocompleter for visible work packages. This means when you type e.g. #3 or #Market, a list of work packages matching the description will be shown. Then you can either continue typing or choose a work package from the list.
+For work packages, typing `#` will open an autocompleter for visible work packages. This means when you type e.g. #3 or #Market, a list of work packages matching the description will be shown. Then you can either continue typing or choose a work package from the list.
+
+> [!TIP]
+> To show more details when linking a work package, type either  `##` or `###` followed by the work package ID, subject, type or a keyword.

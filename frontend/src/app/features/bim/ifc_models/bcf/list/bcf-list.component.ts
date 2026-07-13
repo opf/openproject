@@ -27,17 +27,18 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, NgZone, OnInit,
+  ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
@@ -67,21 +68,19 @@ import {
 export class BcfListComponent extends WorkPackageListViewComponent implements UntilDestroyedMixin, OnInit {
   @Input() showResizer = false;
 
-  @InjectField() bcfView:BcfViewService;
+  @LazyInject() bcfView:BcfViewService;
 
-  @InjectField() ifcModelsService:IfcModelsDataService;
+  @LazyInject() ifcModelsService:IfcModelsDataService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() uIRouterGlobals:UIRouterGlobals;
+  @LazyInject() uIRouterGlobals:UIRouterGlobals;
 
-  @InjectField() viewer:ViewerBridgeService;
+  @LazyInject() viewer:ViewerBridgeService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() bcfApi:BcfApiService;
-
-  @InjectField() zone:NgZone;
+  @LazyInject() bcfApi:BcfApiService;
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false,
@@ -105,9 +104,7 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
     if (!this.showViewPointInFlight) {
       this.showViewPointInFlight = true;
 
-      this.zone.runOutsideAngular(() => {
-        setTimeout(() => { this.showViewPointInFlight = false; }, 500);
-      });
+      setTimeout(() => { this.showViewPointInFlight = false; }, 500);
 
       const wp = this.states.workPackages.get(workPackageId).value;
 
@@ -133,8 +130,10 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
       : 'bim.partitioned.show';
     // Passing the card param to the new state because the router doesn't keep
     // it when going to 'bim.partitioned.show'
-    const params = { workPackageId, cards, focus };
+    const routingId = resolveRoutingId(this.states, workPackageId);
+    const params = { workPackageId: routingId, cards, focus };
 
     void this.$state.go(stateToGo, params);
   }
+
 }

@@ -39,15 +39,13 @@ module API
                  embedded: true,
                  if: ->(*) { details_schemas.any? }
 
-        def initialize(models, self_link:, current_user:, query_params: {}, page: nil, per_page: nil, groups: nil)
-          super
-
-          @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)
-        end
-
         def details_schemas
           @details_schemas ||=
             ::API::V3::Notifications::PropertyFactory.schemas_for(@represented)
+        end
+
+        def eager_loaded_paged_models(models)
+          ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(models)
         end
       end
     end

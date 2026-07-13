@@ -37,6 +37,7 @@ module Import
                       delete_users
                       delete_groups
                       delete_project_roles
+                      delete_custom_fields
                       delete_references
                       delete_jira_objects].freeze
 
@@ -129,6 +130,16 @@ module Import
           op_leg = ref.op_leg
           service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
           raise service_call.message if service_call.failure?
+      end
+    end
+
+    def delete_custom_fields
+      Import::JiraOpenProjectReference
+        .where(jira_import_id: @jira_import.id, uses_existing: false)
+        .where(op_entity_class: "WorkPackageCustomField")
+        .find_each do |ref|
+        op_leg = ref.op_leg
+        op_leg.destroy!
       end
     end
 

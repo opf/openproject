@@ -63,7 +63,7 @@ module ::Boards
           render json: { redirect_url: project_work_package_boards_path(@project) }
         end
         format.html do
-          redirect_to action: "index", project_id: @project
+          redirect_to action: "index", project_id: @project, status: :see_other
         end
       end
     end

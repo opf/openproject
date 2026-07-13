@@ -26,12 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { BcfResourceCollectionPath } from 'core-app/features/bim/bcf/api/bcf-path-resources';
 import { BcfProjectPaths } from 'core-app/features/bim/bcf/api/projects/bcf-project.paths';
 
 @Injectable({ providedIn: 'root' })
 export class BcfApiService {
+  readonly injector = inject(Injector);
+
   public readonly bcfApiVersion = '2.1';
 
   public readonly appBasePath = window.appBasePath || '';
@@ -40,9 +42,6 @@ export class BcfApiService {
 
   // /api/bcf/:version/projects
   public readonly projects = new BcfResourceCollectionPath(this.injector, this.bcfApiBase, 'projects', BcfProjectPaths);
-
-  constructor(readonly injector:Injector) {
-  }
 
   /**
    * Parse the given string into a BCF resource path

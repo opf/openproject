@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Output,
+  ChangeDetectionStrategy, Component, EventEmitter, Output, inject,
 } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
@@ -36,7 +36,6 @@ import {
 import {
   TimeEntriesCurrentUserConfigurationModalComponent,
 } from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
@@ -46,10 +45,10 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMenuComponent {
-  @InjectField() opModalService:OpModalService;
+  readonly opModalService = inject(OpModalService);
 
   @Output() onConfigured = new EventEmitter<any>();
 

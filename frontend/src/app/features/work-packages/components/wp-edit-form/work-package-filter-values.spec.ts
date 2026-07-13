@@ -38,7 +38,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -73,8 +73,8 @@ describe('WorkPackageFilterValues', () => {
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
     void TestBed.configureTestingModule({
-    imports: [UIRouterModule.forRoot({})],
-    providers: [
+      imports: [UIRouterModule.forRoot({})],
+      providers: [
         I18nService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
         States,
@@ -94,9 +94,9 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-}).compileComponents();
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+      ]
+    }).compileComponents();
 
     injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
@@ -104,14 +104,8 @@ describe('WorkPackageFilterValues', () => {
     resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
     changeset = new WorkPackageChangeset(resource);
 
-    const type1 = halResourceService.createHalResourceOfClass(
-      TypeResource,
-      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } },
-    );
-    const type2 = halResourceService.createHalResourceOfClass(
-      TypeResource,
-      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } },
-    );
+    const type1 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } });
+    const type2 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } });
 
     filters = [
       {
@@ -141,12 +135,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it('should not apply the first value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/1');
-      }));
+      });
     });
 
     describe('with the second type applied', () => {
@@ -164,12 +158,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not keep the second value (Regression #30817)', (() => {
+      it('should not keep the second value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/2');
-      }));
+      });
     });
   });
 });

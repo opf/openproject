@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   OpContextMenuItem,
   OpContextMenuLocalsMap,
@@ -12,14 +12,16 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class OPContextMenuComponent {
+  locals = inject<OpContextMenuLocalsMap>(OpContextMenuLocalsToken);
+
   public items:OpContextMenuItem[];
 
   public service:OPContextMenuService;
 
-  constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
+  constructor() {
     this.items = this.locals.items.filter((item) => !item?.hidden);
     this.service = this.locals.service;
   }

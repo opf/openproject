@@ -91,27 +91,27 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].includes(schema.type);
     if (context.container === 'single-view' && isCustomMultiLinesField) {
-      return new MultipleLinesCustomOptionsDisplayField(fieldName, context) as DisplayField;
+      return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
 
     const isHierarchyItemsField = ['CustomField::Hierarchy::Item'].includes(schema.type);
     if (context.container === 'single-view' && isHierarchyItemsField) {
-      return new HierarchyItemDisplayField(fieldName, context) as DisplayField;
+      return new HierarchyItemDisplayField(fieldName, context);
     }
 
     const isMultilineHierarchyItemsField = ['[]CustomField::Hierarchy::Item'].includes(schema.type);
     if (context.container === 'single-view' && isMultilineHierarchyItemsField) {
-      return new MultipleLinesHierarchyItemDisplayField(fieldName, context) as DisplayField;
+      return new MultipleLinesHierarchyItemDisplayField(fieldName, context);
     }
 
     // Separate class seems not needed (merge with []CustomOption above?)
     const isVersionMultiLinesField = ['[]Version'].includes(schema.type);
     if (context.container === 'single-view' && isVersionMultiLinesField) {
-      return new MultipleLinesCustomOptionsDisplayField(fieldName, context) as DisplayField;
+      return new MultipleLinesCustomOptionsDisplayField(fieldName, context);
     }
     const isUserMultiLinesField = ['[]User'].includes(schema.type);
     if (context.container === 'single-view' && isUserMultiLinesField) {
-      return new MultipleLinesUserFieldModule(fieldName, context) as DisplayField;
+      return new MultipleLinesUserFieldModule(fieldName, context);
     }
 
     // We handle progress differently in the timeline

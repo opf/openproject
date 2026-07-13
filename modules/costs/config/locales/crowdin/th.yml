@@ -21,24 +21,42 @@
 #++
 ---
 th:
-  plugin_costs:
-    name: Time and costs
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: ชุดภารกิจ
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        logged_by: Logged by
         overridden_costs: Overridden costs
         spent: Spent
         spent_on: วันที่
-        logged_by: Logged by
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        work_package: ชุดภารกิจ
       cost_type:
+        default: Cost type by default
+        for_all_projects: For all projects
+        rates: Rates
         unit: Unit name
         unit_plural: ชื่อหน่วย
-        default: Cost type by default
+      rate:
+        rate: Rate
+      time_entry:
+        activity: กิจกรรม
+        comments: ความคิดเห็น
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: ชั่วโมง
+        project: โครงการ
+        spent_on: วันที่
+        start_time: Start time
+        subject: หัวข้อ
+        time: Time
+        user: ผู้ใช้
+        work_package: ชุดภารกิจ
+      user:
+        default_rates: Default rates
       work_package:
         costs_by_type: Spent units
         labor_costs: Labor costs
@@ -46,63 +64,55 @@ th:
         overall_costs: Overall costs
         spent_costs: Spent costs
         spent_units: Spent units
-      rate:
-        rate: Rate
-      user:
-        default_rates: Default rates
-      time_entry:
-        project: โครงการ
-        user: ผู้ใช้
-        work_package: ชุดภารกิจ
-        subject: หัวข้อ
-        hours: ชั่วโมง
-        comments: ความคิดเห็น
-        activity: กิจกรรม
-        spent_on: วันที่
-        start_time: Start time
-        end_time: Finish time
-        time: Time
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
+          nullify_is_not_valid_for_cost_entries: Cost entries can not be assigned to a project.
     models:
-      time_entry:
-        other: Time entries
       cost_entry:
         other: Cost entries
       cost_type:
         other: Cost types
+      rate: Rate
+      time_entry:
+        other: Time entries
       time_entry_activity:
         other: Time tracking activities
-      rate: Rate
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
-          nullify_is_not_valid_for_cost_entries: Cost entries can not be assigned to a project.
+      validation:
+        start_time_different_date: นที่ในส่วนเวลาเริ่มต้น (%{start_time}) ต้องเป็นวันเดียวกันกับวันที่บันทึกเวลา (%{spent_on})
   attributes:
     comment: ความคิดเห็น
     cost_type: Cost type
     costs: Costs
     current_rate: Current rate
+    fixed_date: Fixed date
     hours: ชั่วโมง
     units: Units
     valid_from: Valid from
-    fixed_date: Fixed date
+  button_add_activity: กิจกรรม
   button_add_rate: Add rate
+  button_add_time_entry: เวลาที่ถูกบันทึก
   button_log_costs: บันทึกต้นทุนหน่วย
   button_log_time: บันทึก
-  button_add_activity: กิจกรรม
-  button_add_time_entry: เวลาที่ถูกบันทึก
   button_stop_timer: หยุดตัวจับเวลา
   caption_booked_on_project: จองในโครงการแล้ว
   caption_default: ค่าเริ่มต้น
   caption_default_rate_history_for: ประวัติอัตราเริ่มต้นสำหรับ %{user}
   caption_locked_on: ล็อกเมื่อ
+  caption_log_time_dialog: เวลาที่ถูกบันทึก
   caption_materials: หน่วย
   caption_rate_history: ประวัติอัตรา
   caption_rate_history_for: ประวัติอัตราสำหรับ %{user}
@@ -110,22 +120,61 @@ th:
   caption_save_rate: บันทึกอัตรา
   caption_set_rate: กำหนดอัตราปัจจุบัน
   caption_show_locked: แสดงประเภทที่ล็อกไว้
-  caption_log_time_dialog: เวลาที่ถูกบันทึก
-  description_date_for_new_rate: วันที่สำหรับอัตราใหม่
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: เวลาที่ถูกบันทึก
+          description: ดูภาพรวมของต้นทุนและเวลาที่บันทึกไว้เพื่อติดตามความคืบหน้าของโครงการ ตรวจสอบให้แน่ใจว่าแพ็กเกจงานมีความเชื่อมโยงกับงบประมาณที่ถูกต้องถูกต้อง
+          heading: เริ่มบันทึกเวลาและต้นทุนของคุณ
+        title: ต้นทุนจริงตามเดือน
+        view_details: ดูรายละเอียดต้นทุนจริง
   description_costs_settings: กำหนดรูปแบบค่าใช้จ่ายที่ต้องการสำหรับทุกโครงการ
+  description_date_for_new_rate: วันที่สำหรับอัตราใหม่
   description_time_settings: กำหนดฟิลด์ที่จำเป็นต้องระบุเมื่อบันทึกเวลาในทุกโครงการ
+  ee:
+    features:
+      time_entry_time_restrictions: กำหนดให้บันทึกเวลาแบบระบุช่วงเวลาที่ชัดเจน
+    upsell:
+      time_entry_time_restrictions:
+        description: ปรับปรุงการบันทึกเวลาของคุณให้ดียิ่งขึ้น โดยกำหนดให้ระบุเวลาเริ่มต้นและเวลาสิ้นสุดที่แน่นอนเมื่อบันทึกเวลา
   group_by_others: ม่อยู่ในกลุ่มใด ๆ
+  label_available_cost_types_projects: Available cost types projects
   label_between: ระหว่าง
+  label_cost: ต้นทุน
   label_cost_filter_add: เพิ่มตัวกรองรายการต้นทุน
-  label_costlog: ต้นทุนหน่วยที่บันทึกแล้ว
   label_cost_plural: ต้นทุน
   label_cost_type_plural: ประเภทต้นทุน
   label_cost_type_specific: 'ประเภทต้นทุน #%{id}: %{name}'
+  label_costlog: ต้นทุนหน่วยที่บันทึกแล้ว
+  label_costs: ต้นทุน
   label_costs_per_page: ต้นทุนต่อหน้า
   label_current_default_rate: อัตราเริ่มต้นปัจจุบัน
   label_date_on: เมื่อ
+  label_day: วันที่
   label_deleted_cost_types: ประเภทต้นทุนที่ถูกลบ
-  label_locked_cost_types: ประเภทต้นทุนที่ถูกล็อก
   label_display_cost_entries: แสดงต้นทุนหน่วย
   label_display_time_entries: แสดงชั่วโมงที่รายงาน
   label_display_types: แสดงประเภท
@@ -136,59 +185,54 @@ th:
   label_group_by_add: พิ่มฟิลด์การจัดกลุ่ม
   label_hourly_rate: อัตราต่อชั่วโมง
   label_include_deleted: รวมสิ่งที่ถูกลบ
-  label_work_package_filter_add: เพิ่มตัวกรองชุดงาน
   label_kind: ประเภท
   label_less_or_equal: "<="
+  label_list: รายการ
   label_log_costs: บันทึกต้นทุนหน่วย
-  label_new_time_entry_activity: กิจกรรมการบันทึกเวลาใหม่
-  label_time_entry_activity_form_description: การเปลี่ยนแปลงในกิจกรรมการบันทึกเวลานี้จะส่งผลไปยังทุกโครงการที่เปิดใช้งานกิจกรรมดังกล่าว
-  label_no: ไม่ใช่
-  label_option_plural: ตัวเลือก
-  label_overall_costs: ค่าใช้จ่ายทั้งหมด
-  label_rate: อัตรา
-  label_rate_plural: อัตรา
-  label_status_finished: เสร็จสิ้นแล้ว
-  label_show: แสดง
-  label_units: หน่วยต้นทุน
-  label_user: ผู้ใช้
-  label_until: จนถึง
-  label_valid_from: มีผลตั้งแต่
-  label_yes: ใช่
-  label_time: Time
-  label_cost: ต้นทุน
-  label_costs: ต้นทุน
   label_mandatory_fields: ฟิลด์ที่จำเป็นต้องระบุ
+  label_month: เดือน
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: กิจกรรมการบันทึกเวลาใหม่
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: อาทิตย์ถัดไป
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: ไม่ใช่
+  label_no_time: No time tracked
+  label_option_plural: ตัวเลือก
+  label_overall_costs: ค่าใช้จ่ายทั้งหมด
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: สัปดาห์ก่อนหน้านี้
   label_previous_month: Previous month
+  label_previous_week: สัปดาห์ก่อนหน้านี้
+  label_previous_workweek: Previous work week
+  label_rate: อัตรา
+  label_rate_plural: อัตรา
+  label_show: แสดง
   label_specific_day: Day %{day}
-  label_specific_week: Calendar week %{week}
   label_specific_month: Month %{month}
-  label_list: รายการ
-  label_month: เดือน
-  label_workweek: Work week
-  label_day: วันที่
-  label_today_capitalized: Today
-  label_view_mode_switcher: Change view
+  label_status_finished: เสร็จสิ้นแล้ว
+  label_time: Time
+  label_time_entry_activity_form_description: การเปลี่ยนแปลงในกิจกรรมการบันทึกเวลานี้จะส่งผลไปยังทุกโครงการที่เปิดใช้งานกิจกรรมดังกล่าว
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Something went wrong. Please try again.
-  notice_successful_restore: Successful restore.
-  notice_successful_lock: Locked successfully.
+  label_today_capitalized: Today
+  label_units: หน่วยต้นทุน
+  label_until: จนถึง
+  label_user: ผู้ใช้
+  label_valid_from: มีผลตั้งแต่
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: เพิ่มตัวกรองชุดงาน
+  label_workweek: Work week
+  label_yes: ใช่
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Something went wrong. Please try again.
+  notice_successful_lock: Locked successfully.
+  notice_successful_restore: Successful restore.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Edit booked unit costs
-  permission_edit_own_cost_entries: Edit own booked unit costs
   permission_edit_hourly_rates: Edit hourly rates
+  permission_edit_own_cost_entries: Edit own booked unit costs
   permission_edit_own_hourly_rate: Edit own hourly rates
   permission_edit_rates: Edit rates
   permission_log_costs: Book unit costs
@@ -199,45 +243,30 @@ th:
   permission_view_own_cost_entries: View own booked costs
   permission_view_own_hourly_rate: View own hourly rate
   permission_view_own_time_entries: View own spent time
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Time and costs
   project_module_costs: Time and costs
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Currency
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: Delete reported hours and costs
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
   text_warning_hidden_elements: บางรายการอาจถูกคัดออกจากการคำนวณสรุปยอดรวม
-  week: สัปดาห์
   total_times:
-    workweek: 'ยอดรวมสัปดาห์การทำงาน: %{hours}'
-    week: 'รวมเวลาต่อสัปดาห์: %{hours}'
-    month: 'รวมเวลาต่อเดือน: %{hours}'
     day: 'รวมเวลาต่อวัน: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: นที่ในส่วนเวลาเริ่มต้น (%{start_time}) ต้องเป็นวันเดียวกันกับวันที่บันทึกเวลา (%{spent_on})
-  costs:
-    widgets:
-      actual_costs:
-        title: ต้นทุนจริงตามเดือน
-        blankslate:
-          heading: เริ่มบันทึกเวลาและต้นทุนของคุณ
-          description: ดูภาพรวมของต้นทุนและเวลาที่บันทึกไว้เพื่อติดตามความคืบหน้าของโครงการ ตรวจสอบให้แน่ใจว่าแพ็กเกจงานมีความเชื่อมโยงกับงบประมาณที่ถูกต้องถูกต้อง
-          action: เวลาที่ถูกบันทึก
-        view_details: ดูรายละเอียดต้นทุนจริง
-  ee:
-    features:
-      time_entry_time_restrictions: กำหนดให้บันทึกเวลาแบบระบุช่วงเวลาที่ชัดเจน
-    upsell:
-      time_entry_time_restrictions:
-        description: ปรับปรุงการบันทึกเวลาของคุณให้ดียิ่งขึ้น โดยกำหนดให้ระบุเวลาเริ่มต้นและเวลาสิ้นสุดที่แน่นอนเมื่อบันทึกเวลา
+    month: 'รวมเวลาต่อเดือน: %{hours}'
+    week: 'รวมเวลาต่อสัปดาห์: %{hours}'
+    workweek: 'ยอดรวมสัปดาห์การทำงาน: %{hours}'
+  week: สัปดาห์

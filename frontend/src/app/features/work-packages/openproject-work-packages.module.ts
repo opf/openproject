@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
@@ -272,7 +272,6 @@ import {
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QuerySharingFormComponent } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
-import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import {
   WorkPackageTypeStatusComponent,
 } from 'core-app/features/work-packages/components/wp-type-status/wp-type-status.component';
@@ -407,6 +406,10 @@ import {
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import {
+  WorkPackageSplitCreateEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @NgModule({
   imports: [
@@ -587,10 +590,14 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     // Files tab
     WorkPackageFilesTabComponent,
 
+    // Project attributes tab
+    WorkPackageProjectAttributesTabComponent,
+
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
     WorkPackageSplitViewEntryComponent,
+    WorkPackageSplitCreateEntryComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -617,7 +624,6 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     QuerySharingFormComponent,
     QuerySharingModalComponent,
     SaveQueryModalComponent,
-    WpDestroyModalComponent,
     WorkPackageShareModalComponent,
     WorkPackageReminderModalComponent,
 
@@ -681,9 +687,13 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectWorkPackagesModule {
+  private injector = inject(Injector);
+
   static bootstrapAttributeGroupsCalled = false;
 
-  constructor(private injector:Injector) {
+  constructor() {
+    const injector = this.injector;
+
     OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
   }
 

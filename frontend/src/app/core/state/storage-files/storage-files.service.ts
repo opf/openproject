@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter, map, take, tap,
@@ -44,14 +44,12 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class StorageFilesResourceService {
+  private readonly httpClient = inject(HttpClient);
+  private readonly apiV3Service = inject(ApiV3Service);
+
   private readonly store:StorageFilesStore = new StorageFilesStore();
 
   private readonly query = new QueryEntity(this.store);
-
-  constructor(
-    private readonly httpClient:HttpClient,
-    private readonly apiV3Service:ApiV3Service,
-  ) {}
 
   files(link:IHalResourceLink):Observable<IStorageFiles> {
     const value = this.store.getValue().files[link.href];

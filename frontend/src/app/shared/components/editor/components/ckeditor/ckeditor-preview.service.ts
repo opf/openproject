@@ -26,16 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, ComponentRef, Injectable, inject } from '@angular/core';
 
 @Injectable()
 export class CKEditorPreviewService {
-  constructor(
-    private readonly componentFactoryResolver:ComponentFactoryResolver,
-    private readonly appRef:ApplicationRef,
-    private readonly injector:Injector,
-  ) {
-  }
+  private readonly appRef = inject(ApplicationRef);
 
   /**
    * Render preview into the given element, return a remover function to disconnect all
@@ -47,7 +42,7 @@ export class CKEditorPreviewService {
    */
   public render(hostElement:HTMLElement, preview:string):() => void {
     hostElement.innerHTML = preview;
-    const refs:ComponentRef<any>[] = [];
+    const refs:ComponentRef<unknown>[] = [];
 
     return () => {
       refs.forEach((ref) => {

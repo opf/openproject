@@ -35,7 +35,8 @@ import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/wor
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { of } from 'rxjs';
-import SpyObj = jasmine.SpyObj;
+import type { MockedObject } from 'vitest';
+type SpyObj<T> = MockedObject<T>;
 
 describe('WorkPackageViewIndentation service', () => {
   let service:WorkPackageViewHierarchyIdentationService;
@@ -59,12 +60,11 @@ describe('WorkPackageViewIndentation service', () => {
   }
 
   beforeEach(async () => {
-    parentServiceSpy = jasmine.createSpyObj(
-      'WorkPackageRelationHierarchyService',
-      ['changeParent'],
-    );
+    parentServiceSpy = {
+      changeParent: vi.fn().mockName('WorkPackageRelationHierarchyService.changeParent')
+    };
 
-    parentServiceSpy.changeParent.and.resolveTo();
+    parentServiceSpy.changeParent.mockResolvedValue();
 
     await TestBed.configureTestingModule({
       providers: [
@@ -118,8 +118,7 @@ describe('WorkPackageViewIndentation service', () => {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
-        .and.returnValue(false);
+      vi.spyOn(hierarchyServiceStub, 'isEnabled', 'get').mockReturnValue(false);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
 
@@ -160,8 +159,7 @@ describe('WorkPackageViewIndentation service', () => {
     it('Cannot outdent with changeParent link but disabled', () => {
       const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
 
-      spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
-        .and.returnValue(false);
+      vi.spyOn(hierarchyServiceStub, 'isEnabled', 'get').mockReturnValue(false);
 
       expect(service.canOutdent(workPackage)).toBeFalsy();
     });
@@ -174,7 +172,7 @@ describe('WorkPackageViewIndentation service', () => {
   });
 
   describe('indent', () => {
-    it('Can indent with a predecessor that is NOT an ancestor already', (done) => {
+    it('Can indent with a predecessor that is NOT an ancestor already', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
@@ -186,13 +184,12 @@ describe('WorkPackageViewIndentation service', () => {
 
       states.workPackages.get('2345').putValue(predecessor);
 
-      service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
-        done();
-      }).catch(done.fail);
+      await service.indent(workPackage);
+
+      expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
     });
 
-    it('Can indent with a predecessor that shares an ancestor chain', (done) => {
+    it('Can indent with a predecessor that shares an ancestor chain', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
@@ -204,13 +201,12 @@ describe('WorkPackageViewIndentation service', () => {
 
       states.workPackages.get('2345').putValue(predecessor);
 
-      service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '5555');
-        done();
-      }).catch(done.fail);
+      await service.indent(workPackage);
+
+      expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '5555');
     });
 
-    it('Can indent with a predecessor that shares an ancestor chain', (done) => {
+    it('Can indent with a predecessor that shares an ancestor chain', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
@@ -222,15 +218,14 @@ describe('WorkPackageViewIndentation service', () => {
 
       states.workPackages.get('2345').putValue(predecessor);
 
-      service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
-        done();
-      }).catch(done.fail);
+      await service.indent(workPackage);
+
+      expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
     });
   });
 
   describe('outdent', () => {
-    it('will outdent to the previous last ancestorId', (done) => {
+    it('will outdent to the previous last ancestorId', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
@@ -239,13 +234,12 @@ describe('WorkPackageViewIndentation service', () => {
         id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'],
       };
 
-      service.outdent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
-        done();
-      }).catch(done.fail);
+      await service.outdent(workPackage);
+
+      expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
     });
 
-    it('will outdent to null in case of ancestorIds.length < 2', (done) => {
+    it('will outdent to null in case of ancestorIds.length < 2', async () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
@@ -254,10 +248,9 @@ describe('WorkPackageViewIndentation service', () => {
         id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'],
       };
 
-      service.outdent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, null);
-        done();
-      }).catch(done.fail);
+      await service.outdent(workPackage);
+
+      expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, null);
     });
   });
 });

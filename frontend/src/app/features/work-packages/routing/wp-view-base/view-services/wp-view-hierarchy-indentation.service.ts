@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -10,13 +10,13 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
-  constructor(private wpViewHierarchies:WorkPackageViewHierarchiesService,
-    private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-    private states:States,
-    private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
-    private apiV3Service:ApiV3Service,
-    private querySpace:IsolatedQuerySpace) {
-  }
+  private wpViewHierarchies = inject(WorkPackageViewHierarchiesService);
+  private wpDisplayRepresentation = inject(WorkPackageViewDisplayRepresentationService);
+  private states = inject(States);
+  private wpRelationHierarchy = inject(WorkPackageRelationsHierarchyService);
+  private apiV3Service = inject(ApiV3Service);
+  private querySpace = inject(IsolatedQuerySpace);
+
 
   /**
    * Return whether the current hierarchy mode is active
@@ -91,7 +91,7 @@ export class WorkPackageViewHierarchyIdentationService {
     // get the first element of the ancestor chain that workPackage is not in
     const predecessor = await firstValueFrom(this.apiV3Service.work_packages.id(predecessorId).get());
 
-    const difference = _.difference(predecessor.ancestorIds, workPackage.ancestorIds);
+    const difference = predecessor.ancestorIds.filter((id) => !workPackage.ancestorIds.includes(id));
     if (difference && difference.length > 0) {
       newParentId = difference[0];
     }

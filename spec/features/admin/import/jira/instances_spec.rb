@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Jira instance configuration", :js, with_flag: { jira_import: true } do
+RSpec.describe "Jira instance configuration", :js do
   shared_let(:admin) { create(:admin) }
 
   current_user { admin }

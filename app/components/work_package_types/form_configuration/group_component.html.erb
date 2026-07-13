@@ -1,0 +1,94 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper(
+    data: wrapper_data
+  ) do
+    render(border_box_container(mt: 3, mb: (last? ? 3 : 0), padding: :condensed, data: row_drop_target_config)) do |box|
+      box.with_header(font_weight: :bold) do
+        render(
+          WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
+            group: @group,
+            type: @type,
+            ee_available: ee_available?,
+            first: first?,
+            last: last?,
+            edit_mode: edit_mode?,
+            form_model: @form_model
+          )
+        )
+      end
+
+      if query_group?
+        box.with_row do
+          render(
+            WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
+              group: @group,
+              ee_available: ee_available?
+            )
+          )
+        end
+      elsif attributes.empty?
+        box.with_row(data: { "empty-list-item": true }) do
+          flex_layout(align_items: :center) do |empty_row|
+            empty_row.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
+            empty_row.with_column(flex: 1) do
+              render(Primer::Beta::Text.new(color: :subtle, font_style: :italic)) do
+                t("types.edit.form_configuration.empty_group_hint")
+              end
+            end
+          end
+        end
+      else
+        attributes.each_with_index do |attribute, index|
+          box.with_row(
+            data: {
+              attr_key: attribute[:key],
+              attr_translation: attribute[:translation],
+              attr_is_cf: attribute[:is_cf],
+              "draggable-id": attribute[:key],
+              "draggable-type": "attribute",
+              "drop-url": row_drop_path(attribute)
+            }
+          ) do
+            render(
+              WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
+                attribute:,
+                type: @type,
+                index:,
+                total_count: attributes.length
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>

@@ -83,7 +83,7 @@ module Pages
       # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
       element.hover.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def drag_and_drop_work_package(from:, to:)

@@ -736,15 +736,15 @@ RSpec.describe UsersController do
       expect(response).to have_rendered("index")
     end
 
-    it "assigns users" do
-      expect(assigns(:users)).to contain_exactly(user, admin, user_manager)
+    it "assigns a query" do
+      expect(assigns(:query).results).to contain_exactly(user, admin, user_manager)
     end
 
     context "with a name filter" do
-      let(:params) { { name: user.firstname } }
+      let(:params) { { filters: %(any_name_attribute ~ "#{user.firstname}") } }
 
-      it "assigns users" do
-        expect(assigns(:users)).to contain_exactly(user)
+      it "assigns a query filtered by name" do
+        expect(assigns(:query).results).to contain_exactly(user)
       end
     end
 
@@ -752,11 +752,11 @@ RSpec.describe UsersController do
       let(:group) { create(:group, members: [user]) }
 
       let(:params) do
-        { group_id: group.id }
+        { filters: %(group = "#{group.id}") }
       end
 
-      it "assigns users" do
-        expect(assigns(:users)).to contain_exactly(user)
+      it "assigns a query filtered by group" do
+        expect(assigns(:query).results).to contain_exactly(user)
       end
     end
 
@@ -764,7 +764,7 @@ RSpec.describe UsersController do
       let!(:deleted_user) { create(:user_marked_for_deletion) }
 
       it "does not include this user to the users list" do
-        expect(assigns(:users)).to contain_exactly(user, admin, user_manager)
+        expect(assigns(:query).results).to contain_exactly(user, admin, user_manager)
       end
     end
   end
@@ -806,14 +806,13 @@ RSpec.describe UsersController do
 
     context "enabled" do
       before do
-        allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
-        allow(Setting).to receive(:session_ttl).and_return("120")
+        allow(Setting).to receive_messages(session_ttl_enabled?: true, session_ttl: "120")
         @controller.send(:logged_user=, admin)
       end
 
       context "before 120 min of inactivity" do
         before do
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -822,7 +821,7 @@ RSpec.describe UsersController do
 
       context "after 120 min of inactivity" do
         before do
-          session[:updated_at] = Time.now - 3.hours
+          session[:updated_at] = 3.hours.ago
           get :index
         end
 
@@ -842,7 +841,7 @@ RSpec.describe UsersController do
       context "with ttl = 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("0")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -852,7 +851,7 @@ RSpec.describe UsersController do
       context "with ttl < 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("-60")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -862,7 +861,7 @@ RSpec.describe UsersController do
       context "with ttl < 5 > 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("4")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -881,6 +880,7 @@ RSpec.describe UsersController do
     context "when updating fields as an admin" do
       current_user { admin }
 
+      let(:generated_password) { nil }
       let(:params) do
         {
           id: some_user.id,
@@ -893,6 +893,14 @@ RSpec.describe UsersController do
             comments_sorting: "desc"
           }
         }
+      end
+
+      prepend_before do
+        if generated_password
+          allow(OpenProject::Passwords::Generator)
+            .to receive(:random_password)
+            .and_return(generated_password)
+        end
       end
 
       before do
@@ -936,6 +944,54 @@ RSpec.describe UsersController do
           expect(mail.body.encoded)
             .to include("newpassPASS!")
         end
+
+        it "forces a password change on next login because the password was emailed" do
+          expect(some_user.reload.force_password_change).to be(true)
+        end
+      end
+
+      context "when assigning a random password" do
+        let(:generated_password) { "randompassPASS!" }
+        let(:params) do
+          {
+            id: some_user.id,
+            user: {
+              assign_random_password: "1"
+            }
+          }
+        end
+
+        it "sends an email to the user with the generated password" do
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.to)
+            .to contain_exactly(some_user.mail)
+
+          expect(mail.body.encoded)
+            .to include(generated_password)
+        end
+
+        it "forces a password change on next login" do
+          expect(some_user.reload.force_password_change).to be(true)
+        end
+      end
+
+      context "when manually setting a password without send_information" do
+        let(:params) do
+          {
+            id: some_user.id,
+            user: { password: "newpassPASS!",
+                    password_confirmation: "newpassPASS!" }
+          }
+        end
+
+        it "does not force a password change (password was not emailed)" do
+          expect(some_user.reload.force_password_change).to be(false)
+        end
+
+        it "does not send any email" do
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
       end
 
       context "with invalid params" do
@@ -956,6 +1012,47 @@ RSpec.describe UsersController do
           expect(assigns(:user).errors.first)
             .to have_attributes(attribute: :firstname, type: :blank)
         end
+      end
+
+      # Department membership lives in a separate table and is mutated by these
+      # examples, so use a fresh user per example rather than the shared some_user.
+      context "when changing the department" do
+        let(:edited_user) { create(:user) }
+        let(:department) { create(:department, name: "Engineering") }
+
+        it "assigns the user to the selected department" do
+          put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+          expect(edited_user.reload.department).to eq(department)
+        end
+
+        context "when the user already belongs to a department" do
+          let!(:current_department) { create(:department, name: "Sales", members: [edited_user]) }
+
+          it "moves the user to the selected department" do
+            put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+            expect(edited_user.reload.department).to eq(department)
+          end
+
+          it "clears the department when submitted blank" do
+            put :update, params: { id: edited_user.id, user: { department_id: "" } }
+            expect(edited_user.reload.department).to be_nil
+          end
+        end
+      end
+    end
+
+    context "when a non-admin with manage_user permission changes the department" do
+      shared_let(:manager) { create(:user, global_permissions: %i[manage_user view_all_principals]) }
+      let(:edited_user) { create(:user, firstname: "Original") }
+      let(:department) { create(:department, name: "Engineering") }
+
+      current_user { manager }
+
+      it "ignores the department change while still updating other attributes" do
+        put :update, params: { id: edited_user.id, user: { firstname: "Renamed", department_id: department.id } }
+
+        expect(edited_user.reload.firstname).to eq("Renamed")
+        expect(edited_user.department).to be_nil
       end
     end
 

@@ -35,11 +35,11 @@ module Queries
       include ::Queries::UnpersistedQuery
 
       def self.model
-        ::Agile::Sprint
+        ::Sprint
       end
 
       def default_scope
-        ::Agile::Sprint.visible(User.current)
+        ::Sprint.visible(User.current)
       end
     end
   end

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Configuring the workflow for work package sharing",
+RSpec.describe "Configuring the workflow for work package sharing", :js,
                with_config: { show_warning_bars: true },
                with_ee: %i[work_package_sharing] do
   let!(:role) { create(:project_role) }
@@ -47,6 +47,7 @@ RSpec.describe "Configuring the workflow for work package sharing",
            author: false,
            assignee: false)
   end
+  let(:target_roles_autocompleter) { FormFields::Primerized::AutocompleteField.new("target_roles", selector: "[data-test-selector='target_roles_autocomplete']") }
 
   current_user { create(:admin) }
 
@@ -65,16 +66,20 @@ RSpec.describe "Configuring the workflow for work package sharing",
     end
 
     # On the copy workflow form, select the already existing workflow for copying
-    select type.name, from: "source_type_id"
+    within "li", text: type.name do
+      find("button[aria-haspopup=true]").click
+      click_link "Copy"
+    end
+    choose "Copy to other roles"
     select role.name, from: "source_role_id"
-    select type.name, from: "target_type_ids"
-    select work_package_role.name, from: "target_role_ids"
+    target_roles_autocompleter.select_option work_package_role.name
+    target_roles_autocompleter.close_autocompleter
 
-    page.find_test_selector("op-admin-workflows--button-copy").click
+    click_button "Copy"
 
     # Copying succeeds which results in the edit role having a workflow and the warning disappearing.
     expect(page)
-      .to have_content "Successful update"
+      .to have_content "Successfully copied workflow"
 
     expect(Workflow.where(role_id: work_package_role.id,
                           type_id: type.id,

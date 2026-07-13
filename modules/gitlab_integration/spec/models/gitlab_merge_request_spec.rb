@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -106,75 +108,53 @@ RSpec.describe GitlabMergeRequest do
   describe ".find_by_gitlab_identifiers" do
     shared_let(:merge_request) { create(:gitlab_merge_request) }
 
-    it "raises an ArgumentError when no id or url is provided" do
-      expect { described_class.find_by_gitlab_identifiers }.to raise_error(ArgumentError, "needs an id or an url")
+    it "raises an ArgumentError when no url is provided" do
+      expect { described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id, url: nil) }
+        .to raise_error(ArgumentError, "needs an url")
     end
 
-    context "when the gitlab_id attribute matches" do
-      it "finds by gitlab_id" do
-        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id)).to eql(merge_request)
-      end
-    end
-
-    context "when the gitlab_html_url attribute matches" do
-      it "finds by gitlab_html_url" do
-        expect(described_class.find_by_gitlab_identifiers(url: merge_request.gitlab_html_url)).to eql(merge_request)
-      end
-    end
-
-    context "when the provided gitlab_id does not match" do
-      it "is nil" do
-        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id + 1)).to be_nil
-      end
-    end
-
-    context "when the provided gitlab_html_url does not match" do
-      it "is nil" do
-        expect(described_class.find_by_gitlab_identifiers(url: "#{merge_request.gitlab_html_url}zzzz"))
-          .to be_nil
-      end
-    end
-
-    context "when neither match" do
-      it "is nil" do
-        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id + 1,
-                                                          url: "#{merge_request.gitlab_html_url}zzzz"))
-          .to be_nil
-      end
-    end
-
-    context "when the provided gitlab_html_url does not match but the gitlab_id does" do
-      it "is nil" do
-        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id,
-                                                          url: "#{merge_request.gitlab_html_url}zzzz"))
-          .to eql merge_request
-      end
-    end
-
-    context "when the provided gitlab_html_url does match but the gitlab_id does not" do
-      it "is nil" do
+    context "when the url matches" do
+      it "returns the merge request regardless of the id" do
         expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id + 1,
                                                           url: merge_request.gitlab_html_url))
-          .to eql merge_request
+          .to eql(merge_request)
       end
     end
 
-    context "when neither match but initialize is true" do
+    context "when the url does not match" do
+      it "returns nothing even when the id matches" do
+        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id,
+                                                          url: "#{merge_request.gitlab_html_url}zzzz"))
+          .to be_nil
+      end
+    end
+
+    context "when two merge requests in different repositories share a gitlab_id" do
+      shared_let(:other_repo_merge_request) do
+        create(:gitlab_merge_request,
+               gitlab_id: merge_request.gitlab_id,
+               gitlab_html_url: "https://gitlab.com/other_user/other_repo/merge/#{merge_request.gitlab_id}")
+      end
+
+      it "resolves each merge request by its url" do
+        expect(described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id,
+                                                          url: merge_request.gitlab_html_url))
+          .to eql(merge_request)
+        expect(described_class.find_by_gitlab_identifiers(id: other_repo_merge_request.gitlab_id,
+                                                          url: other_repo_merge_request.gitlab_html_url))
+          .to eql(other_repo_merge_request)
+      end
+    end
+
+    context "when the url does not match but initialize is true" do
       subject(:finder) do
         described_class.find_by_gitlab_identifiers(id: merge_request.gitlab_id + 1,
                                                    url: "#{merge_request.gitlab_html_url}zzzz",
                                                    initialize: true)
       end
 
-      it "returns an merge_request" do
-        expect(finder).to be_a(described_class)
-      end
-
-      it "returns a new record" do
-        expect(finder).to be_new_record
-      end
-
-      it "has the provided attributes initialized" do
+      it "returns a new record with the provided attributes" do
+        expect(finder).to be_a(described_class).and be_new_record
         expect(finder.attributes.compact)
           .to eql("gitlab_id" => merge_request.gitlab_id + 1,
                   "gitlab_html_url" => "#{merge_request.gitlab_html_url}zzzz")

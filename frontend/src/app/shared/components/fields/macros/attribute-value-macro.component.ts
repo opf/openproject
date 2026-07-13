@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Injector,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, ViewChild, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -63,6 +54,14 @@ export const ATTRIBUTE_MACRO_CLASS = 'op-attribute-value-macro';
   standalone: false,
 })
 export class AttributeValueMacroComponent implements OnInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly injector = inject(Injector);
+  readonly resourceLoader = inject(AttributeModelLoaderService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly displayField = inject(DisplayFieldService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @ViewChild('displayContainer') private displayContainer:ElementRef<HTMLSpanElement>;
 
   // Whether the value could not be loaded
@@ -81,19 +80,8 @@ export class AttributeValueMacroComponent implements OnInit {
 
   fieldName:string;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-    readonly resourceLoader:AttributeModelLoaderService,
-    readonly schemaCache:SchemaCacheService,
-    readonly displayField:DisplayFieldService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
-
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
@@ -108,7 +96,7 @@ export class AttributeValueMacroComponent implements OnInit {
   }
 
   private isNestedMacro(model:SupportedAttributeModels, id:string, attributeName:string):boolean {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const parent = element.parentElement;
     return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${model}"][data-id="${id}"][data-attribute="${attributeName}"]`);
   }

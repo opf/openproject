@@ -34,6 +34,10 @@ $pagination--font-size: 0.8125rem
   width: 100%
   min-height: 45px
 
+  &--single-page
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
+
   &--pages
     display: flex
     flex-grow: 2

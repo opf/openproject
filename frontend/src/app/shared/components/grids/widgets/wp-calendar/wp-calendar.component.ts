@@ -26,9 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -42,20 +41,14 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   standalone: false,
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
-  text = {
-    missing_permission: this.I18n.t('js.grid.widgets.missing_permission'),
-  };
+  protected readonly currentProject = inject(CurrentProjectService);
+  protected readonly currentUser = inject(CurrentUserService);
+
+  get text() {
+    return { missing_permission: this.i18n.t('js.grid.widgets.missing_permission') };
+  }
 
   hasCapability$ = this.currentUser.hasCapabilities$('work_packages/read', this.currentProject.id);
-
-  constructor(
-    protected readonly I18n:I18nService,
-    protected readonly injector:Injector,
-    protected readonly currentProject:CurrentProjectService,
-    protected readonly currentUser:CurrentUserService,
-  ) {
-    super(I18n, injector);
-  }
 
   public get projectIdentifier() {
     return this.currentProject.identifier;
