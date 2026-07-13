@@ -28,35 +28,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A single reuse link: a type borrows one configuration aspect from a source type.
-# Absence of a row for (type, aspect) means the type owns that aspect (Independent).
-class Type
-  class ConfigurationLink < ApplicationRecord
-    ASPECTS = [
-      PDF_EXPORT = "pdf_export",
-      PATTERNS = "patterns",
-      WORKFLOWS = "workflows",
-      AUTOMATIONS = "automations",
-      PROJECTS = "projects",
-      FORM_CONFIGURATION = "form_configuration"
-    ].freeze
+module WorkPackageTypes
+  module Wizard
+    class SidebarComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    # Aspects a new sub-type links to its parent on creation. The remaining aspects
-    # start Independent until their linked behaviour is implemented.
-    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
+      def initialize(type:, current_step:)
+        super(type)
 
-    belongs_to :type, optional: false
-    belongs_to :source, class_name: "Type", optional: false
+        @current_step = current_step
+      end
 
-    enum :aspect, ASPECTS.index_with(&:itself), validate: true
+      LEADING_ICONS = {
+        details: :info,
+        form_configuration: :"list-unordered",
+        workflows: :"git-branch",
+        automations: :zap,
+        projects: :table,
+        pdf: :file
+      }.freeze
 
-    validates :type_id, uniqueness: { scope: :aspect }
-    validate :source_differs_from_type
+      private
 
-    private
+      attr_reader :current_step
 
-    def source_differs_from_type
-      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+      def type = model
+
+      def steps = Steps.all
+
+      def leading_icon(step) = LEADING_ICONS.fetch(step)
+
+      def title(step) = Steps.title(step)
+
+      def current?(step) = step == current_step
+
+      # Steps ordered before the current one are considered done. Until the
+      # record is created (step 1) nothing is navigable or completed yet.
+      def completed?(step)
+        type.persisted? && Steps.index(step) < Steps.index(current_step)
+      end
+
+      # Only visited/creatable steps are navigable: before the record exists we
+      # cannot address a step by its type id.
+      def href_for(step)
+        type_creation_wizard_path(type, step:) if type.persisted?
+      end
     end
   end
 end

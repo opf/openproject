@@ -46,8 +46,9 @@ class Type
                inverse_of: :source,
                dependent: :restrict_with_error
 
-      # A sub-type defaults to Linked-to-parent for every reusable aspect.
-      after_create :seed_default_configuration_links, if: :subtype?
+      # A sub-type defaults to Linked-to-parent for the aspects whose linked
+      # behaviour is implemented; see DEFAULT_PARENT_LINK_ASPECTS.
+      after_create :link_default_aspects_to_parent, if: :subtype?
     end
 
     def linked?(aspect)
@@ -107,8 +108,8 @@ class Type
 
     private
 
-    def seed_default_configuration_links
-      Type::ConfigurationLink::ASPECTS.each { |aspect| link!(aspect, source: parent) }
+    def link_default_aspects_to_parent
+      Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each { |aspect| link!(aspect, source: parent) }
     end
   end
 end

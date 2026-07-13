@@ -28,35 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A single reuse link: a type borrows one configuration aspect from a source type.
-# Absence of a row for (type, aspect) means the type owns that aspect (Independent).
-class Type
-  class ConfigurationLink < ApplicationRecord
-    ASPECTS = [
-      PDF_EXPORT = "pdf_export",
-      PATTERNS = "patterns",
-      WORKFLOWS = "workflows",
-      AUTOMATIONS = "automations",
-      PROJECTS = "projects",
-      FORM_CONFIGURATION = "form_configuration"
-    ].freeze
+module WorkPackageTypes
+  module Wizard
+    # Temporary body for steps whose real editor is wired in a later change.
+    class PlaceholderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    # Aspects a new sub-type links to its parent on creation. The remaining aspects
-    # start Independent until their linked behaviour is implemented.
-    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
+      def initialize(step:)
+        super()
 
-    belongs_to :type, optional: false
-    belongs_to :source, class_name: "Type", optional: false
+        @step = step
+      end
 
-    enum :aspect, ASPECTS.index_with(&:itself), validate: true
+      private
 
-    validates :type_id, uniqueness: { scope: :aspect }
-    validate :source_differs_from_type
+      attr_reader :step
 
-    private
-
-    def source_differs_from_type
-      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+      def title = Steps.title(step)
     end
   end
 end

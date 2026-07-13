@@ -28,35 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A single reuse link: a type borrows one configuration aspect from a source type.
-# Absence of a row for (type, aspect) means the type owns that aspect (Independent).
-class Type
-  class ConfigurationLink < ApplicationRecord
-    ASPECTS = [
-      PDF_EXPORT = "pdf_export",
-      PATTERNS = "patterns",
-      WORKFLOWS = "workflows",
-      AUTOMATIONS = "automations",
-      PROJECTS = "projects",
-      FORM_CONFIGURATION = "form_configuration"
-    ].freeze
+module WorkPackageTypes
+  module Wizard
+    # Independent-mode workflows: optionally seed the sub-type's workflows by
+    # copying them from another type, otherwise start from an empty workflow.
+    class WorkflowsForm < ApplicationForm
+      form do |workflows_form|
+        workflows_form.select_list(
+          name: :copy_workflow_from,
+          input_width: :medium,
+          label: I18n.t(:label_copy_workflow_from),
+          caption: I18n.t("types.creation_wizard.workflows.copy_caption"),
+          include_blank: true
+        ) do |source_types|
+          copyable_types.each do |type|
+            source_types.option(value: type.id, label: type.name)
+          end
+        end
+      end
 
-    # Aspects a new sub-type links to its parent on creation. The remaining aspects
-    # start Independent until their linked behaviour is implemented.
-    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
+      private
 
-    belongs_to :type, optional: false
-    belongs_to :source, class_name: "Type", optional: false
-
-    enum :aspect, ASPECTS.index_with(&:itself), validate: true
-
-    validates :type_id, uniqueness: { scope: :aspect }
-    validate :source_differs_from_type
-
-    private
-
-    def source_differs_from_type
-      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+      def copyable_types
+        Type.where.not(id: model.id).order(:position)
+      end
     end
   end
 end

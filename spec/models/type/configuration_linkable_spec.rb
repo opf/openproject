@@ -89,8 +89,8 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "sub-type default seeding" do
-    it "links both aspects to the parent when a sub-type is created" do
+  describe "sub-type default parent links" do
+    it "links the default aspects to the parent when a sub-type is created" do
       parent = create(:type)
       child = create(:type, parent:)
 
@@ -98,11 +98,21 @@ RSpec.describe Type::ConfigurationLinkable do
       expect(child.source_for(Type::ConfigurationLink::PATTERNS)).to eq(parent)
     end
 
-    it "leaves a root type Independent for both aspects" do
+    it "leaves the not-yet-implemented aspects Independent" do
+      child = create(:type, parent: create(:type))
+
+      expect(child).not_to be_linked(Type::ConfigurationLink::WORKFLOWS)
+      expect(child).not_to be_linked(Type::ConfigurationLink::AUTOMATIONS)
+      expect(child).not_to be_linked(Type::ConfigurationLink::PROJECTS)
+      expect(child).not_to be_linked(Type::ConfigurationLink::FORM_CONFIGURATION)
+    end
+
+    it "leaves a root type Independent for all aspects" do
       root = create(:type)
 
-      expect(root).not_to be_linked(Type::ConfigurationLink::PDF_EXPORT)
-      expect(root).not_to be_linked(Type::ConfigurationLink::PATTERNS)
+      Type::ConfigurationLink::ASPECTS.each do |aspect|
+        expect(root).not_to be_linked(aspect)
+      end
     end
   end
 

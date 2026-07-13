@@ -26,30 +26,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 // ++
 
-.step-wizard-page
-  display: flex
-  flex-direction: column
-  height: 100%
-  overflow: hidden
-  // Without an explicit width the flex parent sizes this shrink-to-fit, so the page
-  // would re-center whenever a step swaps in narrower content (e.g. Linked mode).
-  width: 100%
-  max-width: 75%
-  margin: 0 auto
-
-  @media screen and (max-width: $breakpoint-xl)
-    max-width: 100%
-    margin: 0
-
-.step-wizard
+.op-work-package-types-wizard
   display: grid
   height: 100%
   min-height: 0
-  grid-template-areas: "content" "footer"
-  grid-template-rows: 1fr 56px
-  gap: var(--base-size-16, 1rem)
+  grid-template-areas: "sidebar main"
+  grid-template-columns: 280px 1fr
+  gap: var(--base-size-24, 1.5rem)
   overflow: hidden
 
-  &--content
+  &--sidebar
+    border: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
+    padding: var(--base-size-16)
+    border-radius: var(--borderRadius-medium)
+
+  &--sidebar,
+  &--main
     overflow: auto
     min-height: 0
+
+  @media screen and (max-width: $breakpoint-md)
+    grid-template-columns: 220px 1fr
+
+  @media screen and (max-width: $breakpoint-sm)
+    grid-template-areas: "main"
+    grid-template-columns: 1fr
+
+    &--sidebar
+      display: none

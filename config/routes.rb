@@ -189,6 +189,8 @@ Rails.application.routes.draw do
 
     resources :configuration_links, only: %i[update], param: :aspect
 
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
                                     path: "pdf_export_template" do
@@ -205,6 +207,8 @@ Rails.application.routes.draw do
 
     collection do
       post "move/:id", action: "move"
+      get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+      post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
     end
 
     member do
