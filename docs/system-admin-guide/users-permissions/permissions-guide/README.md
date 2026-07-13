@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Permissions guide
-  priority: 960
+  priority: 959
 description: Understand project permissions in OpenProject.
 keywords: permissions, roles, project permissions, global permissions
 ---
@@ -39,7 +39,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Manage members** – Allows users to add, remove and manage project members and their roles.
 
-- **Invite members by email** – Allows users to invite project members by email. This includes both new users to the OpenProject instance and existing users who are not visible to them because of the current [user visibility settings](../../user-visibility).
+- **Invite members by email** – Allows users to invite project members by email. This includes both new users to the OpenProject instance and existing users who are not visible to them because of the current [user visibility settings](../user-visibility).
 
   > [!NOTE]
   > Requires the **Manage members** permission.
@@ -71,20 +71,9 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Automatically managed project folders: Write files** – Allows users to modify files in automatically managed project folders.
 
-- **Automatically managed project folders: Create files** – Allows users to create files in automatically managed project folders.
-
-  > [!NOTE]
-  > Only available for Nextcloud file storages.
-
-- **Automatically managed project folders: Delete files** – Allows users to delete files from automatically managed project folders.
-
-  > [!NOTE]
-  > Only available for Nextcloud file storages.
-
-- **Automatically managed project folders: Share files** – Allows users to share files from automatically managed project folders.
-
-  > [!NOTE]
-  > Only available for Nextcloud file storages.
+- **Automatically managed project folders: Create files** – Allows users to create files in automatically managed project folders. This permission is only available for Nextcloud file storages.
+- **Automatically managed project folders: Delete files** – Allows users to delete files from automatically managed project folders. This permission is only available for Nextcloud file storages.
+- **Automatically managed project folders: Share files** – Allows users to share files from automatically managed project folders. This permission is only available for Nextcloud file storages.
 
 ## Work packages and Gantt chart permissions
 
@@ -100,17 +89,16 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
   > Users with this permission can edit comments created by other users.
 
 - **View internal comments** – Allows users to view internal comments.
-> [!TIP]
->  [Internal comments](../../../../user-guide/work-packages/edit-work-package/#internal-comments-enterprise-add-on) are only visible to users who have this permission:
-- **Write internal comments** – Allows users to create internal comments.
-- **Edit own internal comments** – Allows users to edit their own internal comments.
-- **Moderate internal comments** – Allows users to edit internal comments created by any user.
+  > [!TIP]
+  >  [Internal comments](../../../user-guide/work-packages/edit-work-package/#internal-comments-enterprise-add-on) are only visible to users who have this permission.
 
-  > [!IMPORTANT]
-  > Users with this permission can edit internal comments created by other users.
+ - **Write internal comments** – Allows users to create internal comments.
+ - **Edit own internal comments** – Allows users to edit their own internal comments.
+ - **Moderate internal comments** – Allows users to edit internal comments created by any user. 
+   > [!IMPORTANT]
+   > Users with this permission can edit internal comments created by other users.
 
-- **Add attachments** – Allows users to upload attachments to work packages.
-
+- **Add attachments** – Allows users to upload attachments to work packages. 
   > [!NOTE]
   > This permission works independently of **Edit work packages**.
 
@@ -128,7 +116,6 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 - **View work package shares** – Allows users to view existing work package shares.
 - **Assign versions** – Allows users to assign versions to work packages.
 - **Change work package status** – Allows users to change the status of work packages.
-
   > [!NOTE]
   > This permission works independently of **Edit work packages**.
 
