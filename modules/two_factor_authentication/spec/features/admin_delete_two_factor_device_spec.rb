@@ -28,10 +28,11 @@ RSpec.describe "Admin deleting another user's 2FA device", :js,
 
     expect(page).to have_css(".mobile-otp--two-factor-device-row", count: 1)
 
-    find(".two-factor--delete-button").click
+    find_test_selector("two-factor--actions-button").click
+    find_test_selector("two-factor--delete-button").click
     dialog.confirm_flow_with(admin_password)
 
-    expect(page).to have_css(".generic-table--empty-row")
+    expect(page).to have_css(".blankslate")
     expect(other_user.otp_devices.reload).to be_empty
   end
 end

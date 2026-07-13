@@ -39,21 +39,26 @@ module Import
 
     def to_op_attributes
       firstname, lastname = split_display_name(payload["displayName"])
+      mail = payload["emailAddress"]
+      if mail.blank?
+        mail = "#{SecureRandom.hex(16)}@noemail.invalid"
+      end
       {
         login: payload["name"],
         password: OpenProject::Passwords::Generator.random_password,
         firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
         lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
-        mail: payload["emailAddress"],
+        mail:,
         status: :locked
       }
     end
 
-    def try_to_find_existing_op_users
-      op_attributes = to_op_attributes
-      User.where(login: op_attributes[:login]).or(
-        User.where(mail: op_attributes[:mail])
-      )
+    def try_to_find_existing_op_user_by_mail
+      User.where("LOWER(mail) = ?", to_op_attributes[:mail]&.downcase).first
+    end
+
+    def try_to_find_existing_op_user_by_login
+      User.by_login(to_op_attributes[:login]).first
     end
 
     private

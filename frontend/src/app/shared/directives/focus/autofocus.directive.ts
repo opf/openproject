@@ -7,7 +7,7 @@ import { FocusHelperService } from './focus-helper';
 })
 export class AutofocusDirective implements AfterViewInit {
   readonly FocusHelper = inject(FocusHelperService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input('opAutofocus') public condition:string|boolean = true;
 

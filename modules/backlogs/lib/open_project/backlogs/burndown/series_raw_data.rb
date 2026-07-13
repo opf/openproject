@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -38,7 +40,7 @@ module OpenProject::Backlogs::Burndown
     attr_reader :collect, :sprint, :project
 
     def collect_names
-      @names ||= @collect.to_a.map(&:last).flatten
+      @collect_names ||= @collect.to_a.map(&:last).flatten
     end
 
     def unit_for(name)
@@ -79,7 +81,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def data_for_dates
-      query_string = <<-SQL
+      query_string = <<~SQL.squish
         SELECT
           days.date,
           COALESCE(SUM(work_package_journals.story_points), 0.0) as story_points

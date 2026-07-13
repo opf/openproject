@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -83,7 +85,7 @@ class Burndown
       ideal[i] = max - (delta * i)
     end
 
-    make_series name.to_s + "_ideal", unit, ideal
+    make_series "#{name}_ideal", unit, ideal
   end
 
   def make_series(name, units, data)

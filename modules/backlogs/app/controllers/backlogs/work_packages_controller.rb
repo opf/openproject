@@ -31,9 +31,12 @@
 module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
-    include Backlogs::Concerns::ContainerLoading
 
-    before_action :load_work_package
+    # Document event dispatched after a successful move so the frontend can refresh a
+    # split view open on the moved work package (see backlogs.controller.ts).
+    WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
+
+    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
@@ -47,11 +50,29 @@ module Backlogs
              layout: false)
     end
 
+    def add_existing_dialog
+      target_id = Target.parse(params[:target_id])
+      container = target_id&.container_for(@project)
+
+      if container
+        respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
+          project: @project,
+          container:
+        )
+      elsif target_id
+        render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
+        respond_with_turbo_streams(status: :not_found)
+      else
+        render_error_flash_message_via_turbo_stream(message: t(".invalid_target"))
+        respond_with_turbo_streams(status: :unprocessable_entity)
+      end
+    end
+
     def move_to_sprint_dialog
       respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
+        move_action: move_path
       )
     end
 
@@ -59,26 +80,43 @@ module Backlogs
       respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
+        move_action: move_path
       )
     end
 
-    def move # rubocop:disable Metrics/AbcSize
-      # Capture the source before the call; the service reloads @work_package internally via #move_after.
-      source = @work_package.sprint
+    def add_existing
+      work_package = WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
 
-      call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
-                                   .call(**move_params.to_h.symbolize_keys)
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package:)
+        .call(target_id: params.expect(:target_id))
 
+      render_update_turbo_streams(call)
+    end
+
+    def move
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package: @work_package)
+        .call(**move_params.to_h.symbolize_keys)
+
+      render_update_turbo_streams(call)
+    end
+
+    private
+
+    def render_update_turbo_streams(call)
       if call.success?
-        move_work_package_to_target_component_via_turbo_stream(source:, target: call.result.sprint)
+        reload_frame_via_turbo_stream("backlogs_container")
 
-        if work_package_invisible_after_move?(call.result)
-          backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
-          render_flash_message_via_turbo_stream(
-            message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
-          )
-        end
+        # A split view open on the moved work package caches its lock_version. Signal the
+        # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
+        # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
+        )
+
+        render_invisible_after_move_flash(call.result)
       else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
@@ -88,41 +126,22 @@ module Backlogs
       respond_with_turbo_streams(status: call)
     end
 
-    private
+    def render_invisible_after_move_flash(work_package)
+      return unless work_package_invisible_after_move?(work_package)
 
-    def move_work_package_to_target_component_via_turbo_stream(source:, target:)
-      if source != target
-        replace_component_via_turbo_stream(source)
-      end
-
-      replace_component_via_turbo_stream(target)
-    end
-
-    def replace_component_via_turbo_stream(container)
-      component = if container
-                    sprint_component(sprint: container)
-                  else
-                    backlog_component
-                  end
-
-      replace_via_turbo_stream(component:, method: :morph)
-    end
-
-    def sprint_component(sprint:)
-      Backlogs::SprintComponent.new(sprint:, project: @project)
-    end
-
-    def backlog_component
-      load_backlog_data
-
-      Backlogs::BacklogComponent.new(buckets: @backlog_buckets,
-                                     work_packages_by_backlog_id: @work_packages_by_backlog_id,
-                                     project: @project)
+      backlog_name = work_package.backlog_bucket&.name || I18n.t(:label_inbox)
+      render_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
+      )
     end
 
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position
       @work_package = @work_packages.find(params.expect(:id))
+    end
+
+    def move_path
+      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
     end
 
     def move_params

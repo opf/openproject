@@ -39,10 +39,17 @@ module Wikis
     scope :visible, ->(_user = User.current) { all }
 
     validates :name, presence: true, uniqueness: true, length: { maximum: 255 }
+    validate :unique_universal_identifier, if: -> { universal_identifier.present? }
 
     before_create :generate_universal_identifier
 
     def configured? = raise SubclassResponsibilityError
+
+    def configured_from_env?
+      Setting.wiki_providers.any? do |c|
+        c["name"] == (name_was || name) || c["uid"] == (universal_identifier_was || universal_identifier)
+      end
+    end
 
     def non_confidential_configuration
       {
@@ -73,6 +80,13 @@ module Wikis
 
     def generate_universal_identifier
       self.universal_identifier ||= SecureRandom.uuid
+    end
+
+    def unique_universal_identifier
+      existing = Provider.where(universal_identifier:).where.not(id:).first
+      return unless existing
+
+      errors.add(:url, :already_taken, name: existing.name)
     end
   end
 end

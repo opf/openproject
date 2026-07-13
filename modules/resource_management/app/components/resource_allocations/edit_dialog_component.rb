@@ -37,16 +37,17 @@ module ResourceAllocations
 
     DIALOG_ID = "edit-resource-allocation-dialog"
 
-    def initialize(project:, allocation:)
+    def initialize(project:, allocation:, view: nil)
       super
 
       @project = project
       @allocation = allocation
+      @view = view
     end
 
     private
 
-    attr_reader :project, :allocation
+    attr_reader :project, :allocation, :view
 
     def allocation_kind
       allocation.principal_explicit? ? "principal" : "filter"

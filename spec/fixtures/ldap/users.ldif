@@ -196,3 +196,100 @@ uid: bölle
 samAccountName: bölle
 # Password is "bólle"
 userpassword:: e1NIQX1rNDBGWHRYQ3RFL3l2cENhblRpQmZ2cE1ON1k9Cg==
+
+#########################################################
+# Organizational unit tree for department synchronization
+# ou=org
+#   ou=IT
+#     ou=Development
+#       ou=Frontend  (uid=jdoe)
+#       ou=Backend   (uid=bsmith)
+#     ou=Support
+#   ou=Human Resources
+#     ou=Recruiting  (uid=hwest)
+#     ou=Support     (duplicate name on a different branch)
+#########################################################
+
+dn: ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: org
+
+dn: ou=IT,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: IT
+
+dn: ou=Development,ou=IT,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Development
+
+dn: ou=Frontend,ou=Development,ou=IT,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Frontend
+
+dn: uid=jdoe,ou=Frontend,ou=Development,ou=IT,ou=org,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+mail: john.doe@example.org
+uid: jdoe
+# Password is "john"
+userpassword:: e1NIQX1wUjNhZkgvMUMySHE2Z1JFTng5S2FwTUI1UUU9
+
+dn: ou=Backend,ou=Development,ou=IT,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Backend
+
+dn: uid=bsmith,ou=Backend,ou=Development,ou=IT,ou=org,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Bob Smith
+sn: Smith
+givenName: Bob
+mail: bob.smith@example.org
+uid: bsmith
+# Password is "bob"
+userpassword:: e1NIQX1TQmdhelNLejdhNjhpa1I0YUtmZmZPWXBrZ289
+
+dn: ou=Support,ou=IT,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Support
+
+dn: ou=Human Resources,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Human Resources
+
+dn: ou=Recruiting,ou=Human Resources,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Recruiting
+
+dn: uid=hwest,ou=Recruiting,ou=Human Resources,ou=org,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Helen West
+sn: West
+givenName: Helen
+mail: helen.west@example.org
+uid: hwest
+# Password is "helen"
+userpassword:: e1NIQX1aR25LNHZWVDB3UzUvZnhjQ1A1b2o0T2c3WGs9
+
+dn: ou=Support,ou=Human Resources,ou=org,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: Support

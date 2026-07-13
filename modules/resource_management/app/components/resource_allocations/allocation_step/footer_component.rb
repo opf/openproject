@@ -35,13 +35,16 @@ module ResourceAllocations
       include OpPrimer::ComponentHelpers
 
       # `dialog_id` and `submit_label` default to the create wizard's; the edit
-      # dialog passes its own.
+      # dialog passes its own. `allocation` is only passed by the edit dialog, so
+      # the destructive Delete action stays out of the create wizard.
       def initialize(dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
-                     submit_label: I18n.t("resource_management.allocate_resource_dialog.submit"))
+                     submit_label: I18n.t("resource_management.allocate_resource_dialog.submit"),
+                     allocation: nil)
         super
 
         @dialog_id = dialog_id
         @submit_label = submit_label
+        @allocation = allocation
       end
 
       def wrapper_key
@@ -49,8 +52,12 @@ module ResourceAllocations
       end
 
       def call
-        component_wrapper do
+        # The flex wrapper lets the destructive Delete action sit at the far left
+        # (via `mr: :auto`) while Cancel/Save stay right-aligned.
+        component_wrapper(class: "d-flex flex-items-center flex-justify-end width-full") do
           component_collection do |buttons|
+            delete_button(buttons) if deletable?
+
             buttons.with_component(
               Primer::Beta::Button.new(
                 data: { "close-dialog-id": @dialog_id },
@@ -67,6 +74,31 @@ module ResourceAllocations
             ) { @submit_label }
           end
         end
+      end
+
+      private
+
+      def delete_button(buttons)
+        buttons.with_component(
+          Primer::Beta::Button.new(
+            tag: :a,
+            href: helpers.project_resource_allocation_path(@allocation.project, @allocation),
+            scheme: :danger,
+            mr: :auto,
+            data: {
+              turbo_method: :delete,
+              turbo_stream: true,
+              turbo_confirm: I18n.t("resource_management.work_package_allocations_dialog.delete_confirmation")
+            }
+          )
+        ) { I18n.t(:button_delete) }
+      end
+
+      # The same `:allocate_user_resources` permission that gates editing also
+      # gates deletion (see ResourceAllocations::DeleteContract).
+      def deletable?
+        @allocation&.persisted? &&
+          User.current.allowed_in_project?(:allocate_user_resources, @allocation.project)
       end
     end
   end

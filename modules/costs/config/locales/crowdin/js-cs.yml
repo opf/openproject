@@ -22,15 +22,15 @@
 ---
 cs:
   js:
-    text_are_you_sure: Jste si jisti?
-    myTimeTracking:
-      noSpecificTime: Žádný konkrétní čas
-    work_packages:
-      property_groups:
-        costs: Náklady
-      properties:
-        overallCosts: Celkové náklady
-        spentUnits: Strávené jednotky
     button_log_costs: Logovat jednotkové náklady
     label_hour: hodina
     label_hours: hodiny
+    myTimeTracking:
+      noSpecificTime: Žádný konkrétní čas
+    text_are_you_sure: Jste si jisti?
+    work_packages:
+      properties:
+        overallCosts: Celkové náklady
+        spentUnits: Strávené jednotky
+      property_groups:
+        costs: Náklady

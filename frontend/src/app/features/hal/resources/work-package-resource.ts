@@ -26,11 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { truncate } from 'lodash-es';
+import { InputState } from '@openproject/reactivestates';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InputState } from '@openproject/reactivestates';
 import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -51,6 +52,7 @@ import { ICKEditorContext } from 'core-app/shared/components/editor/components/c
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -164,6 +166,8 @@ export class WorkPackageBaseResource extends HalResource {
 
   public lockVersion:number;
 
+  public hasProjectAttributes:boolean;
+
   public description:any;
 
   public activities:CollectionResource;
@@ -187,6 +191,8 @@ export class WorkPackageBaseResource extends HalResource {
   @LazyInject() workPackageNotificationService:WorkPackageNotificationService;
 
   @LazyInject() pathHelper:PathHelperService;
+
+  @LazyInject() configService:ConfigurationService;
 
   readonly attachmentsBackend = true;
 
@@ -222,7 +228,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public truncatedSubject(length = 40):string {
-    return length <= 0 ? this.subject : _.truncate(this.subject, { length: length });
+    return length <= 0 ? this.subject : truncate(this.subject, { length: length });
   }
 
   public get isLeaf():boolean {
@@ -238,9 +244,12 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
+    const wikiPageMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
+    const macros:boolean|string[] = this.configService.wikisAvailable ? wikiPageMacros : false;
+
     return {
       type: fieldName === 'description' ? 'full' : 'constrained',
-      macros: false,
+      macros,
       ...(fieldName.startsWith('customField') && { disabledMentions: ['user'] }),
     };
   }
@@ -264,7 +273,7 @@ export class WorkPackageBaseResource extends HalResource {
       resources[name] = linked ? linked.$update() : Promise.reject(undefined);
     });
 
-    const promise = Promise.all(_.values(resources));
+    const promise = Promise.all(Object.values(resources));
     promise.then(() => {
       this.wpCacheService.touch(this.id!);
     });
@@ -279,7 +288,7 @@ export class WorkPackageBaseResource extends HalResource {
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
-      _.get(attachments, '$source', attachments),
+      (attachments as { $source?:unknown }).$source ?? attachments,
       false,
       this.halInitializer,
       'HalResource',
@@ -290,7 +299,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
+    return super.$linkableKeys().filter((key) => key !== 'schema');
   }
 
   /**

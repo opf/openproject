@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       if allowed_to_customize_life_cycle?
         flex.with_row do
-          render(Primer::OpenProject::SubHeader.new) do |subheader|
+          render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
             subheader.with_filter_input(
               name: "border-box-filter",
               label: t("settings.project_phase_definitions.filter.label"),

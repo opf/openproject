@@ -41,12 +41,30 @@ module WorkPackage::SemanticIdentifier
   # The frontend equivalent lives in WP_ID_URL_PATTERN (work-package-id-pattern.ts).
   ID_ROUTE_CONSTRAINT = /\d+|#{SEMANTIC_ID_PATTERN.source}/
 
+  # Anchored POSIX regex matching identifiers of the exact form "<slug>-<digits>"
+  # for a concrete project slug, so prefixes containing dashes don't over-match
+  # (matching "my" must not touch "my-project-42"). Used by the for_slug_prefix
+  # scopes on WorkPackage and WorkPackageSemanticAlias. Regexp.escape output is
+  # valid in PostgreSQL's ARE syntax: it backslash-escapes punctuation (which
+  # ARE treats as literals) and never emits class escapes.
+  def self.slug_prefix_pattern(slug)
+    "^#{Regexp.escape(slug)}-[0-9]+$"
+  end
+
   # Raised when a finder is invoked in a way that cannot resolve a semantic
   # identifier — e.g. find_by(id: "PROJ-42") which reduces to a raw SQL
   # WHERE clause that cannot consult the alias table. Subclasses ArgumentError
   # so callers that rescue ArgumentError still catch it, but it can be rescued
   # specifically when needed.
   class UnsupportedLookup < ArgumentError; end
+
+  # Validation context that permits deliberate changes to identifier/sequence_number
+  # on a persisted work package:
+  #
+  #   work_package.save(context: WorkPackage::SemanticIdentifier::IDENTIFIER_REWRITE_CONTEXT)
+  #
+  # See #semantic_identifier_fields_not_accidentally_changed.
+  IDENTIFIER_REWRITE_CONTEXT = :identifier_rewrite
 
   included do
     has_many :semantic_aliases,
@@ -64,12 +82,27 @@ module WorkPackage::SemanticIdentifier
       joins(:project).semantically_sequenced
         .where("work_packages.identifier IS DISTINCT FROM projects.identifier || '-' || work_packages.sequence_number::text")
     }
+    # Work packages whose identifier column carries the given project slug
+    # prefix, i.e. is of the exact form "<slug>-<digits>". Counterpart to
+    # WorkPackageSemanticAlias.for_slug_prefix for the denormalized column.
+    scope :for_slug_prefix, ->(slug) {
+      where("identifier ~ ?", WorkPackage::SemanticIdentifier.slug_prefix_pattern(slug))
+    }
+    # Work packages that currently resolve via identifiers of the form
+    # "<slug>-<digits>" — through the identifier column or an alias row.
+    # The single-identifier counterpart is FinderMethods#scope_for_semantic_identifier.
+    # ReleaseReservedIdentifierService severs exactly this set, and the release
+    # dialog counts it — keep the two in sync through this scope.
+    scope :resolving_via_slug_prefix, ->(slug) {
+      where(id: WorkPackageSemanticAlias.for_slug_prefix(slug).select(:work_package_id))
+        .or(for_slug_prefix(slug))
+    }
 
     attr_accessor :skip_semantic_id_allocation
 
     after_create :allocate_and_register_semantic_id, if: -> { Setting::WorkPackageIdentifier.semantic? && !skip_semantic_id_allocation }
 
-    validate :semantic_identifier_fields_consistent
+    validate :validate_semantic_identifier_fields
   end
 
   class_methods do
@@ -194,11 +227,42 @@ module WorkPackage::SemanticIdentifier
 
   private
 
+  def validate_semantic_identifier_fields
+    semantic_identifier_fields_consistent
+    semantic_identifier_fields_not_accidentally_changed
+  end
+
   # Ensures identifier and sequence_number are always written together.
   # One field set without the other indicates a partial write and is never valid.
   def semantic_identifier_fields_consistent
     return unless identifier.present? ^ sequence_number.present?
 
     errors.add(:identifier, :semantic_identifier_incomplete)
+  end
+
+  # Guards against accidental edits, e.g. from a Rails console: identifiers are
+  # allocated automatically and resolved through the alias table, so a
+  # hand-written change silently breaks links and identifier history.
+  # Deliberate changes must be saved with the IDENTIFIER_REWRITE_CONTEXT
+  # validation context.
+  def semantic_identifier_fields_not_accidentally_changed
+    return unless persisted?
+    return if Array(validation_context).include?(IDENTIFIER_REWRITE_CONTEXT)
+    return if cleared_for_project_move?
+
+    %w[identifier sequence_number].each do |attribute|
+      next unless attribute_changed?(attribute)
+
+      errors.add(attribute, :must_not_be_changed, context: IDENTIFIER_REWRITE_CONTEXT)
+    end
+  end
+
+  # Clearing both fields while moving to another project is part of the move
+  # operation itself: the identifier belongs to the source project and must be
+  # cleared in the same UPDATE that changes project_id (unique index on
+  # project_id/sequence_number). A fresh identifier is allocated after the move.
+  # See WorkPackages::SetAttributesService#clear_semantic_identifier.
+  def cleared_for_project_move?
+    project_id_changed? && identifier.nil? && sequence_number.nil?
   end
 end

@@ -118,7 +118,7 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin
 
       map.permission :view_project,
-                     { projects: %i[show] },
+                     { projects: %i[show list_row_menu] },
                      permissible_on: :project,
                      public: true
 
@@ -314,7 +314,8 @@ Rails.application.reloader.to_prepare do
                        "work_packages/menus": %i[show],
                        "work_packages/hover_card": %i[show],
                        work_package_relations_tab: %i[index],
-                       "work_packages/reminders": %i[modal_body create update destroy]
+                       "work_packages/reminders": %i[modal_body create update destroy],
+                       "work_packages/project_attributes_tab": %i[index]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }

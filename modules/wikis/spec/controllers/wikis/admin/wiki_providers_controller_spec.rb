@@ -39,30 +39,50 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
   describe "GET #index" do
     let!(:wiki_provider) { create(:xwiki_provider) }
 
-    it "renders the index template and assigns providers" do
-      get :index
-      expect(response).to be_successful
-      expect(response).to render_template :index
-      expect(assigns(:wiki_providers)).to include(wiki_provider)
+    context "when the enterprise token doesn't allow xwiki_integration" do
+      it "redirects to the index page" do
+        get :index
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
+      end
     end
 
-    context "when not admin" do
-      before { login_as non_admin }
-
-      it "responds with an error" do
+    context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
+      it "renders the index template and assigns providers" do
         get :index
-        expect(response).not_to be_successful
+        expect(response).to be_successful
+        expect(response).to render_template :index
+        expect(assigns(:wiki_providers)).to include(wiki_provider)
+      end
+
+      context "when not admin" do
+        before { login_as non_admin }
+
+        it "responds with an error" do
+          get :index
+          expect(response).not_to be_successful
+        end
       end
     end
   end
 
   describe "GET #new" do
-    it "renders the new template with an unpersisted provider" do
-      get :new
-      expect(response).to be_successful
-      expect(response).to render_template :new
-      expect(assigns(:wiki_provider)).to be_a(Wikis::XWikiProvider)
-      expect(assigns(:wiki_provider)).not_to be_persisted
+    context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
+      it "renders the new template with an unpersisted provider" do
+        get :new
+        expect(response).to be_successful
+        expect(response).to render_template :new
+        expect(assigns(:wiki_provider)).to be_a(Wikis::XWikiProvider)
+        expect(assigns(:wiki_provider)).not_to be_persisted
+      end
+    end
+
+    context "when the enterprise token doesn't allow xwiki_integration" do
+      it "redirects to the index page" do
+        get :new
+        expect(response).to be_redirect
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
+        expect(response).to redirect_to(admin_settings_wiki_providers_path)
+      end
     end
   end
 
@@ -81,19 +101,35 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     let(:valid_params) { { wikis_xwiki_provider: { name: "My XWiki", url: "https://xwiki.example.com" } } }
     let(:invalid_params) { { wikis_xwiki_provider: { name: "", url: "https://xwiki.example.com" } } }
 
-    context "with valid params" do
-      it "creates a provider and redirects to the wizard" do
-        expect { post :create, params: valid_params }
-          .to change(Wikis::XWikiProvider, :count).by(1)
-        expect(response).to redirect_to(new_admin_settings_wiki_provider_path(continue_wizard: Wikis::XWikiProvider.last.id))
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
+        .and_return(instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: Dry::Monads::Success("xwiki-test-id")))
+    end
+
+    context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
+      context "with valid params" do
+        it "creates a provider and redirects to the wizard" do
+          expect { post :create, params: valid_params }
+            .to change(Wikis::XWikiProvider, :count).by(1)
+          expect(response).to redirect_to(new_admin_settings_wiki_provider_path(continue_wizard: Wikis::XWikiProvider.last.id))
+        end
+      end
+
+      context "with invalid params" do
+        it "responds with a turbo stream replacing the general info section" do
+          post :create, params: invalid_params, format: :turbo_stream
+          expect(response).to be_successful
+          expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        end
       end
     end
 
-    context "with invalid params" do
-      it "responds with a turbo stream replacing the general info section" do
-        post :create, params: invalid_params, format: :turbo_stream
-        expect(response).to be_successful
-        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    context "when the enterprise token doesn't allow xwiki_integration" do
+      it "redirects to the index page and does not create the provider" do
+        expect { post :create, params: valid_params }.not_to change(Wikis::XWikiProvider, :count)
+        expect(response).to be_redirect
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
+        expect(response).to redirect_to(admin_settings_wiki_providers_path)
       end
     end
   end

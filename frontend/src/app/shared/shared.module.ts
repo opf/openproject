@@ -84,6 +84,7 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
 import { OpBreadcrumbsComponent } from './components/breadcrumbs/op-breadcrumbs.component';
+import { PrimerCounterComponent } from './components/primer/counter.component';
 import { PrimerIconButtonComponent } from './components/primer/icon-button.component';
 
 export function bootstrapModule(injector:Injector):void {
@@ -127,6 +128,7 @@ export function bootstrapModule(injector:Injector):void {
     FullCalendarModule,
     OpDatePickerModule,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   exports: [
@@ -181,6 +183,7 @@ export function bootstrapModule(injector:Injector):void {
 
     OpNonWorkingDaysListComponent,
 
+    PrimerCounterComponent,
     PrimerIconButtonComponent
   ],
   providers: [

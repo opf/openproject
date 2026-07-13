@@ -39,6 +39,21 @@ module Admin
           super
           @slug = slug
         end
+
+        private
+
+        def description_text
+          if affected_work_package_count.positive?
+            I18n.t("admin.reserved_identifiers.dialog.description_with_work_packages",
+                   count: affected_work_package_count)
+          else
+            I18n.t("admin.reserved_identifiers.dialog.description")
+          end
+        end
+
+        def affected_work_package_count
+          @affected_work_package_count ||= WorkPackage.resolving_via_slug_prefix(@slug.slug).count
+        end
       end
     end
   end

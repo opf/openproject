@@ -62,7 +62,7 @@ RSpec.describe "Time entry activity", :js do
 
     visit project_settings_general_path(project)
 
-    click_on "Time & Costs"
+    click_on "Time and costs"
 
     expect(page).to have_field("Development", checked: true)
 

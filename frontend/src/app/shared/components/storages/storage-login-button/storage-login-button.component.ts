@@ -43,7 +43,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class StorageLoginButtonComponent implements OnInit {
-  elementRef = inject(ElementRef);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly i18n = inject(I18nService);
   private readonly cookieService = inject(CookieService);
 

@@ -1,8 +1,7 @@
 import { environment } from '../../../environments/environment';
 
 /**
- * Execute the callback when DEBUG is defined
- * through webpack.
+ * Execute the callback unless running in a production build.
  */
 export function whenDebugging(cb:() => void) {
   if (!environment.production) {
@@ -11,8 +10,7 @@ export function whenDebugging(cb:() => void) {
 }
 
 /**
- * Log with console.log when DEBUG is defined
- * through webpack.
+ * Log with console.log unless running in a production build.
  */
 export function debugLog(message:string, ...args:unknown[]):void {
   // eslint-disable-next-line no-console

@@ -64,7 +64,7 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
     }
   }
 
-  @ViewChild('overlay', { static: true }) overlay:ElementRef;
+  @ViewChild('overlay', { static: true }) overlay:ElementRef<HTMLElement>;
 
   activeModalData$ = this.modalService.activeModalData$;
 
@@ -134,7 +134,7 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
     this.cdRef.detectChanges();
 
     // Focus on wrapper by default
-    (this.overlay.nativeElement as HTMLElement).focus();
+    this.overlay.nativeElement.focus();
 
     // Focus on the first element
     instance && instance.onOpen();

@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
                     ) do |hover_card|
                       hover_card.with_column do
                         render(Primer::Beta::Text.new) do
-                          t("cost_types.settings.cost_types.for_all_projects_hint")
+                          disabled_hint(cost_type)
                         end
                       end
                     end

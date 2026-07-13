@@ -61,7 +61,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   private innerHeader:HTMLElement;
 
   constructor() {
-    const elementRef = inject(ElementRef);
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     this.element = elementRef.nativeElement;
   }

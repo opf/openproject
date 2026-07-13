@@ -54,13 +54,13 @@ RSpec.describe Backlogs::BucketsController do
       expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
     end
 
-    context "when all=1 is passed" do
+    context "when all=true is passed" do
       it "redirects to backlogs preserving the all param" do
         post :create, format: :turbo_stream, params: params.merge(all: 1)
 
         expect(response.body).to have_turbo_stream(
           action: "redirect_to",
-          url: project_backlogs_backlog_path(project, all: 1)
+          url: project_backlogs_backlog_path(project, all: true)
         )
       end
     end
@@ -83,13 +83,13 @@ RSpec.describe Backlogs::BucketsController do
       expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
     end
 
-    context "when all=1 is passed" do
+    context "when all=true is passed" do
       it "redirects to backlogs preserving the all param" do
         put :update, format: :turbo_stream, params: params.merge(all: 1)
 
         expect(response.body).to have_turbo_stream(
           action: "redirect_to",
-          url: project_backlogs_backlog_path(project, all: 1)
+          url: project_backlogs_backlog_path(project, all: true)
         )
       end
     end
@@ -111,13 +111,13 @@ RSpec.describe Backlogs::BucketsController do
       expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
     end
 
-    context "when all=1 is passed" do
+    context "when all=true is passed" do
       it "redirects to backlogs preserving the all param" do
         delete :destroy, format: :turbo_stream, params: params.merge(all: 1)
 
         expect(response.body).to have_turbo_stream(
           action: "redirect_to",
-          url: project_backlogs_backlog_path(project, all: 1)
+          url: project_backlogs_backlog_path(project, all: true)
         )
       end
     end

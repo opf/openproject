@@ -50,7 +50,7 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
   readonly timezoneService = inject(TimezoneService);
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly deviceService = inject(DeviceService);
 
   @HostBinding('class.op-datepicker-sheet') className = true;

@@ -31,7 +31,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import {
   hideElement,
   showElement,
@@ -563,11 +563,11 @@ export default class FiltersFormController extends Controller {
     if (operator && this.daysOperators.includes(operator)) {
       const dateValue = this.findTargetByName(filterName, this.daysTargets)?.value;
 
-      value = _.without([dateValue], '');
+      value = [dateValue].filter((v) => v !== '');
     } else if (operator === this.onDateOperator) {
       const dateValue = this.findTargetById(filterName, this.singleDayTargets)?.value;
 
-      value = _.without([dateValue], '');
+      value = [dateValue].filter((v) => v !== '');
     } else if (operator === this.betweenDatesOperator) {
       const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value;
       const [fromValue, toValue] = rangeValue?.split(' - ') ?? [];

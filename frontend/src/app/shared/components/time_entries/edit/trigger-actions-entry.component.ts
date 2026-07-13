@@ -39,7 +39,7 @@ export class TriggerActionsEntryComponent {
 
   readonly toastService = inject(ToastService);
 
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly i18n = inject(I18nService);
 
@@ -91,7 +91,7 @@ export class TriggerActionsEntryComponent {
   }
 
   protected loadEntry():Observable<TimeEntryResource> {
-    const timeEntryId = (this.elementRef.nativeElement as HTMLElement).dataset.entry!;
+    const timeEntryId = this.elementRef.nativeElement.dataset.entry!;
 
     return this
       .apiv3Service

@@ -143,8 +143,8 @@ module Admin::Settings
     end
 
     def move
-      result = CustomFields::UpdateService.new(user: current_user, model: @custom_field).call(
-        move_to: params[:move_to]&.to_sym
+      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
+        move_to: params.expect(:move_to)
       )
 
       if result.success?
@@ -159,7 +159,7 @@ module Admin::Settings
     end
 
     def drop
-      result = ::ProjectCustomFields::DropService.new(user: current_user, project_custom_field: @custom_field).call(
+      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
         target_id: params[:target_id],
         position: params[:position]
       )
@@ -262,7 +262,7 @@ module Admin::Settings
     end
 
     def find_custom_field
-      @custom_field = ProjectCustomField.find(params[:id])
+      @custom_field = ProjectCustomField.find(params.expect(:id))
     end
 
     def drop_success_streams(call)

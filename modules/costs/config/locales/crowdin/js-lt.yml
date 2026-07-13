@@ -22,15 +22,15 @@
 ---
 lt:
   js:
-    text_are_you_sure: Ar esate įsitikinę?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Kaštai
-      properties:
-        overallCosts: Bendri kaštai
-        spentUnits: Panaudota vienetų
     button_log_costs: Vesti į žurnalą vieneto kaštus
     label_hour: valanda
     label_hours: valandos (-a, -ų)
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Ar esate įsitikinę?
+    work_packages:
+      properties:
+        overallCosts: Bendri kaštai
+        spentUnits: Panaudota vienetų
+      property_groups:
+        costs: Kaštai

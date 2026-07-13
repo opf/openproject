@@ -55,12 +55,24 @@ StreamActions.reloadPage = function reloadPage() {
 // https://github.com/hotwired/turbo/issues/1300
 applyTurboNavigationPatch();
 
+// turbo_power's push_state writes a history entry with an empty state, which Turbo's popstate
+// handler then refuses to render on Back (it only rewrites the URL, leaving stale content on
+// screen). Route through Turbo's own history instead so the entry carries restoration data and
+// Back triggers a proper restoration visit. See https://github.com/marcoroth/turbo_power/issues/11.
+StreamActions.push_state = function pushState() {
+  const url = this.getAttribute('url');
+  if (url) {
+    Turbo.session.history.push(new URL(url, window.location.origin));
+  }
+};
+
 // Register only the turbo-power stream actions we actually use
-TurboPower.register('push_state', TurboPower.Actions.push_state, StreamActions);
 TurboPower.register('turbo_frame_set_src', TurboPower.Actions.turbo_frame_set_src, StreamActions);
+TurboPower.register('turbo_frame_reload', TurboPower.Actions.turbo_frame_reload, StreamActions);
 TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions);
 TurboPower.register('set_dataset_attribute', TurboPower.Actions.set_dataset_attribute, StreamActions);
 TurboPower.register('set_title', TurboPower.Actions.set_title, StreamActions);
+TurboPower.register('reload', TurboPower.Actions.reload, StreamActions);
 
 // Error handling when "Content missing" returned
 document.addEventListener('turbo:frame-missing', (event) => {

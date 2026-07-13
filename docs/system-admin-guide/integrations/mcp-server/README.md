@@ -17,7 +17,7 @@ read-only tools, tools to manipulate data might be added in the future.
 
 In your MCP client, you have to configure the endpoint of the OpenProject MCP server, which is available under `/mcp`, so for example:
 
-```
+```text
 https://your-openproject.example.com/mcp
 ```
 
@@ -45,11 +45,11 @@ preconfigured connection, granting the MCP client the necessary permissions thro
 The MCP endpoints require access with a token that includes the `mcp` scope. These tokens can be obtained in all ways usually supported
 by OpenProject already, namely:
 
-* [Tokens issued from OpenProject](../../authentication/oauth-applications/)
-* Tokens issued from a compliant OpenID Connect provider
+- [Tokens issued from OpenProject](../../authentication/oauth-applications/)
+- Tokens issued from a compliant OpenID Connect provider
 
 In case OpenProject is used as the authentication provider, the configuration for the client has to be prepared by the administrator.
-Go to *Administration -> Authentication -> OAuth applications* and create an application with the `mcp` scope, entering
+Go to _Administration -> Authentication -> OAuth applications_ and create an application with the `mcp` scope, entering
 the "Redirect URI" according to the instructions of your MCP client. 
 
 > [!IMPORTANT]
@@ -58,11 +58,9 @@ the "Redirect URI" according to the instructions of your MCP client.
 
 ![Create new OAuth application for an MCP server in OpenProject administration](openproject_system_guide_new_oauth_mcp.png)
 
-
-
 ### Customization
 
-You can customize the MCP server further under *Administration -> Artificial Intelligence (AI) -> Model Context Protocol (MCP)*. 
+You can customize the MCP server further under _Administration -> Artificial Intelligence (AI) -> Model Context Protocol (MCP)_. 
 
 Here you can enable or disable the entire MCP server and change the MCP server titles and descriptions indicated towards MCP clients. If you think that your MCP client is passing duplicated information to the language model, you can also change the response format, though for most purposes the default should work well.
 
@@ -74,9 +72,8 @@ The available response format options are:
 
 ![Model context protocol (MCP) settings under OpenProject administration](openproject_system_guide_new_mcp.png)
 
-
 You can also disable individual tools and resources provided via MCP. This can be useful if you want to introduce alternative naming for certain entities or limit available functionality.
 
-For example if work packages are called "work items" in your day-to-day language, it can be helpful to rename *Search work packages* to *Search work items*, so that users interacting with the MCP client understand what a tool does and the language model has an additional cue that there is an alias for "work packages".
+For example if work packages are called "work items" in your day-to-day language, it can be helpful to rename _Search work packages_ to _Search work items_, so that users interacting with the MCP client understand what a tool does and the language model has an additional cue that there is an alias for "work packages".
 
 ![MCP tools section settings in OpenProject administration](openproject_system_guide_new_mcp_tools.png)

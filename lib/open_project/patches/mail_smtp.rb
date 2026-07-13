@@ -48,6 +48,6 @@ module OpenProject::Patches
   end
 end
 
-OpenProject::Patches.patch_gem_version "mail", "2.9.0" do
+OpenProject::Patches.patch_gem_version "mail", "2.9.1" do
   Mail::SMTP.prepend OpenProject::Patches::Mail::SMTP
 end

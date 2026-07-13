@@ -58,10 +58,21 @@
   grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
   grid-template-areas: "heading actions menu" "description description description"
   align-items: center
-  row-gap: var(--op-border-box-list-header-row-gap)
 
   &_collapsible
     grid-template-areas: "heading actions menu"
+
+  &_with-drag-handle
+    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
+    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+    margin-left: calc(-1 * var(--stack-padding-normal))
+    &.op-border-box-list-header_collapsible
+      grid-template-areas: "drag_handle heading actions menu"
+  &--drag_handle
+    align-self: stretch
+    cursor: grab
+    color: var(--fgColor-muted)
+    justify-self: center
 
   &--heading
     min-width: 0
@@ -80,3 +91,6 @@
 
     .Box-title
       min-width: 0
+
+  &--description
+    margin-top: var(--op-border-box-list-header-row-gap)

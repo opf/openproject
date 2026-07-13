@@ -115,7 +115,7 @@ module Components
         # Click the latest figure, if any
         # Do not wait more than 1 second to check if there is an image
         images = editable.all("figure.image", wait: 1)
-        if images.count > 0
+        if images.any?
           images.last.click
 
           # Click the "move below figure" button
@@ -203,7 +203,7 @@ module Components
     end
 
     def insert_macro(label)
-      container.find(".ck-button", visible: :all, text: "Macros").click
+      container.find(".ck-dropdown__button", visible: :all, exact_text: "Insert").click
       container.find(".ck-button", visible: :all, text: label).click
     end
 

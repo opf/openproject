@@ -35,10 +35,11 @@ module Wikis
         Registry = Dry::Core::Container::Namespace.new("xwiki") do
           namespace("authentication") do
             register(:user_bound, Authentication::UserBound)
+            register(:noop, Authentication::Noop)
           end
 
           namespace("commands") do
-            # ...
+            register(:create_page, Commands::CreatePage)
           end
 
           namespace("components") do
@@ -61,7 +62,9 @@ module Wikis
 
           namespace("queries") do
             register(:user, Queries::User)
+            register(:instance_id, Queries::InstanceId)
             register(:page_info, Queries::StablePageInfo)
+            register(:page_info_for_url, Queries::PageInfoForUrl)
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
             register(:search_pages, Queries::SearchPages)

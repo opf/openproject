@@ -97,6 +97,10 @@ export async function setupStimulusTest(options:SetupOptions):Promise<StimulusTe
     },
 
     dispose() {
+      // Unload before stopping: stop() kills the DOM observer, so controllers
+      // would never disconnect and document-level listeners would leak into
+      // the next test. unload() disconnects them synchronously.
+      application.unload(Object.keys(options.controllers));
       application.stop();
       container.remove();
       if (stimulusErrors.length > 0) {

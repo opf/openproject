@@ -111,9 +111,16 @@ export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
   }
 
   private createGrid(type:BoardType, name:string, scope:string, actionAttribute?:string):Observable<GridResource> {
-    const payload:any = _.set({ name }, '_links.scope.href', scope);
-    payload.options = {
-      type,
+    const payload:{
+      name:string;
+      _links:{ scope:{ href:string } };
+      options:{ type:BoardType; attribute?:string };
+    } = {
+      name,
+      _links: {
+        scope: { href: scope },
+      },
+      options: { type },
     };
 
     if (actionAttribute) {

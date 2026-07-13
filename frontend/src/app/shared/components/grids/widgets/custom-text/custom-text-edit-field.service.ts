@@ -13,7 +13,7 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
-  protected elementRef = inject(ElementRef);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected injector = inject(Injector);
   protected halResource = inject(HalResourceService);
   protected schemaCache = inject(SchemaCacheService);
@@ -73,11 +73,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public get rawText() {
-    return _.get(this.textValue, 'raw', '');
+    return (this.textValue as { raw?:string } | null)?.raw ?? '';
   }
 
   public get htmlText() {
-    return _.get(this.textValue, 'html', '');
+    return (this.textValue as { html?:string } | null)?.html ?? '';
   }
 
   public get textValue() {
@@ -108,7 +108,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
+    const trigger = this.elementRef.nativeElement.querySelector<HTMLElement>('.inplace-editing--trigger-container');
     if (trigger) {
       trigger.focus();
     }

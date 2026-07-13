@@ -116,7 +116,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
         end
       end
 
-      string_project_custom_field.move_to_bottom
+      section_for_input_fields.reload.move_in_order(string_project_custom_field.column_name, :lowest)
 
       overview_page.visit_page
 

@@ -52,6 +52,12 @@ module Primer
             add_input HtmlContent.new(&)
           end
 
+          # Open a nested input group. Upstream only defines this on the top-level
+          # FormObject, so it is otherwise unavailable inside a group or fieldset_group.
+          def group(**, &)
+            add_input Primer::Forms::Dsl::InputGroup.new(builder:, form:, **, &)
+          end
+
           def pattern_input(**, &)
             add_input PatternInput.new(builder:, form:, **decorate_options(**), &)
           end
@@ -82,6 +88,10 @@ module Primer
 
           def select_panel(**, &)
             add_input SelectPanelInput.new(builder:, form:, **decorate_options(**), &)
+          end
+
+          def filterable_tree_view(**, &)
+            add_input FilterableTreeViewInput.new(builder:, form:, **decorate_options(**), &)
           end
 
           def decorate_options(include_help_text: true, help_text_options: {}, **options)

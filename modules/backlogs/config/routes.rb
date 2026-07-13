@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       resources :sprints, param: :sprint_id, only: %i[index create update] do
         collection do
           get :new_dialog
-          get :refresh_form
+          post :refresh_form
         end
 
         member do
@@ -92,6 +92,11 @@ Rails.application.routes.draw do
       end
 
       resources :work_packages, controller: :work_packages, only: [] do
+        collection do
+          get :add_existing_dialog
+          post :add_existing
+        end
+
         member do
           get :menu
           put :move
@@ -104,7 +109,6 @@ Rails.application.routes.draw do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
       end
-
     end
   end
 

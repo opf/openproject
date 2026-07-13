@@ -34,24 +34,33 @@ module CustomFields
 
     included do
       def index_path(custom_field, params = {})
-        if custom_field.type == "ProjectCustomField"
+        case custom_field.type
+        when "ProjectCustomField"
           admin_settings_project_custom_fields_path(**params)
+        when "UserCustomField"
+          admin_settings_user_custom_fields_path(**params)
         else
           custom_fields_path(**params)
         end
       end
 
       def edit_path(custom_field, params = {})
-        if custom_field.type == "ProjectCustomField"
+        case custom_field.type
+        when "ProjectCustomField"
           admin_settings_project_custom_field_path(**params)
+        when "UserCustomField"
+          edit_admin_settings_user_custom_field_path(**params)
         else
           edit_custom_field_path(**params)
         end
       end
 
       def list_item_path(custom_field, params = {})
-        if custom_field.type == "ProjectCustomField"
+        case custom_field.type
+        when "ProjectCustomField"
           list_items_admin_settings_project_custom_field_path(**params)
+        when "UserCustomField"
+          list_items_admin_settings_user_custom_field_path(**params)
         else
           list_items_custom_field_path(**params)
         end

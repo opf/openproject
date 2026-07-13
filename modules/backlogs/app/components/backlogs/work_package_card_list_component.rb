@@ -78,6 +78,7 @@ module Backlogs
       title:,
       count: work_packages.size,
       count_label: default_count_label(count),
+      count_arguments: { scheme: :secondary },
       **system_arguments,
       &
     )
@@ -88,6 +89,7 @@ module Backlogs
         title:,
         count:,
         count_label:,
+        count_arguments:,
         **system_arguments,
         &
       )

@@ -63,6 +63,8 @@ export class MainMenuToggleService {
 
   private wasCollapsedByUser = false;
 
+  private lastInnerWidth = window.innerWidth;
+
   constructor() {
     this.initializeMenu();
     // Add resize event listener
@@ -93,6 +95,12 @@ export class MainMenuToggleService {
   }
 
   private onWindowResize():void {
+    // Skip if only the visual viewport changed (e.g. virtual keyboard opening) —
+    // adjustMenuVisibility() only cares about innerWidth, and the keyboard does not change it.
+    const currentWidth = window.innerWidth;
+    if (currentWidth === this.lastInnerWidth) return;
+    this.lastInnerWidth = currentWidth;
+
     this.adjustMenuVisibility();
   }
 

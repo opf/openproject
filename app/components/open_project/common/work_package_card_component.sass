@@ -38,6 +38,16 @@
   margin-bottom: var(--base-size-4)
   container-type: inline-size
 
+  &--priority
+    display: inline-flex
+    align-items: center
+
+  &--priority-name
+    display: inline-block
+    margin-left: var(--base-size-4)
+    width: 5rem
+    @include text_shortener
+
   &_with-footer
     grid-template-rows: auto auto auto
     grid-template-areas: "info_line actions" "subject subject" "footer footer"

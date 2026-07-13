@@ -22,9 +22,9 @@
 ---
 pt-BR:
   js:
-    work_packages:
-      properties:
-        storyPoints: Pontos de História
     burndown:
       day: Dia
       points: Pontos
+    work_packages:
+      properties:
+        storyPoints: Pontos de História

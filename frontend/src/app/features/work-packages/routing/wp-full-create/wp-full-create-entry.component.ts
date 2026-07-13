@@ -48,7 +48,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFullCreateEntryComponent {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() type:string;
   @Input() parentId?:string;

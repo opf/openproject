@@ -93,6 +93,21 @@ pt-BR:
           name: Alta
         item_3:
           name: Imediata
+      departments:
+        item_0:
+          name: Marketing e Comunicação
+        item_1:
+          name: Relações públicas
+        item_2:
+          name: Conteúdo e design
+        item_3:
+          name: Eventos e operações
+        item_4:
+          name: Web e TI
+        item_5:
+          name: Finanças e administração
+        item_6:
+          name: Garantia de qualidade
       projects:
         demo-project:
           name: Projeto de demonstração
@@ -182,20 +197,22 @@ pt-BR:
                 item_2:
                   subject: Configurar o site da conferência
             item_2:
-              subject: Conferência
+              subject: Testar e realizar controle de qualidade do site da conferência
             item_3:
+              subject: Conferência
+            item_4:
               subject: Tarefas de acompanhamento
               children:
                 item_0:
-                  subject: Fazer upload de apresentações para o site
+                  subject: Enviar apresentações para o site
                 item_1:
                   subject: Festa para os apoiadores da conferência :-)
                   description: |-
-                    * [ ] Cerveja
-                    * [ ] Lanches
-                    * [ ] Música
-                    * [ ] Ainda mais cerveja
-            item_4:
+                    *   [ ] Cerveja
+                    *   [ ] Petiscos
+                    *   [ ] Música
+                    *   [ ] Ainda mais cerveja
+            item_5:
               subject: Fim do projeto
           wiki: |
             _Nesta wiki, você pode criar e editar páginas e subpáginas de forma colaborativa para criar uma wiki do projeto._

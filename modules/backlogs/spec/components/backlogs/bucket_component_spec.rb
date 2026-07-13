@@ -104,7 +104,20 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders the bucket menu actions" do
-        expect(rendered_component.to_html).to include("Edit backlog bucket", "Delete backlog bucket")
+        expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket") do |link|
+          expect(link[:href]).to eq edit_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket") do |link|
+          expect(link[:href]).to eq destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(
+            project, target_id: "backlog_bucket:#{backlog_bucket.id}"
+          )
+        end
       end
 
       it "renders one shared-card row per work package" do
@@ -170,23 +183,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "includes all=1 in the split-view URL" do
+    it "includes all=true in the split-view URL" do
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-backlogs--story-split-url-value"]).to include("all=1")
+        expect(row["data-backlogs--story-split-url-value"]).to include("all=true")
       end
-    end
-
-    it "includes all=1 in the drop URL" do
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-drop-url"]).to include("all=1")
-      end
-    end
-
-    it "includes all=1 in the action-menu src" do
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package, all: "1")
-      )
     end
   end
 
@@ -203,16 +203,15 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "still renders the add work package menu actions" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
     end
-  end
 
-  context "when the bucket is not persisted" do
-    let(:backlog_bucket) { BacklogBucket.new(project:, name: "Ready for development") }
-
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "does not render the edit or delete bucket menu items" do
+      expect(rendered_component).to have_no_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_no_selector(:menuitem, "Delete backlog bucket")
     end
   end
 
@@ -234,6 +233,17 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}.Box-row--draggable")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-draggable-id]")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-drop-url]")
+    end
+
+    it "still renders the edit and delete bucket menu items" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
+    end
+
+    it "does not render the add work package menu actions" do
+      expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
     end
   end
 end

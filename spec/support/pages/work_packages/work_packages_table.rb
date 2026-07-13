@@ -88,7 +88,7 @@ module Pages
           # will happily match cells that contain text.
           text_options = value.to_s.empty? ? { exact_text: "" } : { text: value.to_s }
           expect(page).to have_css(
-            ".wp-row-#{work_package.id} td.#{column}", **text_options, wait: 20
+            ".wp-row-#{work_package.id} td.#{column.to_s.camelize(:lower)}", **text_options, wait: 20
           )
         end
       end

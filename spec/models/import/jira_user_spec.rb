@@ -110,6 +110,66 @@ RSpec.describe Import::JiraUser do
     end
   end
 
+  describe "#try_to_find_existing_op_user_by_mail" do
+    let(:payload) { { "displayName" => "Test User", "name" => "testuser", "emailAddress" => "test@example.com" } }
+
+    context "when no user with that mail exists" do
+      it "returns nil" do
+        expect(jira_user.try_to_find_existing_op_user_by_mail).to be_nil
+      end
+    end
+
+    context "when a user with a matching mail exists (case-insensitive)" do
+      let!(:existing_user) { create(:user, login: "otherlogin", mail: "TEST@EXAMPLE.COM") }
+
+      it "returns that user" do
+        expect(jira_user.try_to_find_existing_op_user_by_mail).to eq(existing_user)
+      end
+    end
+
+    context "when emailAddress is nil in payload" do
+      let(:payload) { { "displayName" => "Test User", "name" => "testuser", "emailAddress" => nil } }
+
+      it "returns nil because the generated noemail address will not match any real user" do
+        expect(jira_user.try_to_find_existing_op_user_by_mail).to be_nil
+      end
+    end
+
+    context "when a user has a plus-addressed variant of that mail" do
+      let!(:existing_user) { create(:user, login: "otherlogin", mail: "test+tag@example.com") }
+
+      it "does not find that user" do
+        expect(jira_user.try_to_find_existing_op_user_by_mail).to be_nil
+      end
+    end
+  end
+
+  describe "#try_to_find_existing_op_user_by_login" do
+    let(:payload) { { "displayName" => "Test User", "name" => "testuser", "emailAddress" => "test@example.com" } }
+
+    context "when no user with that login exists" do
+      it "returns nil" do
+        expect(jira_user.try_to_find_existing_op_user_by_login).to be_nil
+      end
+    end
+
+    context "when a user with a matching login exists (case-insensitive)" do
+      let!(:existing_user) { create(:user, login: "TestUser", mail: "other@example.com") }
+
+      it "returns that user" do
+        expect(jira_user.try_to_find_existing_op_user_by_login).to eq(existing_user)
+      end
+    end
+
+    context "when only the mail matches but not the login" do
+      let!(:existing_user) { create(:user, login: "otherlogin", mail: "test@example.com") }
+
+      it "returns nil" do
+        expect(jira_user.try_to_find_existing_op_user_by_login).to be_nil
+      end
+    end
+  end
+
   describe "#sanitize_name (private)" do
     subject(:jira_user) { described_class.new(payload: {}) }
 

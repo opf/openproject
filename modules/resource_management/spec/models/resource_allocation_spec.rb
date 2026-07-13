@@ -269,6 +269,25 @@ RSpec.describe ResourceAllocation do
     end
   end
 
+  describe ".for_project" do
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+    shared_let(:other_work_package) { create(:work_package, project: other_project) }
+
+    let!(:in_project) { create(:resource_allocation, entity: work_package) }
+
+    before { create(:resource_allocation, entity: other_work_package) }
+
+    it "returns only allocations whose entity belongs to the given project" do
+      expect(described_class.for_project(project)).to contain_exactly(in_project)
+    end
+
+    it "accepts a project id as well as a record" do
+      expect(described_class.for_project(project.id)).to contain_exactly(in_project)
+    end
+  end
+
   describe "entity GlobalID handling" do
     shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:) }

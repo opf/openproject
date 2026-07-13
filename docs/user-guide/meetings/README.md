@@ -60,7 +60,7 @@ The menu on the left will allow you to filter meetings based on following:
 - **Attended** lists all meetings in which you were marked as having attended
 - **Created by me** lists all meetings created by you
 
-The buttons next to *Filters* will allow you to filter for upcoming or past meetings.
+The buttons next to _Filters_ will allow you to filter for upcoming or past meetings.
 
 ![Meetings module side menu in OpenProject](openproject_userguide_meetings_side_menu.png)
 
@@ -86,13 +86,14 @@ In addition to viewing meetings, subscribing to meetings allows you to **respond
 
 #### Create a subscription
 
-You can subscribe to OpenProject meetings either within the *Meetings* module, or from your [Account settings page](../account-settings/#icalendar). 
+You can subscribe to OpenProject meetings either within the _Meetings_ module, or from your [Account settings page](../account-settings/access-tokens/#icalendar). 
 
 On the meetings overview page (either global or project specific) click the **More (three dots)** icon and select **Subscribe to calendar**. 
 
 ![Button to subscribe to meetings calendar on OpenProject meetings overview page](openproject_userguide_meetings_subscribe_button.png)
 
 You will be guided through creating an iCal subscription token:
+
 1. Name the token and click **Create subscription**.
 
 ![New calendar subscription form opened in OpenProject](openproject_userguide_meetings_subscribtion_form_name.png)

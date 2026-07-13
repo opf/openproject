@@ -38,6 +38,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
   let(:work_packages) { [] }
   let(:wp_scope) { WorkPackage.where(id: work_packages.map(&:id)).order(:position) }
   let(:show_all_backlog) { false }
+  let(:filter_params) { {} }
 
   current_user { user }
 
@@ -51,6 +52,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
   def render_component
     vc_test_controller.params[:all] = "1" if show_all_backlog
+    filter_params.each { |k, v| vc_test_controller.params[k] = v }
 
     render_inline component
   end
@@ -94,6 +96,29 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         text: "2",
         aria: { label: I18n.t(:label_x_items, count: 2) }
       )
+    end
+
+    it "renders the add work package menu actions" do
+      expect(page).to have_selector(:menuitem, "Add new work package") do |link|
+        expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
+      end
+      expect(page).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, target_id: "inbox")
+      end
+    end
+
+    context "when the user lacks the manage_sprint_items permission" do
+      let(:user) do
+        create(:user,
+               member_with_roles: {
+                 project => create(:project_role, permissions: %i[view_sprints view_work_packages])
+               })
+      end
+
+      it "does not render the add work package menu actions" do
+        expect(page).to have_no_selector(:menuitem, "Add new work package")
+        expect(page).to have_no_selector(:menuitem, "Add existing work package")
+      end
     end
   end
 
@@ -169,10 +194,21 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         )
       end
 
-      it "renders show-more targeting the full backlog turbo frame with all=1" do
+      it "renders show-more targeting the full backlog turbo frame with all=true" do
         show_link = page.find("##{show_more_id}")
-        expect(show_link[:href]).to include("all=1")
+        expect(show_link[:href]).to include("all=true")
         expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
+      end
+
+      context "when filter params are active" do
+        let(:sprint) { create(:sprint, project:) }
+        let(:filter_params) { { sprint_ids: [sprint.id.to_s] } }
+
+        it "carries filter params in the show-more href alongside all=true" do
+          show_link = page.find("##{show_more_id}")
+          expect(show_link[:href]).to include("all=")
+          expect(show_link[:href]).to include("sprint_ids")
+        end
       end
 
       it "renders the show-more row with the last omitted work package id" do

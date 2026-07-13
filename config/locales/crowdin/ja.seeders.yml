@@ -93,6 +93,21 @@ ja:
           name: 高め
         item_3:
           name: 急ぎ
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: デモプロジェクト
@@ -182,21 +197,23 @@ ja:
                 item_2:
                   subject: 大会ウェブサイトの開設
             item_2:
-              subject: 会議
+              subject: Test and quality-check the conference website
             item_3:
-              subject: フォローアップ・タスク
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: ウェブサイトにプレゼンテーションをアップロード
+                  subject: Upload presentations to website
                 item_1:
-                  subject: 大会サポーターのためのパーティー :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] ビール
-                    * [ ] スナック
-                    * [ ] 音楽
-                    * [ ] さらにビール
-            item_4:
-              subject: プロジェクトの終了
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             このWikiでは、プロジェクトWikiを作成するためのページやサブページを共同で作成・編集することができます。
 

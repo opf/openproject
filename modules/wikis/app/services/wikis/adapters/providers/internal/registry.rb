@@ -38,19 +38,12 @@ module Wikis
           end
 
           namespace("commands") do
-            # ...
-          end
-
-          namespace("components") do
-            # ...
-          end
-
-          namespace("contracts") do
-            # ...
+            register(:create_page, Commands::CreatePage)
           end
 
           namespace("queries") do
             register(:page_info, Queries::PageInfo)
+            register(:page_info_for_url, Queries::PageInfoForUrl)
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
             register(:search_pages, Queries::SearchPages)

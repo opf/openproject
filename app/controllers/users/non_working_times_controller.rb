@@ -34,8 +34,6 @@ class Users::NonWorkingTimesController < ApplicationController
 
   layout "admin"
 
-  before_action :check_working_times_feature_flag_is_active
-
   authorization_checked! :new, :create, :edit, :update, :destroy, :working_days_preview
 
   before_action :find_user

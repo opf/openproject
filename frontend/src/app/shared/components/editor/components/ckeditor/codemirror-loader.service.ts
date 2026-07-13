@@ -14,7 +14,7 @@ export class CodeMirrorLoaderService {
   public async loadCore():Promise<CodeMirrorType> {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    this.codeMirrorPromise ??= import(/* webpackChunkName: "codemirror" */ '../../../../../../../node_modules/codemirror/lib/codemirror.js')
+    this.codeMirrorPromise ??= import('../../../../../../../node_modules/codemirror/lib/codemirror.js')
       .then((imported:{ default:CodeMirrorType }) => imported.default);
 
     return this.codeMirrorPromise;
@@ -48,9 +48,7 @@ export class CodeMirrorLoaderService {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      await import(
-        /* webpackChunkName: "codemirror-mode" */ `../../../../../../../node_modules/codemirror/mode/${language}/${language}.js`
-        );
+      await import(`../../../../../../../node_modules/codemirror/mode/${language}/${language}.js`);
 
       this.loadedModes.add(language);
       return true;

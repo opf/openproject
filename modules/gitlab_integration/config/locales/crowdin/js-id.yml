@@ -24,31 +24,31 @@
 id:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Rantai Elemen
       tab_header_issue:
         title: Masalah
       tab_header_mr:
-        title: Permintaan penggabungan
-        create_mr:
-          label: Buat MR
-          description: Buat Permintaan Penggabungan
         copy_menu:
-          label: Cuplikan Git
           description: Salin cuplikan git ke papan klip
+          label: Cuplikan Git
+        create_mr:
+          description: Buat Permintaan Penggabungan
+          label: Buat MR
         git_actions:
           branch_name: Nama cabang
-          commit_message: Pesan commit
           cmd: Buat cabang dengan komit kosong
-          title: Cuplikan cepat untuk Git
-          copy_success: "✅ Tersalin!"
+          commit_message: Pesan commit
           copy_error: "❌ Gagal tersalin!"
+          copy_success: "✅ Tersalin!"
+          title: Cuplikan cepat untuk Git
+        title: Permintaan penggabungan
       tab_issue:
         empty: Belum ada masalah yang terhubung. Hubungkan masalah yang sudah ada dengan menggunakan kode <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk tautan pribadi) di judul/deskripsi masalah atau buat masalah baru.
       tab_mrs:
         empty: Belum ada permintaan penggabungan yang terhubung. Hubungkan masalah yang sudah ada dengan menggunakan kode <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk tautan pribadi) di judul/deskripsi MR atau buat MR baru.
-      gitlab_pipelines: Rantai Elemen
       updated_on: Diperbarui
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

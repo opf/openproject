@@ -31,13 +31,13 @@ import { ChangeDetectorRef, Directive, ElementRef, EventEmitter, OnDestroy, OnIn
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   locals = inject<OpModalLocalsMap>(OpModalLocalsToken);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /* Reference to service */
   protected service:OpModalService = this.locals.service;
@@ -56,7 +56,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   public data:unknown;
 
   ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
   }
 
   ngOnDestroy():void {

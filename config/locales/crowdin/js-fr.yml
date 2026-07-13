@@ -22,6 +22,19 @@
 ---
 fr:
   js:
+    admin:
+      type_form:
+        edit_query: Modifier la requête
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
+      working_days:
+        add_non_working_day: Jour non travaillé
+        already_added_error: Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique.
+        calendar:
+          empty_state_description: Aucun jour de travail spécifique n'est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.
+          empty_state_header: Jours non travaillés
+          new_date: "(nouveau)"
     ajax:
       hide: Masquer
       loading: Chargement...
@@ -42,265 +55,363 @@ fr:
       not_found: Aucun élément trouvé
       type_to_search: Taper pour rechercher
     autocomplete_select:
+      active: Activer %{label} %{name}
       placeholder:
         multi: Ajouter «%{name} »
         single: Sélectionner «%{name} »
       remove: Supprimer %{name}
-      active: Activer %{label} %{name}
+    autocompleter:
+      notFoundText: Aucun élément trouvé
+      placeholder: Taper pour rechercher
+      project:
+        placeholder: Sélectionnez le projet
+      search: Recherche
     backup:
       attachments_disabled: Les pièces jointes peuvent ne pas être incluses car elles dépassent la taille globale maximale autorisée. Vous pouvez modifier cela via la configuration (nécessite un redémarrage du serveur).
+      download_backup: Télécharger la sauvegarde
+      include_attachments: Inclure les pièces jointes
       info: 'Vous pouvez déclencher une sauvegarde ici. Le processus peut prendre un certain temps en fonction de la quantité de données (en particulier les pièces jointes) que vous avez. Vous recevrez un e-mail dès qu''elle sera prête.
-
-        '
-      note: 'Une nouvelle sauvegarde remplacera toute sauvegarde précédente. Il n''est possible de demander qu''un nombre limité de sauvegardes par jour.
 
         '
       last_backup: Dernière sauvegarde
       last_backup_from: Dernière sauvegarde du
-      title: Sauvegarder OpenProject
+      note: 'Une nouvelle sauvegarde remplacera toute sauvegarde précédente. Il n''est possible de demander qu''un nombre limité de sauvegardes par jour.
+
+        '
       options: Options
-      include_attachments: Inclure les pièces jointes
-      download_backup: Télécharger la sauvegarde
       request_backup: Demander une sauvegarde
-    close_popup_title: Fermer popup
-    close_filter_title: Fermer le filtre
-    close_form_title: Fermer le formulaire
-    button_add_watcher: Ajouter observateur
+      title: Sauvegarder OpenProject
+    baseline:
+      apply: Appliquer
+      clear: Effacer
+      drop_down:
+        a_specific_date: une date spécifique
+        between_two_specific_dates: entre deux dates spécifiques
+        last_month: le mois dernier
+        last_week: la semaine dernière
+        last_working_day: dernier jour ouvrable
+        none: "-"
+        yesterday: hier
+      from: De
+      header_description: Mettre en évidence les modifications apportées à cette liste depuis n'importe quel point dans le passé.
+      help_description: Fuseau horaire de référence pour la Référence.
+      icon_tooltip:
+        added: Ajouté à la vue dans la période de temps de comparaison
+        changed: Maintenu avec des modifications
+        removed: Retiré de la vue pendant la période de temps de comparaison
+      legends:
+        changes_between: Modifications entre
+        changes_since: Modifications depuis le
+        in_your_timezone: 'Dans votre fuseau horaire local :'
+        maintained_with_changes: Maintenu avec les modifications
+        no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
+        now_meets_filter_criteria: Répond désormais aux critères de filtrage
+      show_changes_since: Afficher les modifications depuis
+      time: Heure 
+      time_description: 'Dans votre fuseau horaire : %{datetime}'
+      to: À
+      toggle_title: Référence
+    breadcrumb: Fil d'Ariane
     button_add: Ajouter
+    button_add_watcher: Ajouter observateur
+    button_advanced_filter: Filtre avancé
     button_back: Retour
     button_back_to_list_view: Retour à la liste
     button_cancel: Annuler
-    button_close: Fermer
     button_change_project: Déplacer vers un autre projet
     button_check_all: Tout cocher
+    button_close: Fermer
+    button_close_details: Fermer la vue détaillée
+    button_collapse_all: Tout replier
     button_configure-form: Configurer le formulaire
     button_confirm: Confirmer
     button_continue: Continuer
     button_copy: Copier
-    button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_link_to_clipboard: Copier le lien dans le presse-papiers
+    button_copy_numeric_id_to_clipboard: Copier l'identifiant numérique dans le presse-papiers
+    button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_to_other_project: Dupliquer dans un autre projet
+    button_create: Créer
     button_custom-fields: Champs personnalisés
     button_delete: Supprimer
     button_delete_watcher: Supprimer observateur
     button_details_view: Vue détaillée
     button_duplicate: Dupliquer
     button_edit: Éditer
-    button_filter: Filtrer
-    button_collapse_all: Tout replier
     button_expand_all: Tout déplier
-    button_advanced_filter: Filtre avancé
+    button_export-atom: Télécharger Atom
+    button_filter: Filtrer
+    button_generate_pdf: Générer un fichier PDF
     button_list_view: Vue en liste
-    button_show_view: Affichage plein écran
     button_log_time: Consigner du temps
-    button_start_timer: Démarrer le suivi du temps
-    button_stop_timer: Arrêter le suivi du temps
     button_more: Plus
-    button_open_details: Ouvrir la vue détaillée
-    button_close_details: Fermer la vue détaillée
-    button_open_fullscreen: Ouvrir l'affichage plein écran
-    button_show_cards: Afficher la vue carte
-    button_show_list: Afficher la vue liste
-    button_show_table: Afficher la vue du tableau
-    button_show_gantt: Afficher la vue Gantt
-    button_show_fullscreen: Afficher la vue plein écran
     button_more_actions: Plus d'actions
+    button_open_details: Ouvrir la vue détaillée
+    button_open_fullscreen: Ouvrir l'affichage plein écran
     button_quote: Citer
     button_save: Enregistrer
     button_settings: Paramètres
+    button_show_cards: Afficher la vue carte
+    button_show_fullscreen: Afficher la vue plein écran
+    button_show_gantt: Afficher la vue Gantt
+    button_show_list: Afficher la vue liste
+    button_show_table: Afficher la vue du tableau
+    button_show_view: Affichage plein écran
+    button_start_timer: Démarrer le suivi du temps
+    button_stop_timer: Arrêter le suivi du temps
     button_uncheck_all: Tout désélectionner
     button_update: Mettre à jour
-    button_export-atom: Télécharger Atom
-    button_generate_pdf: Générer un fichier PDF
-    button_create: Créer
+    caption_rate_history: Historique des tarifs
     card:
       add_new: Ajouter une nouvelle carte
       highlighting:
-        inline: 'Surligner la ligne :'
         entire_card_by: Carte complète par
+        inline: 'Surligner la ligne :'
       remove_from_list: Supprimer la carte de la liste
-    caption_rate_history: Historique des tarifs
+    chart:
+      axis_criteria: Critères de l'axe
+      errors:
+        could_not_load: Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.
+      modal_title: Configuration du graphique des lots de travaux
+      tabs:
+        dataset: Ensemble de données %{number}
+        graph_settings: Général
+      type: Type de graphique
+      types:
+        bar: Barre
+        doughnut: Beignet
+        horizontal_bar: Barre horizontale
+        line: Ligne
+        pie: Circulaire
+        polar_area: Aire polaire
+        radar: Radar
     clipboard:
       browser_error: 'Votre navigateur ne prend pas en charge la copie dans le presse-papiers. Veuillez effectuer la copie manuellement : %{content}'
       copied_successful: Copie réussie dans le presse-papiers !
-    chart:
-      type: Type de graphique
-      axis_criteria: Critères de l'axe
-      modal_title: Configuration du graphique des lots de travaux
-      types:
-        line: Ligne
-        horizontal_bar: Barre horizontale
-        bar: Barre
-        pie: Circulaire
-        doughnut: Beignet
-        radar: Radar
-        polar_area: Aire polaire
-      tabs:
-        graph_settings: Général
-        dataset: Ensemble de données %{number}
-      errors:
-        could_not_load: Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.
+    close_filter_title: Fermer le filtre
+    close_form_title: Fermer le formulaire
+    close_popup_title: Fermer popup
+    custom_actions:
+      date:
+        current_date: Date actuelle
+        specific: le
     description_available_columns: Colonnes disponibles
     description_current_position: 'Vous êtes ici : '
     description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
-      revisions: Afficher les modifications locales
-      no_revisions: Aucune modification locale trouvée
-      preview: Basculer en mode aperçu
-      source_code: Basculer en mode source Markdown
-      error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
       ckeditor_error: Une erreur s'est produite dans CKEditor
-      mode:
-        manual: Basculer en mode source Markdown
-        wysiwyg: Basculer vers l'éditeur WYSIWYG
+      error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
       macro:
-        error: 'Impossible d''étendre la macro : %{message}'
         attribute_reference:
-          macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
-          not_found: La ressource demandée est introuvable
-          nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
+          macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
+          nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
+          not_found: La ressource demandée est introuvable
         child_pages:
-          button: Liens vers les pages enfants
-          include_parent: Inclure un parent
-          text: "[Placeholder] Liens vers les pages enfants de"
-          page: Page du wiki
-          this_page: cette page
+          button: Liste des sous-pages
           hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou son slug.
 
             '
+          include_parent: Inclure un parent
+          page: Page du wiki
+          text: "[Placeholder] Liste des sous-pages de"
+          this_page: cette page
         code_block:
           button: Insérer le fragment de code
-          title: Insérer/modifier le fragment de code
           language: Langage de formatage
           language_hint: Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).
-        dropdown:
-          macros: Macros
-          chose_macro: Choisir une macro
+          title: Insérer/modifier le fragment de code
+        embedded_calendar:
+          text: "[Placeholder] Calendrier embarqué"
+        embedded_table:
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
+        error: 'Impossible d''étendre la macro : %{message}'
+        macro_dropdown:
+          caption: Insérer
         toc: Table des matières
         toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:
           button: Inclure le contenu d'une autre page wiki
-          text: "[Placeholder] Page wiki inclue de"
-          page: Page du wiki
-          not_set: "(page non encore définie)"
           hint: |
             Incluez le contenu d'une autre page du wiki en indiquant son titre ou son slug.
             Vous pouvez inclure la page wiki d'un autre projet en les séparant par un point-virgule comme dans l'exemple suivant.
+          not_set: "(page non encore définie)"
+          page: Page du wiki
+          text: "[Placeholder] Page wiki inclue de"
         work_package_button:
           button: Insérer un bouton pour créer un lot de travaux
-          type: Type de lot de travaux
           button_style: Utiliser un style de bouton
           button_style_hint: 'Facultatif : Cocher pour que la macro apparaisse sous forme de bouton et non de lien.'
-          without_type: Créer un lot de travaux
+          type: Type de lot de travaux
           with_type: 'Créer un lot de travaux (Type : %{typename})'
-        embedded_table:
-          button: Intégrer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux intégré"
-        embedded_calendar:
-          text: "[Placeholder] Calendrier embarqué"
-    admin:
-      type_form:
-        edit_query: Modifier la requête
-      working_days:
-        calendar:
-          empty_state_header: Jours non travaillés
-          empty_state_description: Aucun jour de travail spécifique n'est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.
-          new_date: "(nouveau)"
-        add_non_working_day: Jour non travaillé
-        already_added_error: Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique.
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
-    custom_actions:
-      date:
-        specific: le
-        current_date: Date actuelle
-    error:
-      internal: Une erreur interne s'est produite.
-      cannot_save_changes_with_message: 'Impossible d''enregistrer vos modifications en raison de l''erreur suivante : %{error}'
-      query_saving: La vue n'a pas pu être enregistrée.
-      embedded_table_loading: 'La vue intégrée n''a pas pu être chargée : %{message}'
+          without_type: Créer un lot de travaux
+      mode:
+        manual: Basculer en mode source Markdown
+        wysiwyg: Basculer vers l'éditeur WYSIWYG
+      no_revisions: Aucune modification locale trouvée
+      preview: Basculer en mode aperçu
+      revisions: Afficher les modifications locales
+      source_code: Basculer en mode source Markdown
     enumeration_activities: Activités (suivi de temps)
     enumeration_doc_categories: Catégories de documents
     enumeration_work_package_priorities: Priorités des lots de travaux
+    error:
+      cannot_save_changes_with_message: 'Impossible d''enregistrer vos modifications en raison de l''erreur suivante : %{error}'
+      embedded_table_loading: 'La vue intégrée n''a pas pu être chargée : %{message}'
+      internal: Une erreur interne s'est produite.
+      query_saving: La vue n'a pas pu être enregistrée.
+    error_attachment_upload: 'Erreur de chargement du fichier : %{error}'
+    error_attachment_upload_permission: Vous n'avez pas l'autorisation de charger des fichiers sur cette ressource.
+    error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
+    error_could_not_resolve_version_name: Ne peut résoudre le nom de version
+    exclusion_info:
+      modal:
+        content: Le statut « %{status_name} » a été configuré pour être exclu des totaux hiérarchiques du travail, du travail restant et du % réalisé. Les totaux ne tiennent pas compte de cette valeur.
+        title: Statut exclu des totaux de la hiérarchie
+    favorite_projects:
+      no_results: Vous n'avez pas de projet favori
+      no_results_subtext: Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets.
+    field_value_enter_prompt: Saisissez une valeur pour « %{field} »
     filter:
-      more_values_not_shown: Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats.
       description:
-        text_open_filter: Ouvrir ce filtre avec la touche « ALT » et les touches fléchées.
         text_close_filter: Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide).
+        text_open_filter: Ouvrir ce filtre avec la touche « ALT » et les touches fléchées.
+      more_values_not_shown: Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats.
       noneElement: "(aucun)"
-      time_zone_converted:
-        two_values: "%{from} - %{to} dans votre heure locale."
-        only_start: À partir de %{from} dans votre heure locale.
-        only_end: Jusqu'à %{to} dans votre heure locale.
-      value_spacer: "-"
       sorting:
         criteria:
           one: Premier critère de tri
-          two: Second critère de tri
           three: Troisième critère de tri
+          two: Second critère de tri
+      time_zone_converted:
+        only_end: Jusqu'à %{to} dans votre heure locale.
+        only_start: À partir de %{from} dans votre heure locale.
+        two_values: "%{from} - %{to} dans votre heure locale."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Paramètres avancés
+      load_error_message: Une erreur s'est produite lors du chargement du formulaire
+      submit_success_message: Le formulaire a bien été envoyé
+      validation_error_message: Veuillez corriger les erreurs présentes dans le formulaire
     gantt_chart:
-      label: Diagramme de Gantt
-      quarter_label: T%{quarter_number}
-      labels:
-        title: Configuration du libellé
-        bar: Libellés des barres
-        left: Gauche
-        right: Droite
-        farRight: Extrême droite
-        description: 'Sélectionnez les attributs que vous voulez afficher dans les positions respectives du diagramme de Gantt en permanence. Notez que lorsque vous survolez un élément avec la souris, ses libellés de date seront affichés à la place de ces attributs.
-
-          '
       button_activate: Afficher le diagramme de Gantt
       button_deactivate: Masquer le diagramme de Gantt
       filter:
         noneSelection: "(aucun)"
+      label: Diagramme de Gantt
+      labels:
+        bar: Libellés des barres
+        description: 'Sélectionnez les attributs que vous voulez afficher dans les positions respectives du diagramme de Gantt en permanence. Notez que lorsque vous survolez un élément avec la souris, ses libellés de date seront affichés à la place de ces attributs.
+
+          '
+        farRight: Extrême droite
+        left: Gauche
+        right: Droite
+        title: Configuration du libellé
+      quarter_label: T%{quarter_number}
       selection_mode:
         notification: Cliquez sur n'importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.
       zoom:
-        in: Zoomer
-        out: Dézoomer
         auto: Zoom automatique
         days: Jours
-        weeks: Semaines
-        months: Mois
-        quarters: Trimestres
-        years: Années
         description: 'Sélectionnez le niveau de zoom initial qui devrait être affiché lorsque le zoom automatique n''est pas disponible.
 
           '
-    general_text_no: non
-    general_text_yes: oui
+        in: Zoomer
+        months: Mois
+        out: Dézoomer
+        quarters: Trimestres
+        weeks: Semaines
+        years: Années
     general_text_No: Non
     general_text_Yes: Oui
+    general_text_no: non
+    general_text_yes: oui
+    global_search:
+      all_projects: Pour tous les projets
+      close_search: Fermer la recherche
+      current_project: Pour ce projet
+      current_project_and_all_descendants: Dans ce projet + sous-projets
+      direct_hit_available: Lot de travaux avec ID exact trouvé. Appuyez sur Entrée pour l'ouvrir.
+      items_available: "%{count} éléments disponibles"
+      recently_viewed: Consultés récemment
+      search_placeholder_expanded: Recherchez des lots de travaux par sujet, projet, type, statut ou identifiant
+      title:
+        all_projects: tous les projets
+        project_and_subprojects: et tous les sous-projets
+        search_for: Rechercher
     hal:
       error:
-        update_conflict_refresh: Cliquez ici pour actualiser la ressource et mettre à jour vers la version la plus récente.
         edit_prohibited: La modification de %{attribute} est bloquée pour cette ressource. Soit cet attribut est dérivé de relations (ex. enfants), soit il n'est pas configurable.
         format:
           date: "%{attribute} n'est pas une date valide. Format attendu : AAAA-MM-JJ."
         general: Une erreur s'est produite.
+        update_conflict_refresh: Cliquez ici pour actualiser la ressource et mettre à jour vers la version la plus récente.
+    help_texts:
+      show_modal: Afficher le texte d'aide
     ical_sharing_modal:
-      title: S'abonner au calendrier
-      inital_setup_error_message: Une erreur est survenue lors de la récupération des données.
+      copy_url_label: Copier l'URL
       description: Vous pouvez utiliser l'URL (iCalendar) pour vous abonner à ce calendrier dans un client externe et afficher les informations mises à jour du lot de travaux à partir de là.
-      warning: Veillez à ne pas partager pas cette adresse URL avec d'autres utilisateurs. Quiconque disposant de ce lien sera en mesure de voir les détails du lot de travaux sans nécessité d'avoir un compte ou de saisir un mot de passe.
+      ical_generation_error_text: Une erreur s'est produite lors de la génération de l'URL du calendrier.
+      inital_setup_error_message: Une erreur est survenue lors de la récupération des données.
+      success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
+      title: S'abonner au calendrier
+      token_name_description_text: Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous permettra de les distinguer dans votre liste de <a href="%{myAccessTokensUrl}" target="_blank">jetons d'accès.</a>
       token_name_label: Où comptez-vous l'utiliser ?
       token_name_placeholder: Saisissez un nom, par exemple « Téléphone »
-      token_name_description_text: Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous permettra de les distinguer dans votre liste de <a href="%{myAccessTokensUrl}" target="_blank">jetons d'accès.</a>
-      copy_url_label: Copier l'URL
-      ical_generation_error_text: Une erreur s'est produite lors de la génération de l'URL du calendrier.
-      success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
+      warning: Veillez à ne pas partager pas cette adresse URL avec d'autres utilisateurs. Quiconque disposant de ce lien sera en mesure de voir les détails du lot de travaux sans nécessité d'avoir un compte ou de saisir un mot de passe.
+    include_projects:
+      apply: Appliquer
+      clear_selection: Effacer la sélection
+      include_subprojects: inclure tous les sous-projets
+      no_results: Aucun projet ne correspond à vos critères de recherche.
+      search_placeholder: Recherche de projets...
+      selected_filter:
+        all: Tous les projets
+        selected: Uniquement la sélection
+      title: Projets
+      toggle_title: Inclure les projets
+      tooltip:
+        current_project: Ceci est le projet dans lequel vous vous trouvez actuellement.
+        does_not_match_search: Le projet ne correspond pas aux critères de recherche.
+        include_all_selected: Projet déjà inclus puisque Include tous les sous-projets sont activés.
+    include_workspaces:
+      types:
+        portfolio: Portefeuille
+        program: Programme
+    inplace:
+      btn_preview_disable: Désactiver l'aperçu
+      btn_preview_enable: Aperçu
+      button_cancel: "%{attribute} : Annuler"
+      button_cancel_all: Annuler
+      button_edit: "%{attribute} : Modifier"
+      button_save: "%{attribute} : Enregistrer"
+      button_save_all: Enregistrer
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} ne peut pas contenir plus de %{maxLength} chiffre(s)"
+        messages_on_field: 'Ce champ n''est pas valide : %{messages}'
+        minlength: "%{field} ne peut pas contenir moins de %{minLength} chiffre(s)"
+        number: "%{field} n'est pas un nombre valide"
+        required: "%{field} ne peut pas être vide"
+      link_formatting_help: Aide pour le formatage du texte
+      null_value_label: Aucune valeur
+    invalid_job_response: Réponse invalide du serveur.
+    invite_user_modal:
+      invite: invite
+      placeholder_add_tag: Créer un utilisateur fictif
     label_activate: Activer
-    label_assignee: Assigné
-    label_assignee_alt_text: Ce lot de travaux est attribué à %{name}
+    label_activity_show_all: Afficher toutes les activités
+    label_activity_show_only_comments: Afficher les activités avec des commentaires uniquement
+    label_add_attachments: Joindre des fichiers
     label_add_column_after: Ajouter une colonne après
     label_add_column_before: Ajouter une colonne avant
     label_add_columns: Ajouter des colonnes
     label_add_comment: Ajouter un commentaire
     label_add_comment_title: Commentez et utilisez @ pour informer d'autres personnes
+    label_add_description: Ajouter une description pour %{file}
     label_add_row_after: Ajouter une ligne après
     label_add_row_before: Ajouter une ligne avant
     label_add_selected_columns: Ajouter les colonnes sélectionnées
@@ -313,6 +424,9 @@ fr:
     label_all_work_packages: tous les lots de travaux
     label_and: et
     label_ascending: Croissant
+    label_assignee: Assigné
+    label_assignee_alt_text: Ce lot de travaux est attribué à %{name}
+    label_attachments: Pièces jointes
     label_author: 'Auteur : %{user}'
     label_avatar: Avatar
     label_between: entre
@@ -320,42 +434,52 @@ fr:
     label_board_locked: Verrouillé
     label_board_plural: Tableaux
     label_board_sticky: Épinglé
+    label_cancel_comment: Annuler le commentaire
     label_change: Changer
+    label_children_derived_duration: Durée dérivée des enfants du lot de travaux
+    label_closed_work_packages: clôturé
+    label_collapse: Replier
+    label_collapse_all: Tout replier
+    label_collapse_text: Réduire le texte
+    label_collapsed: replié
+    label_columns: Colonnes
+    label_comment: Commentaire
+    label_contains: contenus
     label_create: Créer
     label_create_work_package: Créer un nouveau lot de travaux
     label_created_by: Créé par
+    label_created_on: créé le
     label_current: actuel
+    label_custom_queries: Privé
     label_date: Date
     label_date_with_format: 'Saisissez l''attribut %{date_attribute} en utilisant le format suivant : %{format}'
     label_deactivate: Désactiver
+    label_default_queries: Par défaut
     label_descending: Décroissant
     label_description: Description
     label_details: Détails
     label_display: Affichage
-    label_cancel_comment: Annuler le commentaire
-    label_closed_work_packages: clôturé
-    label_collapse: Replier
-    label_collapsed: replié
-    label_collapse_all: Tout replier
-    label_collapse_text: Réduire le texte
-    label_comment: Commentaire
-    label_contains: contenus
-    label_created_on: créé le
+    label_drop_files: Déposez des fichiers ici pour joindre des fichiers.
+    label_drop_folders_hint: Vous ne pouvez pas déposer les dossiers en pièces jointes. Veuillez sélectionner des fichiers seuls.
+    label_drop_or_click_files: Déposez des fichiers ici ou cliquez pour joindre des fichiers.
     label_edit_comment: Modifier ce commentaire
     label_edit_status: Modifier le statut du lot de travaux
     label_email: Adresse e-mail
     label_equals: est
     label_expand: Déplier
-    label_expanded: déplié
     label_expand_all: Tout déplier
-    label_expand_text: Afficher le texte complet
     label_expand_project_menu: Déplier le menu du projet
+    label_expand_text: Afficher le texte complet
+    label_expanded: déplié
     label_export: Exporter
     label_export_preparing: L'export est en cours de préparation et sera téléchargé sous peu.
     label_favorites: Favoris
     label_filename: Fichier
+    label_files_to_upload: 'Ces fichiers vont être transférés :'
     label_filesize: Taille
+    label_formattable_attachment_hint: Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers.
     label_general: Général
+    label_global_queries: Public
     label_greater_or_equal: ">="
     label_group: Groupe
     label_group_by: Grouper par
@@ -363,15 +487,16 @@ fr:
     label_hide_attributes: Afficher moins
     label_hide_column: Masquer la colonne
     label_hide_project_menu: Replier le menu du projet
+    label_import: Importer
     label_in: dans
     label_in_less_than: dans moins de
     label_in_more_than: dans plus de
     label_incoming_emails: E-mails entrants
+    label_infinity: Infini
     label_information_plural: Information
     label_invalid: Non valide
-    label_import: Importer
-    label_latest_activity: Dernière activité
     label_last_updated_on: Dernière modification le
+    label_latest_activity: Dernière activité
     label_learn_more_link: En savoir plus
     label_less_or_equal: "<="
     label_less_than_ago: il y a moins de quelques jours
@@ -381,38 +506,45 @@ fr:
     label_me: moi
     label_meeting_agenda: Ordre du jour
     label_meeting_minutes: Minutes
-    label_more_than_ago: il y a plus de quelques jours
     label_moderate_comment: Modérer le commentaire
+    label_more_than_ago: il y a plus de quelques jours
     label_next: Suivante
     label_no_color: Aucune couleur
     label_no_data: Aucune donnée à afficher
+    label_no_date: pas de date
     label_no_due_date: pas de date de fin
     label_no_start_date: pas de date de début
-    label_no_date: pas de date
     label_no_value: Aucune valeur
     label_none: aucune
+    label_not_available: Indisponible
     label_not_contains: ne contient pas
     label_not_equals: n'est pas
     label_on: le
-    label_open_menu: Ouvrir le menu
     label_open_context_menu: Ouvrir le menu contextuel
+    label_open_menu: Ouvrir le menu
     label_open_work_packages: ouverts
     label_password: Mot de passe
-    label_previous: Précédent
     label_per_page: 'Par page:'
     label_please_wait: Veuillez patienter
+    label_press_enter_to_save: Appuyer sur "entrée" pour enregistrer.
+    label_previous: Précédent
     label_project: Projet
     label_project_plural: Projets
-    label_visibility_settings: Paramètres de visibilité
+    label_public_query: Public
     label_quote_comment: Citer ce commentaire
     label_recent: Récent
-    label_reset: Réinitialiser
+    label_rejected_files: 'Ces fichiers ne peuvent pas être transférés :'
+    label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur taille est supérieure à %{maximumFilesize}
     label_remove: Supprimer
+    label_remove_all_files: Supprimer tous les fichiers
     label_remove_column: Supprimer la colonne
     label_remove_columns: Enlever les colonnes sélectionnées
+    label_remove_file: Supprimer %{fileName}
     label_remove_row: Supprimer la ligne
+    label_remove_watcher: Retirer l'observateur %{name}
     label_report: Rapport
     label_repository_plural: Dépôts
+    label_reset: Réinitialiser
     label_resize_project_menu: Redimensionner le menu du projet
     label_save_as: Enregistrer sous
     label_search_columns: Rechercher une colonne
@@ -421,168 +553,172 @@ fr:
     label_show_attributes: Afficher tous les attributs
     label_show_in_menu: Afficher la vue dans le menu
     label_sort_by: Trier par
-    label_sorted_by: trié par
     label_sort_higher: Déplacer vers le haut
     label_sort_lower: Déplacer vers le bas
+    label_sorted_by: trié par
     label_sorting: Tri
     label_spent_time: Temps passé
     label_star_query: Favoris
-    label_press_enter_to_save: Appuyer sur "entrée" pour enregistrer.
-    label_public_query: Public
+    label_starred_queries: Favori
+    label_subject: Sujet
     label_sum: Total
     label_sum_for: Somme pour
-    label_total_sum: Somme totale
-    label_subject: Sujet
     label_this_week: cette semaine
-    label_today: Aujourd'hui
     label_time_entry_plural: Temps passé
-    label_up: Haut
-    label_user_plural: Utilisateurs
-    label_activity_show_only_comments: Afficher les activités avec des commentaires uniquement
-    label_activity_show_all: Afficher toutes les activités
-    label_total_progress: "%{percent}% de progression totale"
+    label_today: Aujourd'hui
     label_total_amount: 'Total : %{amount}'
+    label_total_progress: "%{percent}% de progression totale"
+    label_total_sum: Somme totale
+    label_unwatch: Ne plus suivre
+    label_unwatch_work_package: Ne plus suivre le lot de travaux
+    label_up: Haut
     label_updated_on: mis à jour le
+    label_upload_counter: "%{done} fichiers sur %{count} finis"
+    label_upload_notification: Chargement des fichiers...
+    label_uploaded_by: Importé par
+    label_user_plural: Utilisateurs
+    label_validation_error: 'Le lot de travaux n''a pas pu être enregistré en raison des erreurs suivantes :'
     label_value_derived_from_children: "(valeur dérivée des enfants)"
-    label_children_derived_duration: Durée dérivée des enfants du lot de travaux
+    label_version_plural: Versions
+    label_view_has_changed: Cette vue a des changements non sauvegardés. Cliquez pour les enregistrer.
+    label_visibility_settings: Paramètres de visibilité
+    label_wait: Veuillez patienter pendant la configuration...
     label_warning: Attention
-    label_work_package: Lot de travaux
-    label_work_package_parent: Lot de travaux parent
-    label_work_package_plural: Lots de travaux
     label_watch: Suivre
     label_watch_work_package: Suivre le lot de travaux
     label_watcher_added_successfully: Observateur ajouté avec succès !
     label_watcher_deleted_successfully: Observateur supprimé avec succès !
-    label_work_package_details_you_are_here: Vous êtes sur l'onglet %{tab} de %{type} %{subject}.
+    label_work_package: Lot de travaux
     label_work_package_context_menu: Menu contextuel des lots de travaux
-    label_unwatch: Ne plus suivre
-    label_unwatch_work_package: Ne plus suivre le lot de travaux
-    label_uploaded_by: Téléversé par
-    label_default_queries: Par défaut
-    label_starred_queries: Favori
-    label_global_queries: Public
-    label_custom_queries: Privé
-    label_columns: Colonnes
-    label_attachments: Pièces jointes
-    label_drop_files: Déposez des fichiers ici pour joindre des fichiers.
-    label_drop_or_click_files: Déposez des fichiers ici ou cliquez pour joindre des fichiers.
-    label_drop_folders_hint: Vous ne pouvez pas déposer les dossiers en pièces jointes. Veuillez sélectionner des fichiers seuls.
-    label_add_attachments: Joindre des fichiers
-    label_formattable_attachment_hint: Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers.
-    label_remove_file: Supprimer %{fileName}
-    label_remove_watcher: Retirer l'observateur %{name}
-    label_remove_all_files: Supprimer tous les fichiers
-    label_add_description: Ajouter une description pour %{file}
-    label_upload_notification: Chargement des fichiers...
+    label_work_package_details_you_are_here: Vous êtes sur l'onglet %{tab} de %{type} %{subject}.
+    label_work_package_parent: Lot de travaux parent
+    label_work_package_plural: Lots de travaux
     label_work_package_upload_notification: 'Transfert en cours des fichiers pour le lot de travaux #%{id} : %{subject}'
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
-    label_files_to_upload: 'Ces fichiers vont être transférés :'
-    label_rejected_files: 'Ces fichiers ne peuvent pas être transférés :'
-    label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur taille est supérieure à %{maximumFilesize}
-    label_wait: Veuillez patienter pendant la configuration...
-    label_upload_counter: "%{done} fichiers sur %{count} finis"
-    label_validation_error: 'Le lot de travaux n''a pas pu être enregistré en raison des erreurs suivantes :'
-    label_version_plural: Versions
-    label_view_has_changed: Cette vue a des changements non sauvegardés. Cliquez pour les enregistrer.
-    help_texts:
-      show_modal: Afficher le texte d'aide
-    onboarding:
-      buttons:
-        skip: Passer
-        next: Suivante
-        got_it: J'ai compris
-      steps:
-        help_menu: Le menu Aide (?) fournit des <b>ressources d'aide supplémentaires</b>. Vous y trouverez un guide utilisateur, des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !
-        members: Invitez de nouveaux <b>membres</b> à rejoindre votre projet.
-        quick_add_button: Cliquez sur l'icône plus (+) dans l'en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.
-        sidebar_arrow: Utilisez la flèche de retour dans le coin supérieur gauche pour retourner au <b>menu principal</b> du projet.
-        welcome: Faites une visite d'introduction de trois minutes pour apprendre <b>les fonctionnalités les plus importantes</b>.<br>Il est recommandé d'effectuer les étapes jusqu'à la fin. Vous pouvez redémarrer cette visite à tout moment.
-        wiki: Dans le <b>wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.
-        boards:
-          overview: Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.
-          lists_kanban: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.
-          lists_basic: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.
-          add: Cliquez sur l'icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.
-          drag: Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l'icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.
-        wp:
-          toggler: Maintenant, jetons un coup d'oeil à la section <b>lot de travaux</b>, qui vous donne une vue plus détaillée de votre travail.
-          list: Cet aperçu du lot de <b>travaux</b> fournit une liste de tous les travaux de votre projet, tels que les tâches, les jalons, les phases et plus encore. <br> Les lots de travaux peuvent être créés et modifiés directement à partir de cette vue. Pour accéder aux détails d'un lot de travaux particulier, double-cliquez simplement sur sa ligne.
-          full_view: La vue <b>détails du lot de travaux</b> fournit toutes les informations pertinentes relatives à un lot de travaux donné, comme sa description, son statut, sa priorité, ses activités, ses dépendances et ses commentaires.
-          back_button: Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et retourner à la liste des lots de travaux.
-          create_button: La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.
-          gantt_menu: Créez facilement des calendriers et des frises chronologiques pour vos projets à l'aide du module de diagramme de Gantt.
-          timeline: Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l'équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.
-        team_planner:
-          overview: Le planificateur d'équipe vous permet d'assigner visuellement des tâches aux membres de l'équipe et d'obtenir un aperçu de qui travaille sur quoi.
-          calendar: Le tableau de planification hebdomadaire ou bihebdomadaire affiche tous les lots de travaux assignés aux membres de votre équipe.
-          add_assignee: Pour commencer, ajoutez des responsables au planificateur d'équipe.
-          add_existing: Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d'équipe pour les assigner instantanément à un membre de l'équipe et définir les dates de début et de fin.
-          card: Faites glisser les lots de travaux horizontalement pour les déplacer vers l'arrière ou vers l'avant dans le temps, faites glisser les bords pour changer les dates de début et de fin et faites les même glisser verticalement vers une ligne différente pour les assigner à un autre membre.
+    modals:
+      button_apply: Appliquer
+      button_cancel: Annuler
+      button_delete: Supprimer
+      button_save: Enregistrer
+      button_submit: Envoyer
+      destroy_time_entry:
+        text: Êtes-vous sur de vouloir supprimer l'entrée de temps suivante ?
+        title: Confirmer la suppression de l'entrée de temps
+      form_submit:
+        text: Voulez-vous vraiment effectuer cette action ?
+        title: Confirmez pour continuer
+      label_delete_page: Effacer la page en cours
+      label_name: Nom
+    no_job_id: Aucun ID de tâche n'a été renvoyé par le serveur.
+    notice_bad_request: Mauvaise requête.
+    notice_job_started: tâche démarrée.
+    notice_no_results_to_display: Aucun résultat visible à afficher.
+    notice_successful_create: Création réussie.
+    notice_successful_delete: Suppression réussie.
+    notice_successful_update: Mise à jour réussie.
     notifications:
-      title: Notifications
-      no_unread: Pas de notification non lue
-      reasons:
-        mentioned: Mentionné
-        watched: Observateur
-        assigned: Personne assignée
-        responsible: Responsable
-        created: Créé
-        scheduled: Planifié
-        commented: Commenté
-        processed: Traité
-        prioritized: Priorisé
-        dateAlert: Alarmes
-        shared: Partagé
-        reminder: Rappel
+      center:
+        and_more_users:
+          one: et 1 autre
+          other: et %{count} autres
+        empty_state:
+          no_notification: Il semble que vous êtes à jour.
+          no_notification_for_filter: Il semble que vous êtes à jour pour ce filtre.
+          no_notification_with_current_filter: Il semble que vous êtes à jour pour le filtre %{filter}.
+          no_notification_with_current_project_filter: Il semble que vous êtes à jour dans le projet sélectionné.
+          no_selection: Cliquez sur une notification pour voir tous les détails de l'activité.
+        label_actor_and: et
+        mark_all_read: Tout marquer comme lu
+        mark_all_read_confirmation: Ceci marquera toutes les notifications de cette vue comme lues. Voulez-vous continuer ?
+        mark_as_read: Marquer comme lu
+        new_notifications:
+          link_text: Cliquez ici pour les télécharger.
+          message: Il y a de nouvelles notifications.
+        no_results:
+          at_all: Les nouvelles notifications apparaîtront ici lorsqu'il y a une activité qui vous concerne.
+          with_current_filter: Il n'y a pas de notifications dans cette vue pour le moment
+        text_update_date_by: "%{date} par"
+        total_count_warning: Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées.
       date_alerts:
         milestone_date: Date jalon
         overdue: En retard
         overdue_since: de %{difference_in_days}.
-        property_today: a lieu aujourd'hui.
         property_is: a lieu dans %{difference_in_days}.
-        property_was: avait lieu il y a %{difference_in_days}.
         property_is_deleted: a été supprimée.
-      center:
-        label_actor_and: et
-        and_more_users:
-          one: et 1 autre
-          other: et %{count} autres
-        no_results:
-          at_all: Les nouvelles notifications apparaîtront ici lorsqu'il y a une activité qui vous concerne.
-          with_current_filter: Il n'y a pas de notifications dans cette vue pour le moment
-        mark_all_read: Tout marquer comme lu
-        mark_as_read: Marquer comme lu
-        mark_all_read_confirmation: Ceci marquera toutes les notifications de cette vue comme lues. Voulez-vous continuer ?
-        text_update_date_by: "%{date} par"
-        total_count_warning: Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées.
-        empty_state:
-          no_notification: Il semble que vous êtes à jour.
-          no_notification_with_current_project_filter: Il semble que vous êtes à jour dans le projet sélectionné.
-          no_notification_with_current_filter: Il semble que vous êtes à jour pour le filtre %{filter}.
-          no_notification_for_filter: Il semble que vous êtes à jour pour ce filtre.
-          no_selection: Cliquez sur une notification pour voir tous les détails de l'activité.
-        new_notifications:
-          message: Il y a de nouvelles notifications.
-          link_text: Cliquez ici pour les télécharger.
+        property_today: a lieu aujourd'hui.
+        property_was: avait lieu il y a %{difference_in_days}.
+      no_unread: Pas de notification non lue
+      reasons:
+        assigned: Personne assignée
+        commented: Commenté
+        created: Créé
+        dateAlert: Alarmes
+        mentioned: Mentionné
+        prioritized: Priorisé
+        processed: Traité
+        reminder: Rappel
+        responsible: Responsable
+        scheduled: Planifié
+        shared: Partagé
+        watched: Observateur
       reminders:
         note: 'Note : « %{note} »'
       settings:
         change_notification_settings: Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.
         title: Paramètres de notifications
+      title: Notifications
+    onboarding:
+      buttons:
+        got_it: J'ai compris
+        next: Suivante
+        skip: Passer
+      steps:
+        boards:
+          add: Cliquez sur l'icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.
+          drag: Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l'icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.
+          lists_basic: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.
+          lists_kanban: Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.
+          overview: Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.
+        help_menu: Le menu Aide (?) fournit des <b>ressources d'aide supplémentaires</b>. Vous y trouverez un guide utilisateur, des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !
+        members: Invitez de nouveaux <b>membres</b> à rejoindre votre projet.
+        quick_add_button: Cliquez sur l'icône plus (+) dans l'en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.
+        sidebar_arrow: Utilisez la flèche de retour dans le coin supérieur gauche pour retourner au <b>menu principal</b> du projet.
+        team_planner:
+          add_assignee: Pour commencer, ajoutez des responsables au planificateur d'équipe.
+          add_existing: Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d'équipe pour les assigner instantanément à un membre de l'équipe et définir les dates de début et de fin.
+          calendar: Le tableau de planification hebdomadaire ou bihebdomadaire affiche tous les lots de travaux assignés aux membres de votre équipe.
+          card: Faites glisser les lots de travaux horizontalement pour les déplacer vers l'arrière ou vers l'avant dans le temps, faites glisser les bords pour changer les dates de début et de fin et faites les même glisser verticalement vers une ligne différente pour les assigner à un autre membre.
+          overview: Le planificateur d'équipe vous permet d'assigner visuellement des tâches aux membres de l'équipe et d'obtenir un aperçu de qui travaille sur quoi.
+        welcome: Faites une visite d'introduction de trois minutes pour apprendre <b>les fonctionnalités les plus importantes</b>.<br>Il est recommandé d'effectuer les étapes jusqu'à la fin. Vous pouvez redémarrer cette visite à tout moment.
+        wiki: Dans le <b>wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.
+        wp:
+          back_button: Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et retourner à la liste des lots de travaux.
+          create_button: La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.
+          full_view: La vue <b>détails du lot de travaux</b> fournit toutes les informations pertinentes relatives à un lot de travaux donné, comme sa description, son statut, sa priorité, ses activités, ses dépendances et ses commentaires.
+          gantt_menu: Créez facilement des calendriers et des frises chronologiques pour vos projets à l'aide du module de diagramme de Gantt.
+          list: Cet aperçu du lot de <b>travaux</b> fournit une liste de tous les travaux de votre projet, tels que les tâches, les jalons, les phases et plus encore. <br> Les lots de travaux peuvent être créés et modifiés directement à partir de cette vue. Pour accéder aux détails d'un lot de travaux particulier, double-cliquez simplement sur sa ligne.
+          timeline: Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l'équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.
+          toggler: Maintenant, jetons un coup d'oeil à la section <b>lot de travaux</b>, qui vous donne une vue plus détaillée de votre travail.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: Un problème de réseau est survenu.
+        network_on: Le réseau est à nouveau disponible. Nous essayons.
+      waiting_title:
+        timeout: Délai d'inactivité
     pagination:
       no_other_page: Vous êtes sur la seule page.
-      pages_skipped: Pages ignorées.
       page_navigation: Navigation par pagination
-      per_page_navigation: Sélection des éléments par page
       pages:
         page_number: Page %{number}
         show_per_page: Afficher %{number} par page
+      pages_skipped: Pages ignorées.
+      per_page_navigation: Sélection des éléments par page
     placeholders:
       default: "-"
-      subject: Saisir le sujet ici
-      selection: Veuillez sélectionner
       description: 'Description: Cliquez pour modifier...'
       relation_description: Cliquez pour ajouter la description pour cette relation
+      selection: Veuillez sélectionner
+      subject: Saisir le sujet ici
     project:
       autocompleter:
         label: Remplissage automatique du projet
@@ -592,214 +728,277 @@ fr:
       required_outside_context: 'Veuillez choisir un projet pour créer le lot de travaux et voir tous les attributs. Vous pouvez seulement sélectionner des projets ayant le type ci-dessus activé.
 
         '
-    text_are_you_sure: Êtes-vous sûr ?
-    text_are_you_sure_to_cancel: Vous avez des modifications non enregistrées sur cette page. Voulez-vous vraiment les supprimer ?
-    breadcrumb: Fil d'Ariane
-    text_data_lost: Toutes les données saisies seront perdues.
-    text_user_wrote: "%{value} écrit:"
-    time_entry:
-      work_package_required: Nécessite d'abord la sélection d'un lot de travaux.
-      title: Consigner du temps
-      tracking: Suivi du temps
-      stop: Arrêter
-    timer:
-      start_new_timer: Démarrer un nouveau suivi du temps
-      timer_already_running: 'Pour démarrer un nouveau suivi du temps, vous devez d''abord arrêter le suivi actuel :'
-      timer_already_stopped: Aucun suivi du temps n'est actif pour ce lot de travaux, l'avez-vous arrêté dans une autre fenêtre ?
-      tracking_time: Temps de suivi
-      button_stop: Arrêter le suivi du temps actuel
-    two_factor_authentication:
-      label_two_factor_authentication: Authentification à deux facteurs
-    watchers:
-      label_loading: chargement des observateurs...
-      label_error_loading: Une erreur s'est produite lors du chargement des observateurs
-      label_search_watchers: Rechercher des observateurs
-      label_add: Ajouter des observateurs
-      label_discard: Supprimer la sélection
-      typeahead_placeholder: Rechercher les observateurs potentiels
-    relation_labels:
-      parent: Parent
-      child: Enfant
-      children: Enfants
-      relates: En relation avec
-      duplicates: Duplique
-      duplicated: Dupliqué par
-      blocks: Bloque
-      blocked: Bloqué par
-      precedes: Précède
-      follows: Suit
-      includes: Comporte
-      partof: Partie de
-      requires: Requiert
-      required: Requis par
-      relation_type: type de relation
-    relations_hierarchy:
-      parent_headline: Parent
-      hierarchy_headline: Hiérarchie
-      children_headline: Enfants
+    project_menu_details: Détails
+    projects:
+      identifier_suggestion:
+        loading: Chargement des suggestions ...
+        set_name_first: Veuillez d'abord définir le nom.
     relation_buttons:
-      set_parent: Définir parent
-      change_parent: Changer le parent
-      remove_parent: Supprimer le parent
-      hierarchy_indent: Indentation de la hiérarchie
-      hierarchy_outdent: Supprimer l'indentation de la hiérarchie
-      group_by_wp_type: Grouper par type de lot de travaux
-      group_by_relation_type: Grouper par type de relation
-      add_parent: Ajouter un parent existant
-      add_new_child: Créer un nouvel enfant
-      create_new: Créer nouveau
+      abort: Interrompre
       add_existing: Ajouter existant
       add_existing_child: Ajouter un enfant
-      remove_child: Supprimer enfant
-      add_new_relation: Créer une nouvelle relation
       add_existing_relation: Ajouter une relation existante
-      update_description: Définir ou mettre à jour la description de cette relation
-      toggle_description: Alterner la description de relation
-      update_relation: Cliquez pour modifier le type de relation
-      show_relations: Afficher les relations
+      add_new_child: Créer un nouvel enfant
+      add_new_relation: Créer une nouvelle relation
+      add_parent: Ajouter un parent existant
       add_predecessor: Ajouter un prédécesseur
       add_successor: Ajouter un successeur
+      change_parent: Changer le parent
+      create_new: Créer nouveau
+      group_by_relation_type: Grouper par type de relation
+      group_by_wp_type: Grouper par type de lot de travaux
+      hierarchy_indent: Indentation de la hiérarchie
+      hierarchy_outdent: Supprimer l'indentation de la hiérarchie
       remove: Supprimer la relation
+      remove_child: Supprimer enfant
+      remove_parent: Supprimer le parent
       save: Enregistrer la relation
-      abort: Interrompre
+      set_parent: Définir parent
+      show_relations: Afficher les relations
+      toggle_description: Alterner la description de relation
+      update_description: Définir ou mettre à jour la description de cette relation
+      update_relation: Cliquez pour modifier le type de relation
+    relation_labels:
+      blocked: Bloqué par
+      blocks: Bloque
+      child: Enfant
+      children: Enfants
+      duplicated: Dupliqué par
+      duplicates: Duplique
+      follows: Suit
+      includes: Comporte
+      parent: Parent
+      partof: Partie de
+      precedes: Précède
+      relates: En relation avec
+      relation_type: type de relation
+      required: Requis par
+      requires: Requiert
+    relations:
+      empty: Aucune relation n'existe
+      remove: Supprimer la relation
     relations_autocomplete:
-      placeholder: Taper pour rechercher
       parent_placeholder: Choisissez un nouveau parent ou appuyez sur Echap pour annuler.
-    autocompleter:
       placeholder: Taper pour rechercher
-      notFoundText: Aucun élément trouvé
-      search: Recherche
-      project:
-        placeholder: Sélectionnez le projet
+    relations_hierarchy:
+      children_headline: Enfants
+      hierarchy_headline: Hiérarchie
+      parent_headline: Parent
     repositories:
-      select_tag: Sélectionner une étiquette
       select_branch: Sélectionner une branche
-    field_value_enter_prompt: Saisissez une valeur pour « %{field} »
-    project_menu_details: Détails
+      select_tag: Sélectionner une étiquette
+    sharing:
+      selected_count: 'Sélection : %{count}'
+      selection:
+        mixed: Mixte
+      share: Partager
     sort:
+      activate_asc: activer pour appliquer un tri par ordre croissant
+      activate_dsc: activer pour appliquer un tri par ordre décroissant
+      activate_no: activer pour supprimer le tri
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
       sorted_no: 'Aucun tri appliqué, '
       sorting_disabled: le tri est désactivé
-      activate_asc: activer pour appliquer un tri par ordre croissant
-      activate_dsc: activer pour appliquer un tri par ordre décroissant
-      activate_no: activer pour supprimer le tri
-    text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
+    spot:
+      drop_modal:
+        close: Fermer la fenêtre modale
+        focus_grab: Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal.
+      filter_chip:
+        remove: Supprimer
+    text_are_you_sure: Êtes-vous sûr ?
+    text_are_you_sure_to_cancel: Vous avez des modifications non enregistrées sur cette page. Voulez-vous vraiment les supprimer ?
+    text_data_lost: Toutes les données saisies seront perdues.
     text_query_destroy_confirmation: Voulez-vous vraiment supprimer la vue sélectionnée ?
+    text_user_wrote: "%{value} écrit:"
+    text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
+    time_entry:
+      stop: Arrêter
+      title: Consigner du temps
+      tracking: Suivi du temps
+      work_package_required: Nécessite d'abord la sélection d'un lot de travaux.
+    timer:
+      button_stop: Arrêter le suivi du temps actuel
+      start_new_timer: Démarrer un nouveau suivi du temps
+      timer_already_running: 'Pour démarrer un nouveau suivi du temps, vous devez d''abord arrêter le suivi actuel :'
+      timer_already_stopped: Aucun suivi du temps n'est actif pour ce lot de travaux, l'avez-vous arrêté dans une autre fenêtre ?
+      tracking_time: Temps de suivi
     tl_toolbar:
-      zooms: Niveau de zoom
       outlines: Niveau de hiérarchie
+      zooms: Niveau de zoom
+    toolbar:
+      filter: Filtrer
+      search_query_label: Rechercher les vues enregistrées
+      settings:
+        columns: Colonnes
+        configure_view: Configurer la vue
+        delete: Supprimer
+        display_hierarchy: Afficher la hiérarchie
+        display_sums: Afficher les sommes
+        export: Exporter
+        group_by: Grouper par
+        hide_hierarchy: Masquer la hiérarchie
+        hide_sums: Masquer les sommes
+        page_settings: Renommer la vue
+        save: Enregistrer
+        save_as: Enregistrer sous
+        share_calendar: S'abonner au calendrier
+        sort_by: Trier par
+        visibility_settings: Paramètres de visibilité
+      unselected_title: Lot de travaux
+    two_factor_authentication:
+      label_two_factor_authentication: Authentification à deux facteurs
+    units:
+      child_work_packages:
+        one: un lot de travaux enfant
+        other: "%{count} lots de travaux enfant"
+      day:
+        one: 1 jour
+        other: "%{count} jours"
+        zero: 0 jour
+      hour:
+        one: 1h
+        other: "%{count} h"
+        zero: 0 h
+      hour_string: "%{hours} h"
+      word:
+        one: 1 mot
+        other: "%{count} mots"
+      workPackage:
+        one: lot de travaux
+        other: lots de travaux
     upsell:
       ee_only: Add-on de l'édition entreprise
+    views:
+      card: Cartes
+      list: Tableau
+      timeline: Gantt
+    watchers:
+      label_add: Ajouter des observateurs
+      label_discard: Supprimer la sélection
+      label_error_loading: Une erreur s'est produite lors du chargement des observateurs
+      label_loading: chargement des observateurs...
+      label_search_watchers: Rechercher des observateurs
+      typeahead_placeholder: Rechercher les observateurs potentiels
     wiki_formatting:
-      strong: Gras
-      italic: Italique
-      underline: Souligné
-      deleted: Supprimé
       code: Code Inline
+      deleted: Supprimé
       heading1: Titre 1
       heading2: Titre 2
       heading3: Titre 3
-      unordered_list: Liste non ordonnée
-      ordered_list: Liste ordonnée
-      quote: Citer
-      unquote: Annuler la citation
-      preformatted_text: Texte préformaté
-      wiki_link: Lien vers une page wiki
       image: Image
-    sharing:
-      share: Partager
-      selected_count: 'Sélection : %{count}'
-      selection:
-        mixed: Mixte
+      italic: Italique
+      ordered_list: Liste ordonnée
+      preformatted_text: Texte préformaté
+      quote: Citer
+      strong: Gras
+      underline: Souligné
+      unordered_list: Liste non ordonnée
+      unquote: Annuler la citation
+      wiki_link: Lien vers une page wiki
     work_packages:
+      baseline:
+        addition_label: Ajouté à la vue dans la période de temps de comparaison
+        column_incompatible: Cette colonne n'affiche pas les changements en mode Référence.
+        modification_label: Modifié dans la période de temps de comparaison
+        removal_label: Retiré de la vue pendant la période de temps de comparaison
       bulk_actions:
-        edit: Édition en bloc
         delete: Supprimer en bloc
         duplicate: Duplication groupée
+        edit: Édition en bloc
         move: Changement de projet en bloc
       button_clear: Effacer
       comment_added: Le commentaire a été ajouté avec succès.
       comment_send_failed: Une erreur s'est produite. Impossible de soumettre le commentaire.
       comment_updated: Le commentaire a été mis à jour avec succès.
       confirm_edit_cancel: Voulez-vous vraiment annuler l'édition du lot de travaux ?
-      description_filter: Filtrer
+      create:
+        button: Créer
+        header: Nouveau lot (%{type})
+        header_no_type: Nouveau lot de travaux (type non encore spécifié)
+        header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
+        title: Nouveau lot de travaux
+      default_queries:
+        all_open: Tous les ouverts
+        assigned_to_me: Assigné à moi
+        created_by_me: Créé par moi
+        latest_activity: Dernière activité
+        manually_sorted: Nouvelle requête triée manuellement
+        overdue: En retard
+        recently_created: Créé récemment
+        shared_with_me: Partagés avec moi
+        shared_with_users: Partagés avec des utilisateurs
+        summary: Résumé
       description_enter_text: Saisir texte
+      description_filter: Filtrer
       description_options_hide: Masquer les options
       description_options_show: Afficher les options
+      duplicate:
+        title: Dupliquer les lots de travaux
       edit_attribute: "%{attribute} - Éditer"
+      faulty_query:
+        description: Votre vue est erronée et n'a pas pu être traitée.
+        title: Les lots de travaux n'ont pas pu être chargés.
+      filters:
+        baseline_incompatible: Cet attribut de filtre n'est pas pris en compte en mode Référence.
+        baseline_warning: Le mode Référence est activé, mais certains de vos filtres actifs ne sont pas inclus dans la comparaison.
+        title: Filtrer les lots de travaux
+      hierarchy:
+        children_collapsed: Niveau de hiérarchie %{level}, replié. Cliquez pour afficher les enfants filtrés
+        children_expanded: Niveau de hiérarchie %{level}, déplié. Cliquez pour replier les enfants filtrés
+        hide: Masquer le mode hiérarchie
+        leaf: Dépendance du lot de travaux au niveau %{level}.
+        show: Afficher le mode hiérarchie
+        toggle_button: Cliquez pour changer de mode hiérarchique.
+      inline_create:
+        title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste
+      jump_marks:
+        content: Aller au contenu
+        label_content: Cliquez ici pour passer le menu et aller au contenu
+        label_pagination: Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination
+        pagination: Passer à la pagination du tableau
       key_value: "%{key} : %{value}"
-      label_enable_multi_select: Activer la sélection multiple
+      label_column_multiselect: 'Champ liste déroulante combinée : sélectionner avec les touches fléchées, confirmer la sélection avec la touche enter, supprimer avec retour arrière'
       label_disable_multi_select: Désactiver la sélection multiple
+      label_enable_multi_select: Activer la sélection multiple
       label_filter_add: Ajouter le filtre
       label_filter_by_text: Filtrer par texte
       label_options: Options
-      label_column_multiselect: 'Champ liste déroulante combinée : sélectionner avec les touches fléchées, confirmer la sélection avec la touche enter, supprimer avec retour arrière'
+      limited_results: Seuls %{count} lots de travaux peuvent être affichés en mode de tri manuel. Veuillez réduire les résultats par filtrage, ou passer au tri automatique.
       message_error_during_bulk_delete: Une erreur s'est produite lors de la tentative de suppression des lots de travaux.
       message_successful_bulk_delete: Les lots de travaux ont été correctement supprimés.
       message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux en affichage plein écran.
       message_view_spent_time: Afficher le temps passé pour ce lot de travaux
       message_work_package_read_only: Le lot de travaux est verrouillé dans ce statut. Aucun autre attribut que le statut ne peut être modifié.
       message_work_package_status_blocked: Le statut du lot de travaux n'est pas modifiable en raison de la fermeture du statut et de la version assignés.
+      no_results:
+        description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
+        title: Aucun lot de travaux à afficher.
       placeholder_filter_by_text: Objet, description, commentaires, ...
+      placeholders:
+        date: Sélectionnez la date
+        default: "-"
       progress:
         title: Estimation des travaux et de la progression
-      baseline:
-        addition_label: Ajouté à la vue dans la période de temps de comparaison
-        removal_label: Retiré de la vue pendant la période de temps de comparaison
-        modification_label: Modifié dans la période de temps de comparaison
-        column_incompatible: Cette colonne n'affiche pas les changements en mode Référence.
-      filters:
-        title: Filtrer les lots de travaux
-        baseline_incompatible: Cet attribut de filtre n'est pas pris en compte en mode Référence.
-        baseline_warning: Le mode Référence est activé, mais certains de vos filtres actifs ne sont pas inclus dans la comparaison.
-      inline_create:
-        title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste
-      create:
-        title: Nouveau lot de travaux
-        header: Nouveau lot (%{type})
-        header_no_type: Nouveau lot de travaux (type non encore spécifié)
-        header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
-        button: Créer
-      duplicate:
-        title: Dupliquer les lots de travaux
-      hierarchy:
-        show: Afficher le mode hiérarchie
-        hide: Masquer le mode hiérarchie
-        toggle_button: Cliquez pour changer de mode hiérarchique.
-        leaf: Dépendance du lot de travaux au niveau %{level}.
-        children_collapsed: Niveau de hiérarchie %{level}, replié. Cliquez pour afficher les enfants filtrés
-        children_expanded: Niveau de hiérarchie %{level}, déplié. Cliquez pour replier les enfants filtrés
-      faulty_query:
-        title: Les lots de travaux n'ont pas pu être chargés.
-        description: Votre vue est erronée et n'a pas pu être traitée.
-      no_results:
-        title: Aucun lot de travaux à afficher.
-        description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
-      limited_results: Seuls %{count} lots de travaux peuvent être affichés en mode de tri manuel. Veuillez réduire les résultats par filtrage, ou passer au tri automatique.
-      property_groups:
-        details: Détails
-        people: Participants
-        estimatesAndTime: Estimations et temps
-        other: Autre
       properties:
         assignee: Assigné à
         author: Auteur
+        category: Catégorie
         createdAt: Créé le
-        description: Description
         date: date
-        percentComplete: "% réalisé"
-        percentCompleteAlternative: Progression
+        description: Description
         dueDate: Date de fin
         duration: Durée
-        spentTime: Temps passé
-        category: Catégorie
+        percentComplete: "% réalisé"
+        percentCompleteAlternative: Progression
         percentageDone: Pourcentage effectué
         priority: Priorité
         projectName: Projet
+        remainingTime: Travail restant
         remainingWork: Travail restant
         remainingWorkAlternative: Heures restantes
         responsible: Responsable
+        spentTime: Temps passé
         startDate: Date de début
         status: Statut
         subject: Sujet
@@ -807,302 +1006,106 @@ fr:
         title: Titre
         type: Type
         updatedAt: Mis à jour le
-        versionName: Version
         version: Version
+        versionName: Version
         work: Travail
         workAlternative: Durée estimée
-        remainingTime: Travail restant
-      default_queries:
-        manually_sorted: Nouvelle requête triée manuellement
-        latest_activity: Dernière activité
-        created_by_me: Créé par moi
-        assigned_to_me: Assigné à moi
-        recently_created: Créé récemment
-        all_open: Tous les ouverts
-        overdue: En retard
-        summary: Résumé
-        shared_with_users: Partagés avec des utilisateurs
-        shared_with_me: Partagés avec moi
-      jump_marks:
-        pagination: Passer à la pagination du tableau
-        label_pagination: Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination
-        content: Aller au contenu
-        label_content: Cliquez ici pour passer le menu et aller au contenu
-      placeholders:
-        default: "-"
-        date: Sélectionnez la date
+      property_groups:
+        details: Détails
+        estimatesAndTime: Estimations et temps
+        other: Autre
+        people: Participants
       query:
+        click_to_edit_query_name: Cliquez ici pour modifier le titre de cette présentation.
         column_names: Colonnes
-        group_by: Grouper les résultats par
+        confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente.
+        display_sums: Afficher les sommes
+        errors:
+          duplicate_query_title: Le nom de cette vue existe déjà. Changer quand même ?
+          not_found: Cette vue n'existe pas
+          unretrievable_query: Impossible de récupérer la vue par l'URL
+        filters: Filtres
         group: Grouper par
+        group_by: Grouper les résultats par
         group_by_disabled_by_hierarchy: Grouper par est désactivé, car le mode hiérarchie est activé.
+        hide_column: Masquer la colonne
         hierarchy_disabled_by_group_by: Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}.
-        sort_ascending: Trier par ordre croissant
-        sort_descending: Trier par ordre décroissant
+        insert_columns: Insérer des colonnes
         move_column_left: Déplacer la colonne de gauche
         move_column_right: Déplacer le colonne de droite
-        hide_column: Masquer la colonne
-        insert_columns: Insérer des colonnes
-        filters: Filtres
-        display_sums: Afficher les sommes
-        confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente.
-        click_to_edit_query_name: Cliquez ici pour modifier le titre de cette présentation.
-        rename_query_placeholder: Nom de cette vue
-        star_text: Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche.
         public_text: 'Publier cette vue, permet aux autres utilisateurs d''accéder à votre vue. Les utilisateurs ayant l''autorisation de ''Gérer les vues publiques'' peuvent modifier ou supprimer une requête publique. Cela n''affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs permissions, les utilisateurs peuvent voir des résultats différents.
 
           '
-        errors:
-          unretrievable_query: Impossible de récupérer la vue par l'URL
-          not_found: Cette vue n'existe pas
-          duplicate_query_title: Le nom de cette vue existe déjà. Changer quand même ?
+        rename_query_placeholder: Nom de cette vue
+        sort_ascending: Trier par ordre croissant
+        sort_descending: Trier par ordre décroissant
+        star_text: Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche.
         text_no_results: Aucune vue correspondante n'a été trouvée.
       reminders:
         button_label: Définir un rappel
-        title:
-          new: Définir un rappel
-          edit: Modifier un rappel
-        subtitle: Vous recevrez une notification pour ce lot de travaux au moment choisi.
         presets:
-          tomorrow: Demain
-          three_days: Dans 3 jours
-          week: Dans une semaine
-          month: Dans un mois
           custom: À une date/heure particulière
+          month: Dans un mois
+          three_days: Dans 3 jours
+          tomorrow: Demain
+          week: Dans une semaine
+        subtitle: Vous recevrez une notification pour ce lot de travaux au moment choisi.
+        title:
+          edit: Modifier un rappel
+          new: Définir un rappel
       scheduling:
         is_parent: Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates.
         is_switched_from_manual_to_automatic: Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux.
       sharing:
-        title: Partager le lot de travaux
         show_all_users: Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé
+        title: Partager le lot de travaux
       table:
         configure_button: Configurer le tableau du lot de travaux
         summary: Tableau avec lignes de lots de travaux et colonnes d'attributs de lots de travaux.
         text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l'attribut.
-        text_sort_hint: Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes.
         text_select_hint: Les boîtes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionelles.
+        text_sort_hint: Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes.
       table_configuration:
         button: Configurer ce tableau du lot de travaux
         choose_display_mode: Afficher les lots de travaux comme
-        modal_title: Configuration du tableau du lot de travaux
-        embedded_tab_disabled: Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier.
+        columns_help_text: Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue table. Vous pouvez glisser-déposer les colonnes pour les réorganiser.
         default: défaut
-        display_settings: Paramètres d'affichage
         default_mode: Liste
-        hierarchy_mode: Hiérarchie
-        hierarchy_hint: Tous les résultats du tableau filtrés seront augmentés de leurs ancêtres . Les hiérarchies peuvent être dépliées et repliées.
+        display_settings: Paramètres d'affichage
         display_sums_hint: Afficher les sommes de tous les attributs sommables dans une ligne sous les résultats du tableau.
-        show_timeline_hint: Afficher un diagramme de Gantt interactif sur le côté droit du tableau. Vous pouvez modifier sa largeur en faisant glisser le séparateur entre le tableau et le diagramme de Gantt.
+        embedded_tab_disabled: Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier.
+        hierarchy_hint: Tous les résultats du tableau filtrés seront augmentés de leurs ancêtres . Les hiérarchies peuvent être dépliées et repliées.
+        hierarchy_mode: Hiérarchie
         highlighting: Surlignement
         highlighting_mode:
           description: Surligner avec de la couleur
-          none: Pas de surlignement
+          entire_row_by: Ligne entière par
           inline: Attribut(s) en surbrillance
           inline_all: Tous les attributs
-          entire_row_by: Ligne entière par
-          status: Statut
+          none: Pas de surlignement
           priority: Priorité
+          status: Statut
           type: Type
-        sorting_mode:
-          description: 'Choisissez le mode pour trier vos lots de travaux :'
-          automatic: Automatique
-          manually: Manuellement
-          warning: Vous perdrez votre tri précédent lors de l'activation du mode de tri automatique.
-        columns_help_text: Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue table. Vous pouvez glisser-déposer les colonnes pour les réorganiser.
+        modal_title: Configuration du tableau du lot de travaux
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer les lots de travaux par type de relation
+        show_timeline_hint: Afficher un diagramme de Gantt interactif sur le côté droit du tableau. Vous pouvez modifier sa largeur en faisant glisser le séparateur entre le tableau et le diagramme de Gantt.
+        sorting_mode:
+          automatic: Automatique
+          description: 'Choisissez le mode pour trier vos lots de travaux :'
+          manually: Manuellement
+          warning: Vous perdrez votre tri précédent lors de l'activation du mode de tri automatique.
       tabs:
-        overview: Vue globale
         activity: Activité
+        files: Fichiers
+        overview: Vue globale
+        project_attributes: Attributs du projet
         relations: Relations
         watchers: Observateurs
-        files: Fichiers
       time_relative:
         days: jours
-        weeks: semaines
         months: mois
-    toolbar:
-      settings:
-        configure_view: Configurer la vue
-        columns: Colonnes
-        sort_by: Trier par
-        group_by: Grouper par
-        display_sums: Afficher les sommes
-        display_hierarchy: Afficher la hiérarchie
-        hide_hierarchy: Masquer la hiérarchie
-        hide_sums: Masquer les sommes
-        save: Enregistrer
-        save_as: Enregistrer sous
-        export: Exporter
-        visibility_settings: Paramètres de visibilité
-        share_calendar: S'abonner au calendrier
-        page_settings: Renommer la vue
-        delete: Supprimer
-      filter: Filtrer
-      unselected_title: Lot de travaux
-      search_query_label: Rechercher les vues enregistrées
-    modals:
-      label_name: Nom
-      label_delete_page: Effacer la page en cours
-      button_apply: Appliquer
-      button_save: Enregistrer
-      button_submit: Envoyer
-      button_cancel: Annuler
-      button_delete: Supprimer
-      form_submit:
-        title: Confirmez pour continuer
-        text: Voulez-vous vraiment effectuer cette action ?
-      destroy_time_entry:
-        title: Confirmer la suppression de l'entrée de temps
-        text: Êtes-vous sur de vouloir supprimer l'entrée de temps suivante ?
-    notice_no_results_to_display: Aucun résultat visible à afficher.
-    notice_successful_create: Création réussie.
-    notice_successful_delete: Suppression réussie.
-    notice_successful_update: Mise à jour réussie.
-    notice_job_started: tâche démarrée.
-    no_job_id: Aucun ID de tâche n'a été renvoyé par le serveur.
-    invalid_job_response: Réponse invalide du serveur.
-    notice_bad_request: Mauvaise requête.
-    relations:
-      empty: Aucune relation n'existe
-      remove: Supprimer la relation
-    inplace:
-      button_edit: "%{attribute} : Modifier"
-      button_save: "%{attribute} : Enregistrer"
-      button_cancel: "%{attribute} : Annuler"
-      button_save_all: Enregistrer
-      button_cancel_all: Annuler
-      link_formatting_help: Aide pour le formatage du texte
-      btn_preview_enable: Aperçu
-      btn_preview_disable: Désactiver l'aperçu
-      null_value_label: Aucune valeur
-      clear_value_label: "-"
-      errors:
-        required: "%{field} ne peut pas être vide"
-        number: "%{field} n'est pas un nombre valide"
-        maxlength: "%{field} ne peut pas contenir plus de %{maxLength} chiffre(s)"
-        minlength: "%{field} ne peut pas contenir moins de %{minLength} chiffre(s)"
-        messages_on_field: 'Ce champ n''est pas valide : %{messages}'
-    error_could_not_resolve_version_name: Ne peut résoudre le nom de version
-    error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
-    error_attachment_upload: 'Erreur de chargement du fichier : %{error}'
-    error_attachment_upload_permission: Vous n'avez pas l'autorisation de charger des fichiers sur cette ressource.
-    units:
-      workPackage:
-        one: lot de travaux
-        other: lots de travaux
-      child_work_packages:
-        one: un lot de travaux enfant
-        other: "%{count} lots de travaux enfant"
-      hour_string: "%{hours} h"
-      hour:
-        one: 1h
-        other: "%{count} h"
-        zero: 0 h
-      day:
-        one: 1 jour
-        other: "%{count} jours"
-        zero: 0 jour
-      word:
-        one: 1 mot
-        other: "%{count} mots"
+        weeks: semaines
     zen_mode:
       button_activate: Activer le mode zen
       button_deactivate: Désactiver le mode zen
-    global_search:
-      all_projects: Pour tous les projets
-      close_search: Fermer la recherche
-      items_available: "%{count} éléments disponibles"
-      direct_hit_available: Lot de travaux avec ID exact trouvé. Appuyez sur Entrée pour l'ouvrir.
-      current_project_and_all_descendants: Dans ce projet + sous-projets
-      current_project: Pour ce projet
-      recently_viewed: Consultés récemment
-      search_placeholder_expanded: Recherchez des lots de travaux par sujet, projet, type, statut ou identifiant
-      title:
-        all_projects: tous les projets
-        project_and_subprojects: et tous les sous-projets
-        search_for: Rechercher
-    views:
-      card: Cartes
-      list: Tableau
-      timeline: Gantt
-    invite_user_modal:
-      invite: invite
-      placeholder_add_tag: Créer un utilisateur fictif
-    exclusion_info:
-      modal:
-        title: Statut exclu des totaux de la hiérarchie
-        content: Le statut « %{status_name} » a été configuré pour être exclu des totaux hiérarchiques du travail, du travail restant et du % réalisé. Les totaux ne tiennent pas compte de cette valeur.
-    favorite_projects:
-      no_results: Vous n'avez pas de projet favori
-      no_results_subtext: Ajoutez un ou plusieurs projets en tant que favoris via leur vue d'ensemble ou dans une liste de projets.
-    include_projects:
-      toggle_title: Inclure les projets
-      title: Projets
-      clear_selection: Effacer la sélection
-      apply: Appliquer
-      selected_filter:
-        all: Tous les projets
-        selected: Uniquement la sélection
-      search_placeholder: Recherche de projets...
-      include_subprojects: inclure tous les sous-projets
-      tooltip:
-        include_all_selected: Projet déjà inclus puisque Include tous les sous-projets sont activés.
-        current_project: Ceci est le projet dans lequel vous vous trouvez actuellement.
-        does_not_match_search: Le projet ne correspond pas aux critères de recherche.
-      no_results: Aucun projet ne correspond à vos critères de recherche.
-    include_workspaces:
-      types:
-        program: Programme
-        portfolio: Portefeuille
-    baseline:
-      toggle_title: Référence
-      clear: Effacer
-      apply: Appliquer
-      header_description: Mettre en évidence les modifications apportées à cette liste depuis n'importe quel point dans le passé.
-      show_changes_since: Afficher les modifications depuis
-      help_description: Fuseau horaire de référence pour la Référence.
-      time_description: 'Dans votre fuseau horaire : %{datetime}'
-      time: Heure 
-      from: De
-      to: À
-      drop_down:
-        none: "-"
-        yesterday: hier
-        last_working_day: dernier jour ouvrable
-        last_week: la semaine dernière
-        last_month: le mois dernier
-        a_specific_date: une date spécifique
-        between_two_specific_dates: entre deux dates spécifiques
-      legends:
-        changes_since: Modifications depuis le
-        changes_between: Modifications entre
-        now_meets_filter_criteria: Répond désormais aux critères de filtrage
-        no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
-        maintained_with_changes: Maintenu avec les modifications
-        in_your_timezone: 'Dans votre fuseau horaire local :'
-      icon_tooltip:
-        added: Ajouté à la vue dans la période de temps de comparaison
-        removed: Retiré de la vue pendant la période de temps de comparaison
-        changed: Maintenu avec des modifications
-    forms:
-      submit_success_message: Le formulaire a bien été envoyé
-      load_error_message: Une erreur s'est produite lors du chargement du formulaire
-      validation_error_message: Veuillez corriger les erreurs présentes dans le formulaire
-      advanced_settings: Paramètres avancés
-    spot:
-      filter_chip:
-        remove: Supprimer
-      drop_modal:
-        focus_grab: Il s'agit d'une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l'élément de déclenchement modal.
-        close: Fermer la fenêtre modale
-    open_project_storage_modal:
-      waiting_title:
-        timeout: Délai d'inactivité
-      waiting_subtitle:
-        network_off: Un problème de réseau est survenu.
-        network_on: Le réseau est à nouveau disponible. Nous essayons.
-    projects:
-      identifier_suggestion:
-        loading: Chargement des suggestions ...
-        set_name_first: Veuillez d'abord définir le nom.

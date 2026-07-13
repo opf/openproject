@@ -1,0 +1,5 @@
+<%= render(Primer::Beta::Blankslate.new) do |component| %>
+  <% component.with_visual_icon(icon: :tools) %>
+  <% component.with_heading(tag: :h3) { title } %>
+  <% component.with_description { I18n.t("types.creation_wizard.placeholder_description") } %>
+<% end %>

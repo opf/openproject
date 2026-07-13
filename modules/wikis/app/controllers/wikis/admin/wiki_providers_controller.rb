@@ -38,6 +38,7 @@ module Wikis
 
       before_action :require_admin
       before_action :find_wiki_provider, only: %i[edit update destroy confirm_destroy edit_general_info replace_oauth_application]
+      before_action :ee_token_allows_wiki_integration
 
       menu_item :external_wiki_providers
 
@@ -46,6 +47,8 @@ module Wikis
       end
 
       def new
+        return redirect_to(action: :index) unless @ee_token_allows_wiki_integration
+
         @wiki_provider = continue_from_wizard_params || Wikis::XWikiProvider.new
 
         @wizard = wiki_provider_wizard(@wiki_provider)
@@ -59,6 +62,8 @@ module Wikis
       end
 
       def create
+        return redirect_to(action: :index) unless @ee_token_allows_wiki_integration
+
         service_result = Wikis::XWikiProviders::CreateService
           .new(user: current_user, contract_class: current_step_contract)
           .call(wiki_provider_params)
@@ -124,6 +129,10 @@ module Wikis
 
       private
 
+      def ee_token_allows_wiki_integration
+        @ee_token_allows_wiki_integration = EnterpriseToken.allows_to?(:xwiki_integration)
+      end
+
       def update_success
         if params[:continue_wizard]
           redirect_to_wizard(@wiki_provider)
@@ -150,13 +159,13 @@ module Wikis
       end
 
       def find_wiki_provider
-        @wiki_provider = editable_wiki_providers.find(params[:id])
+        @wiki_provider = editable_wiki_providers.find(params.expect(:id))
       end
 
       def continue_from_wizard_params
         return if params[:continue_wizard].blank?
 
-        editable_wiki_providers.find(params[:continue_wizard])
+        editable_wiki_providers.find(params.expect(:continue_wizard))
       end
 
       def wiki_provider_params

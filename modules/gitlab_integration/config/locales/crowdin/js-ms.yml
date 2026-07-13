@@ -24,31 +24,31 @@
 ms:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Saluran
       tab_header_issue:
         title: Isu-isu
       tab_header_mr:
-        title: Penggabungan permintaan
-        create_mr:
-          label: Cipta PP
-          description: Cipta satu Penggabungan Permintaan
         copy_menu:
-          label: Potongan git
           description: Salin potongan git ke papan klip
+          label: Potongan git
+        create_mr:
+          description: Cipta satu Penggabungan Permintaan
+          label: Cipta PP
         git_actions:
           branch_name: Nama cabang
-          commit_message: Mesej komit
           cmd: Cipta cabang dengan komit kosong
-          title: Potongan cepat untuk Git
-          copy_success: "✅ Disalin!"
+          commit_message: Mesej komit
           copy_error: "❌ Salinan gagal!"
+          copy_success: "✅ Disalin!"
+          title: Potongan cepat untuk Git
+        title: Penggabungan permintaan
       tab_issue:
         empty: Tiada isu yang dipautkan lagi. Pautkan isu-isu yang sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi isu atau cipta isu yang baru.
       tab_mrs:
         empty: Tiada penggabungan permintaan yang dipautkan lagi. Pautkan PP sedia ada dengan menggunakan kod <code>OP#%{wp_id}</code> (atau <code>PP#%{wp_id}</code> untuk pautan peribadi) dalam tajuk/deskripsi PP atau cipta PP yang baru.
-      gitlab_pipelines: Saluran
       updated_on: Dikemas kini pada
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

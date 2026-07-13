@@ -48,7 +48,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
-  private elementRef = inject(ElementRef);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   wpTimeline = inject(WorkPackageTimelineTableController);
   private weekdaysService = inject(WeekdayService);
 
@@ -58,7 +58,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   ngAfterViewInit():void {
     const element = this.elementRef.nativeElement;
-    this.gridContainer = element.querySelector('.wp-table-timeline--grid');
+    this.gridContainer = element.querySelector<HTMLElement>('.wp-table-timeline--grid')!;
     this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 

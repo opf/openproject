@@ -1,5 +1,4 @@
 import { I18n } from 'i18n-js';
-import lodash from 'lodash';
 import '@testing-library/jest-dom/vitest';
 import { afterEach, vi } from 'vitest';
 import { registerDialogStreamAction } from 'core-turbo/dialog-stream-action';
@@ -15,11 +14,6 @@ afterEach(() => {
 
 window.I18n = new I18n();
 
-// Production code expects `_` to be available globally (set in init-vendors.ts).
-// Mirror that here so production modules pulled in by spec compilation can run.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(window as any)._ = lodash;
-
 // jsdom does not implement CSS.escape; production helpers (e.g. getMetaElement)
 // call it unconditionally.
 if (typeof CSS === 'undefined' || typeof CSS.escape !== 'function') {
@@ -29,10 +23,14 @@ if (typeof CSS === 'undefined' || typeof CSS.escape !== 'function') {
   (globalThis as any).CSS.escape = (value:string) => String(value).replace(/[^a-zA-Z0-9_\-]/g, (ch) => `\\${ch}`);
 }
 
-// jsdom does not implement ResizeObserver.
+// jsdom does not implement ResizeObserver. The shim declares the native
+// constructor signature so static analysis resolving the global to this class
+// still accepts the callback every real call site passes.
 if (typeof (globalThis as any).ResizeObserver === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).ResizeObserver = class {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    constructor(_callback:ResizeObserverCallback) {}
     observe() {}
     unobserve() {}
     disconnect() {}

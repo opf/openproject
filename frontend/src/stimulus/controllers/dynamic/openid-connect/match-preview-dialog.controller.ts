@@ -29,10 +29,7 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { from, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
-import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export interface MatchPreviewDialogSubmittedEvent {
   detail:{
@@ -42,6 +39,8 @@ export interface MatchPreviewDialogSubmittedEvent {
 }
 
 export default class MatchPreviewDialogController extends Controller {
+  static services:ServiceKey[] = ['turboRequests'];
+
   static targets = [
     'regexpInput',
     'groupNamesInput',
@@ -56,9 +55,13 @@ export default class MatchPreviewDialogController extends Controller {
 
   declare dialog:HTMLDialogElement;
   declare updateUrlValue:string;
+  declare services:Promise<PickedServices<'turboRequests'>>;
+
   private updateMatchTimeout:number|null = null;
 
-  private pluginContextData:OpenProjectPluginContext|null = null;
+  initialize() {
+    useAngularServices(this);
+  }
 
   connect() {
     this.dialog = this.element as HTMLDialogElement;
@@ -87,34 +90,23 @@ export default class MatchPreviewDialogController extends Controller {
       window.clearTimeout(this.updateMatchTimeout);
     }
 
-    this.updateMatchTimeout = window.setTimeout(() => { this.doUpdateMatchPreview(); }, 500);
+    this.updateMatchTimeout = window.setTimeout(() => { void this.doUpdateMatchPreview(); }, 500);
   }
 
-  private doUpdateMatchPreview() {
-    this.pluginContext.subscribe((context) => {
-      void context.services.turboRequests.request(this.updateUrlValue, {
-        method: 'POST',
-        headers: {
-          Accept: 'text/vnd.turbo-stream.html',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          preview_group_names: this.groupNamesInputTarget.value,
-          preview_regular_expressions: this.regexpInputTarget.value,
-        }),
-      });
+  private async doUpdateMatchPreview() {
+    const body = JSON.stringify({
+      preview_group_names: this.groupNamesInputTarget.value,
+      preview_regular_expressions: this.regexpInputTarget.value,
     });
-  }
 
-  private get pluginContext():Observable<OpenProjectPluginContext> {
-    if (this.pluginContextData === null) {
-      return from(window.OpenProject.getPluginContext()).pipe(
-        tap((context) => {
-          this.pluginContextData = context;
-        }),
-      );
-    }
-
-    return of(this.pluginContextData);
+    const { turboRequests } = await this.services;
+    void turboRequests.request(this.updateUrlValue, {
+      method: 'POST',
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+        'Content-Type': 'application/json',
+      },
+      body,
+    });
   }
 }

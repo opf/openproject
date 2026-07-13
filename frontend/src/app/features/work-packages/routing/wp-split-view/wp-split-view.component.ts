@@ -80,7 +80,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   hasState = !!this.$state.current;
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
-  private baseRoute:string = this.$state.current?.data?.baseRoute as string;
+  private baseRoute = (this.$state.current?.data as { baseRoute?:string } | undefined)?.baseRoute ?? '';
 
   @Input() showTabs = true;
 
@@ -97,7 +97,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   ngOnInit():void {
     this.observeWorkPackage();
 
-    this.wpTableFocus.whenChanged()
+    this.wpTableFocus.whenNavigationRequested()
       .pipe(
         this.untilDestroyed(),
       )

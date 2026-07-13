@@ -409,6 +409,7 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
 import {
   WorkPackageSplitCreateEntryComponent,
 } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @NgModule({
   imports: [
@@ -588,6 +589,9 @@ import {
 
     // Files tab
     WorkPackageFilesTabComponent,
+
+    // Project attributes tab
+    WorkPackageProjectAttributesTabComponent,
 
     // Split view
     WorkPackageDetailsViewButtonComponent,

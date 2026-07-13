@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "User non-working times", :js, with_flag: { user_working_times: true } do
+RSpec.describe "User non-working times", :js do
   shared_let(:user) { create(:user, global_permissions: %i[manage_user view_all_principals manage_working_times]) }
   shared_let(:managed_user) { create(:user) }
 

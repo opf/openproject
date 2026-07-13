@@ -83,10 +83,23 @@ module Storages
           # such as a 404 File Not Found do not cause an error.
           # @return [Dry::Result]
           def fail_on_ocs_error(json, error)
-            if json.dig(:ocs, :meta, :statuscode) < 500
+            if json_fetch(json, :ocs, :meta, :statuscode) < 500
               Success(json)
             else
               Failure(error.with(code: :error))
+            end
+          end
+
+          def json_fetch(json, *path)
+            current_path = []
+            path.inject(json) do |j, key|
+              if j.is_a?(Hash)
+                current_path << key
+                j.fetch(key) { raise "Could not find JSON path #{current_path.join('.')} in response (wanted #{path.join('.')})" }
+              else
+                raise "Object at JSON path #{current_path.join('.')} was expected to be a hash, " \
+                      "but got #{j.class} (wanted #{path.join('.')})"
+              end
             end
           end
         end

@@ -1,0 +1,222 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::Alpha::Dialog.new(
+      id: DIALOG_ID,
+      title:,
+      size: :large,
+      classes: "Overlay--size-large-portrait",
+      data: { "keep-open-on-submit": true }
+    )
+  ) do |dialog|
+    dialog.with_header(variant: :large)
+
+    dialog.with_body do
+      flex_layout do |body|
+        body.with_row(mb: 3) do
+          flex_layout do |header|
+            header.with_row do
+              flex_layout(align_items: :center, justify_content: :space_between) do |line|
+                line.with_column do
+                  flex_layout(align_items: :center) do |who|
+                    who.with_column(mr: 2) do
+                      render(Users::AvatarComponent.new(user:, size: "mini", show_name: false, link: false, hover_card: { active: false }))
+                    end
+                    who.with_column do
+                      render(Primer::Beta::Text.new(font_weight: :semibold)) { user.name }
+                    end
+                  end
+                end
+
+                if utilization?
+                  line.with_column do
+                    render(Primer::Beta::Text.new(color: :muted)) do
+                      utilization_label
+                    end
+                  end
+                end
+              end
+            end
+
+            if utilization?
+              header.with_row(mt: 1) do
+                render(ResourcePlannerViews::UserCardList::UtilizationBarComponent.new(value: utilization))
+              end
+            end
+          end
+        end
+
+        if visible_allocations.any? || hidden_count.positive?
+          body.with_row do
+            render(Primer::Beta::BorderBox.new) do |box|
+              visible_allocations.each do |allocation|
+                box.with_row do
+                  flex_layout(align_items: :center) do |row|
+                    row.with_column(flex: 1, mr: 2) do
+                      flex_layout do |info|
+                        info.with_row do
+                          render(
+                            WorkPackages::InfoLineComponent.new(
+                              work_package: work_package_for(allocation),
+                              show_status: true,
+                              wrap: false
+                            )
+                          )
+                        end
+
+                        info.with_row do
+                          render(
+                            Primer::Beta::Link.new(
+                              href: work_package_path(work_package_for(allocation)),
+                              underline: false,
+                              font_weight: :semibold
+                            )
+                          ) { work_package_for(allocation).subject }
+                        end
+                      end
+                    end
+
+                    row.with_column do
+                      render(Primer::Beta::Label.new(size: :large)) { duration(allocation) }
+                    end
+
+                    if overbooked?(allocation)
+                      row.with_column(ml: 2, display: :flex) do
+                        component_collection do |collection|
+                          collection.with_component(
+                            Primer::Beta::Octicon.new(
+                              icon: :"alert-fill",
+                              color: :danger,
+                              id: overbooked_icon_id(allocation),
+                              "aria-label": overbooked_message
+                            )
+                          )
+
+                          collection.with_component(
+                            Primer::Alpha::Tooltip.new(
+                              for_id: overbooked_icon_id(allocation),
+                              type: :description,
+                              text: overbooked_message,
+                              direction: :w
+                            )
+                          )
+                        end
+                      end
+                    end
+
+                    if editable?
+                      row.with_column(ml: 2) do
+                        render(Primer::Alpha::ActionMenu.new(size: :small, anchor_align: :end)) do |menu|
+                          menu.with_show_button(
+                            icon: "kebab-horizontal",
+                            "aria-label": t("resource_management.work_package_allocations_dialog.context_menu_label"),
+                            scheme: :invisible
+                          )
+
+                          menu.with_item(
+                            label: t(:button_edit),
+                            tag: :a,
+                            href: edit_allocation_path(allocation),
+                            content_arguments: { data: { controller: "async-dialog" } }
+                          ) { |item| item.with_leading_visual_icon(icon: :pencil) }
+
+                          menu.with_item(
+                            label: t(:button_delete),
+                            scheme: :danger,
+                            href: delete_allocation_path(allocation),
+                            form_arguments: {
+                              method: :delete,
+                              data: {
+                                turbo_confirm: t("resource_management.work_package_allocations_dialog.delete_confirmation")
+                              }
+                            }
+                          ) { |item| item.with_leading_visual_icon(icon: :trash) }
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+
+              if hidden_count.positive?
+                box.with_row do
+                  flex_layout(align_items: :center) do |row|
+                    row.with_column(flex: 1, mr: 2) do
+                      render(Primer::Beta::Text.new(color: :muted)) do
+                        t("resource_management.user_allocations_dialog.other_work_packages", count: hidden_count)
+                      end
+                    end
+
+                    row.with_column do
+                      render(Primer::Beta::Label.new(size: :large)) { hidden_duration }
+                    end
+                  end
+                end
+              end
+            end
+          end
+        else
+          body.with_row do
+            render(Primer::Beta::BorderBox.new) do |box|
+              box.with_row do
+                render(Primer::Beta::Text.new(color: :subtle)) do
+                  t("resource_management.user_allocations_dialog.blank")
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    dialog.with_footer do
+      component_collection do |footer|
+        footer.with_component(
+          Primer::Beta::Button.new(
+            scheme: :link,
+            tag: :a,
+            href: allocate_work_package_path,
+            mr: :auto,
+            align_self: :center,
+            data: { controller: "async-dialog" }
+          )
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          t("resource_management.user_allocations_dialog.allocate_work_package")
+        end
+
+        footer.with_component(
+          Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })
+        ) { t(:button_close) }
+      end
+    end
+  end
+%>

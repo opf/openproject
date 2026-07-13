@@ -36,7 +36,7 @@ import { ApplicationController, useDebounce } from 'stimulus-use';
 interface LiveUser {id:string, name:string, avatarUrl:string}
 
 export default class extends ApplicationController {
-  static debounces = ['triggerUpdateUI'];
+  static debounces = ['triggerUpdateUsersUI'];
   static targets = ['users', 'popover'];
 
   declare readonly usersTarget:HTMLElement;
@@ -96,9 +96,9 @@ export default class extends ApplicationController {
   private updateUsers(states:onAwarenessUpdateParameters['states']) {
     const nextState = new Map<number, LiveUser>();
 
-    states.forEach((state, clientId) => {
+    states.forEach((state) => {
       if (state.user) {
-        nextState.set(clientId, state.user as LiveUser);
+        nextState.set(state.clientId, state.user as LiveUser);
       }
     });
 

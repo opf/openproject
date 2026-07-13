@@ -22,9 +22,9 @@
 ---
 lv:
   js:
-    work_packages:
-      properties:
-        storyPoints: Novērtējums
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Novērtējums

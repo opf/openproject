@@ -28,19 +28,25 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
+import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { filter, Subscription } from 'rxjs';
 
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+
 export default class BacklogsController extends Controller<HTMLElement> {
-  private service:HalEventsService|null = null;
+  static services:ServiceKey[] = ['halEvents', 'apiV3Service'];
+  declare halEvents:HalEventsService;
+  declare apiV3Service:ApiV3Service;
+
   private subscription:Subscription|null = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async connect() {
-    const { services: { halEvents } } = await window.OpenProject.getPluginContext();
+  initialize() {
+    useAngularServices(this);
+  }
 
-    this.service = halEvents;
-    this.subscription = this.service.aggregated$('WorkPackage')
+  servicesConnected() {
+    this.subscription = this.halEvents.aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
       .subscribe(() => { this.refreshList(); });
   }
@@ -48,7 +54,29 @@ export default class BacklogsController extends Controller<HTMLElement> {
   disconnect() {
     this.subscription?.unsubscribe();
     this.subscription = null;
-    this.service = null;
+  }
+
+  // Bound to the `op-dispatched:backlogs:work-package-moved` document event.
+  // Refreshes a work package already in the cache. The most likely reason for this is that the
+  // work package is or has been displayed in the split view. Refreshing prevents
+  // the lock version becoming stale after move and also reflects the change to the sprint and
+  // bucket property.
+  // The method currently does not check if the work package is still open in the split view. If it
+  // was ever opened, it will still be in the cache leading to a refresh request. The upside of this potentially
+  // wasteful refresh is that when the work package is later on reopened in the split view, its information
+  // is correct as well.
+  onWorkPackageMoved(event:CustomEvent<{ work_package_id?:number }>):void {
+    const workPackageId = event.detail?.work_package_id;
+    // apiV3Service is wired asynchronously via useAngularServices, so it may be absent
+    // if the event somehow fires before the services resolve.
+    if (workPackageId === undefined || !this.apiV3Service) { return; }
+
+    const id = workPackageId.toString();
+    const { work_packages: workPackages } = this.apiV3Service;
+
+    if (workPackages.cache.state(id).hasValue()) {
+      void workPackages.id(id).refresh();
+    }
   }
 
   private refreshList() {

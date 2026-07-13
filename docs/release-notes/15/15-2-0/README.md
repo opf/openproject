@@ -24,7 +24,7 @@ You can now use the Reminder function to receive a reminder about a work package
 ![Set a work package reminder in OpenProject](openproject_set_wp_reminders.png)
 
 > [!TIP]
-> You can also receive immediate notifications via e-mail for personal reminders. To do that, [adjust your account settings](../../../user-guide/account-settings/#email-reminders) accordingly.
+> You can also receive immediate notifications via e-mail for personal reminders. To do that, [adjust your account settings](../../../user-guide/account-settings/notification-and-email/#email-reminders) accordingly.
 
 [Read more about setting work package reminders](../../../user-guide/work-packages/edit-work-package/#work-package-reminders).
 
@@ -45,7 +45,7 @@ Here is an example of a timesheet PDF export:
 
 ### Add a lag to Predecessor/Successor relations
 
-For Predecessor/Successor relations, you can now specify a **lag**, which represents the minimum number of working days to maintain between two work packages. This flexibility ensures more precise scheduling and helps align task dependencies effectively. By default, the lag is set to 0 working days, but you can update the *Description* and *Lag* fields anytime to adapt to changes in your project timeline.
+For Predecessor/Successor relations, you can now specify a **lag**, which represents the minimum number of working days to maintain between two work packages. This flexibility ensures more precise scheduling and helps align task dependencies effectively. By default, the lag is set to 0 working days, but you can update the _Description_ and _Lag_ fields anytime to adapt to changes in your project timeline.
 
 ![Specify predecessor/successor work package relations in OpenProject](openproject_user_guide_relations_tab_edit_lag.png)
 

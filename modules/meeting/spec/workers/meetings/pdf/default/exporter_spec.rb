@@ -250,6 +250,52 @@ RSpec.describe Meetings::PDF::Default::Exporter do
         expect(subject).to eq expected_document
       end
     end
+
+    context "with semantic work package identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:options) do
+        {
+          participants: "0",
+          outcomes: "0",
+          backlog: "0",
+          attachments: "0"
+        }
+      end
+      let(:wp_agenda_item) do
+        create(:wp_meeting_agenda_item,
+               meeting:,
+               meeting_section: meeting_section_second,
+               work_package:,
+               duration_in_minutes: 10,
+               notes: "<mention class=\"mention\" data-id=\"#{work_package.id}\" data-type=\"work_package\" " \
+                      "data-text=\"##{work_package.id}\">##{work_package.id}</mention>")
+      end
+
+      before do
+        work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+      end
+
+      it "renders the semantic identifier for the agenda item and the mention in its notes" do
+        expected_document = [
+          *expected_cover_page,
+          *meeting_head,
+
+          "Untitled section", "  ", "15 mins",
+          "Agenda Item TOP 1", "  ", "15 mins", "  ", "Export User",
+          "foo",
+
+          "Second section", "  ", "10 mins",
+          "Task", "MEET-1", "Important task", " (Workin' on it)", "  ", "10 mins",
+          "MEET-1",
+
+          "1", # Page number
+          export_time_formatted,
+          project.name
+        ].join(" ")
+
+        expect(subject).to eq expected_document
+      end
+    end
   end
 
   context "with a meeting with special work package agenda item" do
@@ -361,6 +407,32 @@ RSpec.describe Meetings::PDF::Default::Exporter do
         ].join(" ")
 
         expect(subject).to eq expected_document
+      end
+
+      context "with semantic work package identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        before do
+          outcome_work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+        end
+
+        it "renders the work package outcome with the semantic identifier" do
+          expected_document = [
+            *expected_cover_page,
+            *meeting_head,
+
+            "Section with outcomes", "  ", "15 mins",
+            "Agenda Item", "  ", "15 mins", "  ", "Export User",
+            "Agenda item notes",
+            "✓   Outcome",
+            "Task", "MEET-1", "Outcome WP", " (In Progress)",
+
+            "1", # Page number
+            export_time_formatted,
+            project.name
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
       end
     end
 

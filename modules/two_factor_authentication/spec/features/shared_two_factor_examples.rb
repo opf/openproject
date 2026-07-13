@@ -29,7 +29,7 @@ module SharedTwoFactorExamples
     wait_for_network_idle
     visit my_account_path
     within_test_selector "my-account-form" do
-      expect(page).to have_field "user_username", with: user.login
+      expect(page).to have_field "user_login", with: user.login
     end
   end
 

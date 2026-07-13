@@ -35,13 +35,13 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   };
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
   ngOnInit() {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,

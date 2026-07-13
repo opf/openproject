@@ -162,7 +162,6 @@ class WorkPackageMeetingsTabController < ApplicationController
     agenda_items = agenda_items_linked_to_work_package
         .includes(:meeting)
         .preload(:outcomes)
-        .where(meeting_id: Meeting.not_templated.visible(current_user))
         .order(sort_clause(direction))
 
     comparison = direction == :past ? "<" : ">="
@@ -170,12 +169,7 @@ class WorkPackageMeetingsTabController < ApplicationController
   end
 
   def agenda_items_linked_to_work_package
-    MeetingAgendaItem.where(<<~SQL.squish, wp_id: @work_package.id)
-      meeting_agenda_items.work_package_id = :wp_id OR
-      meeting_agenda_items.id IN (
-        SELECT meeting_agenda_item_id FROM meeting_outcomes WHERE meeting_outcomes.work_package_id = :wp_id
-      )
-    SQL
+    MeetingAgendaItem.visible_linked_to_work_package(current_user, @work_package)
   end
 
   def sort_clause(direction)

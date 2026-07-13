@@ -75,7 +75,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
-  protected readonly elementRef = inject(ElementRef);
+  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly I18n = inject(I18nService);
 

@@ -44,7 +44,7 @@ module OpenProject
       HEADER_PADDING_DEFAULT = :inherit
       HEADER_PADDING_OPTIONS = [HEADER_PADDING_DEFAULT, :condensed, :default, :spacious].freeze
 
-      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id
+      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id, :list_id
 
       alias_method :collapsible?, :collapsible
 
@@ -53,10 +53,16 @@ module OpenProject
       # @!parse
       #   # Adds the optional header row.
       #   #
+      #   # @param title [String] header title.
+      #   # @param show_drag_handle [Boolean] whether the header renders a
+      #   #   leading drag handle.
+      #   # @param multi_line [Boolean] for collapsible headers, whether the
+      #   #   description renders on its own line. Pass `false` to render it
+      #   #   inline on the title row.
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(**system_arguments, &block)
+      #   def with_header(title: nil, show_drag_handle: false, multi_line: true, **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)
@@ -206,10 +212,11 @@ module OpenProject
         @interactive = interactive
         @collapsible = collapsible
         @current_user = current_user
-        @system_arguments = system_arguments.except(:list_id)
+        @system_arguments = system_arguments.except(:list_id, :list_arguments)
 
         @system_arguments[:id] ||= dom_target(container)
-        @system_arguments[:list_id] = dom_target(@system_arguments[:id], :list)
+        @list_id = dom_target(@system_arguments[:id], :list)
+        @system_arguments[:list_arguments] = { id: @list_id }
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-border-box-list",
@@ -245,10 +252,6 @@ module OpenProject
         return unless collapsible? && footer?
 
         header.collapsible_id = [list_id, footer_id].compact.join(" ")
-      end
-
-      def list_id
-        @system_arguments[:list_id]
       end
     end
   end

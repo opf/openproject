@@ -33,6 +33,8 @@ import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import type { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { useAngularServices } from 'core-stimulus/mixins/use-angular-services';
 import dragula, { Drake } from 'dragula';
 import invariant from 'tiny-invariant';
 
@@ -58,12 +60,18 @@ export default class GenericDragAndDropController extends Controller {
   declare readonly handleSelectorValue:string;
   declare readonly positionModeValue:string;
 
+  declare pluginContext:Promise<OpenProjectPluginContext>;
+
   private drake:Drake|null = null;
   private autoscroll:DomAutoscrollService|null = null;
   private containers:HTMLElement[] = [];
   private targetConfigs:TargetConfig[] = [];
   private dragOriginSource:Element|null = null;
   private dragOriginNextSibling:Element|null = null;
+
+  initialize() {
+    useAngularServices(this);
+  }
 
   connect() {
     this.autoscroll?.destroy();
@@ -148,24 +156,25 @@ export default class GenericDragAndDropController extends Controller {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .on('drop', this.drop.bind(this));
 
-    // Setup autoscroll
-    void window.OpenProject.getPluginContext().then((pluginContext) => {
-      if (!this.element.isConnected) return;
+    void this.setupAutoscroll();
+  }
 
-      const scrollTargets:Element[] = this.scrollContainerTargets.length > 0
-        ? this.scrollContainerTargets
-        : [document.getElementById('content-body')!];
+  private async setupAutoscroll() {
+    const { classes } = await this.pluginContext;
 
-      this.autoscroll = new pluginContext.classes.DomAutoscrollService(
-        scrollTargets,
-        {
-          margin: 25,
-          maxSpeed: 10,
-          scrollWhenOutside: true,
-          autoScroll: () => this.drake?.dragging,
-        },
-      );
-    });
+    const scrollTargets:Element[] = this.scrollContainerTargets.length > 0
+      ? this.scrollContainerTargets
+      : [document.getElementById('content-body')!];
+
+    this.autoscroll = new classes.DomAutoscrollService(
+      scrollTargets,
+      {
+        margin: 25,
+        maxSpeed: 10,
+        scrollWhenOutside: true,
+        autoScroll: () => this.drake?.dragging,
+      },
+    );
   }
 
   accepts(el:Element, target:Element, _source:Element|null, _sibling:Element|null) {

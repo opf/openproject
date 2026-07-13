@@ -43,11 +43,20 @@ module ResourcePlannerViews
       @visible_principal_ids = visible_principal_ids
     end
 
+    def fills_viewport?
+      case @view
+      when ::ResourceWorkPackageTimeline, ::ResourceUserTimeline
+        true
+      else
+        false
+      end
+    end
+
     private
 
     def inner_component
       case @view
-      when ResourceWorkPackageList
+      when ::ResourceWorkPackageList
         ResourcePlannerViews::WorkPackageList::ContentComponent.new(
           view: @view,
           project: @project,
@@ -55,6 +64,27 @@ module ResourcePlannerViews
           work_packages: @work_packages,
           allocations: @allocations,
           visible_principal_ids: @visible_principal_ids
+        )
+      when ::ResourceWorkPackageTimeline
+        ResourcePlannerViews::WorkPackageTimeline::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner,
+          work_packages: @work_packages,
+          allocations: @allocations,
+          visible_principal_ids: @visible_principal_ids
+        )
+      when ::ResourceUserCard
+        ResourcePlannerViews::UserCardList::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner
+        )
+      when ::ResourceUserTimeline
+        ResourcePlannerViews::UserTimeline::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner
         )
       end
     end

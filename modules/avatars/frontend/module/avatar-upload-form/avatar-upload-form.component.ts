@@ -50,15 +50,11 @@ export class AvatarUploadFormComponent implements OnInit {
   protected toastService = inject(ToastService);
   protected uploadService = inject(OpUploadService);
 
-  public form:any;
-
   public target:string;
 
   public method:string;
 
   public avatarFile:File;
-
-  public avatarPreviewUrl:string;
 
   public busy = false;
 
@@ -69,12 +65,9 @@ export class AvatarUploadFormComponent implements OnInit {
   // Text
   public text = {
     label_choose_avatar: this.I18n.t('js.avatars.label_choose_avatar'),
-    upload_instructions: this.I18n.t('js.avatars.text_upload_instructions'),
     error_too_large: this.I18n.t('js.avatars.error_image_too_large'),
     wrong_file_format: this.I18n.t('js.avatars.wrong_file_format'),
-    button_update: this.I18n.t('js.button_update'),
     uploading: this.I18n.t('js.avatars.uploading_avatar'),
-    preview: this.I18n.t('js.label_preview'),
   };
 
   public ngOnInit() {
@@ -96,17 +89,15 @@ export class AvatarUploadFormComponent implements OnInit {
       return;
     }
 
-    void resizeFile(128, file).then(([dataURL, blob]) => {
-      // Create resized file
+    void resizeFile(128, file).then(([, blob]) => {
       this.avatarFile = new File([blob], file.name);
-      this.avatarPreviewUrl = dataURL;
       this.fileInvalid = false;
       this.cdRef.detectChanges();
+      this.uploadAvatar();
     });
   }
 
-  public uploadAvatar(event:Event) {
-    event.preventDefault();
+  public uploadAvatar() {
     this.busy = true;
     const uploadFile:AvatarUploadFile = { file: this.avatarFile, method: this.method };
     const observable = this.uploadService.upload<string>(this.target, [uploadFile])[0];

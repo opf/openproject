@@ -72,7 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
     <td class="cost_type">
       <label class="sr-only" for="<%= id_prefix %>_cost_type_id"><%= MaterialBudgetItem.human_attribute_name(:cost_type) %></label>
       <%= cost_form.select :cost_type_id,
-                           cost_types_collection_for_select_options(material_budget_item.cost_type),
+                           cost_types_collection_for_select_options(material_budget_item.cost_type, project: @project),
                            {},
                            {
                              index: id_or_index,

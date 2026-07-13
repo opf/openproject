@@ -21,12 +21,11 @@
 #++
 ---
 tr:
-  plugin_openproject_documents:
-    name: OpenProject Belgeler
-    description: Projelerde belge oluşturulmasına izin veren bir OpenProject eklentisi.
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus sunucu URL'si
   activerecord:
+    attributes:
+      document:
+        content_binary: Binary içerik
+        title: Başlık
     errors:
       models:
         document_type:
@@ -34,126 +33,128 @@ tr:
     models:
       document: Belge
       documents: Belgeler
-    attributes:
-      document:
-        content_binary: Binary içerik
-        title: Başlık
   activity:
     filter:
       document: Belgeler
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus sunucu URL'si
   default_doc_category_tech: Teknik belgeler
   default_doc_category_user: Kullanıcı belgeleri
-  enumeration_doc_categories: Belge kategorileri
   documents:
-    page_header:
-      heading: Tüm belgeler
-      action_menu:
-        document_actions: Doküman hareketleri
-        edit_title: Başlığı düzenle
-    subheader:
-      filter:
-        label: Proje adı filtresi
-        placeholder: Belge adlarını aramak için buraya yazın
-    documents_list_blank_slate:
-      heading: Henüz belge yok
-      description: Bu görünümde herhangi bir belge bulunmamaktadır. Eklemek için aşağıdaki butona tıklayabilirsiniz.
-    document_categories_deprecation_notice:
-      heading: Dosya kategorileri artık 'Belge türleri' olarak adlandırılıyor
-      description: |-
-        Mevcut dosya kategorileriniz, yeni Belgeler modülünün kullanılmaya başlanmasıyla birlikte belge türlerine dönüştürülmüştür.
-        Mevcut tüm belgeler de bu yeni türlere taşınmıştır.
-      primary_action: Belge türlerini yapılandırma
-      secondary_action: Belgeler modülü hakkında daha fazla bilgi edinin
-    document_type_actions: Belge türü eylemleri
-    text_collaboration_disabled_notice:
-      description: |-
-        Gerçek zamanlı metin işbirliği devre dışı bırakıldığı için belge açılamıyor.
-        Bu belgeye erişmek istiyorsanız gerçek zamanlı metin işbirliğini etkinleştirmek için lütfen yöneticinize başvurun.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Gerçek zamanlı metin işbirliği sunucusuna erişilemediği için belge açılamıyor.
-          Sorun devam ederse lütfen yöneticiyle iletişime geçin.
-        action: Tekrar deneyin
-      tabs: Belge sekmeleri
-    index_page:
-      name: İsim
-      type: Tür
-      updated_at: Son düzenlenen
-      label_legacy: Klasik
-    menu:
-      all: Tüm belgeler
-      types: Türler
-      collaboration_settings: Gerçek zamanlı işbirliği
-    last_updated_at: Son kaydedilen %{time}.
-    info_line:
-      currently_offline: Şu anda çevrimdışısınız.
-      connection_restored: You are now back online.
     active_editors: Etkin düzenleyici
     active_editors_count:
       one: 1 aktif editör
       other: "%{count} aktif editör"
-    label_attachment_author: Ek yazar
-    label_categories: Kategoriler
-    new_category: Yeni kategori
-    new_type: Yeni tür
-    delete_dialog:
-      title: Belgeyi sil
-      heading: Bu belgeyi silelim mi?
-      confirmation_message_html: Bu, bu belgeyi ve tüm dosya eklerini kalıcı olarak silecektir. Bunu yapmak istediğinizden emin misiniz?
-    delete_document_type_dialog:
-      title: Belge türünü sil
-      heading: Bu belge türünü sileyim mi?
-      confirmation_message: '"%{type_name}" türü şu anda kullanılmamaktadır. Bu türün silinmesinin mevcut belgeler üzerinde hiçbir etkisi olmayacaktır.'
-      select_reassign_to_label: Belgeleri yeniden atama
-      reassign_message:
-        one: '"%{type_name}" türü şu anda %{document_count} belgesinde kullanılmaktadır. Lütfen bunları hangi türe yeniden atayacağınızı seçin.'
-        other: '"%{type_name}" türü şu anda %{document_count} belgelerinde kullanılmaktadır. Lütfen bunları hangi türe yeniden atayacağınızı seçin.'
-      at_least_one_type_required:
-        title: Belge türü silinemiyor
-        heading: Son belge türü silinemiyor
-        message: Her zaman yapılandırılmış en az bir belge türü olmalıdır. Bunu silmek istiyorsanız önce başka bir tane oluşturun.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Bu değerler ortam değişkenleri aracılığıyla yapılandırılır ve burada düzenlenemez.
+          some_unwritable: Bazı değerler ortam değişkenleri aracılığıyla yapılandırılır ve burada düzenlenemez.
+        hocuspocus_server: Hocuspocus sunucusu
+        hocuspocus_server_secret:
+          caption: Hocuspocus sunucusu tarafından sağlanan sırrı yapıştırın.
+          label: İstemci anahtarı
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus sunucu URL'si
         page_header:
           description: |-
             Etkinleştirildiğinde, gerçek zamanlı işbirliği birden fazla kullanıcının bir belgeyi aynı anda düzenlemesine olanak tanır.
             Çalışması için çalışan bir %{hocuspocus_server_link} gerekir.
-        banner:
-          none_writable: Bu değerler ortam değişkenleri aracılığıyla yapılandırılır ve burada düzenlenemez.
-          some_unwritable: Bazı değerler ortam değişkenleri aracılığıyla yapılandırılır ve burada düzenlenemez.
-        hocuspocus_server_url:
-          label: Hocuspocus sunucu URL'si
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
-        hocuspocus_server_secret:
-          label: İstemci anahtarı
-          caption: Hocuspocus sunucusu tarafından sağlanan sırrı yapıştırın.
-        hocuspocus_server: Hocuspocus sunucusu
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Verileri kalıcı olarak kaybedebileceğimi anlıyorum
+        confirmation_message: |-
+          Mevcut tüm belgeler erişilemez hale gelebilir. Lütfen bunu yalnızca
+          gerçek zamanlı işbirliğini ve BlockNote düzenleyicisini bu durumda devre dışı bırakmak istediğinizden eminseniz yapın.
+        heading: Gerçek zamanlı işbirliğini devre dışı mı bırakıyorsunuz?
+        success: Gerçek zamanlı işbirliği devre dışı bırakıldı.
+        title: Gerçek zamanlı işbirliğini devre dışı bırakma
       enable_text_collaboration:
-        heading: Gerçek zamanlı işbirliği etkin değil
         description: |-
           Etkinleştirildikten sonra, birden fazla kullanıcı aynı anda bir belge üzerinde birlikte çalışabilecektir.
           Tüm yeni belgeler yeni bir düzenleyiciye (BlockNote) dayanacak ve
           Hocuspocus sunucusuna çalışan bir bağlantı gerektirecektir.
+        heading: Gerçek zamanlı işbirliği etkin değil
         primary_action: Gerçek zamanlı işbirliğini etkinleştirin
         success: Gerçek zamanlı işbirliği etkinleştirildi.
-      disable_text_collaboration_dialog:
-        title: Gerçek zamanlı işbirliğini devre dışı bırakma
-        heading: Gerçek zamanlı işbirliğini devre dışı mı bırakıyorsunuz?
-        confirmation_message: |-
-          Mevcut tüm belgeler erişilemez hale gelebilir. Lütfen bunu yalnızca
-          gerçek zamanlı işbirliğini ve BlockNote düzenleyicisini bu durumda devre dışı bırakmak istediğinizden eminseniz yapın.
-        confirmation_checkbox_message: Verileri kalıcı olarak kaybedebileceğimi anlıyorum
-        success: Gerçek zamanlı işbirliği devre dışı bırakıldı.
+    button_add_type: Tür
+    delete_dialog:
+      confirmation_message_html: Bu, bu belgeyi ve tüm dosya eklerini kalıcı olarak silecektir. Bunu yapmak istediğinizden emin misiniz?
+      heading: Bu belgeyi silelim mi?
+      title: Belgeyi sil
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Son belge türü silinemiyor
+        message: Her zaman yapılandırılmış en az bir belge türü olmalıdır. Bunu silmek istiyorsanız önce başka bir tane oluşturun.
+        title: Belge türü silinemiyor
+      confirmation_message: '"%{type_name}" türü şu anda kullanılmamaktadır. Bu türün silinmesinin mevcut belgeler üzerinde hiçbir etkisi olmayacaktır.'
+      heading: Bu belge türünü sileyim mi?
+      reassign_message:
+        one: '"%{type_name}" türü şu anda %{document_count} belgesinde kullanılmaktadır. Lütfen bunları hangi türe yeniden atayacağınızı seçin.'
+        other: '"%{type_name}" türü şu anda %{document_count} belgelerinde kullanılmaktadır. Lütfen bunları hangi türe yeniden atayacağınızı seçin.'
+      select_reassign_to_label: Belgeleri yeniden atama
+      title: Belge türünü sil
+    document_categories_deprecation_notice:
+      description: |-
+        Mevcut dosya kategorileriniz, yeni Belgeler modülünün kullanılmaya başlanmasıyla birlikte belge türlerine dönüştürülmüştür.
+        Mevcut tüm belgeler de bu yeni türlere taşınmıştır.
+      heading: Dosya kategorileri artık 'Belge türleri' olarak adlandırılıyor
+      primary_action: Belge türlerini yapılandırma
+      secondary_action: Belgeler modülü hakkında daha fazla bilgi edinin
+    document_type_actions: Belge türü eylemleri
+    documents_list_blank_slate:
+      description: Bu görünümde herhangi bir belge bulunmamaktadır. Eklemek için aşağıdaki butona tıklayabilirsiniz.
+      heading: Henüz belge yok
+    index_page:
+      label_legacy: Klasik
+      name: İsim
+      type: Tür
+      updated_at: Son düzenlenen
+    info_line:
+      connection_restored: Artık tekrar çevrimiçisiniz.
+      currently_offline: Şu anda çevrimdışısınız.
+    label_attachment_author: Ek yazar
+    label_categories: Kategoriler
+    last_updated_at: Son kaydedilen %{time}.
+    menu:
+      all: Tüm belgeler
+      collaboration_settings: Gerçek zamanlı işbirliği
+      types: Türler
+    new_category: Yeni kategori
+    new_type: Yeni tür
+    page_header:
+      action_menu:
+        document_actions: Doküman hareketleri
+        edit_title: Başlığı düzenle
+      heading: Tüm belgeler
+    show_edit_view:
+      connection_error_notice:
+        action: Tekrar deneyin
+        description_server_unavailable: |-
+          Gerçek zamanlı metin işbirliği sunucusuna erişilemediği için belge açılamıyor.
+          Sorun devam ederse lütfen yöneticiyle iletişime geçin.
+      tabs: Belge sekmeleri
+    subheader:
+      filter:
+        label: Proje adı filtresi
+        placeholder: Belge adlarını aramak için buraya yazın
+    text_collaboration_disabled_notice:
+      description: |-
+        Gerçek zamanlı metin işbirliği devre dışı bırakıldığı için belge açılamıyor.
+        Bu belgeye erişmek istiyorsanız gerçek zamanlı metin işbirliğini etkinleştirmek için lütfen yöneticinize başvurun.
+  enumeration_doc_categories: Belge kategorileri
   label_document_added: Belge eklendi
+  label_document_category: Kategori
+  label_document_description: Açıklama
   label_document_new: Yeni belge
   label_document_plural: Belgeler
-  label_documents: Belgeler
   label_document_title: Başlık
-  label_document_description: Açıklama
-  label_document_category: Kategori
   label_document_type: Tür
+  label_documents: Belgeler
   permission_manage_documents: Belgeleri yönetme
   permission_view_documents: Belgeleri görüntüleme
+  plugin_openproject_documents:
+    description: Projelerde belge oluşturulmasına izin veren bir OpenProject eklentisi.
+    name: OpenProject Belgeler
   project_module_documents: Belgeler

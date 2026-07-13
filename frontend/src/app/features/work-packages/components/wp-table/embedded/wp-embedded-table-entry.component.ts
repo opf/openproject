@@ -21,7 +21,7 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableEntryComponent {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() public queryProps:unknown;
 

@@ -80,7 +80,7 @@ RSpec.describe "Backlog bucket display", :js do
                                                                   work_packages: [wp_beta1])
   end
 
-  it "shows the '+ Backlog Bucket' button" do
+  it "shows the '+ Backlog bucket' button" do
     backlogs_page.visit!
 
     backlogs_page.expect_new_backlog_bucket_button
@@ -94,7 +94,7 @@ RSpec.describe "Backlog bucket display", :js do
              })
     end
 
-    it "hides the '+ Backlog Bucket' button" do
+    it "hides the '+ Backlog bucket' button" do
       backlogs_page.visit!
 
       backlogs_page.expect_no_new_backlog_bucket_button
