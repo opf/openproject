@@ -71,7 +71,12 @@ module Type::ConfigurationLinkable
   # Walks the link chain to the type that actually owns the aspect (Independent).
   # The visited-set guard keeps it terminating even before transitive cycle
   # prevention lands.
+  #
+  # Guarded by the subtypes feature flag: with the flag off, links are ignored
+  # and every type resolves to its own stored configuration.
   def effective_source_for(aspect)
+    return self unless OpenProject::FeatureDecisions.subtypes_active?
+
     node = self
     seen = Set.new
     node = node.source_for(aspect) while node.linked?(aspect) && seen.add?(node.id)

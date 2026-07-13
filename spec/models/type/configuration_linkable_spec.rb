@@ -123,7 +123,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "#effective_source_for" do
+  describe "#effective_source_for", with_flag: { subtypes: true } do
     it "returns itself when Independent" do
       expect(type.effective_source_for(aspect)).to eq(type)
     end
@@ -146,7 +146,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "effective configuration" do
+  describe "effective configuration", with_flag: { subtypes: true } do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
     it "resolves patterns from the linked owner" do
@@ -157,6 +157,33 @@ RSpec.describe Type::ConfigurationLinkable do
 
     it "resolves its own patterns when Independent" do
       expect(type.effective_patterns).to eq(type.patterns)
+    end
+  end
+
+  describe "#enabled_patterns and #replacement_pattern_defined_for?", with_flag: { subtypes: true } do
+    let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
+
+    it "resolves the subject pattern from the linked owner" do
+      type.link!(Type::ConfigurationLink::SUBJECT, source: owner)
+
+      expect(type.enabled_patterns.keys).to include(:subject)
+      expect(type).to be_replacement_pattern_defined_for(:subject)
+    end
+
+    it "reports no subject pattern when Independent and none is set" do
+      expect(type).not_to be_replacement_pattern_defined_for(:subject)
+    end
+  end
+
+  describe "feature flag gating", with_flag: { subtypes: false } do
+    let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
+
+    before { type.link!(Type::ConfigurationLink::SUBJECT, source: owner) }
+
+    it "ignores links and resolves to the type's own configuration" do
+      expect(type.effective_source_for(Type::ConfigurationLink::SUBJECT)).to eq(type)
+      expect(type.effective_patterns).to eq(type.patterns)
+      expect(type).not_to be_replacement_pattern_defined_for(:subject)
     end
   end
 
