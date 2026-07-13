@@ -302,7 +302,7 @@ module CustomFields
     end
 
     def formula_suggestions
-      operators = CustomField::CalculatedValue::MATH_OPERATORS_FOR_FORMULA
+      operators = CustomField::CalculatedValue::FORMULA_OPERATORS
                     # Hide % from the suggestions as it can be used as either modulo or percentage.
                     .reject { it == "%" }
                     .map do |op|

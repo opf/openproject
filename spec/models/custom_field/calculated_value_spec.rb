@@ -618,8 +618,76 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       it_behaves_like "invalid formula", :invalid
     end
 
-    context "with a formula containing forbidden characters" do
+    [
+      # operators
+      "2 ^ 10",
+      "1 < 2",
+      "1 > 2",
+      "1 <= 2",
+      "1 >= 2",
+      "1 <> 2",
+      "1 != 2",
+      "1 = 2",
+      "1 <> 2 AND 2 <> 3",
+      "1 <> 2 OR 2 <> 3",
+      # functions
+      "IF(1 > 2, 3, 4)",
+      "AND(1 <> 2, 2 <> 3)",
+      "OR(1 <> 2, 2 <> 3)",
+      "XOR(1 <> 2, 2 <> 3)",
+      "NOT(1 <> 2)",
+      "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)",
+      "MIN(1, 2, 3, 4)",
+      "MAX(1, 2, 3, 4)",
+      "SUM(1, 2, 3, 4)",
+      "AVG(1, 2, 3, 4)",
+      "COUNT(1, 2, 3, 4)",
+      "ROUND(1.5)",
+      "ROUNDUP(1.5)",
+      "ROUNDDOWN(1.5)",
+      "ABS(0 - 1)",
+      # case expression
+      "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END"
+    ].each do |formula|
+      context "with formula #{formula.inspect}" do
+        let(:formula) { formula }
+
+        it_behaves_like "valid formula"
+      end
+    end
+
+    context "with a formula containing unexpected constant" do
       let(:formula) { "abc + 2" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing unknown operator" do
+      let(:formula) { "1 \\ 2" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing undefined function" do
+      let(:formula) { "FOO(1, 2, 3)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing an expanded function name" do
+      let(:formula) { "MAXIMUM(1, 2, 3)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing an unallowed function name" do
+      let(:formula) { "SIN(0)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula using a lowercase function name" do
+      let(:formula) { "if(1, 2)" }
 
       it_behaves_like "invalid formula", :invalid_tokens
     end
