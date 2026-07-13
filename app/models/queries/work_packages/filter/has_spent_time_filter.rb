@@ -50,8 +50,8 @@ class Queries::WorkPackages::Filter::HasSpentTimeFilter < Queries::WorkPackages:
   def where
     return nil if values.blank?
 
-    from_date = values[0].blank? ? nil : Date.parse(values[0])
-    to_date   = values[1].blank? ? nil : Date.parse(values[1])
+    from_date = Date.parse(values[0]) if values[0].present?
+    to_date   = Date.parse(values[1]) if values[1].present?
 
     allowed_project_ids = Project.allowed_to(User.current, :view_time_entries).select(:id).to_sql
 
