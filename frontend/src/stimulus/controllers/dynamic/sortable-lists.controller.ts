@@ -119,6 +119,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         ...this.sortableListsScrollableOutlets,
       ];
       children.forEach((child) => {
+        // Outlet selectors are document-scoped, so a broad selector can match
+        // another root's children; repair only the ones this root owns.
+        if (!this.element.contains(child.element)) {
+          return;
+        }
+
         child.connectRoot(this);
         child.reregister();
       });

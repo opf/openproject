@@ -670,5 +670,38 @@ describe('Sortable lists controller', () => {
 
       expect(itemController.root).toBe(rootController);
     });
+
+    it('does not adopt outlet-matched children outside its own element', async () => {
+      // An outlet selector is document-scoped, so a carelessly broad selector
+      // can match children of another root. The heal must only repair its own.
+      fixture.innerHTML = `
+        <div
+          id="heal-root"
+          data-controller="sortable-lists"
+          data-sortable-lists-move-url-template-value="/move/{id}"
+          data-sortable-lists-sortable-lists--list-outlet="[data-controller~='sortable-lists--list']"
+          data-sortable-lists-sortable-lists--item-outlet="[data-controller~='sortable-lists--item']"
+          data-sortable-lists-sortable-lists--scrollable-outlet="[data-controller~='sortable-lists--scrollable']"
+        >
+          <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        </div>
+        <ul id="outside-list" data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+      `;
+      const root = fixture.querySelector<HTMLElement>('#heal-root')!;
+      const outsideList = fixture.querySelector<HTMLElement>('#outside-list')!;
+      outsideList.append(itemRow('9'));
+      const outsideItem = outsideList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="9"]')!;
+
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+
+      const outsideItemController = ctx.application.getControllerForElementAndIdentifier(outsideItem, 'sortable-lists--item') as unknown as { root?:unknown; disconnectRoot():void };
+      outsideItemController.disconnectRoot();
+
+      morph(root);
+      await flushMicrotasks();
+
+      expect(outsideItemController.root).toBeUndefined();
+    });
   });
 });

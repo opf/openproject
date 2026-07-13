@@ -77,6 +77,7 @@ export interface SortableListsRoot {
 // hand them its reference (and revoke it) through outlet-connected callbacks,
 // and re-establish their Pragmatic DnD registrations after a morph.
 export interface RootAwareChild {
+  readonly element:Element;
   connectRoot(root:SortableListsRoot):void;
   disconnectRoot():void;
   reregister():void;
