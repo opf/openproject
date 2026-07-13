@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%# The overlay only duplicates the drop affordance for pointer
         interactions, so it is hidden from assistive technology. %>
     <%= render(Primer::Box.new(aria: { hidden: true }, classes: "op-border-box-list-empty-state--drop-overlay")) do %>
-      <%= render(Primer::Beta::Text.new(tag: :p, font_size: 4)) { drop_target_label } %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: 4)) { drop_target_label } %>
     <% end %>
   <% end %>
 <% end %>
