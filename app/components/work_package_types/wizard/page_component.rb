@@ -56,6 +56,24 @@ module WorkPackageTypes
         ]
       end
 
+      # Config-link aspect backing the current step's reuse mode. Details has none:
+      # it names the type (and is still unpersisted on the first step), so there is
+      # nothing to reuse from a source.
+      def step_aspect
+        case current_step.key
+        when :form_configuration
+          Type::ConfigurationLink::FORM_CONFIGURATION
+        when :workflows
+          Type::ConfigurationLink::WORKFLOWS
+        when :automations
+          Type::ConfigurationLink::AUTOMATIONS
+        when :projects
+          Type::ConfigurationLink::PROJECTS
+        when :pdf
+          Type::ConfigurationLink::PDF_EXPORT
+        end
+      end
+
       def step_body
         case current_step.key
         when :details

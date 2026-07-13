@@ -21,9 +21,15 @@
       <% end %>
 
       <% page.with_area("main") do %>
-        <%= render(WorkPackageTypes::Wizard::ReuseModeSelectorComponent.new) %>
-        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
-        <%= render(step_body) %>
+        <% if step_aspect %>
+          <%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type:, aspect: step_aspect, with_submit: false)) do %>
+            <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
+            <%= render(step_body) %>
+          <% end %>
+        <% else %>
+          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
+          <%= render(step_body) %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

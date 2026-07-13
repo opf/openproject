@@ -39,17 +39,24 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
   it "guides the admin through creating a sub-type with defaults" do
     visit types_path
 
+    # The type's group is collapsed by default, hiding its "Add sub-type" footer link.
+    find("[role='button'][aria-expanded='false']", text: bug_type.name).click
+
     click_on I18n.t("types.index.add_subtype", name: bug_type.name)
 
-    # Step 1 - Details
-    expect(page).to have_text(I18n.t("types.creation_wizard.reuse_mode.title"))
+    # Step 1 - Details: identity only, no reuse mode to choose.
+    expect(page).to have_no_text(I18n.t("types.edit.configuration_link.independent.label"))
     fill_in I18n.t("types.creation_wizard.fields.variant_label"), with: "Critical"
     click_on I18n.t(:button_continue)
 
     subtype = bug_type.children.find_by(name: "Critical")
     expect(subtype).to be_present
 
-    # Step 2 (Form configuration) -> ... -> advance through the remaining steps
+    # Step 2 (Form configuration): the reuse mode selector is offered, defaulting to Independent.
+    expect(page).to have_text(I18n.t("types.edit.configuration_link.independent.label"))
+    expect(page).to have_text(I18n.t("types.edit.configuration_link.linked.label"))
+    expect(subtype).not_to be_linked(Type::ConfigurationLink::FORM_CONFIGURATION)
+
     click_on I18n.t(:button_continue) # -> Workflows
     click_on I18n.t(:button_continue) # -> Automations
     click_on I18n.t(:button_continue) # -> Projects
