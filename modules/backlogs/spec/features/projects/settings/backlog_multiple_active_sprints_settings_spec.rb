@@ -46,39 +46,50 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
     )
   end
 
-  context "when sprint sharing is disabled" do
-    it "renders the toggle switch" do
+  context "without an enterprise token for multiple_active_sprints" do
+    it "renders an enterprise banner instead of the toggle" do
       visit project_settings_backlog_multiple_active_sprints_path(project)
 
-      expect(page).to have_css(".ToggleSwitch")
-      expect(page).to have_no_text("not available")
-    end
-
-    context "when multiple active sprints is already enabled and multiple sprints are active" do
-      before do
-        project.update!(allow_multiple_active_sprints: true)
-        create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
-        create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
-      end
-
-      it "renders the toggle disabled with a warning" do
-        visit project_settings_backlog_multiple_active_sprints_path(project)
-
-        expect(page).to have_css(".ToggleSwitch--disabled")
-        expect(page).to have_text("Multiple sprints are currently active")
-      end
+      expect(page).to have_css(".op-enterprise-banner")
+      expect(page).to have_no_css(".ToggleSwitch")
     end
   end
 
-  context "when sprint sharing is enabled" do
-    before { project.update!(sprint_sharing: "receive_shared") }
+  context "with an enterprise token for multiple_active_sprints", with_ee: %i[multiple_active_sprints] do
+    context "when sprint sharing is disabled" do
+      it "renders the toggle switch" do
+        visit project_settings_backlog_multiple_active_sprints_path(project)
 
-    it "renders the not-available message with a link to sprint sharing settings" do
-      visit project_settings_backlog_multiple_active_sprints_path(project)
+        expect(page).to have_css(".ToggleSwitch")
+        expect(page).to have_no_text("not available")
+      end
 
-      expect(page).to have_text("not available")
-      expect(page).to have_link("sprint sharing", href: project_settings_backlog_sharing_path(project))
-      expect(page).to have_no_css(".ToggleSwitch")
+      context "when multiple active sprints is already enabled and multiple sprints are active" do
+        before do
+          project.update!(allow_multiple_active_sprints: true)
+          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
+          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
+        end
+
+        it "renders the toggle disabled with a warning" do
+          visit project_settings_backlog_multiple_active_sprints_path(project)
+
+          expect(page).to have_css(".ToggleSwitch--disabled")
+          expect(page).to have_text("Multiple sprints are currently active")
+        end
+      end
+    end
+
+    context "when sprint sharing is enabled" do
+      before { project.update!(sprint_sharing: "receive_shared") }
+
+      it "renders the not-available message with a link to sprint sharing settings" do
+        visit project_settings_backlog_multiple_active_sprints_path(project)
+
+        expect(page).to have_text("not available")
+        expect(page).to have_link("sprint sharing", href: project_settings_backlog_sharing_path(project))
+        expect(page).to have_no_css(".ToggleSwitch")
+      end
     end
   end
 end

@@ -38,6 +38,7 @@ module Backlogs::Projects
     validates :sprint_sharing, presence: true
     validates :sprint_sharing, inclusion: { in: Project::SPRINT_SHARING_MODES }, allow_blank: true
     validate :validate_sprint_sharing_in_ee_token
+    validate :validate_multiple_active_sprints_in_ee_token
     validate :validate_allow_multiple_active_sprints_requires_no_sharing
     validate :validate_sprint_sharing_locked_when_multiple_active_sprints
     validate :validate_multiple_active_sprints_setting_not_changeable_while_active
@@ -77,6 +78,16 @@ module Backlogs::Projects
 
     def sprint_sharing_changed?
       model.settings_change&.any? { it.key?("sprint_sharing") }
+    end
+
+    def validate_multiple_active_sprints_in_ee_token
+      return unless model.allow_multiple_active_sprints_changed?
+      return unless model.allow_multiple_active_sprints?
+      return if EnterpriseToken.allows_to?(:multiple_active_sprints)
+
+      errors.add :allow_multiple_active_sprints,
+                 :enterprise_plan_required,
+                 plan_name: I18n.t("ee.upsell.plan_name", plan: OpenProject::Token.lowest_plan_for(:multiple_active_sprints))
     end
 
     def validate_allow_multiple_active_sprints_requires_no_sharing

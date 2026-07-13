@@ -3,7 +3,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_ee: %i[sprint_sharing] do
+RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_ee: %i[sprint_sharing multiple_active_sprints] do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
@@ -195,6 +195,29 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
   end
 
   describe "allow_multiple_active_sprints validations" do
+    context "when the `multiple_active_sprints` EE feature is not available", with_ee: [] do
+      context "when enabling the setting" do
+        before { project.allow_multiple_active_sprints = true }
+
+        it_behaves_like "contract is invalid",
+                        allow_multiple_active_sprints: { error: :enterprise_plan_required, plan_name: "basic enterprise plan" }
+      end
+
+      context "when disabling the setting" do
+        let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+        before { project.allow_multiple_active_sprints = false }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the setting is unchanged" do
+        let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is valid"
+      end
+    end
+
     context "when enabling the setting while sprint sharing is no_sharing (default)" do
       before { project.allow_multiple_active_sprints = true }
 
