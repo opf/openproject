@@ -1,42 +1,21 @@
-#English strings go here
 ---
 uk:
-  plugin_openproject_boards:
-    name: Дошки OpenProject
-    description: Дає змогу переглядати дошки.
-  permission_show_board_views: Дивитись дошки
-  permission_manage_board_views: Керувати дошками
-  project_module_board_view: Дошки
-  ee:
-    upsell:
-      board_view:
-        description: Хочете автоматизувати робочі процеси за допомогою Дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.
   boards:
-    label_board: Дошка
-    label_boards: Дошки
-    label_create_new_board: Створити нову дошку
-    label_board_type: Тип дошки
-    board_types:
-      free: Базова
-      action: Дошка дій (%{attribute})
     board_type_attributes:
       assignee: Виконавець
+      basic: Базова
       status: Канбан
-      version: Версія
       subproject: Підпроєкт
       subtasks: Батьківські й дочірні елементи
-      basic: Базова
+      version: Версія
     board_type_descriptions:
+      assignee: 'Дошка з автоматизованими стовпцями залежно від призначених користувачів. Ідеальне рішення для перетягування пакетів робіт.
+
+        '
       basic: 'Почніть із нуля на пустій дошці. Додайте картки й стовпці на цю дошку вручну.
 
         '
       status: 'Базова дошка в стилі «Канбан» зі стовпцями для стану, наприклад «Виконати», «Виконується», «Завершено».
-
-        '
-      assignee: 'Дошка з автоматизованими стовпцями залежно від призначених користувачів. Ідеальне рішення для перетягування пакетів робіт.
-
-        '
-      version: 'Дошка з автоматизованими стовпцями залежно від атрибутів версії. Ідеальне рішення для планування розробки продукту.
 
         '
       subproject: 'Дошка з автоматизованими стовпцями для підпроєктів. Перетягування пакетів робіт в інші списки відповідно оновлює (під)проєкти.
@@ -45,3 +24,23 @@ uk:
       subtasks: 'Дошка з автоматизованими стовпцями для піделементів. Перетягування пакетів робіт в інші списки відповідно оновлює батьківський елемент.
 
         '
+      version: 'Дошка з автоматизованими стовпцями залежно від атрибутів версії. Ідеальне рішення для планування розробки продукту.
+
+        '
+    board_types:
+      action: Дошка дій (%{attribute})
+      free: Базова
+    label_board: Дошка
+    label_board_type: Тип дошки
+    label_boards: Дошки
+    label_create_new_board: Створити нову дошку
+  ee:
+    upsell:
+      board_view:
+        description: Хочете автоматизувати робочі процеси за допомогою Дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.
+  permission_manage_board_views: Керувати дошками
+  permission_show_board_views: Дивитись дошки
+  plugin_openproject_boards:
+    description: Дає змогу переглядати дошки.
+    name: Дошки OpenProject
+  project_module_board_view: Дошки

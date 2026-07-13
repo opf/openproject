@@ -1,108 +1,21 @@
-#English strings go here for Rails i18n
 ---
 zh-TW:
-  plugin_openproject_bim:
-    name: OpenProject BIM 和 BCF 功能
-    description: 該 OpenProject 外掛引入了 BIM 和 BCF 功能。
-  bim:
-    label_bim: BIM
-    error_direct_upload_failed: Direct upload failed.
-  bcf:
-    label_bcf: BCF
-    label_imported_failed: 無法匯入 BCF 主題
-    label_imported_successfully: " "
-    label_bcf_issue_associated: 相關 BCF 問題
-    issues: 問題集
-    recommended: 推薦
-    not_recommended: 不推薦
-    no_viewpoints: 無視角
-    new_badge: 新增
-    exceptions:
-      file_invalid: BCF 檔案無效
-    x_bcf_issues:
-      zero: 無 BCF 問題
-      one: 一個 BCF 問題
-      other: "%{count} BCF 問題集"
-    bcf_xml:
-      xml_file: BCF XML 檔案
-      import_title: 匯入
-      export: 匯出
-      import_update_comment: "(由 BCF 匯入更新)"
-      import_failed: 無法匯入 BCF 檔案：%{error}
-      import_failed_unsupported_bcf_version: 讀取 BCF 檔案失敗：BCF 版本不支援。請確認版本至少在 %{minimal_version} 或以上。
-      import_successful: 匯入 %{count} BCF 問題集
-      import_canceled: BCF-XML 匯入已取消。
-      type_not_active: 這個問題種類在這個專案未啟用。
-      import:
-        num_issues_found: "%{x_bcf_issues} 包含在 BCF-XML 檔案裡，它們的細節列在下方。"
-        button_prepare: 準備匯入
-        button_perform_import: 確認匯入
-        button_proceed: 繼續匯入
-        button_back_to_list: 回到列表
-        no_permission_to_add_members: 您沒有足夠的權限新增他們為專案成員到這個專案。
-        contact_project_admin: 聯絡您的專案系統管理員新增他們為專案成員及重新開始匯入。
-        continue_anyways: 你確定要繼續並完成匯入嗎？
-        description: 提供一個 BCF-XML v2.1 檔案匯入到這個專案。您可以在開始進行匯入前審查它的內容。
-        invalid_types_found: 發現無效的主題種類名稱
-        invalid_statuses_found: 發現無效的狀態名稱
-        invalid_priorities_found: 發現無效的優先權名稱
-        invalid_emails_found: 發現無效的電子郵件地址
-        unknown_emails_found: 發現未知的電子郵件地址
-        unknown_property: 未知屬性
-        non_members_found: 發現非專案成員
-        import_types_as: 設定所有這些種類為
-        import_statuses_as: 設定所有這些狀態為
-        import_priorities_as: 設定所有這些優先權為
-        invite_as_members_with_role: 邀請他們成為具角色的 "%{project}" 專案成員
-        add_as_members_with_role: 新增他們成為具角色的 "%{project}" 專案成員
-        no_type_provided: 未提供種類
-        no_status_provided: 未提供狀態
-        no_priority_provided: 未提供優先權
-        perform_description: 您想要匯入或更新列在上面的問題集嗎？
-        replace_with_system_user: 以 "系統" 使用者取代
-        import_as_system_user: 以 "系統" 使用者取代
-        what_to_do: 您想要做什麼？
-        work_package_has_newer_changes: 過時了！主題未更新，因為伺服器上的最新變更比匯入主題的「ModifiedDate」更新。但是，導入了對該主題的評論。
-        bcf_file_not_found: 指定 BCF 檔案的位置失敗。請再次開始上傳程序。
-  export:
-    format:
-      bcf: BCF-XML
-  attributes:
-    bcf_thumbnail: BCF 快照
-  project_module_bcf: BCF
-  project_module_bim: BCF
-  permission_view_linked_issues: 查看 BCF 問題
-  permission_manage_bcf: 匯入及管理 BCF 問題集
-  permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
-  permission_delete_bcf: 刪除 BCF 問題集
-  oauth:
-    scopes:
-      bcf_v2_1: 完整存取 BCF v2.1 API
-      bcf_v2_1_text: 應用程式將接收完整讀取及寫入權限到 OpenProject BCF API v2.1 代替您執行動作。
   activerecord:
-    models:
-      bim/ifc_models/ifc_model: IFC 模式
     attributes:
-      bim/ifc_models/ifc_model:
-        ifc_attachment: IFC 檔案
-        is_default: 預設模式
-        attachments: IFC 檔案
       bim/bcf/issue:
         bcf_comment: BCF 說明
         bim_snippet: BIM 片段
         reference_links: 參考連結
         stage: 階段
         viewpoint: 視點
+      bim/ifc_models/ifc_model:
+        attachments: IFC 檔案
+        ifc_attachment: IFC 檔案
+        is_default: 預設模式
     errors:
       models:
-        bim/ifc_models/ifc_model:
-          attributes:
-            base:
-              ifc_attachment_missing: 未附加 ifc 檔案。
-              invalid_ifc_file: 提供的檔案不是一個有效的 IFC 檔案。
+        bim/bcf/issue:
+          uuid_already_taken: 無法匯入此 BCF 問題，因為已經有另一個具有相同 GUID 的問題。難道這個BCF問題已經被導入到另一個專案了嗎？
         bim/bcf/viewpoint:
           bitmaps_not_writable: 點陣圖不可寫，因為它尚未實作。
           index_not_integer: 索引不是整數
@@ -113,37 +26,123 @@ zh-TW:
           invalid_perspective_camera: 透視相機無效。
           mismatching_guid: json_viewpoint 中的 guid 與模型的 guid 不符。
           no_json: 不是一個良好建構的 json。
-          snapshot_type_unsupported: 快照（截圖）格式必須是「png」或「jpg」。
           snapshot_data_blank: 需要提供快照（截圖）資料
+          snapshot_type_unsupported: 快照（截圖）格式必須是「png」或「jpg」。
           unsupported_key: 包含不受支援的 json 屬性。
-        bim/bcf/issue:
-          uuid_already_taken: 無法匯入此 BCF 問題，因為已經有另一個具有相同 GUID 的問題。難道這個BCF問題已經被導入到另一個專案了嗎？
-  ifc_models:
-    label_ifc_models: IFC 模型
-    label_new_ifc_model: 新 IFC 模型
-    label_show_defaults: 顯示預設
-    label_default_ifc_models: 預設 IFC 模型
-    label_edit_defaults: 編輯預設
-    no_defaults_warning:
-      title: 沒有 IFC 模型設定為這個專案的預設
-      check_1: 檢查您至少有上傳一個 IFC 模型
-      check_2: 檢查至少有一個 IFC 模型設定為"預設"。
-    no_results: 沒有 IFC 模型有上傳到這個專案。
-    conversion_status:
-      label: 處理中？
-      pending: 待處理
-      processing: 處理中
-      completed: 已完成
-      error: 錯誤
-    processing_notice:
-      processing_default: 以下預設 IFC 模型仍在處理中，因此尚不可用：
-    flash_messages:
-      upload_successful: 上傳成功。現在將對其進行處理，幾分鐘後即可使用。
-    conversion:
-      missing_commands: 此系統上缺少以下 IFC 轉換器指令：%{names}
-  project_module_ifc_models: IFC 模型
-  permission_view_ifc_models: 檢視 IFC 模型
-  permission_manage_ifc_models: 匯入及管理 IFC 模型
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: 未附加 ifc 檔案。
+              invalid_ifc_file: 提供的檔案不是一個有效的 IFC 檔案。
+    models:
+      bim/ifc_models/ifc_model: IFC 模式
+  attributes:
+    bcf_thumbnail: BCF 快照
+  bcf:
+    bcf_xml:
+      export: 匯出
+      import:
+        add_as_members_with_role: 新增他們成為具角色的 "%{project}" 專案成員
+        bcf_file_not_found: 指定 BCF 檔案的位置失敗。請再次開始上傳程序。
+        button_back_to_list: 回到列表
+        button_perform_import: 確認匯入
+        button_prepare: 準備匯入
+        button_proceed: 繼續匯入
+        contact_project_admin: 聯絡您的專案系統管理員新增他們為專案成員及重新開始匯入。
+        continue_anyways: 你確定要繼續並完成匯入嗎？
+        description: 提供一個 BCF-XML v2.1 檔案匯入到這個專案。您可以在開始進行匯入前審查它的內容。
+        import_as_system_user: 以 "系統" 使用者取代
+        import_priorities_as: 設定所有這些優先權為
+        import_statuses_as: 設定所有這些狀態為
+        import_types_as: 設定所有這些種類為
+        invalid_emails_found: 發現無效的電子郵件地址
+        invalid_priorities_found: 發現無效的優先權名稱
+        invalid_statuses_found: 發現無效的狀態名稱
+        invalid_types_found: 發現無效的主題種類名稱
+        invite_as_members_with_role: 邀請他們成為具角色的 "%{project}" 專案成員
+        no_permission_to_add_members: 您沒有足夠的權限新增他們為專案成員到這個專案。
+        no_priority_provided: 未提供優先權
+        no_status_provided: 未提供狀態
+        no_type_provided: 未提供種類
+        non_members_found: 發現非專案成員
+        num_issues_found: "%{x_bcf_issues} 包含在 BCF-XML 檔案裡，它們的細節列在下方。"
+        perform_description: 您想要匯入或更新列在上面的問題集嗎？
+        replace_with_system_user: 以 "系統" 使用者取代
+        unknown_emails_found: 發現未知的電子郵件地址
+        unknown_property: 未知屬性
+        what_to_do: 您想要做什麼？
+        work_package_has_newer_changes: 過時了！主題未更新，因為伺服器上的最新變更比匯入主題的「ModifiedDate」更新。但是，導入了對該主題的評論。
+      import_canceled: BCF-XML 匯入已取消。
+      import_failed: 無法匯入 BCF 檔案：%{error}
+      import_failed_unsupported_bcf_version: 讀取 BCF 檔案失敗：BCF 版本不支援。請確認版本至少在 %{minimal_version} 或以上。
+      import_successful: 匯入 %{count} BCF 問題集
+      import_title: 匯入
+      import_update_comment: "(由 BCF 匯入更新)"
+      type_not_active: 這個問題種類在這個專案未啟用。
+      xml_file: BCF XML 檔案
+    exceptions:
+      file_invalid: BCF 檔案無效
+    issues: 問題集
+    label_bcf: BCF
+    label_bcf_issue_associated: 相關 BCF 問題
+    label_imported_failed: 無法匯入 BCF 主題
+    label_imported_successfully: " "
+    new_badge: 新增
+    no_viewpoints: 無視角
+    not_recommended: 不推薦
+    recommended: 推薦
+    x_bcf_issues:
+      one: 一個 BCF 問題
+      other: "%{count} BCF 問題集"
+      zero: 無 BCF 問題
+  bim:
+    error_direct_upload_failed: Direct upload failed.
+    label_bim: BIM
+  export:
+    format:
+      bcf: BCF-XML
   extraction:
     available:
       ifc_convert: IFC 轉換管道可用
+  ifc_models:
+    conversion:
+      missing_commands: 此系統上缺少以下 IFC 轉換器指令：%{names}
+    conversion_status:
+      completed: 已完成
+      error: 錯誤
+      label: 處理中？
+      pending: 待處理
+      processing: 處理中
+    flash_messages:
+      upload_successful: 上傳成功。現在將對其進行處理，幾分鐘後即可使用。
+    label_default_ifc_models: 預設 IFC 模型
+    label_edit_defaults: 編輯預設
+    label_ifc_models: IFC 模型
+    label_new_ifc_model: 新 IFC 模型
+    label_show_defaults: 顯示預設
+    no_defaults_warning:
+      check_1: 檢查您至少有上傳一個 IFC 模型
+      check_2: 檢查至少有一個 IFC 模型設定為"預設"。
+      title: 沒有 IFC 模型設定為這個專案的預設
+    no_results: 沒有 IFC 模型有上傳到這個專案。
+    processing_notice:
+      processing_default: 以下預設 IFC 模型仍在處理中，因此尚不可用：
+  oauth:
+    scopes:
+      bcf_v2_1: 完整存取 BCF v2.1 API
+      bcf_v2_1_text: 應用程式將接收完整讀取及寫入權限到 OpenProject BCF API v2.1 代替您執行動作。
+  permission_delete_bcf: 刪除 BCF 問題集
+  permission_manage_bcf: 匯入及管理 BCF 問題集
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+  permission_manage_ifc_models: 匯入及管理 IFC 模型
+  permission_view_ifc_models: 檢視 IFC 模型
+  permission_view_linked_issues: 查看 BCF 問題
+  plugin_openproject_bim:
+    description: 該 OpenProject 外掛引入了 BIM 和 BCF 功能。
+    name: OpenProject BIM 和 BCF 功能
+  project_module_bcf: BCF
+  project_module_bim: BCF
+  project_module_ifc_models: IFC 模型

@@ -23,33 +23,33 @@
 pl:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Żądania Pull Request
-        copy_menu:
-          label: Fragmenty git
-          description: Skopiuj fragmenty git do schowka
-        git_actions:
-          branch_name: Nazwa gałęzi
-          commit_message: Wiadomość o zmianach
-          cmd: Utwórz gałąź z pustą zmianą
-          title: Szybkie fragmenty do Git
-          copy_success: "✅ Skopiowano!"
-          copy_error: "❌ Kopiowanie nie powiodło się!"
-      tab_prs:
-        empty: Nie ma jeszcze powiązanych żądań Pull Request. Powiąż istniejące PR, używając kodu <code>OP#%{wp_id}</code> w opisie PR lub utwórz nowe PR.
       github_actions: Akcje
       pull_requests:
-        message: 'Żądanie Pull Request #%{pr_number} %{pr_link} dotyczące %{repository_link} autorstwa %{github_user_link} zostało %{pr_state}.'
         merged_message: 'Żądanie Pull Request #%{pr_number} %{pr_link} dotyczące %{repository_link} zostało %{pr_state} przez %{github_user_link}.'
+        message: 'Żądanie Pull Request #%{pr_number} %{pr_link} dotyczące %{repository_link} autorstwa %{github_user_link} zostało %{pr_state}.'
         referenced_message: 'Żądanie Pull Request #%{pr_number} %{pr_link} dotyczące %{repository_link} autorstwa %{github_user_link} odwoływało się do tego pakietu roboczego.'
         states:
-          opened: otwarty
           closed: Zamknięte
           draft: wersja robocza
           merged: połączony
+          opened: otwarty
           ready_for_review: oznaczony jako gotowy do przeglądu
+      tab_header:
+        copy_menu:
+          description: Skopiuj fragmenty git do schowka
+          label: Fragmenty git
+        git_actions:
+          branch_name: Nazwa gałęzi
+          cmd: Utwórz gałąź z pustą zmianą
+          commit_message: Wiadomość o zmianach
+          copy_error: "❌ Kopiowanie nie powiodło się!"
+          copy_success: "✅ Skopiowano!"
+          title: Szybkie fragmenty do Git
+        title: Żądania Pull Request
+      tab_prs:
+        empty: Nie ma jeszcze powiązanych żądań Pull Request. Powiąż istniejące PR, używając kodu <code>OP#%{wp_id}</code> w opisie PR lub utwórz nowe PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

@@ -1,13 +1,12 @@
-#English strings go here
 ---
 eo:
-  plugin_openproject_calendar:
-    name: OpenProject-Kalendaro
-    description: Provizas kalendarajn vidojn.
   label_calendar: Kalendaro
   label_calendar_plural: Kalendaroj
   label_new_calendar: Nova kalendaro
-  permission_view_calendar: Vidi kalendarojn
   permission_manage_calendars: Administri kalendarojn
   permission_share_calendars: Abonu iCalendars
+  permission_view_calendar: Vidi kalendarojn
+  plugin_openproject_calendar:
+    description: Provizas kalendarajn vidojn.
+    name: OpenProject-Kalendaro
   project_module_calendar_view: Kalendaroj

@@ -1,30 +1,29 @@
-#English strings go here
 ---
 ka:
   js:
     bcf:
-      label_bcf: BCF
-      import: შემოტანა
-      import_bcf_xml_file: Import BCF XML file (BCF version 2.1)
+      add_viewpoint: ხედის წერტილის დამატება
+      delete_viewpoint: Delete viewpoint
       export: გატანა
       export_bcf_xml_file: Export BCF XML file (BCF version 2.1)
-      viewpoint: ხედის წერტილი
-      add_viewpoint: ხედის წერტილის დამატება
-      show_viewpoint: ხედის წერტილის ჩვენება
-      delete_viewpoint: Delete viewpoint
+      import: შემოტანა
+      import_bcf_xml_file: Import BCF XML file (BCF version 2.1)
+      label_bcf: BCF
       management: BCF-ის მართვა
       refresh: განახლება
       refresh_work_package: Refresh work package
+      show_viewpoint: ხედის წერტილის ჩვენება
+      viewpoint: ხედის წერტილი
     ifc_models:
       empty_warning: This project does not yet have any IFC models.
-      use_this_link_to_manage: Use this link to upload and manage your IFC models
       keyboard_input_disabled: Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer.
       models:
         ifc_models: IFC მოდელები
+      use_this_link_to_manage: Use this link to upload and manage your IFC models
       views:
-        viewer: მთვალიერებელი
         split: Viewer and table
         split_cards: Viewer and cards
+        viewer: მთვალიერებელი
     revit:
       revit_add_in: Revit-ის დამატება
       revit_add_in_settings: Revit Add-In settings

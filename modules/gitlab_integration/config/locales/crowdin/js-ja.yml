@@ -24,31 +24,31 @@
 ja:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: パイプライン
       tab_header_issue:
         title: 課題
       tab_header_mr:
-        title: マージリクエスト
-        create_mr:
-          label: MRの作成
-          description: マージリクエストを作成
         copy_menu:
-          label: Git snippets
           description: git スニペットをクリップボードにコピー
+          label: Git snippets
+        create_mr:
+          description: マージリクエストを作成
+          label: MRの作成
         git_actions:
           branch_name: ブランチ名
-          commit_message: コミットメッセージ
           cmd: 空のコミットでブランチを作成
-          title: Git 用のクイックスニペットです。
-          copy_success: "✅ コピーしました！"
+          commit_message: コミットメッセージ
           copy_error: "❌ コピーに失敗しました！"
+          copy_success: "✅ コピーしました！"
+          title: Git 用のクイックスニペットです。
+        title: マージリクエスト
       tab_issue:
         empty: 課題がまだリンクされていません。<code>OP#%{wp_id}</code>（プライベートリンクの場合は <code>PP#%{wp_id}</code>）を課題のタイトル/説明に追加して既存の課題にリンクするか、新しい課題を作成してください。
       tab_mrs:
         empty: マージリクエストがまだリンクされていません。<code>OP#%{wp_id}</code>（プライベートリンクの場合は <code>PP#%{wp_id}</code>）をMRのタイトル/説明に追加して既存のMRにリンクするか、新しいMRを作成してください。
-      gitlab_pipelines: パイプライン
       updated_on: 更新日時
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

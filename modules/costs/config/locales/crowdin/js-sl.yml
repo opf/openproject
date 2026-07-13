@@ -22,15 +22,15 @@
 ---
 sl:
   js:
-    text_are_you_sure: Ste prepričani?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Stroški
-      properties:
-        overallCosts: Celotni stroški
-        spentUnits: Porabljene enote
     button_log_costs: Stroški enote dnevnika
     label_hour: ura
     label_hours: ure
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Ste prepričani?
+    work_packages:
+      properties:
+        overallCosts: Celotni stroški
+        spentUnits: Porabljene enote
+      property_groups:
+        costs: Stroški

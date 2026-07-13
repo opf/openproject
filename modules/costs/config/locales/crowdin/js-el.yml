@@ -22,15 +22,15 @@
 ---
 el:
   js:
-    text_are_you_sure: Είστε σίγουρος/η;
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Κόστος
-      properties:
-        overallCosts: Συνολικό κόστος
-        spentUnits: Δαπανημένες μονάδες
     button_log_costs: Καταγραφή κόστους μονάδας
     label_hour: ώρα
     label_hours: ώρες
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Είστε σίγουρος/η;
+    work_packages:
+      properties:
+        overallCosts: Συνολικό κόστος
+        spentUnits: Δαπανημένες μονάδες
+      property_groups:
+        costs: Κόστος

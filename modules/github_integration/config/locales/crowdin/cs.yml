@@ -23,47 +23,47 @@
 cs:
   attributes:
     additions_count: Počet přídavků
-    deletions_count: Počet výmazů
+    changed_files_count: Změněné soubory
     comments_count: Počet komentářů
-    github_html_url: URL pull requestu
-    github_app_owner_avatar_url: URL avataru vlastníka
-    review_comments_count: Počet recenzních komentářů
+    deletions_count: Počet výmazů
     github: Identifikátor na GitHubu
+    github_app_owner_avatar_url: URL avataru vlastníka
     github_avatar_url: URL avataru
-    github_updated_at: Aktualizováno
+    github_html_url: URL pull requestu
     github_login: Přihlášení do GitHubu
+    github_updated_at: Aktualizováno
     host: Hostitel
     labels: Štítky
     repository: Repozitář
-    changed_files_count: Změněné soubory
+    review_comments_count: Počet recenzních komentářů
   button_add_deploy_target: Přidání cíle nasazení
   label_deploy_target: Cíl nasazení
   label_deploy_target_new: Nový cíl nasazení
   label_deploy_target_plural: Cíle nasazení
+  label_github_comment_user: GitHub actor
   label_github_integration: Integrace GitHubu
+  label_github_webhook_secret: Webhook secret
   notice_deploy_target_created: Cíl nasazení byl vytvořen
   notice_deploy_target_destroyed: Cíl nasazení odstraněn
-  label_github_comment_user: GitHub actor
-  label_github_webhook_secret: Webhook secret
-  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
+  permission_introspection: Přečíst verzi jádra OpenProject a build SHA
+  permission_show_github_content: Zobrazit GitHub obsah
+  plugin_openproject_github_integration:
+    description: Integruje OpenProject a GitHub pro lepší workflow
+    name: OpenProject GitHub integrace
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'OpenProject [klíč API](docs_url) patřící uživateli, který má globální oprávnění k introspekci obsahu.
 
     '
-  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+  text_deploy_target_type_info: 'Zatím podporujeme pouze samotný OpenProject
+
+    '
+  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
 
     '
   text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
 
     '
-  plugin_openproject_github_integration:
-    name: OpenProject GitHub integrace
-    description: Integruje OpenProject a GitHub pro lepší workflow
-  project_module_github: GitHub
-  permission_show_github_content: Zobrazit GitHub obsah
-  permission_introspection: Přečíst verzi jádra OpenProject a build SHA
-  text_deploy_target_type_info: 'Zatím podporujeme pouze samotný OpenProject
-
-    '
-  text_deploy_target_api_key_info: 'OpenProject [klíč API](docs_url) patřící uživateli, který má globální oprávnění k introspekci obsahu.
+  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
 
     '
   text_pull_request_deployed_to: "%{pr_link} nasazení na adrese %{deploy_target_link}"

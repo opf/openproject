@@ -1,20 +1,28 @@
 ---
 he:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: מספר עמודות
+        page: דף
+        row_count: מספר שורות
+        scope: Scope
+        widgets: ווידג'טים
+    errors:
+      models:
+        grids/grid:
+          end_before_start: end value needs to be larger than the start value.
+          outside: is outside of the grid.
+          overlaps: overlap.
   grids:
     label_widget_in_grid: התוסף מופיע באזור %{grid_name}
     widgets:
       empty: This widget is currently empty.
-      not_available: This widget is not available.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Members
         no_results: No visible members.
-        view_all_members: הצגת כל החברים
         show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: הצגת כל החברים
         x_more:
           one: and one more member.
           two: and %{count} more members.
@@ -22,17 +30,9 @@ he:
           other: and %{count} more members.
       news:
         no_results: Nothing new to report.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: דף
-        row_count: מספר שורות
-        column_count: מספר עמודות
-        widgets: ווידג'טים
-        scope: Scope
-    errors:
-      models:
-        grids/grid:
-          overlaps: overlap.
-          outside: is outside of the grid.
-          end_before_start: end value needs to be larger than the start value.
+      not_available: This widget is not available.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

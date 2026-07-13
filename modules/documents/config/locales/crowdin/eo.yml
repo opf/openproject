@@ -21,12 +21,11 @@
 #++
 ---
 eo:
-  plugin_openproject_documents:
-    name: Malfermu Projekto-Dokumentoj
-    description: Aldonaĵo por OpenProject por permesi krei dokumentojn en projektoj.
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
+    attributes:
+      document:
+        content_binary: Content binary
+        title: Titolo
     errors:
       models:
         document_type:
@@ -34,127 +33,128 @@ eo:
     models:
       document: Dokumento
       documents: Dokumentoj
-    attributes:
-      document:
-        content_binary: Content binary
-        title: Titolo
   activity:
     filter:
       document: Dokumentoj
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   default_doc_category_tech: Teknika dokumentado
   default_doc_category_user: Dokumentado por la uzanto
-  enumeration_doc_categories: Kategorioj de dokumentoj
   documents:
-    button_add_type: Tipo
-    page_header:
-      heading: Ĉiuj dokumentoj
-      action_menu:
-        document_actions: Document actions
-        edit_title: Redaktu titolon
-    subheader:
-      filter:
-        label: Document name filter
-        placeholder: Tajpu ĉi tie por serĉi nomojn de dokumentoj
-    documents_list_blank_slate:
-      heading: There are no documents yet
-      description: There are no documents in this view. You can click the button below to add one.
-    document_categories_deprecation_notice:
-      heading: File categories are now called 'Document types'
-      description: |-
-        Your existing file categories have been converted to document types with the introduction of the new Documents module.
-        All existing documents have also been migrated to these new types.
-      primary_action: Configure document types
-      secondary_action: Learn more about the Documents module
-    document_type_actions: Document type actions
-    text_collaboration_disabled_notice:
-      description: |-
-        Unable to open document because real-time text collaboration is disabled.
-        Please contact your administrator to enable real-time text collaboration if you want to access this document.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-        action: Provu denove
-      tabs: Document tabs
-    index_page:
-      name: Nomo
-      type: Tipo
-      updated_at: Laste redaktita
-      label_legacy: Legacy
-    menu:
-      all: All documents
-      types: Specoj
-      collaboration_settings: Real-time collaboration
-    last_updated_at: Laste konservita %{time}.
-    info_line:
-      currently_offline: You are currently offline.
-      connection_restored: You are now back online.
     active_editors: Aktivaj redaktistoj
     active_editors_count:
       one: 1 aktiva redaktisto
       other: "%{count} active editors"
-    label_attachment_author: Aŭtoro de la kunsendaĵo
-    label_categories: Kategorioj
-    new_category: Nova kategorio
-    new_type: Nova tipo
-    delete_dialog:
-      title: Forigi dokumenton
-      heading: Ĉu forigi ĉi tiun dokumenton?
-      confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
-    delete_document_type_dialog:
-      title: Delete document type
-      heading: Delete this document type?
-      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
-      select_reassign_to_label: Reassign documents to
-      reassign_message:
-        one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
-        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-      at_least_one_type_required:
-        title: Cannot delete document type
-        heading: Cannot delete the last document type
-        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: These values are configured via environment variables and cannot be edited here.
+          some_unwritable: Some values are configured via environment variables and cannot be edited here.
+        hocuspocus_server: Hocuspocus server
+        hocuspocus_server_secret:
+          caption: Paste the secret provided by the Hocuspocus server.
+          label: Client secret
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus server URL
         page_header:
           description: |-
             When enabled, real-time collaboration allows multiple users to edit a document at the same time.
             It requires a working %{hocuspocus_server_link} to function.
-        banner:
-          none_writable: These values are configured via environment variables and cannot be edited here.
-          some_unwritable: Some values are configured via environment variables and cannot be edited here.
-        hocuspocus_server_url:
-          label: Hocuspocus server URL
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
-        hocuspocus_server_secret:
-          label: Client secret
-          caption: Paste the secret provided by the Hocuspocus server.
-        hocuspocus_server: Hocuspocus server
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: I understand that I might permanently lose data
+        confirmation_message: |-
+          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
+          real-time collaboration and the BlockNote editor in this instance.
+        heading: Disable real-time collaboration?
+        success: Real-time collaboration has been disabled.
+        title: Disable real-time collaboration
       enable_text_collaboration:
-        heading: Real-time collaboration is not enabled
         description: |-
           Once enabled, multiple users will be able to work together on a document at the same time.
           All new documents will be based on a new editor (BlockNote) and will require a working connection to a
           Hocuspocus server.
+        heading: Real-time collaboration is not enabled
         primary_action: Enable real-time collaboration
         success: Real-time collaboration has been enabled.
-      disable_text_collaboration_dialog:
-        title: Disable real-time collaboration
-        heading: Disable real-time collaboration?
-        confirmation_message: |-
-          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
-          real-time collaboration and the BlockNote editor in this instance.
-        confirmation_checkbox_message: I understand that I might permanently lose data
-        success: Real-time collaboration has been disabled.
+    button_add_type: Tipo
+    delete_dialog:
+      confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
+      heading: Ĉu forigi ĉi tiun dokumenton?
+      title: Forigi dokumenton
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Cannot delete the last document type
+        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
+        title: Cannot delete document type
+      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
+      heading: Delete this document type?
+      reassign_message:
+        one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
+        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
+      select_reassign_to_label: Reassign documents to
+      title: Delete document type
+    document_categories_deprecation_notice:
+      description: |-
+        Your existing file categories have been converted to document types with the introduction of the new Documents module.
+        All existing documents have also been migrated to these new types.
+      heading: File categories are now called 'Document types'
+      primary_action: Configure document types
+      secondary_action: Learn more about the Documents module
+    document_type_actions: Document type actions
+    documents_list_blank_slate:
+      description: There are no documents in this view. You can click the button below to add one.
+      heading: There are no documents yet
+    index_page:
+      label_legacy: Legacy
+      name: Nomo
+      type: Tipo
+      updated_at: Laste redaktita
+    info_line:
+      connection_restored: You are now back online.
+      currently_offline: You are currently offline.
+    label_attachment_author: Aŭtoro de la kunsendaĵo
+    label_categories: Kategorioj
+    last_updated_at: Laste konservita %{time}.
+    menu:
+      all: All documents
+      collaboration_settings: Real-time collaboration
+      types: Specoj
+    new_category: Nova kategorio
+    new_type: Nova tipo
+    page_header:
+      action_menu:
+        document_actions: Document actions
+        edit_title: Redaktu titolon
+      heading: Ĉiuj dokumentoj
+    show_edit_view:
+      connection_error_notice:
+        action: Provu denove
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Document tabs
+    subheader:
+      filter:
+        label: Document name filter
+        placeholder: Tajpu ĉi tie por serĉi nomojn de dokumentoj
+    text_collaboration_disabled_notice:
+      description: |-
+        Unable to open document because real-time text collaboration is disabled.
+        Please contact your administrator to enable real-time text collaboration if you want to access this document.
+  enumeration_doc_categories: Kategorioj de dokumentoj
   label_document_added: Dokumento aldonita
+  label_document_category: Kategorio
+  label_document_description: Priskribo
   label_document_new: Nova dokumento
   label_document_plural: Dokumentoj
-  label_documents: Dokumentoj
   label_document_title: Titolo
-  label_document_description: Priskribo
-  label_document_category: Kategorio
   label_document_type: Tipo
+  label_documents: Dokumentoj
   permission_manage_documents: Administri dokumentojn
   permission_view_documents: Vidi dokumentojn
+  plugin_openproject_documents:
+    description: Aldonaĵo por OpenProject por permesi krei dokumentojn en projektoj.
+    name: Malfermu Projekto-Dokumentoj
   project_module_documents: Dokumentoj

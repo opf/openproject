@@ -1,72 +1,76 @@
 ---
 de:
-  ee:
-    upsell:
-      ldap_groups:
-        title: LDAP-Gruppensynchronisierung
-        description: LDAP-Gruppen mit OpenProject-Gruppen synchronisieren, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu erleichtern.
-  plugin_openproject_ldap_groups:
-    name: OpenProject LDAP-Gruppen
-    description: Synchronisierung von LDAP-Gruppenmitgliedschaften.
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: DN
-        auth_source: Auth source
-        ldap_auth_source: LDAP-Verbindung
-        sync_users: Benutzer synchronisieren
       ldap_groups/synchronized_filter:
-        filter_string: LDAP-Filter
         auth_source: Auth source
-        ldap_auth_source: LDAP-Verbindung
-        group_name_attribute: Attribut für Gruppenname
-        sync_users: Benutzer synchronisieren
         base_dn: Suchbasis DN
+        filter_string: LDAP-Filter
+        group_name_attribute: Attribut für Gruppenname
+        ldap_auth_source: LDAP-Verbindung
         member_lookup_attribute: Attribut für Gruppenmitglieder
-    models:
-      ldap_groups/synchronized_group: Synchronisierte LDAP-Gruppe
-      ldap_groups/synchronized_filter: Synchronisationsfilter für LDAP-Gruppe
+        sync_users: Benutzer synchronisieren
+      ldap_groups/synchronized_group:
+        auth_source: Auth source
+        dn: DN
+        ldap_auth_source: LDAP-Verbindung
+        sync_users: Benutzer synchronisieren
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filter Basis-DN muss innerhalb des Basis-DN der LDAP-Verbindung enthalten sein
+    models:
+      ldap_groups/synchronized_filter: Synchronisationsfilter für LDAP-Gruppe
+      ldap_groups/synchronized_group: Synchronisierte LDAP-Gruppe
+  ee:
+    upsell:
+      ldap_groups:
+        description: LDAP-Gruppen mit OpenProject-Gruppen synchronisieren, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu erleichtern.
+        title: LDAP-Gruppensynchronisierung
   ldap_groups:
-    label_menu_item: LDAP-Gruppensynchronisierung
     label_group_key: LDAP-Gruppenfilter
+    label_menu_item: LDAP-Gruppensynchronisierung
     label_synchronize: LDAP-Gruppen entdecken
     settings:
       name_attribute: Attribut für LDAP-Gruppenname
       name_attribute_text: Das LDAP-Attribut für das Benennen einer OpenProject-Gruppe, wenn sie durch einen Filter angelegt wird.
     synchronized_filters:
       add_new: Synchronisierten LDAP-Filter hinzufügen
-      singular: Synchronisationsfilter für LDAP-Gruppe
-      plural: Synchronisierte LDAP-Filter
+      destroy:
+        confirmation: Wenn Sie fortfahren, wird der Filter %{name} und alle %{groups_count} Gruppen, die durch ihn synchronisiert wurden, entfernt.
+        heading: Synchronisierten Filter %{name} entfernen?
+        removed_groups: 'Warnung: Die folgenden Gruppen werden aus OpenProject entfernt und aus allen Projekten entfernt!'
+        title: Synchronisierten LDAP-Filter %{name} entfernen
+        verification_html: Geben Sie den Namen des Filters %{name} ein, um die Löschung zu bestätigen.
+      form:
+        base_dn_text: 'Geben Sie den Suchbase-DN ein, der für diesen Filter verwendet werden soll. Er muss unter dem Basis-DN der gewählten LDAP-Verbindung liegen. Lassen Sie diese Option leer, um den Basis-DN der Verbindung wiederverwenden
+
+          '
+        filter_string_text: Geben Sie den RFC4515 LDAP-Filter ein, der Gruppen in Ihrem LDAP zur Synchronisierung mit OpenProject zurückgibt.
+        group_name_attribute_text: Geben Sie das Attribut der LDAP-Gruppe ein, die für das Setzen des Namens der zugehörigen OpenProject-Gruppe verwendet wird.
+        member_lookup_attribute_text: 'Lassen Sie diese Option leer, um standardmäßig die Rückwärtssuche zu verwenden: OpenProject sucht nach Benutzern, deren memberOf-Attribut mit dem DN der Gruppe übereinstimmt. Dazu muss das Attribut memberOf in den Benutzereinträgen vorhanden sein (Active Directory, OpenLDAP mit memberof overlay). Setzen Sie dies auf den Attributnamen in Gruppeneinträgen, die Mitglieder-DNs auflisten, um stattdessen Forward Lookup zu verwenden. Beispiele: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Verwenden Sie dies für LDAP-Server, die das Attribut memberOf nicht für Benutzereinträge pflegen.
+
+          '
       label_n_groups_found:
         one: 1 Gruppe vom Filter gefunden
         other: "%{count} Gruppen vom Filter gefunden"
         zero: Es wurden keine Gruppen durch den Filter gefunden
-      destroy:
-        title: Synchronisierten LDAP-Filter %{name} entfernen
-        heading: Synchronisierten Filter %{name} entfernen?
-        confirmation: Wenn Sie fortfahren, wird der Filter %{name} und alle %{groups_count} Gruppen, die durch ihn synchronisiert wurden, entfernt.
-        removed_groups: 'Warnung: Die folgenden Gruppen werden aus OpenProject entfernt und aus allen Projekten entfernt!'
-        verification_html: Geben Sie den Namen des Filters %{name} ein, um die Löschung zu bestätigen.
-      form:
-        group_name_attribute_text: Geben Sie das Attribut der LDAP-Gruppe ein, die für das Setzen des Namens der zugehörigen OpenProject-Gruppe verwendet wird.
-        filter_string_text: Geben Sie den RFC4515 LDAP-Filter ein, der Gruppen in Ihrem LDAP zur Synchronisierung mit OpenProject zurückgibt.
-        base_dn_text: 'Geben Sie den Suchbase-DN ein, der für diesen Filter verwendet werden soll. Er muss unter dem Basis-DN der gewählten LDAP-Verbindung liegen. Lassen Sie diese Option leer, um den Basis-DN der Verbindung wiederverwenden
-
-          '
-        member_lookup_attribute_text: 'Lassen Sie diese Option leer, um standardmäßig die Rückwärtssuche zu verwenden: OpenProject sucht nach Benutzern, deren memberOf-Attribut mit dem DN der Gruppe übereinstimmt. Dazu muss das Attribut memberOf in den Benutzereinträgen vorhanden sein (Active Directory, OpenLDAP mit memberof overlay). Setzen Sie dies auf den Attributnamen in Gruppeneinträgen, die Mitglieder-DNs auflisten, um stattdessen Forward Lookup zu verwenden. Beispiele: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Verwenden Sie dies für LDAP-Server, die das Attribut memberOf nicht für Benutzereinträge pflegen.
-
-          '
+      plural: Synchronisierte LDAP-Filter
+      singular: Synchronisationsfilter für LDAP-Gruppe
     synchronized_groups:
       add_new: Synchronisierte LDAP-Gruppe hinzufügen
       destroy:
-        title: Synchronisierte Gruppe %{name} entfernen
-        heading: Synchronisierte Gruppe %{name} entfernen?
         confirmation: Wenn Sie fortfahren, werden die synchronisierte Gruppe %{name} und alle %{users_count} Benutzer, die durch sie synchronisiert wurden, entfernt.
+        heading: Synchronisierte Gruppe %{name} entfernen?
         info: 'Hinweis: Die OpenProject Gruppe selbst und die Mitglieder, die außerhalb dieser LDAP-Synchronisation hinzugefügt wurden, werden nicht entfernt.'
+        title: Synchronisierte Gruppe %{name} entfernen
+      form:
+        auth_source_text: Wählen der zu verwendenden LDAP-Verbindung.
+        dn_text: Geben Sie den vollständigen DN der Gruppe im LDAP ein
+        group_text: Wählen Sie eine bestehende OpenProject-Gruppe aus, in die Mitglieder der LDAP-Gruppe synchronisiert werden sollen
+        sync_users_text: 'Wenn Sie diese Option aktivieren, werden auch gefundene Benutzer automatisch in OpenProject erstellt. Ohne diese Option werden nur existierende Konten in OpenProject zu Gruppen hinzugefügt.
+
+          '
       help_text_html: |
         Mit diesem Modul können Sie eine Synchronisierung für Gruppen zwischen LDAP und OpenProject einrichten.
         <br/>
@@ -78,16 +82,12 @@ de:
         <br/>
         Die Gruppen werden stündlich über einen Cron-Job synchronisiert.
         [Bitte lesen Sie unsere Dokumentation zu diesem Thema](docs_url).
-      no_results: Keine synchronisierten Gruppen gefunden.
       no_members: Diese Gruppe hat noch keine synchronisierten Mitglieder.
+      no_results: Keine synchronisierten Gruppen gefunden.
       plural: Synchronisierte LDAP-Gruppen
       singular: Synchronisierte LDAP-Gruppe
-      form:
-        auth_source_text: Wählen der zu verwendenden LDAP-Verbindung.
-        sync_users_text: 'Wenn Sie diese Option aktivieren, werden auch gefundene Benutzer automatisch in OpenProject erstellt. Ohne diese Option werden nur existierende Konten in OpenProject zu Gruppen hinzugefügt.
-
-          '
-        dn_text: Geben Sie den vollständigen DN der Gruppe im LDAP ein
-        group_text: Wählen Sie eine bestehende OpenProject-Gruppe aus, in die Mitglieder der LDAP-Gruppe synchronisiert werden sollen
       upsell:
         description: Nutzen Sie synchronisierte LDAP-Gruppen, um Benutzer zu verwalten, ihre Berechtigungen zu ändern und die Benutzerverwaltung über Gruppen hinweg zu vereinfachen.
+  plugin_openproject_ldap_groups:
+    description: Synchronisierung von LDAP-Gruppenmitgliedschaften.
+    name: OpenProject LDAP-Gruppen

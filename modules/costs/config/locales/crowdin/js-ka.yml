@@ -22,15 +22,15 @@
 ---
 ka:
   js:
-    text_are_you_sure: დარწმუნებული ბრძანდებით?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: ღირებულებები
-      properties:
-        overallCosts: ჯამური ფასი
-        spentUnits: დახარჯული ერთეული
     button_log_costs: ერთეულის ფასის ჟურნალი
     label_hour: საათი
     label_hours: საათი
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: დარწმუნებული ბრძანდებით?
+    work_packages:
+      properties:
+        overallCosts: ჯამური ფასი
+        spentUnits: დახარჯული ერთეული
+      property_groups:
+        costs: ღირებულებები

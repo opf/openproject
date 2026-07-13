@@ -129,6 +129,8 @@ fr:
       wiki_page: Page wiki
     create_new_wiki_page_dialog:
       title: Créer une nouvelle page wiki
+    deferred_inline_page_link_macro_component:
+      loading: Chargement...
     delete_relation_page_link_confirmation_dialog:
       heading: Supprimer le lien vers la page wiki associée ?
       title: Supprimer le lien vers la page wiki associée
@@ -181,6 +183,8 @@ fr:
         page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
         page_not_found: La page wiki liée n'est plus disponible
         unexpected: Une erreur inattendue s'est produite
+      source:
+        parent: En tant que parent
     provider_types:
       xwiki:
         name: XWiki
