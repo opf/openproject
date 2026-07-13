@@ -162,8 +162,11 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         query.save!
       end
     end
+    let(:child_text_cf) do
+      create(:issue_custom_field, :text, name: "Child Long Text CF", is_for_all: true)
+    end
     let(:type) do
-      create(:type_bug).tap do |t|
+      create(:type_bug, custom_fields: [child_text_cf]).tap do |t|
         t.attribute_groups = t.default_attribute_groups +
           [["Related children", [:"query_#{embedded_query.id}"]]]
         t.save!
@@ -175,7 +178,9 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
              type:,
              status:,
              parent: work_package,
-             subject: "The child work package subject")
+             subject: "The child work package subject",
+             description: "The child **description** text",
+             custom_values: { child_text_cf.id => "The child long text value" })
     end
 
     context "as attributes" do
@@ -191,6 +196,16 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         # the remaining query columns are rendered as label/value pairs
         expect(joined).to include(WorkPackage.human_attribute_name(:id))
         expect(joined).to include(child_work_package.display_id.to_s)
+      end
+
+      it "renders the related work package description and long text custom fields regardless of the query" do
+        joined = pdf_strings.join(" ")
+        # the description is rendered even though it is not a query column
+        expect(joined).to include(WorkPackage.human_attribute_name(:description))
+        expect(joined).to include("description")
+        # the long text custom field label and value are rendered
+        expect(joined).to include(child_text_cf.name)
+        expect(joined).to include("The child long text value")
       end
     end
 

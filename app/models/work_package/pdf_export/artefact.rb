@@ -243,10 +243,37 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     write_attributes!(work_package)
   end
 
-  # Override WorkPackage::PDFExport::Wp::Attributes: hierarchy queries are
+  # Override WorkPackage::PDFExport::Wp::Attributes queries are
   # rendered as per work package attributes instead of one table
   def query_group_as_table?(_group)
     false
+  end
+
+  # Override WorkPackage::PDFExport::Wp::Attributes: render each related work
+  # package with its description + long text custom fields (after the query
+  # column fields written by super), taken from the work package itself
+  # regardless of the query columns
+  def write_related_work_package_attributes(work_package, column_entries)
+    super
+    write_related_work_package_long_texts(work_package)
+  end
+
+  def write_related_work_package_long_texts(work_package)
+    write_related_work_package_long_text(work_package, work_package.description,
+                                         WorkPackage.human_attribute_name(:description))
+    work_package.custom_field_values
+                .select { |custom_value| custom_value.custom_field.formattable? }
+                .each do |custom_value|
+      write_related_work_package_long_text(work_package, custom_value.value, custom_value.custom_field.name)
+    end
+  end
+
+  # Renders the label in the work package attributes field label style,
+  # followed by the markdown value
+  def write_related_work_package_long_text(work_package, text, label)
+    return if text.blank?
+
+    write_long_text_custom_field!(work_package, text, label)
   end
 
   # Override the work package attribute group title in WorkPackage::PDFExport::Wp::Attributes
@@ -275,25 +302,25 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     ProjectCustomFieldSection
       .grouped_in_order(project.available_custom_fields_for_type(work_package.type_id))
       .map do |section, custom_fields|
-        {
-          section_id: section.id,
-          caption: section.name,
-          fields: custom_fields.each_with_object([]) do |custom_field, fields|
+      {
+        section_id: section.id,
+        caption: section.name,
+        fields: custom_fields.each_with_object([]) do |custom_field, fields|
+          fields << {
+            key: "cf_#{custom_field.id}",
+            caption: custom_field.name,
+            custom_field:
+          }
+          if custom_field.has_comment?
             fields << {
-              key: "cf_#{custom_field.id}",
-              caption: custom_field.name,
+              key: "cfc_#{custom_field.id}",
+              caption: I18n.t(:label_custom_comment, name: custom_field.name),
               custom_field:
             }
-            if custom_field.has_comment?
-              fields << {
-                key: "cfc_#{custom_field.id}",
-                caption: I18n.t(:label_custom_comment, name: custom_field.name),
-                custom_field:
-              }
-            end
           end
-        }
-      end
+        end
+      }
+    end
   end
 
   def write_section(section)
