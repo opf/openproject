@@ -45,14 +45,7 @@ module McpTools
     # column. `version_id` is kept as a deprecated alias so we no longer query
     # the deprecated column.
     FILTER_ON_TARGET_VERSIONS = ->(wps, version_id) {
-      target_associations = WorkPackageVersion.where(kind: "target")
-
-      if version_id.nil?
-        # "without a target version": work packages that have no target row at all.
-        wps.where.not(id: target_associations.select(:work_package_id))
-      else
-        wps.where(id: target_associations.where(version_id:).select(:work_package_id))
-      end
+      version_id.nil? ? wps.without_target_version : wps.with_target_version(version_id)
     }
 
     # We can't use subclasses of WorkPackageFilter as filter_class, because they overwrite apply_to badly and rely on using

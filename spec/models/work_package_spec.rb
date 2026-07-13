@@ -600,6 +600,41 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe "target version scopes" do
+    shared_let(:project) { create(:project) }
+    shared_let(:version) { create(:version, project:) }
+    shared_let(:other_version) { create(:version, project:) }
+
+    # Targets `version` and, additionally, is observed in `other_version`. The
+    # observed_in row must not confuse either scope.
+    shared_let(:wp_targeting) do
+      create(:work_package, project:, version:).tap do |wp|
+        WorkPackageVersion.create!(work_package: wp, version: other_version, kind: "observed_in")
+      end
+    end
+    shared_let(:wp_without_target) { create(:work_package, project:, version: nil) }
+
+    describe ".with_target_version" do
+      it "returns only work packages targeting the given version" do
+        expect(described_class.with_target_version(version.id)).to contain_exactly(wp_targeting)
+      end
+
+      it "does not match on an observed_in version" do
+        expect(described_class.with_target_version(other_version.id)).to be_empty
+      end
+    end
+
+    describe ".without_target_version" do
+      it "returns only work packages without any target version" do
+        expect(described_class.without_target_version).to contain_exactly(wp_without_target)
+      end
+
+      it "excludes a work package that targets a version but is observed in another" do
+        expect(described_class.without_target_version).not_to include(wp_targeting)
+      end
+    end
+  end
+
   describe "#on_active_project" do
     shared_let(:work_package) { create(:work_package, project:) }
 
