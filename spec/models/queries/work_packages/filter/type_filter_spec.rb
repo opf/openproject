@@ -58,21 +58,16 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       context "without a project" do
         let(:project) { nil }
-
-        before do
-          allow(Type)
-            .to receive_message_chain(:order, :exists?)
-            .and_return true
-        end
+        let!(:root) { create(:type) }
 
         it "is true" do
+          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
+
           expect(instance).to be_available
         end
 
         it "is false without a type" do
-          allow(Type)
-            .to receive_message_chain(:order, :exists?)
-            .and_return false
+          allow(Type).to receive(:roots).and_return(Type.none)
 
           expect(instance).not_to be_available
         end
@@ -97,16 +92,15 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       context "without a project" do
         let(:project) { nil }
+        let!(:root) { create(:type) }
 
         before do
-          allow(Type)
-            .to receive(:order)
-            .and_return [type]
+          allow(Type).to receive(:roots).and_return(Type.where(id: root.id))
         end
 
         it "returns an array of type options" do
           expect(instance.allowed_values)
-            .to contain_exactly([type.name, type.id.to_s])
+            .to contain_exactly([root.displayed_name, root.id.to_s])
         end
       end
     end
@@ -133,6 +127,29 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
       it "returns an array of types" do
         expect(instance.value_objects)
           .to contain_exactly(type1, type2)
+      end
+    end
+
+    describe "#where" do
+      let(:project) { nil }
+      let!(:root) { create(:type) }
+      let!(:sub_type) { create(:type, parent: root) }
+
+      before do
+        instance.operator = "="
+        instance.values = [root.id.to_s]
+      end
+
+      it "expands a root type to include its sub-types" do
+        expect(instance.where)
+          .to include(root.id.to_s, sub_type.id.to_s)
+      end
+
+      it "leaves a childless type unchanged" do
+        instance.values = [sub_type.id.to_s]
+
+        expect(instance.where)
+          .not_to include(root.id.to_s)
       end
     end
   end

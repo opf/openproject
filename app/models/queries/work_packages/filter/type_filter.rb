@@ -31,7 +31,7 @@
 class Queries::WorkPackages::Filter::TypeFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= types.map { |s| [s.name, s.id.to_s] }
+    @allowed_values ||= types.map { |s| [s.displayed_name, s.id.to_s] }
   end
 
   def available?
@@ -57,9 +57,21 @@ class Queries::WorkPackages::Filter::TypeFilter <
       .filter_map { |type_id| available_types[type_id.to_i] }
   end
 
+  # Filtering by a root type includes work packages of any of its sub-types
+  def where
+    operator_strategy.sql_for_field(expanded_values, self.class.model.table_name, self.class.key)
+  end
+
   private
 
+  def expanded_values
+    ids = values.map(&:to_i)
+    child_ids = ::Type.where(parent_id: ids).pluck(:id)
+
+    (ids + child_ids).uniq.map(&:to_s)
+  end
+
   def types
-    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
+    project.nil? ? ::Type.roots.order(Arel.sql("position")) : project.rolled_up_types
   end
 end

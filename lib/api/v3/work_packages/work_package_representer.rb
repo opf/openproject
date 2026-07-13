@@ -501,7 +501,8 @@ module API
 
         associated_resource :category
 
-        associated_resource :type
+        associated_resource :type,
+                            link_title_attribute: :displayed_name
 
         associated_resource :priority
 
