@@ -90,9 +90,12 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:position) { nil }
     let(:all) { nil }
     let(:direction) { nil }
+    # The move URL carries the page's active backlog filters (see move_path).
+    let(:filter_params) { {} }
 
     subject(:response) do
-      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction: },
+      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction:,
+                           **filter_params },
                  format: :turbo_stream
     end
 
@@ -134,6 +137,21 @@ RSpec.describe Backlogs::WorkPackagesController do
           response
 
           expect(work_package_in_sprint.reload).to have_attributes(sprint: other_sprint, backlog_bucket_id: nil, position: 1)
+        end
+
+        context "when the active sprint filter hides the target sprint" do
+          let(:filter_params) { { sprint_ids: [sprint.id] } }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Agile Sprint 2"
+        end
+
+        context "when the active sprint filter includes the target sprint" do
+          let(:filter_params) { { sprint_ids: [sprint.id, other_sprint.id] } }
+
+          it "emits no flash", :aggregate_failures do
+            expect(response).to be_successful
+            expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+          end
         end
       end
 
@@ -181,6 +199,13 @@ RSpec.describe Backlogs::WorkPackagesController do
           include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
         end
 
+        context "when the active bucket filter hides the inbox" do
+          let(:bucket) { create(:backlog_bucket, project:) }
+          let(:filter_params) { { bucket_ids: [bucket.id] } }
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
+        end
+
         it "moves the work_package to the inbox at the given position" do
           response
 
@@ -224,6 +249,12 @@ RSpec.describe Backlogs::WorkPackagesController do
           before do
             project.backlog_excluded_types << type_feature
           end
+
+          include_examples "shows a flash message after moving a work package that turns invisible", "My Bucket"
+        end
+
+        context "when the active bucket filter hides the target bucket" do
+          let(:filter_params) { { bucket_ids: ["inbox"] } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "My Bucket"
         end

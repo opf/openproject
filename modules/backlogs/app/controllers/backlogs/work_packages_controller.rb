@@ -129,7 +129,9 @@ module Backlogs
     def render_invisible_after_move_flash(work_package)
       return unless work_package_invisible_after_move?(work_package)
 
-      backlog_name = work_package.backlog_bucket&.name || I18n.t(:label_inbox)
+      backlog_name = work_package.sprint&.name ||
+        work_package.backlog_bucket&.name ||
+        I18n.t(:label_inbox)
       render_flash_message_via_turbo_stream(
         message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
       )
@@ -169,13 +171,26 @@ module Backlogs
         .where.not(id: @work_package.backlog_bucket_id)
     end
 
-    # After a work package is moved to the backlog, it might no longer be visible due to
-    # the project settings for excluded types and statuses.
+    # After a move the work package might no longer be visible: the page's active
+    # sprint/bucket filters (the move dialogs offer every destination, filtered or
+    # not) can hide the destination list, and for backlog destinations the project
+    # settings for excluded types and statuses apply on top.
     def work_package_invisible_after_move?(work_package)
+      return true if work_package_hidden_by_filters?(work_package)
       return false if work_package.sprint_id?
 
       @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
         @project.done_status_ids.include?(work_package.status_id)
+    end
+
+    def work_package_hidden_by_filters?(work_package)
+      if work_package.sprint_id?
+        backlog_filters.sprint_ids&.exclude?(work_package.sprint_id) || false
+      elsif work_package.backlog_bucket_id?
+        backlog_filters.bucket_ids&.exclude?(work_package.backlog_bucket_id) || false
+      else
+        !backlog_filters.show_inbox?
+      end
     end
 
     def move_params
