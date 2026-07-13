@@ -209,7 +209,7 @@ class Type < ApplicationRecord
   end
 
   def enabled_patterns
-    patterns.all_enabled
+    effective_patterns.all_enabled
   end
 
   def pdf_export_templates

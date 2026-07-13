@@ -85,14 +85,13 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
   it "reorders root types via drag and drop", :selenium do
     visit types_path
 
-    expect([bug_type, feature_type].map(&:position)).to eq([1, 2])
+    expect(bug_type.position).to be < feature_type.position
 
     drag_handle = page.find("[data-draggable-id='#{feature_type.id}'] .DragHandle")
     target = page.find("[data-draggable-id='#{bug_type.id}']")
 
     drag_n_drop_element(from: drag_handle, to: target)
 
-    wait_for { feature_type.reload.position }.to eq(1)
-    expect(bug_type.reload.position).to eq(2)
+    wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
 end

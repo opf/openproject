@@ -46,7 +46,12 @@ See COPYRIGHT and LICENSE files for more details.
         }
       )
     ) do |list|
-      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 }) do |header|
+      list.with_header(
+        title: t(".title"),
+        count: work_packages.size,
+        count_arguments: { scheme: :secondary },
+        title_arguments: { font_size: 4 }
+      ) do |header|
         header.with_menu(button_aria_label: t(".label_actions")) do |menu|
           with_add_work_package_menu_group(menu, Backlogs::Target::Inbox)
         end

@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.1"
+gem "grape", "~> 3.3.2"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -403,7 +403,7 @@ gem "disposable", "~> 0.6.2"
 gem "dentaku", "~> 3.5"
 
 # Used for more powerful counter caches
-gem "counter_culture", "~> 3.13"
+gem "counter_culture", "~> 3.14"
 
 group :postgres do
   gem "pg", "~> 1.6.2"

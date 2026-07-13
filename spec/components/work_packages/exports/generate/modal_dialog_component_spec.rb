@@ -28,14 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::TargetVersionsFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+require "spec_helper"
 
-  def self.key = :target_version_id
-  def human_name = WorkPackage.human_attribute_name("target_versions")
+RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :component do
+  subject(:component) { described_class.new(work_package:, params: {}) }
 
-  def available?
-    Setting::WorkPackageMultipleVersions.active?
+  let(:type) { create(:type) }
+  let(:work_package) { build_stubbed(:work_package, type:) }
+
+  describe "#templates_options", with_flag: { subtypes: true } do
+    it "lists the enabled templates of the type the PDF config is linked to" do
+      source = create(:type)
+      source.pdf_export_templates.disable_all
+      source.save!
+      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+
+      expect(component.templates_options).to be_empty
+    end
   end
 end
