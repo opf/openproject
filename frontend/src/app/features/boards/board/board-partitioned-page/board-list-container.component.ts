@@ -233,19 +233,24 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
    * @param board
    */
   private getActionFiltersFromWidget(board:Board):(string|null)[] {
+    const service = this.boardActionRegistry.get(board.actionAttribute!);
+    const filterNames = (service as { filterNames?:string[] }).filterNames ?? [service.filterName];
+    const filterKeys = filterNames.flatMap((name) => [
+      name,
+      `${name.replace(/([A-Z])/g, '_$1').toLowerCase()}_id`,
+    ]);
+
     return board.grid.widgets
       .map((widget) => {
-        const service = this.boardActionRegistry.get(board.actionAttribute!);
-        const { filterName } = service;
-        const idFilterName = `${filterName}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
-        const instance = options.filters.find((f) => !!f[filterName] || !!f[idFilterName]);
+        const instance = options.filters?.find((f) => filterKeys.some((key) => !!f[key]));
 
-        if (instance) {
-          return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;
+        if (!instance) {
+          return null;
         }
 
-        return null;
+        const key = filterKeys.find((name) => !!instance[name])!;
+        return (instance[key]?.values[0] || null) as unknown as string|null;
       })
       .filter((value) => value !== undefined);
   }
