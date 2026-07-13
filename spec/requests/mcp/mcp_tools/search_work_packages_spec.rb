@@ -181,24 +181,82 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
-    describe "filtering by version_id" do
-      context "when searching for work packages with a specific version" do
-        let(:call_args) { { version_id: version.id } }
+    # Both filters query the `target_versions` association. `version_id` is the
+    # deprecated alias that stays available regardless of the feature flag,
+    # `target_version_id` is only advertised while the flag is active.
+    %i[version_id target_version_id].each do |filter_name|
+      describe "filtering by #{filter_name}" do
+        context "when searching for work packages with a specific version" do
+          let(:call_args) { { filter_name => version.id } }
 
-        it "finds only work packages with the specified version" do
-          subject
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
+          it "finds only work packages targeting the specified version" do
+            subject
+            expect(result_items.size).to eq(1)
+            expect(result_items.first["id"]).to eq(work_package_a.id)
+          end
+        end
+
+        context "when searching for work packages without a version" do
+          let(:call_args) { { filter_name => nil } }
+
+          it "finds only work packages without a target version" do
+            subject
+            expect(result_items.size).to eq(1)
+            expect(result_items.first["id"]).to eq(work_package_b.id)
+          end
+        end
+
+        context "when the target association diverges from the legacy version_id column" do
+          let(:other_version) { create(:version, project:) }
+
+          before do
+            # Filtering must follow `target_versions`, not the deprecated
+            # `work_packages.version_id` column. Force them apart so a query
+            # against the legacy column would return the wrong result.
+            WorkPackageVersion.where(work_package: work_package_a, kind: "target").delete_all
+            WorkPackageVersion.create!(work_package: work_package_a, version: other_version, kind: "target")
+          end
+
+          context "when filtering by the target version" do
+            let(:call_args) { { filter_name => other_version.id } }
+
+            it "matches on the target version" do
+              subject
+              expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
+            end
+          end
+
+          context "when filtering by the stale legacy version" do
+            let(:call_args) { { filter_name => version.id } }
+
+            it "does not match" do
+              subject
+              expect(result_items).to be_empty
+            end
+          end
+        end
+      end
+    end
+
+    describe "the target_version_id input schema" do
+      subject { described_class.input_schema[:properties].keys }
+
+      context "when the multiple versions feature is active",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "advertises target_version_id" do
+          expect(subject).to include(:target_version_id)
         end
       end
 
-      context "when searching for work packages without a version" do
-        let(:call_args) { { version_id: nil } }
+      context "when the multiple versions feature is inactive",
+              with_flag: { work_package_multiple_versions: false } do
+        it "does not advertise target_version_id" do
+          expect(subject).not_to include(:target_version_id)
+        end
 
-        it "finds only work packages without a version" do
-          subject
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_b.id)
+        it "still advertises the deprecated version_id" do
+          expect(subject).to include(:version_id)
         end
       end
     end

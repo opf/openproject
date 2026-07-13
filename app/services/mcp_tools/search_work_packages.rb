@@ -36,10 +36,24 @@ module McpTools
                         "of #{page_size} work packages. To get the rest of the results, call the tool again with a" \
                         "page number of 2 or higher."
 
-
     name "search_work_packages"
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
+
+    # Both `version_id` and `target_version_id` filter on the `target_versions`
+    # association, which is replacing the legacy `work_packages.version_id`
+    # column. `version_id` is kept as a deprecated alias so we no longer query
+    # the deprecated column.
+    FILTER_ON_TARGET_VERSIONS = ->(wps, version_id) {
+      target_associations = WorkPackageVersion.where(kind: "target")
+
+      if version_id.nil?
+        # "without a target version": work packages that have no target row at all.
+        wps.where.not(id: target_associations.select(:work_package_id))
+      else
+        wps.where(id: target_associations.where(version_id:).select(:work_package_id))
+      end
+    }
 
     # We can't use subclasses of WorkPackageFilter as filter_class, because they overwrite apply_to badly and rely on using
     # an instantiated Query to be used.
@@ -49,7 +63,8 @@ module McpTools
     filter :project_id
     filter :status_id
     filter :type_id
-    filter :version_id
+    filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
+    filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
@@ -70,10 +85,29 @@ module McpTools
         type_id: { type: "number", description: "The ID of the work package's type." },
         version_id: {
           type: %w[number null],
-          description: "The ID of the work package's version. Pass null to search for work packages without a version."
+          description: "Deprecated: use target_version_id instead. Matches work packages whose target versions " \
+                       "include this version. Pass null to search for work packages without a version."
         }
       }
     )
+
+    # `target_version_id` is only advertised while the multiple versions feature
+    # is active. The equivalent, deprecated `version_id` filter stays available
+    # in all cases.
+    def self.resolve_input_schema
+      schema = super
+      return schema unless Setting::WorkPackageMultipleVersions.active?
+
+      schema.deep_merge(
+        properties: {
+          target_version_id: {
+            type: %w[number null],
+            description: "The ID of a version the work package targets. Matches work packages whose target " \
+                         "versions include this version. Pass null to search for work packages without any target version."
+          }
+        }
+      )
+    end
 
     output_schema(
       type: :object,
