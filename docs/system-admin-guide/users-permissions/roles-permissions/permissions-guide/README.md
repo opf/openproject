@@ -27,7 +27,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Export projects** – Allows users to export project information.
 
-- **Edit project attributes** – Allows users to edit project information and attributes.
+- **Edit project attributes** – Allows users to edit project attributes on the overview page.
 
 - **Select project attributes** – Allows users to configure which project attributes are available.
 
