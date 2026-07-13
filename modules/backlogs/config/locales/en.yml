@@ -253,8 +253,11 @@ en:
 
   ee:
     features:
+      multiple_active_sprints: "Run multiple sprints in parallel for different teams in your project for more control and flexibility."
       sprint_sharing: "Sprint sharing"
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: "Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe)."
 

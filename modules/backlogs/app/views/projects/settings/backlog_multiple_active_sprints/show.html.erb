@@ -35,12 +35,16 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) %>
 
-  <div class="op-admin-settings-form-wrapper">
-    <%=
-      render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
-        I18n.t("projects.settings.backlogs.multiple_active_sprints.description")
-      end
-    %>
-    <%= render(Projects::Settings::Backlogs::MultipleActiveSprintsComponent.new(project: @project)) %>
-  </div>
+  <% if EnterpriseToken.allows_to?(:multiple_active_sprints) %>
+    <div class="op-admin-settings-form-wrapper">
+      <%=
+        render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
+          I18n.t("projects.settings.backlogs.multiple_active_sprints.description")
+        end
+      %>
+      <%= render(Projects::Settings::Backlogs::MultipleActiveSprintsComponent.new(project: @project)) %>
+    </div>
+  <% else %>
+    <%= render(EnterpriseEdition::BannerComponent.new(:multiple_active_sprints, variant: :inline)) %>
+  <% end %>
 <% end %>
