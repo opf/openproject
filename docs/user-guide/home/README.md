@@ -44,7 +44,7 @@ In the center/main part of the page, there are widgets:
 - The **Favorite projects widget** displays your favorite projects.
 - The **New features widget** displays feature announcements and developments of the latest releases of OpenProject.
 - The **My meetings widget** displays all scheduled meetings in which you are a participant.
-- The **Account settings widget** links to important account settings, such as the [user profile](../../user-guide/account-settings/#edit-your-user-information), the [My page](../../getting-started/my-page/), and the [change password](../../getting-started/sign-in-registration/#reset-your-password) section.
+- The **Account settings widget** links to important account settings, such as the [user profile](../../user-guide/account-settings/account/#user-attributes), the [My page](../../getting-started/my-page/), and the [change password](../../getting-started/sign-in-registration/#reset-your-password) section.
 - The **News widget** displays latest news from all your projects. Click on the link of the news to read the details.
 - The **OpenProject Community widget** displays links to important community information, such as release notes, forum, or the API documentation.
 - **Administration widget** displays links to important system administration resources. Also, the [application security badge](../../system-admin-guide/system-settings/general-settings/) will be displayed when activated. 

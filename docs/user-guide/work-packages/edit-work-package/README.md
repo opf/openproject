@@ -243,7 +243,7 @@ At the configured date and time, you will receive the reminder in [Notification 
 > In case a work package has both a reminder and date alert  notification set up, then the date alert is combined with the reminder note, so that both are visible.
 
 > [!TIP]
-> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/#email-reminders) accordingly.
+> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/notification-and-email/#email-reminders) accordingly.
 
 ## Watchers
 
@@ -264,7 +264,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 ### Remove watchers from a work package
 
 To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the _Watchers_ tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
-The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notification-settings) for more information.
+The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/notification-and-email/#notification-settings) for more information.
 
 ![Remove watchers from OpenProject work packages](openproject_user_guide_wp_watchers_remove.png)
 

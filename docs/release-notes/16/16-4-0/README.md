@@ -25,7 +25,7 @@ Users can now enable **automatic color mode** under _Account settings → Interf
 > [!NOTE]
 > If a user has enabled dark mode — either by default or through automatic switching — this overrides the instance’s design settings for that user.
 
-[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/#look-and-feel). 
+[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/interface/#look-and-feel). 
 
 ![Screenshot of OpenProject 16.4: Account settings to adjust color mode, Automatic mode selected](openproject-16-4-color-mode-light-1.png)
 

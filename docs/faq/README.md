@@ -137,7 +137,7 @@ You can do this as a system administrator in the [System settings](../system-adm
 
 ### How can I add a RACI matrix in OpenProject?
 
-You can add [project custom fields](../system-admin-guide/custom-fields/custom-fields-projects/) of the type "user" to your projects and track the respective persons there.
+You can add [project custom fields](../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects) of the type "user" to your projects and track the respective persons there.
 
 On a work package level you could use "Assignee" for "Responsible", "Accountable" for "Accountable" and [add custom fields](../system-admin-guide/custom-fields/) for "Consulted" and "Informed". For the latter one you could also just set the person as watcher instead.
 
@@ -161,7 +161,7 @@ Please find information on the features of OpenProject [here](https://www.openpr
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "Account settings" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/account-settings/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../user-guide/account-settings/language-and-region/#change-your-language).
 
 ### Is there an OpenProject app?
 

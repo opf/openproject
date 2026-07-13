@@ -43,7 +43,7 @@ Additionally, **checkboxes for high contrast** are now displayed, depending on t
 
 This new feature is particularly helpful for the automatic mode, where you can now differentiate whether you want high contrast to be displayed only in dark mode or only in light mode, for example.
 
-[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/#look-and-feel).
+[Learn more about the _Look and feel_ options in OpenProject](../../../user-guide/account-settings/interface/#look-and-feel).
 
 ![OpenProject account settings / Interface: Look and feel options reduced to "Dark", "Light" and "Automatic". Automatic is selected and below two checkboxes are displayed:" Force high contrast when in Light mode" and "Force high-contrast when in Dark mode".](openproject-16-5-increase-contrast-automatic.png)
 

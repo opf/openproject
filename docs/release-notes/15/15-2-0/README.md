@@ -24,7 +24,7 @@ You can now use the Reminder function to receive a reminder about a work package
 ![Set a work package reminder in OpenProject](openproject_set_wp_reminders.png)
 
 > [!TIP]
-> You can also receive immediate notifications via e-mail for personal reminders. To do that, [adjust your account settings](../../../user-guide/account-settings/#email-reminders) accordingly.
+> You can also receive immediate notifications via e-mail for personal reminders. To do that, [adjust your account settings](../../../user-guide/account-settings/notification-and-email/#email-reminders) accordingly.
 
 [Read more about setting work package reminders](../../../user-guide/work-packages/edit-work-package/#work-package-reminders).
 
