@@ -80,6 +80,10 @@ module OpenProject::Wikis
         filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
         filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
       end
+
+      ::Queries::Register.register(::Queries::Wikis::WikiPages::WikiPageQuery) do
+        filter ::Queries::Wikis::WikiPages::Filter::NameFilter
+      end
     end
 
     replace_principal_references "Wikis::PageLink" => %i[author_id]
@@ -98,6 +102,36 @@ module OpenProject::Wikis
                    dependencies: %i[edit_work_packages],
                    contract_actions: { wiki_page_links: %i[manage] }
       end
+
+      should_render_wiki_index = ->(_) {
+        OpenProject::FeatureDecisions.wiki_enhancements_active? &&
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_in_any_project?(:view_wiki_pages)
+      }
+
+      menu :top_menu,
+           :wikis,
+           { controller: "/wikis/wikis", action: "index" },
+           context: :modules,
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis,
+           { controller: "/wikis/wikis", action: "index" },
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis_query_select,
+           { controller: "/wikis/wikis", action: "index" },
+           parent: :wikis,
+           partial: "wikis/menus/menu",
+           if: should_render_wiki_index
 
       menu :work_package_split_view,
            :wikis,

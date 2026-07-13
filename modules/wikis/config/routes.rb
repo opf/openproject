@@ -83,4 +83,6 @@ Rails.application.routes.draw do
     get :create_new_page_dialog
     post :create_and_link
   end
+
+  resources :wikis, only: [:index], controller: "wikis/wikis"
 end
