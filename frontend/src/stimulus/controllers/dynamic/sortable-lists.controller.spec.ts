@@ -221,13 +221,14 @@ describe('Sortable lists controller', () => {
     vi.unstubAllGlobals();
   });
 
-  it('does not turn a list-only drop onto the source list into an append move', async () => {
+  it('moves a list-only drop onto the source list to its configured position', async () => {
     const { sourceList, firstSourceItem } = renderFixture();
 
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, sourceList);
 
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(itemIds(sourceList)).toEqual(['2', '3', '1']);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('ignores drops that belong to another sortable lists root', async () => {

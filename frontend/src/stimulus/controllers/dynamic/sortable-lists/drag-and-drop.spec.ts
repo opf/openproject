@@ -348,7 +348,6 @@ describe('sortable lists drag and drop helpers', () => {
           ],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -375,7 +374,6 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation({ dropTargets: [{ data, element: target }] }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -397,7 +395,6 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -421,7 +418,6 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7', dropPosition: 'start' }), element: list }],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -429,7 +425,7 @@ describe('sortable lists drag and drop helpers', () => {
       expect(intent?.previousItemId).toBeNull();
     });
 
-    it('returns null for a drop back onto the source list without a target item', () => {
+    it('resolves a drop back onto the source list to its configured end position', () => {
       const { root, list } = buildList();
       const source = itemRow('1');
 
@@ -440,11 +436,29 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
-      expect(intent).toBeNull();
+      expect(intent?.listElement).toBe(list);
+      expect(intent?.previousItemId).toEqual('2');
+    });
+
+    it('resolves a drop back onto a start-position source list to the top', () => {
+      const { root, list } = buildList();
+      const source = itemRow('2');
+
+      list.append(itemRow('1'), source);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7', dropPosition: 'start' }), element: list }],
+        }),
+        root,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '2' }),
+      });
+
+      expect(intent?.listElement).toBe(list);
+      expect(intent?.previousItemId).toBeNull();
     });
 
     it('treats an empty drop target list as no move', () => {
@@ -458,7 +472,6 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation({ clientY: 90 }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -481,7 +494,6 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: {}, element: header }],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -490,7 +502,6 @@ describe('sortable lists drag and drop helpers', () => {
 
     it('returns null when the drop lands outside the root', () => {
       const { root } = buildList();
-      const source = itemRow('1');
       const outside = document.createElement('div');
 
       document.body.append(root, outside);
@@ -498,7 +509,6 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation(),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -528,7 +538,6 @@ describe('sortable lists drag and drop helpers', () => {
           ],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
@@ -558,7 +567,6 @@ describe('sortable lists drag and drop helpers', () => {
           }],
         }),
         root,
-        sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 

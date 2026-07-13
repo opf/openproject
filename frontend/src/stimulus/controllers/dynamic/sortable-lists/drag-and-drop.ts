@@ -37,7 +37,6 @@ import {
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
   rowOf,
-  sortableListSelector,
 } from './list-dom';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
@@ -165,16 +164,6 @@ export function isItemFromRoot(
     && data.rootElement === rootElement;
 }
 
-export function isSourceListTarget({
-  sourceElement,
-  targetElement,
-}:{
-  sourceElement:Element;
-  targetElement:Element;
-}):boolean {
-  return sourceElement.closest(sortableListSelector) === targetElement;
-}
-
 export function resolvePreviousSortableItemId({
   sourceItemId,
   targetItem,
@@ -236,17 +225,17 @@ export interface DropIntent {
 
 // Resolve where a dropped item should land: the list it was dropped into and
 // the item the dropped one should be inserted after.
-// Returns null when the drop does not amount to a move (outside the root, no
-// list metadata, or dropped back onto its own list without a target item).
+// Returns null when the drop does not amount to a move (outside the root or
+// no list metadata). A drop back onto the source list resolves to the list's
+// configured drop position like any other list-only drop; suppressing drops
+// that land at the source's current position is the drop handler's concern.
 export function resolveDropIntent({
   location,
   root,
-  sourceElement,
   sourceData,
 }:{
   location:DragLocationHistory;
   root:HTMLElement;
-  sourceElement:HTMLElement;
   sourceData:SortableItemData;
 }):DropIntent|null {
   const targetItem = location.current.dropTargets.find(
@@ -266,10 +255,6 @@ export function resolveDropIntent({
   const listElement = targetList.element;
   const listData = targetList.data;
   const rowsContainer = listData.rowsContainer ?? listElement;
-
-  if (!targetItem && isSourceListTarget({ sourceElement, targetElement: listElement })) {
-    return null;
-  }
 
   const previousItemId = targetItem
     ? resolvePreviousSortableItemId({

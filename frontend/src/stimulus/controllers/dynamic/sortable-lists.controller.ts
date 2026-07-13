@@ -178,12 +178,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const intent = resolveDropIntent({
       location,
       root: this.element,
-      sourceElement: source.element,
       sourceData: source.data,
     });
     if (!intent) {
-      debugLog('sortable-lists: ignoring drop, it did not resolve to a move '
-        + '(dropped outside a list or back onto its original position)');
+      debugLog('sortable-lists: ignoring drop, it did not resolve to a move (dropped outside a list)');
       return;
     }
 
