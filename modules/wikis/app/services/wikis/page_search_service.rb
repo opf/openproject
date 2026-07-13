@@ -43,7 +43,10 @@ module Wikis
       return Success([]) if query.blank?
 
       if url?(query)
-        search_by_url(query).fmap { [to_tree_node(it)] }
+        search_by_url(query).either(
+          ->(page_info) { Success([to_tree_node(page_info)]) },
+          ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
+        )
       else
         search_by_query(query).fmap { build_result_tree(it) }
       end
@@ -117,7 +120,9 @@ module Wikis
     def insert_ancestor_nodes(accumulator, page) # rubocop:disable Metrics/AbcSize
       ancestors = page.ancestors
       wiki = page.wiki
-      previous_ancestor_node = nil
+      previous_ancestor_node = accumulator[:all_nodes].find do |node|
+        node.key == node_key(type: :wiki, identifier: wiki.identifier)
+      end
 
       ancestors.reverse_each do |ancestor|
         ancestor_node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: ancestor.identifier) }
@@ -128,13 +133,7 @@ module Wikis
                                                                     children: [],
                                                                     enabled: false)
 
-          if previous_ancestor_node.present?
-            previous_ancestor_node.children << ancestor_node
-          else
-            wiki_node = accumulator[:all_nodes].find { it.key == node_key(type: :wiki, identifier: wiki.identifier) }
-            wiki_node.children << ancestor_node
-          end
-
+          previous_ancestor_node.children << ancestor_node
           accumulator[:all_nodes] << ancestor_node
         end
 
