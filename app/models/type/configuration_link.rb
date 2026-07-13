@@ -30,23 +30,25 @@
 
 # A single reuse link: a type borrows one configuration aspect from a source type.
 # Absence of a row for (type, aspect) means the type owns that aspect (Independent).
-class Type::ConfigurationLink < ApplicationRecord
-  ASPECTS = [
-    PDF_EXPORT = "pdf_export",
-    PATTERNS = "patterns"
-  ].freeze
+class Type
+  class ConfigurationLink < ApplicationRecord
+    ASPECTS = [
+      PDF_EXPORT = "pdf_export",
+      PATTERNS = "patterns"
+    ].freeze
 
-  belongs_to :type, optional: false
-  belongs_to :source, class_name: "Type", optional: false
+    belongs_to :type, optional: false
+    belongs_to :source, class_name: "Type", optional: false
 
-  enum :aspect, ASPECTS.index_with(&:itself), validate: true
+    enum :aspect, ASPECTS.index_with(&:itself), validate: true
 
-  validates :type_id, uniqueness: { scope: :aspect }
-  validate :source_differs_from_type
+    validates :type_id, uniqueness: { scope: :aspect }
+    validate :source_differs_from_type
 
-  private
+    private
 
-  def source_differs_from_type
-    errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+    def source_differs_from_type
+      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+    end
   end
 end

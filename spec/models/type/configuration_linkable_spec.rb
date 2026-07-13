@@ -164,7 +164,7 @@ RSpec.describe Type::ConfigurationLinkable do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
     it "resolves the subject pattern from the linked owner" do
-      type.link!(Type::ConfigurationLink::SUBJECT, source: owner)
+      type.link!(Type::ConfigurationLink::PATTERNS, source: owner)
 
       expect(type.enabled_patterns.keys).to include(:subject)
       expect(type).to be_replacement_pattern_defined_for(:subject)
@@ -178,10 +178,10 @@ RSpec.describe Type::ConfigurationLinkable do
   describe "feature flag gating", with_flag: { subtypes: false } do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
-    before { type.link!(Type::ConfigurationLink::SUBJECT, source: owner) }
+    before { type.link!(Type::ConfigurationLink::PATTERNS, source: owner) }
 
     it "ignores links and resolves to the type's own configuration" do
-      expect(type.effective_source_for(Type::ConfigurationLink::SUBJECT)).to eq(type)
+      expect(type.effective_source_for(Type::ConfigurationLink::PATTERNS)).to eq(type)
       expect(type.effective_patterns).to eq(type.patterns)
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
     end
