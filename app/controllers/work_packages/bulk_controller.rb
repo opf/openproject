@@ -38,6 +38,18 @@ class WorkPackages::BulkController < ApplicationController
   include QueriesHelper
 
   include WorkPackages::BulkErrorMessage
+  include OpTurbo::ComponentStream
+
+  def delete_dialog
+    component =
+      if @work_packages.one?
+        WorkPackages::DeleteDialogComponent.new(work_package: @work_packages.first, back_url: params[:back_url])
+      else
+        WorkPackages::BulkDeleteDialogComponent.new(work_packages: @work_packages, back_url: params[:back_url])
+      end
+
+    respond_with_dialog component
+  end
 
   def edit
     setup_edit
@@ -70,20 +82,21 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
       destroy_work_packages(@work_packages)
 
       respond_to do |format|
         format.html do
-          redirect_to (project_work_packages_path(@work_packages.first.project))
+          redirect_back_or_default(project_work_packages_path(@work_packages.first.project),
+                                   status: :see_other)
         end
         format.json do
           head :ok
         end
       end
     else
-      redirect_to(action: :reassign, ids: @work_packages.map(&:id))
+      redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
     end
   end
 
@@ -117,7 +130,33 @@ class WorkPackages::BulkController < ApplicationController
 
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
-    transform_attributes(attributes)
+    attributes = attributes_with_normalized_parent_id(attributes)
+    # target_version_ids is an array param and must not be run through the generic
+    # transform below (which is built for scalar "none"/blank magic values), so pull
+    # it out, normalize it separately, and merge the result back in.
+    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
+    attributes = transform_attributes(attributes)
+    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
+    attributes
+  end
+
+  # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
+  #   * blank selection  -> nil  (leave existing target_versions untouched)
+  #   * "none" selection -> []   (clear all target_versions)
+  #   * a version id      -> [id]
+  def normalized_target_version_ids(raw)
+    values = Array(raw).compact_blank
+    values == ["none"] ? [] : values.presence
+  end
+
+  def attributes_with_normalized_parent_id(attributes)
+    raw = attributes[:parent_id]
+    return attributes unless WorkPackage::SemanticIdentifier.semantic_id?(raw.to_s)
+
+    wp = WorkPackage.find_by_display_id(raw)
+    # If the semantic ID hasn't resolved to a proper package, default to 0, which is an invalid value
+    # that will trigger errors in the main update service
+    attributes.merge(parent_id: wp ? wp.id : 0)
   end
 
   def user

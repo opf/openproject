@@ -33,12 +33,12 @@ import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packa
 import { take, tap } from 'rxjs/operators';
 import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export class ApiV3WorkPackageCachedSubresource extends ApiV3GettableResource<WorkPackageCollectionResource> {
-  @InjectField() private states:States;
+  @LazyInject() private states:States;
 
   public get():Observable<WorkPackageCollectionResource> {
     return this

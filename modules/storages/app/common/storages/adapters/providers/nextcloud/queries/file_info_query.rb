@@ -68,7 +68,7 @@ module Storages
             def validate_response_object(json)
               error = Results::Error.new(source: self.class, payload: json)
 
-              case json.dig(:ocs, :data, :statuscode)
+              case json_fetch(json, :ocs, :data, :statuscode)
               when 200..299
                 Success(json)
               when 403
@@ -81,7 +81,8 @@ module Storages
             end
 
             def create_storage_file_info(json) # rubocop:disable Metrics/AbcSize
-              data = json.dig(:ocs, :data)
+              data = json_fetch(json, :ocs, :data)
+              error = Results::Error.new(source: self.class, code: :invalid_file_info)
               Results::StorageFileInfo.build(
                 status: data[:status]&.downcase,
                 status_code: data[:statuscode],
@@ -97,7 +98,7 @@ module Storages
                 last_modified_by_id: data[:modifier_id],
                 permissions: data[:dav_permissions],
                 location: location(data[:path])
-              )
+              ).or { Failure(error.with(payload: it.errors.messages)) }
             end
 
             def location(file_path)
@@ -107,7 +108,7 @@ module Storages
 
               idx += prefix.length - 1
 
-              UrlBuilder.path(file_path[idx..])
+              file_path[idx..].chomp("/")
             end
           end
         end

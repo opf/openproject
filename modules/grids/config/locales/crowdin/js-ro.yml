@@ -1,59 +1,60 @@
+---
 ro:
   js:
     grid:
-      add_widget: 'Adaugă widget'
-      remove: 'Eliminați widget-ul'
-      configure: 'Configurați widget-ul'
+      add_widget: Adaugă widget
+      configure: Configurați widget-ul
+      remove: Eliminați widget-ul
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: "Nu ai drepturile necesare pentru a vizualiza acest widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Text customizat'
+          title: Text customizat
         documents:
-          title: 'Documente'
-          no_results: 'Încă nu există documente.'
+          no_results: Încă nu există documente.
+          title: Documente
         members:
-          title: 'Membri'
+          title: Membri
+        missing_permission: Nu ai drepturile necesare pentru a vizualiza acest widget.
         news:
-          title: 'Noutăţi'
+          title: Noutăţi
+        not_available: This widget is currently unavailable.
         project_description:
-          title: 'Descriere'
-          no_results: "Nu a fost scrisă încă nicio descriere. Aceasta poate fi adăugată în \"Setări proiect\"."
-        project_status:
-          title: 'Stare'
-          not_started: 'Neînceput'
-          on_track: 'În lucru'
-          off_track: 'Întârziat'
-          at_risk: 'În pericol'
-          not_set: 'Nesetat'
-          finished: 'Finalizat'
-          discontinued: 'Anulat'
-        subprojects:
-          title: 'Subelemente'
+          title: Descriere
         project_favorites:
-          title: 'Proiecte favorite'
-          no_results: 'Nu ai niciun proiect favorit. Clic pe pictograma cu steluță din tabloul de bord al proiectului pentru a adăuga unul la favorite.'
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Proiecte favorite
+        project_status:
+          at_risk: În pericol
+          discontinued: Anulat
+          finished: Finalizat
+          not_set: Nesetat
+          not_started: Neînceput
+          off_track: Întârziat
+          on_track: În lucru
+          title: Stare
+        subprojects:
+          title: Subelemente
         time_entries_current_user:
-          title: 'Timpul meu consumat'
-          displayed_days: 'Zile afișate în lista de activități a proiectului'
+          displayed_days: Zile afișate în lista de activități a proiectului
+          title: Timpul meu consumat
         time_entries_list:
-          title: 'Timp consumat (ultimele 7 zile)'
-          no_results: 'Nu există înregistrări de timp pentru ultimele 7 zile.'
+          no_results: Nu există înregistrări de timp pentru ultimele 7 zile.
+          title: Timp consumat (ultimele 7 zile)
         work_packages_accountable:
-          title: "Pachete de lucru pentru care sunt responsabil"
+          title: Pachete de lucru pentru care sunt responsabil
         work_packages_assigned:
-          title: 'Pachete de lucru atribuite mie'
-        work_packages_created:
-          title: 'Pachete de lucru create de mine'
-        work_packages_watched:
-          title: 'Pachete de lucru supravegheate de mine'
-        work_packages_table:
-          title: 'Tabelul pachetelor de lucru'
-        work_packages_graph:
-          title: 'Graficul pachetelor de lucru'
-          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Pachete de lucru atribuite mie
         work_packages_calendar:
-          title: 'Calendar'
+          title: Calendar
+        work_packages_created:
+          title: Pachete de lucru create de mine
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Graficul pachetelor de lucru
         work_packages_overview:
-          title: 'Prezentare generală pachete de lucru'
-          placeholder: 'Dă clic pentru a edita acest meniu.'
+          placeholder: Dă clic pentru a edita acest meniu.
+          title: Prezentare generală pachete de lucru
+        work_packages_table:
+          title: Tabelul pachetelor de lucru
+        work_packages_watched:
+          title: Pachete de lucru supravegheate de mine

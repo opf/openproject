@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchWorkPackages, with_flag: { mcp_server: true } do
+RSpec.describe McpTools::SearchWorkPackages do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"

@@ -44,7 +44,7 @@ module OpenProject::TextFormatting
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false
 
-        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\" rel=\"noopener noreferrer\"", nil,
+        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\" rel=\"noopener noreferrer nofollow\"", nil,
                           Rinku::AUTOLINK_SHORT_DOMAINS)
       end
 

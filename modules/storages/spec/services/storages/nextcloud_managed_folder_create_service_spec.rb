@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe NextcloudManagedFolderCreateService, :webmock do
+  RSpec.describe NextcloudManagedFolderCreateService, :disable_ssrf_filter, :webmock do
     before do
       Adapters::Registry.stub("nextcloud.models.managed_folder_identifier", TestIdentifier)
     end
@@ -278,7 +278,7 @@ module Storages
                                      folder_name: project_storage.managed_project_folder_path,
                                      parent_location: "/"))
           ensure
-            delete_folder(already_existing_folder.id)
+            delete_folder(already_existing_folder.id) if already_existing_folder
           end
 
           it "logs the occurrence", vcr: "nextcloud/sync_service_creation_fail" do
@@ -292,7 +292,7 @@ module Storages
                           parent_location: "/",
                           data: { body: String, status: 405 })
           ensure
-            delete_folder(already_existing_folder.id)
+            delete_folder(already_existing_folder.id) if already_existing_folder
           end
         end
       end

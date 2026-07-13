@@ -90,6 +90,22 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
     expect(cost_query("projects", "id", ">=", project1.id + 1).size).to eq(1)
   end
 
+  it "does not raise for >d with nil" do
+    expect { cost_query("projects", "created_at", ">d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for <d with nil" do
+    expect { cost_query("projects", "created_at", "<d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for =d with nil" do
+    expect { cost_query("projects", "created_at", "=d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for >=d with nil" do
+    expect { cost_query("projects", "created_at", ">=d", nil) }.not_to raise_error
+  end
+
   it "does !" do
     expect(cost_query("projects", "id", "!", project1.id).size).to eq(1)
   end
@@ -331,6 +347,24 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
     create(:cost_entry, units: 2, rate: rate, cost_type: rate.cost_type)
 
     expect(query_on_entries("costs", "=n", 13.37).pluck("id")).to contain_exactly(ce1.id, ce2.id)
+  end
+
+  describe "=n value escaping" do
+    let(:rate) { create(:cost_rate, rate: 10.0) }
+
+    before do
+      create(:cost_entry, units: 1, rate:, cost_type: rate.cost_type)
+      create(:cost_entry, units: 1, rate:, cost_type: rate.cost_type)
+    end
+
+    it "tries to convert invalid values" do
+      expect(query_on_entries("costs", "=n", "0/**/OR/**/1=1")).to be_empty
+    end
+
+    it "returns the correct rows for a legitimate numeric value" do
+      expect(query_on_entries("costs", "=n", "10.0").size).to eq(2)
+      expect(query_on_entries("costs", "=n", "20.0").size).to eq(0)
+    end
   end
 
   it "does 0" do

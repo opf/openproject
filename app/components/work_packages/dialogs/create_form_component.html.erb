@@ -6,7 +6,7 @@
       url: project_work_packages_dialog_path(project),
       method: :post,
       html: {
-        id: 'create-work-package-form',
+        id: "create-work-package-form",
         data: {
           controller: "work-packages--create-dialog",
           "work-packages--create-dialog-refresh-url-value": refresh_form_project_work_packages_dialog_path(project)
@@ -22,6 +22,10 @@
 
         modal_body.with_row do
           render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, wrapper_id: "#create-work-package-dialog"))
+        end
+
+        modal_body.with_row do
+          helpers.angular_component_tag "opce-custom-modal-overlay"
         end
       end
     end

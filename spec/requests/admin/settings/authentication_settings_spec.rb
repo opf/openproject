@@ -68,4 +68,18 @@ RSpec.describe "Authentication Settings",
       end
     end
   end
+
+  describe "PATCH /admin/settings/authentication?tab=passwords" do
+    context "when all password requirement checkboxes are unchecked" do
+      before do
+        Setting.password_active_rules = %w[lowercase uppercase]
+        patch "/admin/settings/authentication.html?tab=passwords",
+              params: { settings: { password_active_rules: [""] } }
+      end
+
+      it "saves an empty list of active rules" do
+        expect(Setting.password_active_rules).to eq([])
+      end
+    end
+  end
 end

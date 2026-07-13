@@ -56,7 +56,9 @@ RSpec.describe "my", :js do
   end
 
   before do
-    login_as user
+    # Use a fresh AR instance to avoid leaking virtual attributes (e.g. password accessors)
+    # between examples into RequestStore.current_user.
+    login_as User.find(user.id)
 
     # Create dangling session
     session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: "other"
@@ -82,6 +84,7 @@ RSpec.describe "my", :js do
 
           expect_and_dismiss_flash type: :success, message: "Account was successfully updated."
 
+          user.reload
           expect(page).to have_select "Time zone", selected: "(UTC+01:00) Paris"
           expect(user.pref.time_zone).to eq "Europe/Paris"
         end
@@ -97,6 +100,7 @@ RSpec.describe "my", :js do
 
         expect_and_dismiss_flash type: :success, message: "Cuenta se actualizó correctamente."
 
+        user.reload
         expect(page).to have_select "Idioma", selected: "Español"
         expect(user.language).to eq "es"
       end
@@ -114,12 +118,24 @@ RSpec.describe "my", :js do
         expect(page).to have_select "Idioma", selected: "Português do brasil"
 
         within "#main-menu" do
-          click_on "Configurações de notificação"
+          click_on "Tokens de acesso"
         end
 
-        expect(page).to have_heading "Configurações de notificação"
-        expect(page).to have_heading "Alertas de data"
+        expect(page).to have_heading "Tokens de acesso"
+        expect(page).to have_heading "iCalendar para reuniões"
       end
+    end
+  end
+
+  describe "non-editable custom fields" do
+    let!(:readonly_cf) do
+      create(:user_custom_field, :string, name: "Employee ID", editable: false)
+    end
+
+    it "renders them read-only on the account page" do
+      visit my_account_path
+
+      expect(page).to have_field("Employee ID", disabled: true)
     end
   end
 

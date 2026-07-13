@@ -85,7 +85,7 @@ module MeetingAgendaItems
         service_call.result = { section_changed:, current_section:, old_section: }
       rescue StandardError => e
         service_call.success = false
-        service_call.errors = e.message
+        service_call.errors.add(:base, e.message)
       end
 
       service_call
@@ -127,7 +127,7 @@ module MeetingAgendaItems
                        end
 
       # allows from current meeting to backlog
-      if @meeting.backlog.id == new_section_id.to_i
+      if @meeting.backlog&.id == new_section_id.to_i
         target_section ||= @meeting.backlog
       end
 

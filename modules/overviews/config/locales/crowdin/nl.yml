@@ -1,5 +1,6 @@
+---
 nl:
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "Overzicht"
+    label_overview: Overzicht

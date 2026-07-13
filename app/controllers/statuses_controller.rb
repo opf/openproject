@@ -36,8 +36,7 @@ class StatusesController < ApplicationController
   before_action :require_admin
 
   def index
-    @statuses = Status.page(page_param)
-                .per_page(per_page_param)
+    @statuses = Status.page(page_param).per_page(per_page_param)
 
     render action: "index", layout: false if request.xhr?
   end

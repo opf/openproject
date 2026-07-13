@@ -3,8 +3,8 @@ import {
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function boardTourSteps(edition:'basic'|'enterprise'):OnboardingStep[] {
-  const listExplanation = edition === 'basic' ? 'basic' : 'kanban';
+export function boardTourSteps():OnboardingStep[] {
+  const listExplanation = 'kanban';
 
   return [
     {
@@ -36,13 +36,8 @@ export function boardTourSteps(edition:'basic'|'enterprise'):OnboardingStep[] {
   ];
 }
 
-export function navigateToBoardStep(edition:'basic'|'enterprise'):OnboardingStep {
-  let boardName:string;
-  if (edition === 'basic') {
-    boardName = 'Basic board';
-  } else {
-    boardName = 'Kanban';
-  }
+export function navigateToBoardStep():OnboardingStep {
+  const boardName= 'Kanban';
 
   return {
     'next #boards-wrapper>.boards-menu-item': I18n.t('js.onboarding.steps.boards.overview'),

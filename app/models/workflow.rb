@@ -136,4 +136,14 @@ class Workflow < ApplicationRecord
       true
     end
   end
+
+  def self.eligible_roles
+    roles = Role.where(type: ProjectRole.name)
+
+    if EnterpriseToken.allows_to?(:work_package_sharing)
+      roles.or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
+    else
+      roles
+    end
+  end
 end

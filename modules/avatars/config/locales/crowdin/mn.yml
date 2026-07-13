@@ -1,40 +1,28 @@
-#English strings go here
+---
 mn:
-  plugin_openproject_avatars:
-    name: "Аватар"
-    description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: "Аватар"
-  label_avatar_plural: "Аватар"
-  label_current_avatar: "Одоогийн Аватар"
-  label_choose_avatar: "Файлаас Аватарыг сонгоно уу"
-  message_avatar_uploaded: "Аватар амжилттай өөрчлөгдлөө."
-  error_image_upload: "Зураг хадгалахад алдаа гарлаа."
-  error_image_size: "Зураг хэтэрхий том байна."
-  are_you_sure_delete_avatar: "Та аватараа устгахдаа итгэлтэй байна уу?"
-  avatar_deleted: "Аватар амжилттай устгалаа."
-  unable_to_delete_avatar: "Аватарыг устгаж чадсангүй."
-  wrong_file_format: "Зөвшөөрөгдсөн формат нь jpg, png, gif"
-  empty_file_error: "Хүчинтэй зураг (jpg, png, gif) байршуулна уу"
+  are_you_sure_delete_avatar: Та аватараа устгахдаа итгэлтэй байна уу?
+  avatar_deleted: Аватар амжилттай устгалаа.
   avatars:
-    label_avatar: "Аватар"
-    label_gravatar: 'Граватар'
-    label_current_avatar: 'Одоогийн Аватар'
-    label_local_avatar: 'Дурын аватар'
-    text_current_avatar: |
-      Дараах зураг нь одоогийн аватарыг харуулж байна.
-    text_upload_instructions: |
-      128 х 128 пикселийн хэмжээтэй өөрийн хувийн аватарыг байршуулна уу. Том файлуудын хэмжээг өөрчилж, тааруулахын тулд тайрах болно.
-      Зургийг сонгосны дараа таны аватарыг байршуулахаас өмнө урьдчилан харуулах болно.
-    text_change_gravatar_html: 'Өөрийн имэйл хаягийн Gravatar-г өөрчлөх эсвэл нэмэхийн тулд %{gravatar_url} руу очно уу.'
-    text_your_local_avatar: |
-      OpenProject нь танд өөрийн хувийн аватарыг байршуулах боломжийг олгодог.
-    text_local_avatar_over_gravatar: |
-      Хэрэв та нэгийг тохируулсан бол энэ хувийн аватарыг дээрх граватараас давуулан ашиглана.
-    text_your_current_gravatar: |
-      OpenProject нь бүртгүүлсэн таны граватар, өгөгдмөл зураг эсвэл дүрс байгаа тохиолдол аль нэгийг автоматаар ашигладаг.
-      Одоогийн граватар нь дараах байдалтай байна:
+    label_avatar: Аватар
+    label_gravatar: Граватар
+    label_local_avatar: Дурын аватар
     settings:
-      enable_gravatars: 'Хэрэглэгчийн граватаруудыг идэвхжүүлнэ'
-      gravatar_default: "Өгөгдмөл Gravatar зураг"
-      enable_local_avatars: 'Хэрэглэгчийн хувийн аватаруудыг идэвхжүүлнэ үү'
+      enable_gravatars: Хэрэглэгчийн граватаруудыг идэвхжүүлнэ
+      enable_local_avatars: Хэрэглэгчийн хувийн аватаруудыг идэвхжүүлнэ үү
+      gravatar_default: Өгөгдмөл Gravatar зураг
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+  empty_file_error: Хүчинтэй зураг (jpg, png, gif) байршуулна уу
+  error_image_size: Зураг хэтэрхий том байна.
+  error_image_upload: Зураг хадгалахад алдаа гарлаа.
+  label_avatar: Аватар
+  label_avatar_plural: Аватар
+  label_choose_avatar: Файлаас Аватарыг сонгоно уу
+  label_current_avatar: Одоогийн Аватар
+  message_avatar_uploaded: Аватар амжилттай өөрчлөгдлөө.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: Аватар
+  unable_to_delete_avatar: Аватарыг устгаж чадсангүй.
+  wrong_file_format: Зөвшөөрөгдсөн формат нь jpg, png, gif

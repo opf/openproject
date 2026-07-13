@@ -337,6 +337,65 @@ RSpec.describe Version do
     end
   end
 
+  describe "aggregations via target versions" do
+    let(:project) { create(:project) }
+    let(:version) { create(:version, project:) }
+    let(:other_version) { create(:version, project:) }
+
+    context "when a work package targets two versions" do
+      let!(:work_package) { create(:work_package, project:, version:, estimated_hours: 3) }
+
+      before do
+        work_package.work_package_versions.create!(version: other_version, kind: "target")
+      end
+
+      it "counts the work package for both versions" do
+        expect(version.issues_count).to eq 1
+        expect(other_version.issues_count).to eq 1
+      end
+
+      it "sums estimated hours for both versions" do
+        expect(version.estimated_hours).to eq 3.0
+        expect(other_version.estimated_hours).to eq 3.0
+      end
+
+      it "sums spent time for both versions" do
+        create(:time_entry, entity: work_package, project:, hours: 2)
+
+        expect(version.spent_hours).to eq 2.0
+        expect(other_version.spent_hours).to eq 2.0
+      end
+    end
+
+    context "when a work package only carries the legacy version_id without a target row" do
+      let!(:work_package) { create(:work_package, project:, version:, estimated_hours: 3) }
+
+      before do
+        create(:time_entry, entity: work_package, project:, hours: 2)
+        WorkPackageVersion.delete_all
+      end
+
+      it "is not counted" do
+        expect(version.issues_count).to eq 0
+        expect(version.estimated_hours).to eq 0.0
+        expect(version.spent_hours).to eq 0.0
+      end
+    end
+
+    context "when a work package only observed the version" do
+      let!(:work_package) { create(:work_package, project:, estimated_hours: 3) }
+
+      before do
+        work_package.work_package_versions.create!(version:, kind: "observed_in")
+      end
+
+      it "is not counted" do
+        expect(version.issues_count).to eq 0
+        expect(version.estimated_hours).to eq 0.0
+      end
+    end
+  end
+
   describe "#start_date" do
     context "with a value saved and a work package with its own start_date" do
       let(:version) { create(:version, start_date: "2010-01-05") }
@@ -489,7 +548,7 @@ RSpec.describe Version do
     end
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: false, comments: false do
     let!(:model_instance) { create(:version) }
     let!(:new_model_instance) { version }
     let!(:custom_field) { create(:version_custom_field) }

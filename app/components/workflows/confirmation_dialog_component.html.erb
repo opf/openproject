@@ -1,0 +1,59 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(
+    Primer::OpenProject::FeedbackDialog.new(
+      id: DIALOG_ID,
+      title: t("admin.workflows.leave_confirmation.title"),
+      data: { turbo_temporary: true }
+    )
+  ) do |dialog|
+    dialog.with_feedback_message(icon_arguments: { icon: :none }) do |message|
+      message.with_heading(tag: :h2) { t("admin.workflows.leave_confirmation.title") }
+      message.with_description_content(t("admin.workflows.leave_confirmation.description"))
+    end
+
+    dialog.with_footer do
+      component_collection do |footer|
+        footer.with_component(
+          Primer::Beta::Button.new(scheme: :danger, tag: :a, href: @redirect_url)
+        ) { t("admin.workflows.leave_confirmation.ignore") }
+
+        footer.with_component(
+          Primer::Beta::Button.new(
+            scheme: :primary, type: :submit, form: "workflow_form",
+            name: @next_tab ? :next_tab : :next_role_id,
+            value: @next_tab || @next_role_id
+          )
+        ) { t("admin.workflows.leave_confirmation.save") }
+      end
+    end
+  end
+%>

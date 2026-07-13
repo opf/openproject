@@ -32,8 +32,7 @@ require_relative "../support/board_page"
 
 RSpec.describe "Assignee action board",
                :js,
-               :selenium,
-               with_ee: %i[board_view] do
+               :selenium do
   let(:bobself_user) do
     create(:user,
            firstname: "Bob",

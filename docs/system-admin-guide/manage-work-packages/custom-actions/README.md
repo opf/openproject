@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Custom actions
-  priority: 950
+  priority: 200
 description: Intelligent workflows with custom actions.
 keywords: custom actions
 ---
@@ -21,7 +21,7 @@ Watch the following video to see how you can configure your custom actions:
 
 ## Create custom actions
 
-Navigate to the -> *Administration* -> *Work packages* -> *Custom actions*.
+Navigate to the -> _Administration_ -> _Work packages_ -> _Custom actions_.
 
 To create a new custom action button press the + Custom action** button.
 
@@ -40,8 +40,6 @@ You can now configure the **Conditions** and **Actions** for the custom action b
 If a work package is then in the defined condition, the button will appear on top of a work package and will apply the actions and changing the attributes of a work package as defined in the configuration when clicking on the button.
 
 ![Custom action button in an OpenProject work package](openproject_system_guide_work_packages_custom_actions_button.png)
-
-
 
 ## Update, sort or delete custom actions
 

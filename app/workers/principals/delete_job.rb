@@ -67,6 +67,9 @@ class Principals::DeleteJob < ApplicationJob
   def delete_associated(principal)
     delete_notifications(principal)
     delete_private_queries(principal)
+    delete_private_persisted_views(principal)
+    nullify_persisted_query_principals(principal)
+    delete_user_ordered_query_entities(principal)
     delete_tokens(principal)
     delete_favorites(principal)
   end
@@ -82,6 +85,30 @@ class Principals::DeleteJob < ApplicationJob
   def delete_private_queries(principal)
     ::Query.where(user_id: principal.id, public: false).destroy_all
     CostQuery.where(user_id: principal.id, is_public: false).delete_all
+  end
+
+  # Private persisted views belong to their owner and are removed with them.
+  # Public views are kept, but their principal reference is nullified so the
+  # view becomes "ownerless" rather than pointing at the soon-to-be-deleted
+  # user. Destroying the private views also triggers the view's after_destroy
+  # hook, which cleans up queries that are no longer referenced by any public
+  # view.
+  def delete_private_persisted_views(principal)
+    PersistedView.where(principal_id: principal.id, public: false).destroy_all
+    PersistedView.where(principal_id: principal.id, public: true).update_all(principal_id: nil)
+  end
+
+  # Queries have no public/private flag — their visibility is derived from the
+  # views that reference them. Any query still reachable after the view
+  # cleanup above stays; we just drop the owner pointer.
+  def nullify_persisted_query_principals(principal)
+    PersistedQuery.where(principal_id: principal.id).update_all(principal_id: nil)
+  end
+
+  # Manually curated entries that point at the deleted user are dropped — a
+  # list of "Deleted user, Deleted user, …" is worse than just removing them.
+  def delete_user_ordered_query_entities(principal)
+    OrderedPersistedQueryEntity.where(entity: principal).delete_all
   end
 
   def delete_favorites(principal)

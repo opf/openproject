@@ -34,7 +34,7 @@ require_relative "../../projects/exporter/exportable_project_context"
 
 RSpec.describe Project::PDFExport::ProjectInitiation do
   include PDFExportSpecUtils
-  include ProjectHelper
+  include ProjectsHelper
   include Redmine::I18n
 
   include_context "with a project with an arrangement of custom fields"
@@ -106,6 +106,7 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       string_cf.update!(project_custom_field_section: section_a)
       text_cf.update!(project_custom_field_section: section_a)
       link_cf.update!(project_custom_field_section: section_a)
+      hidden_cf.update!(project_custom_field_section: section_a)
       unset_string_cf.update!(project_custom_field_section: section_a)
       disabled_custom_field.update!(project_custom_field_section: section_a)
 
@@ -118,31 +119,70 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       disabled_mapping
     end
 
-    it "exports a PDF containing project initiation with custom attributes grouped by sections" do
-      expected_document = [
+    let(:expected_document) do
+      [
         heading, project.name, Setting.app_title, export_time_formatted, # cover page
         heading,
         project.name,
         "The description of the project",
 
         "Section A",
-        link_cf.name, "https://www.example.com",
+        bool_cf.name, "Yes",
         text_cf.name, "Some ", "long", " text",
         string_cf.name, "Some small text",
-        bool_cf.name, "Yes",
+        link_cf.name, "https://www.example.com",
         unset_string_cf.name, "–",
 
         "Section B",
         version_cf.name, system_version,
+        "#{version_cf.name} comment", "Comment visible to members",
         user_cf.name, "Other User",
-        date_cf.name, format_date(Time.zone.today),
-        float_cf.name, "4.5",
         int_cf.name, "5",
+        float_cf.name, "4.5",
+        date_cf.name, format_date(Time.zone.today),
 
         "1/1", heading, project.name
       ].join(" ")
+    end
 
+    it "exports a PDF containing project initiation with custom attributes grouped by sections" do
       expect(subject).to eq expected_document
+    end
+
+    context "as admin" do
+      let(:current_user) { build(:admin) }
+
+      let(:expected_document) do
+        [
+          heading, project.name, Setting.app_title, export_time_formatted, # cover page
+          heading,
+          project.name,
+          "The description of the project",
+
+          "Section A",
+          bool_cf.name, "Yes",
+          text_cf.name, "Some ", "long", " text",
+          string_cf.name, "Some small text",
+          hidden_cf.name, "hidden",
+          "#{hidden_cf.name} comment", "Comment visible to admins",
+          link_cf.name, "https://www.example.com",
+          unset_string_cf.name, "–",
+
+          "Section B",
+          version_cf.name, system_version,
+          "#{version_cf.name} comment", "Comment visible to members",
+          user_cf.name, "Other User",
+          int_cf.name, "5",
+          float_cf.name, "4.5",
+          date_cf.name, format_date(Time.zone.today),
+
+          "1/1", heading, project.name
+        ].join(" ")
+      end
+
+      it "exports a PDF containing project initiation with custom attributes grouped by sections" do
+        expect(subject).to eq expected_document
+      end
     end
   end
 

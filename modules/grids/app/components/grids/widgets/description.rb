@@ -38,6 +38,10 @@ module Grids
       def title
         Project.human_attribute_name(:description)
       end
+
+      def wrapper_arguments
+        { attribute_label: { model: project, attribute: :description, current_user: } }
+      end
     end
   end
 end

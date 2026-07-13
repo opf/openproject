@@ -1,72 +1,75 @@
+---
 it:
-  plugin_openproject_webhooks:
-    name: "Webhook OpenProject"
-    description: "Fornisce un'API plug-in per supportare i webhook OpenProject per una migliore integrazione di terze parti."
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'URL Payload'
-        secret: 'Firma segreta'
-        events: 'Eventi'
-        enabled: 'Abilitato'
-        projects: 'Progetti abilitati'
       webhooks/log:
-        event_name: 'Nome dell''evento'
-        url: 'URL Payload'
-        response_code: 'Codice di risposta'
-        response_body: 'Risposta'
+        event_name: Nome dell'evento
+        response_body: Risposta
+        response_code: Codice di risposta
+        url: URL Payload
+      webhooks/webhook:
+        enabled: Abilitato
+        events: Eventi
+        projects: Progetti abilitati
+        secret: Firma segreta
+        url: URL Payload
     models:
-      webhooks/outgoing_webhook: "Webhook in uscita"
+      webhooks/outgoing_webhook: Webhook in uscita
+  plugin_openproject_webhooks:
+    description: Fornisce un'API plug-in per supportare i webhook OpenProject per una migliore integrazione di terze parti.
+    name: Webhook OpenProject
   webhooks:
-    singular: Webhook
-    plural: Webhook
-    resources:
-      time_entry:
-        name: "Inserimento tempo"
     outgoing:
-      no_results_table: Non è stato definito ancora nessun webhook.
+      deliveries:
+        no_results_table: Non sono state effettuate consegne per questo webhook nei giorni scorsi.
+        time: Tempo di consegna
+        title: Consegne recenti
+      events:
+        comment: Commento
+        created: Creato
+        internal_comment: Commento interno
+        updated: Aggiornato
+      explanation_html: 'Al verificarsi di un evento, come la creazione di una macro-attività o un aggiornamento su un progetto, OpenProject invierà una richiesta POST agli endpoint web configurati. Spesso, l''evento viene inviato dopo che è trascorso il [periodo di aggregazione configurato](aggregation_path).
+
+        '
+      form:
+        apiv3_doc_url: Per maggiori informazioni visitare la documentazione sulle API
+        description:
+          placeholder: Descrizione opzionale del webhook.
+        enabled:
+          description: 'Quando selezionato, il webhook si attiverà sugli eventi selezionati. Deseleziona per disabilitare il webhook.
+
+            '
+        events:
+          title: Eventi abilitati
+        introduction: 'Invia una richiesta POST all''URL di payload qui sotto per ogni evento nel progetto che hai sottoscritto. Il payload corrisponde alla rappresentazione APIv3 dell''oggetto in fase di modifica.
+
+          '
+        project_ids:
+          all: Tutti i progetti
+          description: Seleziona per quali progetti questo webhook deve essere eseguito.
+          selected: Solo progetti selezionati
+          title: Progetti abilitati
+        secret:
+          description: 'Se impostato, questo valore segreto è utilizzato da OpenProject per firmare il payload del webhook.
+
+            '
+        selected_project_ids:
+          title: Progetti selezionati
       label_add_new: Aggiungi nuovo webhook
       label_edit: Modifica webhook
       label_x_events:
-        one: "1 evento"
+        one: 1 evento
         other: "%{count} eventi"
-        zero: "Nessun evento"
-      events:
-        created: "Creato"
-        updated: "Aggiornato"
-        comment: "Commento"
-        internal_comment: "Commento interno"
-      explanation:
-        text: >
-          Al verificarsi di un evento come la creazione di un pacchetto di lavoro o di un aggiornamento su un progetto, OpenProject invierà una richiesta POST agli endpoint web configurati. Spesso, l'evento viene inviato dopo che il %{link} è passato.
-        link: periodo di aggregazione configurato
+        zero: Nessun evento
+      no_results_table: Non è stato definito ancora nessun webhook.
       status:
-        enabled: 'Webhook abilitato'
-        disabled: 'Webhook disabilitato'
-        enabled_text: 'Il webhook emetterà i payload per gli eventi definiti di seguito.'
-        disabled_text: 'Clicca sul pulsante Modifica per attivare il webhook.'
-      deliveries:
-        no_results_table: Non sono state effettuate consegne per questo webhook nei giorni scorsi.
-        title: 'Consegne recenti'
-        time: 'Tempo di consegna'
-      form:
-        introduction: >
-          Invia una richiesta POST all'URL di payload qui sotto per ogni evento nel progetto che hai sottoscritto. Il payload corrisponde alla rappresentazione APIv3 dell'oggetto in fase di modifica.
-        apiv3_doc_url: Per maggiori informazioni visitare la documentazione sulle API
-        description:
-          placeholder: 'Descrizione opzionale del webhook.'
-        enabled:
-          description: >
-            Quando selezionato, il webhook si attiverà sugli eventi selezionati. Deseleziona per disabilitare il webhook.
-        events:
-          title: 'Eventi abilitati'
-        project_ids:
-          title: 'Progetti abilitati'
-          description: 'Seleziona per quali progetti questo webhook deve essere eseguito.'
-          all: 'Tutti i progetti'
-          selected: 'Solo progetti selezionati'
-        selected_project_ids:
-          title: 'Progetti selezionati'
-        secret:
-          description: >
-            Se impostato, questo valore segreto è utilizzato da OpenProject per firmare il payload del webhook.
+        disabled: Webhook disabilitato
+        disabled_text: Clicca sul pulsante Modifica per attivare il webhook.
+        enabled: Webhook abilitato
+        enabled_text: Il webhook emetterà i payload per gli eventi definiti di seguito.
+    plural: Webhook
+    resources:
+      time_entry:
+        name: Inserimento tempo
+    singular: Webhook

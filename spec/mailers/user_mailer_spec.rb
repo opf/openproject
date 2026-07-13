@@ -366,6 +366,71 @@ RSpec.describe UserMailer do
     end
   end
 
+  describe "#news_added rendering a description that references a work package" do
+    shared_let(:persisted_project) { create(:project, identifier: "demo") }
+    shared_let(:persisted_recipient) { create(:admin) }
+    shared_let(:referenced_wp) do
+      create(:work_package, project: persisted_project, subject: "watched")
+    end
+    shared_let(:news) do
+      create(:news,
+             project: persisted_project,
+             description: "Heads up on work package ##{referenced_wp.id}")
+    end
+
+    let(:html_body) do
+      User.execute_as(persisted_recipient) do
+        described_class.news_added(persisted_recipient, news).html_part.body.to_s
+      end
+    end
+
+    context "with classic mode",
+            with_settings: { work_packages_identifier: "classic" } do
+      it "renders the numeric reference as an absolute work-package link" do
+        expect(html_body).to include("##{referenced_wp.id}")
+        expect(html_body).to match(%r{href="http[^"]*/work_packages/#{referenced_wp.id}"})
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      before do
+        referenced_wp.update_columns(identifier: "DEMO-1", sequence_number: 1)
+      end
+
+      it "renders the formatted_id as an absolute work-package link" do
+        expect(html_body).to include("DEMO-1")
+        expect(html_body).to match(%r{href="http[^"]*/work_packages/DEMO-1"})
+      end
+    end
+  end
+
+  describe "layout rendering Setting.localized_emails_header through the static-HTML pipeline",
+           with_settings: { work_packages_identifier: "semantic" } do
+    shared_let(:persisted_project) { create(:project, identifier: "demo") }
+    shared_let(:persisted_recipient) { create(:admin) }
+    shared_let(:referenced_wp) do
+      create(:work_package, project: persisted_project, subject: "header-target").tap do |wp|
+        wp.update_columns(identifier: "DEMO-1", sequence_number: 1)
+      end
+    end
+
+    context "with a header referencing a work package" do
+      before do
+        allow(Setting).to receive(:localized_emails_header)
+          .and_return("See ##{referenced_wp.id}")
+      end
+
+      it "renders the formatted_id as plain text without leaking subject" do
+        expect { described_class.test_mail(persisted_recipient).deliver_now }.not_to raise_error
+
+        html = deliveries.first.html_part.body.to_s
+        expect(html).to include("DEMO-1")
+        expect(html).not_to include("header-target")
+      end
+    end
+  end
+
   describe "localization" do
     context "with the user having a language configured",
             with_settings: { available_languages: %w[en de],

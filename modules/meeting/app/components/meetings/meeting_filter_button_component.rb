@@ -36,7 +36,6 @@ module Meetings
       @filters_count ||= begin
         count = super
         count -= 1 if project.present?
-        count -= 1 if query.filters.find { |f| f.name == :time }
 
         count
       end

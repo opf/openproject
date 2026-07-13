@@ -1,6 +1,7 @@
+---
 da:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt-diagrammer"
       default_queries:
-        milestones: 'Milepæle'
+        milestones: Milepæle
+      label_gantt_chart_plural: Gantt-diagrammer

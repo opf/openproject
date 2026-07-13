@@ -1,35 +1,36 @@
+---
 bg:
-  grids:
-    label_widget_in_grid: "Приспособление, съдържащо се в мрежата %{grid_name}"
-    widgets:
-      empty: "This widget is currently empty."
-      not_available: "This widget is not available."
-      subitems:
-        title: "Subitems"
-        no_results: "There are no visible children."
-        view_all_subitems: "View all subitems"
-        button_text: "Subitem"
-      members:
-        title: "Members"
-        no_results: "No visible members."
-        view_all_members: "Покажи всички членове"
-        show_members_count: "Show all %{count} members"
-        x_more:
-          one: "and one more member."
-          other: "and %{count} more members."
-      news:
-        no_results: "Нищо ново за отчитане."
   activerecord:
     attributes:
       grids/grid:
-        page: "Страница"
-        row_count: "Брой редове"
-        column_count: "Брой колони"
-        widgets: "Джаджи"
-        scope: "Обхват"
+        column_count: Брой колони
+        page: Страница
+        row_count: Брой редове
+        scope: Обхват
+        widgets: Джаджи
     errors:
       models:
         grids/grid:
-          overlaps: 'припокриване.'
-          outside: 'е извън мрежата.'
-          end_before_start: 'крайната стойност трябва да е по-голяма от началната.'
+          end_before_start: крайната стойност трябва да е по-голяма от началната.
+          outside: е извън мрежата.
+          overlaps: припокриване.
+  grids:
+    label_widget_in_grid: Приспособление, съдържащо се в мрежата %{grid_name}
+    widgets:
+      empty: This widget is currently empty.
+      members:
+        no_results: No visible members.
+        show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: Покажи всички членове
+        x_more:
+          one: and one more member.
+          other: and %{count} more members.
+      news:
+        no_results: Нищо ново за отчитане.
+      not_available: This widget is not available.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

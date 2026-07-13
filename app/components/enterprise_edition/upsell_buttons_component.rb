@@ -40,14 +40,19 @@ module EnterpriseEdition
 
       @system_arguments = system_arguments
       @system_arguments[:align_items] ||= :center
+      @system_arguments[:flex_wrap] ||= :wrap
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "op-enterprise-banner--upsell-buttons"
+      )
       @feature_key = feature_key
       @show_buy_now = show_buy_now
     end
 
     def call
       flex_layout(**@system_arguments) do |flex|
-        buttons.each_with_index do |button, i|
-          flex.with_column(ml: (i == 0 ? 0 : 2)) do
+        buttons.each do |button|
+          flex.with_column do
             button
           end
         end

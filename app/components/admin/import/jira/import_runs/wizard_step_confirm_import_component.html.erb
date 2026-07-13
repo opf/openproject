@@ -1,0 +1,87 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout do |box|
+  box.with_row do
+    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.title")
+    })
+    if model.status_before?(:projects_meta_done)
+      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+        I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption")
+      })
+    elsif model.status_equal_or_after?(:imported)
+      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+        I18n.t(:"admin.jira.run.wizard.sections.confirm_import.caption_done")
+      })
+    end
+  end
+  if model.in_state?(:projects_meta_done, :import_error)
+    box.with_row(mb: 3) do
+      render(Primer::Beta::Text.new) {
+        I18n.t(:"admin.jira.run.wizard.sections.confirm_import.description")
+      }
+    end
+    box.with_row(mb: 3) do
+      render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+        title: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_available_data"),
+        list: import_selection,
+        show_icon: true
+      ))
+    end
+    if model.in_state?(:projects_meta_done)
+      box.with_row do
+        render(Primer::Beta::Button.new(
+          scheme: :primary,
+          tag: :a,
+          size: :medium,
+          href: import_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )) { I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_start") }
+      end
+    elsif model.in_state?(:import_error)
+      box.with_row do
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'import'))
+      end
+    end
+  elsif model.in_state?(:importing)
+    box.with_row(mt: 3, mb: 3) do
+      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+        I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_progress")
+      ))
+    end
+    box.with_row(mb: 3) do
+      render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+        title: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_import_data"),
+        list: import_selection,
+        show_icon: true
+      ))
+    end
+  end
+end %>

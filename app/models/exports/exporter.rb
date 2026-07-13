@@ -63,7 +63,7 @@ module Exports
 
     # Run the export, yielding the result of the render output
     def export!
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     protected

@@ -93,7 +93,7 @@ RSpec.describe Budgets::AggregatedBudgets do
     context "with all components" do
       let(:user_with_rates) do
         create(:user,
-               member_with_permissions: { project => %i[view_budgets view_cost_rates view_hourly_rates] })
+               member_with_permissions: { project => %i[view_budgets view_cost_rates view_hourly_rates work_package_assigned] })
       end
       let(:aggregated) { described_class.new(project:, current_user: user_with_rates) }
       let!(:cost_type) { create(:cost_type) }
@@ -115,6 +115,47 @@ RSpec.describe Budgets::AggregatedBudgets do
 
       it "sums base_amount, labor, and material amounts" do
         expect(aggregated.budgeted_total).to eq(BigDecimal("18000"))
+      end
+    end
+  end
+
+  describe "subproject aggregation for regular projects" do
+    let(:child_project) do
+      create(:project_with_types, parent: project).tap do |p|
+        p.enabled_module_names += %w[budgets]
+        p.save!
+      end
+    end
+
+    before do
+      child_project
+      project.reload
+      create(:member, project: child_project, user:,
+                      roles: [create(:project_role, permissions: %i[view_budgets])])
+    end
+
+    context "with a budget in the child project" do
+      let!(:budget) { create(:budget, project: child_project, base_amount: BigDecimal("4000")) }
+
+      it "includes child project budgets in budget_count" do
+        expect(aggregated.budget_count).to eq(1)
+      end
+
+      it "includes child project base amounts in budgeted_base" do
+        expect(aggregated.budgeted_base).to eq(BigDecimal("4000"))
+      end
+    end
+
+    context "with budgets in both parent and child project" do
+      let!(:parent_budget) { create(:budget, project:, base_amount: BigDecimal("2000")) }
+      let!(:child_budget) { create(:budget, project: child_project, base_amount: BigDecimal("4000")) }
+
+      it "aggregates budget counts from parent and child" do
+        expect(aggregated.budget_count).to eq(2)
+      end
+
+      it "aggregates base amounts from parent and child" do
+        expect(aggregated.budgeted_base).to eq(BigDecimal("6000"))
       end
     end
   end

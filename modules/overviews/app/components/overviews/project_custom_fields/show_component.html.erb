@@ -1,0 +1,8 @@
+<%= render OpenProject::Common::InplaceEditFieldComponent.new(
+      model: @project,
+      attribute: @project_custom_field.attribute_name.to_sym,
+      open_in_dialog: limited_space?,
+      truncated: limited_space?,
+      test_selector: "project-custom-field-#{@project_custom_field.id}",
+      display_classes: "op-project-custom-field-container"
+    ) %>

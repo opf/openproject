@@ -28,15 +28,21 @@
 
 import { Controller } from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
+import type { TurboVisitEvent } from '@hotwired/turbo';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
+
+const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
 export default class StoryController extends Controller<HTMLElement> implements EventListenerObject {
   static values = {
     id: Number,
+    displayId: String,
     splitUrl: String,
     fullUrl: String,
   };
 
   declare idValue:number;
+  declare displayIdValue:string;
   declare splitUrlValue:string;
   declare fullUrlValue:string;
 
@@ -53,6 +59,11 @@ export default class StoryController extends Controller<HTMLElement> implements 
     this.element.addEventListener('click', this, { signal });
     this.element.addEventListener('dblclick', this, { signal });
     this.element.addEventListener('keydown', this, { signal });
+    document.addEventListener('turbo:visit', (event:TurboVisitEvent) => {
+      this.syncSelectionFromUrl(event.detail.url);
+    }, { signal });
+
+    this.syncSelectionFromUrl(window.location.href);
   }
 
   disconnect():void {
@@ -65,12 +76,24 @@ export default class StoryController extends Controller<HTMLElement> implements 
     }
   }
 
-  markAsSelected(_event?:Event) {
+  private syncSelectionFromUrl(locationUrl:string):void {
+    const { pathname } = new URL(locationUrl, window.location.origin);
+    const [, id] = DETAILS_URL_PATTERN.exec(pathname) ?? [];
+    // Bookmarks and external links may still carry a numeric ID after the
+    // switch to semantic mode, so accept either form here.
+    if (id !== undefined && (id === this.idValue.toString() || id === this.displayIdValue)) {
+      this.markAsSelected();
+    } else {
+      this.unmarkAsSelected();
+    }
+  }
+
+  markAsSelected():void {
     this.element.classList.add(this.selectedClass);
     this.element.setAttribute('aria-current', 'true');
   }
 
-  unmarkAsSelected(_event?:Event) {
+  unmarkAsSelected():void {
     this.element.classList.remove(this.selectedClass);
     this.element.removeAttribute('aria-current');
   }
@@ -93,13 +116,7 @@ export default class StoryController extends Controller<HTMLElement> implements 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (
-      target.closest('a') ||
-      target.closest('button') ||
-      target.closest('[data-drag-handle]')
-    ) {
-      return;
-    }
+    if (this.shouldIgnoreMouseTarget(target)) return;
 
     if (this.clickTimeout !== null) return;
 
@@ -113,13 +130,7 @@ export default class StoryController extends Controller<HTMLElement> implements 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (
-      target.closest('a') ||
-      target.closest('button') ||
-      target.closest('[data-drag-handle]')
-    ) {
-      return;
-    }
+    if (this.shouldIgnoreMouseTarget(target)) return;
 
     if (this.clickTimeout !== null) {
       clearTimeout(this.clickTimeout);
@@ -130,23 +141,16 @@ export default class StoryController extends Controller<HTMLElement> implements 
   }
 
   private onKeydown(event:KeyboardEvent):void {
-    if (event.key !== 'Enter') return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    if (
-      target.closest('a') ||
-      target.closest('button') ||
-      target.closest('input') ||
-      target.closest('textarea') ||
-      target.closest('select') ||
-      target.closest("[contenteditable='true']")
-    ) {
-      return;
-    }
+    if (this.shouldIgnoreKeyboardTarget(target)) return;
 
     event.preventDefault();
+    if (event.key === ' ') return;
+
     if (event.shiftKey) {
       this.openFullPane();
     } else {
@@ -154,11 +158,29 @@ export default class StoryController extends Controller<HTMLElement> implements 
     }
   }
 
-  private openSplitPane():void {
+  openSplitPane():void {
     Turbo.visit(this.splitUrlValue, { frame: 'content-bodyRight', action: 'advance' });
   }
 
   private openFullPane():void {
     Turbo.visit(this.fullUrlValue, { frame: '_top' });
+  }
+
+  private shouldIgnoreMouseTarget(target:HTMLElement):boolean {
+    return [
+      'a',
+      'button',
+      'clipboard-copy',
+      '[data-drag-handle]',
+    ].some((selector) => target.closest(selector) !== null);
+  }
+
+  private shouldIgnoreKeyboardTarget(target:HTMLElement):boolean {
+    return this.shouldIgnoreMouseTarget(target) || [
+      'input',
+      'textarea',
+      'select',
+      "[contenteditable='true']",
+    ].some((selector) => target.closest(selector) !== null);
   }
 }

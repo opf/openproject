@@ -1,59 +1,60 @@
+---
 pl:
   js:
     grid:
-      add_widget: 'Dodaj widżet'
-      remove: 'Usuń widżet'
-      configure: 'Konfiguruj widżet'
+      add_widget: Dodaj widżet
+      configure: Konfiguruj widżet
+      remove: Usuń widżet
+      widget_menu_label: Pokaż opcje menu widżetu %{widgetName}
       widgets:
-        missing_permission: "Nie masz uprawnień niezbędnych do wyświetlenia tego widżetu."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Tekst niestandardowy/użytkownika'
+          title: Tekst niestandardowy/użytkownika
         documents:
-          title: 'Dokumenty'
-          no_results: 'Nie ma jeszcze dokumentów.'
+          no_results: Nie ma jeszcze dokumentów.
+          title: Dokumenty
         members:
-          title: 'Członkowie'
+          title: Członkowie
+        missing_permission: Nie masz uprawnień niezbędnych do wyświetlenia tego widżetu.
         news:
-          title: 'Aktualności'
+          title: Aktualności
+        not_available: Ten widżet jest obecnie niedostępny.
         project_description:
-          title: 'Opis'
-          no_results: "Nie napisano jeszcze opisu. Można go podać w sekcji Ustawienia projektu."
-        project_status:
-          title: 'Status'
-          not_started: 'Nierozpoczęte'
-          on_track: 'Na ścieżce'
-          off_track: 'Poza ścieżką'
-          at_risk: 'Zagrożony'
-          not_set: 'Nie ustawione'
-          finished: 'Zakończone'
-          discontinued: 'Przerwane'
-        subprojects:
-          title: 'Podppzycje'
+          title: Opis
         project_favorites:
-          title: 'Ulubione projekty'
-          no_results: 'Obecnie nie masz żadnych ulubionych projektów. Kliknij ikonę gwiazdki na pulpicie nawigacyjnym projektu, aby dodać go do ulubionych.'
+          no_results: Obecnie nie masz żadnych ulubionych projektów. Dodaj co najmniej jeden projekt jako ulubiony w ich przeglądzie lub na liście projektów.
+          title: Ulubione projekty
+        project_status:
+          at_risk: Zagrożony
+          discontinued: Przerwane
+          finished: Zakończone
+          not_set: Nie ustawione
+          not_started: Nierozpoczęte
+          off_track: Poza ścieżką
+          on_track: Na ścieżce
+          title: Status
+        subprojects:
+          title: Podpozycje
         time_entries_current_user:
-          title: 'Mój spędzony czas'
           displayed_days: 'Dni wyświetlane w widżecie:'
+          title: Mój spędzony czas
         time_entries_list:
-          title: 'Poświęcony czas (ostatnie 7 dni)'
-          no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
+          no_results: Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.
+          title: Poświęcony czas (ostatnie 7 dni)
         work_packages_accountable:
-          title: "Pakiety robocze, za które odpowiadam"
+          title: Pakiety robocze, za które odpowiadam
         work_packages_assigned:
-          title: 'Zadania przypisane do mnie'
-        work_packages_created:
-          title: 'Pakiety robocze stworzone przeze mnie'
-        work_packages_watched:
-          title: 'Pakiety robocze obserwowane przeze mnie'
-        work_packages_table:
-          title: 'Tabela pakietów roboczych'
-        work_packages_graph:
-          title: 'Wykres pakietów roboczych'
-          summary: "Wykres %{chartType} przedstawiający pakiety robocze, które są %{description}."
+          title: Zadania przypisane do mnie
         work_packages_calendar:
-          title: 'Kalendarz'
+          title: Kalendarz
+        work_packages_created:
+          title: Pakiety robocze stworzone przeze mnie
+        work_packages_graph:
+          summary: Wykres %{chartType} przedstawiający pakiety robocze, które są %{description}.
+          title: Wykres pakietów roboczych
         work_packages_overview:
-          title: 'Przegląd pakietów roboczych'
-          placeholder: 'Kliknij, aby edytować...'
+          placeholder: Kliknij, aby edytować...
+          title: Przegląd pakietów roboczych
+        work_packages_table:
+          title: Tabela pakietów roboczych
+        work_packages_watched:
+          title: Pakiety robocze obserwowane przeze mnie

@@ -29,10 +29,13 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import * as Turbo from '@hotwired/turbo';
+import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
+import type { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { useAngularServices } from 'core-stimulus/mixins/use-angular-services';
 import dragula, { Drake } from 'dragula';
-import { useMeta } from 'stimulus-use';
 import invariant from 'tiny-invariant';
 
 interface TargetConfig {
@@ -42,28 +45,46 @@ interface TargetConfig {
 }
 
 export default class GenericDragAndDropController extends Controller {
-  static targets = ['container'];
+  static targets = ['container', 'scrollContainer'];
 
   containerTargets:HTMLElement[];
+  scrollContainerTargets:HTMLElement[];
 
-  static metaNames = ['csrf-token'];
-  declare readonly csrfToken:string;
+  static values = {
+    handle: { type: Boolean, default: true },
+    handleSelector: { type: String, default: '.DragHandle' },
+    positionMode: { type: String, default: 'index' },
+  };
 
-  static values = { handleSelector: { type: String, default: '.DragHandle' } };
+  declare readonly handleValue:boolean;
   declare readonly handleSelectorValue:string;
+  declare readonly positionModeValue:string;
+
+  declare pluginContext:Promise<OpenProjectPluginContext>;
 
   private drake:Drake|null = null;
+  private autoscroll:DomAutoscrollService|null = null;
   private containers:HTMLElement[] = [];
   private targetConfigs:TargetConfig[] = [];
+  private dragOriginSource:Element|null = null;
+  private dragOriginNextSibling:Element|null = null;
+
+  initialize() {
+    useAngularServices(this);
+  }
 
   connect() {
-    useMeta(this, { suffix: false });
-
+    this.autoscroll?.destroy();
     this.drake?.destroy();
     this.initDrake();
   }
 
   disconnect() {
+    // A Turbo morph mid-drag can replace the element tree without the
+    // dragend event firing, so clear the body-level cursor flag defensively.
+    document.body.removeAttribute('data-dragging');
+    this.autoscroll?.destroy();
+    this.autoscroll = null;
     this.drake?.destroy();
     this.drake = null;
   }
@@ -91,8 +112,18 @@ export default class GenericDragAndDropController extends Controller {
     }
   }
 
-  cancel() {
+  cancelDrag() {
     this.drake?.cancel(true);
+  }
+
+  private revertDrop(el:Element) {
+    if (this.dragOriginSource) {
+      if (this.dragOriginNextSibling?.parentNode === this.dragOriginSource) {
+        this.dragOriginSource.insertBefore(el, this.dragOriginNextSibling);
+      } else {
+        this.dragOriginSource.appendChild(el);
+      }
+    }
   }
 
   initDrake() {
@@ -101,36 +132,49 @@ export default class GenericDragAndDropController extends Controller {
     this.drake = dragula(
       this.containers,
       {
-        moves: (_el, _source, handle, _sibling) => !!handle && !!handle.closest(this.handleSelectorValue),
+        moves: (el, _source, handle, _sibling) => this.canStartDrag(el, handle),
         accepts: (el:Element, target:Element, source:Element, sibling:Element) => this.accepts(el, target, source, sibling),
         revertOnSpill: true, // enable reverting of elements if they are dropped outside of a valid target
       },
     )
-      .on('drag', (el) => {
-        const handle = el.querySelector(this.handleSelectorValue)!;
-        handle.setAttribute('aria-pressed', 'true');
+      .on('cloned', (clone, _original, type) => {
+        clone.setAttribute('data-dragging', type);
+      })
+      .on('drag', (el, source) => {
+        this.dragOriginSource = source;
+        this.dragOriginNextSibling = el.nextElementSibling;
+
+        el.setAttribute('data-dragging', 'source');
+        document.body.setAttribute('data-dragging', 'active');
+        this.ariaPressedTarget(el)?.setAttribute('aria-pressed', 'true');
       })
       .on('dragend', (el) => {
-        const handle = el.querySelector(this.handleSelectorValue)!;
-        handle.setAttribute('aria-pressed', 'false');
-       })
+        el.removeAttribute('data-dragging');
+        document.body.removeAttribute('data-dragging');
+        this.ariaPressedTarget(el)?.setAttribute('aria-pressed', 'false');
+      })
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .on('drop', this.drop.bind(this));
 
-    // Setup autoscroll
-    void window.OpenProject.getPluginContext().then((pluginContext) => {
-      new pluginContext.classes.DomAutoscrollService(
-        [
-          document.getElementById('content-body')!,
-        ],
-        {
-          margin: 25,
-          maxSpeed: 10,
-          scrollWhenOutside: true,
-          autoScroll: () => this.drake?.dragging,
-        },
-      );
-    });
+    void this.setupAutoscroll();
+  }
+
+  private async setupAutoscroll() {
+    const { classes } = await this.pluginContext;
+
+    const scrollTargets:Element[] = this.scrollContainerTargets.length > 0
+      ? this.scrollContainerTargets
+      : [document.getElementById('content-body')!];
+
+    this.autoscroll = new classes.DomAutoscrollService(
+      scrollTargets,
+      {
+        margin: 25,
+        maxSpeed: 10,
+        scrollWhenOutside: true,
+        autoScroll: () => this.drake?.dragging,
+      },
+    );
   }
 
   accepts(el:Element, target:Element, _source:Element|null, _sibling:Element|null) {
@@ -151,40 +195,35 @@ export default class GenericDragAndDropController extends Controller {
     const dropUrl = el.getAttribute('data-drop-url');
     const data = this.buildData(el, target);
 
-    if (dropUrl) {
-      const response = await fetch(dropUrl, {
-        method: 'PUT',
-        body: data,
-        headers: {
-          'X-CSRF-Token': this.csrfToken,
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-        credentials: 'same-origin',
-      });
-
-      if (!response.ok) {
-        debugLog('Failed to sort item');
-      } else {
-        const text = await response.text();
-        Turbo.renderStreamMessage(text);
-      }
+    if (!dropUrl) {
+      return;
     }
 
-    this.cancel();
+    try {
+      const request = new FetchRequest('put', dropUrl, { body: data, responseKind: 'turbo-stream' });
+      const response = await request.perform();
+
+      if (!response.ok) {
+        this.revertDrop(el);
+        debugLog(`Failed to sort item: ${response.statusCode}`);
+      }
+    } catch (error) {
+      this.revertDrop(el);
+      debugLog('Failed to sort item due to request error', error);
+    } finally {
+      this.dragOriginSource = null;
+      this.dragOriginNextSibling = null;
+    }
   }
 
   protected buildData(el:Element, target:Element):FormData {
-    let targetPosition = Array.from(target.children).indexOf(el);
-    if (target.children.length > 0 && target.children[0].getAttribute('data-empty-list-item') === 'true') {
-      // if the target container is empty, a list item showing an empty message might be shown
-      // this should not be counted as a list item
-      // thus we need to subtract 1 from the target position
-      targetPosition -= 1;
-    }
-
     const data = new FormData();
 
-    data.append('position', (targetPosition + 1).toString());
+    if (this.positionModeValue === 'prev_id') {
+      data.append('prev_id', this.resolveTargetPrevious(el) ?? '');
+    } else {
+      data.append('position', this.resolveTargetPosition(el, target).toString());
+    }
 
     const targetConfig = this.targetConfigs.find((config) => config.container === target);
     const targetId = targetConfig?.targetId as string|undefined;
@@ -194,6 +233,25 @@ export default class GenericDragAndDropController extends Controller {
     }
 
     return data;
+  }
+
+  private canStartDrag(el:Element|null|undefined, handle:Element|null|undefined):boolean {
+    if (!this.isDraggableElement(el)) {
+      return false;
+    }
+
+    if (!this.handleValue) {
+      return closestInteractiveElement(handle ?? null, el) == null;
+    }
+
+    return handle?.closest(this.handleSelectorValue) != null;
+  }
+
+  private isDraggableElement(el:Element|null|undefined):boolean {
+    return el instanceof HTMLElement
+      && el.getAttribute('data-empty-list-item') !== 'true'
+      && el.dataset.draggableType !== undefined
+      && el.dataset.dropUrl !== undefined;
   }
 
   // if the target has a container accessor, use that as the container instead of the element itself
@@ -206,5 +264,29 @@ export default class GenericDragAndDropController extends Controller {
     const container = target.querySelector<HTMLElement>(accessor);
     invariant(container, `Expected container element matching "${accessor}"`);
     return container;
+  }
+
+  // Returns the data-draggable-id of the element preceding el in its container,
+  // or null if el is the first item (signals "move to top").
+  private resolveTargetPrevious(el:Element):string|null {
+    return el.previousElementSibling?.getAttribute('data-draggable-id') ?? null;
+  }
+
+  private resolveTargetPosition(el:Element, container:Element):number {
+    let targetPosition = Array.from(container.children).indexOf(el);
+
+    if (container.children.length > 0 && container.children[0].getAttribute('data-empty-list-item') === 'true') {
+      // if the target container is empty, a list item showing an empty message might be shown
+      // this should not be counted as a list item
+      // thus we need to subtract 1 from the target position
+      targetPosition -= 1;
+    }
+
+    return targetPosition + 1;
+  }
+
+  private ariaPressedTarget(el:Element):Element|null {
+    if (!this.handleValue) return null;
+    return el.querySelector(this.handleSelectorValue);
   }
 }

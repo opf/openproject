@@ -29,6 +29,13 @@ properties:
 
       If a string is provided, the password is set and automatic management is enabled for the storage.
       If null is provided, the password is unset and automatic management is disabled for the storage.
+  forbiddenFileNameCharacters:
+    type: string
+    description: |-
+      A string with all the characters forbidden to be used for file and folder names in the storage. Used by OpenProject to avoid
+      creating files with unsupported names (e.g. when creating project folders).
+
+      Only supported for provider type Nextcloud so far.
   _links:
     type: object
     required:

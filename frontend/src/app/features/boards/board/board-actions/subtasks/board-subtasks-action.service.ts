@@ -56,7 +56,7 @@ export class BoardSubtasksActionService extends BoardActionService {
     filters.add('project', '=', [this.currentProject.id || '']);
 
     if (matching) {
-      filters.add('subjectOrId', '**', [matching]);
+      filters.add('typeahead', '**', [matching]);
     }
 
     return this

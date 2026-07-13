@@ -48,12 +48,20 @@ module Projects::Exports
     end
 
     def all_projects
-      query
+      scope = query
         .results
         .with_required_storage
         .with_latest_activity
-        .includes(:custom_values)
-        .merge(Project.allowed_to(User.current, :export_projects))
+        .includes(:custom_values, :custom_comments)
+
+      # Mirror ProjectQuery#default_scope: admins see (and may export) archived
+      # projects, which Project.allowed_to would otherwise filter out since
+      # :export_projects is only permissible on active projects.
+      if User.current.admin?
+        scope
+      else
+        scope.where(id: Project.allowed_to(User.current, :export_projects))
+      end
     end
 
     private

@@ -53,6 +53,8 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
   shared_let(:work_package) { create(:work_package, project: source_project) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: source_project.wiki) }
 
+  shared_let(:project_creator_role) { create(:project_creator_role) }
+
   shared_let(:current_user) do
     create(:user,
            member_with_permissions: { source_project => %i[copy_projects
@@ -67,6 +69,7 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
   end
 
   before do
+    allow(Setting).to receive(:new_project_user_role_id).and_return(project_creator_role.id.to_s)
     login_as(current_user)
 
     post path, params.to_json
@@ -190,6 +193,58 @@ RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_goo
           enqueue_params = job.serialized_params["arguments"][0]
 
           expect(enqueue_params["send_mails"]).to be_truthy
+        end
+      end
+    end
+
+    context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+      context "when identifier is not provided" do
+        let(:params) do
+          { name: "My copied project" }
+        end
+
+        it "returns a redirect to job" do
+          expect(response).to have_http_status(:found)
+        end
+
+        it "auto-generates a semantic identifier from the name" do
+          GoodJob.perform_inline
+
+          project = Project.find_by(name: "My copied project")
+          expect(project).to be_present
+          expect(project.identifier).to eq("MCP")
+        end
+
+        context "when the generated identifier is already taken" do
+          let!(:existing_project) { create(:project, identifier: "MCP") }
+
+          it "auto-generates a unique identifier instead" do
+            GoodJob.perform_inline
+
+            project = Project.find_by(name: "My copied project")
+            expect(project).to be_present
+            expect(project.identifier).not_to eq("MCP")
+            expect(project.identifier).to match(/\A[A-Z][A-Z0-9_]*\z/)
+          end
+        end
+      end
+
+      context "when an invalid identifier is provided" do
+        let(:params) do
+          {
+            name: "My copied project",
+            identifier: "1ABC"
+          }
+        end
+
+        it "returns 422" do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "explains the identifier format error" do
+          expect(response.body)
+            .to be_json_eql("Identifier must start with a letter".to_json)
+            .at_path("message")
         end
       end
     end

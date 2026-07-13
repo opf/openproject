@@ -12,18 +12,18 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
 import {
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
   WorkPackageAction,
 } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
-import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import { WorkPackageAuthorization } from 'core-app/features/work-packages/services/work-package-authorization.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -40,11 +40,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   readonly $state = inject(StateService);
   readonly injector = inject(Injector);
   readonly PathHelper = inject(PathHelperService);
-  readonly elementRef = inject(ElementRef);
-  readonly opModalService = inject(OpModalService);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly turboRequests = inject(TurboRequestsService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly authorisationService = inject(AuthorisationService);
+  readonly currentProject = inject(CurrentProjectService);
   readonly timeEntryService = inject(TimeEntryTimerService);
   protected copyToClipboardService = inject(CopyToClipboardService);
   protected deviceService = inject(DeviceService);
@@ -96,9 +96,18 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier, this.workPackage.id)}`;
         }
         break;
-      case 'delete':
-        this.opModalService.show(WpDestroyModalComponent, this.injector, { workPackages: [this.workPackage] });
+      case 'delete': {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
+        const backUrl = currentBaseRoute
+          ? this.$state.href(currentBaseRoute)
+          : this.PathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+        void this.turboRequests.request(
+          this.PathHelper.workPackagesBulkDeleteDialogPath([this.workPackage.id!], backUrl),
+          { method: 'GET' },
+        );
         break;
+      }
       case 'log_time':
         void this.turboRequests.request(this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
         break;
@@ -110,6 +119,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.copyToClipboardService.copy(url.toString());
         break;
       }
+      case 'copy_numeric_id_to_clipboard':
+        this.copyToClipboardService.copy(`${this.workPackage.id!}`);
+        break;
       default:
         window.location.href = link!;
         break;
@@ -144,8 +156,15 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     // Add the available actions on timers
     actions = this.addTimerAction(actions);
 
+    // Copying the numeric ID is only useful in semantic mode, where the
+    // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
+    actions = actions.filter((action) => (
+      action.key !== 'copy_numeric_id_to_clipboard'
+      || isSemanticWorkPackageId(this.workPackage.displayId)
+    ));
+
     // Splice plugin actions onto the core actions
-    _.each(this.getPermittedPluginActions(authorization), (action:WorkPackageAction) => {
+    this.getPermittedPluginActions(authorization).forEach((action:WorkPackageAction) => {
       const index = action.indexBy ? action.indexBy(actions) : actions.length;
       actions.splice(index, 0, action);
     });
@@ -175,14 +194,21 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
       const { key } = action;
+
+      // "Copy numeric ID" copies a plain value rather than navigating anywhere.
+      // Rendering it as a link would show a misleading link preview on hover and
+      // make the clipboard copy originate from an anchor, so render it as a
+      // button (no href).
+      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+
       return {
         disabled: false,
         hidden: action.hidden === true,
         linkText: I18n.t(`js.button_${key}`),
-        href: action.link,
+        href,
         icon: action.icon || `icon-${key}`,
         onClick: (event:MouseEvent) => {
-          if (action.link && isClickedWithModifier(event)) {
+          if (href && isClickedWithModifier(event)) {
             return false;
           }
 

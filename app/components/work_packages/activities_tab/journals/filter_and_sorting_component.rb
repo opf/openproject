@@ -37,7 +37,7 @@ module WorkPackages
         include OpTurbo::Streamable
         include WorkPackages::ActivitiesTab::SharedHelpers
 
-        def initialize(work_package:, filter: :all)
+        def initialize(work_package:, filter: Filters::ALL)
           super
 
           @work_package = work_package
@@ -49,15 +49,15 @@ module WorkPackages
         attr_reader :work_package, :filter
 
         def show_all?
-          filter == :all
+          filter == Filters::ALL
         end
 
         def show_only_comments?
-          filter == :only_comments
+          filter == Filters::ONLY_COMMENTS
         end
 
         def show_only_changes?
-          filter == :only_changes
+          filter == Filters::ONLY_CHANGES
         end
       end
     end

@@ -1,0 +1,129 @@
+# /api/v3/meeting_sections/{id}
+---
+get:
+  summary: Get a meeting section
+  operationId: get_meeting_section
+  tags:
+    - Meetings
+  description: |-
+    Retrieve an individual meeting section.
+
+    The backlog section can be retrieved via this endpoint even though it is not part of the regular
+    `meeting.sections` association. Its `_links.meeting` points to the owning meeting (the series
+    template for recurring meeting occurrences).
+  parameters:
+    - description: Section identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_section_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the section does not exist or the client does not have sufficient permissions.
+
+patch:
+  summary: Update a meeting section
+  operationId: update_meeting_section
+  tags:
+    - Meetings
+  description: |-
+    Updates the given meeting section.
+
+    The backlog section cannot be updated and will return `422 Unprocessable Entity`.
+  parameters:
+    - description: Section identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/meeting_section_write_model.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_section_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage agendas
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the section does not exist or the client does not have sufficient permissions.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+delete:
+  summary: Delete a meeting section
+  operationId: delete_meeting_section
+  tags:
+    - Meetings
+  description: |-
+    Deletes the meeting section and all its agenda items.
+
+    The backlog section cannot be deleted and will return `422 Unprocessable Entity`.
+  parameters:
+    - description: Section identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the section was successfully deleted
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage agendas
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+      description: |-
+        Returned if the section does not exist or the client does not have sufficient permissions.

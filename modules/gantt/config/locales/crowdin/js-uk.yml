@@ -1,6 +1,7 @@
+---
 uk:
   js:
     work_packages:
-      label_gantt_chart_plural: "Діаграми Ґанта"
       default_queries:
-        milestones: 'Віхи'
+        milestones: Віхи
+      label_gantt_chart_plural: Діаграми Ґанта

@@ -28,12 +28,7 @@
 
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { StateService } from '@uirouter/core';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import {
-  Directive,
-  ElementRef,
-  Input, AfterViewInit,
-} from '@angular/core';
+import { Directive, Input, AfterViewInit, inject } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
@@ -49,6 +44,12 @@ import { BrowserDetector } from 'core-app/core/browser/browser-detector.service'
   standalone: false,
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
+  readonly wpCreate = inject(WorkPackageCreateService);
+  readonly $state = inject(StateService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly browser = inject(BrowserDetector);
+
   @Input() public projectIdentifier:string|null|undefined;
 
   @Input() public stateName:string;
@@ -58,18 +59,6 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
   @Input() routedFromAngular = true;
 
   public isOpen = false;
-
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly wpCreate:WorkPackageCreateService,
-    readonly $state:StateService,
-    readonly pathHelper:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-    readonly browser:BrowserDetector,
-  ) {
-    super(elementRef, opContextMenu);
-  }
 
   ngAfterViewInit():void {
     super.ngAfterViewInit();

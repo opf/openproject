@@ -200,6 +200,7 @@ RSpec.describe ForumsController do
         end.to change(Forum, :count).by(-1)
 
         expect(response).to redirect_to project_forums_path(project)
+        expect(response).to have_http_status(:see_other)
         expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
       end
     end

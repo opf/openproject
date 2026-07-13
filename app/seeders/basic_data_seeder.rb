@@ -29,7 +29,7 @@
 #++
 class BasicDataSeeder < CompositeSeeder
   def data_seeder_classes
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def namespace

@@ -32,11 +32,11 @@ import { QueryFormResource } from 'core-app/features/hal/resources/query-form-re
 import { Observable } from 'rxjs';
 import URI from 'urijs';
 import { map, tap } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 
 export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
-  @InjectField() private queryFilters:QueryFiltersService;
+  @LazyInject() private queryFilters:QueryFiltersService;
 
   /**
    * Load the query form for the given existing (or new) query resource

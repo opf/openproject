@@ -38,7 +38,6 @@ export default class LookAndFeelController extends Controller {
   declare singleThemeContrastTarget:HTMLElement;
 
   private syncWithOsValue = 'sync_with_os';
-  private viewComponentSelector = '[data-view-component="true"]';
 
   connect() {
     this.toggleOptionGroups();
@@ -56,9 +55,10 @@ export default class LookAndFeelController extends Controller {
   }
 
   private toggleElementVisibility(targetElement:HTMLElement, shouldShow:boolean) {
-    const viewComponentContainer = targetElement.closest(this.viewComponentSelector);
-    if (viewComponentContainer) {
-      (viewComponentContainer as HTMLElement).hidden = !shouldShow;
+    const container = targetElement.closest<HTMLElement>('.FormControl-check-group-wrap')
+      ?? targetElement.closest<HTMLElement>('[data-view-component="true"]');
+    if (container) {
+      container.hidden = !shouldShow;
     }
   }
 }

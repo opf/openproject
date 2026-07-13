@@ -27,6 +27,7 @@
  */
 
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
 } from '@angular/core';
@@ -36,6 +37,10 @@ import moment from 'moment-timezone';
 @Component({
   templateUrl: './days-duration-edit-field.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent implements OnInit {
   public get formattedValue():number {

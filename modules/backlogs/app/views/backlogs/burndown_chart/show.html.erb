@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title @sprint.name %>
+
+<%= content_for :header_tags do %>
+  <meta name="turbo-visit-control" content="reload">
+<% end -%>
+
+<%=
+  render(Backlogs::SprintPageHeaderComponent.new(sprint: @sprint, project: @project)) do |header|
+    header.with_action_button(
+      tag: :a,
+      href: project_backlogs_sprint_taskboard_path(@project, @sprint),
+      mobile_icon: :"op-view-cards",
+      mobile_label: t("backlogs.label_sprint_board"),
+      aria: { label: t("backlogs.label_sprint_board") }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :"op-view-cards")
+      t("backlogs.label_sprint_board")
+    end
+  end
+%>
+
+<% if @burndown %>
+  <%= render partial: "burndown", locals: { burndown: @burndown } %>
+<% else %>
+  <%=
+    render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+      blankslate.with_visual_icon(icon: :graph)
+      blankslate.with_heading(tag: :h2).with_content(t(".blankslate_title"))
+      blankslate.with_description_content(t(".blankslate_description"))
+    end
+  %>
+<% end %>

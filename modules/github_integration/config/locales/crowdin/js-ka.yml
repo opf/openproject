@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ka:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "პულის მოთხოვნები"
-        copy_menu:
-          label: Git-ის სნიპეტები
-          description: Git-ის სნიპეტების ბუფერში კოპირება
-        git_actions:
-          branch_name: ბრენჩის სახელი
-          commit_message: კომიტის შეტყობინება
-          cmd: ახალი ბრენჩის შექმნა ცარიელი კომიტით
-          title: სწრაფი სნიპეტები Git-სთვის
-          copy_success: '✅ დაკოპირდა!'
-          copy_error: '❌ კოპირების შეცდომა!'
-      tab_prs:
-        empty: 'Pull მოთხოვნები ჯერ არ არსებობს. მიამაგრეთ არსებული PR კოდით  <code>OP#%{wp_id}</code> PR-ის აღწერაში ან ახალი PR შექმენით.'
       github_actions: ქმედებები
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
+        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
+        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
         states:
-          opened: 'ღიაა'
-          closed: 'დახურულია'
-          draft: 'შედგენილია'
-          merged: 'შერწყმულია'
-          ready_for_review: 'marked ready for review'
+          closed: დახურულია
+          draft: შედგენილია
+          merged: შერწყმულია
+          opened: ღიაა
+          ready_for_review: marked ready for review
+      tab_header:
+        copy_menu:
+          description: Git-ის სნიპეტების ბუფერში კოპირება
+          label: Git-ის სნიპეტები
+        git_actions:
+          branch_name: ბრენჩის სახელი
+          cmd: ახალი ბრენჩის შექმნა ცარიელი კომიტით
+          commit_message: კომიტის შეტყობინება
+          copy_error: "❌ კოპირების შეცდომა!"
+          copy_success: "✅ დაკოპირდა!"
+          title: სწრაფი სნიპეტები Git-სთვის
+        title: პულის მოთხოვნები
+      tab_prs:
+        empty: Pull მოთხოვნები ჯერ არ არსებობს. მიამაგრეთ არსებული PR კოდით  <code>OP#%{wp_id}</code> PR-ის აღწერაში ან ახალი PR შექმენით.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import moment from 'moment';
 
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
@@ -35,33 +36,31 @@ import { type DurationFormat } from 'core-app/shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
+  private readonly apiV3Service = inject(ApiV3Service);
+
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
-
-  public constructor(
-    private readonly apiV3Service:ApiV3Service,
-  ) { }
 
   public initialize():Promise<void> {
     return this.loadConfiguration();
   }
 
   public commentsSortedInDescendingOrder():boolean {
-    return this.userPreference('commentSortDescending');
+    return this.configuration.userPreferences.commentSortDescending;
   }
 
   public disableKeyboardShortcuts():boolean {
-    return this.userPreference('disableKeyboardShortcuts');
+    return this.configuration.userPreferences.disableKeyboardShortcuts;
   }
 
   public warnOnLeavingUnsaved():boolean {
-    return this.userPreference('warnOnLeavingUnsaved');
+    return this.configuration.userPreferences.warnOnLeavingUnsaved;
   }
 
   public autoHidePopups():boolean {
-    return this.userPreference('autoHidePopups');
+    return this.configuration.userPreferences.autoHidePopups;
   }
 
   public isTimezoneSet():boolean {
@@ -73,112 +72,94 @@ export class ConfigurationService {
   }
 
   public timezone():string {
-    return this.userPreference('timeZone');
+    return this.configuration.userPreferences.timeZone;
   }
 
   public isDirectUploads():boolean {
     return !!this.prepareAttachmentURL;
   }
 
-  public get prepareAttachmentURL():string {
-    return _.get(this.configuration, ['prepareAttachment', 'href']) as string;
+  public get prepareAttachmentURL():string|undefined {
+    return this.configuration.prepareAttachment?.href;
   }
 
   public get maximumAttachmentFileSize():number {
-    return this.systemPreference('maximumAttachmentFileSize');
+    return this.configuration.maximumAttachmentFileSize;
   }
 
   public get maximumApiV3PageSize():number {
-    return this.systemPreference('maximumAPIV3PageSize');
+    return this.configuration.maximumAPIV3PageSize;
   }
 
   public get perPageOptions():number[] {
-    return this.systemPreference('perPageOptions');
+    return this.configuration.perPageOptions;
   }
 
   public get allowedLinkProtocols():string[]|null {
-    return this.systemPreference('allowedLinkProtocols') || null;
+    return this.configuration.allowedLinkProtocols ?? null;
   }
 
   public dateFormatPresent():boolean {
-    return !!this.systemPreference('dateFormat');
+    return !!this.dateFormat();
   }
 
   public dateFormat():string {
-    return this.systemPreference('dateFormat');
+    return this.configuration.dateFormat ?? '';
   }
 
   public durationFormat():DurationFormat {
-    return this.systemPreference('durationFormat');
+    return this.configuration.durationFormat;
   }
 
   public hoursPerDay():number {
-    return this.systemPreference('hoursPerDay');
-  }
-
-  public hoursPerWeek():number {
-    return this.systemPreference('hoursPerWeek');
+    return this.configuration.hoursPerDay;
   }
 
   public daysPerMonth():number {
-    return this.systemPreference('daysPerMonth');
+    return this.configuration.daysPerMonth;
   }
 
   public timeFormatPresent():boolean {
-    return !!this.systemPreference('timeFormat');
+    return !!this.timeFormat();
   }
 
   public timeFormat():string {
-    return this.systemPreference('timeFormat');
+    return this.configuration.timeFormat ?? '';
   }
 
   public defaultTimezone():string {
-    return this.systemPreference('userDefaultTimezone');
-  }
-
-  public startOfWeekPresent():boolean {
-    return !!this.systemPreference('startOfWeek');
+    return this.configuration.userDefaultTimezone ?? '';
   }
 
   public startOfWeek():number {
-    if (this.startOfWeekPresent()) {
-      return this.systemPreference('startOfWeek');
+    const startOfWeek = this.configuration.startOfWeek;
+    if (startOfWeek !== null) {
+      return startOfWeek;
     }
     return moment.localeData(I18n.locale).firstDayOfWeek();
   }
 
+  public get wikisAvailable():boolean {
+    return this.configuration.wikisAvailable;
+  }
+
   public get hostName():string {
-    return this.systemPreference('hostName');
+    return this.configuration.hostName;
   }
 
   public get activeFeatureFlags():string[] {
-    return this.systemPreference<string[]>('activeFeatureFlags');
+    return this.configuration.activeFeatureFlags;
   }
 
   public get availableFeatures():string[] {
-    return this.systemPreference<string[]>('availableFeatures');
+    return this.configuration.availableFeatures;
   }
 
   public get triallingFeatures():string[] {
-    return this.systemPreference<string[]>('triallingFeatures');
+    return this.configuration.triallingFeatures;
   }
 
-  private loadConfiguration() {
-    return this
-      .apiV3Service
-      .configuration
-      .get()
-      .toPromise()
-      .then((configuration:ConfigurationResource) => {
-        this.configuration = configuration;
-      });
-  }
-
-  private userPreference<T>(pref:string):T {
-    return _.get(this.configuration, ['userPreferences', pref]) as T;
-  }
-
-  private systemPreference<T>(pref:string):T {
-    return _.get(this.configuration, pref) as T;
+  private async loadConfiguration():Promise<void> {
+    this.configuration = await firstValueFrom(this.apiV3Service.configuration.get());
   }
 }

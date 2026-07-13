@@ -1,0 +1,53 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:project_module_wiki_platforms), t("wikis.admin.wiki_providers.label_new_provider") %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title(test_selector: "wiki-provider-new-page-header--title") do %>
+    <%= t("wikis.admin.wiki_providers.label_new_provider") %>
+  <% end %>
+
+  <% header.with_breadcrumbs([
+    { href: admin_index_path, text: t(:label_administration) },
+    { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
+    { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
+    t("wikis.admin.wiki_providers.label_new_provider")
+  ]) %>
+
+  <% header.with_description(test_selector: "wiki-provider-new-page-header--description") do %>
+    <%= link_translate("wikis.admin.wiki_providers.new_provider_html",
+                       links: { docs_url: [:wiki_docs, :xwiki_setup] },
+                       external: true) %>
+  <% end %>
+<% end %>
+
+<%= content_tag("turbo-frame", id: "page-content") do %>
+  <%= render(Wikis::Admin::WikiProviderViewComponent.new(@wiki_provider, wizard: @wizard, wizard_step: @target_step)) %>
+<% end %>

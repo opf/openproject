@@ -31,12 +31,23 @@
 module Storages
   module Adapters
     module Errors
-      ResolverStandardError = Class.new(::Storages::Errors::BaseError)
-      MissingContract = Class.new(ResolverStandardError)
-      OperationNotSupported = Class.new(ResolverStandardError)
-      MissingModel = Class.new(ResolverStandardError)
-      UnknownProvider = Class.new(ResolverStandardError)
-      UnknownAuthenticationStrategy = Class.new(ArgumentError)
+      class ResolverStandardError < ::Storages::Errors::BaseError
+      end
+
+      class MissingContract < ResolverStandardError
+      end
+
+      class OperationNotSupported < ResolverStandardError
+      end
+
+      class MissingModel < ResolverStandardError
+      end
+
+      class UnknownProvider < ResolverStandardError
+      end
+
+      class UnknownAuthenticationStrategy < ArgumentError
+      end
 
       def self.registry_error_for(key)
         case key.split(".")

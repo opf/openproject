@@ -44,7 +44,7 @@ module TabsHelper
 
     header.with_tab_nav(label: nil, test_selector:) do |tab_nav|
       tabs.each do |tab|
-        tab_nav.with_tab(selected: selected_tab(tabs) == tab, href: tab[:path]) do |t|
+        tab_nav.with_tab(selected: selected_tab(tabs) == tab, href: tab[:path], data: tab[:data]) do |t|
           feature = tab[:enterprise_feature]
 
           if feature && !EnterpriseToken.allows_to?(feature)

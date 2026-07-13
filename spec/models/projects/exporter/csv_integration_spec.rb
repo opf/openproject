@@ -36,8 +36,10 @@ RSpec.describe Projects::Exports::CSV, "integration" do
   include_context "with an instance of the described exporter"
 
   let(:parsed) do
-    CSV.parse(output)
+    CSV.parse(output.delete_prefix(utf8_bom))
   end
+
+  let(:utf8_bom) { "\xEF\xBB\xBF" }
 
   let(:header) { parsed.first }
 
@@ -46,6 +48,10 @@ RSpec.describe Projects::Exports::CSV, "integration" do
   it "performs a successful export" do
     expect(parsed.size).to eq(2)
     expect(parsed.last).to eq [project.name, project.description, "Off track", "false"]
+  end
+
+  it "starts with a UTF-8 BOM" do
+    expect(output).to start_with(utf8_bom)
   end
 
   context "with status_explanation enabled" do
@@ -73,18 +79,13 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       %w[name description project_status public] + global_project_custom_fields.map(&:column_name)
     end
 
-    before do
-      project # re-evaluate project to ensure it is created within the desired user context
-      parsed
-    end
-
     context "without view_project_attributes permission" do
-      let(:permissions) { %i(view_projects export_projects) }
+      let(:permissions) { super() - %i[view_project_attributes] }
 
       it "does not render project custom fields in the header" do
         expect(parsed.size).to eq 2
 
-        expect(header).to eq ["\xEF\xBB\xBFName", "Description", "Status", "Public"]
+        expect(header).to eq ["Name", "Description", "Status", "Public"]
       end
 
       it "does not render the custom field values in the rows if enabled for a project" do
@@ -102,7 +103,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         expect(cf_names).not_to include(not_used_string_cf.name)
         expect(cf_names).not_to include(hidden_cf.name)
 
-        expect(header).to eq ["\xEF\xBB\xBFName", "Description", "Status", "Public", *cf_names]
+        expect(header).to eq ["Name", "Description", "Status", "Public", *cf_names]
       end
 
       it "renders the custom field values in the rows if enabled for a project" do
@@ -134,7 +135,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         expect(cf_names).to include(not_used_string_cf.name)
         expect(cf_names).to include(hidden_cf.name)
 
-        expect(header).to eq ["\xEF\xBB\xBFName", "Description", "Status", "Public", *cf_names]
+        expect(header).to eq ["Name", "Description", "Status", "Public", *cf_names]
       end
 
       it "renders the custom field values in the rows if enabled for a project" do
@@ -154,6 +155,70 @@ RSpec.describe Projects::Exports::CSV, "integration" do
         end
         expect(rows.first)
           .to eq [project.name, project.description, "Off track", "false", *custom_values]
+      end
+    end
+  end
+
+  describe "custom comment columns selected" do
+    let(:query_columns) do
+      %w[name description project_status public] + global_project_custom_fields.map(&:comment_column_name)
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { super() - %i[view_project_attributes] }
+
+      it "does not render custom comment columns in the header" do
+        expect(parsed.size).to eq 2
+
+        expect(header).to eq %w[Name Description Status Public]
+      end
+
+      it "does not render the custom comment values in the rows" do
+        expect(rows.first).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false"
+        ]
+      end
+    end
+
+    context "with view_project_attributes permission" do
+      it "renders available custom comment columns in the header if enabled in any project" do
+        expect(parsed.size).to eq 2
+
+        expect(header).to eq %w[Name Description Status Public] + ["#{version_cf.name} comment"]
+      end
+
+      it "renders the custom comment values in the rows" do
+        expect(rows.first).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members"
+        ]
+      end
+    end
+
+    context "with admin permission" do
+      let(:current_user) { create(:admin) }
+
+      it "renders all custom comment columns including hidden ones in the header" do
+        expect(parsed.size).to eq 3
+
+        expect(header).to eq %w[Name Description Status Public] + [version_cf, hidden_cf].map { "#{it.name} comment" }
+      end
+
+      it "renders all custom comment values in the rows" do
+        expect(rows.first).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members",
+          "Comment visible to admins"
+        ]
       end
     end
   end

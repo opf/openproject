@@ -62,7 +62,7 @@ module OpenProject::TextFormatting::Matchers
       ##
       # Test whether we should try to resolve the given link
       def applicable?
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       ##
@@ -70,7 +70,7 @@ module OpenProject::TextFormatting::Matchers
       # and matchers.
       # If nil is returned, the link remains as-is.
       def call
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       def oid

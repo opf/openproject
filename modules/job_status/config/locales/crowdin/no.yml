@@ -1,21 +1,21 @@
-"no":
-  label_job_status_plural: "Job statuses"
-  plugin_openproject_job_status:
-    name: "OpenProject jobbstatus"
-    description: "Oppføring og status for bakgrunnsjobber."
+---
+'no':
   job_status_dialog:
-    download_starts: 'Nedlastingen skal starte automatisk.'
-    link_to_download: 'Or, %{link} to download.'
-    click_here: 'click here'
-    title: 'Status på bakgrunnsjobb'
-    redirect: 'Du blir nå videresendt.'
-    redirect_link: 'Klikk her for å fortsette.'
-    redirect_errors: 'På grunn av disse feilene vil du ikke bli omdirigert automatisk.'
-    errors: 'Something went wrong'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Nedlastingen skal starte automatisk.
+    errors: Something went wrong
     generic_messages:
-      not_found: 'Denne jobben ble ikke funnet.'
-      in_queue: 'Jobben er satt i kø og vil bli behandlet om kort tid.'
-      in_process: 'Jobben blir for tiden behandlet.'
-      error: 'Jobben har ikke blitt fullført.'
-      cancelled: 'Jobben er avbrutt på grunn av en feil.'
-      success: 'Jobben ble fullført vellykket.'
+      cancelled: Jobben er avbrutt på grunn av en feil.
+      error: Jobben har ikke blitt fullført.
+      in_process: Jobben blir for tiden behandlet.
+      in_queue: Jobben er satt i kø og vil bli behandlet om kort tid.
+      not_found: Denne jobben ble ikke funnet.
+      success: Jobben ble fullført vellykket.
+    redirect: Du blir nå videresendt.
+    redirect_errors: På grunn av disse feilene vil du ikke bli omdirigert automatisk.
+    redirect_link: Klikk her for å fortsette.
+    title: Status på bakgrunnsjobb
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Oppføring og status for bakgrunnsjobber.
+    name: OpenProject jobbstatus

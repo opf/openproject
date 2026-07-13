@@ -38,7 +38,7 @@ RSpec.describe "Work package project include", :js, :selenium do
   shared_let(:permissions) { %i[view_work_packages edit_work_packages add_work_packages save_queries manage_public_queries] }
 
   it_behaves_like "has a project include dropdown" do
-    shared_let(:work_package_view) { Pages::WorkPackagesTable.new(project) }
+    shared_let(:work_package_view) { Pages::WorkPackagesTable.new(portfolio) }
 
     it "correctly filters work packages by project" do
       dropdown.expect_count 1
@@ -97,7 +97,7 @@ RSpec.describe "Work package project include", :js, :selenium do
       work_package_view.expect_work_package_subject "Foobar!"
 
       inline_created = WorkPackage.last
-      expect(inline_created.project).to eq(project)
+      expect(inline_created.project).to eq(portfolio)
     end
   end
 end

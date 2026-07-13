@@ -7,14 +7,14 @@ keywords: work package type, work package category, work package custom fields
 ---
 # Work packages 
 
-In OpenProject, you can configure several work package–related settings individually for each project. This includes enabling work package types, assigning categories, and activating custom fields. To do so, go to *Project settings*, select *Work packages*, and open the relevant tab.
+In OpenProject, you can configure several work package–related settings individually for each project. This includes enabling work package types, assigning categories, and activating custom fields. To do so, go to _Project settings_, select _Work packages_, and open the relevant tab.
 
 ## Work package types
 
 You can enable or disable work package types for a specific project by following these steps:
 
 1. Select a project from the drop-down menu in the top-left corner of the header.
-2. Navigate to *Project settings → Work packages* in the project menu. By default, you'll see the **Types** tab, which lists all available work package types. 
+2. Navigate to _Project settings → Work packages_ in the project menu. By default, you'll see the **Types** tab, which lists all available work package types. 
 
     The table shows whether each type is:
 
@@ -29,13 +29,13 @@ You can enable or disable work package types for a specific project by following
 
 > [!TIP] 
 >
-> [Work package types can be managed](../../../../system-admin-guide/manage-work-packages/work-package-types) under System *Administration* -> *Work packages* -> *Types*.
+> [Work package types can be managed](../../../../system-admin-guide/manage-work-packages/work-package-types) under System _Administration_ -> _Work packages_ -> _Types_.
 
 ## Work package categories
 
 In a work package form, you can use **work package categories** to classify work packages. These categories help you differentiate, filter, and group work packages by specific attributes.
 
-You can manage work package categories specific to a project under *Project settings → Work packages → Categories*.
+You can manage work package categories specific to a project under _Project settings → Work packages → Categories_.
 
 ### Create a new work package category
 
@@ -66,9 +66,9 @@ Custom fields for work packages can be enabled or disabled in the Project settin
 </div>
 
 > [!NOTE]
-> The instructions in this section apply *only* to custom fields for work packages.
+> The instructions in this section apply _only_ to custom fields for work packages.
 
-Before enabling a custom field in a project, it must first be created in the [system administration](../../../../system-admin-guide/custom-fields). Once it’s created, open the relevant project and go to *Project settings-> Work packages -> Custom fields*.
+Before enabling a custom field in a project, it must first be created in the [system administration](../../../../system-admin-guide/custom-fields). Once it’s created, open the relevant project and go to _Project settings-> Work packages -> Custom fields_.
 
 ![Custom fields settings in OpenProject project settings](openproject_user_guide_project_settings_work_packages_custom_fields.png)
 

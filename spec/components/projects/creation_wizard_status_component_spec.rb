@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Projects::CreationWizardStatusComponent, type: :component do
   include ApplicationHelper
-  include ProjectHelper
+  include ProjectsHelper
   include Rails.application.routes.url_helpers
 
   let(:current_user) { build_stubbed(:user) }

@@ -54,17 +54,36 @@ module CustomFields
           label: I18n.t("activerecord.attributes.project_custom_field.custom_field_section"),
           required: true
         ) do |list|
-          ProjectCustomFieldSection.find_each do |cs|
+          section_class_for_model.all.each do |cs| # rubocop:disable Rails/FindEach -- ordered by default_scope; find_each would override it
             list.option(value: cs.id, label: cs.name)
           end
         end
       end
 
-      if show_multi_value_field?
-        details_form.check_box(
-          name: :multi_value,
-          label: label(:multi_value),
-          caption: instructions(:multi_select)
+      if show_min_max_field?
+        details_form.text_field(
+          name: :min_length,
+          type: :number,
+          label: label(:min_length),
+          caption: instructions(:min_max),
+          input_width: :small
+        )
+
+        details_form.text_field(
+          name: :max_length,
+          type: :number,
+          label: label(:max_length),
+          caption: instructions(:min_max),
+          input_width: :small
+        )
+      end
+
+      if show_regex_field?
+        details_form.text_field(
+          name: :regexp,
+          label: label(:regexp),
+          caption: instructions(:regexp),
+          input_width: :medium
         )
       end
 
@@ -83,6 +102,45 @@ module CustomFields
         details_form.check_box(
           name: :default_value,
           label: label(:default_value)
+        )
+      end
+
+      if show_default_text_field?
+        details_form.text_field(
+          name: :default_value,
+          label: label(:default_value),
+          input_width: :medium
+        )
+      end
+
+      if show_default_rich_text_field?
+        details_form.rich_text_area(
+          name: :default_value,
+          label: label(:default_value),
+          rich_text_options: { resource: nil, macros: :none }
+        )
+      end
+
+      if show_multi_value_field?
+        details_form.check_box(
+          name: :multi_value,
+          label: label(:multi_value),
+          caption: instructions(:multi_select)
+        )
+      end
+
+      if show_non_open_versions_field?
+        details_form.check_box(
+          name: :allow_non_open_versions,
+          label: label(:allow_non_open_versions)
+        )
+      end
+
+      if show_has_comment_field?
+        details_form.check_box(
+          name: :has_comment,
+          label: label(:has_comment),
+          caption: instructions(:has_comment)
         )
       end
 
@@ -110,6 +168,21 @@ module CustomFields
         )
       end
 
+      if show_is_searchable_field?
+        details_form.check_box(
+          name: :searchable,
+          label: label(:searchable),
+          caption: instructions(:searchable)
+        )
+      end
+
+      if show_right_to_left_field?
+        details_form.check_box(
+          name: :content_right_to_left,
+          label: label(:content_right_to_left)
+        )
+      end
+
       if show_admin_only_field?
         details_form.check_box(
           name: :admin_only,
@@ -123,6 +196,14 @@ module CustomFields
           name: :editable,
           label: label(:editable),
           caption: instructions(:editable)
+        )
+      end
+
+      if show_on_user_card_field?
+        details_form.check_box(
+          name: :visible_on_user_card,
+          label: label(:visible_on_user_card),
+          caption: instructions(:visible_on_user_card)
         )
       end
 
@@ -144,15 +225,43 @@ module CustomFields
     end
 
     def show_section_field?
-      model.is_a?(ProjectCustomField)
+      model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField)
+    end
+
+    def section_class_for_model
+      model.is_a?(UserCustomField) ? UserCustomFieldSection : ProjectCustomFieldSection
     end
 
     def show_default_bool_field?
       %w[bool].include?(model.field_format)
     end
 
+    def show_default_text_field?
+      %w[list bool date text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    end
+
+    def show_default_rich_text_field?
+      %w[text].include?(model.field_format)
+    end
+
+    def show_has_comment_field?
+      model.can_have_comment?
+    end
+
     def show_is_required_field?
       %w[calculated_value bool].exclude?(model.field_format)
+    end
+
+    def show_min_max_field?
+      %w[list bool date user version link hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    end
+
+    def show_regex_field?
+      %w[list bool date user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    end
+
+    def show_right_to_left_field?
+      model.is_a?(WorkPackageCustomField) && %w[text].include?(model.field_format)
     end
 
     def show_multi_value_field?
@@ -171,11 +280,24 @@ module CustomFields
       model.is_a?(WorkPackageCustomField)
     end
 
+    def show_is_searchable_field?
+      (model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)) &&
+        %w[bool date float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+    end
+
+    def show_non_open_versions_field?
+      %w[version].include?(model.field_format) && model.allow_non_open_versions_possible?
+    end
+
     def show_admin_only_field?
-      model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField)
+      model.class.customized_class&.admin_only_custom_fields_allowed?
     end
 
     def show_editable_field?
+      model.is_a?(UserCustomField)
+    end
+
+    def show_on_user_card_field?
       model.is_a?(UserCustomField)
     end
 

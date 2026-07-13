@@ -17,15 +17,13 @@ An existing OpenProject on-premises (self hosted) installation can easily be swi
 
 Switching to the BIM Edition will not affect your existing data. Your team will be able to continue working just as before. By switching to the BIM edition additional features will become available  when you activate the "BCF" module in the [project's settings](../../user-guide/projects/project-settings/modules).
 
-
-
 ## Docker-based installation
 
 For `docker`, `docker-compose`, and `helm-chart` based installations, you are most likely using the `slim` container of OpenProject and will need to switch out the docker image variant.
 
 Please check what docker image you are using for the steps needed to switch to BIM:
 
-- **openproject/openproject:VERSION-slim**: You need to replace your imag with `openproject/openproject:VERSION-slim-bim`, which is prebuilt with the BIM Edition enabled and the pipeline installed
+- **openproject/openproject:VERSION-slim**: You need to replace your image with `openproject/openproject:VERSION-slim-bim`, which is prebuilt with the BIM Edition enabled and the pipeline installed
 - **openproject/openproject:VERSION**: You are using the [all-in-one container](../installation/docker#all-in-one-container), which includes BIM support. You only need to set the environment variable `OPENPROJECT_EDITION=bim` to the docker container and restart your container.  Please note that we recommend against using this all-in-one variant in production systems.
 
 ### Packaged installation

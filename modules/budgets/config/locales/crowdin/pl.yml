@@ -19,102 +19,110 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pl:
-  plugin_budgets_engine:
-    name: "Budżety"
   activerecord:
     attributes:
       budget:
-        author: "Autor"
-        available: "Dostępne"
-        budget: "Zaplanowane"
-        budget_ratio: "Wydano (%)"
-        description: "Opis"
-        spent: "Wydatki"
-        status: "Status"
-        subject: "Temat"
-        type: "Jednostki"
-        labor_budget: "Planowane koszty pracy"
-        material_budget: "Planowane koszty jednostkowe"
-        base_amount: "Kwota podstawowa"
+        author: Autor
+        available: Dostępne
+        base_amount: Kwota podstawowa
+        budget: Zaplanowane
+        budget_ratio: Wydano (%)
+        description: Opis
+        labor_budget: Planowane koszty pracy
+        labor_budget_items: Planowane koszty pracy
+        material_budget: Planowane koszty jednostkowe
+        spent: Wydatki
+        status: Status
+        subject: Temat
+        type: Jednostki
       work_package:
-        budget_subject: "Tytuł budżetu"
+        budget_subject: Tytuł budżetu
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: nie jest członkiem projektu budżetu
     models:
-      budget: "Budżet"
-      material_budget_item: "Jednostka"
+      budget: Budżet
+      labor_budget_item: Planowany koszt pracy
+      material_budget_item: Jednostka
   activity:
     filter:
-      budget: "Budżetowanie"
+      budget: Budżetowanie
   attributes:
-    budget: "Budżet"
-  button_add_budget_item: "Dodaj planowane koszty"
-  button_add_budget: "Dodaj budżet"
-  button_add_cost_type: "Dodaj typ kosztu"
-  button_cancel_edit_budget: "Anuluj edycję budżetu"
-  button_cancel_edit_costs: "Anuluj edycję kosztów"
-  caption_labor: "Praca"
-  caption_labor_costs: "Rzeczywiste koszty pracy"
-  caption_material_costs: "Rzeczywiste koszty jednostkowe"
-  budgets_title: "Budżety"
+    budget: Budżet
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          few: "Data aggregated from %{count} budgets."
-          many: "Data aggregated from %{count} budgets."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Uzyskaj przegląd swoich budżetów i kosztów, aby skutecznie śledzić stan projektu
+          heading: Rozpocznij kontrolowanie projektu
+        blankslate_zero:
+          description: Aby zobaczyć tutaj dane, dodaj szczegóły dotyczące planowanego budżetu
+          heading: Brak szczegółów budżetu
+        count_caption:
+          one: Dane zagregowane z %{count} budżetu
+          other: Dane zagregowane z %{count} budżetów
+          zero: Brak danych budżetowych.
+        count_caption_with_subitems:
+          portfolio:
+            one: Dane zagregowane z %{count} budżetu zawarte w tym portfolio i jego podpozycjach.
+            other: Dane zagregowane z %{count} budżetów zawarte w tym portfolio i jego podpozycjach.
+            zero: Brak danych budżetowych.
+          program:
+            one: Dane zagregowane z %{count} budżetu zawarte w tym programie i jego podpozycjach.
+            other: Dane zagregowane z %{count} budżetów zawarte w tym programie i jego podpozycjach.
+            zero: Brak danych budżetowych.
+          project:
+            one: Dane zagregowane z %{count} budżetu zawarte w tym projekcie i jego podpozycjach.
+            other: Dane zagregowane z %{count} budżetów zawarte w tym projekcie i jego podpozycjach.
+            zero: Brak danych budżetowych.
+        title: Budżet według typu kosztów
+        view_details: Wyświetl szczegóły budżetu
+      budget_totals:
+        remaining_budget: Pozostały budżet
+        spent_budget: Wydany budżet
+        title: Sumy budżetowe
+        total_actual_costs: Łączne koszty rzeczywiste
+        total_planned_budget: Łączny planowany budżet
+  budgets_title: Budżety
+  button_add_budget: Dodaj budżet
+  button_add_budget_item: Dodaj planowane koszty
+  button_add_cost_type: Dodaj typ kosztu
+  button_cancel_edit_budget: Anuluj edycję budżetu
+  button_cancel_edit_costs: Anuluj edycję kosztów
+  caption_labor: Praca
+  caption_labor_costs: Rzeczywiste koszty pracy
+  caption_material_costs: Rzeczywiste koszty jednostkowe
   events:
-    budget: "Budżet edytowany"
-  help_click_to_edit: "Kliknij tutaj aby edytować."
-  help_currency_format: "Format wyświetlanej waluty %n jest zastąpiony przez wartość waluty, %u którą jest zastąpiony jednostką walutową."
-  help_override_rate: "Podaj wartość tutaj aby zastąpić domyślną stawkę."
-  label_budget: "Budżet"
-  label_budget_available: "Dostępny budżet"
-  label_budget_id: "Budżet #%{id}"
-  label_budget_new: "Nowy budżet"
-  label_budget_planned: "Planowany budżet"
-  label_budget_plural: "Budżety"
-  label_budget_spent: "Wydany budżet"
-  label_budget_spent_ratio: "Wskaźnik wydatków z budżetu"
-  label_deliverable: "Budżet"
-  label_example_placeholder: "np. %{decimal}"
-  label_view_all_budgets: "Zobacz wszystkie budżety"
-  label_yes: "Tak"
-  label_budget_totals: "Sumy"
-  label_budget_details: "Szczegóły budżetu"
-  notice_budget_conflict: "Pakiety robocze muszą być z tego samego projektu."
-  notice_no_budgets_available: "Nie ma dostępnych budżetów."
-  permission_edit_budgets: "Edytuj budżety"
-  permission_view_budgets: "Zobacz budżety"
-  project_module_budgets: "Budżety"
-  text_budget_reassign_to: "Przypisz je do tego budżetu:"
-  text_budget_delete: "Usuń budżet ze wszystkich pakietów roboczych"
-  text_budget_destroy_assigned_wp: "Liczba pakietów roboczych przypisanych do tego budżetu wynosi %{count}. Co chcesz zrobić?"
+    budget: Budżet edytowany
+  help_click_to_edit: Kliknij tutaj aby edytować.
+  help_currency_format: Format wyświetlanej waluty %n jest zastąpiony przez wartość waluty, %u którą jest zastąpiony jednostką walutową.
+  help_override_rate: Podaj wartość tutaj aby zastąpić domyślną stawkę.
+  label_budget: Budżet
+  label_budget_available: Dostępny budżet
+  label_budget_details: Szczegóły budżetu
+  label_budget_id: 'Budżet #%{id}'
+  label_budget_new: Nowy budżet
+  label_budget_planned: Planowany budżet
+  label_budget_plural: Budżety
+  label_budget_spent: Wydany budżet
+  label_budget_spent_ratio: Wskaźnik wydatków z budżetu
+  label_budget_totals: Sumy
+  label_deliverable: Budżet
+  label_example_placeholder: np. %{decimal}
+  label_view_all_budgets: Zobacz wszystkie budżety
+  label_yes: Tak
+  notice_budget_conflict: Pakiety robocze muszą być z tego samego projektu.
+  notice_no_budgets_available: Nie ma dostępnych budżetów.
+  permission_edit_budgets: Edytuj budżety
+  permission_view_budgets: Zobacz budżety
+  plugin_budgets_engine:
+    name: Budżety
+  project_module_budgets: Budżety
+  text_budget_delete: Usuń budżet ze wszystkich pakietów roboczych
+  text_budget_destroy_assigned_wp: Liczba pakietów roboczych przypisanych do tego budżetu wynosi %{count}. Co chcesz zrobić?
+  text_budget_reassign_to: 'Przypisz je do tego budżetu:'

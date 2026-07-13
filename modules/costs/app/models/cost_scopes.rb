@@ -18,15 +18,15 @@ module CostScopes
   end
 
   def view_allowed_entries_permission
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def view_allowed_own_entries_permission
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def view_rates_permissions
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def with_visible_costs_on(scope, user: User.current, project: nil)

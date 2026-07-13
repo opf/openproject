@@ -36,7 +36,10 @@ import {
 
 export interface PrimerColorsPluginOptions {
   enabled?:boolean;
+  // Color each data point by its axis label (chart.data.labels) — intended for pie/donut charts
   labelBased?:boolean;
+  // Color each dataset uniformly by its dataset.label — intended for bar charts
+  datasetLabelBased?:boolean;
 }
 
 declare module 'chart.js' {
@@ -159,10 +162,12 @@ function buildLabelColorMap(labels:string[]):Map<string, number> {
 
   for (const { label, preferred } of items) {
     let slot = preferred;
-    while (used.has(slot)) {
-      slot = (slot + 1) % paletteSize;
+    if (used.size < paletteSize) {
+      while (used.has(slot)) {
+        slot = (slot + 1) % paletteSize;
+      }
+      used.add(slot);
     }
-    used.add(slot);
     map.set(label, slot);
   }
 
@@ -187,16 +192,14 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
     }
 
     const { data: { datasets } } = chart.config;
-    if (options.labelBased) {
-      if (datasets.length === 1) {
-        assignColorsByLabel(datasets[0], (chart.data.labels ?? []) as string[]);
-      } else {
-        const labels = datasets.map((d) => d.label ?? '');
-        const colorMap = buildLabelColorMap(labels);
-        datasets.forEach((dataset:ChartDataset) => {
-          colorizeMultiDataset(dataset, colorMap.get(dataset.label ?? '') ?? 0);
-        });
-      }
+    if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
+      const labels = datasets.map((d) => d.label ?? '');
+      const colorMap = buildLabelColorMap(labels);
+      datasets.forEach((dataset:ChartDataset) => {
+        colorizeMultiDataset(dataset, colorMap.get(dataset.label ?? '') ?? 0);
+      });
+    } else if (options.labelBased && datasets.length === 1) {
+      assignColorsByLabel(datasets[0], (chart.data.labels ?? []) as string[]);
     } else if (datasets.length === 1) {
       const colorizer = getColorizer();
       datasets.forEach(colorizer);

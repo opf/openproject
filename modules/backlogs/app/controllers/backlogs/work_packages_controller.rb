@@ -1,0 +1,185 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Backlogs
+  class WorkPackagesController < BaseController
+    include OpTurbo::ComponentStream
+
+    # Document event dispatched after a successful move so the frontend can refresh a
+    # split view open on the moved work package (see backlogs.controller.ts).
+    WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
+
+    before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
+
+    # Deferred ActionMenu items (Primer include-fragment).
+    def menu
+      render(Backlogs::WorkPackageCardMenuComponent.new(
+               project: @project,
+               work_package: work_package_with_backlog_neighbours,
+               open_sprints_exist: target_open_sprints.exists?,
+               other_buckets_exist: target_buckets.exists?,
+               current_user:
+             ),
+             layout: false)
+    end
+
+    def add_existing_dialog
+      target_id = Target.parse(params[:target_id])
+      container = target_id&.container_for(@project)
+
+      if container
+        respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
+          project: @project,
+          container:
+        )
+      elsif target_id
+        render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
+        respond_with_turbo_streams(status: :not_found)
+      else
+        render_error_flash_message_via_turbo_stream(message: t(".invalid_target"))
+        respond_with_turbo_streams(status: :unprocessable_entity)
+      end
+    end
+
+    def move_to_sprint_dialog
+      respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
+        work_package: @work_package,
+        project: @project,
+        move_action: move_path
+      )
+    end
+
+    def move_to_bucket_dialog
+      respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
+        work_package: @work_package,
+        project: @project,
+        move_action: move_path
+      )
+    end
+
+    def add_existing
+      work_package = WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
+
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package:)
+        .call(target_id: params.expect(:target_id))
+
+      render_update_turbo_streams(call)
+    end
+
+    def move
+      call = ::Backlogs::WorkPackages::UpdateService
+        .new(user: current_user, work_package: @work_package)
+        .call(**move_params.to_h.symbolize_keys)
+
+      render_update_turbo_streams(call)
+    end
+
+    private
+
+    def render_update_turbo_streams(call)
+      if call.success?
+        reload_frame_via_turbo_stream("backlogs_container")
+
+        # A split view open on the moved work package caches its lock_version. Signal the
+        # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
+        # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
+        )
+
+        render_invisible_after_move_flash(call.result)
+      else
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
+        )
+      end
+
+      respond_with_turbo_streams(status: call)
+    end
+
+    def render_invisible_after_move_flash(work_package)
+      return unless work_package_invisible_after_move?(work_package)
+
+      backlog_name = work_package.backlog_bucket&.name || I18n.t(:label_inbox)
+      render_flash_message_via_turbo_stream(
+        message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
+      )
+    end
+
+    def load_work_package
+      @work_packages = WorkPackage.visible.where(project: @project).order_by_position
+      @work_package = @work_packages.find(params.expect(:id))
+    end
+
+    def move_path
+      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
+    end
+
+    def move_params
+      params.permit(:position, :prev_id, :target_id, :direction)
+    end
+
+    def displayed_work_packages
+      if @work_package.sprint_id?
+        @work_packages.where(sprint_id: @work_package.sprint_id)
+      elsif @work_package.backlog_bucket_id?
+        @work_packages.merge(@work_package.backlog_bucket.displayed_work_packages)
+      else
+        @work_packages.merge(WorkPackage.in_inbox_for(project: @project))
+      end
+    end
+
+    def work_package_with_backlog_neighbours
+      displayed_work_packages.with_backlogs_neighbours.find(@work_package.id)
+    end
+
+    def target_open_sprints
+      Sprint.for_project(@project)
+            .visible.not_completed
+            .where.not(id: @work_package.sprint_id)
+    end
+
+    def target_buckets
+      BacklogBucket.where(project: @project)
+                   .where.not(id: @work_package.backlog_bucket_id)
+    end
+
+    # After a work package is moved to the backlog, it might no longer be visible due to
+    # the project settings for excluded types and statuses.
+    def work_package_invisible_after_move?(work_package)
+      return false if work_package.sprint_id?
+
+      @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
+        @project.done_status_ids.include?(work_package.status_id)
+    end
+  end
+end

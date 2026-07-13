@@ -1,21 +1,21 @@
+---
 el:
-  label_job_status_plural: "Job statuses"
-  plugin_openproject_job_status:
-    name: "OpenProject Job status"
-    description: "Listing and status of background jobs."
   job_status_dialog:
-    download_starts: 'Η λήψη θα πρέπει να ξεκινήσει αυτόματα.'
-    link_to_download: 'Or, %{link} to download.'
-    click_here: 'click here'
-    title: 'Κατάσταση εργασίας παρασκηνίου'
-    redirect: 'Ανακατευθύνεστε.'
-    redirect_link: 'Παρακαλώ κάντε κλικ εδώ για να συνεχίσετε.'
-    redirect_errors: 'Λόγω αυτών των σφαλμάτων, δεν θα ανακατευθυνθείτε αυτόματα.'
-    errors: 'Something went wrong'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Η λήψη θα πρέπει να ξεκινήσει αυτόματα.
+    errors: Something went wrong
     generic_messages:
-      not_found: 'Αυτή η εργασία δεν βρέθηκε.'
-      in_queue: 'Η εργασία έχει τεθεί σε αναμονή και θα επεξεργαστεί σύντομα.'
-      in_process: 'Η εργασία επεξεργάζεται.'
-      error: 'Η εργασία απέτυχε να ολοκληρωθεί.'
-      cancelled: 'Η εργασία έχει ακυρωθεί λόγω σφάλματος.'
-      success: 'Η εργασία ολοκληρώθηκε με επιτυχία.'
+      cancelled: Η εργασία έχει ακυρωθεί λόγω σφάλματος.
+      error: Η εργασία απέτυχε να ολοκληρωθεί.
+      in_process: Η εργασία επεξεργάζεται.
+      in_queue: Η εργασία έχει τεθεί σε αναμονή και θα επεξεργαστεί σύντομα.
+      not_found: Αυτή η εργασία δεν βρέθηκε.
+      success: Η εργασία ολοκληρώθηκε με επιτυχία.
+    redirect: Ανακατευθύνεστε.
+    redirect_errors: Λόγω αυτών των σφαλμάτων, δεν θα ανακατευθυνθείτε αυτόματα.
+    redirect_link: Παρακαλώ κάντε κλικ εδώ για να συνεχίσετε.
+    title: Κατάσταση εργασίας παρασκηνίου
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Κατάλογος και κατάσταση των εργασιών παρασκηνίου.
+    name: OpenProject Κατάσταση εργασίας

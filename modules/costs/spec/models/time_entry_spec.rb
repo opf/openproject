@@ -648,7 +648,7 @@ RSpec.describe TimeEntry do
     end
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: false, comments: false do
     let!(:model_instance) { time_entry }
     let!(:new_model_instance) do
       build(:time_entry,

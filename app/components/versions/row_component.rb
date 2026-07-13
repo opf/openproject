@@ -85,7 +85,7 @@ module Versions
     end
 
     def button_links
-      [edit_link, delete_link, backlogs_edit_link].compact
+      [edit_link, delete_link].compact
     end
 
     private

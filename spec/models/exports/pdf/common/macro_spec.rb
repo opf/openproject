@@ -200,6 +200,99 @@ RSpec.describe Exports::PDF::Common::Macro do
         expect(formatted).to eq("<table><tr><td><p><s>#{expected_tag}</s></p></td></tr></table>")
       end
     end
+
+    describe "with semantic identifier" do
+      describe "in semantic mode",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_project) { create(:project, identifier: "PROJ") }
+        let(:semantic_work_package) do
+          wp = create(:work_package, project: semantic_project, type: type_task, subject: "Semantic")
+          wp.allocate_and_register_semantic_id
+          wp.reload
+        end
+        let(:user) do
+          create(
+            :user,
+            member_with_permissions: {
+              project => %i[view_work_packages view_project_attributes view_project] + additional_permissions,
+              other_project => %i[view_work_packages view_project_attributes view_project] + additional_permissions,
+              semantic_project => %i[view_work_packages view_project_attributes view_project]
+            }
+          )
+        end
+
+        describe "alone" do
+          let(:markdown) { "see ##{semantic_work_package.identifier} here" }
+
+          it "renders the mention with the semantic identifier in data-id" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-text="##{semantic_work_package.identifier}"))
+          end
+        end
+
+        describe "mixed with a numeric reference" do
+          let(:markdown) { "see ##{semantic_work_package.identifier} and ##{work_package.id}" }
+
+          it "renders both as mentions with their respective data-ids" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-id="#{work_package.id}"))
+            expect(formatted).not_to include('data-id="0"')
+          end
+        end
+
+        describe "with an alias from a previous identifier" do
+          before do
+            create(:work_package_semantic_alias,
+                   work_package: semantic_work_package,
+                   identifier: "OLD-1")
+          end
+
+          let(:markdown) { "see #OLD-1 here" }
+
+          it "resolves the alias and renders the current identifier" do
+            expect(formatted).to include(%(data-id="#{semantic_work_package.identifier}"))
+            expect(formatted).to include(%(data-text="##{semantic_work_package.identifier}"))
+            expect(formatted).not_to include(">#OLD-1<")
+          end
+        end
+
+        describe "for a missing work package" do
+          let(:markdown) { "see #GHOST-99 here" }
+
+          it "falls through to literal text without crashing" do
+            expect(formatted).to include("#GHOST-99")
+            expect(formatted).not_to include("<mention")
+            expect(formatted).not_to include('data-id="0"')
+          end
+        end
+
+        describe "for a work package the user cannot see" do
+          let(:hidden_project) { create(:project, identifier: "HIDDEN") }
+          let(:hidden_work_package) do
+            wp = create(:work_package, project: hidden_project, type: type_task, subject: "Hidden")
+            wp.allocate_and_register_semantic_id
+            wp.reload
+          end
+          let(:markdown) { "see ##{hidden_work_package.identifier} here" }
+
+          it "falls through to literal text and does not disclose the work package" do
+            expect(formatted).to include("##{hidden_work_package.identifier}")
+            expect(formatted).not_to include("<mention")
+          end
+        end
+      end
+
+      describe "in classic mode",
+               with_settings: { work_packages_identifier: "classic" } do
+        let(:markdown) { "see #PROJ-1 here" }
+
+        it "falls through to literal text without emitting a mention" do
+          expect(formatted).to include("#PROJ-1")
+          expect(formatted).not_to include("<mention")
+          expect(formatted).not_to include('data-id="0"')
+        end
+      end
+    end
   end
 
   describe "workPackageValue macro" do
@@ -224,6 +317,30 @@ RSpec.describe Exports::PDF::Common::Macro do
 
       it "outputs the attribute value for the specified work package" do
         expect(formatted).to eq("Work package 2")
+      end
+    end
+
+    describe "with a semantic work package identifier",
+             with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, identifier: "PROJ") }
+      let(:semantic_work_package) do
+        wp = create(:work_package, project: semantic_project, type: type_task, subject: "Semantic subject")
+        wp.allocate_and_register_semantic_id
+        wp.reload
+      end
+      let(:user) do
+        create(
+          :user,
+          member_with_permissions: {
+            project => %i[view_work_packages view_project_attributes view_project],
+            semantic_project => %i[view_work_packages view_project_attributes view_project]
+          }
+        )
+      end
+      let(:markdown) { "workPackageValue:#{semantic_work_package.identifier}:subject" }
+
+      it "outputs the attribute value for the work package addressed by its semantic identifier" do
+        expect(formatted).to eq("Semantic subject")
       end
     end
 

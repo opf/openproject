@@ -167,13 +167,6 @@ module OpenProject
     # Include tstzrange columns in the list of time zone aware types
     ActiveRecord::Base.time_zone_aware_types += [:tstzrange]
 
-    # Specifies whether `to_time` methods preserve the UTC offset of their receivers
-    # or preserves the timezone. Rails 8.0+ default is `:zone`.
-    # If set to `:zone`, `to_time` methods will use the timezone of their receivers.
-    # If set to `:offset`, `to_time` methods will use the UTC offset.
-    # If `false`, `to_time` methods will convert to the local system UTC offset instead.
-    config.active_support.to_time_preserves_timezone = :zone
-
     # Activate being able to specify the format in which full_message works.
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
     # will always prepend the attribute name to the error message.
@@ -229,7 +222,7 @@ module OpenProject
     config.log_level = OpenProject::Configuration["log_level"].to_sym
 
     # Enable the Rails 7 cache format
-    config.active_support.cache_format_version = 7.0
+    config.active_support.cache_format_version = 7.1
 
     config.after_initialize do
       Settings::Definition.add_all

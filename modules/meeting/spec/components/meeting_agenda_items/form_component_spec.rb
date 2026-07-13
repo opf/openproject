@@ -99,4 +99,12 @@ RSpec.describe MeetingAgendaItems::FormComponent, type: :component do
   it "renders Cancel button" do
     expect(rendered_component).to have_link "Cancel", href: cancel_path
   end
+
+  context "when meeting is a onetime template" do
+    let(:meeting) { build_stubbed(:onetime_template) }
+
+    it "does not render the presenter field" do
+      expect(rendered_component).to have_no_element :label, text: "Presenter"
+    end
+  end
 end

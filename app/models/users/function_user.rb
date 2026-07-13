@@ -45,7 +45,7 @@ module Users::FunctionUser
 
     def builtin? = true
 
-    def name(*_args); raise NotImplementedError end
+    def name(*_args) = raise SubclassResponsibilityError
 
     def mail = nil
 

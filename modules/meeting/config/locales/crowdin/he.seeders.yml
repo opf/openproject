@@ -9,21 +9,21 @@ he:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: שבועי
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: חדשות טובות
             item_1:
-              title: Updates from development team
+              title: עדכונים מצוות הפיתוח
             item_2:
-              title: Updates from product team
+              title: עדכונים מצוות המוצר
             item_3:
-              title: Updates from marketing team
+              title: עדכונים מצוות השיווק
             item_5:
-              title: Updates from sales team
+              title: עדכונים מצוות המכירות
             item_6:
-              title: Review of quarterly goals
+              title: סקירת יעדי רבעון
             item_7:
-              title: Core values feedback
+              title: משוב על ערכי הליבה
             item_8:
-              title: General topics
+              title: נושאים כלליים

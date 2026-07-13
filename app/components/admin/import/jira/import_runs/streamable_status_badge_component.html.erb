@@ -1,0 +1,5 @@
+<%=
+  component_wrapper(tag: :span) do
+    render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(@status, **@system_arguments))
+  end
+%>

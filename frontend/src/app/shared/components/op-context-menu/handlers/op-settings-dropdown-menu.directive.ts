@@ -26,13 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, ElementRef, Injector, Input, AfterViewInit } from '@angular/core';
+import { Directive, Injector, Input, AfterViewInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import {
   OpContextMenuTrigger,
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -67,6 +66,18 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
   standalone: false,
 })
 export class OpSettingsMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
+  readonly opModalService = inject(OpModalService);
+  readonly wpListService = inject(WorkPackagesListService);
+  readonly authorisationService = inject(AuthorisationService);
+  readonly states = inject(States);
+  readonly injector = inject(Injector);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+  readonly urlParamsHelper = inject(UrlParamsHelperService);
+  readonly opStaticQueries = inject(StaticQueriesService);
+  readonly turboRequests = inject(TurboRequestsService);
+  readonly I18n = inject(I18nService);
+
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;
@@ -78,24 +89,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
   private loadingPromise:PromiseLike<any>;
 
   override readonly placement = 'bottom-end';
-
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly opModalService:OpModalService,
-    readonly wpListService:WorkPackagesListService,
-    readonly authorisationService:AuthorisationService,
-    readonly states:States,
-    readonly injector:Injector,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly urlParamsHelper:UrlParamsHelperService,
-    readonly opStaticQueries:StaticQueriesService,
-    readonly turboRequests:TurboRequestsService,
-    readonly I18n:I18nService,
-  ) {
-    super(elementRef, opContextMenu);
-  }
 
   ngAfterViewInit():void {
     super.ngAfterViewInit();

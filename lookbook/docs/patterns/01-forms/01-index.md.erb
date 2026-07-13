@@ -1,0 +1,55 @@
+A form is a series of components that require user input that will then be submitted. Forms are notably common in settings pages but are also present elsewhere like in individual modals (edit project attribute section, edit meeting details), the filter panel and in multi-step configuration screens (such as admin file storage or authentication setup pages).
+
+## Overview
+
+<%= embed Patterns::FormsPreview, :custom_width_fields_form %>
+
+## Form elements
+
+A form may be composed of these elements:
+
+- Text input
+- Text area
+- Rich text area
+- Select
+- Toggle switch
+- Checkbox
+- Checkbox group
+- Radio button
+- Radio groups
+- Fieldset group
+
+Additional elements like Banners might also be used.
+
+## Grouping and hierarchy
+
+Form elements that are related need to be grouped together. For this, use a [form group](https://primer-lookbook.github.com/view-components/lookbook/pages/forms/groups_layouts).
+
+If a form is particularly long, split it into different form groups using `fieldset_group`. Each group gets a title and renders a semantic `<fieldset>`. See the [OpenProject helpers](./usage#fieldset-group-to-group-related-inputs) section for usage details.
+
+Each group should only have its own Save button if the groups are semantically independent — meaning saving one has no effect on another. If the groups only serve visual structure within the same context, a single Save button at the end of the form is sufficient. Toggle switches are an exception: they always save immediately on interaction and never need an explicit Save button.
+
+## Form width
+
+In Primer, form elements automatically take the width of the container. In certain cases (especially Settings pages),
+full-width input fields will look strange. For these wide settings pages, we introduced [a pattern](./settings_pages)
+that wraps the form inside container that limits the width of the form.
+
+Individual form elements can however be sized to be smaller than the width the container. A good rule of thumb is to choose a width for a
+field based on the expected length of the user input: date fields can for example be rather short but a name field has the potential to be quite long. While the
+input field can be limited in width, the caption and validation messages will always extend to the full width of the form (or the container, if one is used).
+
+In OpenProject, each form element also has its own container. It is thus possible to define the container width for each
+input with the `:input_width` parameter.
+
+The options are:
+
+- `input_width: :auto` => `width: auto`
+- `input_width: :xsmall` => `max-width: min(144px, 100vw - 2rem)`
+- `input_width: :small` => `max-width: min(256px, 100vw - 2rem)`
+- `input_width: :medium` => `max-width: min(320px, 100vw - 2rem)`
+- `input_width: :large` => `max-width: min(480px, 100vw - 2rem)`
+- `input_width: :xlarge` => `max-width: min(680px, 100vw - 2rem)`
+- `input_width: :xxlarge` => `max-width: min(960px, 100vw - 2rem)`
+
+<%= embed Patterns::FormsPreview, :default, panels: %i[] %>

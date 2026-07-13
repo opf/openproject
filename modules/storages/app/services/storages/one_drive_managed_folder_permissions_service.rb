@@ -62,6 +62,12 @@ module Storages
     def apply_permission_to_folders
       info "Setting permissions to project folders"
       @project_storages.includes(:project).with_project_folder.find_each do |project_storage|
+        project_folder_id = project_storage.project_folder_id
+
+        if project_folder_id_collision?(project_storage)
+          next add_error(:set_folder_permission, collision_error, options: { folder: project_folder_id })
+        end
+
         permissions = admin_remote_identities_scope.pluck(:origin_user_id).map do |origin_user_id|
           { user_id: origin_user_id, permissions: [:write_files] }
         end
@@ -72,7 +78,6 @@ module Storages
 
         info "Setting permissions for #{project_storage.managed_project_folder_name}: #{permissions}"
 
-        project_folder_id = project_storage.project_folder_id
         build_permissions_input_data(project_folder_id, permissions)
           .either(
             ->(input_data) { set_permissions.call(storage: @storage, auth_strategy:, input_data:) },
@@ -101,6 +106,19 @@ module Storages
       else
         project_remote_identities.where(user: project_storage.project.users)
       end
+    end
+
+    # We refuse to overwrite an ACL when another project_storage on the same storage holds the same folder id
+    # (defense in depth in case the contract check is bypassed or a folder id collision is written directly to the DB)
+    def project_folder_id_collision?(project_storage)
+      ::Storages::ProjectStorage
+        .where(storage_id: project_storage.storage_id, project_folder_id: project_storage.project_folder_id)
+        .where.not(id: project_storage.id)
+        .exists?
+    end
+
+    def collision_error
+      ::Storages::Adapters::Results::Error.new(source: self.class, code: :folder_id_collision)
     end
 
     def client_remote_identities_scope

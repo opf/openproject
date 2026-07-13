@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 export interface ITileViewEntry {
   text:string;
@@ -13,10 +12,6 @@ export interface ITileViewEntry {
 
 @Injectable({ providedIn: 'root' })
 export class BoardActionsRegistryService {
-  constructor(
-    private bannersService:BannersService,
-  ) {}
-
   private mapping:Record<string, BoardActionService> = {};
 
   public add(attribute:string, service:BoardActionService):void {
@@ -24,13 +19,12 @@ export class BoardActionsRegistryService {
   }
 
   public available():ITileViewEntry[] {
-    return _.map(this.mapping, (service:BoardActionService, attribute:string) => ({
+    return Object.entries(this.mapping).map(([attribute, service]) => ({
       attribute,
       text: service.localizedName,
       icon: '',
       description: '',
       image: '',
-      disabled: !this.bannersService.allowsTo('board_view'),
     }));
   }
 

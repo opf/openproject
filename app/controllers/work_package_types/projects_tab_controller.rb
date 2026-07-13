@@ -31,6 +31,7 @@
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
     include OpTurbo::ComponentStream
+    include TypeDeactivationErrorMessage
 
     before_action :load_projects, only: %i[edit enable_all_projects]
 
@@ -74,7 +75,13 @@ module WorkPackageTypes
     private
 
     def flash_error(result)
-      flash.now[:error] = result.errors.messages_for(:project_ids).to_sentence
+      deactivated_project_ids = deactivated_project_ids_with_work_packages(permitted_project_params[:project_ids])
+
+      flash.now[:error] = if deactivated_project_ids.any?
+                            type_deactivation_error_message(@type, project_ids: deactivated_project_ids)
+                          else
+                            result.errors.messages_for(:project_ids).to_sentence
+                          end
     end
 
     def load_projects
@@ -85,6 +92,15 @@ module WorkPackageTypes
       # TODO: once the input is correctly delivered just return: params.expect(type: [:project_ids])
 
       { project_ids: JSON.parse(params.expect(type: [:project_ids])[:project_ids]) }
+    end
+
+    def deactivated_project_ids_with_work_packages(project_ids)
+      deactivated_project_ids = @type.project_ids - Array(project_ids).compact_blank.map(&:to_i)
+
+      WorkPackage
+        .where(type_id: @type.id, project_id: deactivated_project_ids)
+        .distinct
+        .pluck(:project_id)
     end
   end
 end

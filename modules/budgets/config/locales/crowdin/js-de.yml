@@ -19,14 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 de:
   js:
-    budgets:
-      widgets:
-        budget_by_cost_type:
-          blankslate:
-            title: "No budget data"
-            description: "Add planned unit and labor costs to this project to start tracking the budget"
     work_packages:
       properties:
-        costObject: "Budget"
+        costObject: Budget

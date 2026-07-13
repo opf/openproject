@@ -28,6 +28,7 @@ export class OpDetailsTableAction extends OpTableAction {
       this.workPackage.id!,
       this.text.button,
       '',
+      this.workPackage.displayId,
     );
 
     detailsLink.classList.add(detailsLinkClassName, contextColumnIcon, 'hidden-for-mobile');

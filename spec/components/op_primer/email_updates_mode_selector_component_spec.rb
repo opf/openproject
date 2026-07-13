@@ -99,7 +99,7 @@ RSpec.describe OpPrimer::EmailUpdatesModeSelectorComponent, type: :component do
     let(:alt_text) { nil }
 
     it "throws an error" do
-      expect { render_inline(component) }.to raise_error(NotImplementedError)
+      expect { render_inline(component) }.to raise_error(ArgumentError)
     end
   end
 end

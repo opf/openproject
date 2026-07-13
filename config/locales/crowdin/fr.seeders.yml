@@ -93,6 +93,21 @@ fr:
           name: Haute
         item_3:
           name: Immédiate
+      departments:
+        item_0:
+          name: Marketing et communication
+        item_1:
+          name: Relations publiques
+        item_2:
+          name: Conception et contenu
+        item_3:
+          name: Événements et opérations
+        item_4:
+          name: Web et informatique
+        item_5:
+          name: Finances et administration
+        item_6:
+          name: Assurance qualité
       projects:
         demo-project:
           name: Projet de démonstration
@@ -154,7 +169,7 @@ fr:
                     5. *Activez d'autres modules* : &rightarrow; Accédez à [Paramètres du projet &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
                     6. *Complétez vos tâches dans le projet* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Tâches]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Vous trouverez ici nos [Guides de l'utilisateur] (https://www.openproject.org/docs/user-guide/).
+                    Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
                     Si vous avez des questions ou si avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
@@ -182,12 +197,14 @@ fr:
                 item_2:
                   subject: Configurer le site Web de la conférence
             item_2:
-              subject: Conférence
+              subject: Tester et contrôler la qualité du site web de la conférence
             item_3:
+              subject: Conférence
+            item_4:
               subject: Tâches de suivi
               children:
                 item_0:
-                  subject: Téléverser les présentations sur le site Web
+                  subject: Importer les présentations sur le site Web
                 item_1:
                   subject: Fête pour les supporters de la conférence :-)
                   description: |-
@@ -195,7 +212,7 @@ fr:
                     * [ ] En-cas
                     * [ ] Musique
                     * [ ] Encore plus de bière
-            item_4:
+            item_5:
               subject: Fin du projet
           wiki: |
             _Dans ce wiki, vous pouvez créer et modifier des pages et des sous-pages de manière collaborative afin de créer un wiki de projet._
@@ -432,7 +449,7 @@ fr:
         item_0:
           name: Nouveau
         item_1:
-          name: En cous de spécification
+          name: En cours de spécification
         item_2:
           name: Spécifié
         item_3:

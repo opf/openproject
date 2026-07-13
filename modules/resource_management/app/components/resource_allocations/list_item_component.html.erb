@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout(align_items: :center) do |row| %>
+  <%= row.with_column(mr: 2) do %>
+    <%= render(leading_visual) %>
+  <% end %>
+  <%= row.with_column(flex: 1) do %>
+    <%= render(Primer::Beta::Text.new(font_size: :small)) { name } %>
+  <% end %>
+  <%= row.with_column do %>
+    <%= render(Primer::Beta::Label.new(size: :large)) { duration } %>
+  <% end %>
+  <% if overbooked? %>
+    <%= row.with_column(ml: 2, classes: "d-flex") do %>
+      <%= render Primer::Beta::Octicon.new(
+            icon: :"alert-fill",
+            color: :danger,
+            id: overbooked_icon_id,
+            "aria-label": overbooked_message
+          ) %>
+      <%= render Primer::Alpha::Tooltip.new(
+            for_id: overbooked_icon_id,
+            type: :description,
+            text: overbooked_message,
+            direction: :s
+          ) %>
+    <% end %>
+  <% end %>
+  <% if menu? %>
+    <%= row.with_column(ml: 2) do %>
+      <%= context_menu %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Injector, OnInit } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -39,6 +39,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
     contextMenuEnabled: false,
   };
 
+  protected cdRef = inject(ChangeDetectorRef);
   protected i18n = inject(I18nService);
   protected injector = inject(Injector);
   protected querySpace = inject(IsolatedQuerySpace);
@@ -55,6 +56,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
           this.resourceChanged.emit(changeset);
 
           this.queryId = query.id;
+          this.cdRef.markForCheck();
         });
     } else {
       this.queryId = this.resource.options.queryId as string;

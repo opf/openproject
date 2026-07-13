@@ -19,88 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 lv:
-  plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "Save report as..."
-  comments: "Komentârs"
-  cost_reports_title: "Laiks un izmaksas"
-  label_cost_report: "Izmaksu pārskats"
-  label_cost_report_plural: "Izmaksu pārskati"
-  description_drill_down: "Skatīt detaļas"
-  description_filter_selection: "Atlase"
-  description_multi_select: "Rādīt atlasītos"
-  description_remove_filter: "Noņemt filtru"
-  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
-  label_click_to_edit: "Noklikšķiniet, lai rediģētu."
-  label_closed: "slēgti"
-  label_columns: "Kolonnas"
-  label_cost_entry_attributes: "Izmaksu ieraksta atribūti"
-  label_days_ago: "pēdējās dienās"
-  label_entry: "Izmaksu ieraksts"
-  label_filter_text: "Filtrēt tekstu"
-  label_filter_value: "Vērtība"
-  label_filters: "Filtrēt"
-  label_greater: "lielāks >"
-  label_is_not_project_with_subprojects: "nav (ietver apakšprojektus)"
-  label_is_project_with_subprojects: "ir (ieskaitot apakšprojektus)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Darba pieteikumu atribūti"
-  label_less: "mazāk <"
-  label_logged_by_reporting: "Ielogoja"
-  label_money: "Cash value"
-  label_month_reporting: "Mēnesis (iztērēts)"
-  label_new_report: "Jauns izmaksu pārskats"
-  label_open: "aktīvi"
-  label_operator: "Operatori"
-  label_private_report_plural: "Privātie izmaksu pārskati"
-  label_progress_bar_explanation: "Pārskata ģenerēšana..."
-  label_public_report_plural: "Publiskie izmaksu pārskati"
-  label_really_delete_question: "Vai tiešām vēlaties dzēst šos pārskatus?"
-  label_rows: "Rindas"
-  label_saving: "Saglabā ..."
-  label_spent_on_reporting: "Datums (iztērēts)"
-  label_sum: "Summa"
-  label_units: "Vienības"
-  label_week_reporting: "Nedēļa (iztērēts)"
-  label_year_reporting: "Gads (iztērēts)"
-  label_count: "Skaits"
-  label_filter: "Filtrēt"
-  label_filter_add: "Pievienot filtru"
-  label_filter_plural: "Filtri"
-  label_group_by: "Grupēt pēc"
-  label_group_by_add: "Add Group-by Attribute"
-  label_inactive: "«inactive»"
-  label_no: "Nē"
-  label_none: "(no data)"
-  label_no_reports: "There are no cost reports yet."
-  label_report: "Report"
-  label_yes: "Jā"
-  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
-  permission_save_cost_reports: "Save public cost reports"
-  permission_save_private_cost_reports: "Save private cost reports"
-  project_module_reporting_module: "Izmaksu pārskati"
-  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
-  toggle_multiselect: "activate/deactivate multiselect"
-  units: "Vienības"
-  validation_failure_date: "nav derīgs datums"
-  validation_failure_integer: "nav derīgs vesels skaitlis"
+  button_save_report_as: Save report as...
+  comments: Komentârs
+  cost_reports_title: Laiks un izmaksas
+  description_drill_down: Skatīt detaļas
+  description_filter_selection: Atlase
+  description_multi_select: Rādīt atlasītos
+  description_remove_filter: Noņemt filtru
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "Laiks"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Your Cost Reports XLS export"
-      start_time: "Start time"
-      end_time: "End time"
+      end_time: End time
+      start_time: Start time
+      title: Your Cost Reports XLS export
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: Laiks
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
+  label_click_to_edit: Noklikšķiniet, lai rediģētu.
+  label_closed: slēgti
+  label_columns: Kolonnas
+  label_cost_entry_attributes: Izmaksu ieraksta atribūti
+  label_cost_report: Izmaksu pārskats
+  label_cost_report_plural: Izmaksu pārskati
+  label_count: Skaits
+  label_days_ago: pēdējās dienās
+  label_entry: Izmaksu ieraksts
+  label_filter: Filtrēt
+  label_filter_add: Pievienot filtru
+  label_filter_plural: Filtri
+  label_filter_text: Filtrēt tekstu
+  label_filter_value: Vērtība
+  label_filters: Filtrēt
+  label_greater: lielāks >
+  label_group_by: Grupēt pēc
+  label_group_by_add: Add Group-by Attribute
+  label_inactive: "«inactive»"
+  label_is_not_project_with_subprojects: nav (ietver apakšprojektus)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: ir (ieskaitot apakšprojektus)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: mazāk <
+  label_logged_by_reporting: Ielogoja
+  label_money: Cash value
+  label_month_reporting: Mēnesis (iztērēts)
+  label_new_report: Jauns izmaksu pārskats
+  label_no: Nē
+  label_no_reports: There are no cost reports yet.
+  label_none: "(no data)"
+  label_open: aktīvi
+  label_operator: Operatori
+  label_private_report_plural: Privātie izmaksu pārskati
+  label_progress_bar_explanation: Pārskata ģenerēšana...
+  label_public_report_plural: Publiskie izmaksu pārskati
+  label_really_delete_question: Vai tiešām vēlaties dzēst šos pārskatus?
+  label_report: Report
+  label_rows: Rindas
+  label_saving: Saglabā ...
+  label_spent_on_reporting: Datums (iztērēts)
+  label_sum: Summa
+  label_units: Vienības
+  label_week_reporting: Nedēļa (iztērēts)
+  label_work_package_attributes: Darba pieteikumu atribūti
+  label_year_reporting: Gads (iztērēts)
+  label_yes: Jā
+  load_query_question: Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?
+  permission_save_cost_reports: Save public cost reports
+  permission_save_private_cost_reports: Save private cost reports
+  plugin_openproject_reporting:
+    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    name: OpenProject Reporting
+  project_module_reporting_module: Izmaksu pārskati
   reporting:
     group_by:
-      selected_columns: "Izvēlētās kolonnas"
-      selected_rows: "Selected rows"
+      selected_columns: Izvēlētās kolonnas
+      selected_rows: Selected rows
+  text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
+  toggle_multiselect: activate/deactivate multiselect
+  units: Vienības
+  validation_failure_date: nav derīgs datums
+  validation_failure_integer: nav derīgs vesels skaitlis

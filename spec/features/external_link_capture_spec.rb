@@ -49,8 +49,7 @@ RSpec.describe "External link capture", :js, :selenium do
     it "keeps the default external link behaviour" do
       visit project_wiki_path(project, wiki_page)
 
-      href = external_redirect_path(url: external_url)
-      link = page.find_link("OpenProject", href:)
+      link = page.find_link("OpenProject", href: external_url)
       new_window = window_opened_by { link.click }
 
       within_window new_window do

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpResources::CurrentUser, with_flag: { mcp_server: true } do
+RSpec.describe McpResources::CurrentUser do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"

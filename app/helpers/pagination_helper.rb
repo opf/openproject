@@ -38,8 +38,8 @@ module PaginationHelper
   def pagination_links_full(paginator, params: {}, allowed_params: nil, per_page_links: true, **)
     return unless paginator.total_entries > 0
 
-    content_tag(:div, class: "op-pagination") do
-      concat pagination_pages_section(paginator, renderer: OpenProject::LinkRenderer, params:, allowed_params:, **)
+    content_tag(:div, class: ["op-pagination", { "op-pagination--single-page": paginator.total_pages <= 1 }]) do
+      concat pagination_pages_section(paginator, params:, allowed_params:, **)
       concat pagination_options_section(paginator, params:, allowed_params:) if per_page_links
     end
   end
@@ -113,15 +113,60 @@ module PaginationHelper
 
   private
 
-  def pagination_pages_section(paginator, **)
-    content_tag(:nav, class: "op-pagination--pages", aria: { label: I18n.t(:"js.pagination.page_navigation") }) do
-      pagination_entries(paginator, **)
+  def pagination_pages_section(paginator, params:, allowed_params:, **)
+    content_tag(:div, class: "op-pagination--pages") do
+      safe_join(
+        [
+          render_primer_pagination(paginator, params:, allowed_params:, **),
+          pagination_range(paginator)
+        ]
+      )
     end
+  end
+
+  def render_primer_pagination(paginator, params:, allowed_params:, turbo: false, turbo_action: nil, **)
+    link_arguments = {}
+    link_arguments[:data] = {}
+    link_arguments[:data][:turbo_stream] = true if turbo
+    link_arguments[:data][:turbo_action] = turbo_action if turbo_action.present?
+    link_arguments.delete(:data) if link_arguments[:data].empty?
+
+    render(
+      Primer::OpenProject::Pagination.new(
+        page_count: paginator.total_pages,
+        current_page: paginator.current_page,
+        href_builder: ->(page) { pagination_href(page, params:, allowed_params:) },
+        link_arguments:
+      )
+    )
+  end
+
+  def pagination_href(page, params:, allowed_params:)
+    allowed_params ||= %w[filters sortBy]
+
+    url_for(
+      params
+        .merge(page:)
+        .merge(safe_query_params(allowed_params))
+    )
+  end
+
+  def pagination_range(paginator)
+    page_first = paginator.offset + 1
+    page_last = paginator.offset + paginator.length
+    total = paginator.total_entries
+
+    content_tag(
+      :div,
+      "(#{page_first} - #{page_last}/#{total})",
+      class: "op-pagination--range",
+      aria: { live: "polite" }
+    )
   end
 
   def pagination_options_section(paginator, params:, allowed_params:)
     per_page_options = Setting.per_page_options_array
-    return "".html_safe if per_page_options.empty?
+    return "" if per_page_options.empty?
 
     allowed_params ||= %w[filters sortBy]
     content_tag(:div, class: "op-pagination--options") do
@@ -135,31 +180,11 @@ module PaginationHelper
     end
   end
 
-  ##
-  # Builds the pagination nav with pages and range
-  def pagination_entries(paginator, **)
-    page_first = paginator.offset + 1
-    page_last = paginator.offset + paginator.length
-    total = paginator.total_entries
-
-    content_tag(:ul, class: "op-pagination--items op-pagination--items_start", role: "presentation") do
-      concat will_paginate(paginator, **, container: false)
-      concat content_tag(
-        :li,
-        "(#{page_first} - #{page_last}/#{total})",
-        class: "op-pagination--range",
-        aria: { live: "polite" }
-      )
-    end
-  end
-
   def pagination_options_list(per_pages, current_per_page:, **)
-    content_tag(:ul, class: "op-pagination--items op-pagination--items_end", role: "presentation") do
-      safe_join [
-        content_tag(:li, I18n.t(:label_per_page), class: "op-pagination--label"),
-        per_pages.map { |per_page| pagination_options_item(per_page, current: per_page == current_per_page, **) }
-      ]
-    end
+    safe_join [
+      content_tag(:span, I18n.t(:label_per_page), class: "op-pagination--label"),
+      per_pages.map { |per_page| pagination_options_item(per_page, current: per_page == current_per_page, **) }
+    ]
   end
 
   ##
@@ -167,15 +192,15 @@ module PaginationHelper
   # determined from available options in the settings.
   def pagination_options_item(per_page, current:, **options)
     label = I18n.t("js.pagination.pages.show_per_page", number: per_page)
-    content_tag(:li, class: ["op-pagination--item", { "op-pagination--item_current": current }]) do
-      link_to_unless(
-        current,
-        per_page,
-        options.merge(page: 1, per_page:),
-        class: "op-pagination--item-link", aria: { label: }, target: "_top"
-      ) do
-        content_tag(:span, per_page, aria: { label:, current: "page" }, tabindex: 0)
-      end
-    end
+    aria_props = { label: }
+    aria_props[:current] = "page" if current
+
+    link_to(
+      per_page,
+      options.merge(page: 1, per_page:),
+      class: "Page",
+      aria: aria_props,
+      target: "_top"
+    )
   end
 end

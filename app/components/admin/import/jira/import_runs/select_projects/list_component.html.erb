@@ -1,0 +1,26 @@
+<%= component_wrapper do
+  concat(
+    render(
+      Primer::Alpha::CheckBoxGroup.new(
+        name: :projects,
+        label: I18n.t(:"admin.jira.columns.projects"),
+        visually_hide_label: true
+      )
+    ) do |group|
+      projects.each do |project|
+        group.check_box(
+          value: project["id"],
+          label: project["name"],
+          caption: project["key"],
+          checked: checked?(project["id"]),
+          data: { action: "change->admin--jira-projects#toggleProject" }
+        )
+      end
+    end
+  )
+  if projects.empty?
+    concat(
+      content_tag(:div, I18n.t(:"js.notice_no_results_to_display"), class: "op-toast -info")
+    )
+  end
+end %>

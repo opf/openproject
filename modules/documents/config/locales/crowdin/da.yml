@@ -19,137 +19,142 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 da:
-  plugin_openproject_documents:
-    name: "OpenProject Documents"
-    description: "An OpenProject plugin to allow creation of documents in projects."
   activerecord:
+    attributes:
+      document:
+        content_binary: Binært indhold
+        title: Titel
     errors:
       models:
         document_type:
-          one_or_more_required: "Kan ikke slette den sidste dokumenttype"
+          one_or_more_required: Kan ikke slette den sidste dokumenttype
     models:
-      document: "Dokument"
-      documents: "Dokumenter"
-    attributes:
-      document:
-        content_binary: "Binært indhold"
-        title: "Titel"
+      document: Dokument
+      documents: Dokumenter
   activity:
     filter:
-      document: "Dokumenter"
-  default_doc_category_tech: "Teknisk dokumentation"
-  default_doc_category_user: "Brugerdokumentation"
-  enumeration_doc_categories: "Dokumentkategorier"
+      document: Dokumenter
+  attributes:
+    collaborative_editing_hocuspocus_url: URL til Hocuspocus-server
+  default_doc_category_tech: Teknisk dokumentation
+  default_doc_category_user: Brugerdokumentation
   documents:
-    page_header:
-      heading: "Alle dokumenter"
-      action_menu:
-        document_actions: "Dokumenthandlinger"
-        edit_title: "Rediger titel"
-    subheader:
-      filter:
-        label: "Filter for dokumentnavn"
-        placeholder: "Skriv her for at søge i dokumentnavne"
-    documents_list_blank_slate:
-      heading: "Der er ingen dokumenter endnu"
-      description: "Der er ingen dokumenter i denne visning. Du kan klikke på knappen nedenfor for at tilføje et."
-    document_categories_deprecation_notice:
-      heading: Filkategorier hedder nu 'Dokumenttyper'
-      description: |-
-        Dine eksisterende filkategorier er blevet konverteret til dokumenttyper med introduktionen af det nye dokumentmodul.
-        Alle eksisterende dokumenter er også blevet migreret til disse nye typer.
-      primary_action: Konfigurer dokumenttyper
-      secondary_action: Få mere at vide om modulet Dokumenter
-    document_type_actions: "Dokumenttype-handlinger"
-    text_collaboration_disabled_notice:
-      description: |-
-        Det er ikke muligt at åbne dokumentet, fordi tekstsamarbejde i realtid er deaktiveret.
-        Kontakt din administrator for at aktivere tekstsamarbejde i realtid, hvis du vil have adgang til dette dokument.
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          Dokumentet kan ikke åbnes, fordi serveren til tekstsamarbejde i realtid ikke kan nås.
-          Kontakt venligst administratoren, hvis problemet fortsætter.
-        action: Forsøg igen
-      connection_recovery_notice:
-        description: "Forbindelsen til realtids-tekstsamarbejdsserveren er blevet genoprettet."
-      tabs: "Document tabs"
-    index_page:
-      name: "Navn"
-      type: "Type"
-      updated_at: "Senest redigeret"
-      label_legacy: "Historie"
-    menu:
-      all: "Alle dokumenter"
-      types: "Typer"
-      collaboration_settings: "Samarbejde i realtid"
-    last_updated_at: "Last saved %{time}."
-    active_editors: "Aktive redaktører"
+    active_editors: Aktive redaktører
     active_editors_count:
-      one: "1 active editor"
+      one: 1 active editor
       other: "%{count} active editors"
-    label_attachment_author: "Bilagsforfatter"
-    label_categories: "Kategorier"
-    new_category: "Ny kategori"
-    new_type: "Ny type"
-    delete_dialog:
-      title: "Slet dokument"
-      heading: "Slet dette dokument?"
-      confirmation_message_html: "Dette vil slette dette dokument og alle vedhæftede filer permanent. Er du sikker på, at du vil gøre dette?"
-    delete_document_type_dialog:
-      title: Slet dokumenttype
-      heading: Slette denne dokumenttype?
-      confirmation_message: |-
-        Typen "%{type_name}" er i øjeblikket ubrugt. Sletning af denne type vil ikke have nogen effekt på eksisterende dokumenter.
-      select_reassign_to_label: Gentildel dokumenter til
-      reassign_message:
-        one: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokument. Vælg venligst hvilken type der skal angives dokumentet.
-        other: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokumenter. Vælg venligst, hvilken type de skal overgå til.
-      at_least_one_type_required:
-        title: Kan ikke slette dokumenttype
-        heading: Kan ikke slette den sidste dokumenttype
-        message: Der skal altid være mindst én dokumenttype konfigureret. Opret først en anden, hvis du vil slette denne.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Disse værdier konfigureres via miljøvariabler og kan ikke redigeres her.
+          some_unwritable: Nogle værdier konfigureres via miljøvariabler og kan ikke redigeres her.
+        hocuspocus_server: Hokuspokus-server
+        hocuspocus_server_secret:
+          caption: Indsæt den hemmelighed, der er leveret af Hocuspocus-serveren.
+          label: Klienthemmelighed
+        hocuspocus_server_url:
+          caption: WebSocket-adressen på en fungerende Hocuspocus-server.
+          invalid_scheme: Skal anvende en WebSocket-protokol (ws:// eller wss://).
+          label: URL til Hocuspocus-server
         page_header:
           description: |-
             Når det er aktiveret, giver realtidssamarbejde flere brugere mulighed for at redigere et dokument på samme tid.
             Det kræver en fungerende %{hocuspocus_server_link} for at fungere.
-        banner:
-          none_writable: Disse værdier konfigureres via miljøvariabler og kan ikke redigeres her.
-          some_unwritable: Nogle værdier konfigureres via miljøvariabler og kan ikke redigeres her.
-        hocuspocus_server_url:
-          label: "URL til Hocuspocus-server"
-          caption: "Adressen på en fungerende Hocuspocus-server."
-        hocuspocus_server_secret:
-          label: "Klienthemmelighed"
-          caption: "Indsæt den hemmelighed, der er leveret af Hocuspocus-serveren."
-        hocuspocus_server: Hokuspokus-server
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Jeg forstår, at jeg kan miste data permanent
+        confirmation_message: |-
+          Alle eksisterende dokumenter kan blive utilgængelige. Gør venligst kun dette, hvis du er sikker på, at du vil deaktivere
+          realtidssamarbejde og BlockNote-editoren i denne instans.
+        heading: Deaktivér samarbejde i realtid?
+        success: Samarbejde i realtid er deaktiveret.
+        title: Deaktiver samarbejde i realtid
       enable_text_collaboration:
-        heading: Samarbejde i realtid er ikke aktiveret
         description: |-
           Når det er aktiveret, vil flere brugere kunne arbejde sammen på et dokument på samme tid.
           Alle nye dokumenter vil være baseret på en ny editor (BlockNote) og kræver en fungerende forbindelse til en
           Hocuspocus-server.
+        heading: Samarbejde i realtid er ikke aktiveret
         primary_action: Aktiver samarbejde i realtid
         success: Samarbejde i realtid er blevet aktiveret.
-      disable_text_collaboration_dialog:
-        title: Deaktiver samarbejde i realtid
-        heading: Deaktivér samarbejde i realtid?
-        confirmation_message: |-
-          Alle eksisterende dokumenter kan blive utilgængelige. Gør venligst kun dette, hvis du er sikker på, at du vil deaktivere
-          realtidssamarbejde og BlockNote-editoren i denne instans.
-        confirmation_checkbox_message: Jeg forstår, at jeg kan miste data permanent
-        success: Samarbejde i realtid er deaktiveret.
-  label_document_added: "Dokument tilføjet"
-  label_document_new: "Nyt dokument"
-  label_document_plural: "Dokumenter"
-  label_documents: "Dokumenter"
-  label_document_title: "Titel"
-  label_document_description: "Beskrivelse"
-  label_document_category: "Kategori"
-  label_document_type: "Type"
-  permission_manage_documents: "Håndter dokumenter"
-  permission_view_documents: "Se dokumenter"
-  project_module_documents: "Dokumenter"
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: Dette vil slette dette dokument og alle vedhæftede filer permanent. Er du sikker på, at du vil gøre dette?
+      heading: Slet dette dokument?
+      title: Slet dokument
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Kan ikke slette den sidste dokumenttype
+        message: Der skal altid være mindst én dokumenttype konfigureret. Opret først en anden, hvis du vil slette denne.
+        title: Kan ikke slette dokumenttype
+      confirmation_message: Typen "%{type_name}" er i øjeblikket ubrugt. Sletning af denne type vil ikke have nogen effekt på eksisterende dokumenter.
+      heading: Slette denne dokumenttype?
+      reassign_message:
+        one: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokument. Vælg venligst hvilken type der skal angives dokumentet.
+        other: Typen "%{type_name}" bruges i øjeblikket i %{document_count} dokumenter. Vælg venligst, hvilken type de skal overgå til.
+      select_reassign_to_label: Gentildel dokumenter til
+      title: Slet dokumenttype
+    document_categories_deprecation_notice:
+      description: |-
+        Dine eksisterende filkategorier er blevet konverteret til dokumenttyper med introduktionen af det nye dokumentmodul.
+        Alle eksisterende dokumenter er også blevet migreret til disse nye typer.
+      heading: Filkategorier hedder nu 'Dokumenttyper'
+      primary_action: Konfigurer dokumenttyper
+      secondary_action: Få mere at vide om modulet Dokumenter
+    document_type_actions: Dokumenttype-handlinger
+    documents_list_blank_slate:
+      description: Der er ingen dokumenter i denne visning. Du kan klikke på knappen nedenfor for at tilføje et.
+      heading: Der er ingen dokumenter endnu
+    index_page:
+      label_legacy: Historie
+      name: Navn
+      type: Type
+      updated_at: Senest redigeret
+    info_line:
+      connection_restored: Internetforbindelse reetableret.
+      currently_offline: Ingen internetforbindelse p.t.
+    label_attachment_author: Bilagsforfatter
+    label_categories: Kategorier
+    last_updated_at: Last saved %{time}.
+    menu:
+      all: Alle dokumenter
+      collaboration_settings: Samarbejde i realtid
+      types: Typer
+    new_category: Ny kategori
+    new_type: Ny type
+    page_header:
+      action_menu:
+        document_actions: Dokumenthandlinger
+        edit_title: Rediger titel
+      heading: Alle dokumenter
+    show_edit_view:
+      connection_error_notice:
+        action: Forsøg igen
+        description_server_unavailable: |-
+          Dokumentet kan ikke åbnes, da realtidstekst-samarbejdsserveren ikke kan nås.
+          Kontakt administratoren, hvis problemet fortsætter.
+      tabs: Dokumentfaner
+    subheader:
+      filter:
+        label: Filter for dokumentnavn
+        placeholder: Skriv her for at søge i dokumentnavne
+    text_collaboration_disabled_notice:
+      description: |-
+        Det er ikke muligt at åbne dokumentet, fordi tekstsamarbejde i realtid er deaktiveret.
+        Kontakt din administrator for at aktivere tekstsamarbejde i realtid, hvis du vil have adgang til dette dokument.
+  enumeration_doc_categories: Dokumentkategorier
+  label_document_added: Dokument tilføjet
+  label_document_category: Kategori
+  label_document_description: Beskrivelse
+  label_document_new: Nyt dokument
+  label_document_plural: Dokumenter
+  label_document_title: Titel
+  label_document_type: Type
+  label_documents: Dokumenter
+  permission_manage_documents: Håndter dokumenter
+  permission_view_documents: Se dokumenter
+  plugin_openproject_documents:
+    description: An OpenProject plugin to allow creation of documents in projects.
+    name: OpenProject Documents
+  project_module_documents: Dokumenter

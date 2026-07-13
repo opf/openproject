@@ -55,10 +55,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            name: "Rich text project custom field",
            default_value: "rich text field value with a table <table></table>")
   end
+  let(:enabled_module_names) { nil }
   let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
            types: [type],
+           **(enabled_module_names ? { enabled_module_names: } : {}),
            public: true,
            status_code: "on_track",
            description: "A **rich** text description",
@@ -232,8 +234,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
   end
   let(:expected_details) do
-    result = [
-      "#{type.name} ##{work_package.id} - #{work_package.subject}",
+    [
+      "#{type.name} #{work_package.formatted_id} - #{work_package.subject}",
       " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
       "People",
       "Assignee", user.name,
@@ -243,13 +245,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Remaining work", "9h",
       "% Complete", "25%",
       "Spent time", "0h",
+      "Story Points", "1",
       "Details",
       "Priority", "Normal",
+      *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
       "Version", work_package.version,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
       "Other",
+      "Position", "1",
       "Work Package Custom Field Long Text", "foo   faa",
       "Empty Work Package Custom Field Long Text",
       "Work Package Custom Field Boolean", "Yes",
@@ -257,7 +263,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Costs",
       "Spent units", "Labor costs", "Unit costs", "Overall costs", "Budget"
     ]
-    result
   end
 
   def get_column_value(column_name)
@@ -309,7 +314,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
           "Image Caption",
           "Image Redirect",
-          "Foo",
+          "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
         expect(result).not_to include("DisabledCustomField")
@@ -470,7 +475,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "My link in table", "https://example.com",
           "No replacement of:", "workPackageValue:1:assignee", "workPackageLabel:assignee",
           "workPackageValue:2:assignee workPackageLabel:assignee",
-          "workPackageValue:3:assignee", "workPackageLabel:assignee",
+          "workPackageValue:3:assignee", "workPackageLabel:assignee"
         ]
       end
 
@@ -501,7 +506,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
             ), embed[1]]
           end,
           *expected_description_first,
-          *expected_description_second,
+          *expected_description_second
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
       end
@@ -623,6 +628,31 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           expect(pdf[:logos].first.hash[:Height]).to eq(30)
           expect(pdf[:logos].first.hash[:Width]).to eq(149)
         end
+      end
+    end
+
+    context "with the backlogs module enabled" do
+      let(:enabled_module_names) { %i[backlogs] }
+      let(:sprint) { create(:sprint, name: "Sprint name for export", project:) }
+
+      before do
+        work_package.sprint = sprint
+        work_package.save!
+      end
+
+      it "contains correct data" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+        expected_result = [
+          *expected_details,
+          label_title(:description),
+          "Lorem", " ", "ipsum", " ", "dolor", " ", "sit", " ",
+          "amet", ", consetetur sadipscing elitr.", " ", "@OpenProject Admin",
+          "Image Caption",
+          "Image Redirect",
+          "Foo"
+        ].flatten.join(" ")
+        expect(result).to eq(expected_result)
+        expect(result).not_to include("DisabledCustomField")
       end
     end
   end

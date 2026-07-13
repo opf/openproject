@@ -24,19 +24,6 @@
       end
     end
 
-    header.with_action_button(
-      tag: :a,
-      mobile_icon: :pencil,
-      mobile_label: t("projects.settings.change_identifier"),
-      size: :medium,
-      href: project_identifier_path(@project),
-      aria: { label: t("projects.settings.change_identifier") },
-      title: t("projects.settings.change_identifier")
-    ) do |button|
-      button.with_leading_visual_icon(icon: :pencil)
-      t("projects.settings.change_identifier")
-    end
-
     header.with_action_menu(
       menu_arguments: {
         anchor_align: :end

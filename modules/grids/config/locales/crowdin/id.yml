@@ -1,34 +1,35 @@
+---
 id:
-  grids:
-    label_widget_in_grid: "Widget terdapat dalam Kisi %{grid_name}"
-    widgets:
-      empty: "Saat ini, widget ini kosong."
-      not_available: "Widget ini tidak tersedia."
-      subitems:
-        title: "Subitem"
-        no_results: "There are no visible children."
-        view_all_subitems: "Lihat semua subitem"
-        button_text: "Subitem"
-      members:
-        title: "Anggota"
-        no_results: "Tidak ada anggota yang terlihat."
-        view_all_members: "View all members"
-        show_members_count: "Tampilkan seluruh %{count} anggota"
-        x_more:
-          other: "dan %{count} anggota lainnya."
-      news:
-        no_results: "Nothing new to report."
   activerecord:
     attributes:
       grids/grid:
-        page: "Halaman"
-        row_count: "Jumlah baris"
-        column_count: "Jumlah kolom"
-        widgets: "Widget"
-        scope: "Cakupan"
+        column_count: Jumlah kolom
+        page: Halaman
+        row_count: Jumlah baris
+        scope: Cakupan
+        widgets: Widget
     errors:
       models:
         grids/grid:
-          overlaps: 'tumpang tindih.'
-          outside: 'berada di luar jaringan.'
-          end_before_start: 'nilai akhir harus lebih besar dari nilai awal.'
+          end_before_start: nilai akhir harus lebih besar dari nilai awal.
+          outside: berada di luar jaringan.
+          overlaps: tumpang tindih.
+  grids:
+    label_widget_in_grid: Widget terdapat dalam Kisi %{grid_name}
+    widgets:
+      empty: Saat ini, widget ini kosong.
+      members:
+        no_results: Tidak ada anggota yang terlihat.
+        show_members_count: Tampilkan seluruh %{count} anggota
+        title: Anggota
+        view_all_members: View all members
+        x_more:
+          other: dan %{count} anggota lainnya.
+      news:
+        no_results: Nothing new to report.
+      not_available: Widget ini tidak tersedia.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitem
+        view_all_subitems: Lihat semua subitem

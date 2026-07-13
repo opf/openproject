@@ -1,10 +1,4 @@
-import {
-  Component,
-  ContentChild,
-  HostBinding,
-  Input,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, inject } from '@angular/core';
 import {
   AbstractControl,
   FormGroupDirective,
@@ -15,8 +9,14 @@ import {
   selector: 'spot-selector-field',
   templateUrl: './selector-field.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SpotSelectorFieldComponent {
+  private formGroupDirective = inject(FormGroupDirective, { optional: true });
+
   @HostBinding('class.spot-form-field') className = true;
 
   @HostBinding('class.spot-selector-field') classNameCheckbox = true;
@@ -91,7 +91,7 @@ export class SpotSelectorFieldComponent {
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this.formGroupDirective?.submitted;
+      return this.formControl.invalid && (this.formGroupDirective?.submitted ?? false);
     }
     if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
@@ -102,8 +102,4 @@ export class SpotSelectorFieldComponent {
 
     return false;
   }
-
-  constructor(
-    @Optional() private formGroupDirective:FormGroupDirective,
-  ) {}
 }

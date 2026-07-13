@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,44 +29,33 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe WorkPackages::CreateContract do
-  let(:work_package) { build(:work_package, author: other_user, project:) }
-  let(:other_user) { build_stubbed(:user) }
-  let(:project) { build_stubbed(:project) }
+  let(:work_package) do
+    WorkPackage.new(project: work_package_project,
+                    subject: "Some subject",
+                    type: work_package_type,
+                    priority: work_package_priority,
+                    status: work_package_status,
+                    story_points: work_package_story_points,
+                    sprint: work_package_sprint) do |wp|
+      wp.extend(OpenProject::ChangedBySystem)
+
+      wp.change_by_system do
+        wp.author = work_package_author
+      end
+    end
+  end
+
   let(:permissions) do
     %i[
       view_work_packages
       add_work_packages
+      manage_sprint_items
+      view_sprints
     ]
   end
-  let(:changed_values) { [] }
 
-  let(:user) { build_stubbed(:user) }
-
-  before do
-    mock_permissions_for(user) do |mock|
-      mock.allow_in_project *permissions, project:
-    end
-
-    allow(work_package).to receive(:changed).and_return(changed_values)
-  end
-
-  subject(:contract) { described_class.new(work_package, user) }
-
-  describe "story points" do
-    before do
-      contract.validate
-    end
-
-    context "when not changed" do
-      it("is valid") { expect(contract.errors.symbols_for(:story_points)).to be_empty }
-    end
-
-    context "when changed" do
-      let(:changed_values) { ["story_points"] }
-
-      it("is valid") { expect(contract.errors.symbols_for(:story_points)).to be_empty }
-    end
-  end
+  it_behaves_like "work package contract with backlogs extensions"
 end

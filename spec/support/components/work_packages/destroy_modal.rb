@@ -35,39 +35,36 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def container
-        "#wp_destroy_modal"
+      def initialize(bulk_mode: false)
+        @bulk_mode = bulk_mode
       end
 
-      def expect_listed(*wps)
-        page.within(container) do
-          if wps.length == 1
-            wp = wps.first
-            expect(page).to have_css("strong", text: "#{wp.subject} ##{wp.id}")
-          else
-            expect(page).to have_css(".danger-zone--warning",
-                                     text: "Are you sure you want to delete the following work packages?")
-            wps.each do |wp|
-              expect(page).to have_css("li", text: "##{wp.id}#{wp.subject}")
-            end
+      def dialog_css_selector
+        "dialog#wp-delete-dialog"
+      end
+
+      def within_dialog(&)
+        within(dialog_css_selector, &)
+      end
+
+      def expect_listed(*work_packages)
+        within_dialog do
+          work_packages.each do |work_package|
+            expect(page).to have_text(work_package.subject)
           end
         end
       end
 
-      def confirm_children_deletion
-        page.within(container) do
-          check "confirm-children-deletion"
-        end
-      end
-
       def confirm_deletion
-        page.within(container) do
-          click_button "Delete"
+        within_dialog do
+          check "I understand that this deletion cannot be reversed"
+          expect(page).to have_button "Delete permanently", disabled: false
+          click_button "Delete permanently"
         end
       end
 
       def cancel_deletion
-        page.within(container) do
+        within_dialog do
           click_button "Cancel"
         end
       end

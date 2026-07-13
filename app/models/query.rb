@@ -63,6 +63,7 @@ class Query < ApplicationRecord
   validate :validate_timestamps
 
   include Scopes::Scoped
+
   scopes :visible,
          :having_views
 
@@ -208,6 +209,25 @@ class Query < ApplicationRecord
     filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
+  # Mirrors `Queries::BaseQuery#find_active_filter` so that consumers built
+  # on top of the modern query API (e.g. `Filters::FilterFormComponent`) can ask any
+  # query — including this legacy work-package one — for its active filter
+  # by name. Signature kept identical to BaseQuery's (symbol arg in, filter
+  # or nil out).
+  def find_active_filter(name)
+    filters.detect { |f| f.name == name }
+  end
+
+  # The manual-sort filter is added programmatically when the user drags
+  # work packages to reorder them — it has no operator/value UI of its own
+  # (type `:empty_value`), so it doesn't belong in the picker that
+  # `Filters::FilterFormComponent` builds. Mirrors how
+  # `Queries::Filters::AvailableFilters#available_advanced_filters` already
+  # excludes the inline `name_and_identifier` quick-filter on projects.
+  def available_advanced_filters
+    super.grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+  end
+
   def normalized_name
     name.parameterize.underscore
   end
@@ -223,10 +243,12 @@ class Query < ApplicationRecord
   end
 
   def self.available_columns(project = nil)
-    Queries::Register
-      .selects[self]
-      .map { |col| col.instances(project) }
-      .flatten
+    RequestStore.fetch(:"available_columns_#{project&.id}") do
+      Queries::Register
+        .selects[self]
+        .map { |col| col.instances(project) }
+        .flatten
+    end
   end
 
   def self.displayable_columns

@@ -50,6 +50,15 @@ module Documents
 
         private
 
+        def failure_callback(call)
+          @errors = call.errors
+          render :show, status: :unprocessable_entity
+        end
+
+        def update_service
+          Documents::Admin::Settings::CollaborationServerSettingsUpdateService
+        end
+
         def toggle_collaboration(enabled:)
           call = update_service
             .new(user: current_user)

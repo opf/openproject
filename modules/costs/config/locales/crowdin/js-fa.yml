@@ -19,23 +19,18 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 fa:
   js:
-    costs:
-      widgets:
-        actual_costs:
-          blankslate:
-            title: "No data for current year"
-            description: "Log spent time and costs for work packages to start tracking actual costs"
-    text_are_you_sure: "آیا مطمئن هستید؟"
+    button_log_costs: ثبت هزینه‌های واحد
+    label_hour: hour
+    label_hours: ساعت
     myTimeTracking:
-      noSpecificTime: "No specific time"
+      noSpecificTime: No specific time
+    text_are_you_sure: آیا مطمئن هستید؟
     work_packages:
-      property_groups:
-        costs: "هزینه ها"
       properties:
-        overallCosts: "هزینه‌های کلی"
-        spentUnits: "واحد هزینه‌کرد"
-    button_log_costs: "ثبت هزینه‌های واحد"
-    label_hour: "hour"
-    label_hours: "ساعت"
+        overallCosts: هزینه‌های کلی
+        spentUnits: واحد هزینه‌کرد
+      property_groups:
+        costs: هزینه ها

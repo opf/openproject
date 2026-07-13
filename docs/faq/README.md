@@ -23,17 +23,17 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ### How do I get access to the OpenProject Enterprise add-ons?
 
-We offer the Enterprise add-ons of OpenProject (incl. boards) for two different OpenProject variants:
+We offer the Enterprise add-ons of OpenProject for two different OpenProject variants:
 
-* For the OpenProject Enterprise cloud edition (hosted by us),
-* For the self-hosted (on-premises) OpenProject Enterprise on-premises edition
+- For the OpenProject Enterprise cloud edition (hosted by us),
+- For the self-hosted (on-premises) OpenProject Enterprise on-premises edition
 
 If you want to run OpenProject on your own server, the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with Enterprise add-ons and some without?
 
-As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
+As the Enterprise Enterprise add-ons affect the whole instance (e.g. with project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
 
@@ -80,7 +80,7 @@ The (on-premise) OpenProject Community edition is completely free. The Enterpris
 
 ### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises edition?
 
-This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud *or* Enterprise on-premises, if you want to collaborate with all colleagues.
+This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud _or_ Enterprise on-premises, if you want to collaborate with all colleagues.
 
 ### How are users in OpenProject counted? How many licenses do I need for Enterprise on-premises or Enterprise cloud?
 
@@ -129,7 +129,7 @@ You can invite new users in the system administration as long as you have enough
 For the Community edition you can have as many users as you need for free.
 If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
 
-If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
+If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to _Administration -> Billing -> Manage subscription_ and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
 
 ### How can I change the day my week starts with, etc.?
 
@@ -247,8 +247,6 @@ Furthermore, we are planning a direct integration into Solibri. Then you don't n
 
 ### Does clicking on a BCF-issue zoom you to the appropriate location in the model?
 
-
-
 Yes, the so-called camera position is stored in the BCF-issues, so that exactly the same camera position is assumed when you click on the BCF-issue. These are called viewpoints. If you have several models, e.g. architecture and technical building equipment, these must be activated (made visible) before you click on the BCF-issue. In the same way, BCF-elements of the model can be hidden or selected via the viewpoint.
 
 In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the OpenProject BIM edition the basics are shown very well. In particular, the integration of BCF management into the rest of the project management of a construction project is the strength of OpenProject.
@@ -323,7 +321,7 @@ Yes, we do.
 ### Is there a limitation of participants for the trainings?
 
 No, you can join with as many people from your organization as you like. However, we recommend not more than 20-25 people so there's enough opportunity for everyone to ask questions.
-*This answer only refers to e.g. Getting Started training and custom trainings, not to the OpenProject certification!*
+_This answer only refers to e.g. Getting Started training and custom trainings, not to the OpenProject certification!_
 
 ### Can trainings be conducted remotely, too (e.g. the Custom training)?
 

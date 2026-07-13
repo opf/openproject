@@ -43,7 +43,8 @@ module Budgets
                    {
                      budgets: %i[index show edit update destroy destroy_info new create copy]
                    },
-                   permissible_on: :project
+                   permissible_on: :project,
+                   dependencies: :view_budgets
       end
 
       menu :project_menu,
@@ -56,6 +57,9 @@ module Budgets
     end
 
     patch_with_namespace :Projects, :RowComponent
+
+    # Allow assigning a budget when moving work packages
+    additional_permitted_attributes move_work_package: %i[budget_id]
 
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"

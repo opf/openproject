@@ -47,8 +47,7 @@ RSpec.describe "Wiki page external link", :js, :selenium do
   it "opens that link in a new window or tab" do
     visit project_wiki_path(project, wiki_page)
 
-    href = external_redirect_path(url: external_url)
-    link = page.find_link("OpenProject", href:)
+    link = page.find_link("OpenProject", href: external_url)
     new_window = window_opened_by { link.click }
     within_window new_window do
       expect(page.current_url).to start_with external_url

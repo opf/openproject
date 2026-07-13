@@ -1,4 +1,5 @@
+---
 hr:
   js:
     my_page:
-      label: "Moja stranica"
+      label: Moja stranica

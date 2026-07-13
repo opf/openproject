@@ -9,7 +9,7 @@ class RecurringMeetingsController < ApplicationController
   before_action :load_and_authorize_in_optional_project
   before_action :find_recurring_meeting, except: %i[index new create]
 
-  before_action :get_scheduled_meeting, only: %i[delete_scheduled_dialog destroy_scheduled]
+  before_action :get_meeting_to_cancel, only: %i[delete_scheduled_dialog destroy_scheduled]
   before_action :redirect_to_project, only: %i[show]
   before_action :set_direction, only: %i[show]
   before_action :convert_params, only: %i[create update]
@@ -51,12 +51,13 @@ class RecurringMeetingsController < ApplicationController
   end
 
   def init # rubocop:disable Metrics/AbcSize
-    scheduled_meeting = @recurring_meeting.scheduled_meetings.find_by(start_time: params[:start_time])
-    is_restoration = scheduled_meeting&.cancelled?
+    start_time = DateTime.iso8601(params[:start_time])
+    existing = @recurring_meeting.meetings.not_templated.find_by(recurrence_start_time: start_time)
+    is_restoration = existing&.cancelled?
 
     call = ::RecurringMeetings::InitOccurrenceService
       .new(user: current_user, recurring_meeting: @recurring_meeting)
-      .call(start_time: DateTime.iso8601(params[:start_time]))
+      .call(start_time:)
 
     if call.success?
       send_restoration_notifications(call.result) if is_restoration
@@ -86,7 +87,7 @@ class RecurringMeetingsController < ApplicationController
     @recurring_meeting = call.result
 
     if call.success?
-      flash[:notice] = I18n.t(:notice_successful_create).html_safe
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_meeting_path(@recurring_meeting.project, @recurring_meeting.template),
                   status: :see_other
     else
@@ -190,12 +191,15 @@ class RecurringMeetingsController < ApplicationController
 
   def delete_scheduled_dialog
     respond_with_dialog RecurringMeetings::DeleteScheduledDialogComponent.new(
-      scheduled_meeting: @scheduled_meeting
+      meeting_to_cancel: @meeting_to_cancel
     )
   end
 
-  def destroy_scheduled
-    if @scheduled_meeting.update(cancelled: true)
+  def destroy_scheduled # rubocop:disable Metrics/AbcSize
+    if @meeting_to_cancel.persisted?
+      meeting.update_column(:state, Meeting.states[:cancelled])
+      flash[:notice] = I18n.t(:notice_successful_cancel)
+    elsif @meeting_to_cancel.save
       flash[:notice] = I18n.t(:notice_successful_cancel)
     else
       flash[:error] = I18n.t(:error_failed_to_delete_entry)
@@ -285,11 +289,11 @@ class RecurringMeetingsController < ApplicationController
   def upcoming_meetings(count:) # rubocop:disable Metrics/AbcSize
     opened = @recurring_meeting
       .upcoming_instantiated_meetings
-      .index_by(&:start_time)
+      .index_by(&:recurrence_start_time)
 
     cancelled = @recurring_meeting
       .upcoming_cancelled_meetings
-      .index_by(&:start_time)
+      .index_by(&:recurrence_start_time)
 
     # Planned meetings consist of scheduled occurrences and cancelled meetings
     # Open meetings are removed from the scheduled occurrences as they are displayed separately
@@ -300,15 +304,15 @@ class RecurringMeetingsController < ApplicationController
     # Get +1 scheduled_occurrences in case there is an ongoing cancelled occurrence
     scheduled_times = @recurring_meeting
       .scheduled_occurrences(limit: count + 1, from_time:)
-      .reject { |start_time| opened.include?(start_time) }
+      .reject { |occurrence_time| opened.include?(occurrence_time) }
 
-    has_ongoing = scheduled_times.any? { |start_time| start_time < Time.current }
+    has_ongoing = scheduled_times.any? { |occurrence_time| occurrence_time < Time.current }
 
     planned = scheduled_times
-      .map { |start_time| cancelled[start_time] || scheduled_meeting(start_time) }
+      .map { |occurrence_time| cancelled[occurrence_time] || planned_occurrence(occurrence_time) }
       .first([(count + (has_ongoing ? 1 : 0)), 0].max)
 
-    [opened.values.sort_by(&:start_time), planned]
+    [opened.values.sort_by(&:recurrence_start_time), planned]
   end
 
   def set_direction
@@ -329,14 +333,39 @@ class RecurringMeetingsController < ApplicationController
     @count = [show_more_limit_param(limit: params[:limit]), @max_count].compact.min
   end
 
-  def scheduled_meeting(start_time)
-    ScheduledMeeting.new(start_time:, recurring_meeting: @recurring_meeting)
+  def planned_occurrence(recurrence_start_time)
+    RecurringMeetings::PlannedOccurrence.new(recurrence_start_time:, recurring_meeting: @recurring_meeting)
   end
 
-  def get_scheduled_meeting
-    @scheduled_meeting = @recurring_meeting.scheduled_meetings.find_or_initialize_by(start_time: params[:start_time])
+  # Builds a Meeting object for a planned-but-not-yet-instantiated occurrence that
+  # the user wants to cancel. Returns 400 if an instantiated (non-cancelled) meeting
+  # already exists for this slot.
+  def get_meeting_to_cancel
+    recurrence_start_time = DateTime.iso8601(params[:start_time])
+    existing = @recurring_meeting.meetings.not_templated.find_by(recurrence_start_time:)
 
-    render_400 unless @scheduled_meeting.meeting_id.nil?
+    if existing && !existing.cancelled?
+      render_400
+      return
+    end
+
+    @meeting_to_cancel = existing || build_cancelled_occurrence(recurrence_start_time)
+  end
+
+  def build_cancelled_occurrence(recurrence_start_time)
+    template = @recurring_meeting.template
+    Meeting.new(
+      title: template.title,
+      project: @recurring_meeting.project,
+      author: current_user,
+      recurring_meeting: @recurring_meeting,
+      duration: template.duration,
+      location: template.location,
+      start_time: recurrence_start_time,
+      recurrence_start_time:,
+      state: :cancelled,
+      template: false
+    )
   end
 
   def visible_recurring_meetings_scope
@@ -363,7 +392,8 @@ class RecurringMeetingsController < ApplicationController
   def recurring_meeting_params
     params
       .expect(meeting: %i[project_id title location start_time_hour duration start_date
-                          interval frequency end_after end_date iterations notify])
+                          interval frequency monthly_day monthly_ordinal monthly_weekday
+                          end_after end_date iterations notify])
   end
 
   def find_copy_from_meeting
@@ -388,12 +418,12 @@ class RecurringMeetingsController < ApplicationController
     end
 
     is_scheduled = @recurring_meeting
-      .scheduled_meetings
-      .where(start_time: @first_occurrence)
-      .where.not(meeting_id: nil)
-      .exists?
+      .meetings
+      .not_templated
+      .not_cancelled
+      .exists?(recurrence_start_time: @first_occurrence)
 
-    if is_scheduled
+    if is_scheduled && !@recurring_meeting.template.draft?
       flash[:info] = I18n.t("recurring_meeting.occurrence.first_already_exists")
       redirect_to action: :show, status: :see_other
     end

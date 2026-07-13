@@ -20,75 +20,63 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 zh-TW:
-  attributes:
-    commit: "提交"
-    gitlab: "GitLab 識別碼"
-    gitlab_avatar_url: "大頭貼網址"
-    gitlab_email: "GitLab 電子郵件"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "合併請求"
-    gitlab_name: "GitLab 名稱"
-    gitlab_updated_at: "更新於"
-    gitlab_user_avatar_url: "GitLab 頭像 URL"
-    gitlab_username: "GitLab 使用者名稱"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI 詳情"
       gitlab_merge_request:
-        labels: "標籤"
+        labels: 標籤
+      gitlab_pipeline:
+        ci_details: CI 詳情
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "必須是一個帶值的雜湊陣列：color、title"
+              invalid_schema: 必須是一個帶值的雜湊陣列：color、title
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "必須是一個帶值的雜湊陣列：color、title"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "顯示 GitLab內容"
+              invalid_schema: 必須是一個帶值的雜湊陣列：color、title
+  attributes:
+    commit: 提交
+    gitlab: GitLab 識別碼
+    gitlab_avatar_url: 大頭貼網址
+    gitlab_email: GitLab 電子郵件
+    gitlab_html_url: GitLab HTML URL
+    gitlab_merge_request: 合併請求
+    gitlab_name: GitLab 名稱
+    gitlab_updated_at: 更新於
+    gitlab_user_avatar_url: GitLab 頭像 URL
+    gitlab_username: GitLab 使用者名稱
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR 已開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}).。
-    merge_request_closed_comment: >
-      **MR 已關閉：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。
-    merge_request_merged_comment: >
-      **MR 已合併：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 合併。
-    merge_request_reopened_comment: >
-      **MR 已重新開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。
-    note_commit_referenced_comment: >
-      **在commit中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此WP於Commit Note [%{repository}](%{repository_url}) 在 [%{commit_id}](%{commit_url}) 上:
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **在MR 引用：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求%{mr_number} [%{mr_title}](%{mr_url}) 中引用了此WP在 [%{repository}](%{repository_url}) 上:
-      %{mr_note}
-    note_mr_commented_comment: >
-      ** 在 MR 中評論：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 對 [%{repository}](%{repository_url}) 評論了此 WP：
-      %{mr_note}
-    note_issue_referenced_comment: >
-      ** 在 Issue 中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP，於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上：
-      %{issue_note}
-    note_issue_commented_comment: >
-      ** 在 Issue 中註解：** [%{gitlab_user}](%{gitlab_user_url}) 註解此 WP於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上 ：
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      ** 在 Snippet 中被引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP於 Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) 在 [%{repository}](%{repository_url}) 上：
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      ** 問題已開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 開啟。
-    issue_closed_referenced_comment: >
-      ** 問題關閉：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。
-    issue_reopened_referenced_comment: >
-      ** 問題重新開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。
-    push_single_commit_comment: >
-      ** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      ** 推送在 %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      ** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送了多個提交 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}:
-      %{commit_note}
+    issue_closed_referenced_comment: "** 問題關閉：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
+    issue_opened_referenced_comment: "** 問題已開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 開啟。\n"
+    issue_reopened_referenced_comment: "** 問題重新開啟：** 問題 %{issue_number} [%{issue_title}](%{issue_url}) 為 [%{repository}](%{repository_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"
+    merge_request_closed_comment: "**MR 已關閉：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 關閉。\n"
+    merge_request_merged_comment: "**MR 已合併：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 合併。\n"
+    merge_request_opened_comment: "**MR 已開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}).。\n"
+    merge_request_reopened_comment: "**MR 已重新開啟：** [%{repository}](%{repository_url}) 的合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 已被 [%{gitlab_user}](%{gitlab_user_url}) 重新開啟。\n"
+    note_commit_referenced_comment: "**在commit中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此WP於Commit Note [%{repository}](%{repository_url}) 在 [%{commit_id}](%{commit_url}) 上: %{commit_note}\n"
+    note_issue_commented_comment: "** 在 Issue 中註解：** [%{gitlab_user}](%{gitlab_user_url}) 註解此 WP於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上 ： %{issue_note}\n"
+    note_issue_referenced_comment: "** 在 Issue 中引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP，於 Issue %{issue_number} [%{issue_title}](%{issue_url}) 在 [%{repository}](%{repository_url}) 上： %{issue_note}\n"
+    note_mr_commented_comment: "** 在 MR 中評論：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求 %{mr_number} [%{mr_title}](%{mr_url}) 對 [%{repository}](%{repository_url}) 評論了此 WP： %{mr_note}\n"
+    note_mr_referenced_comment: "**在MR 引用：** [%{gitlab_user}](%{gitlab_user_url}) 在合併請求%{mr_number} [%{mr_title}](%{mr_url}) 中引用了此WP在 [%{repository}](%{repository_url}) 上: %{mr_note}\n"
+    note_snippet_referenced_comment: "** 在 Snippet 中被引用：** [%{gitlab_user}](%{gitlab_user_url}) 引用了此 WP於 Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) 在 [%{repository}](%{repository_url}) 上： %{snippet_note}\n"
+    push_multiple_commits_comment: "** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送了多個提交 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "** 在 MR 中推送：** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "** 推送在 %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) 在 %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: 顯示 GitLab內容
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

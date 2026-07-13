@@ -30,19 +30,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   widget_wrapper(test_selector: "op-overview-widget--project-description") do
-    if project.description.present?
-      render OpenProject::Common::InplaceEditFieldComponent.new(
-        model: @project,
-        attribute: :description,
-        visually_hide_label: true,
-        rich_text_options: {
-          showAttachments: false,
-          editorType: "constrained",
-          macros: false
-        }
-      )
-    else
-      render(Primer::Beta::Text.new(color: :subtle)) { t(:"js.grid.widgets.project_description.no_results") }
-    end
+    render OpenProject::Common::InplaceEditFieldComponent.new(
+      model: @project,
+      attribute: :description,
+      visually_hide_label: true,
+      rich_text_options: {
+        showAttachments: false,
+        editorType: "constrained",
+        macros: false
+      }
+    )
   end
 %>

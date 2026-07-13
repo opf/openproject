@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { TransitionService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -47,6 +47,9 @@ import { fromEvent } from 'rxjs';
   standalone: false,
 })
 export class WpResizerComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly $transitions = inject(TransitionService);
+
   @Input() elementClass:string;
 
   @Input() resizeEvent:string;
@@ -69,13 +72,6 @@ export class WpResizerComponent extends UntilDestroyedMixin implements OnInit, A
   public moving = false;
 
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
-
-  constructor(
-    private elementRef:ElementRef<HTMLElement>,
-    readonly $transitions:TransitionService,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     // Get element

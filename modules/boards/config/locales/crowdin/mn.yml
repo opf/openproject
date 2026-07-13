@@ -1,40 +1,46 @@
-#English strings go here
+---
 mn:
-  plugin_openproject_boards:
-    name: "OpenProject Boards"
-    description: "Provides board views."
-  permission_show_board_views: "Самбаруудыг үзэх"
-  permission_manage_board_views: "Самбаруудыг удирдах"
-  project_module_board_view: "Самбарууд"
+  boards:
+    board_type_attributes:
+      assignee: Даалгагч
+      basic: Ердийн
+      status: Kanban
+      subproject: Дэд төсөл
+      subtasks: Parent-child
+      version: Хувилбар
+    board_type_descriptions:
+      assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
+
+        '
+      basic: 'Start from scratch with a blank board. Manually add cards and columns to this board.
+
+        '
+      status: 'Basic kanban style board with columns for status such as To Do, In Progress, Done.
+
+        '
+      subproject: 'Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+
+        '
+      subtasks: 'Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+
+        '
+      version: 'Board with automated columns based on the version attribute. Ideal for planning product development.
+
+        '
+    board_types:
+      action: Үйлдлийн самбар (%{attribute})
+      free: Ердийн
+    label_board: Самбар
+    label_board_type: Самбарын төрөл
+    label_boards: Самбарууд
+    label_create_new_board: Шинэ самбар үүсгэх
   ee:
     upsell:
       board_view:
-        description: 'Та самбарын тусламжтайгаар ажлын урсгалаа автоматжуулахыг хүсч байна уу? Нарийвчилсан самбарууд нь Enterprise нэмэлт юм. Төлбөртэй багц болгон шинэчилнэ үү.'
-  boards:
-    label_board: "Самбар"
-    label_boards: "Самбарууд"
-    label_create_new_board: "Шинэ самбар үүсгэх"
-    label_board_type: "Самбарын төрөл"
-    board_types:
-      free: Ердийн
-      action: "Үйлдлийн самбар (%{attribute})"
-    board_type_attributes:
-      assignee: Даалгагч
-      status: Kanban
-      version: Хувилбар
-      subproject: Дэд төсөл
-      subtasks: Parent-child
-      basic: Ердийн
-    board_type_descriptions:
-      basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
-      status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
-      assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
-      version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
-      subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
-      subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        description: Та самбарын тусламжтайгаар ажлын урсгалаа автоматжуулахыг хүсч байна уу? Нарийвчилсан самбарууд нь Enterprise нэмэлт юм. Төлбөртэй багц болгон шинэчилнэ үү.
+  permission_manage_board_views: Самбаруудыг удирдах
+  permission_show_board_views: Самбаруудыг үзэх
+  plugin_openproject_boards:
+    description: Provides board views.
+    name: OpenProject Boards
+  project_module_board_view: Самбарууд

@@ -1,21 +1,21 @@
+---
 bg:
-  label_job_status_plural: "Job statuses"
-  plugin_openproject_job_status:
-    name: "OpenProject Job status"
-    description: "Listing and status of background jobs."
   job_status_dialog:
-    download_starts: 'The download should start automatically.'
-    link_to_download: 'Or, %{link} to download.'
-    click_here: 'click here'
-    title: 'Background job status'
-    redirect: 'You are being redirected.'
-    redirect_link: 'Моля, кликнете тук, за да продължите.'
-    redirect_errors: 'Поради тези грешки няма да бъдете пренасочени автоматично.'
-    errors: 'Something went wrong'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: The download should start automatically.
+    errors: Something went wrong
     generic_messages:
-      not_found: 'This job could not be found.'
-      in_queue: 'The job has been queued and will be processed shortly.'
-      in_process: 'The job is currently being processed.'
-      error: 'The job has failed to complete.'
-      cancelled: 'The job has been cancelled due to an error.'
-      success: 'The job completed successfully.'
+      cancelled: The job has been cancelled due to an error.
+      error: The job has failed to complete.
+      in_process: The job is currently being processed.
+      in_queue: The job has been queued and will be processed shortly.
+      not_found: This job could not be found.
+      success: The job completed successfully.
+    redirect: You are being redirected.
+    redirect_errors: Поради тези грешки няма да бъдете пренасочени автоматично.
+    redirect_link: Моля, кликнете тук, за да продължите.
+    title: Background job status
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Listing and status of background jobs.
+    name: OpenProject Job status

@@ -86,6 +86,20 @@ RSpec.describe Migration::MigrationUtils::PermissionAdder, type: :model do # rub
     end
   end
 
+  context "when having is an array of permissions" do
+    let!(:role_with_all) { create(:project_role, permissions: %i[view_project view_work_packages]) }
+    let!(:role_with_partial) { create(:project_role, permissions: %i[view_project]) }
+    let!(:role_with_none) { create(:project_role) }
+
+    it "only adds the permission to roles that have ALL of the having permissions" do
+      described_class.add(%i[view_project view_work_packages], :view_project_attributes)
+
+      expect(role_with_all.reload.permissions).to include(:view_project_attributes)
+      expect(role_with_partial.reload.permissions).not_to include(:view_project_attributes)
+      expect(role_with_none.reload.permissions).not_to include(:view_project_attributes)
+    end
+  end
+
   context "with a permission that does not exist" do
     it "results in a no-op" do
       result = nil

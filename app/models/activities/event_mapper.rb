@@ -77,11 +77,11 @@ module Activities
     end
 
     def event_data(journal)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def event_title(journal, data)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
   end
 end

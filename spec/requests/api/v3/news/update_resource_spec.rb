@@ -66,6 +66,33 @@ RSpec.describe API::V3::News::NewsAPI,
     it_behaves_like "updates the news"
   end
 
+  describe "user with only view_news on source project and manage_news on different project" do
+    let(:attacker_project) { create(:project, enabled_module_names: %w[news]) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: {
+               project => %i[view_news],
+               attacker_project => %i[view_news manage_news]
+             })
+    end
+    let(:parameters) do
+      {
+        _links: {
+          project: {
+            href: api_v3_paths.project(attacker_project.id)
+          }
+        }
+      }
+    end
+
+    it "does not move the news to another project" do
+      expect(last_response.status).to eq(422)
+      expect(news.reload.project).to eq(project)
+    end
+
+    it_behaves_like "read-only violation", "project", News
+  end
+
   describe "unauthorized user" do
     let(:user) { build(:user) }
 

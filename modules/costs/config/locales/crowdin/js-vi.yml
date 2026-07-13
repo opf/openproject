@@ -19,23 +19,18 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 vi:
   js:
-    costs:
-      widgets:
-        actual_costs:
-          blankslate:
-            title: "No data for current year"
-            description: "Log spent time and costs for work packages to start tracking actual costs"
-    text_are_you_sure: "Bạn có chắc không?"
+    button_log_costs: Ghi lại chi phí đơn vị
+    label_hour: giờ
+    label_hours: giờ
     myTimeTracking:
-      noSpecificTime: "Không có thời gian cụ thể"
+      noSpecificTime: Không có thời gian cụ thể
+    text_are_you_sure: Bạn có chắc không?
     work_packages:
-      property_groups:
-        costs: "chi phí"
       properties:
-        overallCosts: "Chi phí tổng cộng"
-        spentUnits: "Đơn vị đã chi"
-    button_log_costs: "Ghi lại chi phí đơn vị"
-    label_hour: "giờ"
-    label_hours: "giờ"
+        overallCosts: Chi phí tổng cộng
+        spentUnits: Đơn vị đã chi
+      property_groups:
+        costs: chi phí

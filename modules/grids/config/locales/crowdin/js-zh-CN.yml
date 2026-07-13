@@ -1,59 +1,60 @@
+---
 zh-CN:
   js:
     grid:
-      add_widget: '添加微件'
-      remove: '移除微件'
-      configure: '配置微件'
+      add_widget: 添加微件
+      configure: 配置微件
+      remove: 移除微件
+      widget_menu_label: 显示 %{widgetName} 微件的菜单选项
       widgets:
-        missing_permission: "您没有查看此微件所需的权限。"
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: '自定义文本'
+          title: 自定义文本
         documents:
-          title: '文档'
-          no_results: '没有文档。'
+          no_results: 没有文档。
+          title: 文档
         members:
-          title: '成员'
+          title: 成员
+        missing_permission: 您没有查看此微件所需的权限。
         news:
-          title: '新闻'
+          title: 新闻
+        not_available: 此微件目前不可用。
         project_description:
-          title: '描述'
-          no_results: "尚未写入任何描述。可以在“项目设置”中提供一个描述。"
-        project_status:
-          title: '状态'
-          not_started: '未开始'
-          on_track: '按计划进行'
-          off_track: '偏离计划'
-          at_risk: '有风险'
-          not_set: '未设置'
-          finished: '已完成'
-          discontinued: '已中断'
-        subprojects:
-          title: '子项目'
+          title: 描述
         project_favorites:
-          title: '收藏的项目'
-          no_results: '您目前没有收藏项目，单击项目仪表板中的星形图标将项目添加到收藏夹。'
+          no_results: 您目前没有收藏的项目。通过项目概览或项目列表添加一个或多个项目作为收藏项目。
+          title: 收藏的项目
+        project_status:
+          at_risk: 有风险
+          discontinued: 已中断
+          finished: 已完成
+          not_set: 未设置
+          not_started: 未开始
+          off_track: 偏离计划
+          on_track: 按计划进行
+          title: 状态
+        subprojects:
+          title: 子项目
         time_entries_current_user:
-          title: '我花费的时间'
-          displayed_days: '微件中显示的天数：'
+          displayed_days: 微件中显示的天数：
+          title: 我花费的时间
         time_entries_list:
-          title: '花费时间 (最近 7天)'
-          no_results: '过去7天没有时间记录。'
+          no_results: 过去7天没有时间记录。
+          title: 花费时间 (最近 7天)
         work_packages_accountable:
-          title: "我负责的工作包"
+          title: 我负责的工作包
         work_packages_assigned:
-          title: '分配给我的工作包'
-        work_packages_created:
-          title: '我创建的工作包'
-        work_packages_watched:
-          title: '我关注的工作包'
-        work_packages_table:
-          title: '工作包表'
-        work_packages_graph:
-          title: '工作包图'
-          summary: "显示工作包的%{chartType}，其中 %{description}。"
+          title: 分配给我的工作包
         work_packages_calendar:
-          title: '日历'
+          title: 日历
+        work_packages_created:
+          title: 我创建的工作包
+        work_packages_graph:
+          summary: 显示工作包的%{chartType}，其中 %{description}。
+          title: 工作包图
         work_packages_overview:
-          title: '工作包概览'
-          placeholder: '点击以编辑…'
+          placeholder: 点击以编辑…
+          title: 工作包概览
+        work_packages_table:
+          title: 工作包表
+        work_packages_watched:
+          title: 我关注的工作包

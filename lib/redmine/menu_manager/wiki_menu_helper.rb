@@ -36,10 +36,6 @@ module Redmine::MenuManager::WikiMenuHelper
     wiki_main_items(project_wiki).reverse_each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         push_wiki_main_menu(menu, main_item, project)
-
-        main_item.children.each do |child|
-          push_wiki_menu_subitem(menu, main_item, child)
-        end
       end
     end
   end
@@ -58,17 +54,6 @@ module Redmine::MenuManager::WikiMenuHelper
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
-  end
-
-  def push_wiki_menu_subitem(menu, main_item, child)
-    menu.push child.menu_identifier,
-              { controller: "/wiki", action: "show", id: child.slug },
-              caption: child.title,
-              html: { class: "wiki-menu--sub-item" },
-              parent: main_item.menu_identifier
-  rescue ArgumentError => e
-    Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."
-    child.destroy
   end
 
   def default_menu_item(page)

@@ -27,4 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_calendar_plural)) -%>
+<% html_title(@view&.name.presence || t(:label_calendar_plural)) -%>
+
+<% content_for :content_body do %>
+  <%= angular_component_tag "opce-calendar-view", inputs: { queryId: @view&.id.to_s } %>
+<% end %>
+
+<% content_for :content_body_right do %>
+  <%= render(split_view_instance) if render_work_package_split_view? %>
+  <%= render(split_create_instance) if render_work_package_split_create? %>
+<% end %>

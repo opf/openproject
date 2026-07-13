@@ -2,15 +2,19 @@
   <form>
     <p [textContent]="text.highlighting_mode.description"></p>
     <div class="form--field">
-      <label class="form--label">
-        <input type="radio"
-               [(ngModel)]="highlightingMode"
-               (change)="updateMode($event.target.value)"
-               value="inline"
-               name="highlighting_mode_switch">
-        <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
-      </label>
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="inline"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.inline"></span>&nbsp;
+        </label>
+      </div>
+    </div>
 
+    <div class="form--field">
       <div class="form--field-container">
         <div class="form--select-container">
           <ng-select #highlightedAttributesNgSelect
@@ -32,21 +36,26 @@
     </div>
 
     <div class="form--field">
-      <label class="form--label">
-        <input type="radio"
-               [(ngModel)]="entireRowMode"
-               (change)="updateMode('entire-row')"
-               [value]="true"
-               name="entire_row_switch">
-        <span [textContent]="text.highlighting_mode.entire_row_by"></span>
-      </label>
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="entireRowMode"
+                 (change)="updateMode('entire-row')"
+                 [value]="true"
+                 name="entire_row_switch">
+          <span [textContent]="text.highlighting_mode.entire_row_by"></span>
+        </label>
+      </div>
+    </div>
 
+    <div class="form--field">
       <div class="form--field-container">
         <div class="form--select-container">
           <ng-select #rowHighlightNgSelect
                      [items]="availableRowHighlightedAttributes"
                      [(ngModel)]="lastEntireRowAttribute"
                      [clearable]="false"
+                     [disabled]="highlightingMode === 'inline' || highlightingMode === 'none'"
                      (open)="onOpen(rowHighlightNgSelect)"
                      (change)="updateMode($event.value)"
                      bindLabel="name"
@@ -60,14 +69,16 @@
     </div>
 
     <div class="form--field">
-      <label class="form--label">
-        <input type="radio"
-               [(ngModel)]="highlightingMode"
-               (change)="updateMode($event.target.value)"
-               value="none"
-               name="highlighting_mode_switch">
-        <span [textContent]="text.highlighting_mode.none"></span>
-      </label>
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="none"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.none"></span>
+        </label>
+      </div>
     </div>
   </form>
 </div>

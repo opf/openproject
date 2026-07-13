@@ -1,6 +1,7 @@
+---
 it:
   js:
     work_packages:
-      label_gantt_chart_plural: "Diagrammi di Gantt"
       default_queries:
-        milestones: 'Traguardi'
+        milestones: Traguardi
+      label_gantt_chart_plural: Diagrammi di Gantt

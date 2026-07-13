@@ -43,12 +43,7 @@ module My
         end
 
         def integration_type
-          integration_class_name = client_token.oauth_client.integration_type
-          integration_class = begin
-            integration_class_name.constantize
-          rescue NameError
-            nil
-          end
+          integration_class = client_token.oauth_client.integration&.class
 
           return I18n.t("my_account.access_tokens.oauth_client.unknown_integration") unless integration_class
 
@@ -60,6 +55,8 @@ module My
         end
 
         def expires_on
+          return I18n.t(:label_never) if client_token.expires_in.blank?
+
           helpers.format_time(client_token.updated_at + client_token.expires_in.seconds)
         end
 

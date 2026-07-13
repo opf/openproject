@@ -276,7 +276,11 @@ RSpec.describe "Meeting index",
   end
 
   context "when showing past meetings" do
-    let(:request) { get "/projects/#{project.id}/meetings?upcoming=false" }
+    let(:request) do
+      filters = [{ "time" => { "operator" => "past", "values" => [] } }].to_json
+      sort = [["start_time", "desc"]].to_json
+      get "/projects/#{project.id}/meetings", params: { filters:, sortBy: sort }
+    end
 
     it "shows only one table" do
       expect(subject).to have_http_status(:ok)
@@ -294,6 +298,33 @@ RSpec.describe "Meeting index",
       expect(table).to have_no_text "weekend meeting on sunday"
       expect(table).to have_no_text "meeting on next monday"
       expect(table).to have_no_text "meeting on next friday"
+    end
+  end
+
+  describe "POST #refresh_form (add WP to meeting)" do
+    let(:wp_project) do
+      create(:project, enabled_module_names: %w[meetings work_package_tracking])
+    end
+    let(:wp_user) do
+      create(:user, member_with_permissions: { wp_project => %i[view_meetings view_work_packages] })
+    end
+    let(:work_package) do
+      create(:work_package, project: wp_project, author: wp_user)
+    end
+    let(:meeting) { create(:meeting, project: wp_project, author: wp_user) }
+
+    before { login_as wp_user }
+
+    it "refreshes the add-to-meeting form via POST as a turbo stream" do
+      post refresh_form_project_work_package_meeting_agenda_items_path(wp_project, work_package),
+           params: { meeting_agenda_item: { meeting_id: meeting.id.to_s, notes: "" } },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "update",
+        target: WorkPackageMeetingsTab::AddWorkPackageToMeetingFormComponent.wrapper_key
+      )
     end
   end
 

@@ -21,6 +21,10 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   min-height: 100px
   padding: 10px
 
+  // Keep editor content typography aligned with surrounding OpenProject styles.
+  --ck-content-font-family: var(--body-font-family)
+  --ck-content-font-size: var(--body-font-size)
+
 // Specific overrides for ck contenteditable
 .ck-content
 
@@ -70,6 +74,10 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   transform: translateX( -15px )
   z-index: 1000 !important
 
+// Force forms of ck to be block
+// as our forms are inline by default
+.ck.ck-form
+  display: block
 
 // Override fixed position of toolbar
 // Otherwise the toolbar will 'disappear' behind the topmenu
@@ -94,7 +102,7 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
   .document-editor__toolbar
     position: sticky
     top: 0
-    z-index: 2
+    z-index: 3
 
     // Reset these styles explicitly when the editor is opened inside a Dialog, as position: sticky opens a separate stacking context.
     // In case the dialog has multiple editors below each other, these different context interfere and the paragraph dropdown of an editor will be behind the editor below it.

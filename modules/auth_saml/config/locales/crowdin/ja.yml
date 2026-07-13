@@ -1,156 +1,199 @@
+---
 ja:
   activerecord:
     attributes:
       saml/provider:
-        display_name: 名称
-        identifier: 識別子
-        secret: シークレット
-        scope: スコープ
         assertion_consumer_service_url: ACS(アサーション・コンシューマ・サービス)URL
+        authn_requests_signed: SAML AuthnRequests に署名する
+        certificate: SAML 要求の OpenProject によって使用される証明書
+        digest_method: ダイジェスト・アルゴリズム
+        display_name: 名称
+        format: 書式
+        icon: カスタム アイコン
+        identifier: 識別子
+        idp_cert: ID プロバイダの公開証明書
+        idp_entity_id: Identity provider entity ID
+        idp_slo_service_url: アイデンティティプロバイダのログアウトエンドポイント
+        idp_sso_service_url: アイデンティティ・プロバイダのログイン・エンドポイント
         limit_self_registration: 自己登録を制限
-        sp_entity_id: サービス・エンティティID
         metadata_url: ID プロバイダのメタデータ URL
         name_identifier_format: 名前識別子の形式
-        idp_sso_service_url: アイデンティティ・プロバイダのログイン・エンドポイント
-        idp_slo_service_url: アイデンティティプロバイダのログアウトエンドポイント
-        idp_cert: ID プロバイダの公開証明書
-        authn_requests_signed: SAML AuthnRequests に署名する
-        want_assertions_signed: 署名された回答を必要とします
-        want_assertions_encrypted: 暗号化された応答が必要
-        certificate: SAML 要求の OpenProject によって使用される証明書
         private_key: OpenProject SAML リクエストに対応する秘密鍵
+        scope: スコープ
+        secret: シークレット
         signature_method: シグネチャーアルゴリズム
-        digest_method: ダイジェスト・アルゴリズム
-        format: "書式"
-        icon: "カスタム アイコン"
+        sp_entity_id: サービス・エンティティID
+        want_assertions_encrypted: 暗号化された応答が必要
+        want_assertions_signed: 署名された回答を必要とします
     errors:
       models:
         saml/provider:
-          invalid_certificate: "有効なPEMフォーマット証明書ではない:%{additional_message}"
-          invalid_private_key: "は有効なPEMフォーマットの秘密鍵ではない。 %{additional_message}"
-          certificate_expired: "が期限切れで、使用できなくなります。"
-          unmatched_private_key: "指定された証明書に属さない"
+          certificate_expired: が期限切れで、使用できなくなります。
+          invalid_certificate: 有効なPEMフォーマット証明書ではない:%{additional_message}
+          invalid_private_key: は有効なPEMフォーマットの秘密鍵ではない。 %{additional_message}
+          unmatched_private_key: 指定された証明書に属さない
   saml:
-    menu_title: SAML プロバイダ
+    delete_heading: Delete this SAML provider?
     delete_title: SAML プロバイダの削除
     info:
-      title: "SAML プロトコル構成パラメータ"
-      description: >
-        これらのパラメータを使用して、OpenProject への ID プロバイダ接続を設定します。
+      description: 'これらのパラメータを使用して、OpenProject への ID プロバイダ接続を設定します。
+
+        '
+      title: SAML プロトコル構成パラメータ
+    instructions:
+      authn_requests_signed: 'チェックすると、OpenProject は SAML AuthnRequest に署名します。以下のフィールドを使用して、署名証明書と秘密鍵を提供する必要があります。
+
+        '
+      certificate: 'OpenProject が SAML リクエストの署名に使用する、X509 PEM 形式の証明書を入力します。
+
+        '
+      digest_method: 'OpenProject が実行する SAML リクエスト署名に使用するダイジェスト・アルゴリズムを選択します (デフォルト: %{default_option})。
+
+        '
+      display_name: 'プロバイダーの名前。これはログインボタンとプロバイダーリストに表示されます。
+
+        '
+      documentation_link: 'これらの構成オプションの詳細については、[SAML プロバイダの構成に関する文書](docs_url) を参照してください。
+
+        '
+      icon: 'オプションで、プロバイダー名の横に表示されるアイコン画像への公開URLを指定します。
+
+        '
+      idp_cert: 'ID プロバイダの X509 PEM 形式の公開証明書を入力します。改行で区切ることで、複数の証明書を入力できます。
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+
+        '
+      idp_slo_service_url: 'The URL of the identity provider logout endpoint.
+
+        '
+      idp_sso_service_url: 'IDプロバイダのログイン・エンドポイントのURL。
+
+        '
+      limit_self_registration: '有効にした場合、ユーザーは自己登録設定が許可されている場合にのみ、このプロバイダを使用して登録することができます。
+
+        '
+      mapping: 'OpenProject で、SAML レスポンスとユーザ属性との間のマッピングを構成します。検索する属性名を複数設定できます。OpenProject は、SAML レスポンスから利用可能な最初の属性を選択します。
+
+        '
+      mapping_firstname: '指定された名前に使用される応答の SAML 属性。
+
+        '
+      mapping_lastname: '姓に使用されるレスポンスの SAML 属性。
+
+        '
+      mapping_login: 'ログインに使用されたレスポンスの SAML 属性。
+
+        '
+      mapping_mail: 'ユーザの電子メールに使用される応答の SAML 属性。
+
+        '
+      mapping_uid: '内部ユーザ ID に使用する SAML 属性。代わりに name_id 属性を使用する場合は、空のままにします。
+
+        '
+      metadata_for_idp: 'この情報は、SAML ID プロバイダから要求される場合がある。
+
+        '
+      metadata_none: 'ID プロバイダにメタデータ・エンドポイントまたは XML ダウンロード・オプションがない。手動で設定できます。
+
+        '
+      metadata_url: 'ID プロバイダはメタデータ URL を提供する。
+
+        '
+      metadata_xml: 'ID プロバイダがメタデータ XML をダウンロードする。
+
+        '
+      name_identifier_format: 'SAML アサーションに使用する名前識別子形式を設定する。
+
+        '
+      private_key: '上記証明書のX509 PEMフォーマット秘密鍵を入力する。これはRSA秘密鍵である必要があります。
+
+        '
+      request_uid: '内部ユーザ ID を要求する SAML 属性。デフォルトでは、このフィールドには name_id が使用されます。
+
+        '
+      requested_attributes: 'これらの属性は SAML リクエスト XML に追加され、OpenProject が必要とする属性を ID プロバイダに伝えます。
+
+        '
+      requested_format: '要求された属性の形式。これは、SAML 要求で属性の形式を指定するために使用される。詳細は、[要求属性の構成に関する文書](docs_url) を参照してください。
+
+        '
+      signature_method: 'OpenProject が実行する SAML リクエスト署名に使用する署名アルゴリズムを選択します (デフォルト: %{default_option})。
+
+        '
+      sp_entity_id: 'サービスプロバイダー(SP)のエンティティID。Audience と呼ばれることもあります。OpenProject サイトの一意のクライアント識別子です。
+
+        '
+      sp_metadata_endpoint: 'これは、OpenProject SAML メタデータが利用可能な URL です。オプションで、これを使用して ID プロバイダを設定します。
+
+        '
+      want_assertions_encrypted: '有効にすると、ID プロバイダが、提供する証明書ペアを使用してアサーション応答を暗号化することを要求する。
+
+        '
+      want_assertions_signed: 'チェックした場合、OpenProject は独自の証明書キーペアを使用した ID プロバイダからの署名付き応答を要求します。OpenProject は、基本設定セクションの証明書に対して署名を検証します。
+
+        '
+    menu_title: SAML プロバイダ
     metadata_parser:
-      success: "ID プロバイダのメタデータを使用した構成の更新に成功しました。"
-      invalid_url: "提供されたメタデータの URL が無効です。HTTP(s) URLを指定してください。"
-      error: "ID プロバイダのメタデータの取得に失敗しました： %{error}"
+      error: ID プロバイダのメタデータの取得に失敗しました： %{error}
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      invalid_url: 提供されたメタデータの URL が無効です。HTTP(s) URLを指定してください。
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      success: ID プロバイダのメタデータを使用した構成の更新に成功しました。
     providers:
-      label_empty_title: "SAML プロバイダはまだ構成されていない。"
-      label_empty_description: "プロバイダーを追加して、ここでご覧ください。"
+      attribute_mapping: 属性のマッピング
+      attribute_mapping_text: '以下のフィールドは、SAML ID プロバイダが提供するどの属性を OpenProject のユーザ属性に使用するかを制御します。
+
+        '
+      label_add_new: 新しい SAML ID プロバイダ
       label_automatic_configuration: 自動設定
+      label_configuration_details: アイデンティティ・プロバイダのエンドポイントと証明書
+      label_configuration_encryption: 署名と暗号化
+      label_edit: SAML ID プロバイダの編集 %{name}
+      label_empty_description: プロバイダーを追加して、ここでご覧ください。
+      label_empty_title: SAML プロバイダはまだ構成されていない。
+      label_mapping: マッピング
       label_metadata: メタデータ
       label_metadata_endpoint: OpenProjectメタデータ・エンドポイント
       label_openproject_information: OpenProject情報
-      label_configuration_details: "アイデンティティ・プロバイダのエンドポイントと証明書"
-      label_configuration_encryption: "署名と暗号化"
-      label_add_new: 新しい SAML ID プロバイダ
-      label_edit: SAML ID プロバイダの編集 %{name}
+      label_requested_attribute_for: 要求された属性 %{attribute}
       label_uid: 内部ユーザーID
-      label_mapping: マッピング
-      label_requested_attribute_for: "要求された属性 %{attribute}"
+      metadata:
+        dialog: これは、OpenProject SAML メタデータが利用可能な URL です。オプションで、これを使用して ID プロバイダを設定します：
       no_results_table: SAML ID プロバイダはまだ定義されていない。
       notice_created: A new SAML identity provider was successfully created.
       plural: SAML ID プロバイダー
-      singular: SAML ID プロバイダ
-      requested_attributes: 要求された属性
-      attribute_mapping: 属性のマッピング
-      attribute_mapping_text: >
-        以下のフィールドは、SAML ID プロバイダが提供するどの属性を OpenProject のユーザ属性に使用するかを制御します。
-      metadata:
-        dialog: "これは、OpenProject SAML メタデータが利用可能な URL です。オプションで、これを使用して ID プロバイダを設定します："
-      upsell:
-        title: "SAMLによるシングルサインオン（SSO）"
-        description: OpenProject を SAML ID プロバイダに接続する
       request_attributes:
-        title: '要求された属性'
-        legend: >
-          これらの属性は SAML XML メタデータに追加され、OpenProject が必要とする属性を識別プロバイダに示します。これらの属性を送信するように、ID プロバイダを明示的に設定する必要がある場合もあります。IDP のドキュメントを参照してください。
-        name: '要求された属性キー'
-        format: '属性フォーマット'
+        format: 属性フォーマット
+        legend: 'これらの属性は SAML XML メタデータに追加され、OpenProject が必要とする属性を識別プロバイダに示します。これらの属性を送信するように、ID プロバイダを明示的に設定する必要がある場合もあります。IDP のドキュメントを参照してください。
+
+          '
+        name: 要求された属性キー
+        title: 要求された属性
+      requested_attributes: 要求された属性
       section_headers:
-        configuration: "主要構成"
-        attributes: "属性"
+        attributes: 属性
+        configuration: 主要構成
       section_texts:
-        display_name: "SAML プロバイダの表示名を構成する。"
-        metadata: "メタデータURLまたはメタデータXMLの貼り付けによるプリフィル構成"
-        metadata_form: "ID プロバイダにメタデータ・エンドポイントまたは XML ダウンロードがある場合は、それを以下に追加して構成を事前に埋めてください。"
-        metadata_form_banner: "メタデータを編集すると、他のセクションの既存の値が上書きされることがあります。 "
-        configuration: "ID プロバイダのエンドポイント URL、証明書、およびその他の SAML オプションを構成する。"
-        configuration_metadata: "この情報は、提供されたメタデータを使用してあらかじめ入力されている。ほとんどの場合、編集の必要はありません。"
-        encryption: "SAML 要求および応答のアサーション署名と暗号化を構成する。"
-        encryption_form: "オプションで、アサーションレスポンスを暗号化したり、OpenProject からのリクエストに署名させたりすることもできます。"
-        mapping: "SAML レスポンスと OpenProject のユーザー属性との間のマッピングを手動で調整する。"
-        requested_attributes: "ID プロバイダに送信する SAML 要求で要求する属性のセットを定義する。"
-      seeded_from_env: "このプロバイダーは環境設定からシードされたものです。編集することはできません。"
+        configuration: ID プロバイダのエンドポイント URL、証明書、およびその他の SAML オプションを構成する。
+        configuration_metadata: この情報は、提供されたメタデータを使用してあらかじめ入力されている。ほとんどの場合、編集の必要はありません。
+        display_name: SAML プロバイダの表示名を構成する。
+        encryption: SAML 要求および応答のアサーション署名と暗号化を構成する。
+        encryption_form: オプションで、アサーションレスポンスを暗号化したり、OpenProject からのリクエストに署名させたりすることもできます。
+        mapping: SAML レスポンスと OpenProject のユーザー属性との間のマッピングを手動で調整する。
+        metadata: メタデータURLまたはメタデータXMLの貼り付けによるプリフィル構成
+        metadata_form: ID プロバイダにメタデータ・エンドポイントまたは XML ダウンロードがある場合は、それを以下に追加して構成を事前に埋めてください。
+        metadata_form_banner: 'メタデータを編集すると、他のセクションの既存の値が上書きされることがあります。 '
+        requested_attributes: ID プロバイダに送信する SAML 要求で要求する属性のセットを定義する。
+      seeded_from_env: このプロバイダーは環境設定からシードされたものです。編集することはできません。
+      singular: SAML ID プロバイダ
+      upsell:
+        description: OpenProject を SAML ID プロバイダに接続する
+        title: SAMLによるシングルサインオン（SSO）
     settings:
-      metadata_none: "メタデータがない"
-      metadata_url: "メタデータURL"
-      metadata_xml: "メタデータXML"
-    instructions:
-      documentation_link: >
-        これらの構成オプションの詳細については、[SAML プロバイダの構成に関する文書](docs_url) を参照してください。
-      display_name: >
-        プロバイダーの名前。これはログインボタンとプロバイダーリストに表示されます。
-      metadata_none: >
-        ID プロバイダにメタデータ・エンドポイントまたは XML ダウンロード・オプションがない。手動で設定できます。
-      metadata_url: >
-        ID プロバイダはメタデータ URL を提供する。
-      metadata_xml: >
-        ID プロバイダがメタデータ XML をダウンロードする。
-      limit_self_registration: >
-        有効にした場合、ユーザーは自己登録設定が許可されている場合にのみ、このプロバイダを使用して登録することができます。
-      sp_entity_id: >
-        サービスプロバイダー(SP)のエンティティID。Audience と呼ばれることもあります。OpenProject サイトの一意のクライアント識別子です。
-      idp_sso_service_url: >
-        IDプロバイダのログイン・エンドポイントのURL。
-      idp_slo_service_url: >
-        The URL of the identity provider logout endpoint.
-      idp_cert: >
-        ID プロバイダの X509 PEM 形式の公開証明書を入力します。改行で区切ることで、複数の証明書を入力できます。
-      name_identifier_format: >
-        SAML アサーションに使用する名前識別子形式を設定する。
-      sp_metadata_endpoint: >
-        これは、OpenProject SAML メタデータが利用可能な URL です。オプションで、これを使用して ID プロバイダを設定します。
-      mapping: >
-        OpenProject で、SAML レスポンスとユーザ属性との間のマッピングを構成します。検索する属性名を複数設定できます。OpenProject は、SAML レスポンスから利用可能な最初の属性を選択します。
-      mapping_login: >
-        ログインに使用されたレスポンスの SAML 属性。
-      mapping_mail: >
-        ユーザの電子メールに使用される応答の SAML 属性。
-      mapping_firstname: >
-        指定された名前に使用される応答の SAML 属性。
-      mapping_lastname: >
-        姓に使用されるレスポンスの SAML 属性。
-      mapping_uid: >
-        内部ユーザ ID に使用する SAML 属性。代わりに name_id 属性を使用する場合は、空のままにします。
-      request_uid: >
-        内部ユーザ ID を要求する SAML 属性。デフォルトでは、このフィールドには name_id が使用されます。
-      requested_attributes: >
-        これらの属性は SAML リクエスト XML に追加され、OpenProject が必要とする属性を ID プロバイダに伝えます。
-      requested_format: >
-        要求された属性の形式。これは、SAML 要求で属性の形式を指定するために使用される。詳細は、[要求属性の構成に関する文書](docs_url) を参照してください。
-      authn_requests_signed: >
-        チェックすると、OpenProject は SAML AuthnRequest に署名します。以下のフィールドを使用して、署名証明書と秘密鍵を提供する必要があります。
-      want_assertions_signed: >
-        チェックした場合、OpenProject は独自の証明書キーペアを使用した ID プロバイダからの署名付き応答を要求します。OpenProject は、基本設定セクションの証明書に対して署名を検証します。
-      want_assertions_encrypted: >
-        有効にすると、ID プロバイダが、提供する証明書ペアを使用してアサーション応答を暗号化することを要求する。
-      certificate: >
-        OpenProject が SAML リクエストの署名に使用する、X509 PEM 形式の証明書を入力します。
-      private_key: >
-        上記証明書のX509 PEMフォーマット秘密鍵を入力する。これはRSA秘密鍵である必要があります。
-      signature_method: >
-        OpenProject が実行する SAML リクエスト署名に使用する署名アルゴリズムを選択します (デフォルト: %{default_option})。
-      digest_method: >
-        OpenProject が実行する SAML リクエスト署名に使用するダイジェスト・アルゴリズムを選択します (デフォルト: %{default_option})。
-      icon: >
-        オプションで、プロバイダー名の横に表示されるアイコン画像への公開URLを指定します。
-      metadata_for_idp: >
-        この情報は、SAML ID プロバイダから要求される場合がある。
+      metadata_none: メタデータがない
+      metadata_url: メタデータURL
+      metadata_xml: メタデータXML

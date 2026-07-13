@@ -34,9 +34,9 @@ module MeetingAgendaItems
 
     alias_method :original_after_perform, :after_perform
 
-    def call(params, source_meeting_id: nil)
-      @source_meeting_id = source_meeting_id
-      super(params)
+    def call(params)
+      @source_meeting_id = params.delete(:source_meeting_id)
+      super
     end
 
     def after_perform(call)

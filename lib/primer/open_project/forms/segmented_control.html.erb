@@ -1,0 +1,18 @@
+<%= render(FormControl.new(input: @input, data: @input.wrapper_data_attributes)) do %>
+  <div data-controller="filter--segmented-control"
+       data-action="itemActivated->filter--segmented-control#activate">
+    <%= content_tag(:input, nil,
+                    type: "hidden",
+                    id: builder.field_id(@input.name),
+                    name: builder.field_name(@input.name),
+                    value: @input.current_value,
+                    data: { "filter--segmented-control-target": "field" }) %>
+    <%= render(Primer::Alpha::SegmentedControl.new("aria-label": @input.label)) do |control| %>
+      <% @input.items.each do |item| %>
+        <% control.with_item(label: item.label,
+                             selected: item.value == @input.current_value,
+                             data: { value: item.value }) %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

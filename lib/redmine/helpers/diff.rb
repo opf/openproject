@@ -34,17 +34,19 @@ module Redmine
       include ERB::Util
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::TextHelper
+      include ActionView::Helpers::OutputSafetyHelper
+
       attr_reader :diff, :words
 
       def initialize(content_to, content_from)
         @words = content_to.to_s.split(/(\s+)/)
-        @words = @words.select { |word| word != " " }
+        @words = @words.reject { |word| word == " " }
         words_from = content_from.to_s.split(/(\s+)/)
-        words_from = words_from.select { |word| word != " " }
+        words_from = words_from.reject { |word| word == " " }
         @diff = words_from.diff @words
       end
 
-      def to_html
+      def to_html # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
         words = self.words.map { |word| h(word) }
         words_add = 0
         words_del = 0
@@ -54,7 +56,7 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = +""
+          deleted_words = []
           diff.each do |change|
             pos = change[1]
             if change[0] == "+"
@@ -63,23 +65,27 @@ module Redmine
               words_add += 1
             else
               del_at ||= pos
-              deleted << (" " + h(change[2]))
+              deleted_words << h(change[2])
               words_del += 1
             end
           end
           if add_at
-            words[add_at] =
-              ('<label class="sr-only">' + WorkPackage.human_attribute_name(:begin_insertion) + '</label><ins class="diffmod">').html_safe + words[add_at]
-            words[add_to] =
-              words[add_to] + ('</ins><label class="sr-only">' + WorkPackage.human_attribute_name(:end_insertion) + "</label>").html_safe
+            begin_label = content_tag(:label, WorkPackage.human_attribute_name(:begin_insertion), class: "sr-only")
+            end_label = content_tag(:label, WorkPackage.human_attribute_name(:end_insertion), class: "sr-only")
+
+            inserted = safe_join(words[add_at..add_to], " ")
+            ins_tag = tag.ins(inserted, class: "diffmod")
+            words[add_at] = begin_label + ins_tag + end_label
+            ((add_at + 1)..add_to).each { |i| words[i] = "" }
 
           end
           if del_at
-            words.insert del_at - del_off + dels + words_add, ('<label class="sr-only">' +
-                                                                WorkPackage.human_attribute_name(:begin_deletion) +
-                                                                '</label><del class="diffmod">').html_safe + deleted +
-                                                              ('</del><label class="sr-only">' +
-                                                              WorkPackage.human_attribute_name(:end_deletion) + "</label>").html_safe
+            begin_label = content_tag(:label, WorkPackage.human_attribute_name(:begin_deletion), class: "sr-only")
+            end_label = content_tag(:label, WorkPackage.human_attribute_name(:end_deletion), class: "sr-only")
+            deleted = safe_join(["", *deleted_words], " ")
+            del_tag = content_tag(:del, deleted, class: "diffmod")
+
+            words.insert del_at - del_off + dels + words_add, begin_label + del_tag + end_label
             dels += 1
             del_off += words_del
             words_del = 0

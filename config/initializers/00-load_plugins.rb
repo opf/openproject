@@ -31,7 +31,16 @@
 # TODO: check if this can be postponed and if some plugins can make use of the ActiveSupport.on_load hooks
 
 # Loads the core plugins located in lib_static/plugins
-Dir.glob(Rails.root.join("lib_static/plugins/*")).each do |directory|
+CORE_PLUGINS = %w[
+  acts_as_attachable
+  acts_as_customizable
+  acts_as_event
+  acts_as_journalized
+  acts_as_searchable
+  verification
+].freeze
+
+CORE_PLUGINS.map { |name| Rails.root.join("lib_static/plugins", name).to_s }.each do |directory|
   if File.directory?(directory)
     lib = File.join(directory, "lib")
 

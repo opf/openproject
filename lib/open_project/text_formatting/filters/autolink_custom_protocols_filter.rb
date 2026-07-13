@@ -81,7 +81,7 @@ module OpenProject::TextFormatting
                       href,
                       href:,
                       class: autolink_context[:classes],
-                      rel: "noopener noreferrer")
+                      rel: "noopener noreferrer nofollow")
         end
 
         node.replace(content) if matched

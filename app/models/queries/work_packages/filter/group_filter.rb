@@ -93,6 +93,6 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
   end
 
   def all_groups
-    @all_groups ||= ::Group.all
+    @all_groups ||= ::Group.visible
   end
 end

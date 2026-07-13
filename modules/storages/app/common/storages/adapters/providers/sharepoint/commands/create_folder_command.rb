@@ -60,7 +60,7 @@ module Storages
               case response
               in { status: 200..299 }
                 info "Folder successfully created."
-                StorageFileTransformer.new(site_name).transform(response.json(symbolize_keys: true))
+                StorageFileTransformer.new(host_uri).transform(response.json(symbolize_keys: true))
               in { status: 400 }
                 parse_invalid_request(response.json(symbolize_keys: true), error)
               in { status: 404 }

@@ -29,26 +29,19 @@
 #++
 
 module WorkflowHelper
-  def workflow_tabs
+  def workflow_tabs(type)
     [
-      {
-        name: "always",
+      { name: "always", label: I18n.t(:"admin.workflows.tabs.default_transitions") },
+      { name: "author", label: I18n.t(:"admin.workflows.tabs.user_author") },
+      { name: "assignee", label: I18n.t(:"admin.workflows.tabs.user_assignee") }
+    ].map do |tab|
+      tab.merge(
         partial: "workflows/form",
-        path: edit_workflows_path({ tab: :always }.merge(params.permit(:role_id, :type_id, :used_statuses_only))),
-        label: I18n.t(:"admin.workflows.tabs.default_transitions")
-      },
-      {
-        name: "author",
-        partial: "workflows/form",
-        path: edit_workflows_path({ tab: :author }.merge(params.permit(:role_id, :type_id, :used_statuses_only))),
-        label: I18n.t(:"admin.workflows.tabs.user_author")
-      },
-      {
-        name: "assignee",
-        partial: "workflows/form",
-        path: edit_workflows_path({ tab: :assignee }.merge(params.permit(:role_id, :type_id, :used_statuses_only))),
-        label: I18n.t(:"admin.workflows.tabs.user_assignee")
-      }
-    ]
+        path: edit_workflow_tab_path(type, tab[:name], params.permit(role_ids: [])),
+        data: { "admin--workflow-checkbox-state-confirmation-trigger": "click",
+                turbo_frame: "workflow-table",
+                turbo_action: "advance" }
+      )
+    end
   end
 end

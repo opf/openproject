@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 // ++
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 @Component({
@@ -41,6 +41,10 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
            [id]="handler.htmlId" />
   `,
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {
   public locale = I18n.locale;

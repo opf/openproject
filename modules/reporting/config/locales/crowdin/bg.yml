@@ -19,88 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 bg:
-  plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
-  button_save_report_as: "Запазване на отчета като..."
-  comments: "Коментар"
-  cost_reports_title: "Време и разходи"
-  label_cost_report: "Доклад за разходите"
-  label_cost_report_plural: "Отчети за разходите"
-  description_drill_down: "Покажи подробности"
-  description_filter_selection: "Избор"
-  description_multi_select: "Показване на мултиизбор"
-  description_remove_filter: "Премахване на филтъра"
-  information_restricted_depending_on_permission: "В зависимост от вашите права тази страница може да съдържа ограничена информация."
-  label_click_to_edit: "Натисни, за да редактираш"
-  label_closed: "затворен"
-  label_columns: "Колони"
-  label_cost_entry_attributes: "Атрибути за вписване на разходи"
-  label_days_ago: "през последните дни"
-  label_entry: "Въвеждане на разходи"
-  label_filter_text: "Филтрирай текст"
-  label_filter_value: "Стойност"
-  label_filters: "Филтър"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "не е (включва подпроекти)"
-  label_is_project_with_subprojects: "е (включва подпроекти)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Атрибути на работния пакет"
-  label_less: "<"
-  label_logged_by_reporting: "Влязъл от"
-  label_money: "Парична стойност"
-  label_month_reporting: "Месец (изразходвани средства)"
-  label_new_report: "Нов отчет за разходите"
-  label_open: "отворен"
-  label_operator: "Оператор"
-  label_private_report_plural: "Частни отчети за разходите"
-  label_progress_bar_explanation: "Генериране на отчет..."
-  label_public_report_plural: "Публични отчети за разходите"
-  label_really_delete_question: "Сигурни ли сте, че искате да изтриете този отчет?"
-  label_rows: "Редове"
-  label_saving: "Запазване ..."
-  label_spent_on_reporting: "Дата (изразходвана)"
-  label_sum: "Сума"
-  label_units: "Единици"
-  label_week_reporting: "Седмица (изразходвани средства)"
-  label_year_reporting: "Година (изразходвани средства)"
-  label_count: "Брой"
-  label_filter: "Филтър"
-  label_filter_add: "Добавяне на филтър"
-  label_filter_plural: "Филтри"
-  label_group_by: "Групиране по"
-  label_group_by_add: "Добавяне на атрибут Group-by"
-  label_inactive: "«неактивен»"
-  label_no: "Не"
-  label_none: "(няма данни)"
-  label_no_reports: "Все още няма отчети за разходите."
-  label_report: "Отчет"
-  label_yes: "Да"
-  load_query_question: "Отчетът ще съдържа клетки от таблицата %{size} и може да отнеме известно време за визуализиране. Все още ли искате да опитате да го визуализирате?"
-  permission_save_cost_reports: "Запазване на публични отчети за разходите"
-  permission_save_private_cost_reports: "Запазване на частни отчети за разходите"
-  project_module_reporting_module: "Доклад за разходите"
-  text_costs_are_rounded_note: "Показаните стойности са закръглени. Всички изчисления се основават на незакръглените стойности."
-  toggle_multiselect: "активиране/деактивиране на мултиизбор"
-  units: "Единици"
-  validation_failure_date: "не е валидна дата"
-  validation_failure_integer: "не е валидно цяло число"
+  button_save_report_as: Запазване на отчета като...
+  comments: Коментар
+  cost_reports_title: Време и разходи
+  description_drill_down: Покажи подробности
+  description_filter_selection: Избор
+  description_multi_select: Показване на мултиизбор
+  description_remove_filter: Премахване на филтъра
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "Час"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Вашият износ на отчети за разходите XLS"
-      start_time: "Начален час"
-      end_time: "End time"
+      end_time: End time
+      start_time: Начален час
+      title: Вашият износ на отчети за разходите XLS
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: Час
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: В зависимост от вашите права тази страница може да съдържа ограничена информация.
+  label_click_to_edit: Натисни, за да редактираш
+  label_closed: затворен
+  label_columns: Колони
+  label_cost_entry_attributes: Атрибути за вписване на разходи
+  label_cost_report: Доклад за разходите
+  label_cost_report_plural: Отчети за разходите
+  label_count: Брой
+  label_days_ago: през последните дни
+  label_entry: Въвеждане на разходи
+  label_filter: Филтър
+  label_filter_add: Добавяне на филтър
+  label_filter_plural: Филтри
+  label_filter_text: Филтрирай текст
+  label_filter_value: Стойност
+  label_filters: Филтър
+  label_greater: ">"
+  label_group_by: Групиране по
+  label_group_by_add: Добавяне на атрибут Group-by
+  label_inactive: "«неактивен»"
+  label_is_not_project_with_subprojects: не е (включва подпроекти)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: е (включва подпроекти)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: Влязъл от
+  label_money: Парична стойност
+  label_month_reporting: Месец (изразходвани средства)
+  label_new_report: Нов отчет за разходите
+  label_no: Не
+  label_no_reports: Все още няма отчети за разходите.
+  label_none: "(няма данни)"
+  label_open: отворен
+  label_operator: Оператор
+  label_private_report_plural: Частни отчети за разходите
+  label_progress_bar_explanation: Генериране на отчет...
+  label_public_report_plural: Публични отчети за разходите
+  label_really_delete_question: Сигурни ли сте, че искате да изтриете този отчет?
+  label_report: Отчет
+  label_rows: Редове
+  label_saving: Запазване ...
+  label_spent_on_reporting: Дата (изразходвана)
+  label_sum: Сума
+  label_units: Единици
+  label_week_reporting: Седмица (изразходвани средства)
+  label_work_package_attributes: Атрибути на работния пакет
+  label_year_reporting: Година (изразходвани средства)
+  label_yes: Да
+  load_query_question: Отчетът ще съдържа клетки от таблицата %{size} и може да отнеме известно време за визуализиране. Все още ли искате да опитате да го визуализирате?
+  permission_save_cost_reports: Запазване на публични отчети за разходите
+  permission_save_private_cost_reports: Запазване на частни отчети за разходите
+  plugin_openproject_reporting:
+    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    name: OpenProject Reporting
+  project_module_reporting_module: Доклад за разходите
   reporting:
     group_by:
-      selected_columns: "Избрани колони"
-      selected_rows: "Избрани редове"
+      selected_columns: Избрани колони
+      selected_rows: Избрани редове
+  text_costs_are_rounded_note: Показаните стойности са закръглени. Всички изчисления се основават на незакръглените стойности.
+  toggle_multiselect: активиране/деактивиране на мултиизбор
+  units: Единици
+  validation_failure_date: не е валидна дата
+  validation_failure_integer: не е валидно цяло число

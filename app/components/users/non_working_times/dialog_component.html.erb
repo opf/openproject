@@ -1,0 +1,25 @@
+<%= component_wrapper do %>
+  <%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title:)) do |dialog| %>
+    <% dialog.with_body do %>
+      <%= render(Users::NonWorkingTimes::FormComponent.new(user:, non_working_time:)) %>
+    <% end %>
+
+    <% dialog.with_footer do %>
+      <% if non_working_time.persisted? && can_delete? %>
+        <%= render(
+              Primer::Beta::Button.new(
+                scheme: :danger,
+                tag: :a,
+                href: destroy_url,
+                mr: :auto,
+                data: { turbo_method: :delete, turbo_confirm: t(:text_are_you_sure) }
+              )
+            ) do %>
+          <%= t(:button_delete) %>
+        <% end %>
+      <% end %>
+      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, form: Users::NonWorkingTimes::FormComponent::FORM_ID, type: :submit)) { t(:button_confirm) } %>
+    <% end %>
+  <% end %>
+<% end %>

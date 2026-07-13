@@ -1,5 +1,6 @@
+---
 he:
   overviews:
+    label_dashboard: דאשבורד
     label_home: "%{workspace_type} home"
-    label_dashboard: "דאשבורד"
-    label_overview: "Overview"
+    label_overview: Overview

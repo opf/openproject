@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -60,6 +50,13 @@ import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
   standalone: false,
 })
 export class OpAttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+  private readonly I18n = inject(I18nService);
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
+  private readonly principalsResourceService = inject(PrincipalsResourceService);
+  private readonly principalRendererService = inject(PrincipalRendererService);
+
   @Input() public attachment:IAttachment;
 
   @Input() public index:number;
@@ -93,17 +90,6 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
   public fileIcon:IFileIcon;
 
   private viewInitialized$ = new BehaviorSubject<boolean>(false);
-
-  constructor(
-    private readonly I18n:I18nService,
-    private readonly pathHelper:PathHelperService,
-    private readonly timezoneService:TimezoneService,
-    private readonly confirmDialogService:ConfirmDialogService,
-    private readonly principalsResourceService:PrincipalsResourceService,
-    private readonly principalRendererService:PrincipalRendererService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     this.fileIcon = getIconForMimeType(this.attachment.contentType);

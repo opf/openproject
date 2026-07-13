@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects", "creation",
-               :js do
+RSpec.describe "Projects", "creation", :js do
   shared_let(:project_custom_field_section) { create(:project_custom_field_section, name: "Section A") }
 
   current_user { create(:admin) }
@@ -46,7 +45,7 @@ RSpec.describe "Projects", "creation",
 
   context "with the button on the toolbar items" do
     it "can navigate to the create project page" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -55,7 +54,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "can create a project" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -123,7 +122,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "does not create a project with an already existing identifier" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -143,7 +142,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "does not create a project when the name is not present" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -172,12 +171,12 @@ RSpec.describe "Projects", "creation",
     let(:list_field) do
       FormFields::SelectFormField.new(
         list_custom_field,
-        selector: "[data-qa-field-name='#{list_custom_field.attribute_name(:kebab_case)}'"
+        selector: "[data-test-selector='#{list_custom_field.attribute_name(:kebab_case)}'"
       )
     end
 
     it "can create a project" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -235,12 +234,12 @@ RSpec.describe "Projects", "creation",
     let(:version_field) do
       FormFields::SelectFormField.new(
         version_custom_field,
-        selector: "[data-qa-field-name='#{version_custom_field.attribute_name(:kebab_case)}'"
+        selector: "[data-test-selector='#{version_custom_field.attribute_name(:kebab_case)}'"
       )
     end
 
     it "can create a project" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -428,7 +427,7 @@ RSpec.describe "Projects", "creation",
 
         it "enables custom fields with default values if not set to blank explicitly" do
           # don't touch the default value
-          click_on "Complete"
+          wait_for_turbo { click_on "Complete" }
 
           expect_and_dismiss_flash type: :success, message: "Successful creation."
 
@@ -530,7 +529,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "does not show the project attributes step" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -560,7 +559,49 @@ RSpec.describe "Projects", "creation",
     end
   end
 
-  context "with workspace type badges in parent field", with_flag: { portfolio_models: true } do
+  context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+    it "auto-suggests an identifier when the name field is blurred" do
+      projects_page.create_new_workspace :project, open_menu: true
+      click_on "Continue"
+
+      fill_in "Name", with: "Flight Planning Algorithm"
+      find("body").click # blur the name field
+
+      expect(page).to have_field "Identifier", with: "FPA"
+    end
+
+    it "allows overriding the auto-suggested identifier" do
+      projects_page.create_new_workspace :project, open_menu: true
+      click_on "Continue"
+
+      fill_in "Name", with: "Flight Planning Algorithm"
+      find("body").click
+      expect(page).to have_field "Identifier", with: "FPA"
+
+      fill_in "Identifier", with: "MYIDENT"
+      click_on "Complete"
+
+      expect_and_dismiss_flash type: :success, message: "Successful creation."
+      expect(page).to have_current_path %r{/projects/MYIDENT/?}
+    end
+
+    it "shows a validation error for identifiers not starting with a letter" do
+      projects_page.create_new_workspace :project, open_menu: true
+      click_on "Continue"
+
+      fill_in "Name", with: "Flight Planning Algorithm"
+      find("body").click
+      expect(page).to have_field "Identifier", with: "FPA"
+
+      expect(page).to have_field "Identifier", with: "FPA"
+      fill_in "Identifier", with: "3INVALID"
+      click_on "Complete"
+
+      expect(page).to have_text "Identifier must start with a letter"
+    end
+  end
+
+  context "with workspace type badges in parent field" do
     include_context "ng-select-autocomplete helpers"
 
     shared_let(:portfolio) { create(:portfolio, name: "Parent Portfolio") }

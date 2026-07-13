@@ -1,72 +1,75 @@
+---
 sv:
-  plugin_openproject_webhooks:
-    name: "Webhooks för OpenProject"
-    description: "Tillhandahåller ett plug-in API för att stödja OpenProject webhooks för bättre integration med tredje part."
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'Payload-URL'
-        secret: 'Signeringshemlighet'
-        events: 'Händelser'
-        enabled: 'Aktiverad'
-        projects: 'Aktiverade projekt'
       webhooks/log:
-        event_name: 'Händelsenamn'
-        url: 'Payload-URL'
-        response_code: 'Svarskod'
-        response_body: 'Svar'
+        event_name: Händelsenamn
+        response_body: Svar
+        response_code: Svarskod
+        url: Payload-URL
+      webhooks/webhook:
+        enabled: Aktiverad
+        events: Händelser
+        projects: Aktiverade projekt
+        secret: Signeringshemlighet
+        url: Payload-URL
     models:
-      webhooks/outgoing_webhook: "Utgående webhook"
+      webhooks/outgoing_webhook: Utgående webhook
+  plugin_openproject_webhooks:
+    description: Tillhandahåller ett plug-in API för att stödja OpenProject webhooks för bättre integration med tredje part.
+    name: Webhooks för OpenProject
   webhooks:
-    singular: Webhook
-    plural: Webbhookar
-    resources:
-      time_entry:
-        name: "Tidspost"
     outgoing:
-      no_results_table: Inga webhooks har definierats ännu.
+      deliveries:
+        no_results_table: Inga leveranser har gjorts för denna webhook under de senaste dagarna.
+        time: Leveranstid
+        title: Senaste leveranserna
+      events:
+        comment: Kommentar
+        created: Skapad
+        internal_comment: Intern kommentar
+        updated: Uppdaterad
+      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+
+        '
+      form:
+        apiv3_doc_url: För mer information, besök API-dokumentationen
+        description:
+          placeholder: Valfri beskrivning för webhook.
+        enabled:
+          description: 'När markerad, kommer webhooken att utlösas på de valda händelserna. Avmarkera för att inaktivera webhook.
+
+            '
+        events:
+          title: Aktiverade händelser
+        introduction: 'Skicka en POST begäran till payload URL nedan för alla händelser i projektet du prenumererar på. Payload kommer att motsvara APIv3-representationen av objektet som ändras.
+
+          '
+        project_ids:
+          all: Alla projekt
+          description: Välj för vilka projekt denna webhook ska köras för.
+          selected: Endast utvalda projekt
+          title: Aktiverade projekt
+        secret:
+          description: 'Om angiven används detta hemliga värde av OpenProject för att signera webhook-nyttolasten.
+
+            '
+        selected_project_ids:
+          title: Valda projekt
       label_add_new: Lägg till ny webhook
       label_edit: Redigera webhook
       label_x_events:
-        one: "1 event"
+        one: 1 event
         other: "%{count} events"
-        zero: "No events"
-      events:
-        created: "Skapad"
-        updated: "Uppdaterad"
-        comment: "Kommentar"
-        internal_comment: "Intern kommentar"
-      explanation:
-        text: >
-          Vid förekomsten av en händelse som skapandet av ett arbetspaket eller en uppdatering av ett projekt, OpenProject kommer att skicka en POST-begäran till de konfigurerade webbslutpunkterna. Ofta skickas händelsen efter att %{link} har passerat.
-        link: konfigurerad aggregationsperiod
+        zero: No events
+      no_results_table: Inga webhooks har definierats ännu.
       status:
-        enabled: 'Webbhook är aktiverad'
-        disabled: 'Webbhook är inaktiverad'
-        enabled_text: 'Webhook kommer att sända ut payloads för de definierade händelserna nedan.'
-        disabled_text: 'Klicka på redigeringsknappen för att aktivera webhook.'
-      deliveries:
-        no_results_table: Inga leveranser har gjorts för denna webhook under de senaste dagarna.
-        title: 'Senaste leveranserna'
-        time: 'Leveranstid'
-      form:
-        introduction: >
-          Skicka en POST begäran till payload URL nedan för alla händelser i projektet du prenumererar på. Payload kommer att motsvara APIv3-representationen av objektet som ändras.
-        apiv3_doc_url: För mer information, besök API-dokumentationen
-        description:
-          placeholder: 'Valfri beskrivning för webhook.'
-        enabled:
-          description: >
-            När markerad, kommer webhooken att utlösas på de valda händelserna. Avmarkera för att inaktivera webhook.
-        events:
-          title: 'Aktiverade händelser'
-        project_ids:
-          title: 'Aktiverade projekt'
-          description: 'Välj för vilka projekt denna webhook ska köras för.'
-          all: 'Alla projekt'
-          selected: 'Endast utvalda projekt'
-        selected_project_ids:
-          title: 'Valda projekt'
-        secret:
-          description: >
-            Om angiven används detta hemliga värde av OpenProject för att signera webhook-nyttolasten.
+        disabled: Webbhook är inaktiverad
+        disabled_text: Klicka på redigeringsknappen för att aktivera webhook.
+        enabled: Webbhook är aktiverad
+        enabled_text: Webhook kommer att sända ut payloads för de definierade händelserna nedan.
+    plural: Webbhookar
+    resources:
+      time_entry:
+        name: Tidspost
+    singular: Webhook

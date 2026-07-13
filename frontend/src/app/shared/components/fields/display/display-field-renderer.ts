@@ -1,3 +1,4 @@
+import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -8,7 +9,7 @@ import {
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import {
@@ -24,13 +25,13 @@ export const displayTriggerLink = 'inline-edit--display-trigger';
 export const editFieldContainerClass = 'inline-edit--container';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
-  @InjectField() displayFieldService:DisplayFieldService;
+  @LazyInject() displayFieldService:DisplayFieldService;
 
-  @InjectField() schemaCache:SchemaCacheService;
+  @LazyInject() schemaCache:SchemaCacheService;
 
-  @InjectField() halEditing:HalResourceEditingService;
+  @LazyInject() halEditing:HalResourceEditingService;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:Record<string, DisplayField> = {};
@@ -160,7 +161,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(labelContent, 'text/html');
-        titleContent = _.escape(doc.body.textContent ?? '');
+        titleContent = escape(doc.body.textContent ?? '');
       } catch {
         console.error('Failed to parse formattable labelContent');
         titleContent = `Label for ${field.displayName}`;

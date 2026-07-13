@@ -41,14 +41,14 @@ RSpec.describe "API v3 UserLock resource", content_type: :json do
   let(:representer) { API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { api_v3_paths.user_lock user.id }
 
-  subject(:response) { last_response }
-
   describe "#post" do
+    subject(:response) do
+      post lock_path
+      last_response
+    end
+
     before do
       allow(User).to receive(:current).and_return current_user
-      post lock_path
-      # lock manually
-      user.lock
     end
 
     # Locking is only available for admins
@@ -79,6 +79,8 @@ RSpec.describe "API v3 UserLock resource", content_type: :json do
     context "requesting nonexistent user" do
       let(:lock_path) { api_v3_paths.user_lock 9999 }
 
+      before { response }
+
       it_behaves_like "not found"
     end
 
@@ -90,11 +92,13 @@ RSpec.describe "API v3 UserLock resource", content_type: :json do
   end
 
   describe "#delete" do
+    subject(:response) do
+      delete lock_path
+      last_response
+    end
+
     before do
       allow(User).to receive(:current).and_return current_user
-      delete lock_path
-      # unlock manually
-      user.activate
     end
 
     # Unlocking is only available for admins
@@ -118,6 +122,23 @@ RSpec.describe "API v3 UserLock resource", content_type: :json do
 
         it "fails for invalid transitions" do
           expect(subject.status).to eq(400)
+        end
+      end
+
+      context "when user limit is reached and the user is locked" do
+        let(:user) { create(:locked_user) }
+
+        before do
+          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+        end
+
+        it "responds with 422" do
+          expect(subject.status).to eq(422)
+        end
+
+        it "does not activate the user" do
+          subject
+          expect(user.reload).to be_locked
         end
       end
     end

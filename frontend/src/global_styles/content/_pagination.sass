@@ -34,15 +34,24 @@ $pagination--font-size: 0.8125rem
   width: 100%
   min-height: 45px
 
+  &--single-page
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
+
   &--pages
+    display: flex
     flex-grow: 2
     flex-shrink: 2
-    margin: 10px 5px 10px 0
 
   &--options
+    display: flex
+    align-items: center
+    justify-content: end
     flex-grow: 1
     flex-shrink: 1
-    margin: 10px 0 0 5px
+
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
 
   &--items
     list-style-type: none
@@ -51,12 +60,6 @@ $pagination--font-size: 0.8125rem
     margin: 0
     padding: 0
     font-size: $pagination--font-size
-
-    &_start
-      justify-content: flex-start
-
-    &_end
-      justify-content: flex-end
 
   &--item
     min-width: 25px
@@ -123,11 +126,15 @@ $pagination--font-size: 0.8125rem
 
   &--range,
   &--info
+    display: flex
+    align-items: center
     flex: 1
     margin: 0 0 0 5px
-    padding: 3px 0
-    display: block
     @include text-shortener
 
   &--info
     flex-basis: auto
+
+  &--range,
+  &--label
+    color: var(--fgColor-muted)

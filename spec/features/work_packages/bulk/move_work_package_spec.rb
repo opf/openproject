@@ -192,6 +192,47 @@ RSpec.describe "Moving a work package through Rails view", :js do
     end
   end
 
+  it "preserves move form values when refreshing after a project change", :js do
+    notes_editor = Components::WysiwygEditor.new
+    assignable_role = create(:project_role, permissions: %i[view_work_packages work_package_assigned])
+    assignee = create(:user, member_with_roles: { project => assignable_role, project2 => assignable_role })
+    new_status = create(:status, name: "Ready")
+    priority = create(:priority, name: "High")
+    required_cf = create(:integer_wp_custom_field,
+                         name: "Risk score",
+                         is_required: true,
+                         projects: [project, project2])
+    create(:workflow, type:, old_status: status, new_status:, role: mover_role)
+    create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
+    type2.custom_fields << required_cf
+
+    visit new_move_work_packages_path(ids: work_packages.map(&:id))
+
+    select type2.name, from: "Type"
+    expect(page).to have_field(required_cf.name)
+    select new_status.name, from: "Status"
+    select priority.name, from: "Priority"
+    select assignee.name, from: "Assignee"
+    select "nobody", from: "Accountable"
+    fill_in required_cf.name, with: "42"
+    notes_editor.set_markdown "Keep this note"
+
+    wait_for_turbo_stream do
+      select_autocomplete page.find_test_selector("new_project_id"),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: "body"
+    end
+
+    expect(page).to have_select("Type", selected: type2.name)
+    expect(page).to have_select("Status", selected: new_status.name)
+    expect(page).to have_select("Priority", selected: priority.name)
+    expect(page).to have_select("Assignee", selected: assignee.name)
+    expect(page).to have_select("Accountable", selected: "nobody")
+    expect(page).to have_field(required_cf.name, with: "42")
+    notes_editor.expect_value "Keep this note"
+  end
+
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }

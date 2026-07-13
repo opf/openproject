@@ -33,14 +33,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_login) %>
 <%= call_hook :view_account_login_top %>
 
-<%
-  signin_link = link_to I18n.t("label_here"), signin_path
-  instruction_text = I18n.t "instructions_#{instructions}", signin: signin_link
-%>
-
 <div id="login-form" class="form -bordered">
   <h1><%= I18n.t(:label_login) %></h1>
   <hr class="form--separator">
-  <p><%= instruction_text.html_safe %></p>
+  <p><%= link_translate "instructions_#{instructions}_link",
+                        links: { signin_url: signin_path } %></p>
 </div>
 <%= call_hook :view_account_login_bottom %>

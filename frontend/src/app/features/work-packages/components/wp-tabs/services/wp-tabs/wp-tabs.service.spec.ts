@@ -1,20 +1,23 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { Input } from '@angular/core';
-import { StateService } from '@uirouter/angular';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
+import { StateService } from '@uirouter/core';
 import { TestBed } from '@angular/core/testing';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  WorkPackageTabsService,
-} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { WorkPackageTabsService, } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { TabComponent } from '../../components/wp-tab-wrapper/tab';
 
 describe('WpTabsService', () => {
   let service:WorkPackageTabsService;
   const workPackage:any = { id: 1234 };
 
+  @Component({
+    template: '',
+    standalone: false,
+  })
   class TestComponent implements TabComponent {
-    @Input() public workPackage:WorkPackageResource;
+    @Input()
+    public workPackage:WorkPackageResource;
   }
 
   const displayableTab = {
@@ -34,12 +37,12 @@ describe('WpTabsService', () => {
   beforeEach(() => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         { provide: StateService, useValue: { includes: () => false } },
-        provideHttpClient(withInterceptorsFromDi()),
-    ]
-});
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+      ]
+    });
     service = TestBed.inject(WorkPackageTabsService);
     (service as any).registeredTabs = [];
     service.register({ ...displayableTab }, { ...notDisplayableTab });
@@ -66,8 +69,27 @@ describe('WpTabsService', () => {
 
       const displayableTabs = service.getDisplayableTabs(workPackage);
 
-      expect(displayableTabs).toHaveSize(1);
+      expect(displayableTabs).toHaveLength(1);
       expect(displayableTabs[0].id).toEqual(notDisplayableTab.id);
+    });
+  });
+
+  describe('project_attributes tab', () => {
+    beforeEach(() => {
+      // Reset to default tabs so the built-in project_attributes tab is present
+      (service as any).registeredTabs = (service as any).buildDefaultTabs();
+    });
+
+    it('is hidden when hasProjectAttributes is false', () => {
+      const wp:any = { hasProjectAttributes: false };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeUndefined();
+    });
+
+    it('is visible when hasProjectAttributes is true', () => {
+      const wp:any = { hasProjectAttributes: true };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeDefined();
     });
   });
 });

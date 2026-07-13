@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
@@ -42,17 +42,20 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
   `,
   selector: 'bcf-import-button',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BcfImportButtonComponent {
+  readonly I18n = inject(I18nService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly bcfPathHelper = inject(BcfPathHelperService);
+
   public text = {
     import: this.I18n.t('js.bcf.import'),
     import_hover: this.I18n.t('js.bcf.import_bcf_xml_file'),
   };
-
-  constructor(readonly I18n:I18nService,
-    readonly currentProject:CurrentProjectService,
-    readonly bcfPathHelper:BcfPathHelperService) {
-  }
 
   public handleClick() {
     const projectIdentifier = this.currentProject.identifier;

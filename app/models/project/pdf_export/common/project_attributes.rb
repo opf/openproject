@@ -80,8 +80,10 @@ module Project::PDFExport::Common::ProjectAttributes
   end
 
   def process_field(project, field)
-    if field[:custom_field]
+    if custom_field?(field)
       process_custom_attribute_field(project, field)
+    elsif custom_comment?(field)
+      process_custom_comment_field(project, field)
     elsif project_phase?(field)
       process_project_phase_field(project, field)
     elsif can_view_attribute?(project, field[:key])
@@ -164,6 +166,10 @@ module Project::PDFExport::Common::ProjectAttributes
     end
   end
 
+  def process_custom_comment_field(project, field)
+    field.merge(value: format_attribute(project, field[:key], :pdf))
+  end
+
   def process_attribute_field(project, field)
     field.merge(value: format_attribute(project, field[:key], :pdf), formattable: attribute_formattable?(field[:key]))
   end
@@ -173,11 +179,15 @@ module Project::PDFExport::Common::ProjectAttributes
   end
 
   def custom_field?(field)
-    field[:key].to_s.start_with?("cf_")
+    field[:key]&.start_with?("cf_")
+  end
+
+  def custom_comment?(field)
+    field[:key]&.start_with?("cfc_")
   end
 
   def project_phase?(field)
-    field[:key].to_s.start_with?("project_phase_")
+    field[:key]&.start_with?("project_phase_")
   end
 
   def custom_field_active_in_project?(project, custom_field)

@@ -31,7 +31,7 @@ import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { rangeSeparator } from './constants';
 
@@ -45,13 +45,13 @@ export class DatePicker {
 
   public datepickerInstance:Instance;
 
-  @InjectField() configurationService:ConfigurationService;
+  @LazyInject() configurationService:ConfigurationService;
 
-  @InjectField() weekdaysService:WeekdayService;
+  @LazyInject() weekdaysService:WeekdayService;
 
-  @InjectField() daysService:DayResourceService;
+  @LazyInject() daysService:DayResourceService;
 
-  @InjectField() I18n:I18nService;
+  @LazyInject() I18n:I18nService;
 
   private weekdaysPromise:Promise<unknown>;
 
@@ -76,7 +76,7 @@ export class DatePicker {
         }
       });
 
-    const mergedOptions = _.extend({}, this.defaultOptions, options);
+    const mergedOptions = Object.assign({}, this.defaultOptions, options);
 
     let datePickerInstances:Instance|Instance[];
     if (this.datepickerTarget) {

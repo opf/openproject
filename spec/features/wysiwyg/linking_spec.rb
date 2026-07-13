@@ -59,7 +59,7 @@ RSpec.describe "Wysiwyg linking", :js do
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       )
 
-      expect(page).to have_link(href: external_redirect_path(url: "http://example.org/link%20with%20spaces"))
+      expect(page).to have_link(href: "http://example.org/link%20with%20spaces")
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe "Wysiwyg linking", :js do
       editor.insert_link "https://example.org/path"
       click_on "Save"
       expect_flash(message: "Successful update.")
-      expect(page).to have_link(href: external_redirect_path(url: "https://example.org/path"))
+      expect(page).to have_link(href: "https://example.org/path")
     end
 
     it "allows linking the custom protocol" do

@@ -4,17 +4,17 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { Injector } from '@angular/core';
 import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export class WorkPackageFilterValues {
-  @InjectField() currentUser:CurrentUserService;
+  @LazyInject() currentUser:CurrentUserService;
 
-  @InjectField() halResourceService:HalResourceService;
+  @LazyInject() halResourceService:HalResourceService;
 
-  @InjectField() currentProject:CurrentProjectService;
+  @LazyInject() currentProject:CurrentProjectService;
 
   handlers:Partial<Record<FilterOperator, (change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource) => void>> = {
     '=': this.applyFirstValue.bind(this),
@@ -28,7 +28,7 @@ export class WorkPackageFilterValues {
   ) {}
 
   applyDefaultsFromFilters(change:WorkPackageChangeset|Record<string, unknown>):void {
-    _.each(this.filters, (filter) => {
+    this.filters.forEach((filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.includes(filter.id)) {
         return;
@@ -41,8 +41,11 @@ export class WorkPackageFilterValues {
       if (filter.id === 'project') {
         if (operator !== '=') return;
 
-        const projectFilter = _.find(filter.values, (resource:HalResource|string) => {
-          return ((resource instanceof HalResource) ? resource.href : resource) === this.currentProject.apiv3Path;
+        const currentProjectId = this.currentProject.id;
+        const projectFilter = filter.values.find((resource:HalResource|string) => {
+          const href = (resource instanceof HalResource) ? resource.href : resource;
+          const hrefParts = href?.split('/');
+          return hrefParts?.[hrefParts.length - 1] === currentProjectId;
         });
         this.setValue(change, 'project', projectFilter || filter.values[0]);
 
@@ -137,7 +140,7 @@ export class WorkPackageFilterValues {
    */
   private filterAlreadyApplied(change:WorkPackageChangeset|Record<string, unknown>, filter:{ id:string, values:unknown[] }):boolean {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
-    const current = _.castArray(value);
+    const current = Array.isArray(value) ? value : [value];
 
     for (let i = 0; i < filter.values.length; i++) {
       for (let j = 0; j < current.length; j++) {

@@ -35,11 +35,10 @@ RSpec.describe OpenProject::Passwords::Generator do
   describe "#random_password",
            with_settings: {
              password_active_rules: %w(lowercase uppercase numeric special),
-             password_min_adhered_rules: 3,
              password_min_length: 4
            } do
     it "creates a valid password" do
-      pwd = OpenProject::Passwords::Generator.random_password
+      pwd = described_class.random_password
       expect(OpenProject::Passwords::Evaluator.conforming?(pwd)).to be(true)
     end
   end
@@ -48,16 +47,21 @@ end
 RSpec.describe OpenProject::Passwords::Evaluator,
                with_settings: {
                  password_active_rules: %w(lowercase uppercase numeric),
-                 password_min_adhered_rules: 3,
                  password_min_length: 4
                } do
-  it "evaluates passwords correctly" do
-    expect(OpenProject::Passwords::Evaluator.conforming?("abCD")).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?("ab12")).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?("12CD")).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?("12CD*")).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?("aB1")).to be(false)
-    expect(OpenProject::Passwords::Evaluator.conforming?("abCD12")).to be(true)
-    expect(OpenProject::Passwords::Evaluator.conforming?("aB123")).to be(true)
+  it "requires all active rules to be met" do
+    # Missing numeric
+    expect(described_class.conforming?("abCD")).to be(false)
+    # Missing uppercase
+    expect(described_class.conforming?("ab12")).to be(false)
+    # Missing lowercase
+    expect(described_class.conforming?("12CD")).to be(false)
+    # Has special but missing lowercase
+    expect(described_class.conforming?("12CD*")).to be(false)
+    # Too short
+    expect(described_class.conforming?("aB1")).to be(false)
+    # All 3 active rules met
+    expect(described_class.conforming?("abCD12")).to be(true)
+    expect(described_class.conforming?("aB123")).to be(true)
   end
 end

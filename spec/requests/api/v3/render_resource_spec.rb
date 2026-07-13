@@ -76,7 +76,7 @@ RSpec.describe "API v3 Render resource" do
                     Hello World! This <em>is</em> markdown with a
                     <a href="http://community.openproject.org"
                        target="_top"
-                       rel="noopener noreferrer"
+                       rel="noopener noreferrer nofollow"
                        class="op-uc-link">link</a>
                     and ümläutß.</p>
                 HTML

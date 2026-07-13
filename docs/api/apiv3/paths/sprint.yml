@@ -1,0 +1,42 @@
+# /api/v3/sprints/{id}
+---
+get:
+  summary: Get sprint
+  operationId: get_sprint
+  tags:
+    - Sprints
+  description: Retrieves a sprint defined by its unique identifier.
+  parameters:
+    - description: Sprint id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/sprint_model.yml"
+          examples:
+            response:
+              $ref: "../components/examples/sprint.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the sprint does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view master backlogs (this will change to view sprints)

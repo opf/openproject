@@ -36,17 +36,17 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          RSpec.describe StorageConfigurationValidator, :webmock do
+          RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox, :as_automatically_managed) }
             let(:error) { Results::Error.new(code: error_code, source: self) }
 
             subject(:validator) { described_class.new(storage) }
 
             describe "success", vcr: "sharepoint/files_query_userless" do
-              it "returns a GroupValidationResult" do
+              it "returns a ResultGroup" do
                 results = validator.call
 
-                expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+                expect(results).to be_a(HealthReport::ResultGroup)
                 expect(results).to be_success
               end
             end

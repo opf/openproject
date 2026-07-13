@@ -41,10 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @version do |f| %>
-
-  <%= render partial: "form", locals: { f: f,
-                                        project: @project } %>
-
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+<%= settings_primer_form_with(model: @version, url: version_path(@version), method: :patch) do |f| %>
+  <%= back_url_hidden_field_tag %>
+  <%= render Versions::Form.new(f, project: @project) %>
 <% end %>

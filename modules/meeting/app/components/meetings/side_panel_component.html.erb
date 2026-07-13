@@ -1,22 +1,28 @@
 <%=
   component_wrapper do
     render(Primer::OpenProject::SidePanel.new) do |panel|
-      panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
-
-      if @meeting.editable? && !@meeting.draft?
-        panel.with_section(email_updates_mode_selector)
-      end
-
-      unless @meeting.template? && !@meeting.draft?
-        panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
-      end
-
       desktop_grid_row_arguments = { display: [:none, nil, :table_cell] }
 
-      panel.with_section(
-        Meetings::SidePanel::ParticipantsComponent.new(meeting: @meeting),
-        grid_row_arguments: desktop_grid_row_arguments.merge({ classes: "meetings-side-panel--participants-section" })
-      )
+      unless @meeting.onetime_template?
+        panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
+
+        if @meeting.editable? && !@meeting.draft?
+          panel.with_section(email_updates_mode_selector)
+        end
+
+        unless @meeting.template? && !@meeting.draft?
+          panel.with_section(Meetings::SidePanel::StateComponent.new(meeting: @meeting))
+        end
+
+        panel.with_section(
+          Meetings::SidePanel::ParticipantsComponent.new(meeting: @meeting),
+          grid_row_arguments: desktop_grid_row_arguments.merge({ classes: "meetings-side-panel--participants-section" })
+        )
+      end
+
+      if @meeting.onetime_template?
+        panel.with_section(Meetings::SidePanel::SharingComponent.new(meeting: @meeting))
+      end
 
       panel.with_section(
         Meetings::SidePanel::AttachmentsComponent.new(meeting: @meeting),

@@ -34,7 +34,7 @@ module Capabilities::Scopes
 
     class_methods do
       def visible(user = User.current)
-        scope = if user.admin?
+        scope = if user.active_admin?
                   all
                 else
                   where(context_id: nil)

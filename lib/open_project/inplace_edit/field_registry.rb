@@ -31,16 +31,35 @@
 module OpenProject
   module InplaceEdit
     class FieldRegistry
-      @registry = {}
+      def initialize
+        @registry = {}
+        @custom_field_format_mappings = {}
+      end
+
+      def register(attribute_name, field_component)
+        @registry[attribute_name.to_s] = field_component
+      end
+
+      def register_custom_field_format_mappings(mappings)
+        @custom_field_format_mappings = mappings
+      end
+
+      def fetch(attribute_name)
+        @registry.fetch(attribute_name.to_s) { Common::InplaceEditFields::TextInputComponent }
+      end
+
+      def fetch_for_custom_field_format(field_format)
+        return Common::InplaceEditFields::TextInputComponent if field_format.nil?
+
+        @custom_field_format_mappings.fetch(field_format.to_s) { Common::InplaceEditFields::TextInputComponent }
+      end
+
+      @default = new
 
       class << self
-        def register(attribute_name, field_component)
-          @registry[attribute_name.to_s] = field_component
-        end
+        attr_reader :default
 
-        def fetch(attribute_name)
-          @registry.fetch(attribute_name.to_s) { Common::InplaceEditFields::TextInputComponent }
-        end
+        delegate :register, :fetch, :fetch_for_custom_field_format, :register_custom_field_format_mappings, to: :@default
       end
     end
   end

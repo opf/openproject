@@ -44,20 +44,20 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
     context "when user is not logged in" do
       it "requires login" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
-        expect(last_response).to have_http_status(:unauthorized)
+        expect(last_response).to have_http_status(:found)
       end
     end
 
     context "when user is logged in" do
       before { login_as(user) }
 
-      it "responds with 400 when storage_id parameter is absent" do
+      it "responds with 400 when integration_id parameter is absent" do
         get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id)
         expect(last_response).to have_http_status(:bad_request)
-        expect(last_response.body).to eq("Required parameter missing: storage_id")
+        expect(last_response.body).to eq("Required parameter missing: integration_id")
       end
 
-      context "when storage_id parameter is present" do
+      context "when integration_id parameter is present" do
         context "when user is not 'connected'" do
           let(:nonce) { "57a17c3f-b2ed-446e-9dd8-651ba3aec37d" }
 
@@ -73,7 +73,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
           context "when destination_url parameter is absent" do
             it "redirects to storage authorization_uri with oauth_state_* cookie set" do
-              get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
+              get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, integration_id: storage.id)
 
               oauth_client = storage.oauth_client
               expect(last_response).to have_http_status(:found)
@@ -85,7 +85,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               )
               expect(last_response.cookies["oauth_state_#{nonce}"])
                 .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
-                        "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+                        "%2F%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
             end
           end
 
@@ -93,7 +93,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context "when destination_url is the same origin as OP" do
               it "redirects to storage authorization_uri with oauth_state_* cookie set" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                        storage_id: storage.id,
+                                                        integration_id: storage.id,
                                                         destination_url: "#{root_url}123")
 
                 oauth_client = storage.oauth_client
@@ -106,14 +106,14 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"])
                   .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
-                          "%2F123%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+                          "%2F123%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
               end
             end
 
             context "when destination_url is not the same origin as OP" do
               it "redirects to storage authorization_uri with oauth_state_* cookie set" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                        storage_id: storage.id,
+                                                        integration_id: storage.id,
                                                         destination_url: "#{storage.host}index.php")
 
                 oauth_client = storage.oauth_client
@@ -126,7 +126,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"])
                   .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
-                          "%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
+                          "%2F%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
               end
             end
           end
@@ -151,7 +151,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
           context "when destination_url parameter is absent" do
             it "redirects to root_url" do
-              get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
+              get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, integration_id: storage.id)
 
               expect(last_response).to have_http_status(:found)
               expect(last_response.location).to eq("http://#{Setting.host_name}/")
@@ -163,7 +163,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context "when destination_url is the same origin as OP" do
               it "redirects to destination_url" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                        storage_id: storage.id,
+                                                        integration_id: storage.id,
                                                         destination_url: "#{root_url}123")
 
                 storage.oauth_client
@@ -176,7 +176,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
             context "when destination_url is not the same origin as OP" do
               it "redirects to root_url" do
                 get oauth_clients_ensure_connection_url(oauth_client_id: storage.oauth_client.client_id,
-                                                        storage_id: storage.id,
+                                                        integration_id: storage.id,
                                                         destination_url: "#{storage.host}index.php")
 
                 storage.oauth_client

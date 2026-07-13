@@ -38,7 +38,8 @@ module OpenProject::GithubIntegration
     def self.settings
       {
         default: {
-          "github_user_id" => nil
+          "github_user_id" => nil,
+          "webhook_secret" => nil
         }
       }
     end
@@ -55,9 +56,10 @@ module OpenProject::GithubIntegration
     ) do
       ::Redmine::MenuManager.map(:admin_menu) do |menu|
         menu.push :admin_github_integration,
-                  { controller: "/deploy_targets", action: "index" },
-                  if: ->(_) { OpenProject::FeatureDecisions.deploy_targets_active? && User.current.admin? },
-                  caption: :label_github_integration,
+                  { controller: "/github_integration/admin/settings", action: "show" },
+                  parent: :admin_integrations,
+                  if: ->(_) { User.current.admin? },
+                  caption: "GitHub",
                   icon: "mark-github"
       end
 

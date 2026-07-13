@@ -1,29 +1,29 @@
-#English strings go here
+---
 sv:
   js:
     team_planner:
-      add_existing: 'Lägg till befintlig'
-      label_team_planner_plural: 'Team planerare'
-      add_existing_title: 'Lägg till befintliga arbetspaket'
-      create_label: 'Team planerare'
-      create_title: 'Skapa ny teamplanerare'
-      unsaved_title: 'Namnlös teamplanerare'
-      no_data: 'Lägg till tilldelade personer för att konfigurera din teamplanerare.'
-      add_assignee: 'Tilldelad till'
-      remove_assignee: 'Ta bort tilldelad person'
-      two_weeks: '2 veckor'
-      one_week: '1 vecka'
-      four_weeks: '4 veckor'
-      eight_weeks: '8 veckor'
-      work_week: 'Arbetsvecka'
-      today: 'Idag'
-      drag_here_to_remove: 'Dra här för att ta bort tilldelad person och start- och slutdatum.'
-      cannot_drag_here: 'Kan inte flytta arbetspaketet på grund av behörigheter eller redigeringsrestriktioner.'
-      cannot_drag_to_non_working_day: 'Detta arbetspaket kan inte påbörjas/avslutas på en arbetsfri dag.'
-      quick_add:
-        empty_state: 'Använd sökfältet för att hitta arbetspaket och dra dem till planeraren för att tilldela det till någon och definiera start- och slutdatum.'
-        search_placeholder: 'Sök...'
+      add_assignee: Tilldelad till
+      add_existing: Lägg till befintlig
+      add_existing_title: Lägg till befintliga arbetspaket
+      cannot_drag_here: Kan inte flytta arbetspaketet på grund av behörigheter eller redigeringsrestriktioner.
+      cannot_drag_to_non_working_day: Detta arbetspaket kan inte påbörjas/avslutas på en arbetsfri dag.
+      create_label: Team planerare
+      create_title: Skapa ny teamplanerare
+      drag_here_to_remove: Dra här för att ta bort tilldelad person och start- och slutdatum.
+      eight_weeks: 8 veckor
+      four_weeks: 4 veckor
+      label_team_planner_plural: Team planerare
       modify:
         errors:
-          permission_denied: 'Du har inte behörighet att ändra detta.'
-          fallback: 'Detta arbetspaket kan inte redigeras.'
+          fallback: Detta arbetspaket kan inte redigeras.
+          permission_denied: Du har inte behörighet att ändra detta.
+      no_data: Lägg till tilldelade personer för att konfigurera din teamplanerare.
+      one_week: 1 vecka
+      quick_add:
+        empty_state: Använd sökfältet för att hitta arbetspaket och dra dem till planeraren för att tilldela det till någon och definiera start- och slutdatum.
+        search_placeholder: Sök...
+      remove_assignee: Ta bort tilldelad person
+      today: Idag
+      two_weeks: 2 veckor
+      unsaved_title: Namnlös teamplanerare
+      work_week: Arbetsvecka

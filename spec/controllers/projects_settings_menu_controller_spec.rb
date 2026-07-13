@@ -105,8 +105,6 @@ RSpec.describe Projects::Settings::ModulesController, "menu" do
         it_behaves_like "renders the modules show page"
 
         it_behaves_like "has selector", "#main-menu a.wiki-example-menu-item"
-
-        it_behaves_like "has selector", "#main-menu a.wiki-sub-menu-item"
       end
     end
 

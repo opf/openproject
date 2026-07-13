@@ -63,7 +63,7 @@ module Primer
           @blocknote_stylesheet_url = variable_asset_path("blocknote.css")
           @shadow_dom_stylesheet_url = variable_asset_path("styles.css")
 
-          @collaboration_enabled = true
+          @collaboration_enabled = Setting.real_time_text_collaboration_enabled?
         end
       end
     end

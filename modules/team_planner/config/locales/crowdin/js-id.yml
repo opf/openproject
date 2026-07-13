@@ -1,29 +1,29 @@
-#English strings go here
+---
 id:
   js:
     team_planner:
-      add_existing: 'Tambahkan yang sudah ada'
-      label_team_planner_plural: 'Rencana tim'
-      add_existing_title: 'Tambahkan paket kerja yang sudah ada'
-      create_label: 'Rencana tim'
-      create_title: 'Buat rencana tim baru'
-      unsaved_title: 'Perencana tim tanpa nama'
-      no_data: 'Tambahkan penanggung jawab untuk mengatur perencana tim Anda.'
-      add_assignee: 'Pelimpahan'
-      remove_assignee: 'Hapus penanggung jawab'
-      two_weeks: '2 minggu'
-      one_week: '1 minggu'
-      four_weeks: '4 minggu'
-      eight_weeks: '8 minggu'
-      work_week: 'Minggu kerja'
-      today: 'Hari Ini'
-      drag_here_to_remove: 'Seret ke sini untuk menghapus penanggung jawab dan tanggal mulai dan tanggal berakhir.'
-      cannot_drag_here: 'Tidak dapat memindahkan paket kerja karena batasan izin atau pembatasan penuntingan.'
-      cannot_drag_to_non_working_day: 'Paket kerja ini tidak dapat dimulai/diselesaikan pada hari libur.'
-      quick_add:
-        empty_state: 'Gunakan bidang pencarian untuk menemukan paket pekerjaan dan seret ke dalam planner untuk menugaskan kepada seseorang dan menentukan tanggal mulai dan berakhir.'
-        search_placeholder: 'Cari...'
+      add_assignee: Pelimpahan
+      add_existing: Tambahkan yang sudah ada
+      add_existing_title: Tambahkan paket kerja yang sudah ada
+      cannot_drag_here: Tidak dapat memindahkan paket kerja karena batasan izin atau pembatasan penuntingan.
+      cannot_drag_to_non_working_day: Paket kerja ini tidak dapat dimulai/diselesaikan pada hari libur.
+      create_label: Rencana tim
+      create_title: Buat rencana tim baru
+      drag_here_to_remove: Seret ke sini untuk menghapus penanggung jawab dan tanggal mulai dan tanggal berakhir.
+      eight_weeks: 8 minggu
+      four_weeks: 4 minggu
+      label_team_planner_plural: Rencana tim
       modify:
         errors:
-          permission_denied: 'Anda tidak memiliki izin yang diperlukan untuk mengubah ini.'
-          fallback: 'Paket kerja ini tidak dapat disunting.'
+          fallback: Paket kerja ini tidak dapat disunting.
+          permission_denied: Anda tidak memiliki izin yang diperlukan untuk mengubah ini.
+      no_data: Tambahkan penanggung jawab untuk mengatur perencana tim Anda.
+      one_week: 1 minggu
+      quick_add:
+        empty_state: Gunakan bidang pencarian untuk menemukan paket pekerjaan dan seret ke dalam planner untuk menugaskan kepada seseorang dan menentukan tanggal mulai dan berakhir.
+        search_placeholder: Cari...
+      remove_assignee: Hapus penanggung jawab
+      today: Hari Ini
+      two_weeks: 2 minggu
+      unsaved_title: Perencana tim tanpa nama
+      work_week: Minggu kerja

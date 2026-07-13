@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Directive, OnInit, inject } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -40,24 +40,20 @@ import { UrlHelpers } from 'core-stimulus/controllers/dynamic/work-packages/acti
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly storeService = inject(WpSingleViewService);
+  readonly browserDetector = inject(BrowserDetector);
+  readonly deviceService = inject(DeviceService);
+  readonly pathHelper = inject(PathHelperService);
+
   public workPackage:WorkPackageResource;
 
   public workPackageId:string;
 
   public turboFrameSrc:string;
-
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly storeService:WpSingleViewService,
-    readonly browserDetector:BrowserDetector,
-    readonly deviceService:DeviceService,
-    readonly pathHelper:PathHelperService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     this.turboFrameSrc = this.buildTurboFrameSrc();

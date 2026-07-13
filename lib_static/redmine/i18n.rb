@@ -94,6 +94,22 @@ module Redmine
       format.present? ? ::I18n.l(local, format:) : ::I18n.l(local)
     end
 
+    # Formats the given date pair as an HTML date range with each date
+    # wrapped in a <time> element. Dates are joined by a non-breaking
+    # space, an en-dash, and a non-breaking space.
+    #
+    # @param dates [Array<Date, nil>] A two-element array +[from, to]+;
+    #   either element may be nil.
+    # @return [ActiveSupport::SafeBuffer, nil] The formatted range, or nil
+    #   when both dates are nil.
+    def format_date_range(dates)
+      return nil if dates.all?(&:nil?)
+
+      helpers = ApplicationController.helpers
+      from, to = dates.map { |date| helpers.tag.time(datetime: date.iso8601) { format_date(date) } if date }
+      helpers.safe_join([from, "–", to], " ") # &ndash; and &nbsp;
+    end
+
     ##
     # Gives a translation and inserts links into designated spots within it
     # in the style of markdown links. Instead of the actual URL only names for
@@ -112,16 +128,24 @@ module Redmine
     #     link_translate(:logged_out, links: { login: login_url })
     #
     # @param i18n_key [String] The I18n key to translate.
+    # @param i18n_args [Hash] Arguments passed to I18n.t() call
     # @param links [Hash] Link names mapped to URLs.
     # @param external [Boolean] Whether the links should be opened as external links, i.e. in a new tab (default: true)
     # @param underline [Boolean] Whether to underline links inserted into the text (default: true)
-    def link_translate(i18n_key, links: {}, external: true, underline: true)
+    def link_translate(i18n_key, i18n_args: {}, links: {}, external: true, underline: true, **) # rubocop:disable Metrics/AbcSize
+      translation = ApplicationController.helpers.t(i18n_key.to_s, **i18n_args)
       output = ActiveSupport::SafeBuffer.new
-      output << ApplicationController.helpers.t(i18n_key.to_s)
+      last_end = 0
 
-      output.html_safe_gsub(link_regex) do
-        create_link_content($3, $2, external:, links:, underline:)
+      translation.scan(link_regex) do
+        match = Regexp.last_match
+        output << translation[last_end...match.begin(0)]
+        output << create_link_content(match[3], match[2], external:, links:, underline:, **)
+        last_end = match.end(0)
       end
+      output << translation[last_end..]
+
+      output
     end
 
     ##
@@ -209,6 +233,30 @@ module Redmine
       ::I18n.t("date.month_names")[month]
     end
 
+    # Localized ordinalization with optional context-specific forms.
+    # This allows locales to provide different grammatical forms for the same
+    # ordinal depending on usage (e.g. standalone vs. before weekday name).
+    #
+    # Lookup order:
+    # 1. number.ordinalize.contexts.<context>.<number>
+    # 2. number.ordinalize.contexts.<context>.other
+    # 3. number.ordinalize.contexts.default.<number>
+    # 4. number.ordinalize.contexts.default.other
+    # 5. ActiveSupport fallback (e.g. 1st, 2nd, 3rd, ...)
+    def ordinalize(number, context: :default)
+      value = number.to_i
+      context_key = :"number.ordinalize.contexts.#{context}.#{value}"
+      context_other_key = :"number.ordinalize.contexts.#{context}.other"
+      default_context_key = :"number.ordinalize.contexts.default.#{value}"
+      default_context_other_key = :"number.ordinalize.contexts.default.other"
+
+      ::I18n.t(
+        context_key,
+        default: [context_other_key, default_context_key, default_context_other_key, ActiveSupport::Inflector.ordinalize(value)],
+        number: value
+      )
+    end
+
     def valid_languages
       Redmine::I18n.valid_languages
     end
@@ -269,8 +317,8 @@ module Redmine
 
     private
 
-    def create_link_content(key, text, external:, links:, underline:)
-      link_reference = links[key.to_sym]
+    def create_link_content(key, text, external:, links:, underline:, **link_arguments)
+      link_reference = links.fetch(key.to_sym)
       href =
         case link_reference
         when Array
@@ -280,17 +328,22 @@ module Redmine
         end
       target = external ? "_blank" : nil
 
-      render(
-        Primer::Beta::Link.new(
-          href:,
-          target:,
-          underline:,
-          data: { allow_external_link: true }
-        )
-      ) do |l|
-        l.with_trailing_visual_icon(icon: :"link-external") if external
-        text
-      end
+      # Make sure we use AC renderer here to not affect the performed? state
+      # when rendering this in e.g., a before action.
+      # Note: ActionController::Renderer#render does not pass blocks through to
+      # ViewComponent, so slots and content must be set before rendering.
+      link_arguments[:data] ||= {}
+      link_arguments[:data][:allow_external_link] = true
+      component = Primer::Beta::Link.new(
+        **link_arguments,
+        href:,
+        target:,
+        underline:
+      )
+      component.with_trailing_visual_icon(icon: :"link-external") if external
+      component.with_content(text)
+
+      ApplicationController.renderer.render(component, layout: false)
     end
   end
 end

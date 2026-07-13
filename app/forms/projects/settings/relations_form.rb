@@ -45,7 +45,7 @@ module Projects
               dropdownPosition: "bottom",
               url: project_autocompleter_url,
               filters: [],
-              data: { qa_field_name: "parent" }
+              data: { test_selector: "parent" }
             }
           )
         else

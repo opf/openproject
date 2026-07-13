@@ -77,7 +77,7 @@ module Projects
           f.autocompleter(
             name: :project_creation_wizard_assignee_custom_field_id,
             label: I18n.t("settings.project_initiation_request.submission.assignee"),
-            caption: I18n.t("settings.project_initiation_request.submission.assignee_caption_html").html_safe,
+            caption: helpers.t("settings.project_initiation_request.submission.assignee_caption_html"),
             required: false,
             input_width: :large,
             autocomplete_options: {

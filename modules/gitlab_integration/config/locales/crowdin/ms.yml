@@ -20,72 +20,63 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 ms:
-  attributes:
-    commit: "Commit"
-    gitlab: "GitLab identifier"
-    gitlab_avatar_url: "Avatar URL"
-    gitlab_email: "GitLab Email"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "Merge Request"
-    gitlab_name: "GitLab name"
-    gitlab_updated_at: "Updated at"
-    gitlab_user_avatar_url: "GitLab avatar URL"
-    gitlab_username: "GitLab username"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI Details"
       gitlab_merge_request:
-        labels: "Labels"
+        labels: Labels
+      gitlab_pipeline:
+        ci_details: CI Details
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "mestilah jalur hash dengan kunci-kunci: warna, tajuk"
+              invalid_schema: 'mestilah jalur hash dengan kunci-kunci: warna, tajuk'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "mestilah jalur hash dengan kunci-kunci: warna, tajuk"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Paparkan kandungan GitLab"
+              invalid_schema: 'mestilah jalur hash dengan kunci-kunci: warna, tajuk'
+  attributes:
+    commit: Commit
+    gitlab: GitLab identifier
+    gitlab_avatar_url: Avatar URL
+    gitlab_email: GitLab Email
+    gitlab_html_url: GitLab HTML URL
+    gitlab_merge_request: Merge Request
+    gitlab_name: GitLab name
+    gitlab_updated_at: Updated at
+    gitlab_user_avatar_url: GitLab avatar URL
+    gitlab_username: GitLab username
   gitlab_integration:
-    merge_request_opened_comment: >
-      **PP Dibuka:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_closed_comment: >
-      **PP Ditutup:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_merged_comment: >
-      **PP Digabungkan:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah digabungkan oleh [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_reopened_comment: >
-      **PP Dibuka Semula:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
-    note_commit_referenced_comment: >
-      **Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Nota Komit [%{commit_id}](%{commit_url}) di [%{repository}](%{repository_url}):
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **Dirujuk dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Memberi komen dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) di [%{repository}](%{repository_url}):%{mr_note}
-    note_issue_referenced_comment: >
-      **Dirujuk dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Memberi komen dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Dirujuk dalam Snippet:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) pada [%{repository}](%{repository_url}):
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Isu Dibuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).
-    issue_closed_referenced_comment: >
-      **Isu Ditutup:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).
-    issue_reopened_referenced_comment: >
-      **Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).
-    push_single_commit_comment: >
-      **Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}
+    issue_closed_referenced_comment: "**Isu Ditutup:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Isu Dibuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Isu Dibuka Semula:** Isu %{issue_number} [%{issue_title}](%{issue_url}) bagi [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**PP Ditutup:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**PP Digabungkan:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah digabungkan oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**PP Dibuka:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**PP Dibuka Semula:** Penggabungan permintaan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka semula oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Dirujuk dalam Komit:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Nota Komit [%{commit_id}](%{commit_url}) di [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Memberi komen dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Dirujuk dalam Isu:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Isu %{issue_number} [%{issue_title}](%{issue_url}) pada [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Memberi komen dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) memberi komen WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) di [%{repository}](%{repository_url}):%{mr_note}\n"
+    note_mr_referenced_comment: "**Dirujuk dalam PP:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Penggabungan Permintaan %{mr_number} [%{mr_title}](%{mr_url}) pada [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Dirujuk dalam Snippet:** [%{gitlab_user}](%{gitlab_user_url}) telah merujuk WP ini dalam Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) pada [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Ditolak masuk PG** [%{gitlab_user}] (%{gitlab_user_url}) beberapa komit telah ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Ditolak masuk PP** [%{gitlab_user}] (%{gitlab_user_url}) ditolak [%{commit_number}] (%{commit_url}) ke [%{repository}] (%{repository_url}) pada %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Ditolak masuk %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ditolak ke [%{commit_number}](%{commit_url}) ke [%{repository}](%{repository_url}) di %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: Paparkan kandungan GitLab
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

@@ -1,220 +1,223 @@
 # Schema: PortfolioModel
 ---
-type: object
-properties:
-  _type:
-    type: string
-    enum:
-      - Portfolio
-  id:
-    type: integer
-    description: Portfolios' id
-    minimum: 1
-  identifier:
-    type: string
-  name:
-    type: string
-  active:
-    type: boolean
-    description: Indicates whether the portfolio is currently active or already archived
-  favorited:
-    type: boolean
-    description: Indicates whether the portfolio is favorited by the current user
-  statusExplanation:
-    allOf:
-      - $ref: './formattable.yml'
-      - description: A text detailing and explaining why the portfolio has the reported status
-  public:
-    type: boolean
-    description: Indicates whether the portfolio is accessible for everybody
-  description:
-    $ref: './formattable.yml'
-  createdAt:
-    type: string
-    format: date-time
-    description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
-  updatedAt:
-    type: string
-    format: date-time
-    description: Time of the most recent change to the portfolio
-  _links:
-    type: object
-    required:
-      - self
-      - categories
+allOf:
+  - $ref: "./custom_field_properties.yml"
+  - $ref: "./custom_comment_properties.yml"
+  - type: object
     properties:
-      update:
+      _type:
+        type: string
+        enum:
+          - Portfolio
+      id:
+        type: integer
+        description: Portfolios' id
+        minimum: 1
+      identifier:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+        description: Indicates whether the portfolio is currently active or already archived
+      favorited:
+        type: boolean
+        description: Indicates whether the portfolio is favorited by the current user
+      statusExplanation:
         allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Form endpoint that aids in updating this portfolio
+          - $ref: './formattable.yml'
+          - description: A text detailing and explaining why the portfolio has the reported status
+      public:
+        type: boolean
+        description: Indicates whether the portfolio is accessible for everybody
+      description:
+        $ref: './formattable.yml'
+      createdAt:
+        type: string
+        format: date-time
+        description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
+      updatedAt:
+        type: string
+        format: date-time
+        description: Time of the most recent change to the portfolio
+      _links:
+        type: object
+        required:
+          - self
+          - categories
+        properties:
+          update:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Form endpoint that aids in updating this portfolio
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: edit workspace
-      updateImmediately:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Directly update this portfolio
+                  **Permission**: edit workspace
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Directly update this portfolio
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: edit workspace
-      delete:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Delete this portfolio
+                  **Permission**: edit workspace
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Delete this portfolio
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: admin
-      favor:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Mark this portfolio as favorited by the current user
+                  **Permission**: admin
+          favor:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Mark this portfolio as favorited by the current user
 
-              # Conditions
+                  # Conditions
 
-              Only present if the portfolio is not yet favorited
+                  Only present if the portfolio is not yet favorited
 
-              Permission**: none but login is required
-      disfavor:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Mark this portfolio as not favorited by the current user
+                  Permission**: none but login is required
+          disfavor:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Mark this portfolio as not favorited by the current user
 
-              # Conditions
-              Only present if the portfolio is favorited by the current user
+                  # Conditions
+                  Only present if the portfolio is favorited by the current user
 
-              Permission**: none but login is required
-      createWorkPackage:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Form endpoint that aids in preparing and creating a work package
+                  Permission**: none but login is required
+          createWorkPackage:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Form endpoint that aids in preparing and creating a work package
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: add work packages
-      createWorkPackageImmediately:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Directly creates a work package in the portfolio
+                  **Permission**: add work packages
+          createWorkPackageImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Directly creates a work package in the portfolio
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: add work packages
-      self:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              This portfolio
+                  **Permission**: add work packages
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This portfolio
 
-              **Resource**: Portfolio
-      categories:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Categories available in this portfolio
+                  **Resource**: Portfolio
+          categories:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Categories available in this portfolio
 
-              **Resource**: Collection
-      types:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Types available in this portfolio
+                  **Resource**: Collection
+          types:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Types available in this portfolio
 
-              **Resource**: Collection
+                  **Resource**: Collection
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: view work packages or manage types
-      versions:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Versions available in this portfolio
+                  **Permission**: view work packages or manage types
+          versions:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Versions available in this portfolio
 
-              **Resource**: Collection
+                  **Resource**: Collection
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: view work packages or manage versions
-      memberships:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Memberships in the  portfolio
+                  **Permission**: view work packages or manage versions
+          memberships:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Memberships in the  portfolio
 
-              **Resource**: Collection
+                  **Resource**: Collection
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: view members
-      workPackages:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Work Packages of this portfolio
+                  **Permission**: view members
+          workPackages:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Work Packages of this portfolio
 
-              **Resource**: Collection
-      parent:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Parent of the portfolio
+                  **Resource**: Collection
+          parent:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Parent of the portfolio
 
-              **Resource**: Portfolio
+                  **Resource**: Portfolio
 
-              # Conditions
+                  # Conditions
 
-              **Permission** edit workspace
-      status:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              Denotes the status of the portfolio, so whether the portfolio is on track, at risk or is having trouble.
+                  **Permission** edit workspace
+          status:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Denotes the status of the portfolio, so whether the portfolio is on track, at risk or is having trouble.
 
-              **Resource**: ProjectStatus
+                  **Resource**: ProjectStatus
 
-              # Conditions
+                  # Conditions
 
-              **Permission** edit workspace
-      storages:
-        type: array
-        items:
-          allOf:
-            - $ref: './link.yml'
-            - description: |-
-                The link to a storage that is active for this portfolio.
+                  **Permission** edit workspace
+          storages:
+            type: array
+            items:
+              allOf:
+                - $ref: './link.yml'
+                - description: |-
+                    The link to a storage that is active for this portfolio.
 
-                **Resource**: Storage
+                    **Resource**: Storage
 
-                # Conditions
+                    # Conditions
 
-                **Permission**: view_file_links
-      projectStorages:
-        allOf:
-          - $ref: './link.yml'
-          - description: |-
-              The project storage collection of this portfolio.
+                    **Permission**: view_file_links
+          projectStorages:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  The project storage collection of this portfolio.
 
-              **Resource**: Collection
+                  **Resource**: Collection
 
-              # Conditions
+                  # Conditions
 
-              **Permission**: view_file_links
-      ancestors:
-        type: array
-        items:
-          allOf:
-            - $ref: './link.yml'
-            - description: |-
-                A collection of links to the ancestor portfolios.
+                  **Permission**: view_file_links
+          ancestors:
+            type: array
+            items:
+              allOf:
+                - $ref: './link.yml'
+                - description: |-
+                    A collection of links to the ancestor portfolios.
 
-                **Resource**: Portfolio
+                    **Resource**: Portfolio

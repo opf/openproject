@@ -110,7 +110,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: build_members
+        render json: build_members, escape: true
       end
     end
   end
@@ -166,7 +166,7 @@ class MembersController < ApplicationController
   end
 
   def members_filter_options(roles)
-    groups = Group.all.sort
+    groups = Group.visible.sort
     shares = WorkPackageRole.all
     status = Members::UserFilterComponent.status_param(params)
 

@@ -1,3 +1,4 @@
+---
 ja:
   activerecord:
     attributes:
@@ -30,11 +31,18 @@ ja:
         authentication_method: 認証方法
         creator: 作成者
         drive: ドライブ ID
+        file_link_origin: File link origin ID
         host: ホスト
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: 名称
         password: アプリケーションのパスワード
         provider_type: プロバイダーの種類
+        storage: Storage
+        storage_url: Storage URL
         tenant: ディレクトリ (テナント) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: は有効な URL ではありません。
@@ -100,28 +108,32 @@ ja:
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'ユーザーをグループに追加：'
-        create_folder: 'プロジェクトフォルダの作成を管理：'
-        ensure_root_folder_permissions: 'ベースフォルダの権限を設定：'
-        hide_inactive_folders: '非アクティブフォルダを隠す：'
+        add_user_to_group: ユーザーをグループに追加：
+        create_folder: プロジェクトフォルダの作成を管理：
+        ensure_root_folder_permissions: ベースフォルダの権限を設定：
+        hide_inactive_folders: 非アクティブフォルダを隠す：
         remote_folders: 'Read contents of the team folder:'
-        remove_user_from_group: 'グループからユーザーを削除します：'
-        rename_project_folder: '管理プロジェクトフォルダの名前を変更します：'
+        remove_user_from_group: グループからユーザーを削除します：
+        rename_project_folder: 管理プロジェクトフォルダの名前を変更します：
+        set_folder_permission: 'Set managed project Folder permissions:'
       one_drive_sync_service:
-        create_folder: 'プロジェクトフォルダの作成を管理：'
-        ensure_root_folder_permissions: 'ベースフォルダの権限を設定：'
-        hide_inactive_folders: '非アクティブフォルダを隠す ステップ'
+        create_folder: プロジェクトフォルダの作成を管理：
+        ensure_root_folder_permissions: ベースフォルダの権限を設定：
+        hide_inactive_folders: 非アクティブフォルダを隠す ステップ
         remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: '管理プロジェクトフォルダの名前を変更します：'
+        rename_project_folder: 管理プロジェクトフォルダの名前を変更します：
+        set_folder_permission: 'Set managed project Folder permissions:'
       sharepoint_sync_service:
-        create_folder: 'プロジェクトフォルダの作成を管理：'
-        ensure_root_folder_permissions: 'ベースフォルダの権限を設定：'
-        hide_inactive_folders: '非アクティブフォルダを隠す ステップ：'
+        create_folder: プロジェクトフォルダの作成を管理：
+        ensure_root_folder_permissions: ベースフォルダの権限を設定：
+        hide_inactive_folders: 非アクティブフォルダを隠す ステップ：
         remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: '管理プロジェクトフォルダの名前を変更します：'
+        rename_project_folder: 管理プロジェクトフォルダの名前を変更します：
+        set_folder_permission: 'Set managed project Folder permissions:'
     errors:
       messages:
         error: 予期しないエラーが発生しました。OpenProject のログを確認するか、管理者に連絡してください。
+        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
         unauthorized: OpenProjectはストレージプロバイダと認証できませんでした。アクセスできることを確認してください。
       models:
@@ -141,35 +153,35 @@ ja:
               not_found: "%{parent_location} は見つからなかった。"
             ensure_root_folder_permissions:
               not_found: "%{group_folder} wasn't found. Please check your Nextcloud Team Folder setup."
-              permission_not_set: '%{group_folder}にパーミッションを設定できなかった。'
+              permission_not_set: "%{group_folder}にパーミッションを設定できなかった。"
             hide_inactive_folders:
-              permission_not_set: '%{path}にパーミッションを設定できなかった。'
+              permission_not_set: "%{path}にパーミッションを設定できなかった。"
             remote_folders:
-              not_allowed: '%{username} が %{group_folder} フォルダにアクセスできません。Nextcloudのフォルダパーミッションを確認してください。'
+              not_allowed: "%{username} が %{group_folder} フォルダにアクセスできません。Nextcloudのフォルダパーミッションを確認してください。"
               not_found: "%{group_folder} フォルダが見つかりませんでした。Nextcloudの設定を確認してください。"
             remove_user_from_group:
-              conflict: '以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}'
-              failed_to_remove: '以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}'
+              conflict: 以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}
+              failed_to_remove: 以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}
             rename_project_folder:
               conflict: OpenProjectは、同じ名前のフォルダが既に存在するため、プロジェクトフォルダの名前を %{current_path} に変更できませんでした。
               forbidden: OpenProjectユーザーは %{current_path} フォルダにアクセスできません。
               not_found: "%{current_path} は見つかりませんでした。"
             set_folders_permissions:
-              permission_not_set: '%{path} に権限を設定できませんでした。'
+              permission_not_set: "%{path} に権限を設定できませんでした。"
           error: 予期しないエラーが発生しました。Nextcloudインスタンスがアクセス可能であることを確認し、詳細についてはOpenProjectワーカーログを確認してください。
           group_does_not_exist: "%{group} は存在しません。Nextcloudインスタンスの設定を確認してください。"
           insufficient_privileges: OpenProjectには %{user} を %{group}に追加するための十分な権限がありません。Nextcloudでグループ設定を確認してください。
           not_allowed: Nextcloudはリクエストをブロックします。
           not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
           unauthorized: OpenProjectがNextcloudと同期できませんでした。ストレージとNextcloudの設定を確認してください。
-          user_does_not_exist: "Nextcloudには%{user} は存在しません。"
+          user_does_not_exist: Nextcloudには%{user} は存在しません。
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: '%{folder_name} は %{parent_location} に既に存在します。'
+              conflict: "%{folder_name} は %{parent_location} に既に存在します。"
               not_found: "%{parent_location} は見つかりませんでした。"
             hide_inactive_folders:
-              permission_not_set: '%{path} に権限を設定できませんでした。'
+              permission_not_set: "%{path} に権限を設定できませんでした。"
             remote_folders:
               request_error: OpenProjectがドライブ %{drive_id}にアクセスできませんでした。ストレージの設定が正しいか確認してください。
             rename_project_folder:
@@ -177,37 +189,42 @@ ja:
               forbidden: OpenProject は名前を変更するために %{current_path} にアクセスできません。
               not_found: "%{current_path} は見つかりませんでした。"
             set_folders_permissions:
-              permission_not_set: '%{path} に権限を設定できませんでした。'
+              permission_not_set: "%{path} に権限を設定できませんでした。"
           error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
           not_allowed: OpenProject は、OneDrive ドライブにアクセスすることができませんでした。Azure アプリケーションの権限設定を確認してください。
           unauthorized: OpenProjectがOneDriveと同期できませんでした。ストレージとAzureアプリケーションの設定を確認してください。
-          user_does_not_exist: "Nextcloudには%{user} は存在しません。"
+          user_does_not_exist: Nextcloudには%{user} は存在しません。
         sharepoint_sync_service:
           attributes:
             create_folder:
-              conflict: '%{folder_name} は %{parent_location} に既に存在します。'
+              conflict: "%{folder_name} は %{parent_location} に既に存在します。"
               not_found: "%{parent_location} は見つかりませんでした。"
             hide_inactive_folders:
-              permission_not_set: '%{path} に権限を設定できませんでした。'
+              permission_not_set: "%{path} に権限を設定できませんでした。"
             rename_project_folder:
               conflict: OpenProjectは既に同じ名前のフォルダとしてフォルダ %{current_path} を %{project_folder_name} にリネームできませんでした
               forbidden: OpenProject は名前を変更するために %{current_path} にアクセスできません。
               not_found: "%{current_path} は見つかりませんでした。"
             set_folders_permissions:
-              permission_not_set: '%{path} に権限を設定できませんでした。'
+              permission_not_set: "%{path} に権限を設定できませんでした。"
           error: 予期しないエラーが発生しました。OneDrive に到達できることを確認し、OpenProject ワーカーのログを確認してください
           not_allowed: OpenProject は、OneDrive ドライブにアクセスすることができませんでした。Azure アプリケーションの権限設定を確認してください。
           not_found: OpenProject could not access your library %{drive_name}. Please check you Sharepoint site document libraries.
           unauthorized: OpenProjectがOneDriveと同期できませんでした。ストレージとAzureアプリケーションの設定を確認してください。
-          user_does_not_exist: "Nextcloudには%{user} は存在しません。"
+          user_does_not_exist: Nextcloudには%{user} は存在しません。
         upload_link_service:
           not_found: 宛先フォルダ %{folder} が %{storage_name}に見つかりませんでした。
   storages:
+    admin:
+      side_panel:
+        health_notifications_component:
+          sync_now: Sync now
+          sync_queued: Synchronization queued.
     buttons:
       done_continue: 完了しました。続ける
       open_storage: ファイルストレージを開く
       replace_oauth_application: OpenProject OAuthを置き換え
-      replace_oauth_client: '%{provider_type} OAuthの置換'
+      replace_oauth_client: "%{provider_type} OAuthの置換"
       save_and_continue: 保存して続ける
       select_folder: フォルダを選択
     configuration_checks:
@@ -221,13 +238,13 @@ ja:
     confirm_replace_oauth_application: この操作で、現在の OAuth 認証情報がリセットされます。確認後、ストレージプロバイダで認証情報を再入力する必要があり、すべてのリモートユーザは OpenProject に対して再度認証する必要があります。本当に進めますか？
     confirm_replace_oauth_client: この操作により、現在のOAuth認証情報がリセットされます。確認後、ストレージプロバイダから新しい認証情報を入力する必要があり、すべてのユーザーは %{provider_type} に対して再度認証する必要があります。本当に進めますか？
     delete_warning:
-      project_storage: Are you sure you want to remove %{file_storage} from this project?
       project_storage_delete_result_1: All links to corresponding files and folders will be removed
       project_storage_delete_result_2: The automatically-managed project folder and all files in it will be deleted
-      storage: Are you sure you want to delete %{file_storage} as an external file storage?
+      project_storage_html: Are you sure you want to remove %{file_storage} from this project?
       storage_delete_result_1: The storage will be removed from all projects currently using it
       storage_delete_result_2: All links to corresponding files and folders will be removed
       storage_delete_result_3: The automatically-managed project folder and all files in it will be deleted
+      storage_html: Are you sure you want to delete %{file_storage} as an external file storage?
     dependencies:
       nextcloud:
         group_folders_app: Team Folders
@@ -271,7 +288,7 @@ ja:
         download_report: ダウンロード
         rerun_checks: すべてのチェックを再実行する
         run_checks: 今すぐチェックを実行
-      checked: '最終チェック： %{datetime}'
+      checked: 最終チェック： %{datetime}
       checks:
         ampf_configuration:
           client_folder_creation: 自動フォルダ作成
@@ -279,6 +296,8 @@ ja:
           drive_contents: Drive content
           files_request: Fetching team folder files
           header: 自動的に管理されるプロジェクトフォルダ
+          project_folders_exist: Project folders exist
+          project_folders_linked: Project folders linked
           team_folder_app: 'Dependency: Team Folders'
           team_folder_contents: Team folder content
           team_folder_presence: Team folder exists
@@ -306,70 +325,60 @@ ja:
           host_url_accessible: ホスト URL アクセス
           storage_configured: 設定完了
           tenant_id: Tenant ID
-        failures:
-          other: "%{count} チェックに失敗しました"
-        success: すべてのチェックに合格
-        warnings:
-          other: "%{count} は警告を返しました"
-      connection_validation:
-        client_id_invalid: 設定されたOAuth 2クライアントIDが無効です。設定を確認してください。
-        client_secret_invalid: 設定されたOAuth 2クライアントシークレットが無効です。設定を確認してください。
-        nc_dependency_missing: 'ファイルストレージに必要な依存関係がありません。次の依存関係を追加してください: %{dependency}。'
-        nc_dependency_version_mismatch: '%{dependency} アプリのバージョンがサポートされていません。Nextcloudサーバーをアップデートしてください。'
-        nc_host_not_found: 設定されたホストURLにNextcloudサーバーが見つかりません。設定を確認してください。
-        nc_oauth_request_not_found: 現在接続しているユーザーを取得するエンドポイントが見つかりませんでした。詳細については、サーバーのログを確認してください。
-        nc_oauth_request_unauthorized: 現在のユーザーにはリモートファイルストレージにアクセスする権限がありません。サーバーのログを確認してください。
-        nc_oauth_token_missing: OpenProject は、Nextcloudアカウントへのリンクがまだないため、Nextcloudとのユーザーレベルの通信をテストできません。
-        nc_team_folder_not_found: The team folder could not be found.
-        nc_unexpected_content: Unexpected content found in the managed team folder.
-        nc_userless_access_denied: 設定されているアプリのパスワードが無効です。
-        not_configured: 接続を検証できませんでした。先に設定を完了してください。
-        od_client_cant_delete_folder: クライアントがフォルダを削除できません。ストレージのセットアップドキュメントを確認してください。
-        od_client_write_permission_missing: クライアントは書き込み権限がありません。ストレージの設定ドキュメントを確認してください。
-        od_drive_id_invalid: 設定されたドライブ ID が無効です。設定を確認してください。
-        od_drive_id_not_found: 設定されたドライブ ID が見つかりません。設定を確認してください。
-        od_oauth_request_not_found: 現在接続されているユーザーを取得するエンドポイントが見つかりませんでした。詳細についてはサーバーログを確認してください。
-        od_oauth_request_unauthorized: 現在のユーザーはリモートファイルストレージにアクセスする権限がありません。詳細についてはサーバーログを確認してください。
-        od_oauth_token_missing: OpenProject は、ユーザーが Microsoft アカウントをまだリンクしていないため、OneDrive とのユーザー レベルの通信をテストできません。
-        od_tenant_id_wrong: 設定されたディレクトリ (テナント) IDは無効です。設定を確認してください。
-        od_test_folder_exists: テストに必要なフォルダ %{folder_name} はすでに存在します。削除して再度お試しください。
-        od_unexpected_content: ドライブに予期しないコンテンツが見つかりました。
-        offline_access_scope_missing: offline_access スコープを要求するために OpenID Connect プロバイダを設定することをお勧めします。 統合はまだ動作するかもしれませんが、更新トークンが期限切れでないことを確認してください。
-        oidc_cant_refresh_token: ストレージへのアクセスを確認中にエラーが発生しました。詳細についてはサーバーログを確認してください。
-        oidc_non_oidc_user: 現在のユーザは、プロビジョニング中にOpenID Connect(OIDC)アイデンティティプロバイダによってプロビジョニングされていませんでした。OIDCプロビジョニングされたユーザでチェックを再実行してください。
-        oidc_non_provisioned_user: 現在のユーザーはOpenID Connectアイデンティティプロバイダーによって提供されていません。指定されたユーザーとチェックを再実行してください。
-        oidc_provider_cant_exchange: OpenID Connectプロバイダはトークン交換をサポートしていないようですが、トークン交換はストレージ用に設定されています。
-        oidc_token_acquisition_failed: OpenID Connectのセットアップでは、必要なオーディエンスが提供されておらず、トークン交換機能も提供されていません。詳しくはドキュメントをご覧ください。
-        oidc_token_exchange_failed: OpenID Connect ProviderのToken Exchange設定に問題があるようです。設定を確認し、再度お試しください。
-        oidc_token_refresh_failed: ストレージへのアクセスを確認しようとしてエラーが発生しました。詳細については、サーバーのログを確認してください。
-        sp_client_cant_delete_folder: クライアントがSharePointでフォルダの削除に失敗しています。お使いのストレージのセットアップドキュメントを確認してください。
-        sp_client_id_missing: 設定された OAuth 2 クライアント ID が SharePoint にありません。設定を確認してください。
-        sp_client_secret_missing: 設定されたOAuth 2クライアントシークレットがSharePointにありません。設定を確認してください。
-        sp_client_write_permission_missing: クライアントはSharePointで書き込み権限が不足しているようです。ストレージのセットアップドキュメントを確認してください。
-        sp_existing_test_folder: テストに必要なフォルダ %{folder_name} は SharePoint に既に存在します。削除してから、もう一度お試しください。
-        sp_oauth_request_error: SharePointへのユーザーバウンドリクエストに失敗しました。詳細については、サーバーのログを確認してください。
-        sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-        sp_oauth_token_missing: OpenProject は、ユーザーがまだ SharePoint アカウントをリンクしていないため、ユーザーレベルの SharePoint との通信をテストできません。
-        sp_tenant_id_missing: 構成されたディレクトリ（テナント）IDがSharePointにありません。設定を確認してください。
-        sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
-        unknown_error: 接続を検証できませんでした。不明なエラーが発生しました。詳細についてはサーバーログを確認してください。
+        errors:
+          client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
+          client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
+          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
+          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
+          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
+          nc_team_folder_not_found: The team folder could not be found.
+          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
+          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
+          nc_userless_access_denied: The configured app password is invalid.
+          not_configured: The connection could not be validated. Please finish configuration first.
+          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
+          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
+          od_drive_id_invalid: The configured drive id seems invalid. Please check the configuration.
+          od_drive_id_not_found: The configured drive id could not be found. Please check the configuration.
+          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
+          od_tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
+          od_unexpected_content: Unexpected content found in the drive.
+          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
+          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
+          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
+          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
+          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
+          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
+          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
+          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the configuration.
+          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the configuration.
+          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
+          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
+          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
+          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
+          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
+          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
+          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: エラー
-      label_failed: 失敗しました
       label_healthy: 健康的
-      label_passed: 合格しました
       label_pending: 保留中
-      label_skipped: スキップ
-      label_warning: 注意
       no_report: 利用可能なレポートがありません
       no_report_description: 今すぐこのファイルストレージの完全な健康状態レポートを確認します。
       open_report: 完全な健康報告を開く
       project_folders:
         subtitle: 自動的に管理されるプロジェクトフォルダ
-      since: '%{datetime} 以降'
-      summary:
-        failure: いくつかのチェックに失敗し、システムが期待どおりに動作しません。
-        success: すべての接続とシステムは期待どおりに動作しています。
-        warning: いくつかのチェックが警告を返しました。これは予期しない動作につながる可能性があります。
+      since: "%{datetime} 以降"
+      synced: 'Last sync: %{datetime}'
       title: 健康状態レポート
     health_email_notifications:
       description_disabled: 管理者は、重要なアップデートがあった場合、メールでアップデートを受け取ることはできません。
@@ -386,13 +395,13 @@ ja:
       empty_project_folder_validation: フォルダの選択は必須です。
       existing_manual_folder: このプロジェクトのルートフォルダとして既存のフォルダを指定できます。 ただし、権限は自動的に管理されておらず、管理者は関連するユーザーに手動でアクセス権があることを確認する必要があります。 選択したフォルダは複数のプロジェクトで使用できます。
       host: https://を含むストレージのホストアドレスを追加してください。255文字以内にしてください。
-      managed_project_folders_application_password_caption: '%{provider_type_link} からこの値をコピーすることで、自動管理フォルダを有効にします。'
+      managed_project_folders_application_password_caption: "%{provider_type_link} からこの値をコピーすることで、自動管理フォルダを有効にします。"
       name: ユーザーが複数のストレージを区別できるように、ストレージに名前を付けます。
-      new_storage: 詳しくは、<a target='_blank' href='%{provider_link}'> %{provider_name} ファイルストレージ</a>統合の設定に関するドキュメントをお読みください。
+      new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
       nextcloud:
         application_link_text: アプリケーション "Integration OpenProject"
         integration: Nextcloudの管理 / OpenProject
-        oauth_configuration: '%{application_link_text} からこれらの値をコピーします。'
+        oauth_configuration: "%{application_link_text} からこれらの値をコピーします。"
         provider_configuration: Nextcloudインスタンスに管理権限があり、設定を行う前に %{application_link_text} がインストールされていることを確認してください。
         storage_audience: NextcloudインスタンスがIDプロバイダーと通信するために使用するクライアントID。
         storage_audience_placeholder: 例：nextcloud
@@ -400,19 +409,18 @@ ja:
       no_specific_folder: デフォルトでは、各ユーザーはファイルをアップロードしたときに自分のホームフォルダから開始します。
       no_storage_set_up: まだ設定されているファイルストレージがありません。
       not_logged_into_storage: プロジェクトフォルダを選択するには、最初にログインしてください
-      oauth_application_details: クライアントシークレットの値は、このウィンドウを閉じた後は二度とアクセスできなくなります。これらの値を %{oauth_application_details_link}にコピーしてください。
-      oauth_application_details_link_text: Nextcloud OpenProjectインテグレーション設定
+      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
       one_drive:
         application_link_text: Azure Portal
         copy_redirect_uri: リダイレクトURIをコピーする
         documentation_link_text: OneDriveファイルストレージのドキュメント
-        drive_id: '%{drive_id_link_text} の手順に従って、目的のドライブからIDをコピーしてください。'
+        drive_id: "%{drive_id_link_text} の手順に従って、目的のドライブからIDをコピーしてください。"
         integration: OneDrive
         missing_client_id_for_redirect_uri: OAuthの値を入力してURIを生成してください
         oauth_client_redirect_uri: この値を「リダイレクト URIs」にある新しい Web リダイレクト URI にコピーしてください。
         oauth_client_secret: Client 資格情報にアプリケーション クライアント シークレットがない場合は、新しいシークレットを作成してください。
-        oauth_configuration: '%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。'
-        provider_configuration: '%{application_link_text} で管理権限があることを確認するか、設定を行う前にMicrosoft管理者に連絡してください。 ポータルでは、Azure アプリケーションを登録するか、認証に既存のアプリケーションを使用する必要があります。'
+        oauth_configuration: "%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。"
+        provider_configuration: "%{application_link_text} で管理権限があることを確認するか、設定を行う前にMicrosoft管理者に連絡してください。 ポータルでは、Azure アプリケーションを登録するか、認証に既存のアプリケーションを使用する必要があります。"
         tenant_id: ディレクトリ(テナント)IDは、 %{application_link_text}のアプリケーションおよびアプリ登録からコピーしてください。
         tenant_id_placeholder: 名前またはUUID
       setting_up_additional_storages: 追加のファイルストレージの設定については、以下を参照してください
@@ -422,9 +430,9 @@ ja:
       sharepoint:
         application_link_text: シェアポイントサイト
         integration: SharePoint管理 / OpenProject
-        oauth_configuration: '%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。'
+        oauth_configuration: "%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。"
         provider_configuration: セットアップを行う前に、 %{application_link_text} で管理者権限を持っていることを確認するか、Microsoft 管理者に連絡してください。ポータルでは、Azure アプリケーションを登録するか、既存のものを認証に使用する必要もあります。
-      type: 'セットアップを行う前に、Nextcloudインスタンスに管理者権限があり、以下のアプリケーションがインストールされていることを確認してください：'
+      type: セットアップを行う前に、Nextcloudインスタンスに管理者権限があり、以下のアプリケーションがインストールされていることを確認してください：
       type_link_text: "「統合OpenProject」"
     label_active: アクティブ
     label_add_new_storage: 新しいストレージを追加
@@ -470,18 +478,18 @@ ja:
       access_granted: アクセスを許可しました
       project_settings:
         access_granted_screen_reader: アクセスが許可されました。 %{storage} を使用する準備ができました。
-        storage_ready: '%{storage} を使用する準備ができました'
+        storage_ready: "%{storage} を使用する準備ができました"
       storage_admin:
         access_granted_screen_reader: アクセスが許可されました。プロジェクトを %{storage} に追加する準備ができました。
         storage_ready: これで %{storage}にプロジェクトを追加する準備ができました。
     oauth_grant_nudge_modal:
       cancel_button_label: 後でやります
-      heading: '%{provider_type} へのログインが必要です'
-      login_button_aria_label: '%{storage} にログイン'
+      heading: "%{provider_type} へのログインが必要です"
+      login_button_aria_label: "%{storage} にログイン"
       login_button_label: "%{provider_type} ログイン"
       project_settings:
         description: プロジェクトフォルダにアクセスするには、 %{storage} にログインする必要があります。
-      requesting_access_to: '%{storage} へのアクセスをリクエストしています'
+      requesting_access_to: "%{storage} へのアクセスをリクエストしています"
       storage_admin:
         description: このストレージにプロジェクトを追加するには、 %{provider_type}にログインする必要があります。ログインしてもう一度やり直してください。
     open_project_storage_modal:
@@ -509,11 +517,11 @@ ja:
         members_connection_status: 会員の接続状況
         new: このプロジェクトにファイルストレージを追加する
       project_storage_members:
-        subtitle: 全プロジェクトメンバーのストレージ %{storage_name_link} の接続状態を確認する。
+        subtitle_html: Check the connection status for the storage %{storage_name_link} of all project members.
         title: 会員の接続状況
       project_storages:
         delete: Remove file storage from project?
-    permission_header_explanation: '外部ストレージのファイル権限は、自動的に管理されたプロジェクトフォルダ内のフォルダとファイルにのみ適用されます。 すべてのファイル権限がすべてのストレージプロバイダでサポートされているわけではないことに注意してください。 詳細については、 <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>ファイルストレージパーミッション</a> のドキュメントを確認してください。'
+    permission_header_explanation: 外部ストレージのファイル権限は、自動的に管理されたプロジェクトフォルダ内のフォルダとファイルにのみ適用されます。 すべてのファイル権限がすべてのストレージプロバイダでサポートされているわけではないことに注意してください。 詳細については、 <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>ファイルストレージパーミッション</a> のドキュメントを確認してください。
     provider_types:
       label: プロバイダー・タイプ
       nextcloud:

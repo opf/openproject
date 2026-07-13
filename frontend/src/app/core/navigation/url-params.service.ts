@@ -26,15 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { NavigationService } from 'core-app/core/navigation/navigation.service';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
-  constructor(private navigation:NavigationService) {
-  }
+  private navigation = inject(NavigationService);
+
 
   public get(key:string):string|null {
     return this.searchParams.get(key);

@@ -2,6 +2,7 @@
 x-op-env-override: &environment
   OPENPROJECT_CLI_PROXY: "${OPENPROJECT_DEV_URL}"
   OPENPROJECT_DEV_EXTRA_HOSTS: "${OPENPROJECT_DEV_HOST}"
+  OPENPROJECT_HOST__NAME: "${OPENPROJECT_DEV_HOST}"
   OPENPROJECT_HTTPS: true
   SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
   # uncomment and set all the envs below to integrate keycloak with OpenProject

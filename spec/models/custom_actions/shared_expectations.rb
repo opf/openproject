@@ -140,6 +140,15 @@ RSpec.shared_examples_for "associated custom action" do
       end
     end
 
+    describe "#value_objects" do
+      it "does not include nil for values not present in allowed_values" do
+        instance.values = [""]
+
+        expect(instance.value_objects)
+          .not_to include(nil)
+      end
+    end
+
     it_behaves_like "associated custom action validations"
   end
 end

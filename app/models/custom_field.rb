@@ -32,6 +32,8 @@ class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
 
+  normalizes :name, with: OpenProject::RemoveInvisibleCharacters
+
   has_many :custom_values, dependent: :delete_all
   # WARNING: the inverse_of option is also required in order
   # for the 'touch: true' option on the custom_field association in CustomOption
@@ -52,18 +54,20 @@ class CustomField < ApplicationRecord
   attr_readonly :field_format
 
   has_many :calculated_value_errors, dependent: :delete_all, inverse_of: "custom_field"
+  has_many :comments, class_name: "CustomComment", dependent: :delete_all, inverse_of: "custom_field"
+
+  include Scopes::Scoped
 
   scope :hierarchy_root_and_children, -> { includes(hierarchy_root: { children: :children }) }
   scope :required, -> { where(is_required: true).where.not(field_format: "calculated_value") }
 
   scope :field_format_calculated_value, -> { where(field_format: "calculated_value") }
 
+  scopes :visible
+
   acts_as_list scope: [:type]
 
   validates :field_format, presence: true
-  validates :custom_options,
-            presence: { message: ->(*) { I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option") } },
-            if: ->(*) { field_format == "list" }
   validates :name,
             presence: true,
             length: { maximum: 256 },
@@ -81,9 +85,15 @@ class CustomField < ApplicationRecord
 
   validates :multi_value, absence: true, unless: :multi_value_possible?
   validates :allow_non_open_versions, absence: true, unless: :allow_non_open_versions_possible?
+  validates :has_comment, absence: true, unless: :can_have_comment?
 
   before_validation :check_searchability
+
   after_destroy :destroy_help_text
+
+  def visible?(usr = User.current, **)
+    self.class.visible(usr).exists?(id: id)
+  end
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
@@ -91,9 +101,15 @@ class CustomField < ApplicationRecord
     true
   end
 
-  def default_value
+  def default_value # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     if list?
-      ids = custom_options.where(default_value: true).pluck(:id).map(&:to_s)
+      # Use loaded association data when available to avoid N+1 queries.
+      # .where().pluck() always hits the database, bypassing eager-loaded data.
+      ids = if custom_options.loaded?
+              custom_options.select(&:default_value).map { |o| o.id.to_s }
+            else
+              custom_options.where(default_value: true).pluck(:id).map(&:to_s)
+            end
 
       if multi_value?
         ids
@@ -107,10 +123,13 @@ class CustomField < ApplicationRecord
   end
 
   def validate_field_format_inclusion
-    available = OpenProject::CustomFieldFormat.available_formats
     # When creating a new custom field, only the available formats are allowed.
     # But you can edit and update existing custom fields, even if they have a field format that is disabled.
-    allowed = new_record? ? available : (available + OpenProject::CustomFieldFormat.disabled_formats).uniq
+    allowed = if new_record?
+                OpenProject::CustomFieldFormat.available_formats
+              else
+                OpenProject::CustomFieldFormat.registered_formats
+              end
 
     unless allowed.include?(field_format)
       errors.add(:field_format, :inclusion)
@@ -277,6 +296,14 @@ class CustomField < ApplicationRecord
     where(is_filter: true)
   end
 
+  def all_attribute_names
+    if has_comment?
+      [attribute_name, comment_attribute_name]
+    else
+      [attribute_name]
+    end
+  end
+
   def attribute_name(format = nil)
     return "customField#{id}" if format == :camel_case
     return "custom-field-#{id}" if format == :kebab_case
@@ -284,17 +311,23 @@ class CustomField < ApplicationRecord
     "custom_field_#{id}"
   end
 
-  def attribute_getter
-    attribute_name.to_sym
+  def comment_attribute_name(format = nil)
+    return "customComment#{id}" if format == :camel_case
+
+    "custom_comment_#{id}"
   end
 
-  def attribute_setter
-    :"#{attribute_name}="
-  end
+  def attribute_getter = attribute_name.to_sym
 
-  def column_name
-    "cf_#{id}"
-  end
+  def comment_attribute_getter = comment_attribute_name.to_sym
+
+  def attribute_setter = :"#{attribute_name}="
+
+  def comment_attribute_setter = :"#{comment_attribute_name}="
+
+  def column_name = "cf_#{id}"
+
+  def comment_column_name = "cfc_#{id}"
 
   def type_name
     nil
@@ -350,6 +383,10 @@ class CustomField < ApplicationRecord
     version?
   end
 
+  def self.can_have_comment? = customized_class&.can_have_custom_comments?
+
+  delegate :can_have_comment?, to: :class
+
   ##
   # Overrides cache key so that a custom field's representation
   # is updated correctly when its multi_value attribute changes.
@@ -368,8 +405,13 @@ class CustomField < ApplicationRecord
     return nil unless calculated_value?
 
     # Use a ruby finder to avoid hitting the database with N+1 queries on the project list page,
-    # the errors are eager loaded via the Queries::Projects::CustomFieldContext.
-    calculated_value_errors.find { it.customized == customized }
+    # the errors are eager loaded via the Projects::TableComponent
+    customized.calculated_value_errors.find { it.custom_field_id == id }
+  end
+
+  def comment_for(customized)
+    # Use a ruby finder following same logic as in first_calculation_error
+    comments.find { it.customized == customized }
   end
 
   private

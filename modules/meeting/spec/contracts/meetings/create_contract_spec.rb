@@ -44,6 +44,18 @@ RSpec.describe Meetings::CreateContract do
     end
 
     it_behaves_like "contract is valid"
+
+    context "when setting sharing on a non-template" do
+      let(:meeting) { build(:meeting, project:, sharing: :none) }
+
+      it_behaves_like "contract is invalid", sharing: %i[present not_allowed]
+    end
+
+    context "when setting sharing on a onetime template" do
+      let(:meeting) { build(:onetime_template, project:, sharing: :none) }
+
+      it_behaves_like "contract is valid"
+    end
   end
 
   context "without permission" do

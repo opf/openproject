@@ -34,7 +34,9 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
   include API::V3::Utilities::PathHelper
 
   describe "GET /api/v3/custom_fields/:id/items" do
-    let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
+    shared_let(:project) { create(:project) }
+
+    let(:custom_field) { create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil) }
     let!(:root) { service.generate_root(custom_field).value! }
     let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "Luke", short: "LS").value! }
@@ -52,8 +54,14 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
       it_behaves_like "unauthenticated access"
     end
 
-    context "if user is logged in" do
-      before { login_as create(:user) }
+    context "if the user is not allowed to view the custom field" do
+      current_user { create(:user, member_with_permissions: { project => [] }) }
+
+      it_behaves_like "not found"
+    end
+
+    context "if user is logged in with the necessary permissions" do
+      current_user { create(:user, member_with_permissions: { project => [:select_custom_fields] }) }
 
       it_behaves_like "API V3 collection response", 6, 6, "HierarchyItem", "Collection" do
         let(:elements) { [root, luke, r2d2, mouse, c3po, mara] }

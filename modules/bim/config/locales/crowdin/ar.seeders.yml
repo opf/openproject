@@ -13,7 +13,7 @@ ar:
         item_2:
           name: مرتفعة
         item_3:
-          name: Critical
+          name: حَرِج
       statuses:
         item_0:
           name: جديد
@@ -42,7 +42,7 @@ ar:
         item_4:
           name: Remark
         item_5:
-          name: Request
+          name: طلب
         item_6:
           name: Clash
       global_queries:
@@ -69,7 +69,7 @@ ar:
         item_6:
           name: Planners
         item_7:
-          name: Structural Engineers
+          name: المهندسون الهيكليون
       welcome:
         title: Welcome to OpenProject BIM edition!
         text: |
@@ -92,10 +92,10 @@ ar:
           description: This is a short summary of the goals of this demo construction project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: مرحباً بك في مشروعك التجريبي
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                يسعدنا انضمامك إلينا.
+                في هذه الوحدة يمكنك توصيل أخبار المشروع إلى أعضاء فريقك.
               description: The actual news
           categories:
             item_0: Category 1 (to be changed in Project settings)
@@ -105,17 +105,17 @@ ar:
             item_1:
               name: الأحداث الرئيسية
             item_2:
-              name: Tasks
+              name: المهام
             item_3:
               name: مخطط الفريق
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: عملية السحب والإفلات بسيطة
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: أهلا
               item_1:
                 options:
                   name: الشروع في البدء
@@ -154,7 +154,7 @@ ar:
           description: This is a short summary of the goals of this demo planning and constructing project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: مرحباً بك في مشروعك التجريبي
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -167,14 +167,14 @@ ar:
             item_1:
               name: الأحداث الرئيسية
             item_2:
-              name: Tasks
+              name: المهامّ
             item_3:
               name: مخطط الفريق
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: أهلا
               item_1:
                 options:
                   name: الشروع في البدء
@@ -321,7 +321,7 @@ ar:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: الأساس
                   description: |-
                     ## Goal
 
@@ -408,27 +408,27 @@ ar:
           description: This is a short summary of the goals of this demo BIM project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: مرحباً بك في مشروعك التجريبي
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                يسعدنا انضمامك إلينا.
+                في هذه الوحدة يمكنك توصيل أخبار المشروع إلى أعضاء فريقك.
               description: The actual news
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: خُطَّة المشروع
             item_1:
               name: الأحداث الرئيسية
             item_2:
-              name: Tasks
+              name: المهام
             item_3:
               name: مخطط الفريق
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: أهلا
               item_1:
                 options:
                   name: الشروع في البدء
@@ -665,7 +665,7 @@ ar:
                 *   The model can be used for the operating system of the building
                 *   ...
             item_14:
-              subject: Asset Management
+              subject: إدارة الأصول
               description: Enjoy your building :)
         demo-bcf-management-project:
           name: "(Demo) BCF management"
@@ -686,7 +686,7 @@ ar:
             item_1:
               name: Clashes
             item_2:
-              name: Requests
+              name: الطلبات
             item_3:
               name: Remarks
             item_4:
@@ -694,7 +694,7 @@ ar:
             item_5:
               name: الأحداث الرئيسية
             item_6:
-              name: Tasks
+              name: المهام
             item_7:
               name: مخطط الفريق
           boards:
@@ -704,7 +704,7 @@ ar:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: أهلا
               item_1:
                 options:
                   name: الشروع في البدء

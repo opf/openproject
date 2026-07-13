@@ -1,0 +1,131 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout do |box|
+  if model.in_state?(:reverting, :reverted, :revert_error)
+    box.with_row do
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert")
+      })
+    end
+    case model.current_state.to_sym
+    when :reverting
+      box.with_row(mt: 3) do
+        render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_progress")
+        ))
+      end
+    when :reverted
+      box.with_row(mt: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_reverted")
+        }
+      end
+    when :revert_error
+      box.with_row(mt: 3) do
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'revert'))
+      end
+    end
+  elsif model.in_state?(:finalizing, :finalizing_done, :finalizing_error)
+    box.with_row do
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalize_import")
+      })
+    end
+    case model.current_state.to_sym
+    when :finalizing
+      box.with_row(mt: 3) do
+        render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
+        ))
+      end
+    when :finalizing_done
+      box.with_row(mt: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing_done")
+        }
+      end
+    when :finalizing_error
+      box.with_row(mt: 3) do
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'finalize'))
+      end
+    end
+  else
+    box.with_row do
+      concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_result.title")
+      })
+      if model.status_before?(:imported)
+        concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.caption")
+        })
+      end
+    end
+    if model.in_state?(:imported)
+      box.with_row(mt: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :success, icon: :"check-circle")) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.info")
+        }
+      end
+    end
+    if model.in_state?(:imported, :finalizing_done)
+      box.with_row(mt: 3, mb: 3) do
+        render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+          title: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_results"),
+          list: imported_data,
+          show_icon: false
+        ))
+      end
+    end
+    if model.in_state?(:imported)
+      box.with_row(mb: 3) do
+        render(Primer::Alpha::Banner.new(scheme: :default, icon: :info)) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.preview_description")
+        }
+      end
+      box.with_row do
+        concat(render(Primer::Beta::Button.new(
+          tag: :a,
+          scheme: :primary,
+          size: :medium,
+          mr: 2,
+          href: finalize_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_done") })
+        concat(render(Primer::Beta::Button.new(
+          scheme: :default,
+          tag: :a,
+          size: :medium,
+          href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_revert") })
+      end
+    end
+  end
+end %>

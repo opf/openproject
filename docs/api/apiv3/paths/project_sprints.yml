@@ -1,0 +1,83 @@
+# /api/v3/projects/{id}/sprints
+---
+get:
+  parameters:
+    - description: ID of the project whose sprints will be listed
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying filter conditions.
+        
+        Accepts the same format and filters as returned by the [sprints](https://www.openproject.org/docs/api/endpoints/sprints/) endpoint.
+
+      example: '[{ "definingWorkspace": { "operator": "=", "values": ["1"] }" }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/sprint_collection_model.yml"
+          examples:
+            response:
+              $ref: "../components/examples/sprint_collection.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/sprint_collection_model.yml"
+          examples:
+            response:
+              $ref: "../components/examples/sprint_collection.yml"
+      description: |-
+        Returned if the user lacks permission to list sprints in the queried for project.
+
+        **Required permission:** view sprints in the project.
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified project does not exist.
+      description: |-
+        Returned if the project does not exist.
+
+        **Required permission:** view sprints in the queried for project.
+      headers: {}
+  tags:
+    - Sprints
+  description: |-
+    List sprints in the project. The sprints might be ones native to the project or shared with it. This endpoint supports pagination and filtering.
+  operationId: List_sprints_in_project
+  summary: List sprints in project

@@ -211,6 +211,26 @@ RSpec.describe MembersController do
     end
   end
 
+  describe "#index" do
+    let(:role) { create(:project_role, permissions: [:manage_members]) }
+    let!(:member) { create(:member, project:, user:, roles: [role]) }
+
+    let!(:visible_group) { create(:group, members: [user]) }
+    let!(:hidden_group) { create(:group) }
+
+    before { login_as(user) }
+
+    it "only includes groups the user is a member of in the filter options" do
+      get :index, params: { project_id: project.id }
+
+      expect(response).to be_successful
+
+      groups = assigns(:members_filter_options)[:groups]
+      expect(groups).to include(visible_group)
+      expect(groups).not_to include(hidden_group)
+    end
+  end
+
   describe "#create with reduced visibility" do
     let(:project_permissions) { %i[manage_members invite_members_by_email] }
     let!(:other_project) { create(:project) }
@@ -248,6 +268,27 @@ RSpec.describe MembersController do
 
         # No invitation email should be sent since the user already exists
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "when adding by direct user ID a user who is not visible" do
+      let!(:hidden_user) { create(:user) }
+      let(:params) do
+        {
+          project_id: project.id,
+          member: {
+            role_ids: [role.id],
+            user_ids: [hidden_user.id]
+          }
+        }
+      end
+
+      it "does not add the hidden user as a member" do
+        expect { post :create, params: }
+          .to change(Member, :count).by(0)
+
+        hidden_user.reload
+        expect(hidden_user).not_to be_member_of(project)
       end
     end
   end

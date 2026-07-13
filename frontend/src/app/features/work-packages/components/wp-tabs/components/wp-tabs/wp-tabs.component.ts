@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Injector, Input, OnInit, Output, inject } from '@angular/core';
 import {
   KeepTabService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -21,6 +21,15 @@ import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-t
   standalone: false,
 })
 export class WpTabsComponent implements OnInit {
+  readonly wpTabsService = inject(WorkPackageTabsService);
+  readonly I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly $state = inject(StateService);
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly keepTab = inject(KeepTabService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() view:'full'|'split';
@@ -28,6 +37,8 @@ export class WpTabsComponent implements OnInit {
   @Input() routedFromAngular = true;
 
   @Input() public currentTabId:string|null = null;
+
+  @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
   public tabs:TabDefinition[];
 
@@ -39,18 +50,6 @@ export class WpTabsComponent implements OnInit {
       goToFullScreen: this.I18n.t('js.button_show_fullscreen'),
     },
   };
-
-  constructor(
-    readonly wpTabsService:WorkPackageTabsService,
-    readonly I18n:I18nService,
-    readonly injector:Injector,
-    readonly $state:StateService,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly keepTab:KeepTabService,
-    readonly pathHelper:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-  ) {
-  }
 
   ngOnInit():void {
     this.canViewWatchers = !!(this.workPackage && this.workPackage.watchers);
@@ -72,13 +71,13 @@ export class WpTabsComponent implements OnInit {
 
         return ({
           ...tab,
-          path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.id!, tab.id),
+          path: this.pathHelper.genericWorkPackagePath(this.currentProject.identifier, this.workPackage.displayId, tab.id),
         });
       });
   }
 
   public switchToFullscreen():void {
-    this.keepTab.goCurrentShowState(this.workPackage.id!);
+    this.keepTab.goCurrentShowState(this.workPackage.displayId);
   }
 
   public close():void {

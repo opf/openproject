@@ -38,7 +38,8 @@
   &-input-wrap[invalid='true'] input:not(:focus)
     border-color: var(--control-borderColor-danger)
 
-  &-spacingWrapper > :empty
+  &-spacingWrapper > :empty,
+  &-spacingWrapper:not(:has(> :not([hidden])))
     display: none
 
 .UnderlineNav
@@ -74,6 +75,9 @@ ul.SegmentedControl,
 
   &-body_autocomplete_height
     min-height: 320px
+
+  &-body_autocomplete_height--lg
+    min-height: 480px
 
   &--size-xlarge-maximized-empty-footer
     min-height: 534px
@@ -153,6 +157,12 @@ ul.SegmentedControl,
   .ActionListItem-label[class^="__hl_"], .ActionListItem-label[class*=" __hl_"]
     color: var(--control-fgColor-disabled) !important
 
+// hide hover when dragging with legacy Dragula implementation
+.Box-row--hover-gray,
+.Box-row--hover-blue
+  body[data-dragging="active"] &
+    background-color: unset
+
 .Box-row--focus-gray
   &:focus-visible
     background-color: var(--bgColor-muted)
@@ -164,5 +174,72 @@ ul.SegmentedControl,
 .Box-row--clickable
   cursor: pointer
 
-.Box-row:is(.Box-row--draggable)
-  padding-left: 0
+.Box-row--draggable:not(.Box-row--clickable)
+  cursor: grab
+
+// `:is(.Box-row--clickable)` bumps selector specificity so these rules win
+// over Dragula's `.gu-*` transit styles; without it the mirror and source
+// rows render transparent mid-drag. Revisit once #74172 / #73729 replace the
+// legacy Dragula implementation.
+.Box-row:is(.Box-row--clickable)
+  &[data-dragging="mirror"]
+    background-color: var(--bgColor-default)
+    border: var(--borderWidth-default) solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    box-shadow: var(--shadow-floating-medium)
+    opacity: 1
+
+  &[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-subtle)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+// Apply the mobile styles as soon as the banner itself is small
+// Styles are copied from the PVC repo
+.op-primer-flash
+  x-banner
+    container-type: inline-size
+    display: block
+
+  .Banner
+    @container (max-width: 543.98px)
+      grid-template-areas: 'visual message close' '. actions actions'
+      grid-template-columns: min-content 1fr min-content
+      grid-template-rows: min-content min-content
+
+      & .Banner-actions
+        margin: var(--base-size-8) 0 0 var(--base-size-8)
+
+// Bug in @openproject/primer-view-components: .FormControl-checkbox:indeterminate
+// has no background rule, and :indeterminate:before doesn't cancel checkmarkOut.
+.FormControl-checkbox:indeterminate
+  background: var(--control-checked-bgColor-rest, var(--color-accent-fg))
+  border-color: var(--control-checked-borderColor-rest, var(--color-accent-fg))
+
+  &:before
+    animation: none
+    clip-path: inset(0)
+
+// At some point in time, this needs to be extracted into a proper component,
+// something like `FilterableTreeViewSelectPanel`
+@mixin keep-project-select-actions-clear-of-scrollbar
+  .TreeViewItemContainer
+    width: calc(100% - var(--base-size-16))
+
+.op-project-select--body
+  .FilterableTreeViewLayout
+    > .Stack
+      padding-right: var(--base-size-16)
+    .FilterableTreeViewTreeContainer
+      scrollbar-gutter: stable
+
+      // Overlay scrollbars can cover the tree content on narrow screens and
+      // touch devices.
+      @media screen and (max-width: $breakpoint-sm), (pointer: coarse)
+        @include keep-project-select-actions-clear-of-scrollbar
+
+      // Firefox on Windows can render the scrollbar over the tree content,
+      // so keep trailing actions out of that area.
+      // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
+      body.-browser-windows.-browser-firefox &
+        @include keep-project-select-actions-clear-of-scrollbar

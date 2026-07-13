@@ -58,6 +58,7 @@ RSpec.describe "Work package priorities",
       it "redirects to the priorities index" do
         delete(admin_settings_work_package_priority_path(priority), params:)
         expect(response).to redirect_to admin_settings_work_package_priorities_path
+        expect(response).to have_http_status(:see_other)
         expect { priority.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

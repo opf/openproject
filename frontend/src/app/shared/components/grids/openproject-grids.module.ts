@@ -79,8 +79,8 @@ import {
   TimeEntriesCurrentUserConfigurationModalComponent,
 } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
 import {
-  WidgetProjectFavoritesComponent,
-} from 'core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component';
+  WidgetFavoriteProjectsComponent,
+} from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blankslate.component';
@@ -128,7 +128,7 @@ import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blank
     WidgetProjectDescriptionComponent,
     WidgetProjectStatusComponent,
     WidgetSubprojectsComponent,
-    WidgetProjectFavoritesComponent,
+    WidgetFavoriteProjectsComponent,
     WidgetTimeEntriesCurrentUserComponent,
     WidgetTimeEntriesProjectComponent,
 

@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
@@ -12,13 +12,13 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export class ShareCellbuilder {
-  @InjectField(IsolatedQuerySpace) isolatedQuerySpace:IsolatedQuerySpace;
+  @LazyInject(IsolatedQuerySpace) isolatedQuerySpace:IsolatedQuerySpace;
 
-  @InjectField(PrincipalRendererService) principalRenderer:PrincipalRendererService;
+  @LazyInject(PrincipalRendererService) principalRenderer:PrincipalRendererService;
 
-  @InjectField(OpModalService) opModalService:OpModalService;
+  @LazyInject(OpModalService) opModalService:OpModalService;
 
-  @InjectField(I18nService) I18n:I18nService;
+  @LazyInject(I18nService) I18n:I18nService;
 
   constructor(public readonly injector:Injector) {
   }

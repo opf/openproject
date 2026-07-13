@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Injector,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IToast,
@@ -94,8 +89,28 @@ import { IDay } from 'core-app/core/state/days/day.model';
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
+  readonly injector = inject(Injector);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private states = inject(States);
+  wpTableComponent = inject(WorkPackagesTableComponent);
+  private toastService = inject(ToastService);
+  private wpTableTimeline = inject(WorkPackageViewTimelineService);
+  private notificationService = inject(WorkPackageNotificationService);
+  private wpRelations = inject(WorkPackageRelationsService);
+  private wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  private halEvents = inject(HalEventsService);
+  private querySpace = inject(IsolatedQuerySpace);
+  readonly I18n = inject(I18nService);
+  private workPackageViewCollapsedGroupsService = inject(WorkPackageViewCollapsedGroupsService);
+  private weekdaysService = inject(WeekdayService);
+  private daysService = inject(DayResourceService);
+
   private element:HTMLElement;
 
   public workPackageTable:WorkPackageTable;
@@ -142,26 +157,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const workPackagesWithGroupHeaderCell = this.orderedRows.filter((row) => wpsWithGroupHeaderCell.includes(row.workPackageId) && !this.workPackageIdOrder.includes(row));
 
     return workPackagesWithGroupHeaderCell;
-  }
-
-  constructor(
-    public readonly injector:Injector,
-    private elementRef:ElementRef,
-    private states:States,
-    public wpTableComponent:WorkPackagesTableComponent,
-    private toastService:ToastService,
-    private wpTableTimeline:WorkPackageViewTimelineService,
-    private notificationService:WorkPackageNotificationService,
-    private wpRelations:WorkPackageRelationsService,
-    private wpTableHierarchies:WorkPackageViewHierarchiesService,
-    private halEvents:HalEventsService,
-    private querySpace:IsolatedQuerySpace,
-    readonly I18n:I18nService,
-    private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService,
-    private weekdaysService:WeekdayService,
-    private daysService:DayResourceService,
-  ) {
-    super();
   }
 
   ngAfterViewInit() {
@@ -258,6 +253,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
+    // timeOutput is a fire-and-forget debug timer; the async callback is intentional.
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.style.setProperty('width', 'auto');
@@ -269,7 +266,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       // Update all cells
       this.cellsRenderer.refreshAllCells();
 
-      _.each(this.renderers, (cb, key) => {
+      Object.entries(this.renderers).forEach(([key, cb]) => {
         debugLog(`Refreshing timeline member ${key}`);
         cb(this._viewParameters);
       });
@@ -490,7 +487,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);
       const visibleDays = timelineWidthInPx / pixelPerDay;
 
-      if (visibleDays >= daysSpan || zoomLevel === _.last(zoomLevelOrder)) {
+      if (visibleDays >= daysSpan || zoomLevel === zoomLevelOrder.at(-1)) {
         // Zoom level is enough
         const previousZoomLevel = this._viewParameters.settings.zoomLevel;
 

@@ -116,15 +116,14 @@ RSpec.describe ProjectQuery do
 
   describe ".available_selects" do
     before do
-      scope = instance_double(ActiveRecord::Relation)
+      all_scope = instance_double(ActiveRecord::Relation)
+      commentable = instance_double(ActiveRecord::Relation)
 
-      allow(ProjectCustomField)
-        .to receive(:visible)
-              .and_return(scope)
+      allow(ProjectCustomField).to receive(:visible).and_return(all_scope)
+      allow(all_scope).to receive(:pluck).with(:id).and_return([23, 42])
 
-      allow(scope)
-        .to receive(:pluck)
-              .and_return([23, 42])
+      allow(all_scope).to receive(:where).with(has_comment: true).and_return(commentable)
+      allow(commentable).to receive(:pluck).with(:id).and_return([42])
     end
 
     # rubocop:disable Naming/VariableNumber
@@ -146,6 +145,7 @@ RSpec.describe ProjectQuery do
                             created_at
                             cf_23
                             cf_42
+                            cfc_42
                             budget_available
                             budget_planned
                             budget_spent
@@ -175,6 +175,7 @@ RSpec.describe ProjectQuery do
                             required_disk_space
                             cf_23
                             cf_42
+                            cfc_42
                             budget_available
                             budget_planned
                             budget_spent

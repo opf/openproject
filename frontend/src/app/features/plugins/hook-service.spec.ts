@@ -31,8 +31,8 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 describe('HookService', () => {
   let service:HookService = new HookService();
 
-  let callback:any; let
-    invalidCallback:any;
+  let callback:any;
+  let invalidCallback:any;
   const validId = 'myValidCallbacks';
 
   beforeEach(() => {
@@ -80,7 +80,7 @@ describe('HookService', () => {
 
     describe('valid function callback registered', () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
+        callback = vi.fn();
         service.register('myValidCallbacks', callback);
       });
 
@@ -93,7 +93,7 @@ describe('HookService', () => {
   describe('call', () => {
     describe('function that returns undefined', () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
+        callback = vi.fn();
         service.register('myValidCallbacks', callback);
       });
 
@@ -104,7 +104,7 @@ describe('HookService', () => {
 
     describe('function that returns something that is not undefined', () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook').and.returnValue({});
+        callback = vi.fn().mockReturnValue({});
 
         service.register('myValidCallbacks', callback);
       });
@@ -116,7 +116,7 @@ describe('HookService', () => {
 
     describe('function that returns something that is not undefined', () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook').and.returnValue({});
+        callback = vi.fn().mockReturnValue({});
 
         service.register('myValidCallbacks', callback);
       });
@@ -128,8 +128,8 @@ describe('HookService', () => {
 
     describe('function that returns something that is not undefined', () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
-        invalidCallback = jasmine.createSpy('invalidHook');
+        callback = vi.fn();
+        invalidCallback = vi.fn();
 
         service.register('myValidCallbacks', callback);
 
@@ -142,12 +142,12 @@ describe('HookService', () => {
     });
 
     describe('function that returns something that is not undefined', () => {
-      let callback1; let
-        callback2;
+      let callback1;
+      let callback2;
 
       beforeEach(() => {
-        callback1 = jasmine.createSpy('hook1').and.returnValue({});
-        callback2 = jasmine.createSpy('hook1').and.returnValue({});
+        callback1 = vi.fn().mockReturnValue({});
+        callback2 = vi.fn().mockReturnValue({});
 
         service.register('myValidCallbacks', callback1);
         service.register('myValidCallbacks', callback2);

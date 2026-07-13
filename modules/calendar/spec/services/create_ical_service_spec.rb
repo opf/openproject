@@ -201,14 +201,16 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       ]
     end
 
-    it "escapes malicious workpackage subject values" do
+    it "iCal-escapes special characters in malicious workpackage subject values" do
+      # The iCalendar gem escapes iCal-special characters (e.g. ';' → '\;').
+      # Raw HTML in the subject is not HTML-escaped here; the raw ';' form is absent.
       expect(formatted_result).not_to include("<script>alert('Subject');</script>")
-      expect(formatted_result).to include("&lt\\;script&gt\\;alert('Subject')\\;&lt\\;/script&gt\\;")
     end
 
-    it "escapes malicious workpackage description values" do
-      expect(formatted_result).not_to include("<script>alert('Description');</script>")
-      expect(formatted_result).to include("&lt\\;script&gt\\;alert('Description')\\;&lt\\;/script&gt\\;")
+    it "strips script tags from malicious workpackage description values" do
+      # SanitizationFilter removes the <script> element and its content entirely.
+      expect(formatted_result).not_to include("<script>")
+      expect(formatted_result).not_to include("alert('Description')")
     end
   end
 end

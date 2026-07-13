@@ -443,6 +443,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
     it "keeps applied filters, orders and columns" do
       load_and_open_filters admin
 
+      click_button accessible_name: "Project name filter"
       projects_page.filter_by_name_and_identifier("project")
 
       wait_for_reload
@@ -663,7 +664,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
     end
   end
 
-  describe "workspace type badges", with_flag: { portfolio_models: true } do
+  describe "workspace type badges" do
     shared_let(:portfolio_project) { create(:portfolio, name: "Test Portfolio") }
     shared_let(:program_project) { create(:program, name: "Test Program") }
     shared_let(:regular_project) { project }

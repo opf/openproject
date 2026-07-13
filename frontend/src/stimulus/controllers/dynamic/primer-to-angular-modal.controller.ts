@@ -29,17 +29,21 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { from, filter, take } from 'rxjs';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class PrimerToAngularModalController extends Controller {
-  close(event:CustomEvent):void {
-    from(window.OpenProject.getPluginContext())
-      .pipe(
-        take(1),
-        filter((context) => context.services.opModalService?.activeModalInstance$ !== null),
-      )
-      .subscribe((context) => {
-        context.services.opModalService.activeModalInstance$.value?.closeMe(event);
-      });
+  static services:ServiceKey[] = ['opModalService'];
+
+  declare services:Promise<PickedServices<'opModalService'>>;
+
+  initialize() {
+    useAngularServices(this);
+  }
+
+  async close(event:CustomEvent) {
+    const { opModalService } = await this.services;
+    if (opModalService.activeModalInstance$ !== null) {
+      opModalService.activeModalInstance$.value?.closeMe(event);
+    }
   }
 }

@@ -67,8 +67,7 @@ RSpec.describe CostQuery::PDF::ExportTimesheetJob do
       user:,
       mime_type: :pdf,
       query:,
-      project:,
-      cost_types: [-1, 0]
+      options: { project:, cost_types: [-1, 0] }
     )
     job.perform_now
     job

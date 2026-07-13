@@ -19,100 +19,110 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 pt-PT:
-  plugin_budgets_engine:
-    name: "Orçamentos"
   activerecord:
     attributes:
       budget:
-        author: "Autor"
-        available: "Disponível"
-        budget: "Planeada"
-        budget_ratio: "Gasto (proporção)"
-        description: "Descrição"
-        spent: "Gasto"
-        status: "Situação"
-        subject: "Assunto"
-        type: "Tipo de custo"
-        labor_budget: "Custos planeados do trabalho"
-        material_budget: "Custos planeados da unidade"
-        base_amount: "Valor base"
+        author: Autor
+        available: Disponível
+        base_amount: Valor base
+        budget: Planeada
+        budget_ratio: Gasto (proporção)
+        description: Descrição
+        labor_budget: Custos planeados do trabalho
+        labor_budget_items: Custos planeados do trabalho
+        material_budget: Custos planeados da unidade
+        spent: Gasto
+        status: Situação
+        subject: Assunto
+        type: Tipo de custo
       work_package:
-        budget_subject: "Título do Orçamento"
+        budget_subject: Título do Orçamento
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: não é membro do projeto do orçamento
     models:
-      budget: "Orçamento"
-      material_budget_item: "Unidade"
+      budget: Orçamento
+      labor_budget_item: Custo planeado do trabalho
+      material_budget_item: Unidade
   activity:
     filter:
-      budget: "Orçamentos"
+      budget: Orçamentos
   attributes:
-    budget: "Orçamento"
-  button_add_budget_item: "Adicionar custos planeados"
-  button_add_budget: "Adicionar Orçamento"
-  button_add_cost_type: "Adicionar tipo de custo"
-  button_cancel_edit_budget: "Cancelar a edição de orçamento"
-  button_cancel_edit_costs: "Cancelar a edição de custos"
-  caption_labor: "Trabalho"
-  caption_labor_costs: "Custos reais do trabalho"
-  caption_material_costs: "Custos reais de unidade"
-  budgets_title: "Orçamentos"
+    budget: Orçamento
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Obtenha uma síntese dos orçamentos e custos para acompanhar eficazmente o estado de saúde do seu projeto
+          heading: Iniciar o controlo do projeto
+        blankslate_zero:
+          description: Adicione detalhes sobre o seu orçamento planeado para ver os dados aqui
+          heading: Faltam dados orçamentais
+        count_caption:
+          one: Dados agregados de %{count} orçamento
+          other: Dados agregados de %{count} orçamentos
+          zero: Sem dados de orçamento.
+        count_caption_with_subitems:
+          portfolio:
+            one: Dados agregados a partir de %{count} orçamento incluído nesta carteira e seus sub-elementos.
+            other: Dados agregados a partir de %{count} orçamentos incluídos nesta carteira e seus sub-elementos.
+            zero: Sem dados de orçamento.
+          program:
+            one: Dados agregados a partir de %{count} orçamento incluído neste programa e seus sub-elementos.
+            other: Dados agregados a partir de %{count} orçamentos incluídos neste programa e seus sub-elementos.
+            zero: Sem dados de orçamento.
+          project:
+            one: Dados agregados a partir de %{count} orçamento incluído neste projeto e seus sub-elementos.
+            other: Dados agregados a partir de %{count} orçamentos incluído neste projeto e seus sub-elementos.
+            zero: Sem dados de orçamento.
+        title: Orçamento por tipo de custos
+        view_details: Ver detalhes do orçamento
+      budget_totals:
+        remaining_budget: Orçamento restante
+        spent_budget: Orçamento gasto
+        title: Totais do orçamento
+        total_actual_costs: Custos totais efetivos
+        total_planned_budget: Orçamento total previsto
+  budgets_title: Orçamentos
+  button_add_budget: Adicionar Orçamento
+  button_add_budget_item: Adicionar custos planeados
+  button_add_cost_type: Adicionar tipo de custo
+  button_cancel_edit_budget: Cancelar a edição de orçamento
+  button_cancel_edit_costs: Cancelar a edição de custos
+  caption_labor: Trabalho
+  caption_labor_costs: Custos reais do trabalho
+  caption_material_costs: Custos reais de unidade
   events:
-    budget: "Orçamento editado"
-  help_click_to_edit: "Clique aqui para editar."
-  help_currency_format: "Formato de valores de moedas exibidos. %n é substituído com o valor da moeda, %u é substituído com a unidade de moeda."
-  help_override_rate: "Insira um valor aqui para substituir a taxa por defeito."
-  label_budget: "Orçamento"
-  label_budget_available: "Orçamento disponível"
-  label_budget_id: "Orçamento #%{id}"
-  label_budget_new: "Novo orçamento"
-  label_budget_planned: "Orçamento previsto"
-  label_budget_plural: "Orçamentos"
-  label_budget_spent: "Orçamento gasto"
-  label_budget_spent_ratio: "Relação de gastos do orçamento"
-  label_deliverable: "Orçamento"
-  label_example_placeholder: "ex.: %{decimal}"
-  label_view_all_budgets: "Ver todos os orçamentos"
-  label_yes: "Sim"
-  label_budget_totals: "Totais"
-  label_budget_details: "Detalhes do orçamento"
-  notice_budget_conflict: "Pacotes de trabalho devem ser do mesmo projeto."
-  notice_no_budgets_available: "Não há orçamentos disponíveis."
-  permission_edit_budgets: "Editar orçamentos"
-  permission_view_budgets: "Ver orçamentos"
-  project_module_budgets: "Orçamentos"
-  text_budget_reassign_to: "Reatribuí-los a este orçamento"
-  text_budget_delete: "Excluir o orçamento de todos os pacotes de trabalho"
-  text_budget_destroy_assigned_wp: "Há %{count} pacotes de trabalho atribuídos a este orçamento. O que deseja fazer?"
+    budget: Orçamento editado
+  help_click_to_edit: Clique aqui para editar.
+  help_currency_format: Formato de valores de moedas exibidos. %n é substituído com o valor da moeda, %u é substituído com a unidade de moeda.
+  help_override_rate: Insira um valor aqui para substituir a taxa por defeito.
+  label_budget: Orçamento
+  label_budget_available: Orçamento disponível
+  label_budget_details: Detalhes do orçamento
+  label_budget_id: 'Orçamento #%{id}'
+  label_budget_new: Novo orçamento
+  label_budget_planned: Orçamento previsto
+  label_budget_plural: Orçamentos
+  label_budget_spent: Orçamento gasto
+  label_budget_spent_ratio: Relação de gastos do orçamento
+  label_budget_totals: Totais
+  label_deliverable: Orçamento
+  label_example_placeholder: 'ex.: %{decimal}'
+  label_view_all_budgets: Ver todos os orçamentos
+  label_yes: Sim
+  notice_budget_conflict: Pacotes de trabalho devem ser do mesmo projeto.
+  notice_no_budgets_available: Não há orçamentos disponíveis.
+  permission_edit_budgets: Editar orçamentos
+  permission_view_budgets: Ver orçamentos
+  plugin_budgets_engine:
+    name: Orçamentos
+  project_module_budgets: Orçamentos
+  text_budget_delete: Excluir o orçamento de todos os pacotes de trabalho
+  text_budget_destroy_assigned_wp: Há %{count} pacotes de trabalho atribuídos a este orçamento. O que deseja fazer?
+  text_budget_reassign_to: Reatribuí-los a este orçamento

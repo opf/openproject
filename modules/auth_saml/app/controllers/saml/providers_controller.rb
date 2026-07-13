@@ -84,7 +84,9 @@ module Saml
       end
     end
 
-    def confirm_destroy; end
+    def confirm_destroy
+      respond_with_dialog Saml::Providers::ConfirmDestroyDialogComponent.new(provider: @provider)
+    end
 
     def destroy
       call = ::Saml::Providers::DeleteService

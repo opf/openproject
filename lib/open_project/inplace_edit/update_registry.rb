@@ -31,35 +31,43 @@
 module OpenProject
   module InplaceEdit
     class UpdateRegistry
-      @registry = {}
+      def initialize
+        @registry = {}
+      end
+
+      def register(model_class, handler:, contract:)
+        @registry[model_class] = {
+          handler: handler,
+          contract: contract
+        }
+      end
+
+      def registered?(model_class)
+        @registry.key?(model_class)
+      end
+
+      def fetch_handler(model)
+        entry = @registry[model.class]
+        entry && entry[:handler]
+      end
+
+      def fetch_contract(model)
+        entry = @registry[model.class]
+        entry && entry[:contract]
+      end
+
+      def resolve_model_class(param)
+        class_name = param.to_s.camelize
+
+        @registry.keys.find { |klass| klass.name == class_name }
+      end
+
+      @default = new
 
       class << self
-        def register(model_class, handler:, contract:)
-          @registry[model_class] = {
-            handler: handler,
-            contract: contract
-          }
-        end
+        attr_reader :default
 
-        def registered?(model_class)
-          @registry.key?(model_class)
-        end
-
-        def fetch_handler(model)
-          entry = @registry[model.class]
-          entry && entry[:handler]
-        end
-
-        def fetch_contract(model)
-          entry = @registry[model.class]
-          entry && entry[:contract]
-        end
-
-        def resolve_model_class(param)
-          class_name = param.to_s.camelize
-
-          @registry.keys.find { |klass| klass.name == class_name }
-        end
+        delegate :register, :registered?, :fetch_handler, :fetch_contract, :resolve_model_class, to: :@default
       end
     end
   end

@@ -25,7 +25,6 @@ To add a wiki page as a menu item to the project menu, select the **More** funct
 
 - **Do not show this wikipage in the project navigation** will NOT display a separate menu item in the project navigation. The wiki page is just displayed within the wiki module itself.
 - **Show as menu item in project navigation** will add a separate menu item to the project navigation.
-- **Show as submenu item of ...** will display the wiki page a sub-menu item in the project navigation.
 
 3. **Save** your changes to the wiki page menu.
 
@@ -34,9 +33,5 @@ To add a wiki page as a menu item to the project menu, select the **More** funct
 **Visibility** show as menu item in the project navigation:
 
 ![wiki-show-menu-item](wiki-show-menu-item.png)
-
-**Visibility** show as submenu item of project-documentation:
-
-![wiki-show-submenu-item](wiki-show-submenu-item.png)
 
 The default option is **Do not show this wiki page in project navigation**. Check this option if you want to undo earlier changes and hide the wiki page from the project menu.

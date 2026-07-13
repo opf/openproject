@@ -33,7 +33,7 @@ class EditField
     @field_type = derive_field_type
     @create_form = create_form
 
-    @selector = selector || ".inline-edit--container.#{property_name}"
+    @selector = selector || ".inline-edit--container.#{@property_name.camelize(:lower)}"
   end
 
   def create_form?
@@ -166,7 +166,7 @@ class EditField
   end
 
   def expect_enabled!
-    expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]"
+    expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
   end
 
   def expect_invalid
@@ -215,7 +215,7 @@ class EditField
   end
 
   def autocompleter_field?
-    field_type.end_with?("-autocompleter")
+    field_type == "ng-select" || field_type.end_with?("-autocompleter")
   end
 
   ##
@@ -227,7 +227,17 @@ class EditField
 
     if autocompleter_field?
       if multi
-        page.find(".ng-value-label", visible: :all, text: content).sibling(".ng-value-icon").click
+        remove_icon = field_container
+                        .find(".ng-value-label", visible: :all, text: content)
+                        .sibling(".ng-value-icon")
+
+        begin
+          scroll_to_element(remove_icon, block: :nearest)
+          remove_icon.click
+        rescue Capybara::Cuprite::MouseEventFailed
+          # Cuprite-only: bypass Chrome's overlap check when the chip icon is obscured.
+          remove_icon.trigger("click")
+        end
       else
         ng_select_clear(field_container)
       end
@@ -311,10 +321,16 @@ class EditField
       "op-user-autocompleter"
     when :priority, :status, :type, :category, :workPackage, :parent, :projectPhase
       "create-autocompleter"
+    when :targetVersions
+      "ng-select"
     when :project
       "op-project-autocompleter"
     when :activity
       "activity-autocompleter"
+    when :sprint
+      "sprint-autocompleter"
+    when :backlog_bucket
+      "backlog-bucket-autocompleter"
     else
       "input"
     end

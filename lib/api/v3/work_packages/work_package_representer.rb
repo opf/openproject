@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,7 +38,6 @@ module API
         include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
 
@@ -327,7 +328,8 @@ module API
           visible_children.map do |child|
             {
               href: api_v3_paths.work_package(child.id),
-              title: child.subject
+              title: child.subject,
+              displayId: child.display_id.to_s
             }
           end
         end
@@ -337,13 +339,19 @@ module API
           represented.visible_ancestors(current_user).map do |ancestor|
             {
               href: api_v3_paths.work_package(ancestor.id),
-              title: ancestor.subject
+              title: ancestor.subject,
+              displayId: ancestor.display_id.to_s
             }
           end
         end
 
         property :id,
                  render_nil: true
+
+        property :display_id,
+                 as: :displayId,
+                 render_nil: true,
+                 getter: ->(*) { display_id&.to_s }
 
         property :lock_version,
                  render_nil: true,
@@ -483,6 +491,14 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :has_project_attributes,
+                 as: :hasProjectAttributes,
+                 writable: false,
+                 uncacheable: true,
+                 getter: ->(*) do
+                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                 end
+
         associated_resource :category
 
         associated_resource :type
@@ -565,6 +581,13 @@ module API
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter
 
+        associated_resources :target_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter,
+                             setter: ->(fragment:, **) do
+                               represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
+                             end
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -575,7 +598,8 @@ module API
                               if represented.parent&.visible?
                                 {
                                   href: api_v3_paths.work_package(represented.parent.id),
-                                  title: represented.parent.subject
+                                  title: represented.parent.subject,
+                                  displayId: represented.parent.display_id.to_s
                                 }
                               else
                                 {
@@ -608,7 +632,12 @@ module API
                             v3_path: :budget,
                             link_title_attribute: :subject,
                             representer: ::API::V3::Budgets::BudgetRepresenter,
-                            skip_render: ->(*) { !view_budgets_allowed? }
+                            link_cache_if: -> { view_budgets_allowed? },
+                            getter: ->(*) {
+                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
+                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
+                              end
+                            }
 
         resources :customActions,
                   uncacheable_link: true,
@@ -654,10 +683,8 @@ module API
         def current_user_update_allowed?
           return @current_user_update_allowed if defined?(@current_user_update_allowed)
 
-          @current_user_update_allowed =
-            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
-              current_user.allowed_in_project?(:change_work_package_status, represented.project) ||
-              current_user.allowed_in_project?(:assign_versions, represented.project)
+          @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
+                                                                                        work_package: represented)
         end
 
         def view_time_entries_allowed?
@@ -784,7 +811,8 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget]
+                                budget
+                                target_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
@@ -799,7 +827,8 @@ module API
            represented.cache_checksum,
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
-           Setting.feeds_enabled?]
+           Setting.feeds_enabled?,
+           Setting::WorkPackageIdentifier.semantic?]
         end
 
         def load_complete_model(model)

@@ -1,5 +1,6 @@
+---
 th:
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "ภาพรวม"
+    label_overview: ภาพรวม

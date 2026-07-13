@@ -64,10 +64,6 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   describe "custom field columns selected" do
     let(:query_columns) { %w[name description project_status public] + global_project_custom_fields.map(&:column_name) }
 
-    before do
-      project # re-evaluate project to ensure it is created within the desired user context
-    end
-
     context "with admin permission" do
       let(:current_user) { build_stubbed(:admin) }
 
@@ -127,13 +123,63 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
     end
 
     context "without view_project_attributes permission" do
-      let(:permissions) { %i(view_projects export_projects) }
+      let(:permissions) { super() - %i[view_project_attributes] }
 
       it "does not render project custom fields in the header" do
         expect(header).to eq %w[Name Description Status Public]
 
         expect(sheet.row(1))
           .to eq [project.name, project.description, "Off track", "false"]
+      end
+    end
+  end
+
+  describe "custom comment columns selected" do
+    let(:query_columns) { %w[name description project_status public] + global_project_custom_fields.map(&:comment_column_name) }
+
+    context "with admin permission" do
+      let(:current_user) { build_stubbed(:admin) }
+
+      it "renders all comment columns" do
+        expect(header).to eq %w[Name Description Status Public] + [version_cf, hidden_cf].map { "#{it.name} comment" }
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members",
+          "Comment visible to admins"
+        ]
+      end
+    end
+
+    context "with view_project_attributes permission" do
+      it "renders comment columns for available project custom fields" do
+        expect(header).to eq %w[Name Description Status Public] + ["#{version_cf.name} comment"]
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false",
+          "Comment visible to members"
+        ]
+      end
+    end
+
+    context "without view_project_attributes permission" do
+      let(:permissions) { super() - %i[view_project_attributes] }
+
+      it "does not render custom comment columns" do
+        expect(header).to eq %w[Name Description Status Public]
+
+        expect(sheet.row(1)).to eq [
+          project.name,
+          project.description,
+          "Off track",
+          "false"
+        ]
       end
     end
   end

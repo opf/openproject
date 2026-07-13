@@ -30,35 +30,41 @@
 require "rails_helper"
 
 RSpec.describe OpenProject::InplaceEdit::UpdateRegistry do
-  let(:handler) { instance_double(OpenProject::InplaceEdit::Handlers::ProjectUpdate) }
-  let(:contract) { instance_double(Projects::UpdateContract) }
+  subject(:registry) { described_class.new }
 
-  before do
-    described_class.instance_variable_set(:@registry, {})
-  end
+  let(:handler) { class_double(OpenProject::InplaceEdit::Handlers::ProjectUpdate) }
+  let(:contract) { class_double(Projects::UpdateContract) }
 
-  after do
-    described_class.instance_variable_set(:@registry, {})
-  end
-
-  describe ".register" do
+  describe "#register" do
     it "registers handler and contract for a model" do
-      described_class.register(Project, handler:, contract:)
+      registry.register(Project, handler:, contract:)
 
-      expect(described_class.fetch_handler(Project.new)).to eq(handler)
-      expect(described_class.fetch_contract(Project.new)).to eq(contract)
+      expect(registry.fetch_handler(Project.new)).to eq(handler)
+      expect(registry.fetch_contract(Project.new)).to eq(contract)
     end
   end
 
-  describe ".registered?" do
+  describe "#registered?" do
     it "returns true for registered model" do
-      described_class.register(Project, handler:, contract:)
+      registry.register(Project, handler:, contract:)
 
-      expect(described_class.registered?(Project)).to be(true)
+      expect(registry.registered?(Project)).to be(true)
     end
 
     it "returns false for unregistered model" do
-      expect(described_class.registered?(Project)).to be(false)
+      expect(registry.registered?(Project)).to be(false)
+    end
+  end
+
+  describe "#resolve_model_class" do
+    it "returns the model class for a registered param string" do
+      registry.register(Project, handler:, contract:)
+
+      expect(registry.resolve_model_class("project")).to eq(Project)
+    end
+
+    it "returns nil for an unregistered param string" do
+      expect(registry.resolve_model_class("unknown")).to be_nil
     end
   end
 end

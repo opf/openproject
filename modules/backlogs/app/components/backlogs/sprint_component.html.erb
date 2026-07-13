@@ -1,0 +1,142 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= component_wrapper(tag: :section) do %>
+  <%=
+    render(
+      Backlogs::WorkPackageCardListComponent.new(
+        work_packages:,
+        project:,
+        container: sprint,
+        drag_and_drop: {
+          target_id: Backlogs::Target.for(sprint).to_s, # explicit to_s, as otherwise to_json is used
+          allowed_drag_type: "story"
+        },
+        params: backlog_filter_params,
+        current_user:,
+        test_selector: "sprint-#{sprint.id}"
+      )
+    ) do |list|
+  %>
+    <% list.with_header(title: sprint.name, title_arguments:) do |header| %>
+      <% header.with_description(display: :flex, direction: :column, classes: "row-gap-2") do %>
+        <% if goal_text.present? %>
+          <%= render(Primer::Beta::Text.new(id: sprint_goal_id, color: :muted, mr: 2)) do %>
+            <%= render(OpPrimer::ExpandableTextComponent.new(truncate: :multi_line, lines: 3)) do %>
+              <%= goal_text %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center)) do %>
+          <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
+
+          <%= render(Primer::Beta::Text.new(classes: "velocity", aria: { live: "polite" })) do %>
+            <%= story_points_total %>&nbsp;<%= t(:"backlogs.points_label", count: story_points_total) %>
+          <% end %>
+
+          <% if sprint.date_range_set? %>
+            <%= render(Primer::Beta::Text.new(role: :group, ml: :auto, mr: 2)) do %>
+              <%= render(Primer::Beta::Octicon.new(:calendar, size: :small, mr: 1)) %>
+              <%= format_date_range([sprint.start_date, sprint.finish_date]) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%
+        if show_start_sprint_action?
+          header.with_action_button(**start_sprint_button_arguments) do |button|
+            button.with_leading_visual_icon(icon: :rocket)
+            if start_sprint_disabled_reason.present?
+              button.with_tooltip(
+                text: start_sprint_disabled_reason,
+                type: :description,
+                direction: :sw
+              )
+            end
+            t(".label_start_sprint")
+          end
+        elsif show_finish_sprint_action?
+          header.with_action_button(**finish_sprint_button_arguments) do |button|
+            button.with_leading_visual_icon(icon: :"op-flag")
+            t(".label_complete_sprint")
+          end
+        end
+
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if can_open_edit_dialog?
+              menu.with_item(
+                id: dom_target(sprint, :menu, :edit_sprint),
+                label: t(".action_menu.edit_sprint"),
+                href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :pencil)
+              end
+            end
+          end
+
+          with_add_work_package_menu_group(menu, sprint)
+
+          with_item_group(menu) do
+            if show_task_board_link?
+              menu.with_item(
+                label: t("backlogs.label_sprint_board"),
+                tag: :a,
+                href: project_backlogs_sprint_taskboard_path(project, sprint)
+              ) do |item|
+                item.with_leading_visual_icon(icon: :"op-view-cards")
+              end
+            end
+
+            if show_burndown_link?
+              menu.with_item(
+                label: t("backlogs.label_burndown_chart"),
+                tag: :a,
+                href: project_backlogs_sprint_burndown_chart_path(project, sprint),
+                disabled: !sprint.date_range_set?
+              ) do |item|
+                item.with_leading_visual_icon(icon: :graph)
+              end
+            end
+          end
+        end
+      %>
+    <% end %>
+
+    <%
+      list.with_empty_state(
+        title: t(".blankslate_title", name: sprint.name),
+        description: t(".blankslate_description")
+      )
+    %>
+  <% end %>
+<% end %>

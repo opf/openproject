@@ -1,0 +1,12 @@
+# Example: Meeting create request
+---
+description: Request to create a basic meeting
+value:
+  title: "Weekly Standup"
+  location: "Conference Room A"
+  startTime: "2026-06-01T10:00:00Z"
+  duration: "PT1H"
+  _links:
+    project:
+      href: "/api/v3/projects/10"
+      title: "Death Star"

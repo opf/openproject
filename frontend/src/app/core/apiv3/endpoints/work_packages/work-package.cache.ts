@@ -26,19 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injectable, Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 
 @Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
-  @InjectField() private schemaCacheService:SchemaCacheService;
+  @LazyInject() private schemaCacheService:SchemaCacheService;
 
   constructor(
     readonly injector:Injector,
@@ -88,7 +89,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
       // so that no consumer needs to call schema#$load manually
       void this.schemaCacheService.ensureLoaded(wp).then(() => {
         // Check if the work package has changed
-        if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
+        if (skipOnIdentical && state.hasValue() && isEqual(state.value!.$source, wp.$source)) {
           debugLog('Skipping identical work package from updating');
           return;
         }

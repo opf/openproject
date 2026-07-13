@@ -68,6 +68,7 @@ module Queries::Projects
 
     select Selects::CreatedAt
     select Selects::CustomField
+    select Selects::CustomComment
     select Selects::Default
     select Selects::Favorited
     select Selects::LatestActivityAt

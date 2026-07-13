@@ -10,7 +10,7 @@ module Primer
 
         delegate :builder, :form, to: :@input
 
-        def initialize(input:, autocomplete_options:, wrapper_data_attributes: {})
+        def initialize(input:, autocomplete_options:, wrapper_data_attributes: {}, wrapper_classes: [])
           super()
           @input = input
           @with_search_icon = autocomplete_options.delete(:with_search_icon) { false }
@@ -18,6 +18,7 @@ module Primer
           @autocomplete_data = autocomplete_options.delete(:data) { {} }
           @autocomplete_inputs = extend_autocomplete_inputs(autocomplete_options)
           @wrapper_data_attributes = wrapper_data_attributes
+          @wrapper_classes = wrapper_classes
         end
 
         def extend_autocomplete_inputs(inputs)

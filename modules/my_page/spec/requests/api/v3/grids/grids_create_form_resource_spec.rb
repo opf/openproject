@@ -76,6 +76,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
         }
       end
 
+      # rubocop:disable Metrics/Layout/LineLength
       it "contains default data in the payload" do # rubocop:disable RSpec/ExampleLength
         expected = {
           rowCount: 1,
@@ -89,7 +90,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
                 name: "Work packages assigned to me",
                 queryProps: {
                   "columns[]": %w(id project type subject),
-                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assigned_to\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
+                  filters: "[{\"status\":{\"operator\":\"o\",\"values\":[]}},{\"assignee\":{\"operator\":\"=\",\"values\":[\"me\"]}}]"
                 }
               },
               startRow: 1,
@@ -126,6 +127,7 @@ RSpec.describe "POST /api/v3/grids/form", content_type: :json do
           .to be_json_eql(expected.to_json)
           .at_path("_embedded/payload")
       end
+      # rubocop:enable Metrics/Layout/LineLength
 
       it "has no validationErrors" do
         expect(subject.body)

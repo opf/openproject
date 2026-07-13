@@ -19,104 +19,110 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ar:
-  plugin_budgets_engine:
-    name: "الميزانيات"
   activerecord:
     attributes:
       budget:
-        author: "المؤلف"
-        available: "متاح"
-        budget: "مُخَطَّط"
-        budget_ratio: "أنفق (النسبة)"
-        description: "الوصف"
-        spent: "أنفق"
-        status: "الحالة"
-        subject: "الموضوع"
-        type: "أنواع التكلفة"
-        labor_budget: "تكاليف العمل المخطط لها"
-        material_budget: "تكاليف الوحدة المخطط لها"
-        base_amount: "Base amount"
+        author: المؤلف
+        available: متاح
+        base_amount: Base amount
+        budget: مُخَطَّط
+        budget_ratio: أنفق (النسبة)
+        description: الوصف
+        labor_budget: تكاليف العمل المخطط لها
+        labor_budget_items: Planned labor costs
+        material_budget: تكاليف الوحدة المخطط لها
+        spent: أنفق
+        status: الحالة
+        subject: الموضوع
+        type: أنواع التكلفة
       work_package:
-        budget_subject: "عنوان الميزانية"
+        budget_subject: عنوان الميزانية
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: "الميزانية"
-      material_budget_item: "الوحدة"
+      budget: الميزانية
+      labor_budget_item: Planned labor cost
+      material_budget_item: الوحدة
   activity:
     filter:
-      budget: "الميزانيات"
+      budget: الميزانيات
   attributes:
-    budget: "الميزانية"
-  button_add_budget_item: "أضِف التكاليف المخطط لها"
-  button_add_budget: "أضِف الميزانية"
-  button_add_cost_type: "أضِف نوع التكلفة"
-  button_cancel_edit_budget: "قُم بإلغاء تعديل الميزانية"
-  button_cancel_edit_costs: "قُم بإلغاء تعديل التكاليف"
-  caption_labor: "العمل"
-  caption_labor_costs: "تكاليف العمالة الفعلية"
-  caption_material_costs: "تكاليف الوحدة الفعلية"
-  budgets_title: "الميزانيات"
+    budget: الميزانية
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          zero: "Data aggregated from %{count} budgets."
-          one: "Data aggregated from %{count} budget."
-          two: "Data aggregated from %{count} budgets."
-          few: "Data aggregated from %{count} budgets."
-          many: "Data aggregated from %{count} budgets."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: الميزانيات
+  button_add_budget: أضِف الميزانية
+  button_add_budget_item: أضِف التكاليف المخطط لها
+  button_add_cost_type: أضِف نوع التكلفة
+  button_cancel_edit_budget: قُم بإلغاء تعديل الميزانية
+  button_cancel_edit_costs: قُم بإلغاء تعديل التكاليف
+  caption_labor: العمل
+  caption_labor_costs: تكاليف العمالة الفعلية
+  caption_material_costs: تكاليف الوحدة الفعلية
   events:
-    budget: "تم تعديل الميزانية"
-  help_click_to_edit: "اضغط هنا للتعديل."
-  help_currency_format: "شكل قِيَم العملة المعروضة. %n تم إبداله بقيمة العملة، %u تم إبداله بوحدة العملة."
-  help_override_rate: "أدخل قيمة هنا لتجاهل المعدل الافتراضي."
-  label_budget: "الميزانية"
-  label_budget_available: "Budget available"
-  label_budget_id: "الميزانية #%{id}"
-  label_budget_new: "الميزانية الجديدة"
-  label_budget_planned: "Budget planned"
-  label_budget_plural: "الميزانيات"
-  label_budget_spent: "Budget spent"
-  label_budget_spent_ratio: "Budget spent ratio"
-  label_deliverable: "الميزانية"
-  label_example_placeholder: "مثال، %{decimal}"
-  label_view_all_budgets: "عرض جميع الميزانيات"
-  label_yes: "نعم"
-  label_budget_totals: "Totals"
-  label_budget_details: "Budget details"
-  notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."
-  notice_no_budgets_available: "لا يوجد ميزانيات متاحة."
-  permission_edit_budgets: "تحرير الميزانية"
-  permission_view_budgets: "عرض الميزانيات"
-  project_module_budgets: "الميزانيات"
-  text_budget_reassign_to: "إعادة تعيينهم إلى هذه الميزانية:"
-  text_budget_delete: "حذف الميزانية من جميع مجموعات العمل"
-  text_budget_destroy_assigned_wp: "هناك %{count} مجموعة عمل تم تعيينها لهذه الميزانية. ماذا تريد أن تفعل؟"
+    budget: تم تعديل الميزانية
+  help_click_to_edit: اضغط هنا للتعديل.
+  help_currency_format: شكل قِيَم العملة المعروضة. %n تم إبداله بقيمة العملة، %u تم إبداله بوحدة العملة.
+  help_override_rate: أدخل قيمة هنا لتجاهل المعدل الافتراضي.
+  label_budget: الميزانية
+  label_budget_available: Budget available
+  label_budget_details: Budget details
+  label_budget_id: 'الميزانية #%{id}'
+  label_budget_new: الميزانية الجديدة
+  label_budget_planned: Budget planned
+  label_budget_plural: الميزانيات
+  label_budget_spent: Budget spent
+  label_budget_spent_ratio: Budget spent ratio
+  label_budget_totals: Totals
+  label_deliverable: الميزانية
+  label_example_placeholder: مثال، %{decimal}
+  label_view_all_budgets: عرض جميع الميزانيات
+  label_yes: نعم
+  notice_budget_conflict: مجموعات العمل يجب أن تكون لنفس المشروع.
+  notice_no_budgets_available: لا يوجد ميزانيات متاحة.
+  permission_edit_budgets: تحرير الميزانية
+  permission_view_budgets: عرض الميزانيات
+  plugin_budgets_engine:
+    name: الميزانيات
+  project_module_budgets: الميزانيات
+  text_budget_delete: حذف الميزانية من جميع مجموعات العمل
+  text_budget_destroy_assigned_wp: هناك %{count} مجموعة عمل تم تعيينها لهذه الميزانية. ماذا تريد أن تفعل؟
+  text_budget_reassign_to: 'إعادة تعيينهم إلى هذه الميزانية:'

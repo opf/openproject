@@ -227,10 +227,18 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
     let(:oauth_application) { build_stubbed(:oauth_application) }
     let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
 
+    it "fulfills the documented schema" do
+      expect(generated).to match_json_schema.from_docs("storage_read_model")
+    end
+
     it_behaves_like "common file storage properties"
 
     context "if file storage is not completely configured" do
       let(:storage) { build_stubbed(:nextcloud_storage, oauth_client: nil) }
+
+      it "fulfills the documented schema" do
+        expect(generated).to match_json_schema.from_docs("storage_read_model")
+      end
 
       it_behaves_like "property", :configured do
         let(:value) { false }
@@ -357,10 +365,18 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
   context "if file storage has provider type OneDrive" do
     let(:storage) { build_stubbed(:one_drive_storage, oauth_client: oauth_client_credentials) }
 
+    it "fulfills the documented schema" do
+      expect(generated).to match_json_schema.from_docs("storage_read_model")
+    end
+
     it_behaves_like "common file storage properties"
 
     context "if file storage is not completely configured" do
       let(:storage) { build_stubbed(:one_drive_storage, drive_id: nil, oauth_client: oauth_client_credentials) }
+
+      it "fulfills the documented schema" do
+        expect(generated).to match_json_schema.from_docs("storage_read_model")
+      end
 
       it_behaves_like "property", :configured do
         let(:value) { false }

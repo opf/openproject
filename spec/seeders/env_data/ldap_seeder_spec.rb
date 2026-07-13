@@ -248,4 +248,51 @@ RSpec.describe EnvData::LdapSeeder do
       expect(names).to contain_exactly("another")
     end
   end
+
+  context "when an unknown key is provided",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
+            OPENPROJECT_SEED_LDAP_FOO_PORT: "12389",
+            OPENPROJECT_SEED_LDAP_FOO_SECURITY: "plain_ldap",
+            OPENPROJECT_SEED_LDAP_FOO_BINDUSER: "uid=admin,ou=system",
+            OPENPROJECT_SEED_LDAP_FOO_BINDPASSWORD: "secret",
+            OPENPROJECT_SEED_LDAP_FOO_BASEDN: "dc=example,dc=com",
+            OPENPROJECT_SEED_LDAP_FOO_LOGIN__MAPPING: "uid",
+            OPENPROJECT_SEED_LDAP_FOO_FIRSTNAME__MAPPING: "givenName",
+            OPENPROJECT_SEED_LDAP_FOO_LASTNAME__MAPPING: "sn",
+            OPENPROJECT_SEED_LDAP_FOO_MAIL__MAPPING: "mail",
+            OPENPROJECT_SEED_LDAP_FOO_NONSENSE: "boom"
+          } do
+    it "raises an error naming the unknown key without creating the record" do
+      reset(:seed_ldap)
+
+      expect { seeder.seed! }
+        .to raise_error(/LDAP connection 'foo'.*NONSENSE/m)
+        .and not_change(LdapAuthSource, :count)
+    end
+  end
+
+  context "when a typo'd nested key would be silently swallowed",
+          :settings_reset,
+          with_env: {
+            OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
+            OPENPROJECT_SEED_LDAP_FOO_PORT: "12389",
+            OPENPROJECT_SEED_LDAP_FOO_SECURITY: "plain_ldap",
+            OPENPROJECT_SEED_LDAP_FOO_BINDUSER: "uid=admin,ou=system",
+            OPENPROJECT_SEED_LDAP_FOO_BINDPASSWORD: "secret",
+            OPENPROJECT_SEED_LDAP_FOO_BASEDN: "dc=example,dc=com",
+            OPENPROJECT_SEED_LDAP_FOO_LOGIN_MAPPING: "uid",
+            OPENPROJECT_SEED_LDAP_FOO_FIRSTNAME__MAPPING: "givenName",
+            OPENPROJECT_SEED_LDAP_FOO_LASTNAME__MAPPING: "sn",
+            OPENPROJECT_SEED_LDAP_FOO_MAIL__MAPPING: "mail"
+          } do
+    it "raises rather than silently producing a nil login attribute" do
+      reset(:seed_ldap)
+
+      expect { seeder.seed! }
+        .to raise_error(/LDAP connection 'foo'.*LOGIN/m)
+        .and not_change(LdapAuthSource, :count)
+    end
+  end
 end

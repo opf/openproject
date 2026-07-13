@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentRef,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, inject } from '@angular/core';
 import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
@@ -52,6 +45,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   standalone: false,
 })
 export class OpModalOverlayComponent extends UntilDestroyedMixin {
+  readonly modalService = inject(OpModalService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public notFullscreen = false;
 
   mobileTopPosition = false;
@@ -67,19 +64,11 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
     }
   }
 
-  @ViewChild('overlay', { static: true }) overlay:ElementRef;
+  @ViewChild('overlay', { static: true }) overlay:ElementRef<HTMLElement>;
 
   activeModalData$ = this.modalService.activeModalData$;
 
   activeModalInstance$ = this.modalService.activeModalInstance$;
-
-  constructor(
-    readonly modalService:OpModalService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   setupListener():void {
     combineLatest([
@@ -145,7 +134,7 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
     this.cdRef.detectChanges();
 
     // Focus on wrapper by default
-    (this.overlay.nativeElement as HTMLElement).focus();
+    this.overlay.nativeElement.focus();
 
     // Focus on the first element
     instance && instance.onOpen();

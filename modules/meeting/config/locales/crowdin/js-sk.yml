@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 sk:
   js:
-    label_meetings: 'Stretnutia'
+    label_meetings: Stretnutia
     work_packages:
       tabs:
-        meetings: 'Stretnutia'
+        meetings: Stretnutia

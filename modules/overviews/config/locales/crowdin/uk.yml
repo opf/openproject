@@ -1,5 +1,6 @@
+---
 uk:
   overviews:
-    label_home: "Головна робочого простору «%{workspace_type}»"
-    label_dashboard: "Панель керування"
-    label_overview: "Огляд"
+    label_dashboard: Панель керування
+    label_home: Головна робочого простору «%{workspace_type}»
+    label_overview: Огляд

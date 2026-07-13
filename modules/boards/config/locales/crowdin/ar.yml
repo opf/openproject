@@ -1,40 +1,46 @@
-#English strings go here
+---
 ar:
-  plugin_openproject_boards:
-    name: "OpenProject Boards"
-    description: "Provides board views."
-  permission_show_board_views: "شاهد لوحات المهمات"
-  permission_manage_board_views: "إدارة اللوحات"
-  project_module_board_view: "لوحات"
+  boards:
+    board_type_attributes:
+      assignee: المُسند إليه
+      basic: Basic
+      status: Kanban
+      subproject: مشروع فرعي
+      subtasks: الاصل والفرع
+      version: الإصدار
+    board_type_descriptions:
+      assignee: 'لوحة بأعمدة تلقائية بناءً على المستخدمين المعينين. وتعتبر لوحة مثالية لتوزيع حزم العمل.
+
+        '
+      basic: 'ابدأ من الصفر بلوحة فارغة. قم بإضافة البطاقات والأعمدة إلى هذه اللوحة يدويًا.
+
+        '
+      status: 'لوحة أساسية بنمط كانبان مع أعمدة للحالة مثل: المهام، قيد التنفيذ، تم الإنجاز.
+
+        '
+      subproject: 'لوحة بأعمدة تلقائية للمشاريع الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث المشروع (أو المشروع الفرعي) وفقًا لذلك.
+
+        '
+      subtasks: 'لوحة بأعمدة تلقائية للعناصر الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث العنصر الرئيسي وفقًا لذلك.
+
+        '
+      version: 'لوحة بأعمدة تلقائية بناءً على الإصدار. و هي مثالية لتخطيط تطوير المنتجات.
+
+        '
+    board_types:
+      action: Action board (%{attribute})
+      free: Basic
+    label_board: لوحة
+    label_board_type: نوع اللوحة
+    label_boards: اللوحات
+    label_create_new_board: Create new board
   ee:
     upsell:
       board_view:
-        description: 'هل ترغب في أتمتة سير العمل الخاص بك باستخدام اللوحات؟ اللوحات المتقدمة هي إضافة خاصة بالمؤسسات. يرجى الترقية إلى خطة مدفوعة.'
-  boards:
-    label_board: "لوحة"
-    label_boards: "اللوحات"
-    label_create_new_board: "Create new board"
-    label_board_type: "نوع اللوحة"
-    board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
-    board_type_attributes:
-      assignee: المُسند إليه
-      status: Kanban
-      version: الإصدار
-      subproject: مشروع فرعي
-      subtasks: الاصل والفرع
-      basic: Basic
-    board_type_descriptions:
-      basic: >
-        ابدأ من الصفر بلوحة فارغة. قم بإضافة البطاقات والأعمدة إلى هذه اللوحة يدويًا.
-      status: >
-        لوحة أساسية بنمط كانبان مع أعمدة للحالة مثل: المهام، قيد التنفيذ، تم الإنجاز.
-      assignee: >
-        لوحة بأعمدة تلقائية بناءً على المستخدمين المعينين. وتعتبر لوحة مثالية لتوزيع حزم العمل.
-      version: >
-        لوحة بأعمدة تلقائية بناءً على الإصدار. و هي مثالية لتخطيط تطوير المنتجات.
-      subproject: >
-        لوحة بأعمدة تلقائية للمشاريع الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث المشروع (أو المشروع الفرعي) وفقًا لذلك.
-      subtasks: >
-        لوحة بأعمدة تلقائية للعناصر الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث العنصر الرئيسي وفقًا لذلك.
+        description: هل ترغب في أتمتة سير العمل الخاص بك باستخدام اللوحات؟ اللوحات المتقدمة هي إضافة خاصة بالمؤسسات. يرجى الترقية إلى خطة مدفوعة.
+  permission_manage_board_views: إدارة اللوحات
+  permission_show_board_views: شاهد لوحات المهمات
+  plugin_openproject_boards:
+    description: Provides board views.
+    name: OpenProject Boards
+  project_module_board_view: لوحات

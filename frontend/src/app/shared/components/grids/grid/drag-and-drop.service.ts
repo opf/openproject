@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
@@ -8,6 +8,9 @@ import { distinctUntilChanged, filter, throttleTime } from 'rxjs/operators';
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
+  readonly layout = inject(GridAreaService);
+  readonly move = inject(GridMoveService);
+
   public draggedArea:GridWidgetArea|null;
 
   public placeholderArea:GridWidgetArea|null;
@@ -16,8 +19,7 @@ export class GridDragAndDropService implements OnDestroy {
 
   private mousedOverAreaObserver:Subscription;
 
-  constructor(readonly layout:GridAreaService,
-    readonly move:GridMoveService) {
+  constructor() {
     // ngOnInit is not called on services
     this.setupMousedOverAreaSubscription();
   }

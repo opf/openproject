@@ -30,10 +30,7 @@
 #
 require "spec_helper"
 
-RSpec.describe Projects::Settings::CustomFieldsForm,
-               type: :forms,
-               with_ee: %i[calculated_values],
-               with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe Projects::Settings::CustomFieldsForm, type: :forms, with_ee: %i[calculated_values] do
   let(:string_project_custom_field) do
     create(:string_project_custom_field, name: "String field", is_required: true, is_for_all: true)
   end

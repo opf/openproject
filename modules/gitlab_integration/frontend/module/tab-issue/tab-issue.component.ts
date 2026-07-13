@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
@@ -39,19 +39,18 @@ import {ApiV3Service} from "core-app/core/apiv3/api-v3.service";
   selector: 'tab-issue',
   templateUrl: './tab-issue.template.html',
   host: { class: 'op-issue' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabIssueComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly halResourceService = inject(HalResourceService);
+  readonly changeDetector = inject(ChangeDetectorRef);
+
   @Input() public workPackage:WorkPackageResource;
 
   public gitlabIssues:IGitlabIssueResource[] = [];
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly halResourceService:HalResourceService,
-    readonly changeDetector:ChangeDetectorRef,
-  ) {}
 
   ngOnInit(): void {
     const basePath = this.apiV3Service.work_packages.id(this.workPackage.id as string).path;
@@ -66,6 +65,6 @@ export class TabIssueComponent implements OnInit {
   }
 
   public getEmptyText() {
-    return this.I18n.t('js.gitlab_integration.tab_issue.empty',{ wp_id: this.workPackage.id });
+    return this.I18n.t('js.gitlab_integration.tab_issue.empty', { wp_id: this.workPackage.displayId });
   }
 }

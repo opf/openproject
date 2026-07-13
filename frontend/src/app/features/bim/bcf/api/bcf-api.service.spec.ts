@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { BcfResourceCollectionPath, BcfResourcePath } from 'core-app/features/bim/bcf/api/bcf-path-resources';
 import { BcfTopicPaths } from 'core-app/features/bim/bcf/api/topics/bcf-topic.paths';
@@ -34,18 +34,14 @@ import { BcfTopicPaths } from 'core-app/features/bim/bcf/api/topics/bcf-topic.pa
 describe('BcfApiService', () => {
   let service:BcfApiService;
 
-  beforeEach(waitForAsync(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         BcfApiService,
       ],
-    })
-      .compileComponents()
-      .then(() => {
-        service = TestBed.inject(BcfApiService);
-      });
-  }));
+    }).compileComponents();
+    service = TestBed.inject(BcfApiService);
+  });
 
   describe('building the path', () => {
     it('can build projects', () => {

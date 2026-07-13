@@ -247,14 +247,6 @@ RSpec.describe "Meeting Backlogs", :js do
   end
 
   describe "for meeting series" do
-    before_all do
-      travel_to(Date.new(2024, 12, 1))
-    end
-
-    after(:all) do # rubocop:disable RSpec/BeforeAfterAll
-      travel_back
-    end
-
     shared_let(:recurring_meeting) do
       create :recurring_meeting,
              project:,
@@ -274,6 +266,10 @@ RSpec.describe "Meeting Backlogs", :js do
       next_occurrence_time = recurring_meeting.next_occurrence(from_time: recurring_meeting.first_occurrence.to_time + 2.hours)
       RecurringMeetings::InitNextOccurrenceJob.perform_now(recurring_meeting, first_occurrence_time)
       RecurringMeetings::InitNextOccurrenceJob.perform_now(recurring_meeting, next_occurrence_time)
+    end
+
+    after do
+      travel_back
     end
 
     describe "backlog visibility" do

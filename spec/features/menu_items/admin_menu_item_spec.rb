@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Admin menu items",
-               :js,
-               with_flag: { mcp_server: true } do
+               :js do
   shared_let(:user) { create(:admin) }
 
   before do
@@ -47,8 +46,8 @@ RSpec.describe "Admin menu items",
   context "without having any menu items hidden in configuration" do
     it "must display all menu items" do
       expect(page).to have_test_selector("menu-blocks--container")
-      expect(page).to have_test_selector("menu-block", count: 22)
-      expect(page).to have_test_selector("op-menu--item-action", count: 23) # All plus 'overview'
+      expect(page).to have_test_selector("menu-block", count: 24)
+      expect(page).to have_test_selector("op-menu--item-action", count: 25) # All plus 'overview'
     end
   end
 
@@ -58,10 +57,10 @@ RSpec.describe "Admin menu items",
           } do
     it "must not display the hidden menu items and blocks" do
       expect(page).to have_test_selector("menu-blocks--container")
-      expect(page).to have_test_selector("menu-block", count: 21)
+      expect(page).to have_test_selector("menu-block", count: 23)
       expect(page).not_to have_test_selector("menu-block", text: I18n.t(:label_color_plural))
 
-      expect(page).to have_test_selector("op-menu--item-action", count: 22) # All plus 'overview'
+      expect(page).to have_test_selector("op-menu--item-action", count: 24) # All plus 'overview'
       expect(page).not_to have_test_selector("op-menu--item-action", text: I18n.t(:label_color_plural))
     end
   end

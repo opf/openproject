@@ -1,21 +1,21 @@
+---
 ro:
-  label_job_status_plural: "Job statuses"
-  plugin_openproject_job_status:
-    name: "Stare lucrări OpenProject"
-    description: "Listare și stare lucrări de fundal."
   job_status_dialog:
-    download_starts: 'Descărcarea ar trebui să înceapă automat.'
-    link_to_download: 'Or, %{link} to download.'
-    click_here: 'click here'
-    title: 'Starea lucrului în fundal'
-    redirect: 'Sunteți redirecționat.'
-    redirect_link: 'Clic aici pentru a continua.'
-    redirect_errors: 'Din cauza acestor erori, nu veți fi redirecționat automat.'
-    errors: 'Something went wrong'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Descărcarea ar trebui să înceapă automat.
+    errors: Something went wrong
     generic_messages:
-      not_found: 'Acest loc de muncă nu a putut fi găsit.'
-      in_queue: 'Lucrarea a fost pusă în coadă și va fi procesată în scurt timp.'
-      in_process: 'Lucrarea este în curs de procesare.'
-      error: 'Lucrarea nu a fost finalizată.'
-      cancelled: 'Lucrarea a fost anulată din cauza unei erori.'
-      success: 'Lucrarea a fost finalizată cu succes.'
+      cancelled: Lucrarea a fost anulată din cauza unei erori.
+      error: Lucrarea nu a fost finalizată.
+      in_process: Lucrarea este în curs de procesare.
+      in_queue: Lucrarea a fost pusă în coadă și va fi procesată în scurt timp.
+      not_found: Acest loc de muncă nu a putut fi găsit.
+      success: Lucrarea a fost finalizată cu succes.
+    redirect: Sunteți redirecționat.
+    redirect_errors: Din cauza acestor erori, nu veți fi redirecționat automat.
+    redirect_link: Clic aici pentru a continua.
+    title: Starea lucrului în fundal
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Listare și stare lucrări de fundal.
+    name: Stare lucrări OpenProject

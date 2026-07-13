@@ -67,12 +67,11 @@ class WikiMenuItemsController < ApplicationController
 
   def update # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     wiki_menu_setting = wiki_menu_item_params[:setting]
-    parent_wiki_menu_item = params[:parent_wiki_menu_item]
 
     get_data_from_params(params)
 
     if wiki_menu_setting == "no_item"
-      unless @wiki_menu_item.nil?
+      if @wiki_menu_item
         if @wiki_menu_item.is_only_main_item?
           if @page.only_wiki_page?
             flash.now[:error] = t(:wiki_menu_item_delete_not_permitted)
@@ -89,12 +88,8 @@ class WikiMenuItemsController < ApplicationController
       @wiki_menu_item.name = @page.slug
       @wiki_menu_item.title = wiki_menu_item_params[:title] || @page_title
 
-      if wiki_menu_setting == "sub_item"
-        @wiki_menu_item.parent_id = parent_wiki_menu_item
-      elsif wiki_menu_setting == "main_item"
-        @wiki_menu_item.parent_id = nil
-        assign_wiki_menu_item_params @wiki_menu_item
-      end
+      @wiki_menu_item.parent_id = nil
+      assign_wiki_menu_item_params @wiki_menu_item
     end
 
     if @wiki_menu_item.destroyed? || @wiki_menu_item.save

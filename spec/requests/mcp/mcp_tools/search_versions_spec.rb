@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchVersions, with_flag: { mcp_server: true } do
+RSpec.describe McpTools::SearchVersions do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "X-Authentication-Scheme", "Bearer"

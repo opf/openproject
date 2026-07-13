@@ -1,80 +1,93 @@
+---
 zh-TW:
-  ee:
-    upsell:
-      ldap_groups:
-        title: 'LDAP 群組同步'
-        description: '將 LDAP 群組與 OpenProject 群組同步，以管理使用者、變更其權限，並簡化跨群組的使用者管理。'
-  plugin_openproject_ldap_groups:
-    name: "OpenProject LDAP 群組"
-    description: "LDAP組成員同步。"
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: '識別名稱（DN）'
-        auth_source: '驗證來源'
-        ldap_auth_source: 'LDAP 連線'
-        sync_users: '同步使用者'
       ldap_groups/synchronized_filter:
-        filter_string: '簡約登入目錄制約(LDAP)篩選'
-        auth_source: '驗證來源'
-        ldap_auth_source: 'LDAP 連線'
-        group_name_attribute: "群組名字屬性"
-        sync_users: '同步使用者'
-        base_dn: "搜尋基礎 DN"
-    models:
-      ldap_groups/synchronized_group: 'LDAP 同步群組'
-      ldap_groups/synchronized_filter: 'LDAP群組同步篩選'
+        auth_source: 驗證來源
+        base_dn: 搜尋基礎 DN
+        filter_string: 簡約登入目錄制約(LDAP)篩選
+        group_name_attribute: 群組名字屬性
+        ldap_auth_source: LDAP 連線
+        member_lookup_attribute: Group member attribute
+        sync_users: 同步使用者
+      ldap_groups/synchronized_group:
+        auth_source: 驗證來源
+        dn: 識別名稱（DN）
+        ldap_auth_source: LDAP 連線
+        sync_users: 同步使用者
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "搜尋基礎 DN 須包含在 LDAP 連接的基礎 DN 中"
+          must_contain_base_dn: 搜尋基礎 DN 須包含在 LDAP 連接的基礎 DN 中
+    models:
+      ldap_groups/synchronized_filter: LDAP群組同步篩選
+      ldap_groups/synchronized_group: LDAP 同步群組
+  ee:
+    upsell:
+      ldap_groups:
+        description: 將 LDAP 群組與 OpenProject 群組同步，以管理使用者、變更其權限，並簡化跨群組的使用者管理。
+        title: LDAP 群組同步
   ldap_groups:
-    label_menu_item: 'LDAP 群組同步'
-    label_group_key: 'LDAP 組篩選條件'
-    label_synchronize: '同步'
+    label_group_key: LDAP 組篩選條件
+    label_menu_item: LDAP 群組同步
+    label_synchronize: Discover LDAP groups
     settings:
-      name_attribute: 'LDAP群組名屬性'
-      name_attribute_text: 'LDAP篩選出的屬性名稱當作OpenProject群組'
+      name_attribute: LDAP群組名屬性
+      name_attribute_text: LDAP篩選出的屬性名稱當作OpenProject群組
     synchronized_filters:
-      add_new: '新增同步LDAP篩選'
-      singular: 'LDAP群組同步篩選條件'
-      plural: 'LDAP群組同步篩選'
+      add_new: 新增同步LDAP篩選
+      destroy:
+        confirmation: 如果繼續,本同步篩選 %{name} 和藉此創建的群組 %{groups_count} 將會刪除
+        heading: Remove synchronized filter %{name}?
+        removed_groups: '警告: 將從OpenProject和專案中移除以下群組'
+        title: 移除同步篩選條件 %{name}
+        verification_html: Enter the filter name %{name} to verify the deletion.
+      form:
+        base_dn_text: '輸入用於此篩選器的搜尋基礎 DN，它必須在所選的 LDAP 連接的基礎 DN 之下。將此選項留空以使用連接的基礎 DN
+
+          '
+        filter_string_text: 輸入 RFC4515 LDAP 篩選條件以取得LDAP 中的群組。
+        group_name_attribute_text: 輸入用於設定OpenProject群組名的LDAP群組屬性
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
       label_n_groups_found:
-        one: "篩選條件搜尋到 1 個群組"
-        other: "篩選條件找到 %{count} 個群組"
-        zero: "篩選條件不到任何群組"
-      destroy:
-        title: '移除同步篩選條件 %{name}'
-        confirmation: "如果繼續,本同步篩選 %{name} 和藉此創建的群組 %{groups_count} 將會刪除"
-        removed_groups: "警告: 將從OpenProject和專案中移除以下群組"
-        verification: "輸入篩選名稱 %{name} 以確定刪除"
-      form:
-        group_name_attribute_text: '輸入用於設定OpenProject群組名的LDAP群組屬性'
-        filter_string_text: '輸入 RFC4515 LDAP 篩選條件以取得LDAP 中的群組。'
-        base_dn_text: >
-          輸入用於此篩選器的搜尋基礎 DN，它必須在所選的 LDAP 連接的基礎 DN 之下。將此選項留空以使用連接的基礎 DN
+        one: 篩選條件搜尋到 1 個群組
+        other: 篩選條件找到 %{count} 個群組
+        zero: 篩選條件不到任何群組
+      plural: LDAP群組同步篩選
+      singular: LDAP群組同步篩選條件
     synchronized_groups:
-      add_new: '新增 LDAP 同步群組'
+      add_new: 新增 LDAP 同步群組
       destroy:
-        title: '移除同步群組 %{name}'
-        confirmation: "如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。"
-        info: "注意：OpenProject 群組本身以及在 LDAP 同步之外添加的成員將不會被移除。"
-        verification: "輸入專案的名稱 %{name} 來確認刪除"
-      help_text_html: |
-        此模組允許您在 LDAP 與 OpenProject 群組之間設置同步。
-        它要求 LDAP 群組使用 <em>groupOfNames / memberOf</em> 屬性集才能與 OpenProject 一起使用。
-        <br/>
-        群組通過 Cron 作業每小時同步。
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">請參閱我們關於此主題的文檔</a>。
-      no_results: '找不到同步的群組。'
-      no_members: '這個群組還沒有同步的成員。'
-      plural: 'LDAP 同步群組'
-      singular: 'LDAP 同步群組'
+        confirmation: 如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。
+        heading: Remove synchronized group %{name}?
+        info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
+        title: 移除同步群組 %{name}
       form:
-        auth_source_text: '選擇應使用的 LDAP 連接。'
-        sync_users_text: >
-          如果啓用此選項，找到的使用者會自動新增到OpenProject系統。如果不啓用，只有 OpenProject 現有帳戶會加到群組中。
-        dn_text: '輸入 LDAP 群組完整DN'
-        group_text: '選擇 LDAP 群組同步至現有 OpenProject 群組'
+        auth_source_text: 選擇應使用的 LDAP 連接。
+        dn_text: 輸入 LDAP 群組完整DN
+        group_text: 選擇 LDAP 群組同步至現有 OpenProject 群組
+        sync_users_text: '如果啓用此選項，找到的使用者會自動新增到OpenProject系統。如果不啓用，只有 OpenProject 現有帳戶會加到群組中。
+
+          '
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        [Please see our documentation on this topic](docs_url).
+      no_members: 這個群組還沒有同步的成員。
+      no_results: 找不到同步的群組。
+      plural: LDAP 同步群組
+      singular: LDAP 同步群組
       upsell:
-        description: '利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。'
+        description: 利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。
+  plugin_openproject_ldap_groups:
+    description: LDAP組成員同步。
+    name: OpenProject LDAP 群組

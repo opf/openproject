@@ -1,10 +1,10 @@
 <%=
-  I18n.t(
+  helpers.t(
     :setting_allowed_link_protocols_text_html,
     tel_code: content_tag(:code, "tel"),
     element_code: content_tag(:code, "element"),
     http_code: content_tag(:code, "http"),
     https_code: content_tag(:code, "https"),
     mailto_code: content_tag(:code, "mailto")
-  ).html_safe
+  )
 %>

@@ -36,17 +36,17 @@ module Storages
     module Providers
       module OneDrive
         module Validators
-          RSpec.describe StorageConfigurationValidator, :webmock do
+          RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage, :as_automatically_managed) }
             let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
             let(:error) { Results::Error.new(code: error_code, source: self) }
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a GroupValidationResult", vcr: "one_drive/files_query_userless" do
+            it "returns a ResultGroup", vcr: "one_drive/files_query_userless" do
               results = validator.call
 
-              expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+              expect(results).to be_a(HealthReport::ResultGroup)
               expect(results).to be_success
             end
 

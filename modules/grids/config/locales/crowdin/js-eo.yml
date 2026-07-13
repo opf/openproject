@@ -1,59 +1,60 @@
+---
 eo:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
-      configure: 'Agordi kromprogrameton'
+      add_widget: Add widget
+      configure: Agordi kromprogrameton
+      remove: Remove widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Propra teksto'
+          title: Propra teksto
         documents:
-          title: 'Dokumentoj'
-          no_results: 'No documents yet.'
+          no_results: No documents yet.
+          title: Dokumentoj
         members:
-          title: 'Membroj'
+          title: Membroj
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
-          title: 'Novaĵoj'
+          title: Novaĵoj
+        not_available: This widget is currently unavailable.
         project_description:
-          title: 'Description'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
-        project_status:
-          title: 'Status'
-          not_started: 'Nekomencita'
-          on_track: 'Laŭ la plano'
-          off_track: 'Preter plano'
-          at_risk: 'Riske'
-          not_set: 'Ne agordita'
-          finished: 'Finita'
-          discontinued: 'Discontinued'
-        subprojects:
-          title: 'Subitems'
+          title: Description
         project_favorites:
-          title: 'Favorite projects'
-          no_results: 'You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.'
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favoritaj projektoj
+        project_status:
+          at_risk: Riske
+          discontinued: Discontinued
+          finished: Finita
+          not_set: Ne agordita
+          not_started: Nekomencita
+          off_track: Preter plano
+          on_track: Laŭ la plano
+          title: Statuso
+        subprojects:
+          title: Suberoj
         time_entries_current_user:
-          title: 'My spent time'
           displayed_days: 'Tagoj montritaj en la kromprogrameto:'
+          title: My spent time
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          no_results: No time entries for the last 7 days.
+          title: Spent time (last 7 days)
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: Work packages I am accountable for
         work_packages_assigned:
-          title: 'Laborpakaĵoj asignitaj al mi'
-        work_packages_created:
-          title: 'Work packages created by me'
-        work_packages_watched:
-          title: 'Work packages watched by me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Laborpakaĵoj asignitaj al mi
         work_packages_calendar:
-          title: 'Kalendaro'
+          title: Kalendaro
+        work_packages_created:
+          title: Laborpakaĵoj kreitaj de mi
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Work packages graph
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          placeholder: Klaku por redakti...
+          title: Work packages overview
+        work_packages_table:
+          title: Work packages table
+        work_packages_watched:
+          title: Work packages watched by me

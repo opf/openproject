@@ -148,4 +148,16 @@ RSpec.describe Workflow do
       end
     end
   end
+
+  describe "self.eligible_roles" do
+    subject { described_class.eligible_roles }
+
+    let!(:project_roles) { create_list(:project_role, 3) }
+
+    before do
+      create(:global_role)
+    end
+
+    it { is_expected.to match_array(project_roles) }
+  end
 end

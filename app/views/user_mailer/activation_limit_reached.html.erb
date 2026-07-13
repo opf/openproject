@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <p>
     <% mail_link = content_tag(:a, @email, href: "mailto:#{@email}") %>
     <% host_link = content_tag(:a, Setting.app_title, href: Rails.application.root_url) %>
-    <%= t("mail_user_activation_limit_reached.message", email: mail_link, host: host_link).html_safe %>
+    <%= t("mail_user_activation_limit_reached.message_html", email: mail_link, host: host_link) %>
 </p>
 
 <span><%= t("mail_user_activation_limit_reached.steps.label") %></span>

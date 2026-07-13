@@ -53,7 +53,7 @@ This feature was requested by many in the Community and will be a great benefit,
 
 ![OpenProject dropdown menu showing favorite projects, displayed with yellow stars](openproject-14-1-favorite-projects-overview.shadow.png)
 
-See our documentation to learn more about [how to mark a project as favorite](../../../user-guide/project-home/#mark-a-project-as-favorite).
+See our documentation to learn more about [how to mark a project as favorite](../../../user-guide/projects/project-home/#mark-a-project-as-favorite).
 
 ### Advanced features for the Meetings module
 
@@ -86,7 +86,7 @@ To make this possible Attachment and Files Storages settings were moved together
 
 ### File storages module activated by default
 
-In connection with the feature above, activating file storages integrations was simplified. It is no longer required to active **Files storages** module under project settings. Instead, available file storages are visible under *Project settings > Files > External file storages*, as long as the user has *Manage file storages in project* permission.
+In connection with the feature above, activating file storages integrations was simplified. It is no longer required to active **Files storages** module under project settings. Instead, available file storages are visible under _Project settings > Files > External file storages_, as long as the user has _Manage file storages in project_ permission.
 
 ![External file storages under project settings in OpenProject](openproject-14-1-project-settings-files.png)
 
@@ -106,7 +106,7 @@ Read more on [project lists](../../../user-guide/projects/project-lists/).
 
 ### A "Manage project attributes" button on the project overview page
 
-With OpenProject 14.0, we released the feature to create a custom set of project attributes grouped in sections on the project overview page. With 14.1, you will additionally have a button to [Manage project attributes](../../../user-guide/project-home/project-attributes) on the project overview page.
+With OpenProject 14.0, we released the feature to create a custom set of project attributes grouped in sections on the project overview page. With 14.1, you will additionally have a button to [Manage project attributes](../../../user-guide/projects/project-home/project-attributes) on the project overview page.
 
 ### OneDrive/SharePoint: A "no permission“ message to file links
 
@@ -180,9 +180,9 @@ Apart from the features mentioned above, there have been a lot of other changes,
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 
-* City of Cologne for sponsoring features on project attributes
-* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
-* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+- City of Cologne for sponsoring features on project attributes
+- Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+- German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
 

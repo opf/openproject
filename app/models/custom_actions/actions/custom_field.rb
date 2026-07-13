@@ -35,7 +35,7 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
     end
 
     def custom_field
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def all

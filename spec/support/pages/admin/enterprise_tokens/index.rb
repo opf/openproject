@@ -41,7 +41,7 @@ module Pages
         def add_enterprise_token(token_text)
           click_button "Add Enterprise token"
           modals.expect_modal("Add Enterprise token")
-          fill_in "Type support token text", with: token_text
+          fill_in "Your Enterprise token text", with: token_text
           click_button "Add"
         end
 
@@ -53,7 +53,7 @@ module Pages
 
         def expect_add_token_validation_error(message)
           expect(page).to have_dialog("Add Enterprise token")
-          expect(page).to have_field("Type support token text", validation_error: message)
+          expect(page).to have_field("Your Enterprise token text", validation_error: message)
         end
 
         private

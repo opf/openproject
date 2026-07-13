@@ -1,0 +1,30 @@
+<%= render(Primer::OpenProject::SubHeader.new) do |component|
+      component.with_text { year.to_s }
+
+      component.with_action_button_group do |group|
+        group.with_button(icon: "arrow-left", tag: :a, **previous_year_attrs)
+        group.with_button(icon: "arrow-right", tag: :a, **next_year_attrs)
+      end
+
+      component.with_action_button(
+        tag: :a,
+        href: today_href,
+        leading_icon: :"op-calendar-day",
+        label: I18n.t(:label_today)
+      ) do
+        I18n.t(:label_today_capitalized)
+      end
+
+      if can_create?
+        component.with_action_button(
+          scheme: :primary,
+          leading_icon: :plus,
+          label: I18n.t(:button_add_non_working_time),
+          data: { controller: "async-dialog" },
+          tag: :a,
+          href: new_non_working_time_href
+        ) do
+          t(:button_add_non_working_time)
+        end
+      end
+    end %>

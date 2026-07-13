@@ -36,7 +36,7 @@ module VersionsHelper
     if grouped.size > 1
       grouped_options_for_select(grouped, selected&.id)
     else
-      options_for_select((grouped.values.first || []), selected&.id)
+      options_for_select(grouped.values.first || [], selected&.id)
     end
   end
 
@@ -45,7 +45,7 @@ module VersionsHelper
 
     html_options = html_options.merge(id: link_to_version_id(version))
 
-    link_name = options[:before_text].to_s.html_safe + format_version_name(version, options[:project] || @project)
+    link_name = format_version_name(version, options[:project] || @project) # rubocop:disable Rails/HelperInstanceVariable
     link_to_if version.visible?,
                link_name,
                { controller: "/versions", action: "show", id: version },
@@ -57,7 +57,7 @@ module VersionsHelper
       %i[start_date due_date]
         .filter { |attr| version.send(attr) }
         .map { |attr| "#{Version.human_attribute_name(attr)} #{format_date(version.send(attr))}" }
-    safe_join(formatted_dates, "<br>".html_safe)
+    safe_join(formatted_dates, tag(:br))
   end
 
   def link_to_version_id(version)
@@ -68,17 +68,9 @@ module VersionsHelper
     h(version.to_s_for_project(project))
   end
 
-  def version_contract(version)
-    if version.new_record?
-      Versions::CreateContract.new(version, User.current)
-    else
-      Versions::UpdateContract.new(version, User.current)
-    end
-  end
-
   def format_version_sharing(sharing)
     sharing = "none" unless Version::VERSION_SHARINGS.include?(sharing)
-    t("label_version_sharing_#{sharing}")
+    I18n.t("label_version_sharing_#{sharing}")
   end
 
   def versions_by_project(versions)

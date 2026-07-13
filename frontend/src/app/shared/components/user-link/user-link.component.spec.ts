@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
@@ -46,9 +46,8 @@ describe('UserLinkComponent component test', () => {
   let element:HTMLElement;
   let user:UserResource;
 
-  beforeEach(waitForAsync(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [
         UserLinkComponent,
       ],
@@ -61,11 +60,11 @@ describe('UserLinkComponent component test', () => {
     fixture = TestBed.createComponent(UserLinkComponent);
     app = fixture.debugElement.componentInstance;
     element = fixture.elementRef.nativeElement;
-  }));
+  });
 
   describe('inner element', () => {
-    describe('with the uer having the showUserPath attribute', () => {
-      beforeEach(waitForAsync(() => {
+    describe('with the user having the showUserPath attribute', () => {
+      beforeEach(() => {
         user = {
           name: 'First Last',
           showUserPath: '/users/1',
@@ -73,7 +72,7 @@ describe('UserLinkComponent component test', () => {
 
         fixture.componentRef.setInput('user', user);
         fixture.detectChanges();
-      }));
+      });
 
       it('should render an inner link with specified classes', () => {
         const link = element.querySelector('a')!;
@@ -85,7 +84,7 @@ describe('UserLinkComponent component test', () => {
     });
 
     describe('with the user not having the showUserPath attribute', () => {
-      beforeEach(waitForAsync(() => {
+      beforeEach(() => {
         user = {
           name: 'First Last',
           showUserPath: null,
@@ -93,7 +92,7 @@ describe('UserLinkComponent component test', () => {
 
         fixture.componentRef.setInput('user', user);
         fixture.detectChanges();
-      }));
+      });
 
       it('renders only the name', () => {
         const link = element.querySelector('a');

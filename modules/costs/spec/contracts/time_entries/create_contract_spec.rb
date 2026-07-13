@@ -148,5 +148,17 @@ RSpec.describe TimeEntries::CreateContract do
         expect_valid(false, user_id: %i(blank))
       end
     end
+
+    context "if logging for another user who is not a project member" do
+      let(:time_entry_user) { other_user }
+
+      before do
+        allow(other_user).to receive(:member_of?).with(time_entry_project).and_return(false)
+      end
+
+      it "is invalid" do
+        expect_valid(false, base: %i(error_unauthorized))
+      end
+    end
   end
 end

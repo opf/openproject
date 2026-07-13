@@ -1,4 +1,4 @@
-FROM ruby:3.4.7-trixie AS develop
+FROM ruby:4.0.2-trixie AS develop
 LABEL org.opencontainers.image.authors="operations@openproject.com"
 
 ARG DEV_UID=1000

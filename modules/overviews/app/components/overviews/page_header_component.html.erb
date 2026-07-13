@@ -51,26 +51,24 @@
       end
     end
 
-    if OpenProject::FeatureDecisions.new_project_overview_active?
-      header.with_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
-        tab_nav.with_tab(
-          test_selector: "project-overview-tab",
-          selected: current_page?(project_overview_path),
-          href: helpers.project_overview_path
-        ) do |t|
-          t.with_icon(icon: :"op-view-split")
-          t.with_text { I18n.t("overviews.label_overview") }
-        end
+    header.with_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
+      tab_nav.with_tab(
+        test_selector: "project-overview-tab",
+        selected: current_page?(project_overview_path),
+        href: helpers.project_overview_path
+      ) do |t|
+        t.with_icon(icon: :"op-view-split")
+        t.with_text { I18n.t("overviews.label_overview") }
+      end
 
-        if current_user.allowed_in_project?(:view_project, project)
-          tab_nav.with_tab(
-            test_selector: "project-dashboard-tab",
-            selected: current_page?(dashboard_project_overview_path),
-            href: helpers.dashboard_project_overview_path
-          ) do |t|
-            t.with_icon(icon: :"op-view-list")
-            t.with_text { I18n.t("overviews.label_dashboard") }
-          end
+      if current_user.allowed_in_project?(:view_project, project)
+        tab_nav.with_tab(
+          test_selector: "project-dashboard-tab",
+          selected: current_page?(dashboard_project_overview_path),
+          href: helpers.dashboard_project_overview_path
+        ) do |t|
+          t.with_icon(icon: :"op-view-list")
+          t.with_text { I18n.t("overviews.label_dashboard") }
         end
       end
     end

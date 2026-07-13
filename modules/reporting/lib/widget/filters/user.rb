@@ -47,8 +47,7 @@ class Widget::Filters::User < Widget::Filters::Base
                                     resource: "principals",
                                     url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
                                     filters: [
-                                      { name: "type", operator: "=", values: ["User"] },
-                                      { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] }
+                                      { name: "type", operator: "=", values: ["User"] }
                                     ],
                                     additionalOptions: [
                                       { id: CostQuery::Filter::UserId.me_value, name: I18n.t(:label_me) }

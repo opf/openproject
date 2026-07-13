@@ -34,6 +34,13 @@ class Version < ApplicationRecord
 
   belongs_to :project
   has_many :work_packages, dependent: :nullify
+  has_many :work_package_versions, dependent: :delete_all
+  has_many :targeted_work_packages,
+           -> { where(work_package_versions: { kind: "target" }) },
+           through: :work_package_versions, source: :work_package
+  has_many :observed_in_work_packages,
+           -> { where(work_package_versions: { kind: "observed_in" }) },
+           through: :work_package_versions, source: :work_package
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze
@@ -80,7 +87,7 @@ class Version < ApplicationRecord
     systemwide? ||
       user.allowed_in_project?(:view_work_packages, project) ||
       user.allowed_in_project?(:manage_versions, project) ||
-      work_packages.visible(user).exists?
+      targeted_work_packages.visible(user).exists?
   end
 
   def due_date
@@ -90,15 +97,14 @@ class Version < ApplicationRecord
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= work_packages.leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= targeted_work_packages.leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version
   def spent_hours
     @spent_hours ||= TimeEntry
       .not_ongoing
-      .joins("INNER JOIN work_packages ON entity_type = 'WorkPackage' AND work_packages.id = entity_id")
-      .where(work_packages: { version_id: id }, entity_type: "WorkPackage")
+      .where(entity_type: "WorkPackage", entity_id: targeted_work_packages.select(:id))
       .sum(:hours)
       .to_f
   end
@@ -148,17 +154,17 @@ class Version < ApplicationRecord
 
   # Returns assigned issues count
   def issues_count
-    @issue_count ||= work_packages.count
+    @issues_count ||= targeted_work_packages.count
   end
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= work_packages.merge(WorkPackage.with_status_open).size
+    @open_issues_count ||= targeted_work_packages.merge(WorkPackage.with_status_open).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= work_packages.merge(WorkPackage.with_status_closed).size
+    @closed_issues_count ||= targeted_work_packages.merge(WorkPackage.with_status_closed).size
   end
 
   def wiki_page
@@ -207,7 +213,7 @@ class Version < ApplicationRecord
   # Used to weight unestimated issues in progress calculation
   def estimated_average
     if @estimated_average.nil?
-      average = work_packages.average(:estimated_hours).to_f
+      average = targeted_work_packages.average(:estimated_hours).to_f
       if average.zero?
         average = 1
       end
@@ -222,18 +228,18 @@ class Version < ApplicationRecord
   # Examples:
   # issues_progress(true)   => returns the progress percentage for open issues.
   # issues_progress(false)  => returns the progress percentage for closed issues.
-  def issues_progress(open)
+  def issues_progress(open) # rubocop:disable Metrics/AbcSize
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
       progress = 0
 
       if issues_count > 0
         ratio = open ? "done_ratio" : 100
-        sum_sql = self.class.sanitize_sql_array(
-          ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
+        sum_sql = OpenProject::SqlSanitization.sanitize(
+          "COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average
         )
 
-        done = work_packages
+        done = targeted_work_packages
           .where(statuses: { is_closed: !open })
           .includes(:status)
           .sum(sum_sql)

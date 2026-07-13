@@ -141,6 +141,8 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
   def add_lateral_user_menu_items(list, link_items)
     link_items.each do |item|
+      list.with_divider if item.show_divider_before?
+
       list.with_item(
         href: allowed_node_url(item, nil),
         label: item.caption,

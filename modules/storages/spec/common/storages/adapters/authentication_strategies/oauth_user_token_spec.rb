@@ -34,7 +34,7 @@ require_module_spec_helper
 module Storages
   module Adapters
     module AuthenticationStrategies
-      RSpec.describe OAuthUserToken, :webmock do
+      RSpec.describe OAuthUserToken, :disable_ssrf_filter, :webmock do
         let(:user) { create(:user) }
         let(:storage) do
           create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
@@ -98,7 +98,7 @@ module Storages
 
             allow(Rails.logger).to receive(:error)
             allow(strategy).to receive(:current_token).and_return(Success(token))
-            allow(token).to receive(:destroy).and_raise(ActiveRecord::StaleObjectError).twice
+            allow(token).to receive(:destroy!).and_raise(ActiveRecord::StaleObjectError).twice
 
             expect do
               strategy.call(storage:, http_options:) { |http| make_request(http) }
@@ -109,68 +109,16 @@ module Storages
         end
 
         context "with invalid oauth access token" do
-          it "must refresh token and return success" do
-            storage
-            token = OAuthClientToken.last
-            user_request_stub_1 = stub_request(:get, "https://nextcloud.local/ocs/v1.php/cloud/user")
-              .with(
-                headers: {
-                  "Accept" => "*/*",
-                  "Accept-Encoding" => "gzip, deflate",
-                  "Authorization" => "Bearer #{token.access_token}",
-                  "User-Agent" => /OpenProject \d+\.\d+\.\d+ HTTPX Client/
-                }
-              )
-              .to_return(status: 401, body: <<~XML, headers: {})
-                <?xml version="1.0"?>
-                <ocs>
-                <meta>
-                  <status>failure</status>
-                  <statuscode>997</statuscode>
-                  <message>Current user is not logged in</message>
-                  <totalitems></totalitems>
-                  <itemsperpage></itemsperpage>
-                </meta>
-                <data/>
-                </ocs>
-              XML
-            user_request_stub_2 = stub_request(:get, "https://nextcloud.local/ocs/v1.php/cloud/user")
-              .with(
-                headers: {
-                  "Accept" => "*/*",
-                  "Accept-Encoding" => "gzip, deflate",
-                  "Authorization" => "Bearer NEW_ACCESS_TOKEN",
-                  "User-Agent" => /OpenProject \d+\.\d+\.\d+ HTTPX Client/
-                }
-              )
-              .to_return(status: 200, body: <<~JSON, headers: { "Content-Type" => "application/json; charset=utf-8" })
-                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"enabled":true,"storageLocation":"/var/www/html/data/admin","id":"admin","lastLogin":1709888213000,"backend":"Database","subadmin":[],"quota":{"free":962269761536,"used":1137306515,"total":963407068051,"relative":0.12,"quota":-3},"manager":"","avatarScope":"v2-federated","email":null,"emailScope":"v2-federated","additional_mail":[],"additional_mailScope":[],"displayname":"admin","display-name":"admin","displaynameScope":"v2-federated","phone":"","phoneScope":"v2-local","address":"","addressScope":"v2-local","website":"","websiteScope":"v2-local","twitter":"","twitterScope":"v2-local","fediverse":"","fediverseScope":"v2-local","organisation":"","organisationScope":"v2-local","role":"","roleScope":"v2-local","headline":"","headlineScope":"v2-local","biography":"","biographyScope":"v2-local","profile_enabled":"1","profile_enabledScope":"v2-local","groups":["admin"],"language":"en","locale":"","notify_email":null,"backendCapabilities":{"setDisplayName":true,"setPassword":true}}}}
-              JSON
-            token_request_stub = stub_request(:post, "https://nextcloud.local/index.php/apps/oauth2/api/v1/token")
-              .with(
-                body: { "client_id" => token.oauth_client.client_id,
-                        "client_secret" => token.oauth_client.client_secret,
-                        "grant_type" => "refresh_token",
-                        "refresh_token" => token.refresh_token,
-                        "scope" => "" },
-                headers: {
-                  "Accept" => "*/*",
-                  "Accept-Encoding" => "gzip, deflate",
-                  "Content-Type" => "application/x-www-form-urlencoded",
-                  "User-Agent" => /OpenProject \d+\.\d+\.\d+ HTTPX Client/
-                }
-              )
-              .to_return(status: 200, body: <<~JSON, headers: { "Content-Type" => "application/json; charset=utf-8" })
-                {"access_token":"NEW_ACCESS_TOKEN","token_type":"Bearer","expires_in":3600,"refresh_token":"NEW_REFRESH_TOKEN","user_id":"admin"}
-              JSON
-            result = Authentication[strategy_data].call(storage:) { |http| make_request(http) }
+          it "must refresh token and return success", vcr: "auth/nextcloud/refresh_token" do
+            token = OAuthClientToken.where(oauth_client_id: storage.oauth_client.id).last
+            original_access_token = token&.access_token
+            token&.update!(access_token: "NOT_A_VALID_TOKEN")
 
-            expect(user_request_stub_1).to have_been_made.once
-            expect(user_request_stub_2).to have_been_made.once
-            expect(token_request_stub).to have_been_made.once
+            result = Authentication[strategy_data].call(storage:) { |http| make_request(http) }
 
             expect(result).to be_success
             expect(result.value!).to eq("EXPECTED_RESULT")
+            expect(original_access_token).not_to eq(token&.reload&.access_token)
           end
         end
 

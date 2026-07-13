@@ -37,7 +37,7 @@ RSpec.describe Project::Phase do
   end
 
   it "can be instantiated" do
-    expect { described_class.new }.not_to raise_error(NotImplementedError)
+    expect { described_class.new }.not_to raise_error
   end
 
   it { is_expected.to have_readonly_attribute(:definition_id) }

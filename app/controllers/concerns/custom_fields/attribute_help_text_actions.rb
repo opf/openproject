@@ -51,11 +51,11 @@ module CustomFields
     end
 
     def show_path
-      raise NotImplementedError, "#{self.class} must implement #show_path"
+      raise SubclassResponsibilityError, "#{self.class} must implement #show_path"
     end
 
     def render_attribute_help_text_form(status: :ok)
-      raise NotImplementedError, "#{self.class} must implement #render_attribute_help_text_form"
+      raise SubclassResponsibilityError, "#{self.class} must implement #render_attribute_help_text_form"
     end
 
     def find_or_initialize_attribute_help_text
@@ -71,6 +71,8 @@ module CustomFields
         AttributeHelpText::Project
       when WorkPackageCustomField
         AttributeHelpText::WorkPackage
+      when UserCustomField
+        AttributeHelpText::User
       else
         raise ArgumentError, "Unsupported custom field type: #{@custom_field.class}"
       end

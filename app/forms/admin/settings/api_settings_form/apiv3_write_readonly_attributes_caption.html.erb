@@ -9,9 +9,9 @@
 <% end %>
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) do %>
   <%=
-    I18n.t(
-      :setting_apiv3_write_readonly_attributes_additional,
-      api_documentation_link: static_link_to(:api_docs)
-    ).html_safe
+    helpers.link_translate(
+      :setting_apiv3_write_readonly_attributes_additional_html,
+      links: { api_documentation_link: %i[api_docs] }
+    )
   %>
 <% end %>

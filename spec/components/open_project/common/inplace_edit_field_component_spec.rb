@@ -56,21 +56,24 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
     end
   end
 
+  let(:update_registry) do
+    registry = OpenProject::InplaceEdit::UpdateRegistry.new
+    registry.register(Project, handler: double, contract: contract_class)
+    registry
+  end
+
   before do
     allow(User).to receive(:current).and_return(user)
-    allow(OpenProject::InplaceEdit::UpdateRegistry)
-      .to receive(:fetch_contract)
-            .and_return(contract_class)
   end
 
   context "when attribute is writable" do
     let(:allowed_attributes) { %w(description) }
 
     it "renders display field by default" do
-      render_inline(described_class.new(model: project, attribute: :description))
+      render_inline(described_class.new(model: project, attribute: :description, update_registry:))
 
       expect(rendered_content)
-        .to have_css(".op-inplace-edit--display-field.op-inplace-edit--display-field_editable")
+        .to have_css(".op-inplace-edit--display-field.op-inplace-edit--display-field_clickable")
     end
 
     it "renders edit field when enforce_edit_mode is true" do
@@ -78,7 +81,8 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
         described_class.new(
           model: project,
           attribute: :description,
-          enforce_edit_mode: true
+          enforce_edit_mode: true,
+          update_registry:
         )
       )
 
@@ -91,12 +95,41 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
     let(:allowed_attributes) { %w() }
 
     it "does not mark display field as editable" do
-      render_inline(described_class.new(model: project, attribute: :description))
+      render_inline(described_class.new(model: project, attribute: :description, update_registry:))
 
       expect(rendered_content)
-        .not_to include("click->inplace-edit#request")
+        .not_to include("click-&gt;inplace-edit#request")
       expect(rendered_content)
-        .to have_no_css(".op-inplace-edit--display-field.op-inplace-edit--display-field_editable")
+        .to have_no_css(".op-inplace-edit--display-field.op-inplace-edit--display-field_clickable")
+    end
+  end
+
+  describe "wrapper" do
+    let(:allowed_attributes) { %w(description) }
+
+    it "renders a stable key on the wrapper for calculated field refresh" do
+      render_inline(described_class.new(model: project, attribute: :description, update_registry:))
+
+      expected_key = "project_#{project.id}_description"
+      expect(rendered_content)
+        .to have_css("[data-inplace-edit-stable-key='#{expected_key}']")
+    end
+  end
+
+  describe "open_in_dialog" do
+    let(:allowed_attributes) { %w(description) }
+
+    it "uses the dialog controller on the display field when open_in_dialog is true" do
+      render_inline(
+        described_class.new(
+          model: project,
+          attribute: :description,
+          open_in_dialog: true,
+          update_registry:
+        )
+      )
+
+      expect(rendered_content).to include("click-&gt;inplace-edit#openDialog")
     end
   end
 end

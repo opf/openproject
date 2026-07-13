@@ -1,0 +1,12 @@
+<%= render(
+      OpPrimer::QuickFilter::SegmentedControlComponent.new(
+        name: "Meeting type",
+        query: query,
+        filter_key: :type,
+        path_args: [:meetings]
+      )
+    ) do |component|
+      component.with_item(label: "All", value: nil)
+      component.with_item(label: "One-time", value: "f")
+      component.with_item(label: "Recurring", value: "t")
+    end %>

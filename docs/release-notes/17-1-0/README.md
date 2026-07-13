@@ -6,11 +6,11 @@ release_version: 17.1.0
 release_date: 2026-02-11
 ---
 
- # OpenProject 17.1.0
+# OpenProject 17.1.0
 
- Release date: 2026-02-11
+Release date: 2026-02-11
 
- We released [OpenProject 17.1.0](https://community.openproject.org/versions/2237). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 17.1.0](https://community.openproject.org/versions/2237). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 <!-- BEGIN CVE SECTION -->
 
@@ -117,6 +117,7 @@ When users click on an external link, a confirmation dialog is displayed indicat
 Users now see an item’s short or weight wherever values from Hierarchy or Weighted item list custom fields (work packages) and project attributes are shown. This provides an extra hint to confirm that the right item was selected.
 
 This information is displayed in:
+
 - Work package details (for assigned values).
 - Work package tables (for assigned values).
 - Project attributes (for assigned values).
@@ -130,6 +131,7 @@ This information is displayed in:
 ### UX/UI updates with the Primer design system
 
 OpenProject 17.1 includes further UX/UI improvements. The following areas have been redesigned using the Primer design system:
+
 - the Access tokens section in account settings,
 - the Backlogs section in system administration,
 - the password confirmation dialog.
@@ -168,7 +170,7 @@ This change prevents browser freezes and significantly improves responsiveness w
 - Bugfix: Error duplicating task with relation \[[#69309](https://community.openproject.org/wp/69309)\]
 - Bugfix: Truncate the name in the project list \[[#69445](https://community.openproject.org/wp/69445)\]
 - Bugfix: Timer cannot be started if log time modal has a mandatory field \[[#69483](https://community.openproject.org/wp/69483)\]
-- Bugfix: Nexcloud returns 404 if OpenPorject app is not installed  \[[#69492](https://community.openproject.org/wp/69492)\]
+- Bugfix: Nextcloud returns 404 if OpenProject app is not installed  \[[#69492](https://community.openproject.org/wp/69492)\]
 - Bugfix: Fine-tuning of margins in pdf exports \[[#69515](https://community.openproject.org/wp/69515)\]
 - Bugfix: Error in PDF exports if font file storage is broken \[[#69625](https://community.openproject.org/wp/69625)\]
 - Bugfix: Misleading text in Work Package meetings tab after mentioning WP in meeting outcome \[[#69646](https://community.openproject.org/wp/69646)\]
@@ -183,7 +185,7 @@ This change prevents browser freezes and significantly improves responsiveness w
 - Bugfix: Project status button is missing colors in the dropdown \[[#70458](https://community.openproject.org/wp/70458)\]
 - Bugfix: Fix flickering in the Handling of 404 errors in AvatarWithFallback \[[#70460](https://community.openproject.org/wp/70460)\]
 - Bugfix: On mobile, global search result box shows a lot of white space \[[#70497](https://community.openproject.org/wp/70497)\]
-- Bugfix: hocupocus logs \[onAuthenticate\] fetch failed and connection to collaboration server not possible \[[#70542](https://community.openproject.org/wp/70542)\]
+- Bugfix: hocuspocus logs \[onAuthenticate\] fetch failed and connection to collaboration server not possible \[[#70542](https://community.openproject.org/wp/70542)\]
 - Bugfix: Images are broken on moved/duplicated meeting agenda item \[[#70585](https://community.openproject.org/wp/70585)\]
 - Bugfix: If user cancels a meeting that is currently happening, the meeting disappears from list \[[#70609](https://community.openproject.org/wp/70609)\]
 - Bugfix: Email wording is ambiguous for users who are uninvited from a meeting \[[#70610](https://community.openproject.org/wp/70610)\]
@@ -225,8 +227,8 @@ This change prevents browser freezes and significantly improves responsiveness w
 - Feature: Button to open project creation wizard from overview \[[#69402](https://community.openproject.org/wp/69402)\]
 - Feature: Add relative link to project initiation request from work package comment \[[#69403](https://community.openproject.org/wp/69403)\]
 - Feature: Send out email when work package is created \[[#69414](https://community.openproject.org/wp/69414)\]
-- Feature: Show breadcrumb with full project hierachy in Project Overview showing portfolios and programs \[[#69417](https://community.openproject.org/wp/69417)\]
-- Feature: Allow duplicating/copy of agenda items to next meeting occurence \[[#69464](https://community.openproject.org/wp/69464)\]
+- Feature: Show breadcrumb with full project hierarchy in Project Overview showing portfolios and programs \[[#69417](https://community.openproject.org/wp/69417)\]
+- Feature: Allow duplicating/copy of agenda items to next meeting occurrence \[[#69464](https://community.openproject.org/wp/69464)\]
 - Feature: Primerize API settings form \[[#69702](https://community.openproject.org/wp/69702)\]
 - Feature: Show participant response in Meeting UI \[[#69733](https://community.openproject.org/wp/69733)\]
 - Feature: Responses before meeting was created should show up in iCal Feed \[[#69734](https://community.openproject.org/wp/69734)\]

@@ -1,5 +1,6 @@
+---
 ko:
   overviews:
+    label_dashboard: 대시보드
     label_home: "%{workspace_type} 홈"
-    label_dashboard: "대시보드"
-    label_overview: "개요"
+    label_overview: 개요

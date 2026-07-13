@@ -1,0 +1,22 @@
+services:
+  web:
+    volumes:
+      - step-certs:/step:ro
+    # Automatically imports the local step-ca root certificate into Java's truststore on every
+    # container start, so XWiki can make HTTPS calls to OpenProject without certificate errors.
+    # Requires the TLS stack (docker/dev/tls) to be running.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        keytool -import -trustcacerts \
+          -keystore /opt/java/openjdk/lib/security/cacerts \
+          -storepass changeit -noprompt \
+          -alias step-ca \
+          -file /step/certs/root_ca.crt 2>/dev/null || true
+        exec docker-entrypoint.sh xwiki
+
+volumes:
+  step-certs:
+    external: true
+    name: tls_step  # volume created by the TLS stack (docker/dev/tls)

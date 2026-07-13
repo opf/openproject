@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -7,7 +7,6 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { StateService } from '@uirouter/core';
 import { debounceTime, skip, take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Observable } from 'rxjs';
@@ -18,24 +17,25 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardFilterComponent extends UntilDestroyedMixin implements AfterViewInit {
+  private readonly currentProjectService = inject(CurrentProjectService);
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+  private readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  private readonly urlParamsHelper = inject(UrlParamsHelperService);
+  private readonly boardFilters = inject(BoardFiltersService);
+
   /** Current active */
   @Input() public board$:Observable<Board>;
 
   initialized = false;
-
-  constructor(private readonly currentProjectService:CurrentProjectService,
-    private readonly querySpace:IsolatedQuerySpace,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly halResourceService:HalResourceService,
-    private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    private readonly wpTableFilters:WorkPackageViewFiltersService,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly boardFilters:BoardFiltersService,
-    private readonly $state:StateService) {
-    super();
-  }
 
   ngAfterViewInit():void {
     if (!this.board$) {
@@ -71,9 +71,15 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
         const filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
         const query_props = JSON.stringify(filterHash);
 
-        this.boardFilters.filters.putValue(filterHash);
+        const url = new URL(window.location.href);
+        if (query_props) {
+          url.searchParams.set('query_props', query_props);
+        } else {
+          url.searchParams.delete('query_props');
+        }
+        window.history.pushState({}, '', url);
 
-        this.$state.go('.', { query_props }, { custom: { notify: false } });
+        this.boardFilters.filters.putValue(filterHash);
       });
   }
 

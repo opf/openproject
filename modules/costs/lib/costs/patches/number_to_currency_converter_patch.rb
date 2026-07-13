@@ -34,7 +34,8 @@ module Costs::Patches::NumberToCurrencyConverterPatch
   module InstanceMethods
     def i18n_opts
       super.merge(unit: ERB::Util.h(Setting.costs_currency),
-                  format: ERB::Util.h(Setting.costs_currency_format))
+                  format: ERB::Util.h(Setting.costs_currency_format),
+                  negative_format: "-#{ERB::Util.h(Setting.costs_currency_format)}")
     end
   end
 end

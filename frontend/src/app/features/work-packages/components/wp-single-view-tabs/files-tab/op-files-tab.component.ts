@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -51,6 +46,12 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class WorkPackageFilesTabComponent implements OnInit {
+  private readonly i18n = inject(I18nService);
+  private readonly currentUserService = inject(CurrentUserService);
+  private readonly projectStoragesResourceService = inject(ProjectStoragesResourceService);
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly turboRequests = inject(TurboRequestsService);
+
   @Input() workPackage:WorkPackageResource;
 
   text = {
@@ -66,14 +67,6 @@ export class WorkPackageFilesTabComponent implements OnInit {
   allowManageFileLinks$:Observable<boolean>;
 
   showAttachments:boolean;
-
-  constructor(
-    private readonly i18n:I18nService,
-    private readonly currentUserService:CurrentUserService,
-    private readonly projectStoragesResourceService:ProjectStoragesResourceService,
-    private readonly pathHelper:PathHelperService,
-    private readonly turboRequests:TurboRequestsService,
-  ) { }
 
   ngOnInit():void {
     const project = this.workPackage.project as HalResource;

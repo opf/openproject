@@ -43,7 +43,7 @@ RSpec.describe Users::UpdateService do
     let(:current_user) { create(:admin) }
     let(:update_user) { create(:user, mail: "correct@example.org") }
 
-    subject { instance.call(attributes:) }
+    subject { instance.call(**attributes) }
 
     context "when invalid" do
       let(:attributes) { { mail: "invalid" } }
@@ -97,7 +97,7 @@ RSpec.describe Users::UpdateService do
     end
 
     describe "updating prefs" do
-      let(:attributes) { {} }
+      let(:attributes) { { pref: { increase_theme_contrast: 0 } } }
 
       before do
         allow(update_user).to receive(:save).and_return(user_save_result)

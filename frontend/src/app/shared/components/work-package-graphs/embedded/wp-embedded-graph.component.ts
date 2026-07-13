@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -28,9 +28,15 @@ interface ChartDataSet {
   ],
   providers: [
     provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
-  ]
+  ],
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedGraphComponent implements OnChanges {
+  readonly i18n = inject(I18nService);
+
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
   @Input() public chartOptions:ChartOptions;
@@ -55,8 +61,6 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
   };
 
-  constructor(readonly i18n:I18nService) {}
-
   ngOnChanges(changes:SimpleChanges) {
     if (changes.datasets) {
       this.setChartOptions();
@@ -71,10 +75,10 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
+    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
       const groups = (dataset.groups || []).map((group) => group.value) as any;
       return array.concat(groups);
-    }, [])) as string[];
+    }, []))) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
       const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
@@ -189,12 +193,12 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartDescription():string {
-    const chartDataDescriptions = _.map(this.chartLabels, (label, index) => {
+    const chartDataDescriptions = this.chartLabels.map((label, index) => {
       if (this.chartData.length === 1) {
         const allCount = this.chartData[0].data[index];
         return `${allCount} ${label}`;
       }
-      const labelCounts = _.map(this.chartData, (dataset) => `${dataset.data[index]} ${dataset.label}`);
+      const labelCounts = this.chartData.map((dataset) => `${dataset.data[index]} ${dataset.label}`);
       return `${label}: ${labelCounts.join(', ')}`;
     });
 

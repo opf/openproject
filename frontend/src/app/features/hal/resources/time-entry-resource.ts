@@ -32,6 +32,8 @@ import { InputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import Formattable = api.v3.Formattable;
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export class TimeEntryResource extends HalResource {
   project:ProjectResource;
@@ -54,10 +56,16 @@ export class TimeEntryResource extends HalResource {
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
+    return super.$linkableKeys().filter((key) => key !== 'schema');
   }
 }
 
 export interface TimeEntryResource {
   delete():Promise<unknown>;
+}
+
+export function formatTimeEntryEntityName(entity:WorkPackageResource|MeetingResource):string {
+  const displayId = entity.$link?.displayId;
+  const formattedId = displayId ? formatWorkPackageId(displayId) : `#${idFromLink(entity.href)}`;
+  return `${formattedId}: ${entity.name}`;
 }

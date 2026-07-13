@@ -1,6 +1,7 @@
+---
 ro:
   js:
     work_packages:
-      label_gantt_chart_plural: "Diagrame Gantt"
       default_queries:
-        milestones: 'Etape'
+        milestones: Etape
+      label_gantt_chart_plural: Diagrame Gantt

@@ -28,16 +28,16 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrimerIconButtonComponent } from './icon-button.component';
 
 describe('PrimerIconButtonComponent', () => {
   let component:PrimerIconButtonComponent;
   let fixture:ComponentFixture<PrimerIconButtonComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({imports: [PrimerIconButtonComponent]});
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({imports: [PrimerIconButtonComponent]}).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrimerIconButtonComponent);

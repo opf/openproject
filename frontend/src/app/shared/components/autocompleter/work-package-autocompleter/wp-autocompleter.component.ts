@@ -26,13 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
   selector: 'wp-autocompleter',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
 }

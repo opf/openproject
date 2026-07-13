@@ -10,36 +10,37 @@ RSpec.describe "Reminder email", :js do
       reminders_settings_page.visit!
 
       # By default a reminder timed for 8:00 should be configured
-      reminders_settings_page.expect_active_daily_times("08:00 am")
+      reminders_settings_page.expect_active_daily_times("08:00 AM")
 
       reminders_settings_page.add_time
 
       # The next suggested time is taken: 12:00
-      reminders_settings_page.expect_active_daily_times("08:00 am", "12:00 pm")
+      reminders_settings_page.expect_active_daily_times("08:00 AM", "12:00 PM")
 
-      reminders_settings_page.set_time "Time 2", "03:00 pm"
+      reminders_settings_page.set_time "03:00 PM"
 
-      reminders_settings_page.expect_active_daily_times("08:00 am", "03:00 pm")
+      reminders_settings_page.expect_active_daily_times("08:00 AM", "03:00 PM")
 
-      reminders_settings_page.save
+      reminders_settings_page.save_daily_reminders_form
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
+      reminders_settings_page.expect_and_dismiss_flash
 
       reminders_settings_page.reload!
 
-      # Deactivate the second time but then remove the first one will activate the second (then only) one
+      # Remove the second time. After that the first time cannot be removed,
       # so that one time is always enabled.
-      reminders_settings_page.expect_active_daily_times("08:00 am", "03:00 pm")
-      reminders_settings_page.deactivate_time("Time 2")
-      reminders_settings_page.remove_time("Time 1")
+      reminders_settings_page.expect_active_daily_times("08:00 AM", "03:00 PM")
+      reminders_settings_page.remove_time(1)
+      reminders_settings_page.expect_no_remove_time
+      reminders_settings_page.expect_active_daily_times("08:00 AM")
 
-      reminders_settings_page.save
+      reminders_settings_page.save_daily_reminders_form
 
-      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t("js.notice_successful_update"))
+      reminders_settings_page.expect_and_dismiss_flash
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_active_daily_times("03:00 pm")
+      reminders_settings_page.expect_active_daily_times("03:00 PM")
     end
   end
 

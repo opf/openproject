@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 @Injectable({ providedIn: 'root' })
 export class AlternativeSearchService {
-  constructor(
-    readonly I18n:I18nService,
-  ) { }
+  readonly I18n = inject(I18nService);
+
 
   private specialSearchStrings = {
     percentComplete: this.I18n.t('js.work_packages.properties.percentComplete'),

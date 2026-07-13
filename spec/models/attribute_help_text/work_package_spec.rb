@@ -135,6 +135,7 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
       let(:cf_instance_for_all) do
         custom_field = create(:text_wp_custom_field, is_for_all: true)
+        type.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
 
@@ -150,6 +151,24 @@ RSpec.describe AttributeHelpText::WorkPackage do
         expect(subject)
           .to contain_exactly(static_instance, cf_instance_active, cf_instance_for_all)
       end
+    end
+  end
+
+  describe ".cached" do
+    let(:user) { create(:user) }
+    let!(:wp_help_text) { create(:work_package_help_text, attribute_name: "status") }
+    let!(:project_help_text) { create(:project_help_text, attribute_name: "status") }
+
+    subject { described_class.cached(user) }
+
+    it "returns only WorkPackage help texts, not Project help texts with the same attribute name" do
+      expect(subject["status"]).to eq(wp_help_text)
+      expect(subject["status"]).not_to eq(project_help_text)
+      expect(subject["status"]).to be_a(described_class)
+    end
+
+    it "does not include help texts of other types" do
+      expect(subject.values).to all(be_a(described_class))
     end
   end
 

@@ -44,7 +44,7 @@ module API
     end
 
     post "/" do
-      if !OpenProject::FeatureDecisions.mcp_server_active? || !EnterpriseToken.allows_to?(:mcp_server) || !server_config.enabled?
+      if !EnterpriseToken.allows_to?(:mcp_server) || !server_config.enabled?
         status 404
         return "MCP server is not available."
       end

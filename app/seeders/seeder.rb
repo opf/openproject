@@ -68,7 +68,7 @@ class Seeder
   end
 
   def seed_data!
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def applicable?

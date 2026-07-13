@@ -33,6 +33,7 @@ class Type < ApplicationRecord
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::Type::ConfigurationLinkable
 
   include ::Scopes::Scoped
 
@@ -46,6 +47,9 @@ class Type < ApplicationRecord
   belongs_to :color, optional: true, class_name: "Color"
 
   has_many :work_packages
+  has_many :project_custom_field_type_mappings, dependent: :destroy
+  has_many :project_custom_fields, through: :project_custom_field_type_mappings,
+                                   class_name: "ProjectCustomField"
   has_many :workflows, dependent: :delete_all do
     def copy_from_type(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)
@@ -59,17 +63,32 @@ class Type < ApplicationRecord
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           association_foreign_key: "custom_field_id"
 
-  acts_as_list
+  belongs_to :parent, class_name: "Type", optional: true
+  has_many :children, class_name: "Type", foreign_key: :parent_id, inverse_of: :parent,
+                      dependent: :restrict_with_error
+
+  acts_as_list scope: :parent_id
 
   validates :name,
             presence: true,
-            uniqueness: { case_sensitive: false },
+            uniqueness: { scope: :parent_id, case_sensitive: false },
             length: { maximum: 255 }
+
+  validate :parent_is_a_root
+  validate :not_own_parent
+  validate :cannot_have_children_when_child
+  validate :standard_type_stays_root
+  validate :parent_frozen_with_work_packages
 
   scopes :milestone
 
   default_scope { order("position ASC") }
 
+  scope :roots, -> { where(parent_id: nil) }
+  scope :subtypes, -> { where.not(parent_id: nil) }
+  # All types are global until project-owned sub-types exist; this is the seam the
+  # configuration source picker and contract scope against (see FND-103 :manage_subtypes).
+  scope :global, -> { all }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -86,12 +105,26 @@ class Type < ApplicationRecord
     name <=> other.name
   end
 
-  def self.statuses(types)
+  def self.statuses(types, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
     old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
-      workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
+      subquery = workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
+      subquery = subquery.where(workflow_table[:role_id].eq(role.id)) if role
+      subquery = apply_tab_condition(subquery, workflow_table, tab) if tab
+      subquery
     end
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
+  end
+
+  def self.apply_tab_condition(subquery, workflow_table, tab)
+    case tab
+    when "author"
+      subquery.where(workflow_table[:author].eq(true))
+    when "assignee"
+      subquery.where(workflow_table[:assignee].eq(true))
+    else
+      subquery.where(workflow_table[:author].eq(false).and(workflow_table[:assignee].eq(false)))
+    end
   end
 
   def self.standard_type
@@ -102,19 +135,74 @@ class Type < ApplicationRecord
     includes(:projects).where(projects: { id: project })
   end
 
-  def statuses(include_default: false)
+  def statuses(include_default: false, role: nil, tab: nil)
     if new_record?
       Status.none
     elsif include_default
-      self.class.statuses([id]).or(Status.where_default)
+      self.class.statuses([id], role:, tab:).or(Status.where_default)
     else
-      self.class.statuses([id])
+      self.class.statuses([id], role:, tab:)
     end
   end
 
   def enabled_in?(object)
     object.types.include?(self)
   end
+
+  def root
+    parent || self
+  end
+
+  def subtype?
+    parent_id.present?
+  end
+
+  def family
+    [root, *root.children]
+  end
+
+  # A sub-type presents its parent's name and color. Its own name is only the
+  # variant label, exposed through +composite_name+.
+  def displayed_name
+    root.name
+  end
+
+  def displayed_color
+    root.color
+  end
+
+  def composite_name
+    subtype? ? "#{parent.name}: #{name}" : name
+  end
+
+  # Core settings are inherited from the parent for sub-types. The sub-type's
+  # own columns are ignored while it has a parent.
+  def color
+    subtype? ? root.color : super
+  end
+
+  def color_id
+    inherited_core_setting(:color_id)
+  end
+
+  # rubocop:disable Naming/PredicatePrefix
+  # These override the ActiveRecord attribute readers of the same name, so they
+  # must keep the is_ prefix the rest of the code relies on.
+  def is_milestone
+    inherited_core_setting(:is_milestone)
+  end
+  alias_method :is_milestone?, :is_milestone
+
+  def is_in_roadmap
+    inherited_core_setting(:is_in_roadmap)
+  end
+  alias_method :is_in_roadmap?, :is_in_roadmap
+
+  def is_default
+    inherited_core_setting(:is_default)
+  end
+  alias_method :is_default?, :is_default
+  # rubocop:enable Naming/PredicatePrefix
 
   def replacement_pattern_defined_for?(attribute)
     enabled_patterns.key?(attribute)
@@ -130,10 +218,40 @@ class Type < ApplicationRecord
 
   private
 
+  def inherited_core_setting(name)
+    root.read_attribute(name)
+  end
+
   def check_integrity
     throw :abort if is_standard?
     throw :abort if WorkPackage.exists?(type_id: id)
 
     true
+  end
+
+  def parent_is_a_root
+    return if parent.nil?
+
+    errors.add(:parent, :must_be_a_root) if parent.parent_id.present?
+  end
+
+  def not_own_parent
+    errors.add(:parent, :cannot_be_self) if parent_id.present? && parent_id == id
+  end
+
+  def cannot_have_children_when_child
+    return if parent_id.blank? || new_record?
+
+    errors.add(:parent, :cannot_have_children) if children.exists?
+  end
+
+  def standard_type_stays_root
+    errors.add(:parent, :standard_type_must_be_root) if is_standard? && parent_id.present?
+  end
+
+  def parent_frozen_with_work_packages
+    return unless parent_id_changed? && persisted?
+
+    errors.add(:parent, :cannot_change_with_work_packages) if WorkPackage.exists?(type_id: id)
   end
 end

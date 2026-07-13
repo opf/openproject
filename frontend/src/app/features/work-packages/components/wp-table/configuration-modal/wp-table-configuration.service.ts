@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WpTableConfigurationDisplaySettingsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
@@ -10,8 +10,11 @@ import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 import { StateService } from '@uirouter/angular';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class WpTableConfigurationService {
+  readonly I18n = inject(I18nService);
+  readonly $state = inject(StateService);
+
   protected _tabs:TabInterface[] = [
     {
       id: 'columns',
@@ -44,12 +47,6 @@ export class WpTableConfigurationService {
       componentClass: WpTableConfigurationHighlightingTabComponent,
     },
   ];
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly $state:StateService,
-  ) {
-  }
 
   public get tabs() {
     if (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim')) {

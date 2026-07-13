@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -44,8 +45,8 @@ class OpenProject::JournalFormatter::MeetingWorkPackageId < JournalFormatter::Ba
     old = visible(values.first)
 
     I18n.t(:"activity.item.meeting_agenda_item.work_package.updated#{html}",
-           value: new ? new.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.last),
-           old_value: old ? old.name : I18n.t(:label_agenda_item_undisclosed_wp, id: values.first))
+           value: new ? h(new.name) : I18n.t(:label_agenda_item_undisclosed_wp, id: values.last),
+           old_value: old ? h(old.name) : I18n.t(:label_agenda_item_undisclosed_wp, id: values.first))
   end
 
   def visible(work_package_id)

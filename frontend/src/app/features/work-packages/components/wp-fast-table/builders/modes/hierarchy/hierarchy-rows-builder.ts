@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { RowsBuilder } from '../rows-builder';
@@ -10,11 +10,11 @@ import { SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRowsBuilder extends RowsBuilder {
   // Injections
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // The group expansion state
   constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {

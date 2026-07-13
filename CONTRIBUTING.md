@@ -139,6 +139,7 @@ version 1.0.0, available at
 
 ## Contributors license agreement
 
-Contributors have to sign a CLA before contributing to OpenProject.
-The [CLA can be found here](https://www.openproject.org/legal/contributor-license-agreement/)
-and has to be filled out and sent to info@openproject.org.
+If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement (CLA). The CLA documents the rights granted by contributors to OpenProject.
+The [CLA can be found here](https://www.openproject.org/legal/contributor-license-agreement/).
+
+A GitHub action will enforce the CLA has been read and accepted by every new contributor. You will only be asked once, the document is short, and signing is easy.

@@ -104,7 +104,7 @@ module Settings
 
       private
 
-      def internal_comments_translation = t("ee.features.internal_comments").html_safe
+      def internal_comments_translation = t("ee.features.internal_comments")
     end
   end
 end

@@ -1,16 +1,17 @@
+---
 id:
-  plugin_openproject_xls_export:
-    name: "Ekspor OpenProject XLS"
-    description: "Ekspor daftar masalah sebagai lembar kerja Excel (.xls)."
-  export_to_excel: "Ekspor XLS"
-  print_with_description: "Pratinjau cetak dengan deskripsi"
-  sentence_separator_or: "atau"
   different_formats: Format lain
   export:
     format:
-      xls: "XLS"
-      xls_with_descriptions: "XLS disertai deskripsi"
-      xls_with_relations: "XLS dengan relasi"
+      xls: XLS
+      xls_with_descriptions: XLS disertai deskripsi
+      xls_with_relations: XLS dengan relasi
+  export_to_excel: Ekspor XLS
+  plugin_openproject_xls_export:
+    description: Ekspor daftar masalah sebagai lembar kerja Excel (.xls).
+    name: Ekspor OpenProject XLS
+  print_with_description: Pratinjau cetak dengan deskripsi
+  sentence_separator_or: atau
   xls_export:
     child_of: anak dari
     parent_of: induk dari

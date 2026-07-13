@@ -1,3 +1,4 @@
+---
 es:
   activerecord:
     attributes:
@@ -30,11 +31,18 @@ es:
         authentication_method: Método de autenticación
         creator: Autor
         drive: ID de unidad
+        file_link_origin: ID de origen del enlace del archivo
         host: Host
+        linkable_to_storage: Se puede vincular a un almacenamiento
+        linkable_to_storage_url: Se puede vincular a una URL de almacenamiento
         name: Nombre
         password: Contraseña de aplicación
         provider_type: Tipo de proveedor
+        storage: Almacenamiento
+        storage_url: URL de almacenamiento
         tenant: Directory (tenant) ID
+      work_package:
+        file_links: Enlaces de archivos
     errors:
       messages:
         invalid_host_url: no es una URL válida.
@@ -107,21 +115,25 @@ es:
         remote_folders: 'Leer el contenido de la carpeta del equipo:'
         remove_user_from_group: 'Eliminar usuario del grupo:'
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
+        set_folder_permission: 'Configurar los permisos de la carpeta del proyecto gestionado:'
       one_drive_sync_service:
         create_folder: 'Creación de carpetas de proyecto gestionadas:'
         ensure_root_folder_permissions: 'Establecer permisos de carpeta base:'
         hide_inactive_folders: 'Ocultar paso de carpetas inactivas:'
         remote_folders: 'Leer el contenido de la carpeta raíz de la unidad:'
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
+        set_folder_permission: 'Configurar los permisos de la carpeta del proyecto gestionado:'
       sharepoint_sync_service:
         create_folder: 'Creación de carpetas de proyecto gestionadas:'
         ensure_root_folder_permissions: 'Establecer permisos de carpeta base:'
         hide_inactive_folders: 'Ocultar paso de carpetas inactivas:'
         remote_folders: 'Leer el contenido de la carpeta raíz de la unidad:'
         rename_project_folder: 'Cambiar el nombre de la carpeta del proyecto gestionado:'
+        set_folder_permission: 'Configurar los permisos de la carpeta del proyecto gestionado:'
     errors:
       messages:
         error: Se ha producido un error inesperado. Compruebe los registros de OpenProject para obtener más información o póngase en contacto con un administrador
+        folder_id_collision: Hay varios almacenamientos de proyectos que intentan gestionar la carpeta del proyecto %{folder}. Se ha omitido su sincronización.
         forbidden: OpenProject no ha podido acceder al recurso solicitado. Compruebe su configuración de permisos en el proveedor de almacenamiento.
         unauthorized: OpenProject no pudo autenticarse con el proveedor de almacenamiento. Asegúrese de que tiene acceso al mismo.
       models:
@@ -138,22 +150,22 @@ es:
               failed_to_add: 'El usuario %{user} no se ha podido añadir al grupo %{group} por la siguiente razón: %{reason}'
             create_folder:
               conflict: La carpeta %{folder_name} ya existe en %{parent_location}.
-              not_found: "No se encontró %{parent_location}."
+              not_found: No se encontró %{parent_location}.
             ensure_root_folder_permissions:
-              not_found: "No se ha encontrado %{group_folder}. Compruebe la configuración de su carpeta de equipo de Nextcloud."
+              not_found: No se ha encontrado %{group_folder}. Compruebe la configuración de su carpeta de equipo de Nextcloud.
               permission_not_set: no se han podido establecer permisos en %{group_folder}.
             hide_inactive_folders:
               permission_not_set: no se han podido establecer permisos en %{path}.
             remote_folders:
               not_allowed: El %{username} no tiene acceso a la carpeta %{group_folder}. Compruebe los permisos de la carpeta en Nextcloud.
-              not_found: "No se ha encontrado la carpeta %{group_folder}. Compruebe su configuración de Nextcloud."
+              not_found: No se ha encontrado la carpeta %{group_folder}. Compruebe su configuración de Nextcloud.
             remove_user_from_group:
               conflict: 'El usuario %{user} no se ha podido eliminar del grupo %{group} por la siguiente razón: %{reason}'
               failed_to_remove: 'El usuario %{user} no se ha podido eliminar del grupo %{group} por la siguiente razón: %{reason}'
             rename_project_folder:
               conflict: OpenProject no ha podido renombrar la carpeta del proyecto en %{current_path} puesto que ya existe una carpeta con el mismo nombre
               forbidden: El usuario de OpenProject no tiene acceso a la carpeta %{current_path}.
-              not_found: "No se encontró %{current_path}."
+              not_found: No se encontró %{current_path}.
             set_folders_permissions:
               permission_not_set: no se han podido establecer permisos en %{path}.
           error: Se ha producido un error inesperado. Asegúrese de que su instancia de Nextcloud es accesible y compruebe los registros de los trabajadores de OpenProject para obtener más información
@@ -167,7 +179,7 @@ es:
           attributes:
             create_folder:
               conflict: La dirección %{folder_name} ya existe en %{parent_location}.
-              not_found: "No se encontró %{parent_location}."
+              not_found: No se encontró %{parent_location}.
             hide_inactive_folders:
               permission_not_set: no se han podido establecer permisos en %{path}.
             remote_folders:
@@ -175,7 +187,7 @@ es:
             rename_project_folder:
               conflict: OpenProject no ha podido renombrar la carpeta %{current_path} a %{project_folder_name} puesto que ya existe una carpeta con el mismo nombre.
               forbidden: OpenProject no tiene acceso a %{current_path} para cambiarle el nombre.
-              not_found: "No se encontró %{current_path}."
+              not_found: No se encontró %{current_path}.
             set_folders_permissions:
               permission_not_set: no se han podido establecer permisos en %{path}.
           error: Se ha producido un error inesperado. Asegúrese de que se puede acceder a OneDrive y compruebe los registros del trabajador de OpenProject para obtener más información.
@@ -186,13 +198,13 @@ es:
           attributes:
             create_folder:
               conflict: La dirección %{folder_name} ya existe en %{parent_location}.
-              not_found: "No se encontró %{parent_location}."
+              not_found: No se encontró %{parent_location}.
             hide_inactive_folders:
               permission_not_set: no se han podido establecer permisos en %{path}.
             rename_project_folder:
               conflict: OpenProject no ha podido renombrar la carpeta %{current_path} a %{project_folder_name} puesto que ya existe una carpeta con el mismo nombre
               forbidden: OpenProject no tiene acceso a %{current_path} para cambiarle el nombre.
-              not_found: "No se encontró %{current_path}."
+              not_found: No se encontró %{current_path}.
             set_folders_permissions:
               permission_not_set: no se han podido establecer permisos en %{path}.
           error: Se ha producido un error inesperado. Asegúrese de que se puede acceder a OneDrive y compruebe los registros del trabajador de OpenProject para obtener más información
@@ -203,6 +215,11 @@ es:
         upload_link_service:
           not_found: No se ha podido encontrar la carpeta de destino %{folder} en %{storage_name}.
   storages:
+    admin:
+      side_panel:
+        health_notifications_component:
+          sync_now: Sincronizar ahora
+          sync_queued: Sincronización en cola.
     buttons:
       done_continue: Hecho, continuar
       open_storage: Abrir almacenamiento de archivos
@@ -221,13 +238,13 @@ es:
     confirm_replace_oauth_application: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que volver a introducir las credenciales en el proveedor de almacenamiento y todos los usuarios remotos tendrán que autorizarse contra OpenProject de nuevo. ¿Seguro que desea continuar?
     confirm_replace_oauth_client: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que introducir nuevas credenciales del proveedor de almacenamiento y todos los usuarios tendrán que autorizarse contra %{provider_type} de nuevo. ¿Seguro que desea continuar?
     delete_warning:
-      project_storage: '¿Seguro que deseas eliminar %{file_storage} de este proyecto?'
       project_storage_delete_result_1: Se eliminarán todos los enlaces a los archivos y carpetas correspondientes
       project_storage_delete_result_2: La carpeta del proyecto gestionada automáticamente y todos los archivos que contiene se eliminarán
-      storage: '¿Seguro que deseas eliminar %{file_storage} como almacenamiento externo de archivos?'
+      project_storage_html: "¿Seguro que deseas eliminar %{file_storage} de este proyecto?"
       storage_delete_result_1: El almacenamiento se eliminará de todos los proyectos que lo utilizan actualmente
       storage_delete_result_2: Se eliminarán todos los enlaces a los archivos y carpetas correspondientes
       storage_delete_result_3: La carpeta del proyecto gestionada automáticamente y todos los archivos que contiene se eliminarán
+      storage_html: "¿Seguro que deseas eliminar %{file_storage} como almacenamiento externo de archivos?"
     dependencies:
       nextcloud:
         group_folders_app: Carpetas de equipo
@@ -279,6 +296,8 @@ es:
           drive_contents: Contenido de la unidad
           files_request: Obteniendo archivos de carpetas de equipo
           header: Carpetas de proyecto gestionadas automáticamente
+          project_folders_exist: Hay carpetas de proyectos
+          project_folders_linked: Carpetas de proyectos vinculadas
           team_folder_app: 'Dependencia: Carpetas de equipo'
           team_folder_contents: Contenido de la carpeta de equipo
           team_folder_presence: La carpeta del equipo existe
@@ -306,72 +325,60 @@ es:
           host_url_accessible: URL de host accesible
           storage_configured: Configuración completada
           tenant_id: ID de inquilino
-        failures:
-          one: "%{count} comprobación fallida"
-          other: "%{count} comprobaciones fallidas"
-        success: Todas las comprobaciones superadas
-        warnings:
-          one: "%{count} comprobación devolvió una advertencia"
-          other: "%{count} comprobaciones devolvieron una advertencia"
-      connection_validation:
-        client_id_invalid: El ID de cliente OAuth 2 configurado no es válido. Compruebe la configuración.
-        client_secret_invalid: El secreto de cliente OAuth 2 configurado no es válido. Compruebe la configuración.
-        nc_dependency_missing: 'Falta una dependencia necesaria en el almacenamiento de archivos. Añada la siguiente dependencia: %{dependency}.'
-        nc_dependency_version_mismatch: La versión de la aplicación %{dependency} no es compatible. Actualice su servidor Nextcloud.
-        nc_host_not_found: No se ha encontrado ningún servidor Nextcloud en la URL de host configurada. Compruebe la configuración.
-        nc_oauth_request_not_found: No se ha encontrado el terminal para obtener el usuario actualmente conectado. Consulte los registros del servidor para obtener más información.
-        nc_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
-        nc_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con Nextcloud, ya que el usuario aún no ha vinculado su cuenta de Nextcloud.
-        nc_team_folder_not_found: No se ha podido encontrar la carpeta del equipo.
-        nc_unexpected_content: Se ha encontrado contenido inesperado en la carpeta del equipo gestionada.
-        nc_userless_access_denied: La contraseña configurada de la aplicación no es válida.
-        not_configured: No se ha podido validar la conexión. Por favor, termine primero la configuración.
-        od_client_cant_delete_folder: El cliente tiene problemas para eliminar carpetas. Consulte la documentación de configuración de su almacenamiento.
-        od_client_write_permission_missing: Parece que el cliente no tiene permisos de escritura. Consulte la documentación de configuración de su almacenamiento.
-        od_drive_id_invalid: El ID de unidad configurado no parece válido. Compruebe la configuración.
-        od_drive_id_not_found: No se ha podido encontrar el ID de unidad configurado. Compruebe la configuración.
-        od_oauth_request_not_found: No se ha encontrado el terminal para obtener el usuario actualmente conectado. Consulte los registros del servidor para obtener más información.
-        od_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
-        od_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con OneDrive, ya que el usuario aún no ha vinculado su cuenta de Microsoft.
-        od_tenant_id_wrong: El ID de directorio (inquilino) configurado no es válido. Compruebe la configuración.
-        od_test_folder_exists: La carpeta %{folder_name} necesaria para la prueba ya existe. Elimínela e inténtelo de nuevo.
-        od_unexpected_content: Contenido inesperado encontrado dentro la unidad.
-        offline_access_scope_missing: Se recomienda configurar el proveedor OpenID Connect para que solicite el ámbito offline_access. La integración puede seguir funcionando de todos modos, pero asegúrese de que los tokens de actualización no caducan.
-        oidc_cant_refresh_token: Se ha producido un error al intentar comprobar su acceso al almacenamiento. Compruebe los registros del servidor para más información.
-        oidc_non_oidc_user: El usuario actual, aunque está aprovisionado, no fue aprovisionado por un proveedor de identidad OpenID Connect (OIDC). Vuelva a ejecutar la comprobación con un usuario aprovisionado por OIDC.
-        oidc_non_provisioned_user: El usuario actual no ha sido proporcionado por un proveedor de identidad OpenID Connect. Vuelva a ejecutar la comprobación con un usuario proporcionado.
-        oidc_provider_cant_exchange: El proveedor de OpenID Connect no parece admitir el intercambio de tokens, pero se ha configurado el intercambio de tokens para el almacenamiento.
-        oidc_token_acquisition_failed: Su configuración de OpenID Connect no proporciona la audiencia necesaria, ni ofrece capacidades de intercambio de tokens. Consulte nuestra documentación para obtener más información.
-        oidc_token_exchange_failed: Parece que hay un problema con la configuración del intercambio de tokens en su proveedor de OpenID Connect. Compruebe su configuración e inténtelo de nuevo.
-        oidc_token_refresh_failed: Se ha producido un error al intentar comprobar su acceso al almacenamiento. Compruebe los registros del servidor para más información.
-        sp_client_cant_delete_folder: El cliente tiene problemas para eliminar carpetas en SharePoint. Consulte la documentación de configuración de su almacenamiento.
-        sp_client_id_missing: Falta el ID de cliente OAuth 2 configurado para SharePoint. Compruebe la configuración.
-        sp_client_secret_missing: Falta el secreto de cliente OAuth 2 configurado para SharePoint. Compruebe la configuración.
-        sp_client_write_permission_missing: Parece que el cliente no tiene permisos de escritura en SharePoint. Consulte la documentación de configuración de su almacenamiento.
-        sp_existing_test_folder: La carpeta %{folder_name} necesaria para la prueba ya existe en SharePoint. Elimínela e inténtelo de nuevo.
-        sp_oauth_request_error: Ha habido un error en la solicitud vinculada al usuario a SharePoint. Consulte los registros del servidor para obtener más información.
-        sp_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
-        sp_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con SharePoint, ya que el usuario aún no ha vinculado su cuenta de SharePoint.
-        sp_tenant_id_missing: Falta el ID de directorio (inquilino) configurado para SharePoint. Compruebe la configuración.
-        sp_unexpected_content: Se ha encontrado contenido inesperado en la biblioteca de documentos de SharePoint.
-        unknown_error: No se ha podido validar la conexión. Se ha producido un error desconocido. Compruebe los registros del servidor para obtener más información.
+        errors:
+          client_id_invalid: El ID de cliente OAuth 2 configurado no es válido. Compruebe la configuración.
+          client_secret_invalid: El secreto de cliente OAuth 2 configurado no es válido. Compruebe la configuración.
+          nc_dependency_missing: 'Falta una dependencia necesaria en el almacenamiento de archivos. Añada la siguiente dependencia: %{dependency}.'
+          nc_dependency_version_mismatch: La versión de la aplicación %{dependency} no es compatible. Actualice su servidor Nextcloud.
+          nc_host_not_found: No se ha encontrado ningún servidor Nextcloud en la URL de host configurada. Compruebe la configuración.
+          nc_oauth_request_not_found: No se ha encontrado el terminal para obtener el usuario actualmente conectado. Consulte los registros del servidor para obtener más información.
+          nc_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
+          nc_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con Nextcloud, ya que el usuario aún no ha vinculado su cuenta de Nextcloud.
+          nc_project_folder_missing: No se ha encontrado la carpeta del proyecto «%{project}» creada anteriormente.
+          nc_team_folder_not_found: No se ha podido encontrar la carpeta del equipo.
+          nc_unexpected_files: 'Se han encontrado archivos inesperados en la carpeta del equipo gestionado. Por ejemplo: %{sample}'
+          nc_unlinked_project_folders: Aún no se han creado todas las carpetas de proyecto (%{actual}/%{expected}). Esto puede indicar que se han producido errores durante la sincronización en segundo plano de AMPF.
+          nc_userless_access_denied: La contraseña configurada de la aplicación no es válida.
+          not_configured: No se ha podido validar la conexión. Finalice primero la configuración.
+          od_client_cant_delete_folder: El cliente tiene problemas para eliminar carpetas. Consulte la documentación de configuración de su almacenamiento.
+          od_client_write_permission_missing: Parece que el cliente no tiene permisos de escritura. Consulte la documentación de configuración de su almacenamiento.
+          od_drive_id_invalid: El ID de unidad configurado no parece válido. Compruebe la configuración.
+          od_drive_id_not_found: No se ha podido encontrar el ID de unidad configurado. Compruebe la configuración.
+          od_oauth_request_not_found: No se ha encontrado el terminal para obtener el usuario actualmente conectado. Consulte los registros del servidor para obtener más información.
+          od_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
+          od_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con OneDrive, ya que el usuario aún no ha vinculado su cuenta de Microsoft.
+          od_tenant_id_wrong: El ID de directorio (inquilino) configurado no es válido. Compruebe la configuración.
+          od_test_folder_exists: La carpeta %{folder_name} necesaria para la prueba ya existe. Elimínela e inténtelo de nuevo.
+          od_unexpected_content: Contenido inesperado encontrado dentro la unidad.
+          offline_access_scope_missing: Se recomienda configurar el proveedor OpenID Connect para que solicite el ámbito offline_access. La integración puede seguir funcionando de todos modos, pero asegúrese de que los tokens de actualización no caducan.
+          oidc_cant_refresh_token: Se ha producido un error al intentar comprobar su acceso al almacenamiento. Compruebe los registros del servidor para más información.
+          oidc_non_oidc_user: El usuario actual, aunque está aprovisionado, no fue aprovisionado por un proveedor de identidad OpenID Connect (OIDC). Vuelva a ejecutar la comprobación con un usuario aprovisionado por OIDC.
+          oidc_non_provisioned_user: El usuario actual no ha sido proporcionado por un proveedor de identidad OpenID Connect. Vuelva a ejecutar la comprobación con un usuario proporcionado.
+          oidc_provider_cant_exchange: El proveedor de OpenID Connect no parece admitir el intercambio de tokens, pero se ha configurado el intercambio de tokens para el almacenamiento.
+          oidc_token_acquisition_failed: Su configuración de OpenID Connect no proporciona la audiencia necesaria, ni ofrece capacidades de intercambio de tokens. Consulte nuestra documentación para obtener más información.
+          oidc_token_exchange_failed: Parece que hay un problema con la configuración del intercambio de tokens en su proveedor de OpenID Connect. Compruebe su configuración e inténtelo de nuevo.
+          oidc_token_refresh_failed: Se ha producido un error al intentar comprobar su acceso al almacenamiento. Compruebe los registros del servidor para más información.
+          sp_client_cant_delete_folder: El cliente tiene problemas para eliminar carpetas en SharePoint. Consulte la documentación de configuración de su almacenamiento.
+          sp_client_id_missing: Falta el ID de cliente OAuth 2 configurado para SharePoint. Compruebe la configuración.
+          sp_client_secret_missing: Falta el secreto de cliente OAuth 2 configurado para SharePoint. Compruebe la configuración.
+          sp_client_write_permission_missing: Parece que el cliente no tiene permisos de escritura en SharePoint. Consulte la documentación de configuración de su almacenamiento.
+          sp_existing_test_folder: La carpeta %{folder_name} necesaria para la prueba ya existe en SharePoint. Elimínela e inténtelo de nuevo.
+          sp_oauth_request_error: Ha habido un error en la solicitud vinculada al usuario a SharePoint. Consulte los registros del servidor para obtener más información.
+          sp_oauth_request_unauthorized: El usuario actual no está autorizado a acceder al almacenamiento remoto de archivos. Consulte los registros del servidor para obtener más información.
+          sp_oauth_token_missing: OpenProject no puede probar la comunicación a nivel de usuario con SharePoint, ya que el usuario aún no ha vinculado su cuenta de SharePoint.
+          sp_tenant_id_missing: Falta el ID de directorio (inquilino) configurado para SharePoint. Compruebe la configuración.
+          sp_unexpected_content: Se ha encontrado contenido inesperado en la biblioteca de documentos de SharePoint.
+          unknown_error: No se ha podido validar la conexión. Se ha producido un error desconocido. Compruebe los registros del servidor para obtener más información.
       label_error: Error
-      label_failed: Fallido
       label_healthy: Correcto
-      label_passed: Aprobado
       label_pending: Pendiente
-      label_skipped: Omitida
-      label_warning: Alerta
       no_report: No hay informes disponibles
       no_report_description: Ejecute ahora las comprobaciones para obtener un informe completo del estado de salud de este almacén de archivos.
       open_report: Abrir informe completo de salud
       project_folders:
         subtitle: Carpetas de proyecto gestionadas automáticamente
       since: desde %{datetime}
-      summary:
-        failure: Algunas comprobaciones han fallado y el sistema no funciona como se esperaba.
-        success: Todas las conexiones y sistemas funcionan según lo previsto.
-        warning: Algunas comprobaciones devolvieron una advertencia. Esto puede dar lugar a un comportamiento inesperado.
+      synced: 'Última sincronización: %{datetime}'
       title: Informe de estado de salud
     health_email_notifications:
       description_disabled: Los administradores no recibirán actualizaciones por correo electrónico cuando haya actualizaciones importantes.
@@ -390,7 +397,7 @@ es:
       host: Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres.
       managed_project_folders_application_password_caption: 'Habilitar carpetas gestionadas automáticamente copiando este valor de: %{provider_type_link}.'
       name: Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos.
-      new_storage: Lea nuestra documentación sobre <a target='_blank' href='%{provider_link}'>crear una integración de almacenamiento de archivos de %{provider_name}</a> para más información.
+      new_storage_html: Lee nuestra documentación sobre cómo configurar la integración con el almacenamiento de archivos de [%{provider_name}](docs_url) para obtener más información.
       nextcloud:
         application_link_text: aplicación “Integración OpenProject”
         integration: Administración de Nextcloud / OpenProject
@@ -402,8 +409,7 @@ es:
       no_specific_folder: Por defecto, cada usuario comenzará en su propia carpeta de inicio cuando cargue un archivo.
       no_storage_set_up: Aún no se han configurado los almacenamientos de archivos.
       not_logged_into_storage: Para seleccionar una carpeta de proyecto, inicie primero la sesión
-      oauth_application_details: La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de %{oauth_application_details_link}
-      oauth_application_details_link_text: Configuración de integración de OpenProject Nextcloud
+      oauth_application_details_html: No podrás volver a acceder al valor del secreto de cliente una vez que cierres esta ventana. Copia estos valores en la [configuración de integración de Nextcloud con OpenProject](oauth_application_details_link).
       one_drive:
         application_link_text: Portal de Azure
         copy_redirect_uri: Copiar URI de redirección
@@ -480,7 +486,7 @@ es:
       cancel_button_label: Lo haré más tarde
       heading: Es necesario iniciar sesión en %{provider_type}
       login_button_aria_label: Iniciar sesión en %{storage}
-      login_button_label: "Inicio de sesión de %{provider_type}"
+      login_button_label: Inicio de sesión de %{provider_type}
       project_settings:
         description: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       requesting_access_to: Solicitando acceso a %{storage}
@@ -498,11 +504,10 @@ es:
         title: Estamos configurando tus permisos en la carpeta del proyecto.
     page_titles:
       file_storages:
-        delete: '¿Eliminar el almacenamiento de archivos?'
+        delete: "¿Eliminar el almacenamiento de archivos?"
         subtitle: Añadir un archivo de almacenamiento externo para subir, enlazar y gestionar los archivos en los paquetes de trabajo.
       managed_project_folders:
-        subtitle: |-
-          Deja que OpenProject cree carpetas por proyecto automáticamente. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
+        subtitle: Deja que OpenProject cree carpetas por proyecto automáticamente. Esto es recomendable, ya que garantiza que cada miembro del equipo tenga siempre los permisos de acceso correctos.
         subtitle_short: Permitir que OpenProject cree carpetas por proyecto automáticamente.
         title: Carpetas de proyecto administradas automáticamente
       project_settings:
@@ -510,11 +515,11 @@ es:
         members_connection_status: Estado de conexión de los miembros
         new: Añadir un almacenamiento de archivos a este proyecto
       project_storage_members:
-        subtitle: Compruebe el estado de conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto.
+        subtitle_html: Comprueba el estado de la conexión del almacenamiento %{storage_name_link} de todos los miembros del proyecto.
         title: Estado de conexión de los miembros
       project_storages:
-        delete: '¿Quitar el almacenamiento de archivos del proyecto?'
-    permission_header_explanation: 'Los permisos de archivos en almacenamientos externos se aplican sólo a carpetas y archivos dentro de carpetas de proyecto gestionadas automáticamente. Tenga en cuenta que no todos los permisos de archivo están soportados por todos los proveedores de almacenamiento. Por favor, compruebe la documentación sobre <a target=''_blank'' href=''https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions''>permisos de almacenamiento de archivos</a> para más información.'
+        delete: "¿Quitar el almacenamiento de archivos del proyecto?"
+    permission_header_explanation: Los permisos de archivos en almacenamientos externos se aplican sólo a carpetas y archivos dentro de carpetas de proyecto gestionadas automáticamente. Tenga en cuenta que no todos los permisos de archivo están soportados por todos los proveedores de almacenamiento. Por favor, compruebe la documentación sobre <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>permisos de almacenamiento de archivos</a> para más información.
     provider_types:
       label: Tipo de proveedor
       nextcloud:
@@ -547,13 +552,11 @@ es:
     storage_list_blank_slate:
       description: Añade un almacenamiento para verlos aquí.
       heading: Aún no tiene ningún almacenamiento.
-    successful_storage_connection: '¡Almacenamiento conectado con éxito! Recuerda activar el almacenamiento en la pestaña Proyectos de cada proyecto deseado para usarlo.'
+    successful_storage_connection: "¡Almacenamiento conectado con éxito! Recuerda activar el almacenamiento en la pestaña Proyectos de cada proyecto deseado para usarlo."
     upsell:
       one_drive:
-        description: |-
-          Integre su unidad de OneDrive como almacenamiento de archivos con OpenProject. Suba archivos y vincúlelos directamente a paquetes de trabajo en un proyecto.
+        description: Integre su unidad de OneDrive como almacenamiento de archivos con OpenProject. Suba archivos y vincúlelos directamente a paquetes de trabajo en un proyecto.
         title: Integración de OneDrive
       sharepoint:
-        description: |-
-          Integre su SharePoint como almacenamiento de archivos con OpenProject. Suba archivos y vincúlelos directamente a paquetes de trabajo en un proyecto.
+        description: Integre su SharePoint como almacenamiento de archivos con OpenProject. Suba archivos y vincúlelos directamente a paquetes de trabajo en un proyecto.
         title: Integración de SharePoint

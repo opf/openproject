@@ -29,8 +29,7 @@
 #++
 # OpenProject should not be affected by this change. At least the vast majority of JSON responses
 # are rendered in the APIv3 which do not use the JSON renderer of ActionController.
-# But keeping it set to true does not cost anything.
-Rails.configuration.action_controller.escape_json_responses = true
+Rails.configuration.action_controller.escape_json_responses = false
 
 ###
 # Skips escaping LINE SEPARATOR (U+2028) and PARAGRAPH SEPARATOR (U+2029) in JSON.

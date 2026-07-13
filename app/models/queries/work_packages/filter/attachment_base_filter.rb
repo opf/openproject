@@ -68,7 +68,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def search_column
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def normalization_type

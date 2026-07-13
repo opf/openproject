@@ -2,7 +2,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WpGraphConfigurationSettingsTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WpGraphConfigurationFiltersTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
 import { ChartOptions } from 'chart.js';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
@@ -22,6 +22,11 @@ import {
 
 @Injectable()
 export class WpGraphConfigurationService {
+  readonly I18n = inject(I18nService);
+  readonly apiv3Service = inject(ApiV3Service);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly currentProject = inject(CurrentProjectService);
+
   private _configuration:WpGraphConfiguration;
 
   private _globalScope = false;
@@ -29,13 +34,6 @@ export class WpGraphConfigurationService {
   private _forms:Record<string, QueryFormResource> = {};
 
   private _formsPromise:Promise<unknown>|null;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly apiv3Service:ApiV3Service,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly currentProject:CurrentProjectService,
-  ) { }
 
   public persistAndReload():Promise<unknown> {
     return this

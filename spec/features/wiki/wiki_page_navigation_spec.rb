@@ -61,7 +61,7 @@ RSpec.describe "Wiki page navigation spec", :js do
     expect_element_in_view page.find(".tree-menu--item.-selected", text: "Wiki Page No. 55")
 
     # Expect permalink being correct (Regression #46351)
-    permalink = page.all(".op-uc-link_permalink", visible: :all).first
-    expect(permalink["href"]).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
+    permalink = page.first(".op-uc-link_permalink", visible: :all)
+    expect(permalink["href"]).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#op-frag-wiki-page-no-55"
   end
 end

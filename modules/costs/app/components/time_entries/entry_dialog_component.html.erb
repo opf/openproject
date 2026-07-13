@@ -1,4 +1,4 @@
-<%= render(Primer::Alpha::Dialog.new(title: t("caption_log_time_dialog"), size: :medium_portrait, id: MODAL_ID, data: { "keep-open-on-submit": true, "controller" => "time-entry", "time-entry-id" => time_entry.id, "ongoing" => time_entry.ongoing? })) do |d| %>
+<%= render(Primer::Alpha::Dialog.new(title: t("caption_log_time_dialog"), size: :medium, position: :right, id: MODAL_ID, data: { "keep-open-on-submit": true, "controller" => "time-entry", "time-entry-id" => time_entry.id, "ongoing" => time_entry.ongoing? })) do |d| %>
   <% d.with_header(variant: :large) %>
   <% d.with_body do %>
     <%= render(

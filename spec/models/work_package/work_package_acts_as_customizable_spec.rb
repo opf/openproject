@@ -185,7 +185,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: false, comments: false do
     let(:model_instance) { work_package }
     let(:new_model_instance) { new_work_package }
     let(:custom_field) { create(:string_wp_custom_field) }

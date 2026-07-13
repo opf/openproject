@@ -1,0 +1,236 @@
+# /api/v3/users/{id}/non_working_times/{non_working_time_id}
+---
+get:
+  summary: View a personal non-working time record
+  operationId: view_user_non_working_time
+  tags:
+    - User Working Times
+  description: |-
+    Returns a single personal non-working time record for the given user.
+
+    **Required permissions:**
+    - Administrators can view non-working time records for any user.
+    - Users with the global `manage_own_working_times` permission can view their own records.
+    - Users with the global `manage_working_times` permission can view non-working time records for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+    - name: non_working_time_id
+      in: path
+      required: true
+      description: |-
+        The id of the personal non-working time record.
+      schema:
+        type: integer
+      example: 7
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_non_working_time_model.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or non-working time record does not exist,
+        or if the requesting user does not have permission to view it.
+
+patch:
+  summary: Update a personal non-working time record
+  operationId: update_user_non_working_time
+  tags:
+    - User Working Times
+  description: |-
+    Updates the given personal non-working time record.
+
+    **Required permissions:**
+    - Administrators can update non-working time records for any user.
+    - Users with the global `manage_own_working_times` permission can update their own records.
+    - Users with the global `manage_working_times` permission can update non-working time records for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+    - name: non_working_time_id
+      in: path
+      required: true
+      description: |-
+        The id of the personal non-working time record.
+      schema:
+        type: integer
+      example: 7
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/user_non_working_time_model.yml"
+        example:
+          startDate: "2025-06-23"
+          endDate: "2025-06-27"
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/user_non_working_time_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or non-working time record does not exist,
+        or if the requesting user does not have permission to view it.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: |-
+        Returned if the request body contains invalid parameters, or if the date range
+        overlaps with an existing non-working time record for the user.
+
+delete:
+  summary: Delete a personal non-working time record
+  operationId: delete_user_non_working_time
+  tags:
+    - User Working Times
+  description: |-
+    Removes the personal non-working time record for the given user.
+
+    **Required permissions:**
+    - Administrators can delete non-working time records for any user.
+    - Users with the global `manage_own_working_times` permission can delete their own records.
+    - Users with the global `manage_working_times` permission can delete non-working time records for any user.
+
+    Use `me` as the `id` to reference the current user.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: |-
+        User id. Use `me` to reference the current user.
+      schema:
+        type: string
+      example: 42
+    - name: non_working_time_id
+      in: path
+      required: true
+      description: |-
+        The id of the personal non-working time record.
+      schema:
+        type: integer
+      example: 7
+  responses:
+    "204":
+      description: |-
+        No Content.
+        The record was deleted successfully.
+    "401":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+            message: You need to be authenticated to access this resource.
+      description: Returned if the client is not authenticated.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `manage_working_times` globally (for other users) or
+        `manage_own_working_times` globally (for own records).
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the user or non-working time record does not exist,
+        or if the requesting user does not have permission to view it.

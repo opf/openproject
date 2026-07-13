@@ -56,7 +56,7 @@ module Queries::Projects::Filters::DynamicallyFromProjectPhase
     end
 
     def key
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     private
@@ -77,7 +77,7 @@ module Queries::Projects::Filters::DynamicallyFromProjectPhase
     end
 
     def create_from_phase(_phase, _context)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def accessor_matches?(definition, match)

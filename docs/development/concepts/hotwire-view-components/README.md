@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Using Hotwire with ViewComponents
-description: An introduction of how we use Hotwire alongside ViewComponets
+description: An introduction of how we use Hotwire alongside ViewComponents
 keywords: Ruby on Rails, Hotwire, ViewComponents
 ---
 
@@ -14,11 +14,13 @@ The approach below is meant to be a thin abstraction layer on top of Hotwire's T
 ## Key Concepts
 
 **Component Setup**
+
 - Components must include `OpTurbo::Streamable` module
 - Requires `component_wrapper` in templates for turbo-stream updates
 - Can specify insert targets for append/prepend operations
 
 **Controller Integration**
+
 - Controllers must include `OpTurbo::ComponentStream` module, which provides methods for turbo-stream operations:
   - `update_via_turbo_stream`
   - `replace_via_turbo_stream`
@@ -37,6 +39,7 @@ The approach below is meant to be a thin abstraction layer on top of Hotwire's T
 Imagine we have a component that renders a list of journals for a work package.
 
 This is the index component:
+
 ```ruby
 class JournalIndexComponent < ApplicationComponent
   include OpTurbo::Streamable # include this module
@@ -66,6 +69,7 @@ end
 ```
 
 with the following template:
+
 ```ruby
 <%=
   component_wrapper do # wrapper is required for turbo-stream updates!
@@ -88,6 +92,7 @@ with the following template:
 ```
 
 And this is the show component:
+
 ```ruby
 class JournalShowComponent < ApplicationComponent
   include OpTurbo::Streamable # include this module
@@ -105,6 +110,7 @@ end
 ```
 
 with the following template:
+
 ```ruby
 <%=
   component_wrapper do # wrapper is required for turbo-stream updates!
@@ -116,6 +122,7 @@ with the following template:
 ```
 
 With this setup, turbo-stream updates can be sent from a rails controller:
+
 ```ruby
 class JournalController < ApplicationController
   include OpTurbo::ComponentStream # include this module!
@@ -229,6 +236,7 @@ TODO: is `turbo: true` required here?
 ```
 
 Rendering of a cancel button to remove the edition form. The button calls the `cancel_edit` action on the controller. The `cancel_edit` action sends a turbo stream `replace` to replace the journal edit form with the journal view.
+
 ```ruby
 <%=
   component_wrapper do

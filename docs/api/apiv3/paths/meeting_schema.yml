@@ -1,0 +1,29 @@
+# /api/v3/meetings/schema
+---
+get:
+  summary: Get meeting schema
+  operationId: get_meeting_schema
+  tags:
+    - Meetings
+  description: |-
+    Retrieves the schema for meetings, providing information about which properties are writable,
+    their types, and constraints.
+  responses:
+    '200':
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view meetings in any project

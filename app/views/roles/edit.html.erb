@@ -32,16 +32,29 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { @role.name }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
-                             { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-                             { href: roles_path, text: t(:label_role_and_permissions) },
-                             @role.name])
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_users_path, text: t(:label_user_and_permission) },
+       { href: roles_path, text: t(:label_role_and_permissions) },
+       @role.name]
+    )
   end
 %>
 
-<%= labelled_tabular_form_for @role, :url => { :action => 'update' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
+<% if @role.is_a?(ProjectRole) && Setting.new_project_user_role_id.to_i == @role.id %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3)) do %>
+    <p><%= t("roles.edit.default_for_new_projects_warning") %></p>
+    <ul>
+      <% ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR.each do |permission| %>
+        <li><%= t("permission_#{permission}") %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<%= labelled_tabular_form_for @role, url: { action: "update" }, html: { id: "role_form" }, as: :role do |f| %>
   <%= hidden_field_tag :id, @role.id %>
-  <%= render partial: 'form', locals: { f: f , role: @role } %>
-  <br/>
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+  <%= render partial: "form", locals: { f: f, role: @role } %>
+  <br>
+  <%= styled_button_tag t(:button_save), class: "-with-icon icon-checkmark" %>
 <% end %>

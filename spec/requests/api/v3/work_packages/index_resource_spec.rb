@@ -242,6 +242,17 @@ RSpec.describe "API v3 Work package resource",
 
         it_behaves_like "param validation error"
       end
+
+      context "with a decompression bomb payload exceeding the size limit" do
+        let(:props) do
+          # 11MB of null bytes compresses to a few KB but decompresses beyond the 10MB limit
+          bomb_data = "\x00" * (11 * 1024 * 1024)
+          compressed = Zlib::Deflate.deflate(bomb_data)
+          { eprops: Base64.encode64(compressed) }.to_query
+        end
+
+        it_behaves_like "param validation error"
+      end
     end
 
     context "when providing timestamps", with_ee: %i[baseline_comparison] do

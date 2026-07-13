@@ -29,25 +29,45 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(
-    Primer::OpenProject::DangerDialog.new(
-      id: "agenda-item-move-to-next-meeting-dialog",
-      confirm_button_text: I18n.t(:label_agenda_item_move),
-      title:,
-      form_arguments: {
-        action: move_to_next_project_meeting_agenda_item_path(
-          @agenda_item.meeting.project,
-          @agenda_item.meeting,
-          @agenda_item,
-          datetime: @datetime,
-          current_occurrence: @current_occurrence
-        ),
-        method: :post
-      }
+    Primer::Alpha::Dialog.new(
+      title: title,
+      id: "move-to-next-meeting-dialog",
+      size: :medium_portrait
     )
   ) do |dialog|
-    dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { title }
-      message.with_description_content(simple_format(confirmation_message))
+    dialog.with_header(variant: :large)
+    dialog.with_body(classes: "Overlay-body_autocomplete_height--lg") do
+      concat(render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3)) { simple_format(confirmation_message) })
+      concat(
+        render(
+          MeetingAgendaItems::MoveToNextMeetingFormComponent.new(
+            agenda_item: @agenda_item,
+            datetime: @datetime,
+            next_occurrence: @next_occurrence
+          )
+        )
+      )
+    end
+    dialog.with_footer do
+      component_collection do |buttons|
+        buttons.with_component(
+          Primer::Beta::Button.new(
+            data: { "close-dialog-id": "move-to-next-meeting-dialog" }
+          )
+        ) do
+          t("button_cancel")
+        end
+        buttons.with_component(
+          Primer::Beta::Button.new(
+            scheme: :danger,
+            form: "move-to-next-meeting-form",
+            data: { turbo: true },
+            type: :submit
+          )
+        ) do
+          I18n.t(:label_agenda_item_move)
+        end
+      end
     end
   end
 %>

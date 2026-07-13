@@ -92,28 +92,15 @@ function workPackageFullViewTour() {
   });
 }
 
-function ganttTour(configuration:ConfigurationService) {
+function ganttTour(_configuration:ConfigurationService) {
   initializeTour('ganttTourFinished');
-
-  const boardsDemoDataAvailable = getMetaContent('boards_demo_data_available') === 'true';
-  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
-  const eeTokenAvailable = configuration.availableFeatures.includes('board_view');
 
   waitForElement('.work-package--results-tbody', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
-    // Check for EE edition
-    if (eeTokenAvailable) {
-      // ... and available seed data of boards.
-      // Then add boards to the tour, otherwise skip it.
-      if (boardsDemoDataAvailable && moduleVisible('boards')) {
-        steps = steps.concat(navigateToBoardStep('enterprise'));
-      } else if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
-        steps = steps.concat(navigateToTeamPlannerStep());
-      } else {
-        steps = steps.concat(menuTourSteps());
-      }
-    } else if (boardsDemoDataAvailable && moduleVisible('boards')) {
-      steps = steps.concat(navigateToBoardStep('basic'));
+    if (showBoardsTour()) {
+      steps = steps.concat(navigateToBoardStep());
+    } else if (showTeamPlannerTour(_configuration)) {
+      steps = steps.concat(navigateToTeamPlannerStep());
     } else {
       steps = steps.concat(menuTourSteps());
     }
@@ -122,18 +109,16 @@ function ganttTour(configuration:ConfigurationService) {
   });
 }
 
-function boardTour(configuration:ConfigurationService) {
+function boardTour(_configuration:ConfigurationService) {
   initializeTour('boardsTourFinished');
 
-  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
-  const eeTokenAvailable = configuration.availableFeatures.includes('board_view');
 
   waitForElement('wp-single-card', '#content', () => {
-    let steps:OnboardingStep[] = eeTokenAvailable ? boardTourSteps('enterprise') : boardTourSteps('basic');
+    let steps:OnboardingStep[] = boardTourSteps();
 
     // Available seed data of team planner.
     // Then add Team planner to the tour, otherwise skip it.
-    if (teamPlannerDemoDataAvailable && moduleVisible('team-planner-view')) {
+    if (showTeamPlannerTour(_configuration)) {
       steps = steps.concat(navigateToTeamPlannerStep());
     } else {
       steps = steps.concat(menuTourSteps());
@@ -151,6 +136,19 @@ function teamPlannerTour() {
 
     startTour(steps);
   });
+}
+
+function showBoardsTour():boolean {
+  const boardsDemoDataAvailable = getMetaContent('boards_demo_data_available') === 'true';
+
+  return boardsDemoDataAvailable && moduleVisible('boards');
+}
+
+function showTeamPlannerTour(configuration:ConfigurationService):boolean {
+  const eeTokenAvailable = configuration.availableFeatures.includes('team_planner_view');
+  const teamPlannerDemoDataAvailable = getMetaContent('demo_view_of_type_team_planner_seeded') === 'true';
+
+  return eeTokenAvailable && teamPlannerDemoDataAvailable && moduleVisible('team-planner-view');
 }
 
 export function start(name:OnboardingTourNames, configuration:ConfigurationService):void {

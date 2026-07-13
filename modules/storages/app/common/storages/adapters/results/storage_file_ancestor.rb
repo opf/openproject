@@ -33,10 +33,7 @@ module Storages
     module Results
       class StorageFileAncestor < StorageFile
         def initialize(name:, location:)
-          super(name:,
-                location: UrlBuilder.path(location),
-                id: Digest::SHA256.hexdigest(name),
-                permissions: %i[readable writeable])
+          super(name:, location:, id: Digest::SHA256.hexdigest(name), permissions: %i[readable writeable])
         end
       end
     end

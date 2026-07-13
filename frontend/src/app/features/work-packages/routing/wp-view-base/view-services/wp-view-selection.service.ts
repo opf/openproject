@@ -1,5 +1,4 @@
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -18,10 +17,12 @@ export interface WorkPackageViewSelectionState {
 
 @Injectable()
 export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> implements OnDestroy {
-  public constructor(readonly querySpace:IsolatedQuerySpace,
-    readonly states:States,
-    readonly opContextMenu:OPContextMenuService) {
-    super(querySpace);
+  readonly states = inject(States);
+  readonly opContextMenu = inject(OPContextMenuService);
+
+  public constructor() {
+    super();
+
     this.reset();
   }
 
@@ -72,7 +73,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   public getSelectedWorkPackageIds():string[] {
     const selected:string[] = [];
 
-    _.each(this.current?.selected, (isSelected:boolean, wpId:string) => {
+    Object.entries(this.current?.selected ?? {}).forEach(([wpId, isSelected]) => {
       if (isSelected) {
         selected.push(wpId);
       }
@@ -96,7 +97,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * Return the number of selected rows.
    */
   public get selectionCount():number {
-    return _.size(this.current?.selected);
+    return Object.keys(this.current?.selected ?? {}).length;
   }
 
   /**

@@ -34,9 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5
         # Commonly enabled options, see https://github.com/actions/dependency-review-action#configuration-options for all available options.
         with:
           comment-summary-in-pr: on-failure

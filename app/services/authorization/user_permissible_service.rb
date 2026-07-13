@@ -39,37 +39,38 @@ module Authorization
     def allowed_globally?(permission)
       perms = contextual_permissions(permission, :global)
       return false unless authorizable_user?
+      return true if admin_and_all_granted_to_admin?(perms)
 
       cached_permissions(nil).intersect?(perms.map(&:name))
     end
 
     def allowed_in_project?(permission, projects_to_check)
-      perms = contextual_permissions(permission, :project)
+      permissions = contextual_permissions(permission, :project)
       return false if projects_to_check.blank?
       return false unless authorizable_user?
 
       Array(projects_to_check).all? do |project|
-        allowed_in_single_project?(perms, project)
+        allowed_in_single_project?(permissions, project)
       end
     end
 
     def allowed_in_any_project?(permission)
-      perms = contextual_permissions(permission, :project)
+      permissions = contextual_permissions(permission, :project)
       return false unless authorizable_user?
 
-      cached_in_any_project?(perms)
+      cached_in_any_project?(permissions)
     end
 
     def allowed_in_entity?(permission, entities_to_check, entity_class)
       return false if entities_to_check.blank?
       return false unless authorizable_user?
 
-      perms = contextual_permissions(permission, context_name(entity_class))
+      permissions = contextual_permissions(permission, context_name(entity_class))
 
       entities = Array(entities_to_check)
 
       entities.all? do |entity|
-        allowed_in_single_entity?(perms, entity, entity_class)
+        allowed_in_single_entity?(permissions, entity, entity_class)
       end
     end
 
@@ -110,6 +111,7 @@ module Authorization
       permissions_filtered_for_project = permissions_by_enabled_project_modules(project, permissions)
 
       return false if permissions_filtered_for_project.empty?
+      return true if admin_and_all_granted_to_admin?(permissions)
 
       cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
@@ -164,7 +166,7 @@ module Authorization
     end
 
     def admin_and_all_granted_to_admin?(permissions)
-      user.admin? && permissions.all?(&:grant_to_admin?)
+      user.active_admin? && permissions.all?(&:grant_to_admin?)
     end
 
     def authorizable_user?

@@ -33,6 +33,12 @@ import { renderStreamMessage } from '@hotwired/turbo';
 import { TurboHelpers } from 'core-turbo/helpers';
 
 export default class AsyncDialogController extends ApplicationController {
+  static values = { disableDuringLoad: { type: Boolean, default: true } };
+
+  declare disableDuringLoadValue:boolean;
+
+  private loading = false;
+
   connect() {
     // Only bind events if we have an href to work with
     if (this.href) {
@@ -55,6 +61,12 @@ export default class AsyncDialogController extends ApplicationController {
   }
 
   private triggerTurboStream(url:string):void {
+    if (this.disableDuringLoadValue && this.loading) return;
+
+    if (this.disableDuringLoadValue) {
+      this.loading = true;
+      (this.element as HTMLElement).setAttribute('aria-disabled', 'true');
+    }
     TurboHelpers.showProgressBar();
 
     void fetch(url, {
@@ -74,6 +86,10 @@ export default class AsyncDialogController extends ApplicationController {
     }).then((html) => {
       renderStreamMessage(html);
     }).finally(() => {
+      if (this.disableDuringLoadValue) {
+        this.loading = false;
+        (this.element as HTMLElement).removeAttribute('aria-disabled');
+      }
       TurboHelpers.hideProgressBar();
     });
   }

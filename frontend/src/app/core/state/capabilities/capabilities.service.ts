@@ -4,7 +4,6 @@ import {
   map,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
@@ -13,12 +12,9 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class CapabilitiesResourceService extends ResourceStoreService<ICapability> {
-  @InjectField() toastService:ToastService;
-
   /**
    * Returns the loaded capabilities for a context
    */

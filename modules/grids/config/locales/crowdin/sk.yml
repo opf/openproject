@@ -1,37 +1,38 @@
+---
 sk:
-  grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
-    widgets:
-      empty: "This widget is currently empty."
-      not_available: "This widget is not available."
-      subitems:
-        title: "Subitems"
-        no_results: "There are no visible children."
-        view_all_subitems: "View all subitems"
-        button_text: "Subitem"
-      members:
-        title: "Members"
-        no_results: "No visible members."
-        view_all_members: "Zobraziť všetkých členov"
-        show_members_count: "Show all %{count} members"
-        x_more:
-          one: "and one more member."
-          few: "and %{count} more members."
-          many: "and %{count} more members."
-          other: "and %{count} more members."
-      news:
-        no_results: "Nič nové pre nahlásenie."
   activerecord:
     attributes:
       grids/grid:
-        page: "Stránka"
-        row_count: "Počet riadkov"
-        column_count: "Počet stĺpcov"
-        widgets: "Miniaplikácie"
-        scope: "Rozsah"
+        column_count: Počet stĺpcov
+        page: Stránka
+        row_count: Počet riadkov
+        scope: Rozsah
+        widgets: Miniaplikácie
     errors:
       models:
         grids/grid:
-          overlaps: 'prekrývajú.'
-          outside: 'je mimo mriežku.'
-          end_before_start: 'koncová hodnota musí byť väčšia ako počiatočná hodnota.'
+          end_before_start: koncová hodnota musí byť väčšia ako počiatočná hodnota.
+          outside: je mimo mriežku.
+          overlaps: prekrývajú.
+  grids:
+    label_widget_in_grid: Widget contained in Grid %{grid_name}
+    widgets:
+      empty: This widget is currently empty.
+      members:
+        no_results: No visible members.
+        show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: Zobraziť všetkých členov
+        x_more:
+          one: and one more member.
+          few: and %{count} more members.
+          many: and %{count} more members.
+          other: and %{count} more members.
+      news:
+        no_results: Nič nové pre nahlásenie.
+      not_available: This widget is not available.
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

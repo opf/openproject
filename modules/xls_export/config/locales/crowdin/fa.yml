@@ -1,16 +1,17 @@
+---
 fa:
-  plugin_openproject_xls_export:
-    name: "خروجی اکسل از اپن‌پروژه"
-    description: "لیست های مشکلات را به عنوان صفحات گسترده اکسل (xls.) صادر کنید."
-  export_to_excel: "Export XLS"
-  print_with_description: "Print preview with description"
-  sentence_separator_or: "یا"
   different_formats: فرمت متفاوت
   export:
     format:
-      xls: ""
-      xls_with_descriptions: "XLS همراه توضيح"
-      xls_with_relations: "XLS with relations"
+      xls: ''
+      xls_with_descriptions: XLS همراه توضيح
+      xls_with_relations: XLS with relations
+  export_to_excel: Export XLS
+  plugin_openproject_xls_export:
+    description: لیست های مشکلات را به عنوان صفحات گسترده اکسل (xls.) صادر کنید.
+    name: خروجی اکسل از اپن‌پروژه
+  print_with_description: Print preview with description
+  sentence_separator_or: یا
   xls_export:
     child_of: child of
     parent_of: parent of

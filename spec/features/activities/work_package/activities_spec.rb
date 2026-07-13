@@ -676,6 +676,9 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       it "resets an only_changes filter if a comment is added by the user" do
+        activity_tab.expect_journal_notes(text: "First comment by admin")
+        activity_tab.expect_journal_notes(text: "Second comment by admin")
+
         activity_tab.filter_journals(:only_changes)
 
         # expect only the changes
@@ -958,10 +961,13 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       # navigate to another tab and back
       page.find("li[data-tab-id=\"relations\"]").click
       page.find("li[data-tab-id=\"activity\"]").click
+      wp_page.wait_for_activity_tab
 
       # expect the editor content to be rescued on the client side
       within_test_selector("op-work-package-journal-form-element") do
         editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
+        # Wait for CKEditor to be fully initialized and have the rescued content
+        expect(page).to have_css(".ck-editor__editable_inline", text: "First comment by admin", wait: 10)
         editor.expect_value("First comment by admin")
         # save the comment, which was rescued on the client side
         page.find_test_selector("op-submit-work-package-journal-form").click
@@ -1067,6 +1073,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             page.find(:xpath, "//*[text()='created this on']").click
             expect(page).to have_no_css(".--anchor-highlighted")
           end
+
+          it "rewrites the legacy activity anchor to the resolved comment in the URL" do
+            wait_for_auto_scrolling_to_finish
+
+            initial_journal = work_package.journals.order(:version).first
+            expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{initial_journal.id}")
+            # The rewrite must keep the work package path, not collapse it to "/".
+            expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.id}")
+          end
         end
 
         context "with #comment- anchor" do
@@ -1149,6 +1164,58 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       def wait_for_auto_scrolling_to_finish = sleep(1)
+    end
+
+    describe "when the comment anchor changes without reloading the page" do
+      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+
+      before do
+        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+        wp_page.wait_for_activity_tab
+      end
+
+      it "moves the highlight to the comment newly referenced in the URL hash" do
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+        # As clicking an in-page comment link or editing the comment id by hand would:
+        # the URL hash changes but the page is not reloaded.
+        page.execute_script("window.location.hash = '#comment-#{comment_2.id}'")
+
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+      end
+    end
+
+    describe "when clicking an in-content link to another comment on the same page" do
+      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+
+      before do
+        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+        wp_page.wait_for_activity_tab
+      end
+
+      it "scrolls to and highlights the comment instead of letting Turbo drop the fragment" do
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+        # Comment bodies render plain links. Inject one (so this stays independent of
+        # the rich-text formatter) pointing to another comment on this same activity
+        # page, as a pasted comment link would, then click it through a real browser
+        # click so Turbo's own handlers run. Turbo must not swallow it.
+        page.execute_script(<<~JS)
+          const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
+          const link = document.createElement('a');
+          link.href = window.location.pathname + '#comment-#{comment_2.id}';
+          link.textContent = 'jump to the other comment';
+          link.id = 'injected-comment-link';
+          root.prepend(link);
+        JS
+
+        find_by_id("injected-comment-link").click
+
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+        expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_2.id}")
+      end
     end
 
     context "when sorting set to asc" do
@@ -1453,10 +1520,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
     context "when the current user does not have the activity tab open the whole time" do
       it "raises a conflict warning when the work package is updated by another user while the current user is editing" do
-        pending "This has become obselete with the removal of uiRouter (#67007), because switching tabs now result in a
-               hard reload and no conflict appears like described in these examples.
-               Before removing this, please check the polling controller for possible cleanups.
-               Ticket: https://community.openproject.org/wp/68630"
         using_session(:admin) do
           login_as(admin)
 
@@ -1549,8 +1612,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     context "when adding a comment" do
       context "when the creation call raises an unknown server error" do
         before do
-          allow_any_instance_of(WorkPackages::ActivitiesTabController) # rubocop:disable RSpec/AnyInstance
-            .to receive(:create_journal_service_call)
+          allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
+            .to receive(:add)
                   .and_raise(StandardError.new("Test error"))
         end
 
@@ -1625,8 +1688,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
       context "when the update call raises an unknown server error" do
         before do
-          allow_any_instance_of(WorkPackages::ActivitiesTabController) # rubocop:disable RSpec/AnyInstance
-            .to receive(:update_journal_service_call)
+          allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
+            .to receive(:update)
                   .and_raise(StandardError.new("Test error"))
         end
 

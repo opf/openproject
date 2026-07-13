@@ -70,7 +70,7 @@ module Storages
             { drive_id:, location: Peripherals::ParentFolder.new(item_id || "/") }
           end
 
-          def request_uri = raise Errors::SubclassResponsibility
+          def request_uri = raise SubclassResponsibilityError
 
           # @param error [Results::Error]
           # @return [void]

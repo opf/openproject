@@ -120,7 +120,7 @@ module WorkPackage::Exports
         return resolve_label_work_package(attribute) if type == "label"
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
-        work_package = WorkPackage.visible(user).find_by(id:)
+        work_package = WorkPackage.visible(user).find_by_display_id(id)
         if work_package.nil?
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{WorkPackage.name} #{id}"))
         end

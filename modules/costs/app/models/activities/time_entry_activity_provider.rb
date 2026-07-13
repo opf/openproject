@@ -45,6 +45,7 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
       activity_journal_projection_statement(:entity_id, "entity_id"),
       projection_statement(projects_table, :name, "project_name"),
       projection_statement(work_packages_table, :subject, "work_package_subject"),
+      projection_statement(work_packages_table, :identifier, "work_package_identifier"),
       projection_statement(meetings_table, :title, "meeting_title"),
       projection_statement(types_table, :name, "type_name")
     ]
@@ -76,7 +77,8 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
     if event["entity_type"] == "WorkPackage"
       Activities::WorkPackageActivityProvider.work_package_title(event["entity_id"],
                                                                  event["work_package_subject"],
-                                                                 event["type_name"])
+                                                                 event["type_name"],
+                                                                 event["work_package_identifier"])
     elsif event["entity_type"] == "Meeting"
       event["meeting_title"]
     end

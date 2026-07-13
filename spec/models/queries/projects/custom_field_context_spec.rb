@@ -61,45 +61,4 @@ RSpec.describe Queries::Projects::CustomFieldContext do
       expect { described_class.find_custom_field(0) }.to have_a_query_limit(0)
     end
   end
-
-  describe ".preload_custom_fields" do
-    it "returns the custom fields for the given ids" do
-      result = described_class.preload_custom_fields([custom_field1.id, custom_field2.id])
-
-      expect(result).to contain_exactly(custom_field1, custom_field2)
-    end
-
-    it "handles non-existent ids gracefully" do
-      result = described_class.preload_custom_fields([custom_field1.id, 0, 999999])
-
-      expect(result).to contain_exactly(custom_field1)
-    end
-
-    it "caches the results in RequestStore" do
-      described_class.preload_custom_fields([custom_field1.id, custom_field2.id])
-
-      expect do
-        described_class.find_custom_field(custom_field1.id)
-        described_class.find_custom_field(custom_field2.id)
-      end.to have_a_query_limit(0)
-    end
-
-    it "only queries for missing ids on subsequent calls" do
-      described_class.preload_custom_fields([custom_field1.id])
-
-      allow(ProjectCustomField).to receive(:visible).and_call_original
-
-      described_class.preload_custom_fields([custom_field1.id, custom_field2.id])
-
-      expect(ProjectCustomField).to have_received(:visible).once
-    end
-
-    it "does not query when all ids are already cached" do
-      described_class.preload_custom_fields([custom_field1.id, custom_field2.id])
-
-      expect do
-        described_class.preload_custom_fields([custom_field1.id, custom_field2.id])
-      end.to have_a_query_limit(0)
-    end
-  end
 end

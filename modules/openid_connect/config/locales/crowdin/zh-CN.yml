@@ -1,155 +1,165 @@
+---
 zh-CN:
-  plugin_openproject_openid_connect:
-    name: "OpenProject OpenID 连接"
-    description: "将 OmniAuth OpenID 连接策略提供程序添加到 OpenProject 。"
-  logout_warning: >
-    您已退出。您提交的任何表单的内容可能丢失。请[登录]。
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: OpenID 群组标识符
       openid_connect/provider:
-        name: 名称
-        slug: 唯一标识符
-        display_name: 显示名称
+        acr_values: ACR 值
+        authorization_endpoint: 授权端点
+        claims: 申请
         client_id: 客户端ID
         client_secret: 客户端密钥
-        groups_claim: 群组声明
-        group_regexes: 模式（正则表达式）
-        secret: 密钥
-        scope: 范围
-        sync_groups: 同步群组
-        grant_types_supported: 支持的授权类型
-        limit_self_registration: 限制自行注册
-        authorization_endpoint: 授权端点
-        userinfo_endpoint: 用户信息端点
-        token_endpoint: 令牌端点
+        display_name: 显示名称
         end_session_endpoint: 结束会话端点
-        post_logout_redirect_uri: 注销后重定向 URI
-        jwks_uri: JWKS URI
-        issuer: 发行人
-        tenant: 租户
-        metadata_url: 元数据 URL
+        grant_types_supported: 支持的授权类型
+        group_regexes: 模式（正则表达式）
+        groups_claim: 群组声明
         icon: 自定义图标
-        claims: 申请
-        acr_values: ACR 值
+        issuer: 发行人
+        jwks_uri: JWKS URI
+        limit_self_registration: 限制自行注册
+        metadata_url: 元数据 URL
+        name: 名称
+        post_logout_redirect_uri: 注销后重定向 URI
         redirect_url: 跳转网址
+        scope: 范围
+        secret: 密钥
+        slug: 唯一标识符
+        sync_groups: 同步群组
+        tenant: 租户
+        token_endpoint: 令牌端点
+        userinfo_endpoint: 用户信息端点
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: "发现端点 URL %{message}"
-              response_is_not_successful: " 响应状态为 %{status}。"
+              format: 发现端点 URL %{message}
               response_is_not_json: " 不返回 JSON 正文。"
+              response_is_not_successful: " 响应状态为 %{status}。"
               response_misses_required_attributes: " 不返回所需的属性。缺少的属性有 %{missing_attributes}."
-          invalid_claims_essential: "未在 %{attribute} 中定义布尔值。"
-          invalid_claims_location: "包含不受支持的位置：%{invalid}。支持的位置为：%{supported}。"
-          invalid_claims_values: "未在 %{attribute} 中定义数组。"
-          non_object_attribute: "未在 %{attribute} 中定义 JSON 对象。"
-  provider:
-    delete_warning:
-      input_delete_confirmation: 输入占位符名称 %{name} 以确认删除。
-      irreversible_notice: 删除项目是一个不可逆转的操作。
-      provider: '您确定要删除 SSO 提供商 %{name} 吗？要确认此操作，请在下面的字段中输入提供商的名称：'
-      delete_result_1: 从可用的提供商列表中删除提供商。
-      delete_result_user_count:
-        zero: 目前没有用户正在使用此提供商。无需采取进一步操作。
-        one: "目前有一个用户仍在使用此提供商。他们需要被重新邀请或使用其他提供商登录。"
-        other: "目前有 %{count} 个用户仍在使用该提供商。他们需要重新邀请或使用其他提供商登录。"
-      delete_result_direct: 此提供商被标记为直接登录提供商。 设置将被删除，用户将不再被重定向到提供商登录。
+          invalid_claims_essential: 未在 %{attribute} 中定义布尔值。
+          invalid_claims_location: 包含不受支持的位置：%{invalid}。支持的位置为：%{supported}。
+          invalid_claims_values: 未在 %{attribute} 中定义数组。
+          non_object_attribute: 未在 %{attribute} 中定义 JSON 对象。
+  logout_warning: '您已退出。您提交的任何表单的内容可能丢失。请[登录]。
+
+    '
   openid_connect:
-    menu_title: OpenID 提供商
-    delete_title: "删除 OpenID Connect 提供商"
+    delete_heading: 是否删除此 OpenID Connect 提供商？
+    delete_title: 删除 OpenID Connect 提供商
     group_links_heading: OpenID Connect 群组链接
     groups:
       match_preview_component:
-        title: 提取的群组名称
         placeholder_none: 目前没有与模式匹配的组。
+        title: 提取的群组名称
       match_preview_dialog_component:
         description: 这样，您便可根据样本数据测试正则表达式模式，以验证您希望提取的群组名称是否已正确提取。您可以在此处修改模式，但测试字符串和匹配项本身不会随配置一起保存。
-        group_names_label: 测试群组名称
         group_names_description: 每行输入一个与 OIDC 声明中显示形式一致的群组名称，以查看正则表达式模式对群组名称的影响。
+        group_names_label: 测试群组名称
         show_button: 测试模式
         title: 测试正则表达式
     instructions:
+      acr_values: '以更简单的格式请求非必要声明。更多信息，请参阅 [我们关于acr_value的文档](docs_url)。
+
+        '
+      claims: '您可以请求用户信息和 Id 令牌端点的附加声明。有关更多信息，请参阅 [我们的 OpenID Connect 文档](docs_url)。
+
+        '
+      client_id: 这是您的 OpenID Connect 提供商给您的客户端 ID
+      client_secret: 这是您的 OpenID Connect 提供商给您的客户端密钥
+      display_name: 提供商的名称。这将显示为登录按钮以及提供商列表中的名称。
       endpoint_url: OpenID Connect 提供商给您的端点 URL
       group_regexes: 每行一个正则表达式模式。有关如何操作的更多信息，请阅读[文档](docs_url)。
       group_regexes_detail: 可选择使用正则表达式定义模式，以匹配群组声明中的群组名称。例如，输入类似 <code>^Level1/Level2/([\w/]+)$</code> 的模式将从包含“Level1/Level2/GroupName/SubGroup”的响应中提取群组“Groupname/SubGroup”。如果没有模式匹配，则会忽略该群组。留空可使用完整群组名称同步所有群组。
-      group_regexes_testing: "点击“测试模式”，以根据样本 OIDC 用户信息测试正则表达式模式。"
+      group_regexes_testing: 点击“测试模式”，以根据样本 OIDC 用户信息测试正则表达式模式。
       group_sync: 自动从身份提供商提取并同步群组成员信息。
       groups_claim: 指定预期表示用户所属群组名称的声明的名称。
+      limit_self_registration: 如果启用，用户只能在提供商的配置允许的情况下使用该提供商进行注册。
+      mapping_admin: '在用户信息响应中提供自定义映射，用于管理员状态。它期望返回一个布尔属性。
+
+        '
+      mapping_email: '在用户信息响应中提供自定义映射，用于电子邮件属性。
+
+        '
+      mapping_first_name: '在用户信息响应中提供自定义映射，用于名字。
+
+        '
+      mapping_last_name: '在用户信息响应中提供自定义映射，用于姓氏。
+
+        '
+      mapping_login: '提供用于登录属性的用户信息响应自定义映射。
+
+        '
       metadata_none: 我没有这个信息
       metadata_url: 我有一个发现端点网址
       oidc_information: 配置 OpenID Connect 提供商需要使用这些值。
-      client_id: 这是您的 OpenID Connect 提供商给您的客户端 ID
-      client_secret: 这是您的 OpenID Connect 提供商给您的客户端密钥
-      limit_self_registration: 如果启用，用户只能在提供商的配置允许的情况下使用该提供商进行注册。
-      display_name: 提供商的名称。这将显示为登录按钮以及提供商列表中的名称。
-      tenant: '如果适用，请将默认租户替换为您自己的租户。请参阅<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此处</a>。'
-      scope: 如果你需要自定义场景值，可以在这里添加一个值，或者用空格分开的多个值。详情参考 [OpenID 连接文档](docs_url)。
       post_logout_redirect_uri: OpenID Connect 提供商在注销请求后应重定向到的 URL。
-      claims: >
-        您可以请求用户信息和 Id 令牌端点的附加声明。有关更多信息，请参阅 [我们的 OpenID Connect 文档](docs_url)。
-      acr_values: >
-        以更简单的格式请求非必要声明。更多信息，请参阅 [我们关于acr_value的文档](docs_url)。
-      mapping_login: >
-        提供用于登录属性的用户信息响应自定义映射。
-      mapping_email: >
-        在用户信息响应中提供自定义映射，用于电子邮件属性。
-      mapping_first_name: >
-        在用户信息响应中提供自定义映射，用于名字。
-      mapping_last_name: >
-        在用户信息响应中提供自定义映射，用于姓氏。
-      mapping_admin: >
-        在用户信息响应中提供自定义映射，用于管理员状态。它期望返回一个布尔属性。
-    settings:
-      metadata_none: 我没有这个信息
-      metadata_url: 我有一个发现端点 URL
-      endpoint_url: 端点 URL
+      scope: 如果你需要自定义场景值，可以在这里添加一个值，或者用空格分开的多个值。详情参考 [OpenID 连接文档](docs_url)。
+      tenant: 如果适用，请将默认租户替换为您自己的租户。请参阅<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此处</a>。
+    menu_title: OpenID 提供商
     providers:
-      label_providers: "供应商"
-      seeded_from_env: "此提供商是从环境配置中生成的。它无法被编辑。"
-      google:
-        name: 谷歌
-      microsoft_entra:
-        name: 微软 Entra
+      client_details_description: OpenProject 作为 OIDC 客户端的配置详细信息
       custom:
         name: 自定义
-      upsell:
-        title: "与 OpenID 连接的单点登录 (SSO)"
-        description: 将 OpenProject 连接到 OpenID connect 身份提供商
+      google:
+        name: 谷歌
       label_add_new: 添加一个新的 OpenID 提供商
+      label_advanced_configuration: 高级配置
+      label_attribute_mapping: 属性映射
+      label_automatic_configuration: 自动配置
+      label_client_details: 客户端详细信息
+      label_configuration_details: 元数据
       label_edit: 编辑 OpenID 提供商 %{name}
-      label_empty_title: 尚未配置 OpenID 提供商。
       label_empty_description: 在这里添加一个提供商以查看它们。
+      label_empty_title: 尚未配置 OpenID 提供商。
       label_group_mapping: 群组映射
       label_metadata: OpenID Connect 发现端点
-      label_automatic_configuration: 自动配置
       label_optional_configuration: 可选配置
-      label_advanced_configuration: 高级配置
-      label_configuration_details: 元数据
-      label_client_details: 客户端详细信息
-      label_attribute_mapping: 属性映射
-      notice_created: 新的 OpenID 提供程序已成功创建。
-      client_details_description: OpenProject 作为 OIDC 客户端的配置详细信息
+      label_providers: 供应商
+      microsoft_entra:
+        name: 微软 Entra
       no_results_table: 尚未定义提供商。
+      notice_created: 新的 OpenID 提供程序已成功创建。
       plural: OpenID 提供商
-      singular: OpenID 提供商
       section_texts:
+        attribute_mapping: 配置 OpenProject 和 OpenID Connect 提供商之间属性的映射。
+        claims: 请求额外的 ID 令牌或用户信息响应请求。
+        configuration: OpenID Connect 提供商的配置详细信息
+        configuration_metadata: 这些资料是利用所提供的发现端点预先填写的，在大多数情况下，这些资料不需要编辑。
+        display_name: 显示名称对用户可见。
         group_mapping: 将身份提供商提供的群组名称映射到 OpenProject 中的群组。
         metadata: 使用 OpenID Connect 发现端点 URL 预填充配置
         metadata_form_banner: 编辑发现端点可能会覆盖现有的预填元数据值。
-        metadata_form_title: OpenID Connect 发现端点
         metadata_form_description: 如果您的身份提供商有发现端点 URL 。请使用下面的地址来预填写配置。
-        configuration_metadata: 这些资料是利用所提供的发现端点预先填写的，在大多数情况下，这些资料不需要编辑。
-        configuration: OpenID Connect 提供商的配置详细信息
-        display_name: 显示名称对用户可见。
-        attribute_mapping: 配置 OpenProject 和 OpenID Connect 提供商之间属性的映射。
-        claims: 请求额外的 ID 令牌或用户信息响应请求。
+        metadata_form_title: OpenID Connect 发现端点
       side_panel:
         information_component:
           backchannel_logout_url: 后端通道退出登录 URL
+      singular: OpenID 提供商
+      upsell:
+        description: 将 OpenProject 连接到 OpenID connect 身份提供商
+        title: 与 OpenID 连接的单点登录 (SSO)
     setting_instructions:
-      limit_self_registration: >
-        如果启用，用户只能使用此提供商注册，如果自注册设置允许的话。
+      limit_self_registration: '如果启用，用户只能使用此提供商注册，如果自注册设置允许的话。
+
+        '
+    settings:
+      endpoint_url: 端点 URL
+      metadata_none: 我没有这个信息
+      metadata_url: 我有一个发现端点 URL
+  plugin_openproject_openid_connect:
+    description: 将 OmniAuth OpenID 连接策略提供程序添加到 OpenProject 。
+    name: OpenProject OpenID 连接
+  provider:
+    delete_warning:
+      delete_result_1: 从可用的提供商列表中删除提供商。
+      delete_result_direct: 此提供商被标记为直接登录提供商。 设置将被删除，用户将不再被重定向到提供商登录。
+      delete_result_user_count:
+        one: 目前有一个用户仍在使用此提供商。他们需要被重新邀请或使用其他提供商登录。
+        other: 目前有 %{count} 个用户仍在使用该提供商。他们需要重新邀请或使用其他提供商登录。
+        zero: 目前没有用户正在使用此提供商。无需采取进一步操作。
+      input_delete_confirmation_html: 输入提供商名称 %{name} 以确认删除。
+      irreversible_notice: 删除项目是一个不可逆转的操作。
+      provider_html: 确定要删除 SSO 提供商 %{name} 吗？请注意，此操作将：

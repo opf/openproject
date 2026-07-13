@@ -39,7 +39,7 @@ class CustomFields::Inputs::Text < CustomFields::Inputs::Base::Input
       macros: "none",
       data: {
         "custom-field-id": @custom_field.id,
-        "qa-field-name": qa_field_name
+        "test-selector": test_selector
       }
     }
   end

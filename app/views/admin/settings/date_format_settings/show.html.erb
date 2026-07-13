@@ -40,40 +40,38 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= styled_form_tag(
-      admin_settings_date_format_path,
-      method: :patch,
-      class: "op-date-format-admin-settings"
-    ) do %>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_date_format_path,
+    scope: :settings,
+    method: :patch,
+    class: "op-date-format-admin-settings",
+    data: { turbo: false }
+  ) do |form|
+    render_inline_settings_form(form) do |f|
+      f.select_list name: :date_format,
+                    values: Settings::Definition[:date_format].allowed.collect { |f| [Date.today.strftime(f), f] },
+                    input_width: :medium,
+                    include_blank: t(:label_language_based)
 
-  <section class="form--section">
+      f.select_list name: :time_format,
+                    values: Settings::Definition[:time_format].allowed.collect { |f| [Time.now.strftime(f), f] },
+                    input_width: :medium,
+                    include_blank: t(:label_language_based)
 
-    <div class="form--field">
-      <%= setting_select :date_format,
-                         Settings::Definition[:date_format].allowed.collect { |f| [Date.today.strftime(f), f] },
-                         blank: :label_language_based,
-                         container_class: "-wide" %>
-    </div>
+      f.select_list name: :start_of_week,
+                    values: [[day_name(1), 1], [day_name(6), 6], [day_name(7), 7]],
+                    input_width: :medium,
+                    include_blank: t(:label_language_based)
 
-    <div class="form--field">
-      <%= setting_select :time_format,
-                         Settings::Definition[:time_format].allowed.collect { |f| [Time.now.strftime(f), f] },
-                         blank: :label_language_based,
-                         container_class: "-wide" %>
-    </div>
+      f.select_list name: :first_week_of_year,
+                    values: [[day_name(1), 1], [day_name(4), 4]],
+                    input_width: :medium,
+                    include_blank: t(:label_language_based),
+                    caption: t("settings.date_format.first_week_of_year_text_html",
+                               link: OpenProject::Static::Links.url_for(:date_format_settings_documentation))
 
-    <div class="form--field">
-      <%= setting_select :start_of_week, [[day_name(1), "1"], [day_name(6), "6"], [day_name(7), "7"]], blank: :label_language_based, container_class: "-wide" %>
-    </div>
-
-    <div class="form--field">
-      <%= setting_select :first_week_of_year, [[day_name(1), "1"], [day_name(4), "4"]], blank: :label_language_based, container_class: "-wide" %>
-     <div class="form--field-instructions">
-        <p><%= t("settings.date_format.first_week_of_year_text_html", link: OpenProject::Static::Links.url_for(:date_format_settings_documentation)) %></p>
-      </div>
-    </div>
-
-  </section>
-
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+      f.submit
+    end
+  end
+%>

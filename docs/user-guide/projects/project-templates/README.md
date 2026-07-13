@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project templates
-  priority: 600
+  priority: 500
 description: How to create project templates.
 keywords: project templates
 ---
@@ -11,13 +11,15 @@ Project templates are useful for projects that share a similar structure or team
 
 ## Create a project template
 
-You can create a project template in OpenProject by [creating a new project](../../../getting-started/projects/#create-a-new-project) and configuring your project to your needs. Give the project a clear name to identify it as a template, e.g., *Project XY [Template]*.
+You can create a project template in OpenProject by [creating a new project](../../../getting-started/projects/#create-a-new-project) and configuring your project to your needs. Give the project a clear name to identify it as a template, e.g., _Project XY [Template]_.
 
 Configure everything you want included in future projects:
+
 - Add project members 
 - Select and populate the necessary modules 
+
 > [!IMPORTANT]
-> Settings and data from the *Budgets* and *Time and costs* modules is not included when copying a template. For this reason, these modules should not be configured in templates, as any projects created from them will not contain the corresponding data.
+> Settings and data from the _Budgets_ and _Time and costs_ modules is not included when copying a template. For this reason, these modules should not be configured in templates, as any projects created from them will not contain the corresponding data.
 
 - Set up the default project structure in the Gantt chart  
 - Create work package templates  
@@ -33,8 +35,8 @@ Navigate to the [project settings](../project-settings), click the **More (three
 
 You can create a new project by using an existing template. This copies the template’s settings and structure to the new project. Find out in our Getting started guide how to [create a new project](../../../getting-started/projects/#create-a-new-project) in OpenProject.
 
->  [!TIP]
->  If you do not see any template options, this may be because no projects have been set as project templates yet, or because you do not have access to any template projects. Only templates that are public or where you are a project member are shown, allowing different user groups to see only the templates relevant to them.
+> [!TIP]
+> If you do not see any template options, this may be because no projects have been set as project templates yet, or because you do not have access to any template projects. Only templates that are public or where you are a project member are shown, allowing different user groups to see only the templates relevant to them.
 
 Alternatively, you can [copy the project](../project-settings/project-information/#copy-a-project) to use it as a template.
 

@@ -31,28 +31,18 @@
 module OpenProject
   module Common
     module InplaceEditFields
-      class TextInputComponent < ViewComponent::Base
-        attr_reader :form, :attribute, :model
-
-        def self.display_class
-          DisplayFields::DisplayFieldComponent
-        end
-
-        def initialize(form:, attribute:, model:, **system_arguments)
-          super()
-          @form = form
-          @attribute = attribute
-          @model = model
-          @system_arguments = system_arguments
-          @system_arguments[:label] ||= model.class.human_attribute_name(attribute)
-        end
-
+      class TextInputComponent < BaseFieldComponent
         def call
+          @system_arguments[:data] = merge_data(
+            @system_arguments,
+            **additional_arguments
+          )
+
           form.text_field name: attribute,
-                          data: { controller: "inplace-edit",
-                                  inplace_edit_url_value: reset_url,
-                                  action: "keydown.esc->inplace-edit#request" },
+                          autofocus: true,
                           **@system_arguments
+
+          comment_field_if_enabled(form)
         end
 
         private
@@ -64,6 +54,19 @@ module OpenProject
             attribute:,
             system_arguments_json: @system_arguments.to_json
           )
+        end
+
+        def additional_arguments
+          if show_action_buttons
+            {
+              data: { controller: "inplace-edit",
+                      inplace_edit_url_value: reset_url,
+                      action: "keydown.esc->inplace-edit#request",
+                      test_selector: }
+            }
+          else
+            { data: { test_selector: } }
+          end
         end
       end
     end

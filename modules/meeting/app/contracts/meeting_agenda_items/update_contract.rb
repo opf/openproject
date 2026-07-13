@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,7 +30,9 @@
 
 module MeetingAgendaItems
   class UpdateContract < BaseContract
-    validate :user_allowed_to_edit
+    validate :user_allowed_to_edit_in_source_project
+    validate :user_allowed_to_edit_in_destination_project
+    validate :section_belongs_to_meeting
 
     attribute :lock_version do
       if model.lock_version.nil? || model.lock_version_changed?
@@ -42,10 +45,43 @@ module MeetingAgendaItems
     # through the project permission :manage_agendas
     # When MeetingRole becomes available, agenda items will
     # be edited through meeting permissions :manage_agendas
-    def user_allowed_to_edit
+    def user_allowed_to_edit_in_source_project
+      unless user.allowed_in_project?(:manage_agendas, source_meeting.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
+
+    def user_allowed_to_edit_in_destination_project
+      return unless model.meeting_id_changed?
+
       unless user.allowed_in_project?(:manage_agendas, model.project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def section_belongs_to_meeting
+      return unless model.meeting_section_id_changed?
+
+      item_meeting = model.meeting
+      section_meeting = model.meeting_section.meeting
+
+      return if item_meeting == section_meeting
+
+      # For recurring meetings, allow moves across meetings in the same series
+      if item_meeting.recurring? &&
+        item_meeting.recurring_meeting_id == section_meeting.recurring_meeting_id
+        return
+      end
+
+      errors.add :meeting_section, :invalid
+    end
+
+    private
+
+    def source_meeting
+      return model.meeting unless model.meeting_id_changed?
+
+      Meeting.find(model.meeting_id_was)
     end
   end
 end

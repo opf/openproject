@@ -1,5 +1,6 @@
+---
 fi:
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "Yleiskatsaus"
+    label_overview: Yleiskatsaus

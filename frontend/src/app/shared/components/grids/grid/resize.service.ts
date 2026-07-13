@@ -1,36 +1,37 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
 import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
 
 @Injectable()
 export class GridResizeService {
+  readonly layout = inject(GridAreaService);
+  readonly move = inject(GridMoveService);
+  readonly drag = inject(GridDragAndDropService);
+
   private resizedArea:GridWidgetArea|null;
 
   private targetIds:string[];
 
-  constructor(readonly layout:GridAreaService,
-    readonly move:GridMoveService,
-    readonly drag:GridDragAndDropService) { }
-
-  public end(area:GridWidgetArea) {
+  public end(area:GridWidgetArea):Promise<GridResource>|undefined {
     if (!this.resizedArea) {
-      return;
+      return undefined;
     }
 
     this.resizedArea = null;
 
     // user aborted resizing
     if (area.unchangedSize) {
-      return;
+      return undefined;
     }
 
     this.layout.writeAreaChangesToWidgets();
     this.layout.cleanupUnusedAreas();
 
-    this.layout.rebuildAndPersist();
+    return this.layout.rebuildAndPersist();
   }
 
   public abort() {
@@ -87,7 +88,7 @@ export class GridResizeService {
   }
 
   public isResized(area:GridWidgetArea) {
-    return this.resizedArea && this.resizedArea.guid === area.guid;
+    return this.resizedArea?.guid === area.guid;
   }
 
   public isPassive(area:GridWidgetArea) {

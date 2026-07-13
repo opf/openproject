@@ -51,7 +51,7 @@ class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_title(event)
-    I18n.t("events.title.project", name: event["project_name"])
+    I18n.t("events.title.project_html", name: event["project_name"])
   end
 
   def event_path(event)

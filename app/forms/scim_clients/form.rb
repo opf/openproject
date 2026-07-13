@@ -59,7 +59,7 @@ module ScimClients
       client_form.select_list(
         name: :authentication_method,
         label: ScimClient.human_attribute_name(:authentication_method),
-        caption: I18n.t("admin.scim_clients.form.authentication_method_description_html").html_safe,
+        caption: helpers.t("admin.scim_clients.form.authentication_method_description_html"),
         input_width: :large,
         include_blank: false,
         disabled: model.persisted?,

@@ -66,7 +66,8 @@ RSpec.describe Queries::Relations::Filters::FromFilter do
       let(:operator) { "=" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("from_id IN ('1') AND to_id IN (#{visible_sql})")
+        sql = "from_id IN (1) AND from_id IN (#{visible_sql}) AND to_id IN (#{visible_sql})"
+        expected = model.where(sql)
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end
@@ -76,7 +77,8 @@ RSpec.describe Queries::Relations::Filters::FromFilter do
       let(:operator) { "!" }
 
       it "is the same as handwriting the query" do
-        expected = model.where("from_id NOT IN ('1') AND to_id IN (#{visible_sql})")
+        sql = "from_id NOT IN (1) AND from_id IN (#{visible_sql}) AND to_id IN (#{visible_sql})"
+        expected = model.where(sql)
 
         expect(instance.apply_to(model).to_sql).to eql expected.to_sql
       end

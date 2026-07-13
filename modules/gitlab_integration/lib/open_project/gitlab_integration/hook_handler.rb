@@ -43,25 +43,55 @@ module OpenProject::GitlabIntegration
     # We need to check validity of the data and send a Notification
     # which we process in our NotificationHandler.
     def process(_hook, request, params, user)
-      event_type = request.env["HTTP_X_GITLAB_EVENT"]
-      event_type.tr!(" ", "_")
-      event_type = event_type.to_s.downcase
+      event_type = normalize_event_type(request)
 
       Rails.logger.debug { "Received gitlab webhook #{event_type}" }
 
       return 404 unless KNOWN_EVENTS.include?(event_type)
-      return 403 if user.blank?
+      return 403 unless authorized?(request, user)
 
+      notify(params, user, event_type)
+      200
+    end
+
+    private
+
+    def normalize_event_type(request)
+      request.env["HTTP_X_GITLAB_EVENT"].tr(" ", "_").downcase
+    end
+
+    def authorized?(request, user)
+      valid_token?(request) &&
+        user.present? &&
+        (configured_user_id.blank? || user.id == configured_user_id)
+    end
+
+    def notify(params, user, event_type)
       payload = params[:payload]
                 .permit!
                 .to_h
                 .merge("open_project_user_id" => user.id,
                        "gitlab_event" => event_type)
 
-      event_name = :"gitlab.#{event_type}"
-      OpenProject::Notifications.send(event_name, payload)
+      OpenProject::Notifications.send(:"gitlab.#{event_type}", payload)
+    end
 
-      200
+    def valid_token?(request)
+      secret = plugin_settings[:webhook_secret].presence
+      return true if secret.blank?
+
+      token_header = request.env["HTTP_X_GITLAB_TOKEN"]
+      return false if token_header.blank?
+
+      ActiveSupport::SecurityUtils.secure_compare(secret, token_header)
+    end
+
+    def configured_user_id
+      plugin_settings[:gitlab_user_id].presence&.to_i
+    end
+
+    def plugin_settings
+      Hash(Setting.plugin_openproject_gitlab_integration).with_indifferent_access
     end
   end
 end

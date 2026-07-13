@@ -1,0 +1,41 @@
+services:
+  web:
+    image: xwiki:stable-postgres-tomcat
+    depends_on:
+      - db
+    environment:
+      - DB_USER=${XWIKI_DB_USER:-xwiki}
+      - DB_PASSWORD=${XWIKI_DB_PASSWORD:-xwiki}
+      - DB_HOST=db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.xwiki.rule=Host(`xwiki.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.xwiki.entrypoints=websecure"
+    volumes:
+      - xwiki-data:/usr/local/xwiki
+    networks:
+      - bridge
+      - gateway
+  db:
+    image: postgres:17
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_ROOT_PASSWORD=${XWIKI_DB_ROOT_PASSWORD:-xwiki}
+      - POSTGRES_PASSWORD=${XWIKI_DB_PASSWORD:-xwiki}
+      - POSTGRES_USER=${XWIKI_DB_USER:-xwiki}
+      - POSTGRES_DB=${XWIKI_DB_NAME:-xwiki}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale-provider=builtin --locale=C.UTF-8
+    networks:
+      - bridge
+
+volumes:
+  postgres-data:
+  xwiki-data:
+
+networks:
+  bridge:
+    driver: bridge
+  gateway:
+    external: true
+    name: gateway

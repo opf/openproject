@@ -1,5 +1,6 @@
+---
 tr:
   overviews:
+    label_dashboard: Gösterge paneli
     label_home: "%{workspace_type} ev"
-    label_dashboard: "Gösterge paneli"
-    label_overview: "Genel Bakış"
+    label_overview: Genel Bakış

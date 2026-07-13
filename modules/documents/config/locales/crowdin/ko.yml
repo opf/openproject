@@ -19,134 +19,137 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ko:
-  plugin_openproject_documents:
-    name: "OpenProject 문서"
-    description: "프로젝트에서 문서 생성을 허용하는 OpenProject 플러그인입니다."
   activerecord:
+    attributes:
+      document:
+        content_binary: 콘텐츠 바이너리
+        title: 제목
     errors:
       models:
         document_type:
-          one_or_more_required: "마지막 문서 유형을 삭제할 수 없습니다"
+          one_or_more_required: 마지막 문서 유형을 삭제할 수 없습니다
     models:
-      document: "문서"
-      documents: "문서"
-    attributes:
-      document:
-        content_binary: "콘텐츠 바이너리"
-        title: "제목"
+      document: 문서
+      documents: 문서
   activity:
     filter:
-      document: "문서"
-  default_doc_category_tech: "기술 설명서"
-  default_doc_category_user: "사용자 설명서"
-  enumeration_doc_categories: "문서 범주"
+      document: 문서
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus 서버 URL
+  default_doc_category_tech: 기술 설명서
+  default_doc_category_user: 사용자 설명서
   documents:
-    page_header:
-      heading: "모든 문서"
-      action_menu:
-        document_actions: "문서 작업"
-        edit_title: "제목 편집"
-    subheader:
-      filter:
-        label: "문서 이름 필터"
-        placeholder: "문서 이름을 검색하려면 여기에 입력하세요"
-    documents_list_blank_slate:
-      heading: "아직 문서가 없습니다"
-      description: "이 보기에는 문서가 없습니다. 아래 버튼을 클릭하여 문서를 추가할 수 있습니다."
-    document_categories_deprecation_notice:
-      heading: 파일 카테고리는 이제 '문서 유형'이라고 합니다
-      description: |-
-        새로운 문서 모듈이 도입됨에 따라 기존 파일 카테고리가 문서 유형으로 변환되었습니다.
-        기존의 모든 문서도 이 새로운 유형으로 마이그레이션되었습니다.
-      primary_action: 문서 유형 구성
-      secondary_action: 문서 모듈에 대해 자세히 알아보기
-    document_type_actions: "문서 유형 작업"
-    text_collaboration_disabled_notice:
-      description: |-
-        실시간 텍스트 공동 작업이 비활성화되어 있으므로 문서를 열 수 없습니다.
-        이 문서에 액세스하려면 관리자에게 문의하여 실시간 텍스트 공동 작업을 활성화하세요.
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          실시간 텍스트 공동 작업 서버에 연결할 수 없으므로 문서를 열 수 없습니다.
-          문제가 지속되면 관리자에게 문의하세요.
-        action: 다시 시도
-      connection_recovery_notice:
-        description: "실시간 텍스트 공동 작업 서버에 대한 연결이 복원되었습니다."
-      tabs: "문서 탭"
-    index_page:
-      name: "이름"
-      type: "타입"
-      updated_at: "마지막 편집"
-      label_legacy: "레거시"
-    menu:
-      all: "모든 문서"
-      types: "유형"
-      collaboration_settings: "실시간 공동 작업"
-    last_updated_at: "마지막으로 저장 %{time}."
-    active_editors: "활성 편집자"
+    active_editors: 활성 편집자
     active_editors_count:
-      other: "활성 편집자 %{count}명"
-    label_attachment_author: "첨부 파일 작성자"
-    label_categories: "카테고리"
-    new_category: "새 카테고리"
-    new_type: "새 유형"
-    delete_dialog:
-      title: "문서 삭제"
-      heading: "이 문서를 삭제하시겠습니까?"
-      confirmation_message_html: "이렇게 하면 이 문서와 모든 첨부 파일이 영구적으로 삭제됩니다. 계속하시겠습니까?"
-    delete_document_type_dialog:
-      title: 문서 유형 삭제
-      heading: 이 문서 유형을 삭제하시겠습니까?
-      confirmation_message: |-
-        "%{type_name}" 유형은 현재 사용되지 않습니다. 이 유형을 삭제해도 기존 문서에는 영향을 미치지 않습니다.
-      select_reassign_to_label: 문서 다시 할당 대상
-      reassign_message:
-        other: '%{document_count} 문서에서 "%{type_name}" 유형이 현재 사용되고 있습니다. 다시 할당할 유형을 선택하세요.'
-      at_least_one_type_required:
-        title: 문서 유형을 삭제할 수 없음
-        heading: 마지막 문서 유형을 삭제할 수 없음
-        message: 항상 문서 유형이 하나 이상 구성되어 있어야 합니다. 이 문서 유형을 삭제하려면 다른 문서 유형을 먼저 만드세요.
+      other: 활성 편집자 %{count}명
     admin:
       collaboration_settings:
+        banner:
+          none_writable: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
+          some_unwritable: 일부 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
+        hocuspocus_server: Hocuspocus 서버
+        hocuspocus_server_secret:
+          caption: Hocuspocus 서버에서 제공한 비밀번호를 붙여넣으세요.
+          label: 클라이언트 비밀번호
+        hocuspocus_server_url:
+          caption: 작동 중인 Hocuspocus 서버의 WebSocket 주소입니다.
+          invalid_scheme: WebSocket 프로토콜(ws:// 또는 wss://)을 사용해야 합니다.
+          label: Hocuspocus 서버 URL
         page_header:
           description: |-
             실시간 공동 작업을 활성화하면 여러 사용자가 동시에 문서를 편집할 수 있습니다.
             이 기능을 사용하려면 %{hocuspocus_server_link}이(가) 작동해야 합니다.
-        banner:
-          none_writable: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
-          some_unwritable: 일부 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
-        hocuspocus_server_url:
-          label: "Hocuspocus 서버 URL"
-          caption: "작동 중인 Hocuspocus 서버의 주소입니다."
-        hocuspocus_server_secret:
-          label: "클라이언트 비밀번호"
-          caption: "Hocuspocus 서버에서 제공한 비밀번호를 붙여넣으세요."
-        hocuspocus_server: Hocuspocus 서버
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: 데이터가 영구적으로 손실될 수 있음을 이해합니다
+        confirmation_message: "기존의 모든 문서에 액세스할 수 없게 될 수 있습니다. 이러한 경우 실시간 공동 작업과 BlockNote 편집기를 \n비활성화하려는 경우에만 이 작업을 수행하세요."
+        heading: 실시간 공동 작업을 비활성화하시겠습니까?
+        success: 실시간 공동 작업이 비활성화되었습니다.
+        title: 실시간 공동 작업 비활성화
       enable_text_collaboration:
-        heading: 실시간 공동 작업이 활성화되지 않았습니다
         description: |-
           이 옵션을 활성화하면 여러 사용자가 동시에 문서에서 함께 작업할 수 있습니다.
           모든 새 문서는 새 편집기(BlockNote)를 기반으로 하며 Hocuspocus 서버에 대한 연결이 필요합니다.
+        heading: 실시간 공동 작업이 활성화되지 않았습니다
         primary_action: 실시간 공동 작업 활성화
         success: 실시간 공동 작업이 활성화되었습니다.
-      disable_text_collaboration_dialog:
-        title: 실시간 공동 작업 비활성화
-        heading: 실시간 공동 작업을 비활성화하시겠습니까?
-        confirmation_message: |-
-          기존의 모든 문서에 액세스할 수 없게 될 수 있습니다. 이러한 경우 실시간 공동 작업과 BlockNote 편집기를 
-          비활성화하려는 경우에만 이 작업을 수행하세요.
-        confirmation_checkbox_message: 데이터가 영구적으로 손실될 수 있음을 이해합니다
-        success: 실시간 공동 작업이 비활성화되었습니다.
-  label_document_added: "문서 추가됨"
-  label_document_new: "새 문서"
-  label_document_plural: "문서"
-  label_documents: "문서"
-  label_document_title: "제목"
-  label_document_description: "설명"
-  label_document_category: "카테고리"
-  label_document_type: "유형"
-  permission_manage_documents: "문서 관리"
-  permission_view_documents: "문서 보기"
-  project_module_documents: "문서"
+    button_add_type: 유형
+    delete_dialog:
+      confirmation_message_html: 이렇게 하면 이 문서와 모든 첨부 파일이 영구적으로 삭제됩니다. 계속하시겠습니까?
+      heading: 이 문서를 삭제하시겠습니까?
+      title: 문서 삭제
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: 마지막 문서 유형을 삭제할 수 없음
+        message: 항상 문서 유형이 하나 이상 구성되어 있어야 합니다. 이 문서 유형을 삭제하려면 다른 문서 유형을 먼저 만드세요.
+        title: 문서 유형을 삭제할 수 없음
+      confirmation_message: '"%{type_name}" 유형은 현재 사용되지 않습니다. 이 유형을 삭제해도 기존 문서에는 영향을 미치지 않습니다.'
+      heading: 이 문서 유형을 삭제하시겠습니까?
+      reassign_message:
+        other: '%{document_count} 문서에서 "%{type_name}" 유형이 현재 사용되고 있습니다. 다시 할당할 유형을 선택하세요.'
+      select_reassign_to_label: 문서 다시 할당 대상
+      title: 문서 유형 삭제
+    document_categories_deprecation_notice:
+      description: |-
+        새로운 문서 모듈이 도입됨에 따라 기존 파일 카테고리가 문서 유형으로 변환되었습니다.
+        기존의 모든 문서도 이 새로운 유형으로 마이그레이션되었습니다.
+      heading: 파일 카테고리는 이제 '문서 유형'이라고 합니다
+      primary_action: 문서 유형 구성
+      secondary_action: 문서 모듈에 대해 자세히 알아보기
+    document_type_actions: 문서 유형 작업
+    documents_list_blank_slate:
+      description: 이 보기에는 문서가 없습니다. 아래 버튼을 클릭하여 문서를 추가할 수 있습니다.
+      heading: 아직 문서가 없습니다
+    index_page:
+      label_legacy: 레거시
+      name: 이름
+      type: 타입
+      updated_at: 마지막 편집
+    info_line:
+      connection_restored: 이제 다시 온라인 상태가 되었습니다.
+      currently_offline: 현재 오프라인 상태입니다.
+    label_attachment_author: 첨부 파일 작성자
+    label_categories: 카테고리
+    last_updated_at: 마지막으로 저장 %{time}.
+    menu:
+      all: 모든 문서
+      collaboration_settings: 실시간 공동 작업
+      types: 유형
+    new_category: 새 카테고리
+    new_type: 새 유형
+    page_header:
+      action_menu:
+        document_actions: 문서 작업
+        edit_title: 제목 편집
+      heading: 모든 문서
+    show_edit_view:
+      connection_error_notice:
+        action: 다시 시도
+        description_server_unavailable: |-
+          실시간 텍스트 공동 작업 서버에 연결할 수 없으므로 문서를 열 수 없습니다.
+          문제가 지속되면 관리자에게 문의하세요.
+      tabs: 문서 탭
+    subheader:
+      filter:
+        label: 문서 이름 필터
+        placeholder: 문서 이름을 검색하려면 여기에 입력하세요
+    text_collaboration_disabled_notice:
+      description: |-
+        실시간 텍스트 공동 작업이 비활성화되어 있으므로 문서를 열 수 없습니다.
+        이 문서에 액세스하려면 관리자에게 문의하여 실시간 텍스트 공동 작업을 활성화하세요.
+  enumeration_doc_categories: 문서 범주
+  label_document_added: 문서 추가됨
+  label_document_category: 카테고리
+  label_document_description: 설명
+  label_document_new: 새 문서
+  label_document_plural: 문서
+  label_document_title: 제목
+  label_document_type: 유형
+  label_documents: 문서
+  permission_manage_documents: 문서 관리
+  permission_view_documents: 문서 보기
+  plugin_openproject_documents:
+    description: 프로젝트에서 문서 생성을 허용하는 OpenProject 플러그인입니다.
+    name: OpenProject 문서
+  project_module_documents: 문서

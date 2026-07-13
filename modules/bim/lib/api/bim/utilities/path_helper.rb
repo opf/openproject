@@ -51,20 +51,27 @@ module API
           end
 
           def project(identifier)
-            "#{root}projects/#{identifier}"
+            path_segments("projects", identifier)
           end
 
           def topics(project_identifier)
-            "#{project(project_identifier)}/topics"
+            path_segments("projects", project_identifier, "topics")
           end
 
           def topic(project_identifier, uuid)
-            "#{topics(project_identifier)}/#{uuid}"
+            path_segments("projects", project_identifier, "topics", uuid)
           end
 
           def viewpoint(project_identifier, topic_uuid, viewpoint_topic)
-            "#{topic(project_identifier, topic_uuid)}/viewpoints/#{viewpoint_topic}"
+            path_segments("projects", project_identifier, "topics", topic_uuid, "viewpoints", viewpoint_topic)
           end
+
+          def path_segments(*segments)
+            subpath = segments.map { |segment| ::ERB::Util.url_encode(segment.to_s) }.join("/")
+            "#{root}#{subpath}"
+          end
+
+          private_class_method :path_segments
         end
 
         def bcf_v2_1_paths

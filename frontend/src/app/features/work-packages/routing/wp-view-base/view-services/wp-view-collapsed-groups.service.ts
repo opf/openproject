@@ -27,9 +27,8 @@
 //++
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { take } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -40,7 +39,12 @@ import { WorkPackageViewBaseService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
-  readonly wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
+  readonly workPackageViewGroupByService = inject(WorkPackageViewGroupByService);
+  private schemaCacheService = inject(SchemaCacheService);
+
+  isMilestone = (workPackage:WorkPackageResource):boolean => this.schemaCacheService.of(workPackage)?.isMilestone as boolean;
+
+  readonly wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[] = [this.isMilestone];
 
   readonly groupTypesWithHeaderCellsWhenCollapsed = ['project'];
 
@@ -64,15 +68,6 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return this.workPackageViewGroupByService.current;
   }
 
-  constructor(
-    protected readonly querySpace:IsolatedQuerySpace,
-    readonly workPackageViewGroupByService:WorkPackageViewGroupByService,
-    private schemaCacheService:SchemaCacheService,
-  ) {
-    super(querySpace);
-    this.wpTypesToShowInCollapsedGroupHeaders = [this.isMilestone];
-  }
-
   // Every time the groupedBy changes, this services is initialized
   private getDefaultState():IGroupsCollapseEvent {
     return {
@@ -83,8 +78,6 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
       ...this.getAllGroupsCollapsedState(this.currentGroups, this.querySpace.collapsedGroups.value!),
     };
   }
-
-  isMilestone = (workPackage:WorkPackageResource):boolean => this.schemaCacheService.of(workPackage)?.isMilestone;
 
   toggleGroupCollapseState(groupIdentifier:string):void {
     const newCollapsedState = !this.config.state[groupIdentifier];

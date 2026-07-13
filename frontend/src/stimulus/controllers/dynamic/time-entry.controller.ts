@@ -29,13 +29,14 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { useMeta } from 'stimulus-use';
 import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TimeEntryController extends Controller {
-  static targets = ['startTimeInput', 'endTimeInput', 'hoursInput', 'form'];
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
+
+  static targets = ['startTimeInput', 'endTimeInput', 'hoursInput', 'hoursHiddenInput', 'form'];
 
   declare readonly formTarget:HTMLFormElement;
   declare readonly startTimeInputTarget:HTMLInputElement;
@@ -43,37 +44,38 @@ export default class TimeEntryController extends Controller {
   declare readonly endTimeInputTarget:HTMLInputElement;
   declare readonly hasEndTimeInputTarget:boolean;
   declare readonly hoursInputTarget:HTMLInputElement;
+  declare readonly hoursHiddenInputTarget:HTMLInputElement;
   declare oldWorkPackageId:string;
 
   static metaNames = ['csrf-token'];
 
   declare readonly csrfToken:string;
 
-  private turboRequests:TurboRequestsService;
-  private pathHelper:PathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
-  async connect() {
+  initialize() {
+    useAngularServices(this);
+  }
+
+  connect() {
     useMeta(this, { suffix: false });
-
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
 
     const workPackageAutocompleter = document.querySelector('opce-autocompleter[data-input-name*="time_entry[entity_id]"]');
     if (workPackageAutocompleter) {
-      this.oldWorkPackageId = (workPackageAutocompleter as HTMLElement).dataset.inputValue || '';
+      this.oldWorkPackageId = (workPackageAutocompleter as HTMLElement).dataset.inputValue ?? '';
     }
   }
 
-  userChanged(event:InputEvent) {
+  async userChanged(event:InputEvent) {
     const userId = (event.currentTarget as HTMLInputElement).value;
-    void this.turboRequests.request(
-      this.pathHelper.timeEntriesUserTimezoneCaption(userId),
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests.request(
+      pathHelperService.timeEntriesUserTimezoneCaption(userId),
       { method: 'GET' },
     );
   }
 
-  entityChanged(event:InputEvent) {
+  async entityChanged(event:InputEvent) {
     const target = event.currentTarget as HTMLInputElement;
     const newValue = target.value;
 
@@ -83,7 +85,8 @@ export default class TimeEntryController extends Controller {
       const url = this.formTarget.dataset.refreshFormUrl!;
       const formData = new FormData(this.formTarget);
       formData.delete('_method'); // remove the override method as this will submit to the wrong action
-      void this.turboRequests.request(url, {
+      const { turboRequests } = await this.services;
+      void turboRequests.request(url, {
         method: 'post',
         body: formData,
         headers: {
@@ -142,6 +145,7 @@ export default class TimeEntryController extends Controller {
       hoursInMinutes += exisitingDayGap;
 
       this.hoursInputTarget.value = formattedHour(hoursInMinutes * 60);
+      this.setHoursPrecise(hoursInMinutes / 60);
     } else if (startTimeInMinutes && hoursInMinutes) {
       const newEndTime = (startTimeInMinutes + hoursInMinutes) % (24 * 60);
 
@@ -166,10 +170,15 @@ export default class TimeEntryController extends Controller {
     // backend
     const duration = durationStringToSeconds(this.hoursInputTarget.value);
     this.hoursInputTarget.value = formattedHour(duration);
+    this.setHoursPrecise(duration / 3600);
 
     if (duration !== 0) {
       this.datesChanged(this.hoursInputTarget);
     }
+  }
+
+  private setHoursPrecise(hours:number) {
+    this.hoursHiddenInputTarget.value = String(hours);
   }
 
   hoursKeyEnterPress(event:KeyboardEvent) {

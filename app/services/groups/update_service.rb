@@ -37,10 +37,13 @@ class Groups::UpdateService < BaseServices::Update
     project_ids = member_roles.pluck(:project_id)
     member_role_ids = member_roles.pluck(:id)
 
+    former_parent_id = model.detail&.parent_id_in_database
+
     call = super
 
     remove_member_roles(member_role_ids)
     cleanup_members(removed_users, project_ids)
+    handle_parent_change(former_parent_id)
 
     call
   end
@@ -69,13 +72,84 @@ class Groups::UpdateService < BaseServices::Update
       .call(member_role_ids:)
   end
 
-  def member_roles_to_prune(users)
+  def member_roles_to_prune(users) # rubocop:disable Metrics/AbcSize
     return MemberRole.none if users.empty?
 
-    MemberRole
-      .includes(member: :member_roles)
+    user_ids = users.map(&:id)
+
+    direct_ids = MemberRole
+      .joins(:member)
       .where(inherited_from: model.members.joins(:member_roles).select("member_roles.id"))
-      .where(members: { user_id: users.map(&:id) })
+      .where(members: { user_id: user_ids })
+      .pluck(:id)
+
+    ancestor_ids = ancestor_member_role_ids_to_prune(users)
+
+    all_ids = (direct_ids + ancestor_ids).uniq
+    return MemberRole.none if all_ids.empty?
+
+    MemberRole.joins(:member).where(id: all_ids)
+  end
+
+  def ancestor_member_role_ids_to_prune(users)
+    model.ancestors.flat_map do |ancestor|
+      users_not_in_ancestor = users.reject { |u| ancestor.user_ids.include?(u.id) }
+      next [] if users_not_in_ancestor.empty?
+
+      MemberRole
+        .joins(:member)
+        .where(inherited_from: ancestor.members.joins(:member_roles).select("member_roles.id"))
+        .where(members: { user_id: users_not_in_ancestor.map(&:id) })
+        .pluck(:id)
+    end
+  end
+
+  def handle_parent_change(former_parent_id)
+    new_parent_id = model.detail&.parent_id
+    return if former_parent_id == new_parent_id
+
+    propagate_ancestor_memberships if new_parent_id.present?
+    cleanup_former_ancestor_memberships(former_parent_id) if former_parent_id.present?
+  end
+
+  def propagate_ancestor_memberships
+    group_ids = model.self_and_descendants.pluck(:id)
+    user_ids = model.self_and_descendants.flat_map(&:user_ids).uniq
+    principal_ids = (user_ids + group_ids).uniq
+    return if principal_ids.empty?
+
+    model.ancestors.each do |ancestor|
+      Groups::CreateInheritedRolesService
+        .new(ancestor, current_user: user)
+        .call(user_ids: principal_ids)
+    end
+  end
+
+  def cleanup_former_ancestor_memberships(former_parent_id) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    former_parent = Group.find_by(id: former_parent_id)
+    return unless former_parent
+
+    affected_users = model.self_and_descendants.flat_map(&:users).uniq
+    affected_group_ids = model.self_and_descendants.pluck(:id)
+    return if affected_users.empty? && affected_group_ids.empty?
+
+    former_parent.self_and_ancestors.each do |ancestor|
+      users_not_in_ancestor = affected_users.reject { |u| ancestor.user_ids.include?(u.id) }
+      principal_ids_to_clean = users_not_in_ancestor.map(&:id) + affected_group_ids
+      next if principal_ids_to_clean.empty?
+
+      role_ids_to_clean = MemberRole
+        .joins(:member)
+        .where(inherited_from: ancestor.members.joins(:member_roles).select("member_roles.id"))
+        .where(members: { user_id: principal_ids_to_clean })
+        .pluck(:id)
+
+      next if role_ids_to_clean.empty?
+
+      Groups::CleanupInheritedRolesService
+        .new(ancestor, current_user: user)
+        .call(member_role_ids: role_ids_to_clean)
+    end
   end
 
   def cleanup_members(users, project_ids)

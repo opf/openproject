@@ -1,0 +1,45 @@
+<%= component_wrapper do
+  flex_layout(align_items: :center, mt: 2, flex_wrap: :wrap) do |flex|
+    flex.with_column(flex: 1) do
+      render(
+        Primer::Alpha::TextField.new(
+          name: :filter,
+          value: filter,
+          label: I18n.t(:"admin.jira.run.wizard.select_dialog.filter_projects"),
+          placeholder: I18n.t(:"admin.jira.run.wizard.select_dialog.filter_projects"),
+          visually_hide_label: true,
+          input_width: :large,
+          style: "min-width: 250px;",
+          leading_visual: { icon: :search },
+          data: { action: "input->admin--jira-projects#filterProjects" }
+        )
+      )
+    end
+    flex.with_column do
+      render(
+        Primer::Beta::Button.new(
+          scheme: :invisible,
+          tag: :a,
+          href: check_all_url,
+          data: { action: "click->admin--jira-projects#checkAll" }
+        )
+      ) do |button|
+        button.with_leading_visual_icon(icon: :"check-circle")
+        I18n.t(:button_check_all)
+      end
+    end
+    flex.with_column do
+      render(
+        Primer::Beta::Button.new(
+          scheme: :invisible,
+          tag: :a,
+          href: uncheck_all_url,
+          data: { action: "click->admin--jira-projects#uncheckAll" }
+        )
+      ) do |button|
+        button.with_leading_visual_icon(icon: :"x-circle")
+        I18n.t(:button_uncheck_all)
+      end
+    end
+  end
+end %>

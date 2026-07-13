@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { filter, throttleTime } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -43,7 +34,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageRelationsService } from './wp-relations.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { type FrameElement, renderStreamMessage, type TurboSubmitEndEvent } from '@hotwired/turbo';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
 @Component({
@@ -53,23 +44,19 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
   standalone: false,
 })
 export class WorkPackageRelationsComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
+  private wpRelations = inject(WorkPackageRelationsService);
+  private apiV3Service = inject(ApiV3Service);
+  private halEvents = inject(HalEventsService);
+  private PathHelper = inject(PathHelperService);
+  private turboRequests = inject(TurboRequestsService);
+
   @Input() public workPackage:WorkPackageResource;
 
-  @ViewChild('frameElement') readonly relationTurboFrame:ElementRef<HTMLIFrameElement>;
+  @ViewChild('frameElement') readonly relationTurboFrame:ElementRef<FrameElement>;
 
   turboFrameSrc:string;
 
   private turboFrameListener:EventListener = this.updateFrontendData.bind(this);
-
-  constructor(
-    private wpRelations:WorkPackageRelationsService,
-    private apiV3Service:ApiV3Service,
-    private halEvents:HalEventsService,
-    private PathHelper:PathHelperService,
-    private turboRequests:TurboRequestsService,
-) {
-    super();
-  }
 
   ngOnInit() {
     this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/relations_tab`;
@@ -109,16 +96,12 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
     document.addEventListener('turbo:submit-end', this.turboFrameListener);
   }
 
-  private async updateFrontendData(event:CustomEvent) {
+  private async updateFrontendData(event:TurboSubmitEndEvent) {
     if (event) {
-      // A turbo:submit-end event *has* a `formSubmission` property, but I do not
-      // know how to avoid the eslint type warning. Please if you know, fix it.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const form = event.detail.formSubmission.formElement as HTMLFormElement;
+      const form = event.detail.formSubmission.formElement;
       const updateWorkPackage = !!form.dataset?.updateWorkPackage;
 
       if (updateWorkPackage) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (event.detail?.success) {
           // Update the work package
           void this.apiV3Service

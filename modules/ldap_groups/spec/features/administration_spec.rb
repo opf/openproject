@@ -73,10 +73,10 @@ RSpec.describe "LDAP group sync administration spec", :js do
       find(".buttons a", text: "Delete").click
 
       SeleniumHubWaiter.wait
-      find(".danger-zone--verification input").set "cn=bar,ou=groups,dc=example,dc=com"
+      check "I understand that this deletion cannot be reversed"
+      click_on "Delete permanently"
 
       SeleniumHubWaiter.wait
-      click_on "Delete"
 
       expect_flash(message: I18n.t(:notice_successful_delete))
       expect(page).to have_css ".generic-table--empty-row"

@@ -1,5 +1,6 @@
+---
 lv:
   overviews:
+    label_dashboard: Informācijas panelis
     label_home: "%{workspace_type} home"
-    label_dashboard: "Informācijas panelis"
-    label_overview: "Pārskats"
+    label_overview: Pārskats

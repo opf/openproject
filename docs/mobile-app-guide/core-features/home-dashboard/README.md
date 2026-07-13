@@ -15,61 +15,62 @@ The dashboard is designed to give you **quick access to the information you care
 ## Purpose
 
 The Home Dashboard is your **central hub** for project management on mobile. Its main purposes include:
-*   **Quickly reviewing your priorities:** See which work packages, deadlines, or updates need your attention.
-*   **Monitoring project activity:** Stay up to date on work package changes, comments, and progress across all your projects.
-*   **Accessing relevant widgets:** Customize what you see based on your workflow and focus areas.
-*   **Saving time:** Avoid switching between multiple screens — everything important is consolidated in one view.
+
+- **Quickly reviewing your priorities:** See which work packages, deadlines, or updates need your attention.
+- **Monitoring project activity:** Stay up to date on work package changes, comments, and progress across all your projects.
+- **Accessing relevant widgets:** Customize what you see based on your workflow and focus areas.
+- **Saving time:** Avoid switching between multiple screens — everything important is consolidated in one view.
 
 ## Available Widgets
 
 The Home Dashboard consists of **modular widgets** that provide snapshots of your most relevant data. Depending on your role and project access, some widgets may vary.
 
-### **Notifications**
+### Notifications
 
-*   Displays recent notifications, such as mentions, comments, or work package updates.
-*   Enables you to **react quickly** without leaving the dashboard.
+- Displays recent notifications, such as mentions, comments, or work package updates.
+- Enables you to **react quickly** without leaving the dashboard.
 
 ![Home dashboard notifications widget in the OpenProject mobile app](mobile_app_homewidget_notifications.png)
 
-### **Favorite Projects**
+### Favorite Projects
 
-*   Displays projects you’ve marked as favorites for **quick access**.
-*   Ideal for prioritizing high-importance projects.
+- Displays projects you’ve marked as favorites for **quick access**.
+- Ideal for prioritizing high-importance projects.
 
 ![Home dashboard displaying "favorite projects" widget in the OpenProject mobile app](mobile_app_homewidget_favoriteprojects.png)
 
-### **Time Tracker**
+### Time Tracker
 
-*   Shows the **currently running timer** or allows you to start a new focus timer.
-*   Helps track work time efficiently and accurately.
+- Shows the **currently running timer** or allows you to start a new focus timer.
+- Helps track work time efficiently and accurately.
 
 ![Home dashboard displaying the "time tracker" widget in OpenProject mobile app](mobile_app_homewidget_timetracker.png)
 
-### **Week Time Tracking**
+### Week Time Tracking
 
-*   Provides an overview of **time logged during the current week**.
-*   Helps you monitor your productivity and ensure accurate reporting.
+- Provides an overview of **time logged during the current week**.
+- Helps you monitor your productivity and ensure accurate reporting.
 
 ![Home dashboard displaying "week time tracking" widget in the OpenProject mobile app](mobile_app_homewidget_weektimetracking.png)
 
-### **Portfolios**
+### Portfolios
 
-*   Shows a snapshot of the portfolios available.
-*   Useful for portfolio managers and team members tracking **high-level progress** across multiple projects.
+- Shows a snapshot of the portfolios available.
+- Useful for portfolio managers and team members tracking **high-level progress** across multiple projects.
 
 ![Home dashboard displaying "portfolios" widget in the OpenProject mobile app](mobile_app_homewidget_portfolios.png)
 
-### **Assigned to Me**
+### Assigned to Me
 
-*   Lists all **work packages currently assigned to you**.
-*   Includes work package types and status indicators for quick task management.
+- Lists all **work packages currently assigned to you**.
+- Includes work package types and status indicators for quick task management.
 
 ![Home dashboard displaying "work packages assigned to me" widget in the OpenProject mobile app](mobile_app_homewidget_assignedtome.png)
 
-### **Recently Edited**
+### Recently Edited
 
-*   Shows a list of **recently edited work packages**.
-*   Allows **fast navigation** back to items that are work in progress.
+- Shows a list of **recently edited work packages**.
+- Allows **fast navigation** back to items that are work in progress.
 
 ![Home dashboard displaying "work packages recently edited" widget in the OpenProject mobile app](mobile_app_homewidget_recentlyedited.png)
 
@@ -77,8 +78,8 @@ The Home Dashboard consists of **modular widgets** that provide snapshots of you
 
 While the mobile dashboard is designed for simplicity, the **order and visibility of widgets** can be customized by using the **edit widgets button** on the right side of the top navigation bar. Clicking the icon allows you to:
 
-*   Activate and deactivate widgets
-*   Reorder widgets
+- Activate and deactivate widgets
+- Reorder widgets
 
 ![Home dashboard edit widgets entry point in OpenProject mobile app](mobile_app_home_addwidget.png)
 ![Home dashboard edit widgets bottom sheet configuration in OpenProject mobile app](mobile_app_home_addwidget_bottomsheet.png)

@@ -39,22 +39,15 @@ module Storages
           @error_data = Results::Error.new(source: self.class, code: :error)
         end
 
-        # rubocop:disable Metrics/AbcSize
         def call(storage:, http_options: {}, &)
           oauth_client = validate_oauth_client(storage).value_or { return Failure(it) }
           token = current_token(oauth_client).value_or { return Failure(it) }
 
-          original_response = yield(httpx_with_auth(token.access_token, http_options))
-
-          case original_response
-          in Failure(code: :unauthorized)
-            updated_token  = refresh_token!(storage.oauth_configuration.to_httpx_oauth_config.to_h,
-                                            http_options,
-                                            token).value_or { return Failure(it) }
-            yield(httpx_with_auth(updated_token.access_token, http_options))
-          else
-            original_response
-          end
+          perform_request(
+            httpx_oauth_session(storage.oauth_configuration.to_httpx_oauth_config, token, http_options),
+            token,
+            &
+          )
         rescue ActiveRecord::StaleObjectError => e
           raise e if @retried
 
@@ -62,14 +55,33 @@ module Storages
           @retried = true
           retry
         end
-        # rubocop:enable Metrics/AbcSize
 
         private
 
-        def httpx_with_auth(access_token, http_options)
-          OpenProject
-            .httpx
-            .with(http_options.deep_merge(headers: { "Authorization" => "Bearer #{access_token}" }))
+        def perform_request(session, token, &)
+          response = yield(session)
+
+          response.bind { update_token(session, token) }
+
+          response
+        rescue HTTPX::TimeoutError => e
+          handle_timeout(token, e)
+        rescue HTTPX::Error => e
+          handle_http_error(token, e)
+        end
+
+        def update_token(session, token)
+          oauth_session = session.send(:oauth_session)
+          token.update!(access_token: oauth_session.access_token, refresh_token: oauth_session.refresh_token)
+        end
+
+        def httpx_oauth_session(oauth_config, token, http_options)
+          OpenProject.httpx
+                     .plugin(:retries)
+                     .plugin(:oauth)
+                     .with(**http_options,
+                           oauth_options: { **oauth_config,
+                             access_token: token.access_token, refresh_token: token.refresh_token })
         end
 
         def validate_oauth_client(storage)
@@ -78,34 +90,16 @@ module Storages
           Failure(@error_data.with(code: :missing_oauth_client, payload: storage))
         end
 
-        def refresh_token!(oauth_config, http_options, token)
-          oauth_session = OpenProject
-                            .httpx
-                            .oauth_auth(**oauth_config,
-                                        refresh_token: token.refresh_token,
-                                        token_endpoint_auth_method: "client_secret_post")
-                            .with(http_options)
-                            .with_access_token
-                            .instance_variable_get(:@options)
-                            .oauth_session
-          token.update!(access_token: oauth_session.access_token, refresh_token: oauth_session.refresh_token)
-          Success(token)
-        rescue HTTPX::HTTPError => e
-          handle_http_error(token, e)
-        rescue HTTPX::TimeoutError => e
-          handle_timeout(token, e)
-        end
-
         def handle_timeout(token, exception)
-          Rails.logger.error("Timeout while refreshing OAuth token. - Payload: #{exception.message}")
-          token.destroy
-          Failure(@error_data.with(error: :timeout_on_refresh, payload: exception))
+          error("Timeout while refreshing OAuth token. - Payload: #{exception.message}")
+          token.destroy!
+          Failure(@error_data.with(code: :timeout_on_refresh, payload: exception))
         end
 
-        def handle_http_error(token, error)
-          Rails.logger.error("Error while refreshing OAuth token - Payload: #{error.response}")
-          token.destroy
-          Failure(@error_data.with(code: :unauthorized, payload: error.response))
+        def handle_http_error(token, exception)
+          error("Error while refreshing OAuth token - Payload: #{exception.response}")
+          token.destroy!
+          Failure(@error_data.with(code: :unauthorized, payload: exception.response))
         end
 
         def current_token(client)

@@ -219,6 +219,44 @@ RSpec.describe "Work package meeting outcomes", :js do
           expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new), wait: 10)
           expect(WorkPackage.count).to eq(initial_wp_count)
         end
+
+        context "when changing the WP type" do
+          let!(:type_without_template) { create(:type, name: "No template type") }
+          let!(:type_with_template) do
+            create(:type, name: "Templated type",
+                          description: "Some default template text here...")
+          end
+
+          before do
+            project.types = [type_without_template, type_with_template]
+          end
+
+          it "refreshes the form when the type is changed" do
+            show_page.visit!
+            wait_for_network_idle
+
+            show_page.open_menu(meeting_agenda_item) do
+              click_on "Add outcome"
+              click_on "New work package"
+            end
+
+            expect(page).to have_dialog(I18n.t(:label_work_package_new))
+            expect(page).to have_no_css(".ck-content", text: "Some default template text here...")
+
+            page.within_dialog(I18n.t(:label_work_package_new)) do
+              wait_for_turbo_stream do
+                select_autocomplete(find_test_selector("work_package_create_dialog_type"),
+                                    query: type_with_template.name,
+                                    select_text: type_with_template.name.upcase,
+                                    results_selector: "body")
+              end
+            end
+
+            page.within_dialog(I18n.t(:label_work_package_new)) do
+              expect(page).to have_css(".ck-content", text: "Some default template text here...")
+            end
+          end
+        end
       end
 
       context "when user lacks add_work_packages permission" do

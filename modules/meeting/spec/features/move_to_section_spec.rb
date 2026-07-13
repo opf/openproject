@@ -52,6 +52,10 @@ RSpec.describe "Move agenda items to section", :js do
     login_as current_user
   end
 
+  after do
+    travel_back
+  end
+
   describe "for one-time meetings" do
     shared_let(:meeting) do
       create :meeting,

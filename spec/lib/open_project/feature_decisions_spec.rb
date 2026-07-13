@@ -50,6 +50,12 @@ RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
     end
   end
 
+  shared_context "when adding the feature flag with allow_enabling disabled" do
+    before do
+      described_class.add flag_name, allow_enabling: false
+    end
+  end
+
   describe "`flag_name`_active?" do
     context "without an ENV variable" do
       include_context "when adding the feature flag"
@@ -86,6 +92,25 @@ RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
       it "is true" do
         expect(described_class.send(:"#{flag_name}_active?"))
           .to be true
+      end
+    end
+
+    context "with allow_enabling disabled and no ENV variable" do
+      include_context "when adding the feature flag with allow_enabling disabled"
+
+      it "is false by default" do
+        expect(described_class.send(:"#{flag_name}_active?"))
+          .to be false
+      end
+    end
+
+    context "with allow_enabling disabled but ENV variable set to true",
+            with_env: { "OPENPROJECT_FEATURE_EXAMPLE_FLAG_ACTIVE" => "true" } do
+      include_context "when adding the feature flag with allow_enabling disabled"
+
+      it "is false (ENV variable is ignored)" do
+        expect(described_class.send(:"#{flag_name}_active?"))
+          .to be false
       end
     end
   end
@@ -133,6 +158,25 @@ RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
       it "is an array with the flag included" do
         expect(described_class.active)
           .to eq [flag_name.to_s]
+      end
+    end
+
+    context "with allow_enabling disabled and no ENV variable" do
+      include_context "when adding the feature flag with allow_enabling disabled"
+
+      it "returns an empty array" do
+        expect(described_class.active)
+          .to eq []
+      end
+    end
+
+    context "with allow_enabling disabled but ENV variable set to true",
+            with_env: { "OPENPROJECT_FEATURE_EXAMPLE_FLAG_ACTIVE" => "true" } do
+      include_context "when adding the feature flag with allow_enabling disabled"
+
+      it "returns an empty array (ENV variable is ignored)" do
+        expect(described_class.active)
+          .to eq []
       end
     end
   end

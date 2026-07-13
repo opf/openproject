@@ -134,6 +134,60 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
         expect(response).to be_successful
         expect(response.parsed_body["content"]).to eq "Hello &lt;b&gt;world&lt;/b&gt; wrote:\n> foo\n\n"
       end
+
+      it "prefixes each line with > for multiline content" do
+        message.update!(content: "line one\nline two\nline three")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        body = response.parsed_body
+        expect(body["content"]).to include("> line one\n> line two\n> line three")
+      end
+
+      it "replaces <pre> blocks with [...]" do
+        message.update!(content: "before\n<pre>some code\nblock</pre>\nafter")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        body = response.parsed_body
+        expect(body["content"]).to include("[...]")
+        expect(body["content"]).not_to include("<pre>")
+        expect(body["content"]).not_to include("some code")
+      end
+
+      it "preserves double quotes in content" do
+        message.update!(content: 'she said "hello" to him')
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to include('she said "hello" to him')
+      end
+
+      it "does not add RE: prefix when subject already starts with RE:" do
+        message.update!(subject: "RE: already replied")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response.parsed_body["subject"]).to eq "RE: already replied"
+      end
+
+      it "adds RE: prefix to subject" do
+        message.update!(subject: "original topic")
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response.parsed_body["subject"]).to eq "RE: original topic"
+      end
+
+      it "handles nil content gracefully" do
+        message.update_columns(content: nil)
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to include("> \n\n")
+      end
+
+      it "returns not acceptable for non-JSON requests" do
+        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :html
+
+        expect(response).to have_http_status(:not_acceptable)
+      end
     end
   end
 end

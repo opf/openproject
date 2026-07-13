@@ -1,0 +1,99 @@
+<% if edit_mode? %>
+  <%=
+    primer_form_with(
+      model: form_model,
+      scope: :group,
+      method: form_method,
+      url: update_path,
+      test_selector: "type-form-configuration-group-edit-form",
+      data: {
+        turbo_stream: true
+      }
+    ) do |form|
+      render(
+        WorkPackageTypes::FormConfiguration::GroupForm.new(
+          form,
+          cancel_path: cancel_edit_path
+        )
+      )
+    end
+  %>
+<% else %>
+  <%=
+    flex_layout(justify_content: :space_between, align_items: :center) do |header|
+      header.with_column(flex_layout: true, align_items: :center, flex: 1) do |left|
+        left.with_column(mr: 2, classes: "hide-when-print type-form-configuration-page--drag-handle") do
+          render(
+            Primer::OpenProject::DragHandle.new(
+              classes: "group-handle",
+              "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
+              test_selector: "type-form-configuration-group-handle-#{@group[:key]}"
+            )
+          )
+        end
+        left.with_column(flex: 1) do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { group_name }
+        end
+      end
+
+      header.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            scheme: :invisible,
+            size: :small,
+            classes: "type-form-configuration-page--actions-button",
+            test_selector: "type-form-configuration-group-actions-#{@group[:key]}",
+            "aria-label": t("types.edit.form_configuration.group_actions")
+          )
+
+          if ee_available?
+            with_item_group(menu) do
+              menu.with_item(
+                label: t("types.edit.form_configuration.rename_group"),
+                test_selector: "type-form-configuration-group-rename-#{@group[:key]}",
+                tag: :a,
+                href: edit_path,
+                content_arguments: { data: { turbo_stream: true } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :pencil)
+              end
+            end
+          end
+
+          with_item_group(menu) do
+            unless first?
+              move_action(menu:, href: move_path(:highest), label: t("label_agenda_item_move_to_top"), icon: "move-to-top")
+              move_action(menu:, href: move_path(:higher), label: t("label_agenda_item_move_up"), icon: "chevron-up")
+            end
+
+            unless last?
+              move_action(menu:, href: move_path(:lower), label: t("label_agenda_item_move_down"), icon: "chevron-down")
+              move_action(menu:, href: move_path(:lowest), label: t("label_agenda_item_move_to_bottom"), icon: "move-to-bottom")
+            end
+          end
+
+          if ee_available?
+            with_item_group(menu) do
+              menu.with_item(
+                label: t("button_delete"),
+                scheme: :danger,
+                tag: :a,
+                href: destroy_path,
+                content_arguments: {
+                  data: {
+                    turbo_method: :delete,
+                    turbo_stream: true,
+                    turbo_confirm: t("types.edit.form_configuration.confirm_delete_group")
+                  }
+                }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :trash)
+              end
+            end
+          end
+        end
+      end
+    end
+  %>
+<% end %>

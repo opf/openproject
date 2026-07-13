@@ -150,6 +150,7 @@ $datepicker--selected-border-radius: 5px
 
         &:hover
           border-color: var(--fgColor-muted)
+          border-radius: $datepicker--selected-border-radius
 
         &.flatpickr-non-working-day
           @include non-working-day
@@ -157,14 +158,18 @@ $datepicker--selected-border-radius: 5px
         &.flatpickr-non-working-day_enabled
           @include non-working-day_enabled
 
-        &.today:not(.selected, .inRange, .startRange, .endRange)
-          background: var(--label-yellow-bgColor-active)
-          border-color: var(--label-yellow-bgColor-active)
-          border-radius: 0
-          color: var(--fgColor-muted)
-
           &:hover
             border-color: var(--fgColor-muted)
+            border-radius: $datepicker--selected-border-radius
+
+        &.today:not(.selected, .inRange, .startRange, .endRange)
+          background: var(--bgColor-attention-muted)
+          border: var(--border-attention-muted)
+          color: var(--fgColor-attention)
+          border-radius: $datepicker--selected-border-radius
+
+          &:hover
+            border-color: var(--border-attention-emphasis)
 
         &.selected:not(.startRange, .endRange)
           border-radius: $datepicker--selected-border-radius

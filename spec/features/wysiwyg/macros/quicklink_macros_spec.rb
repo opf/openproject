@@ -87,7 +87,9 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     click_on "Edit"
 
     editor.in_editor do |container,|
-      expect(container).to have_css("p", text: "###{work_package.id}")
+      expect(container).to have_css(".op-macro-wp-quickinfo-widget")
+      expect(container).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='false']")
+      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
     end
   end
 
@@ -115,7 +117,9 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     click_on "Edit"
 
     editor.in_editor do |container,|
-      expect(container).to have_css("p", text: "####{work_package.id}")
+      expect(container).to have_css(".op-macro-wp-quickinfo-widget")
+      expect(container).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='true']")
+      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
     end
   end
 
@@ -167,7 +171,9 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
       ####{wp_milestone_without_date.id}
     MD
 
-    click_on "Save"
+    wait_for_turbo { click_on "Save" }
+
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     within("#content") do
       expect(page).to have_css("opce-macro-wp-quickinfo", text: /No dates$/)

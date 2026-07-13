@@ -36,15 +36,15 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe StorageConfigurationValidator, :webmock do
+          RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed) }
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a GroupValidationResult", vcr: "nextcloud/capabilities_success" do
+            it "returns a ResultGroup", vcr: "nextcloud/capabilities_success" do
               results = validator.call
 
-              expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+              expect(results).to be_a(HealthReport::ResultGroup)
               expect(results).to be_success
             end
 
@@ -73,7 +73,7 @@ module Storages
                 allow(subject).to receive(:nextcloud_dependencies).and_return(absurd_version)
 
                 results = validator.call
-                expect(results[:dependencies_versions]).to be_a_failure
+                expect(results[:dependencies_versions]).to be_a_warning
                 expect(results[:dependencies_versions].code).to eq(:nc_dependency_version_mismatch)
                 expect(results[:dependencies_versions].context[:dependency]).to eq("Integration OpenProject")
               end

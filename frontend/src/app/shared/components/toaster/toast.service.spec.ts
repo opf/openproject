@@ -26,35 +26,31 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { Observable, of } from 'rxjs';
-import { HttpEvent, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpEvent, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 describe('ToastService', () => {
   let toastService:ToastService;
 
-  beforeEach(waitForAsync(() => {
-    // noinspection JSIgnoredPromiseFromCall
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
     imports: [OpenprojectHalModule],
     providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
         ToastService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
     ]
-})
-      .compileComponents()
-      .then(() => {
-        toastService = TestBed.inject(ToastService);
-      });
-  }));
+}).compileComponents();
+    toastService = TestBed.inject(ToastService);
+  });
 
   it('should be able to create warnings', () => {
     const toaster = toastService.addWarning('warning!');

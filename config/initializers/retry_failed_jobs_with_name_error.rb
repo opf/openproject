@@ -42,6 +42,7 @@ Rails.application.configure do
 
     GoodJob::Job
       .discarded
+      .where.not(error_event: GoodJob::ErrorEvents::RETRIED) # reject discarded jobs that were already retried
       .where("error LIKE ?", "NameError: uninitialized constant %")
       .filter do |job|
         # Only retry jobs with NameError related to the job class name.

@@ -126,6 +126,56 @@ RSpec.describe Type do
           expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
         end
       end
+
+      context "with role filter" do
+        let(:other_role) { create(:project_role) }
+        let(:other_statuses) { (1..2).map { create(:status) } }
+        let!(:other_workflow) do
+          create(:workflow, role_id: other_role.id,
+                            type_id: type.id,
+                            old_status_id: other_statuses[0].id,
+                            new_status_id: other_statuses[1].id)
+        end
+
+        subject { type.statuses(role:) }
+
+        it "returns only statuses for the given role" do
+          expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+        end
+      end
+
+      context "with tab filter" do
+        let(:author_statuses) { (1..2).map { create(:status) } }
+        let(:assignee_statuses) { (1..2).map { create(:status) } }
+        let!(:author_workflow) do
+          create(:workflow, role_id: role.id,
+                            type_id: type.id,
+                            old_status_id: author_statuses[0].id,
+                            new_status_id: author_statuses[1].id,
+                            author: true,
+                            assignee: false)
+        end
+        let!(:assignee_workflow) do
+          create(:workflow, role_id: role.id,
+                            type_id: type.id,
+                            old_status_id: assignee_statuses[0].id,
+                            new_status_id: assignee_statuses[1].id,
+                            author: false,
+                            assignee: true)
+        end
+
+        it "returns only always statuses for the always tab" do
+          expect(type.statuses(tab: "always").pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+        end
+
+        it "returns only author statuses for the author tab" do
+          expect(type.statuses(tab: "author").pluck(:id)).to contain_exactly(author_statuses[0].id, author_statuses[1].id)
+        end
+
+        it "returns only assignee statuses for the assignee tab" do
+          expect(type.statuses(tab: "assignee").pluck(:id)).to contain_exactly(assignee_statuses[0].id, assignee_statuses[1].id)
+        end
+      end
     end
   end
 
@@ -209,6 +259,197 @@ RSpec.describe Type do
         expect(type.patterns.subject).to be_a(WorkPackageTypes::Pattern)
 
         expect { type.save! }.not_to raise_error
+      end
+    end
+  end
+
+  describe "hierarchy" do
+    let!(:parent) { create(:type) }
+    let!(:child) { create(:type, parent:) }
+
+    describe "associations" do
+      it "exposes parent and children" do
+        expect(child.parent).to eq(parent)
+        expect(parent.children).to contain_exactly(child)
+      end
+    end
+
+    describe "scopes" do
+      it ".roots returns only top level types" do
+        expect(described_class.roots).to include(parent)
+        expect(described_class.roots).not_to include(child)
+      end
+
+      it ".subtypes returns only nested types" do
+        expect(described_class.subtypes).to contain_exactly(child)
+      end
+
+      it ".global returns every type (all types are global until project-owned types exist)" do
+        expect(described_class.global).to include(parent, child)
+      end
+    end
+
+    describe "#root" do
+      it "returns the parent for a child" do
+        expect(child.root).to eq(parent)
+      end
+
+      it "returns itself for a root" do
+        expect(parent.root).to eq(parent)
+      end
+    end
+
+    describe "#family" do
+      it "returns the root followed by its children" do
+        expect(child.family).to eq([parent, child])
+        expect(parent.family).to eq([parent, child])
+      end
+    end
+
+    describe "positioning" do
+      it "scopes position per parent so each group is numbered independently" do
+        parent_a = create(:type)
+        parent_b = create(:type)
+        a1 = create(:type, parent: parent_a, position: nil, name: "A1")
+        a2 = create(:type, parent: parent_a, position: nil, name: "A2")
+        b1 = create(:type, parent: parent_b, position: nil, name: "B1")
+
+        expect([a1.position, a2.position]).to eq([1, 2])
+        expect(b1.position).to eq(1)
+      end
+    end
+
+    describe "validations" do
+      it "rejects nesting deeper than one level" do
+        grandchild = build(:type, parent: child)
+
+        expect(grandchild).not_to be_valid
+      end
+
+      it "rejects a type becoming its own parent" do
+        parent.parent = parent
+
+        expect(parent).not_to be_valid
+      end
+
+      it "rejects giving a parent to a type that already has children" do
+        other_root = create(:type)
+        parent.parent = other_root
+
+        expect(parent).not_to be_valid
+      end
+
+      it "rejects the standard type having a parent" do
+        standard = create(:type_standard)
+        standard.parent = parent
+
+        expect(standard).not_to be_valid
+      end
+
+      it "allows the same name under different parents" do
+        other_parent = create(:type)
+        create(:type, parent:, name: "Shared")
+        duplicate = build(:type, parent: other_parent, name: "Shared")
+
+        expect(duplicate).to be_valid
+      end
+
+      it "rejects a duplicate name under the same parent" do
+        create(:type, parent:, name: "Shared")
+        duplicate = build(:type, parent:, name: "Shared")
+
+        expect(duplicate).not_to be_valid
+      end
+
+      it "freezes parent_id once work packages exist" do
+        other_root = create(:type)
+        create(:work_package, type: child)
+
+        child.parent = other_root
+        expect(child).not_to be_valid
+      end
+
+      it "allows editing a type with work packages when the parent is unchanged" do
+        create(:work_package, type: child)
+
+        child.name = "Renamed"
+        expect(child).to be_valid
+      end
+    end
+
+    describe "deletion" do
+      it "is blocked while children exist" do
+        expect(parent.destroy).to be_falsey
+        expect(parent).to be_persisted
+      end
+    end
+  end
+
+  describe "core settings and display helpers" do
+    let(:color) { create(:color) }
+    let!(:parent) do
+      create(:type,
+             name: "Task",
+             color:,
+             is_milestone: true,
+             is_in_roadmap: false,
+             is_default: true)
+    end
+    let!(:child) do
+      create(:type,
+             name: "Bug",
+             parent:,
+             color: nil,
+             is_milestone: false,
+             is_in_roadmap: true,
+             is_default: false)
+    end
+
+    describe "#subtype?" do
+      it "is true for a child and false for a root" do
+        expect(child).to be_subtype
+        expect(parent).not_to be_subtype
+      end
+    end
+
+    describe "display helpers" do
+      it "#displayed_name returns the root name" do
+        expect(child.displayed_name).to eq("Task")
+        expect(parent.displayed_name).to eq("Task")
+      end
+
+      it "#displayed_color returns the root color" do
+        expect(child.displayed_color).to eq(color)
+        expect(parent.displayed_color).to eq(color)
+      end
+
+      it "#composite_name prefixes the parent name for a sub-type" do
+        expect(child.composite_name).to eq("Task: Bug")
+        expect(parent.composite_name).to eq("Task")
+      end
+    end
+
+    describe "inherited core settings" do
+      it "reads color through to the parent" do
+        expect(child.color).to eq(color)
+        expect(child.color_id).to eq(color.id)
+      end
+
+      it "reads the boolean settings through to the parent, ignoring its own columns" do
+        expect(child.is_milestone?).to be(true)
+        expect(child.is_in_roadmap?).to be(false)
+        expect(child.is_default?).to be(true)
+      end
+
+      it "keeps the sub-type's own name as the variant label" do
+        expect(child.name).to eq("Bug")
+      end
+
+      it "leaves a root's own settings untouched" do
+        expect(parent.color).to eq(color)
+        expect(parent.is_milestone?).to be(true)
+        expect(parent.is_in_roadmap?).to be(false)
+        expect(parent.is_default?).to be(true)
       end
     end
   end

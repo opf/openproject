@@ -45,7 +45,11 @@ RSpec.describe Reminders::ScheduleReminderJob do
   end
 
   describe "#perform" do
-    let(:reminder) { create(:reminder) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:project) { create(:project) }
+    let(:user) { create(:user, member_with_roles: { project => role }) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:reminder) { create(:reminder, creator: user, remindable: work_package) }
 
     subject { described_class.new.perform(reminder) }
 
@@ -63,6 +67,24 @@ RSpec.describe Reminders::ScheduleReminderJob do
 
       aggregate_failures "marks reminder as having unread notifications" do
         expect(reminder.reload).to be_an_unread_notification
+      end
+    end
+
+    context "when the creator no longer has access to the remindable" do
+      before { Member.where(principal: user, project:).destroy_all }
+
+      it "does not create a notification" do
+        expect { subject }.not_to change(Notification, :count)
+      end
+
+      it "does not enqueue a NotificationDeliveryJob" do
+        expect { subject }
+          .not_to have_enqueued_job(Mails::Reminders::NotificationDeliveryJob)
+      end
+
+      it "marks the reminder as completed" do
+        subject
+        expect(reminder.reload).to be_completed
       end
     end
 

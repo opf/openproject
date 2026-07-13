@@ -35,6 +35,7 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
   include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
   shared_let(:meeting) { create(:meeting, project:) }
   shared_let(:item) { create(:meeting_agenda_item, meeting:) }
   let(:contract) { described_class.new(item, user) }
@@ -62,6 +63,76 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
       it_behaves_like "contract is invalid", item_type: :error_readonly
     end
 
+    context "when moving to a different meeting_section" do
+      let(:new_section) { create(:meeting_section, meeting:) }
+
+      before { item.meeting_section = new_section }
+
+      context "when the section belongs to the same meeting" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the section belongs to an unrelated meeting" do
+        let(:other_meeting) { create(:meeting, project:) }
+        let(:new_section) { create(:meeting_section, meeting: other_meeting) }
+
+        it_behaves_like "contract is invalid", meeting_section: :invalid
+      end
+
+      context "when the section belongs to a different meeting in the same series" do
+        let(:recurring_meeting) { create(:recurring_meeting, project:, author: user) }
+        let(:occurrence) do
+          create(:recurring_meeting_occurrence, project:, recurring_meeting:, template: false)
+        end
+        let(:item) { create(:meeting_agenda_item, meeting: recurring_meeting.template) }
+        let(:new_section) { create(:meeting_section, meeting: occurrence) }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the section belongs to a meeting in a different series" do
+        let(:other_recurring_meeting) { create(:recurring_meeting, project:, author: user) }
+        let(:new_section) { create(:meeting_section, meeting: other_recurring_meeting.template) }
+        let(:recurring_meeting) { create(:recurring_meeting, project:, author: user) }
+        let(:item) { create(:meeting_agenda_item, meeting: recurring_meeting.template) }
+
+        it_behaves_like "contract is invalid", meeting_section: :invalid
+      end
+    end
+
+    context "when moving to a different meeting" do
+      let(:other_meeting) { create(:meeting, project: other_project) }
+      let(:other_section) { create(:meeting_section, meeting: other_meeting) }
+
+      before do
+        item.meeting = other_meeting
+        item.meeting_section = other_section
+      end
+
+      context "with permission in the source and destination projects" do
+        let(:user) do
+          create(:user, member_with_permissions: {
+                   project => [:manage_agendas],
+                   other_project => [:manage_agendas]
+                 })
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "without permission in the source project" do
+        let(:user) do
+          create(:user, member_with_permissions: { other_project => [:manage_agendas] })
+        end
+
+        it_behaves_like "contract is invalid", base: :error_unauthorized
+      end
+
+      context "without permission in the destination project" do
+        it_behaves_like "contract is invalid", base: :error_unauthorized
+      end
+    end
+
     context "with presenter" do
       before do
         item.presenter = presenter
@@ -81,6 +152,33 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
             expect(contract.errors[:presenter]).not_to include(presenter.name)
           end
         end
+      end
+    end
+
+    context "when changing work_package_id" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[manage_agendas view_work_packages] })
+      end
+      let(:other_project) { create(:project) }
+      let(:visible_work_package) { create(:work_package, project:) }
+      let(:other_visible_work_package) { create(:work_package, project:) }
+      let(:other_work_package) { create(:work_package, project: other_project) }
+      let(:item) { create(:wp_meeting_agenda_item, meeting:, work_package: visible_work_package) }
+
+      context "when the new work package is visible" do
+        before do
+          item.work_package = other_visible_work_package
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the new work package is not visible" do
+        before do
+          item.work_package = other_work_package
+        end
+
+        it_behaves_like "contract is invalid", work_package: :error_not_found
       end
     end
   end

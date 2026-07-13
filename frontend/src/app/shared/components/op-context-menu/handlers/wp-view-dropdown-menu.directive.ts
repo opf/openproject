@@ -26,8 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -42,15 +41,9 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
   standalone: false,
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly I18n:I18nService,
-    readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService,
-  ) {
-    super(elementRef, opContextMenu);
-  }
+  readonly I18n = inject(I18nService);
+  readonly wpDisplayRepresentationService = inject(WorkPackageViewDisplayRepresentationService);
+  readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
 
   public isOpen = false;
 

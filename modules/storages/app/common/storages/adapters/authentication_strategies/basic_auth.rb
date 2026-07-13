@@ -40,7 +40,7 @@ module Storages
 
           return build_failure(storage) if username.blank? || password.blank?
 
-          yield OpenProject.httpx.basic_auth(username, password).with(http_options)
+          yield OpenProject.httpx.plugin(:basic_auth).basic_auth(username, password).with(http_options)
         end
 
         private

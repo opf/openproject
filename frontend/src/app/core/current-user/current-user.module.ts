@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 
 import { CurrentUserService } from './current-user.service';
 import { CurrentUserStore } from './current-user.store';
@@ -35,7 +35,9 @@ export function bootstrapModule(injector:Injector):void {
   ],
 })
 export class CurrentUserModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     bootstrapModule(injector);
   }
 }

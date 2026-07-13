@@ -31,23 +31,16 @@
 module My
   module TimeTracking
     class SubHeaderComponent < ApplicationComponent
+      include My::TimeTrackingHelper
+
       options :date, :mode, :view_mode
 
-      def title # rubocop:disable Metrics/AbcSize
+      def title
         case mode
         when :day
           I18n.l(date, format: :long)
         when :week, :workweek
-          bow = date.beginning_of_week
-          eow = date.end_of_week
-
-          if bow.year == eow.year && bow.month == eow.month
-            [I18n.l(bow, format: "%d."), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
-          elsif bow.year == eow.year
-            [I18n.l(bow, format: "%d. %B"), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
-          else
-            [I18n.l(bow, format: "%d. %B %Y"), I18n.l(eow, format: "%d. %B %Y")].join(" - ")
-          end
+          week_date_range(date)
         when :month
           I18n.l(date, format: "%B %Y")
         end

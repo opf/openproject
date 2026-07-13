@@ -37,6 +37,8 @@ module OpenProject::TextFormatting
       include OpenProject::StaticRouting::UrlHelpers
 
       def call
+        preload_mentions
+
         doc.search("mention").each do |mention|
           anchor = mention_anchor(mention)
           mention.replace(anchor) if anchor
@@ -46,6 +48,41 @@ module OpenProject::TextFormatting
       end
 
       private
+
+      # WP labels resolve regardless of viewer (so an inaccessible WP
+      # still renders its current formatted_id); a separate id pluck
+      # gates anchor-vs-text. Principals collapse the two concerns into
+      # one visibility-scoped fetch — invisible users and groups fall
+      # back to the literal envelope text.
+      def preload_mentions
+        preload_work_package_mentions
+        preload_principal_mentions
+      end
+
+      def preload_work_package_mentions
+        ids = mention_ids_for("work_package")
+        if ids.empty?
+          @mentioned_work_packages = {}
+          @visible_mentioned_ids = Set.new
+          return
+        end
+
+        scope = WorkPackage.where(id: ids)
+        scope = scope.includes(:type, :status) if context[:static_html]
+        @mentioned_work_packages = scope.index_by(&:id)
+        @visible_mentioned_ids = WorkPackage.visible.where(id: ids).pluck(:id).to_set
+      end
+
+      def preload_principal_mentions
+        user_ids = mention_ids_for("user")
+        group_ids = mention_ids_for("group")
+        @mentioned_users = user_ids.empty? ? {} : User.visible.where(id: user_ids).index_by(&:id)
+        @mentioned_groups = group_ids.empty? ? {} : Group.visible.where(id: group_ids).index_by(&:id)
+      end
+
+      def mention_ids_for(type)
+        doc.css(%(mention[data-type="#{type}"])).filter_map { mention_id(it)&.to_i }.uniq
+      end
 
       def mention_anchor(mention)
         mention_instance = class_from_mention(mention)
@@ -75,41 +112,61 @@ module OpenProject::TextFormatting
       end
 
       def work_package_mention(work_package, mention)
+        return Nokogiri::XML::Text.new(work_package.formatted_id, mention.document) if text_only?(work_package)
+
         case mention.text.count("#")
-        when 3
-          ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
-                                                    "",
-                                                    data: { id: work_package.id, detailed: true }
-        when 2
-          ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
-                                                    "",
-                                                    data: { id: work_package.id, detailed: false }
-        else
-          link_to("##{work_package.id}",
-                  work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
-                  class: "issue work_package",
-                  data: {
-                    hover_card_trigger_target: "trigger",
-                    hover_card_url: hover_card_work_package_path(work_package.id)
-                  })
+        when 3 then work_package_quickinfo(work_package, detailed: true)
+        when 2 then work_package_quickinfo(work_package, detailed: false)
+        else        work_package_link(work_package)
         end
       end
 
-      def class_from_mention(mention)
-        mention_class = case mention.attributes["data-type"].value
-                        when "user"
-                          User
-                        when "group"
-                          Group
-                        when "work_package"
-                          WorkPackage
-                        else
-                          raise ArgumentError
-                        end
+      # The hover-card endpoint a quickinfo would link to is unreachable
+      # for plain-text recipients and for viewers without view permission.
+      def text_only?(work_package)
+        context[:plain_text] || @visible_mentioned_ids.exclude?(work_package.id)
+      end
 
-        mention_class
-          .visible
-          .find_by(id: mention_id(mention)) || fallback_text(mention)
+      def work_package_quickinfo(work_package, detailed:)
+        return work_package_static_macro(work_package, detailed:) if context[:static_html]
+
+        ApplicationController.helpers.content_tag "opce-macro-wp-quickinfo",
+                                                  "",
+                                                  data: { id: work_package.id,
+                                                          display_id: work_package.display_id,
+                                                          detailed: }
+      end
+
+      # Uses the WP's current `formatted_id` rather than the envelope text,
+      # so a renamed identifier doesn't leave a stale label in the mailer.
+      def work_package_static_macro(work_package, detailed:)
+        label = OpenProject::TextFormatting::Helpers::StaticMacroLabel
+                  .call(work_package, label: work_package.formatted_id, detailed:)
+
+        link_to(label,
+                work_package_path_or_url(id: work_package.display_id, only_path: context[:only_path]),
+                class: "issue work_package")
+      end
+
+      def work_package_link(work_package)
+        display_id = work_package.display_id
+        link_to(work_package.formatted_id,
+                work_package_path_or_url(id: display_id, only_path: context[:only_path]),
+                class: "issue work_package",
+                data: {
+                  hover_card_trigger_target: "trigger",
+                  hover_card_url: hover_card_work_package_path(display_id)
+                })
+      end
+
+      def class_from_mention(mention)
+        id = mention_id(mention)&.to_i
+        case mention.attributes["data-type"].value
+        when "user"         then @mentioned_users[id]
+        when "group"        then @mentioned_groups[id]
+        when "work_package" then @mentioned_work_packages[id]
+        else raise ArgumentError
+        end || fallback_text(mention)
       end
 
       ##
@@ -123,11 +180,10 @@ module OpenProject::TextFormatting
       def controller; end
 
       def mention_id(mention)
-        attribute_value = mention.attributes["data-id"]&.value
-
-        id_match = attribute_value&.match(/\d+/)
-
-        id_match ? id_match[0] : nil
+        value = mention.attributes["data-id"]&.value
+        # Reject semantic-shaped data-ids: `PROJ-42` must not silently
+        # resolve to WP id 42 via embedded-digit extraction.
+        value if value&.match?(/\A\d+\z/)
       end
     end
   end

@@ -30,9 +30,7 @@ import { NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
-import { UIRouterModule } from '@uirouter/angular';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
-import { BoardsRootComponent } from 'core-app/features/boards/boards-root/boards-root.component';
 import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component';
 import { BoardsToolbarMenuDirective } from 'core-app/features/boards/board/toolbar-menu/boards-toolbar-menu.directive';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
@@ -43,9 +41,9 @@ import { BoardFilterComponent } from 'core-app/features/boards/board/board-filte
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
 import { DynamicModule } from 'ng-dynamic-component';
-import { BOARDS_ROUTES, uiRouterBoardsConfiguration } from 'core-app/features/boards/openproject-boards.routes';
 import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
 import { BoardListContainerComponent } from 'core-app/features/boards/board/board-partitioned-page/board-list-container.component';
+import { BoardEntryComponent } from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
 import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
 import { AssigneeBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
 import { SubprojectBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subproject/subproject-board-header.component';
@@ -64,18 +62,12 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
 
     // Dynamic Module for actions
     DynamicModule,
-
-    // Routes for /boards
-    UIRouterModule.forChild({
-      states: BOARDS_ROUTES,
-      config: uiRouterBoardsConfiguration,
-    }),
   ],
   declarations: [
     BoardPartitionedPageComponent,
     BoardListContainerComponent,
+    BoardEntryComponent,
     BoardListComponent,
-    BoardsRootComponent,
     BoardInlineAddAutocompleterComponent,
     BoardHighlightingTabComponent,
     BoardConfigurationModalComponent,

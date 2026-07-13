@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+
+set -eo pipefail
 
 export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -13,6 +14,8 @@ export PGUSER=${PGUSER:=appuser}
 export PGHOST=${PGHOST:=127.0.0.1}
 export PGPASSWORD=${PGPASSWORD:=p4ssw0rd}
 export DATABASE_URL="postgres://$PGUSER:$PGPASSWORD@$PGHOST/appdb"
+# Hocuspocus will not start without a secret and it needs to be the same in OpenProject
+export OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=secret12345
 
 run_psql() {
 	psql -v ON_ERROR_STOP=1 "$@"
@@ -23,6 +26,8 @@ cleanup() {
 	echo "CLEANUP"
 	rm -rf tmp/cache/parallel*
 
+	# kill hocuspocus running in background:
+	killall node || true
 	if [ ! $exit_code -eq "0" ]; then
 		echo "ERROR: exit code $exit_code"
 		tail -n 1000 $LOG_FILE
@@ -95,6 +100,26 @@ reset_dbs() {
 	done
 }
 
+setup_hocuspocus() {
+  if [ -d "extensions/op-blocknote-hocuspocus" ]; then
+    cd extensions/op-blocknote-hocuspocus
+    npm install --omit=dev
+    cd -
+  else
+    echo 'Could not find Hocuspocus in extensions/op-blocknote-hocuspocus!'
+  fi
+}
+
+start_hocuspocus() {
+  if [ -d "extensions/op-blocknote-hocuspocus" ]; then
+    cd extensions/op-blocknote-hocuspocus
+    execute "SECRET=$OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET npm run start"
+    cd -
+  else
+    echo 'Could not find Hocuspocus in extensions/op-blocknote-hocuspocus!'
+  fi
+}
+
 backend_stuff() {
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump zeitwerk:check"
@@ -122,6 +147,7 @@ setup_tests() {
 	run_background execute "JOBS=8 time npm install --quiet && npm prune --quiet && echo NPM DONE"
 	wait_for_background
 
+	setup_hocuspocus
 	run_background backend_stuff
 	run_background frontend_stuff
 	# pre-cache browsers and their drivers binaries
@@ -131,25 +157,43 @@ setup_tests() {
 }
 
 run_units() {
-	shopt -s extglob
+	shopt -s extglob globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/!(features)"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/{!(features)/**/,}*_spec.rb"
 	cleanup
 }
 
 run_features() {
+	shopt -s globstar nullglob
+	run_background start_hocuspocus
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features"
+
+	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
+		failed_count=$(grep --count ' failed ' tmp/spec_examples.txt 2>/dev/null || echo 0)
+		if [ "$failed_count" -eq 0 ]; then
+			echo "failed to find failing examples, unexpected"
+			exit 1
+		elif [ "$failed_count" -le 10 ]; then
+			echo "retrying $failed_count failed examples"
+			awk '$3 == "failed" {print "- `rspec " $1 "`"}' tmp/spec_examples.txt > tmp/retried_specs.txt
+			execute "bundle exec rspec --only-failures --format documentation {,modules/*/}spec/features/**/*_spec.rb"
+		else
+			echo "too many failures ($failed_count), not retrying"
+			exit 1
+		fi
+	fi
+
 	cleanup
 }
 
 run_all() {
+	shopt -s globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec/**/*_spec.rb"
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests backend_stuff frontend_stuff run_units run_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift

@@ -78,12 +78,14 @@ module My
       end
 
       def subject
+        return "--" unless time_entry.entity.is_a?(WorkPackage)
+
         render(Primer::OpenProject::FlexLayout.new) do |flex|
           flex.with_row do
-            render(WorkPackages::InfoLineComponent.new(work_package: time_entry.work_package))
+            render(WorkPackages::InfoLineComponent.new(work_package: time_entry.entity))
           end
           flex.with_row do
-            render(Primer::Beta::Text.new(font_weight: :semibold)) { time_entry.work_package.subject }
+            render(Primer::Beta::Text.new(font_weight: :semibold)) { time_entry.entity.subject }
           end
         end
       end

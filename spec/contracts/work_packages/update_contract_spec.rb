@@ -98,23 +98,98 @@ RSpec.describe WorkPackages::UpdateContract do
 
     describe "project_id" do
       let(:target_project) { persisted_other_project }
+      let(:source_permissions) { %i[view_work_packages edit_work_packages move_work_packages] }
       let(:target_permissions) { [:move_work_packages] }
 
       before do
         mock_permissions_for(user) do |mock|
-          mock.allow_in_project *permissions, project: persisted_project
+          mock.allow_in_project *source_permissions, project: persisted_project
           mock.allow_in_project *target_permissions, project: target_project
         end
 
         work_package.project = target_project
       end
 
-      it_behaves_like "contract is valid"
+      context "with move_work_packages in both source and target" do
+        it_behaves_like "contract is valid"
+      end
 
-      context "if the user lacks the permissions" do
+      context "if the user lacks move_work_packages in the target project" do
         let(:target_permissions) { [] }
 
         it_behaves_like "contract is invalid", project_id: :error_readonly
+      end
+
+      context "if the user lacks move_work_packages in the source project" do
+        let(:source_permissions) { %i[view_work_packages edit_work_packages] }
+
+        it_behaves_like "contract is invalid", project_id: :error_readonly
+      end
+
+      context "when the current assignee and accountable are not assignable in the target project" do
+        before do
+          work_package.update_columns(assigned_to_id: persisted_possible_assignee.id,
+                                       responsible_id: persisted_possible_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+          contract.validate
+        end
+
+        it "rejects the move on assigned_to" do
+          expect(contract.errors[:assigned_to])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.assignee")))
+        end
+
+        it "rejects the move on responsible" do
+          expect(contract.errors[:responsible])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.responsible")))
+        end
+      end
+
+      context "when the current assignee remains assignable in the target project" do
+        let(:cross_project_assignee) do
+          create(:user, member_with_permissions: {
+                   persisted_project => %i[view_work_packages work_package_assigned],
+                   target_project => %i[view_work_packages work_package_assigned]
+                 })
+        end
+
+        before do
+          work_package.update_columns(assigned_to_id: cross_project_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when modifying attributes while moving (authorization bypass prevention)" do
+        before do
+          work_package.subject = "modified-subject"
+        end
+
+        context "with edit_work_packages in target project" do
+          let(:target_permissions) { %i[move_work_packages edit_work_packages] }
+
+          it_behaves_like "contract is valid"
+        end
+
+        context "without edit_work_packages in target project" do
+          let(:target_permissions) { [:move_work_packages] }
+
+          it_behaves_like "contract is invalid", subject: :error_readonly
+        end
+
+        context "without move_work_packages in source project" do
+          let(:source_permissions) { %i[view_work_packages change_work_package_status] }
+          let(:target_permissions) { %i[move_work_packages edit_work_packages] }
+
+          it "blocks the move even when the target project grants all permissions" do
+            expect(validated_contract.errors.symbols_for(:project_id)).to include(:error_readonly)
+          end
+        end
       end
     end
 
@@ -276,7 +351,7 @@ RSpec.describe WorkPackages::UpdateContract do
     end
 
     describe "parent_id" do
-      shared_let(:parent) { create(:work_package) }
+      shared_let(:parent) { create(:work_package, project: persisted_project) }
 
       let(:parent_visible) { true }
 
@@ -324,6 +399,26 @@ RSpec.describe WorkPackages::UpdateContract do
         let(:parent_visible) { false }
 
         it_behaves_like "contract is invalid", parent_id: %i[error_unauthorized]
+      end
+
+      context "when assigning a parent from another project", with_settings: { cross_project_work_package_relations: true } do
+        let(:parent) { create(:work_package, project: persisted_other_project) }
+        let(:permissions) { %i[view_work_packages manage_subtasks] }
+
+        context "when the user has manage_subtasks in the parent project as well" do
+          it_behaves_like "contract is valid"
+        end
+
+        context "when the user lacks manage_subtasks in the parent project" do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project :view_work_packages, :manage_subtasks, project: persisted_project
+              mock.allow_in_project :view_work_packages, project: persisted_other_project
+            end
+          end
+
+          it_behaves_like "contract is invalid", parent_id: %i[error_unauthorized]
+        end
       end
     end
 
@@ -384,9 +479,9 @@ RSpec.describe WorkPackages::UpdateContract do
     context "for a user having only the assign_versions permission" do
       let(:permissions) { %i[assign_versions] }
 
-      it "includes all attributes except version_id" do
+      it "includes version_id only" do
         expect(subject)
-          .to include("version_id", "version")
+          .to include("version_id", "version", "lock_version_id", "lock_version")
 
         expect(subject)
           .not_to include("subject", "start_date", "description")
@@ -405,6 +500,72 @@ RSpec.describe WorkPackages::UpdateContract do
     it "returns the users assignable" do
       expect(subject.assignable_responsibles)
         .to contain_exactly(persisted_possible_assignee)
+    end
+  end
+
+  describe ".update_allowed?" do
+    %i[edit_work_packages
+       assign_versions
+       move_work_packages
+       change_work_package_status
+       manage_subtasks].each do |permission|
+      context "with the user having #{permission}" do
+        let(:permissions) { [permission] }
+
+        it "is allowed" do
+          expect(described_class)
+            .to be_update_allowed(user:, work_package:)
+        end
+      end
+    end
+
+    context "with the user having view_work_packages" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it "is not allowed" do
+        expect(described_class)
+          .not_to be_update_allowed(user:, work_package:)
+      end
+    end
+  end
+
+  describe ".update_parent_allowed?" do
+    context "with the user having manage_subtasks" do
+      let(:permissions) { [:manage_subtasks] }
+
+      it "is allowed" do
+        expect(described_class)
+          .to be_update_parent_allowed(user:, work_package:)
+      end
+    end
+
+    context "with the user having the other edit permissions" do
+      let(:permissions) { %i[edit_work_packages assign_versions move_work_packages change_work_package_status] }
+
+      it "is not allowed" do
+        expect(described_class)
+          .not_to be_update_parent_allowed(user:, work_package:)
+      end
+    end
+  end
+
+  describe ".add_comments_allowed?" do
+    context "with the user having add_work_package_comments" do
+      let(:permissions) { [:add_work_package_comments] }
+
+      it "is allowed" do
+        expect(described_class)
+          .to be_add_comments_allowed(user:, work_package:)
+      end
+    end
+
+    context "with the user having the other edit permissions" do
+      let(:permissions) { %i[edit_work_packages assign_versions move_work_packages change_work_package_status] }
+
+      it "is not allowed" do
+        expect(described_class)
+          .not_to be_add_comments_allowed(user:, work_package:)
+      end
     end
   end
 end

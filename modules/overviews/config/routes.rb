@@ -5,17 +5,13 @@ Rails.application.routes.draw do
     scope "projects/:project_id", as: "project" do
       scope module: "overviews" do
         resource :overview, path: "/", only: [:show] do
-          constraints(Constraints::FeatureDecision.new(:new_project_overview)) do
-            get :dashboard, on: :member
-          end
+          get :dashboard, on: :member
         end
 
         controller :overviews do
           get "project_custom_fields_sidebar" => :project_custom_fields_sidebar, as: :custom_fields_sidebar
           get "project_life_cycle_sidebar" => :project_life_cycle_sidebar, as: :life_cycle_sidebar
         end
-
-        resources :project_custom_fields, only: %i[edit update], as: :custom_fields
       end
     end
   end

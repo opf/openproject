@@ -44,9 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= content_tag(
       :p,
       t(
-        "storages.page_titles.project_storage_members.subtitle",
+        "storages.page_titles.project_storage_members.subtitle_html",
         storage_name_link: link_to(@storage.name, edit_admin_settings_storage_path(@storage))
-      ).html_safe
+      )
     ) %>
 
 <%= render(::Storages::ProjectStorages::Members::TableComponent.new(rows: @project_users, storage: @storage)) %>

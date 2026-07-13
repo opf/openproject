@@ -1,15 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { takeUntil } from 'rxjs/operators';
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
@@ -24,8 +16,17 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
   selector: 'edit-form-portal',
   templateUrl: './edit-form-portal.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
+  readonly injector = inject(Injector);
+  readonly editField = inject(EditFieldService);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() schemaInput:IFieldSchema;
 
   @Input() changeInput:ResourceChangeset;
@@ -48,12 +49,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   public label:string;
 
-  constructor(
-    readonly injector:Injector,
-    readonly editField:EditFieldService,
-    readonly elementRef:ElementRef,
-  ) { }
-
   ngOnInit() {
     if (this.editFieldHandler && this.schemaInput) {
       this.handler = this.editFieldHandler;
@@ -67,6 +62,16 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
     this.componentClass = this.editField.getSpecificClassFor(this.change.pristineResource._type, this.handler.fieldName, this.schema.type);
     this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
+
+    if (this.handler instanceof HalResourceEditFieldHandler) {
+      this.handler.errorsChanged$
+        .pipe(takeUntil(this.handler.onDestroy))
+        .subscribe(() => this.cdRef.detectChanges());
+
+      this.handler.stateChanged$
+        .pipe(takeUntil(this.handler.onDestroy))
+        .subscribe(() => this.cdRef.detectChanges());
+    }
   }
 
   ngOnDestroy() {

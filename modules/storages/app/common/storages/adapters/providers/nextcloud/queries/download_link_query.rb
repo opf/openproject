@@ -35,11 +35,9 @@ module Storages
         module Queries
           class DownloadLinkQuery < Base
             def call(auth_strategy:, input_data:)
-              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
-                fetch_origin_name(input_data, auth_strategy).bind do |origin_name|
-                  fetch_download_token(auth_strategy, input_data.file_id).fmap do |token|
-                    URI(download_link(token, origin_name))
-                  end
+              fetch_origin_name(input_data, auth_strategy).bind do |origin_name|
+                fetch_download_token(auth_strategy, input_data.file_id).fmap do |token|
+                  URI(download_link(token, origin_name))
                 end
               end
             end
@@ -55,11 +53,7 @@ module Storages
 
               case response
               in { status: 200..299 }
-                if response.body.blank?
-                  Failure(error.with(code: :unauthorized))
-                else
-                  build_download_link(response, error)
-                end
+                build_download_link(response, error)
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               in { status: 401 }
@@ -70,14 +64,12 @@ module Storages
             end
 
             def fetch_origin_name(input_data, auth_strategy)
-              FileInfoQuery.call(storage: @storage, auth_strategy:, input_data:)
-                .bind do |file_info|
-                  file_name = file_info.name
-                  return Success(file_name) if file_name.present?
+              FileInfoQuery.call(storage: @storage, auth_strategy:, input_data:).bind do |file_info|
+                file_name = file_info.name
+                return Success(file_name) if file_name.present?
 
-                  error = Results::Error.new(source: self.class, payload: file_info)
-                  Failure(error.with(code: :not_found))
-                end
+                Failure(Results::Error.new(source: self.class, payload: file_info, code: :not_found))
+              end
             end
 
             def fetch_download_token(auth_strategy, file_id)
@@ -90,7 +82,7 @@ module Storages
               parsing_error = Failure(error.with(code: :invalid_response, payload: response.body))
 
               json = response.json(symbolize_keys: true)
-              url = json.dig(:ocs, :data, :url)
+              url = json_fetch(json, :ocs, :data, :url)
               return parsing_error if url.blank?
 
               path = URI.parse(url).path
@@ -100,6 +92,8 @@ module Storages
               return parsing_error if token.blank?
 
               Success(token)
+            rescue HTTPX::Error
+              parsing_error
             end
 
             def download_link(token, origin_name)

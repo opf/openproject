@@ -31,6 +31,7 @@
 module Groups
   class CreateContract < BaseContract
     attribute :type
+    attribute :organizational_unit
 
     validate :type_is_group
 

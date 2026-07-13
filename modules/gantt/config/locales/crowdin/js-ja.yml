@@ -1,6 +1,7 @@
+---
 ja:
   js:
     work_packages:
-      label_gantt_chart_plural: "ガントチャート"
       default_queries:
-        milestones: 'マイルストーン'
+        milestones: マイルストーン
+      label_gantt_chart_plural: ガントチャート

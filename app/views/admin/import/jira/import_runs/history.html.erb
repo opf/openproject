@@ -1,0 +1,126 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), Import::JiraImport.model_name, @jira_import.id %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title do
+      render(Primer::Beta::Text.new(mr: 2)) { "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}" }
+    end
+    header.with_breadcrumbs(
+      [
+        { href: admin_index_path, text: t(:label_administration) },
+        { href: admin_import_path, text: t(:"admin.import.title") },
+        { href: admin_import_jira_index_path, text: I18n.t(:"admin.jira.title") },
+        { href: admin_import_jira_path(@jira), text: @jira.name || @jira.url },
+        { href: admin_import_jira_run_path(id: @jira_import.id), text: "Run: #{@jira_import.id}" },
+        I18n.t(:"admin.jira.run.history"),
+      ]
+    )
+  end
+%>
+<%=
+  table = Class.new(OpPrimer::BorderBoxTableComponent) do
+    columns :from_state, :to_state, :created_at, :metadata
+
+    def self.name
+      "HistoryTable"
+    end
+
+    def mobile_title
+      "History Table"
+    end
+
+    def row_class
+      @row_class ||= Class.new(OpPrimer::BorderBoxRowComponent) do
+        def self.name
+          "HistoryRow"
+        end
+
+        def button_links
+          []
+        end
+
+        def created_at
+          model.created_at
+        end
+
+        def from_state
+          render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.from_state))
+        end
+
+        def to_state
+          render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.to_state))
+        end
+
+        def metadata
+          render(Primer::OpenProject::FlexLayout.new) do |component|
+            job_id = model.metadata["job_id"]
+            if job_id
+              gj_url_helpers = GoodJob::Engine.routes.url_helpers
+              component.with_row(bg: :attention, p: 1) do
+                render(
+                  Primer::Beta::Link.new(
+                    href: gj_url_helpers.job_path(id: job_id),
+                    target: "_blank"
+                )) do |link|
+                  job_id
+                end
+              end
+            end
+            if error = model.metadata["error"]
+              component.with_row(bg: :danger, p: 1) do
+                error
+              end
+            end
+            if error_backtrace = model.metadata["error_backtrace"]
+              component.with_row(bg: :danger, p: 2) do
+                error_backtrace.inspect
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def has_actions?
+      false
+    end
+
+    def headers
+      [
+        [:from_state, { caption: "From state" }],
+        [:to_state, { caption: "To state" }],
+        [:metadata, { caption: "Metadata" }]
+      ]
+    end
+  end
+
+  render(table.new(rows: @history))
+%>

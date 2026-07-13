@@ -53,7 +53,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
 
   def self.visible_condition(user)
     visible_cf_names = WorkPackageCustomField
-      .manageable_by_user(user)
+      .visible(user)
       .pluck(:id)
       .map { |id| "custom_field_#{id}" }
 

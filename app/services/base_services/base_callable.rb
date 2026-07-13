@@ -59,7 +59,7 @@ module BaseServices
     attr_accessor :params
 
     def perform(*)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     private

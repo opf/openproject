@@ -12,7 +12,7 @@ import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
@@ -28,15 +28,15 @@ export interface RelationRenderInfo extends RowRenderInfo {
 }
 
 export class RelationsRenderPass {
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  @LazyInject() wpRelations:WorkPackageRelationsService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n:I18nService;
+  @LazyInject() I18n:I18nService;
 
   public relationRowBuilder:RelationRowBuilder;
 
@@ -57,7 +57,7 @@ export class RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = _.clone(this.tablePass.renderedOrder);
+    const rendered = [...this.tablePass.renderedOrder];
     rendered.forEach((row:RowRenderInfo) => {
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
@@ -67,7 +67,7 @@ export class RelationsRenderPass {
       // If the work package has no relations, ignore
       const { workPackage } = row;
       const state = this.wpRelations.state(workPackage.id!);
-      if (!state.hasValue() || _.size(state.value) === 0) {
+      if (!state.hasValue() || Object.keys(state.value ?? {}).length === 0) {
         return;
       }
 

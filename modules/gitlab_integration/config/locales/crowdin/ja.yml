@@ -20,75 +20,65 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 ja:
-  attributes:
-    commit: "コミット"
-    gitlab: "GitLab識別子"
-    gitlab_avatar_url: "アバターURL"
-    gitlab_email: "GitLabメールアドレス"
-    gitlab_html_url: "GitLab HTML URL"
-    gitlab_merge_request: "マージ・リクエスト"
-    gitlab_name: "GitLab名"
-    gitlab_updated_at: "更新日時"
-    gitlab_user_avatar_url: "GitLabアバターURL"
-    gitlab_username: "GitLabユーザー名"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "CI詳細"
       gitlab_merge_request:
-        labels: "ラベル"
+        labels: ラベル
+      gitlab_pipeline:
+        ci_details: CI詳細
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "をキーとするハッシュの配列でなければなりません"
+              invalid_schema: をキーとするハッシュの配列でなければなりません
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "をキーとするハッシュの配列でなければなりません"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "GitLabのコンテンツを表示する"
+              invalid_schema: をキーとするハッシュの配列でなければなりません
+  attributes:
+    commit: コミット
+    gitlab: GitLab識別子
+    gitlab_avatar_url: アバターURL
+    gitlab_email: GitLabメールアドレス
+    gitlab_html_url: GitLab HTML URL
+    gitlab_merge_request: マージ・リクエスト
+    gitlab_name: GitLab名
+    gitlab_updated_at: 更新日時
+    gitlab_user_avatar_url: GitLabアバターURL
+    gitlab_username: GitLabユーザー名
   gitlab_integration:
-    merge_request_opened_comment: >
-      **オープン：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がオープンされました。
-    merge_request_closed_comment: >
-      **クローズ：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がクローズされました。
-    merge_request_merged_comment: >
-      **マージ済み：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がマージされました。
-    merge_request_reopened_comment: >
-      **MR Reopened:** マージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の%{repository}](%{repository_url}) は [%{gitlab_user}](%{gitlab_user_url} ) によって再び開かれました。
-    note_commit_referenced_comment: >
-      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) は、[%{repository}](%{repository_url}) のコミットノート [%{commit_id}](%{commit_url}) でこの WP を参照しています：
-      %{commit_note}
-    note_mr_referenced_comment: >
-      MR:** Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) は、マージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の [%{repository}](%{repository_url}) でこの WP を参照しました：
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) がこの WP をマージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の [%{repository}](%{repository_url}) にコメントしました：
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPを %{issue_number} [%{issue_title}](%{issue_url}) の [%{repository}](%{repository_url}) で参照しています：
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPを %{issue_number} [%{issue_title}](%{issue_url}) の [%{repository}](%{repository_url}) にコメントしました：
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPをスニペット %{snippet_number} [%{snippet_title}](%{snippet_url}) の [%{repository}](%{repository_url}) で参照しています：
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).
-    issue_closed_referenced_comment: >
-      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).
-    issue_reopened_referenced_comment: >
-      **Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).
-    push_single_commit_comment: >
-      **MR:** [%{gitlab_user}](%{gitlab_user_url}) で [%{commit_number}](%{commit_url}) が [%{repository}](%{repository_url}) に押される %{commit_timestamp}:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      ** %{reference}で押される:** [%{gitlab_user}](%{gitlab_user_url}) で押される [%{commit_number}](%{commit_url}) で押される [%{repository}](%{repository_url}) で押される %{commit_timestamp}:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **MR:** [%{gitlab_user}](%{gitlab_user_url}) は複数のコミット [%{commit_number}](%{commit_url}) から [%{repository}](%{repository_url}) を %{commit_timestamp}:
-      %{commit_note}でプッシュした
+    issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**クローズ：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がクローズされました。\n"
+    merge_request_merged_comment: "**マージ済み：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がマージされました。\n"
+    merge_request_opened_comment: "**オープン：** [%{gitlab_user}](%{gitlab_user_url})によって[%{repository}](%{repository_url})へのマージリクエスト%{mr_number}[%{mr_title}](%{mr_url})がオープンされました。\n"
+    merge_request_reopened_comment: "**MR Reopened:** マージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の%{repository}](%{repository_url}) は [%{gitlab_user}](%{gitlab_user_url} ) によって再び開かれました。\n"
+    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) は、[%{repository}](%{repository_url}) のコミットノート [%{commit_id}](%{commit_url}) でこの WP を参照しています： %{commit_note}\n"
+    note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPを %{issue_number} [%{issue_title}](%{issue_url}) の [%{repository}](%{repository_url}) にコメントしました： %{issue_note}\n"
+    note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPを %{issue_number} [%{issue_title}](%{issue_url}) の [%{repository}](%{repository_url}) で参照しています： %{issue_note}\n"
+    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) がこの WP をマージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の [%{repository}](%{repository_url}) にコメントしました： %{mr_note}\n"
+    note_mr_referenced_comment: 'MR:** Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) は、マージリクエスト %{mr_number} [%{mr_title}](%{mr_url}) の [%{repository}](%{repository_url}) でこの WP を参照しました： %{mr_note}
+
+      '
+    note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) は、このWPをスニペット %{snippet_number} [%{snippet_title}](%{snippet_url}) の [%{repository}](%{repository_url}) で参照しています： %{snippet_note}\n"
+    push_multiple_commits_comment: "**MR:** [%{gitlab_user}](%{gitlab_user_url}) は複数のコミット [%{commit_number}](%{commit_url}) から [%{repository}](%{repository_url}) を %{commit_timestamp}: %{commit_note}でプッシュした\n"
+    push_single_commit_comment: "**MR:** [%{gitlab_user}](%{gitlab_user_url}) で [%{commit_number}](%{commit_url}) が [%{repository}](%{repository_url}) に押される %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "** %{reference}で押される:** [%{gitlab_user}](%{gitlab_user_url}) で押される [%{commit_number}](%{commit_url}) で押される [%{repository}](%{repository_url}) で押される %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: GitLabのコンテンツを表示する
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

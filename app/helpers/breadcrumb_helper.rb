@@ -30,10 +30,9 @@
 
 module BreadcrumbHelper
   def nested_breadcrumb_element(section_header, title)
-    output = "".html_safe
-    output << "#{section_header}: "
-    output << content_tag(:b, title)
-
-    output
+    capture do
+      concat "#{section_header}: "
+      concat content_tag(:b, title)
+    end
   end
 end

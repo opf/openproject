@@ -1,35 +1,36 @@
+---
 es:
-  grids:
-    label_widget_in_grid: "Widget contenido en la cuadrícula %{grid_name}"
-    widgets:
-      empty: "Este widget está vacío actualmente."
-      not_available: "Este widget no está disponible."
-      subitems:
-        title: "Subelementos"
-        no_results: "No hay subelementos visibles."
-        view_all_subitems: "Ver todos los subelementos"
-        button_text: "Subelemento"
-      members:
-        title: "Miembros"
-        no_results: "No hay miembros visibles."
-        view_all_members: "Ver todos los miembros"
-        show_members_count: "Mostrar todos los %{count} miembros"
-        x_more:
-          one: "y un miembro más."
-          other: "y %{count} miembros más."
-      news:
-        no_results: "Nada nuevo sobre lo que informar."
   activerecord:
     attributes:
       grids/grid:
-        page: "Página"
-        row_count: "Número de filas"
-        column_count: "Número de columnas"
-        widgets: "Widgets"
-        scope: "Ámbito"
+        column_count: Número de columnas
+        page: Página
+        row_count: Número de filas
+        scope: Ámbito
+        widgets: Widgets
     errors:
       models:
         grids/grid:
-          overlaps: 'superpuesto.'
-          outside: 'está fuera de la red.'
-          end_before_start: 'el valor final necesita ser mayor que el valor inicial.'
+          end_before_start: el valor final necesita ser mayor que el valor inicial.
+          outside: está fuera de la red.
+          overlaps: superpuesto.
+  grids:
+    label_widget_in_grid: Widget contenido en la cuadrícula %{grid_name}
+    widgets:
+      empty: Este widget está vacío actualmente.
+      members:
+        no_results: No hay miembros visibles.
+        show_members_count: Mostrar todos los %{count} miembros
+        title: Miembros
+        view_all_members: Ver todos los miembros
+        x_more:
+          one: y un miembro más.
+          other: y %{count} miembros más.
+      news:
+        no_results: Nada nuevo sobre lo que informar.
+      not_available: Este widget no está disponible.
+      subitems:
+        button_text: Subelemento
+        no_results: No hay subelementos visibles.
+        title: Subelementos
+        view_all_subitems: Ver todos los subelementos

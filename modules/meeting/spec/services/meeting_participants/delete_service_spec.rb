@@ -49,6 +49,36 @@ RSpec.describe MeetingParticipants::DeleteService do
 
         expect(subject).to be_success
       end
+
+      it "triggers the notification debounce job with since_invited_ids" do
+        participant
+        allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+        subject
+        expect(Meetings::NotificationDebounceJob).to have_received(:debounce).with(meeting, since_invited_ids: anything)
+      end
+
+      context "when notify: false" do
+        subject { described_class.new(user: current_user, model: participant, notify: false).call }
+
+        it "deletes the participant" do
+          participant
+          expect { subject }.to change { meeting.participants.count }.by(-1)
+        end
+
+        it "does not trigger the notification debounce job" do
+          participant
+          allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+          subject
+          expect(Meetings::NotificationDebounceJob).not_to have_received(:debounce)
+        end
+      end
+
+      it "saves a new journal for the meeting reflecting the participant removal",
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        participant
+        meeting.touch_and_save_journals # snapshot participant into journal baseline
+        expect { subject }.to change { meeting.journals.count }
+      end
     end
 
     context "when user does not have edit permissions" do

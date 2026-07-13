@@ -1,5 +1,6 @@
+---
 pt-BR:
   overviews:
+    label_dashboard: Painel
     label_home: "%{workspace_type} inicial"
-    label_dashboard: "Painel"
-    label_overview: "Visão geral"
+    label_overview: Visão geral

@@ -50,7 +50,9 @@ class MenuItem < ApplicationRecord
     elsif is_main_item?
       :main_item
     else
-      :sub_item
+      # backwards compatibility for removed configuration option
+      # sub items are not offered anymore and are effectively not visible
+      :no_item
     end
   end
 

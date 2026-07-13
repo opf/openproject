@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IInAppNotificationDetailsResource, INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
@@ -18,6 +11,8 @@ import { IInAppNotificationDetailsResource, INotification } from 'core-app/core/
   standalone: false,
 })
 export class InAppNotificationReminderAlertComponent implements OnInit {
+  private I18n = inject(I18nService);
+
   @Input() aggregatedNotifications:INotification[];
 
   @HostBinding('class.op-ian-reminder-alert') className = true;
@@ -26,10 +21,6 @@ export class InAppNotificationReminderAlertComponent implements OnInit {
   reminderAlert:INotification;
   hasDateAlert = false;
   dateAlerts:INotification[] = [];
-
-  constructor(
-    private I18n:I18nService,
-  ) { }
 
   ngOnInit():void {
     this.reminderAlert = this.deriveMostRecentReminder(this.aggregatedNotifications);

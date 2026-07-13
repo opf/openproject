@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   TabComponent,
@@ -19,6 +19,11 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
   standalone: false,
 })
 export class WpTableConfigurationFiltersTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpFiltersService = inject(WorkPackageFiltersService);
+
   public filters:QueryFilterInstanceResource[] = [];
 
   public eeShowBanners = false;
@@ -31,14 +36,6 @@ export class WpTableConfigurationFiltersTabComponent implements TabComponent, On
     upsellRelationColumns: this.I18n.t('js.modals.upsell_relation_columns'),
     upsellRelationColumnsLink: this.I18n.t('js.modals.upsell_relation_columns_link'),
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpFiltersService:WorkPackageFiltersService,
-  ) {
-  }
 
   ngOnInit() {
     this.wpTableFilters

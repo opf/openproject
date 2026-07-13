@@ -40,25 +40,13 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= styled_form_tag(admin_settings_aggregation_path, method: :patch) do %>
-  <div class="form--field">
-    <%= setting_number_field :journal_aggregation_time_minutes,
-                             unit: t(:label_minute_plural),
-                             min: 0,
-                             container_class: "-xslim" %>
-    <span class="form--field-instructions">
-      <%= t(
-            :"admin.journal_aggregation.explanation.text",
-            webhook_link: link_to(
-              t(:"admin.journal_aggregation.explanation.link"),
-              admin_outgoing_webhooks_path,
-              target: "_blank"
-            )
-          ).html_safe %>
-      <br>
-      <%= t(:text_hint_disable_with_0) %>
-    </span>
-  </div>
-
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_aggregation_path,
+    scope: :settings,
+    method: :patch,
+    data: { turbo: false }
+  ) do |form|
+    render Admin::Settings::AggregationSettingsForm.new(form)
+  end
+%>

@@ -1,40 +1,46 @@
-#English strings go here
+---
 ms:
-  plugin_openproject_boards:
-    name: "Board OpenProject"
-    description: "Menyediakan paparan board."
-  permission_show_board_views: "Paparkan board"
-  permission_manage_board_views: "Urus papan"
-  project_module_board_view: "Board"
+  boards:
+    board_type_attributes:
+      assignee: Penerima tugasan
+      basic: Asas
+      status: Kanban
+      subproject: Subprojek
+      subtasks: Induk-anak
+      version: Versi
+    board_type_descriptions:
+      assignee: 'Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
+
+        '
+      basic: 'Bermula dari awal dengan board kosong. Tambah kad dan kolum secara manual kepada board ini.
+
+        '
+      status: 'Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
+
+        '
+      subproject: 'Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+
+        '
+      subtasks: 'Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+
+        '
+      version: 'Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
+
+        '
+    board_types:
+      action: Board tindakan (%{attribute})
+      free: Asas
+    label_board: Board
+    label_board_type: Jenis board
+    label_boards: Board
+    label_create_new_board: Cipta board baru
   ee:
     upsell:
       board_view:
-        description: 'Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.'
-  boards:
-    label_board: "Board"
-    label_boards: "Board"
-    label_create_new_board: "Cipta board baru"
-    label_board_type: "Jenis board"
-    board_types:
-      free: Asas
-      action: "Board tindakan (%{attribute})"
-    board_type_attributes:
-      assignee: Penerima tugasan
-      status: Kanban
-      version: Versi
-      subproject: Subprojek
-      subtasks: Induk-anak
-      basic: Asas
-    board_type_descriptions:
-      basic: >
-        Bermula dari awal dengan board kosong. Tambah kad dan kolum secara manual kepada board ini.
-      status: >
-        Board gaya kanban asas dengan kolum untuk status seperti Untuk Dilakukan, Dalam Pelaksanaan, Selesai.
-      assignee: >
-        Board dengan kolum automatik berdasarkan pengguna yang ditentukan. Ideal untuk penghantaran pakej kerja.
-      version: >
-        Board dengan kolum automatik berdasarkan versi atribut. Ideal untuk merancang pembangunan produk.
-      subproject: >
-        Board dengan kolum automatik untuk subprojek. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
-      subtasks: >
-        Board dengan kolum automatik untuk sub-elements. Menarik pakej kerja ke senarai lain akan mengemas kini (sub-)projek sewajarnya.
+        description: Adakah anda ingin mengautomasikan aliran kerja dengan Board? Board lanjutan ada di dalam tambahan Enterprise. Sila naik taraf ke pelan berbayar.
+  permission_manage_board_views: Urus papan
+  permission_show_board_views: Paparkan board
+  plugin_openproject_boards:
+    description: Menyediakan paparan board.
+    name: Board OpenProject
+  project_module_board_view: Board

@@ -37,8 +37,7 @@ RSpec.describe Members::CreateService, type: :model do
   let(:group) do
     build_stubbed(:group).tap do |g|
       allow(g)
-        .to receive(:user_ids)
-              .and_return([user1.id, user2.id])
+        .to receive_messages(user_ids: [user1.id, user2.id], self_and_descendants: [g])
     end
   end
   let!(:inherited_roles_service) do

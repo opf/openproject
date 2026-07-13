@@ -44,7 +44,7 @@ module API
         end
 
         def mount
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         attr_accessor :model,
@@ -55,7 +55,7 @@ module API
         private
 
         def deduce_render_representer
-          raise NotImplementedError
+          raise SubclassResponsibilityError
         end
 
         def deduce_api_namespace

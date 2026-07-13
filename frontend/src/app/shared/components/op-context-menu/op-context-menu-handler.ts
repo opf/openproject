@@ -23,7 +23,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    *
    * @param focus Focus on the trigger again
    */
-  public onClose(focus = false) {
+  public onClose(focus = true) {
     if (focus) {
       this.afterFocusOn.focus();
     }
@@ -66,6 +66,12 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   }
 
   protected get afterFocusOn():HTMLElement {
-    return this.element;
+    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    if (this.element.matches(focusableSelector)) {
+      return this.element;
+    }
+
+    return this.element.querySelector<HTMLElement>(focusableSelector) ?? this.element;
   }
 }

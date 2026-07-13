@@ -42,7 +42,7 @@ RSpec.describe "Team planner project include",
   end
 
   it_behaves_like "has a project include dropdown" do
-    let(:work_package_view) { Pages::TeamPlanner.new(project) }
+    let(:work_package_view) { Pages::TeamPlanner.new(portfolio) }
     let(:dropdown) { Components::ProjectIncludeComponent.new }
 
     it "correctly filters work packages by project" do

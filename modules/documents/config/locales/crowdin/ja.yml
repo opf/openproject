@@ -19,135 +19,140 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ja:
-  plugin_openproject_documents:
-    name: "OpenProjectドキュメント"
-    description: "プロジェクト内のドキュメントの作成を可能にするOpenProjectプラグイン。"
   activerecord:
+    attributes:
+      document:
+        content_binary: コンテンツのバイナリ
+        title: タイトル
     errors:
       models:
         document_type:
-          one_or_more_required: "最後のドキュメントタイプを削除することはできません"
+          one_or_more_required: 最後のドキュメントタイプを削除することはできません
     models:
-      document: "ドキュメント"
-      documents: "ドキュメント"
-    attributes:
-      document:
-        content_binary: "コンテンツのバイナリ"
-        title: "タイトル"
+      document: ドキュメント
+      documents: ドキュメント
   activity:
     filter:
-      document: "ドキュメント"
-  default_doc_category_tech: "技術文書"
-  default_doc_category_user: "ユーザー文書"
-  enumeration_doc_categories: "ドキュメントのカテゴリ"
+      document: ドキュメント
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
+  default_doc_category_tech: 技術文書
+  default_doc_category_user: ユーザー文書
   documents:
-    page_header:
-      heading: "すべてのドキュメント"
-      action_menu:
-        document_actions: "ドキュメントのアクション"
-        edit_title: "タイトルを編集"
-    subheader:
-      filter:
-        label: "ドキュメント名フィルター"
-        placeholder: "ここに入力してドキュメントを検索"
-    documents_list_blank_slate:
-      heading: "ドキュメントがありません"
-      description: "このビューにはドキュメントがありません。下のボタンをクリックして追加することができます。"
-    document_categories_deprecation_notice:
-      heading: ファイルカテゴリーは「ドキュメントタイプ」に変更されました。
-      description: |-
-        新しいDocumentsモジュールの導入に伴い、既存のファイルカテゴリーがドキュメントタイプに変換されました。
-        すべての既存のドキュメントもこれらの新しいタイプに移行されました。
-      primary_action: ドキュメントタイプを設定
-      secondary_action: ドキュメントモジュールの詳細
-    document_type_actions: "ドキュメントタイプのアクション"
-    text_collaboration_disabled_notice:
-      description: |-
-        リアルタイムテキストコラボレーションが無効になっているため、ドキュメントを開くことができません。
-        この文書にアクセスしたい場合は、管理者に連絡してリアルタイムテキスト連携を有効にしてください。
-    show_edit_view:
-      connection_error_notice:
-        description: |-
-          リアルタイムテキストコラボレーションサーバーにアクセスできないため、ドキュメントを開くことができません。
-          問題が解決しない場合は、管理者にお問い合わせください。
-        action: もう一度試してください
-      connection_recovery_notice:
-        description: "リアルタイムテキストコラボレーションサーバーへの接続が回復しました。"
-      tabs: "ドキュメントタブ"
-    index_page:
-      name: "名称"
-      type: "タイプ"
-      updated_at: "Last edited"
-      label_legacy: "Legacy"
-    menu:
-      all: "All documents"
-      types: "ワークパッケージのタイプ"
-      collaboration_settings: "Real-time collaboration"
-    last_updated_at: "Last saved %{time}."
-    active_editors: "Active editors"
+    active_editors: Active editors
     active_editors_count:
       other: "%{count} active editors"
-    label_attachment_author: "添付ファイルの作成者"
-    label_categories: "カテゴリ"
-    new_category: "新規カテゴリ"
-    new_type: "New type"
-    delete_dialog:
-      title: "Delete document"
-      heading: "Delete this document?"
-      confirmation_message_html: "This will permanently delete this document and all file attachments. Are you sure you want to do this?"
-    delete_document_type_dialog:
-      title: Delete document type
-      heading: Delete this document type?
-      confirmation_message: |-
-        The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
-      select_reassign_to_label: Reassign documents to
-      reassign_message:
-        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-      at_least_one_type_required:
-        title: Cannot delete document type
-        heading: Cannot delete the last document type
-        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: These values are configured via environment variables and cannot be edited here.
+          some_unwritable: Some values are configured via environment variables and cannot be edited here.
+        hocuspocus_server: Hocuspocus server
+        hocuspocus_server_secret:
+          caption: Paste the secret provided by the Hocuspocus server.
+          label: クライアントシークレット
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus server URL
         page_header:
           description: |-
             When enabled, real-time collaboration allows multiple users to edit a document at the same time.
             It requires a working %{hocuspocus_server_link} to function.
-        banner:
-          none_writable: These values are configured via environment variables and cannot be edited here.
-          some_unwritable: Some values are configured via environment variables and cannot be edited here.
-        hocuspocus_server_url:
-          label: "Hocuspocus server URL"
-          caption: "The address of a working Hocuspocus server."
-        hocuspocus_server_secret:
-          label: "Client secret"
-          caption: "Paste the secret provided by the Hocuspocus server."
-        hocuspocus_server: Hocuspocus server
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: I understand that I might permanently lose data
+        confirmation_message: |-
+          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
+          real-time collaboration and the BlockNote editor in this instance.
+        heading: Disable real-time collaboration?
+        success: Real-time collaboration has been disabled.
+        title: Disable real-time collaboration
       enable_text_collaboration:
-        heading: Real-time collaboration is not enabled
         description: |-
           Once enabled, multiple users will be able to work together on a document at the same time.
           All new documents will be based on a new editor (BlockNote) and will require a working connection to a
           Hocuspocus server.
+        heading: Real-time collaboration is not enabled
         primary_action: Enable real-time collaboration
         success: Real-time collaboration has been enabled.
-      disable_text_collaboration_dialog:
-        title: Disable real-time collaboration
-        heading: Disable real-time collaboration?
-        confirmation_message: |-
-          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
-          real-time collaboration and the BlockNote editor in this instance.
-        confirmation_checkbox_message: I understand that I might permanently lose data
-        success: Real-time collaboration has been disabled.
-  label_document_added: "追加されたドキュメント"
-  label_document_new: "新しいドキュメント"
-  label_document_plural: "ドキュメント"
-  label_documents: "ドキュメント"
-  label_document_title: "タイトル"
-  label_document_description: "説明"
-  label_document_category: "カテゴリ"
-  label_document_type: "Type"
-  permission_manage_documents: "ドキュメントを管理"
-  permission_view_documents: "ドキュメントの表示"
-  project_module_documents: "ドキュメント"
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
+      heading: Delete this document?
+      title: Delete document
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Cannot delete the last document type
+        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
+        title: Cannot delete document type
+      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
+      heading: Delete this document type?
+      reassign_message:
+        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
+      select_reassign_to_label: Reassign documents to
+      title: Delete document type
+    document_categories_deprecation_notice:
+      description: |-
+        新しいDocumentsモジュールの導入に伴い、既存のファイルカテゴリーがドキュメントタイプに変換されました。
+        すべての既存のドキュメントもこれらの新しいタイプに移行されました。
+      heading: ファイルカテゴリーは「ドキュメントタイプ」に変更されました。
+      primary_action: ドキュメントタイプを設定
+      secondary_action: ドキュメントモジュールの詳細
+    document_type_actions: ドキュメントタイプのアクション
+    documents_list_blank_slate:
+      description: このビューにはドキュメントがありません。下のボタンをクリックして追加することができます。
+      heading: ドキュメントがありません
+    index_page:
+      label_legacy: Legacy
+      name: 名称
+      type: タイプ
+      updated_at: Last edited
+    info_line:
+      connection_restored: You are now back online.
+      currently_offline: You are currently offline.
+    label_attachment_author: 添付ファイルの作成者
+    label_categories: カテゴリ
+    last_updated_at: Last saved %{time}.
+    menu:
+      all: 全てのドキュメント
+      collaboration_settings: Real-time collaboration
+      types: ワークパッケージのタイプ
+    new_category: 新規カテゴリ
+    new_type: New type
+    page_header:
+      action_menu:
+        document_actions: ドキュメントのアクション
+        edit_title: タイトルを編集
+      heading: すべてのドキュメント
+    show_edit_view:
+      connection_error_notice:
+        action: もう一度試してください
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: ドキュメントタブ
+    subheader:
+      filter:
+        label: ドキュメント名フィルター
+        placeholder: ここに入力してドキュメントを検索
+    text_collaboration_disabled_notice:
+      description: |-
+        リアルタイムテキストコラボレーションが無効になっているため、ドキュメントを開くことができません。
+        この文書にアクセスしたい場合は、管理者に連絡してリアルタイムテキスト連携を有効にしてください。
+  enumeration_doc_categories: ドキュメントのカテゴリ
+  label_document_added: 追加されたドキュメント
+  label_document_category: カテゴリ
+  label_document_description: 説明
+  label_document_new: 新しいドキュメント
+  label_document_plural: ドキュメント
+  label_document_title: タイトル
+  label_document_type: Type
+  label_documents: ドキュメント
+  permission_manage_documents: ドキュメントを管理
+  permission_view_documents: ドキュメントの表示
+  plugin_openproject_documents:
+    description: プロジェクト内のドキュメントの作成を可能にするOpenProjectプラグイン。
+    name: OpenProjectドキュメント
+  project_module_documents: ドキュメント

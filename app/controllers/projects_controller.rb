@@ -34,17 +34,19 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :find_project, except: %i[index new create destroy destroy_info]
-  before_action :find_project_including_archived, only: %i[destroy destroy_info]
+  before_action :find_project, except: %i[index new create list_row_menu destroy destroy_info]
+  before_action :find_project_including_archived, only: %i[list_row_menu destroy destroy_info]
   before_action :load_query_or_deny_access, only: %i[index]
   before_action :authorize,
                 only: %i[copy_form copy deactivate_work_package_attachments export_project_initiation_pdf]
   before_action :authorize_global, only: %i[new create]
   before_action :require_admin, only: %i[destroy destroy_info]
+  before_action :require_admin_or_active_project, only: :list_row_menu
   before_action :find_optional_parent, only: :new
   before_action :find_optional_template, only: %i[new create]
 
   no_authorization_required! :index
+  authorization_checked! :list_row_menu
 
   include SortHelper
   include PaginationHelper
@@ -81,11 +83,12 @@ class ProjectsController < ApplicationController
         )
         replace_via_turbo_stream(component: Projects::TableComponent.new(query: @query, current_user:, params:))
 
-        current_url = url_for(params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page))
+        filtered_params = params.permit(:controller, :action, :query_id, :filters, :columns, :sortBy, :page, :per_page)
+        current_url = url_for(filtered_params)
         turbo_streams << turbo_stream.push_state(current_url)
         turbo_streams << turbo_stream.turbo_frame_set_src(
           "projects_sidemenu",
-          projects_menu_url(query_id: @query.id, controller_path: "projects")
+          projects_menu_url(**filtered_params.except(:controller, :action, :page, :per_page), controller_path: "projects")
         )
 
         turbo_streams << turbo_stream.replace("flash-messages", helpers.render_flash_messages)
@@ -93,6 +96,10 @@ class ProjectsController < ApplicationController
         render turbo_stream: turbo_streams
       end
     end
+  end
+
+  def list_row_menu
+    render Projects::RowActionsComponent.new(project: @project, params:), layout: false
   end
 
   def new
@@ -181,6 +188,12 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def require_admin_or_active_project
+    return authorize unless @project.archived?
+
+    render_403 message: :notice_not_authorized_archived_project unless current_user.admin?
+  end
 
   def find_project_including_archived
     # The actions that use this method are only accessible to admins, so we can show them archived projects as well and
@@ -330,10 +343,6 @@ class ProjectsController < ApplicationController
     ::Exports::Register.list_formats(Project).map(&:to_s)
   end
 
-  def not_authorized_on_feature_flag_inactive
-    render_403 unless OpenProject::FeatureDecisions.portfolio_models_active?
-  end
-
   def layout_for_new
     if portfolio_management_feature_missing?
       "global"
@@ -345,13 +354,4 @@ class ProjectsController < ApplicationController
   def login_back_url_params
     params.permit(:parent_id, :template_id, :step, :next_section)
   end
-
-  def portfolio_management_feature_required? = params[:workspace_type].in?(%w[portfolio program])
-
-  def portfolio_management_feature_missing?
-    portfolio_management_feature_required? && !EnterpriseToken.allows_to?(:portfolio_management)
-  end
-
-  helper_method :supported_export_formats,
-                :portfolio_management_feature_missing?
 end

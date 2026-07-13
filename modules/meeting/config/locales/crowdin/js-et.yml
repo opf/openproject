@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 et:
   js:
-    label_meetings: 'Koosolekud'
+    label_meetings: Koosolekud
     work_packages:
       tabs:
-        meetings: 'Koosolekud'
+        meetings: Koosolekud

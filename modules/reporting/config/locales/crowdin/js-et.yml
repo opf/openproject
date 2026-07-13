@@ -19,8 +19,9 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 et:
   js:
     reporting_engine:
-      label_remove: "Kustuta"
-      label_response_error: "Päringu käsitlemisel tekkis tõrge."
+      label_remove: Kustuta
+      label_response_error: Päringu käsitlemisel tekkis tõrge.

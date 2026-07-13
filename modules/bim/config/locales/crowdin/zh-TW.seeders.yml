@@ -47,7 +47,7 @@ zh-TW:
           name: 衝突
       global_queries:
         item_0:
-          name: '嵌入式表：子集'
+          name: 嵌入式表：子集
       type_configuration:
         item_0:
           form_configuration:
@@ -211,7 +211,7 @@ zh-TW:
 
                 下一步可能是透過查看[甘特圖]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%來檢查時間表並調整約會3A%5B% 22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%221%22tzl%22%3A%22weeks%22%2C%222hi% 3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A% 22狀態%22 %2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) 。
             item_1:
-              subject: ' 基本評估'
+              subject: " 基本評估"
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
               children:
                 item_0:

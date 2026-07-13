@@ -36,8 +36,10 @@ module Redmine
       end
 
       module ClassMethods
-        def acts_as_customizable(options = {})
+        def acts_as_customizable(options = {}) # rubocop:disable Metrics/AbcSize
           return if included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
+
+          send :include, Redmine::Acts::Customizable::InstanceMethods
 
           cattr_accessor :customizable_options
           self.customizable_options = options
@@ -46,11 +48,18 @@ module Redmine
           # N.B. the default for validate should be false, however specs seem to think differently
           has_many :custom_values, -> {
             includes(:custom_field)
-              .order("#{CustomField.table_name}.position")
+              .order("#{CustomField.table_name}.position", "#{CustomValue.table_name}.id")
           }, as: :customized,
              dependent: :delete_all,
              validate: false,
              autosave: true
+
+          if can_have_custom_comments?
+            has_many :custom_comments,
+                     as: :customized,
+                     dependent: :delete_all,
+                     autosave: true
+          end
 
           validation_options = {}
 
@@ -71,7 +80,6 @@ module Redmine
           end
 
           validate :validate_custom_values, **validation_options
-          send :include, Redmine::Acts::Customizable::InstanceMethods
 
           before_save :ensure_custom_values_complete
           after_save :touch_customizable,
@@ -88,6 +96,11 @@ module Redmine
         def customizable?
           true
         end
+
+        delegate :admin_only_custom_fields_allowed?,
+                 :can_have_custom_comments?,
+                 :custom_field_class,
+                 to: :class
 
         def available_custom_fields
           self.class.available_custom_fields(self)
@@ -126,13 +139,28 @@ module Redmine
         def custom_field_values=(values)
           return unless values.is_a?(Hash) && values.any?
 
-          values.with_indifferent_access.each do |custom_field_id, new_values|
+          values.stringify_keys.each do |custom_field_id, new_values|
             existing_cv_by_value = custom_values_for_custom_field(custom_field_id, all: true)
                                      .group_by(&:value)
                                      .transform_values(&:first)
             next if existing_cv_by_value.empty?
 
             update_custom_value(custom_field_id, existing_cv_by_value, new_values)
+          end
+        end
+
+        def custom_comments=(values)
+          raise ArgumentError, "Comments are not enabled for this customizable model" unless can_have_custom_comments?
+
+          case values
+          when Array
+            super
+          when Hash
+            comments_by_field_id = custom_comments.index_by(&:custom_field_id)
+
+            set_custom_comments(values:, comments_by_field_id:)
+          else
+            raise ArgumentError, "Expected an Array or Hash, got #{values.class}"
           end
         end
 
@@ -143,6 +171,17 @@ module Redmine
         end
 
         def custom_field_values(all: false) = cached_custom_field_values[all ? :all_available : :available]
+
+        # Finds a comment for the given custom field using a Ruby finder.
+        #
+        # This method is expected to be used when more comments are needed, so it
+        # uses ruby finder to avoid  N+1 queries when iterating over multiple custom
+        # fields.
+        def custom_comment_for(custom_field)
+          return unless can_have_custom_comments?
+
+          custom_comments.find { it.custom_field == custom_field }
+        end
 
         # Override to extend the cache key for caching @custom_field_values_cache.
         #
@@ -262,12 +301,19 @@ module Redmine
           self.custom_values_to_validate = []
         end
 
+        def custom_field_changes
+          {}.tap do |changes|
+            custom_value_changes(into: changes)
+            custom_comment_changes(into: changes)
+          end
+        end
+
         # Build the changes hash similar to ActiveRecord::Base#changes,
         # but for the custom field values that have been changed.
-        def custom_field_changes # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+        def custom_value_changes(into: {}) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
           all_fields_grouped = custom_field_values.group_by(&:custom_field)
 
-          all_fields_grouped.each_with_object({}) do |(custom_field, new_custom_field_values), changes|
+          all_fields_grouped.each_with_object(into) do |(custom_field, new_custom_field_values), changes|
             old_value = custom_value_was_for(custom_field)
 
             # Skip when only setting the default value
@@ -282,7 +328,17 @@ module Redmine
             # Skip when the old value equals the new value (no change happened).
             next if old_value == new_value
 
-            changes["custom_field_#{custom_field.id}"] = [old_value, new_value]
+            changes[custom_field.attribute_name] = [old_value, new_value]
+          end
+        end
+
+        def custom_comment_changes(into: {})
+          return into unless can_have_custom_comments?
+
+          custom_comments.each_with_object(into) do |comment, changes|
+            next unless comment.changed_for_autosave?
+
+            changes[comment.custom_field.comment_attribute_name] = comment.text_change
           end
         end
 
@@ -387,21 +443,18 @@ module Redmine
         end
 
         def for_custom_field_accessor(method_symbol)
-          match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
-          if match
-            custom_field = all_available_custom_fields.find { |cf| cf.id.to_s == match[:id] }
-            if custom_field
-              yield custom_field
-            end
-          end
+          return unless (id = method_symbol[/\Acustom_(?:field|comment)_(?<id>\d+)=?\z/, :id])
+          return unless (custom_field = all_available_custom_fields.find { |cf| cf.id.to_s == id })
+
+          yield custom_field
         end
 
         def add_custom_field_accessors(custom_field)
-          define_custom_field_getter(custom_field)
-          define_custom_field_setter(custom_field)
+          define_custom_field_getters(custom_field)
+          define_custom_field_setters(custom_field)
         end
 
-        def define_custom_field_getter(custom_field)
+        def define_custom_field_getters(custom_field)
           define_singleton_method custom_field.attribute_getter do
             custom_values = Array(custom_value_for(custom_field)).map do |custom_value|
               custom_value&.typed_value
@@ -413,14 +466,22 @@ module Redmine
               custom_values.first
             end
           end
+
+          define_singleton_method custom_field.comment_attribute_getter do
+            custom_comment_for(custom_field)&.text
+          end
         end
 
-        def define_custom_field_setter(custom_field)
+        def define_custom_field_setters(custom_field)
           define_singleton_method custom_field.attribute_setter do |value|
             # N.B. we do no strict type checking here, it would be possible to assign a user
             # to an integer custom field...
             value = value.id if value.respond_to?(:id)
             self.custom_field_values = { custom_field.id => Array(value) }
+          end
+
+          define_singleton_method custom_field.comment_attribute_setter do |text|
+            self.custom_comments = { custom_field.id => text }
           end
         end
 
@@ -483,6 +544,21 @@ module Redmine
           self.custom_value_destroyed = true
         end
 
+        def set_custom_comments(values:, comments_by_field_id:)
+          values.each do |custom_field_id, text|
+            # to_s is needed as in some cases custom_field_id will be a Symbol which doesn't have to_i method
+            custom_field_id = custom_field_id.to_s.to_i
+            comment = comments_by_field_id[custom_field_id]
+
+            if comment
+              comment.text = text.presence # for text_change also when removing
+              comment.mark_for_destruction unless comment.text
+            elsif text.present?
+              custom_comments.build(custom_field_id:, text:)
+            end
+          end
+        end
+
         module AddClassMethods
           def custom_field_class
             "#{name}CustomField".constantize
@@ -495,6 +571,10 @@ module Redmine
               CustomField.where(type: "#{name}CustomField").order(:position)
             end
           end
+
+          # TODO: move both settings from model level, as it is business logic?
+          def admin_only_custom_fields_allowed? = customizable_options[:admin_only_allowed]
+          def can_have_custom_comments? = customizable_options[:comments]
         end
       end
 

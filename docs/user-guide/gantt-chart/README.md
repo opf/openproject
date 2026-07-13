@@ -153,9 +153,9 @@ Click the **Apply** button to save your changes.
 
 To export the data from your Gantt chart, there are several possibilities:
 
-* [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
-* [Print (e.g., to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) ←→ MS Project
+- [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
+- [Print (e.g., to PDF)](#how-to-print-a-gantt-chart)
+- [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) ←→ MS Project
 
 ### How to print a Gantt chart
 
@@ -185,7 +185,7 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 [feature: gantt_pdf_export ]
 
-To export a Gantt chart in a PDF format, click the **More** (three dots) icon in the top right corner and select *Export*.
+To export a Gantt chart in a PDF format, click the **More** (three dots) icon in the top right corner and select _Export_.
 
 ![Export Gantt chart option in OptionProject](openproject-user-guide-gantt-charts-export.png)
 
@@ -218,7 +218,7 @@ Please note that the **auto zoom button** may not be selectable if it has been p
 
 ### Zen mode
 
-The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit, press the *Esc* key or click on the **zen mode** symbol again.
+The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit, press the _Esc_ key or click on the **zen mode** symbol again.
 
 ![zen-mode-Gantt-chart](openproject-user-guide-gantt-charts-zen-mode.png)
 

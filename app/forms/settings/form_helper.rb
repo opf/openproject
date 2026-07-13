@@ -56,8 +56,8 @@ module Settings
     # @param names [Array<Symbol>] The name(s) of the setting
     # @return [String] The translated HTML-safe caption
     def setting_caption(*names)
-      I18n.t("setting_#{names.join('_')}_caption_html", default: nil)&.html_safe \
-        || I18n.t("setting_#{names.join('_')}_caption", default: nil)
+      ApplicationController.helpers.t("setting_#{names.join('_')}_caption_html", default: nil) ||
+        I18n.t("setting_#{names.join('_')}_caption", default: nil)
     end
 
     # Retrieves the current value of a setting

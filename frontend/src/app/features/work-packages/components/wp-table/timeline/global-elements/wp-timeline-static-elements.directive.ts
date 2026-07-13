@@ -25,11 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import {
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { calculatePositionValueForDayCountingPx, TimelineViewParameters } from '../wp-timeline';
@@ -43,17 +39,24 @@ import { TodayLineElement } from './wp-timeline.today-line';
   selector: 'wp-timeline-static-elements',
   template: '<div class="wp-table-timeline--static-elements"></div>',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageTableTimelineStaticElements implements OnInit {
+  states = inject(States);
+  workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
+
   public element:HTMLElement;
 
   private container:HTMLElement;
 
   private elements:TimelineStaticElement[];
 
-  constructor(elementRef:ElementRef,
-    public states:States,
-    public workPackageTimelineTableController:WorkPackageTimelineTableController) {
+  constructor() {
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
     this.element = elementRef.nativeElement;
 
     this.elements = [

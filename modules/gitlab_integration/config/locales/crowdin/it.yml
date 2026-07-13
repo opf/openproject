@@ -20,71 +20,63 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 it:
-  attributes:
-    commit: "Applica"
-    gitlab: "Identificatore di GitLab"
-    gitlab_avatar_url: "URL dell'avatar"
-    gitlab_email: "E-mail di GitLab"
-    gitlab_html_url: "URL HTML di GitLab"
-    gitlab_merge_request: "Richiesta di merge"
-    gitlab_name: "Nome di GitLab"
-    gitlab_updated_at: "Aggiornato il"
-    gitlab_user_avatar_url: "URL dell'avatar di GitLab"
-    gitlab_username: "Nome utente di GitLab"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "Dettagli CI"
       gitlab_merge_request:
-        labels: "Etichette"
+        labels: Etichette
+      gitlab_pipeline:
+        ci_details: Dettagli CI
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "deve essere un array di hash con le chiavi: colore, titolo"
+              invalid_schema: 'deve essere un array di hash con le chiavi: colore, titolo'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "deve essere un array di hash con le chiavi: colore, titolo"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Mostra il contenuto di GitLab"
+              invalid_schema: 'deve essere un array di hash con le chiavi: colore, titolo'
+  attributes:
+    commit: Applica
+    gitlab: Identificatore di GitLab
+    gitlab_avatar_url: URL dell'avatar
+    gitlab_email: E-mail di GitLab
+    gitlab_html_url: URL HTML di GitLab
+    gitlab_merge_request: Richiesta di merge
+    gitlab_name: Nome di GitLab
+    gitlab_updated_at: Aggiornato il
+    gitlab_user_avatar_url: URL dell'avatar di GitLab
+    gitlab_username: Nome utente di GitLab
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR aperta:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata aperta da [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_closed_comment: >
-      **MR chiusa:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata chiusa da [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_merged_comment: >
-      **MR effettuata:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata effettuata da [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_reopened_comment: >
-      **MR riaperta:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata riaperta da [%{gitlab_user}](%{gitlab_user_url}).
-    note_commit_referenced_comment: >
-      **Citazione in Commit:** [%{gitlab_user}](%{gitlab_user_url}) ha referenziato questa macro-attività in una nota di commit [%{commit_id}](%{commit_url}) su [%{repository}](%{repository_url}): %{commit_note}
-    note_mr_referenced_comment: >
-      **Citazione in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Commento in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **Citazione nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Commento nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Citazione nel frammento di codice:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel frammento di codice %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}):
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Problema aperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato aperto da [%{gitlab_user}](%{gitlab_user_url}).
-    issue_closed_referenced_comment: >
-      **Problema chiuso:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato chiuso da [%{gitlab_user}](%{gitlab_user_url}).
-    issue_reopened_referenced_comment: >
-      **Problema riaperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato riaperto da [%{gitlab_user}](%{gitlab_user_url}).
-    push_single_commit_comment: >
-      **Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **Push in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}
-    push_multiple_commits_comment: >
-      **Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato diversi commit [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}
+    issue_closed_referenced_comment: "**Problema chiuso:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato chiuso da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Problema aperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato aperto da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Problema riaperto:** Il problema %{issue_number} [%{issue_title}](%{issue_url}) per [%{repository}](%{repository_url}) è stato riaperto da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR chiusa:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata chiusa da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR effettuata:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata effettuata da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR aperta:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata aperta da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR riaperta:** La richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) per [%{repository}](%{repository_url}) è stata riaperta da [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Citazione in Commit:** [%{gitlab_user}](%{gitlab_user_url}) ha referenziato questa macro-attività in una nota di commit [%{commit_id}](%{commit_url}) su [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Commento nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Citazione nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Commento in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Citazione in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Citazione nel frammento di codice:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel frammento di codice %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato diversi commit [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Push in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Push in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: Attore GitLab
+  label_gitlab_integration: Integrazione GitLab
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: Mostra il contenuto di GitLab
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'L''utente OpenProject la cui chiave API deve essere utilizzata per autenticare le richieste webhook in ingresso. Se impostato, le richieste autenticate con le credenziali di qualsiasi altro utente verranno rifiutate. Questo utente pubblica anche commenti automatici sulle macro-attività. Se non impostato, viene utilizzato l''utente di sistema.
+
+    '
+  text_gitlab_webhook_secret_info: 'Un token segreto condiviso con GitLab durante la configurazione del webhook. Se impostato, OpenProject verifica l''header X-Gitlab-Token su ogni richiesta in ingresso, rifiutando i payload che non corrispondono. Lascia vuoto per saltare la verifica (non consigliato).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'Nessun webhook secret è configurato. Qualsiasi richiesta all''endpoint webhook di GitLab verrà accettata senza verifica, il che potrebbe consentire ad attori non autorizzati di falsificare eventi. Si consiglia vivamente di impostare un secret.
+
+    '

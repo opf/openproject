@@ -84,7 +84,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
       # remove the logo and redirect to the branding tab
-      custom_style.send :remove_logo
+      custom_style.send :remove_logo!
       expect(File.exist?(file_path)).to be false
       expect(page).to have_current_path custom_style_path(tab: "branding")
     end

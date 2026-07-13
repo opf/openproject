@@ -1,0 +1,192 @@
+## Usage
+
+To create forms, you need 2 basic things:
+
+- A form instance to render fields
+- A `primer_form_with` call to get a form builder and render the form instance
+
+```ruby
+class TextFieldAndCheckboxForm < ApplicationForm
+  form do |my_form|
+    my_form.text_field(
+      name: :ultimate_answer,
+      label: "Ultimate answer",
+      required: true,
+      caption: "The answer to life, the universe, and everything"
+    )
+
+    my_form.check_box(
+      name: :enable_ipd,
+      label: "Enable the Infinite Improbability Drive",
+      caption: "Cross interstellar distances in a mere nothingth of a second."
+    )
+  end
+end
+```
+
+```erb
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render(TextFieldAndCheckboxForm.new(f)) %>
+<%% end %>
+```
+
+Multiple form instances can be rendered within the same `primer_form_with` call, combined using `Primer::Forms::FormList`:
+
+```erb
+<%%= primer_form_with(url: "/foo") do |f| %>
+  <%%= render(Primer::Forms::FormList.new(
+    TextFieldAndCheckboxForm.new(f),
+    SubmitButtonForm.new(f)
+  )) %>
+<%% end %>
+```
+
+## Accessing the form model
+
+When defining a form, the model sometimes needs to be accessed, for instance to remove or add some fields depending on the state of the model.
+
+One way to do so is to pass the model to the form instance at initialization. However, the recommended way to access the model object, is to use `model` directly.
+It returns the model which was passed as parameter when `primer_form_with`
+was called. It is defined in `ApplicationForm` and is available on all forms.
+
+Here is an example of an inline form where the `name` field is disabled if the
+model is read-only. This is done without having to create an intermediary class
+with model given as parameter.
+
+```erb
+<%%=
+primer_form_with(model: post, url: "/foo") do |f|
+  render_inline_form(f) do |form|
+    form.text_field name: :name, disabled: model.is_readonly
+    form.check_box name: :is_readonly
+  end
+end
+%>
+```
+
+## OpenProject helpers
+
+OpenProject provides some helpers to make building and rendering forms easier.
+
+### `render_inline_form` to avoid creating form classes
+
+This helper allows to render an anonymous form instance, avoiding the need to
+create a dedicated form class. This can be useful for simple forms or when you
+don't want to pollute the form class namespace.
+
+The above example which was needing a dedicated `TextFieldAndCheckboxForm` form
+class can be rewritten like this:
+
+```erb
+<%%=
+primer_form_with(url: "/foo") do |f|
+  render_inline_form(f) do |my_form|
+    my_form.text_field(
+      name: :ultimate_answer,
+      label: "Ultimate answer",
+      required: true,
+      caption: "The answer to life, the universe, and everything"
+    )
+
+    my_form.check_box(
+      name: :enable_ipd,
+      label: "Enable the Infinite Improbability Drive",
+      caption: "Cross interstellar distances in a mere nothingth of a second."
+    )
+  end
+end
+%>
+```
+
+### `fieldset_group` to group related inputs
+
+Use `fieldset_group` to visually and semantically group related form inputs under a shared heading. It renders a `<fieldset>` element, which improves readability and accessibility for longer or more complex forms.
+
+```ruby
+class NotificationSettingsForm < ApplicationForm
+  form do |my_form|
+    my_form.fieldset_group(title: "Email notifications") do |group|
+      group.check_box(
+        name: :notify_on_mention,
+        label: "Notify on mention"
+      )
+      group.check_box(
+        name: :notify_on_assignment,
+        label: "Notify on assignment"
+      )
+    end
+
+    my_form.fieldset_group(title: "In-app notifications", mt: 3) do |group|
+      group.check_box(
+        name: :in_app_enabled,
+        label: "Enable in-app notifications"
+      )
+    end
+  end
+end
+```
+
+The block yields a group builder that supports the same input helpers as the form object (`text_field`, `check_box`, `select_list`, etc.).
+
+For an example implementation, see the [Fieldset Group preview](/lookbook/inspect/primer/forms/fieldset_group_form).
+
+### `FormObject#html_content` to mix form fields and html content
+
+This helper allows to render non-form content in a form. For instance it can be
+used to render a description box inside a form, an image, or whatever makes
+sense for the form being built. Use it sparingly — if content feels out of place
+as a form field, consider whether it belongs outside the form instead.
+
+```ruby
+class TextFieldWithWarningForm < ApplicationForm
+  attr_reader :warning
+
+  def initialize(warning: nil)
+    super()
+    @warning = warning
+  end
+
+  form do |my_form|
+    my_form.text_field(
+      name: :full_name,
+      label: "Full name",
+      required: true
+    )
+
+    if warning
+      my_form.html_content do
+        tag.div(class: "flash flash-warn") { warning }
+      end
+    end
+
+    my_form.submit(name: :submit, label: "Save")
+  end
+end
+```
+
+## Caption templates
+Captions and caption templates are basic part of the Primer form system. The following bit is mostyl copied from the [Primer docs](https://primer.style/view-components/lookbook/pages/forms/caption_templates/).
+
+All inputs support the `caption:` argument as a string, which renders explainer text underneath the input and validation message.
+
+```rb
+class ExampleForm < ApplicationForm
+  form do |example_form|
+    example_form.text_field(
+      name: :disco_name,
+      label: "Disco name",
+      caption: "Enter your grooviest name"
+    )
+  end
+end
+```
+
+### Defining caption templates
+In cases where a lot of logic or markup is necessary, or where the caption text is awkward to express in Ruby code, forms may define caption content in separate template files. Caption templates are located in a directory named after the form.
+For example, if `ExampleForm` lives in `app/forms/example_form.rb`, its caption templates should be created in the `app/forms/example_form/ directory.
+
+Caption template files must be named after the field they describe. For example, a caption template for the `disco_name` field above would live in `app/forms/example_form/disco_name_caption.html.erb`.
+
+In cases where the caption: argument and a caption template are provided, the caption: argument takes precedence.
+
+For detailed examples, please refer to the [Primer docs](https://primer-lookbook.github.com/view-components/lookbook/inspect/primer/forms/caption_template_form).

@@ -47,8 +47,8 @@ RSpec.describe Budget do
       budget.destroy
     end
 
-    it { expect(Budget.find_by_id(budget.id)).to be_nil }
-    it { expect(WorkPackage.find_by_id(work_package.id)).to eq(work_package) }
+    it { expect(described_class.find_by(id: budget.id)).to be_nil }
+    it { expect(WorkPackage.find_by(id: work_package.id)).to eq(work_package) }
     it { expect(work_package.reload.budget).to be_nil }
   end
 

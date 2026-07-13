@@ -61,40 +61,17 @@ RSpec.describe Projects::RowComponent, type: :component do
   end
 
   describe "Menu" do
-    context "when the user has no project edit permissions" do
-      it "renders a Primer ActionMenu (single variant)" do
-        expect(subject).to have_element "action-menu", "data-select-variant": "none"
-      end
+    context "when the user is anonymous" do
+      let(:user) { build_stubbed(:anonymous) }
 
-      it "renders menu items", :aggregate_failures do
-        expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 1
-          expect(menu).to have_selector :menuitem, text: "Add to favorites"
-        end
+      it "renders no action menu" do
+        expect(rendered_component).not_to have_element "action-menu"
       end
     end
 
-    context "when the user has project edit permissions" do
-      let(:user) { build_stubbed(:admin) }
-
-      it "renders a Primer ActionMenu (single variant)" do
-        expect(subject).to have_element "action-menu", "data-select-variant": "none"
-      end
-
-      it "renders menu items", :aggregate_failures do
-        expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 7
-          expect(menu).to have_selector :menuitem, text: "New subproject"
-          expect(menu).to have_selector :menuitem, text: "Project settings"
-          expect(menu).to have_selector :menuitem, text: "Project activity"
-          expect(menu).to have_selector :menuitem, text: "Add to favorites"
-          expect(menu).to have_selector :menuitem, text: "Archive"
-          expect(menu).to have_selector :menuitem, text: "Copy"
-          expect(menu).to have_selector :menuitem, text: "Delete" do |link|
-            expect(link[:href]).to eq confirm_destroy_project_path(project)
-            expect(link[:"data-turbo-stream"]).to eq "true"
-          end
-        end
+    context "when the user is logged in" do
+      it "renders an async Primer ActionMenu shell" do
+        expect(rendered_component).to have_element "action-menu"
       end
     end
   end

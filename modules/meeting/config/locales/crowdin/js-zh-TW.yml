@@ -19,9 +19,10 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 zh-TW:
   js:
-    label_meetings: '會議'
+    label_meetings: 會議
     work_packages:
       tabs:
-        meetings: '會議'
+        meetings: 會議

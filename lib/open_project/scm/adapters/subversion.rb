@@ -345,6 +345,7 @@ module OpenProject
         # Target path with optional peg revision
         # http://svnbook.red-bean.com/en/1.7/svn.advanced.pegrevs.html
         def target(path = "", peg: nil)
+          validate_path!(path)
           path = super(path)
 
           if peg
@@ -352,6 +353,27 @@ module OpenProject
           else
             path
           end
+        end
+
+        def validate_path!(path)
+          decoded = path.to_s
+
+          # Unescape repeatedly to catch nested encoding such as %252e%252e.
+          loop do
+            unescaped = URI::DEFAULT_PARSER.unescape(decoded)
+            break if unescaped == decoded
+
+            decoded = unescaped
+          end
+
+          invalid_characters = [path.to_s, decoded].any? do |value|
+            value.include?("\0") || value.include?("\n") || value.include?("\r")
+          end
+
+          traverses_parent = decoded.split("/").include?("..")
+          return unless invalid_characters || traverses_parent
+
+          raise Exceptions::CommandFailed.new(client_command, "Invalid repository path")
         end
 
         ##

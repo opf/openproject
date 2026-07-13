@@ -1,0 +1,6 @@
+---
+hy:
+  overviews:
+    label_dashboard: Dashboard
+    label_home: "%{workspace_type} home"
+    label_overview: Overview

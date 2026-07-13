@@ -74,24 +74,12 @@ RSpec.describe Overviews::ShowComponent, type: :component do
     end
   end
 
-  context "with the feature flag enabled", with_flag: { new_project_overview: true } do
-    it "renders overview grid" do
-      expect(rendered_component).to have_css ".widget-boxes"
-    end
-
-    it "does not render widgets" do
-      expect(rendered_component).to have_no_element "opce-dashboard"
-    end
+  it "renders overview grid" do
+    expect(rendered_component).to have_css ".widget-boxes"
   end
 
-  context "with the feature flag disabled", with_flag: { new_project_overview: false } do
-    it "does not render overview grid" do
-      expect(rendered_component).to have_no_css ".widget-boxes"
-    end
-
-    it "renders widgets" do
-      expect(rendered_component).to have_element "opce-dashboard"
-    end
+  it "does not render widgets" do
+    expect(rendered_component).to have_no_element "opce-dashboard"
   end
 
   context "when project has neither project attributes or life cycle" do

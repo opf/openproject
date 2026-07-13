@@ -32,14 +32,13 @@ See COPYRIGHT and LICENSE files for more details.
     component_wrapper do
       flex_layout do |flex|
         flex.with_row(mb: 3) do
-          render(Projects::StatusButtonComponent.new(project:, user: current_user))
+          render(Projects::StatusButtonComponent.new(project:, user: current_user, hide_help_text: true))
         end
 
         flex.with_row do
           render OpenProject::Common::InplaceEditFieldComponent.new(
             model: project,
             attribute: :status_explanation,
-            visually_hide_label: true,
             rich_text_options: {
               showAttachments: false,
               editorType: "constrained",

@@ -83,7 +83,7 @@
         [ngClass]="uiStateLinkClass"
         (click)="emitStateLinkClicked($event, workPackage)"
         >
-        #{{workPackage.id}}
+        {{workPackage.formattedId}}
       </a>
       <span class="op-wp-single-card--content-subject-line">
         @if (showAsInlineCard && showStartDate) {

@@ -33,10 +33,10 @@ module Storages
     module Providers
       module Sharepoint
         class StorageFileTransformer
-          attr_reader :site_name
+          attr_reader :host_uri
 
-          def initialize(site_name)
-            @site_name = site_name
+          def initialize(host_uri)
+            @host_uri = host_uri
           end
 
           def transform(json)
@@ -91,7 +91,7 @@ module Storages
           end
 
           def build_ancestor(name, location)
-            Results::StorageFileAncestor.new(name:, location: CGI.unescape(location))
+            Results::StorageFileAncestor.new(name:, location:)
           end
 
           private
@@ -103,7 +103,9 @@ module Storages
           end
 
           def extract_location(json)
-            json[:webUrl].gsub(/.*#{site_name}/, "")
+            # the host_uri always includes a trailing slash, so we re-add it.
+            location = "/#{json[:webUrl].delete_prefix(host_uri)}"
+            CGI.unescapeURIComponent(location)
           end
 
           def extract_parent_location(json)

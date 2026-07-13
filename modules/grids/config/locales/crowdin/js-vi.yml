@@ -1,59 +1,60 @@
+---
 vi:
   js:
     grid:
-      add_widget: 'Thêm tiện ích'
-      remove: 'Xóa tiện ích'
-      configure: 'Định cấu hình tiện ích'
+      add_widget: Thêm tiện ích
+      configure: Định cấu hình tiện ích
+      remove: Xóa tiện ích
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: "Bạn không có quyền cần thiết để xem tiện ích này."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Văn bản tùy chỉnh'
+          title: Văn bản tùy chỉnh
         documents:
-          title: 'Tài liệu'
-          no_results: 'Chưa có tài liệu.'
+          no_results: Chưa có tài liệu.
+          title: Tài liệu
         members:
-          title: 'thành viên'
+          title: thành viên
+        missing_permission: Bạn không có quyền cần thiết để xem tiện ích này.
         news:
-          title: 'tin tức'
+          title: tin tức
+        not_available: This widget is currently unavailable.
         project_description:
-          title: 'mô tả'
-          no_results: "Chưa có mô tả nào được viết. Một cái có thể được cung cấp trong 'Cài đặt dự án'."
-        project_status:
-          title: 'trạng thái'
-          not_started: 'Chưa bắt đầu'
-          on_track: 'Đang đi đúng hướng'
-          off_track: 'Lạc lối'
-          at_risk: 'Có nguy cơ'
-          not_set: 'Không được thiết lập'
-          finished: 'Đã hoàn thành'
-          discontinued: 'Đã ngừng sản xuất'
-        subprojects:
-          title: 'mục phụ'
+          title: mô tả
         project_favorites:
-          title: 'dự án yêu thích'
-          no_results: 'Hiện tại bạn chưa có dự án yêu thích nào. Nhấp vào biểu tượng ngôi sao trong bảng điều khiển dự án để thêm một biểu tượng vào mục yêu thích của bạn.'
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: dự án yêu thích
+        project_status:
+          at_risk: Có nguy cơ
+          discontinued: Đã ngừng sản xuất
+          finished: Đã hoàn thành
+          not_set: Không được thiết lập
+          not_started: Chưa bắt đầu
+          off_track: Lạc lối
+          on_track: Đang đi đúng hướng
+          title: trạng thái
+        subprojects:
+          title: mục phụ
         time_entries_current_user:
-          title: 'Thời gian hiện tại (My spent time)'
           displayed_days: 'Ngày hiển thị trong widget:'
+          title: Thời gian hiện tại (My spent time)
         time_entries_list:
-          title: 'Thời gian đã sử dụng (7 ngày qua)'
-          no_results: 'Không có mục thời gian trong 7 ngày qua.'
+          no_results: Không có mục thời gian trong 7 ngày qua.
+          title: Thời gian đã sử dụng (7 ngày qua)
         work_packages_accountable:
-          title: "Gói công việc mà tôi có trách nhiệm"
+          title: Gói công việc mà tôi có trách nhiệm
         work_packages_assigned:
-          title: 'Work package được chỉ định cho tôi'
-        work_packages_created:
-          title: 'Công việc tạo bởi tôi'
-        work_packages_watched:
-          title: 'Công việc có liên quan tới tôi'
-        work_packages_table:
-          title: 'Bảng gói công việc'
-        work_packages_graph:
-          title: 'Biểu đồ gói công việc'
-          summary: "Biểu đồ %{chartType} hiển thị các gói công việc %{description}."
+          title: Work package được chỉ định cho tôi
         work_packages_calendar:
-          title: 'lịch'
+          title: lịch
+        work_packages_created:
+          title: Công việc tạo bởi tôi
+        work_packages_graph:
+          summary: Biểu đồ %{chartType} hiển thị các gói công việc %{description}.
+          title: Biểu đồ gói công việc
         work_packages_overview:
-          title: 'Tổng quan về gói công việc'
-          placeholder: 'Bấm vào để chỉnh sửa...'
+          placeholder: Bấm vào để chỉnh sửa...
+          title: Tổng quan về gói công việc
+        work_packages_table:
+          title: Bảng gói công việc
+        work_packages_watched:
+          title: Công việc có liên quan tới tôi

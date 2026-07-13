@@ -1,16 +1,17 @@
+---
 ja:
-  plugin_openproject_xls_export:
-    name: "OpenProject XLSエクスポート"
-    description: "課題リストを Excel スプレッドシート(.xls)としてエクスポートします。"
-  export_to_excel: "XLS をエクスポート"
-  print_with_description: "説明付きの印刷プレビュー"
-  sentence_separator_or: "または"
   different_formats: 別の形式
   export:
     format:
-      xls: "XLS"
-      xls_with_descriptions: "説明付きの XLS"
-      xls_with_relations: "関連を含むXLS"
+      xls: XLS
+      xls_with_descriptions: 説明付きの XLS
+      xls_with_relations: 関連を含むXLS
+  export_to_excel: XLS をエクスポート
+  plugin_openproject_xls_export:
+    description: 課題リストを Excel スプレッドシート(.xls)としてエクスポートします。
+    name: OpenProject XLSエクスポート
+  print_with_description: 説明付きの印刷プレビュー
+  sentence_separator_or: または
   xls_export:
     child_of: 次の子
     parent_of: 次の親

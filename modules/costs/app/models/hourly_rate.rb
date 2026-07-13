@@ -27,8 +27,8 @@
 #++
 
 class HourlyRate < Rate
-  validates_uniqueness_of :valid_from, scope: %i[user_id project_id]
-  validates_presence_of :user_id, :project_id, :valid_from
+  validates :valid_from, uniqueness: { scope: %i[user_id project_id] }
+  validates :user_id, :project_id, :valid_from, presence: true
   validate :change_of_user_only_on_first_creation
 
   def previous(reference_date = valid_from)

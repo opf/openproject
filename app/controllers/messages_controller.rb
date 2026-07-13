@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
   REPLIES_PER_PAGE = 100 unless const_defined?(:REPLIES_PER_PAGE)
 
   # Show a topic and its replies
-  def show
+  def show # rubocop:disable Metrics/AbcSize
     @topic = @message.root
 
     @offset = params[:page]
@@ -141,16 +141,12 @@ class MessagesController < ApplicationController
   end
 
   def quote
-    user = @message.author
-    text = @message.content
     subject = @message.subject
     subject = "RE: #{subject}" unless subject.starts_with?("RE:")
-    user_wrote = I18n.t(:text_user_wrote, value: ERB::Util.html_escape(user), locale: Setting.default_language)
-    content = "#{user_wrote}\n> "
-    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, "[...]").gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
+    content = build_quote(author: @message.author, text: @message.content)
 
     respond_to do |format|
-      format.json { render json: { subject:, content: } }
+      format.json { render json: { subject:, content: }, escape: true }
       format.any { head :not_acceptable }
     end
   end
@@ -186,6 +182,15 @@ class MessagesController < ApplicationController
 
   def create_reply(forum, parent)
     create_message(forum, permitted_params.reply.merge(parent:))
+  end
+
+  def build_quote(author:, text:)
+    attribution = I18n.t(:text_user_wrote, value: ERB::Util.html_escape(author), locale: Setting.default_language)
+    sanitized = text.to_s.strip
+                    .gsub(%r{<pre>(.+?)</pre>}m, "[...]")
+    quoted_text = sanitized.gsub(/(\r?\n|\r\n?)/, "\n> ")
+
+    "#{attribution}\n> #{quoted_text}\n\n"
   end
 
   def attachment_params

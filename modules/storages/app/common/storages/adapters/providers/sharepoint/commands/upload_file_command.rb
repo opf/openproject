@@ -87,7 +87,7 @@ module Storages
 
               item_id = Peripherals::ParentFolder.new(file_id)
               drive_item_query.call(http:, drive_id:, item_id:, fields: Queries::FileInfoQuery::FIELDS)
-                .bind { |json| storage_file_transformer.transform(json) }
+                              .bind { |json| storage_file_transformer.transform(json) }
             end
 
             def composite_folder_id(drive_id, location)
@@ -123,7 +123,7 @@ module Storages
             end
 
             def storage_file_transformer
-              @storage_file_transformer ||= StorageFileTransformer.new(site_name)
+              @storage_file_transformer ||= StorageFileTransformer.new(host_uri)
             end
           end
         end

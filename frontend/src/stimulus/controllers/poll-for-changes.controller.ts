@@ -76,7 +76,8 @@ export default class PollForChangesController extends ApplicationController {
 
   triggerTurboStream() {
     const url = new URL(this.urlValue, window.location.origin);
-    url.searchParams.set('reference', this.buildReference());
+    const ref = this.buildReference();
+    if (ref) url.searchParams.set('reference', ref);
 
     void fetch(url.toString())
       .then(async (r) => {

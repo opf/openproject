@@ -80,33 +80,33 @@ RSpec.describe "hourly rates on a member", :js do
   end
 
   it "displays always the currently active rate" do
-    expect_current_rate_in_members_table("0.00 EUR")
+    expect_current_rate_in_members_table("0.00 €")
 
-    click_link("0.00 EUR")
+    click_link("0.00 €")
     SeleniumHubWaiter.wait
 
     add_rate(date: Date.current, rate: 10)
 
     click_button "Save"
 
-    expect_current_rate_in_members_table("10.00 EUR")
+    expect_current_rate_in_members_table("10.00 €")
 
     SeleniumHubWaiter.wait
-    click_link("10.00 EUR")
+    click_link("10.00 €")
 
     add_rate(date: 3.days.ago, rate: 20)
 
     click_button "Save"
 
-    expect_current_rate_in_members_table("10.00 EUR")
+    expect_current_rate_in_members_table("10.00 €")
 
     SeleniumHubWaiter.wait
-    click_link("10.00 EUR")
+    click_link("10.00 €")
 
     change_rate_date(from: Date.current, to: 5.days.ago)
 
     click_button "Save"
 
-    expect_current_rate_in_members_table("20.00 EUR")
+    expect_current_rate_in_members_table("20.00 €")
   end
 end

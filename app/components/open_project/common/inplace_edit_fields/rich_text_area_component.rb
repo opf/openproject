@@ -31,32 +31,55 @@
 module OpenProject
   module Common
     module InplaceEditFields
-      class RichTextAreaComponent < ViewComponent::Base
-        attr_reader :form, :attribute, :model
-
+      class RichTextAreaComponent < BaseFieldComponent
         def self.display_class
           DisplayFields::RichTextAreaComponent
         end
 
-        def initialize(form:, attribute:, model:, **system_arguments)
-          super()
-          @form = form
-          @attribute = attribute
-          @model = model
-          @system_arguments = system_arguments
+        def initialize(form:, attribute:, model:, show_action_buttons: true, **system_arguments)
+          super
           @system_arguments[:classes] = class_names(
             @system_arguments[:classes],
             "op-inplace-edit-field--text-area"
           )
-          @system_arguments[:label] ||= model.class.human_attribute_name(attribute)
 
           @system_arguments[:rich_text_options] ||= {}
           @system_arguments[:rich_text_options][:primerized] = true
+
+          @system_arguments[:data] = merge_data(
+            @system_arguments,
+            data: { test_selector: }
+          )
         end
 
         def call
-          form.rich_text_area(name: attribute, **@system_arguments)
+          form.rich_text_area(name: attribute,
+                              wrapper_data_attributes: ckeditor_wrapper_data,
+                              **@system_arguments)
 
+          comment_field_if_enabled(form)
+          render_action_buttons if show_action_buttons
+        end
+
+        def test_selector
+          if custom_field?
+            "custom-field-#{custom_field.id}"
+          else
+            "augmented-text-area-#{attribute.to_s.parameterize(separator: '_')}"
+          end
+        end
+
+        private
+
+        def ckeditor_wrapper_data
+          {
+            controller: "ckeditor-focus",
+            ckeditor_focus_target: "editor",
+            ckeditor_focus_autofocus_value: true
+          }
+        end
+
+        def render_action_buttons
           form.group(layout: :horizontal, justify_content: :flex_end) do |button_group|
             button_group.submit(name: :reset,
                                 type: :submit,

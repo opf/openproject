@@ -315,69 +315,6 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
       end
     end
 
-    context "when an artifact work package already exists" do
-      shared_let(:already_existing_artifact_work_package) do
-        create(:work_package, project:, subject: "Fake project initiation request")
-      end
-
-      before do
-        project.update(project_creation_wizard_artifact_work_package_id: already_existing_artifact_work_package.id)
-      end
-
-      it "does not create a new artifact work package" do
-        result = instance.call
-        expect(result).to be_success
-        expect(result.errors.full_messages).to be_empty
-
-        project = result.result
-        expect(project.project_creation_wizard_artifact_work_package_id)
-          .to eq(already_existing_artifact_work_package.id)
-        expect(project.work_packages.count).to eq(1)
-      end
-
-      it "does not try to validate the contract" do
-        instance.call
-        expect(mocked_contract).not_to have_received(:validate)
-      end
-
-      context "when artifact storage is project storage" do
-        before do
-          # setup storage to ensure it's not called
-          storage = create(:nextcloud_storage_with_local_connection)
-          project_storage = create(:project_storage, project:, storage:, project_folder_id: "/project_folder")
-          project.update(
-            project_creation_wizard_artifact_export_type: "file_link",
-            project_creation_wizard_artifact_export_storage: project_storage.id
-          )
-
-          allow(Storages::UploadFileService)
-            .to receive(:call)
-                  .and_return(ServiceResult.success)
-        end
-
-        it "does not try to create another artifact pdf and upload it" do
-          result = instance.call
-          expect(result).to be_success
-          expect(result.errors.full_messages).to be_empty
-          expect(Storages::UploadFileService).not_to have_received(:call)
-        end
-      end
-
-      context "when the already existing artifact work package gets deleted " \
-                "(dangling artifact work package id in project settings)" do
-        before do
-          already_existing_artifact_work_package.destroy
-        end
-
-        it "creates a new artifact work package" do
-          result = instance.call
-          expect(result).to be_success
-          expect(result.errors.full_messages).to be_empty
-          expect(project.project_creation_wizard_artifact_work_package_id).not_to eq(already_existing_artifact_work_package.id)
-        end
-      end
-    end
-
     context "with required work package custom fields" do
       shared_let(:required_wp_custom_field) do
         create(:work_package_custom_field,

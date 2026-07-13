@@ -28,7 +28,7 @@
 
 import { Observable } from 'rxjs';
 import { IView, IViewCreatePayload } from 'core-app/core/state/views/view.model';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import {
@@ -38,7 +38,7 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ApiV3ViewsPaths extends ApiV3ResourceCollection<IView, ApiV3GettableResource<IView>> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   constructor(
     protected apiRoot:ApiV3Service,

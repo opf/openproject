@@ -1,5 +1,6 @@
+---
 si:
   overviews:
+    label_dashboard: Dashboard
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dashboard"
-    label_overview: "දළ විශ්ලේෂණය"
+    label_overview: දළ විශ්ලේෂණය

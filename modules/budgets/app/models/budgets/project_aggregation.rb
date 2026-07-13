@@ -35,18 +35,9 @@ module Budgets::ProjectAggregation
     attr_reader :project, :current_user
   end
 
-  def workspace_counts
-    project.descendants.reorder(nil)
-      .group(:workspace_type)
-      .count
-      .with_indifferent_access
-  end
-
   private
 
   def applicable_projects
-    return Project.where(id: project.id) unless project.portfolio?
-
     project.self_and_descendants.reorder(nil)
   end
 end

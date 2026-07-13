@@ -38,34 +38,63 @@
 #   * Cause metadata (system-triggered changes)
 #   * Attribute/data changes (compares work_package_journals columns with immediate predecessor)
 #
-# This heuristic compares association records with the predecessor journal to detect actual changes,
-# not just the presence of snapshot records.
+# Each journal's immediate predecessor is resolved once, in a CTE named `journals` that
+# shadows the table and exposes `predecessor_id` / `predecessor_data_id` columns. Every
+# change-detection branch then reads those columns instead of re-seeking the predecessor.
+# Changeset journals carry no detectable attribute history and are always included.
 class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
   class << self
-    def apply(scope)
-      sql = <<~SQL.squish
-        version = 1
-        OR (cause IS NOT NULL AND cause != '{}')
+    # @param membership [ActiveRecord::Relation] the activity feed's journals
+    #   (visible work package journals, optionally unioned with changeset journals)
+    def apply(membership)
+      Journal
+        .with(journals: Arel.sql(enriched_journals_sql(membership)))
+        .where(OpenProject::SqlSanitization.sanitize(changes_condition_sql))
+    end
+
+    private
+
+    # Enrich each journal row with its immediate predecessor's id and data_id. The
+    # predecessor is the highest version below the current one, located through the
+    # (journable_type, journable_id, version) index; versions are incremental but may
+    # have gaps, so the seek matches on `< version` rather than `version - 1`. A LEFT
+    # JOIN keeps initial (version = 1) journals, whose predecessor columns stay NULL.
+    def enriched_journals_sql(membership)
+      <<~SQL.squish
+        SELECT curr.*,
+               predecessor.id AS predecessor_id,
+               predecessor.data_id AS predecessor_data_id
+        FROM (#{membership.to_sql}) curr
+        LEFT JOIN LATERAL (
+          SELECT p.id, p.data_id
+          FROM journals p
+          WHERE p.journable_id = curr.journable_id
+            AND p.journable_type = curr.journable_type
+            AND p.version < curr.version
+          ORDER BY p.version DESC
+          LIMIT 1
+        ) predecessor ON TRUE
+      SQL
+    end
+
+    def changes_condition_sql
+      <<~SQL.squish
+        journals.journable_type = '#{Changeset.name}'
+        OR journals.version = 1
+        OR (journals.cause IS NOT NULL AND journals.cause != '{}')
         OR EXISTS (#{attribute_data_changes_condition_sql})
         OR EXISTS (#{attachment_changes_condition_sql})
         OR EXISTS (#{custom_field_changes_condition_sql})
         OR EXISTS (#{file_link_changes_condition_sql})
       SQL
-
-      scope.where(OpenProject::SqlSanitization.sanitize(sql))
     end
-
-    private
 
     def attribute_data_changes_condition_sql
       <<~SQL.squish
         SELECT 1
-          FROM journals predecessor
-          INNER JOIN work_package_journals pred_data ON predecessor.data_id = pred_data.id
-          INNER JOIN work_package_journals curr_data ON journals.data_id = curr_data.id
-          WHERE predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
+          FROM work_package_journals pred_data
+          INNER JOIN work_package_journals curr_data ON curr_data.id = journals.data_id
+          WHERE pred_data.id = journals.predecessor_data_id
             AND (#{data_changes_condition_sql})
       SQL
     end
@@ -96,18 +125,6 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
         join_columns: ["file_link_id"],
         value_columns: %w[link_name storage_name]
       )
-    end
-
-    # Identify the immediate predecessor journal for comparison.
-    # NB: Journal versions are incremental but not guaranteed to be sequential.
-    def max_predecessor_version_sql
-      <<~SQL.squish
-        SELECT MAX(version)
-        FROM journals p2
-        WHERE p2.journable_id = journals.journable_id
-          AND p2.journable_type = journals.journable_type
-          AND p2.version < journals.version
-      SQL
     end
 
     def data_changes_condition_sql
@@ -154,12 +171,8 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
       <<~SQL.squish
         SELECT 1
           FROM #{table} curr
-          LEFT JOIN journals predecessor
-            ON predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
           LEFT JOIN #{table} pred
-            ON pred.journal_id = predecessor.id
+            ON pred.journal_id = journals.predecessor_id
             AND #{join_conditions}
           WHERE curr.journal_id = journals.id
             AND (#{where_clause})
@@ -175,15 +188,11 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
 
       <<~SQL.squish
         SELECT 1
-          FROM journals predecessor
-          INNER JOIN #{table} pred
-            ON pred.journal_id = predecessor.id
+          FROM #{table} pred
           LEFT JOIN #{table} curr
             ON curr.journal_id = journals.id
             AND #{join_conditions}
-          WHERE predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
+          WHERE pred.journal_id = journals.predecessor_id
             AND curr.id IS NULL
       SQL
     end

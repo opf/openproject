@@ -87,11 +87,9 @@ RSpec.describe Principals::DeleteJob, type: :model do
     end
 
     shared_examples_for "labor_budget_item handling" do
-      let(:item) { build(:labor_budget_item, user: principal) }
+      let!(:item) { create(:labor_budget_item, principal:) }
 
       before do
-        item.save!
-
         job
       end
 
@@ -253,6 +251,74 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it { expect(Query.find_by(id: query.id)).to be_nil }
     end
 
+    shared_examples_for "persisted view and query handling" do
+      let!(:private_view) { PersistedView.create!(name: "Private", public: false, principal:) }
+      let!(:public_view)  { PersistedView.create!(name: "Public",  public: true,  principal:) }
+
+      # Query shared between the principal's private view and another user's public view —
+      # must survive the destruction of the private view.
+      let!(:other_user) { create(:user) }
+      let!(:shared_query) { UserQuery.create!(name: "Shared") }
+      let!(:shared_private_view) do
+        PersistedView.create!(name: "Shared-private", public: false, principal:, query: shared_query)
+      end
+      let!(:other_public_view) do
+        PersistedView.create!(name: "Other-public", public: true, principal: other_user, query: shared_query)
+      end
+
+      # Query referenced only from the principal's private view — should be destroyed along with the view.
+      let!(:orphaned_query) { UserQuery.create!(name: "Orphaned", principal:) }
+      let!(:orphaning_view) do
+        PersistedView.create!(name: "Orphaning-private", public: false, principal:, query: orphaned_query)
+      end
+
+      # Public query owned by the principal — kept, principal_id nullified.
+      let!(:kept_user_query) { UserQuery.create!(name: "Public-owned", principal:) }
+      let!(:kept_public_view) do
+        PersistedView.create!(name: "Keeps-query", public: true, principal: other_user, query: kept_user_query)
+      end
+
+      # Manual entries pointing at the principal — must be deleted.
+      let!(:manual_entry_user) do
+        OrderedPersistedQueryEntity.create!(persisted_query: shared_query, entity: principal, position: 1)
+      end
+      let!(:manual_entry_other) do
+        OrderedPersistedQueryEntity.create!(persisted_query: shared_query, entity: other_user, position: 2)
+      end
+
+      before { job }
+
+      it "deletes private views owned by the principal" do
+        expect(PersistedView.find_by(id: private_view.id)).to be_nil
+        expect(PersistedView.find_by(id: shared_private_view.id)).to be_nil
+        expect(PersistedView.find_by(id: orphaning_view.id)).to be_nil
+      end
+
+      it "keeps public views but nullifies their principal_id" do
+        expect(public_view.reload.principal_id).to be_nil
+      end
+
+      it "destroys queries that are no longer referenced by any public view" do
+        expect(PersistedQuery.find_by(id: orphaned_query.id)).to be_nil
+      end
+
+      it "keeps queries still referenced by another public view" do
+        expect(PersistedQuery.find_by(id: shared_query.id)).to eq(shared_query)
+      end
+
+      it "nullifies principal_id on surviving queries" do
+        expect(kept_user_query.reload.principal_id).to be_nil
+      end
+
+      it "deletes ordered entries that pointed at the principal" do
+        expect(OrderedPersistedQueryEntity.find_by(id: manual_entry_user.id)).to be_nil
+      end
+
+      it "keeps ordered entries that point at other users" do
+        expect(OrderedPersistedQueryEntity.find_by(id: manual_entry_other.id)).to eq(manual_entry_other)
+      end
+    end
+
     shared_examples_for "backup token handling" do
       let!(:backup_token) do
         create(:backup_token, user: principal)
@@ -317,6 +383,26 @@ RSpec.describe Principals::DeleteJob, type: :model do
         job
 
         expect(ProjectQuery.find_by(id: query.id)).to be_nil
+      end
+    end
+
+    shared_examples_for "working hours handling" do
+      let!(:working_hours) { create(:user_working_hours, user: principal) }
+
+      it "removes the working hours" do
+        job
+
+        expect(UserWorkingHours.find_by(id: working_hours.id)).to be_nil
+      end
+    end
+
+    shared_examples_for "non working times handling" do
+      let!(:non_working_time) { create(:user_non_working_time, user: principal) }
+
+      it "removes the non working times" do
+        job
+
+        expect(UserNonWorkingTime.find_by(id: non_working_time.id)).to be_nil
       end
     end
 
@@ -468,12 +554,15 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like "backup token handling"
       it_behaves_like "notification handling"
       it_behaves_like "private query handling"
+      it_behaves_like "persisted view and query handling"
       it_behaves_like "issue category handling"
       it_behaves_like "private cost_query handling"
       it_behaves_like "public cost_query handling"
       it_behaves_like "cost_query handling"
       it_behaves_like "project query handling"
       it_behaves_like "mention rewriting"
+      it_behaves_like "working hours handling"
+      it_behaves_like "non working times handling"
 
       describe "favorites" do
         before do

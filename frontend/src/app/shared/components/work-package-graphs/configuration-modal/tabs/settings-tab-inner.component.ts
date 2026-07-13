@@ -1,6 +1,7 @@
+import { sortBy } from 'lodash-es';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
@@ -17,8 +18,18 @@ interface OpChartType {
   selector: 'op-settings-tab-inner',
   templateUrl: './settings-tab-inner.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTabComponent implements TabComponent, OnInit {
+  readonly I18n:I18nService;
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService;
+  readonly wpGraphConfiguration:WpGraphConfigurationService;
+  private cdRef = inject(ChangeDetectorRef);
+
   // Grouping
   public availableGroups:QueryGroupByResource[] = [];
 
@@ -31,11 +42,16 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
     chart_type: this.I18n.t('js.chart.type'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly wpTableGroupBy:WorkPackageViewGroupByService,
-    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly wpGraphConfiguration:WpGraphConfigurationService) {
+  constructor() {
+    const I18n = inject(I18nService);
+    const wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+    const wpGraphConfiguration = inject(WpGraphConfigurationService);
+
     super(I18n, wpStatesInitialization, wpGraphConfiguration);
+
+    this.I18n = I18n;
+    this.wpStatesInitialization = wpStatesInitialization;
+    this.wpGraphConfiguration = wpGraphConfiguration;
   }
 
   public onSave() {
@@ -54,14 +70,15 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
   }
 
   ngOnInit() {
-    this
+    void this
       .initializeQuerySpace()
       .then(() => {
-        this.wpTableGroupBy
+        void this.wpTableGroupBy
           .onReady()
           .then(() => {
             this.initializeAvailableGroups();
             this.initializeAvailableChartType();
+            this.cdRef.markForCheck();
           });
       });
   }
@@ -77,11 +94,11 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
       available = available.concat(current);
     }
 
-    this.availableGroups = _.sortBy(available, 'name');
+    this.availableGroups = sortBy(available, 'name');
   }
 
   private initializeAvailableChartType() {
-    this.availableChartTypes = _.sortBy([
+    this.availableChartTypes = sortBy([
       { identifier: 'horizontalBar', label: this.I18n.t('js.chart.types.horizontal_bar') },
       { identifier: 'bar', label: this.I18n.t('js.chart.types.bar') },
       { identifier: 'line', label: this.I18n.t('js.chart.types.line') },

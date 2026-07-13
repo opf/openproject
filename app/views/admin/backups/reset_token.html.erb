@@ -62,10 +62,12 @@ See COPYRIGHT and LICENSE files for more details.
 
       <p>
         <%= t(
-              "backup.reset_token.verification",
-              word: "<em class=\"danger-zone--expected-value\">#{t("backup.reset_token.verification_word_#{action}")}</em>",
+              "backup.reset_token.verification_html",
+              word: content_tag(:em,
+                                t("backup.reset_token.verification_word_#{action}"),
+                                class: "danger-zone--expected-value"),
               action: t("backup.reset_token.verification_word_#{action}")
-            ).html_safe %>
+            ) %>
       </p>
       <div class="danger-zone--verification">
         <input type="text" name="login_verification">

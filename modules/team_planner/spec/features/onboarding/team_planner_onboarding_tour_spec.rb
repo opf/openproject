@@ -32,7 +32,6 @@ require_relative "../../support/onboarding/onboarding_steps"
 RSpec.describe "team planner onboarding tour",
                :js,
                :selenium,
-               with_ee: %i[team_planner_view board_view],
                # We decrease the notification polling interval because some portions
                # of the JS code rely on something triggering the Angular change detection.
                # This is usually done by the notification polling, but we don't want to wait
@@ -84,15 +83,28 @@ RSpec.describe "team planner onboarding tour",
   end
 
   context "as a new user" do
-    it "I see the team planner onboarding tour in the demo project" do
-      # Set the tour parameter so that we can start on the wp page
-      visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
+    context "without EE" do
+      it "I can finish the tour without the team planner" do
+        # Set the tour parameter so that we can start on the wp page
+        visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 
-      step_through_onboarding_wp_tour demo_project, wp1
+        step_through_onboarding_wp_tour demo_project, wp1
 
-      step_through_onboarding_team_planner_tour
+        step_through_onboarding_main_menu_tour has_full_capabilities: true
+      end
+    end
 
-      step_through_onboarding_main_menu_tour has_full_capabilities: true
+    context "with EE", with_ee: %i[team_planner_view board_view] do
+      it "I see the team planner onboarding tour in the demo project" do
+        # Set the tour parameter so that we can start on the wp page
+        visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
+
+        step_through_onboarding_wp_tour demo_project, wp1
+
+        step_through_onboarding_team_planner_tour
+
+        step_through_onboarding_main_menu_tour has_full_capabilities: true
+      end
     end
   end
 end

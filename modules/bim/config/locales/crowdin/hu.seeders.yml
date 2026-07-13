@@ -206,8 +206,7 @@ hu:
           work_packages:
             item_0:
               subject: Építési projekt indítása
-              description: |-
-                A projekt indítása meghatározza a projekt kezdetét az Ön cégében. Mindenkit, aki részt vesz ebben a projektben, meg kell hívni az első eligazításra.
+              description: A projekt indítása meghatározza a projekt kezdetét az Ön cégében. Mindenkit, aki részt vesz ebben a projektben, meg kell hívni az első eligazításra.
             item_1:
               subject: Alapvető értékelés
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.

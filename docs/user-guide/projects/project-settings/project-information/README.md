@@ -9,7 +9,7 @@ keywords: project information
 
 ## Edit project information
 
-To edit your project information in OpenProject, select a project from the **Select a project** drop-down menu. Then navigate to *Project settings → Information* in the project menu on the left.
+To edit your project information in OpenProject, select a project from the **Select a project** drop-down menu. Then navigate to _Project settings → Information_ in the project menu on the left.
 
 Project settings are grouped into three sections:
 
@@ -17,21 +17,21 @@ Project settings are grouped into three sections:
 
     - **Project name**. The name will be displayed in the project list.
     - Add a project **description**.
+2. **Project identifier**. Here you can [change project identifier](#change-project-identifier).
 
-2. **Project status**. Here you can: 
+3. **Project status**. Here you can: 
 
-   - Set a **project status**. The project status can be displayed in the [project home](../../../project-home). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
-   - Add a **project status description**. The status description will be shown on the [project home](../../../project-home) page.
+   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
+   - Add a **project status description**. The status description will be shown on the [project home](../../project-home/) page.
 
-3. **Project relations**, where you can select the **parent project**.
+4. **Project relations**, where you can select the **parent project**.
 
 **Save** your changes by clicking the **Update** button at the bottom of each respective section.
 
 Further, in the top right corner you can: 
 
-4. [Add a subproject](#create-a-subproject) 
+5. [Add a subproject](#create-a-subproject) 
 
-5. [Change project identifier](#change-project-identifier)
 6. Click the **More (three dots)** icon, which opens a dropdown menu with the following options: 
    - [Copy a project](#copy-a-project)
    - [Make a project public](#make-a-project-public)
@@ -46,7 +46,7 @@ Further, in the top right corner you can:
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to [*Project settings*](../) -> *Information* and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [_Project settings_](../) -> _Information_ and click on the green **+ Subproject** button.
 
 Then follow the instructions to [create a new project](../../../../getting-started/projects/#create-a-new-project).
 
@@ -54,28 +54,28 @@ Then follow the instructions to [create a new project](../../../../getting-start
 
 ## Change project identifier
 
-A project identifier is the part of the project name shown in the URL, e.g. /demo-project. To change the project identifier navigate to Project settings and click the **Change identifier** button in the top right corner.
+A project identifier is the part of the project name shown in the URL, e.g. /demo-project. To change the project identifier navigate to Project settings and click the **Change identifier** button in the respective section.
 
-![Change project identifier under project settings in OpenProject](openproject_user_guide_project_settings_information_change_identifier_button.png)
+![A form to change the project identifier in OpenProject](openproject_user_guide_project_settings_information_change_identifier_button.png)
 
 You will then see the form to change and save the new project identifier. 
 
-> [!WARNING]
->
-> Keep in mind that once a project identifier is changed, members of the project will have to relocate the project's repositories. 
->
-> Existing project links will no longer work. 
+> [!NOTE]
+> When changing a project identifier, previous identifiers will remain valid. Requests to an old identifier will still resolve to the same project.
+> Retired identifiers cannot be used by other projects. A project can, however, revert to a previously used identifier.
 
-![A form to change the project identifier in OpenProject](openproject_user_guide_project_settings_information_change_identifier_form.png)
+> [!WARNING]
+> Keep in mind that once a project identifier is changed, members of the project will have to relocate the project's repositories. 
+> Existing links using previous identifiers will continue to work.
 
 ## Copy a project
 
-You can copy an existing project by navigating to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
+You can copy an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
 
 ![Copy a project under project settings in OpenProject](openproject_user_guide_project_settings_information_copy_project.png)
 
 Under the **Copy from project** section you can select what additional project data and settings, such as versions, work package categories, attachments, project life cycle and project members should be copied as well. 
-You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../../project-home/#project-overview) dashboards along with your project, too. 
+You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../project-home/#project-overview) dashboards along with your project, too. 
 
 Select which modules and settings you want to copy and whether or not you want to notify users via email during copying.
 
@@ -91,7 +91,7 @@ If you de-select the **File Storages: Project folders** option, the storage is c
 
 If you de-select the **File Storages** option, no storages are copied to the new project.
 
-Give the new project a name and select a parent project if needed.
+Give the new project a name, identifier and select a parent project if needed.
 
 Click the **Copy** button to proceed.
 
@@ -99,7 +99,7 @@ Click the **Copy** button to proceed.
 
 ## Make a project public
 
-If you want to set a project to be public, navigate to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
+If you want to set a project to be public, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
 
 ![Make a project public in OpenProject](openproject_user_guide_project_settings_information_mark_public.png)
 
@@ -111,7 +111,7 @@ Setting a project to public will make it accessible to all people within your Op
 
 ## Archive a project
 
-In order to archive a project, navigate to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
+In order to archive a project, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
 
 > [!NOTE]
 > This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _Archive project_ permission for that role via the [Roles and permissions](../../../../system-admin-guide/users-permissions/roles-permissions/) page in the administrator settings.
@@ -122,11 +122,11 @@ Once archived, a project can no longer be selected from the project list accessi
 
 ![An archived project shown in projects list in OpenProject](openproject_user_guide_project_settings_information_archived_project_projects_list.png)
 
-You can also archive a project directly on the [project overview page.](../../../project-home/#archive-a-project) 
+You can also archive a project directly on the [project overview page.](../../project-home/#archive-a-project) 
 
 ## Change the project hierarchy
 
-To change the project's hierarchy, navigate to the *Project settings -> Information* and change the **Subproject of** in *Project relations* section.
+To change the project's hierarchy, navigate to the _Project settings -> Information_ and change the **Subproject of** in _Project relations_ section.
 
 ![Project relations section under project settings in OpenProject](openproject_user_guide_project_settings_information_relations_section.png)
 

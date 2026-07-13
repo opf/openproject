@@ -1,5 +1,6 @@
+---
 sv:
   overviews:
+    label_dashboard: Översikt
     label_home: "%{workspace_type} hem"
-    label_dashboard: "Översikt"
-    label_overview: "Översikt"
+    label_overview: Översikt

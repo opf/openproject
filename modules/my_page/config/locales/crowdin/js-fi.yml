@@ -1,4 +1,5 @@
+---
 fi:
   js:
     my_page:
-      label: "Oma sivu"
+      label: Oma sivu

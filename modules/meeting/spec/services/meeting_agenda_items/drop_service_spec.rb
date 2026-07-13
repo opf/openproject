@@ -94,7 +94,7 @@ RSpec.describe MeetingAgendaItems::DropService do
           end.not_to change { meeting_agenda_item }
 
           expect(service_call).to be_failure
-          expect(service_call.errors).to match(/Couldn't find MeetingSection/)
+          expect(service_call.errors[:base].join).to match(/Couldn't find MeetingSection/)
         end
       end
 
@@ -140,7 +140,7 @@ RSpec.describe MeetingAgendaItems::DropService do
       end
 
       context "when moving to a section from another meeting in the same series" do
-        let(:occurrence_meeting) { create(:meeting, project: project, recurring_meeting: recurring_meeting) }
+        let(:occurrence_meeting) { create(:recurring_meeting_occurrence, project:, recurring_meeting:) }
         let(:target_section) { create(:meeting_section, meeting: occurrence_meeting) }
         let(:target_id) { target_section.id }
 
@@ -161,7 +161,7 @@ RSpec.describe MeetingAgendaItems::DropService do
           expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
 
           expect(service_call).to be_failure
-          expect(service_call.errors).to match(/Couldn't find MeetingSection/)
+          expect(service_call.errors[:base].join).to match(/Couldn't find MeetingSection/)
         end
       end
 
@@ -172,7 +172,7 @@ RSpec.describe MeetingAgendaItems::DropService do
           expect { service_call }.not_to change { meeting_agenda_item.reload.meeting_section_id }
 
           expect(service_call).to be_failure
-          expect(service_call.errors).to match(/Couldn't find MeetingSection/)
+          expect(service_call.errors[:base].join).to match(/Couldn't find MeetingSection/)
         end
       end
     end
@@ -180,7 +180,7 @@ RSpec.describe MeetingAgendaItems::DropService do
     context "when moving an agenda item from a recurring meeting to a backlog" do
       let(:recurring_meeting) { create(:recurring_meeting, project: project) }
       let(:template) { recurring_meeting.template }
-      let(:occurrence_meeting) { create(:meeting, project: project, recurring_meeting: recurring_meeting) }
+      let(:occurrence_meeting) { create(:recurring_meeting_occurrence, project: project, recurring_meeting: recurring_meeting) }
       let(:meeting_section) { create(:meeting_section, meeting: occurrence_meeting) }
       let(:meeting_agenda_item) do
         create(:meeting_agenda_item, meeting: occurrence_meeting, meeting_section: meeting_section)
@@ -216,7 +216,7 @@ RSpec.describe MeetingAgendaItems::DropService do
             .not_to change { meeting_agenda_item.reload.meeting_section_id }
 
           expect(result).to be_failure
-          expect(result.errors).to match(/Couldn't find MeetingSection/)
+          expect(result.errors[:base].join).to match(/Couldn't find MeetingSection/)
         end
       end
     end

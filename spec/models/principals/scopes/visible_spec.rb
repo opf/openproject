@@ -110,6 +110,12 @@ RSpec.describe Principals::Scopes::Visible do
       include_examples "sees all principals"
     end
 
+    context "when user is an admin" do
+      current_user { create(:admin, firstname: "current user") }
+
+      include_examples "sees all principals"
+    end
+
     context "when user has no permission" do
       current_user { create(:user, firstname: "current user") }
 

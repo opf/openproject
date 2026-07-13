@@ -87,7 +87,7 @@ pt-PT:
           Pode alterar este texto de boas-vindas [aqui]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "Projeto de construção (Demonstração)"
+          name: Projeto de construção (Demonstração)
           status_explanation: Todas as tarefas e as sub-tarefas estão agendadas. As pessoas envolvidas conhecem as suas tarefas. O sistema está configurado por completo.
           description: Este é um breve resumo dos objetivos deste projeto de construção de demonstração.
           news:
@@ -149,7 +149,7 @@ pt-PT:
                 options:
                   name: Marcos
         demo-planning-constructing-project:
-          name: "Planeamento e construção (Demonstração)"
+          name: Planeamento e construção (Demonstração)
           status_explanation: Todas as tarefas estão agendadas. As pessoas envolvidas conhecem as suas tarefas. O sistema está configurado por completo.
           description: Este é um breve resumo dos objetivos deste projeto de planeamento e construção de demonstração.
           news:
@@ -403,7 +403,7 @@ pt-PT:
                     *   Convidar os seus amigos
                     *   Trazer bebidas, snacks e boa disposição
         demo-bim-project:
-          name: "Projeto BIM (Demonstração)"
+          name: Projeto BIM (Demonstração)
           status_explanation: Todas as tarefas e as sub-tarefas estão agendadas. As pessoas envolvidas conhecem as suas tarefas. O sistema está configurado por completo.
           description: Este é um breve resumo dos objetivos deste projeto BIM de demonstração.
           news:
@@ -432,25 +432,7 @@ pt-PT:
               item_1:
                 options:
                   name: Por onde começar
-                  text: |
-                    Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject. 
-
-                    Este projeto de demonstração oferece funções, fluxos de trabalho e pacotes de trabalho especializados para BIM.
-
-                    _Experimente os seguintes passos:_
-
-                    1.  _Convide novos membros para o seu projeto:_ → Aceda a [Membros]({{opSetting:base_url}}/projects/demo-bim-project/members) na navegação do projeto.
-                    2.  _Carregue e visualize modelos 3D no formato IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) na navegação do projeto.
-                    3.  _Crie e gira os problemas de BCF diretamente ligados ao modelo IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Criar.
-                    4.  _Veja o trabalho nos seus projetos:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.
-                    5.  _Crie um novo pacote de trabalho:_ → Aceda a [Pacotes de trabalho → Criar]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Crie e atualize um gráfico Gantt:_ → Aceda a [gráfico Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.
-                    7.  _Ativar outros módulos:_ → Aceda a [Definições do projeto → Módulos]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Consulte a vista de mosaico para obter uma visão geral dos seus problemas de BCF:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  Trabalha com Agile? Veja os nossos novos quadros:_ → Aceda a [Quadros]({{opSetting:base_url}}/projects/demo-bim-project/boards)
-
-                    Aqui encontra os nossos [Guias do utilizador](https://www.openproject.org/docs/user-guide/).
-                    Informe-nos se tiver alguma dúvida ou precisar de apoio. Contacte-nos: [support\[at\]openproject.com](mailto:support@openproject.com).
+                  text: "Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject. \n\nEste projeto de demonstração oferece funções, fluxos de trabalho e pacotes de trabalho especializados para BIM.\n\n_Experimente os seguintes passos:_\n\n1.  _Convide novos membros para o seu projeto:_ → Aceda a [Membros]({{opSetting:base_url}}/projects/demo-bim-project/members) na navegação do projeto.\n2.  _Carregue e visualize modelos 3D no formato IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) na navegação do projeto.\n3.  _Crie e gira os problemas de BCF diretamente ligados ao modelo IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Criar.\n4.  _Veja o trabalho nos seus projetos:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.\n5.  _Crie um novo pacote de trabalho:_ → Aceda a [Pacotes de trabalho → Criar]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).\n6.  _Crie e atualize um gráfico Gantt:_ → Aceda a [gráfico Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.\n7.  _Ativar outros módulos:_ → Aceda a [Definições do projeto → Módulos]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).\n8.  _Consulte a vista de mosaico para obter uma visão geral dos seus problemas de BCF:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)\n9.  Trabalha com Agile? Veja os nossos novos quadros:_ → Aceda a [Quadros]({{opSetting:base_url}}/projects/demo-bim-project/boards)\n\nAqui encontra os nossos [Guias do utilizador](https://www.openproject.org/docs/user-guide/).\nInforme-nos se tiver alguma dúvida ou precisar de apoio. Contacte-nos: [support\\[at\\]openproject.com](mailto:support@openproject.com).\n"
               item_4:
                 options:
                   name: Membros
@@ -668,7 +650,7 @@ pt-PT:
               subject: Gestão de ativos
               description: Desfrute do seu edifício :)
         demo-bcf-management-project:
-          name: "Gestão do BCF (Demonstração)"
+          name: Gestão do BCF (Demonstração)
           status_explanation: Todas as tarefas estão agendadas. As pessoas envolvidas conhecem as suas tarefas. O sistema está configurado por completo.
           description: Este é um breve resumo dos objetivos deste projeto de gestão BCF de demonstração.
           ifc_models:

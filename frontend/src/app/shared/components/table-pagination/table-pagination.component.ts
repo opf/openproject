@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
@@ -47,6 +39,10 @@ import { PaginationService } from 'core-app/shared/components/table-pagination/p
   standalone: false,
 })
 export class TablePaginationComponent extends UntilDestroyedMixin implements OnInit {
+  protected paginationService = inject(PaginationService);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected I18n = inject(I18nService);
+
   @Input() totalEntries:string;
 
   @Input() hideForSinglePageResults = false;
@@ -82,14 +78,6 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   public prePageNumbers:number[] = [];
 
   public perPageOptions:number[] = [];
-
-  constructor(
-    protected paginationService:PaginationService,
-    protected cdRef:ChangeDetectorRef,
-    protected I18n:I18nService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     const paginationOptions = this.paginationService.getPaginationOptions();

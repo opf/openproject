@@ -1,5 +1,6 @@
+---
 ka:
   overviews:
+    label_dashboard: სამუშაო დაფა
     label_home: "%{workspace_type} home"
-    label_dashboard: "სამუშაო დაფა"
-    label_overview: "მიმოხილვა"
+    label_overview: მიმოხილვა

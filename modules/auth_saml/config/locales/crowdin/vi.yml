@@ -1,156 +1,199 @@
+---
 vi:
   activerecord:
     attributes:
       saml/provider:
-        display_name: tên
-        identifier: định danh
-        secret: bí mật
-        scope: phạm vi
         assertion_consumer_service_url: URL ACS (Xác nhận dịch vụ tiêu dùng)
+        authn_requests_signed: Ký yêu cầu xác thực SAML
+        certificate: Chứng chỉ được OpenProject sử dụng cho các yêu cầu SAML
+        digest_method: Thuật toán tóm tắt
+        display_name: tên
+        format: định dạng
+        icon: Biểu tượng tùy chỉnh
+        identifier: định danh
+        idp_cert: Giấy chứng nhận công khai của nhà cung cấp danh tính
+        idp_entity_id: Identity provider entity ID
+        idp_slo_service_url: Điểm cuối đăng xuất của nhà cung cấp danh tính
+        idp_sso_service_url: Điểm cuối đăng nhập của nhà cung cấp danh tính
         limit_self_registration: Hạn chế tự đăng ký
-        sp_entity_id: ID thực thể dịch vụ
         metadata_url: URL siêu dữ liệu của nhà cung cấp danh tính
         name_identifier_format: Định dạng nhận dạng tên
-        idp_sso_service_url: Điểm cuối đăng nhập của nhà cung cấp danh tính
-        idp_slo_service_url: Điểm cuối đăng xuất của nhà cung cấp danh tính
-        idp_cert: Giấy chứng nhận công khai của nhà cung cấp danh tính
-        authn_requests_signed: Ký yêu cầu xác thực SAML
-        want_assertions_signed: Yêu cầu phản hồi có chữ ký
-        want_assertions_encrypted: Yêu cầu phản hồi được mã hóa
-        certificate: Chứng chỉ được OpenProject sử dụng cho các yêu cầu SAML
         private_key: Khóa riêng tương ứng cho các yêu cầu SAML của OpenProject
+        scope: phạm vi
+        secret: bí mật
         signature_method: Thuật toán chữ ký
-        digest_method: Thuật toán tóm tắt
-        format: "định dạng"
-        icon: "Biểu tượng tùy chỉnh"
+        sp_entity_id: ID thực thể dịch vụ
+        want_assertions_encrypted: Yêu cầu phản hồi được mã hóa
+        want_assertions_signed: Yêu cầu phản hồi có chữ ký
     errors:
       models:
         saml/provider:
-          invalid_certificate: "không phải là chứng chỉ có định dạng PEM hợp lệ: %{additional_message}"
-          invalid_private_key: "không phải là khóa riêng có định dạng PEM hợp lệ: %{additional_message}"
-          certificate_expired: "đã hết hạn và không thể sử dụng được nữa."
-          unmatched_private_key: "không thuộc về chứng chỉ đã cho"
+          certificate_expired: đã hết hạn và không thể sử dụng được nữa.
+          invalid_certificate: 'không phải là chứng chỉ có định dạng PEM hợp lệ: %{additional_message}'
+          invalid_private_key: 'không phải là khóa riêng có định dạng PEM hợp lệ: %{additional_message}'
+          unmatched_private_key: không thuộc về chứng chỉ đã cho
   saml:
-    menu_title: Nhà cung cấp SAML
+    delete_heading: Xoá nhà cung cấp SAML này?
     delete_title: Xóa nhà cung cấp SAML
     info:
-      title: "Thông số cấu hình giao thức SAML"
-      description: >
-        Sử dụng các tham số này để định cấu hình kết nối nhà cung cấp danh tính của bạn với OpenProject.
+      description: 'Sử dụng các tham số này để định cấu hình kết nối nhà cung cấp danh tính của bạn với OpenProject.
+
+        '
+      title: Thông số cấu hình giao thức SAML
+    instructions:
+      authn_requests_signed: 'Nếu được chọn, OpenProject sẽ ký SAML AuthnRequest. Bạn sẽ phải cung cấp chứng chỉ ký và khóa riêng bằng cách sử dụng các trường bên dưới.
+
+        '
+      certificate: 'Nhập chứng chỉ có định dạng X509 PEM được OpenProject sử dụng để ký các yêu cầu SAML.
+
+        '
+      digest_method: 'Chọn thuật toán tóm tắt để sử dụng cho chữ ký yêu cầu SAML do OpenProject thực hiện (Mặc định: %{default_option}).
+
+        '
+      display_name: 'Tên của nhà cung cấp. Điều này sẽ được hiển thị dưới dạng nút đăng nhập và trong danh sách các nhà cung cấp.
+
+        '
+      documentation_link: 'Vui lòng tham khảo [documentation on configuring SAML providers](docs_url) của chúng tôi để biết thêm thông tin về các tùy chọn cấu hình này.
+
+        '
+      icon: 'Tùy chọn cung cấp URL công khai cho đồ họa biểu tượng sẽ được hiển thị bên cạnh tên nhà cung cấp.
+
+        '
+      idp_cert: 'Nhập chứng chỉ công khai có định dạng X509 PEM của nhà cung cấp danh tính. Bạn có thể nhập nhiều chứng chỉ bằng cách phân tách chúng bằng dòng mới.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+
+        '
+      idp_slo_service_url: 'URL của điểm cuối đăng xuất của nhà cung cấp danh tính.
+
+        '
+      idp_sso_service_url: 'URL của điểm cuối đăng nhập nhà cung cấp danh tính.
+
+        '
+      limit_self_registration: 'Nếu được bật, người dùng chỉ có thể đăng ký bằng nhà cung cấp này nếu cài đặt tự đăng ký cho phép.
+
+        '
+      mapping: 'Định cấu hình ánh xạ giữa phản hồi SAML và thuộc tính người dùng trong OpenProject. Bạn có thể định cấu hình nhiều tên thuộc tính để tìm kiếm. OpenProject sẽ chọn thuộc tính có sẵn đầu tiên từ phản hồi SAML.
+
+        '
+      mapping_firstname: 'Thuộc tính SAML từ phản hồi được sử dụng cho tên đã cho.
+
+        '
+      mapping_lastname: 'Thuộc tính SAML từ phản hồi được sử dụng cho họ.
+
+        '
+      mapping_login: 'Thuộc tính SAML từ phản hồi được sử dụng để đăng nhập.
+
+        '
+      mapping_mail: 'Thuộc tính SAML từ phản hồi được sử dụng cho email của người dùng.
+
+        '
+      mapping_uid: 'Thuộc tính SAML để sử dụng cho ID người dùng nội bộ. Để trống để sử dụng thuộc tính name_id thay thế
+
+        '
+      metadata_for_idp: 'Thông tin này có thể được yêu cầu bởi nhà cung cấp danh tính SAML của bạn.
+
+        '
+      metadata_none: 'Nhà cung cấp danh tính của bạn không có điểm cuối siêu dữ liệu hoặc tùy chọn tải xuống XML. Bạn có thể cấu hình nó bằng tay.
+
+        '
+      metadata_url: 'Nhà cung cấp danh tính của bạn cung cấp URL siêu dữ liệu.
+
+        '
+      metadata_xml: 'Nhà cung cấp danh tính của bạn cung cấp bản tải xuống XML siêu dữ liệu.
+
+        '
+      name_identifier_format: 'Đặt định dạng định danh tên sẽ được sử dụng cho xác nhận SAML.
+
+        '
+      private_key: 'Nhập khóa riêng có định dạng X509 PEM cho chứng chỉ trên. Đây cần phải là khóa riêng RSA.
+
+        '
+      request_uid: 'Thuộc tính SAML để yêu cầu ID người dùng nội bộ. Theo mặc định, name_id sẽ được sử dụng cho trường này.
+
+        '
+      requested_attributes: 'Các thuộc tính này được thêm vào XML yêu cầu SAML để liên lạc với nhà cung cấp danh tính mà thuộc tính OpenProject yêu cầu.
+
+        '
+      requested_format: 'Định dạng của thuộc tính được yêu cầu. Điều này được sử dụng để chỉ định định dạng của thuộc tính trong yêu cầu SAML. Vui lòng xem [documentation on configuring requested attributes](docs_url) để biết thêm thông tin.
+
+        '
+      signature_method: 'Chọn thuật toán chữ ký để sử dụng cho chữ ký yêu cầu SAML do OpenProject thực hiện (Mặc định: %{default_option}).
+
+        '
+      sp_entity_id: 'ID thực thể của nhà cung cấp dịch vụ (SP). Đôi khi còn được gọi là Khán giả. Đây là mã định danh khách hàng duy nhất của phiên bản OpenProject.
+
+        '
+      sp_metadata_endpoint: 'Đây là URL có sẵn siêu dữ liệu OpenProject SAML. Tùy chọn sử dụng nó để định cấu hình nhà cung cấp danh tính của bạn.
+
+        '
+      want_assertions_encrypted: 'Nếu được bật, hãy yêu cầu nhà cung cấp danh tính mã hóa phản hồi xác nhận bằng cặp chứng chỉ mà bạn cung cấp.
+
+        '
+      want_assertions_signed: 'Nếu được chọn, OpenProject sẽ yêu cầu phản hồi có chữ ký từ nhà cung cấp danh tính bằng cặp khóa chứng chỉ của chính họ. OpenProject sẽ xác minh chữ ký đối với chứng chỉ từ phần cấu hình cơ bản.
+
+        '
+    menu_title: Nhà cung cấp SAML
     metadata_parser:
-      success: "Đã cập nhật thành công cấu hình bằng siêu dữ liệu của nhà cung cấp danh tính."
-      invalid_url: "URL siêu dữ liệu được cung cấp không hợp lệ. Cung cấp (các) URL HTTP."
-      error: "Không truy xuất được siêu dữ liệu của nhà cung cấp danh tính: %{error}"
+      error: 'Không truy xuất được siêu dữ liệu của nhà cung cấp danh tính: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      invalid_url: URL siêu dữ liệu được cung cấp không hợp lệ. Cung cấp (các) URL HTTP.
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      success: Đã cập nhật thành công cấu hình bằng siêu dữ liệu của nhà cung cấp danh tính.
     providers:
-      label_empty_title: "Chưa có nhà cung cấp SAML nào được định cấu hình."
-      label_empty_description: "Thêm nhà cung cấp để xem chúng ở đây."
+      attribute_mapping: Ánh xạ thuộc tính
+      attribute_mapping_text: 'Các trường sau đây kiểm soát những thuộc tính do nhà cung cấp nhận dạng SAML cung cấp được sử dụng để cung cấp thuộc tính người dùng trong OpenProject
+
+        '
+      label_add_new: Nhà cung cấp danh tính SAML mới
       label_automatic_configuration: Cấu hình tự động
+      label_configuration_details: Điểm cuối và chứng chỉ của nhà cung cấp danh tính
+      label_configuration_encryption: Chữ ký và mã hóa
+      label_edit: Chỉnh sửa nhà cung cấp danh tính SAML %{name}
+      label_empty_description: Thêm nhà cung cấp để xem chúng ở đây.
+      label_empty_title: Chưa có nhà cung cấp SAML nào được định cấu hình.
+      label_mapping: Ánh xạ
       label_metadata: Siêu dữ liệu
       label_metadata_endpoint: Điểm cuối siêu dữ liệu OpenProject
-      label_openproject_information: Thông tin dự án mở
-      label_configuration_details: "Điểm cuối và chứng chỉ của nhà cung cấp danh tính"
-      label_configuration_encryption: "Chữ ký và mã hóa"
-      label_add_new: Nhà cung cấp danh tính SAML mới
-      label_edit: Chỉnh sửa nhà cung cấp danh tính SAML %{name}
+      label_openproject_information: Thông tin OpenProject
+      label_requested_attribute_for: 'Thuộc tính được yêu cầu cho: %{attribute}'
       label_uid: Id người dùng nội bộ
-      label_mapping: lập bản đồ
-      label_requested_attribute_for: "Thuộc tính được yêu cầu cho: %{attribute}"
+      metadata:
+        dialog: 'Đây là URL có sẵn siêu dữ liệu OpenProject SAML. Tùy chọn sử dụng nó để định cấu hình nhà cung cấp danh tính của bạn:'
       no_results_table: Chưa có nhà cung cấp danh tính SAML nào được xác định.
       notice_created: Nhà cung cấp danh tính SAML mới đã được tạo thành công.
       plural: Nhà cung cấp danh tính SAML
-      singular: Nhà cung cấp danh tính SAML
-      requested_attributes: Thuộc tính được yêu cầu
-      attribute_mapping: Ánh xạ thuộc tính
-      attribute_mapping_text: >
-        Các trường sau đây kiểm soát những thuộc tính do nhà cung cấp nhận dạng SAML cung cấp được sử dụng để cung cấp thuộc tính người dùng trong OpenProject
-      metadata:
-        dialog: "Đây là URL có sẵn siêu dữ liệu OpenProject SAML. Tùy chọn sử dụng nó để định cấu hình nhà cung cấp danh tính của bạn:"
-      upsell:
-        title: "Đăng nhập một lần (SSO) bằng SAML"
-        description: Kết nối OpenProject với nhà cung cấp danh tính SAML
       request_attributes:
-        title: 'Thuộc tính được yêu cầu'
-        legend: >
-          Các thuộc tính này được thêm vào siêu dữ liệu XML SAML để biểu thị cho nhà cung cấp nhận dạng những thuộc tính mà OpenProject yêu cầu. Bạn vẫn có thể cần định cấu hình rõ ràng nhà cung cấp danh tính của mình để gửi các thuộc tính này. Vui lòng tham khảo tài liệu của IdP của bạn.
-        name: 'Khóa thuộc tính được yêu cầu'
-        format: 'Định dạng thuộc tính'
+        format: Định dạng thuộc tính
+        legend: 'Các thuộc tính này được thêm vào siêu dữ liệu XML SAML để biểu thị cho nhà cung cấp nhận dạng những thuộc tính mà OpenProject yêu cầu. Bạn vẫn có thể cần định cấu hình rõ ràng nhà cung cấp danh tính của mình để gửi các thuộc tính này. Vui lòng tham khảo tài liệu của IdP của bạn.
+
+          '
+        name: Khóa thuộc tính được yêu cầu
+        title: Thuộc tính được yêu cầu
+      requested_attributes: Thuộc tính được yêu cầu
       section_headers:
-        configuration: "Cấu hình chính"
-        attributes: "thuộc tính"
+        attributes: thuộc tính
+        configuration: Cấu hình chính
       section_texts:
-        display_name: "Định cấu hình tên hiển thị của nhà cung cấp SAML."
-        metadata: "Cấu hình điền trước bằng URL siêu dữ liệu hoặc bằng cách dán XML siêu dữ liệu"
-        metadata_form: "Nếu nhà cung cấp danh tính của bạn có điểm cuối siêu dữ liệu hoặc bản tải xuống XML, hãy thêm điểm cuối siêu dữ liệu đó vào bên dưới để điền trước cấu hình."
-        metadata_form_banner: "Việc chỉnh sửa siêu dữ liệu có thể ghi đè các giá trị hiện có trong các phần khác."
-        configuration: "Định cấu hình URL điểm cuối cho nhà cung cấp danh tính, chứng chỉ và các tùy chọn SAML khác."
-        configuration_metadata: "Thông tin này đã được điền trước bằng siêu dữ liệu được cung cấp. Trong hầu hết các trường hợp, chúng không yêu cầu chỉnh sửa."
-        encryption: "Định cấu hình chữ ký xác nhận và mã hóa cho các yêu cầu và phản hồi SAML."
-        encryption_form: "Bạn có thể tùy ý muốn mã hóa phản hồi xác nhận hoặc yêu cầu các yêu cầu từ OpenProject được ký."
-        mapping: "Điều chỉnh ánh xạ theo cách thủ công giữa phản hồi SAML và thuộc tính người dùng trong OpenProject."
-        requested_attributes: "Xác định tập hợp thuộc tính cần được yêu cầu trong yêu cầu SAML được gửi tới nhà cung cấp danh tính của bạn."
-      seeded_from_env: "Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa."
+        configuration: Định cấu hình URL điểm cuối cho nhà cung cấp danh tính, chứng chỉ và các tùy chọn SAML khác.
+        configuration_metadata: Thông tin này đã được điền trước bằng siêu dữ liệu được cung cấp. Trong hầu hết các trường hợp, chúng không yêu cầu chỉnh sửa.
+        display_name: Định cấu hình tên hiển thị của nhà cung cấp SAML.
+        encryption: Định cấu hình chữ ký xác nhận và mã hóa cho các yêu cầu và phản hồi SAML.
+        encryption_form: Bạn có thể tùy ý muốn mã hóa phản hồi xác nhận hoặc yêu cầu các yêu cầu từ OpenProject được ký.
+        mapping: Điều chỉnh ánh xạ theo cách thủ công giữa phản hồi SAML và thuộc tính người dùng trong OpenProject.
+        metadata: Cấu hình điền trước bằng URL siêu dữ liệu hoặc bằng cách dán XML siêu dữ liệu
+        metadata_form: Nếu nhà cung cấp danh tính của bạn có điểm cuối siêu dữ liệu hoặc bản tải xuống XML, hãy thêm điểm cuối siêu dữ liệu đó vào bên dưới để điền trước cấu hình.
+        metadata_form_banner: Việc chỉnh sửa siêu dữ liệu có thể ghi đè các giá trị hiện có trong các phần khác.
+        requested_attributes: Xác định tập hợp thuộc tính cần được yêu cầu trong yêu cầu SAML được gửi tới nhà cung cấp danh tính của bạn.
+      seeded_from_env: Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa.
+      singular: Nhà cung cấp danh tính SAML
+      upsell:
+        description: Kết nối OpenProject với nhà cung cấp danh tính SAML
+        title: Đăng nhập một lần (SSO) bằng SAML
     settings:
-      metadata_none: "Tôi không có siêu dữ liệu"
-      metadata_url: "URL siêu dữ liệu"
-      metadata_xml: "XML siêu dữ liệu"
-    instructions:
-      documentation_link: >
-        Vui lòng tham khảo [documentation on configuring SAML providers](docs_url) của chúng tôi để biết thêm thông tin về các tùy chọn cấu hình này.
-      display_name: >
-        Tên của nhà cung cấp. Điều này sẽ được hiển thị dưới dạng nút đăng nhập và trong danh sách các nhà cung cấp.
-      metadata_none: >
-        Nhà cung cấp danh tính của bạn không có điểm cuối siêu dữ liệu hoặc tùy chọn tải xuống XML. Bạn có thể cấu hình nó bằng tay.
-      metadata_url: >
-        Nhà cung cấp danh tính của bạn cung cấp URL siêu dữ liệu.
-      metadata_xml: >
-        Nhà cung cấp danh tính của bạn cung cấp bản tải xuống XML siêu dữ liệu.
-      limit_self_registration: >
-        Nếu được bật, người dùng chỉ có thể đăng ký bằng nhà cung cấp này nếu cài đặt tự đăng ký cho phép.
-      sp_entity_id: >
-        ID thực thể của nhà cung cấp dịch vụ (SP). Đôi khi còn được gọi là Khán giả. Đây là mã định danh khách hàng duy nhất của phiên bản OpenProject.
-      idp_sso_service_url: >
-        URL của điểm cuối đăng nhập nhà cung cấp danh tính.
-      idp_slo_service_url: >
-        URL của điểm cuối đăng xuất của nhà cung cấp danh tính.
-      idp_cert: >
-        Nhập chứng chỉ công khai có định dạng X509 PEM của nhà cung cấp danh tính. Bạn có thể nhập nhiều chứng chỉ bằng cách phân tách chúng bằng dòng mới.
-      name_identifier_format: >
-        Đặt định dạng định danh tên sẽ được sử dụng cho xác nhận SAML.
-      sp_metadata_endpoint: >
-        Đây là URL có sẵn siêu dữ liệu OpenProject SAML. Tùy chọn sử dụng nó để định cấu hình nhà cung cấp danh tính của bạn.
-      mapping: >
-        Định cấu hình ánh xạ giữa phản hồi SAML và thuộc tính người dùng trong OpenProject. Bạn có thể định cấu hình nhiều tên thuộc tính để tìm kiếm. OpenProject sẽ chọn thuộc tính có sẵn đầu tiên từ phản hồi SAML.
-      mapping_login: >
-        Thuộc tính SAML từ phản hồi được sử dụng để đăng nhập.
-      mapping_mail: >
-        Thuộc tính SAML từ phản hồi được sử dụng cho email của người dùng.
-      mapping_firstname: >
-        Thuộc tính SAML từ phản hồi được sử dụng cho tên đã cho.
-      mapping_lastname: >
-        Thuộc tính SAML từ phản hồi được sử dụng cho họ.
-      mapping_uid: >
-        Thuộc tính SAML để sử dụng cho ID người dùng nội bộ. Để trống để sử dụng thuộc tính name_id thay thế
-      request_uid: >
-        Thuộc tính SAML để yêu cầu ID người dùng nội bộ. Theo mặc định, name_id sẽ được sử dụng cho trường này.
-      requested_attributes: >
-        Các thuộc tính này được thêm vào XML yêu cầu SAML để liên lạc với nhà cung cấp danh tính mà thuộc tính OpenProject yêu cầu.
-      requested_format: >
-        Định dạng của thuộc tính được yêu cầu. Điều này được sử dụng để chỉ định định dạng của thuộc tính trong yêu cầu SAML. Vui lòng xem [documentation on configuring requested attributes](docs_url) để biết thêm thông tin.
-      authn_requests_signed: >
-        Nếu được chọn, OpenProject sẽ ký SAML AuthnRequest. Bạn sẽ phải cung cấp chứng chỉ ký và khóa riêng bằng cách sử dụng các trường bên dưới.
-      want_assertions_signed: >
-        Nếu được chọn, OpenProject sẽ yêu cầu phản hồi có chữ ký từ nhà cung cấp danh tính bằng cặp khóa chứng chỉ của chính họ. OpenProject sẽ xác minh chữ ký đối với chứng chỉ từ phần cấu hình cơ bản.
-      want_assertions_encrypted: >
-        Nếu được bật, hãy yêu cầu nhà cung cấp danh tính mã hóa phản hồi xác nhận bằng cặp chứng chỉ mà bạn cung cấp.
-      certificate: >
-        Nhập chứng chỉ có định dạng X509 PEM được OpenProject sử dụng để ký các yêu cầu SAML.
-      private_key: >
-        Nhập khóa riêng có định dạng X509 PEM cho chứng chỉ trên. Đây cần phải là khóa riêng RSA.
-      signature_method: >
-        Chọn thuật toán chữ ký để sử dụng cho chữ ký yêu cầu SAML do OpenProject thực hiện (Mặc định: %{default_option}).
-      digest_method: >
-        Chọn thuật toán tóm tắt để sử dụng cho chữ ký yêu cầu SAML do OpenProject thực hiện (Mặc định: %{default_option}).
-      icon: >
-        Tùy chọn cung cấp URL công khai cho đồ họa biểu tượng sẽ được hiển thị bên cạnh tên nhà cung cấp.
-      metadata_for_idp: >
-        Thông tin này có thể được yêu cầu bởi nhà cung cấp danh tính SAML của bạn.
+      metadata_none: Tôi không có siêu dữ liệu
+      metadata_url: URL siêu dữ liệu
+      metadata_xml: XML siêu dữ liệu

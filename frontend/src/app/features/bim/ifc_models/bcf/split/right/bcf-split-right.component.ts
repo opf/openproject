@@ -26,11 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { map } from 'rxjs/operators';
@@ -42,9 +38,9 @@ import { map } from 'rxjs/operators';
   standalone: false,
 })
 export class BcfSplitRightComponent implements OnInit {
-  showWorkPackages$:Observable<boolean>;
+  private readonly bcfView = inject(BcfViewService);
 
-  constructor(private readonly bcfView:BcfViewService) {}
+  showWorkPackages$:Observable<boolean>;
 
   ngOnInit():void {
     this.showWorkPackages$ = this.bcfView.live$()

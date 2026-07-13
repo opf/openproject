@@ -116,7 +116,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
         end
       end
 
-      string_project_custom_field.move_to_bottom
+      section_for_input_fields.reload.move_in_order(string_project_custom_field.column_name, :lowest)
 
       overview_page.visit_page
 
@@ -199,7 +199,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           boolean_project_custom_field.update!(default_value: true)
 
           overview_page.visit_page
@@ -207,7 +207,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(boolean_project_custom_field) do
               expect(page).to have_text "Boolean field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text "Yes"
             end
           end
 
@@ -218,7 +218,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(boolean_project_custom_field) do
               expect(page).to have_text "Boolean field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text "No"
             end
           end
         end
@@ -272,7 +272,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           string_project_custom_field.update!(default_value: "Bar")
 
           overview_page.visit_page
@@ -280,7 +280,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(string_project_custom_field) do
               expect(page).to have_text "String field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text "Bar"
             end
           end
         end
@@ -334,7 +334,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           integer_project_custom_field.update!(default_value: 456)
 
           overview_page.visit_page
@@ -342,7 +342,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(integer_project_custom_field) do
               expect(page).to have_text "Integer field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text 456
             end
           end
         end
@@ -396,7 +396,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           date_project_custom_field.update!(default_value: Date.new(2024, 2, 2))
 
           overview_page.visit_page
@@ -404,7 +404,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(date_project_custom_field) do
               expect(page).to have_text "Date field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text "02/02/2024"
             end
           end
         end
@@ -458,7 +458,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "dies not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           float_project_custom_field.update!(default_value: 456.789)
 
           overview_page.visit_page
@@ -466,7 +466,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(float_project_custom_field) do
               expect(page).to have_text "Float field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text 456.789
             end
           end
         end
@@ -556,7 +556,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
+        it "does show the default value for the project custom field if no value given" do
           text_project_custom_field.update!(default_value: "Dolor sit amet")
 
           overview_page.visit_page
@@ -564,7 +564,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(text_project_custom_field) do
               expect(page).to have_text "Text field"
-              expect(page).to have_text I18n.t("placeholders.default")
+              expect(page).to have_text "Dolor sit amet"
             end
 
             overview_page.expect_text_not_truncated(text_project_custom_field)
@@ -662,9 +662,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           overview_page.visit_page
 
           # Remove value that is used in a formula:
-          overview_page.open_edit_dialog_for_custom_field(float_project_custom_field)
-          page.fill_in(float_project_custom_field.name, with: "")
-          page.click_on "Save"
+          field = overview_page.open_inplace_edit_field_for_custom_field(float_project_custom_field)
+          field.fill_and_submit_value name: float_project_custom_field.name, val: ""
 
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(calculated_from_int_project_custom_field) do
@@ -680,9 +679,8 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
 
           # Change the value so that the calculation succeeds.
-          overview_page.open_edit_dialog_for_custom_field(float_project_custom_field)
-          page.fill_in(float_project_custom_field.name, with: "0.2")
-          page.click_on "Save"
+          field.open_field
+          field.fill_and_submit_value name: float_project_custom_field.name, val: "0.2"
 
           overview_page.within_project_attributes_sidebar do
             overview_page.within_custom_field_container(calculated_from_int_project_custom_field) do
@@ -747,15 +745,27 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value for the project custom field if no value given" do
-          list_project_custom_field.custom_options.first.update!(default_value: true)
+        context "with a new field" do
+          # We need to create a completely new field, just deleting the options is not enough...
+          let!(:new_list_project_custom_field) do
+            create(:list_project_custom_field,
+                   projects: [project],
+                   name: "New list field",
+                   project_custom_field_section: section_for_select_fields,
+                   possible_values: ["Option 1", "Option 2", "Option 3"]) do |field|
+              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first)
+            end
+          end
 
-          overview_page.visit_page
+          it "does show the default value for the project custom field if no value given" do
+            new_list_project_custom_field.custom_options.first.update!(default_value: true)
+            overview_page.visit_page
 
-          overview_page.within_project_attributes_sidebar do
-            overview_page.within_custom_field_container(list_project_custom_field) do
-              expect(page).to have_text "List field"
-              expect(page).to have_text I18n.t("placeholders.default")
+            overview_page.within_project_attributes_sidebar do
+              overview_page.within_custom_field_container(new_list_project_custom_field) do
+                expect(page).to have_text "New list field"
+                expect(page).to have_text "Option 1"
+              end
             end
           end
         end
@@ -916,16 +926,31 @@ RSpec.describe "Show project custom fields on project overview page", :js do
           end
         end
 
-        it "does not show the default value(s) for the project custom field if no value given" do
-          multi_list_project_custom_field.custom_options.first.update!(default_value: true)
-          multi_list_project_custom_field.custom_options.second.update!(default_value: true)
+        context "with a new field" do
+          # We need to create a completely new field, just deleting the options is not enough...
+          let!(:new_multi_list_project_custom_field) do
+            create(:list_project_custom_field,
+                   projects: [project],
+                   name: "New multi list field",
+                   project_custom_field_section: section_for_multi_select_fields,
+                   possible_values: ["Option 1", "Option 2", "Option 3"],
+                   multi_value: true) do |field|
+              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first.id)
+              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.second.id)
+            end
+          end
 
-          overview_page.visit_page
+          it "does not show the default value(s) for the project custom field if no value given" do
+            new_multi_list_project_custom_field.custom_options.first.update!(default_value: true)
+            new_multi_list_project_custom_field.custom_options.second.update!(default_value: true)
 
-          overview_page.within_project_attributes_sidebar do
-            overview_page.within_custom_field_container(multi_list_project_custom_field) do
-              expect(page).to have_text "Multi list field"
-              expect(page).to have_text I18n.t("placeholders.default")
+            overview_page.visit_page
+
+            overview_page.within_project_attributes_sidebar do
+              overview_page.within_custom_field_container(new_multi_list_project_custom_field) do
+                expect(page).to have_text "New multi list field"
+                expect(page).to have_text "Option 1, Option 2"
+              end
             end
           end
         end

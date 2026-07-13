@@ -19,102 +19,110 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 uk:
-  plugin_budgets_engine:
-    name: "Бюджети"
   activerecord:
     attributes:
       budget:
-        author: "Автор"
-        available: "Доступно"
-        budget: "Заплановано"
-        budget_ratio: "Витрачено (співвідношення)"
-        description: "Опис"
-        spent: "Витрачено"
-        status: "Статус"
-        subject: "Тема"
-        type: "Тип вартості"
-        labor_budget: "Планові витрати на працю"
-        material_budget: "Планові витрати на одиницю продукції"
-        base_amount: "Базова сума"
+        author: Автор
+        available: Доступно
+        base_amount: Базова сума
+        budget: Заплановано
+        budget_ratio: Витрачено (співвідношення)
+        description: Опис
+        labor_budget: Планові витрати на працю
+        labor_budget_items: Планові витрати на працю
+        material_budget: Планові витрати на одиницю продукції
+        spent: Витрачено
+        status: Статус
+        subject: Тема
+        type: Тип вартості
       work_package:
-        budget_subject: "Назва бюджету"
+        budget_subject: Назва бюджету
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: не є учасником проєкту бюджету
     models:
-      budget: "Бюджет"
-      material_budget_item: "Одиниця"
+      budget: Бюджет
+      labor_budget_item: Планова вартість праці
+      material_budget_item: Одиниця
   activity:
     filter:
-      budget: "Бюджети"
+      budget: Бюджети
   attributes:
-    budget: "Бюджет"
-  button_add_budget_item: "Додайте планові витрати"
-  button_add_budget: "Додати бюджет"
-  button_add_cost_type: "Додати тип витрат"
-  button_cancel_edit_budget: "Скасувати редагування бюджету"
-  button_cancel_edit_costs: "Скасування  редагування витрат "
-  caption_labor: "Праця"
-  caption_labor_costs: "Фактичні витрати на оплату праці"
-  caption_material_costs: "Фактичні витрати на одиницю"
-  budgets_title: "Бюджети"
+    budget: Бюджет
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          few: "Data aggregated from %{count} budgets."
-          many: "Data aggregated from %{count} budgets."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Переглядайте свої бюджети й витрати, щоб ефективно відстежувати стан проєкту
+          heading: Почніть контролювати роботу над проєктом
+        blankslate_zero:
+          description: Додайте інформацію про запланований бюджет, щоб побачити дані тут
+          heading: Немає інформації про бюджет
+        count_caption:
+          one: Дані, агреговані з %{count} бюджету
+          other: Дані, агреговані з %{count} бюджетів
+          zero: Немає даних про бюджет.
+        count_caption_with_subitems:
+          portfolio:
+            one: Дані, агреговані з %{count} бюджету, включено в цей портфель і його піделементи.
+            other: Дані, агреговані з %{count} бюджетів, включено в цей портфель і його піделементи.
+            zero: Немає даних про бюджет.
+          program:
+            one: Дані, агреговані з %{count} бюджету, включено в цю програму і її піделементи.
+            other: Дані, агреговані з %{count} бюджетів, включено в цю програму і її піделементи.
+            zero: Немає даних про бюджет.
+          project:
+            one: Дані, агреговані з %{count} бюджету, включено в цей проєкт і його піделементи.
+            other: Дані, агреговані з %{count} бюджетів, включено в цей проєкт і його піделементи.
+            zero: Немає даних про бюджет.
+        title: Бюджет за типом витрат
+        view_details: Переглянути інформацію про бюджет
+      budget_totals:
+        remaining_budget: Залишок бюджету
+        spent_budget: Витрачений бюджет
+        title: Загальні суми бюджету
+        total_actual_costs: Загальна сума фактичних витрат
+        total_planned_budget: Загальна сума запланованого бюджету
+  budgets_title: Бюджети
+  button_add_budget: Додати бюджет
+  button_add_budget_item: Додайте планові витрати
+  button_add_cost_type: Додати тип витрат
+  button_cancel_edit_budget: Скасувати редагування бюджету
+  button_cancel_edit_costs: 'Скасування  редагування витрат '
+  caption_labor: Праця
+  caption_labor_costs: Фактичні витрати на оплату праці
+  caption_material_costs: Фактичні витрати на одиницю
   events:
-    budget: "Бюджет відредаговано"
-  help_click_to_edit: "Натисніть тут, щоб редагувати."
-  help_currency_format: "Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею."
-  help_override_rate: "Введіть тут значення, щоб змінити стандартну швидкість."
-  label_budget: "Бюджет"
-  label_budget_available: "Доступний бюджет"
-  label_budget_id: "Бюджет #%{id}"
-  label_budget_new: "Новий бюджет"
-  label_budget_planned: "Запланований бюджет"
-  label_budget_plural: "Бюджети"
-  label_budget_spent: "Витрачений бюджет"
-  label_budget_spent_ratio: "Коефіцієнт використання бюджету"
-  label_deliverable: "Бюджет"
-  label_example_placeholder: "наприклад, %{decimal}"
-  label_view_all_budgets: "Переглянути всі бюджети"
-  label_yes: "Так"
-  label_budget_totals: "Загальні суми"
-  label_budget_details: "Деталі бюджету"
-  notice_budget_conflict: "Робочі задачі повинні бути з одного проекту."
-  notice_no_budgets_available: "Немає доступних бюджетів."
-  permission_edit_budgets: "Редагувати бюджети"
-  permission_view_budgets: "Переглянути бюджети"
-  project_module_budgets: "Бюджети"
-  text_budget_reassign_to: "Перепризначити їх для цього бюджету:"
-  text_budget_delete: "Видалити цей бюджет з усіх пакетів робіт"
-  text_budget_destroy_assigned_wp: "Цьому бюджету призначено кілька (%{count}) пакетів робіт. Що потрібно зробити?"
+    budget: Бюджет відредаговано
+  help_click_to_edit: Натисніть тут, щоб редагувати.
+  help_currency_format: Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею.
+  help_override_rate: Введіть тут значення, щоб змінити стандартну швидкість.
+  label_budget: Бюджет
+  label_budget_available: Доступний бюджет
+  label_budget_details: Деталі бюджету
+  label_budget_id: 'Бюджет #%{id}'
+  label_budget_new: Новий бюджет
+  label_budget_planned: Запланований бюджет
+  label_budget_plural: Бюджети
+  label_budget_spent: Витрачений бюджет
+  label_budget_spent_ratio: Коефіцієнт використання бюджету
+  label_budget_totals: Загальні суми
+  label_deliverable: Бюджет
+  label_example_placeholder: наприклад, %{decimal}
+  label_view_all_budgets: Переглянути всі бюджети
+  label_yes: Так
+  notice_budget_conflict: Робочі задачі повинні бути з одного проекту.
+  notice_no_budgets_available: Немає доступних бюджетів.
+  permission_edit_budgets: Редагувати бюджети
+  permission_view_budgets: Переглянути бюджети
+  plugin_budgets_engine:
+    name: Бюджети
+  project_module_budgets: Бюджети
+  text_budget_delete: Видалити цей бюджет з усіх пакетів робіт
+  text_budget_destroy_assigned_wp: Цьому бюджету призначено кілька (%{count}) пакетів робіт. Що потрібно зробити?
+  text_budget_reassign_to: 'Перепризначити їх для цього бюджету:'

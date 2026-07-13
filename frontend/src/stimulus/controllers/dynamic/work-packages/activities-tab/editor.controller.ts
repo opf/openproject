@@ -35,21 +35,23 @@ import { retrieveCkEditorInstance } from 'core-app/shared/helpers/ckeditor-helpe
 import type AutoScrollingController from './auto-scrolling.controller';
 import BaseController from './base.controller';
 import type PollingController from './polling.controller';
-import type StemsController from './stems.controller';
+import type { TurboSubmitEndEvent, TurboSubmitStartEvent } from '@hotwired/turbo';
+
+// Mobile on-screen keyboard timings, tuned on device: wait for the keyboard
+// transition to finish before scrolling the input into view.
+const KEYBOARD_DISMISS_MS = 500; // editor hidden, keyboard sliding down
+const KEYBOARD_FOCUS_MS = 200; // editor focused, keyboard sliding up
 
 export default class EditorController extends BaseController {
   static outlets = [
     'work-packages--activities-tab--auto-scrolling',
     'work-packages--activities-tab--polling',
-    'work-packages--activities-tab--stems',
   ];
 
   declare readonly workPackagesActivitiesTabAutoScrollingOutlet:AutoScrollingController;
   declare readonly workPackagesActivitiesTabPollingOutlet:PollingController;
-  declare readonly workPackagesActivitiesTabStemsOutlet:StemsController;
   private get autoScrollingOutlet() { return this.workPackagesActivitiesTabAutoScrollingOutlet; }
   private get pollingOutlet() { return this.workPackagesActivitiesTabPollingOutlet; }
-  private get stemsOutlet() { return this.workPackagesActivitiesTabStemsOutlet; }
 
   static values = {
     unsavedChangesConfirmationMessage: String,
@@ -65,6 +67,8 @@ export default class EditorController extends BaseController {
   private rescuedEditorDataKey:string;
   private abortController = new AbortController();
   private ckEditorAbortController = new AbortController();
+  private editorDataObserver?:MutationObserver;
+  private editorDataTimer?:number;
 
   connect() {
     super.connect();
@@ -75,6 +79,7 @@ export default class EditorController extends BaseController {
   }
 
   disconnect() {
+    this.clearPendingEditorDataSetup();
     this.rescueEditorContent();
     this.removeCkEditorEventListeners();
     this.removeEventListeners();
@@ -109,9 +114,7 @@ export default class EditorController extends BaseController {
 
   openEditorWithInitialData(quotedText:string) {
     this.showForm();
-    if (this.isEditorEmpty()) {
-      this.ckEditorInstance!.setData(quotedText);
-    }
+    this.setEditorDataWhenReady(quotedText);
   }
 
   clearEditor() {
@@ -126,9 +129,7 @@ export default class EditorController extends BaseController {
     this.indexOutlet.hideJournalsContainerInput();
 
     if (this.isMobile()) {
-      // wait for the keyboard to be fully down before scrolling further
-      // timeout amount tested on mobile devices for best possible user experience
-      this.autoScrollingOutlet.scrollInputContainerIntoView(500);
+      this.autoScrollingOutlet.scrollInputContainerIntoView(KEYBOARD_DISMISS_MS);
     }
   }
 
@@ -156,8 +157,8 @@ export default class EditorController extends BaseController {
 
     const handlers = {
       beforeUnload: () => { void this.rescueEditorContent(); },
-      turboSubmitStart: (event:Event) => { void this.handleTurboSubmitStart(event); },
-      turboSubmitEnd: (event:Event) => { void this.handleTurboSubmitEnd(event); },
+      turboSubmitStart: (event:TurboSubmitStartEvent) => { void this.handleTurboSubmitStart(event); },
+      turboSubmitEnd: (event:TurboSubmitEndEvent) => { void this.handleTurboSubmitEnd(event); },
     };
 
     document.addEventListener('beforeunload', handlers.beforeUnload, { signal });
@@ -191,7 +192,7 @@ export default class EditorController extends BaseController {
       onBlurEditor: () => { void this.onBlurEditor(); },
       onFocusEditor: () => {
         void this.onFocusEditor();
-        if (this.isMobile()) { void this.autoScrollingOutlet.scrollInputContainerIntoView(200); }
+        if (this.isMobile()) { void this.autoScrollingOutlet.scrollInputContainerIntoView(KEYBOARD_FOCUS_MS); }
       },
     };
 
@@ -210,6 +211,59 @@ export default class EditorController extends BaseController {
     this.ckEditorAbortController = new AbortController();
   }
 
+  /**
+   * Sets the editor data once CKEditor is initialized. If CKEditor is already
+   * available and empty, sets the data immediately. Otherwise, watches for CKEditor
+   * readiness via MutationObserver. This handles the case where the Stimulus
+   * controller connects before CKEditor has finished its async initialization
+   * (e.g., after a Turbo navigation).
+   *
+   * A setTimeout deferral is used to ensure Angular's CKEditor initialization
+   * Promise chain has fully completed before we interact with the editor.
+   */
+  private setEditorDataWhenReady(data:string) {
+    this.clearPendingEditorDataSetup();
+
+    if (this.ckEditorInstance) {
+      if (this.isEditorEmpty()) {
+        this.ckEditorInstance.setData(data);
+      }
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      if (this.ckEditorInstance) {
+        observer.disconnect();
+        if (this.editorDataObserver === observer) {
+          this.editorDataObserver = undefined;
+        }
+        // Defer to the next macrotask so that Angular's CKEditor initialization
+        // Promise chain completes and the component's `initialized` flag is set.
+        // This prevents "Tried to access CKEditor instance before initialization"
+        // errors when the form is subsequently submitted.
+        this.editorDataTimer = window.setTimeout(() => {
+          this.editorDataTimer = undefined;
+          if (this.isEditorEmpty()) {
+            this.ckEditorInstance?.setData(data);
+          }
+        });
+      }
+    });
+
+    this.editorDataObserver = observer;
+    observer.observe(this.element, { childList: true, subtree: true });
+  }
+
+  private clearPendingEditorDataSetup() {
+    this.editorDataObserver?.disconnect();
+    this.editorDataObserver = undefined;
+
+    if (this.editorDataTimer !== undefined) {
+      window.clearTimeout(this.editorDataTimer);
+      this.editorDataTimer = undefined;
+    }
+  }
+
   private rescueEditorContent() {
     const data = this.ckEditorInstance?.getData({ trim: false });
     if (data) {
@@ -217,16 +271,16 @@ export default class EditorController extends BaseController {
     }
   }
 
-  private handleTurboSubmitStart(_event:Event) {
+  private handleTurboSubmitStart(_event:TurboSubmitStartEvent) {
     this.setCKEditorReadonlyMode(true);
   }
 
-  private handleTurboSubmitEnd(event:Event) {
-    const formSubmitResponse = (event as CustomEvent<{ fetchResponse:{ succeeded:boolean; response:{ headers:Headers } } }>).detail.fetchResponse;
+  private handleTurboSubmitEnd(event:TurboSubmitEndEvent) {
+    const formSubmitResponse = event.detail.fetchResponse;
 
     this.setCKEditorReadonlyMode(false);
 
-    if (formSubmitResponse.succeeded) {
+    if (formSubmitResponse?.succeeded) {
       // extract server timestamp from response headers in order to be in sync with the server
       this.pollingOutlet.setLastServerTimestampViaHeaders(formSubmitResponse.response.headers);
 
@@ -238,7 +292,6 @@ export default class EditorController extends BaseController {
 
       setTimeout(() => {
         this.autoScrollingOutlet.performAutoScrollingOnFormSubmit();
-        this.stemsOutlet.handleStemVisibility();
       }, 100);
     }
   }

@@ -93,6 +93,21 @@ es:
           name: Alta
         item_3:
           name: Inmediata
+      departments:
+        item_0:
+          name: Mercadeo y comunicaciones
+        item_1:
+          name: Relaciones públicas
+        item_2:
+          name: Diseño y contenido
+        item_3:
+          name: Eventos y operaciones
+        item_4:
+          name: Web y TI
+        item_5:
+          name: Finanzas y administración
+        item_6:
+          name: Control de calidad
       projects:
         demo-project:
           name: Proyecto de demostración
@@ -182,8 +197,10 @@ es:
                 item_2:
                   subject: Configurar el sitio web de la conferencia
             item_2:
-              subject: Conferencia
+              subject: Prueba y comprueba la calidad de la página web de la conferencia
             item_3:
+              subject: Conferencia
+            item_4:
               subject: Tareas de seguimiento
               children:
                 item_0:
@@ -195,7 +212,7 @@ es:
                     * [ ] Aperitivos
                     * [ ] Música
                     * [ ] Más cerveza
-            item_4:
+            item_5:
               subject: Fin del proyecto
           wiki: |
             _En esta wiki puede crear y editar en colaboración páginas y subpáginas para crear un wiki de proyecto._
@@ -486,7 +503,7 @@ es:
         item_6:
           name: Error
       welcome:
-        title: '¡Le damos la bienvenida a OpenProject!'
+        title: "¡Le damos la bienvenida a OpenProject!"
         text: |
           OpenProject es el programa de gestión de proyectos de código abierto líder. Puede ser usado tanto en gestion de proyectos clássica, Agile o híbrida y le proporciona un control total sobre sus datos.
 

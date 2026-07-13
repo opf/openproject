@@ -45,6 +45,10 @@ module TableHelpers
         travel_to(fake_today)
       end
 
+      after do
+        travel_back
+      end
+
       it "applies attribute changes to a group of work packages from a visual table representation" do
         main = build_stubbed(:work_package, subject: "main")
         second = build_stubbed(:work_package, subject: "second")

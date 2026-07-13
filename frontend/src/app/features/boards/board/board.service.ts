@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -10,6 +10,12 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class BoardService {
+  protected apiV3Service = inject(ApiV3Service);
+  protected PathHelper = inject(PathHelperService);
+  protected CurrentProject = inject(CurrentProjectService);
+  protected halResourceService = inject(HalResourceService);
+  protected I18n = inject(I18nService);
+
   public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   private loadAllPromise:Promise<Board[]>|undefined;
@@ -20,15 +26,6 @@ export class BoardService {
       { attribute: this.I18n.t(`js.boards.board_type.action_type.${attr}`) }),
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
-
-  constructor(
-    protected apiV3Service:ApiV3Service,
-    protected PathHelper:PathHelperService,
-    protected CurrentProject:CurrentProjectService,
-    protected halResourceService:HalResourceService,
-    protected I18n:I18nService,
-  ) {
-  }
 
   /**
    * Return all boards in the current scope of the project

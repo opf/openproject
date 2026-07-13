@@ -1,21 +1,21 @@
+---
 sv:
-  label_job_status_plural: "Jobbstatusar"
-  plugin_openproject_job_status:
-    name: "OpenProject jobbstatus"
-    description: "Lista och status för bakgrundsjobb."
   job_status_dialog:
-    download_starts: 'Nedladdningen bör starta automatiskt.'
-    link_to_download: 'Eller, %{link} för att ladda ner.'
-    click_here: 'klicka här'
-    title: 'Status för bakgrundsjobb'
-    redirect: 'Du blir omdirigerad.'
-    redirect_link: 'Klicka här för att fortsätta.'
-    redirect_errors: 'På grund av dessa fel kommer du inte att omdirigeras automatiskt.'
-    errors: 'Något gick fel'
+    click_to_download: Or [click here](download_url) to download.
+    download_starts: Nedladdningen bör starta automatiskt.
+    errors: Något gick fel
     generic_messages:
-      not_found: 'Det här jobbet kunde inte hittas.'
-      in_queue: 'Jobbet har ställts i kö och kommer att behandlas inom kort.'
-      in_process: 'Jobbet håller på att bearbetas.'
-      error: 'Jobbet har inte slutförts.'
-      cancelled: 'Jobbet har avbrutits på grund av ett fel.'
-      success: 'Jobbet slutfördes framgångsrikt.'
+      cancelled: Jobbet har avbrutits på grund av ett fel.
+      error: Jobbet har inte slutförts.
+      in_process: Jobbet håller på att bearbetas.
+      in_queue: Jobbet har ställts i kö och kommer att behandlas inom kort.
+      not_found: Det här jobbet kunde inte hittas.
+      success: Jobbet slutfördes framgångsrikt.
+    redirect: Du blir omdirigerad.
+    redirect_errors: På grund av dessa fel kommer du inte att omdirigeras automatiskt.
+    redirect_link: Klicka här för att fortsätta.
+    title: Status för bakgrundsjobb
+  label_job_status_plural: Jobbstatusar
+  plugin_openproject_job_status:
+    description: Lista och status för bakgrundsjobb.
+    name: OpenProject jobbstatus

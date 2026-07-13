@@ -40,8 +40,7 @@ module Projects
           label: attribute_name(:status_explanation),
           visually_hide_label: hide_label,
           rich_text_options: {
-            showAttachments: false,
-            data: { qa_field_name: "statusExplanation" }
+            showAttachments: false
           }
         )
       end

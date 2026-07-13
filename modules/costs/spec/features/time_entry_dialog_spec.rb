@@ -65,7 +65,7 @@ RSpec.describe "time entry dialog", :js do
       it "does not show fields to track start and end times" do
         time_logging_modal.shows_field("start_time", false)
         time_logging_modal.shows_field("end_time", false)
-        time_logging_modal.shows_field("hours", true)
+        time_logging_modal.shows_field("hours_display", true)
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe "time entry dialog", :js do
         time_logging_modal.requires_field("start_time", required: false)
         time_logging_modal.shows_field("end_time", true)
         time_logging_modal.requires_field("end_time", required: false)
-        time_logging_modal.shows_field("hours", true)
+        time_logging_modal.shows_field("hours_display", true)
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe "time entry dialog", :js do
         time_logging_modal.requires_field("start_time")
         time_logging_modal.shows_field("end_time", true)
         time_logging_modal.requires_field("end_time")
-        time_logging_modal.shows_field("hours", true)
+        time_logging_modal.shows_field("hours_display", true)
       end
     end
   end
@@ -139,40 +139,40 @@ RSpec.describe "time entry dialog", :js do
     end
 
     it "normalizes the hour input" do
-      time_logging_modal.update_field("hours", "6h 45min")
-      time_logging_modal.has_field_with_value("hours", "6.75h")
+      time_logging_modal.update_field("hours_display", "6h 45min")
+      time_logging_modal.has_field_with_value("hours_display", "6.75h")
 
-      time_logging_modal.update_field("hours", "4:15")
-      time_logging_modal.has_field_with_value("hours", "4.25h")
+      time_logging_modal.update_field("hours_display", "4:15")
+      time_logging_modal.has_field_with_value("hours_display", "4.25h")
 
-      time_logging_modal.update_field("hours", "1m 2w 3d 4h 5m")
-      time_logging_modal.has_field_with_value("hours", "412.1h")
+      time_logging_modal.update_field("hours_display", "1m 2w 3d 4h 5m")
+      time_logging_modal.has_field_with_value("hours_display", "412.1h")
 
-      time_logging_modal.update_field("hours", "1.5")
-      time_logging_modal.has_field_with_value("hours", "1.5h")
+      time_logging_modal.update_field("hours_display", "1.5")
+      time_logging_modal.has_field_with_value("hours_display", "1.5h")
 
-      time_logging_modal.update_field("hours", "3,7")
-      time_logging_modal.has_field_with_value("hours", "3.7h")
+      time_logging_modal.update_field("hours_display", "3,7")
+      time_logging_modal.has_field_with_value("hours_display", "3.7h")
     end
 
     it "calculates the hours based on the start and end time" do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
       time_logging_modal.update_time_field("end_time", hour: 12, minute: 30)
 
-      time_logging_modal.has_field_with_value("hours", "2.5h")
+      time_logging_modal.has_field_with_value("hours_display", "2.5h")
     end
 
     it "correctly handles when end_time < start_time (multiple days)" do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
       time_logging_modal.update_time_field("end_time", hour: 9, minute: 45)
 
-      time_logging_modal.has_field_with_value("hours", "23.75h")
+      time_logging_modal.has_field_with_value("hours_display", "23.75h")
       time_logging_modal.shows_caption("+1 day")
     end
 
     it "correctly handles when hours > 24" do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
-      time_logging_modal.update_field("hours", "50h")
+      time_logging_modal.update_field("hours_display", "50h")
 
       time_logging_modal.has_field_with_value("end_time", "12:00")
       time_logging_modal.shows_caption("+2 days")
@@ -180,14 +180,14 @@ RSpec.describe "time entry dialog", :js do
 
     it "calculates the end time based on start time and hours" do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
-      time_logging_modal.update_field("hours", "3h")
+      time_logging_modal.update_field("hours_display", "3h")
 
       time_logging_modal.has_field_with_value("end_time", "13:00")
     end
 
     it "calculates the start time based on end time and hours" do
       time_logging_modal.update_time_field("end_time", hour: 10, minute: 0)
-      time_logging_modal.update_field("hours", "3h")
+      time_logging_modal.update_field("hours_display", "3h")
 
       time_logging_modal.has_field_with_value("start_time", "07:00")
     end
@@ -196,9 +196,9 @@ RSpec.describe "time entry dialog", :js do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
       time_logging_modal.update_time_field("end_time", hour: 12, minute: 30)
 
-      time_logging_modal.has_field_with_value("hours", "2.5h")
+      time_logging_modal.has_field_with_value("hours_display", "2.5h")
 
-      time_logging_modal.update_field("hours", "6h")
+      time_logging_modal.update_field("hours_display", "6h")
 
       time_logging_modal.has_field_with_value("end_time", "16:00")
     end
@@ -207,12 +207,12 @@ RSpec.describe "time entry dialog", :js do
       time_logging_modal.update_time_field("start_time", hour: 10, minute: 0)
       time_logging_modal.update_time_field("end_time", hour: 12, minute: 30)
 
-      time_logging_modal.has_field_with_value("hours", "2.5h")
+      time_logging_modal.has_field_with_value("hours_display", "2.5h")
 
       time_logging_modal.update_time_field("start_time", hour: 12, minute: 0)
 
       time_logging_modal.has_field_with_value("end_time", "14:30")
-      time_logging_modal.has_field_with_value("hours", "2.5h")
+      time_logging_modal.has_field_with_value("hours_display", "2.5h")
     end
   end
 
@@ -230,7 +230,7 @@ RSpec.describe "time entry dialog", :js do
       find("#action-show-more-dropdown-menu .button").click
       find(".menu-item", text: "Log time").click
       time_logging_modal.is_visible(true)
-      time_logging_modal.update_field("hours", "2")
+      time_logging_modal.update_field("hours_display", "2")
     end
 
     it "I can create a time entry with a custom field value including validation" do
@@ -280,7 +280,7 @@ RSpec.describe "time entry dialog", :js do
         find("opce-time-entry-trigger-actions .icon-edit").click
 
         time_logging_modal.is_visible(true)
-        time_logging_modal.update_field("entity_id", work_package_c.id)
+        time_logging_modal.update_field("entity_id", work_package_c.subject)
         wait_for_network_idle # form refresh is happening here
         time_logging_modal.submit
         wait_for_network_idle
@@ -307,7 +307,7 @@ RSpec.describe "time entry dialog", :js do
 
       expect do
         time_logging_modal.is_visible(true)
-        time_logging_modal.update_field("entity_id", work_package_b.id)
+        time_logging_modal.update_field("entity_id", work_package_b.subject)
         wait_for_network_idle # form refresh is happening here
         time_logging_modal.submit
         wait_for_network_idle
@@ -341,7 +341,7 @@ RSpec.describe "time entry dialog", :js do
         time_logging_modal.is_visible(true)
 
         # ensure the work package autocompleter is filled
-        time_logging_modal.update_field("entity_id", work_package_a.id)
+        time_logging_modal.update_field("entity_id", work_package_a.subject)
 
         # validates the required custom field and prevents update when missing
         time_logging_modal.submit

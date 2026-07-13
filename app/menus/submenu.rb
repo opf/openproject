@@ -72,7 +72,7 @@ class Submenu
   end
 
   def default_queries
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def global_queries
@@ -150,7 +150,7 @@ class Submenu
   end
 
   def query_path(query_params)
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def url_helpers

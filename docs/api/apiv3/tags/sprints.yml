@@ -1,0 +1,30 @@
+---
+description: |-
+  Work packages can be assigned to a sprint. This is employed in agile contexts such as Scrum or Kanban to group the work packages to be worked on within a defined time frame towards a defined goal.
+
+  ## Linked Properties
+
+  |  Link               | Description                                  | Type          | Constraints                                                    | Supported operations |
+  |:-------------------:|-----------------------------------------     | ------------- | -------------------------------------------------------------- | -------------------- |
+  | self                | This sprint                                  | Sprint        | not null                                                       | READ                 |
+  | definingWorkspace   | The workspace in which the sprint is defined | Workspace     |                                                                | READ                 |
+  | status              | The status the sprint is in                  | URN           |                                                                | READ                 |
+
+  The status is represented as a URN and can have the following values:
+
+    - **urn:openproject-org:api:v3:sprints:status:in_planning**: The sprint hasn't started yet, it is planned.
+    - **urn:openproject-org:api:v3:sprints:status:active**: The sprint is currently active.
+    - **urn:openproject-org:api:v3:sprints:status:completed**: The sprint has finished.
+
+  ## Local Properties
+
+  | Property    | Description                                   | Type        | Constraints    | Supported operations |
+  | :---------: | --------------------------------------------- | ----------- | -----------    | -------------------- |
+  | id          | Sprint id                                     | Integer     | x > 0          | READ                 |
+  | name        | Sprint name                                   | String      | not null       | READ                 |
+  | description |                                               | Formattable |                | READ                 |
+  | startDate   |                                               | Date        |                | READ                 |
+  | finishDate  |                                               | Date        |                | READ                 |
+  | createdAt   | Time of creation                              | DateTime    | not null       | READ                 |
+  | updatedAt   | Time of the most recent change to the sprint  | DateTime    | not null       | READ                 |
+name: Sprints

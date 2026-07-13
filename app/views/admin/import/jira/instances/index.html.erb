@@ -1,0 +1,134 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:"admin.jira.title") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:"admin.jira.title") }
+    header.with_description { t(:"admin.jira.description") }
+    header.with_breadcrumbs(
+      [
+        { href: admin_index_path, text: t(:label_administration) },
+        { href: admin_import_path, text: t(:"admin.import.title") },
+        t(:"admin.jira.title")]
+    )
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |component|
+    component.with_action_button(
+      leading_icon: :plus,
+      label: t("admin.jira.configuration.title"),
+      scheme: :primary,
+      tag: :a,
+      href: new_admin_import_jira_path
+    ) { t("admin.jira.configuration.title") }
+  end
+%>
+
+<%=
+  flex_layout(direction: :column) do |container|
+    container.with_row do
+      render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3)) {
+          concat(render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) {
+            I18n.t(:"admin.jira.banner.title")
+          })
+          concat(render(Primer::Beta::Text.new(tag: :p, font_weight: :normal)) {
+           I18n.t(:"admin.jira.banner.description")
+          })
+          concat(render(Primer::Beta::Text.new(tag: :p, font_weight: :normal)) {
+            link_translate("admin.jira.banner.contribution_callout",
+                            links: { link: %i[jira_migrator_project] },
+                            external: true)
+          })
+        }
+    end
+    unless Setting::WorkPackageIdentifier.semantic?
+      container.with_row do
+        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3)) {
+          concat(render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) {
+            I18n.t("admin.jira.errors.semantic_identifiers_must_be_enabled.title")
+          })
+          concat(render(Primer::Beta::Text.new(tag: :p)) {
+            link_translate("admin.jira.errors.semantic_identifiers_must_be_enabled.description",
+                          links: { link: admin_settings_work_packages_identifier_path },
+                          external: true)
+          })
+        }
+      end
+    end
+    container.with_row(pb: 3) do
+      flex_layout do |flex|
+        flex.with_column(flex: 1, mr: 1) do
+          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_supported_data"),
+            list: [
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.projects"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.project_ids"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issues"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_ids"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_details"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.custom_fields"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.users"),
+            ].map { |label| { label:, checked: true } },
+            h: :full,
+            icon: :"check-circle",
+            icon_color: :success
+          ))
+        end
+        flex.with_column(flex: 1, ml: 1) do
+          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_soon"),
+            list: [
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.relations"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.sprints"),
+            ].map { |label| { label:, checked: false } },
+            h: :full,
+          ))
+        end
+        flex.with_column(flex: 1, ml: 1) do
+          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_later"),
+            list: [
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.workflows"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.permissions"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.schemes")
+            ].map { |label| { label:, checked: false } },
+            h: :full,
+          ))
+        end
+      end
+    end
+    container.with_row do
+      render(Admin::Import::Jira::TableComponent.new(rows: @jira_instances))
+    end
+  end
+%>

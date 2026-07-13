@@ -383,7 +383,7 @@ RSpec.describe "Invite user modal", :js do
           end
 
           context "with permissions to manage placeholders" do
-            let(:global_permissions) { %i[manage_placeholder_user] }
+            let(:global_permissions) { %i[view_all_principals manage_placeholder_user] }
 
             it_behaves_like "invites the principal to the project" do
               let(:added_principal) { PlaceholderUser.find_by!(name: "MY NEW PLACEHOLDER") }

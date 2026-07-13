@@ -13,10 +13,11 @@ RSpec.describe "Notification center reminder, mention and date alert",
     create(:user,
            member_with_permissions: { project => %w[view_work_packages] })
   end
-  shared_let(:work_package) { create(:work_package, project:, due_date: 1.day.ago) }
-  shared_let(:work_package2) { create(:work_package, project:) }
+  let(:reference_time) { Time.zone.local(2025, 1, 8, 12, 0, 0) }
+  let(:work_package) { create(:work_package, project:, due_date: 1.day.ago.to_date) }
+  let(:work_package2) { create(:work_package, project:) }
 
-  shared_let(:notification_mentions) do
+  let!(:notification_mentions) do
     [create(:notification,
             reason: :mentioned,
             recipient: user,
@@ -29,27 +30,32 @@ RSpec.describe "Notification center reminder, mention and date alert",
             actor: actor)]
   end
 
-  shared_let(:notification_date_alert) do
+  let!(:notification_date_alert) do
     create(:notification,
            reason: :date_alert_due_date,
            recipient: user,
            resource: work_package)
   end
 
-  shared_let(:notification_reminder) do
+  let!(:notification_reminder) do
     create_reminder_notification_for(work_package: work_package, user: user)
   end
 
-  shared_let(:notification_reminder2) do
+  let!(:notification_reminder2) do
     create_reminder_notification_for(work_package: work_package2, user: user)
   end
 
   let(:center) { Pages::Notifications::Center.new }
 
   before do
+    travel_to(reference_time)
     login_as user
     visit notifications_center_path
     wait_for_reload
+  end
+
+  after do
+    travel_back
   end
 
   context "with a reminder, mention and date alert" do

@@ -148,7 +148,7 @@ RSpec.describe "invite user via email", :js do
         end
 
         members_page.search_and_select_principal! "hugo@openproject.com",
-                                                  "Hugo Hurriedhugo@openproject.com"
+                                                  "Hugo Hurried"
         members_page.select_role! "Developer"
 
         click_on "Add"

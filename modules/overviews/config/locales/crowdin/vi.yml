@@ -1,5 +1,6 @@
+---
 vi:
   overviews:
+    label_dashboard: Trang tổng quan
     label_home: "%{workspace_type} nhà"
-    label_dashboard: "Trang tổng quan"
-    label_overview: "tổng quan"
+    label_overview: tổng quan

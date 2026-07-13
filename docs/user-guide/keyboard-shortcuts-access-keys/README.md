@@ -73,7 +73,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ------
 
-### OS X
+### macOS
 
 - Firefox:  Ctrl + Opt + &lt;access key number&gt;
 - Google Chrome: Ctrl + Opt + &lt;access key number&gt;

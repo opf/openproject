@@ -1,6 +1,7 @@
+---
 lv:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt charts"
       default_queries:
-        milestones: 'Atskaites punkti'
+        milestones: Atskaites punkti
+      label_gantt_chart_plural: Gantt charts

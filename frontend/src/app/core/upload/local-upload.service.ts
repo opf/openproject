@@ -68,7 +68,8 @@ export class LocalUploadService extends OpUploadService {
         observe: 'events',
         withCredentials: true,
         responseType: 'json',
-        reportProgress: true,
+        reportUploadProgress: true,
+        reportDownloadProgress: true,
       },
     ).pipe(share());
   }

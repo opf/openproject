@@ -32,13 +32,13 @@ import { ApiV3QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-que
 import { ApiV3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
 import { Observable } from 'rxjs';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { PaginationObject } from 'core-app/shared/components/table-pagination/pagination-service';
 
 export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
-  @InjectField() private queryFilters:QueryFiltersService;
+  @LazyInject() private queryFilters:QueryFiltersService;
 
   // Static paths
   readonly form = this.subResource('form', ApiV3QueryForm);

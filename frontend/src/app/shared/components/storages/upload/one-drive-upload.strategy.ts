@@ -65,7 +65,8 @@ export class OneDriveUploadStrategy implements IUploadStrategy {
           'Content-Range': contentRangeHeader,
         },
         observe: 'events',
-        reportProgress: true,
+        reportUploadProgress: true,
+        reportDownloadProgress: true,
         responseType: 'json',
       },
     ).pipe(

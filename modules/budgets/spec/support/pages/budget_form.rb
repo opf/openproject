@@ -59,9 +59,14 @@ module Pages
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
       options = { fill_options: { clear: :backspace } }
 
-      fill_in("#{prefix}_units", with: units, **options) if units.present?
-      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
-      expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
+      retry_block do
+        fill_in("#{prefix}_units", with: units, **options) if units.present?
+        fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+
+        if expected_costs.present?
+          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
+        end
+      end
     end
 
     def open_edit_planned_costs!(id, type:)
@@ -98,11 +103,15 @@ module Pages
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
       options = { fill_options: { clear: :backspace } }
 
-      fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
-      select user_name, from: "#{prefix}_user_id" if user_name.present?
-      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+      retry_block do
+        fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
+        select user_name, from: "#{prefix}_user_id" if user_name.present?
+        fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-      expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
+        if expected_costs.present?
+          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
+        end
+      end
     end
 
     def add_unit_costs_row!

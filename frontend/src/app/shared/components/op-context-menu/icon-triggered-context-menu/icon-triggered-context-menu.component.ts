@@ -26,12 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   OpContextMenuTrigger,
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
@@ -40,25 +39,29 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   templateUrl: './icon-triggered-context-menu.component.html',
   styleUrls: ['./icon-triggered-context-menu.component.sass'],
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+
   override readonly placement = 'bottom-end';
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-  ) {
-    super(elementRef, opContextMenu);
+  @Input() menuItemsFactory:() => Promise<OpContextMenuItem[]>;
+  @Input() customAriaLabel:string = this.I18n.t('js.label_open_menu');
+
+  protected open(evt:Event):void {
+    void this.openContextMenu(evt);
   }
 
-  @Input() menuItemsFactory:() => Promise<OpContextMenuItem[]>;
-
-  protected async open(evt:Event) {
+  private async openContextMenu(evt:Event):Promise<void> {
     this.items = await this.buildItems();
+    this.cdRef.markForCheck();
     this.opContextMenu.show(this, evt);
   }
 

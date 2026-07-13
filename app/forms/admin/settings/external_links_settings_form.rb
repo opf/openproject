@@ -32,6 +32,8 @@ module Admin
   module Settings
     class ExternalLinksSettingsForm < ApplicationForm
       settings_form do |sf|
+        helpers.call_hook(:component_admin_settings_external_redirect, form: sf)
+
         sf.check_box(
           name: :capture_external_links,
           caption: I18n.t(:setting_capture_external_links_text)

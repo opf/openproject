@@ -39,21 +39,21 @@ module Storages
           @use_cache = use_cache
         end
 
-        def call(storage:, http_options: {})
+        def call(storage:, http_options: {}) # rubocop:disable Metrics/AbcSize
           config = validate_configuration(storage).value_or { return Failure(it) }
 
           token_cache_key = TOKEN_CACHE_KEY % storage.id
-          access_token = @use_cache ? Rails.cache.read(token_cache_key) : nil
+          access_token = @use_cache ? OpenProject::ConfidentialCache.read(token_cache_key) : nil
 
-          http = build_http_session(access_token, config, http_options).value_or { return Failure(it) }
+          session = build_http_session(access_token, config, http_options).value_or { Failure(it) }
 
-          operation_result = yield http
+          operation_result = yield session
 
           return operation_result unless @use_cache
 
           case operation_result
           in Success if @use_cache && access_token.blank?
-            write_cache(token_cache_key, http)
+            write_cache(token_cache_key, session)
           in Failure(code: :forbidden)
             clear_cache(token_cache_key)
           else
@@ -61,6 +61,18 @@ module Storages
           end
 
           operation_result
+        # HTTPX default behaviour is to return error responses and not raise errors unless
+        # explicitly asked by using the `#raise_for_status`method.
+        #
+        # On Storages codebase we handle the error responses, but the OAuth
+        # plugin raises and exception when it fails to get a Token..
+        # The handling below will only apply to authentication errors.
+        rescue HTTPX::HTTPError => e
+          error("Error while refreshing OAuth token - Payload: #{e.response}")
+
+          Failure(Results::Error.new(code: :unauthorized, payload: e.response, source: self.class))
+        rescue HTTPX::TimeoutError => e
+          Failure(Results::Error.new(code: :timeout, payload: e.to_s, source: self.class))
         end
 
         private
@@ -73,35 +85,15 @@ module Storages
         end
 
         def write_cache(key, httpx_session)
-          access_token = httpx_session.instance_variable_get(:@options).oauth_session.access_token
-          Rails.cache.write(key, access_token, expires_in: 50.minutes)
+          access_token = httpx_session.send(:oauth_session).access_token
+          OpenProject::ConfidentialCache.write(key, access_token, expires_in: 50.minutes)
         end
 
-        def clear_cache(key) = Rails.cache.delete(key)
+        def clear_cache(key) = OpenProject::ConfidentialCache.delete(key)
 
         def build_http_session(access_token, config, http_options)
-          if access_token.present?
-            http_with_current_token(access_token:, http_options:)
-          else
-            http_with_new_token(config:, http_options:)
-          end
-        end
-
-        def http_with_current_token(access_token:, http_options:)
-          opts = http_options.deep_merge({ headers: { "Authorization" => "Bearer #{access_token}" } })
-          Success(OpenProject.httpx.with(opts))
-        end
-
-        def http_with_new_token(config:, http_options:)
-          http = OpenProject.httpx
-                            .oauth_auth(**config.to_h, token_endpoint_auth_method: "client_secret_post")
-                            .with_access_token
-                            .with(http_options)
-          Success(http)
-        rescue HTTPX::HTTPError => e
-          Failure(Results::Error.new(code: :unauthorized, payload: e.response, source: self.class))
-        rescue HTTPX::TimeoutError => e
-          Failure(Results::Error.new(code: :timeout, payload: e.to_s, source: self.class))
+          Success(OpenProject.httpx.plugin(:oauth)
+                             .with(**http_options, oauth_options: { **config, access_token: access_token }))
         end
       end
     end

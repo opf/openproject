@@ -55,8 +55,8 @@
           end
         end
 
-        component.with_row do
-          helpers.pagination_links_full(documents)
+        component.with_row(py: 0) do
+          helpers.pagination_links_full(documents, params: { action: "index" })
         end
       end
     else

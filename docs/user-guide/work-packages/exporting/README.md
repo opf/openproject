@@ -82,21 +82,29 @@ For each work package, a table of attributes is included, where attributes corre
 
 The table of attributes is followed by the work package description and, if necessary, custom long text fields, which support [embedded work package and project attributes](../../wysiwyg/#attributes).
 
-> [!TIP]
-> If you used page breaks in work package descriptions, contents will be split into separate pages accordingly. 
+##### Page breaks 
+
+If you used page breaks in work package descriptions, contents will be split into separate pages accordingly. 
 
 ![OpenProject_pdf_report_export](openproject-pdf-export-work-plans.png)
 
-> [!TIP]
-> If ["display sums" is activated](../work-package-table-configuration/) in the work package table, then the sum table is included between the table of contents and work packages description in an Overview section.
+##### Display sums 
 
-![OpenProject_work_package_table_sum](openproject_wp_table_total_sum.png)
+If ["display sums" is activated](../work-package-table-configuration/) in the work package table, then the sum table is included between the table of contents and work packages description in an Overview section.
 
-![OpenProject_pdf_report_sum](openproject_wp_report_total_sum.png)
+![A work package table in OpenProject, highlighting total sum under the work packages list](openproject_wp_table_total_sum.png)
+
+![A PDF export in OpenProject, highlighting a dedicated section to values from _Total sum_ field in work packages table](openproject_wp_report_total_sum.png)
+
+##### Display relations
+
+If relations, such as _children_, _blocked by_, _followed by_, etc. are included in the report as columns, they will be included in dedicated blocks.
+
+![A pdf export of OpenProject work packages, displaying dedicated sections to existing work package relations](openproject_pdf_report_relations.png)
 
 #### PDF Report with images
 
-If you select the **Include images** option, your PDF Report will include the images from the work package description.
+If you select the **Include images** option, your PDF Report will include the images from the work package description. Supported formats include PNG, JPG, WebP. If an animated WebP or a GIF is used, the first frame will be included into the report.
 
 ![Include images in OpenProject work packages export](openproject_wp_report_include_images_checked.png)
 
@@ -183,8 +191,8 @@ If you select **Generate PDF**, a modal will open, where you can adjust the foll
 
 - **Template** is a dropdown menu showing all of the options currently enabled. At moment possible template options include:
 
-  - *Attributes and description* - this template lists all the work package attributes [configured in the work package form](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
-  - *Contract* - this template includes work package details formatted to the standard German contract form.
+  - _Attributes and description_ - this template lists all the work package attributes [configured in the work package form](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on), regardless whether they are filled out or not.
+  - _Contract_ - this template includes work package details formatted to the standard German contract form.
     
 > [!TIP] 
 > You can define which templates are enabled for specific work package types in the [administration settings](../../../system-admin-guide/manage-work-packages/work-package-types).
@@ -195,10 +203,10 @@ If you select **Generate PDF**, a modal will open, where you can adjust the foll
 
 - **Footer text**, which is displayed in the PDF export. Footer position depends on the template. You can adjust the suggested footer text.
 
-  - If *Attributes and description* template is selected, the project name will be suggested for the footer. This text will be placed at the center of the footer. 
-  - If *Contract* template is selected, the work package subject will be suggested as the footer text. This text will be placed at the right corner of the footer.
+  - If _Attributes and description_ template is selected, the project name will be suggested for the footer. This text will be placed at the center of the footer. 
+  - If _Contract_ template is selected, the work package subject will be suggested as the footer text. This text will be placed at the right corner of the footer.
   
-- **Page orientation**, which allows selecting *Portrait* or *Landscape* layout of the pages in the PDF.  
+- **Page orientation**, which allows selecting _Portrait_ or _Landscape_ layout of the pages in the PDF.  
 
 ![PDF generation modal for export of single work packages in OpenProject](openproject_user_guide_work_package_export_pdf_modal.png)
 

@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
+  <%=
+    if error?
+      render(Primer::Beta::Octicon.new(icon: :alert, color: :muted))
+    else
+      render(Primer::Beta::Octicon.new(icon: :"op-file-doc"))
+    end
+  %>
+
+  <%=
+    render(Primer::Alpha::StackItem.new(grow: true)) do
+      render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
+        concat(
+          render(Primer::Beta::Truncate.new) do |truncate|
+            truncate.with_item(priority: true) do
+              if error?
+                render(Primer::Beta::Text.new(color: :muted)) { page_title }
+              else
+                render(Primer::Beta::Link.new(href: page_href, scheme: :primary, data: { allow_external_link: true })) { page_title }
+              end
+            end
+          end
+        )
+        if badge_label.present?
+          concat(render(Primer::Beta::Label.new(scheme: :secondary, test_selector: "wiki-page-link-source-badge")) { badge_label })
+        end
+      end
+    end
+  %>
+
+  <%=
+    if show_action_menu?
+      render(Primer::Alpha::ActionMenu.new(test_selector: "wiki-page-link-action-menu")) do |menu|
+        menu.with_show_button(icon: :"kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
+        menu_items(menu)
+      end
+    end
+  %>
+<% end %>

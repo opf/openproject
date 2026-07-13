@@ -137,7 +137,7 @@ RSpec.describe "Activity page navigation", :js do
     it "can filter by user" do
       # using the user filter through the activity link on the user profile page
       visit user_path(user.id)
-      click_on("Activity")
+      wait_for_turbo { click_on("Activity") }
 
       expect(page).to have_heading("#{user.name}'s activity")
       expect(page).to have_link(user.name)

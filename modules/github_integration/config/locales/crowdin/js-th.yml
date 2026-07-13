@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 th:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "คำขอ Pull"
-        copy_menu:
-          label: Git snippets
-          description: คัดลอกข้อมูล git snippets ไปยังคลิปบอร์ด 
-        git_actions:
-          branch_name: ชื่อสาขา
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅สำเนาแล้ว! '
-          copy_error: '❌สำเนาไม่สำเร็จ!'
-      tab_prs:
-        empty: 'ยังไม่มีคำขอดึงที่เชื่อมโยง เชื่อมโยง PR ที่มีอยู่โดยใช้รหัส <code>OP#%{wp_id}</code> ในคำอธิบาย PR หรือสร้าง PR ใหม่ '
       github_actions: Actions
       pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}."
-        merged_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package."
+        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
+        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
+        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
         states:
-          opened: 'opened'
-          closed: 'ปิด'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          closed: ปิด
+          draft: drafted
+          merged: merged
+          opened: opened
+          ready_for_review: marked ready for review
+      tab_header:
+        copy_menu:
+          description: คัดลอกข้อมูล git snippets ไปยังคลิปบอร์ด
+          label: Git snippets
+        git_actions:
+          branch_name: ชื่อสาขา
+          cmd: Create branch with empty commit
+          commit_message: Commit message
+          copy_error: "❌สำเนาไม่สำเร็จ!"
+          copy_success: "✅สำเนาแล้ว! "
+          title: Quick snippets for Git
+        title: คำขอ Pull
+      tab_prs:
+        empty: 'ยังไม่มีคำขอดึงที่เชื่อมโยง เชื่อมโยง PR ที่มีอยู่โดยใช้รหัส <code>OP#%{wp_id}</code> ในคำอธิบาย PR หรือสร้าง PR ใหม่ '
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

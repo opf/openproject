@@ -79,11 +79,11 @@ class Queries::Filters::Base
   end
 
   def human_name
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def type
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def allowed_values
@@ -180,6 +180,10 @@ class Queries::Filters::Base
                .join(" #{I18n.t('support.array.sentence_connector')} ")
 
     errors.full_message(human_name, messages)
+  end
+
+  def autocomplete_options
+    {}
   end
 
   protected

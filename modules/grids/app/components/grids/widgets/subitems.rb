@@ -57,10 +57,6 @@ module Grids
         displayed_subitems.any?
       end
 
-      def wrapper_arguments
-        { full_width: true }
-      end
-
       def can_create_sub_programs?
         project.portfolio? && can_create_sub_projects?
       end

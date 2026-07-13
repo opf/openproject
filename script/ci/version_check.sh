@@ -31,18 +31,31 @@ set -e
 
 # script/ci/version_check
 
-PR_BODY="$@"
+# Read from the PR_BODY / PR_TITLE environment variables, falling back to
+# positional arguments so the script can still be run manually for testing.
+PR_BODY="${PR_BODY:-$1}"
+PR_TITLE="${PR_TITLE:-$2}"
 
-# Extract first work package URL from PR description
-WP_URL=$(echo "$PR_BODY" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/[0-9]+' | head -n 1 || true)
+# Extract first work package URL from PR description.
+# IDs can be numeric (e.g. 12345) or semantic (e.g. SC-123: an uppercase prefix, a dash, then a number).
+WP_URL=$(echo "$PR_BODY" | grep -oE 'https://community.openproject.org/(wp|work_packages|projects/[^/]+/work_packages)/([A-Z][A-Z0-9_]*-[0-9]+|[0-9]+)/?' | head -n 1 || true)
 
-if [ -z "$WP_URL" ]; then
-  echo "::warning::PR description does not contain a valid URL to an OpenProject ticket."
-  exit 0
+if [ -n "$WP_URL" ]; then
+  # Extract the work package ID (last path segment, numeric or semantic; ignore any trailing slash)
+  WORK_PACKAGE_ID=$(echo "${WP_URL%/}" | grep -oE '[^/]+$')
+else
+  # Fall back to an ID in square brackets in the PR title, e.g. [OP-19205] My title here
+  WORK_PACKAGE_ID=$(echo "$PR_TITLE" | grep -oE '\[([A-Z][A-Z0-9_]*-[0-9]+|[0-9]+)\]' | head -n 1 | tr -d '[]' || true)
+  if [ -n "$WORK_PACKAGE_ID" ]; then
+    WP_URL="https://community.openproject.org/wp/${WORK_PACKAGE_ID}"
+  fi
 fi
 
-# Extract the work package ID
-WORK_PACKAGE_ID=$(echo "$WP_URL" | grep -oE '[0-9]+$')
+if [ -z "$WORK_PACKAGE_ID" ]; then
+  echo "::warning::PR description does not contain a valid URL to an OpenProject ticket, nor a [ID] in the title."
+  echo "no_ticket=true" >> "$GITHUB_OUTPUT"
+  exit 0
+fi
 echo "Work Package ID: $WORK_PACKAGE_ID"
 
 # Perform API request to fetch version

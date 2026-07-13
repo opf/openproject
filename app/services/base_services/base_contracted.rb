@@ -117,7 +117,7 @@ module BaseServices
     end
 
     def default_contract_class
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def namespace

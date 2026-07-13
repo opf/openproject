@@ -137,7 +137,7 @@ primer_form_with(
      data: {
         target_name: "frequency",
         value: "foo"
-        "show-when-value-selected-target": "cause"
+        "show-when-value-selected-target": "effect"
       }
     end
 
@@ -439,8 +439,7 @@ class Admin::Settings::GeneralSettingsForm < ApplicationForm
       name: :per_page_options,
       label: I18n.t("setting_per_page_options"),
       value: Setting[:per_page_options],
-      caption: "#{I18n.t(:text_comma_separated)}<br/>" \
-               "#{I18n.t(:text_notice_too_many_values_are_inperformant)}".html_safe)
+      caption: safe_join [I18n.t(:text_comma_separated), helpers.tag(:br), I18n.t(:text_notice_too_many_values_are_inperformant)],
       disabled: !Setting.per_page_options_writable?
     )
     general_form.text_field(
@@ -492,8 +491,9 @@ class Admin::Settings::GeneralSettingsForm < ApplicationForm
   settings_form do |general_form|
     general_form.text_field(name: :app_title)
     general_form.text_field(name: :per_page_options,
-                            caption: "#{I18n.t(:text_comma_separated)}<br/>" \
-                                     "#{I18n.t(:text_notice_too_many_values_are_inperformant)}".html_safe)
+                            caption: safe_join [I18n.t(:text_comma_separated),
+                                                helpers.tag(:br),
+                                                I18n.t(:text_notice_too_many_values_are_inperformant)])
     general_form.text_field(name: :activity_days_default,
                             type: :number)
     general_form.text_field(name: :host_name,

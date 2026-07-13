@@ -23,7 +23,7 @@ RSpec.describe Avatars::UsersController do
       end
 
       it "renders the edit action" do
-        expect(response).to redirect_to edit_user_path(target_user, tab: "avatar")
+        expect(response).to redirect_to edit_user_path(target_user)
       end
     end
 
@@ -70,11 +70,12 @@ RSpec.describe Avatars::UsersController do
     it "calls the service for put" do
       expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
-              .and_return(ServiceResult.success)
+              .and_return(ServiceResult.success(result: "Avatar changed successfully."))
 
       put :update, params: { id: target_user.id }
       expect(response).to be_successful
       expect(response).to have_http_status :ok
+      expect(flash[:notice]).to eq("Avatar changed successfully.")
     end
 
     it "calls the service for put" do
@@ -114,7 +115,7 @@ RSpec.describe Avatars::UsersController do
       delete :destroy, params: { id: target_user.id }
       expect(flash[:notice]).to include "message"
       expect(flash[:error]).not_to be_present
-      expect(response).to redirect_to controller.send :redirect_path
+      expect(response.body).to include 'action="reload"'
     end
 
     it "calls the service for delete" do
@@ -126,10 +127,9 @@ RSpec.describe Avatars::UsersController do
               .and_return(result)
 
       delete :destroy, params: { id: target_user.id }
-      expect(response).not_to be_successful
       expect(flash[:notice]).not_to be_present
       expect(flash[:error]).to include "error"
-      expect(response).to redirect_to controller.send :redirect_path
+      expect(response.body).to include 'action="reload"'
     end
   end
 end

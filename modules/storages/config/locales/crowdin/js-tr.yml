@@ -1,92 +1,109 @@
-#English strings go here
+---
 tr:
   js:
     storages:
       authentication_error: "%{storageType} ile yetkilendirme başarısız"
-      link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
-      link_existing_files: "Mevcut dosyaları bağla"
-      upload_files: "Dosyaları yükle"
+      choose_location: Konum seç
       drop_files: "%{name}'a yüklemek için dosyaları buraya bırakın."
-      drop_or_click_files: "Dosyaları %{name}'a yüklemek için buraya bırakın veya tıklayın."
-      login: "%{storageType} oturum açma"
-      login_to: "%{storageType}'da oturum açın"
-      no_connection: "%{storageType} bağlantısı yok"
-      open_storage: "%{storageType}'ı açın"
-      select_location: "Konum seç"
-      choose_location: "Konum seç"
-      new_folder: "Yeni klasör"
-      types:
-        nextcloud: "Nextcloud"
-        one_drive: "OneDrive"
-        sharepoint: "SharePoint"
-        default: "Depolama"
-      information:
-        authentication_error: "%{storageType} isteğinin yetkilendirilememesi bir hata."
-        connection_error: >
-          Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
-        live_data_error: "Dosya ayrıntıları getirilirken hata oluştu"
-        live_data_error_description: >
-          Bazı %{storageType} verileri getirilemedi. Lütfen bu sayfayı yeniden yüklemeyi deneyin veya %{storageType} yöneticinizle iletişime geçin.
-        no_file_links: "Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın."
-        not_logged_in: >
-          Bu iş paketiyle ilgili bir bağlantı eklemek, dosyaları görmek veya yüklemek için lütfen %{storageType} adresine giriş yapın.
-        suggest_logout: Çıkış yapıp tekrar girerek sorunun düzelip düzelmediğini deneyebilirsiniz.
-        suggest_relink: Aşağıdaki giriş yap düğmesi aralığı ile hesabınızı yeniden bağlamayı denemek sorunu çözer.
-      files:
-        already_existing_header: "Bu dosya zaten mevcut"
-        already_existing_body: >
-          Bu dosyayı yüklemeye çalıştığınız konumda "%{fileName}" adında bir dosya zaten mevcut. Ne yapmak istiyorsunuz?
-        directory_not_writeable: "Bu klasöre dosya eklemek için izniniz yok."
-        dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
-        dragging_folder: "%{storageType} yüklemesi klasörleri desteklemiyor."
-        empty_folder: "Bu klasör boş.\n"
-        empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
-        file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
-        project_folder_no_access: >
-          Proje klasörüne erişiminiz yok. Lütfen erişim için yöneticinizle iletişime geçin veya dosyayı başka bir konuma yükleyin.
-        managed_project_folder_not_available: >
-          Otomatik olarak yönetilen proje klasörü henüz bulunamadı. Lütfen biraz bekleyin, en yeni verileri almak için sayfayı yeniden yükleyin ve tekrar deneyin.
-        managed_project_folder_no_access: >
-          Yönetilen proje klasörüne henüz erişiminiz yok. Lütfen biraz bekleyin ve tekrar deneyin.
-        cannot_create_folder: Klasör oluşturulamadı. Özel karakterler ve semboller kullanmaktan kaçının ve klasörün zaten mevcut olmadığından emin olun.
-        upload_keep_both: "Her ikisini de koru"
-        upload_replace: "Değiştir"
+      drop_or_click_files: Dosyaları %{name}'a yüklemek için buraya bırakın veya tıklayın.
       file_links:
-        empty: >
-          Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
+        already_linked_directory: Bu dizin zaten bu çalışma paketine bağlı.
+        already_linked_file: Bu dosya zaten bu iş paketine bağlı.
         download: "%{fileName} dosyasını indir"
-        open: "Dosyayı depoda aç"
-        open_location: "Dosyayı konumda aç"
-        remove: "Dosya bağlantısını kaldır"
-        remove_confirmation: >
-          Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
-        remove_short: "Bağlantıyı kaldır"
-        select: "Dosyaları seç"
-        select_all: "Hepsini seç"
+        empty: 'Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
+
+          '
+        link_uploaded_file_error: 'Yakın zamanda yüklenen ''%{fileName}'' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
+
+          '
+        open: Dosyayı depoda aç
+        open_location: Dosyayı konumda aç
+        remove: Dosya bağlantısını kaldır
+        remove_confirmation: 'Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
+
+          '
+        remove_short: Bağlantıyı kaldır
+        select: Dosyaları seç
+        select_all: Hepsini seç
         selection:
-          zero: "Bağlanacak dosyaları seçin"
-          one: "1 dosya bağla"
+          zero: Bağlanacak dosyaları seçin
+          one: 1 dosya bağla
           other: "%{count} dosya bağla"
         success_create:
-          one: "1 dosya bağlantısı başarıyla oluşturuldu."
+          one: 1 dosya bağlantısı başarıyla oluşturuldu.
           other: "%{count} dosya bağlantısı başarıyla oluşturuldu."
-        upload_error:
-          default: >
-            Dosyanız (%{fileName}) yüklenemedi.
-          403: >
-            Dosyanız (%{fileName}) sistem kısıtlamaları nedeniyle yüklenemedi. Daha fazla bilgi için lütfen yöneticinize başvurun.
-          413: >
-            Dosyanız (%{fileName}) OpenProject'in %{storageType} adresine yükleyebileceğinden daha büyüktür. Önce doğrudan %{storageType} adresine yükleyebilir ve ardından dosyayı bağlayabilirsiniz.
-          507: >
-            Dosyanız (%{fileName}) depolama kotasının izin verdiğinden daha büyük. Bu kotayı değiştirmek için yöneticinize başvurun.
-          detail:
-            nextcloud: >
-              Lütfen Nextcloud Uygulaması "OpenProject Integration"ın en son sürümünün yüklü olduğunu kontrol edin ve daha fazla bilgi için yöneticinizle iletişime geçin.
-        link_uploaded_file_error: >
-          Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
         tooltip:
-          not_logged_in: "Bu dosyaya erişmek için lütfen depoda oturum açın."
-          view_not_allowed: "Bu dosyayı görme izniniz yok."
-          not_found: "Bu dosya bulunamadı."
-        already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
-        already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."
+          not_found: Bu dosya bulunamadı.
+          not_logged_in: Bu dosyaya erişmek için lütfen depoda oturum açın.
+          view_not_allowed: Bu dosyayı görme izniniz yok.
+        upload_error:
+          403: 'Dosyanız (%{fileName}) sistem kısıtlamaları nedeniyle yüklenemedi. Daha fazla bilgi için lütfen yöneticinize başvurun.
+
+            '
+          413: 'Dosyanız (%{fileName}) OpenProject''in %{storageType} adresine yükleyebileceğinden daha büyüktür. Önce doğrudan %{storageType} adresine yükleyebilir ve ardından dosyayı bağlayabilirsiniz.
+
+            '
+          507: 'Dosyanız (%{fileName}) depolama kotasının izin verdiğinden daha büyük. Bu kotayı değiştirmek için yöneticinize başvurun.
+
+            '
+          default: 'Dosyanız (%{fileName}) yüklenemedi.
+
+            '
+          detail:
+            nextcloud: 'Lütfen Nextcloud Uygulaması "OpenProject Integration"ın en son sürümünün yüklü olduğunu kontrol edin ve daha fazla bilgi için yöneticinizle iletişime geçin.
+
+              '
+      files:
+        already_existing_body: 'Bu dosyayı yüklemeye çalıştığınız konumda "%{fileName}" adında bir dosya zaten mevcut. Ne yapmak istiyorsunuz?
+
+          '
+        already_existing_header: Bu dosya zaten mevcut
+        cannot_create_folder: Klasör oluşturulamadı. Özel karakterler ve semboller kullanmaktan kaçının ve klasörün zaten mevcut olmadığından emin olun.
+        directory_not_writeable: Bu klasöre dosya eklemek için izniniz yok.
+        dragging_folder: "%{storageType} yüklemesi klasörleri desteklemiyor."
+        dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
+        empty_folder: 'Bu klasör boş.
+
+          '
+        empty_folder_location_hint: Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın.
+        file_not_selectable_location: Konum seçme sürecinde dosya seçmek mümkün değildir.
+        managed_project_folder_no_access: 'Yönetilen proje klasörüne henüz erişiminiz yok. Lütfen biraz bekleyin ve tekrar deneyin.
+
+          '
+        managed_project_folder_not_available: 'Otomatik olarak yönetilen proje klasörü henüz bulunamadı. Lütfen biraz bekleyin, en yeni verileri almak için sayfayı yeniden yükleyin ve tekrar deneyin.
+
+          '
+        project_folder_no_access: 'Proje klasörüne erişiminiz yok. Lütfen erişim için yöneticinizle iletişime geçin veya dosyayı başka bir konuma yükleyin.
+
+          '
+        upload_keep_both: Her ikisini de koru
+        upload_replace: Değiştir
+      information:
+        authentication_error: "%{storageType} isteğinin yetkilendirilememesi bir hata."
+        connection_error: 'Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
+
+          '
+        live_data_error: Dosya ayrıntıları getirilirken hata oluştu
+        live_data_error_description: 'Bazı %{storageType} verileri getirilemedi. Lütfen bu sayfayı yeniden yüklemeyi deneyin veya %{storageType} yöneticinizle iletişime geçin.
+
+          '
+        no_file_links: Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın.
+        not_logged_in: 'Bu iş paketiyle ilgili bir bağlantı eklemek, dosyaları görmek veya yüklemek için lütfen %{storageType} adresine giriş yapın.
+
+          '
+        suggest_logout: Çıkış yapıp tekrar girerek sorunun düzelip düzelmediğini deneyebilirsiniz.
+        suggest_relink: Aşağıdaki giriş yap düğmesi aralığı ile hesabınızı yeniden bağlamayı denemek sorunu çözer.
+      link_existing_files: Mevcut dosyaları bağla
+      link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
+      login: "%{storageType} oturum açma"
+      login_to: "%{storageType}'da oturum açın"
+      new_folder: Yeni klasör
+      no_connection: "%{storageType} bağlantısı yok"
+      open_storage: "%{storageType}'ı açın"
+      select_location: Konum seç
+      types:
+        default: Depolama
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Dosyaları yükle

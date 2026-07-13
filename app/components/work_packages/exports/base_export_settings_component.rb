@@ -40,7 +40,7 @@ module WorkPackages
       end
 
       def format
-        raise NotImplementedError, "Must be overridden in subclass"
+        raise SubclassResponsibilityError
       end
 
       def export_settings

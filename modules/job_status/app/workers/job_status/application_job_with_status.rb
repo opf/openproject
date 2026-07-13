@@ -53,8 +53,7 @@ module JobStatus
     ##
     # Get the current status object, if any
     def job_status
-      ::JobStatus::Status
-        .find_by(job_id:)
+      ::JobStatus::Status.find_by(job_id:)
     end
 
     ##

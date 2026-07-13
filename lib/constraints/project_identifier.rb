@@ -30,7 +30,7 @@
 
 module Constraints
   class ProjectIdentifier
-    REGEX = /(?!#{Regexp.union(Project::RESERVED_IDENTIFIERS)}\z)[\w-]+/
+    REGEX = /(?!#{Regexp.union(Projects::Identifier::RESERVED_IDENTIFIERS)}\z)[\w-]+/
 
     REGEX_ANCHORED = /\A#{REGEX}\z/
     private_constant :REGEX_ANCHORED

@@ -33,6 +33,26 @@ Rails.application.config.to_prepare do
   OpenProject::InplaceEdit::FieldRegistry.register(:description, OpenProject::Common::InplaceEditFields::RichTextAreaComponent)
   OpenProject::InplaceEdit::FieldRegistry.register(:status_explanation, OpenProject::Common::InplaceEditFields::RichTextAreaComponent)
 
+  # Register custom field edit components based on field format
+  # This mirrors the pattern used in CustomFields::CustomFieldRendering
+  custom_field_format_mappings = {
+    "string" => OpenProject::Common::InplaceEditFields::TextInputComponent,
+    "text" => OpenProject::Common::InplaceEditFields::RichTextAreaComponent,
+    "int" => OpenProject::Common::InplaceEditFields::IntegerInputComponent,
+    "float" => OpenProject::Common::InplaceEditFields::FloatInputComponent,
+    "date" => OpenProject::Common::InplaceEditFields::DateInputComponent,
+    "bool" => OpenProject::Common::InplaceEditFields::BooleanInputComponent,
+    "link" => OpenProject::Common::InplaceEditFields::LinkInputComponent,
+    "hierarchy" => OpenProject::Common::InplaceEditFields::HierarchyListComponent,
+    "weighted_item_list" => OpenProject::Common::InplaceEditFields::HierarchyListComponent,
+    "list" => OpenProject::Common::InplaceEditFields::SelectListComponent,
+    "user" => OpenProject::Common::InplaceEditFields::UserSelectListComponent,
+    "version" => OpenProject::Common::InplaceEditFields::VersionSelectListComponent,
+    "calculated_value" => OpenProject::Common::InplaceEditFields::CalculatedValueInputComponent
+  }
+
+  OpenProject::InplaceEdit::FieldRegistry.register_custom_field_format_mappings(custom_field_format_mappings)
+
   # Register the update handler per model
   OpenProject::InplaceEdit::UpdateRegistry.register(Project,
                                                     handler: OpenProject::InplaceEdit::Handlers::ProjectUpdate,

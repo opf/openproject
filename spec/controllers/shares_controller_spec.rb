@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe SharesController do
-  shared_let(:user) { create(:user) }
+  shared_let(:user) { create(:user, global_permissions: %i[view_all_principals]) }
   shared_let(:view_user) { create(:user) }
   shared_let(:edit_user) { create(:user) }
   shared_let(:project_query) { create(:project_query, user:) }

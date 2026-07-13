@@ -71,6 +71,7 @@ class Admin::BackupsController < ApplicationController
   end
 
   def delete_token
+    destroy_user_backups!
     Token::Backup.where(user: current_user).destroy_all
 
     flash[:info] = t("backup.text_token_deleted")
@@ -89,6 +90,13 @@ class Admin::BackupsController < ApplicationController
       .joins(:job_status)
       .where(job_status: { user:, status: })
       .last
+  end
+
+  def destroy_user_backups!
+    Backup
+      .joins(:job_status)
+      .where(job_status: { user: current_user })
+      .destroy_all
   end
 
   def token_reset_successful!(token)

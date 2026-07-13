@@ -19,100 +19,110 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 nl:
-  plugin_budgets_engine:
-    name: "Begrotingen"
   activerecord:
     attributes:
       budget:
-        author: "Auteur"
-        available: "Beschikbaar"
-        budget: "Gepland"
-        budget_ratio: "Uitgegeven (ratio)"
-        description: "Omschrijving"
-        spent: "Uitgegeven"
-        status: "Status"
-        subject: "Onderwerp"
-        type: "Soort kosten"
-        labor_budget: "Geplande arbeidskosten"
-        material_budget: "Geplande kosten per eenheid"
-        base_amount: "Base amount"
+        author: Auteur
+        available: Beschikbaar
+        base_amount: Base amount
+        budget: Gepland
+        budget_ratio: Uitgegeven (ratio)
+        description: Omschrijving
+        labor_budget: Geplande arbeidskosten
+        labor_budget_items: Planned labor costs
+        material_budget: Geplande kosten per eenheid
+        spent: Uitgegeven
+        status: Status
+        subject: Onderwerp
+        type: Soort kosten
       work_package:
-        budget_subject: "Titel van de begroting"
+        budget_subject: Titel van de begroting
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: "Begroting"
-      material_budget_item: "Eenheid"
+      budget: Begroting
+      labor_budget_item: Planned labor cost
+      material_budget_item: Eenheid
   activity:
     filter:
-      budget: "Begrotingen"
+      budget: Begrotingen
   attributes:
-    budget: "Begroting"
-  button_add_budget_item: "Geplande kosten toevoegen"
-  button_add_budget: "Begroting toevoegen"
-  button_add_cost_type: "Kostentype toevoegen"
-  button_cancel_edit_budget: "Bewerking budget annuleren"
-  button_cancel_edit_costs: "Bewerkkosten annuleren"
-  caption_labor: "Arbeid"
-  caption_labor_costs: "Werkelijke arbeidskosten"
-  caption_material_costs: "Werkelijke kosten per eenheid"
-  budgets_title: "Begrotingen"
+    budget: Begroting
   budgets:
     widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
       budget_by_cost_type:
-        title: "Budget by cost type"
         blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget included in %{portfolios}, %{subprograms} and %{subprojects}."
-          other: "Data aggregated from %{count} budgets included in %{portfolios}, %{subprograms} and %{subprojects}."
-        caption_simple:
-          one: "Data aggregated from %{count} budget."
-          other: "Data aggregated from %{count} budgets."
-        portfolio:
-          zero: "no portfolios"
-          one: "1 portfolio"
-          other: "%{count} portfolios"
-        subprogram:
-          zero: "no subprograms"
-          one: "1 subprogram"
-          other: "%{count} subprograms"
-        subproject:
-          zero: "no subprojects"
-          one: "1 subproject"
-          other: "%{count} subprojects"
-        view_details: "View budget details"
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Begrotingen
+  button_add_budget: Begroting toevoegen
+  button_add_budget_item: Geplande kosten toevoegen
+  button_add_cost_type: Kostentype toevoegen
+  button_cancel_edit_budget: Bewerking budget annuleren
+  button_cancel_edit_costs: Bewerkkosten annuleren
+  caption_labor: Arbeid
+  caption_labor_costs: Werkelijke arbeidskosten
+  caption_material_costs: Werkelijke kosten per eenheid
   events:
-    budget: "Begroting bewerkt"
-  help_click_to_edit: "Klik hier om te bewerken."
-  help_currency_format: "Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid."
-  help_override_rate: "Voer hier een waarde in om de standaardkoers te overschrijven."
-  label_budget: "Begroting"
-  label_budget_available: "Beschikbaar budget"
-  label_budget_id: "Begroting #%{id}"
-  label_budget_new: "Nieuwe begroting"
-  label_budget_planned: "Gepland budget"
-  label_budget_plural: "Begrotingen"
-  label_budget_spent: "Besteed budget"
-  label_budget_spent_ratio: "Uitgegeven budget ratio"
-  label_deliverable: "Begroting"
-  label_example_placeholder: "b.v. %{decimal}"
-  label_view_all_budgets: "Bekijk alle begrotingen"
-  label_yes: "Ja"
-  label_budget_totals: "Totalen"
-  label_budget_details: "Budget details"
-  notice_budget_conflict: "Werkpakketten moeten van hetzelfde project zijn."
-  notice_no_budgets_available: "Geen begrotingen beschikbaar."
-  permission_edit_budgets: "Begrotingen bewerken"
-  permission_view_budgets: "Bekijk begrotingen"
-  project_module_budgets: "Begrotingen"
-  text_budget_reassign_to: "Wijs ze opnieuw toe aan dit budget:"
-  text_budget_delete: "Verwijder het budget uit alle werkpakketten"
-  text_budget_destroy_assigned_wp: "Er zijn %{count} werkpakketten aan dit budget toegewezen. Wat wilt u doen?"
+    budget: Begroting bewerkt
+  help_click_to_edit: Klik hier om te bewerken.
+  help_currency_format: Formaat van getoonde valuta waarden. %n wordt vervangen door de valuta waarde, %u is vervangen door de valuta eenheid.
+  help_override_rate: Voer hier een waarde in om de standaardkoers te overschrijven.
+  label_budget: Begroting
+  label_budget_available: Beschikbaar budget
+  label_budget_details: Budget details
+  label_budget_id: 'Begroting #%{id}'
+  label_budget_new: Nieuwe begroting
+  label_budget_planned: Gepland budget
+  label_budget_plural: Begrotingen
+  label_budget_spent: Besteed budget
+  label_budget_spent_ratio: Uitgegeven budget ratio
+  label_budget_totals: Totalen
+  label_deliverable: Begroting
+  label_example_placeholder: b.v. %{decimal}
+  label_view_all_budgets: Bekijk alle begrotingen
+  label_yes: Ja
+  notice_budget_conflict: Werkpakketten moeten van hetzelfde project zijn.
+  notice_no_budgets_available: Geen begrotingen beschikbaar.
+  permission_edit_budgets: Begrotingen bewerken
+  permission_view_budgets: Bekijk begrotingen
+  plugin_budgets_engine:
+    name: Begrotingen
+  project_module_budgets: Begrotingen
+  text_budget_delete: Verwijder het budget uit alle werkpakketten
+  text_budget_destroy_assigned_wp: Er zijn %{count} werkpakketten aan dit budget toegewezen. Wat wilt u doen?
+  text_budget_reassign_to: 'Wijs ze opnieuw toe aan dit budget:'

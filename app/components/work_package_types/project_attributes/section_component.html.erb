@@ -1,0 +1,70 @@
+<%= component_wrapper do %>
+  <%=
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: "type-project-attribute-section-#{@project_custom_field_section.id}",
+        mb: 3,
+        classes: "op-project-custom-field-section",
+        test_selector: "type-project-attribute-section-#{@project_custom_field_section.id}"
+      )
+    ) do |list|
+      list.with_header(
+        title: @project_custom_field_section.name,
+        title_arguments: { font_weight: :bold }
+      ) do |header|
+        header.with_action_button(
+          tag: :a,
+          href: enable_all_path,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          "aria-label": t("types.edit.project_attributes.actions.label_enable_all"),
+          data: {
+            "turbo-method": :put,
+            "turbo-stream": true,
+            test_selector: "enable-all-type-project-attributes-#{@project_custom_field_section.id}"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
+          t("types.edit.project_attributes.actions.label_enable_all")
+        end
+
+        header.with_action_button(
+          tag: :a,
+          href: disable_all_path,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          "aria-label": t("types.edit.project_attributes.actions.label_disable_all"),
+          data: {
+            "turbo-method": :put,
+            "turbo-stream": true,
+            test_selector: "disable-all-type-project-attributes-#{@project_custom_field_section.id}"
+          }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
+          t("types.edit.project_attributes.actions.label_disable_all")
+        end
+      end
+
+      if @project_custom_fields.empty?
+        list.with_item do
+          render(Primer::Beta::Text.new(color: :subtle)) do
+            t("settings.project_attributes.label_no_project_custom_fields")
+          end
+        end
+      else
+        @project_custom_fields.each do |project_custom_field|
+          list.with_item(data: { "filter--filter-list-target": "searchItem" }) do
+            render(
+              WorkPackageTypes::ProjectAttributes::RowComponent.new(
+                type: @type,
+                project_custom_field:
+              )
+            )
+          end
+        end
+      end
+    end
+  %>
+<% end %>

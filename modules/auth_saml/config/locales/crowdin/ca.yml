@@ -1,156 +1,199 @@
+---
 ca:
   activerecord:
     attributes:
       saml/provider:
-        display_name: Nom
-        identifier: Identificador
-        secret: Secret
-        scope: Abast
         assertion_consumer_service_url: URL de l'ACS (Servei de consum d'Assertiu)
+        authn_requests_signed: Signa les sol·licituds d'autenticació SAML
+        certificate: Certificat utilitzat per OpenProject per a sol·licituds SAML
+        digest_method: Algorisme de resum
+        display_name: Nom
+        format: Format
+        icon: Icona personalitzada
+        identifier: Identificador
+        idp_cert: Certificat públic del proveïdor d'identitat
+        idp_entity_id: Identity provider entity ID
+        idp_slo_service_url: Punt final de sortida del proveïdor d'identitat
+        idp_sso_service_url: Punt d'inici de sessió del proveïdor d'identitat
         limit_self_registration: Limitar el registre per part dels propis usuaris
-        sp_entity_id: ID de l'entitat de servei
         metadata_url: URL de metadades del proveïdor d'identitat
         name_identifier_format: Format de l'identificador de nom
-        idp_sso_service_url: Punt d'inici de sessió del proveïdor d'identitat
-        idp_slo_service_url: Punt final de sortida del proveïdor d'identitat
-        idp_cert: Certificat públic del proveïdor d'identitat
-        authn_requests_signed: Signa les sol·licituds d'autenticació SAML
-        want_assertions_signed: Requereix respostes signades
-        want_assertions_encrypted: Requereix respostes encriptades
-        certificate: Certificat utilitzat per OpenProject per a sol·licituds SAML
         private_key: Clau privada corresponent per a sol·licituds SAML d'OpenProject
+        scope: Abast
+        secret: Secret
         signature_method: Algorisme de signatura
-        digest_method: Algorisme de resum
-        format: "Format"
-        icon: "Icona personalitzada"
+        sp_entity_id: ID de l'entitat de servei
+        want_assertions_encrypted: Requereix respostes encriptades
+        want_assertions_signed: Requereix respostes signades
     errors:
       models:
         saml/provider:
-          invalid_certificate: "No és un certificat vàlid formatat amb PEM: %{additional_message}"
-          invalid_private_key: "No és una clau privada amb format PEM vàlida: %{additional_message}"
-          certificate_expired: "Ha caducat i ja no es pot utilitzar."
-          unmatched_private_key: "No pertany al certificat donat"
+          certificate_expired: Ha caducat i ja no es pot utilitzar.
+          invalid_certificate: 'No és un certificat vàlid formatat amb PEM: %{additional_message}'
+          invalid_private_key: 'No és una clau privada amb format PEM vàlida: %{additional_message}'
+          unmatched_private_key: No pertany al certificat donat
   saml:
-    menu_title: Proveïdors SAML
+    delete_heading: Suprimeix aquest proveïdor SAML?
     delete_title: Suprimeix el proveïdor SAML
     info:
-      title: "Paràmetres de configuració del protocol SAML"
-      description: >
-        Utilitzeu aquests paràmetres per configurar la connexió del vostre proveïdor d'identitat a OpenProject.
+      description: 'Utilitzeu aquests paràmetres per configurar la connexió del vostre proveïdor d''identitat a OpenProject.
+
+        '
+      title: Paràmetres de configuració del protocol SAML
+    instructions:
+      authn_requests_signed: 'Si està marcada, OpenProject signarà l''AuthnRequest SAML. Haureu de proporcionar un certificat de signatura i una clau privada utilitzant els camps següents.
+
+        '
+      certificate: 'Introduïu el certificat amb format PEM X509 utilitzat per OpenProject per signar sol·licituds SAML.
+
+        '
+      digest_method: 'Seleccioneu l''algorisme de resum a utilitzar per a la signatura de sol·licitud SAML realitzada per OpenProject:  %{default_option}).
+
+        '
+      display_name: 'El nom del proveïdor. Això es mostrarà com el botó d''inici de sessió i a la llista de proveïdors.
+
+        '
+      documentation_link: 'Consulteu la nostra [documentació sobre la configuració dels proveïdors SAML](docs_url) per a més informació sobre aquestes opcions de configuració.
+
+        '
+      icon: 'Opcionalment proporciona un URL públic a un gràfic d''icones que es mostrarà al costat del nom del proveïdor.
+
+        '
+      idp_cert: 'Introduïu el certificat públic formatat per X509 PEM del proveïdor d''identitat. Podeu introduir diversos certificats separant-los amb una línia nova.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+
+        '
+      idp_slo_service_url: 'L''URL del punt final de tancament de sessió del proveïdor d''identitat.
+
+        '
+      idp_sso_service_url: 'L''URL del punt d''inici de sessió del proveïdor d''identitat
+
+        '
+      limit_self_registration: 'Si s''activa, els usuaris només poden registrar-se utilitzant aquest proveïdor en cas que la configuració de registre per part dels propis usuaris ho permet.
+
+        '
+      mapping: 'Configura el mapatge entre la resposta SAML i els atributs d''usuari a OpenProject. Podeu configurar diversos noms d''atribut a cercar. OpenProject escollirà el primer atribut disponible de la resposta SAML.
+
+        '
+      mapping_firstname: 'Atributs SAML de la resposta utilitzada per al nom de pila.
+
+        '
+      mapping_lastname: 'Atributs SAML de la resposta utilitzada per al cognom.
+
+        '
+      mapping_login: 'Atributs SAML de la resposta utilitzada per a l''inici de sessió.
+
+        '
+      mapping_mail: 'Atributs SAML de la resposta utilitzada per al correu electrònic de l''usuari.
+
+        '
+      mapping_uid: 'Atribut SAML a utilitzar per a l''ID d''usuari intern. Deixeu-ho buit per utilitzar l''atribut instada
+
+        '
+      metadata_for_idp: 'Aquesta informació pot ser sol·licitada pel vostre proveïdor d''identitat SAML.
+
+        '
+      metadata_none: 'El vostre proveïdor d''identitat no té un punt final de metadades ni una opció de baixada XML. Podeu configurar-lo manualment.
+
+        '
+      metadata_url: 'El vostre proveïdor d''identitat proporciona un URL de metadades.
+
+        '
+      metadata_xml: 'El vostre proveïdor d''identitat proporciona una baixada XML de metadades.
+
+        '
+      name_identifier_format: 'Estableix el format de l''identificador de nom que s''utilitzarà per a l''afirmació SAML.
+
+        '
+      private_key: 'Introduïu la clau privada amb format PEM X509 per al certificat anterior. Això ha de ser una clau privada RSA.
+
+        '
+      request_uid: 'Atribut SAML a sol·licitar l''ID d''usuari intern. Per defecte, s''utilitzarà el name_id per a aquest camp.
+
+        '
+      requested_attributes: 'Aquests atributs s''afegeixen a la sol·licitud SAML XML per comunicar-se al proveïdor d''identitat que atribueix OpenProject requereix.
+
+        '
+      requested_format: 'El format de l''atribut sol·licitat. Això s''utilitza per a especificar el format de l''atribut a la sol·licitud SAML. Vegeu [documentació sobre la configuració dels atributs sol·licitats](docs_url) per a més informació.
+
+        '
+      signature_method: 'Seleccioneu l''algorisme de signatura a utilitzar per a la signatura de sol·licitud SAML realitzada per OpenProject  (Default: %{default_option}).
+
+        '
+      sp_entity_id: 'L''ID de l''entitat del proveïdor de serveis (SP). De vegades també es fa referència a l''audiència. Aquest és l''identificador únic del client de la instància OpenProject.
+
+        '
+      sp_metadata_endpoint: 'Aquesta és l''URL on hi ha disponibles les metadades SAML d''OpenProject. Opcionalment l''utilitzeu per configurar el vostre proveïdor d''identitat.
+
+        '
+      want_assertions_encrypted: 'Si està activada, requereix que el proveïdor d''identitat encripti la resposta d''afirmació utilitzant el parell de certificats que proporcioneu.
+
+        '
+      want_assertions_signed: 'Si està marcada, OpenProject requerirà respostes signades del proveïdor d''identitat utilitzant el seu propi parell de claus de certificat. OpenProject verificarà la signatura contra el certificat des de la secció de configuració bàsica.
+
+        '
+    menu_title: Proveïdors SAML
     metadata_parser:
-      success: "S'ha actualitzat correctament la configuració utilitzant les metadades del proveïdor d'identitat."
-      invalid_url: "L'URL de les metadades proporcionades no és vàlid. Proporciona un URL HTTP(s)."
-      error: "Ha fallat en recuperar les metadades del proveïdor d'identitat: %{error}"
+      error: 'Ha fallat en recuperar les metadades del proveïdor d''identitat: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      invalid_url: L'URL de les metadades proporcionades no és vàlid. Proporciona un URL HTTP(s).
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      success: S'ha actualitzat correctament la configuració utilitzant les metadades del proveïdor d'identitat.
     providers:
-      label_empty_title: "Encara no s'ha configurat cap proveïdor SAML."
-      label_empty_description: "Afegiu un proveïdor per veure'ls aquí."
+      attribute_mapping: Associació d'atributs
+      attribute_mapping_text: 'Els següents camps controlen quins atributs proporcionats pel proveïdor d''identitat SAML s''utilitzen per proporcionar atributs d''usuari a OpenProject
+
+        '
+      label_add_new: Nou proveïdor d'identitat SAML
       label_automatic_configuration: Configuració automàtica
+      label_configuration_details: Punts finals i certificats del proveïdor d'identitat
+      label_configuration_encryption: Signatures i xifratge
+      label_edit: Edita el proveïdor d'identitat SAML%{name}
+      label_empty_description: Afegiu un proveïdor per veure'ls aquí.
+      label_empty_title: Encara no s'ha configurat cap proveïdor SAML.
+      label_mapping: Mapatge
       label_metadata: Metadades
       label_metadata_endpoint: Punt final de les metadades OpenProject
       label_openproject_information: Informació d'OpenProject
-      label_configuration_details: "Punts finals i certificats del proveïdor d'identitat"
-      label_configuration_encryption: "Signatures i xifratge"
-      label_add_new: Nou proveïdor d'identitat SAML
-      label_edit: Edita el proveïdor d'identitat SAML%{name}
+      label_requested_attribute_for: 'Atribut sol·licitat per a: %{attribute}'
       label_uid: ID d'usuari intern
-      label_mapping: Mapatge
-      label_requested_attribute_for: "Atribut sol·licitat per a: %{attribute}"
+      metadata:
+        dialog: 'Aquesta és l''URL on hi ha disponibles les metadades SAML d''OpenProject. Opcionalment l''utilitzeu per configurar el vostre proveïdor d''identitat:'
       no_results_table: Encara no s'ha definit cap proveïdor d'identitat SAML.
       notice_created: A new SAML identity provider was successfully created.
       plural: Proveïdors d'identitat SAML
-      singular: Proveïdor d'identitat SAML
-      requested_attributes: Atributs demanats
-      attribute_mapping: Associació d'atributs
-      attribute_mapping_text: >
-        Els següents camps controlen quins atributs proporcionats pel proveïdor d'identitat SAML s'utilitzen per proporcionar atributs d'usuari a OpenProject
-      metadata:
-        dialog: "Aquesta és l'URL on hi ha disponibles les metadades SAML d'OpenProject. Opcionalment l'utilitzeu per configurar el vostre proveïdor d'identitat:"
-      upsell:
-        title: "Single Sign-On (SSO) amb SAML"
-        description: Connecta OpenProject a un proveïdor d'identitat SAML
       request_attributes:
-        title: 'Atributs demanats'
-        legend: >
-          Aquests atributs s'afegeixen a les metadades XML SAML per significar al proveïdor d'identificació que requereix l'OpenProject. És possible que encara hàgiu de configurar explícitament el vostre proveïdor d'identitat per enviar aquests atributs. Consulteu la documentació del vostre IDP.
-        name: 'Clau d''atribut sol·licitada'
-        format: 'Format de l''atribut'
+        format: Format de l'atribut
+        legend: 'Aquests atributs s''afegeixen a les metadades XML SAML per significar al proveïdor d''identificació que requereix l''OpenProject. És possible que encara hàgiu de configurar explícitament el vostre proveïdor d''identitat per enviar aquests atributs. Consulteu la documentació del vostre IDP.
+
+          '
+        name: Clau d'atribut sol·licitada
+        title: Atributs demanats
+      requested_attributes: Atributs demanats
       section_headers:
-        configuration: "Configuració primària"
-        attributes: "Atributs"
+        attributes: Atributs
+        configuration: Configuració primària
       section_texts:
-        display_name: "Configura el nom de visualització del proveïdor SAML."
-        metadata: "Configuració de pre-emplenament mitjançant un URL de metadades o enganxant XML de metadades"
-        metadata_form: "Si el vostre proveïdor d'identitat té un punt final de metadades o una descàrrega XML, afegiu-lo a continuació per a emplenar prèviament la configuració."
-        metadata_form_banner: "L'edició de les metadades pot sobreescriure els valors existents en altres seccions."
-        configuration: "Configura els URL del punt final per al proveïdor d'identitat, els certificats i altres opcions SAML."
-        configuration_metadata: "Aquesta informació s'ha emplenat prèviament utilitzant les metadades subministrades. En la majoria dels casos, no requereixen edició."
-        encryption: "Configura les signatures d'afirmació i el xifrat per a les sol·licituds i respostes SAML."
-        encryption_form: "Opcionalment pot voler encriptar la resposta d'afirmació, o tenir les sol·licituds d'OpenProject signades."
-        mapping: "Ajusta manualment el mapatge entre la resposta SAML i els atributs d'usuari a OpenProject."
-        requested_attributes: "Definiu el conjunt d'atributs que se sol·licitaran a la sol·licitud SAML enviada al vostre proveïdor d'identitat."
-      seeded_from_env: "Aquest proveïdor es va sembrar a partir de la configuració de l'entorn. No es pot editar."
+        configuration: Configura els URL del punt final per al proveïdor d'identitat, els certificats i altres opcions SAML.
+        configuration_metadata: Aquesta informació s'ha emplenat prèviament utilitzant les metadades subministrades. En la majoria dels casos, no requereixen edició.
+        display_name: Configura el nom de visualització del proveïdor SAML.
+        encryption: Configura les signatures d'afirmació i el xifrat per a les sol·licituds i respostes SAML.
+        encryption_form: Opcionalment pot voler encriptar la resposta d'afirmació, o tenir les sol·licituds d'OpenProject signades.
+        mapping: Ajusta manualment el mapatge entre la resposta SAML i els atributs d'usuari a OpenProject.
+        metadata: Configuració de pre-emplenament mitjançant un URL de metadades o enganxant XML de metadades
+        metadata_form: Si el vostre proveïdor d'identitat té un punt final de metadades o una descàrrega XML, afegiu-lo a continuació per a emplenar prèviament la configuració.
+        metadata_form_banner: L'edició de les metadades pot sobreescriure els valors existents en altres seccions.
+        requested_attributes: Definiu el conjunt d'atributs que se sol·licitaran a la sol·licitud SAML enviada al vostre proveïdor d'identitat.
+      seeded_from_env: Aquest proveïdor es va sembrar a partir de la configuració de l'entorn. No es pot editar.
+      singular: Proveïdor d'identitat SAML
+      upsell:
+        description: Connecta OpenProject a un proveïdor d'identitat SAML
+        title: Single Sign-On (SSO) amb SAML
     settings:
-      metadata_none: "No tinc metadades"
-      metadata_url: "URL de les metadades"
-      metadata_xml: "URL de les metadades"
-    instructions:
-      documentation_link: >
-        Consulteu la nostra [documentació sobre la configuració dels proveïdors SAML](docs_url) per a més informació sobre aquestes opcions de configuració.
-      display_name: >
-        El nom del proveïdor. Això es mostrarà com el botó d'inici de sessió i a la llista de proveïdors.
-      metadata_none: >
-        El vostre proveïdor d'identitat no té un punt final de metadades ni una opció de baixada XML. Podeu configurar-lo manualment.
-      metadata_url: >
-        El vostre proveïdor d'identitat proporciona un URL de metadades.
-      metadata_xml: >
-        El vostre proveïdor d'identitat proporciona una baixada XML de metadades.
-      limit_self_registration: >
-        Si s'activa, els usuaris només poden registrar-se utilitzant aquest proveïdor en cas que la configuració de registre per part dels propis usuaris ho permet.
-      sp_entity_id: >
-        L'ID de l'entitat del proveïdor de serveis (SP). De vegades també es fa referència a l'audiència. Aquest és l'identificador únic del client de la instància OpenProject.
-      idp_sso_service_url: >
-        L'URL del punt d'inici de sessió del proveïdor d'identitat
-      idp_slo_service_url: >
-        The URL of the identity provider logout endpoint.
-      idp_cert: >
-        Introduïu el certificat públic formatat per X509 PEM del proveïdor d'identitat. Podeu introduir diversos certificats separant-los amb una línia nova.
-      name_identifier_format: >
-        Estableix el format de l'identificador de nom que s'utilitzarà per a l'afirmació SAML.
-      sp_metadata_endpoint: >
-        Aquesta és l'URL on hi ha disponibles les metadades SAML d'OpenProject. Opcionalment l'utilitzeu per configurar el vostre proveïdor d'identitat.
-      mapping: >
-        Configura el mapatge entre la resposta SAML i els atributs d'usuari a OpenProject. Podeu configurar diversos noms d'atribut a cercar. OpenProject escollirà el primer atribut disponible de la resposta SAML.
-      mapping_login: >
-        Atributs SAML de la resposta utilitzada per a l'inici de sessió.
-      mapping_mail: >
-        Atributs SAML de la resposta utilitzada per al correu electrònic de l'usuari.
-      mapping_firstname: >
-        Atributs SAML de la resposta utilitzada per al nom de pila.
-      mapping_lastname: >
-        Atributs SAML de la resposta utilitzada per al cognom.
-      mapping_uid: >
-        Atribut SAML a utilitzar per a l'ID d'usuari intern. Deixeu-ho buit per utilitzar l'atribut instada
-      request_uid: >
-        Atribut SAML a sol·licitar l'ID d'usuari intern. Per defecte, s'utilitzarà el name_id per a aquest camp.
-      requested_attributes: >
-        Aquests atributs s'afegeixen a la sol·licitud SAML XML per comunicar-se al proveïdor d'identitat que atribueix OpenProject requereix.
-      requested_format: >
-        El format de l'atribut sol·licitat. Això s'utilitza per a especificar el format de l'atribut a la sol·licitud SAML. Vegeu [documentació sobre la configuració dels atributs sol·licitats](docs_url) per a més informació.
-      authn_requests_signed: >
-        Si està marcada, OpenProject signarà l'AuthnRequest SAML. Haureu de proporcionar un certificat de signatura i una clau privada utilitzant els camps següents.
-      want_assertions_signed: >
-        Si està marcada, OpenProject requerirà respostes signades del proveïdor d'identitat utilitzant el seu propi parell de claus de certificat. OpenProject verificarà la signatura contra el certificat des de la secció de configuració bàsica.
-      want_assertions_encrypted: >
-        Si està activada, requereix que el proveïdor d'identitat encripti la resposta d'afirmació utilitzant el parell de certificats que proporcioneu.
-      certificate: >
-        Introduïu el certificat amb format PEM X509 utilitzat per OpenProject per signar sol·licituds SAML.
-      private_key: >
-        Introduïu la clau privada amb format PEM X509 per al certificat anterior. Això ha de ser una clau privada RSA.
-      signature_method: >
-        Seleccioneu l'algorisme de signatura a utilitzar per a la signatura de sol·licitud SAML realitzada per OpenProject  (Default: %{default_option}).
-      digest_method: >
-        Seleccioneu l'algorisme de resum a utilitzar per a la signatura de sol·licitud SAML realitzada per OpenProject:  %{default_option}).
-      icon: >
-        Opcionalment proporciona un URL públic a un gràfic d'icones que es mostrarà al costat del nom del proveïdor.
-      metadata_for_idp: >
-        Aquesta informació pot ser sol·licitada pel vostre proveïdor d'identitat SAML.
+      metadata_none: No tinc metadades
+      metadata_url: URL de les metadades
+      metadata_xml: URL de les metadades

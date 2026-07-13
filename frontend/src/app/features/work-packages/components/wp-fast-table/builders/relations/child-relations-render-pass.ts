@@ -1,13 +1,18 @@
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { RowRenderInfo } from '../primary-render-pass';
 import {
   RelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/relations-render-pass';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ChildRelationsRenderPass extends RelationsRenderPass {
   renderType = 'child_relations';
 
   label = this.I18n.t('js.relation_labels.child');
+
+  @LazyInject() apiV3Service:ApiV3Service;
+
+  private loadingMissingTargets = false;
 
   public render() {
     // If no relation column active, skip this pass
@@ -16,7 +21,9 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = _.clone(this.tablePass.renderedOrder);
+    const rendered = [...this.tablePass.renderedOrder];
+    const missingChildIds:string[] = [];
+
     rendered.forEach((row:RowRenderInfo) => {
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
@@ -25,7 +32,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
 
       // If the work package has no children, ignore
       const { workPackage } = row;
-      if (workPackage.children?.length === 0) {
+      if (!workPackage.children?.length) {
         return;
       }
 
@@ -36,9 +43,16 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
       }
 
       const column = this.wpTableColumns.findById(expanded)!;
+
       // Render the child relations
       workPackage.children.forEach((child) => {
-        const target = this.states.workPackages.get(child.id!).value!;
+        const target = this.states.workPackages.get(child.id!).value;
+
+        if (!target) {
+          missingChildIds.push(child.id!);
+          return;
+        }
+
         // Build each relation row (currently sorted by order defined in API)
         const [relationRow] = this.relationRowBuilder.buildEmptyRelationRow(
           workPackage,
@@ -49,9 +63,30 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
         this.renderRelationRow(relationRow, row, this.label, column, workPackage, target, 'children');
       });
     });
+
+    this.loadMissingTargets(missingChildIds);
   }
 
   public get isApplicable() {
     return this.wpTableColumns.hasChildRelationsColumn();
+  }
+
+  private loadMissingTargets(ids:string[]) {
+    const uniqueIds = Array.from(new Set(ids));
+
+    if (uniqueIds.length === 0 || this.loadingMissingTargets) {
+      return;
+    }
+
+    this.loadingMissingTargets = true;
+
+    void this.apiV3Service.work_packages.requireAll(uniqueIds)
+      .then(() => {
+        this.loadingMissingTargets = false;
+        this.tablePass.workPackageTable.redrawTable();
+      })
+      .catch(() => {
+        this.loadingMissingTargets = false;
+      });
   }
 }

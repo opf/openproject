@@ -15,12 +15,10 @@ Change your personal settings under Account settings (earlier called My account)
 | [Open account settings](#open-account-settings)           | How to open your personal settings in OpenProject            |
 | [Edit your user information](#edit-your-user-information) | How to change the name or email address in OpenProject       |
 | [Language and region](#language-and-region-settings)      | How to change the language and the time zone in OpenProject  |
-| [Change password](#change-password)                       | How to change my password                                    |
-| [Two-factor authentication](#two-factor-authentication)   | How to set up a two-factor authentication                    |
+| [Security](#security)                                     | How to change your password and set up two factor authentication in OpenProject |
 | [Access tokens](#access-tokens)                           | How to set up access tokens in OpenProject                   |
-| [Session management](#sessions-management)                | How to manage your OpenProject sessions                      |
-| [Notifications settings](#notifications-settings)         | How to change in-app notifications in OpenProject            |
-| [Email reminders](#email-reminders)                       | How to change email reminders sent by OpenProject            |
+| [Session management](#session-management)                 | How to manage your OpenProject sessions                      |
+| [Notification and email](#notification-and-email)         | How to change in-app notifications and email reminders in OpenProject |
 | [Set an Avatar](#set-an-avatar)                           | How to set an avatar in OpenProject and change the profile picture |
 | [Delete account](#delete-account)                         | How to delete my own account                                 |
 
@@ -50,7 +48,7 @@ Here you can **update** or delete your profile. If you're changing the email add
 
 You can delete your own account in **Account settings**.
 
-To delete your account, navigate to *Account settings* -> *Account* and click the **Delete** button in the top right corner.  You will be asked to confirm that you understand that this deletion is permanent. 
+To delete your account, navigate to _Account settings_ -> _Account_ and click the **Delete** button in the top right corner.  You will be asked to confirm that you understand that this deletion is permanent. 
 
 ![Confirmation dialog to delete account under OpenProject account settings](openproject_account_settings_delete_account.png)
 
@@ -64,7 +62,6 @@ If you cannot see the entry **Delete** button under your **Account settings**, m
 Within the **Language and region** section of **Account settings** page you can change the language of OpenProject and adapt the time zone.
 
 ![OpenProject personal account settings](openproject_account_settings_language_and_regions.png)
-
 
 ### Change your language
 
@@ -86,7 +83,7 @@ Pressing the **Save** button will save your changes.
 
 ## Interface
 
-Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into three sections: *Look and feel*, *Alerts* and *Backlogs module*.
+Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into two sections: _Look and feel_ and _Alerts_.
 
 ### Look and feel
 
@@ -139,76 +136,69 @@ If you choose newest on top, the latest comment will appear on top in the Activi
 If you use a screen reader or want to avoid accidentally triggering an action with a  shortcut, you can choose to disable default [keyboard shortcuts](../../user-guide/keyboard-shortcuts-access-keys/) by selecting the respective option.
 
 ### Alerts
+
 Under **Alerts** section you can activate a **warning if you are leaving a work package with unsaved changes**.
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
 ![Alerts section under interface settings in OpenProject account settings](openproject_account_settings_interface_alerts.png)
 
-### Backlogs settings
+## Security
 
-There are two personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum/):
+To reset your password, add a two-factor authentication and generate backup codes, navigate to  **Account settings** and choose **Security** in the menu.
 
-**Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it.
-
-**Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
-
-![Backlogs settings under Interface settings in OpenProject account settings](openproject_account_settings_interface_backlogs_module.png)
-
-## Change password
-
-In order to reset your password, navigate to  **Account settings** and choose **Change password** in the menu.
-
-![Change password under account settings in OpenProject](openproject_account_settings_change_password.png)
+### Change password
 
 Enter your current password.
 
-Enter your new password and confirm it a second time.
+Enter your new password and ensure all password requirements are met.
 
-Press the **Save** button in order to confirm the password changes.
+Confirm it a second time.
+
+Press the **Change password** button in order to confirm the password changes.
+
+![Change password under security section in user account settings](openproject_account_settings_change_password.png)
 
 > [!NOTE]
 > You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
-## Two-factor authentication
+### Two-factor authentication devices
 
-In order to activate the two-factor authentication for your OpenProject installation, navigate to your **Account settings** and choose the **Two-factor authentication** in the menu. If you have not added any device yet, this list will be empty.
+In order to activate the two-factor authentication for your OpenProject installation, click the  **+2FA device** button.  If you have not added any device yet, this list will be empty.
 
-![Two-factor authentication in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
+![Two-factor authentication under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
 
-If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set as a default option.
 
-![List of all registered 2FA devices in OpenProject](openproject_account_settings_2fa_overview.png)
+![List of two-factor authenticated devices](openproject_account_settings_two_factor_authentication_devices_overview.png)
 
-In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device** and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
+In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
 
 - Mobile phone
 - App-based authenticator
 - WebAuthn
 
-![Authentication options under OpenProject account settings](openproject_account_settings_authentication_options.png)
-
-To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
+![Authentication options under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication_options.png)
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
 ### Use your mobile phone
 
-You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number and click the green **Continue** button.
+You can use your mobile phone as a 2FA device. The field _Identifier_ will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
 
 ![Add a new mobile phone as a 2FA device in OpenProject](openproject_account_settings_two_factor_authentication_mobile.png)
 
 ### Use your app-based authenticator
 
-Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy.
+Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy. 
 
-Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
+Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
 
 Click the green **Continue** button to finish the registration.
 
 ![openproject_my_account_authenticator_app](openproject_account_settings_authenticator_app.png)
 
-### Use the WebAuth authentication
+### Use the WebAuthn authentication
 
 Use Web Authentication to register a FIDO2 device (like a YubiKey) or  the secure enclave of your mobile device as a second factor. After you have chosen a name, you can click the green **Continue**  button.
 
@@ -218,9 +208,11 @@ Your browser will prompt you to present your WebAuthn device (depending on your 
 
 ### Backup codes
 
-If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Click the **Generate backup codes** button to generate a new set of backup codes.
 
 If you have created backup codes before, they will be invalidated and will no longer work.
+
+![Generate backup codes under security section in OpenProject account settings](openproject_account_settings_backup_codes.png)
 
 ## Access tokens
 
@@ -236,11 +228,11 @@ Provider tokens are created in OpenProject and allow external applications to ac
 
 #### API
 
-API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [*Administration -> API and webhooks*](../../system-admin-guide/api-and-webhooks/).
+API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs. If no API tokens were created yet, this list will be empty. You can enable API REST web service and CORS under [_Administration -> API and webhooks_](../../system-admin-guide/api-and-webhooks/).
 
 ![Access tokens in OpenProject account settings](openproject_account_settings_access_tokens_api.png)
 
-To create a new API Token, click the **+ API Token**, name the token in the form that opens and click *Create* button. 
+To create a new API Token, click the **+ API Token**, name the token in the form that opens and click _Create_ button. 
 
 ![Name and create a new API token in OpenProject](openproject_account_settings_access_tokens_api_create_new.png)
 
@@ -271,6 +263,7 @@ You will then see a message informing you that the the token und the iCal URL ar
 ![OpenProject calendar access token is invalid](openproject_account_settings_access_tokens_calendar_invalid.png)
 
 #### iCalendar for meetings
+
 iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients. 
 
 This list will be empty if you have no calendar subscriptions yet. Once you subscribe to a meetings calendar, a list of all the iCalendar meeting tokens will appear here. 
@@ -290,13 +283,13 @@ You will then see the newly generated token.
 
 ![A newly generated iCal meeting subscription token in OpenProject account settings](openproject_account_settings_access_tokens_subscribe_meetings_form_confirmation.png)
 
-To delete an iCal meeting token under Account settings click the *Delete* icon next to the respective token name. 
+To delete an iCal meeting token under Account settings click the _Delete_ icon next to the respective token name. 
 
 ![Delete icon to remove a meeting iCal token under OpenProject account settings](openproject_account_settings_access_tokens_meetings_delete.png)
 
 #### OAuth
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [*Administration-> Authentication*](../../system-admin-guide/authentication/).
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth applications can be created under [_Administration-> Authentication_](../../system-admin-guide/authentication/).
 
 OAuth tokens are not created directly in OpenProject. Instead, the authorization process is started from the external application. During setup, you will be redirected to OpenProject to confirm access and then returned to the external application to complete the connection.
 
@@ -336,8 +329,7 @@ If you have not yet linked your account to any of the integrations activated for
 
 ![File storages access tokens under Account settings in OpenProject](openproject_account_settings_access_tokens_file_storages.png)
 
-
-## Sessions management
+## Session management
 
 To view and manage your OpenProject sessions navigate to **Account settings** and choose **Sessions management** from the menu.
 
@@ -352,21 +344,27 @@ Sessions expire automatically according to your instance’s authentication sett
 > [!NOTE]
 > Closing a browser does not necessarily terminate the session. It might still be displayed in the list and will be reactivated if you open the browser. This depends on both your browser's and the OpenProject instance's settings.
 
-## Notifications settings
+## Notification and email
 
-To configure the notification settings which you receive from the system, navigate to **Account settings** and choose **Notifications settings** in the menu.
+To configure the notification settings which you receive from the system, navigate to **Account settings** and choose **Notification and email** from the menu.
+
+### Notification settings
 
 ![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
+
+![More notification settings in OpenProject account settings](openproject_account_settings_more_notification_settings.png)
 
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
 Please also see our detailed [in-app notifications](../../user-guide/notifications/) guide to gain a general understanding.
 
-## Email reminders
+### Email reminders
 
-To configure the email reminders which you receive from the system, navigate to **Account settings** and choose **Email reminders** in the menu. Your system administrator can also set them for you or change the global default settings.
+To configure the email reminders which you receive from the system, switch to the **email reminders tab.** Your system administrator can also set them for you or change the global default settings.
 
-![Email reminders in OpenProject account settings](openproject_account_settings_email_reminders.png)
+![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
+
+![Second part of the page of email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
 
 You can choose between several email reminders.
 
@@ -375,7 +373,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
 > [!IMPORTANT]
-> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder.
+> If you have selected the _immediately when someone mentions me_ option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder.
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 

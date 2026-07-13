@@ -484,6 +484,7 @@ RSpec.describe "filter work packages", :js do
 
         # content contains single hit with numbers
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         filters.add_filter_by("Attachment content",
                               "contains",
@@ -495,6 +496,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # content does not contain
         filters.add_filter_by("Attachment content",
@@ -507,6 +509,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_with_attachment_a
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # ignores special characters
         filters.add_filter_by("Attachment content",
@@ -519,6 +522,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentContent"
+        loading_indicator_saveguard
 
         # file name contains
         filters.add_filter_by("Attachment file name",
@@ -531,6 +535,7 @@ RSpec.describe "filter work packages", :js do
         wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter "attachmentFileName"
+        loading_indicator_saveguard
 
         # file name does not contain
         filters.add_filter_by("Attachment file name",
@@ -556,26 +561,36 @@ RSpec.describe "filter work packages", :js do
   end
 
   describe "datetime filters" do
+    shared_let(:business_day_at_noon) { Time.find_zone!("Europe/Kyiv").local(2025, 1, 8, 12, 0, 0) }
+
+    before do
+      travel_to(business_day_at_noon)
+    end
+
+    after do
+      travel_back
+    end
+
     shared_let(:wp_updated_today) do
       create(:work_package,
              subject: "Created today",
              project:,
-             created_at: Time.current.change(hour: 12),
-             updated_at: Time.current.change(hour: 12))
+             created_at: business_day_at_noon,
+             updated_at: business_day_at_noon)
     end
     shared_let(:wp_updated_3d_ago) do
       create(:work_package,
              subject: "Created 3d ago",
              project:,
-             created_at: 3.days.ago,
-             updated_at: 3.days.ago)
+             created_at: business_day_at_noon - 3.days,
+             updated_at: business_day_at_noon - 3.days)
     end
     shared_let(:wp_updated_5d_ago) do
       create(:work_package,
              subject: "Created 5d ago",
              project:,
-             created_at: 5.days.ago,
-             updated_at: 5.days.ago)
+             created_at: business_day_at_noon - 5.days,
+             updated_at: business_day_at_noon - 5.days)
     end
 
     it "filters on date by created_at (Regression #28459)" do

@@ -43,7 +43,8 @@ RSpec.describe OpenProject::Common::InplaceEditFields::RichTextAreaComponent,
           render component_class.new(
             form:,
             model:,
-            attribute: :name
+            attribute: :name,
+            label: "Name"
           )
         end
       end
@@ -53,5 +54,19 @@ RSpec.describe OpenProject::Common::InplaceEditFields::RichTextAreaComponent,
     expect(rendered_content).to have_css("opce-ckeditor-augmented-textarea")
     expect(rendered_content).to have_button(I18n.t(:button_save))
     expect(rendered_content).to have_button(I18n.t(:button_cancel))
+  end
+
+  it "omits action buttons when show_action_buttons is false" do
+    component_class = described_class
+    render_in_view_context(project) do |model|
+      primer_form_with(url: "/foo", model:) do |f|
+        render_inline_form(f) do |form|
+          render component_class.new(form:, model:, attribute: :name, label: "Name", show_action_buttons: false)
+        end
+      end
+    end
+
+    expect(rendered_content).to have_no_button(I18n.t(:button_save))
+    expect(rendered_content).to have_no_button(I18n.t(:button_cancel))
   end
 end

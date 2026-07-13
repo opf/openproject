@@ -1,17 +1,29 @@
+import { sortBy } from 'lodash-es';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
   selector: 'op-wp-table-configuration-settings-tab',
   templateUrl: './display-settings-tab.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  readonly wpTableSums = inject(WorkPackageViewSumService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
@@ -40,14 +52,6 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
     },
   };
 
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableGroupBy:WorkPackageViewGroupByService,
-    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-    readonly wpTableSums:WorkPackageViewSumService,
-  ) { }
-
   public onSave() {
     // Update hierarchy state
     this.wpTableHierarchies.setEnabled(this.displayMode === 'hierarchy');
@@ -62,7 +66,7 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
 
   public updateGroup(href:string) {
     this.displayMode = 'grouped';
-    this.currentGroup = _.find(this.availableGroups, (group) => group.href === href) || null;
+    this.currentGroup = this.availableGroups.find((group) => group.href === href) ?? null;
   }
 
   ngOnInit() {
@@ -77,8 +81,9 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
     void this.wpTableGroupBy
       .onReady()
       .then(() => {
-        this.availableGroups = _.sortBy(this.wpTableGroupBy.available, 'name');
+        this.availableGroups = sortBy(this.wpTableGroupBy.available, 'name');
         this.currentGroup = this.wpTableGroupBy.current || this.availableGroups[0];
+        this.cdRef.markForCheck();
       });
   }
 }

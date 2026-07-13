@@ -11,18 +11,18 @@ import {
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  @LazyInject() querySpace:IsolatedQuerySpace;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // Remember which rows were already rendered
   readonly rendered:Record<string, boolean> = {};
@@ -51,7 +51,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     this.hierarchies = this.wpTableHierarchies.current;
 
-    _.each(this.workPackageTable.originalRowIndex, (row) => {
+    Object.values(this.workPackageTable.originalRowIndex).forEach((row) => {
       row.object.getAncestors().forEach((ancestor:WorkPackageResource) => {
         this.parentsWithVisibleChildren[ancestor.id!] = true;
       });
@@ -132,7 +132,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         // Append all new elements
         elements = elements.concat(newElements);
         // Remove duplicates (Regression #29652)
-        this.deferred[parent.id!] = _.uniqBy(elements, (el) => el.id!);
+        const seen = new Set<string>();
+        this.deferred[parent.id!] = elements.filter((el) => {
+          if (seen.has(el.id!)) { return false; }
+          seen.add(el.id!);
+          return true;
+        });
         return true;
       }
       // Otherwise, continue the chain upwards
@@ -208,7 +213,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     });
 
     // Insert this row to parent
-    const parent = _.last(ancestors);
+    const parent = ancestors.at(-1);
     this.insertUnderParent(row, parent!);
   }
 

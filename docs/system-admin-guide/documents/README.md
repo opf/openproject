@@ -13,9 +13,9 @@ This page describes the available settings for the **Documents** module in the O
 
 > [!NOTE]
 >
-> Prior to OpenProject 17.0 document types were called *categories* and were configured under *Administration → Files → Categories*.
+> Prior to OpenProject 17.0 document types were called _categories_ and were configured under _Administration → Files → Categories_.
 
-To create or edit document categories in OpenProject, navigate to *Administration → Documents*. Here, you will automatically see all existing document types:
+To create or edit document categories in OpenProject, navigate to _Administration → Documents_. Here, you will automatically see all existing document types:
 
 - The column **Type** lists all existing document type names
 - The column **Documents** shows the number of documents of this specific type
@@ -49,13 +49,14 @@ To remove a document type, open the **More (three dots)** menu on the right end 
 ![Delete a document type in OpenProject administration](openproject_system_guide_documents_types_delete_button.png)
 
 You will see a dialogue informing you of the consequences.
+
 - If a document type is unused, this has no significant consequences.
 
   ![A warning message when deleting an unused document type in OpenProject](openproject_system_guide_documents_types_delete_message_type_unused.png)
 
 - If a document type is used, you will need to select a different type for reassigning
 
-  ![A warning message when deleting a used document type in OpenProject, asking to reassing documents to a different type](openproject_system_guide_documents_types_delete_message_type_used.png)
+  ![A warning message when deleting a used document type in OpenProject, asking to reassigning documents to a different type](openproject_system_guide_documents_types_delete_message_type_used.png)
 
 - If a document type is the last existing one, you will not be able to delete it. There must always be at least one document type configured. In this case you can create another document type first.
 
@@ -91,6 +92,7 @@ Create a hocuspocus directory:
 mkdir hocuspocus
 cd hocuspocus
 ```
+
 Then you can create a `docker-compose.yml` file with the following content inside the `hocuspocus` directory:
 
 ```yaml
@@ -103,6 +105,7 @@ services:
     ports:
       - "127.0.0.1:1234:1234"
 ```
+
 Replace the `<hocuspocus_image>` with the image from [here](https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml#L122).
 
 Run hocuspocus:
@@ -122,6 +125,7 @@ Create `/etc/openproject/addons/apache2/custom/vhost/hocuspocus.conf` with the f
 ProxyPass        /hocuspocus  ws://127.0.0.1:1234/hocuspocus
 ProxyPassReverse /hocuspocus  ws://127.0.0.1:1234/hocuspocus
 ```
+
 **For Debian/Ubuntu-based systems, run the following commands:**
 
 Enable the `proxy_wstunnel` module:
@@ -144,13 +148,12 @@ sudo  service httpd restart
 
 #### 3. Enable real-time collaboration
 
-Manually configure the server URL & secret in the *Documents* administration settings in OpenProject.
+Manually configure the server URL & secret in the _Documents_ administration settings in OpenProject.
 Here you need to provide the URL in the following format: `wss://<your_op_hostname>/hocuspocus`.
 If you are using HTTP in your instance, the protocol has to be `ws://` instead of `wss://`.
 
 > [!NOTE]
 > The secret must be identical in both op-blocknote-hocuspocus and OpenProject.
-
 
 ![Administration settings for real-time documents collaboration in OpenProject](openproject_system_guide_documents_real_time_collaboration_settings.png)
 

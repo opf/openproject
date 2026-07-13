@@ -45,7 +45,7 @@ module Ldap
     end
 
     def perform
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     protected

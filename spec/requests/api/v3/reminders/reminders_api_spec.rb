@@ -130,7 +130,7 @@ RSpec.describe API::V3::Reminders::RemindersAPI do
 
       it_behaves_like "error response",
                       404, "NotFound",
-                      "The requested resource could not be found."
+                      "The reminder you are looking for cannot be found or has been deleted."
     end
   end
 
@@ -191,7 +191,7 @@ RSpec.describe API::V3::Reminders::RemindersAPI do
 
       it_behaves_like "error response",
                       404, "NotFound",
-                      "The requested resource could not be found."
+                      "The reminder you are looking for cannot be found or has been deleted."
     end
   end
 end

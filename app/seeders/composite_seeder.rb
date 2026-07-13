@@ -50,7 +50,7 @@ class CompositeSeeder < Seeder
   end
 
   def data_seeder_classes
-    raise NotImplementedError, "has to be implemented by subclasses"
+    raise SubclassResponsibilityError
   end
 
   def discovered_seeders
@@ -71,7 +71,7 @@ class CompositeSeeder < Seeder
   end
 
   def namespace
-    raise NotImplementedError, "has to be implemented by subclasses"
+    raise SubclassResponsibilityError
   end
 
   ##

@@ -1,35 +1,36 @@
+---
 it:
-  grids:
-    label_widget_in_grid: "Widget contenuto nella griglia %{grid_name}"
-    widgets:
-      empty: "Questo widget è attualmente vuoto."
-      not_available: "Questo widget non è disponibile."
-      subitems:
-        title: "Sottoelementi"
-        no_results: "Non ci sono elementi figli visibili."
-        view_all_subitems: "Visualizza tutti i sottoelementi"
-        button_text: "Sottoelemento"
-      members:
-        title: "Membri"
-        no_results: "Nessun membro visibile."
-        view_all_members: "Visualizza tutti i membri"
-        show_members_count: "Mostra tutti i %{count} membri"
-        x_more:
-          one: "e un altro membro."
-          other: "e altri %{count} membri."
-      news:
-        no_results: "Niente di nuovo da segnalare."
   activerecord:
     attributes:
       grids/grid:
-        page: "Pagina"
-        row_count: "Numero di righe"
-        column_count: "Numero di colonne"
-        widgets: "Widget"
-        scope: "Ambito"
+        column_count: Numero di colonne
+        page: Pagina
+        row_count: Numero di righe
+        scope: Ambito
+        widgets: Widget
     errors:
       models:
         grids/grid:
-          overlaps: 'sovrapposizione.'
-          outside: 'è fuori dalla griglia.'
-          end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+          end_before_start: il valore finale deve essere più grande del valore iniziale.
+          outside: è fuori dalla griglia.
+          overlaps: sovrapposizione.
+  grids:
+    label_widget_in_grid: Widget contenuto nella griglia %{grid_name}
+    widgets:
+      empty: Questo widget è attualmente vuoto.
+      members:
+        no_results: Nessun membro visibile.
+        show_members_count: Mostra tutti i %{count} membri
+        title: Membri
+        view_all_members: Visualizza tutti i membri
+        x_more:
+          one: e un altro membro.
+          other: e altri %{count} membri.
+      news:
+        no_results: Niente di nuovo da segnalare.
+      not_available: Questo widget non è disponibile.
+      subitems:
+        button_text: Sottoelemento
+        no_results: Non ci sono elementi figli visibili.
+        title: Sottoelementi
+        view_all_subitems: Visualizza tutti i sottoelementi

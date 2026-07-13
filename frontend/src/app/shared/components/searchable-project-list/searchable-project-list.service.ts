@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ApiV3ListFilter,
   ApiV3ListParameters,
@@ -20,6 +20,11 @@ const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
 
 @Injectable()
 export class SearchableProjectListService {
+  readonly http = inject(HttpClient);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly currentProjectService = inject(CurrentProjectService);
+  readonly configurationService = inject(ConfigurationService);
+
   private _searchText = '';
   private searchText$ = new BehaviorSubject<string>('');
   private loadingEnabled$ = new BehaviorSubject<boolean>(false);
@@ -84,12 +89,12 @@ export class SearchableProjectListService {
         return of([[] as IProject[], searchText, loadingEnabled as boolean, favoriteIds]);
       }
 
-      const nameFilter:ApiV3ListFilter[] = [];
+      const searchFilter:ApiV3ListFilter[] = [];
       if (searchText.length > 0) {
-        nameFilter.push(['name', '~', [searchText]]);
+        searchFilter.push(['typeahead', '**', [searchText]]);
       }
 
-      return this.fetchProjects(nameFilter)
+      return this.fetchProjects(searchFilter)
                  .pipe(map((collection) => [collection._embedded.elements, searchText, loadingEnabled as boolean, favoriteIds]));
     }),
     switchMap(([projects, searchText, loadingEnabled, favoriteIds]:[IProject[],string,boolean,string[]]) => {
@@ -97,11 +102,11 @@ export class SearchableProjectListService {
       // such as favorites or the preloaded projects (current project, selected projects)
       // in a filtered view, it's legitimate for them to be missing, thus we skip extra fetching if a search text is present
       if(!loadingEnabled || searchText.length > 0) {
-        return of([projects, false as boolean]);
+        return of([projects, false]);
       }
 
       return this.pipeConcatProjects(projects, this.preloadProjectIds.concat(favoriteIds))
-                 .pipe(map((p) => [p, true as boolean]));
+                 .pipe(map((p) => [p, true]));
     }),
     switchMap(([projects, enhancePreloadedProjects]:[IProject[],boolean]) => {
       // These can be fetched in parallel to ancestors, since they share ancestors with preloadProjectIds entries and thus
@@ -122,13 +127,6 @@ export class SearchableProjectListService {
       return this.pipeConcatProjects(projects, this.extractAncestors(projects), extraFetches);
     })
   );
-
-  constructor(
-    readonly http:HttpClient,
-    readonly apiV3Service:ApiV3Service,
-    readonly currentProjectService:CurrentProjectService,
-    readonly configurationService:ConfigurationService,
-  ) { }
 
   /** Causes fetching of a new project list and enables reloads of the project list, when the searchText changes. */
   public enableLoading():void {
@@ -301,7 +299,7 @@ export class SearchableProjectListService {
 
     const listParent = findSearchableListParent(event.currentTarget as HTMLElement);
     const focused = document.activeElement;
-    (listParent?.querySelector('.spot-list--item-action_active') as HTMLElement)?.click();
+    listParent?.querySelector<HTMLElement>('.spot-list--item-action_active')?.click();
     (focused as HTMLElement)?.focus();
   }
 
@@ -329,7 +327,14 @@ export class SearchableProjectListService {
     return forkJoin(extraFetches).pipe(
       map((collections) => collections.map((collection) => collection._embedded.elements)),
       map((collections) => projects.concat(...collections)),
-      map((allProjects) => _.uniqBy(allProjects, (p) => p.id)),
+      map((allProjects) => {
+        const seen = new Set<ID>();
+        return allProjects.filter((p) => {
+          if (seen.has(p.id)) { return false; }
+          seen.add(p.id);
+          return true;
+        });
+      }),
     );
   }
 

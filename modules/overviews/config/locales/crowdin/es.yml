@@ -1,5 +1,6 @@
+---
 es:
   overviews:
-    label_home: "Inicio %{workspace_type}"
-    label_dashboard: "Panel de control"
-    label_overview: "Resumen"
+    label_dashboard: Panel de control
+    label_home: Inicio %{workspace_type}
+    label_overview: Resumen

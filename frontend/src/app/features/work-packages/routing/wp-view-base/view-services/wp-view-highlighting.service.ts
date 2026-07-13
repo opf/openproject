@@ -1,6 +1,6 @@
+import { isEqual } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -13,13 +13,8 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight> {
-  public constructor(
-    readonly states:States,
-    readonly Banners:BannersService,
-    readonly querySpace:IsolatedQuerySpace,
-  ) {
-    super(querySpace);
-  }
+  readonly states = inject(States);
+  readonly Banners = inject(BannersService);
 
   initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
     super.initialize(query, results, schema);
@@ -42,11 +37,11 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
     }
 
     // 3. Is name in selected attributes ?
-    return !!_.find(this.current.selectedAttributes, (attr:HalResource) => attr.id === name);
+    return this.current.selectedAttributes?.some((attr:HalResource) => attr.id === name) ?? false;
   }
 
   public get current():WorkPackageViewHighlight {
-    const value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight);
+    const value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight); // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
     return this.filteredValue(value);
   }
 
@@ -69,7 +64,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
 
   public hasChanged(query:QueryResource) {
     return query.highlightingMode !== this.current.mode
-      || !_.isEqual(query.highlightedAttributes, this.current.selectedAttributes);
+      || !isEqual(query.highlightedAttributes, this.current.selectedAttributes);
   }
 
   public applyToQuery(query:QueryResource):boolean {
@@ -82,7 +77,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   private filteredValue(value:WorkPackageViewHighlight):WorkPackageViewHighlight {
-    if (_.isEmpty(value.selectedAttributes)) {
+    if (!value.selectedAttributes?.length) {
       value.selectedAttributes = undefined;
     }
 

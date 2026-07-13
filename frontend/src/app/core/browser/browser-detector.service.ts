@@ -1,9 +1,9 @@
-import { Inject, Injectable, DOCUMENT } from '@angular/core';
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class BrowserDetector {
-  constructor(@Inject(DOCUMENT) private documentElement:Document) {
-  }
+  private documentElement = inject<Document>(DOCUMENT);
+
 
   /**
    * Detect mobile browser based on the Rails determined UA

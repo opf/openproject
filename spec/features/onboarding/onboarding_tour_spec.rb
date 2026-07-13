@@ -54,7 +54,7 @@ RSpec.describe "onboarding tour for new users",
       select "Deutsch", from: "user_language"
       click_button "Save"
 
-      expect(page).to have_text "Neueste sichtbare Projekte in dieser Instanz."
+      expect(page).to have_text "Favorisierte Projekte"
     end
 
     it "I can start the tour without selecting a language" do

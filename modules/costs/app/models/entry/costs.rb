@@ -61,7 +61,7 @@ module Entry::Costs
     end
 
     def cost_attribute
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
   end
 end

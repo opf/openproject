@@ -10,7 +10,7 @@ module FormFields
 
     def initialize(property, selector: nil)
       @property = property
-      @selector = selector || "[data-qa-field-name='#{property_name}']"
+      @selector = selector || "[data-test-selector='#{property_name}']"
     end
 
     def expect_visible

@@ -43,7 +43,7 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
   let(:user) { build_stubbed(:user) }
 
   subject do
-    render_inline(described_class.new(row: scheduled_meeting, table:))
+    render_inline(described_class.new(row: row_model, table:))
     page
   end
 
@@ -52,8 +52,15 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
   end
 
   describe "download ics file" do
-    let(:meeting) { build_stubbed(:meeting, id: 1234, project:, recurring_meeting:) }
-    let(:scheduled_meeting) { build_stubbed(:scheduled_meeting, id: 999, meeting:, recurring_meeting:) }
+    let(:meeting) do
+      build_stubbed(:meeting,
+                    id: 1234,
+                    project:,
+                    recurring_meeting:,
+                    recurrence_start_time: 1.week.from_now,
+                    start_time: 1.week.from_now)
+    end
+    let(:row_model) { meeting }
 
     it "links to the correct meeting (Regression #61462)" do
       expect(subject).to have_link "Download iCalendar event",
@@ -73,8 +80,11 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
         end
       end
 
-      context "with a scheduled meeting" do
-        let(:scheduled_meeting) { build_stubbed(:scheduled_meeting, :scheduled, recurring_meeting:) }
+      context "with a planned (not-yet-instantiated) occurrence" do
+        let(:occurrence_time) { 1.day.from_now }
+        let(:row_model) do
+          RecurringMeetings::PlannedOccurrence.new(recurrence_start_time: occurrence_time, recurring_meeting:)
+        end
 
         context "without a current project" do
           it "shows cancel menu item" do
@@ -82,7 +92,7 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
                                          href: delete_scheduled_dialog_project_recurring_meeting_path(
                                            project,
                                            recurring_meeting,
-                                           start_time: scheduled_meeting.start_time.iso8601
+                                           start_time: occurrence_time.iso8601
                                          )
           end
         end
@@ -93,20 +103,26 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
           it "shows cancel menu item" do
             expect(subject).to have_link "Cancel this occurrence",
                                          href: delete_scheduled_dialog_project_recurring_meeting_path(
-                                           project, recurring_meeting, start_time: scheduled_meeting.start_time.iso8601
+                                           project, recurring_meeting, start_time: occurrence_time.iso8601
                                          )
           end
         end
       end
 
       context "with an instantiated meeting" do
-        let(:scheduled_meeting) { build_stubbed(:scheduled_meeting, recurring_meeting:, meeting:) }
-        let(:meeting) { build_stubbed(:meeting) }
+        let(:meeting) do
+          build_stubbed(:meeting,
+                        project:,
+                        recurring_meeting:,
+                        recurrence_start_time: 1.day.from_now,
+                        start_time: 1.day.from_now)
+        end
+        let(:row_model) { meeting }
 
         context "without a current project" do
           it "shows cancel menu item" do
             expect(subject).to have_link "Cancel this occurrence",
-                                         href: delete_dialog_project_meeting_path(project, scheduled_meeting.meeting)
+                                         href: delete_dialog_project_meeting_path(project, meeting)
           end
         end
 
@@ -115,8 +131,42 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
 
           it "shows cancel menu item" do
             expect(subject).to have_link "Cancel this occurrence",
-                                         href: delete_dialog_project_meeting_path(project, scheduled_meeting.meeting)
+                                         href: delete_dialog_project_meeting_path(project, meeting)
           end
+        end
+      end
+
+      context "with an ongoing instantiated meeting" do
+        let(:meeting) do
+          build_stubbed(:meeting,
+                        project:,
+                        recurring_meeting:,
+                        recurrence_start_time: 30.minutes.ago,
+                        start_time: 30.minutes.ago,
+                        duration: 2)
+        end
+        let(:row_model) { meeting }
+
+        it "shows cancel menu item" do
+          expect(subject).to have_link "Cancel this occurrence",
+                                       href: delete_dialog_project_meeting_path(project, meeting)
+        end
+      end
+
+      context "with a past instantiated meeting" do
+        let(:meeting) do
+          build_stubbed(:meeting,
+                        project:,
+                        recurring_meeting:,
+                        recurrence_start_time: 2.days.ago,
+                        start_time: 2.days.ago,
+                        duration: 1)
+        end
+        let(:row_model) { meeting }
+
+        it "shows delete menu item" do
+          expect(subject).to have_link "Delete occurrence",
+                                       href: delete_dialog_project_meeting_path(project, meeting)
         end
       end
     end

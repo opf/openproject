@@ -59,8 +59,8 @@ The content of a hover card can be defined in two ways:
 
 1. Via a turbo frame that is fetched from a URL. This is the preferred way if you want to lazily load the contents
    of the hover card when needed.
-2. Via an existing DOM element that is present (but hidden) in the document on page load. This is useful when the
-   content is already present and no additional fetching is necessary.
+2. Via an existing `<template>` element that is present (but hidden) in the document on page load. This is useful when the
+   content is already there and no additional fetching of data is necessary.
 
 ### Asynchronous hover cards via turbo frame
 
@@ -114,8 +114,8 @@ Note that the user example is simplified. For actual use in the application, it 
 ### Static hover cards via existing DOM elements
 
 If the content of a hover card is already present in the DOM, it is possible to define hover cards contents by
-pointing to the ID of an existing element. To do so, you must provide the attribute `data-hover-card-popover-id` on the
-trigger element.
+pointing to the ID of an existing element. To do so, you must provide the attribute `data-hover-card-popover-template-id`
+on the trigger element.
 
 **Trigger**:
 ```html
@@ -124,37 +124,32 @@ trigger element.
 
     <!-- A hover card will be shown when hovering over this link: -->
     <a href="work_packages/14/activity"
-       data-hover-card-popover-id="work-package-hover-card-14"
+       data-hover-card-popover-template-id="work-package-hover-card-14"
        data-hover-card-trigger-target="trigger">
       #14
     </a>
   </body>
 ```
-The hover card content can be placed at a convenient place in the DOM. The following attributes must be set on the
-element to ensure it will be displayed correctly:
 
-1. The ID that was inserted in the trigger's `data-hover-card-popover-id` attribute.
-2. The element from 1 should be placed into a container that is hidden. You *can* use the
-   class `op-hover-card--hidden-container` for that or define your own CSS to hide the container.
+The hover card content can be placed at a convenient place in the DOM. You must use a
+[template element](https://www.w3schools.com/TagS/tag_template.asp) for that purpose. Conveniently, the content will
+be hidden automatically until the card is displayed.
+It is required to assign the ID that was inserted in the trigger's `data-hover-card-popover-template-id` attribute.
 
-On page load, the hover card will be hidden automatically. When hovering over the trigger, the hover card will be
-shown next to it.
+When hovering over the trigger, the hover card will be rendered floating next to it.
 
-Please note that the hover card "blueprint" provided in the DOM will be cloned and moved into another location as part
-of displaying the card. The cloned elements ID will be removed to avoid duplicate IDs in the DOM.
-
-This is to say: do not apply logic or styling that depends on the ID of the hover card element itself, as the ID
-will remain with the hidden original element.
+Please note that technically, the contents of the template will be *copied* into a popover element that is then
+placed next to the trigger. To avoid ID clashes, do not use IDs in the contents of the hover card.
 
 **Card content**:
 ```html
   <!-- Somewhere else in the DOM... -->
 
-  <!-- Hidden container, so that the popover is hidden on page load -->
-  <div class="op-hover-card--hidden-container">
-    <!-- Actual hover card contents that will be rendered in a popover. Note the ID: -->
-    <div id="work-package-hover-card-14" class="your-styling-classes">
+  <!-- Template, so that the popover is hidden on page load. Note the ID: -->
+  <template id="work-package-hover-card-14">
+    <!-- Actual hover card contents that will be rendered in a popover: -->
+    <div class="your-styling-classes">
       <p>Hover card with description text of work package 14!</p>
     </div>
-  </div>
+  </template>
 ```

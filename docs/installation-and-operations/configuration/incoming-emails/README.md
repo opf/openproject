@@ -86,15 +86,15 @@ In order to use the more secure Gmail API method, some extra initial setup in go
 7. Give the service account editor permissions and click "Done"
 8. Click on the new service account, go to the "Keys" tab, and add a new key.
 9. Save the JSON key file
-    ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
+    _**Note: Do not give anyone access to this JSON file as it contains the private key to your service account!**_
 10. Go to [admin.google.com](https://admin.google.com)
 11. Select Security > Access and Data Control > API Controls
 12. Go to "Domain-Wide Delegation"
 13. Add new API Client
 14. Open JSON key file and copy "client_id" number
 15. Enter `https://www.googleapis.com/auth/gmail.modify` into the scopes
-    ***Note: Modify permissions are necessary here to mark emails as read***
-    ***This is so the service account can access all accounts in your Domain***
+    _**Note: Modify permissions are necessary here to mark emails as read**_
+    _**This is so the service account can access all accounts in your Domain**_
 
 Available arguments for the Gmail API rake task that specify the email behavior are
 
@@ -164,7 +164,10 @@ If a matching account is found, the mail handler impersonates the user to create
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
 to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=accept`
 
-**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise cloud work package generation by emails can only be triggered by registered email addresses.
+> [!CAUTION]
+> This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise cloud work package generation by emails can only be triggered by registered email addresses.
+>
+> The same is true for `unknown_user=create`. This will effectively allow users to create new accounts in the system, same as with the self registration setting.
 
 **Users with mail suffixes**
 

@@ -49,29 +49,29 @@ module Storages
             {
               icon: :alert,
               icon_color: :danger,
-              text: I18n.t("storages.health.checks.failures", count: tally[:failure])
+              text: I18n.t("health_reports.common.checks.failures", count: tally[:failure])
             }
           in { warning: 1.. }
             {
               icon: :alert,
               icon_color: :attention,
-              text: I18n.t("storages.health.checks.warnings", count: tally[:warning])
+              text: I18n.t("health_reports.common.checks.warnings", count: tally[:warning])
             }
           else
-            { icon: :"check-circle", icon_color: :success, text: I18n.t("storages.health.checks.success") }
+            { icon: :"check-circle", icon_color: :success, text: I18n.t("health_reports.common.checks.success") }
           end
         end
 
         def summary_description
           text = if @result.healthy?
-                   I18n.t("storages.health.summary.success")
+                   I18n.t("health_reports.common.summary.success")
                  elsif @result.unhealthy?
-                   I18n.t("storages.health.summary.failure")
+                   I18n.t("health_reports.common.summary.failure")
                  else
-                   I18n.t("storages.health.summary.warning")
+                   I18n.t("health_reports.common.summary.warning")
                  end
 
-          "#{text} #{I18n.t('storages.health.checked', datetime: helpers.format_time(@result.latest_timestamp))}"
+          "#{text} #{I18n.t('storages.health.checked', datetime: helpers.format_time(@result.created_at))}"
         end
       end
     end

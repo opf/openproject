@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Project description widget", :js, with_flag: { new_project_overview: true } do
+RSpec.describe "Project description widget", :js do
   include TestSelectorFinders
 
   let!(:type) { create(:type) }
@@ -75,18 +75,15 @@ RSpec.describe "Project description widget", :js, with_flag: { new_project_overv
 
       # Edit the project description
       # Find the editable description field
-      description_field = Turbo::TextEditorField.new(page,
-                                                     "description",
-                                                     selector:)
+      description_field = Components::Common::InplaceEditField.new(portfolio, :description)
+
       # Activate the field for editing
-      description_field.activate!
+      wait_for_turbo_stream { description_field.open_field }
+      wait_for_ckeditor
 
       # Set a new description
       new_description = "This is a **test** project description with markdown formatting."
-      description_field.set_value(new_description)
-
-      # Save the changes
-      description_field.save!
+      wait_for_turbo_stream { description_field.fill_and_submit_value(name: "project[description]", val: new_description, ckeditor: true) }
 
       tested_page.expect_and_dismiss_flash message: I18n.t("js.notice_successful_update")
 

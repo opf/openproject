@@ -30,54 +30,69 @@
 
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { PROVIDER_AUTH_ERROR_EVENT, ProviderAuthErrorKind } from 'core-stimulus/services/documents/token-refresh.service';
+import {
+  PROVIDER_AUTH_ERROR_EVENT,
+  ProviderAuthErrorKind,
+} from 'core-stimulus/services/documents/token-refresh.service';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import * as Y from 'yjs';
 
-function useConnectionTimeout(provider:HocuspocusProvider | undefined, timeoutMs = 5000) {
-  const [hasTimedOut, setHasTimedOut] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+/**
+ * Calls `onTimeout` if the provider has not synced within `timeoutMs`.
+ * The timer is cancelled proactively when the provider emits 'synced',
+ * so it never fires after a successful connection.
+ */
+function useConnectionTimeout(provider:HocuspocusProvider, onTimeout:() => void, timeoutMs = 5000) {
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>|null>(null);
 
   useEffect(() => {
-    setHasTimedOut(false);
-    if (!provider) return;
-
     if (provider.synced) {
-      setHasTimedOut(false);
       return;
     }
 
-    timeoutRef.current = setTimeout(() => {
-      if (!provider.synced) {
-        setHasTimedOut(true);
-      }
-    }, timeoutMs);
-
-    return () => {
-      if (timeoutRef.current) {
+    const cancel = () => {
+      if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
     };
-  }, [provider, timeoutMs]);
 
-  return hasTimedOut;
+    timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = null;
+      onTimeout();
+    }, timeoutMs);
+
+    // Cancel the timer as soon as the provider syncs rather than waiting
+    // for the full timeout to elapse.
+    provider.on('synced', cancel);
+
+    return () => {
+      provider.off('synced', cancel);
+      cancel();
+    };
+  }, [provider, onTimeout, timeoutMs]);
 }
 
+/**
+ * Subscribes to the provider's 'synced' and 'disconnect' events and
+ * forwards them to the supplied callbacks.
+ *
+ * Listeners are registered before the initial synced check so that a
+ * sync event emitted between registration and the check is never lost.
+ * If the provider is already synced on mount, `onSynced` is called
+ * immediately.
+ */
 function useCollaborationProvider(
-  provider:HocuspocusProvider | undefined,
+  provider:HocuspocusProvider,
   onSynced:() => void,
   onDisconnect:() => void,
 ) {
   useEffect(() => {
-    if (!provider) return;
+    provider.on('synced', onSynced);
+    provider.on('disconnect', onDisconnect);
 
     if (provider.synced) {
       onSynced();
     }
-
-    provider.on('synced', onSynced);
-    provider.on('disconnect', onDisconnect);
 
     return () => {
       provider.off('synced', onSynced);
@@ -86,74 +101,93 @@ function useCollaborationProvider(
   }, [provider, onSynced, onDisconnect]);
 }
 
-function useLocalDocumentSync(doc:Y.Doc, inputField:HTMLInputElement, enabled:boolean) {
+/**
+ * Listens for PROVIDER_AUTH_ERROR_EVENT on the document and calls `onAuthError` when it fires.
+ * The event is dispatched when authentication fails on the Hocuspocus WebSocket connection.
+ */
+function useProviderAuthError(onAuthError:() => void) {
   useEffect(() => {
-    if (!enabled) return;
-
-    const updateInput = () => {
-      const update = Y.encodeStateAsUpdate(doc);
-      const b64 = btoa(String.fromCharCode(...update));
-      inputField.value = b64;
+    const handler = (event:Event) => {
+      const { kind, message } = (event as CustomEvent<{ kind:ProviderAuthErrorKind; message:string }>).detail;
+      debugLog(`(BlockNote Editor) Provider auth error: ${kind} - ${message}`);
+      onAuthError();
     };
 
-    doc.on('update', updateInput);
-
-    return () => {
-      doc.off('update', updateInput);
-      doc.destroy();
-    };
-  }, [doc, inputField, enabled]);
+    document.addEventListener(PROVIDER_AUTH_ERROR_EVENT, handler);
+    return () => document.removeEventListener(PROVIDER_AUTH_ERROR_EVENT, handler);
+  }, [onAuthError]);
 }
 
-export function useCollaboration(
-  provider:HocuspocusProvider | undefined,
-  doc:Y.Doc,
-  inputField:HTMLInputElement,
-) {
+/**
+ * Tracks the real-time connection state of a HocuspocusProvider and
+ * exposes it as React state for the BlockNote editor.
+ *
+ * Returns:
+ * - `isLoading`   — true while waiting for the first sync after mount.
+ * - `offlineMode` — true when the connection is lost or timed out; the editor
+ *                   is hidden entirely (blocking) because there is no local
+ *                   cache to edit from.
+ *
+ * Transitions:
+ *   mount → synced              : isLoading false, offlineMode false
+ *   mount → timeout (5s)        : isLoading false, offlineMode true
+ *   connected → disconnect      : offlineMode true  (after 5s grace period)
+ *   offline → re-synced         : offlineMode false
+ *   any → auth error            : isLoading false, offlineMode true
+ */
+function useCollaboration(provider:HocuspocusProvider) {
   const [isLoading, setIsLoading] = useState(true);
-  const [connectionError, setConnectionError] = useState(false);
+  const [offlineMode, setOfflineMode] = useState(false);
+  const disconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearDisconnectTimer = useCallback(() => {
+    if (disconnectTimerRef.current !== null) {
+      clearTimeout(disconnectTimerRef.current);
+      disconnectTimerRef.current = null;
+    }
+  }, []);
 
   const handleSynced = useCallback(() => {
     debugLog('(BlockNote Editor) synced with collaboration server');
+    clearDisconnectTimer();
     setIsLoading(false);
-    setConnectionError(false);
-  }, []);
+    setOfflineMode(false);
+  }, [clearDisconnectTimer]);
 
   const handleDisconnect = useCallback(() => {
-    debugLog('(BlockNote Editor) Disconnected from collaboration server');
-    setConnectionError(true);
+    debugLog('(BlockNote Editor) Disconnected — starting grace period');
+    setIsLoading(false);
+    // Don't go offline immediately. Start a grace timer so that transient
+    // reconnections (idle heartbeat, token-expiry reconnect) never surface
+    // to the user. If synced fires within the window the timer is cancelled.
+    disconnectTimerRef.current ??= setTimeout(() => {
+      disconnectTimerRef.current = null;
+      debugLog('(BlockNote Editor) Grace period expired — offline mode');
+      setOfflineMode(true);
+    }, 5_000);
   }, []);
 
-  const hasTimedOut = useConnectionTimeout(provider);
+  const handleTimeout = useCallback(() => {
+    debugLog('(BlockNote Editor) Connection to collaboration server timed out - now in offline mode');
+    setIsLoading(false);
+    setOfflineMode(true);
+  }, []);
+
+  const handleAuthError = useCallback(() => {
+    // Auth errors are permanent — bypass the grace period.
+    clearDisconnectTimer();
+    setOfflineMode(true);
+    setIsLoading(false);
+  }, [clearDisconnectTimer]);
+
+  // Clean up the grace timer on unmount and when the provider changes.
+  useEffect(() => clearDisconnectTimer, [provider, clearDisconnectTimer]);
+
+  useConnectionTimeout(provider, handleTimeout);
   useCollaborationProvider(provider, handleSynced, handleDisconnect);
-  useLocalDocumentSync(doc, inputField, !provider);
+  useProviderAuthError(handleAuthError);
 
-  useEffect(() => {
-    if (!provider) {
-      setIsLoading(false);
-    }
-  }, [provider]);
-
-  useEffect(() => {
-    if (hasTimedOut) {
-      debugLog('(BlockNote Editor) Connection to collaboration server timed out');
-      setConnectionError(true);
-      setIsLoading(false);
-    }
-  }, [hasTimedOut]);
-
-  useEffect(() => {
-    const handleProviderAuthError = (event:Event) => {
-      const customEvent = event as CustomEvent<{ kind:ProviderAuthErrorKind; message:string }>;
-      debugLog(`(BlockNote Editor) Provider auth error: ${customEvent.detail.kind} - ${customEvent.detail.message}`);
-      setConnectionError(true);
-    };
-
-    document.addEventListener(PROVIDER_AUTH_ERROR_EVENT, handleProviderAuthError);
-    return () => document.removeEventListener(PROVIDER_AUTH_ERROR_EVENT, handleProviderAuthError);
-  }, []);
-
-  return { isLoading, connectionError } as const;
+  return { isLoading, offlineMode } as const;
 }
 
-export { useCollaborationProvider };
+export { useCollaboration };

@@ -31,12 +31,12 @@
           icons_container.with_column do
             render(
               Primer::Beta::IconButton.new(
-                icon: disabled ? :eye : :pencil,
+                icon: :pencil,
                 tag: :a,
                 scheme: :invisible,
                 href: url_for(action: :edit, id: provider.id, edit_state: @target_state),
                 data: { turbo: true, turbo_stream: true },
-                aria: { label: I18n.t(disabled ? :label_show : :label_edit) }
+                aria: { label: I18n.t(:label_edit) }
               )
             )
           end

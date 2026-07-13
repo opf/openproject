@@ -62,6 +62,8 @@ properties:
     $ref: './schema_property_model.yml'
   author:
     $ref: './schema_property_model.yml'
+  position:
+    $ref: './schema_property_model.yml'
   project:
     $ref: './schema_property_model.yml'
   projectPhase:
@@ -69,6 +71,10 @@ properties:
   projectPhaseDefinition:
     $ref: './schema_property_model.yml'
   parent:
+    $ref: './schema_property_model.yml'
+  sprint:
+    $ref: './schema_property_model.yml'
+  storyPoints:
     $ref: './schema_property_model.yml'
   assignee:
     $ref: './schema_property_model.yml'
@@ -81,6 +87,8 @@ properties:
   category:
     $ref: './schema_property_model.yml'
   version:
+    $ref: './schema_property_model.yml'
+  targetVersions:
     $ref: './schema_property_model.yml'
   priority:
     $ref: './schema_property_model.yml'

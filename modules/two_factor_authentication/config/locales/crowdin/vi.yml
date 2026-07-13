@@ -1,190 +1,181 @@
-#English strings go here for Rails i18n
+---
 vi:
-  plugin_openproject_two_factor_authentication:
-    name: "Xác thực hai yếu tố OpenProject"
-    description: >-
-      Plugin OpenProject này xác thực người dùng của bạn bằng xác thực hai yếu tố bằng mật khẩu một lần thông qua tiêu chuẩn TOTP (Google Authenticator) hoặc gửi đến điện thoại di động của người dùng qua SMS hoặc cuộc gọi thoại.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: "định danh"
-        default: "Giữ nguyên mặc định"
-        channel: "kênh"
+        channel: kênh
+        default: Giữ nguyên mặc định
+        identifier: định danh
       two_factor_authentication/device/sms:
-        phone_number: "Số điện thoại"
+        phone_number: Số điện thoại
       two_factor_authentication/device/webauthn:
-        webauthn_external: "ID WebAuthn"
-        webauthn_public_key: "Khóa công khai WebAuthn"
+        webauthn_external: ID WebAuthn
+        webauthn_public_key: Khóa công khai WebAuthn
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: "đã được thiết lập cho một thiết bị khác OTP."
+          default_already_exists: đã được thiết lập cho một thiết bị khác OTP.
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "phải có định dạng +XX XXXXXXXXX"
+              error_phone_number_format: phải có định dạng +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: "Thiết bị 2FA"
-      two_factor_authentication/device/sms: "Số di động"
-      two_factor_authentication/device/totp: "Ứng dụng xác thực"
-      two_factor_authentication/device/webauthn: "WebAuthn"
+      two_factor_authentication/device: Thiết bị 2FA
+      two_factor_authentication/device/sms: Số di động
+      two_factor_authentication/device/totp: Ứng dụng xác thực
+      two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Tiếp tục
+  button_make_active: Activate
+  button_make_default: Đánh dấu là mặc định
+  button_otp_by_sms: tin nhắn SMS
+  button_otp_by_voice: Cuộc gọi thoại
+  button_resend_otp_form: Gửi lại
+  field_otp: Mật khẩu sử dụng một lần
+  label_confirmed: xác nhận
+  label_otp_channel: Kênh phân phối
+  notice_account_has_no_phone: Không có số điện thoại di động nào được liên kết với tài khoản của bạn.
+  notice_account_otp_expired: Mật khẩu một lần bạn nhập đã hết hạn.
+  notice_account_otp_invalid: Mật khẩu một lần không hợp lệ.
+  notice_account_otp_send_failed: Không thể gửi mật khẩu một lần của bạn.
+  notice_developer_strategy_otp: 'Chiến lược của nhà phát triển đã tạo mật khẩu một lần sau: %{token} (Kênh: %{channel})'
+  notice_phone_number_format: 'Vui lòng nhập số theo định dạng sau: +XX XXXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: Plugin OpenProject này xác thực người dùng của bạn bằng xác thực hai yếu tố bằng mật khẩu một lần thông qua tiêu chuẩn TOTP (Google Authenticator) hoặc gửi đến điện thoại di động của người dùng qua SMS hoặc cuộc gọi thoại.
+    name: Xác thực hai yếu tố OpenProject
+  text_otp_not_receive: Các phương pháp xác minh khác
+  text_send_otp_again: 'Gửi lại mật khẩu một lần bằng cách:'
   two_factor_authentication:
-    error_2fa_disabled: "Phương thức 2FA đã bị vô hiệu."
-    notice_not_writable: "Cài đặt 2FA được cung cấp thông qua các biến môi trường và không thể ghi đè."
-    error_no_device: "Không có thiết bị 2FA đăng ký cho người dùng này, mặc dù được yêu cầu cho trường hợp này được tìm thấy."
-    error_no_matching_strategy: "Không có chiến lược 2FA sẵn có nào phù hợp với người dùng này. Xin vui lòng liên hệ với administratior của bạn."
-    error_is_enforced_not_active: "Lỗi cấu hình: xác thực 2 yếu tố đã được thi hành, nhưng không có chiến lược nào đang được sử dụng."
-    error_invalid_backup_code: "Mã sao lưu 2FA không hợp lệ"
-    channel_unavailable: "Kênh phân phối %{channel} là không có sẵn."
-    no_valid_phone_number: "Số điện thoại hợp lệ không tồn tại."
-    label_pwd_confirmation: "Mật khẩu"
-    notice_pwd_confirmation: "Bạn cần phải xác nhận mật khẩu của bạn khi thực hiện thay đổi các thiết đặt này."
-    label_device_type: "Kiểu thiết bị"
-    label_default_device: "Thiết bị 2FA mặc định"
-    label_device: "Thiết bị 2FA"
-    label_devices: "Các thiết bị 2FA"
-    label_one_time_password: "Mật khẩu sử dụng một lần"
-    label_2fa_enabled: "Xác thực 2 nhân tố đang được sử dụng"
-    label_2fa_disabled: "Xác thực 2 yếu tố không hoạt động"
-    text_otp_delivery_message_sms: "Mật khẩu một lần cho ứng dụng %{app_title} là %{token}"
-    text_otp_delivery_message_voice: "Mật khẩu một lần cho ứng dụng %{app_title} là: %{pause} %{token}. %{pause}. Lặp lại: %{pause} %{token}"
-    text_enter_2fa: "Vui lòng nhập mật khẩu một lần từ diện thoại của bạn."
-    text_2fa_enabled: "Sau khi mỗi đăng nhập, bạn sẽ được yêu cầu để nhập một mã thông báo OTP từ thiết bị 2FA mặc định của bạn."
-    text_2fa_disabled: "Để kích hoạt xác thực 2 yếu tố, sử dụng các nút ở trên để đăng ký thiết bị 2FA mới. Nếu bạn đã có một thiết bị, bạn cần để làm cho nó một mặc định."
-    login:
-      enter_backup_code_title: Nhập mã dự phòng
-      enter_backup_code_text: Vui lòng nhập mã dự phòng hợp lệ từ danh sách các mã số trong trường hợp bạn không còn có thể truy cập vào thiết bị của bạn đã đăng ký 2FA.
-      other_device: "Sử dụng một thiết bị khác hoặc mã dự phòng"
-    settings:
-      title: "Cài đặt 2FA"
-      current_configuration: "Cấu hình hiện tại"
-      label_active_strategies: "Chiến lược 2FA đang dùng"
-      label_enforced: "Bắt buộc sử dụng 2FA"
-      label_remember: "Nhớ Đăng nhập của Tôi"
-      text_configuration: |
-        Lưu ý: Các giá trị này đại diện cho cấu hình phạm vi ứng dụng hiện tại. Bạn không thể tắt được thi hành bởi cấu hình cài đặt hoặc thay đổi chiến lược hoạt động hiện nay, kể từ khi họ yêu cầu khởi động lại máy chủ.
-      text_configuration_guide: Để biết thêm chi tiết, hãy kiểm tra hướng dẫn cấu hình.
-      text_enforced: "Cho phép thiết đặt này để buộc tất cả người dùng để đăng ký thiết bị 2FA trên đăng nhập tiếp theo của họ. Có thể chỉ bị tắt khi không được thi hành bởi cấu hình."
-      text_remember: |
-        Hãy đặt số ngày ghi nhớ mã F2Alớn hơn 0 để cho phép người sử dụng nhớ mã 2FA của họ.
-        Sẽ không yêu cầu nhập mã trong thời giannày. Chỉ có thể đặt nếu không bị thiết lập bắt buộc trong cấu hình.
-      error_invalid_settings: "Phương án mã 2FA bạn lựa chon không hợp lệ"
-      failed_to_save_settings: "Không cập nhật được cài đặt 2FA: %{message}"
     admin:
-      self_edit_path: "Để thêm hoặc sửa đổi thiết bị 2FA của riêng bạn, vui lòng truy cập %{self_edit_link}"
-      self_edit_link_name: "Xác thực hai yếu tố trên trang tài khoản của bạn"
-      self_edit_forbidden: "Bạn không được chỉnh sửa thiết bị 2FA của riêng mình trên đường dẫn này. Thay vào đó hãy chuyển đến Tài khoản của tôi > Xác thực hai yếu tố."
-      no_devices_for_user: "Không có thiết bị 2FA nào được đăng ký cho người dùng này."
-      all_devices_deleted: "Tất cả các thiết bị 2FA của người dùng này đã bị xóa"
-      delete_all_are_you_sure: "Bạn có chắc chắn muốn xóa tất cả thiết bị 2FA cho người dùng này không?"
-      button_delete_all_devices: "Xóa thiết bị 2FA đã đăng ký"
-      button_register_mobile_phone_for_user: "Đăng ký điện thoại di động"
-      text_2fa_enabled: "Sau mỗi lần đăng nhập, người dùng này sẽ được yêu cầu nhập mã thông báo OTP từ thiết bị 2FA mặc định của họ."
-      text_2fa_disabled: "Người dùng chưa thiết lập thiết bị 2FA thông qua 'Trang tài khoản của tôi'"
-      only_sms_allowed: "Chỉ có thể thiết lập gửi SMS cho những người dùng khác."
-    upsell:
-      title: "Xác thực hai yếu tố"
-      description: "Tăng cường tính bảo mật cho phiên bản OpenProject của bạn bằng cách cung cấp (hoặc thực thi) xác thực hai yếu tố cho tất cả thành viên dự án."
+      all_devices_deleted: Tất cả các thiết bị 2FA của người dùng này đã bị xóa
+      button_delete_all_devices: Xóa thiết bị 2FA đã đăng ký
+      button_register_mobile_phone_for_user: Đăng ký điện thoại di động
+      delete_all_are_you_sure: Bạn có chắc chắn muốn xóa tất cả thiết bị 2FA cho người dùng này không?
+      no_devices_for_user: Không có thiết bị 2FA nào được đăng ký cho người dùng này.
+      only_sms_allowed: Chỉ có thể thiết lập gửi SMS cho những người dùng khác.
+      self_edit_forbidden: Bạn không được chỉnh sửa thiết bị 2FA của riêng mình trên đường dẫn này. Thay vào đó hãy chuyển đến Tài khoản của tôi > Xác thực hai yếu tố.
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: Người dùng chưa thiết lập thiết bị 2FA thông qua 'Trang tài khoản của tôi'
+      text_2fa_enabled: Sau mỗi lần đăng nhập, người dùng này sẽ được yêu cầu nhập mã thông báo OTP từ thiết bị 2FA mặc định của họ.
     backup_codes:
-      none_found: Không có mã dự phòng nào tồn tại cho tài khoản này.
-      singular: Mã sao lưu
-      plural: Mã dự phòng
-      your_codes: cho tài khoản %{app_name} của bạn %{login}
+      generate:
+        keep_safe_as_password: Quan trọng! Hãy coi những mã này như mật khẩu.
+        keep_safe_warning: Hãy lưu chúng vào trình quản lý mật khẩu của bạn hoặc in trang này và đặt ở nơi an toàn.
+        regenerate_warning: 'Cảnh báo: Nếu bạn đã tạo mã dự phòng trước đó, chúng sẽ bị vô hiệu và không còn tác dụng.'
+        title: Tạo mã dự phòng
       overview_description: |
         Nếu bạn không thể truy cập vào thiết bị hai yếu tố của mình, bạn có thể sử dụng mã dự phòng để lấy lại quyền truy cập vào tài khoản của mình.
         Sử dụng nút sau để tạo bộ mã dự phòng mới.
-      generate:
-        title: Tạo mã dự phòng
-        keep_safe_as_password: "Quan trọng! Hãy coi những mã này như mật khẩu."
-        keep_safe_warning: "Hãy lưu chúng vào trình quản lý mật khẩu của bạn hoặc in trang này và đặt ở nơi an toàn."
-        regenerate_warning: "Cảnh báo: Nếu bạn đã tạo mã dự phòng trước đó, chúng sẽ bị vô hiệu và không còn tác dụng."
+      plural: Mã dự phòng
+      singular: Mã sao lưu
+    channel_unavailable: Kênh phân phối %{channel} là không có sẵn.
     devices:
-      add_new: "Thêm thiết bị 2FA mới"
-      register: "Đăng ký thiết bị"
-      confirm_default: "Xác nhận thay đổi thiết bị mặc định"
-      confirm_device: "Xác nhận thiết bị"
-      confirm_now: "Chưa được xác nhận, bấm vào đây để kích hoạt"
-      cannot_delete_default: "Không thể xóa thiết bị mặc định"
-      make_default_are_you_sure: "Bạn có chắc chắn muốn đặt thiết bị 2FA này làm thiết bị mặc định không?"
-      make_default_failed: "Không thể cập nhật thiết bị 2FA mặc định."
-      deletion_are_you_sure: "Bạn có chắc chắn muốn xóa thiết bị 2FA này không?"
-      registration_complete: "Đăng ký thiết bị 2FA đã hoàn tất!"
-      registration_failed_token_invalid: "Đăng ký thiết bị 2FA không thành công, mã thông báo không hợp lệ."
-      registration_failed_update: "Đăng ký thiết bị 2FA không thành công, mã thông báo hợp lệ nhưng không thể cập nhật thiết bị."
-      confirm_send_failed: "Xác nhận thiết bị 2FA của bạn không thành công."
-      button_complete_registration: "Hoàn tất đăng ký 2FA"
-      text_confirm_to_complete_html: "Vui lòng hoàn tất quá trình đăng ký thiết bị của bạn <strong>%{identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định của bạn."
-      text_confirm_to_change_default_html: "Vui lòng xác nhận việc thay đổi thiết bị mặc định của bạn thành <strong>_%{new_identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định hiện tại của bạn."
-      text_identifier: "Bạn có thể cung cấp cho thiết bị một mã định danh tùy chỉnh bằng cách sử dụng trường này."
-      failed_to_delete: "Không thể xóa thiết bị 2FA."
-      is_default_cannot_delete: "Thiết bị được đánh dấu là mặc định và không thể xóa do chính sách bảo mật đang hoạt động. Đánh dấu thiết bị khác làm mặc định trước khi xóa."
-      not_existing: "Không có thiết bị 2FA nào được đăng ký cho tài khoản của bạn."
-      2fa_from_input: Vui lòng nhập mã từ <strong>%{device_name}</strong> để xác minh danh tính của bạn.
-      2fa_from_webauthn: Vui lòng cung cấp thiết bị WebAuthn <strong>%{device_name}</strong>. Nếu thiết bị dựa trên USB, hãy đảm bảo cắm vào và chạm vào nó. Sau đó nhấp vào nút đăng nhập.
-      webauthn:
-        title: "WebAuthn"
-        description: Đăng ký thiết bị FIDO2 (như YubiKey) hoặc vùng bảo mật cho thiết bị di động của bạn.
-        further_steps: Sau khi chọn tên, bạn có thể nhấp vào nút Tiếp tục. Trình duyệt của bạn sẽ nhắc bạn xuất trình thiết bị WebAuthn của mình. Khi bạn đã làm như vậy, bạn đã hoàn tất việc đăng ký thiết bị.
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Thêm thiết bị 2FA mới
+      button_complete_registration: Hoàn tất đăng ký 2FA
+      cannot_delete_default: Không thể xóa thiết bị mặc định
+      confirm_default: Xác nhận thay đổi thiết bị mặc định
+      confirm_device: Xác nhận thiết bị
+      confirm_now: Chưa được xác nhận, bấm vào đây để kích hoạt
+      confirm_send_failed: Xác nhận thiết bị 2FA của bạn không thành công.
+      deletion_are_you_sure: Bạn có chắc chắn muốn xóa thiết bị 2FA này không?
+      failed_to_delete: Không thể xóa thiết bị 2FA.
+      is_default_cannot_delete: Thiết bị được đánh dấu là mặc định và không thể xóa do chính sách bảo mật đang hoạt động. Đánh dấu thiết bị khác làm mặc định trước khi xóa.
+      make_default_are_you_sure: Bạn có chắc chắn muốn đặt thiết bị 2FA này làm thiết bị mặc định không?
+      make_default_failed: Không thể cập nhật thiết bị 2FA mặc định.
+      not_existing: Không có thiết bị 2FA nào được đăng ký cho tài khoản của bạn.
+      register: Đăng ký thiết bị
+      registration_complete: Đăng ký thiết bị 2FA đã hoàn tất!
+      registration_failed_token_invalid: Đăng ký thiết bị 2FA không thành công, mã thông báo không hợp lệ.
+      registration_failed_update: Đăng ký thiết bị 2FA không thành công, mã thông báo hợp lệ nhưng không thể cập nhật thiết bị.
+      sms:
+        description: 'Nhận mã 2FA qua tin nhắn văn bản trên điện thoại của bạn mỗi khi bạn đăng nhập.
+
+          '
+        redacted_identifier: Thiết bị di động (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, chúng tôi đã gửi cho bạn mã xác thực qua %{delivery_channel}"
+        title: Thiết bị di động
+      text_confirm_to_change_default_html: Vui lòng xác nhận việc thay đổi thiết bị mặc định của bạn thành <strong>_%{new_identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định hiện tại của bạn.
+      text_confirm_to_complete_html: Vui lòng hoàn tất quá trình đăng ký thiết bị của bạn <strong>%{identifier}</strong> bằng cách nhập mật khẩu một lần từ thiết bị mặc định của bạn.
+      text_identifier: Bạn có thể cung cấp cho thiết bị một mã định danh tùy chỉnh bằng cách sử dụng trường này.
       totp:
-        title: "Trình xác thực dựa trên ứng dụng"
-        provisioning_uri: "URI cấp phép"
-        secret_key: "Khóa bí mật"
-        time_based: "Dựa trên thời gian"
-        account: "Tên tài khoản/Nhà phát hành"
+        account: Tên tài khoản/Nhà phát hành
+        description: 'Sử dụng mã một lần được tạo bởi trình xác thực như Authy hoặc Google Authenticator.
+
+          '
+        provisioning_uri: URI cấp phép
+        question_cannot_scan: 'Không thể quét mã bằng ứng dụng của bạn?
+
+          '
+        secret_key: Khóa bí mật
         setup: |
           Để thiết lập xác thực hai yếu tố với Google Authenticator, hãy tải xuống ứng dụng từ Apple App store hoặc Google Play Store.
           Sau khi mở ứng dụng, bạn có thể quét mã QR sau để đăng ký thiết bị.
-        question_cannot_scan: |
-          Không thể quét mã bằng ứng dụng của bạn?
-        text_cannot_scan: |
-          Nếu không thể quét mã, bạn có thể nhập mục nhập theo cách thủ công bằng cách sử dụng các chi tiết sau:
-        description: |
-          Sử dụng mã một lần được tạo bởi trình xác thực như Authy hoặc Google Authenticator.
-      sms:
-        title: "Thiết bị di động"
-        redacted_identifier: "Thiết bị di động (%{redacted_number})"
-        request_2fa_identifier: "%{redacted_identifier}, chúng tôi đã gửi cho bạn mã xác thực qua %{delivery_channel}"
-        description: |
-          Nhận mã 2FA qua tin nhắn văn bản trên điện thoại của bạn mỗi khi bạn đăng nhập.
-    sns:
-      delivery_failed: "Gửi SNS không thành công:"
-    message_bird:
-      sms_delivery_failed: "Gửi SMS MessageBird không thành công."
-      voice_delivery_failed: "Cuộc gọi thoại MessageBird không thành công."
-    strategies:
-      totp: "Ứng dụng xác thực"
-      sns: "Amazon SNS"
-      resdt: "API phần còn lại của SMS"
-      webauthn: "WebAuthn"
-    mobile_transmit_notification: "Mật khẩu một lần đã được gửi đến điện thoại di động của bạn."
-    label_two_factor_authentication: "Xác thực hai yếu tố"
+        text_cannot_scan: 'Nếu không thể quét mã, bạn có thể nhập mục nhập theo cách thủ công bằng cách sử dụng các chi tiết sau:
+
+          '
+        time_based: Dựa trên thời gian
+        title: Trình xác thực dựa trên ứng dụng
+      webauthn:
+        description: Đăng ký thiết bị FIDO2 (như YubiKey) hoặc vùng bảo mật cho thiết bị di động của bạn.
+        further_steps: Sau khi chọn tên, bạn có thể nhấp vào nút Tiếp tục. Trình duyệt của bạn sẽ nhắc bạn xuất trình thiết bị WebAuthn của mình. Khi bạn đã làm như vậy, bạn đã hoàn tất việc đăng ký thiết bị.
+        title: WebAuthn
+    error_2fa_disabled: Phương thức 2FA đã bị vô hiệu.
+    error_invalid_backup_code: Mã sao lưu 2FA không hợp lệ
+    error_is_enforced_not_active: 'Lỗi cấu hình: xác thực 2 yếu tố đã được thi hành, nhưng không có chiến lược nào đang được sử dụng.'
+    error_no_device: Không có thiết bị 2FA đăng ký cho người dùng này, mặc dù được yêu cầu cho trường hợp này được tìm thấy.
+    error_no_matching_strategy: Không có chiến lược 2FA sẵn có nào phù hợp với người dùng này. Xin vui lòng liên hệ với administratior của bạn.
     forced_registration:
-      required_to_add_device: "Chính sách bảo mật đang hoạt động yêu cầu bạn kích hoạt xác thực hai yếu tố. Vui lòng sử dụng mẫu sau để đăng ký thiết bị."
+      required_to_add_device: Chính sách bảo mật đang hoạt động yêu cầu bạn kích hoạt xác thực hai yếu tố. Vui lòng sử dụng mẫu sau để đăng ký thiết bị.
+    label_2fa_disabled: Xác thực 2 yếu tố không hoạt động
+    label_2fa_enabled: Xác thực 2 nhân tố đang được sử dụng
+    label_default_device: Thiết bị 2FA mặc định
+    label_device: Thiết bị 2FA
+    label_device_type: Kiểu thiết bị
+    label_devices: Các thiết bị 2FA
+    label_two_factor_authentication: Xác thực hai yếu tố
+    login:
+      enter_backup_code_text: Vui lòng nhập mã dự phòng hợp lệ từ danh sách các mã số trong trường hợp bạn không còn có thể truy cập vào thiết bị của bạn đã đăng ký 2FA.
+      enter_backup_code_title: Nhập mã dự phòng
+      other_device: Sử dụng một thiết bị khác hoặc mã dự phòng
+    message_bird:
+      sms_delivery_failed: Gửi SMS MessageBird không thành công.
+      voice_delivery_failed: Cuộc gọi thoại MessageBird không thành công.
+    mobile_transmit_notification: Mật khẩu một lần đã được gửi đến điện thoại di động của bạn.
+    no_valid_phone_number: Số điện thoại hợp lệ không tồn tại.
+    notice_not_writable: Cài đặt 2FA được cung cấp thông qua các biến môi trường và không thể ghi đè.
     remember:
-      active_session_notice: >
-        Tài khoản của bạn có cookie ghi nhớ đang hoạt động có hiệu lực cho đến %{expires_on}. Cookie này cho phép bạn đăng nhập mà không cần yếu tố thứ hai vào tài khoản của mình cho đến thời điểm đó.
+      active_session_notice: 'Tài khoản của bạn có cookie ghi nhớ đang hoạt động có hiệu lực cho đến %{expires_on}. Cookie này cho phép bạn đăng nhập mà không cần yếu tố thứ hai vào tài khoản của mình cho đến thời điểm đó.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Tất cả các phiên 2FA được ghi nhớ đã bị xóa.
+      dont_ask_again: Tạo cookie để ghi nhớ xác thực 2FA trên ứng dụng khách này trong %{days} ngày.
+      label: ghi nhớ
       other_active_session_notice: Tài khoản của bạn có cookie ghi nhớ đang hoạt động trong một phiên khác.
-      label: "ghi nhớ"
-      clear_cookie: "Nhấp vào đây để xóa tất cả các phiên 2FA đã nhớ."
-      cookie_removed: "Tất cả các phiên 2FA được ghi nhớ đã bị xóa."
-      dont_ask_again: "Tạo cookie để ghi nhớ xác thực 2FA trên ứng dụng khách này trong %{days} ngày."
-  field_phone: "Điện thoại di động"
-  field_otp: "Mật khẩu sử dụng một lần"
-  notice_account_otp_invalid: "Mật khẩu một lần không hợp lệ."
-  notice_account_otp_expired: "Mật khẩu một lần bạn nhập đã hết hạn."
-  notice_developer_strategy_otp: "Chiến lược của nhà phát triển đã tạo mật khẩu một lần sau: %{token} (Kênh: %{channel})"
-  notice_account_otp_send_failed: "Không thể gửi mật khẩu một lần của bạn."
-  notice_account_has_no_phone: "Không có số điện thoại di động nào được liên kết với tài khoản của bạn."
-  label_expiration_hint: "%{date} hoặc khi đăng xuất"
-  label_actions: "hành động"
-  label_confirmed: "xác nhận"
-  button_continue: "Tiếp tục"
-  button_make_default: "Đánh dấu là mặc định"
-  label_unverified_phone: "Điện thoại di động chưa được xác minh"
-  notice_phone_number_format: "Vui lòng nhập số theo định dạng sau: +XX XXXXXXXXX."
-  text_otp_not_receive: "Các phương pháp xác minh khác"
-  text_send_otp_again: "Gửi lại mật khẩu một lần bằng cách:"
-  button_resend_otp_form: "Gửi lại"
-  button_otp_by_voice: "Cuộc gọi thoại"
-  button_otp_by_sms: "tin nhắn SMS"
-  label_otp_channel: "Kênh phân phối"
+    settings:
+      current_configuration: Cấu hình hiện tại
+      failed_to_save_settings: 'Không cập nhật được cài đặt 2FA: %{message}'
+      label_active_strategies: Chiến lược 2FA đang dùng
+      label_enforced: Bắt buộc sử dụng 2FA
+      label_remember: Nhớ Đăng nhập của Tôi
+      text_configuration: 'Lưu ý: Các giá trị này đại diện cho cấu hình phạm vi ứng dụng hiện tại. Bạn không thể tắt được thi hành bởi cấu hình cài đặt hoặc thay đổi chiến lược hoạt động hiện nay, kể từ khi họ yêu cầu khởi động lại máy chủ.
+
+        '
+      text_configuration_guide: Để biết thêm chi tiết, hãy kiểm tra hướng dẫn cấu hình.
+      text_enforced: Cho phép thiết đặt này để buộc tất cả người dùng để đăng ký thiết bị 2FA trên đăng nhập tiếp theo của họ. Có thể chỉ bị tắt khi không được thi hành bởi cấu hình.
+      text_remember: |
+        Hãy đặt số ngày ghi nhớ mã F2Alớn hơn 0 để cho phép người sử dụng nhớ mã 2FA của họ.
+        Sẽ không yêu cầu nhập mã trong thời giannày. Chỉ có thể đặt nếu không bị thiết lập bắt buộc trong cấu hình.
+      title: Cài đặt 2FA
+    sns:
+      delivery_failed: 'Gửi SNS không thành công:'
+    strategies:
+      resdt: API phần còn lại của SMS
+      sns: Amazon SNS
+      totp: Ứng dụng xác thực
+      webauthn: WebAuthn
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: Sau khi mỗi đăng nhập, bạn sẽ được yêu cầu để nhập một mã thông báo OTP từ thiết bị 2FA mặc định của bạn.
+    text_otp_delivery_message_sms: Mật khẩu một lần cho ứng dụng %{app_title} là %{token}
+    text_otp_delivery_message_voice: 'Mật khẩu một lần cho ứng dụng %{app_title} là: %{pause} %{token}. %{pause}. Lặp lại: %{pause} %{token}'

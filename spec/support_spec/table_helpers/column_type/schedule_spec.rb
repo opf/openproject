@@ -50,6 +50,10 @@ module TableHelpers::ColumnType
       travel_to(fake_today)
     end
 
+    after do
+      travel_back
+    end
+
     describe "origin day" do
       it "is identified by the 'M' in 'MTWTFSS' in the header and corresponds to the next monday" do
         expect(parsed_attributes(<<~TABLE))

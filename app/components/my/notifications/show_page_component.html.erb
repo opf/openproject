@@ -1,0 +1,137 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  settings_primer_form_with(
+    model: global_notification_setting,
+    scope: :notification_setting,
+    url: update_participating_url,
+    method: :patch,
+    data: { turbo: false, test_selector: "participating-form" }
+  ) do |form|
+    render(My::Notifications::ParticipatingForm.new(form))
+  end
+%>
+
+<% if date_alerts_available? %>
+  <%=
+    settings_primer_form_with(
+      model: global_notification_setting,
+      scope: :notification_setting,
+      url: update_date_alerts_url,
+      method: :patch,
+      data: {
+        turbo: false,
+        controller: "show-when-checked",
+        show_when_checked_visibility_class: "d-none",
+        test_selector: "date-alerts-form"
+      }
+    ) do |form|
+      render(My::Notifications::DateAlertsForm.new(form))
+    end
+  %>
+<% else %>
+  <%= render(Primer::Beta::Subhead.new(mt: 3)) do |component|
+        component.with_heading(size: :medium) { t("my_account.notifications.date_alerts.title") }
+        component.with_description { t("my_account.notifications.date_alerts.description") }
+      end %>
+  <%= render(EnterpriseEdition::BannerComponent.new(:date_alerts, variant: :inline)) %>
+<% end %>
+
+<%=
+  settings_primer_form_with(
+    model: global_notification_setting,
+    scope: :notification_setting,
+    url: update_non_participating_url,
+    method: :patch,
+    data: { turbo: false, test_selector: "non-participating-form" }
+  ) do |form|
+    render(My::Notifications::NonParticipatingForm.new(form))
+  end
+%>
+
+<%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do %>
+  <%= render(Primer::Beta::Subhead.new(mt: 3)) do |component|
+        component.with_heading(size: :medium) { t("my_account.notifications.project_specific_settings.title") }
+        component.with_description { t("my_account.notifications.project_specific_settings.description") }
+      end %>
+
+  <% if project_notification_settings.any? %>
+    <%= render(Primer::Beta::BorderBox.new(mb: 3)) do |box| %>
+      <% box.with_header { t("my_account.notifications.project_specific_settings.list_header") } %>
+      <% project_notification_settings.each do |setting| %>
+        <% box.with_row(test_selector: "project-specific-settings-list") do %>
+          <%= flex_layout(justify_content: :space_between, align_items: :center, width: :full) do |flex| %>
+            <%= flex.with_column do %>
+              <span><%= setting.project.name %></span>
+            <% end %>
+            <%= flex.with_column do %>
+              <%= render(Primer::Alpha::ActionMenu.new(test_selector: "project-specific-settings-list--action-menu")) do |menu|
+                    menu.with_show_button(
+                      scheme: :invisible,
+                      size: :small,
+                      icon: :"kebab-horizontal",
+                      "aria-label": t(:label_open_menu),
+                      tooltip_direction: :w
+                    )
+                    menu.with_item(
+                      label: t("button_edit"),
+                      href: edit_project_settings_url(setting.project_id),
+                      content_arguments: { data: { controller: "async-dialog" } }
+                    ) do |item|
+                      item.with_leading_visual_icon(icon: :pencil)
+                    end
+                    menu.with_item(
+                      label: t("button_delete"),
+                      scheme: :danger,
+                      href: project_setting_url(setting.project_id),
+                      content_arguments: { data: { turbo_method: :delete, turbo_confirm: t("text_are_you_sure") } }
+                    ) do |item|
+                      item.with_leading_visual_icon(icon: :trash)
+                    end
+                  end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render(
+        Primer::Beta::Button.new(
+          tag: :a,
+          href: new_project_settings_url,
+          data: { controller: "async-dialog" },
+          mb: 3
+        )
+      ) do |b|
+        b.with_leading_visual_icon(icon: :plus)
+        helpers.t("my_account.notifications.project_specific_settings.add_button")
+      end %>
+<% end %>

@@ -91,6 +91,26 @@ RSpec.describe MeetingAgendaItems::CreateContract do
         end
       end
     end
+
+    context "when work_package_id is set" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas view_work_packages] })
+      end
+      let(:other_project) { create(:project) }
+      let(:work_package) { create(:work_package, project:) }
+      let(:other_work_package) { create(:work_package, project: other_project) }
+      let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package:) }
+
+      context "when user can view the work package" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when user cannot view the work package" do
+        let(:item) { build(:wp_meeting_agenda_item, meeting:, work_package: other_work_package) }
+
+        it_behaves_like "contract is invalid", work_package: :error_not_found
+      end
+    end
   end
 
   context "without permission" do
@@ -101,5 +121,37 @@ RSpec.describe MeetingAgendaItems::CreateContract do
 
   include_examples "contract reuses the model errors" do
     let(:user) { build_stubbed(:user) }
+  end
+
+  context "when creating an agenda item and using a section from another meeting" do
+    let(:other_meeting) { create(:meeting) }
+    let(:other_section) { create(:meeting_section, meeting: other_meeting) }
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] })
+    end
+
+    let(:item) { build(:meeting_agenda_item, meeting: meeting, meeting_section: other_section) }
+
+    it "is invalid" do
+      expect(contract).not_to be_valid
+      expect(contract.errors[:base]).to include("Section does not belong to the same meeting.")
+    end
+  end
+
+  context "when creating an agenda item for a recurring meeting occurrence using the template's backlog (Regression #73170)" do
+    let(:recurring_meeting) { create(:recurring_meeting, project:) }
+    let(:occurrence) do
+      create(:recurring_meeting_occurrence, recurring_meeting:, project:, template: false)
+    end
+    let(:backlog_section) { recurring_meeting.template.backlog }
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings manage_agendas] })
+    end
+
+    let(:item) { build(:meeting_agenda_item, meeting: occurrence, meeting_section: backlog_section) }
+
+    it "is valid" do
+      expect(contract).to be_valid
+    end
   end
 end

@@ -43,22 +43,21 @@ module Storages
               last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_by_name: json.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
-              location: UrlBuilder.path(extract_location(json[:parentReference], json[:name])),
+              location: extract_location(json[:parentReference], json[:name]),
               permissions: %i[readable writeable]
             )
           end
 
           def bare_transform(id:, location:)
-            Results::StorageFile.new(id:, name: location.split("/").last, location: UrlBuilder.path(location),
+            Results::StorageFile.new(id:, name: location.split("/").last, location:,
                                      permissions: %i[readable writeable])
           end
 
           def parent_transform(id:, location:, name:)
-            Results::StorageFile.new(id:, name:, location: UrlBuilder.path(extract_location(location)),
+            Results::StorageFile.new(id:, name:, location: extract_location(location),
                                      permissions: %i[readable writeable])
           end
 
-          # rubocop:disable Metrics/AbcSize
           def transform_file_info(json)
             # Need to handle the errors
             Results::StorageFileInfo.build(
@@ -70,14 +69,13 @@ module Storages
               size: json[:size],
               owner_name: json.dig(:createdBy, :user, :displayName),
               owner_id: json.dig(:createdBy, :user, :id),
-              location: UrlBuilder.path(extract_location(json[:parentReference], json[:name])),
+              location: extract_location(json[:parentReference], json[:name]),
               last_modified_at: json.dig(:fileSystemInfo, :lastModifiedDateTime),
               created_at: json.dig(:fileSystemInfo, :createdDateTime),
               last_modified_by_name: json.dig(:lastModifiedBy, :user, :displayName),
               last_modified_by_id: json.dig(:lastModifiedBy, :user, :id)
             ).value_or(nil)
           end
-          # rubocop:enable Metrics/AbcSize
 
           private
 

@@ -56,9 +56,9 @@ RSpec.shared_examples_for "resolving macros" do
 
       let(:expected) do
         <<~EXPECTED
-          <h1 class="op-uc-h1" id="my-headline">
+          <h1 class="op-uc-h1" id="op-frag-my-headline">
             My headline
-            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline" rel="noopener noreferrer"></a>
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP: <opce-macro-attribute-label data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-label>
@@ -108,9 +108,9 @@ RSpec.shared_examples_for "resolving macros" do
 
       let(:expected) do
         <<~EXPECTED
-          <h1 class="op-uc-h1" id="my-headline">
+          <h1 class="op-uc-h1" id="op-frag-my-headline">
             My headline
-            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#my-headline" rel="noopener noreferrer"></a>
+            <a class="op-uc-link_permalink icon-link op-uc-link" aria-hidden="true" href="#op-frag-my-headline" rel="noopener noreferrer nofollow"></a>
           </h1>
           <p class="op-uc-p">
             Inline reference to WP: <opce-macro-attribute-value data-model="workPackage" data-id="1234" data-attribute="subject"></opce-macro-attribute-value>

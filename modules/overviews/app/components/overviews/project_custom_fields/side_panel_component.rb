@@ -49,16 +49,10 @@ module Overviews
       private
 
       def available_project_custom_fields_grouped_by_section
-        if OpenProject::FeatureDecisions.new_project_overview_active?
-          @available_project_custom_fields_grouped_by_section ||=
-            @project.available_custom_fields
-                    .group_by(&:project_custom_field_section)
-                    .select { |section, _| section.shown_in_overview_sidebar? }
-        else
-          @available_project_custom_fields_grouped_by_section ||=
-            @project.available_custom_fields
-                    .group_by(&:project_custom_field_section)
-        end
+        @available_project_custom_fields_grouped_by_section ||=
+          ProjectCustomFieldSection
+            .with_available_fields_for(@project)
+            .select { |section, _| section.shown_in_overview_sidebar? }
       end
     end
   end

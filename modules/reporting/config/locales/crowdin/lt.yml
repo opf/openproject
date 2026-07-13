@@ -19,88 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 lt:
-  plugin_openproject_reporting:
-    name: "OpenProject ataskaitos"
-    description: "Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu."
-  button_save_report_as: "Įrašyti ataskaitą kaip..."
-  comments: "Komentaras"
-  cost_reports_title: "Laikas ir išlaidos"
-  label_cost_report: "Kaštų ataskaita"
-  label_cost_report_plural: "Kaštų ataskaitos"
-  description_drill_down: "Rodyti Išsamią informaciją"
-  description_filter_selection: "Pasirinkimas"
-  description_multi_select: "Rodyti multipasirinkimą"
-  description_remove_filter: "Pašalinti filtrą"
-  information_restricted_depending_on_permission: "Priklausomai nuo Jūsų teisių, šis puslapis gali turėti apribotos informacijos."
-  label_click_to_edit: "Spustelėkite, kad redaguoti."
-  label_closed: "uždaryta"
-  label_columns: "Stulpeliai"
-  label_cost_entry_attributes: "Kaštų įrašų atributai"
-  label_days_ago: "per pastarąsias dienas"
-  label_entry: "Kaštų įrašas"
-  label_filter_text: "Filtruoti tekstą"
-  label_filter_value: "Reikšmė"
-  label_filters: "Filtras"
-  label_greater: ">"
-  label_is_not_project_with_subprojects: "nėra (apima subprojektus)"
-  label_is_project_with_subprojects: "yra (apima subprojektus)"
-  label_is_work_package_with_descendants: "is (includes descendants)"
-  label_is_not_work_package_with_descendants: "is not (includes descendants)"
-  label_work_package_attributes: "Darbų paketo atributai"
-  label_less: "<"
-  label_logged_by_reporting: "Registravo"
-  label_money: "Pinigų reikšmė"
-  label_month_reporting: "Mėnuo (praleista)"
-  label_new_report: "Nauja kaštų ataskaita"
-  label_open: "atverti"
-  label_operator: "Operatorius"
-  label_private_report_plural: "Privačių kaštų ataskaitos"
-  label_progress_bar_explanation: "Generuojama ataskaita..."
-  label_public_report_plural: "Viešų kaštų ataskaitos"
-  label_really_delete_question: "Ar Jūs tikri, kad norite ištrinti šią ataskaitą?"
-  label_rows: "Eilutės"
-  label_saving: "Išsaugoma ..."
-  label_spent_on_reporting: "Data (praleista)"
-  label_sum: "Suma"
-  label_units: "Vienetai"
-  label_week_reporting: "Savaitė (praleista)"
-  label_year_reporting: "Metai (praleista)"
-  label_count: "Skaičius"
-  label_filter: "Filtras"
-  label_filter_add: "Pridėti filtrą"
-  label_filter_plural: "Filtrai"
-  label_group_by: "Grupuoti pagal"
-  label_group_by_add: "Pridėti grupavimą pagal atributą"
-  label_inactive: "«neaktyvus»"
-  label_no: "Ne"
-  label_none: "(nėra duomenų)"
-  label_no_reports: "Dar nėra jokių kaštų ataskaitų."
-  label_report: "Ataskaita"
-  label_yes: "Taip"
-  load_query_question: "Ataskaita turės %{size} lentelės langelių ir gali užtrukti, kol bus paruošta. Ar Jūs dar vis norite pabandyti sukurti ją?"
-  permission_save_cost_reports: "Išsaugoti viešų kaštų ataskaitas"
-  permission_save_private_cost_reports: "Išsaugoti privačių kaštų ataskaitas"
-  project_module_reporting_module: "Kaštų ataskaitos"
-  text_costs_are_rounded_note: "Rodomos reikšmės yra suapvalintos. Visi apskaičiavimai remiasi nesuapvalintomis reikšmėmis."
-  toggle_multiselect: "įjungti/išjungti multipasirinkimą"
-  units: "Vienetai"
-  validation_failure_date: "nėra tinkama data"
-  validation_failure_integer: "nėra tinkamas sveikas skaičius"
+  button_save_report_as: Įrašyti ataskaitą kaip...
+  comments: Komentaras
+  cost_reports_title: Laikas ir išlaidos
+  description_drill_down: Rodyti Išsamią informaciją
+  description_filter_selection: Pasirinkimas
+  description_multi_select: Rodyti multipasirinkimą
+  description_remove_filter: Pašalinti filtrą
   export:
-    timesheet:
-      title: "Your PDF timesheet export"
-      button: "Export PDF timesheet"
-      timesheet: "Timesheet"
-      time: "Laikas"
-      sums_hours: Sums
-      overview_per_user_total: "Overview: Total hours per user"
-      overview_per_user_day: "Overview: Hours per user per day"
     cost_reports:
-      title: "Jūsų kainos ataskaitų XLS eksportas"
-      start_time: "Pradžios laikas"
-      end_time: "End time"
+      end_time: End time
+      start_time: Pradžios laikas
+      title: Jūsų kainos ataskaitų XLS eksportas
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: Laikas
+      timesheet: Timesheet
+      title: Your PDF timesheet export
+  information_restricted_depending_on_permission: Priklausomai nuo Jūsų teisių, šis puslapis gali turėti apribotos informacijos.
+  label_click_to_edit: Spustelėkite, kad redaguoti.
+  label_closed: uždaryta
+  label_columns: Stulpeliai
+  label_cost_entry_attributes: Kaštų įrašų atributai
+  label_cost_report: Kaštų ataskaita
+  label_cost_report_plural: Kaštų ataskaitos
+  label_count: Skaičius
+  label_days_ago: per pastarąsias dienas
+  label_entry: Kaštų įrašas
+  label_filter: Filtras
+  label_filter_add: Pridėti filtrą
+  label_filter_plural: Filtrai
+  label_filter_text: Filtruoti tekstą
+  label_filter_value: Reikšmė
+  label_filters: Filtras
+  label_greater: ">"
+  label_group_by: Grupuoti pagal
+  label_group_by_add: Pridėti grupavimą pagal atributą
+  label_inactive: "«neaktyvus»"
+  label_is_not_project_with_subprojects: nėra (apima subprojektus)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
+  label_is_project_with_subprojects: yra (apima subprojektus)
+  label_is_work_package_with_descendants: is (includes descendants)
+  label_less: "<"
+  label_logged_by_reporting: Registravo
+  label_money: Pinigų reikšmė
+  label_month_reporting: Mėnuo (praleista)
+  label_new_report: Nauja kaštų ataskaita
+  label_no: Ne
+  label_no_reports: Dar nėra jokių kaštų ataskaitų.
+  label_none: "(nėra duomenų)"
+  label_open: atverti
+  label_operator: Operatorius
+  label_private_report_plural: Privačių kaštų ataskaitos
+  label_progress_bar_explanation: Generuojama ataskaita...
+  label_public_report_plural: Viešų kaštų ataskaitos
+  label_really_delete_question: Ar Jūs tikri, kad norite ištrinti šią ataskaitą?
+  label_report: Ataskaita
+  label_rows: Eilutės
+  label_saving: Išsaugoma ...
+  label_spent_on_reporting: Data (praleista)
+  label_sum: Suma
+  label_units: Vienetai
+  label_week_reporting: Savaitė (praleista)
+  label_work_package_attributes: Darbų paketo atributai
+  label_year_reporting: Metai (praleista)
+  label_yes: Taip
+  load_query_question: Ataskaita turės %{size} lentelės langelių ir gali užtrukti, kol bus paruošta. Ar Jūs dar vis norite pabandyti sukurti ją?
+  permission_save_cost_reports: Išsaugoti viešų kaštų ataskaitas
+  permission_save_private_cost_reports: Išsaugoti privačių kaštų ataskaitas
+  plugin_openproject_reporting:
+    description: Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu.
+    name: OpenProject ataskaitos
+  project_module_reporting_module: Kaštų ataskaitos
   reporting:
     group_by:
-      selected_columns: "Pasirinkti stulpeliai"
-      selected_rows: "Pasirinktos eilutės"
+      selected_columns: Pasirinkti stulpeliai
+      selected_rows: Pasirinktos eilutės
+  text_costs_are_rounded_note: Rodomos reikšmės yra suapvalintos. Visi apskaičiavimai remiasi nesuapvalintomis reikšmėmis.
+  toggle_multiselect: įjungti/išjungti multipasirinkimą
+  units: Vienetai
+  validation_failure_date: nėra tinkama data
+  validation_failure_integer: nėra tinkamas sveikas skaičius

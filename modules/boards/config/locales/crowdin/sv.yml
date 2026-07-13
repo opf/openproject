@@ -1,40 +1,46 @@
-#English strings go here
+---
 sv:
-  plugin_openproject_boards:
-    name: "OpenProject Tavlor"
-    description: "Tillhandahåller kalendervyer."
-  permission_show_board_views: "Visa tavlor"
-  permission_manage_board_views: "Hantera tavlor"
-  project_module_board_view: "Tavlor"
+  boards:
+    board_type_attributes:
+      assignee: Tilldelad till
+      basic: Enkel
+      status: Kanban
+      subproject: Delprojekt
+      subtasks: Förälder-barn
+      version: Version
+    board_type_descriptions:
+      assignee: 'Tavla med automatiserade kolumner baserat på tilldelade användare. Perfekt för att skicka ut arbetspaket.
+
+        '
+      basic: 'Börja från början med en tom tavla. Lägg till kort och kolumner manuellt till tavlan.
+
+        '
+      status: 'Grundläggande kanban-tavla med kolumner för status, t. ex. Att göra, Pågående, Klar.
+
+        '
+      subproject: 'Tavla med automatiserade kolumner för delprojekt. Genom att dra arbetspaket till andra listor uppdateras (under)projektet i enlighet med detta.
+
+        '
+      subtasks: 'Tavla med automatiserade kolumner för underelement. Om du drar arbetspaket till andra listor uppdateras den överordnade listan i enlighet med detta.
+
+        '
+      version: 'Tavla med automatiserade kolumner baserade på versionsattributet. Idealisk för planering av produktutveckling.
+
+        '
+    board_types:
+      action: Åtgärdstavla (%{attribute})
+      free: Enkel
+    label_board: Tavla
+    label_board_type: Typ av tavla
+    label_boards: Tavlor
+    label_create_new_board: Skapa ny tavla
   ee:
     upsell:
       board_view:
-        description: 'Vill du automatisera dina arbetsflöden med Tavlor? Avancerade tavlor är ett Enterprise tillägg. Vänligen uppgradera till en betald plan.'
-  boards:
-    label_board: "Tavla"
-    label_boards: "Tavlor"
-    label_create_new_board: "Skapa ny tavla"
-    label_board_type: "Typ av tavla"
-    board_types:
-      free: Enkel
-      action: "Åtgärdstavla (%{attribute})"
-    board_type_attributes:
-      assignee: Tilldelad till
-      status: Kanban
-      version: Version
-      subproject: Delprojekt
-      subtasks: Förälder-barn
-      basic: Enkel
-    board_type_descriptions:
-      basic: >
-        Börja från början med en tom tavla. Lägg till kort och kolumner manuellt till tavlan.
-      status: >
-        Grundläggande kanban-tavla med kolumner för status, t. ex. Att göra, Pågående, Klar.
-      assignee: >
-        Tavla med automatiserade kolumner baserat på tilldelade användare. Perfekt för att skicka ut arbetspaket.
-      version: >
-        Tavla med automatiserade kolumner baserade på versionsattributet. Idealisk för planering av produktutveckling.
-      subproject: >
-        Tavla med automatiserade kolumner för delprojekt. Genom att dra arbetspaket till andra listor uppdateras (under)projektet i enlighet med detta.
-      subtasks: >
-        Tavla med automatiserade kolumner för underelement. Om du drar arbetspaket till andra listor uppdateras den överordnade listan i enlighet med detta.
+        description: Vill du automatisera dina arbetsflöden med Tavlor? Avancerade tavlor är ett Enterprise tillägg. Vänligen uppgradera till en betald plan.
+  permission_manage_board_views: Hantera tavlor
+  permission_show_board_views: Visa tavlor
+  plugin_openproject_boards:
+    description: Tillhandahåller kalendervyer.
+    name: OpenProject Tavlor
+  project_module_board_view: Tavlor

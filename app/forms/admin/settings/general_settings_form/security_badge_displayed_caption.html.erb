@@ -1,8 +1,8 @@
 <%=
-  I18n.t(
+  helpers.t(
     :text_notice_security_badge_displayed_html,
     information_panel_label: I18n.t(:label_information),
     more_info_url: ::OpenProject::Static::Links.url_for(:security_badge_documentation),
     information_panel_path: url_helpers.info_admin_index_path
-  ).html_safe
+  )
 %>

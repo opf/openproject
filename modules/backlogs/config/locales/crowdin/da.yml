@@ -19,124 +19,278 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 da:
-  plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
+      project:
+        backlog_excluded_types: Excluded work package types
+        sprint_sharing: Sprint-deling
+        statuses_considered_closed: Statuses considered closed
       sprint:
-        duration: "Sprint duration"
+        duration: Varighed
+        finish_date: Slutdato
+        goal: Sprint-mål
+        name: Sprint-navn
+        sharing: Deling
+        statuses:
+          active: Aktiv
+          completed: Færdiggjort
+          in_planning: Under planlægning
+        work_packages: Arbejdspakker
+      sprint_goal:
+        text: Sprint mål
       work_package:
-        position: "Position"
-        story_points: "Historiepunkter"
-        backlogs_work_package_type: "Backlog-type"
+        backlog_bucket: Backlog bucket
+        backlog_inbox: Backlog inbox
+        backlogs_work_package_type: Backlog-type
+        position: Position
+        sprint: Sprint
+        story_points: Historiepunkter
     errors:
+      messages:
+        dates_required: Start- og slutdatoer er obligatoriske for at kunne starte sprinten.
+        must_be_in_planning: skal være i planlægning for at starte.
+        only_one_active_sprint_allowed: kun én aktiv sprint tilladt pr. projekt.
       models:
+        project:
+          attributes:
+            sprint_sharing:
+              share_all_projects_already_taken: kan ikke indstilles, da projektet "%{name}" allerede deler med alle projekter.
+              share_all_projects_already_taken_anonymous: kan ikke indstilles, da et andet projekt allerede deler med alle projekter.
+          receiving_sprints: modtager delte sprints. Egne sprints kan ikke oprettes.
+        sprint:
+          attributes:
+            base:
+              format: "%{message}"
+              unfinished_work_packages:
+                one: Der er én arbejdsopgave, der ikke blev færdiggjort i dette sprint.
+                other: Der er %{count} arbejdsopgaver, som ikke blev færdiggjorte i dette sprint.
+            status:
+              not_active: er ikke aktiv, så den kan ikke lukkes.
+        sprint_goal:
+          project_already_has_goal: Har allerede et mål for dette sprint.
         work_package:
           attributes:
+            backlog_bucket:
+              backlog_bucket_from_another_project: skal tilhøre samme projekt som arbejdspakken.
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "kan kun indeholde ID'er for arbejdspakker i den aktuelle sprint."
-              must_block_at_least_one_work_package: "skal indeholde ID'et på mindst én billet."
+              can_only_contain_work_packages_of_current_sprint: kan kun indeholde ID'er for arbejdsopgaver i den aktuelle sprint.
+              must_block_at_least_one_work_package: skal indeholde ID'et på mindst én billet.
+            sprint:
+              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_eligible_for_moving: ikke er en aktiv sprint i projektet indeholdende den sprint, som arbejdspakken flyttes ud af.
             version_id:
-              task_version_must_be_the_same_as_story_version: "skal være identisk med hovedhistorieversionen."
-        sprint:
-          cannot_end_before_it_starts: "Sprint kan ikke afsluttes før det starter."
-  attributes:
-    task_type: "Opgavetype"
+              task_version_must_be_the_same_as_story_version: skal være identisk med hovedhistorieversionen.
+          backlog_bucket_xor_sprint: kan ikke tildeles til både en sprint og en backlog bucket.
+    models:
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
-    any: "alle"
-    column_width: "Column width"
-    definition_of_done: "Definition af Udført"
-    impediment: "Hindring"
-    label_versions_default_fold_state: "Vis versioner sammenfoldet"
-    caption_versions_default_fold_state: "Versioner vil ikke blive udvidet som standard, når man ser på backlogs. Hver enkelt version skal udvides manuelt."
-    work_package_is_closed: "Arbejdspakken er færdig, når"
-    label_is_done_status: "Status %{status_name} betyder færdig"
-    points_label:
-      one: "point"
-      other: "points"
-    positions_could_not_be_rebuilt: "Positioner kunne ikke genopbygges."
-    positions_rebuilt_successfully: "Positioner er genopbygget."
-    rebuild: "Genopbyg"
-    rebuild_positions: "Genopbyg positioner"
-    remaining_hours: "Resterende arbejde"
-    show_burndown_chart: "Burndown-diagram"
-    story: "Historie"
-    story_points:
-      one: "%{count} story point"
-      other: "%{count} story points"
-    task: "Opgave"
-    task_color: "Opgavefarve"
-    unassigned: "Utildelt"
-    user_preference:
-      header_backlogs: "Backlog-modul"
-      button_update_backlogs: "Opdater backlog-modul"
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
+    administration_blankslate:
+      text: Vi er i gang med at redesigne Backlog-modulet. Admin-indstillinger for sprints og backlogs vil fremgå her i den nærmeste fremtid. Projektniveauindstillinger forbliver tilgængelige.
+      title: Backlog admin-indstillinger udvikler sig
     backlog_component:
-      blankslate_title: "%{name} is empty"
-      blankslate_description: "No items planned yet. Drag items here to add them."
-    backlog_header_component:
-      label_toggle_backlog: "Collapse/Expand %{name}"
-      label_story_count:
-        zero: "No stories in backlog"
-        one: "%{count} story in backlog"
-        other: "%{count} stories in backlog"
-    backlog_menu_component:
-      label_actions: "Backlog actions"
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
+    bucket_component:
       action_menu:
-        edit_sprint: "Edit sprint"
-        new_story: "New story"
-        stories_tasks: "Stories/Tasks"
-        task_board: "Task board"
-        burndown_chart: "Burndown chart"
-        wiki: "Wiki"
-        properties: "Properties"
-    story_component:
-      label_drag_story: "Move %{name}"
-    story_menu_component:
-      label_actions: "Story actions"
-  backlogs_points_burn_direction: "Punkt burn op/ned"
-  backlogs_product_backlog: "Produkt-backlog"
-  backlogs_story: "Historie"
-  backlogs_story_type: "Historietyper"
-  backlogs_task: "Opgave"
-  backlogs_task_type: "Opgavetype"
-  backlogs_wiki_template: "Skabelon til sprint-wikiside"
-  backlogs_empty_title: "No versions are defined yet"
-  backlogs_empty_action_text: "To start using backlogs, please create a version first"
-  backlogs_not_configured_title: "Backlogs not configured"
-  backlogs_not_configured_description: "Story and task types need to be set before using this module."
-  backlogs_not_configured_action_text: "Configure Backlogs"
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        delete_backlog_bucket: Delete backlog bucket
+        edit_backlog_bucket: Edit backlog bucket
+      blankslate_description: Drag items here to add them.
+      blankslate_title: Backlog bucket is empty
+      label_actions: Backlog bucket actions
+    bucket_destroy_modal_component:
+      details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
+      title: Delete backlog bucket?
+    burndown_chart:
+      show:
+        blankslate_description: Angiv start- og slutdato for sprinten for at generere et burndown-diagram.
+        blankslate_title: Ingen burndown-data tilgængelige
+    excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
+
+      '
+    finish_sprint_dialog_component:
+      actions:
+        move_to_bottom_of_backlog: Flyt dem til bunden af backloggen
+        move_to_sprint: Flyt dem til en anden sprint
+        move_to_top_of_backlog: Flyt dem til toppen af backloggen
+      body: "%{message} Hvad skal der gøres med disse?"
+      button_complete_sprint: Færdiggør sprint
+      legend: Handling for ufærdige arbejdspakker
+      select_sprint_label: Vælg sprint
+      title: Der er igangværende arbejdsemner
+    inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Alle åbne arbejdspakker i dette projekt vises automatisk her.
+      blankslate_title: Backlog-indbakke er tom
+      label_actions: Inbox actions
+      show_more:
+        one: Vis 1 emne mere
+        other: Vis %{count} emner mere
+      title: Inbox
+    label_burndown_chart: Burndown-diagram
+    label_is_done_status: Status %{status_name} betyder færdig
+    label_sprint_board: Sprinttavle
+    move_to_bucket_dialog_component:
+      title: Move to backlog bucket
+    move_to_sprint_dialog_component:
+      label_sprint: Sprint
+      title: Flyt til sprint
+    points_label:
+      one: point
+      other: point
+    positions_could_not_be_rebuilt: Positioner kunne ikke genopbygges.
+    positions_rebuilt_successfully: Positioner er genopbygget.
+    rebuild: Genopbyg
+    rebuild_positions: Genopbyg positioner
+    remaining_hours: Resterende arbejde
+    sharing: Deling
+    show_burndown_chart: Burndown-diagram
+    sprint_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        edit_sprint: Edit sprint
+      blankslate_description: Ingen emner planlagt endnu. Træk emner hertil for at tilføje dem.
+      blankslate_title: "%{name} er tom"
+      label_actions: Sprint actions
+      label_complete_sprint: Complete sprint
+      label_start_sprint: Start sprint
+      start_sprint_disabled_reason_active_sprint: Another sprint is already active.
+      start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+    sprints_component:
+      blankslate:
+        create_and_manage_description_html: For at begynde at planlægge en sprint, opret en her eller gå til %{settings_link} for at modtage sprints fra et andet projekt.
+        create_description_text: For at begynde at planlægge en sprint, opret en her.
+        manage_description_html: For at begynde at planlægge en sprint, gå til %{settings_link} for at modtage sprints fra et andet projekt.
+        no_actions_description_text: Endnu ingen sprints tilgængelige til dette projekt.
+        receive_and_manage_description_html: Dette projekt modtager sprints fra et andet projekt. Håndtér dette via %{settings_link}.
+        receive_description_text: Dette projekt modtager delte sprints fra et andet projekt, men ingen tilgængelige p.t.
+        settings_link_text: projektindstillinger
+        title: Ingen sprints til stede endnu
+      button_new_sprint: New sprint
+    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+
+      '
+    story_points:
+      one: "%{count} historiepoint"
+      other: "%{count} historiepoint"
+    types_and_statuses: Typer og statusser
+    unassigned: Utildelt
+    user_preference:
+      button_update_backlogs: Opdatér backlog-modul
+      header_backlogs: Backlog-modul
+    work_package_card_menu_component:
+      action_menu:
+        copy_url_to_clipboard: Copy URL to clipboard
+        copy_work_package_id: Copy work package ID
+        move_menu: Move to position
+        move_to_backlog_bucket: Move to backlog bucket
+        move_to_inbox: Move to backlog inbox
+        move_to_sprint: Move to sprint
+    work_package_is_closed: Arbejdspakken er færdig, når
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
-    story_points: "Story points"
-    story_points_ideal: "Story points (ideal)"
-  errors:
-    attributes:
-      task_type:
-        cannot_be_story_type: "kan ikke også være en historietype"
-  label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "Man har ikke opsat Backlogs endnu. Gå til %{administration} > %{plugins}, og klik dernæst på linket %{configure} til dette plugin. Når man har indstillet feltindhold, vend tilbage til denne side for at begynde at bruge værktøjet."
-  label_blocks_ids: "ID'er for blokerede arbejdspakker"
-  label_column_in_backlog: "Kolonne i backlog"
-  label_points_burn_down: "Ned"
-  label_points_burn_up: "Op"
-  label_sprint_impediments: "Sprint-hindringer"
-  label_task_board: "Opgaveoversigt"
-  permission_view_master_backlog: "Se hoved-backlog"
-  permission_view_taskboards: "Vis opgaveoversigter"
-  permission_select_done_statuses: "Vælg udført-statusser"
-  permission_update_sprints: "Opdatere sprints"
-  project_module_backlogs: "Backlogs"
-  rb_burndown_charts:
-    show:
-      blankslate_title: "No burndown data available"
-      blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
-  remaining_hours: "resterende arbejde"
-  version_settings_display_label: "Kolonne i backlog"
-  version_settings_display_option_left: "venstre"
-  version_settings_display_option_none: "ingen"
-  version_settings_display_option_right: "højre"
-  setting_plugin_openproject_backlogs_story_types_caption: |
-    Typer, der behandles som backlog-historier (f.eks. funktion, brugerhistorie). Skal være forskellig fra opgavetypen.
-  setting_plugin_openproject_backlogs_task_type_caption: |
-    Type, der bruges til historieopgaver. Skal være forskellig fra historietyper.
+    story_points: Historiepoint
+    story_points_ideal: Historiepoint (idéell)
+  ee:
+    features:
+      sprint_sharing: Sprint sharing
+    upsell:
+      sprint_sharing:
+        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: All sprints
+  label_backlog: Backlog
+  label_backlog_and_sprints: Backlog and sprints
+  label_backlog_bucket_edit: Redigér backlog bucket
+  label_backlog_bucket_new: Ny backlog bucket
+  label_backlogs: Backlogger
+  label_burndown_chart: Burndown-diagram
+  label_inbox: Indbakke
+  label_points_burn_down: Ned
+  label_points_burn_up: Op
+  label_sprint_board: Sprinttavle
+  label_sprint_edit: Redigér sprint
+  label_sprint_new: Ny sprint
+  label_task_board: Opgaveoversigt
+  notice_successful_finish: Sprinten blev afsluttet.
+  notice_successful_start: Sprinten blev sat i gang.
+  notice_unsuccessful_finish: Sprinten kunne ikke afsluttes.
+  notice_unsuccessful_finish_with_reason: 'Sprinten kunne ikke afsluttes: %{reason}'
+  notice_unsuccessful_start: Sprinten kunne ikke startes.
+  notice_unsuccessful_start_with_reason: 'Sprinten kunne ikke startes: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
+  permission_create_sprints: Opret sprints
+  permission_manage_sprint_items: Håndtér sprint-emner
+  permission_select_backlog_types_and_statuses: Select backlog types and statuses
+  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
+
+    '
+  permission_share_sprint: Del sprint
+  permission_start_complete_sprint: Start/afslut sprint
+  permission_view_sprints: Vis sprints
+  plugin_openproject_backlogs:
+    description: This module adds features enabling agile teams to work with OpenProject in Scrum projects.
+    name: OpenProject Backlogs
+  project_module_backlogs: Backlogger
+  projects:
+    settings:
+      backlog_sharing:
+        options:
+          no_sharing:
+            caption: Sprints oprettes i dette projekt vil kun være tilgængelige og synlige for dette projekt. De vil heller ikke være synlige for underprojekter.
+            label: Del ikke
+          receive_shared:
+            caption: Dette projekt kan kun bruge sprints delt af andre projekter.
+            label: Modtag delte sprints
+            warning: Dette projekt kan kun bruge sprints delt af andre projekter. Ubrugte sprints, tidligere oprettet i dette projekt, vil ikke længere være synlige.
+          share_all_projects:
+            caption: Sprints oprettet i dette projekt vil være tilgængelige for alle projekter i denne instans. Vælges denne mulighed, vil den ikke længere være tilgængelig for andre projekter.
+            disabled_caption: Muligheden er ikke tilgængelig, da projektet "%{name}" p.t. deles med alle projekter, og kun ét projekt kan gøre dette.
+            disabled_caption_anonymous: Mulighed utilgængelig, da et andet projekt p.t. deler med alle projekter, og kun ét projekt kan gøre dette.
+            label: Alle projekter
+          share_subprojects:
+            caption: Sprints oprettet i dette projekt vil være tilgængelige for alle underprojekter i det aktuelle projekt.
+            info: Deling af en sprint, deler navn, status samt start- og slutdato i alle projekter. Disse kan ikke ændres i projekter, som modtager og benytter disse sprints.
+            label: Underprojekter
+        sprint_sharing: Del sprints
+      backlogs:
+        sharing_form_component:
+          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
+          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
+  remaining_hours: resterende arbejde

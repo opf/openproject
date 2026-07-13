@@ -87,21 +87,21 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSumsRepresenter do
 
   describe "materialCosts" do
     it "is represented" do
-      expected = "5.00 EUR"
+      expected = "5.00 €"
       expect(subject).to be_json_eql(expected.to_json).at_path("materialCosts")
     end
   end
 
   describe "laborCosts" do
     it "is represented" do
-      expected = "10.00 EUR"
+      expected = "10.00 €"
       expect(subject).to be_json_eql(expected.to_json).at_path("laborCosts")
     end
   end
 
   describe "overallCosts" do
     it "is represented" do
-      expected = "15.00 EUR"
+      expected = "15.00 €"
       expect(subject).to be_json_eql(expected.to_json).at_path("overallCosts")
     end
   end

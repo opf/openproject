@@ -80,6 +80,10 @@ module AuthenticationHelpers
     else
       page.driver.clear_cookies
     end
+
+    # The login_as method call short circuits the login by mocking the current user.
+    # Thus logging out should also reset the login mock in order to make the logout complete.
+    allow(RequestStore).to receive(:[]).and_call_original
   end
 
   private

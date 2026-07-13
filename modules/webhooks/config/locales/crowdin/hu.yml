@@ -1,72 +1,75 @@
+---
 hu:
-  plugin_openproject_webhooks:
-    name: "OpenProject webhookok"
-    description: "Az OpenProject webhooks támogatásához egy API-t biztosít a jobb 3rd party integráció érdekében."
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'Tartalom URL-címe'
-        secret: 'titkos aláírás'
-        events: 'Események'
-        enabled: 'Enabled'
-        projects: 'Engedélyezett projektek'
       webhooks/log:
-        event_name: 'Esemény neve'
-        url: 'Tartalom URL-címe'
-        response_code: 'Válasz kód'
-        response_body: 'Válasz'
+        event_name: Esemény neve
+        response_body: Válasz
+        response_code: Válasz kód
+        url: Tartalom URL-címe
+      webhooks/webhook:
+        enabled: Enabled
+        events: Események
+        projects: Engedélyezett projektek
+        secret: titkos aláírás
+        url: Tartalom URL-címe
     models:
-      webhooks/outgoing_webhook: "Kimenő webhook"
+      webhooks/outgoing_webhook: Kimenő webhook
+  plugin_openproject_webhooks:
+    description: Az OpenProject webhooks támogatásához egy API-t biztosít a jobb 3rd party integráció érdekében.
+    name: OpenProject webhookok
   webhooks:
-    singular: Webhook
-    plural: Webhooks
-    resources:
-      time_entry:
-        name: "Belépési idő"
     outgoing:
-      no_results_table: Nincs definiált webhook
+      deliveries:
+        no_results_table: Az elmúlt napokban nem történt kézbesítés ehhez a webhookhoz.
+        time: Kézbesítési idő
+        title: Utóbbi kézbesítések
+      events:
+        comment: Vélemény
+        created: Létrehoz
+        internal_comment: Internal comment
+        updated: Frissítve
+      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+
+        '
+      form:
+        apiv3_doc_url: További információt az API dokumentációjában talál
+        description:
+          placeholder: Opcionális leírás a webhook számára.
+        enabled:
+          description: 'Ha be van jelölve, a webhook elindítja a kiválasztott eseményeket. Törölje a jelölőnégyzetet a webhook letiltásához.
+
+            '
+        events:
+          title: Engedélyezett események
+        introduction: 'Küldjön POST-kérelmet az alábbi hasznos URL-re az előfizetésben szereplő projekt minden eseményére. A hasznos teher megfelel a módosítandó objektum APIv3 reprezentációjának.
+
+          '
+        project_ids:
+          all: Minden projekt
+          description: Válassza ki, mely projektekhez hajtsa végre ezt a webhookot.
+          selected: Csak a kiválasztott projektek
+          title: Engedélyezett projektek
+        secret:
+          description: 'Ha be van állítva, ezt a titkos értéket az OpenProject használja a webhook hasznos teher aláírására.
+
+            '
+        selected_project_ids:
+          title: Kiválasztott projektek
       label_add_new: Webhook hozzáadása
       label_edit: Webhook szerkesztése
       label_x_events:
-        one: "1 event"
+        one: 1 event
         other: "%{count} events"
-        zero: "No events"
-      events:
-        created: "Létrehoz"
-        updated: "Frissítve"
-        comment: "Vélemény"
-        internal_comment: "Internal comment"
-      explanation:
-        text: >
-          Olyan események előfordulása esetén, mint például munkacsomag létrehozása vagy projekt frissítése, az OpenProject egy POST kérést küld a bekonfigurált webes végpontoknak. Az esemény gyakran %{link} elteltével érkezik.
-        link: beállított összesítési időszak
+        zero: No events
+      no_results_table: Nincs definiált webhook
       status:
-        enabled: 'Webhook engedélyezve'
-        disabled: 'Webhook tiltva'
-        enabled_text: 'A webhook hasznos terheket bocsát ki az alább meghatározott eseményekhez.'
-        disabled_text: 'Kattintson a szerkesztés gombra a webhook aktiválásához.'
-      deliveries:
-        no_results_table: Az elmúlt napokban nem történt kézbesítés ehhez a webhookhoz.
-        title: 'Utóbbi kézbesítések'
-        time: 'Kézbesítési idő'
-      form:
-        introduction: >
-          Küldjön POST-kérelmet az alábbi hasznos URL-re az előfizetésben szereplő projekt minden eseményére. A hasznos teher megfelel a módosítandó objektum APIv3 reprezentációjának.
-        apiv3_doc_url: További információt az API dokumentációjában talál
-        description:
-          placeholder: 'Opcionális leírás a webhook számára.'
-        enabled:
-          description: >
-            Ha be van jelölve, a webhook elindítja a kiválasztott eseményeket. Törölje a jelölőnégyzetet a webhook letiltásához.
-        events:
-          title: 'Engedélyezett események'
-        project_ids:
-          title: 'Engedélyezett projektek'
-          description: 'Válassza ki, mely projektekhez hajtsa végre ezt a webhookot.'
-          all: 'Minden projekt'
-          selected: 'Csak a kiválasztott projektek'
-        selected_project_ids:
-          title: 'Kiválasztott projektek'
-        secret:
-          description: >
-            Ha be van állítva, ezt a titkos értéket az OpenProject használja a webhook hasznos teher aláírására.
+        disabled: Webhook tiltva
+        disabled_text: Kattintson a szerkesztés gombra a webhook aktiválásához.
+        enabled: Webhook engedélyezve
+        enabled_text: A webhook hasznos terheket bocsát ki az alább meghatározott eseményekhez.
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: Belépési idő
+    singular: Webhook

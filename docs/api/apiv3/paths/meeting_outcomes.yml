@@ -1,0 +1,59 @@
+# /api/v3/meeting_outcomes
+---
+post:
+  summary: Create meeting outcome
+  operationId: create_meeting_outcome
+  tags:
+    - Meetings
+  description: Creates a new meeting outcome. The request body must link the agenda item.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/meeting_outcome_write_model.yml"
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_outcome_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage outcomes
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the linked agenda item does not exist or the client does not have sufficient permissions to see it.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

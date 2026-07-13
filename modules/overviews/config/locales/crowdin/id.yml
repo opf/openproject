@@ -1,5 +1,6 @@
+---
 id:
   overviews:
+    label_dashboard: Dasbor
     label_home: "%{workspace_type} home"
-    label_dashboard: "Dasbor"
-    label_overview: "Tinjauan"
+    label_overview: Tinjauan

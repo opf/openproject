@@ -30,7 +30,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
   <div class="op-widget-box--header-title title-container">
-    <h3 class="editable-toolbar-title--fixed"><%= title %></h3>
+    <h3 class="editable-toolbar-title--fixed">
+      <% if @attribute_label_args %>
+        <%= render OpenProject::Common::AttributeLabelComponent.new(**@attribute_label_args) do %>
+          <%= title %>
+        <% end %>
+      <% else %>
+        <%= title %>
+      <% end %>
+    </h3>
   </div>
   <%= action %>
 <% end %>

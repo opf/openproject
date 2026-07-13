@@ -78,7 +78,7 @@ module OpenIDConnect
         # Client ID and Client Secret must be form-encoded. Otherwise characters such as colon (:)
         # would not be allowed in the Client ID, since HTTP Basic Auth does not support it
         # as per https://datatracker.ietf.org/doc/html/rfc7617#section-2
-        OpenProject.httpx.basic_auth(CGI.escape(provider.client_id), CGI.escape(provider.client_secret))
+        OpenProject.httpx.plugin(:basic_auth).basic_auth(CGI.escape(provider.client_id), CGI.escape(provider.client_secret))
       end
     end
   end

@@ -19,1202 +19,1093 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 et:
   js:
+    admin:
+      type_form:
+        edit_query: Edit query
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+      working_days:
+        add_non_working_day: Non-working day
+        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
+        calendar:
+          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
+          empty_state_header: Non-working days
+          new_date: "(new)"
     ajax:
-      hide: "Peida"
-      loading: "Loading…"
-      updating: "Updating…"
+      hide: Peida
+      loading: Loading…
+      updating: Updating…
     attachments:
-      delete: "Delete attachment"
-      delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
-      draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      delete: Delete attachment
+      delete_confirmation: 'Are you sure you want to delete this file? This action is not reversible.
+
+        '
+      draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+
+        '
+      quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Laadimine..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: Add item
+      clear_all: Clear all
+      loading: Laadimine...
+      not_found: No items found
+      type_to_search: Type to search
     autocomplete_select:
+      active: Active %{label} %{name}
       placeholder:
-        multi: 'Add "%{name}"'
-        single: 'Select "%{name}"'
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+    autocompleter:
+      notFoundText: No items found
+      placeholder: Type to search
+      project:
+        placeholder: Select project
+      search: Otsi
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
-      info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
-      note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      download_backup: Download backup
+      include_attachments: Include attachments
+      info: 'You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it''s ready.
+
+        '
       last_backup: Last backup
       last_backup_from: Last backup from
-      title: Backup OpenProject
+      note: 'A new backup will override any previous one. Only a limited number of backups per day can be requested.
+
+        '
       options: Valikud
-      include_attachments: Include attachments
-      download_backup: Download backup
       request_backup: Request backup
-    close_popup_title: "Sulge hüpikaken"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
-    button_add_watcher: "Lisa jälgija"
-    button_add: "Lisamine"
-    button_back: "Tagasi"
-    button_back_to_list_view: "Back to list view"
-    button_cancel: "Tühista"
-    button_close: "Sulge"
-    button_change_project: "Move to another project"
-    button_check_all: "Märgi kõik"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
-    button_continue: "Jätka"
-    button_copy: "Kopeeri"
-    button_copy_to_clipboard: "Kopeeri vahemällu"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
-    button_copy_to_other_project: "Duplicate in another project"
-    button_custom-fields: "Lisaväljad"
-    button_delete: "Kustuta"
-    button_delete_watcher: "Kustuta jäligja"
-    button_details_view: "Üksikasjalik vaade"
-    button_duplicate: "Duplitseeri"
-    button_edit: "Muuda"
-    button_filter: "Filter"
-    button_collapse_all: "Koonda kõik"
-    button_expand_all: "Laienda kõik"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "Nimekirja vaade"
-    button_show_view: "Fullscreen view"
-    button_log_time: "Ajakulu"
-    button_start_timer: "Start timer"
-    button_stop_timer: "Stop timer"
-    button_more: "Rohkem"
-    button_open_details: "Ava üksikasjalik vaade"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
-    button_quote: "Tsiteeri"
-    button_save: "Salvesta"
-    button_settings: "Seaded"
-    button_uncheck_all: "Tühjenda valik"
-    button_update: "Uuenda"
-    button_export-atom: "Download Atom"
-    button_generate_pdf: "Genereeri PDF"
-    button_create: "Loo uus"
+      title: Backup OpenProject
+    baseline:
+      apply: Rakenda
+      clear: Tühjenda
+      drop_down:
+        a_specific_date: a specific date
+        between_two_specific_dates: between two specific dates
+        last_month: eelmisel kuul
+        last_week: eelmisel nädalal
+        last_working_day: last working day
+        none: "-"
+        yesterday: eile
+      from: Algus
+      header_description: Highlight changes made to this list since any point in the past.
+      help_description: Reference time zone for the baseline.
+      icon_tooltip:
+        added: Added to view within the comparison time period
+        changed: Maintained with modifications
+        removed: Removed from view within the comparison time period
+      legends:
+        changes_between: Changes between
+        changes_since: Changes since
+        in_your_timezone: 'In your local timezone:'
+        maintained_with_changes: Maintained with changes
+        no_longer_meets_filter_criteria: No longer meets filter criteria
+        now_meets_filter_criteria: Now meets filter criteria
+      show_changes_since: Show changes since
+      time: Aeg
+      time_description: 'In your local time: %{datetime}'
+      to: Lõpp
+      toggle_title: Baseline
+    breadcrumb: Breadcrumb
+    button_add: Lisamine
+    button_add_watcher: Lisa jälgija
+    button_advanced_filter: Advanced filter
+    button_back: Tagasi
+    button_back_to_list_view: Back to list view
+    button_cancel: Tühista
+    button_change_project: Move to another project
+    button_check_all: Märgi kõik
+    button_close: Sulge
+    button_close_details: Close details view
+    button_collapse_all: Koonda kõik
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Jätka
+    button_copy: Kopeeri
+    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_to_clipboard: Kopeeri vahemällu
+    button_copy_to_other_project: Duplicate in another project
+    button_create: Loo uus
+    button_custom-fields: Lisaväljad
+    button_delete: Kustuta
+    button_delete_watcher: Kustuta jäligja
+    button_details_view: Üksikasjalik vaade
+    button_duplicate: Duplitseeri
+    button_edit: Muuda
+    button_expand_all: Laienda kõik
+    button_export-atom: Download Atom
+    button_filter: Filter
+    button_generate_pdf: Genereeri PDF
+    button_list_view: Nimekirja vaade
+    button_log_time: Ajakulu
+    button_more: Rohkem
+    button_more_actions: More actions
+    button_open_details: Ava üksikasjalik vaade
+    button_open_fullscreen: Open fullscreen view
+    button_quote: Tsiteeri
+    button_save: Salvesta
+    button_settings: Seaded
+    button_show_cards: Show card view
+    button_show_fullscreen: Show fullscreen view
+    button_show_gantt: Show Gantt view
+    button_show_list: Show list view
+    button_show_table: Show table view
+    button_show_view: Fullscreen view
+    button_start_timer: Start timer
+    button_stop_timer: Stop timer
+    button_uncheck_all: Tühjenda valik
+    button_update: Uuenda
+    caption_rate_history: Rate history
     card:
-      add_new: "Add new card"
+      add_new: Add new card
       highlighting:
-        inline: "Highlight inline:"
-        entire_card_by: "Entire card by"
-      remove_from_list: "Remove card from list"
-    caption_rate_history: "Rate history"
-    clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
-      copied_successful: "Successfully copied to clipboard!"
+        entire_card_by: Entire card by
+        inline: 'Highlight inline:'
+      remove_from_list: Remove card from list
     chart:
-      type: "Chart type"
-      axis_criteria: "Axis criteria"
-      modal_title: "Work package graph configuration"
-      types:
-        line: "Line"
-        horizontal_bar: "Horizontal bar"
-        bar: "Bar"
-        pie: "Pie"
-        doughnut: "Doughnut"
-        radar: "Radar"
-        polar_area: "Polar area"
-      tabs:
-        graph_settings: "Üldine"
-        dataset: "Dataset %{number}"
+      axis_criteria: Axis criteria
       errors:
-        could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
-    description_available_columns: "Saadaolevad väljad"
-    description_current_position: "Oled siin: "
-    description_select_work_package: "Select work package #%{id}"
-    description_subwork_package: "Child of work package #%{id}"
+        could_not_load: The data to display the graph could not be loaded. The necessary permissions may be lacking.
+      modal_title: Work package graph configuration
+      tabs:
+        dataset: Dataset %{number}
+        graph_settings: Üldine
+      type: Chart type
+      types:
+        bar: Bar
+        doughnut: Doughnut
+        horizontal_bar: Horizontal bar
+        line: Line
+        pie: Pie
+        polar_area: Polar area
+        radar: Radar
+    clipboard:
+      browser_error: 'Your browser doesn''t support copying to clipboard. Please copy it manually: %{content}'
+      copied_successful: Successfully copied to clipboard!
+    close_filter_title: Close filter
+    close_form_title: Close form
+    close_popup_title: Sulge hüpikaken
+    custom_actions:
+      date:
+        current_date: Current date
+        specific: 'on'
+    description_available_columns: Saadaolevad väljad
+    description_current_position: 'Oled siin: '
+    description_select_work_package: 'Select work package #%{id}'
+    description_subwork_package: 'Child of work package #%{id}'
     editor:
-      revisions: "Show local modifications"
-      no_revisions: "No local modifications found"
-      preview: "Toggle preview mode"
-      source_code: "Toggle Markdown source mode"
-      error_saving_failed: "Saving the document failed with the following error: %{error}"
-      ckeditor_error: "An error occurred within CKEditor"
-      mode:
-        manual: "Switch to Markdown source"
-        wysiwyg: "Switch to WYSIWYG editor"
+      ckeditor_error: An error occurred within CKEditor
+      error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
-        error: "Cannot expand macro: %{message}"
         attribute_reference:
-          macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
-          not_found: "Requested resource could not be found"
-          nested_macro: "This macro is recursively referencing %{model} %{id}."
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          invalid_attribute: The selected attribute '%{name}' does not exist.
+          macro_help_tooltip: This text segment is being dynamically rendered by a macro.
+          nested_macro: This macro is recursively referencing %{model} %{id}.
+          not_found: Requested resource could not be found
         child_pages:
-          button: "Links to child pages"
-          include_parent: "Include parent"
-          text: "[Placeholder] Links to child pages of"
-          page: "Viki leht"
-          this_page: "this page"
-          hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+          button: List of sub-pages
+          hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+
+            '
+          include_parent: Include parent
+          page: Viki leht
+          text: "[Placeholder] List of sub-pages of"
+          this_page: this page
         code_block:
-          button: "Insert code snippet"
-          title: "Insert / edit Code snippet"
-          language: "Formatting language"
-          language_hint: "Enter the formatting language that will be used for highlighting (if supported)."
-        dropdown:
-          macros: "Macros"
-          chose_macro: "Choose macro"
-        toc: "Sisukord"
-        toolbar_help: "Click to select widget and show the toolbar. Double-click to edit widget"
+          button: Insert code snippet
+          language: Formatting language
+          language_hint: Enter the formatting language that will be used for highlighting (if supported).
+          title: Insert / edit Code snippet
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
+        toc: Sisukord
+        toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
-          button: "Include content of another wiki page"
-          text: "[Placeholder] Included wiki page of"
-          page: "Viki leht"
-          not_set: "(Page not yet set)"
+          button: Include content of another wiki page
           hint: |
             Include the content of another wiki page by specifying its title or slug.
             You can include the wiki page of another project by separating them with a colon like the following example.
+          not_set: "(Page not yet set)"
+          page: Viki leht
+          text: "[Placeholder] Included wiki page of"
         work_package_button:
-          button: "Insert create work package button"
-          type: "Work package type"
-          button_style: "Use button style"
-          button_style_hint: "Optional: Check to make macro appear as a button, not as a link."
-          without_type: "Create work package"
-          with_type: "Create work package (Type: %{typename})"
-        embedded_table:
-          button: "Embed work package table"
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
-    admin:
-      type_form:
-        custom_field: "Lisaväli"
-        inactive: "Mitteaktiivne"
-        drag_to_activate: "Drag fields from here to activate them"
-        add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
-        edit_query: "Edit query"
-        new_group: "Uus rühm"
-        delete_group: "Delete group"
-        remove_attribute: "Remove from group"
-        reset_to_defaults: "Taasta vaikesätted"
-      working_days:
-        calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: "(new)"
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance."
-        warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
-          Are you sure you want to continue?
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: >-
-          Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: >-
-          Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-    custom_actions:
-      date:
-        specific: "on"
-        current_date: "Current date"
+          button: Insert create work package button
+          button_style: Use button style
+          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
+          type: Work package type
+          with_type: 'Create work package (Type: %{typename})'
+          without_type: Create work package
+      mode:
+        manual: Switch to Markdown source
+        wysiwyg: Switch to WYSIWYG editor
+      no_revisions: No local modifications found
+      preview: Toggle preview mode
+      revisions: Show local modifications
+      source_code: Toggle Markdown source mode
+    enumeration_activities: Tegevused (ajajälgimine)
+    enumeration_doc_categories: Dokumentide kategooriad
+    enumeration_work_package_priorities: Teemade prioriteedid
     error:
-      internal: "An internal error has occurred."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Tegevused (ajajälgimine)"
-    enumeration_doc_categories: "Dokumentide kategooriad"
-    enumeration_work_package_priorities: "Teemade prioriteedid"
+      cannot_save_changes_with_message: 'Cannot save your changes due to the following error: %{error}'
+      embedded_table_loading: 'The embedded view could not be loaded: %{message}'
+      internal: An internal error has occurred.
+      query_saving: The view could not be saved.
+    error_attachment_upload: 'File failed to upload: %{error}'
+    error_attachment_upload_permission: You don't have the permission to upload files on this resource.
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    exclusion_info:
+      modal:
+        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
+        title: Status excluded from hierarchy totals
+    favorite_projects:
+      no_results: You have no favorite projects
+      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+    field_value_enter_prompt: Enter a value for '%{field}'
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
-        text_open_filter: "Open this filter with 'ALT' and arrow keys."
-        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+        text_close_filter: To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry.
+        text_open_filter: Open this filter with 'ALT' and arrow keys.
+      more_values_not_shown: There are %{total} more results, search to filter results.
       noneElement: "(pole)"
-      time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
-      value_spacer: "-"
       sorting:
         criteria:
-          one: "First sorting criteria"
-          two: "Second sorting criteria"
-          three: "Third sorting criteria"
+          one: First sorting criteria
+          three: Third sorting criteria
+          two: Second sorting criteria
+      time_zone_converted:
+        only_end: Till %{to} in your local time.
+        only_start: From %{from} in your local time.
+        two_values: "%{from} - %{to} in your local time."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Täpsemad seaded
+      load_error_message: There was an error loading the form
+      submit_success_message: The form was successfully submitted
+      validation_error_message: Please fix the errors present in the form
     gantt_chart:
-      label: "Gantt diagrammi"
-      quarter_label: "Q%{quarter_number}"
-      labels:
-        title: "Label configuration"
-        bar: "Bar labels"
-        left: "Left"
-        right: "Right"
-        farRight: "Far right"
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: "Näita gantt diagrammi"
-      button_deactivate: "Hide Gantt chart"
+      button_activate: Näita gantt diagrammi
+      button_deactivate: Hide Gantt chart
       filter:
         noneSelection: "(pole)"
+      label: Gantt diagrammi
+      labels:
+        bar: Bar labels
+        description: 'Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+
+          '
+        farRight: Far right
+        left: Left
+        right: Right
+        title: Label configuration
+      quarter_label: Q%{quarter_number}
       selection_mode:
-        notification: "Click on any highlighted work package to create the relation. Press escape to cancel."
+        notification: Click on any highlighted work package to create the relation. Press escape to cancel.
       zoom:
-        in: "Vaata lähemalt"
-        out: "Vaata kaugemalt"
-        auto: "Auto zoom"
-        days: "Päevad"
-        weeks: "Nädalad"
-        months: "Kuud"
-        quarters: "Kvartalid"
-        years: "Aastad"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
-    general_text_no: "ei"
-    general_text_yes: "jah"
-    general_text_No: "Ei"
-    general_text_Yes: "Jah"
+        auto: Auto zoom
+        days: Päevad
+        description: 'Select the initial zoom level that should be shown when autozoom is not available.
+
+          '
+        in: Vaata lähemalt
+        months: Kuud
+        out: Vaata kaugemalt
+        quarters: Kvartalid
+        weeks: Nädalad
+        years: Aastad
+    general_text_No: Ei
+    general_text_Yes: Jah
+    general_text_no: ei
+    general_text_yes: jah
+    global_search:
+      all_projects: In all projects
+      close_search: Close search
+      current_project: In this project
+      current_project_and_all_descendants: In this project + subprojects
+      direct_hit_available: Work package with exact ID found. Press Enter to open it.
+      items_available: "%{count} items available"
+      recently_viewed: Recently viewed
+      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      title:
+        all_projects: all projects
+        project_and_subprojects: and all subprojects
+        search_for: Search for
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        edit_prohibited: Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
-    ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: 'Type a name, e.g. "Phone"'
-      token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.'
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
-    label_activate: "Aktiveerimine"
-    label_assignee: "Määratud tegija"
-    label_assignee_alt_text: "This work package is assigned to %{name}"
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
-    label_add_columns: "Lisa veergusid"
-    label_add_comment: "Lisa kommentaar"
-    label_add_comment_title: "Comment and type @ to notify other people"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
-    label_add_selected_columns: "Lisa valitud väljad"
-    label_added_by: "lisas"
-    label_added_time_by: 'Added by <a href="%{authorLink}">%{author}</a> at %{age}'
-    label_ago: "päeva tagasi"
-    label_all: "kõik"
-    label_all_projects: "Kõik projektid"
-    label_all_uppercase: "Kõik"
-    label_all_work_packages: "kõik teemad"
-    label_and: "ja"
-    label_ascending: "Kasvav"
-    label_author: "Author: %{user}"
-    label_avatar: "Profiilipilt"
-    label_between: "between"
-    label_board: "Board"
-    label_board_locked: "Lukus"
-    label_board_plural: "Boards"
-    label_board_sticky: "Külgejääv"
-    label_change: "Muuda"
-    label_create: "Loo uus"
-    label_create_work_package: "Lisa uus teema"
-    label_created_by: "Autor"
-    label_current: "current"
-    label_date: "Kuupäev"
-    label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
-    label_deactivate: "Deactivate"
-    label_descending: "Kahanev"
-    label_description: "Teave"
-    label_details: "Üksikasjad"
-    label_display: "Kuva"
-    label_cancel_comment: "Tühista kommentaar"
-    label_closed_work_packages: "suletud"
-    label_collapse: "Koonda"
-    label_collapsed: "koondatud"
-    label_collapse_all: "Koonda kõik"
-    label_collapse_text: "Collapse text"
-    label_comment: "Kommentaar"
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: "committed revision %{revision_identifier}"
-    label_contains: "sisaldab"
-    label_created_on: "created on"
-    label_edit_comment: "Edit this comment"
-    label_edit_status: "Edit the status of the work package"
-    label_email: "E-posti aadress"
-    label_equals: "võrdub"
-    label_expand: "Laienda"
-    label_expanded: "laiendatud"
-    label_expand_all: "Laienda kõik"
-    label_expand_text: "Show full text"
-    label_expand_project_menu: "Expand project menu"
-    label_export: "Ekspordi"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_favorites: "Favorites"
-    label_filename: "Manus"
-    label_filesize: "Suurus"
-    label_general: "Üldine"
-    label_greater_or_equal: ">="
-    label_group: "Grupp"
-    label_group_by: "Grupeeri"
-    label_group_plural: "Rühmad"
-    label_hide_attributes: "Näita vähem"
-    label_hide_column: "Peida veerg"
-    label_hide_project_menu: "Collapse project menu"
-    label_in: "sisaldub hulgas"
-    label_in_less_than: "on väiksem kui"
-    label_in_more_than: "on suurem kui"
-    label_incoming_emails: "Sissetulevad e-postisõnumid"
-    label_information_plural: "Teave"
-    label_invalid: "Invalid"
-    label_import: "Impordi"
-    label_latest_activity: "Latest activity"
-    label_last_updated_on: "Viimati uuendatud"
-    label_learn_more_link: "Loe rohkem"
-    label_less_or_equal: "<="
-    label_less_than_ago: "vähem kui päev tagasi"
-    label_loading: "Laadimine..."
-    label_mail_notification: "Eposti märguandmed"
-    label_manage_columns: "Manage and reorder columns"
-    label_me: "mina"
-    label_meeting_agenda: "Päevakava"
-    label_meeting_minutes: "Minutit"
-    label_more_than_ago: "vanem kui"
-    label_moderate_comment: "Moderate comment"
-    label_next: "Järgmine"
-    label_no_color: "Värvi pole"
-    label_no_data: "Pole"
-    label_no_due_date: "no finish date"
-    label_no_start_date: "alguse kuupäeva pole"
-    label_no_date: "no date"
-    label_no_value: "No value"
-    label_none: "pole"
-    label_not_contains: "ei sisalda"
-    label_not_equals: "ei ole"
-    label_on: "on"
-    label_open_menu: "Ava menüü"
-    label_open_context_menu: "Open context menu"
-    label_open_work_packages: "avatud"
-    label_password: "Parool"
-    label_previous: "Eelmine"
-    label_per_page: "Lehekülje kohta:"
-    label_please_wait: "Please wait"
-    label_project: "Projekt"
-    label_project_list: "Project lists"
-    label_project_plural: "Projektid"
-    label_visibility_settings: "Visibility settings"
-    label_quote_comment: "Quote this comment"
-    label_recent: "Recent"
-    label_reset: "Nulli"
-    label_remove: "Eemalda"
-    label_remove_column: "Remove column"
-    label_remove_columns: "Eemalda valitud väljad"
-    label_remove_row: "Remove row"
-    label_report: "Aruanne"
-    label_repository_plural: "Hoidlad"
-    label_resize_project_menu: "Resize project menu"
-    label_save_as: "Salvesta kui"
-    label_search_columns: "Search a column"
-    label_select_watcher: "Vali jälgija..."
-    label_selected_filter_list: "Valitud filtrid"
-    label_show_attributes: "Show all attributes"
-    label_show_in_menu: "Show view in menu"
-    label_sort_by: "Sorteeri"
-    label_sorted_by: "sorted by"
-    label_sort_higher: "Nihuta üles"
-    label_sort_lower: "Nihuta alla"
-    label_sorting: "Sorteerimine"
-    label_spent_time: "Kulutatud aeg"
-    label_star_query: "Favorited"
-    label_press_enter_to_save: "Press enter to save."
-    label_public_query: "Avalik"
-    label_sum: "Summa"
-    label_sum_for: "Sum for"
-    label_total_sum: "Total sum"
-    label_subject: "Teema"
-    label_this_week: "sel nädalal"
-    label_today: "Täna"
-    label_time_entry_plural: "Kulutatud aeg"
-    label_up: "Üles"
-    label_user_plural: "Kasutajad"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
-    label_total_progress: "%{percent}% Total progress"
-    label_total_amount: "Total: %{amount}"
-    label_updated_on: "updated on"
-    label_value_derived_from_children: "(value derived from children)"
-    label_children_derived_duration: "Work package's children derived duration"
-    label_warning: "Hoiatus"
-    label_work_package: "Teema"
-    label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Teemad"
-    label_watch: "Vaata"
-    label_watch_work_package: "Watch work package"
-    label_watcher_added_successfully: "Watcher successfully added!"
-    label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
-    label_unwatch: "Ära jälgi"
-    label_unwatch_work_package: "Unwatch work package"
-    label_uploaded_by: "Uploaded by"
-    label_default_queries: "Vaikimisi"
-    label_starred_queries: "Lemmik"
-    label_global_queries: "Avalik"
-    label_custom_queries: "Private"
-    label_columns: "Väljad"
-    label_attachments: Manused
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Attach files"
-    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
-    label_remove_file: "Delete %{fileName}"
-    label_remove_watcher: "Remove watcher %{name}"
-    label_remove_all_files: Delete all files
-    label_add_description: "Add a description for %{file}"
-    label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    label_files_to_upload: "These files will be uploaded:"
-    label_rejected_files: "These files cannot be uploaded:"
-    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
-    label_wait: "Please wait for configuration..."
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_validation_error: "The work package could not be saved due to the following errors:"
-    label_version_plural: "Versioonid"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+        general: An error has occurred.
+        update_conflict_refresh: Click here to refresh the resource and update to the newest version.
     help_texts:
-      show_modal: "Show help text"
+      show_modal: Show help text
+    ical_sharing_modal:
+      copy_url_label: Copy URL
+      description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
+      ical_generation_error_text: An error occured while generating the calendar URL.
+      inital_setup_error_message: An error occured while fetching data.
+      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
+      title: Subscribe to calendar
+      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
+      token_name_label: Where will you be using this?
+      token_name_placeholder: Type a name, e.g. "Phone"
+      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+    include_projects:
+      apply: Rakenda
+      clear_selection: Clear selection
+      include_subprojects: Include all sub-projects
+      no_results: No project matches your search criteria.
+      search_placeholder: Search projects...
+      selected_filter:
+        all: Kõik projektid
+        selected: Only selected
+      title: Projektid
+      toggle_title: Include projects
+      tooltip:
+        current_project: This is the current project you are in.
+        does_not_match_search: Project does not match the search criteria.
+        include_all_selected: Project already included since Include all sub-projects is enabled.
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Program
+    inplace:
+      btn_preview_disable: Disable preview
+      btn_preview_enable: Eelvaade
+      button_cancel: "%{attribute}: Cancel"
+      button_cancel_all: Tühista
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_save_all: Salvesta
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        number: "%{field} is not a valid number"
+        required: "%{field} cannot be empty"
+      link_formatting_help: Text formatting help
+      null_value_label: No value
+    invalid_job_response: Invalid response from server.
+    invite_user_modal:
+      invite: Invite
+      placeholder_add_tag: Create placeholder user
+    label_activate: Aktiveerimine
+    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Show activities with comments only
+    label_add_attachments: Attach files
+    label_add_column_after: Add column after
+    label_add_column_before: Add column before
+    label_add_columns: Lisa veergusid
+    label_add_comment: Lisa kommentaar
+    label_add_comment_title: Comment and type @ to notify other people
+    label_add_description: Add a description for %{file}
+    label_add_row_after: Add row after
+    label_add_row_before: Add row before
+    label_add_selected_columns: Lisa valitud väljad
+    label_added_by: lisas
+    label_added_time_by: Added by <a href="%{authorLink}">%{author}</a> at %{age}
+    label_ago: päeva tagasi
+    label_all: kõik
+    label_all_projects: Kõik projektid
+    label_all_uppercase: Kõik
+    label_all_work_packages: kõik teemad
+    label_and: ja
+    label_ascending: Kasvav
+    label_assignee: Määratud tegija
+    label_assignee_alt_text: This work package is assigned to %{name}
+    label_attachments: Manused
+    label_author: 'Author: %{user}'
+    label_avatar: Profiilipilt
+    label_between: between
+    label_board: Board
+    label_board_locked: Lukus
+    label_board_plural: Boards
+    label_board_sticky: Külgejääv
+    label_cancel_comment: Tühista kommentaar
+    label_change: Muuda
+    label_children_derived_duration: Work package's children derived duration
+    label_closed_work_packages: suletud
+    label_collapse: Koonda
+    label_collapse_all: Koonda kõik
+    label_collapse_text: Collapse text
+    label_collapsed: koondatud
+    label_columns: Väljad
+    label_comment: Kommentaar
+    label_contains: sisaldab
+    label_create: Loo uus
+    label_create_work_package: Lisa uus teema
+    label_created_by: Autor
+    label_created_on: created on
+    label_current: current
+    label_custom_queries: Private
+    label_date: Kuupäev
+    label_date_with_format: 'Enter the %{date_attribute} using the following format: %{format}'
+    label_deactivate: Deactivate
+    label_default_queries: Vaikimisi
+    label_descending: Kahanev
+    label_description: Teave
+    label_details: Üksikasjad
+    label_display: Kuva
+    label_drop_files: Drop files here to attach files.
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
+    label_drop_or_click_files: Drop files here or click to attach files.
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_email: E-posti aadress
+    label_equals: võrdub
+    label_expand: Laienda
+    label_expand_all: Laienda kõik
+    label_expand_project_menu: Expand project menu
+    label_expand_text: Show full text
+    label_expanded: laiendatud
+    label_export: Ekspordi
+    label_export_preparing: The export is being prepared and will be downloaded shortly.
+    label_favorites: Favorites
+    label_filename: Manus
+    label_files_to_upload: 'These files will be uploaded:'
+    label_filesize: Suurus
+    label_formattable_attachment_hint: Attach and link files by dropping on this field, or pasting from the clipboard.
+    label_general: Üldine
+    label_global_queries: Avalik
+    label_greater_or_equal: ">="
+    label_group: Grupp
+    label_group_by: Grupeeri
+    label_group_plural: Rühmad
+    label_hide_attributes: Näita vähem
+    label_hide_column: Peida veerg
+    label_hide_project_menu: Collapse project menu
+    label_import: Impordi
+    label_in: sisaldub hulgas
+    label_in_less_than: on väiksem kui
+    label_in_more_than: on suurem kui
+    label_incoming_emails: Sissetulevad e-postisõnumid
+    label_infinity: Infinity
+    label_information_plural: Teave
+    label_invalid: Invalid
+    label_last_updated_on: Viimati uuendatud
+    label_latest_activity: Latest activity
+    label_learn_more_link: Loe rohkem
+    label_less_or_equal: "<="
+    label_less_than_ago: vähem kui päev tagasi
+    label_loading: Laadimine...
+    label_mail_notification: Eposti märguandmed
+    label_manage_columns: Manage and reorder columns
+    label_me: mina
+    label_meeting_agenda: Päevakava
+    label_meeting_minutes: Minutit
+    label_moderate_comment: Moderate comment
+    label_more_than_ago: vanem kui
+    label_next: Järgmine
+    label_no_color: Värvi pole
+    label_no_data: Pole
+    label_no_date: no date
+    label_no_due_date: no finish date
+    label_no_start_date: alguse kuupäeva pole
+    label_no_value: No value
+    label_none: pole
+    label_not_available: Not available
+    label_not_contains: ei sisalda
+    label_not_equals: ei ole
+    label_on: 'on'
+    label_open_context_menu: Open context menu
+    label_open_menu: Ava menüü
+    label_open_work_packages: avatud
+    label_password: Parool
+    label_per_page: 'Lehekülje kohta:'
+    label_please_wait: Please wait
+    label_press_enter_to_save: Press enter to save.
+    label_previous: Eelmine
+    label_project: Projekt
+    label_project_plural: Projektid
+    label_public_query: Avalik
+    label_quote_comment: Quote this comment
+    label_recent: Recent
+    label_rejected_files: 'These files cannot be uploaded:'
+    label_rejected_files_reason: These files cannot be uploaded as their size is greater than %{maximumFilesize}
+    label_remove: Eemalda
+    label_remove_all_files: Delete all files
+    label_remove_column: Remove column
+    label_remove_columns: Eemalda valitud väljad
+    label_remove_file: Delete %{fileName}
+    label_remove_row: Remove row
+    label_remove_watcher: Remove watcher %{name}
+    label_report: Aruanne
+    label_repository_plural: Hoidlad
+    label_reset: Nulli
+    label_resize_project_menu: Resize project menu
+    label_save_as: Salvesta kui
+    label_search_columns: Search a column
+    label_select_watcher: Vali jälgija...
+    label_selected_filter_list: Valitud filtrid
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Show view in menu
+    label_sort_by: Sorteeri
+    label_sort_higher: Nihuta üles
+    label_sort_lower: Nihuta alla
+    label_sorted_by: sorted by
+    label_sorting: Sorteerimine
+    label_spent_time: Kulutatud aeg
+    label_star_query: Favorited
+    label_starred_queries: Lemmik
+    label_subject: Teema
+    label_sum: Summa
+    label_sum_for: Sum for
+    label_this_week: sel nädalal
+    label_time_entry_plural: Kulutatud aeg
+    label_today: Täna
+    label_total_amount: 'Total: %{amount}'
+    label_total_progress: "%{percent}% Total progress"
+    label_total_sum: Total sum
+    label_unwatch: Ära jälgi
+    label_unwatch_work_package: Unwatch work package
+    label_up: Üles
+    label_updated_on: updated on
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_upload_notification: Uploading files...
+    label_uploaded_by: Uploaded by
+    label_user_plural: Kasutajad
+    label_validation_error: 'The work package could not be saved due to the following errors:'
+    label_value_derived_from_children: "(value derived from children)"
+    label_version_plural: Versioonid
+    label_view_has_changed: This view has unsaved changes. Click to save them.
+    label_visibility_settings: Visibility settings
+    label_wait: Please wait for configuration...
+    label_warning: Hoiatus
+    label_watch: Vaata
+    label_watch_work_package: Watch work package
+    label_watcher_added_successfully: Watcher successfully added!
+    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_work_package: Teema
+    label_work_package_context_menu: Work package context menu
+    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
+    label_work_package_parent: Parent work package
+    label_work_package_plural: Teemad
+    label_work_package_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    modals:
+      button_apply: Rakenda
+      button_cancel: Tühista
+      button_delete: Kustuta
+      button_save: Salvesta
+      button_submit: Sisesta
+      destroy_time_entry:
+        text: Are you sure you want to delete the following time entry?
+        title: Confirm deletion of time entry
+      form_submit:
+        text: Are you sure you want to perform this action?
+        title: Confirm to continue
+      label_delete_page: Delete current page
+      label_name: Nimi
+    no_job_id: No job ID returned from server.
+    notice_bad_request: Vigane päring.
+    notice_job_started: job started.
+    notice_no_results_to_display: No visible results to display.
+    notice_successful_create: Loomine õnnestus.
+    notice_successful_delete: Kustutamine õnnestus.
+    notice_successful_update: Uuendamine õnnestus.
+    notifications:
+      center:
+        and_more_users:
+          one: and 1 other
+          other: and %{count} others
+        empty_state:
+          no_notification: Looks like you are all caught up.
+          no_notification_for_filter: Looks like you are all caught up for this filter.
+          no_notification_with_current_filter: Looks like you are all caught up for %{filter} filter.
+          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
+          no_selection: Click on a notification to view all activity details.
+        label_actor_and: ja
+        mark_all_read: Mark all as read
+        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
+        mark_as_read: Mark as read
+        new_notifications:
+          link_text: Click here to load them.
+          message: There are new notifications.
+        no_results:
+          at_all: New notifications will appear here when there is activity that concerns you.
+          with_current_filter: There are no notifications in this view at the moment
+        text_update_date_by: "%{date} by"
+        total_count_warning: Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed.
+      date_alerts:
+        milestone_date: Milestone date
+        overdue: Overdue
+        overdue_since: for %{difference_in_days}.
+        property_is: is in %{difference_in_days}.
+        property_is_deleted: is deleted.
+        property_today: is today.
+        property_was: was %{difference_in_days} ago.
+      no_unread: No unread notifications
+      reasons:
+        assigned: Määratud tegija
+        commented: Kommenteeritud
+        created: Loodud
+        dateAlert: Date alert
+        mentioned: Mainitud
+        prioritized: Prioritized
+        processed: Processed
+        reminder: Meeldetuletus
+        responsible: Accountable
+        scheduled: Scheduled
+        shared: Jagatud
+        watched: Jälgija
+      reminders:
+        note: 'Note: “%{note}”'
+      settings:
+        change_notification_settings: You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.
+        title: Notification settings
+      title: Notifications
     onboarding:
       buttons:
-        skip: "Skip"
-        next: "Järgmine"
-        got_it: "Got it"
+        got_it: Got it
+        next: Järgmine
+        skip: Skip
       steps:
-        help_menu: "The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!"
-        members: "Invite new <b>members</b> to join your project."
-        quick_add_button: "Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>."
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: "Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time."
-        wiki: "Within the <b>wiki</b> you can document and share knowledge together with your team."
-        backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: "To see your <b>task board</b>, open the sprint drop-down..."
-          task_board_select: "...and select the <b>task board</b> entry."
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: "Select <b>boards</b> to shift the view and manage your project using the agile boards view."
-          lists_kanban: "Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example."
-          lists_basic: "Here you can create multiple lists (columns) within your agile board."
-          add: "Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board."
-          drag: "Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details."
-        wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: "This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row."
-          full_view: "The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments."
-          back_button: "Use the return arrow in the top left corner to exit and return to the work package list."
-          create_button: "The <b>+ Create</b> button will add a new work package to your project."
-          gantt_menu: "Create project schedules and timelines effortlessly using the Gantt chart module."
-          timeline: "Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time."
+          add: Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.
+          drag: Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.
+          lists_basic: Here you can create multiple lists (columns) within your agile board.
+          lists_kanban: Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.
+          overview: Select <b>boards</b> to shift the view and manage your project using the agile boards view.
+        help_menu: The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!
+        members: Invite new <b>members</b> to join your project.
+        quick_add_button: Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.
+        sidebar_arrow: Use the return arrow in the top left corner to return to the project’s <b>main menu</b>.
         team_planner:
-          overview: "The team planner lets you visually assign tasks to team members and get an overview of who is working on what."
-          calendar: "The weekly or biweekly planning board displays all work packages assigned to your team members."
-          add_assignee: "To get started, add assignees to the team planner."
-          add_existing: "Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates."
-          card: "Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member."
-    notifications:
-      title: "Notifications"
-      no_unread: "No unread notifications"
-      reasons:
-        mentioned: "Mainitud"
-        watched: "Jälgija"
-        assigned: "Määratud tegija"
-        #The enum value is named 'responsible' in the database and that is what is transported through the API
-        #up to the frontend.
-        responsible: "Accountable"
-        created: "Loodud"
-        scheduled: "Scheduled"
-        commented: "Kommenteeritud"
-        processed: "Processed"
-        prioritized: "Prioritized"
-        dateAlert: "Date alert"
-        shared: "Jagatud"
-        reminder: "Meeldetuletus"
-      date_alerts:
-        milestone_date: "Milestone date"
-        overdue: "Overdue"
-        overdue_since: "for %{difference_in_days}."
-        property_today: "is today."
-        property_is: "is in %{difference_in_days}."
-        property_was: "was %{difference_in_days} ago."
-        property_is_deleted: "is deleted."
-      center:
-        label_actor_and: "ja"
-        and_more_users:
-          one: "and 1 other"
-          other: "and %{count} others"
-        no_results:
-          at_all: "New notifications will appear here when there is activity that concerns you."
-          with_current_filter: "There are no notifications in this view at the moment"
-        mark_all_read: "Mark all as read"
-        mark_as_read: "Mark as read"
-        mark_all_read_confirmation: "This will mark all notifications in this view as read. Are you sure you want to do this?"
-        text_update_date_by: "%{date} by"
-        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
-        empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
-          no_notification_for_filter: "Looks like you are all caught up for this filter."
-          no_selection: "Click on a notification to view all activity details."
-        new_notifications:
-          message: "There are new notifications."
-          link_text: "Click here to load them."
-      reminders:
-        note: "Note: “%{note}”"
-      settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
-        title: "Notification settings"
-        notify_me: "Notify me"
-        reminders:
-          no_notification: No notification
-          timeframes:
-            normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
-            overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
-        reasons:
-          mentioned:
-            title: "Mainitud"
-            description: "Receive a notification every time someone mentions me anywhere"
-          assignee: "Määratud tegija"
-          responsible: "Accountable"
-          shared: "Jagatud"
-          watched: "Jälgija"
-          work_package_commented: "All new comments"
-          work_package_created: "New work packages"
-          work_package_processed: "All status changes"
-          work_package_prioritized: "All priority changes"
-          work_package_scheduled: "All date changes"
-        global:
-          immediately:
-            title: "Participating"
-            description: "Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)."
-          delayed:
-            title: "Non-participating"
-            description: "Additional notifications for activities in all projects."
-          date_alerts:
-            title: "Date alerts"
-            description: "Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)."
-          overdue: When overdue
-        project_specific:
-          title: "Project-specific notification settings"
-          description: "These project-specific settings override default settings above."
-          add: "Add setting for project"
-          already_selected: "This project is already selected"
-          remove: "Remove project settings"
+          add_assignee: To get started, add assignees to the team planner.
+          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
+          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
+          card: Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.
+          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
+        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
+        wiki: Within the <b>wiki</b> you can document and share knowledge together with your team.
+        wp:
+          back_button: Use the return arrow in the top left corner to exit and return to the work package list.
+          create_button: The <b>+ Create</b> button will add a new work package to your project.
+          full_view: The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.
+          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
+          list: This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.
+          timeline: Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.
+          toggler: Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: There is a network problem.
+        network_on: Network is back. We are trying.
+      waiting_title:
+        timeout: Timeout
     pagination:
-      no_other_page: "You are on the only page."
-      pages_skipped: "Pages skipped."
-      page_navigation: "Pagination navigation"
-      per_page_navigation: 'Items per page selection'
+      no_other_page: You are on the only page.
+      page_navigation: Pagination navigation
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
+      pages_skipped: Pages skipped.
+      per_page_navigation: Items per page selection
     placeholders:
       default: "-"
-      subject: "Enter subject here"
-      selection: "Palun vali"
-      description: "Description: Click to edit..."
-      relation_description: "Click to add description for this relation"
+      description: 'Description: Click to edit...'
+      relation_description: Click to add description for this relation
+      selection: Palun vali
+      subject: Enter subject here
     project:
       autocompleter:
-        label: "Project autocompletion"
-      click_to_switch_to_project: "Project: %{projectname}"
-      context: "Project context"
-      not_available: "Project N/A"
-      required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-    reminders:
-      settings:
-        daily:
-          add_time: "Add time"
-          enable: "Enable daily email reminders"
-          explanation: "You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}"
-          no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
-          time_label: "Time %{counter}:"
-          title: "Send me daily email reminders for unread notifications"
-        workdays:
-          title: "Receive email reminders on these days"
-        immediate:
-          title: "Send me an email reminder"
-          mentioned: "Immediately when someone @mentions me"
-          personal_reminder: "Immediately when I receive a personal reminder"
-        alerts:
-          title: "Email alerts for other items (that are not work packages)"
-          explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: "Uudis lisatud"
-          news_commented: "Comment on a news item"
-          document_added: "Documents added"
-          forum_messages: "New forum messages"
-          wiki_page_added: "Viki leht on lisatud"
-          wiki_page_updated: "Viki leht on uuendatud"
-          membership_added: "Membership added"
-          membership_updated: "Membership updated"
-        title: "Email reminders"
-        pause:
-          label: "Temporarily pause daily email reminders"
-          first_day: "First day"
-          last_day: "Last day"
-    text_are_you_sure: "Kas oled kindel?"
-    text_are_you_sure_to_cancel: "You have unsaved changes on this page. Are you sure you want to discard them?"
-    breadcrumb: "Breadcrumb"
-    text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} kirjutas:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        error_no_table_configured: "Please configure a table for %{group}."
-        reset_title: "Reset form configuration"
-        confirm_reset: >
-          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
-        more_information: "Lisainfo"
-        nevermind: "Nevermind"
-    time_entry:
-      work_package_required: "Requires selecting a work package first."
-      title: "Ajakulu"
-      tracking: "Ajakulu arvestus"
-      stop: "Stop"
-    timer:
-      start_new_timer: "Start new timer"
-      timer_already_running: "To start a new timer, you must first stop the current timer:"
-      timer_already_stopped: "No active timer for this work package, have you stopped it in another window?"
-      tracking_time: "Tracking time"
-      button_stop: "Stop current timer"
-    two_factor_authentication:
-      label_two_factor_authentication: "Two-factor authentication"
-    watchers:
-      label_loading: loading watchers...
-      label_error_loading: An error occurred while loading the watchers
-      label_search_watchers: Search watchers
-      label_add: Jälgijaid lisada
-      label_discard: Discard selection
-      typeahead_placeholder: Search for possible watchers
-    relation_labels:
-      parent: "Pärineb teemast"
-      child: "Child"
-      children: "Lapsed"
-      relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
-      blocks: "Plokid"
-      blocked: "Blocked by"
-      precedes: "Precedes"
-      follows: "Follows"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
-    relations_hierarchy:
-      parent_headline: "Pärineb teemast"
-      hierarchy_headline: "Hierarhia"
-      children_headline: "Lapsed"
+        label: Project autocompletion
+      click_to_switch_to_project: 'Project: %{projectname}'
+      context: Project context
+      not_available: Project N/A
+      required_outside_context: 'Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+
+        '
+    project_menu_details: Üksikasjad
+    projects:
+      identifier_suggestion:
+        loading: Loading suggestion...
+        set_name_first: Please set the name first.
     relation_buttons:
-      set_parent: "Set parent"
-      change_parent: "Change parent"
-      remove_parent: "Remove parent"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Lisa olemasolev"
-      add_existing_child: "Add child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      show_relations: "Näita seoseid"
-      add_predecessor: "Add predecessor"
-      add_successor: "Add successor"
-      remove: "Remove relation"
-      save: "Save relation"
-      abort: "Abort"
-    relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
-    autocompleter:
-      placeholder: "Type to search"
-      notFoundText: "No items found"
-      search: "Otsi"
-      project:
-        placeholder: "Select project"
-    repositories:
-      select_tag: "Select tag"
-      select_branch: "Select branch"
-    field_value_enter_prompt: "Enter a value for '%{field}'"
-    project_menu_details: "Üksikasjad"
-    sort:
-      sorted_asc: "Ascending sort applied, "
-      sorted_dsc: "Descending sort applied, "
-      sorted_no: "No sort applied, "
-      sorting_disabled: "sorting is disabled"
-      activate_asc: "activate to apply an ascending sort"
-      activate_dsc: "activate to apply a descending sort"
-      activate_no: "activate to remove the sort"
-    text_work_packages_destroy_confirmation: "Oled Sa kindel oma soovis valitud teema(d) kustutada?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    tl_toolbar:
-      zooms: "Suumi tase"
-      outlines: "Hierarhia tase"
-    upsell:
-      ee_only: "Enterprise edition add-on"
-    wiki_formatting:
-      strong: "Strong"
-      italic: "Krusiiv"
-      underline: "Allajoonitud"
-      deleted: "Kustutatud"
-      code: "Tekstisisene kood"
-      heading1: "Pealkiri 1"
-      heading2: "Pealkiri 2"
-      heading3: "Pealkiri 3"
-      unordered_list: "Järjestamata loend"
-      ordered_list: "Järjestatud loend"
-      quote: "Tsiteeri"
-      unquote: "Unquote"
-      preformatted_text: "Preformatted Text"
-      wiki_link: "Link to a Wiki page"
-      image: "Pilt"
-    sharing:
-      share: "Jaga"
-      selected_count: "%{count} selected"
-      selection:
-        mixed: "Mixed"
-    work_packages:
-      bulk_actions:
-        edit: "Bulk edit"
-        delete: "Bulk delete"
-        duplicate: "Bulk duplicate"
-        move: "Bulk change of project"
-      button_clear: "Tühjenda"
-      comment_added: "The comment was successfully added."
-      comment_send_failed: "An error has occurred. Could not submit the comment."
-      comment_updated: "The comment was successfully updated."
-      confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
-      description_filter: "Filter"
-      description_enter_text: "Sisestage tekst"
-      description_options_hide: "Peida valikud"
-      description_options_show: "Näita valikuid"
-      edit_attribute: "%{attribute} - Edit"
-      key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Enable multiselect"
-      label_disable_multi_select: "Disable multiselect"
-      label_filter_add: "Lisa filter"
-      label_filter_by_text: "Filter by text"
-      label_options: "Valikud"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
-      message_view_spent_time: "Show spent time for this work package"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
-      progress:
-        title: "Work estimates and progress"
-      baseline:
-        addition_label: "Added to view within the comparison time period"
-        removal_label: "Removed from view within the comparison time period"
-        modification_label: "Modified within the comparison time period"
-        column_incompatible: "This column does not show changes in Baseline mode."
-      filters:
-        title: "Filtreeri teemasid"
-        baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
-        baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
-      inline_create:
-        title: "Click here to add a new work package to this list"
-      create:
-        title: "Uus teema"
-        header: "New %{type}"
-        header_no_type: "New work package (Type not yet set)"
-        header_with_parent: "New %{type} (Child of %{parent_type} #%{id})"
-        button: "Loo uus"
-      duplicate:
-        title: "Duplicate work package"
-      hierarchy:
-        show: "Show hierarchy mode"
-        hide: "Hide hierarchy mode"
-        toggle_button: "Click to toggle hierarchy mode."
-        leaf: "Work package leaf at level %{level}."
-        children_collapsed: "Hierarchy level %{level}, collapsed. Click to show the filtered children"
-        children_expanded: "Hierarchy level %{level}, expanded. Click to collapse the filtered children"
-      faulty_query:
-        title: Work packages could not be loaded.
-        description: Your view is erroneous and could not be processed.
-      no_results:
-        title: No work packages to display.
-        description: Either none have been created or all work packages are filtered out.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
-      property_groups:
-        details: "Üksikasjad"
-        people: "Inimesed"
-        estimatesAndTime: "Hinnangud ja aeg"
-        other: "Muu"
-      properties:
-        assignee: "Määratud tegija"
-        author: "Autor"
-        createdAt: "Loodud"
-        description: "Teave"
-        date: "Kuupäev"
-        percentComplete: "% valmis"
-        percentCompleteAlternative: "Progress"
-        dueDate: "Lõpetamise kuupäev"
-        duration: "kestus"
-        spentTime: "Kulutatud aeg"
-        category: "Kategooria"
-        percentageDone: "Percentage done"
-        priority: "Prioriteet"
-        projectName: "Projekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
-        responsible: "Vastutaja"
-        startDate: "Alguskuupäev"
-        status: "Olek"
-        subject: "Teema"
-        subproject: "Alamprojekt"
-        title: "Pealkiri"
-        type: "Tüüp"
-        updatedAt: "Uuendatud"
-        versionName: "Versioon"
-        version: "Versioon"
-        work: "Töö"
-        workAlternative: "Eeldatav ajakulu"
-        remainingTime: "Remaining work"
-      default_queries:
-        manually_sorted: "New manually sorted query"
-        latest_activity: "Latest activity"
-        created_by_me: "Created by me"
-        assigned_to_me: "Assigned to me"
-        recently_created: "Recently created"
-        all_open: "Kõik avatud"
-        overdue: "Overdue"
-        summary: "Kokkuvõte"
-        shared_with_users: "Shared with users"
-        shared_with_me: "Shared with me"
-      jump_marks:
-        pagination: "Jump to table pagination"
-        label_pagination: "Click here to skip over the work packages table and go to pagination"
-        content: "Jump to content"
-        label_content: "Click here to skip over the menu and go to the content"
-      placeholders:
-        default: "-"
-        date: "Select date"
-      query:
-        column_names: "Väljad"
-        group_by: "Grupeeri tulemused"
-        group: "Grupeeri"
-        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
-        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        sort_ascending: "Sorteeri kasvavalt"
-        sort_descending: "Sorteeri kahanevalt"
-        move_column_left: "Liiguta veerg vasakule"
-        move_column_right: "Liiguta veerg paremale"
-        hide_column: "Peida veerg"
-        insert_columns: "Insert columns"
-        filters: "Filtrid"
-        display_sums: "Kuva summasid"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
-        click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Name of this view"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
-        public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
-        errors:
-          unretrievable_query: "Unable to retrieve view from URL"
-          not_found: "There is no such view"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
-        text_no_results: "No matching views were found."
-      reminders:
-        button_label: "Määra meeldetuletus"
-        title:
-          new: "Set a reminder"
-          edit: "Edit reminder"
-        subtitle: "You will receive a notification for this work package at the chosen time."
-        presets:
-          tomorrow: "Homme"
-          three_days: "In 3 days"
-          week: "In a week"
-          month: "In a month"
-          custom: "At a particular date/time"
-      scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
-      sharing:
-        title: "Jaga tööpaketti"
-        show_all_users: "Show all users with whom the work package has been shared with"
-      table:
-        configure_button: "Configure work package table"
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
-      table_configuration:
-        button: "Configure this work package table"
-        choose_display_mode: "Display work packages as"
-        modal_title: "Work package table configuration"
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
-        default: "vaikimisi"
-        display_settings: "Display settings"
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarhia"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: "Highlighting"
-        highlighting_mode:
-          description: "Highlight with color"
-          none: "No highlighting"
-          inline: "Highlighted attribute(s)"
-          inline_all: "All attributes"
-          entire_row_by: "Entire row by"
-          status: "Olek"
-          priority: "Prioriteet"
-          type: "Tüüp"
-        sorting_mode:
-          description: "Chose the mode to sort your Work packages:"
-          automatic: "Automaatne"
-          manually: "Manually"
-          warning: "You will lose your previous sorting when activating the automatic sorting mode."
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
-        relation_filters:
-          filter_work_packages_by_relation_type: "Filter work packages by relation type"
-      tabs:
-        overview: Ülevaade
-        activity: Tegevus
-        relations: Seosed
-        watchers: Jälgijad
-        files: Failid
-      time_relative:
-        days: "päeva"
-        weeks: "nädalat"
-        months: "kuud"
-    toolbar:
-      settings:
-        configure_view: "Configure view"
-        columns: "Väljad"
-        sort_by: "Sorteeri"
-        group_by: "Grupeeri"
-        display_sums: "Display sums"
-        display_hierarchy: "Display hierarchy"
-        hide_hierarchy: "Hide hierarchy"
-        hide_sums: "Hide sums"
-        save: "Salvesta"
-        save_as: "Salvesta kui"
-        export: "Ekspordi"
-        visibility_settings: "Visibility settings"
-        share_calendar: "Subscribe to calendar"
-        page_settings: "Rename view"
-        delete: "Kustuta"
-      filter: "Filter"
-      unselected_title: "Teema"
-      search_query_label: "Search saved views"
-    modals:
-      label_name: "Nimi"
-      label_delete_page: "Delete current page"
-      button_apply: "Rakenda"
-      button_save: "Salvesta"
-      button_submit: "Sisesta"
-      button_cancel: "Tühista"
-      button_delete: "Kustuta"
-      form_submit:
-        title: "Confirm to continue"
-        text: "Are you sure you want to perform this action?"
-      destroy_work_package:
-        title: "Confirm deletion of %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
-        has_children: "The work package has %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
-      destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "No visible results to display."
-    notice_successful_create: "Loomine õnnestus."
-    notice_successful_delete: "Kustutamine õnnestus."
-    notice_successful_update: "Uuendamine õnnestus."
-    notice_job_started: "job started."
-    no_job_id: "No job ID returned from server."
-    invalid_job_response: "Invalid response from server."
-    notice_bad_request: "Vigane päring."
+      abort: Abort
+      add_existing: Lisa olemasolev
+      add_existing_child: Add child
+      add_existing_relation: Add existing relation
+      add_new_child: Create new child
+      add_new_relation: Create new relation
+      add_parent: Add existing parent
+      add_predecessor: Add predecessor
+      add_successor: Add successor
+      change_parent: Change parent
+      create_new: Create new
+      group_by_relation_type: Group by relation type
+      group_by_wp_type: Group by work package type
+      hierarchy_indent: Indent hierarchy
+      hierarchy_outdent: Outdent hierarchy
+      remove: Remove relation
+      remove_child: Remove child
+      remove_parent: Remove parent
+      save: Save relation
+      set_parent: Set parent
+      show_relations: Näita seoseid
+      toggle_description: Toggle relation description
+      update_description: Set or update description of this relation
+      update_relation: Click to change the relation type
+    relation_labels:
+      blocked: Blocked by
+      blocks: Plokid
+      child: Child
+      children: Lapsed
+      duplicated: Duplicated by
+      duplicates: Duplicates
+      follows: Follows
+      includes: Includes
+      parent: Pärineb teemast
+      partof: Part of
+      precedes: Precedes
+      relates: Related To
+      relation_type: relation type
+      required: Required by
+      requires: Requires
     relations:
       empty: No relation exists
       remove: Remove relation
-    inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
-      button_save_all: "Salvesta"
-      button_cancel_all: "Tühista"
-      link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Eelvaade"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
-      clear_value_label: "-"
-      errors:
-        required: "%{field} cannot be empty"
-        number: "%{field} is not a valid number"
-        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
-        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
-        messages_on_field: "This field is invalid: %{messages}"
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File failed to upload: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
-    units:
-      workPackage:
-        one: "work package"
-        other: "work packages"
-      child_work_packages:
-        one: "one child work package"
-        other: "%{count} work package children"
-      hour_string: "%{hours} h"
-      hour:
-        one: "1 h"
-        other: "%{count} h"
-        zero: "0 h"
-      day:
-        one: "1 päev"
-        other: "%{count} päeva"
-        zero: "0 days"
-      word:
-        one: "1 word"
-        other: "%{count} words"
-    zen_mode:
-      button_activate: "Activate zen mode"
-      button_deactivate: "Deactivate zen mode"
-    global_search:
-      all_projects: "In all projects"
-      close_search: "Close search"
-      items_available: "%{count} items available"
-      direct_hit_available: "Work package with exact ID found. Press Enter to open it."
-      current_project_and_all_descendants: "In this project + subprojects"
-      current_project: "In this project"
-      recently_viewed: "Recently viewed"
-      search_placeholder_expanded: "Search work packages by subject, project, type, status or ID"
-      title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
-    views:
-      card: "Cards"
-      list: "Table"
-      timeline: "Gantt"
-    invite_user_modal:
-      invite: "Invite"
-      placeholder_add_tag: "Create placeholder user"
-    exclusion_info:
-      modal:
-        title: "Status excluded from hierarchy totals"
-        content: >-
-          The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
-    favorite_projects:
-      no_results: "You have no favorite projects"
-      no_results_subtext: "Add one or multiple projects as favorite through their overview or in a project list."
-    include_projects:
-      toggle_title: "Include projects"
-      title: "Projektid"
-      clear_selection: "Clear selection"
-      apply: "Rakenda"
-      selected_filter:
-        all: "Kõik projektid"
-        selected: "Only selected"
-      search_placeholder: "Search projects..."
-      search_placeholder_favorites: "Search favorites..."
-      include_subprojects: "Include all sub-projects"
-      tooltip:
-        include_all_selected: "Project already included since Include all sub-projects is enabled."
-        current_project: "This is the current project you are in."
-        does_not_match_search: "Project does not match the search criteria."
-      no_results: "No project matches your search criteria."
-      no_favorite_results: "No favorite project matches your search criteria."
-    include_workspaces:
-      search_placeholder: "Search..."
-      types:
-        program: "Program"
-        portfolio: "Portfolio"
-    baseline:
-      toggle_title: "Baseline"
-      clear: "Tühjenda"
-      apply: "Rakenda"
-      header_description: "Highlight changes made to this list since any point in the past."
-      show_changes_since: "Show changes since"
-      help_description: "Reference time zone for the baseline."
-      time_description: "In your local time: %{datetime}"
-      time: "Aeg"
-      from: "Algus"
-      to: "Lõpp"
-      drop_down:
-        none: "-"
-        yesterday: "eile"
-        last_working_day: "last working day"
-        last_week: "eelmisel nädalal"
-        last_month: "eelmisel kuul"
-        a_specific_date: "a specific date"
-        between_two_specific_dates: "between two specific dates"
-      legends:
-        changes_since: "Changes since"
-        changes_between: "Changes between"
-        now_meets_filter_criteria: "Now meets filter criteria"
-        no_longer_meets_filter_criteria: "No longer meets filter criteria"
-        maintained_with_changes: "Maintained with changes"
-        in_your_timezone: "In your local timezone:"
-      icon_tooltip:
-        added: "Added to view within the comparison time period"
-        removed: "Removed from view within the comparison time period"
-        changed: "Maintained with modifications"
-    forms:
-      submit_success_message: "The form was successfully submitted"
-      load_error_message: "There was an error loading the form"
-      validation_error_message: "Please fix the errors present in the form"
-      advanced_settings: "Täpsemad seaded"
+    relations_autocomplete:
+      parent_placeholder: Choose new parent or press escape to cancel.
+      placeholder: Type to search
+    relations_hierarchy:
+      children_headline: Lapsed
+      hierarchy_headline: Hierarhia
+      parent_headline: Pärineb teemast
+    repositories:
+      select_branch: Select branch
+      select_tag: Select tag
+    sharing:
+      selected_count: "%{count} selected"
+      selection:
+        mixed: Mixed
+      share: Jaga
+    sort:
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
     spot:
-      filter_chip:
-        remove: "Eemalda"
       drop_modal:
-        focus_grab: "This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element."
-        close: "Close modal"
-    open_project_storage_modal:
-      waiting_title:
-        timeout: "Timeout"
-      waiting_subtitle:
-        network_off: "There is a network problem."
-        network_on: "Network is back. We are trying."
+        close: Close modal
+        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
+      filter_chip:
+        remove: Eemalda
+    text_are_you_sure: Kas oled kindel?
+    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
+    text_data_lost: All entered data will be lost.
+    text_query_destroy_confirmation: Are you sure you want to delete the selected view?
+    text_user_wrote: "%{value} kirjutas:"
+    text_work_packages_destroy_confirmation: Oled Sa kindel oma soovis valitud teema(d) kustutada?
+    time_entry:
+      stop: Stop
+      title: Ajakulu
+      tracking: Ajakulu arvestus
+      work_package_required: Requires selecting a work package first.
+    timer:
+      button_stop: Stop current timer
+      start_new_timer: Start new timer
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
+      tracking_time: Tracking time
+    tl_toolbar:
+      outlines: Hierarhia tase
+      zooms: Suumi tase
+    toolbar:
+      filter: Filter
+      search_query_label: Search saved views
+      settings:
+        columns: Väljad
+        configure_view: Configure view
+        delete: Kustuta
+        display_hierarchy: Display hierarchy
+        display_sums: Display sums
+        export: Ekspordi
+        group_by: Grupeeri
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        page_settings: Rename view
+        save: Salvesta
+        save_as: Salvesta kui
+        share_calendar: Subscribe to calendar
+        sort_by: Sorteeri
+        visibility_settings: Visibility settings
+      unselected_title: Teema
+    two_factor_authentication:
+      label_two_factor_authentication: Two-factor authentication
+    units:
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      day:
+        one: 1 päev
+        other: "%{count} päeva"
+        zero: 0 days
+      hour:
+        one: 1 h
+        other: "%{count} h"
+        zero: 0 h
+      hour_string: "%{hours} h"
+      word:
+        one: 1 word
+        other: "%{count} words"
+      workPackage:
+        one: work package
+        other: work packages
+    upsell:
+      ee_only: Enterprise edition add-on
+    views:
+      card: Cards
+      list: Table
+      timeline: Gantt
+    watchers:
+      label_add: Jälgijaid lisada
+      label_discard: Discard selection
+      label_error_loading: An error occurred while loading the watchers
+      label_loading: loading watchers...
+      label_search_watchers: Search watchers
+      typeahead_placeholder: Search for possible watchers
+    wiki_formatting:
+      code: Tekstisisene kood
+      deleted: Kustutatud
+      heading1: Pealkiri 1
+      heading2: Pealkiri 2
+      heading3: Pealkiri 3
+      image: Pilt
+      italic: Krusiiv
+      ordered_list: Järjestatud loend
+      preformatted_text: Preformatted Text
+      quote: Tsiteeri
+      strong: Strong
+      underline: Allajoonitud
+      unordered_list: Järjestamata loend
+      unquote: Unquote
+      wiki_link: Link to a Wiki page
+    work_packages:
+      baseline:
+        addition_label: Added to view within the comparison time period
+        column_incompatible: This column does not show changes in Baseline mode.
+        modification_label: Modified within the comparison time period
+        removal_label: Removed from view within the comparison time period
+      bulk_actions:
+        delete: Bulk delete
+        duplicate: Bulk duplicate
+        edit: Bulk edit
+        move: Bulk change of project
+      button_clear: Tühjenda
+      comment_added: The comment was successfully added.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      create:
+        button: Loo uus
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        title: Uus teema
+      default_queries:
+        all_open: Kõik avatud
+        assigned_to_me: Assigned to me
+        created_by_me: Created by me
+        latest_activity: Latest activity
+        manually_sorted: New manually sorted query
+        overdue: Overdue
+        recently_created: Recently created
+        shared_with_me: Shared with me
+        shared_with_users: Shared with users
+        summary: Kokkuvõte
+      description_enter_text: Sisestage tekst
+      description_filter: Filter
+      description_options_hide: Peida valikud
+      description_options_show: Näita valikuid
+      duplicate:
+        title: Duplicate work package
+      edit_attribute: "%{attribute} - Edit"
+      faulty_query:
+        description: Your view is erroneous and could not be processed.
+        title: Work packages could not be loaded.
+      filters:
+        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
+        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
+        title: Filtreeri teemasid
+      hierarchy:
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the filtered children
+        hide: Hide hierarchy mode
+        leaf: Work package leaf at level %{level}.
+        show: Show hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+      inline_create:
+        title: Click here to add a new work package to this list
+      jump_marks:
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+        label_pagination: Click here to skip over the work packages table and go to pagination
+        pagination: Jump to table pagination
+      key_value: "%{key}: %{value}"
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace'
+      label_disable_multi_select: Disable multiselect
+      label_enable_multi_select: Enable multiselect
+      label_filter_add: Lisa filter
+      label_filter_by_text: Filter by text
+      label_options: Valikud
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Click here to open this work package in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      message_work_package_read_only: Work package is locked in this status. No attribute other than status can be altered.
+      message_work_package_status_blocked: Work package status is not writable due to closed status and closed version being assigned.
+      no_results:
+        description: Either none have been created or all work packages are filtered out.
+        title: No work packages to display.
+      placeholder_filter_by_text: Subject, description, comments, ...
+      placeholders:
+        date: Select date
+        default: "-"
+      progress:
+        title: Work estimates and progress
+      properties:
+        assignee: Määratud tegija
+        author: Autor
+        category: Kategooria
+        createdAt: Loodud
+        date: Kuupäev
+        description: Teave
+        dueDate: Lõpetamise kuupäev
+        duration: kestus
+        percentComplete: "% valmis"
+        percentCompleteAlternative: Progress
+        percentageDone: Percentage done
+        priority: Prioriteet
+        projectName: Projekt
+        remainingTime: Remaining work
+        remainingWork: Remaining work
+        remainingWorkAlternative: Remaining hours
+        responsible: Vastutaja
+        spentTime: Kulutatud aeg
+        startDate: Alguskuupäev
+        status: Olek
+        subject: Teema
+        subproject: Alamprojekt
+        title: Pealkiri
+        type: Tüüp
+        updatedAt: Uuendatud
+        version: Versioon
+        versionName: Versioon
+        work: Töö
+        workAlternative: Eeldatav ajakulu
+      property_groups:
+        details: Üksikasjad
+        estimatesAndTime: Hinnangud ja aeg
+        other: Muu
+        people: Inimesed
+      query:
+        click_to_edit_query_name: Click to edit title of this view.
+        column_names: Väljad
+        confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
+        display_sums: Kuva summasid
+        errors:
+          duplicate_query_title: Name of this view already exists. Change anyway?
+          not_found: There is no such view
+          unretrievable_query: Unable to retrieve view from URL
+        filters: Filtrid
+        group: Grupeeri
+        group_by: Grupeeri tulemused
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
+        hide_column: Peida veerg
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
+        insert_columns: Insert columns
+        move_column_left: Liiguta veerg vasakule
+        move_column_right: Liiguta veerg paremale
+        public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+
+          '
+        rename_query_placeholder: Name of this view
+        sort_ascending: Sorteeri kasvavalt
+        sort_descending: Sorteeri kahanevalt
+        star_text: Mark this view as favorite and add to the saved views sidebar on the left.
+        text_no_results: No matching views were found.
+      reminders:
+        button_label: Määra meeldetuletus
+        presets:
+          custom: At a particular date/time
+          month: In a month
+          three_days: In 3 days
+          tomorrow: Homme
+          week: In a week
+        subtitle: You will receive a notification for this work package at the chosen time.
+        title:
+          edit: Edit reminder
+          new: Set a reminder
+      scheduling:
+        is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
+        is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      sharing:
+        show_all_users: Show all users with whom the work package has been shared with
+        title: Jaga tööpaketti
+      table:
+        configure_button: Configure work package table
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder, remove and add table columns.
+      table_configuration:
+        button: Configure this work package table
+        choose_display_mode: Display work packages as
+        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
+        default: vaikimisi
+        default_mode: Flat list
+        display_settings: Display settings
+        display_sums_hint: Display sums of all summable attributes in a row below the table results.
+        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
+        hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
+        hierarchy_mode: Hierarhia
+        highlighting: Highlighting
+        highlighting_mode:
+          description: Highlight with color
+          entire_row_by: Entire row by
+          inline: Highlighted attribute(s)
+          inline_all: All attributes
+          none: No highlighting
+          priority: Prioriteet
+          status: Olek
+          type: Tüüp
+        modal_title: Work package table configuration
+        relation_filters:
+          filter_work_packages_by_relation_type: Filter work packages by relation type
+        show_timeline_hint: Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart.
+        sorting_mode:
+          automatic: Automaatne
+          description: 'Chose the mode to sort your Work packages:'
+          manually: Manually
+          warning: You will lose your previous sorting when activating the automatic sorting mode.
+      tabs:
+        activity: Tegevus
+        files: Failid
+        overview: Ülevaade
+        project_attributes: Project attributes
+        relations: Seosed
+        watchers: Jälgijad
+      time_relative:
+        days: päeva
+        months: kuud
+        weeks: nädalat
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

@@ -32,17 +32,15 @@
 module FlashMessagesOutputSafetyHelper
   extend ActiveSupport::Concern
 
-  included do
-    # For .safe_join in join_flash_messages
-    include ActionView::Helpers::OutputSafetyHelper
-  end
-
   ###
   # Joins individual flash messages with a Line Break Element.
   #
   # @param [String|Array<String>] messages the flash messages to join.
   # @return [String] the joined messages as an HTML-safe string.
   def join_flash_messages(messages)
-    safe_join(Array(messages), "<br />".html_safe)
+    ApplicationController.helpers.safe_join(
+      Array(messages),
+      ApplicationController.helpers.tag(:br)
+    )
   end
 end

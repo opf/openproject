@@ -1,7 +1,7 @@
 import eslint from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import jasmine from 'eslint-plugin-jasmine';
+import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 
@@ -64,8 +64,6 @@ export default defineConfig([
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
-      // Disable webpack loader definitions
-      'import/no-webpack-loader-syntax': 'off',
       // Disable order style as it's not compatible with intellij import organization
       'import/order': 'off',
 
@@ -159,17 +157,11 @@ export default defineConfig([
   },
   {
     files: ['**/*.spec.ts'],
-    plugins: { jasmine },
-    extends: [
-      jasmine.configs.recommended,
-    ],
+    ...vitest.configs.recommended,
     rules: {
-      /**
-       * Any template/HTML related rules you wish to use/reconfigure over and above the
-       * recommended set provided by the @angular-eslint project would go here.
-       */
+      ...vitest.configs.recommended.rules,
 
-      // jasmine is unusable with unsafe member access, as expect(...) is always any
+      // vitest expect(...) is always any
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
 
@@ -200,16 +192,19 @@ export default defineConfig([
       // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
       '@stylistic/indent': 'off',
 
-      // Whitespace configuration
+      // Whitespace configuration: spaces around the function-type `=>`
+      // (defaults), but tight colons. Colon spacing lives in
+      // `overrides.colon` because the rule's `overrides.arrow` option is
+      // deprecated; keeping the base spaced preserves `() => void` style.
       '@stylistic/type-annotation-spacing': [
         'error',
         {
-          before: false,
-          after: false,
+          before: true,
+          after: true,
           overrides: {
-            arrow: {
-              before: true,
-              after: true,
+            colon: {
+              before: false,
+              after: false,
             },
           },
         },

@@ -9,9 +9,13 @@ The InplaceEdit system consists of:
 
 - **A generic wrapper component**
   (`InplaceEditFieldComponent`)
+- **A base class for edit field components**
+  (`BaseFieldComponent`)
 - **Edit field components**
-  (e.g. `TextInputComponent`, `RichTextAreaComponent`)
+  (e.g. `TextInputComponent`, `RichTextAreaComponent`, `HierarchyListComponent`)
 - **Optional display field components**
+- **A dialog component**
+  (`InplaceEditFieldDialogComponent`)
 - **A central registry**
 - **A generic controller**
 - **TurboStreams + Stimulus** for lazy loading
@@ -31,14 +35,34 @@ OpenProject::Common::InplaceEditFieldComponent.new(
 The `InplaceEditFieldComponent` is the **single entry point used in views**.
 It is initialized with a model and an attribute and decides which concrete field component to render. It also decides whether the component is currently in display mode or edit mode.
 
-Only model and attribute are required. All additional keyword arguments are treated as system arguments and forwarded unchanged through Turbo roundtrips. Editability is determined via a contract and exposed through the `writable?` check.
+Only `model` and `attribute` are required. All additional keyword arguments are treated as system arguments and forwarded unchanged through Turbo roundtrips. Editability is determined via a contract and exposed through the `writable?` check.
 
-The component resolves the edit field via the `FieldRegistry` and optionally a display field via the edit field’s `display_class`.
+The component resolves the edit field via the `FieldRegistry` and optionally a display field via the edit field's `display_class`.
+
+**Parameters:**
+
+| Parameter | Default | Description |
+|---|---|---|
+| `model` | — | The ActiveRecord model instance |
+| `attribute` | — | The attribute name as a symbol |
+| `enforce_edit_mode` | `false` | Render in edit mode when writable. Non-writable users always see the display component, even with `enforce_edit_mode: true`. Used by the dialog to skip the display→edit click. |
+| `open_in_dialog` | `false` | Force edit form to open in a dialog |
+| `show_action_buttons` | `true` | Show save/cancel buttons inside the field component |
+| `truncated` | `false` | Pass truncation hint to the display component |
+
+**Automatic dialog mode:**
+
+The component switches to dialog mode automatically (regardless of the `open_in_dialog` parameter) in any of these cases:
+
+- The registered edit field component returns `true` from `self.open_in_dialog?`
+- The attribute is a custom field that has comments enabled (`custom_field.has_comment?`)
+
+This allows individual field components to declare that they always require a dialog (e.g. because they embed a complex tree picker), without the caller needing to know about it.
 
 **Simplified HTML of the `InplaceEditFieldComponent`:**
 ```html
 &lt;%= component_wrapper(tag: :div, class: "op-inplace-edit") do
-  if display_field_component.present? && !enforce_edit_mode
+  if display_field_component.present? && (!enforce_edit_mode || !writable?)
     render display_field_component
   else
     primer_form_with(
@@ -59,6 +83,7 @@ end %>
 - selecting the correct edit field
 - if needed: rendering the appropriate display field
 - checking whether the attribute is writable
+- deciding between inline and dialog edit mode
 
 #### FieldRegistry
 
@@ -74,6 +99,52 @@ OpenProject::InplaceEdit::FieldRegistry.register(
 )
 ```
 
+**Custom field registration:**
+
+Custom fields are registered automatically. The format-to-component mappings (e.g. `"text"` → `RichTextAreaComponent`) are configured once in `config/initializers/inplace_edit_fields.rb` via `register_custom_field_format_mappings`. At startup, all existing custom fields are pre-registered. Whenever a new custom field is created, an `after_create` callback on `CustomField` calls `FieldRegistry.register_custom_field(id, field_format)` automatically — no manual registration is needed.
+
+#### BaseFieldComponent
+
+`BaseFieldComponent` is the **base class for all edit field components**. It provides shared functionality that concrete field components can use, and should be inherited from when building new field components.
+
+It handles the optional rendering of a comment field for custom fields with comments enabled.
+
+**Class-level API:**
+
+| Method | Default | Description |
+|---|---|---|
+| `self.display_class` | `DisplayFields::DisplayFieldComponent` | The display component class to use for the read-only view |
+| `self.open_in_dialog?` | `false` | Return `true` to force the field to always open in a dialog regardless of the caller's settings |
+
+```ruby
+module OpenProject
+  module Common
+    module InplaceEditFields
+      class MyCustomComponent < BaseFieldComponent
+        def self.display_class
+          DisplayFields::DisplayFieldComponent
+        end
+
+        def self.open_in_dialog?
+          false  # override to true for dialog-only fields
+        end
+
+        def call
+          form.text_field(name: attribute, **@system_arguments)
+          comment_field_if_enabled(form)
+        end
+      end
+    end
+  end
+end
+```
+
+**`comment_field_if_enabled(f)`**
+
+Call this helper from any field component's `call` method to conditionally render a comment textarea. It renders only when the attribute is a custom field with comments enabled (`custom_field.has_comment?`).
+
+The generated form field name follows the pattern `model[custom_comments][custom_field_id]` (e.g. `project[custom_comments][18]`), so that multiple custom field comments can coexist in the same form submission.
+
 #### EditFieldComponents
 
 `EditFieldComponents` are responsible for rendering the actual form field. They receive a form builder, the model, the attribute, and the forwarded system arguments.
@@ -82,26 +153,21 @@ They may render only the field itself or also include submit and reset buttons. 
 
 Edit field components define a `display_class`. This class is used to render the read-only display state.
 
+All field components should inherit from `BaseFieldComponent` to get access to the comment field helper and other shared behaviour.
+
 **Simplified example of an `EditFieldComponent`:**
 ```ruby
 module OpenProject
   module Common
     module InplaceEditFields
-      class RichTextAreaComponent < ViewComponent::Base
+      class RichTextAreaComponent < BaseFieldComponent
         def self.display_class
           DisplayFields::RichTextAreaComponent
         end
 
-        def initialize(form:, attribute:, model:, **system_arguments)
-          super()
-          @form = form
-          @attribute = attribute
-          @model = model
-          @system_arguments = system_arguments
-        end
-
         def call
           form.rich_text_area(name: attribute, **@system_arguments)
+          comment_field_if_enabled(form)
 
           form.group(layout: :horizontal) do |button_group|
             button_group.submit(name: :reset,
@@ -119,6 +185,94 @@ module OpenProject
   end
 end
 ```
+
+#### HierarchyListComponent (example of a dialog-only field)
+
+`HierarchyListComponent` is the edit field for hierarchy-type custom fields. It uses `Primer::OpenProject::FilterableTreeView` to render a filterable, hierarchical tree picker. Because the tree picker is a complex, non-inline widget, the component declares `self.open_in_dialog? = true` so it always opens in a dialog.
+
+**Key patterns used:**
+
+- **`self.open_in_dialog?` → `true`**: Tells `InplaceEditFieldComponent` to always use dialog mode for this field.
+- **`form.html_content`**: Embeds arbitrary rendered HTML (the `FilterableTreeView`) within the Primer form DSL `call` method.
+- **`rails_builder`**: `FilterableTreeView` requires an ActionView `FormBuilder` (not a Primer `FormObject`). The underlying builder is accessed via `form.instance_variable_get(:@builder)`.
+- **Array form encoding**: The hidden sentinel field and tree view items both use `project[custom_field_values][]` (array format). The controller handles this with `extract_tree_view_value` (see below).
+
+```ruby
+class HierarchyListComponent < BaseFieldComponent
+  include CustomFieldHierarchyTreeViewHelper
+
+  def self.display_class
+    DisplayFields::HierarchyListComponent
+  end
+
+  def self.open_in_dialog?
+    true
+  end
+
+  def call
+    # Hidden sentinel so the param key is always present even with nothing selected
+    form.hidden(name: "project[custom_field_values][]", value: "", scope_name_to_model: false)
+    filterable_tree_view(form)
+    comment_field_if_enabled(form)
+  end
+
+  private
+
+  def filterable_tree_view(form)
+    form.html_content do
+      render(Primer::OpenProject::FilterableTreeView.new(
+               form_arguments: { builder: rails_builder, name: "custom_field_values" },
+               include_sub_items_check_box_arguments: { hidden: true },
+               filter_mode_control_arguments: { hidden: true }
+             )) do |tree_view|
+        item_options = {
+          expanded_fn: ->(*) { true },
+          label_fn:, checked_fn:,
+          select_variant: custom_field.multi_value? ? :multiple : :single
+        }
+        populate_tree_view(tree_view, custom_field, item_options:)
+      end
+    end
+  end
+
+  def rails_builder
+    # Primer's FormObject stores the underlying ActionView/Primer form builder
+    # as @builder. FilterableTreeView requires an ActionView::FormBuilder to
+    # generate its hidden form inputs via hidden_field.
+    form.instance_variable_get(:@builder)
+  end
+end
+```
+
+#### CalculatedValueInputComponent
+
+`CalculatedValueInputComponent` is a **display-only** field component used for calculated custom fields. Calculated fields derive their value from other fields via a formula — they cannot be edited directly.
+
+The component always passes `writable: false` to its parent `DisplayFieldComponent`, which prevents the Stimulus inplace-edit controller from being attached to the DOM element. It also renders a non-editable tooltip.
+
+When a calculation fails, the component renders an inline error beneath the value via the `render_calculation_error` hook.
+
+**Automatic refresh of calculated fields:**
+
+Calculated field values depend on other (non-calculated) fields. When a non-calculated field is saved, the controller automatically refreshes all calculated fields that depend on it:
+
+1. After a successful save, `InplaceEditFieldsController#refresh_calculated_dependents` calls `available_custom_fields.affected_calculated_fields([cf_id])` to find all direct and transitive dependents.
+2. For each dependent, a new `InplaceEditFieldComponent` is rendered with the updated value and any calculation errors.
+3. The rendered component is pushed as a Turbo Stream `replace` using a CSS selector (`targets:`), targeting every DOM element with a matching `data-inplace-edit-stable-key` attribute.
+
+The `stable_key` is a deterministic string derived from the model class, model ID, and attribute name (e.g. `project_42_custom_field_18`). Unlike the UUID-based `wrapper_key`, it is consistent across page loads and independent of dialog state, which makes CSS-selector targeting reliable even when the same field appears multiple times on the page.
+
+```
+Non-calculated field saved (POST /inplace_edit_fields/update)
+  └─ refresh_calculated_dependents
+       └─ affected_calculated_fields([cf_id])  →  [cf_18, cf_22]
+            └─ turbo-stream replace targets="[data-inplace-edit-stable-key='project_42_custom_field_18']"
+            └─ turbo-stream replace targets="[data-inplace-edit-stable-key='project_42_custom_field_22']"
+```
+
+**Presentation context preservation:**
+
+Calculated fields have no edit form, so their display settings (`truncated`, `open_in_dialog`) are not available in the DOM when a refresh is triggered. The controller inherits these settings from the `system_arguments_json` of the field being saved — valid because fields in the same container share the same presentation context.
 
 #### DisplayFieldComponents
 
@@ -150,17 +304,58 @@ module OpenProject
 end
 ```
 
+#### InplaceEditFieldDialogComponent
+
+When a field is configured to open in dialog mode, the display component renders a trigger button instead of a direct click target. Clicking the button fetches and opens the `InplaceEditFieldDialogComponent` via a lazy-loaded Turbo request.
+
+The dialog wraps an `InplaceEditFieldComponent` in `enforce_edit_mode: true`. The body and footer buttons differ based on writability:
+
+- **Writable user**: the edit form is shown with Save and Cancel buttons.
+- **Non-writable user**: the display component is shown (read-only value, and comment as plain text if `has_comment?`) with only a Close button.
+
+The `writable` flag is computed once when building the dialog URL and embedded in `system_arguments_json`, so the dialog component does not need to re-query the registry.
+
+```
+Display component (with dialog trigger)
+  └─ click → GET /inplace_edit_fields/dialog?...
+               └─ InplaceEditFieldDialogComponent
+                    ├─ Primer::Alpha::Dialog
+                    │    ├─ body: InplaceEditFieldComponent (enforce_edit_mode: true)
+                    │    │         ├─ [writable]     EditFieldComponent
+                    │    │         │                   ├─ value field
+                    │    │         │                   └─ comment textarea (if has_comment?)
+                    │    │         └─ [non-writable] DisplayFieldComponent
+                    │    │                             └─ comment as text (if has_comment?)
+                    │    └─ footer: [writable] Save / Cancel — [non-writable] Close
+```
+
+**`page_component_id` convention:**
+
+Each `InplaceEditFieldComponent` generates a UUID and stores it in `@system_arguments[:id]`. This UUID is part of the `wrapper_key` that Turbo Stream uses to target the correct DOM element when replacing the component after an update.
+
+When building the dialog URL, the component passes this UUID as `page_component_id` inside `system_arguments_json` (while excluding its own `:id` key to avoid a clash with the dialog's UUID). On a successful `update`, the controller restores `page_component_id` as `:id` before constructing the response component, so the `wrapper_key` matches the original element on the page and the Turbo Stream replacement lands in the right place. The controller also closes the dialog via `close_dialog_via_turbo_stream` on success, and strips dialog-specific arguments (`wrapper_id`, `form_id`) so they do not bleed into the display component.
+
 ### Update behaviour
 
 #### InplaceEditFieldsController
 
 The `InplaceEditFieldsController` is a generic controller shared by all `InplaceEditComponent`s. It dynamically resolves the model but only allows models that are registered in the `UpdateRegistry`.
 
-* The edit action replaces the display component with the edit component via Turbo Stream.
-* The update action delegates persistence to a registered handler and then replaces the component.
-* The reset action switches back to display mode without saving.
+* The `edit` action replaces the display component with the edit component via Turbo Stream.
+* The `update` action delegates persistence to a registered handler and then replaces the component.
+* The `reset` action switches back to display mode without saving.
+* The `dialog` action renders the `InplaceEditFieldDialogComponent` for lazy dialog loading.
 
 The controller itself contains no model-specific logic.
+
+**Strong Parameters and `custom_comments`:**
+
+The controller's `permitted_params` method handles two cases:
+
+1. **Custom fields via `custom_field_values`** (legacy `fields_for` approach): the value is extracted manually from the raw params because Strong Parameters does not support dynamic hash keys.
+2. **Regular attributes**: permitted via `params.expect(model_key => [attribute])`.
+
+In both cases, `custom_comments` is extracted alongside the field value. Because the comment field name uses a dynamic key (`model[custom_comments][id]`), it is also extracted manually and merged into the permitted params as `{ custom_comments: { "18" => "..." } }`.
 
 #### UpdateRegistry
 
@@ -187,7 +382,11 @@ end
 
 ## Adding new fields
 
-To add a new editable attribute, create an `EditFieldComponent` and register it in the `FieldRegistry`. Optionally provide a display component.
+To add a new editable attribute:
+
+1. Create an `EditFieldComponent` that inherits from `BaseFieldComponent`.
+2. Call `comment_field_if_enabled(form)` in `call` if the field should support custom field comments.
+3. Register it in the `FieldRegistry`. Optionally provide a display component.
 
 No changes to the core component or controller should be required.
 

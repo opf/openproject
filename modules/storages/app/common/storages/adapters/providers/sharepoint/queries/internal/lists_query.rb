@@ -74,7 +74,7 @@ module Storages
                     name: entry[:name],
                     id: entry.dig(:drive, :id).to_s,
                     mime_type: "application/x-op-drive",
-                    location: UrlBuilder.path("/", entry[:name]),
+                    location: "/#{entry[:name]}",
                     permissions: %i[readable]
                   ).value_or { nil }
                 end

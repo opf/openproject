@@ -176,6 +176,32 @@ module WorkPackageTypes
         expect(query.filters.length).to eq(1)
         expect(query.filters[0].name).to eq(:status_id)
       end
+
+      it "returns a failure result for invalid query JSON" do
+        invalid_params = {
+          attribute_groups: [
+            { "type" => "query", "name" => "group1", "query" => "not a json" }
+          ]
+        }
+
+        result = service.call(invalid_params)
+
+        expect(result).to be_failure
+        expect(result.errors.full_messages.to_sentence)
+          .to eq(I18n.t("types.edit.form_configuration.invalid_query"))
+      end
+    end
+
+    context "when attribute_groups is malformed JSON" do
+      let(:contract_class) { UpdateFormConfigurationContract }
+
+      it "returns a failure result" do
+        result = service.call(attribute_groups: "{")
+
+        expect(result).to be_failure
+        expect(result.errors[:attribute_groups].to_sentence)
+          .to eq(I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
+      end
     end
 
     context "when adding the type to a project" do
@@ -206,6 +232,24 @@ module WorkPackageTypes
       it "does not enable the custom fields on the already added project" do
         expect { service.call(project_ids) }.not_to change { Project.find(active_project.id).work_package_custom_field_ids }
                                                       .from([])
+      end
+    end
+
+    context "when removing the type from a project with work packages" do
+      let(:contract_class) { UpdateProjectsContract }
+      let(:project) { create(:project, types: [type]) }
+      let!(:work_package) { create(:work_package, project:, type:) }
+      let(:params) { { project_ids: [] } }
+
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
+
+      it "fails and keeps the type active in the project" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.messages_for(:project_ids))
+          .to contain_exactly(I18n.t(:error_can_not_deactivate_type,
+                                     type: type.name,
+                                     work_packages_link: I18n.t(:label_work_package_plural).downcase))
+        expect(project.reload.types).to include(type)
       end
     end
   end

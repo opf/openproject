@@ -80,7 +80,6 @@ module TextFormattingHelper
   end
 
   def truncate_formatted_text(text, length: 120, replace_newlines: true)
-    # rubocop:disable Rails/OutputSafety
     stripped_text = strip_tags(format_text(text.to_s))
 
     stripped_text = if length
@@ -91,13 +90,13 @@ module TextFormattingHelper
                       .strip
 
     if replace_newlines
-      stripped_text
-        .gsub(/[\r\n]+/, "<br />")
+      stripped_text.gsub!(/[\r\n]+/, "<br/>")
     else
       stripped_text
     end
-      .html_safe
-    # rubocop:enable Rails/OutputSafety
+
+    # Sanitized through strip_tags
+    stripped_text.html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def truncate_multiline(string, length)

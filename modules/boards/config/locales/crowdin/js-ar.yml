@@ -1,87 +1,94 @@
-#English strings go here
+---
 ar:
   ee:
     upsell:
       board_view:
-        description: 'هل ترغب في أتمتة سير العمل الخاص بك باستخدام اللوحات؟ اللوحات المتقدمة هي إضافة خاصة بالمؤسسات. يرجى الترقية إلى خطة مدفوعة.'
+        description: هل ترغب في أتمتة سير العمل الخاص بك باستخدام اللوحات؟ اللوحات المتقدمة هي إضافة خاصة بالمؤسسات. يرجى الترقية إلى خطة مدفوعة.
   js:
     boards:
-      create_new: 'Create new board'
-      label_unnamed_board: 'لوحة غير مسماة'
-      label_unnamed_list: 'قائمة غير مسماة'
-      label_board_type: 'نوع اللوحة'
-      lists:
-        delete: 'حذف القائمة'
-      version:
-        is_locked: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
-        is_closed: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
-        close_version: 'النسخة الأساسية'
-        open_version: 'إصدار جديد'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'إظهار الإصدار'
-        locked: 'مقفل'
-        closed: 'مغلق'
-      new_board: 'لوحة جديدة'
-      add_list: 'Add list to board'
-      add_card: 'إضافة بطاقة'
-      error_attribute_not_writable: "لا يمكن نقل حزمة العمل، %{attribute} غير قابل للكتابة."
-      error_loading_the_list: "خطأ في تحميل القائمة: %{error_message}"
-      error_permission_missing: "إذن إنشاء استفسارات عامة مفقود"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "انقر لإزالة هذه القائمة"
-      board_type:
-        text: 'نوع اللوحة'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
-        free_text: >
-          ابدأ من الصفر بلوحة فارغة. قم بإضافة البطاقات والأعمدة إلى هذه اللوحة يدويًا.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
-        action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
-        action_text_subprojects: >
-          لوحة بأعمدة تلقائية للمشاريع الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث المشروع (أو المشروع الفرعي) وفقًا لذلك.
-        action_text_subtasks: >
-          لوحة بأعمدة تلقائية للعناصر الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث العنصر الرئيسي وفقًا لذلك.
-        action_text_status: >
-          لوحة أساسية بنمط كانبان مع أعمدة للحالة مثل: المهام، قيد التنفيذ، تم الإنجاز.
-        action_text_assignee: >
-          لوحة بأعمدة تلقائية بناءً على المستخدمين المعينين. وتعتبر لوحة مثالية لتوزيع حزم العمل.
-        action_text_version: >
-          لوحة بأعمدة تلقائية بناءً على الإصدار. و هي مثالية لتخطيط تطوير المنتجات.
-        action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
-        board_type_title:
-          assignee: المُسند إليه
-          status: الحالة
-          version: الإصدار
-          subproject: مشروع فرعي
-          subtasks: الاصل والفرع
-          basic: Basic
-        select_attribute: "Action attribute"
+      add_card: إضافة بطاقة
+      add_list: Add list to board
       add_list_modal:
         labels:
           assignee: Select user to add as a new assignee list
           status: Select status to add as a new list
-          version: Select version to add as a new list
           subproject: Select subproject to add as a new list
           subtasks: Select work package to add as a new list
+          version: Select version to add as a new list
         warning:
+          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
           status: |
             There is currently no status available. <br>
             Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+      board_type:
+        action: Action board
+        action_by_attribute: Action board (%{attribute})
+        action_text: 'A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+
+          '
+        action_text_assignee: 'لوحة بأعمدة تلقائية بناءً على المستخدمين المعينين. وتعتبر لوحة مثالية لتوزيع حزم العمل.
+
+          '
+        action_text_status: 'لوحة أساسية بنمط كانبان مع أعمدة للحالة مثل: المهام، قيد التنفيذ، تم الإنجاز.
+
+          '
+        action_text_subprojects: 'لوحة بأعمدة تلقائية للمشاريع الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث المشروع (أو المشروع الفرعي) وفقًا لذلك.
+
+          '
+        action_text_subtasks: 'لوحة بأعمدة تلقائية للعناصر الفرعية. يؤدي سحب حزم العمل إلى قوائم أخرى إلى تحديث العنصر الرئيسي وفقًا لذلك.
+
+          '
+        action_text_version: 'لوحة بأعمدة تلقائية بناءً على الإصدار. و هي مثالية لتخطيط تطوير المنتجات.
+
+          '
+        action_type:
+          assignee: assignee
+          status: status
+          subproject: subproject
+          subtasks: parent-child
+          version: version
+        board_type_title:
+          assignee: المُسند إليه
+          basic: Basic
+          status: الحالة
+          subproject: مشروع فرعي
+          subtasks: الاصل والفرع
+          version: الإصدار
+        free: basic
+        free_text: 'ابدأ من الصفر بلوحة فارغة. قم بإضافة البطاقات والأعمدة إلى هذه اللوحة يدويًا.
+
+          '
+        select_attribute: Action attribute
+        select_board_type: Please choose the type of board you need.
+        text: نوع اللوحة
+      click_to_remove_list: انقر لإزالة هذه القائمة
       configuration_modal:
-        title: 'Configure this board'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: Display as cards
+          table_mode: Display as table
+        title: Configure this board
+      create_new: Create new board
+      error_attribute_not_writable: لا يمكن نقل حزمة العمل، %{attribute} غير قابل للكتابة.
+      error_cannot_move_into_self: You can not move a work package into its own column.
+      error_loading_the_list: 'خطأ في تحميل القائمة: %{error_message}'
+      error_permission_missing: إذن إنشاء استفسارات عامة مفقود
+      label_board_type: نوع اللوحة
+      label_unnamed_board: لوحة غير مسماة
+      label_unnamed_list: قائمة غير مسماة
+      lists:
+        delete: حذف القائمة
+      new_board: لوحة جديدة
+      text_hidden_list_warning: Not all lists are displayed because you lack the permission. Contact your admin for more information.
+      version:
+        close_version: النسخة الأساسية
+        closed: مغلق
+        edit_version: Edit version
+        is_closed: الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.
+        is_locked: الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.
+        lock_version: Lock version
+        locked: مقفل
+        open_version: إصدار جديد
+        show_version: إظهار الإصدار
+        unlock_version: Unlock version

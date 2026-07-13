@@ -38,7 +38,7 @@ module Meeting::Journalized
           #{format_date o.start_time} \
           #{format_time o.start_time, include_date: false}-#{format_time o.end_time, include_date: false})"
                          },
-                  url: Proc.new { |o| { controller: "/meetings", action: "show", id: o } },
+                  url: Proc.new { |o| { controller: "/meetings", action: "show", project_id: o.project, id: o } },
                   author: Proc.new(&:user),
                   description: ""
 
@@ -47,6 +47,8 @@ module Meeting::Journalized
     register_journal_formatted_fields "start_date", formatter_key: :datetime
     register_journal_formatted_fields "start_time", formatter_key: :meeting_start_time
     register_journal_formatted_fields "state", formatter_key: :meeting_state
+    register_journal_formatted_fields "participants_invited", "participants_attended", formatter_key: :plaintext
+    register_journal_formatted_fields "participants_added", "participants_removed", formatter_key: :participant_change
 
     register_journal_formatted_fields "duration", formatter_key: :agenda_item_duration
     register_journal_formatted_fields /\Aagenda_items_\d+_notes\z/, formatter_key: :agenda_item_diff

@@ -111,7 +111,14 @@ module OpenProject
       # Used only in the creation of a repository, at a later point
       # in time, it is referred to in the root_url
       def managed_repository_path
-        File.join(self.class.managed_root, repository_identifier)
+        root = File.expand_path(self.class.managed_root)
+        path = File.expand_path(File.join(root, repository_identifier))
+
+        unless path.start_with?("#{root}/")
+          raise ArgumentError, "Repository path escapes the configured managed root directory"
+        end
+
+        path
       end
 
       ##

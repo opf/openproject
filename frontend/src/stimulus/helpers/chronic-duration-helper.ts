@@ -43,8 +43,8 @@ export function durationStringToSeconds(value:string):number {
     }) ?? 0;
   }
 
-export function formattedHour(seconds:number):string {
-  if (isNaN(seconds) || seconds <= 0) {
+export function formattedHour(seconds:number, blankOnNull = true):string {
+  if (blankOnNull && (isNaN(seconds) || seconds <= 0)) {
     return '';
   }
 

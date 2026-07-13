@@ -63,6 +63,19 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
       end
     end
 
+    context "when the user is not permitted to manage files in the project" do
+      let(:role) { create(:project_role, permissions: []) }
+      let(:project_storage) do
+        create(:project_storage, project:, storage:, project_folder_id: "1337", project_folder_mode: "automatic")
+      end
+
+      it "must not try to delete project folders" do
+        described_class.new(model: project_storage, user:).call
+
+        expect(command_double).not_to have_received(:call)
+      end
+    end
+
     context "if project folder mode is set to manual" do
       let(:project_storage) do
         create(:project_storage, project:, storage:, project_folder_id: "1337", project_folder_mode: "manual")

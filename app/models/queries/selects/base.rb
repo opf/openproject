@@ -32,7 +32,7 @@ class Queries::Selects::Base
   include ActiveModel::Validations
 
   def self.key
-    raise NotImplementedError
+    raise SubclassResponsibilityError
   end
 
   def self.available?

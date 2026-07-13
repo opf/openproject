@@ -45,9 +45,26 @@ module OpenProject::GithubIntegration
 
       Rails.logger.debug { "Received github webhook #{event_type} (#{event_delivery})" }
 
-      return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
-      return 403 if user.blank?
+      return 404 unless valid_event?(event_type, event_delivery)
+      return 403 unless authorized?(request, user)
 
+      notify(params, user, event_type, event_delivery)
+      200
+    end
+
+    private
+
+    def valid_event?(event_type, event_delivery)
+      KNOWN_EVENTS.include?(event_type) && event_delivery
+    end
+
+    def authorized?(request, user)
+      valid_signature?(request) &&
+        user.present? &&
+        (configured_user_id.blank? || user.id == configured_user_id)
+    end
+
+    def notify(params, user, event_type, event_delivery)
       payload = params[:payload]
                 .permit!
                 .to_h
@@ -55,10 +72,26 @@ module OpenProject::GithubIntegration
                        "github_event" => event_type,
                        "github_delivery" => event_delivery)
 
-      event_name = "github.#{event_type}"
-      OpenProject::Notifications.send(event_name, payload)
+      OpenProject::Notifications.send("github.#{event_type}", payload)
+    end
 
-      200
+    def valid_signature?(request)
+      secret = plugin_settings[:webhook_secret].presence
+      return true if secret.blank?
+
+      signature_header = request.env["HTTP_X_HUB_SIGNATURE_256"]
+      return false if signature_header.blank?
+
+      expected = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', secret, request.raw_post)}"
+      ActiveSupport::SecurityUtils.secure_compare(expected, signature_header)
+    end
+
+    def configured_user_id
+      plugin_settings[:github_user_id].presence&.to_i
+    end
+
+    def plugin_settings
+      Hash(Setting.plugin_openproject_github_integration).with_indifferent_access
     end
   end
 end

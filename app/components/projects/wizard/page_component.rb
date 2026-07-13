@@ -34,7 +34,7 @@ module Projects
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include ApplicationHelper
-      include ProjectHelper
+      include ProjectsHelper
 
       def initialize(project:, custom_fields_by_section:, current_section:)
         super

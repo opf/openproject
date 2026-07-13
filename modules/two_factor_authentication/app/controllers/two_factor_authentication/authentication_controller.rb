@@ -8,6 +8,7 @@ module ::TwoFactorAuthentication
     include ::TwoFactorAuthentication::BackupCodes
     # Webauthn relying party based on domain
     include ::TwoFactorAuthentication::WebauthnRelyingParty
+
     # Include global layout helper
     layout "no_menu"
 
@@ -24,8 +25,14 @@ module ::TwoFactorAuthentication
     before_action :only_post, only: :confirm_otp
 
     # Require authenticated user from the core to be present
+    # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :require_authenticated_user,
                   only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry webauthn_challenge)
+
+    # Prevent additional tries when login attempts exceeded
+    before_action :check_brute_force_protection,
+                  only: %i[confirm_otp verify_backup_code]
+    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     before_action :ensure_valid_configuration, only: [:request_otp]
 
@@ -179,6 +186,7 @@ module ::TwoFactorAuthentication
         set_remember_token!
         complete_stage_redirect
       else
+        user.log_failed_login
         fail_login(I18n.t(:notice_account_otp_invalid))
       end
     end
@@ -190,6 +198,17 @@ module ::TwoFactorAuthentication
         head(:method_not_allowed)
 
         false
+      end
+    end
+
+    ##
+    # Block 2FA submission if the user has exceeded the brute force attempt threshold
+    def check_brute_force_protection
+      return unless @authenticated_user
+
+      if @authenticated_user.failed_too_many_recent_login_attempts?
+        flash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
+        failure_stage_redirect
       end
     end
 

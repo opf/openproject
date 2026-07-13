@@ -8,19 +8,19 @@ import { locatePredecessorBySelector } from 'core-app/features/work-packages/com
 import { groupIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 export class GroupByDragActionService extends TableDragActionService {
-  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  @LazyInject() wpTableGroupBy:WorkPackageViewGroupByService;
 
-  @InjectField() halEditing:HalResourceEditingService;
+  @LazyInject() halEditing:HalResourceEditingService;
 
-  @InjectField() halEvents:HalEventsService;
+  @LazyInject() halEvents:HalEventsService;
 
-  @InjectField() halNotification:HalResourceNotificationService;
+  @LazyInject() halNotification:HalResourceNotificationService;
 
-  @InjectField() schemaCache:SchemaCacheService;
+  @LazyInject() schemaCache:SchemaCacheService;
 
   public get applies() {
     return this.wpTableGroupBy.isEnabled;

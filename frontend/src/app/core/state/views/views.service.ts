@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { ViewsStore } from 'core-app/core/state/views/views.store';
@@ -7,12 +7,11 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
-@EffectHandler
 @Injectable()
+@EffectHandler
 export class ViewsResourceService extends ResourceStoreService<IView> {
-  @InjectField() actions$:ActionsService;
+  readonly actions$ = inject(ActionsService);
 
   protected createStore():ResourceStore<IView> {
     return new ViewsStore();

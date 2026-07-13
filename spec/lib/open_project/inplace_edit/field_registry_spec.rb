@@ -31,25 +31,23 @@
 require "rails_helper"
 
 RSpec.describe OpenProject::InplaceEdit::FieldRegistry do
-  subject(:registry) { described_class }
+  subject(:registry) { described_class.new }
 
-  before do
-    registry.instance_variable_set(:@registry, {})
-  end
+  let(:rich_text_component) { Class.new }
 
-  describe ".register" do
+  describe "#register" do
     it "registers a field component for an attribute" do
-      registry.register(:description, :rich_text_component)
+      registry.register(:description, rich_text_component)
 
-      expect(registry.fetch(:description)).to eq(:rich_text_component)
+      expect(registry.fetch(:description)).to eq(rich_text_component)
     end
   end
 
-  describe ".fetch" do
+  describe "#fetch" do
     it "returns the registered component for the attribute" do
-      registry.register(:description, :rich_text_component)
+      registry.register(:description, rich_text_component)
 
-      expect(registry.fetch(:description)).to eq(:rich_text_component)
+      expect(registry.fetch(:description)).to eq(rich_text_component)
     end
 
     it "falls back to TextInputComponent if attribute is not registered" do
@@ -58,9 +56,40 @@ RSpec.describe OpenProject::InplaceEdit::FieldRegistry do
     end
 
     it "normalizes attribute names to strings" do
-      registry.register("description", :rich_text_component)
+      registry.register("description", rich_text_component)
 
-      expect(registry.fetch(:description)).to eq(:rich_text_component)
+      expect(registry.fetch(:description)).to eq(rich_text_component)
+    end
+  end
+
+  describe "#register_custom_field_format_mappings" do
+    it "stores format-to-component mappings used by fetch_for_custom_field_format" do
+      text_component = Class.new
+      registry.register_custom_field_format_mappings("text" => text_component)
+
+      expect(registry.fetch_for_custom_field_format("text")).to eq(text_component)
+    end
+  end
+
+  describe "#fetch_for_custom_field_format" do
+    let(:text_component) { Class.new }
+
+    before do
+      registry.register_custom_field_format_mappings("text" => text_component)
+    end
+
+    it "returns the correct component for the given field format" do
+      expect(registry.fetch_for_custom_field_format("text")).to eq(text_component)
+    end
+
+    it "falls back to TextInputComponent when the format has no mapping" do
+      expect(registry.fetch_for_custom_field_format("unknown_format"))
+        .to eq(OpenProject::Common::InplaceEditFields::TextInputComponent)
+    end
+
+    it "falls back to TextInputComponent when field_format is nil" do
+      expect(registry.fetch_for_custom_field_format(nil))
+        .to eq(OpenProject::Common::InplaceEditFields::TextInputComponent)
     end
   end
 end

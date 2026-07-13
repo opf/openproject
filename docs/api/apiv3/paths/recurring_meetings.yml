@@ -1,0 +1,63 @@
+# /api/v3/recurring_meetings
+---
+get:
+  summary: List all visible recurring meetings
+  operationId: list_recurring_meetings
+  tags:
+    - Recurring Meetings
+  description: |-
+    Retrieve a paginated collection of recurring meetings visible to the authenticated user.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_collection_model.yml"
+
+post:
+  summary: Create recurring meeting
+  operationId: create_recurring_meeting
+  tags:
+    - Recurring Meetings
+  description: |-
+    Creates a new recurring meeting series applying the attributes provided in the body.
+    A template meeting is automatically created alongside the recurring meeting.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/recurring_meeting_write_model.yml"
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** create meetings in the given project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)

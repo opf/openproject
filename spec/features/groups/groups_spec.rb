@@ -71,7 +71,7 @@ RSpec.describe "group memberships through groups page", :js do
 
         # Should stay on the form page and show validation error
         expect(page).to have_text("New group")
-        expect(page).to have_css(".Banner--error", text: /Department can't be blank./)
+        expect(page).to have_field(custom_field.name, with: "", validation_error: "Value can't be blank.")
 
         fill_in custom_field.name, with: "Engineering"
 
@@ -102,8 +102,8 @@ RSpec.describe "group memberships through groups page", :js do
         click_on "Save"
 
         # Should stay on the form page and show validation error
-        expect(page).to have_text("Updated Marketing Team")
-        expect(page).to have_css(".Banner--error", text: /Department can't be blank./)
+        expect(page).to have_field("Name", with: "Updated Marketing Team")
+        expect(page).to have_field(custom_field.name, with: "", validation_error: "Value can't be blank.")
 
         # Now provide a valid value
         fill_in custom_field.name, with: "Marketing & Sales"

@@ -34,16 +34,18 @@ class Projects::StatusButtonComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include ProjectStatusHelper
 
-  attr_reader :project, :user, :hide_help_text
+  attr_reader :project, :user, :hide_help_text, :hide_help_text_caption
   alias :hide_help_text? :hide_help_text
+  alias :hide_help_text_caption? :hide_help_text_caption
 
-  def initialize(project:, user:, size: :medium, hide_help_text: false)
+  def initialize(project:, user:, size: :medium, hide_help_text: false, hide_help_text_caption: false)
     super
 
     @project = project
     @user = user
     @size = size
     @hide_help_text = hide_help_text
+    @hide_help_text_caption = hide_help_text_caption
 
     @status = find_status(project.status_code)
   end

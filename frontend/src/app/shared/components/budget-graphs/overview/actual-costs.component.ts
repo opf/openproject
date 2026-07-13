@@ -37,7 +37,6 @@ import {
 import { ChartConfiguration, ChartData } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { chartFont, chartLegend, createBarTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
@@ -45,7 +44,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 @Component({
   selector: 'opce-actual-costs',
   templateUrl: './actual-costs.component.html',
-  imports: [BaseChartDirective, NoResultsComponent],
+  imports: [BaseChartDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
 })
@@ -53,21 +52,14 @@ export class ActualCostsComponent {
   private readonly i18n = inject(I18nService);
 
   readonly chartData = input.required<string>();
-  readonly currency = input<string>('EUR');
-
-  readonly text = {
-    noResults: {
-      title: this.i18n.t('js.costs.widgets.actual_costs.blankslate.title'),
-      description: this.i18n.t('js.costs.widgets.actual_costs.blankslate.description'),
-    },
-  };
+  readonly currency = input<string>('€');
 
   readonly barChartData = computed<ChartData<'bar'>>(() => JSON.parse(this.chartData()) as ChartData<'bar'>);
   readonly hasChartData = computed(() => this.barChartData().datasets.length > 0);
 
   readonly barChartOptions:Signal<ChartConfiguration<'bar'>['options']> = computed<ChartConfiguration<'bar'>['options']>(() => ({
     font: chartFont,
-    aspectRatio: 1.5,
+    aspectRatio: 1,
     scales: {
       x: {
         stacked: true,
@@ -85,7 +77,7 @@ export class ActualCostsComponent {
     },
     plugins: {
       ...chartLegend,
-      'primer-colors': { labelBased: true },
+      'primer-colors': { datasetLabelBased: true },
       tooltip: {
         enabled: false,
         external: createBarTooltipRenderer(this.formatCurrency.bind(this)),
@@ -94,20 +86,34 @@ export class ActualCostsComponent {
   }));
 
   private formatCurrencyCompact(value:number):string {
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: this.currency(),
-      notation: 'compact',
-      compactDisplay: 'short',
-      maximumFractionDigits: 1,
-    }).format(value);
+    const currency = this.currency();
+
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: this.currency(),
+        notation: 'compact',
+        compactDisplay: 'short',
+        maximumFractionDigits: 1,
+      }).format(value);
+    } catch {
+      return `${new Intl.NumberFormat(undefined,
+        { notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1 }
+      ).format(value)} ${currency}`;
+    }
   }
 
   private formatCurrency(value:number):string {
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: this.currency(),
-      maximumFractionDigits: 0,
-    }).format(value);
+    const currency = this.currency();
+
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency,
+        maximumFractionDigits: 0,
+      }).format(value);
+    } catch {
+      return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} ${currency}`;
+    }
   }
 }

@@ -94,8 +94,8 @@ RSpec.describe "Switching types in work package table", :js do
         message: "#{cf_req_text.name} can't be blank."
       )
 
-      # Required CF requires activation
-      req_text_field.activate!
+      # After a failed type switch, the required CF field is auto-opened in edit mode
+      req_text_field.expect_active!
       req_text_field.set_value "Required"
       req_text_field.save!
 

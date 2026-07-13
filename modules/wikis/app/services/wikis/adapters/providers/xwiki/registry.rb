@@ -1,0 +1,80 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Wikis
+  module Adapters
+    module Providers
+      module XWiki
+        Registry = Dry::Core::Container::Namespace.new("xwiki") do
+          namespace("authentication") do
+            register(:user_bound, Authentication::UserBound)
+            register(:noop, Authentication::Noop)
+          end
+
+          namespace("commands") do
+            register(:create_page, Commands::CreatePage)
+          end
+
+          namespace("components") do
+            register(:setup_wizard, Wizard)
+
+            register(:general_information, Wikis::Admin::GeneralInfoComponent)
+            register(:oauth_application, Wikis::Admin::OAuthApplicationInfoComponent)
+            register(:oauth_client, Wikis::Admin::OAuthClientInfoComponent)
+
+            namespace("forms") do
+              register(:general_information, Wikis::Admin::Forms::GeneralInfoFormComponent)
+              register(:oauth_application, Wikis::Admin::Forms::OAuthApplicationFormComponent)
+              register(:oauth_client, Wikis::Admin::Forms::OAuthClientFormComponent)
+            end
+          end
+
+          namespace("contracts") do
+            register(:general_information, Wikis::XWikiProviders::GeneralInformationContract)
+          end
+
+          namespace("queries") do
+            register(:user, Queries::User)
+            register(:instance_id, Queries::InstanceId)
+            register(:page_info, Queries::StablePageInfo)
+            register(:page_info_for_url, Queries::PageInfoForUrl)
+            register(:referencing_pages, Queries::ReferencingPages)
+            register(:relation_page_links, Queries::RelationPageLinks)
+            register(:search_pages, Queries::SearchPages)
+          end
+
+          namespace("validators") do
+            register("connection", Validators::ConnectionValidator)
+          end
+        end
+      end
+    end
+  end
+end

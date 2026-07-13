@@ -29,7 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { "#{avatar(@news.author)}  #{h @news.title}".html_safe }
+    header.with_title do
+      concat avatar(@news.author)
+      concat @news.title
+    end
+
     header.with_breadcrumbs(
       [
         { href: project_overview_path(@project.id), text: @project.name },
@@ -43,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         mobile_icon: :pencil,
         mobile_label: t(:button_edit),
         size: :medium,
-        href: edit_project_news_path(@news),
+        href: edit_project_news_path(@project, @news),
         aria: { label: I18n.t(:button_edit) },
         title: I18n.t(:button_edit)
       ) do |button|

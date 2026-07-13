@@ -39,7 +39,7 @@ module Meetings
       super
 
       @meeting = meeting
-      @meeting_participants = meeting.participants.sort_by(&:status_sorting_value)
+      @meeting_participants = meeting.participants.sort_by { |p| [p.status_sorting_value, p.to_s.downcase] }
     end
   end
 end

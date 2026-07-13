@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  HostBinding,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -44,8 +39,15 @@ import moment from 'moment-timezone';
   selector: 'op-filter-date-value',
   templateUrl: './filter-date-value.component.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateValueComponent extends UntilDestroyedMixin {
+  readonly timezoneService = inject(TimezoneService);
+  readonly I18n = inject(I18nService);
+
   @HostBinding('id') get id() {
     return `div-values-${this.filter.id}`;
   }
@@ -55,11 +57,6 @@ export class FilterDateValueComponent extends UntilDestroyedMixin {
   @Input() public filter:QueryFilterInstanceResource;
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
-
-  constructor(readonly timezoneService:TimezoneService,
-    readonly I18n:I18nService) {
-    super();
-  }
 
   public get value():string {
     return this.filter.values[0] as string;

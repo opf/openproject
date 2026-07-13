@@ -1,16 +1,17 @@
 ---
 sidebar_navigation:
   title: Project initiation request
-  priority: 850
+  priority: 900
 description: Create new projects using a guided project initiation process in OpenProject.
 keywords: project creation wizard, project initiation, project setup, new project, project template, PIR, pmflex, pm2
 
 ---
 
 # Project initiation request (Enterprise add-on)
+
 [feature: project_creation_wizard ]
 
-In **OpenProject**, you can create new projects using a guided pre-defined process. It is referred to as *project initiation request*, *project creation wizard* or *project mandate*. This is especially helpful in larger organizations, when managing many projects, or when working with complex structures and governance requirements.
+In **OpenProject**, you can create new projects using a guided pre-defined process. It is referred to as _project initiation request_, _project creation wizard_ or _project mandate_. This is especially helpful in larger organizations, when managing many projects, or when working with complex structures and governance requirements.
 
 Instead of manually configuring each project from scratch, the wizard guides you through a defined sequence of steps to collect essential information and apply a consistent project setup. For example a department responsible for the project or key roles relevant to the project (team lead, product owner, etc.). This reduces setup effort, avoids configuration errors, and helps ensure that new projects follow agreed standards.
 
@@ -23,6 +24,7 @@ Before using the project initiation request, you need at least one project that 
 First, configure a project for use in the project initiation process. See how to do this under [project settings](project-initiation-request-settings/).
 
 When preparing a project for this purpose, consider configuring the following elements in advance:
+
 - Project members, which will be copied to newly created projects 
 - Work packages, such as phases or milestones 
 - Versions 
@@ -35,7 +37,7 @@ You can repeat this process to make multiple project creation wizards available.
 
 ## Step 1: Create a new project
 
-To start the project creation process, click **+ Project** button. Read more on creating a new project [here](../../../getting-started/projects/#create-a-new-project).
+To start the project creation process, click the **+**  button and select **+ Project** from the drop down. Read more on creating a new project [here](../../../getting-started/projects/#create-a-new-project).
 
 ![Button to create a new project in OpenProject](openproject_user_guide_project_creation_wizard_new_project.png) 
 
@@ -77,9 +79,9 @@ Completed sections are marked with a green check icon in the **Content** section
 
 ![Green checkmark icon indicating completed wizard steps in OpenProject](openproject_user_guide_project_creation_wizard_green_checkmark.png)
 
-If you close the wizard before completing it, you will be taken to the project overview page. The project status will be set to *Not set*, and the project status widget will indicate that the project creation wizard has not yet been completed.
+If you close the wizard before completing it, you will be taken to the project overview page. The project status will be set to _Not set_, and the project status widget will indicate that the project creation wizard has not yet been completed.
 
-To continue, click the **Open project creation wizard** button in the *Project status* widget.
+To continue, click the **Open project creation wizard** button in the _Project status_ widget.
 
 ![Button to reopen the project creation wizard in OpenProject](openproject_user_guide_project_creation_wizard_return_button.png)
 
@@ -93,7 +95,7 @@ A new work package is created automatically. It contains:
 - A generated PDF artifact with all submitted information attached for reference and audit purposes 
 - A link to reopen the project creation wizard if updates are needed 
 
-The responsible person defined during initiation is assigned to the work package and mentioned in a comment indicating that the request is awaiting review. In this example this person was earlier defined during the project initiation request, in the project attribute field called *PIR controller*. 
+The responsible person defined during initiation is assigned to the work package and mentioned in a comment indicating that the request is awaiting review. In this example this person was earlier defined during the project initiation request, in the project attribute field called _PIR controller_. 
 
 ![Confirmation message after submitting a project creation wizard in OpenProject](openproject_user_guide_project_creation_wizard_success_message.png)
 

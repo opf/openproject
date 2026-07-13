@@ -26,16 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$op-primer-flash-toaster-width: 80%
-
 .op-primer-flash
+  @include banner-styles
   z-index: 599
-  position: absolute
-  max-width: $op-primer-flash-toaster-width
-  margin: 0 auto
-  left: 10%
-  right: 10%
-  top: 1rem
   background-color: var(--body-background)
 
   // Align multiple toasts

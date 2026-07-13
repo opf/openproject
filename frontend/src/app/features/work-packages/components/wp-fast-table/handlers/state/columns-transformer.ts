@@ -3,13 +3,13 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { takeUntil } from 'rxjs/operators';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../wp-fast-table';
 
 export class ColumnsTransformer {
-  @InjectField() public querySpace:IsolatedQuerySpace;
+  @LazyInject() public querySpace:IsolatedQuerySpace;
 
-  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
   constructor(public readonly injector:Injector,
     public table:WorkPackageTable) {

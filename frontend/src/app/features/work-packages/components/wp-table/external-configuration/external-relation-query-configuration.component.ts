@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
 } from '@angular/core';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -16,6 +17,10 @@ import { ExternalQueryConfigurationComponent } from 'core-app/features/work-pack
     { provide: WpTableConfigurationModalPrependToken, useValue: WpTableConfigurationRelationSelectorComponent },
   ],
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class ExternalRelationQueryConfigurationComponent extends ExternalQueryConfigurationComponent {
 }

@@ -1,0 +1,110 @@
+# Schema: UserWorkingHoursModel
+---
+type: object
+required:
+  - _type
+  - id
+  - validFrom
+  - mondayHours
+  - tuesdayHours
+  - wednesdayHours
+  - thursdayHours
+  - fridayHours
+  - saturdayHours
+  - sundayHours
+  - availabilityFactor
+properties:
+  _type:
+    type: string
+    enum:
+      - UserWorkingHours
+  id:
+    type: integer
+    description: |-
+      The unique identifier of the working hours record.
+    minimum: 1
+  validFrom:
+    type: string
+    format: date
+    description: |-
+      The date from which this working hours configuration is in effect (ISO 8601 format).
+      Multiple records may exist for a user; the one with the latest `validFrom` that is
+      not in the future is the currently active record.
+  mondayHours:
+    type: number
+    format: float
+    description: Hours worked on Monday.
+    minimum: 0
+  tuesdayHours:
+    type: number
+    format: float
+    description: Hours worked on Tuesday.
+    minimum: 0
+  wednesdayHours:
+    type: number
+    format: float
+    description: Hours worked on Wednesday.
+    minimum: 0
+  thursdayHours:
+    type: number
+    format: float
+    description: Hours worked on Thursday.
+    minimum: 0
+  fridayHours:
+    type: number
+    format: float
+    description: Hours worked on Friday.
+    minimum: 0
+  saturdayHours:
+    type: number
+    format: float
+    description: Hours worked on Saturday.
+    minimum: 0
+  sundayHours:
+    type: number
+    format: float
+    description: Hours worked on Sunday.
+    minimum: 0
+  availabilityFactor:
+    type: integer
+    description: |-
+      The percentage of working hours the user is available. Must be between 0 and 100.
+    minimum: 0
+    maximum: 100
+  _links:
+    type: object
+    required:
+      - self
+      - user
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              This working hours record.
+              **Resource**: UserWorkingHours
+      user:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The user this working hours record belongs to.
+              **Resource**: User
+
+example:
+  _type: UserWorkingHours
+  id: 1
+  validFrom: "2024-01-01"
+  mondayHours: 8.0
+  tuesdayHours: 8.0
+  wednesdayHours: 8.0
+  thursdayHours: 8.0
+  fridayHours: 8.0
+  saturdayHours: 0.0
+  sundayHours: 0.0
+  availabilityFactor: 100
+  _links:
+    self:
+      href: /api/v3/users/42/working_hours/1
+    user:
+      href: /api/v3/users/42
+      title: Jane Doe

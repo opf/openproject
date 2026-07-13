@@ -33,8 +33,8 @@ require "rails_helper"
 RSpec.describe Backlogs::SprintPageHeaderComponent, type: :component do
   let(:project) { create(:project, name: "Test Project") }
   let(:start_date) { Date.new(2024, 1, 15) }
-  let(:effective_date) { Date.new(2024, 1, 29) }
-  let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date:, effective_date:) }
+  let(:finish_date) { Date.new(2024, 1, 29) }
+  let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date:, finish_date:) }
 
   def render_component
     render_inline(described_class.new(sprint:, project:))
@@ -89,7 +89,7 @@ RSpec.describe Backlogs::SprintPageHeaderComponent, type: :component do
 
   describe "date handling" do
     context "when sprint has only start_date" do
-      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date:, effective_date: nil) }
+      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date:, finish_date: nil) }
 
       it "renders only start date" do
         render_component
@@ -99,10 +99,10 @@ RSpec.describe Backlogs::SprintPageHeaderComponent, type: :component do
       end
     end
 
-    context "when sprint has only effective_date" do
-      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: nil, effective_date:) }
+    context "when sprint has only finish_date" do
+      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: nil, finish_date:) }
 
-      it "renders only effective date" do
+      it "renders only finish date" do
         render_component
 
         expect(page).to have_no_css("time[datetime='2024-01-15']")
@@ -111,7 +111,7 @@ RSpec.describe Backlogs::SprintPageHeaderComponent, type: :component do
     end
 
     context "when sprint has no dates" do
-      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: nil, effective_date: nil) }
+      let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: nil, finish_date: nil) }
 
       it "renders no time elements" do
         render_component

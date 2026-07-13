@@ -52,6 +52,6 @@ class BaseErrorsComponent < ApplicationComponent
 
   def joined_messages
     messages = @keys.map { |key| @errors.full_messages_for(key) }.flatten
-    helpers.safe_join(messages, "<br />".html_safe)
+    helpers.safe_join(messages, helpers.tag(:br))
   end
 end

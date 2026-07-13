@@ -1,5 +1,5 @@
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -9,6 +9,10 @@ import {
   templateUrl: './settings-tab.component.html',
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpGraphConfigurationSettingsTabComponent implements TabComponent {
   @ViewChild('tabInner', { static: true })

@@ -93,7 +93,7 @@ module Pages
     end
 
     def container
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def wait_for_activity_tab
@@ -364,7 +364,7 @@ module Pages
     private
 
     def create_page(_args)
-      raise NotImplementedError
+      raise SubclassResponsibilityError
     end
 
     def ensure_no_conflicting_modifications

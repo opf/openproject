@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package reminder modal",
                :js do
+  let(:reference_time) { Time.find_zone!("Europe/Berlin").local(2025, 1, 8, 12, 0, 0) }
   let!(:project) { create(:project) }
   let!(:work_package) { create(:work_package, project:) }
   let!(:role_that_allows_managing_own_reminders) do
@@ -53,6 +54,14 @@ RSpec.describe "Work package reminder modal",
 
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:center) { Pages::Notifications::Center.new }
+
+  before do
+    travel_to(reference_time)
+  end
+
+  after do
+    travel_back
+  end
 
   context "with permissions to manage own reminders" do
     current_user { user_with_permissions }

@@ -54,13 +54,32 @@
     end
 
     layout.with_tab(name: I18n.t("activerecord.models.document"), show_left: true) do
-      primer_form_with(
-        model: document,
-        url: document_path(document),
-        method: :patch,
-        data: { turbo: false }
-      ) do |form|
-        render Documents::BlockNoteEditorForm.new(form, token_payload:, readonly:)
+      tag.div(
+        data: {
+          controller: "documents--editor-connection",
+          action: "documents:connection-error@window->documents--editor-connection#showError " \
+                  "documents:connection-recovery@window->documents--editor-connection#showEditor"
+        }
+      ) do
+        safe_join(
+          [
+            tag.div(
+              render(Documents::ShowEditView::ConnectionErrorNoticeComponent.new(document)),
+              hidden: true,
+              data: { "documents--editor-connection-target": "error" }
+            ),
+            tag.div(data: { "documents--editor-connection-target": "editor" }) do
+              primer_form_with(
+                model: document,
+                url: document_path(document),
+                method: :patch,
+                data: { turbo: false }
+              ) do |form|
+                render Documents::BlockNoteEditorForm.new(form, token_payload:, readonly:)
+              end
+            end
+          ]
+        )
       end
     end
 

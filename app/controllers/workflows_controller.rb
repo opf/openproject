@@ -29,131 +29,44 @@
 #++
 
 class WorkflowsController < ApplicationController
+  include OpTurbo::ComponentStream
+
   layout "admin"
 
   before_action :require_admin
 
-  before_action :find_roles, except: :update
-  before_action :find_types, except: :update
+  before_action :find_types, only: %i[index]
 
-  before_action :find_role, only: :update
-  before_action :find_type, only: :update
+  before_action :find_type, only: %i[edit]
+  before_action :find_optional_roles, only: %i[edit]
 
-  before_action :find_optional_role, only: :edit
-  before_action :find_optional_type, only: :edit
-
-  def show
-    @workflow_counts = Workflow.count_by_type_and_role
-    @roles = @workflow_counts.first&.last&.map(&:first)
-  end
+  def index; end
 
   def edit
-    @used_statuses_only = params[:used_statuses_only] == "1"
-
-    statuses_for_form
-
-    if @type && @role && @statuses.any?
-      workflows_for_form
-    end
-  end
-
-  def update
-    tab = params[:tab] || "always"
-    call = Workflows::BulkUpdateService
-           .new(role: @role, type: @type, tab:)
-           .call(permitted_status_params)
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: "edit", role_id: @role, type_id: @type, tab:
-    end
-  end
-
-  def copy
-    @source_type = if params[:source_type_id].blank? || params[:source_type_id] == "any"
-                     nil
-                   else
-                     ::Type.find(params[:source_type_id])
-                   end
-    @source_role = if params[:source_role_id].blank? || params[:source_role_id] == "any"
-                     nil
-                   else
-                     eligible_roles.find(params[:source_role_id])
-                   end
-
-    @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
-    @target_roles = params[:target_role_ids].blank? ? nil : eligible_roles.where(id: params[:target_role_ids])
-
-    if request.post?
-      if params[:source_type_id].blank? || params[:source_role_id].blank? || (@source_type.nil? && @source_role.nil?)
-        flash.now[:error] = I18n.t(:error_workflow_copy_source)
-      elsif @target_types.nil? || @target_roles.nil?
-        flash.now[:error] = I18n.t(:error_workflow_copy_target)
-      else
-        Workflow.copy(@source_type, @source_role, @target_types, @target_roles)
-        flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to action: "copy", source_type_id: @source_type, source_role_id: @source_role
-      end
-    end
+    @current_tab = current_tab
   end
 
   private
 
-  def statuses_for_form
-    @statuses = if @type && @used_statuses_only && @type.statuses.any?
-                  @type.statuses
-                else
-                  Status.all
-                end
-  end
-
-  def workflows_for_form
-    workflows = Workflow.where(role_id: @role.id, type_id: @type.id)
-    @workflows = {}
-    @workflows["always"] = workflows.select { |w| !w.author && !w.assignee }
-    @workflows["author"] = workflows.select(&:author)
-    @workflows["assignee"] = workflows.select(&:assignee)
-  end
-
-  def find_roles
-    @roles = eligible_roles.order(:builtin, :position)
+  def current_tab
+    params[:tab] || "always"
   end
 
   def find_types
     @types = ::Type.order(:position)
   end
 
-  def find_role
-    @role = eligible_roles.find(params[:role_id])
-  end
-
   def find_type
     @type = ::Type.find(params[:type_id])
   end
 
-  def find_optional_role
-    @role = eligible_roles.find_by(id: params[:role_id])
-  end
-
-  def find_optional_type
-    @type = ::Type.find_by(id: params[:type_id])
+  def find_optional_roles
+    ordered = eligible_roles.order(:builtin, :position)
+    @roles = ordered.where(id: params[:role_ids])
+    @roles = [ordered.first] if @roles.empty?
   end
 
   def eligible_roles
-    roles = Role.where(type: ProjectRole.name)
-
-    if EnterpriseToken.allows_to?(:work_package_sharing)
-      roles.or(Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR))
-    else
-      roles
-    end
-  end
-
-  def permitted_status_params
-    return {} if params["status"].blank?
-
-    params["status"]
-      .to_unsafe_h
-      .select { |key, value| /\A\d+\z/.match?(key) && value.keys.all? { /\A\d+\z/.match?(it) } }
+    @eligible_roles ||= Workflow.eligible_roles
   end
 end

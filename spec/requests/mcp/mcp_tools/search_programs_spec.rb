@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::SearchPrograms, with_flag: { mcp_server: true } do
+RSpec.describe McpTools::SearchPrograms do
   subject do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "X-Authentication-Scheme", "Bearer"
@@ -179,7 +179,7 @@ RSpec.describe McpTools::SearchPrograms, with_flag: { mcp_server: true } do
     context "when passing an invalid program status" do
       let(:call_args) { { status_code: "blubb" } }
 
-      it_behaves_like "MCP error response"
+      it_behaves_like "MCP tool execution error response"
     end
 
     context "when user can't see programs" do

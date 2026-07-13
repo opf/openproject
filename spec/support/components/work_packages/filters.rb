@@ -55,6 +55,14 @@ module Components
         expect_open
       end
 
+      def ensure_open
+        SeleniumHubWaiter.wait
+        expect_loaded
+        return if page.has_selector?(filters_selector, visible: :visible, wait: false)
+
+        open
+      end
+
       def expect_filter_count(num)
         expect(filter_button).to have_css(".badge", text: num, wait: 10)
       end
@@ -223,6 +231,10 @@ module Components
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end
 
+      def clear_filter_value(field)
+        ng_select_clear(page.find("#filter_#{field} ng-select"), raise_on_missing: false)
+      end
+
       def open_autocompleter(id)
         with_filter_input(id, &:click)
       end
@@ -263,16 +275,16 @@ module Components
           elsif operator == "between"
             insert_two_single_dates(id, value)
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
-            insert_autocomplete_item(filter_element, value)
+            insert_autocomplete_item(id, value)
           else
             insert_plain_value(id, value)
           end
         end
       end
 
-      def insert_autocomplete_item(filter_element, value)
+      def insert_autocomplete_item(id, value)
         Array(value).each do |val|
-          select_autocomplete filter_element.find("ng-select"),
+          select_autocomplete page.find("#filter_#{id} ng-select"),
                               query: val,
                               results_selector: ".ng-dropdown-panel-items"
         end

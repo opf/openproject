@@ -63,19 +63,19 @@ module API
         end
 
         def commit_action
-          raise NotImplementedError, "subclass responsibility"
+          raise SubclassResponsibilityError
         end
 
         def commit_method
-          raise NotImplementedError, "subclass responsibility"
+          raise SubclassResponsibilityError
         end
 
         def form_url
-          raise NotImplementedError, "subclass responsibility"
+          raise SubclassResponsibilityError
         end
 
         def resource_url
-          raise NotImplementedError, "subclass responsibility"
+          raise SubclassResponsibilityError
         end
 
         def payload_representer

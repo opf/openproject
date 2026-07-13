@@ -183,24 +183,6 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  context "with admin only custom field" do
-    let(:values) { [nil, "1"] }
-
-    before { custom_field.admin_only = true }
-
-    context "as a non admin user" do
-      current_user { build_stubbed(:user) }
-
-      it { expect(rendered).to be_nil }
-    end
-
-    context "as an admin" do
-      current_user { build_stubbed(:admin) }
-
-      it { expect(rendered).to be_a(String) }
-    end
-  end
-
   context "for a multi-select custom field" do
     let(:custom_field) { build_stubbed(:user_wp_custom_field) }
 

@@ -27,7 +27,7 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 
@@ -37,7 +37,7 @@ interface Attribute {
 }
 
 export class UserDisplayField extends DisplayField {
-  @InjectField() principalRenderer:PrincipalRendererService;
+  @LazyInject() principalRenderer:PrincipalRendererService;
 
   public get value() {
     if (this.schema) {

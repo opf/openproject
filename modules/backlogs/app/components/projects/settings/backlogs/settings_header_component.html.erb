@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t(:label_backlogs) }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(project), text: project.name },
+       { href: project_settings_general_path(project), text: I18n.t(:label_project_settings) },
+       I18n.t(:label_backlogs)]
+    )
+
+    header.with_tab_nav(label: nil) do |tab_nav|
+      tab_nav.with_tab(
+        selected: selected_tab?(:types_and_statuses),
+        href: project_settings_backlogs_path(project),
+        data: { turbo_action: "advance" }
+      ) do |t|
+        t.with_text { t("backlogs.types_and_statuses") }
+      end
+
+      if User.current.allowed_in_project?(:share_sprint, project)
+        tab_nav.with_tab(
+          selected: selected_tab?(:sharing),
+          href: project_settings_backlog_sharing_path(project),
+          data: { turbo_action: "advance" }
+        ) do |t|
+          t.with_text { t("backlogs.sharing") }
+        end
+      end
+    end
+
+    if selected_tab == :types_and_statuses
+      header.with_action_menu(
+        menu_arguments: { anchor_align: :end },
+        button_arguments: {
+          icon: :"kebab-horizontal",
+          "aria-label": t(:label_more)
+        }
+      ) do |menu|
+        menu.with_item(
+          tag: :button,
+          href: rebuild_positions_project_settings_backlogs_path(@project),
+          label: t(:"backlogs.rebuild_positions"),
+          form_arguments: { method: :post, data: { turbo_frame: "_top" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :sync)
+        end
+      end
+    end
+  end
+%>

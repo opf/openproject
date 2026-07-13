@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ExternalQueryConfigurationService,
@@ -11,6 +11,11 @@ import {
   standalone: false,
 })
 export class EditableQueryPropsComponent implements OnInit {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private I18n = inject(I18nService);
+  private cdRef = inject(ChangeDetectorRef);
+  private externalQuery = inject(ExternalQueryConfigurationService);
+
   id:string|null;
 
   name:string|null;
@@ -22,14 +27,6 @@ export class EditableQueryPropsComponent implements OnInit {
   text = {
     edit_query: this.I18n.t('js.admin.type_form.edit_query'),
   };
-
-  constructor(
-    private elementRef:ElementRef<HTMLElement>,
-    private I18n:I18nService,
-    private cdRef:ChangeDetectorRef,
-    private externalQuery:ExternalQueryConfigurationService,
-  ) {
-  }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
@@ -57,7 +54,7 @@ export class EditableQueryPropsComponent implements OnInit {
     })();
 
     this.externalQuery.show({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       currentQuery: queryProperties,
       urlParams: this.urlParams,
       callback: (queryProps:string) => {

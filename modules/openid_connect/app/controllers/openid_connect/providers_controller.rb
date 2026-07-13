@@ -104,7 +104,9 @@ module OpenIDConnect
       end
     end
 
-    def confirm_destroy; end
+    def confirm_destroy
+      respond_with_dialog OpenIDConnect::Providers::ConfirmDestroyDialogComponent.new(provider: @provider)
+    end
 
     def destroy
       if @provider.destroy

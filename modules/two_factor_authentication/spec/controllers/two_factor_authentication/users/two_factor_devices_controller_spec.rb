@@ -181,6 +181,36 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
       end
     end
 
+    describe "#delete_all" do
+      context "with no devices" do
+        it "redirects to the user 2FA tab" do
+          post :delete_all, params: { id: user.id }
+          expect(response).to redirect_to edit_user_path(user, tab: :two_factor_authentication)
+        end
+      end
+
+      context "with existing devices" do
+        let!(:device1) { create(:two_factor_authentication_device_totp, user:, default: true) }
+        let!(:device2) { create(:two_factor_authentication_device_sms, user:, default: false) }
+
+        it "deletes all devices and redirects" do
+          post :delete_all, params: { id: user.id }
+          expect(response).to redirect_to edit_user_path(user, tab: :two_factor_authentication)
+          expect(user.otp_devices.reload).to be_empty
+        end
+      end
+
+      context "when admin shares no project or group with the user" do
+        let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
+
+        it "still deletes all devices (regression: User.visible excluded the user)" do
+          post :delete_all, params: { id: user.id }
+          expect(response).to redirect_to edit_user_path(user, tab: :two_factor_authentication)
+          expect(user.otp_devices.reload).to be_empty
+        end
+      end
+    end
+
     describe "#destroy" do
       it "croaks on missing id" do
         delete :destroy, params: { id: user.id, device_id: "1234" }

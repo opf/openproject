@@ -62,7 +62,7 @@ module Storages
 
               case response
               in { status: 200..299 }
-                StorageFileTransformer.new(site_name).transform(response.json(symbolize_keys: true))
+                StorageFileTransformer.new(host_uri).transform(response.json(symbolize_keys: true))
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               in { status: 403 }

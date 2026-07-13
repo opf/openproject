@@ -65,4 +65,21 @@ RSpec.describe Storages::Admin::StoragesController do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    let(:storage) { build_stubbed(:nextcloud_storage) }
+    let(:service_result) { ServiceResult.success }
+    let(:delete_service) { instance_double(Storages::Storages::DeleteService, call: service_result) }
+
+    before do
+      allow(Storages::Storage).to receive(:visible).and_return(instance_double(ActiveRecord::Relation, find: storage))
+      allow(Storages::Storages::DeleteService).to receive(:new).and_return(delete_service)
+    end
+
+    it "redirects to storages index with see_other" do
+      delete :destroy, params: { id: storage.id }
+      expect(response).to redirect_to(admin_settings_storages_path)
+      expect(response).to have_http_status(:see_other)
+    end
+  end
 end

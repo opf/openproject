@@ -59,8 +59,16 @@ FactoryBot.define do
       RequestStore.store.delete_if { |key, _| key.to_s.include?("_custom_fields") }
     end
 
+    trait :is_for_all do
+      is_for_all { true }
+    end
+
     trait :admin_only do
       admin_only { true }
+    end
+
+    trait :has_comment do
+      has_comment { true }
     end
 
     trait :multi_value do
@@ -235,7 +243,9 @@ FactoryBot.define do
       end
     end
 
-    factory :user_custom_field, class: "UserCustomField"
+    factory :user_custom_field, class: "UserCustomField" do
+      user_custom_field_section
+    end
 
     factory :group_custom_field, class: "GroupCustomField"
 

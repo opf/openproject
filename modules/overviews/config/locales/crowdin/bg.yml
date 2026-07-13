@@ -1,5 +1,6 @@
+---
 bg:
   overviews:
+    label_dashboard: Табло
     label_home: "%{workspace_type} home"
-    label_dashboard: "Табло"
-    label_overview: "Общ преглед"
+    label_overview: Общ преглед

@@ -33,19 +33,21 @@ class LaborBudgetItem < ApplicationRecord
 
   include ::Costs::DeletedUserFallback
 
-  validates_length_of :comments, maximum: 255, allow_nil: true
-  validates_presence_of :user
-  validates_presence_of :budget
-  validates_numericality_of :hours, allow_nil: false
+  validates :comments, length: { maximum: 255, allow_nil: true }
+  validates :user, presence: true
+  validates :budget, presence: true
+  validates :hours, numericality: { allow_nil: false }
+  validate :user_is_member_of_budget_project
 
   include ActiveModel::ForbiddenAttributesProtection
   # user_id correctness is ensured in Budget#*_labor_budget_item_attributes=
 
   include Scopes::Scoped
+
   scopes :visible
 
   scope :visible_costs, lambda { |*args|
-    visible((args.first || User.current))
+    visible(args.first || User.current)
   }
 
   def costs
@@ -67,5 +69,15 @@ class LaborBudgetItem < ApplicationRecord
   def costs_visible_by?(usr)
     usr.allowed_in_project?(:view_hourly_rates, budget.project) ||
       (usr.id == user_id && usr.allowed_in_project?(:view_own_hourly_rate, budget.project))
+  end
+
+  private
+
+  def user_is_member_of_budget_project
+    return if principal.nil? || budget&.project.nil?
+
+    unless Principal.possible_assignee(budget.project).exists?(id: principal.id)
+      errors.add(:principal, :not_a_member_of_budget_project)
+    end
   end
 end

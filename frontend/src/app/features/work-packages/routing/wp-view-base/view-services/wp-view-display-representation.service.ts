@@ -28,8 +28,7 @@
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 export const wpDisplayListRepresentation = 'list';
@@ -38,12 +37,7 @@ export type WorkPackageDisplayRepresentationValue = 'list'|'card';
 
 @Injectable()
 export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
-  public constructor(
-    readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-  ) {
-    super(querySpace);
-  }
+  readonly states = inject(States);
 
   public hasChanged(query:QueryResource) {
     return this.current !== query.displayRepresentation;

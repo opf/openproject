@@ -1,155 +1,165 @@
+---
 pl:
-  plugin_openproject_openid_connect:
-    name: "OpenProject OpenID Connect"
-    description: "Dodaje dostawców strategii OmniAuth OpenID Connect do OpenProject."
-  logout_warning: >
-    Wylogowano cię. Zawartość każdego przesłanego formularza może zostać utracona. [Zaloguj się].
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: Identyfikator grupy OpenID
       openid_connect/provider:
-        name: Nazwa
-        slug: Unikalny identyfikator
-        display_name: Nazwa wyświetlana
+        acr_values: Wartości ACR
+        authorization_endpoint: Punkt końcowy autoryzacji
+        claims: Roszczenia
         client_id: Identyfikator klienta
         client_secret: Klucz tajny klienta
-        groups_claim: Oświadczenie grup
-        group_regexes: Wzorce (wyrażenia regularne)
-        secret: Klucz tajny
-        scope: Zakres
-        sync_groups: Synchronizuj grupy
-        grant_types_supported: Obsługiwane typy udzielania
-        limit_self_registration: Ogranicz samodzielną rejestrację
-        authorization_endpoint: Punkt końcowy autoryzacji
-        userinfo_endpoint: Punkt końcowy informacji o użytkowniku
-        token_endpoint: Punkt końcowy tokena
+        display_name: Nazwa wyświetlana
         end_session_endpoint: Punkt końcowy zakończenia sesji
-        post_logout_redirect_uri: Identyfikator URI przekierowania po wylogowaniu
-        jwks_uri: Identyfikator URI JWKS
-        issuer: Wystawca
-        tenant: Dzierżawca
-        metadata_url: Adres URL metadanych
+        grant_types_supported: Obsługiwane typy udzielania
+        group_regexes: Wzorce (wyrażenia regularne)
+        groups_claim: Oświadczenie grup
         icon: Ikona niestandardowa
-        claims: Roszczenia
-        acr_values: Wartości ACR
+        issuer: Wystawca
+        jwks_uri: Identyfikator URI JWKS
+        limit_self_registration: Ogranicz samodzielną rejestrację
+        metadata_url: Adres URL metadanych
+        name: Nazwa
+        post_logout_redirect_uri: Identyfikator URI przekierowania po wylogowaniu
         redirect_url: Adres URL przekierowania
+        scope: Zakres
+        secret: Klucz tajny
+        slug: Unikalny identyfikator
+        sync_groups: Synchronizuj grupy
+        tenant: Dzierżawca
+        token_endpoint: Punkt końcowy tokena
+        userinfo_endpoint: Punkt końcowy informacji o użytkowniku
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: "Adres URL punktu końcowego odkrywania %{message}"
-              response_is_not_successful: " odpowiada: %{status}."
+              format: Adres URL punktu końcowego odkrywania %{message}
               response_is_not_json: " nie zwraca treści JSON."
+              response_is_not_successful: " odpowiada: %{status}."
               response_misses_required_attributes: " nie zwraca wymaganych atrybutów. Brakujące atrybuty to: %{missing_attributes}."
-          invalid_claims_essential: "nie definiuje wartości logicznej w %{attribute}."
-          invalid_claims_location: "zawiera nieobsługiwane lokalizacje: %{invalid}. Obsługiwane lokalizacje to: %{supported}."
-          invalid_claims_values: "nie definiuje tablicy w %{attribute}."
-          non_object_attribute: "nie definiuje obiektu JSON w %{attribute}."
-  provider:
-    delete_warning:
-      input_delete_confirmation: Wprowadź nazwę dostawcy %{name}, aby potwierdzić usunięcie.
-      irreversible_notice: Usunięcie dostawcy SSO jest działaniem nieodwracalnym.
-      provider: 'Czy na pewno chcesz usunąć dostawcę SSO %{name}? Aby potwierdzić to działanie, wprowadź nazwę dostawcy w polu poniżej, spowoduje to:'
-      delete_result_1: Usunięcie dostawcy z listy dostępnych dostawców.
-      delete_result_user_count:
-        zero: Żaden użytkownik nie korzysta obecnie z tego dostawcy. Nie są wymagane żadne dalsze działania.
-        one: "Jeden użytkownik nadal korzysta z usług tego dostawcy. Będzie on musiał zostać ponownie zaproszony lub zalogować się za pomocą innego dostawcy."
-        other: "%{count} użytkowników nadal korzysta z usług tego dostawcy. Będą oni musieli zostać ponownie zaproszeni lub zalogować się za pomocą innego dostawcy."
-      delete_result_direct: Ten dostawca jest oznaczony jako dostawca logowania bezpośredniego. Ustawienie zostanie usunięte, a użytkownicy nie będą już przekierowywani do dostawcy w celu zalogowania.
+          invalid_claims_essential: nie definiuje wartości logicznej w %{attribute}.
+          invalid_claims_location: 'zawiera nieobsługiwane lokalizacje: %{invalid}. Obsługiwane lokalizacje to: %{supported}.'
+          invalid_claims_values: nie definiuje tablicy w %{attribute}.
+          non_object_attribute: nie definiuje obiektu JSON w %{attribute}.
+  logout_warning: 'Wylogowano cię. Zawartość każdego przesłanego formularza może zostać utracona. [Zaloguj się].
+
+    '
   openid_connect:
-    menu_title: Dostawcy OpenID
-    delete_title: "Usuń dostawcę OpenID Connect"
+    delete_heading: Usunąć tego dostawcę OpenID Connect?
+    delete_title: Usuń dostawcę OpenID Connect
     group_links_heading: Linki do grup OpenID Connect
     groups:
       match_preview_component:
-        title: Wyodrębnione nazwy grup
         placeholder_none: Obecnie żadna grupa nie pasuje do wzorca.
+        title: Wyodrębnione nazwy grup
       match_preview_dialog_component:
         description: Umożliwia to przetestowanie wzorca wyrażenia regularnego na przykładowych danych w celu sprawdzenia, czy nazwy grup, które mają zostać wyodrębnione, są rzeczywiście wyodrębniane prawidłowo. W tym miejscu można modyfikować wzorzec, ale ciąg testowy i same dopasowania nie zostaną zapisane wraz z konfiguracją.
-        group_names_label: Testowe nazwy grup
         group_names_description: Wprowadź jedną nazwę grupy w każdym wierszu, tak jak w żądaniu OIDC, aby sprawdzić, jak wpływają na nią wzorce wyrażeń regularnych.
+        group_names_label: Testowe nazwy grup
         show_button: Testuj wzorzec
         title: Testuj wyrażenia regularne
     instructions:
+      acr_values: 'Żądaj oświadczeń innych niż niezbędne w łatwiejszym formacie. Więcej informacji zawiera [nasza dokumentacja dotycząca acr_values](docs_url).
+
+        '
+      claims: 'Możesz zażądać dodatkowych oświadczeń dla punktów końcowych userinfo i id token. Więcej informacji znajdziesz w [naszej dokumentacji OpenID connect](docs_url).
+
+        '
+      client_id: Jest to identyfikator klienta nadany Ci przez dostawcę OpenID Connect
+      client_secret: Jest to klucz tajny klienta podany Ci przez dostawcę OpenID Connect
+      display_name: Nazwa dostawcy. Zostanie wyświetlona jako przycisk logowania i element listy dostawców.
       endpoint_url: Adres URL punktu końcowego podany Ci przez dostawcę OpenID Connect
       group_regexes: Jeden wzorzec wyrażenia regularnego w wierszu. Przeczytaj [dokumentację](docs_url), aby uzyskać więcej informacji na temat tego, jak to zrobić.
       group_regexes_detail: Opcjonalnie można zdefiniować wzorce za pomocą wyrażeń regularnych, aby dopasować nazwy grup z oświadczenia grup. Na przykład wprowadzenie wzorca takiego jak ^Level1/Level2/ <code>([\w/]+)$</code> wyodrębni grupę „Groupname/SubGroup” z odpowiedzi zawierającej ciąg „Level1/Level2/GroupName/SubGroup”. Jeśli żaden wzorzec nie pasuje, grupa jest ignorowana. Pozostaw puste, aby zsynchronizować wszystkie grupy przy użyciu pełnej nazwy grupy.
-      group_regexes_testing: "Kliknij przycisk „Testuj wzorzec”, aby przetestować wzorzec wyrażenia regularnego na przykładowych informacjach o użytkowniku OIDC."
+      group_regexes_testing: Kliknij przycisk „Testuj wzorzec”, aby przetestować wzorzec wyrażenia regularnego na przykładowych informacjach o użytkowniku OIDC.
       group_sync: Automatycznie wyodrębniaj i synchronizuj informacje o członkostwie w grupie od dostawcy tożsamości.
       groups_claim: Określ nazwę oświadczenia, które ma wskazywać nazwy grup, których użytkownik jest członkiem.
+      limit_self_registration: Jeśli opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to konfiguracja po stronie dostawcy.
+      mapping_admin: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do statusu administratora. Oczekuje ono zwrócenia atrybutu logicznego.
+
+        '
+      mapping_email: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do atrybutu adresu e-mail.
+
+        '
+      mapping_first_name: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do imienia.
+
+        '
+      mapping_last_name: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do nazwiska.
+
+        '
+      mapping_login: 'Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do atrybutu logowania.
+
+        '
       metadata_none: Nie mam tych informacji
       metadata_url: Mam adres URL punktu końcowego odkrywania
       oidc_information: Wartości te są wymagane do skonfigurowania dostawcy OpenID Connect.
-      client_id: Jest to identyfikator klienta nadany Ci przez dostawcę OpenID Connect
-      client_secret: Jest to klucz tajny klienta podany Ci przez dostawcę OpenID Connect
-      limit_self_registration: Jeśli opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to konfiguracja po stronie dostawcy.
-      display_name: Nazwa dostawcy. Zostanie wyświetlona jako przycisk logowania i element listy dostawców.
-      tenant: 'W razie potrzeby zastąp dzierżawcę domyślnego własnym. Zobacz <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">to</a>.'
-      scope: Jeśli chcesz zażądać niestandardowych zakresów, możesz dodać tutaj jedną lub wiele wartości zakresu rozdzielonych spacjami. Więcej informacji można znaleźć w [dokumentacji OpenID Connect](docs_url).
       post_logout_redirect_uri: Adres URL, do którego ma przekierowywać dostawca OpenID Connect po żądaniu wylogowania.
-      claims: >
-        Możesz zażądać dodatkowych oświadczeń dla punktów końcowych userinfo i id token. Więcej informacji znajdziesz w [naszej dokumentacji OpenID connect](docs_url).
-      acr_values: >
-        Żądaj oświadczeń innych niż niezbędne w łatwiejszym formacie. Więcej informacji zawiera [nasza dokumentacja dotycząca acr_values](docs_url).
-      mapping_login: >
-        Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do atrybutu logowania.
-      mapping_email: >
-        Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do atrybutu adresu e-mail.
-      mapping_first_name: >
-        Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do imienia.
-      mapping_last_name: >
-        Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do nazwiska.
-      mapping_admin: >
-        Podaj w odpowiedzi userinfo niestandardowe mapowanie, które będzie stosowane do statusu administratora. Oczekuje ono zwrócenia atrybutu logicznego.
-    settings:
-      metadata_none: Nie mam tych informacji
-      metadata_url: Mam adres URL punktu końcowego odkrywania
-      endpoint_url: Adres URL punktu końcowego
+      scope: Jeśli chcesz zażądać niestandardowych zakresów, możesz dodać tutaj jedną lub wiele wartości zakresu rozdzielonych spacjami. Więcej informacji można znaleźć w [dokumentacji OpenID Connect](docs_url).
+      tenant: W razie potrzeby zastąp dzierżawcę domyślnego własnym. Zobacz <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">to</a>.
+    menu_title: Dostawcy OpenID
     providers:
-      label_providers: "Dostawcy"
-      seeded_from_env: "Ten dostawca został zainicjowany z konfiguracji środowiska. Nie można go edytować."
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Szczegóły konfiguracji OpenProject jako klienta OIDC
       custom:
         name: Niestandardowy
-      upsell:
-        title: "Logowanie jednokrotne (SSO) za pomocą OpenID Connect"
-        description: Połącz OpenProject z dostawcą tożsamości OpenID Connect
+      google:
+        name: Google
       label_add_new: Dodaj nowego dostawcę OpenID
+      label_advanced_configuration: Konfiguracja zaawansowana
+      label_attribute_mapping: Mapowanie atrybutów
+      label_automatic_configuration: Automatyczna konfiguracja
+      label_client_details: Szczegóły klienta
+      label_configuration_details: Metadane
       label_edit: Edytuj dostawcę OpenID %{name}
-      label_empty_title: Nie skonfigurowano jeszcze żadnych dostawców OpenID.
       label_empty_description: Dodaj dostawcę, aby zobaczyć go tutaj.
+      label_empty_title: Nie skonfigurowano jeszcze żadnych dostawców OpenID.
       label_group_mapping: Mapowanie grup
       label_metadata: Punkt końcowy odkrywania OpenID Connect
-      label_automatic_configuration: Automatyczna konfiguracja
       label_optional_configuration: Konfiguracja opcjonalna
-      label_advanced_configuration: Konfiguracja zaawansowana
-      label_configuration_details: Metadane
-      label_client_details: Szczegóły klienta
-      label_attribute_mapping: Mapowanie atrybutów
-      notice_created: Nowy dostawca OpenID został utworzony.
-      client_details_description: Szczegóły konfiguracji OpenProject jako klienta OIDC
+      label_providers: Dostawcy
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Jeszcze nie określono żadnych dostawców.
+      notice_created: Nowy dostawca OpenID został utworzony.
       plural: Dostawcy OpenID
-      singular: Dostawca OpenID
       section_texts:
+        attribute_mapping: Skonfiguruj mapowanie atrybutów między OpenProject a dostawcą OpenID Connect.
+        claims: Zażądaj dodatkowych oświadczeń dla tokena ID lub odpowiedzi userinfo.
+        configuration: Szczegóły konfiguracji dostawcy OpenID Connect
+        configuration_metadata: Informacje zostały wstępnie wypełnione przy użyciu podanego punktu końcowego odkrywania. W większości przypadków nie wymagają one edycji.
+        display_name: Nazwa wyświetlana widoczna dla użytkowników.
         group_mapping: Mapuje dostarczone przez dostawcę tożsamości nazwy grup na grupy w OpenProject.
         metadata: Wstępnie wypełnij konfigurację używając adresu URL odkrywania punktu końcowego OpenID Connect
         metadata_form_banner: Wskutek edycji punktu końcowego odkrywania mogą zostać zastąpione wstępnie wypełnione wartości metadanych.
-        metadata_form_title: Punkt końcowy odkrywania OpenID Connect
         metadata_form_description: Jeśli Twój dostawca tożsamości ma adres URL punktu końcowego odkrywania, użyj go poniżej, aby wstępnie wypełnić konfigurację.
-        configuration_metadata: Informacje zostały wstępnie wypełnione przy użyciu podanego punktu końcowego odkrywania. W większości przypadków nie wymagają one edycji.
-        configuration: Szczegóły konfiguracji dostawcy OpenID Connect
-        display_name: Nazwa wyświetlana widoczna dla użytkowników.
-        attribute_mapping: Skonfiguruj mapowanie atrybutów między OpenProject a dostawcą OpenID Connect.
-        claims: Zażądaj dodatkowych oświadczeń dla tokena ID lub odpowiedzi userinfo.
+        metadata_form_title: Punkt końcowy odkrywania OpenID Connect
       side_panel:
         information_component:
           backchannel_logout_url: Adres URL wylogowania z kanału zwrotnego
+      singular: Dostawca OpenID
+      upsell:
+        description: Połącz OpenProject z dostawcą tożsamości OpenID Connect
+        title: Logowanie jednokrotne (SSO) za pomocą OpenID Connect
     setting_instructions:
-      limit_self_registration: >
-        Gdy ta opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to ustawienie samodzielnej rejestracji.
+      limit_self_registration: 'Gdy ta opcja jest włączona, użytkownicy mogą rejestrować się przy użyciu tego dostawcy tylko wtedy, gdy pozwala na to ustawienie samodzielnej rejestracji.
+
+        '
+    settings:
+      endpoint_url: Adres URL punktu końcowego
+      metadata_none: Nie mam tych informacji
+      metadata_url: Mam adres URL punktu końcowego odkrywania
+  plugin_openproject_openid_connect:
+    description: Dodaje dostawców strategii OmniAuth OpenID Connect do OpenProject.
+    name: OpenProject OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: Usunięcie dostawcy z listy dostępnych dostawców.
+      delete_result_direct: Ten dostawca jest oznaczony jako dostawca logowania bezpośredniego. Ustawienie zostanie usunięte, a użytkownicy nie będą już przekierowywani do dostawcy w celu zalogowania.
+      delete_result_user_count:
+        one: Jeden użytkownik nadal korzysta z usług tego dostawcy. Będzie on musiał zostać ponownie zaproszony lub zalogować się za pomocą innego dostawcy.
+        other: "%{count} użytkowników nadal korzysta z usług tego dostawcy. Będą oni musieli zostać ponownie zaproszeni lub zalogować się za pomocą innego dostawcy."
+        zero: Żaden użytkownik nie korzysta obecnie z tego dostawcy. Nie są wymagane żadne dalsze działania.
+      input_delete_confirmation_html: Wprowadź nazwę dostawcy %{name}, aby potwierdzić usunięcie.
+      irreversible_notice: Usunięcie dostawcy SSO jest działaniem nieodwracalnym.
+      provider_html: 'Czy na pewno chcą Państwo usunąć dostawcę SSO %{name}? Pamiętaj, że to spowoduje:'

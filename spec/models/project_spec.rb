@@ -492,7 +492,7 @@ RSpec.describe Project do
     let(:instance) { project }
   end
 
-  it_behaves_like "acts_as_customizable included" do
+  it_behaves_like "acts_as_customizable included", admin_only_allowed: true, comments: true do
     let!(:model_instance) { project }
     let!(:new_model_instance) { build_project }
     let!(:custom_field) { create(:string_project_custom_field) }
@@ -540,57 +540,20 @@ RSpec.describe Project do
     end
   end
 
-  describe "url identifier" do
-    let(:reserved) do
-      Rails.application.routes.routes
-        .map { |route| route.path.spec.to_s }
-        .filter_map { |path| path[%r{^/projects/(\w+)\(\.:format\)$}, 1] }
-        .uniq
+  describe "#custom_values_for_custom_field" do
+    let(:custom_field) { create(:list_project_custom_field, multi_value: true) }
+    # intentionally out of order
+    let!(:cv2) { create(:custom_value, id: 1002, customized: project, custom_field:) }
+    let!(:cv1) { create(:custom_value, id: 1001, customized: project, custom_field:) }
+    let!(:cv3) { create(:custom_value, id: 1003, customized: project, custom_field:) }
+
+    before do
+      allow(project).to receive(:available_custom_fields) { ProjectCustomField.all }
     end
 
-    it "is set from name" do
-      project = described_class.new(name: "foo")
-
-      project.validate
-
-      expect(project.identifier).to eq("foo")
-    end
-
-    it "is not allowed to clash with projects routing" do
-      expect(reserved).not_to be_empty
-
-      reserved.each do |word|
-        project = described_class.new(name: word)
-
-        project.validate
-
-        expect(project.identifier).not_to eq(word)
-      end
-    end
-
-    # The acts_as_url plugin defines validation callbacks on :create and it is not automatically
-    # called when calling a custom context. However we need the acts_as_url callback to set the
-    # identifier when the validations are called with the :saving_custom_fields context.
-    context "when validating with :saving_custom_fields context" do
-      it "is set from name" do
-        project = described_class.new(name: "foo")
-
-        project.validate(:saving_custom_fields)
-
-        expect(project.identifier).to eq("foo")
-      end
-
-      it "is not allowed to clash with projects routing" do
-        expect(reserved).not_to be_empty
-
-        reserved.each do |word|
-          project = described_class.new(name: word)
-
-          project.validate(:saving_custom_fields)
-
-          expect(project.identifier).not_to eq(word)
-        end
-      end
+    it "returns values ordered by id" do
+      values = project.custom_values_for_custom_field(custom_field)
+      expect(values).to eq([cv1, cv2, cv3])
     end
   end
 
@@ -641,6 +604,18 @@ RSpec.describe Project do
       it "is falsey" do
         expect(workspace).not_to be_parent_allowed
       end
+    end
+  end
+
+  describe "projects.identifier unique database constraint" do
+    let!(:other_project) { create(:project, identifier: "my-app") }
+    let(:project) { build(:project, identifier: "my-app") }
+
+    it "ensures uniqueness with disabled validation" do
+      expect { project.save!(validate: false) }.to raise_error(
+        ActiveRecord::RecordNotUnique,
+        /PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_projects_on_lower_identifier"\n/
+      )
     end
   end
 end

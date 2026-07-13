@@ -20,75 +20,63 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 vi:
-  attributes:
-    commit: "cam kết"
-    gitlab: "Mã định danh GitLab"
-    gitlab_avatar_url: "URL hình đại diện"
-    gitlab_email: "Email của GitLab"
-    gitlab_html_url: "URL HTML của GitLab"
-    gitlab_merge_request: "Yêu cầu hợp nhất"
-    gitlab_name: "Tên GitLab"
-    gitlab_updated_at: "Cập nhật lúc"
-    gitlab_user_avatar_url: "URL hình đại diện GitLab"
-    gitlab_username: "tên người dùng GitLab"
   activerecord:
     attributes:
-      gitlab_pipeline:
-        ci_details: "Chi tiết CI"
       gitlab_merge_request:
-        labels: "Nhãn"
+        labels: Nhãn
+      gitlab_pipeline:
+        ci_details: Chi tiết CI
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "phải là một mảng băm có khóa: màu sắc, tiêu đề"
+              invalid_schema: 'phải là một mảng băm có khóa: màu sắc, tiêu đề'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "phải là một mảng băm có khóa: màu sắc, tiêu đề"
-  project_module_gitlab: "GitLab"
-  permission_show_gitlab_content: "Hiển thị nội dung GitLab"
+              invalid_schema: 'phải là một mảng băm có khóa: màu sắc, tiêu đề'
+  attributes:
+    commit: cam kết
+    gitlab: Mã định danh GitLab
+    gitlab_avatar_url: URL hình đại diện
+    gitlab_email: Email của GitLab
+    gitlab_html_url: URL HTML của GitLab
+    gitlab_merge_request: Yêu cầu hợp nhất
+    gitlab_name: Tên GitLab
+    gitlab_updated_at: Cập nhật lúc
+    gitlab_user_avatar_url: URL hình đại diện GitLab
+    gitlab_username: tên người dùng GitLab
   gitlab_integration:
-    merge_request_opened_comment: >
-      **MR Được Mở:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_closed_comment: >
-      **MR Được Đóng:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_merged_comment: >
-      **MR Được Gộp:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được gộp bởi [%{gitlab_user}](%{gitlab_user_url}).
-    merge_request_reopened_comment: >
-      **MR Được Mở Lại:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).
-    note_commit_referenced_comment: >
-      **Tham Chiếu Trong Commit:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Ghi chú Commit [%{commit_id}](%{commit_url}) trên [%{repository}](%{repository_url}):
-      %{commit_note}
-    note_mr_referenced_comment: >
-      **Tham Chiếu Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_mr_commented_comment: >
-      **Bình Luận Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}):
-      %{mr_note}
-    note_issue_referenced_comment: >
-      **Tham Chiếu Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_issue_commented_comment: >
-      **Bình Luận Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}):
-      %{issue_note}
-    note_snippet_referenced_comment: >
-      **Tham Chiếu Trong Đoạn Mã:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Đoạn mã %{snippet_number} [%{snippet_title}](%{snippet_url}) trên [%{repository}](%{repository_url}):
-      %{snippet_note}
-    issue_opened_referenced_comment: >
-      **Vấn Đề Được Mở:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).
-    issue_closed_referenced_comment: >
-      **Vấn Đề Được Đóng:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).
-    issue_reopened_referenced_comment: >
-      **Vấn Đề Được Mở Lại:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).
-    push_single_commit_comment: >
-      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}:
-      %{commit_note}
-    push_single_commit_comment_with_ref: >
-      **Đã đẩy vào %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) vào [%{repository}](%{repository_url}) tại %{commit_timestamp}:
-      %{commit_note}
-    push_multiple_commits_comment: >
-      **Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy nhiều commit [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}:
-      %{commit_note}
+    issue_closed_referenced_comment: "**Vấn Đề Được Đóng:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Vấn Đề Được Mở:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Vấn Đề Được Mở Lại:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR Được Đóng:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR Được Gộp:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được gộp bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR Được Mở:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR Được Mở Lại:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Tham Chiếu Trong Commit:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Ghi chú Commit [%{commit_id}](%{commit_url}) trên [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Bình Luận Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Tham Chiếu Trong Vấn Đề:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) trên [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Bình Luận Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã bình luận về WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Tham Chiếu Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) trên [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Tham Chiếu Trong Đoạn Mã:** [%{gitlab_user}](%{gitlab_user_url}) đã tham chiếu WP này trong Đoạn mã %{snippet_number} [%{snippet_title}](%{snippet_url}) trên [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy nhiều commit [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Đã Đẩy Trong MR:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) lên [%{repository}](%{repository_url}) vào %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Đã đẩy vào %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) đã đẩy [%{commit_number}](%{commit_url}) vào [%{repository}](%{repository_url}) tại %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: GitLab Integration
+  label_gitlab_webhook_secret: Webhook secret
+  permission_show_gitlab_content: Hiển thị nội dung GitLab
+  project_module_gitlab: GitLab
+  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on gói công việc (work package)s. Defaults to the system user when not set.
+
+    '
+  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '

@@ -182,9 +182,18 @@ module OpenProject::Bim::BcfXml
 
     ##
     # Extract viewpoints from XML
+    # rubocop:disable Metrics/AbcSize
     def build_viewpoints
       extractor.viewpoints.each do |vp|
         next if issue.viewpoints.has_uuid?(vp[:uuid])
+
+        if vp[:viewpoint] != File.basename(vp[:viewpoint])
+          raise "Viewpoint file reference is not a file basename."
+        end
+
+        if vp[:snapshot] != File.basename(vp[:snapshot])
+          raise "Snapshot file reference is not a file basename."
+        end
 
         viewpoint = issue.viewpoints.build(
           issue:,
@@ -201,6 +210,7 @@ module OpenProject::Bim::BcfXml
         viewpoint.build_snapshot(file, user:)
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     ##
     # Find existing issue or create new

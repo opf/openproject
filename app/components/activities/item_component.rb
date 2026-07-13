@@ -45,8 +45,7 @@ class Activities::ItemComponent < ViewComponent::Base
     return if activity_is_from_current_project?
 
     kind = activity_is_from_subproject? ? "subproject" : "project"
-    suffix = I18n.t("events.title.#{kind}", name: link_to(@event.project.name, @event.project))
-    "(#{suffix})".html_safe # rubocop:disable Rails/OutputSafety
+    helpers.t("events.title.#{kind}_html", name: link_to(@event.project.name, @event.project))
   end
 
   def display_user?
@@ -133,8 +132,22 @@ class Activities::ItemComponent < ViewComponent::Base
     remove_detail_when_changing_from_empty(details, "spent_on")
 
     build_polymorphic_entity_gid_changeset(details)
+    remove_invisible_custom_field_details(details)
 
     details
+  end
+
+  def remove_invisible_custom_field_details(details) # rubocop:disable Metrics/AbcSize
+    journable = @event.journal.journable
+    return unless journable&.customizable?
+
+    project = journable.is_a?(::Project) ? journable : journable.try(:project)
+    visible_cf_ids = journable.custom_field_class.visible(User.current, project:).pluck(:id).to_set
+
+    details.reject! do |key, _|
+      match = key.to_s.match(/\A(?:custom_fields|custom_comment)_(\d+)\z/)
+      match && visible_cf_ids.exclude?(match[1].to_i)
+    end
   end
 
   def build_polymorphic_entity_gid_changeset(details)

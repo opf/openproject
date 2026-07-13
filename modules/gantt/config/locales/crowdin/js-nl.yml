@@ -1,6 +1,7 @@
+---
 nl:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt charts"
       default_queries:
-        milestones: 'Mijlpalen'
+        milestones: Mijlpalen
+      label_gantt_chart_plural: Gantt grafieken

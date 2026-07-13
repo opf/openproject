@@ -37,6 +37,12 @@ module OpPrimer
     end
 
     # @param url text
+    # @param scheme [Symbol] select [value, link]
+    def playground(url: "https://example.org", scheme: :value)
+      render(OpPrimer::CopyToClipboardComponent.new(url, scheme:))
+    end
+
+    # @param url text
     def as_link(url: "http://example.org")
       render(OpPrimer::CopyToClipboardComponent.new(url, scheme: :link))
     end

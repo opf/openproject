@@ -1,59 +1,60 @@
+---
 ko:
   js:
     grid:
-      add_widget: '위젯 추가'
-      remove: '위젯 제거'
-      configure: '위젯 구성'
+      add_widget: 위젯 추가
+      configure: 위젯 구성
+      remove: 위젯 제거
+      widget_menu_label: "%{widgetName} 위젯의 메뉴 옵션 표시"
       widgets:
-        missing_permission: "이 위젯을 보는 데 필요한 권한이 없습니다."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: '사용자 지정 텍스트'
+          title: 사용자 지정 텍스트
         documents:
-          title: '문서'
-          no_results: '아직 문서가 없습니다.'
+          no_results: 아직 문서가 없습니다.
+          title: 문서
         members:
-          title: '멤버'
+          title: 멤버
+        missing_permission: 이 위젯을 보는 데 필요한 권한이 없습니다.
         news:
-          title: '뉴스'
+          title: 뉴스
+        not_available: 이 위젯은 현재 사용할 수 없습니다.
         project_description:
-          title: '설명'
-          no_results: "설명이 아직 작성되지 않았습니다. '프로젝트 설정'에서 입력할 수 있습니다."
-        project_status:
-          title: '상태'
-          not_started: '시작되지 않음'
-          on_track: '정상 상태'
-          off_track: '비정상 상태'
-          at_risk: '위험 상태'
-          not_set: '설정되지 않음'
-          finished: '마침'
-          discontinued: '중단됨'
-        subprojects:
-          title: '하위 항목'
+          title: 설명
         project_favorites:
-          title: '즐겨 찾는 프로젝트'
-          no_results: '즐겨 찾는 프로젝트가 현재 없습니다. 프로젝트 대시보드에서 별 아이콘을 클릭하여 즐겨찾기에 추가하세요.'
+          no_results: 즐겨 찾는 프로젝트가 현재 없습니다. 개요 또는 프로젝트 목록에서 하나 이상의 프로젝트를 즐겨찾기로 추가하세요.
+          title: 즐겨 찾는 프로젝트
+        project_status:
+          at_risk: 위험 상태
+          discontinued: 중단됨
+          finished: 마침
+          not_set: 설정되지 않음
+          not_started: 시작되지 않음
+          off_track: 비정상 상태
+          on_track: 정상 상태
+          title: 상태
+        subprojects:
+          title: 하위 항목
         time_entries_current_user:
-          title: '내 소요 시간'
           displayed_days: '위젯에 표시되는 일수:'
+          title: 내 소요 시간
         time_entries_list:
-          title: '경과 시간(지난 7 일)'
-          no_results: '지난 7일간 시간 항목이 없습니다.'
+          no_results: 지난 7일간 시간 항목이 없습니다.
+          title: 경과 시간(지난 7 일)
         work_packages_accountable:
-          title: "내가 담당하는 작업 패키지"
+          title: 내가 책임지고 있는 작업 패키지
         work_packages_assigned:
-          title: '내게 할당된 작업 패키지'
-        work_packages_created:
-          title: '내가 만든 작업 패키지'
-        work_packages_watched:
-          title: '내가 본 작업 패키지'
-        work_packages_table:
-          title: '작업 패키지 테이블'
-        work_packages_graph:
-          title: '작업 패키지 그래프'
-          summary: "%{description}인 작업 패키지를 보여주는 %{chartType} 차트입니다."
+          title: 내게 할당된 작업 패키지
         work_packages_calendar:
-          title: '달력'
+          title: 달력
+        work_packages_created:
+          title: 내가 만든 작업 패키지
+        work_packages_graph:
+          summary: "%{description}인 작업 패키지를 보여주는 %{chartType} 차트입니다."
+          title: 작업 패키지 그래프
         work_packages_overview:
-          title: '작업 패키지 개요'
-          placeholder: '편집하려면 클릭...'
+          placeholder: 편집하려면 클릭...
+          title: 작업 패키지 개요
+        work_packages_table:
+          title: 작업 패키지 테이블
+        work_packages_watched:
+          title: 내가 본 작업 패키지

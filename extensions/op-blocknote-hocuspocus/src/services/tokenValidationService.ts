@@ -25,11 +25,11 @@ export async function decryptAndValidateToken(
   } = decryptToken(encryptedToken);
 
   if (requestOrigin && !tokenResourceUrl?.startsWith(requestOrigin)) {
-    throw new Error('Unauthorized: Token origin does not match request origin.');
+    throw new Error(`Unauthorized: Token origin does not match request origin. Expected ${tokenResourceUrl} to start with ${requestOrigin}.`);
   }
 
   if (tokenResourceUrl !== resourceUrl) {
-    throw new Error('Unauthorized: Token resource URL does not match document.');
+    throw new Error(`Unauthorized: Token resource URL does not match document. Expected ${tokenResourceUrl}, got ${resourceUrl}.`);
   }
 
   const response = await fetchResource(resourceUrl, oauth_token);

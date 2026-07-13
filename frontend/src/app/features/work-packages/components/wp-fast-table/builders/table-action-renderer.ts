@@ -3,12 +3,12 @@ import { OpTableActionsService } from 'core-app/features/work-packages/component
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { contextMenuSpanClassName, contextMenuTdClassName } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tdClassName } from './cell-builder';
 
 export class TableActionRenderer {
   // Injections
-  @InjectField() tableActionsService:OpTableActionsService;
+  @LazyInject() tableActionsService:OpTableActionsService;
 
   constructor(public readonly injector:Injector) {
   }

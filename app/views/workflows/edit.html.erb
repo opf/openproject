@@ -26,67 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_workflow_plural) -%>
-
+<% html_title t(:label_administration), t(:label_workflow_plural), @type.name -%>
 <% content_for :content_header do %>
-  <%= render Workflows::EditPageHeaderComponent.new(tabs: workflow_tabs) %>
+  <%= render Workflows::PageHeaders::EditComponent.new(@type, roles: @roles, tabs: workflow_tabs(@type)) %>
 <% end %>
 
-<%= styled_form_tag({}, method: "get") do %>
-  <%= hidden_field_tag "tab", params[:tab] || "always" %>
-
-  <fieldset class="simple-filters--container">
-    <legend><%= t(:text_workflow_edit) %></legend>
-    <ul class="simple-filters--filters">
-      <li class="simple-filters--filter">
-        <%= styled_label_tag :role_id, Role.model_name.human, class: "simple-filters--filter-name" %>
-        <div class="simple-filters--filter-value">
-          <%= styled_select_tag "role_id", options_from_collection_for_select(@roles, "id", "name", @role && @role.id) %>
-        </div>
-      </li>
-      <li class="simple-filters--filter">
-        <%= styled_label_tag :type_id, Type.model_name.human, class: "simple-filters--filter-name" %>
-        <div class="simple-filters--filter-value">
-          <%= styled_select_tag "type_id", options_from_collection_for_select(@types, "id", "name", @type && @type.id) %>
-        </div>
-      </li>
-      <ul class="simple-filter--trailing-labels">
-        <li class="form--field -trailing-label">
-          <%= hidden_field_tag "used_statuses_only", "0", id: "used_statuses_only_hidden" %>
-
-          <%= styled_label_tag :used_statuses_only, t(:label_display_used_statuses_only) %>
-          <span class="form--field-container">
-            <%= styled_check_box_tag :used_statuses_only, "1", @used_statuses_only %>
-          </span>
-        </li>
-      </ul>
-      <li class="simple-filters--controls">
-        <%= render(
-              Primer::Beta::Button.new(
-                scheme: :primary,
-                type: :submit,
-                name: nil,
-                accesskey: accesskey(:edit),
-                size: :small
-              )
-            ) { t(:button_edit) } %>
-      </li>
-    </ul>
-  </fieldset>
-<% end %>
-
-<% if @type && @role && @statuses.any? %>
-  <%= form_tag({ action: :update }, id: "workflow_form", method: :patch) do %>
-    <%= hidden_field_tag "type_id", @type.id %>
-    <%= hidden_field_tag "role_id", @role.id %>
-    <%= hidden_field_tag "tab", params[:tab] || "always" %>
-
-    <%= render_tabs workflow_tabs %>
-
-    <%=
-      render Primer::Beta::Button.new(scheme: :primary, type: :submit, id: "work-flow-save-button") do
-        t(:button_save)
-      end
-    %>
-  <% end %>
+<% if @type && @roles.any? %>
+  <%= turbo_frame_tag "workflow-table", src: edit_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
 <% end %>

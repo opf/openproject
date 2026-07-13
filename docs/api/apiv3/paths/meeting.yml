@@ -1,9 +1,14 @@
 # /api/v3/meetings/{id}
 ---
 get:
+  summary: Get a meeting
+  operationId: get_meeting
+  tags:
+    - Meetings
+  description: Retrieve an individual meeting as identified by the id parameter
   parameters:
     - description: Meeting identifier
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -11,44 +16,14 @@ get:
         type: integer
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           examples:
             response:
-              value:
-                _embedded:
-                  project:
-                    _type: Project...
-                    id: 12
-                  author:
-                    _type: User...
-                    id: 2
-                _links:
-                  addAttachment:
-                    href: "/api/v3/meetings/72/attachments"
-                    method: post
-                  attachments:
-                    href: "/api/v3/meetings/72/attachments"
-                  project:
-                    href: "/api/v3/projects/12"
-                    title: some project
-                  author:
-                    href: "/api/v3/users/2"
-                    title: Peggie Feeney
-                  self:
-                    href: "/api/v3/meetings/72"
-                _type: Meeting
-                id: 72
-                lockVersion: 5
-                title: A meeting
-                startTime: '2014-05-21T08:00:00.000Z'
-                duration: 120
-                createdAt: '2014-05-21T08:51:20.396Z'
-                updatedAt: '2014-05-21T09:14:02.776Z'
+              $ref: "../components/examples/meeting_simple_response.yml"
           schema:
-            "$ref": "../components/schemas/meeting_model.yml"
-      description: OK
-      headers: { }
+            $ref: "../components/schemas/meeting_model.yml"
     '404':
       content:
         application/hal+json:
@@ -63,10 +38,131 @@ get:
       description: |-
         Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view meetings in the page's project
-      headers: { }
+        **Required permission:** view meetings in the meeting's project
+
+patch:
+  summary: Update meeting
+  operationId: update_meeting
   tags:
     - Meetings
-  description: Retrieve an individual meeting as identified by the id parameter
-  operationId: View_Meeting
-  summary: View Meeting Page
+  description: |-
+    Updates the given meeting by applying the attributes provided in the body.
+  parameters:
+    - description: Meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/meeting_write_model.yml"
+        examples:
+          'update meeting':
+            $ref: "../components/examples/meeting_update_request.yml"
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_model.yml"
+          examples:
+            response:
+              $ref: "../components/examples/meeting_simple_response.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit meetings in the meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the meeting's project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+delete:
+  summary: Delete meeting
+  operationId: delete_meeting
+  tags:
+    - Meetings
+  description: Deletes the meeting. Participants will be notified of the cancellation.
+  parameters:
+    - description: Meeting identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: Returned if the meeting was successfully deleted
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** delete meetings
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the meeting's project
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

@@ -328,7 +328,7 @@ RSpec.describe OpenProject::TextFormatting, "mentions" do # rubocop:disable RSpe
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  Link to user:"<a class="op-uc-link" rel="noopener noreferrer" target="_top" href="mailto:foo@bar.com">foo@bar.com</a>"
+                  Link to user:"<a class="op-uc-link" rel="noopener noreferrer nofollow" target="_top" href="mailto:foo@bar.com">foo@bar.com</a>"
                 </p>
               EXPECTED
             end

@@ -74,10 +74,10 @@ RSpec.describe Query::Results do
             project: project1)
     end
     let(:type1) do
-      create(:type)
+      create(:type) { |t| project1.types << t }
     end
     let(:type2) do
-      create(:type)
+      create(:type) { |t| project1.types << t }
     end
     let(:work_package1) do
       create(:work_package,
@@ -377,7 +377,11 @@ RSpec.describe Query::Results do
                       project: project2)
       end
 
-      let!(:custom_field) { create(:work_package_custom_field, is_for_all: true) }
+      let!(:custom_field) do
+        create(:work_package_custom_field, is_for_all: true) do |cf|
+          cf.types = project2.types
+        end
+      end
 
       before do
         allow(User).to receive(:current).and_return(user2)

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   WorkPackageInlineCreateService,
@@ -40,13 +40,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {
-  constructor(
-    readonly injector:Injector,
-    protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly halResourceService:HalResourceService,
-  ) {
-    super(injector);
-  }
+  protected readonly querySpace = inject(IsolatedQuerySpace);
+  protected readonly halResourceService = inject(HalResourceService);
 
   /**
    * A separate reference pane for the inline create component

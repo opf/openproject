@@ -1,5 +1,6 @@
+---
 el:
   overviews:
+    label_dashboard: Πίνακας Ελέγχου
     label_home: "%{workspace_type} home"
-    label_dashboard: "Πίνακας Ελέγχου"
-    label_overview: "Επισκόπηση"
+    label_overview: Επισκόπηση

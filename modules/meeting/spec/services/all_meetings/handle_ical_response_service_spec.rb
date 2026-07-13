@@ -100,6 +100,18 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
 
         expect(subject).to be_success
       end
+
+      context "when the attendee email has different casing" do
+        let(:participant_email) { user.mail.upcase }
+
+        it "still updates the participant's status" do
+          expect { subject }.to change {
+            meeting.participants.find_by(user: user).participation_status
+          }.from("needs_action").to("accepted")
+
+          expect(subject).to be_success
+        end
+      end
     end
 
     context "when declining the invitation" do

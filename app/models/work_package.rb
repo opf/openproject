@@ -29,6 +29,7 @@
 #++
 
 class WorkPackage < ApplicationRecord
+  include WorkPackage::SemanticIdentifier
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
@@ -37,6 +38,9 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Ancestors
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
+  # Must stay above WorkPackage::Journalized: its after_save persists the
+  # version rows that the journal snapshot then reads.
+  include WorkPackage::Versions
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
@@ -56,7 +60,6 @@ class WorkPackage < ApplicationRecord
   belongs_to :author, class_name: "User"
   belongs_to :assigned_to, class_name: "Principal", optional: true
   belongs_to :responsible, class_name: "Principal", optional: true
-  belongs_to :version, optional: true
   belongs_to :project_phase_definition, class_name: "Project::PhaseDefinition", optional: true
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
@@ -114,10 +117,6 @@ class WorkPackage < ApplicationRecord
   scope :on_active_project, -> {
     includes(:status, :project, :type)
       .where(projects: { active: true })
-  }
-
-  scope :without_version, -> {
-    where(version_id: nil)
   }
 
   scope :with_query, ->(query) {
@@ -256,31 +255,13 @@ class WorkPackage < ApplicationRecord
     time_entries.build(attributes)
   end
 
-  # Versions that the work_package can be assigned to
-  # A work_package can be assigned to:
-  #   * any open, shared version of the project the wp belongs to
-  #   * the version it was already assigned to
-  #     (to make sure, that you can still update closed tickets)
-  #   * for custom fields only_open: false can be used, if the CF is configured so
-  def assignable_versions(only_open: true)
-    if only_open
-      @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
-      end
-    else
-      # The called method memoizes the result, no need to memoize it here.
-      project&.assignable_versions(only_open: false)
-    end
-  end
-
   def to_s
-    "#{type.name unless type.is_standard} ##{id}: #{subject}"
+    "#{type.name unless type.is_standard} #{formatted_id}: #{subject}"
   end
 
   def infoline(show_standard_type: true)
     type_name = show_standard_type || !type.is_standard ? type.name : ""
-    "#{type_name}: #{subject} (##{id})"
+    "#{type_name}: #{subject} (#{formatted_id})"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -417,24 +398,6 @@ class WorkPackage < ApplicationRecord
   # the user is create a work package in
   def self.allowed_target_projects_on_create(user)
     Project.allowed_to(user, :add_work_packages)
-  end
-
-  # Unassigns issues from +version+ if it's no longer shared with issue's project
-  def self.update_versions_from_sharing_change(version)
-    # Update issues assigned to the version
-    update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
-  end
-
-  # Unassigns issues from versions that are no longer shared
-  # after +project+ was moved
-  def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.map(&:id)
-    # Update issues of the moved projects and issues assigned to a version of a moved project
-    update_versions(
-      ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
-       moved_project_ids,
-       moved_project_ids]
-    )
   end
 
   # Extracted from the ReportsController.
@@ -616,36 +579,6 @@ class WorkPackage < ApplicationRecord
 
     default_id && attributes.except(key).values.all?(&:blank?)
   end
-
-  def self.having_version_from_other_project
-    where(
-      "#{WorkPackage.table_name}.version_id IS NOT NULL" +
-      " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-      " AND #{Version.table_name}.sharing <> 'system'"
-    )
-  end
-
-  private_class_method :having_version_from_other_project
-
-  # Update issues so their versions are not pointing to a
-  # version that is not shared with the issue's project
-  def self.update_versions(conditions = nil)
-    # Only need to update issues with a version from
-    # a different project and that is not systemwide shared
-    having_version_from_other_project
-      .where(conditions)
-      .includes(:project, :version)
-      .references(:versions).find_each do |issue|
-      next if issue.project.nil? || issue.version.nil?
-
-      unless issue.project.shared_versions.include?(issue.version)
-        issue.version = nil
-        issue.save
-      end
-    end
-  end
-
-  private_class_method :update_versions
 
   # Default assignment based on category
   def default_assign

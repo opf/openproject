@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Delete work package", :js do
   let(:user) { create(:admin) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new(bulk_mode: true) }
 
   before do
     login_as(user)
@@ -85,7 +85,7 @@ RSpec.describe "Delete work package", :js do
 
       context_menu.open_for(wp1)
       context_menu.choose("Bulk delete")
-      destroy_modal.confirm_children_deletion
+      destroy_modal.expect_listed(wp1, wp2, wp_child)
       destroy_modal.confirm_deletion
 
       loading_indicator_saveguard

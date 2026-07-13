@@ -1,18 +1,5 @@
-import {
-  ApplicationRef,
-  ChangeDetectorRef,
-  Component,
-  ComponentFactoryResolver,
-  ElementRef,
-  Inject,
-  Injector,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import {
   ActiveTabInterface,
   TabComponent,
@@ -27,8 +14,18 @@ import { Board } from 'core-app/features/boards/board/board';
 @Component({
   templateUrl: './board-configuration.modal.html',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+  readonly I18n = inject(I18nService);
+  readonly boardService = inject(BoardService);
+  readonly boardConfigurationService = inject(BoardConfigurationService);
+  readonly injector = inject(Injector);
+  readonly appRef = inject(ApplicationRef);
+
   public text = {
     title: this.I18n.t('js.boards.configuration_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -38,30 +35,17 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   };
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly I18n:I18nService,
-    readonly boardService:BoardService,
-    readonly boardConfigurationService:BoardConfigurationService,
-    readonly injector:Injector,
-    readonly appRef:ApplicationRef,
-    readonly componentFactoryResolver:ComponentFactoryResolver,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
-    super(locals, cdRef, elementRef);
-  }
-
   ngOnInit() {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,
       this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
       this.appRef,
       this.injector,
     );

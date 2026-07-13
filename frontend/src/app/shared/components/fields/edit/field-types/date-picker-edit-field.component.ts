@@ -26,58 +26,30 @@
  *  See COPYRIGHT and LICENSE files for more details.
  */
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  Inject,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   EditFieldComponent,
-  OpEditingPortalChangesetToken,
-  OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpWpDatePickerModalComponent } from 'core-app/shared/components/datepicker/wp-date-picker-modal/wp-date-picker.modal';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() readonly timezoneService:TimezoneService;
+  readonly pathHelper = inject(PathHelperService);
+  readonly opModalService = inject(OpModalService);
 
-  @InjectField() deviceService:DeviceService;
+  readonly timezoneService = inject(TimezoneService);
+
+  readonly deviceService = inject(DeviceService);
 
   opened = false;
 
   private createHandler:EventListener = this.handleSuccessfulCreate.bind(this);
   private updateHandler:EventListener = this.handleSuccessfulUpdate.bind(this);
   private cancelHandler:EventListener = this.cancel.bind(this);
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-    @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-    @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-    @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-    readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector,
-    readonly pathHelper:PathHelperService,
-    readonly opModalService:OpModalService,
-  ) {
-    super(I18n, elementRef, change, schema, handler, cdRef, injector);
-  }
 
   ngOnInit():void {
     super.ngOnInit();

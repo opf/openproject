@@ -40,11 +40,6 @@ module Overviews
         @project_custom_fields = project_custom_fields
         @project = project
       end
-
-      def attribute_load_service
-        @attribute_load_service ||= ::ProjectCustomFields::LoadService.new(project: @project,
-                                                                           project_custom_fields: @project_custom_fields)
-      end
     end
   end
 end

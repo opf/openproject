@@ -3,14 +3,14 @@ import { DragDropHandleBuilder } from 'core-app/features/work-packages/component
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
 
 export class DragDropHandleRenderPass {
-  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() public wpTableOrder:WorkPackageViewOrderService;
+  @LazyInject() public wpTableOrder:WorkPackageViewOrderService;
 
   // Drag & Drop handle builder
   protected dragDropHandleBuilder = new DragDropHandleBuilder(this.injector);

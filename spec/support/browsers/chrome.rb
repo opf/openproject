@@ -124,6 +124,8 @@ end
 register_chrome "en", name: :chrome_billy do |options|
   options.add_argument("proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
   options.add_argument("proxy-bypass-list=127.0.0.1;localhost;#{Capybara.server_host}")
+  # Reduce background Google service traffic that can crash puffing-billy's parser.
+  options.add_argument("--disable-background-networking")
 
   options.accept_insecure_certs = true
 end

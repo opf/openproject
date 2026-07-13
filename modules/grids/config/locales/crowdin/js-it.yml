@@ -1,59 +1,60 @@
+---
 it:
   js:
     grid:
-      add_widget: 'Aggiungi widget'
-      remove: 'Rimuovi widget'
-      configure: 'Configura il widget'
+      add_widget: Aggiungi widget
+      configure: Configura il widget
+      remove: Rimuovi widget
+      widget_menu_label: Mostra le opzioni del menu per il widget %{widgetName}
       widgets:
-        missing_permission: "Non hai i permessi necessari per visualizzare questo widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
-          title: 'Testo personalizzato'
+          title: Testo personalizzato
         documents:
-          title: 'Documenti'
-          no_results: 'Nessun documento ancora.'
+          no_results: Nessun documento ancora.
+          title: Documenti
         members:
-          title: 'Membri'
+          title: Membri
+        missing_permission: Non hai i permessi necessari per visualizzare questo widget.
         news:
-          title: 'Notizie'
+          title: Notizie
+        not_available: Questo widget non è attualmente disponibile.
         project_description:
-          title: 'Descrizione'
-          no_results: "Nessuna descrizione ancora scritta. Una può essere fornita nelle \"Impostazioni di progetto\"."
-        project_status:
-          title: 'Stato'
-          not_started: 'Non iniziato'
-          on_track: 'Nei limiti'
-          off_track: 'Fuori limite'
-          at_risk: 'A rischio'
-          not_set: 'Non impostato'
-          finished: 'Terminato'
-          discontinued: 'Interrotto'
-        subprojects:
-          title: 'Sottoelementi'
+          title: Descrizione
         project_favorites:
-          title: 'Progetti preferiti'
-          no_results: 'Al momento non hai progetti preferiti. Clicca sull''icona della stella nella dashboard del progetto per aggiungerne uno ai tuoi preferiti.'
+          no_results: Al momento non hai progetti preferiti. Aggiungi uno o più progetti ai preferiti dalla relativa panoramica o da un elenco di progetti.
+          title: Progetti preferiti
+        project_status:
+          at_risk: A rischio
+          discontinued: Interrotto
+          finished: Terminato
+          not_set: Non impostato
+          not_started: Non iniziato
+          off_track: Fuori limite
+          on_track: Nei limiti
+          title: Stato
+        subprojects:
+          title: Sottoelementi
         time_entries_current_user:
-          title: 'Il mio tempo trascorso'
           displayed_days: 'Giorni visualizzati nel widget:'
+          title: Il mio tempo trascorso
         time_entries_list:
-          title: 'Tempo trascorso (ultimi 7 giorni)'
-          no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
+          no_results: Nessuna voce sul tempo per gli ultimi 7 giorni.
+          title: Tempo trascorso (ultimi 7 giorni)
         work_packages_accountable:
-          title: "Macro-attività di cui sono responsabile del risultato"
+          title: Macro-attività di cui sono responsabile del risultato
         work_packages_assigned:
-          title: 'Macro-attività assegnate a me'
-        work_packages_created:
-          title: 'Pacchetti di lavoro creati da me'
-        work_packages_watched:
-          title: 'Pacchetti di lavoro visti da me'
-        work_packages_table:
-          title: 'Tabella delle macro-attività'
-        work_packages_graph:
-          title: 'Grafico delle macro-attività'
-          summary: "Grafico %{chartType} che mostra le macro-attività che sono %{description}."
+          title: Macro-attività assegnate a me
         work_packages_calendar:
-          title: 'Calendario'
+          title: Calendario
+        work_packages_created:
+          title: Pacchetti di lavoro creati da me
+        work_packages_graph:
+          summary: Grafico %{chartType} che mostra le macro-attività che sono %{description}.
+          title: Grafico delle macro-attività
         work_packages_overview:
-          title: 'Panoramica delle macro-attività'
-          placeholder: 'Clicca per modificare ...'
+          placeholder: Clicca per modificare ...
+          title: Panoramica delle macro-attività
+        work_packages_table:
+          title: Tabella delle macro-attività
+        work_packages_watched:
+          title: Pacchetti di lavoro visti da me

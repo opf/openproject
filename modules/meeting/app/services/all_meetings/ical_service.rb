@@ -72,7 +72,7 @@ module AllMeetings
       @single_meetings ||= if include_historic
                              Meeting.not_recurring.visible(user).participated_by(user)
                            else
-                             Meeting.not_recurring.from_today.visible(user).participated_by(user)
+                             Meeting.not_recurring.from_today_or_recently_started.visible(user).participated_by(user)
                            end
     end
   end

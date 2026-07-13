@@ -25,9 +25,9 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 
 Work package relations indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
 
-1. Select a work package, click on **Relations** to open the *Relations* tab and click the **+ Relation**  button.
+1. Select a work package, click on **Relations** to open the _Relations_ tab and click the **+ Relation**  button.
 2. Select the type of relationship from the dropdown menu.
-3. Enter the ID or name of the work package, to which the relation should be created. The autocomplete will suggest the work package to be added.
+3. Enter the ID or name of the work package, to which the relation should be created. You can also use a work package type and status for finding the correct work package. The autocomplete will suggest the work package to be added.
 4. Enter a description of the relation. It will be visible for both of the related work packages.
 5. Press the Enter key and click the **Save** button.
 
@@ -43,7 +43,7 @@ You can select one of the following relations:
   Please note: If work package B is in [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling), changing the finish date of work package A will have no effect on work package B.
 
 > [!TIP]
-> Prior to 15.1, *Predecessor (before)* was called *Precedes*, and *Successor (after)* was called *Follows*.
+> Prior to 15.1, _Predecessor (before)_ was called _Precedes_, and _Successor (after)_ was called _Follows_.
 
 For the relations of type Predecessor/Successor, you can also define **lag**, which is the minimum number of working days to keep in between the two work packages. The default setting for lag is 0 working days. Lag can also be negative. Here are a few examples:
 
@@ -54,7 +54,7 @@ For the relations of type Predecessor/Successor, you can also define **lag**, wh
 
 Only working days are considered when calculating lag. For example, if the predecessor finishes on a Wednesday and Saturday/Sunday are non-working days, then a lag of -3 schedules the successor to start on the previous Thursday.
 
-You can always edit the *Description* and *Lag* fields at a later time.
+You can always edit the _Description_ and _Lag_ fields at a later time.
 
 ![Add a successor work package in OpenProject](openproject_user_guide_relations_tab_edit_lag.png)
 
@@ -64,7 +64,7 @@ You can always edit the *Description* and *Lag* fields at a later time.
 
 - **Parent**  - This option makes the related work package a parent of the current (child) work package.
 
-- **Other relations** - Clicking *other relations* opens second level navigation with additional relations options. They include: 
+- **Other relations** - Clicking _other relations_ opens second level navigation with additional relations options. They include: 
 
 - **Duplicates / Duplicated by** - This option indicates that the work package B duplicates a work package A in one way or another, for example both address the same task. This can be useful if you have the same work package that needs to be a part of a closed and public projects at the same time. The connection in this case is only semantic, the changes you make in work package A will need to be adapted in work package B manually.
 
@@ -114,7 +114,7 @@ Work packages can be structured hierarchically, e.g. in order to break down a la
 
 There are **four ways to add or create a child work package**:
 
-1. [Adding a child in the *Relations* tab in a work package's details view](#add-a-child-in-the-relations-tab-in-a-work-packages-details-view)
+1. [Adding a child in the _Relations_ tab in a work package's details view](#add-a-child-in-the-relations-tab-in-a-work-packages-details-view)
 
 2. Right-clicking on a work package in the work package table and select "Create new child"
 
@@ -126,13 +126,13 @@ There are **four ways to add or create a child work package**:
 
    ![A table of related work packages in OpenProject](open_project_admin_related_wp_table.png)
 
-### Add a child in the *Relations* tab in a work package's details view
+### Add a child in the _Relations_ tab in a work package's details view
 
-Open a work package and select the tab *Relations*. Here you can click on *+ Relation* button, and select either *Create new child* or *Child* option to add a new or an existing work package as a child to the current one.
+Open a work package and select the tab _Relations_. Here you can click on _+ Relation_ button, and select either _Create new child_ or _Child_ option to add a new or an existing work package as a child to the current one.
 
 ![Add a child to a work package in OpenProject](openproject_user_guide_wp_add_child.png)
 
-Type the name of the new work package or select an existing one, then click the *Save* button. 
+Type the name of the new work package or select an existing one, then click the _Save_ button. 
 
 When creating a new work package as a child, you will be asked to select type, a subject and optionally add description text. If there are required fields for the type selected, they will also appear here.
 
@@ -152,13 +152,13 @@ For more information on the work package creation take a look at the guideline o
 
 To edit or remove the parent of a work package open the work package. At the top of the details view of the work package you will see the work package hierarchy. Click on the **edit icon** or **delete icon** to change the work package parent.
 
-Alternatively you can select the **Delete relation** option next to the parent relation under *Relations* tab.
+Alternatively you can select the **Delete relation** option next to the parent relation under _Relations_ tab.
 
 ![change parent work package](openproject_user_guide_relations_change_parent.png)
 
 ## Display work package hierarchies
 
-After adding the parent and child work packages they are listed in the *Relations* tab. Related work packages are grouped by the type of relation into respective sections. 
+After adding the parent and child work packages they are listed in the _Relations_ tab. Related work packages are grouped by the type of relation into respective sections. 
 
 > [!TIP]
 > Dates of the related work packages are only shown for date-based relations: children, predecessor and successor. 
@@ -171,7 +171,7 @@ After adding the parent and child work packages they are listed in the *Relation
 ![Example of work package relations displayed under Relations tab for a user with limited permissions in OpenProject](openproject_user_guide_ghost_relations.png)
 
 Hierarchies can also be displayed from the work package table view.
-To display work package hierarchies make sure the *Subject* column is displayed. You can activate or deactivate the hierarchy by pressing the icon next to the Subject.
+To display work package hierarchies make sure the _Subject_ column is displayed. You can activate or deactivate the hierarchy by pressing the icon next to the Subject.
 
 ![User guide display hierarchy](openproject_user_guide_wp_hierarchy_icon.png)
 
@@ -183,4 +183,4 @@ You can also add a column with information about parent work packages:
 
 ![Select parent as column in OpenProject work package tables](openproject_user_guide_wp_table_show_parent.png)
 
-*Parent* column displays all direct children work packages. If you want to include all deeper hierarchy levels, i.e. include grandchildren and so on, use the **Descendants of** filter. Learn more about [filtering for descendants](../work-package-table-configuration/#filter-for-descendants-of-a-work-package).
+_Parent_ column displays all direct children work packages. If you want to include all deeper hierarchy levels, i.e. include grandchildren and so on, use the **Descendants of** filter. Learn more about [filtering for descendants](../work-package-table-configuration/#filter-for-descendants-of-a-work-package).

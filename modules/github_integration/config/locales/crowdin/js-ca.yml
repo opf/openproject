@@ -19,36 +19,37 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 ca:
   js:
     github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Pull request"
-        copy_menu:
-          label: Fragments de git 
-          description: Fragments de git copiats al porta-retalls
-        git_actions:
-          branch_name: Nom de la branca
-          commit_message: Sotmet el missatge
-          cmd: Crea una branca amb una submissió buida
-          title: Fragments ràpids per git 
-          copy_success: '✅ Copiat!'
-          copy_error: '❌ Còpia fallida!'
-      tab_prs:
-        empty: 'No hi ha cap pull request vinculat encara. Vincula una PR existent utilitzant el codi <code>OP#%{wp_id}</code> en la descripció de la PR o crea una PR nova.'
       github_actions: Accions
       pull_requests:
-        message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt %{pr_state}."
-        merged_message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} ha estàt %{pr_state} per %{github_user_link}."
-        referenced_message: "El \"pull request\" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt referenciat a aquest paquet de treball."
+        merged_message: 'El "pull request" #%{pr_number} %{pr_link} del %{repository_link} ha estàt %{pr_state} per %{github_user_link}.'
+        message: 'El "pull request" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt %{pr_state}.'
+        referenced_message: 'El "pull request" #%{pr_number} %{pr_link} del %{repository_link} creat per %{github_user_link} ha estàt referenciat a aquest paquet de treball.'
         states:
-          opened: 'obert'
-          closed: 'tancat'
-          draft: 'esborrany'
-          merged: 'fusionat'
-          ready_for_review: 'marcat com a preparat per a revisar'
+          closed: tancat
+          draft: esborrany
+          merged: fusionat
+          opened: obert
+          ready_for_review: marcat com a preparat per a revisar
+      tab_header:
+        copy_menu:
+          description: Fragments de git copiats al porta-retalls
+          label: Fragments de git
+        git_actions:
+          branch_name: Nom de la branca
+          cmd: Crea una branca amb una submissió buida
+          commit_message: Sotmet el missatge
+          copy_error: "❌ Còpia fallida!"
+          copy_success: "✅ Copiat!"
+          title: Fragments ràpids per git
+        title: Pull request
+      tab_prs:
+        empty: No hi ha cap pull request vinculat encara. Vincula una PR existent utilitzant el codi <code>OP#%{wp_id}</code> en la descripció de la PR o crea una PR nova.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
-        github: "GitHub"
+        github: GitHub

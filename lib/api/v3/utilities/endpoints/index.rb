@@ -159,8 +159,6 @@ module API
           end
 
           def apply_scope_constraint(constraint, result_scope)
-            result_scope = result_scope.eager_load(render_representer.to_eager_load)
-                                       .preload(render_representer.to_preload)
             if constraint.is_a?(Class)
               result_scope
             else

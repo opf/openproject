@@ -37,8 +37,9 @@ module API
 
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
-                                                                                Setting.plugin_openproject_backlogs]
+                               all_permissions_granted_to_user_under_project +
+                                 [Setting.work_package_done_ratio,
+                                  Setting::WorkPackageMultipleVersions.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -309,7 +310,29 @@ module API
                                              title: version.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         deprecated: true,
+                                         description: -> { I18n.t("api_v3.attributes.version.deprecated") }
+
+          # While multiple versions is not enabled, the field keeps the label of the
+          # single-valued version field it replaces and announces via options.multiple
+          # that the UI must restrict it to a single value.
+          schema_with_allowed_collection :target_versions,
+                                         type: "[]Version",
+                                         name_source: -> {
+                                           attribute = Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version
+                                           WorkPackage.human_attribute_name(attribute)
+                                         },
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:target_versions) },
+                                         required: false,
+                                         options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
 
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
@@ -385,7 +408,7 @@ module API
           end
 
           def form_config_attribute_representation(group)
-            OpenProject::Cache.fetch(*form_config_attribute_cache_key(group)) do
+            OpenProject::Cache.fetch_request_cached(*form_config_attribute_cache_key(group)) do
               ::JSON::parse(::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
                               .new(group, current_user:, project: represented.project, embed_links: true)
                               .to_json)

@@ -33,8 +33,7 @@
 
 $nm-font-size: var(--body-font-size)
 $nm-border-radius: rem-calc(2px)
-$nm-box-padding: rem-calc(10px 35px 10px 35px)
-$nm-toaster-width: rem-calc(550)
+$nm-box-padding: rem-calc(10px 40px 10px 40px)
 
 $nm-color-success-border: var(--borderColor-success-muted)
 $nm-color-success-icon: var(--fgColor-success)
@@ -100,14 +99,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   left: $left
   font-size: $size
 
-
-
 .op-toast
   @include spot-z-index("toast")
 
   display: flex
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   border: rem-calc(1px) solid $nm-color-border
+  border-radius: var(--borderRadius-medium)
   font-size: $nm-font-size
   word-wrap: break-word
   position: relative
@@ -217,16 +215,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-info-icon
 
 .op-toast--wrapper
-  position: absolute
-  max-width: $nm-toaster-width
-  margin: 0 auto
-  left: 10%
-  right: 10%
-
-.op-toast--wrapper
-  // Higher than loading indicator and modal wrapper!
-  z-index: 10000
-  top: 4rem
+  @include banner-styles
 
   .op-toast--casing
     position: relative

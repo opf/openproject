@@ -58,6 +58,36 @@ RSpec.shared_examples_for "MCP result response" do
   end
 end
 
+RSpec.shared_examples_for "MCP tool execution error response" do
+  let(:result_schema) do
+    {
+      required: %w[result],
+      properties: {
+        result: {
+          required: %w[isError content],
+          properties: {
+            isError: { type: "boolean" },
+            content: { type: "array" },
+            structuredContent: { type: ["object"] }
+          }
+        }
+      }
+    }
+  end
+
+  include_context "MCP result response"
+
+  it "fulfills the schema of an MCP response" do
+    subject
+    expect(last_response.body).to match_json_schema(result_schema)
+  end
+
+  it "is an error" do
+    subject
+    expect(JSON(last_response.body).dig("result", "isError")).to be true
+  end
+end
+
 RSpec.shared_examples_for "MCP response with structured content" do
   let(:result_schema) do
     {
@@ -158,7 +188,7 @@ RSpec.shared_examples_for "MCP error response" do
     expect(last_response.headers["WWW-Authenticate"]).to be_nil
   end
 
-  it "fulfills the schema of a JSON RPC response" do
+  it "fulfills the schema of a JSON RPC error response" do
     subject
     expect(last_response.body).to match_json_schema(json_rpc_response_schema)
   end

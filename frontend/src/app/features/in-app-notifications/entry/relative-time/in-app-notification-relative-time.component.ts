@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -20,6 +14,9 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
   standalone: false,
 })
 export class InAppNotificationRelativeTimeComponent implements OnInit {
+  private I18n = inject(I18nService);
+  private timezoneService = inject(TimezoneService);
+
   @Input() notification:INotification;
   @Input() hasActorByLine = true;
 
@@ -36,11 +33,6 @@ export class InAppNotificationRelativeTimeComponent implements OnInit {
       { date: age },
     ),
   };
-
-  constructor(
-    private I18n:I18nService,
-    private timezoneService:TimezoneService,
-  ) { }
 
   ngOnInit():void {
     this.buildTime();

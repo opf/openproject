@@ -43,8 +43,13 @@ module OpenProject::TextFormatting
       end
 
       def add_header_link_class_and_id(node, id)
-        node.css("a").first["class"] = "op-uc-link_permalink icon-link"
-        node["id"] = id
+        anchor = node.css("a").first
+        if anchor
+          anchor["class"] = "op-uc-link_permalink icon-link"
+          anchor["href"] = "##{fragment_id_prefix}#{id}"
+          anchor.remove_attribute("id") # avoid duplicate id with heading; only heading keeps the id
+        end
+        node["id"] = "#{fragment_id_prefix}#{id}"
       end
 
       ##
@@ -134,7 +139,11 @@ module OpenProject::TextFormatting
         number = parsed_text[1] || number
         number_span = content_tag(:span, number, class: "op-uc-toc--list-item-number")
         content_span = content_tag(:span, parsed_text[2].strip, class: "op-uc-toc--list-item-title")
-        content_tag(:a, number_span + content_span, href: "##{id}", class: "op-uc-toc--item-link")
+        content_tag(:a, number_span + content_span, href: "##{fragment_id_prefix}#{id}", class: "op-uc-toc--item-link")
+      end
+
+      def fragment_id_prefix
+        SanitizationFilter::FRAGMENT_ID_PREFIX
       end
     end
   end

@@ -20,34 +20,35 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See docs/COPYRIGHT.rdoc for more details.
 #++
+---
 tr:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: "GitLab"
+      gitlab_pipelines: İş Akışları
       tab_header_issue:
-        title: "Sorunlar"
+        title: Sorunlar
       tab_header_mr:
-        title: "Birleştirme istekleri"
-        create_mr:
-          label: Birleştirme isteği oluştur
-          description: Birleştirme İsteği Oluştur
         copy_menu:
-          label: Git kod parçacığı
           description: Git kod parçacığını panoya kopyala
+          label: Git kod parçacığı
+        create_mr:
+          description: Birleştirme İsteği Oluştur
+          label: Birleştirme isteği oluştur
         git_actions:
           branch_name: Dal adı
-          commit_message: İşlem mesajı
           cmd: Boş işlemle dal oluştur
+          commit_message: İşlem mesajı
+          copy_error: "❌ Kopyalanamadı!"
+          copy_success: "✅ Kopyalandı!"
           title: Git için hızlı kod parçaları
-          copy_success: '✅ Kopyalandı!'
-          copy_error: '❌ Kopyalanamadı!'
+        title: Birleştirme istekleri
       tab_issue:
-        empty: 'Henüz bağlantılı sorun yok. Sorun başlığında/açıklamasında <code>OP#%{wp_id}</code> (veya özel bağlantılar için <code>PP#%{wp_id}</code>) kodunu kullanarak mevcut bir sorunu bağlayın veya yeni bir sorun oluşturun.'
+        empty: Henüz bağlantılı sorun yok. Sorun başlığında/açıklamasında <code>OP#%{wp_id}</code> (veya özel bağlantılar için <code>PP#%{wp_id}</code>) kodunu kullanarak mevcut bir sorunu bağlayın veya yeni bir sorun oluşturun.
       tab_mrs:
-        empty: 'Henüz bağlanmış bir birleştirme isteği yok. MR başlığında/açıklamasında <code>OP#%{wp_id}</code> (veya özel bağlantılar için <code>PP#%{wp_id}</code>) kodunu kullanarak mevcut bir MR''ı bağlayın veya yeni bir MR oluşturun.'
-      gitlab_pipelines: İş Akışları
+        empty: Henüz bağlanmış bir birleştirme isteği yok. MR başlığında/açıklamasında <code>OP#%{wp_id}</code> (veya özel bağlantılar için <code>PP#%{wp_id}</code>) kodunu kullanarak mevcut bir MR'ı bağlayın veya yeni bir MR oluşturun.
       updated_on: Güncelleme tarihi
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
-        gitlab: "GitLab"
+        gitlab: GitLab

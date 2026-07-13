@@ -6,20 +6,20 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { StateService } from '@uirouter/core';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardClickHandler implements CardEventHandler {
   // Injections
-  @InjectField() deviceService:DeviceService;
+  @LazyInject() deviceService:DeviceService;
 
-  @InjectField() $state:StateService;
+  @LazyInject() $state:StateService;
 
-  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() wpTableFocus:WorkPackageViewFocusService;
+  @LazyInject() wpTableFocus:WorkPackageViewFocusService;
 
-  @InjectField() wpCardView:WorkPackageCardViewService;
+  @LazyInject() wpCardView:WorkPackageCardViewService;
 
   constructor(public readonly injector:Injector,
     card:WorkPackageCardViewComponent) {

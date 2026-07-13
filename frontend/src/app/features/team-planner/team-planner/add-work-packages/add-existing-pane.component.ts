@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import {
@@ -32,12 +24,9 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { StateService } from '@uirouter/core';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Component({
@@ -48,12 +37,23 @@ import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-wor
   standalone: false,
 })
 export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private I18n = inject(I18nService);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly notificationService = inject(WorkPackageNotificationService);
+  private readonly currentProject = inject(CurrentProjectService);
+  private readonly urlParamsHelper = inject(UrlParamsHelperService);
+  private readonly workPackagesCalendar = inject(OpWorkPackagesCalendarService);
+  private readonly calendarDrag = inject(CalendarDragDropService);
+  private readonly actions$ = inject(ActionsService);
+  private readonly wpFilters = inject(WorkPackageViewFiltersService);
+
   @HostBinding('class.op-add-existing-pane') className = true;
 
-  @ViewChild('container') container:ElementRef;
+  @ViewChild('container') container:ElementRef<HTMLElement>;
 
   @ViewChild('container')
-  set dragContainer(v:ElementRef|undefined) {
+  set dragContainer(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
@@ -111,22 +111,6 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   image = {
     empty_state: imagePath('team-planner/add-existing-pane--empty-state.gif'),
   };
-
-  constructor(
-    private readonly querySpace:IsolatedQuerySpace,
-    private I18n:I18nService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly notificationService:WorkPackageNotificationService,
-    private readonly currentProject:CurrentProjectService,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly workPackagesCalendar:OpWorkPackagesCalendarService,
-    private readonly calendarDrag:CalendarDragDropService,
-    private readonly $state:StateService,
-    private readonly actions$:ActionsService,
-    private readonly wpFilters:WorkPackageViewFiltersService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     combineLatest([
@@ -214,10 +198,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   }
 
   openStateLink(event:{ workPackageId:string; requestedState:string }):void {
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: event.workPackageId, tabIdentifier: 'overview' },
-    );
+    this.workPackagesCalendar.openSplitView(event.workPackageId);
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {

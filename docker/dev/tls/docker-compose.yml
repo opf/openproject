@@ -5,11 +5,23 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./acme.json:/acme.json
       - step:/step:ro
     restart: unless-stopped
+    environment:
+      TRAEFIK_LOG_LEVEL: INFO
+      TRAEFIK_API_DISABLEDASHBOARDAD: true
+      TRAEFIK_PROVIDERS_DOCKER_NETWORK: gateway
+      TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: false
+      TRAEFIK_ENTRYPOINTS_WEB_ADDRESS: ":80"
+      TRAEFIK_ENTRYPOINTS_WEB_HTTP_REDIRECTIONS_ENTRYPOINT_TO: websecure
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS: ":443"
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_CERTRESOLVER: step
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_CASERVER: https://step:9000/acme/acme/directory
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_TLSCHALLENGE: true
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_EMAIL: root@localhost
+      TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_HTTPCHALLENGE_ENTRYPOINT: web
     networks:
       external:
         aliases:
@@ -17,11 +29,13 @@ services:
           - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - nextcloud.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - xwiki.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - gitlab.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - minio.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - minioadmin.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - jira-software.${OPENPROJECT_DOCKER_DEV_TLD:-local}
     labels:
       - "traefik.http.routers.traefik.rule=Host(`traefik.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
       - "traefik.http.routers.traefik.service=api@internal"

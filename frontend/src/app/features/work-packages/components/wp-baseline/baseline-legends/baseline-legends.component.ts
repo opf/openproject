@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -61,6 +54,14 @@ import { filter } from 'rxjs/operators';
   standalone: false,
 })
 export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly configuration = inject(ConfigurationService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.op-baseline-legends') className = true;
 
   public numAdded = 0;
@@ -85,18 +86,6 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     maintained_with_changes: this.I18n.t('js.baseline.legends.maintained_with_changes'),
     in_your_timezone: this.I18n.t('js.baseline.legends.in_your_timezone'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpTableBaseline:WorkPackageViewBaselineService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly schemaCache:SchemaCacheService,
-    readonly timezoneService:TimezoneService,
-    readonly configuration:ConfigurationService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this

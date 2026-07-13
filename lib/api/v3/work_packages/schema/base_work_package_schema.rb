@@ -80,7 +80,7 @@ module API
           private
 
           def contract
-            raise NotImplementedError
+            raise SubclassResponsibilityError
           end
         end
       end

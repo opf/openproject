@@ -104,7 +104,8 @@ RSpec.describe "My page",
     global_html_title.expect_first_segment "My page"
 
     # Waits for the default view to be created
-    my_page.expect_toast(message: "Successful update")
+    # Waits for the default view to be created
+    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -123,7 +124,7 @@ RSpec.describe "My page",
     sleep(0.5)
     reload_grid!
 
-    calendar_area.expect_to_span(1, 1, 2, 2)
+    calendar_area.expect_to_span(2, 1, 3, 2)
 
     # resizing will move the created area down
     calendar_area.resize_to(1, 2)
@@ -133,7 +134,7 @@ RSpec.describe "My page",
     # resizing again will not influence the created area. It will stay down
     calendar_area.resize_to(1, 1)
 
-    calendar_area.expect_to_span(1, 1, 2, 2)
+    calendar_area.expect_to_span(3, 2, 4, 3)
 
     # add widget right next to the calendar widget
     my_page.add_widget(1, 2, :within, "News")
@@ -141,17 +142,17 @@ RSpec.describe "My page",
     sleep(0.5)
     reload_grid!
 
-    news_area.expect_to_span(1, 2, 2, 3)
+    news_area.expect_to_span(3, 2, 4, 3)
 
     calendar_area.resize_to(2, 1)
 
     sleep(0.3)
 
     # Resizing leads to the calendar area now spanning a larger area
-    calendar_area.expect_to_span(1, 1, 3, 2)
+    calendar_area.expect_to_span(2, 1, 4, 2)
     # Because of the added row, and the resizing the other widgets (assigned and created) have moved down
-    assigned_area.expect_to_span(3, 1, 4, 2)
-    created_area.expect_to_span(2, 2, 3, 3)
+    assigned_area.expect_to_span(1, 1, 2, 2)
+    created_area.expect_to_span(1, 2, 2, 3)
 
     my_page.add_widget(1, 3, :column, "Work packages watched by me")
 
@@ -170,11 +171,11 @@ RSpec.describe "My page",
 
     reload_grid!
 
-    calendar_area.expect_to_span(1, 1, 3, 2)
-    watched_area.expect_to_span(2, 3, 3, 4)
-    assigned_area.expect_to_span(3, 1, 4, 2)
+    calendar_area.expect_to_span(2, 1, 4, 2)
+    watched_area.expect_to_span(3, 2, 4, 4)
+    assigned_area.expect_to_span(1, 1, 2, 2)
     created_area.expect_to_span(1, 3, 2, 4)
-    news_area.expect_to_span(1, 2, 2, 3)
+    news_area.expect_to_span(2, 3, 3, 4)
 
     # dragging again makes room for the dragged widget which means
     # that widgets that have been there are moved down. Additionally,
@@ -189,10 +190,10 @@ RSpec.describe "My page",
     visit home_path
     my_page.visit!
 
-    calendar_area.expect_to_span(1, 1, 3, 2)
-    news_area.expect_to_span(1, 2, 2, 3)
-    created_area.expect_to_span(2, 2, 3, 3)
-    assigned_area.expect_to_span(3, 1, 4, 2)
-    watched_area.expect_to_span(3, 2, 4, 3)
+    calendar_area.expect_to_span(2, 1, 4, 2)
+    news_area.expect_to_span(2, 3, 3, 4)
+    created_area.expect_to_span(1, 3, 2, 4)
+    assigned_area.expect_to_span(1, 1, 2, 2)
+    watched_area.expect_to_span(3, 2, 4, 4)
   end
 end

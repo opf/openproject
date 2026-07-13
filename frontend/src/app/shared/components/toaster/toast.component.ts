@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
@@ -52,6 +47,9 @@ import { IToast, ToastService, ToastType } from 'core-app/shared/components/toas
   standalone: false,
 })
 export class ToastComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly toastService = inject(ToastService);
+
   @Input() public toast:IToast;
 
   public text = {
@@ -71,12 +69,6 @@ export class ToastComponent implements OnInit {
   public removable = true;
 
   public loading$ = new BehaviorSubject<boolean>(false);
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly toastService:ToastService,
-  ) {
-  }
 
   ngOnInit():void {
     this.type = this.toast.type;

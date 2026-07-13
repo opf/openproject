@@ -42,11 +42,7 @@ OpenProject follows semantic versioning, and tags are pushed on [Docker Hub open
 - `X`, `X-slim` **floating** tags that get pushed whenever a new patch or minor release is made. If you use these tags, you are aware that application changes will occur.
 - `dev`, `dev-slim` **floating** tag that gets pushed nightly with the latest development version. These tags are automatically deployed to our QA instances, and are useful for testing and _early_ feedback. We try to keep these versions usable, but we strongly recommend against using them for anything with production data.
 
-
-
 We recommend to use non-floating tags for production systems, and use the built-in version check, or our release notes (subscribe to them through GitHub, or release newsletters) to be informed of updates.
-
-
 
 ## Installation overview
 
@@ -71,7 +67,7 @@ following command:
 
 ```shell
 docker run -it -p 8080:80 \
-  -e SECRET_KEY_BASE=secret \
+  -e SECRET_KEY_BASE=<your-secret-key-base> \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
   -e OPENPROJECT_DEFAULT__LANGUAGE=en \
@@ -81,7 +77,7 @@ docker run -it -p 8080:80 \
 Explanation of the used configuration values:
 
 - `-p 8080:80` binds the port 80 of the container to 8080 on the machine running docker.
-- `SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
+- `SECRET_KEY_BASE` sets the secret key base for Rails. Replace `<your-secret-key-base>` with a strong, random value (for example generated with `openssl rand -hex 64`). Treat it like a password and **store it securely** — the same value must be reused on every container start, otherwise existing sessions and encrypted database content become unreadable. OpenProject will refuse to start with a default or weak value.
 - `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
 - `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
 - `OPENPROJECT_DEFAULT__LANGUAGE` does two things. It controls for the very first installation, in which language basic data (such as types, status names, etc.) and demo data is being created in. It also sets the default fallback language for new users.
@@ -102,7 +98,7 @@ achieved with the `-d` flag:
 
 ```shell
 docker run -d -p 8080:80 \
-  -e SECRET_KEY_BASE=secret \
+  -e SECRET_KEY_BASE=<your-secret-key-base> \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
   openproject/openproject:17
@@ -134,7 +130,7 @@ sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
 docker run -d -p 8080:80 --name openproject \
   -e OPENPROJECT_HOST__NAME=openproject.example.com \
-  -e SECRET_KEY_BASE=secret \
+  -e SECRET_KEY_BASE=<your-secret-key-base> \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/openproject:17
@@ -143,7 +139,7 @@ docker run -d -p 8080:80 --name openproject \
 Please make sure you set the correct public facing hostname in `OPENPROJECT_HOST__NAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
 you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name. We strongly recommend you use an external load-balancing or proxying web server for termination of TLS/SSL and general security hardening.
 
-**Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
+**Note**: Make sure to replace `<your-secret-key-base>` with a random string. One way to generate one is to run `openssl rand -hex 64`. Store this value securely — it must remain the same across container restarts, otherwise sessions and encrypted database content will be lost.
 
 **Note**: MacOS users might encounter an "Operation not permitted" error on the mounted directories. The fix for this is to create the two directories in a user-owned directory of the host machine.
 
@@ -202,10 +198,10 @@ and [nginx](https://nginx.org/en/) web servers.
 
 For both configurations the following Apache mods are required:
 
-* proxy
-* proxy_http
-* rewrite
-* ssl (optional)
+- proxy
+- proxy_http
+- rewrite
+- ssl (optional)
 
 In each case you will create a file `/usr/local/apache2/conf/sites/openproject.conf`
 with the contents as described in the respective sections.
@@ -218,11 +214,11 @@ The nginx configuration will go into `/etc/nginx/conf.d/openproject.conf`.
 
 All examples are based on the following assumptions:
 
-* the site is accessed via https
-* certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
-* the OpenProject docker container's port 80 is mapped to the docker host's port 8080
+- the site is accessed via https
+- certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
+- the OpenProject docker container's port 80 is mapped to the docker host's port 8080
 
-*Important:* Once OpenProject is running make sure to also set the host name accordingly under Administration -> System Settings or set it directly during startup by setting `OPENPROJECT_HOST__NAME`.
+_Important:_ Once OpenProject is running make sure to also set the host name accordingly under Administration -> System Settings or set it directly during startup by setting `OPENPROJECT_HOST__NAME`.
 
 > **NOTE:** There is [another example](../packaged/#external-ssltls-termination) for external SSL/TLS termination for **packaged** installations
 
@@ -300,8 +296,8 @@ server {
 
 #### 2) Location (subdirectory)
 
-Let's assume you want OpenProject to run on your host with the *server name* `example.com`
-under the *subdirectory* `/openproject`.
+Let's assume you want OpenProject to run on your host with the _server name_ `example.com`
+under the _subdirectory_ `/openproject`.
 
 If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:
@@ -474,7 +470,7 @@ The first way is to mount the root certificate via the ```--mount``` option into
 
 ```shell
 sudo docker run -it -p 8080:80 \
-  -e SECRET_KEY_BASE=secret \
+  -e SECRET_KEY_BASE=<your-secret-key-base> \
   -e OPENPROJECT_HOST__NAME=localhost:8080 \
   -e OPENPROJECT_HTTPS=false \
   -e OPENPROJECT_DEFAULT__LANGUAGE=en \

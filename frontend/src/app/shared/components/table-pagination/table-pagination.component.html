@@ -1,7 +1,7 @@
 @if (pagination && isVisible && pagination.total) {
   <div class="op-pagination">
     <nav class="op-pagination--pages" [attr.aria-label]="text.page_navigation">
-      <ul class="op-pagination--items op-pagination--items_start" role="presentation">
+      <ul class="op-pagination--items" role="presentation">
         <li [hidden]="pagination.page === 1 || !showPageSelections" class="op-pagination--item">
           <button
             class="op-pagination--item-link op-pagination--item-link_prev"
@@ -109,7 +109,7 @@
       <div class="op-pagination--options">
         <nav [attr.aria-label]="text.per_page_navigation">
           <ul
-            class="op-pagination--items op-pagination--items_end"
+            class="op-pagination--items"
             role="presentation">
             <li
               class="op-pagination--label"

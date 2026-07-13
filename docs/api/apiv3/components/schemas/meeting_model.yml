@@ -1,7 +1,8 @@
-# Schema: Meeting_PageModel
+# Schema: MeetingModel
 ---
 type: object
 required:
+  - _type
   - id
   - lockVersion
   - title
@@ -11,11 +12,14 @@ required:
   - createdAt
   - updatedAt
 properties:
+  _type:
+    type: string
+    enum:
+      - Meeting
   id:
     type: integer
     description: Identifier of this meeting
-    readOnly: true
-    exclusiveMinimum: 0
+    minimum: 1
   title:
     type: string
     description: The meeting's title
@@ -25,7 +29,6 @@ properties:
   lockVersion:
     type: integer
     description: The version of the item as used for optimistic locking
-    readOnly: true
   startTime:
     type: string
     format: date-time
@@ -33,42 +36,119 @@ properties:
   endTime:
     type: string
     format: date-time
-    description: The scheduled meeting start time.
+    description: The scheduled meeting end time.
   duration:
-    type: number
-    description: The meeting duration in minutes.
+    type: string
+    format: duration
+    description: The meeting duration in hours.
+  state:
+    type: string
+    description: |-
+      The current state of the meeting. Possible values:
+
+      - *open*: the meeting is open
+      - *draft*: the meeting is in draft state
+      - *in_progress*: the meeting is currently in progress
+      - *cancelled*: the meeting has been cancelled
+      - *closed*: the meeting is closed
+    enum:
+      - open
+      - draft
+      - in_progress
+      - cancelled
+      - closed
+  sharing:
+    type: string
+    description: |-
+      How the meeting template is shared. Only applicable for one-time templates. Possible values:
+
+      - *none*: not shared
+      - *descendants*: shared with descendant projects
+      - *system*: shared globally
+    enum:
+      - none
+      - descendants
+      - system
+  template:
+    type: boolean
+    description: Whether this meeting is a template.
+  notify:
+    type: boolean
+    description: Whether to send email notifications to participants.
   createdAt:
     type: string
     format: date-time
     description: Time of creation. Can be writable by admins with the `apiv3_write_readonly_attributes` setting enabled.
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: Time of the most recent change to the meeting.
-    readOnly: true
+  _embedded:
+    type: object
+    required:
+      - attachments
+      - author
+    properties:
+      attachments:
+        $ref: './attachments_model.yml'
+      author:
+        $ref: './user_model.yml'
+      project:
+        $ref: './project_model.yml'
   _links:
     type: object
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: './link.yml'
           - description: |-
               This meeting
 
               **Resource**: Meeting
-            readOnly: true
+      schema:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The meeting schema
+
+              **Resource**: Schema
+      update:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Form endpoint to update this meeting
+
+              # Conditions
+
+              **Permission**: edit meetings
+      updateImmediately:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Directly update this meeting
+
+              # Conditions
+
+              **Permission**: edit meetings
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Delete this meeting
+
+              # Conditions
+
+              **Permission**: delete meetings
       author:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: './link.yml'
           - description: |-
               The user having created the meeting
 
               **Resource**: User
-            readOnly: true
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: './link.yml'
           - description: |-
               The project the meeting is in
 
@@ -77,47 +157,15 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              The attachment collection of this grid.
+              The attachment collection of this meeting.
 
               **Resource**: AttachmentCollection
       addAttachment:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: './link.yml'
           - description: |-
               Attach a file to the meeting
 
               # Conditions
 
-              **Permission**: edit meeting
-            readOnly: true
-example:
-  _type: Meeting
-  id: 72
-  lockVersion: 5
-  title: A meeting
-  startTime: '2014-05-21T08:00:00.000Z'
-  endTime: '2014-05-21T10:00:00.000Z'
-  duration: 120
-  createdAt: '2014-05-21T08:51:20.396Z'
-  updatedAt: '2014-05-21T09:14:02.776Z'
-  _embedded:
-    project:
-      _type: Project...
-      id: 12
-    author:
-      _type: User...
-      id: 2
-  _links:
-    addAttachment:
-      href: "/api/v3/meetings/72/attachments"
-      method: post
-    attachments:
-      href: "/api/v3/meetings/72/attachments"
-    project:
-      href: "/api/v3/projects/12"
-      title: some project
-    author:
-      href: "/api/v3/users/2"
-      title: Peggie Feeney
-    self:
-      href: "/api/v3/meetings/72"
+              **Permission**: edit meetings

@@ -1,0 +1,112 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout do |box|
+  box.with_row do
+    concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+      I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
+    })
+    if model.status_before?(:instance_meta_done)
+      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
+      })
+    elsif model.status_equal_or_after?(:projects_meta_done)
+      concat(render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
+      })
+    end
+  end
+  if model.in_state?(:instance_meta_done)
+    box.with_row(mb: 3) do
+      flex_layout do |flex|
+        flex.with_column(flex: 1, mr: 1) do
+          render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_available_server_data",  server_info: model.jira.name),
+            subtitle: server_info,
+            list: import_stats_available,
+            h: :full
+          ))
+        end
+      end
+    end
+    box.with_row do
+      render(Primer::Beta::Button.new(
+        scheme: :primary,
+        size: :medium,
+        tag: :a,
+        href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'configure'),
+        data: { turbo_stream: true }
+      )) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_continue")
+      }
+    end
+  elsif model.in_state?(:configuring, :projects_meta_error)
+    box.with_row(mb: 3, mt: 3) do
+      render(Primer::Beta::Text.new) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
+      }
+    end
+    box.with_row(mb: 3) do
+      render(Primer::Beta::Button.new(
+        size: :medium,
+        tag: :a,
+        href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
+        data: { controller: "async-dialog" }
+      )) do |component|
+        component.with_trailing_visual_counter(count: selected_projects_count)
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+      end
+    end
+    if model.in_state?(:configuring)
+      box.with_row do
+        render(Primer::Beta::Button.new(
+          scheme: :primary,
+          size: :medium,
+          tag: :a,
+          href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'fetch_projects_meta'),
+          data: { turbo_stream: true },
+          disabled: model.projects.nil? || model.projects.empty?
+        )) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_continue")
+        }
+      end
+    elsif model.in_state?(:projects_meta_error)
+      box.with_row do
+        render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, 'fetch_projects_meta'))
+      end
+    end
+  elsif model.in_state?(:projects_meta_fetching)
+    box.with_row(mt: 3) do
+      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
+      ))
+    end
+  end
+end
+%>

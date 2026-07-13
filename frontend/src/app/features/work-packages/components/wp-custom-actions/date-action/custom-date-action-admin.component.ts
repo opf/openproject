@@ -32,6 +32,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -51,57 +52,53 @@ export class CustomDateActionAdminComponent implements OnInit {
 
   public visibleValue = '';
 
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  public selectedOperator:any;
-
   private onKey = 'on';
 
   private currentKey = 'current';
 
   private currentFieldValue = '%CURRENT_DATE%';
 
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private cdRef = inject(ChangeDetectorRef);
+  public appRef = inject(ApplicationRef);
+  private I18n = inject(I18nService);
+
+  public selectedOperatorKey = this.onKey;
+
   public operators = [
     { key: this.onKey, label: this.I18n.t('js.custom_actions.date.specific') },
     { key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date') },
   ];
 
-  constructor(
-    private elementRef:ElementRef,
-    private cdRef:ChangeDetectorRef,
-    public appRef:ApplicationRef,
-    private I18n:I18nService,
-  ) {
-  }
-
   // cannot use $onInit as it would be called before the operators gets filled
   public ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     this.fieldName = element.dataset.fieldName! || '';
     this.fieldValue = element.dataset.fieldValue! || '';
 
     if (this.fieldValue === this.currentFieldValue) {
-      this.selectedOperator = this.operators[1];
+      this.selectedOperatorKey = this.currentKey;
     } else {
-      this.selectedOperator = this.operators[0];
+      this.selectedOperatorKey = this.onKey;
       this.visibleValue = this.fieldValue;
     }
 
     this.toggleValueVisibility();
+    this.cdRef.markForCheck();
   }
 
   public toggleValueVisibility() {
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
-    this.valueVisible = this.selectedOperator.key === this.onKey;
+    this.valueVisible = this.selectedOperatorKey === this.onKey;
     if (this.fieldValue === this.currentFieldValue) {
       this.fieldValue = '';
     }
 
     this.updateDbValue();
+    this.cdRef.detectChanges();
   }
 
   private updateDbValue() {
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */
-    if (this.selectedOperator.key === this.currentKey) {
+    if (this.selectedOperatorKey === this.currentKey) {
       this.fieldValue = this.currentFieldValue;
     }
   }

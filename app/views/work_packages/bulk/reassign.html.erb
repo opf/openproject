@@ -48,8 +48,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t("work_package.destroy.title") %>
     </h3>
 
-    <%= work_package_associations_to_address(associated) %>
-
+    <p class="bold"><%= t(:text_destroy_with_associated) %></p>
+    <ul>
+      <% associated.each do |associated_class| %>
+      <li class="decorated"><%= associated_class.model_name.human %></li>
+      <% end %>
+    </ul>
     <p>
       <strong><%= t(:text_destroy_what_to_do) %></strong>
     </p>
@@ -108,9 +112,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <div class="danger-zone--verification">
       <%= styled_button_tag title: t(:button_delete), class: "-primary" do
-            concat content_tag :i, "", class: "button--icon icon-delete"
-            concat content_tag :span, t(:button_delete), class: "button--text"
-          end %>
+        concat content_tag :i, "", class: "button--icon icon-delete"
+        concat content_tag :span, t(:button_delete), class: "button--text"
+      end %>
       <%= link_to_function t(:button_cancel),
                            "history.back()",
                            title: t(:button_cancel),

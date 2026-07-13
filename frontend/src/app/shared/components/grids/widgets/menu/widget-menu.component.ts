@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 
 @Component({
@@ -34,6 +34,10 @@ import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/wi
   templateUrl: './widget-menu.component.html',
   styleUrls: ['./widget-menu.component.css'],
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WidgetMenuComponent extends WidgetAbstractMenuComponent {
 }

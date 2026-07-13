@@ -65,7 +65,8 @@ export class NextcloudUploadStrategy implements IUploadStrategy {
         body,
         headers: { [EXTERNAL_REQUEST_HEADER]: 'true' },
         observe: 'events',
-        reportProgress: true,
+        reportUploadProgress: true,
+        reportDownloadProgress: true,
         responseType: 'json',
       },
     ).pipe(

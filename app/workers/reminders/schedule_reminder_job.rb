@@ -39,6 +39,11 @@ module Reminders
     def perform(reminder)
       return if reminder.unread_notifications?
 
+      unless reminder.visible?(reminder.creator)
+        reminder.update_column(:completed_at, Time.current)
+        return
+      end
+
       create_notification_service = create_notification_from_reminder(reminder)
 
       create_notification_service.on_success do |service_result|

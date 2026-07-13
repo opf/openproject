@@ -287,6 +287,18 @@ RSpec.describe RepositoriesController do
         end
       end
 
+      describe "#entry" do
+        let(:permissions) { [:browse_repository] }
+
+        it "serves raw files as application/octet-stream attachment" do
+          get :entry, params: { project_id: project.identifier, repo_path: "subversion_test/textfile.txt", format: "raw" }
+
+          expect(response).to be_successful
+          expect(response.headers["Content-Type"]).to eq("application/octet-stream")
+          expect(response.headers["Content-Disposition"]).to match(/attachment/)
+        end
+      end
+
       describe "checkout path" do
         render_views
 

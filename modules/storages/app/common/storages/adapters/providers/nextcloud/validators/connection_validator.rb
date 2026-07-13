@@ -33,7 +33,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          class ConnectionValidator < ConnectionValidators::BaseConnectionValidator
+          class ConnectionValidator < HealthReports::Validator
             register_group StorageConfigurationValidator
             register_group AuthenticationValidator, precondition: ->(_, result) { result.group(:base_configuration).non_failure? }
             register_group AmpfConfigurationValidator,

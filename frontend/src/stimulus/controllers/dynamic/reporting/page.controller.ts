@@ -32,7 +32,9 @@ import { Controller } from '@hotwired/stimulus';
 import { FetchRequestError, post, ValidationError } from 'core-stimulus/helpers/request-helpers';
 import dragula from 'dragula';
 import jQuery from 'jquery';
+import 'core-app/core/setup-legacy/init-jquery';
 import 'tablesorter';
+import { ensureId } from 'core-app/shared/helpers/dom-helpers';
 
 declare global {
   interface Window {
@@ -119,8 +121,11 @@ export default class PageController extends Controller {
 
   removeFilter(evt:MouseEvent) {
     evt.preventDefault();
-    const target = evt.target as HTMLElement;
-    const filterName = target.closest('li')?.getAttribute('data-filter-name');
+    const removeBox = evt.currentTarget as HTMLElement;
+    const filterNameInput = removeBox.querySelector<HTMLInputElement>('input[name="fields[]"]')?.value.trim();
+    const filterName = filterNameInput && filterNameInput.length > 0
+      ? filterNameInput
+      : removeBox.closest('li')?.getAttribute('data-filter-name');
 
     if (filterName) {
       this.filters.remove_filter(filterName);
@@ -130,8 +135,14 @@ export default class PageController extends Controller {
   filterKeydown(evt:KeyboardEvent) {
     if (evt.key === 'Enter' || evt.key === ' ') {
       evt.preventDefault();
+      evt.stopPropagation();
 
-      const filter = (evt.target as HTMLElement).closest('li') as HTMLElement;
+      const removeBox = (evt.currentTarget as HTMLElement).closest<HTMLElement>('[id^="rm_box_"]');
+      const filter = removeBox?.closest('li');
+      if (!filter) {
+        return;
+      }
+
       const filterName = filter.dataset.filterName;
       const prevVisibleFilter = jQuery(filter)
         .prevAll(':visible')
@@ -338,9 +349,7 @@ export default class PageController extends Controller {
       postSelectValues = JSON.parse(jsonPostSelectValues.replace(/'/g, '"')) as string[];
     }
 
-    if (window.global_prefix === undefined) {
-      window.global_prefix = '';
-    }
+    window.global_prefix ??= '';
 
     jQuery(`select[data-filter-name='${filterName}']`).prop('disabled', true);
 
@@ -353,12 +362,12 @@ export default class PageController extends Controller {
     })
     .then((response) => response.html)
     .then((html) => {
-      const tagName = select.prop('tagName') as string;
+      const tagName = select.prop('tagName') as string | undefined;
 
       select.html(html);
       jQuery(`select[data-filter-name='${filterName}']`).prop('disabled', false);
 
-      if (tagName && tagName.toLowerCase() === 'select') {
+      if (tagName?.toLowerCase() === 'select') {
         if (!postSelectValues || postSelectValues.length === 0) {
           (select[0] as HTMLSelectElement).selectedIndex = 0;
         } else {
@@ -389,8 +398,7 @@ export default class PageController extends Controller {
 
   private showFilter(field:string, options:ShowFilterOptions = {}) {
     const defaultOptions = {
-      callback_func: () => {
-      },
+      callback_func: () => undefined,
       slowly: false,
       show_filter: true,
       hide_only: false,
@@ -400,9 +408,7 @@ export default class PageController extends Controller {
 
     const fieldEl = jQuery(`#filter_${field}`);
     if (fieldEl.length) {
-      if (!options.insert_after) {
-        options.insert_after = this.lastVisibleFilter();
-      }
+      options.insert_after ??= this.lastVisibleFilter();
 
       if (options.insert_after && options.show_filter) {
         if (fieldEl.attr('id') !== options.insert_after.id) {
@@ -414,8 +420,7 @@ export default class PageController extends Controller {
       if (options.show_filter) {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         options.slowly ? fieldEl.fadeIn('slow') : fieldEl.show();
-        this.filters.loadAvailableValuesForFilter(field, options.callback_func || (() => {
-        }));
+        this.filters.loadAvailableValuesForFilter(field, options.callback_func ?? (() => undefined));
         jQuery(`#rm_${field}`).val(field);
         this.valueChanged(field);
       } else {
@@ -491,7 +496,7 @@ export default class PageController extends Controller {
   }
 
   private setActiveState(selector:string, active:boolean) {
-    const input = document.querySelector(selector) as HTMLElement;
+    const input = document.querySelector<HTMLElement>(selector);
 
     if (!input) {
       return;
@@ -537,7 +542,7 @@ export default class PageController extends Controller {
         const field = jselect.val() as string;
         const container = jselect.closest('.group-by--container');
         const selectedOption = jselect.find(`[value='${field}']`).first();
-        const caption = selectedOption.attr('data-label') || '';
+        const caption = selectedOption.attr('data-label') ?? '';
 
         this.groupBys.add_group_by(field, caption, container);
         jselect.find('[value=\'\']').first().attr('selected', 'selected');
@@ -573,7 +578,7 @@ export default class PageController extends Controller {
   }
 
   private createLabel(groupBy:JQuery, text:string) {
-    const groupById = groupBy.attr('id') || '';
+    const groupById = groupBy.attr('id') ?? '';
     return jQuery('<label></label>')
       .attr('class', 'in_row group-by--label')
       .attr('for', groupById)
@@ -629,7 +634,7 @@ export default class PageController extends Controller {
       .attr('class', 'group-by--selected-element')
       .attr('data-group-by', field);
 
-    groupBy.uniqueId(); // give it a unique id
+    ensureId(groupBy[0]); // give it a unique id
 
     const label = this.createLabel(groupBy, caption);
     groupBy.append(label);
@@ -680,13 +685,13 @@ export default class PageController extends Controller {
 
       toggle_delete_form: (e:Event) => {
         e.preventDefault();
-        const offset = jQuery('#query-icon-delete').offset()?.left || 0;
+        const offset = jQuery('#query-icon-delete').offset()?.left ?? 0;
         jQuery('#delete_form').css('left', `${offset}px`).toggle();
       },
 
       toggle_save_as_form: (e:Event) => {
         e.preventDefault();
-        const offset = jQuery('#query-icon-save-as').offset()?.left || 0;
+        const offset = jQuery('#query-icon-save-as').offset()?.left ?? 0;
         jQuery('#save_as_form').css('left', `${offset}px`).toggle();
       },
     };
@@ -733,12 +738,12 @@ export default class PageController extends Controller {
     element[0].addEventListener('click', (e:Event) => {
       e.preventDefault();
       const target = jQuery(e.target as HTMLElement).closest('[data-target]').attr('data-target');
-      this.sendSettingsData(target || '', callback, failureCallback);
+      this.sendSettingsData(target ?? '', callback, failureCallback);
     });
   }
 
   private sendSettingsData(targetUrl:string, callback:(_result:string) => void, failureCallback?:(_error:unknown) => void) {
-    const errorCallback = failureCallback || this.defaultFailureCallback;
+    const errorCallback = failureCallback ?? this.defaultFailureCallback;
     this.clearFlash();
 
     void post(targetUrl, { body: this.serializeSettingsForm() })
@@ -759,6 +764,7 @@ export default class PageController extends Controller {
   private serializeSettingsForm() {
     const queryForm = document.querySelector<HTMLFormElement>('#query_form')!;
     const formData = new FormData(queryForm);
+    this.syncActiveFilters(formData);
 
     ['rows', 'columns'].forEach((type) => {
       Array.from(document.querySelectorAll<HTMLElement>(`#group-by--${type} .group-by--selected-element`))
@@ -770,6 +776,178 @@ export default class PageController extends Controller {
     });
 
     return formData;
+  }
+
+  private syncActiveFilters(formData:FormData) {
+    formData.delete('fields[]');
+
+    this.visibleFilters().forEach((field) => {
+      const operator = this.filterOperator(field);
+      const hasValues = this.syncFilterValues(formData, field);
+
+      if (operator && operator.arity > 0 && !hasValues) {
+        formData.delete(`operators[${field}]`);
+        return;
+      }
+
+      formData.append('fields[]', field);
+      this.syncFilterOperator(formData, field, operator?.value);
+    });
+  }
+
+  private syncFilterOperator(formData:FormData, field:string, operatorValue?:string) {
+    const name = `operators[${field}]`;
+    const selectedOperator = operatorValue ?? this.filterOperator(field)?.value;
+
+    if (!selectedOperator) {
+      return;
+    }
+
+    formData.delete(name);
+    formData.append(name, selectedOperator);
+  }
+
+  private syncFilterValues(formData:FormData, field:string) {
+    const arrayName = `values[${field}][]`;
+    const scalarName = `values[${field}]`;
+    const filter = document.querySelector<HTMLElement>(`#filter_${field}`);
+
+    formData.delete(arrayName);
+    formData.delete(scalarName);
+    if (!filter) {
+      return false;
+    }
+
+    const fields = Array.from(filter.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea'))
+      .filter((element) => element.name === arrayName || element.name === scalarName)
+      .filter((element) => !element.disabled);
+
+    const nonEmptyFields = fields.filter((element) => element.value !== '');
+    if (nonEmptyFields.length === 0) {
+      return this.serializeFilterComponentValue(formData, filter, arrayName);
+    }
+
+    let serializedValueCount = 0;
+    nonEmptyFields.forEach((element) => {
+      if (element instanceof HTMLSelectElement) {
+        const selectedOptions = Array.from(element.selectedOptions);
+
+        if (selectedOptions.length === 0) {
+          formData.append(element.name, element.value);
+          serializedValueCount += 1;
+          return;
+        }
+
+        selectedOptions.forEach((option) => {
+          formData.append(element.name, option.value);
+          serializedValueCount += 1;
+        });
+
+        return;
+      }
+
+      if ((element instanceof HTMLInputElement) && ['checkbox', 'radio'].includes(element.type) && !element.checked) {
+        return;
+      }
+
+      formData.append(element.name, element.value);
+      serializedValueCount += 1;
+    });
+
+    return serializedValueCount > 0;
+  }
+
+  private serializeFilterComponentValue(formData:FormData, filter:HTMLElement, name:string) {
+    // Reporting filters embed Angular custom elements that may not materialize
+    // matching named inputs until the user interacts with them.
+    const datePicker = filter.querySelector<HTMLElement>('[data-name][data-value]');
+    const normalizedName = this.normalizeQuotedDatasetValue(datePicker?.dataset.name);
+    const dateValue = this.normalizeQuotedDatasetValue(datePicker?.dataset.value);
+
+    if (normalizedName === name && dateValue) {
+      formData.append(name, dateValue);
+      return true;
+    }
+
+    const autocompleter = filter.querySelector<HTMLElement>('[data-input-name][data-model]');
+    const inputName = this.normalizeQuotedDatasetValue(autocompleter?.dataset.inputName);
+
+    if (inputName !== name.replace(/\[\]$/, '')) {
+      return false;
+    }
+
+    const parsedModel = this.parseQuotedJson(autocompleter?.dataset.model);
+    if (!Array.isArray(parsedModel)) {
+      return false;
+    }
+
+    let serializedValueCount = 0;
+    parsedModel
+      .map((value) => this.autocompleterValueId(value))
+      .filter((value):value is string => typeof value === 'string' && value.length > 0)
+      .forEach((value) => {
+        formData.append(name, value);
+        serializedValueCount += 1;
+      });
+
+    return serializedValueCount > 0;
+  }
+
+  private filterOperator(field:string) {
+    const operatorName = `operators[${field}]`;
+    const operatorSelect = document.querySelector<HTMLSelectElement>(`[name="${operatorName}"]`);
+    const selectedValue = operatorSelect?.value;
+
+    if (!operatorSelect || !selectedValue) {
+      return undefined;
+    }
+
+    const selectedOption = operatorSelect.selectedOptions[0];
+    const arity = parseInt(selectedOption?.dataset.arity ?? '0', 10);
+
+    return {
+      value: selectedValue,
+      arity,
+    };
+  }
+
+  private autocompleterValueId(value:unknown) {
+    if (!value || typeof value !== 'object' || !('id' in value)) {
+      return undefined;
+    }
+
+    const { id } = value;
+    if (typeof id === 'string') {
+      return id;
+    }
+
+    if (typeof id === 'number') {
+      return String(id);
+    }
+
+    return undefined;
+  }
+
+  private normalizeQuotedDatasetValue(value?:string) {
+    if (!value) {
+      return value;
+    }
+
+    // AngularHelper serializes string inputs with `.to_json`, so string
+    // dataset values arrive wrapped in literal double quotes.
+    return value.replace(/^"+|"+$/g, '');
+  }
+
+  private parseQuotedJson(value?:string):unknown {
+    if (!value) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(value);
+    } catch {
+      return undefined;
+    }
   }
 
   private defaultFailureCallback = (error:unknown) => {

@@ -78,15 +78,15 @@ OpenProject is your go-to product, which enables a successful implementation of 
 
 Each PM² project is established as an individual OpenProject project, incorporating the PM²-specific roles. Projects can be configured with:
 
-+ **Project members** assigned to specific PM² roles (Project Owner, Business Manager, Project Manager, Project Steering Committee etc.)
-+ **Project life cycle / phases** to split projects into the four sequential and non-overlapping PM² project life cycle phases
-+ **Custom work packages** to mirror the PM²-specific artefacts (e.g. Business Case, Project Handbook etc.) incl. official PM² artefacts templates
-+ **Gantt charts** for giving you a visual timeline of your PM² project
-+ **Meetings module** to help you prepare meetings (incl. agenda, reference to work packages) and collect all meeting-relevant information in one place
+- **Project members** assigned to specific PM² roles (Project Owner, Business Manager, Project Manager, Project Steering Committee etc.)
+- **Project life cycle / phases** to split projects into the four sequential and non-overlapping PM² project life cycle phases
+- **Custom work packages** to mirror the PM²-specific artefacts (e.g. Business Case, Project Handbook etc.) incl. official PM² artefacts templates
+- **Gantt charts** for giving you a visual timeline of your PM² project
+- **Meetings module** to help you prepare meetings (incl. agenda, reference to work packages) and collect all meeting-relevant information in one place
 
 ### How to use project templates to quickly setup new PM² projects?
 
-You can also use **[project templates](https://www.openproject.org/docs/user-guide/projects/project-templates)** to make it easier to create new PM² projects with the same structure, set of enabled modules or **custom work package templates**. We highly recommend using **project templates** for standardizing PM² project setup across the organization. This will also help you guide users who are new to PM² methodology. Once a new PM² project is created using a template, it can then be modified in any way in order to allow the tailoring of the methodology.
+You can also use **[project templates](../../user-guide/projects/project-templates)** to make it easier to create new PM² projects with the same structure, set of enabled modules or **custom work package templates**. We highly recommend using **project templates** for standardizing PM² project setup across the organization. This will also help you guide users who are new to PM² methodology. Once a new PM² project is created using a template, it can then be modified in any way in order to allow the tailoring of the methodology.
 
 ### How to setup and manage PM² phases?
 
@@ -106,8 +106,6 @@ The three PM² phase gates are:
 To conduct the approval process we suggest to use work packages in combination with the meeting module. Create a work package and a corresponding meeting, Use the phase-exit checklist to evaluate the readiness for the next project phase.
 
 ![Initiating phase-exit checklist in the meeting module in OpenProject](openproject_use_case_PM2_meeting-phase-review.png)
-
-
 
 ### How to create and share PM² artefacts with OpenProject?
 
@@ -129,29 +127,30 @@ OpenProject provides multiple views for managing PM² project work effectively.
 
 **Table view:**  
 
-* Tabular display of all project artefacts and deliverables
-* Customizable sorting, grouping, and filtering by PM² phases or artefact types
+- Tabular display of all project artefacts and deliverables
+- Customizable sorting, grouping, and filtering by PM² phases or artefact types
 
-These tables are highly customizable and can be [configured](https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
+These tables are highly customizable and can be [configured](../../user-guide/work-packages/work-package-table-configuration) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
 
 To quickly access your most used table views, save these as your **favorite filters**. These will be visible to all project members. For PM² we recommend sorting all tasks per phase. With this view you can fully focus on the essential tasks within the current phase.
 
 ![Table view containing work packages from the Planning Phase in OpenProject](openproject_use_case_PM2_planning_phase_pm2.png)
 
 **Gantt View:**  
-* Timeline-based visualization of PM² phases  
-* Dependencies between tasks and artefacts  
-* Critical path analysis for phase gate readiness
 
-The [Gantt chart](https://www.openproject.org/docs/user-guide/gantt-chart) module allows you to quickly visualize planning of each phase in a timeline view that also displays [work package relations](https://www.openproject.org/docs/user-guide/work-packages/work-package-relations-hierarchies). Like table view, it can be filtered to create custom views that can be saved.
+- Timeline-based visualization of PM² phases  
+- Dependencies between tasks and artefacts  
+- Critical path analysis for phase gate readiness
+
+The [Gantt chart](../../user-guide/gantt-chart) module allows you to quickly visualize planning of each phase in a timeline view that also displays [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies). Like table view, it can be filtered to create custom views that can be saved.
 
 ![Gantt view showing the work packages in the Planning Phase](openproject_use_case_PM2_gantt_view_planning_phase_pm2.png)
 
 **Board View**:
 
-* Phases board presenting split of tasks into different phases.
-* Assignee board with automated columns based on assigned users. Ideal for dispatching work packages.
-* Basic Kanban style board with columns for status such as To Do, In Progress, Done.
+- Phases board presenting split of tasks into different phases.
+- Assignee board with automated columns based on assigned users. Ideal for dispatching work packages.
+- Basic Kanban style board with columns for status such as To Do, In Progress, Done.
 
 ![Board view showing all tasks per phase in OpenProject](openproject_use_case_PM2_phases_board.png)
 
@@ -175,10 +174,8 @@ PM² emphasizes **accountability, transparency, and stakeholder communication**,
 
 ![Project overview in OpenProject](openproject_use_case_PM2_project_overview.png)
 
+## Here for you now
 
+OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your PM² implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](../../user-guide/budgets), [time and cost tracking](../../user-guide/time-and-costs), [wiki](../../user-guide/wiki) and [file storage integrations](../../development/file-storage-integration)) that further enable your PM² teams to work efficiently and deliver value.
 
-## Here for you now!
-
-OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your PM² implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](https://www.openproject.org/docs/user-guide/budgets), [time and cost tracking](https://www.openproject.org/docs/user-guide/time-and-costs), [wiki](https://www.openproject.org/docs/user-guide/wiki) and [file storage integrations](https://www.openproject.org/docs/development/file-storage-integration)) that further enable your PM² teams to work efficiently and deliver value.
-
-If you have questions about how to [use](https://www.openproject.org/docs/getting-started) and [configure](https://www.openproject.org/docs/system-admin-guide) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself.
+If you have questions about how to [use](../../getting-started) and [configure](../../system-admin-guide) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself.

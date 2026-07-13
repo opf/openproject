@@ -148,9 +148,9 @@ RSpec.describe "Work package index sums", :js do
         expect(row).to have_css(".percentageDone", text: "50%")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
-        expect(row).to have_css(".laborCosts", text: "15.00 EUR")
-        expect(row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-        expect(row).to have_css(".overallCosts", text: "22.50 EUR")
+        expect(row).to have_css(".laborCosts", text: "15.00 €")
+        expect(row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+        expect(row).to have_css(".overallCosts", text: "22.50 €")
       end
     end
 
@@ -167,9 +167,9 @@ RSpec.describe "Work package index sums", :js do
         expect(row).to have_css(".percentageDone", text: "44%")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
-        expect(row).to have_css(".laborCosts", text: "15.00 EUR")
-        expect(row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-        expect(row).to have_css(".overallCosts", text: "22.50 EUR")
+        expect(row).to have_css(".laborCosts", text: "15.00 €")
+        expect(row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+        expect(row).to have_css(".overallCosts", text: "22.50 €")
       end
     end
 
@@ -188,9 +188,9 @@ RSpec.describe "Work package index sums", :js do
       expect(first_sum_row).to have_css(".percentageDone", text: "40%")
       expect(first_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "5")
       expect(first_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "5.5")
-      expect(first_sum_row).to have_css(".laborCosts", text: "15.00 EUR")
-      expect(first_sum_row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-      expect(first_sum_row).to have_css(".overallCosts", text: "22.50 EUR")
+      expect(first_sum_row).to have_css(".laborCosts", text: "15.00 €")
+      expect(first_sum_row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+      expect(first_sum_row).to have_css(".overallCosts", text: "22.50 €")
     end
 
     # Second status row
@@ -213,9 +213,9 @@ RSpec.describe "Work package index sums", :js do
         expect(row).to have_css(".percentageDone", text: "44%")
         expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
         expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
-        expect(row).to have_css(".laborCosts", text: "15.00 EUR")
-        expect(row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-        expect(row).to have_css(".overallCosts", text: "22.50 EUR")
+        expect(row).to have_css(".laborCosts", text: "15.00 €")
+        expect(row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+        expect(row).to have_css(".overallCosts", text: "22.50 €")
       end
     end
 
@@ -289,9 +289,9 @@ RSpec.describe "Work package index sums", :js do
           expect(row).to have_css(".percentageDone", text: "50%")
           expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "24")
           expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "26.4")
-          expect(row).to have_css(".laborCosts", text: "40.00 EUR")
-          expect(row).to have_css(".materialCosts", text: "18.00 EUR") # Unit costs
-          expect(row).to have_css(".overallCosts", text: "58.00 EUR")
+          expect(row).to have_css(".laborCosts", text: "40.00 €")
+          expect(row).to have_css(".materialCosts", text: "18.00 €") # Unit costs
+          expect(row).to have_css(".overallCosts", text: "58.00 €")
         end
       end
 
@@ -336,9 +336,9 @@ RSpec.describe "Work package index sums", :js do
         expect(first_sum_row).to have_css(".percentageDone", text: "50%")
         expect(first_sum_row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "5")
         expect(first_sum_row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "5.5")
-        expect(first_sum_row).to have_css(".laborCosts", text: "15.00 EUR")
-        expect(first_sum_row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-        expect(first_sum_row).to have_css(".overallCosts", text: "22.50 EUR")
+        expect(first_sum_row).to have_css(".laborCosts", text: "15.00 €")
+        expect(first_sum_row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+        expect(first_sum_row).to have_css(".overallCosts", text: "22.50 €")
       end
 
       # Second status row
@@ -361,9 +361,9 @@ RSpec.describe "Work package index sums", :js do
           expect(row).to have_css(".percentageDone", text: "50%")
           expect(row).to have_css(".#{int_cf.attribute_name(:camel_case)}", text: "12")
           expect(row).to have_css(".#{float_cf.attribute_name(:camel_case)}", text: "13.2")
-          expect(row).to have_css(".laborCosts", text: "15.00 EUR")
-          expect(row).to have_css(".materialCosts", text: "7.50 EUR") # Unit costs
-          expect(row).to have_css(".overallCosts", text: "22.50 EUR")
+          expect(row).to have_css(".laborCosts", text: "15.00 €")
+          expect(row).to have_css(".materialCosts", text: "7.50 €") # Unit costs
+          expect(row).to have_css(".overallCosts", text: "22.50 €")
         end
       end
     end

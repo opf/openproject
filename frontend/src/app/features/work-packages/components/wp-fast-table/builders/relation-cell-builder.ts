@@ -3,7 +3,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import {
   WorkPackageViewRelationColumnsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { QueryColumn, queryColumnTypes } from '../../wp-query/query-column';
@@ -13,11 +13,11 @@ export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
 
 export class RelationCellbuilder {
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  @LazyInject() wpRelations:WorkPackageRelationsService;
 
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
   constructor(public readonly injector:Injector) {
   }

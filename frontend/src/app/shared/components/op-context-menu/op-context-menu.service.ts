@@ -1,4 +1,4 @@
-import { ApplicationRef, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, ComponentType, DomPortalOutlet } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
@@ -11,6 +11,11 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 
 @Injectable({ providedIn: 'root' })
 export class OPContextMenuService {
+  readonly FocusHelper = inject(FocusHelperService);
+  private appRef = inject(ApplicationRef);
+  private $transitions = inject(TransitionService);
+  private injector = inject(Injector);
+
   public active:OpContextMenuHandler|null = null;
 
   // Hold a reference to the DOM node we're using as a host
@@ -22,14 +27,6 @@ export class OPContextMenuService {
   // Allow temporarily disabling the close handler
   private isOpening = false;
   private openSeq = 0;
-
-  constructor(
-    readonly FocusHelper:FocusHelperService,
-    private appRef:ApplicationRef,
-    private $transitions:TransitionService,
-    private injector:Injector,
-  ) {
-  }
 
   public register() {
     const existing = document.querySelector('.op-context-menu--overlay');

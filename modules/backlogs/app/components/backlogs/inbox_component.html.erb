@@ -1,0 +1,97 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= component_wrapper(tag: :section) do %>
+  <%=
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: dom_target(:inbox, project),
+        current_user:,
+        interactive: true,
+        scheme: :transparent,
+        padding: :condensed,
+        header_padding: :default,
+        test_selector: "backlog-inbox",
+        data: {
+          generic_drag_and_drop_target: "container",
+          target_container_accessor: ":scope > ul",
+          target_id: Backlogs::Target::InboxId.to_s, # explicit to_s, as otherwise to_json is used
+          target_allowed_drag_type: "story"
+        }
+      )
+    ) do |list|
+      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 }) do |header|
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_add_work_package_menu_group(menu, Backlogs::Target::Inbox)
+        end
+      end
+
+      list.with_empty_state(
+        title: t(".blankslate_title"),
+        description: t(".blankslate_description"),
+        icon: :"op-backlogs",
+        spacious: true
+      )
+
+      visible_work_packages.each.with_index do |work_package, index|
+        list.with_work_package_item(
+          work_package:,
+          project:,
+          params: backlog_filter_params,
+          component_klass: Backlogs::WorkPackageCardListItemComponent
+        )
+
+        if truncated? && index == TRUNCATE_MIDDLE - 1
+          list.with_item(
+            scheme: :neutral,
+            classes: "op-work-package-card-list--show-more-row",
+            data: { draggable_id: last_omitted_id }
+          ) do
+            render(
+              Primer::Beta::Button.new(
+                id: show_more_id,
+                scheme: :link,
+                tag: :a,
+                size: :large,
+                block: true,
+                align_content: :start,
+                underline: true,
+                href: project_backlogs_backlog_path(project, backlog_filter_params.merge(all: true)),
+                data: {
+                  turbo_frame: "backlogs_container",
+                  turbo_action: :advance
+                }
+              )
+            ) { show_more_label }
+          end
+        end
+      end
+    end
+  %>
+<% end %>

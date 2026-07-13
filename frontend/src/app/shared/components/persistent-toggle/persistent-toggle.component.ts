@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { slideDown, slideUp } from 'es6-slide-up-down';
 
 
@@ -34,8 +34,14 @@ import { slideDown, slideUp } from 'es6-slide-up-down';
   selector: 'opce-persistent-toggle',
   template: '',
   standalone: false,
+  // TODO: This component has been partially migrated to be zoneless-compatible.
+  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PersistentToggleComponent implements OnInit {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   /** Unique identifier of the toggle */
   private identifier:string;
 
@@ -46,9 +52,6 @@ export class PersistentToggleComponent implements OnInit {
   private element:HTMLElement;
 
   private targetNotification:HTMLElement|null;
-
-  constructor(private elementRef:ElementRef<HTMLElement>) {
-  }
 
   ngOnInit():void {
     this.element = this.elementRef.nativeElement;
@@ -85,7 +88,7 @@ export class PersistentToggleComponent implements OnInit {
     window.OpenProject.guardedLocalStorage(this.identifier, (!!isNowHidden).toString());
 
     const targetNotification = this.targetNotification;
-    if (!targetNotification) return; 
+    if (!targetNotification) return;
 
     if (isNowHidden) {
       slideUp(targetNotification, 400);

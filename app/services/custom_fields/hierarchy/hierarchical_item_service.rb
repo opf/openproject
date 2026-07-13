@@ -159,9 +159,9 @@ module CustomFields
         Success()
       end
 
+      # Soft delete the item and children
       def soft_delete_item(item:)
-        # Soft delete the item and children
-        raise NotImplementedError
+        raise SubclassResponsibilityError
       end
 
       # Returns a hash of Item => { Item => [Item] }

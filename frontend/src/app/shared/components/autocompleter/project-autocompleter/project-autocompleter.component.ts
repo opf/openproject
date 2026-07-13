@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { keyBy } from 'lodash-es';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -219,7 +220,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
 
   // Todo: Reduce duplication with method from user-autocompleter
   protected buildFilteredURL(searchTerm?:string):URL {
-    const filterObject = _.keyBy(this.filters, 'name');
+    const filterObject = keyBy(this.filters, 'name');
     const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
     if (searchTerm?.length) {

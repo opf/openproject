@@ -54,3 +54,4 @@ value:
   createdAt: '2014-05-21T08:51:20.396Z'
   updatedAt: '2014-05-21T08:51:20.396Z'
   customField123: 123
+  customComment123: Why is the value 123?

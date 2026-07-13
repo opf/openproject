@@ -148,6 +148,58 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
         end
       end
     end
+
+    context "if file references contain invalid formated values" do
+      let(:viewpoint_ref) { "viewpoint.bcfv" }
+      let(:snapshot_ref) { "snapshot.png" }
+      let(:markup) do
+        <<-MARKUP
+        <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <Topic Guid="#{SecureRandom.uuid}">
+            <Title>Path Traversal Attack</Title>
+            <CreationDate>2026-03-03T11:11:11Z</CreationDate>
+            <CreationAuthor>vader@death.star</CreationAuthor>
+          </Topic>
+          <Viewpoints Guid="#{SecureRandom.uuid}">
+            <Viewpoint>#{viewpoint_ref}</Viewpoint>
+            <Snapshot>#{snapshot_ref}</Snapshot>
+          </Viewpoints>
+        </Markup>
+        MARKUP
+      end
+
+      context "with snapshot reference being a relative path" do
+        let(:snapshot_ref) { "../../../etc/verysecretfileonserver" }
+
+        it "raises an error" do
+          expect { subject.extract! }.to raise_error("Snapshot file reference is not a file basename.")
+        end
+      end
+
+      context "with snapshot reference being an absolute path" do
+        let(:snapshot_ref) { "/etc/verysecretfileonserver" }
+
+        it "raises an error" do
+          expect { subject.extract! }.to raise_error("Snapshot file reference is not a file basename.")
+        end
+      end
+
+      context "with viewpoint reference being a relative path" do
+        let(:viewpoint_ref) { "../../../etc/verysecretfileonserver" }
+
+        it "raises an error" do
+          expect { subject.extract! }.to raise_error("Viewpoint file reference is not a file basename.")
+        end
+      end
+
+      context "with viewpoint reference being an absolute path" do
+        let(:viewpoint_ref) { "/etc/verysecretfileonserver" }
+
+        it "raises an error" do
+          expect { subject.extract! }.to raise_error("Viewpoint file reference is not a file basename.")
+        end
+      end
+    end
   end
 
   context "on updating import" do

@@ -47,9 +47,9 @@ module OpenProject::GitlabIntegration
         @payload = wrap_payload(payload_params)
         return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
 
-        user = User.find_by_id(payload.open_project_user_id)
+        user = User.find_by(id: payload.open_project_user_id)
         text = [payload.object_attributes.title, payload.object_attributes.description]
-          .select(&:present?)
+          .compact_blank
           .join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
@@ -96,10 +96,9 @@ module OpenProject::GitlabIntegration
       end
 
       def merge_request
-        @merge_request ||= GitlabMergeRequest
-                            .where(gitlab_id: payload.object_attributes.iid)
-                            .or(GitlabMergeRequest.where(gitlab_html_url: payload.object_attributes.url))
-                            .take
+        return @merge_request if defined?(@merge_request)
+
+        @merge_request = GitlabMergeRequest.find_by(gitlab_html_url: payload.object_attributes.url)
       end
 
       def upsert_merge_request(work_packages)

@@ -10,16 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -44,6 +35,14 @@ import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers
   standalone: false,
 })
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
+  readonly halResourceService = inject(HalResourceService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+  protected currentProject = inject(CurrentProjectService);
+  protected currentUser = inject(CurrentUserService);
+  readonly halNotification = inject(HalResourceNotificationService);
+
   @Input() public filter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
@@ -85,18 +84,6 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
-  constructor(
-    readonly halResourceService:HalResourceService,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-    protected currentProject:CurrentProjectService,
-    protected currentUser:CurrentUserService,
-    readonly halNotification:HalResourceNotificationService,
-  ) {
-    super();
-  }
-
   ngOnInit():void {
     if (this.filter.id === 'id') {
       this.resourceType = 'work_packages';
@@ -114,8 +101,10 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       .initialRequest$
       .pipe(
         switchMap((initialLoad) => {
-          // If we already loaded all values, just compare in the frontend
-          if (initialLoad.count === initialLoad.total) {
+          // If we already loaded all values, just compare in the frontend.
+          // However, for work package ID filter, always make XHR requests to use typeahead filter
+          // which supports searching by type and status names.
+          if (this.filter.id !== 'id' && initialLoad.count === initialLoad.total) {
             return this.matchingItems(this.filterEmptyElements(initialLoad.elements), matching);
           }
 
@@ -213,12 +202,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   private get isUserResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('User') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('User') > 0;
   }
 
   private get isVersionResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('Version') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('Version') > 0;
   }
 }

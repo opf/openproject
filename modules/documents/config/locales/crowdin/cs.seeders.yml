@@ -7,14 +7,14 @@ cs:
     common:
       document_types:
         item_0:
-          name: Note
+          name: Poznámka
         item_1:
-          name: Idea
+          name: Nápad
         item_2:
-          name: Proposal
+          name: Návrh
         item_3:
-          name: Specification
+          name: Specifikace
         item_4:
           name: Report
         item_5:
-          name: Documentation
+          name: Dokumentace

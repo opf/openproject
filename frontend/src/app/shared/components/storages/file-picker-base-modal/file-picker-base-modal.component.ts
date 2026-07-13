@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   BehaviorSubject,
@@ -46,9 +39,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
@@ -69,6 +60,9 @@ type Alert = 'none'|'noAccess'|'managedFolderNoAccess'|'managedFolderNotFound'|'
 
 @Directive()
 export abstract class FilePickerBaseModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+  protected readonly sortFilesPipe = inject(SortFilesPipe);
+  protected readonly storageFilesResourceService = inject(StorageFilesResourceService);
+
   private loadingSubscription:Subscription;
 
   protected readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
@@ -96,16 +90,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   public readonly loading$ = new BehaviorSubject<'loading'|'success'|'error'>('loading');
 
-  protected constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-    protected readonly sortFilesPipe:SortFilesPipe,
-    protected readonly storageFilesResourceService:StorageFilesResourceService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
-
   ngOnInit():void {
     super.ngOnInit();
 
@@ -120,10 +104,11 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
           this.storageFiles$.next(storageFiles.files);
           this.loading$.next('success');
+          this.cdRef.detectChanges();
         },
-        error: (error) => {
+        error: () => {
           this.loading$.next('error');
-          throw error;
+          this.cdRef.detectChanges();
         },
       });
   }
@@ -131,6 +116,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   ngOnDestroy():void {
     super.ngOnDestroy();
 
+    this.cancelCurrentLoading();
     this.storageFilesResourceService.reset();
   }
 
@@ -151,6 +137,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   protected changeLevel(ancestor:IStorageFile):void {
     this.cancelCurrentLoading();
     this.loading$.next('loading');
+    this.cdRef.detectChanges();
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storage._links.self, ancestor.location))
@@ -160,10 +147,11 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
           this.storageFiles$.next(storageFiles.files);
           this.loading$.next('success');
+          this.cdRef.detectChanges();
         },
-        error: (error) => {
+        error: () => {
           this.loading$.next('error');
-          throw error;
+          this.cdRef.detectChanges();
         },
       });
   }
@@ -173,7 +161,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       return of('/');
     }
 
-    if (this.locals.projectFolderMode === 'automatic' && this.locals.projectFolderHref === null) {
+    if (this.locals.projectFolderMode === 'automatic' && !this.locals.projectFolderHref) {
       this.showAlert.next('managedFolderNotFound');
       return of('/');
     }

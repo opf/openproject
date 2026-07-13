@@ -72,7 +72,7 @@ module Projects
               if toggle_disabled?
                 # Add hover card that explains why this toggle switch is disabled
                 data[:hover_card_trigger_target] = "trigger"
-                data[:hover_card_popover_id] = unique_hovercard_id
+                data[:hover_card_popover_template_id] = unique_hovercard_id
               end
             end
           end

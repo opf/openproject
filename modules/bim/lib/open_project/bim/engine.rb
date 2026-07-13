@@ -54,7 +54,7 @@ module OpenProject::Bim
                    permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
         permission :manage_ifc_models,
-                   { "bim/ifc_models/ifc_models": %i[index show destroy edit update create new] },
+                   { "bim/ifc_models/ifc_models": %i[index show destroy edit update create new set_direct_upload_file_name direct_upload_finished] },
                    permissible_on: :project,
                    dependencies: %i[view_ifc_models],
                    contract_actions: { ifc_models: %i[create update destroy] }
@@ -238,7 +238,7 @@ module OpenProject::Bim
 
       OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
                                                     store: false) do |_strategies|
-        %i[oauth session]
+        %i[oauth session anonymous_fallback]
       end
     end
     config.to_prepare do

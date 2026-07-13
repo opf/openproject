@@ -5,8 +5,8 @@
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
+  createComponent,
   EmbeddedViewRef,
   Injector,
 } from '@angular/core';
@@ -36,14 +36,13 @@ export class TabPortalOutlet {
   constructor(
     public availableTabs:TabInterface[],
     public outletElement:HTMLElement,
-    private componentFactoryResolver:ComponentFactoryResolver,
     private appRef:ApplicationRef,
     private injector:Injector,
   ) {
   }
 
   public get activeComponents():TabComponent[] {
-    const tabs = _.values(this.activeTabs);
+    const tabs = Object.values(this.activeTabs);
     return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
@@ -79,7 +78,7 @@ export class TabPortalOutlet {
    */
   dispose():void {
     // Dispose all active tabs
-    _.each(this.activeTabs, (active) => active.dispose());
+    Object.values(this.activeTabs).forEach((active) => active.dispose());
 
     // Remove outlet element
     if (this.outletElement.parentNode != null) {
@@ -96,8 +95,10 @@ export class TabPortalOutlet {
   }
 
   private createComponent(tab:TabInterface):ActiveTabInterface {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(tab.componentClass);
-    const componentRef = componentFactory.create(this.injector);
+    const componentRef = createComponent(tab.componentClass, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: this.injector,
+    });
     const portal = new ComponentPortal(tab.componentClass, null, this.injector);
 
     // Attach component view

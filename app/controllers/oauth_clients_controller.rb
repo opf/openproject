@@ -74,22 +74,24 @@ class OAuthClientsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def ensure_connection
     client_id = params.fetch(:oauth_client_id)
-    storage_id = params.fetch(:storage_id)
-    oauth_client = OAuthClient.find_by(client_id:, integration_id: storage_id)
+    integration_id = params.fetch(:integration_id)
+    oauth_client = OAuthClient.find_by(client_id:, integration_id:)
 
-    handle_absent_oauth_client unless oauth_client
+    return handle_absent_oauth_client unless oauth_client
 
-    storage = oauth_client.integration
-    # check if the origin is the same
+    integration = oauth_client.integration
     destination_url = destination_url(params.fetch(:destination_url, ""))
-    auth_state = ::Storages::Adapters::Authentication.authorization_state(storage:, user: User.current)
+    configuration = integration.oauth_configuration
+    connection = ::OAuthClients::ConnectionManager.new(user: User.current, configuration:)
+                                                  .get_access_token
 
-    if auth_state == :connected
+    if connection.success?
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
-      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
-      redirect_to(storage.oauth_configuration.authorization_uri(state: nonce), allow_other_host: true)
+      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, integrationId: integration_id }.to_json,
+                                          expires: 1.hour }
+      redirect_to(configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
 
@@ -196,9 +198,9 @@ class OAuthClientsController < ApplicationController
 
       # FIXME: This is a hack, fetching additional information of the storage to identify the oauth client.
       # This must be fixed in #50872.
-      state_value = MultiJson.load(cookie, symbolize_keys: true)
+      state_value = MultiJSON.load(cookie, symbolize_keys: true)
       @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
-                                          integration_id: state_value[:storageId])
+                                          integration_id: state_value[:integrationId])
     end
 
     @oauth_client = oauth_client_from_cookie.call

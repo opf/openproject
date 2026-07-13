@@ -1,0 +1,190 @@
+## Basic Interactivity
+
+An agreed pattern in OpenProject is to hide fields that only make sense when a precondition is met. For example, if a checkbox enables a feature, all configuration fields for that feature should be hidden until the checkbox is checked. This reduces cognitive load and prevents users from filling in fields that will have no effect.
+
+For this purpose, there is the Stimulus controller `show-when-value-selected`.
+
+To use it, pass the controller to the form, and then use `cause` and `effect` targets together with a `data-value`.
+
+Basic example:
+
+```ruby
+primer_form_with(
+  data: { controller: "show-when-value-selected" }
+) do |f|
+  render_inline_form(f) do |my_form|
+    my_form.select_list(
+      name: "frequency",
+      label: "Choose frequency",
+      data: {
+        target_name: "frequency",
+        "show-when-value-selected-target": "cause"
+      }
+    ) do |list|
+      list.option(label: "Foo", value: "foo")
+      list.option(label: "Bar", value: "bar")
+      list.option(label: "Third option", value: "other")
+    end
+
+    # Will be shown when "Foo" is selected
+    my_form.text_field(
+     name: :interval,
+     type: :number,
+     data: {
+        target_name: "frequency",
+        value: "foo",
+        "show-when-value-selected-target": "cause"
+      })
+
+    # Will be shown when "Bar" is selected
+    my_form.text_field(
+     name: :random,
+     type: :text,
+     data: {
+        target_name: "frequency",
+        value: "bar",
+        "show-when-value-selected-target": "effect"
+      })
+
+    # Will be shown when not "other" is selected
+    my_form.text_field(
+     name: :random,
+     type: :text,
+     hidden: @my_object.state == 'other',
+     data: {
+        target_name: "frequency",
+        not_value: "other",
+        "show-when-value-selected-target": "effect"
+      })
+  end
+end
+```
+
+Important data inputs:
+
+- `"show-when-value-selected-target": "cause"` marks a field as the emitter of a change. Whenever this input changes, the other fields visibility will be toggled.
+- `"show-when-value-selected-target": "effect"` is the input that will get hidden or shown depending on the selected value
+- `data: { value: 'XYZ'}` or `data-value="XYZ"` the value to be checked against the cause
+- `data: { not_value: 'XYZ'}` or `data-not-value="XYZ"` the value to be checked against the cause, resulting in it being hidden if the selected value is the given one.
+- data: `{ target_name: "abc"}` or `data-target-name="abc"` allows you to define multiple sets of cause/effect handlers
+- If you want the target to be visibly blocked, not hidden, then use `data: { set_visibility: "true" }`. By default, the field will be hidden and removed from DOM computation.
+
+
+## Advanced Interactivity by previewing forms before submission
+
+In order to implement complex form interactions other than hiding or showing fields, we can use the form preview pattern. A few examples of such interactions include displaying instant form validation errors on a changed field, or on its related fields. Another example is updating the caption of an input field based on its value. Handling each element update separately in these scenarios would be too cumbersome. A much better approach is to re-render the whole form when a field changes, preferably using a turbo streams morph response.
+
+### How it works:
+
+The form preview mechanism can be applied to any form by binding the `form-preview` global stimulus controller to it and then watch the input fields for changes:
+
+  ```ruby
+    primer_form_with(
+      url: "/foo",
+      method: :get,
+      data: {
+        "controller": "form-preview",
+        "form-preview-url-value": preview_path
+      }
+    ) do |f|
+      f.text_field(name: :answer, data: { action: "change->form-preview#submit" })
+    end
+  ```
+- `"controller": "form-preview"` will activate the stimulus controller that processes the form refresh.
+- `"form-preview-url-value"` defines the path to be used for submitting the form preview.
+- Setting the `data: { action: "change->form-preview#submit" }` on an individual input field will trigger the form preview action when the field is changed.
+
+### Customizing the triggering mechanism:
+
+In some cases we might want to further customize the triggering behaviour, for example when using a date range picker input field. For date range pickers we want to trigger the form preview only when the both the start and end dates are chosen and the datepicker is closed. The solution is to create a form specific controller that will inherit from the `FormPreviewController` controller, and it decides if the `submit` action needs to be called.
+
+1. The form specific controller handles the input changes on the form. It also calls the `submit()` function from the parent controller when the date range picker is not visible anymore.
+
+    ```typescript
+      export default class CustomFormPreviewFormController extends FormPreviewController {
+        previewForm(event:Event) {
+          const target = event.target as HTMLElement;
+          if (this.datePickerVisible(target)) {
+            return; // The datepicker is still open, do not submit yet.
+          }
+
+          this.submit();
+        }
+      }
+    ```
+2. The definition of the controller and the preview url should also point to the new controller:
+
+    ```ruby
+      primer_form_with(
+        url: "/foo",
+        method: :get,
+        data: {
+          "controller": "custom-form-preview",
+          "custom-form-preview-url-value": preview_path
+        }
+      ) do |f|
+        f.text_field(name: :answer, data: { action: "change->custom-form-preview#previewForm" })
+      end
+    ```
+  - The `data: { action: "change->custom-form-preview#previewForm" }` watches the input changes and calls the `custom-form-preview#previewForm`.
+
+**Important note:** Javascript rendered elements inside the form such as the datepicker above, could be broken after the form update. This happens, because the datepicker input get replaced without re-initializing the datepicker library. To fix the issue, we can either avoid updating the datepicker input elements using "data-turbo-permanent", or we can programmatically re-initialize them after the form update. In case of angular components, this issue is solved automatically by not updating them the components. For more info see the `turbo:before-morph-element` eventlistener in the `turbo-global-listeners.ts`.
+
+
+### How to handle the form preview actions on the backend?
+
+The form preview mechanism shown above can be nicely tied with our existing ActiveRecord object saving services.
+
+1. First, we'll create a `PreviewAttributesService` that inherits from the `SetAttributes` service. This new service is nearly identical to `SetAttributes`, with one key difference: it clears validation errors for fields that the user hasn't modified. This is particularly important when creating new objects. For instance, if the user modifies the first input field, all fields will be validated and errors will be displayed, which is undesirable. Instead, we want to display errors incrementally as the user progresses through the form. With this approach, users will experience instant validation as they complete each field.
+
+    ```ruby
+      module WorkPackages
+        class PreviewAttributesService < ::BaseServices::SetAttributes
+          def perform(*)
+            super.tap do |service_call|
+              clear_unchanged_fields(service_call)
+            end
+          end
+
+          private
+
+          def clear_unchanged_fields(service_call)
+            work_package = service_call.result
+            work_package
+              .errors
+              .select { |error| work_package.changed.exclude?(error.attribute.to_s) }
+              .each do |error|
+                work_package.errors.delete(error.attribute)
+              end
+          end
+        end
+      end
+    ```
+
+2. Then we define a new controller member action called `work_package_form` alongside the crud actions and use the newly defined `PreviewAttributesService`.
+
+    ```ruby
+      class WorkPackagesController < ApplicationController
+        def work_package_form
+          service_call = ::WorkPackages::PreviewAttributesService
+              .new(user: current_user,
+                   model: @work_package,
+                   contract_class: WorkPackage::UpdateContract)
+              .call(permitted_params.work_package)
+
+          update_via_turbo_stream(
+            component: WorkPackages::EditComponent.new(service_call.result),
+            method: "morph"
+          )
+
+          # TODO: :unprocessable_entity is not nice, change the dialog logic to accept :ok
+          # without dismissing the dialog, alternatively use turbo frames instead of streams.
+          respond_to_with_turbo_streams(status: :unprocessable_entity)
+        end
+      end
+    ```
+  - For a smoother user experience, it is recommended to respond with the `method: "morph"` via turbo streams. This will ensure the user's input focus is maintained between field updates. It is useful for form previews that are triggered on a keystroke event instead of the change event.
+  - The turbo stream response could be replaced with a plain turbo drive html response, once we have the turbo drive morphing enabled.
+  - Responding with a `status: :unprocessable_entity` is also important, because we intend to display validation errors on the form.
+
+3. Having the service and the controller action in place, we can defined form preview path on the form by adding the `"form-preview-url-value": work_packages_form_path(@work_package)` attribute.

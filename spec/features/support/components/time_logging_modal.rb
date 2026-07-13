@@ -47,7 +47,7 @@ module Components
 
     def change_hours(value)
       within modal_container do
-        fill_in "time_entry_hours", with: value
+        fill_in "time_entry_hours_display", with: value
       end
     end
 

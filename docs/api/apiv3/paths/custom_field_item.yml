@@ -36,7 +36,10 @@ get:
                 errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
                 message: You are not authorized to access this resource.
     '404':
-      description: Returned if the custom field item does not exist or the user is not logged in.
+      description: |-
+        Returned if the custom field item does not exist or the user lacks permission to see it.
+
+        The permission required to view the item depends on the custom field it belongs to.
       content:
         application/hal+json:
           schema:

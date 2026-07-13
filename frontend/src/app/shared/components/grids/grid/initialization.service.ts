@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -10,10 +10,9 @@ import {
 
 @Injectable()
 export class GridInitializationService {
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly halResourceService:HalResourceService) {
-  }
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly halResourceService = inject(HalResourceService);
+
 
   // If a page with the current page exists (scoped to the current user by the backend)
   // that page will be used to initialized the grid.

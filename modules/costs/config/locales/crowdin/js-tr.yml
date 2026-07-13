@@ -19,23 +19,18 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
+---
 tr:
   js:
-    costs:
-      widgets:
-        actual_costs:
-          blankslate:
-            title: "Geçerli yıl için veri yok"
-            description: "Gerçek maliyetleri izlemeye başlamak için iş paketleri için harcanan zamanı ve maliyetleri kaydedin"
-    text_are_you_sure: "Emin misiniz?"
+    button_log_costs: Günlük birim maliyetleri
+    label_hour: saat
+    label_hours: saatler
     myTimeTracking:
-      noSpecificTime: "Belirli bir zaman yok"
+      noSpecificTime: Belirli bir zaman yok
+    text_are_you_sure: Emin misiniz?
     work_packages:
-      property_groups:
-        costs: "Maliyetler"
       properties:
-        overallCosts: "Tüm maliyetler"
-        spentUnits: "Harcanan maliyet"
-    button_log_costs: "Günlük birim maliyetleri"
-    label_hour: "saat"
-    label_hours: "saatler"
+        overallCosts: Tüm maliyetler
+        spentUnits: Harcanan maliyet
+      property_groups:
+        costs: Maliyetler
