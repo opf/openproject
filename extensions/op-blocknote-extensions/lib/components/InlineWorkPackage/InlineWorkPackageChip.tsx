@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useWorkPackagePreview } from '../../hooks/useWorkPackagePreview';
@@ -93,8 +93,6 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const { previewOpen, closePreview, wasLongPress, triggerProps, cardProps } =
     useWorkPackagePreview({ enabled: size === 'xxs', suppressed: isSelected });
 
-  const closeOptions = useCallback(() => setIsSelected(false), []);
-
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
   const setRef = (node:HTMLElement | null) => {
@@ -109,6 +107,17 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
+  const handleWorkPackageClick = (e:React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // A long press already opened the preview; swallow the trailing click.
+    if (wasLongPress()) return;
+    closePreview();
+    setIsSelected((prev) => !prev);
+    selectWorkPackageNode();
+  };
+
   // Close the options popover and long-press preview when the user taps outside the chip
   useEffect(() => {
     if (!isSelected && !previewOpen) return;
@@ -121,6 +130,29 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     document.addEventListener('mousedown', onClickOutside);
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, [isSelected, previewOpen, closePreview]);
+
+  const optionsPopover = (
+    <WpOptionsPopover
+      wp={wp ?? undefined}
+      currentSize={size}
+      // eslint-disable-next-line react-hooks/refs
+      anchorEl={chipRef.current}
+      onClose={() => setIsSelected(false)}
+      onResize={(newSize) => {
+        updateInlineContent?.({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, size: newSize } });
+      }}
+      onConvertToBlock={(blockSize) => {
+        if (!editor || !chipRef.current) return;
+        const chip = findInlineChipAtDOM(editor, chipRef.current);
+        if (chip) promoteInlineChipToBlockAt(editor, chip.position, blockSize);
+      }}
+      onRemove={() => {
+        if (!editor || !chipRef.current) return;
+        const chip = findInlineChipAtDOM(editor, chipRef.current);
+        if (chip) removeInlineChipAt(editor, chip.position);
+      }}
+    />
+  );
 
   // Pending: waiting for user to pick a WP via search
   if (pendingCallbacks) {
@@ -165,16 +197,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
         ref={setRef}
         selected={isSelected || isEditorSelected}
         {...triggerProps}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          // A long press already opened the preview; swallow the trailing click.
-          if (wasLongPress()) return;
-          closePreview();
-          setIsSelected((prev) => !prev);
-          selectWorkPackageNode();
-        }}
+        onClick={handleWorkPackageClick}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
         {size === 'xs' && <WpChipXS wp={wp} />}
@@ -191,28 +214,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           </WpPreviewPopover>
         )}
 
-        {isSelected && (
-          <WpOptionsPopover
-            wp={wp}
-            currentSize={size}
-            // eslint-disable-next-line react-hooks/refs
-            anchorEl={chipRef.current}
-            onClose={closeOptions}
-            onResize={(newSize) => {
-              updateInlineContent?.({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, size: newSize } });
-            }}
-            onConvertToBlock={(blockSize) => {
-              if (!editor || !chipRef.current) return;
-              const chip = findInlineChipAtDOM(editor, chipRef.current);
-              if (chip) promoteInlineChipToBlockAt(editor, chip.position, blockSize);
-            }}
-            onRemove={() => {
-              if (!editor || !chipRef.current) return;
-              const chip = findInlineChipAtDOM(editor, chipRef.current);
-              if (chip) removeInlineChipAt(editor, chip.position);
-            }}
-          />
-        )}
+        {isSelected && optionsPopover}
       </InlineChip>
     );
   }
@@ -237,18 +239,10 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
         data-drag-handle
         // icon-only xxs is a labelled state graphic; larger sizes carry visible text
         role={iconOnly ? 'img' : undefined}
-        selected={isEditorSelected}
+        selected={isSelected || isEditorSelected}
         aria-label={iconOnly ? shortLabel : undefined}
         {...triggerProps}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          // A long press already opened the preview; swallow the trailing click.
-          if (wasLongPress()) return;
-          closePreview();
-          selectWorkPackageNode();
-        }}
+        onClick={handleWorkPackageClick}
       >
         <Base>
           {inlineIcon}
@@ -268,6 +262,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
             />
           </WpPreviewPopover>
         )}
+
+        {isSelected && optionsPopover}
       </InlineChip>
     );
   };
