@@ -181,6 +181,26 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
       # the association carries no order, so compare the cell as a set
       expect(pairs["Target versions"].split("; ")).to match_array %w[1.0 2.0]
     end
+
+    it "preloads target versions so cell rendering does not query per row" do
+      loaded = instance.work_packages.to_a
+
+      expect { loaded.each { it.target_versions.map(&:name) } }.to have_a_query_limit(0)
+    end
+  end
+
+  context "when no displayed column has a backing association" do
+    let!(:work_package) { create(:work_package, project:, type: type_a, subject: "No associations") }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject start_date))
+    end
+
+    it "exports successfully with an empty preload list" do
+      headers, values = CSV.parse instance.export!.content
+
+      expect(headers.first).to eq "#{byte_order_mark}Subject"
+      expect(values.first).to eq "No associations"
+    end
   end
 
   context "with multiple work packages" do
