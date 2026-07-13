@@ -43,7 +43,8 @@ module Boards
     end
 
     def query_filters(version)
-      [{ target_version_id: { operator: "=", values: [version.id.to_s] } }]
+      key = Setting::WorkPackageMultipleVersions.active? ? :target_version_id : :version_id
+      [{ key => { operator: "=", values: [version.id.to_s] } }]
     end
 
     def options_for_widgets(params)

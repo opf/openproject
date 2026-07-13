@@ -14,6 +14,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   Observable,
   of,
@@ -24,11 +25,14 @@ import { map } from 'rxjs/operators';
 export class BoardVersionActionService extends CachedBoardActionService {
   readonly halNotification = inject(HalResourceNotificationService);
 
-  // API identifier used to query versions
-  filterName = 'targetVersion';
+  // API identifier used when creating a column: `targetVersion` when multiple
+  // versions are enabled, the always-available `version` otherwise
+  filterName = inject(ConfigurationService).activeFeatureFlags.includes('workPackageMultipleVersions')
+    ? 'targetVersion'
+    : 'version';
 
-  // Filter ids that identify a version column (`version` is the deprecated one)
-  filterNames = [this.filterName, 'version'];
+  // Filter ids matched when reading a column, whichever mode created it
+  filterNames = ['targetVersion', 'version'];
 
   // Work package attributes that move a card between columns when they change
   get watchedAttributes():string[] {

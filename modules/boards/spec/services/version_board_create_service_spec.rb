@@ -115,5 +115,28 @@ RSpec.describe Boards::VersionBoardCreateService do
 
       it_behaves_like "sets the appropriate sort_criteria on each query"
     end
+
+    describe "version filter" do
+      let(:queries) { Query.all }
+      let(:filter_names) { queries.flat_map(&:filters).map(&:name).uniq }
+
+      context "with multiple versions disabled (default)" do
+        it "filters the columns by the version attribute" do
+          subject
+
+          expect(filter_names).to eq([:version_id])
+        end
+      end
+
+      context "with multiple versions enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        it "filters the columns by the target_versions attribute" do
+          subject
+
+          expect(filter_names).to eq([:target_version_id])
+        end
+      end
+    end
   end
 end
