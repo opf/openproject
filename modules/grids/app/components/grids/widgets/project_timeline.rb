@@ -51,12 +51,31 @@ module Grids
                .to_json
       end
 
-      def any_phases?
-        project.phases.active.with_timeline_content.exists?
+      def milestones_data
+        milestones_scope
+          .map { |wp| { id: wp.id, subject: wp.subject, date: wp.due_date.iso8601, typeId: wp.type_id } }
+          .to_json
+      end
+
+      def any_content?
+        any_phases? || milestones_scope.exists?
       end
 
       def render?
-        User.current.allowed_in_project?(:view_project_phases, project)
+        User.current.allowed_in_project?(:view_project_phases, project) || view_work_packages_allowed?
+      end
+
+      def view_work_packages_allowed?
+        @view_work_packages_allowed ||= User.current.allowed_in_project?(:view_work_packages, project)
+      end
+
+      def gantt_link
+        result = ::Gantt::DefaultQueryGeneratorService.new(with_project: project).call(query_key: :milestones)
+        return unless result
+
+        params = JSON.parse(result[:query_props])
+        params["hi"] = false
+        helpers.gantt_index_path(query_props: params.to_json)
       end
 
       def wrapper_arguments
@@ -64,6 +83,20 @@ module Grids
       end
 
       private
+
+      def any_phases?
+        project.phases.active.with_timeline_content.exists?
+      end
+
+      def milestones_scope
+        @milestones_scope ||= WorkPackage
+          .visible(User.current)
+          .where(project:)
+          .joins(:type)
+          .where(types: { is_milestone: true })
+          .where.not(due_date: nil)
+          .order(:due_date)
+      end
 
       def phase_data(phase) # rubocop:disable Metrics/AbcSize
         {

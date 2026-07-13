@@ -41,10 +41,11 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
-import { opGateIconData, opPhaseIconData } from '@openproject/octicons-angular';
+import { diamondIconData, opGateIconData, opPhaseIconData } from '@openproject/octicons-angular';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 
 interface ProjectPhaseData {
@@ -58,6 +59,14 @@ interface ProjectPhaseData {
   finishGate:boolean;
   finishGateName:string|null;
 }
+
+interface ProjectMilestoneData {
+  id:number;
+  subject:string;
+  date:string;
+  typeId:number;
+}
+
 export interface ProjectTimelineItem {
   id:string;
   group:string;
@@ -68,11 +77,16 @@ export interface ProjectTimelineItem {
   title:string;
   type:'range'|'point'|'background';
   className:string;
+  itemType?:'phase'|'gate'|'milestone';
+  subgroup?:string;
   definitionId?:number;
+  typeId?:number;
+  workPackageId?:number;
 }
 
 const GROUP_GATES = 'gates';
-const GROUP_LIFECYCLE = 'lifecycle';
+const GROUP_PHASES = 'phases';
+const GROUP_MILESTONES = 'milestones';
 
 @Component({
   selector: 'opce-project-timeline-graph',
@@ -85,27 +99,35 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
 
   readonly phasesData = input.required<string>();
+  readonly milestonesData = input.required<string>();
 
   readonly phases = computed<ProjectPhaseData[]>(
     () => JSON.parse(this.phasesData()) as ProjectPhaseData[],
   );
 
+  readonly milestones = computed<ProjectMilestoneData[]>(
+    () => JSON.parse(this.milestonesData()) as ProjectMilestoneData[],
+  );
+
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
+  private readonly pathHelper = inject(PathHelperService);
 
   private timeline:Timeline | null = null;
+  private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
 
   constructor() {
     effect(() => {
       const phases = this.phases();
+      const milestones = this.milestones();
       if (this.timeline) {
-        this.updateTimeline(phases);
+        this.updateTimeline(phases, milestones);
       }
     });
   }
 
   ngAfterViewInit():void {
-    this.initTimeline(this.phases());
+    this.initTimeline(this.phases(), this.milestones());
   }
 
   ngOnDestroy():void {
@@ -113,80 +135,44 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     this.timeline = null;
   }
 
-  private buildData(phases:ProjectPhaseData[]) {
+  private buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]) {
     const items:ProjectTimelineItem[] = [];
 
     for (const phase of phases) {
-      const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
-      const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
-
       if (phase.startDate && phase.endDate) {
-        const isOneDay = phase.startDate === phase.endDate;
-        let visualStart:Date | string = phase.startDate;
-        let visualEnd:Date | string = phase.endDate;
-        if (isOneDay) {
-          const startNoon = new Date(`${phase.startDate}T12:00:00`);
-          startNoon.setDate(startNoon.getDate() - 1);
-          visualStart = startNoon;
-          visualEnd = new Date(`${phase.endDate}T12:00:00`);
-        }
-        items.push({
-          id: `phase-${phase.id}`,
-          group: GROUP_LIFECYCLE,
-          start: visualStart,
-          end: visualEnd,
-          originalEnd: isOneDay ? phase.endDate : undefined,
-          content: phase.name,
-          title: phase.name,
-          type: 'range',
-          className: hlClass,
-          definitionId: phase.definitionId,
-        });
+        items.push(this.buildPhaseItem(phase));
       }
-
       if (phase.startGate && phase.startDate) {
-        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
-        items.push({
-          id: `gate-start-${phase.id}`,
-          group: GROUP_GATES,
-          start: phase.startDate,
-          content: icon,
-          title: phase.startGateName ?? phase.name,
-          type: 'point',
-          className: `op-timeline-gate ${hlClass}`,
-          definitionId: phase.definitionId,
-        });
+        items.push(this.buildGateItem(phase, 'start'));
       }
-
       if (phase.finishGate && phase.endDate) {
-        const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
-        items.push({
-          id: `gate-finish-${phase.id}`,
-          group: GROUP_GATES,
-          start: phase.endDate,
-          content: icon,
-          title: phase.finishGateName ?? phase.name,
-          type: 'point',
-          className: `op-timeline-gate op-timeline-gate--finish ${hlClass}`,
-          definitionId: phase.definitionId,
-        });
+        items.push(this.buildGateItem(phase, 'finish'));
       }
+    }
+
+    const milestoneSubgroupIndex:Record<string, number> = {};
+    for (const milestone of milestones) {
+      const subGroupIndex = milestoneSubgroupIndex[milestone.date] ?? 0;
+      milestoneSubgroupIndex[milestone.date] = subGroupIndex + 1;
+      items.push(this.buildMilestoneItem(milestone, subGroupIndex));
     }
 
     const groups = [
       { id: GROUP_GATES, content: '' },
-      { id: GROUP_LIFECYCLE, content: '' },
+      { id: GROUP_PHASES, content: '' },
+      { id: GROUP_MILESTONES, content: '' },
     ];
 
     return { items, groups };
   }
 
-  private initTimeline(phases:ProjectPhaseData[]):void {
-    const { items, groups } = this.buildData(phases);
+  private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
+    const { items, groups } = this.buildData(phases, milestones);
+    this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
       this.containerRef.nativeElement,
-      new DataSet(items as unknown as DataItem[]),
+      this.itemsDataset as unknown as DataSet<DataItem>,
       new DataSet(groups),
       {
         editable: false,
@@ -203,32 +189,24 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
     );
+
+    this.timeline.on('click', (props:{ item:string | null }) => {
+      if (!props.item) return;
+      const item = this.itemsDataset!.get(props.item);
+      if (item?.itemType === 'milestone' && item.workPackageId) {
+        window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
+      }
+    });
+  }
+
+  private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
+    const { items, groups } = this.buildData(phases, milestones);
+    this.itemsDataset = new DataSet(items);
+    this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
 
   private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
     if (item.type === 'background') return '';
-
-    const isGate = item.type === 'point';
-    const formatDate = (d:Date | string) => this.timezone.formattedDate(d as string);
-    const dateStr = isGate
-      ? formatDate(item.start)
-      : item.originalEnd
-        ? formatDate(item.originalEnd)
-        : `${formatDate(item.start)} – ${formatDate(item.end!)}`;
-    const typeLabel = isGate
-      ? this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate')
-      : this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
-
-    const hlInlineClass = `__hl_inline_project_phase_definition_${item.definitionId!}`;
-
-    const icon = octiconElement(isGate ? opGateIconData : opPhaseIconData, 'small', `octicon ${hlInlineClass}`);
-    const typeSpan = document.createElement('span');
-    typeSpan.className = 'op-timeline-tooltip--type';
-    typeSpan.append(typeLabel);
-
-    const metaRow = document.createElement('div');
-    metaRow.className = 'op-timeline-tooltip--meta-row';
-    metaRow.append(`${dateStr} `, icon, typeSpan);
 
     const name = document.createElement('div');
     name.className = 'op-timeline-tooltip--name';
@@ -236,8 +214,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'op-timeline-tooltip';
-    wrapper.append(metaRow, name);
-
+    wrapper.append(this.buildTooltipMetaRow(item), name);
     return wrapper;
   }
 
@@ -248,8 +225,98 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     return diff <= 24 * 60 * 60 * 1000; // 24 hours
   }
 
-  private updateTimeline(phases:ProjectPhaseData[]):void {
-    const { items, groups } = this.buildData(phases);
-    this.timeline!.setData({ items: new DataSet(items as unknown as DataItem[]), groups: new DataSet(groups) });
+  private buildTooltipMetaRow(item:ProjectTimelineItem):HTMLElement {
+    const typeSpan = document.createElement('span');
+    typeSpan.className = 'op-timeline-tooltip--type';
+    typeSpan.append(this.tooltipTypeLabel(item.itemType));
+
+    const metaRow = document.createElement('div');
+    metaRow.className = 'op-timeline-tooltip--meta-row';
+    metaRow.append(`${this.tooltipDateStr(item)} `, this.tooltipIcon(item), typeSpan);
+    return metaRow;
+  }
+
+  private tooltipDateStr(item:ProjectTimelineItem):string {
+    const fmt = (d:Date | string) => this.timezone.formattedDate(d as string);
+    const isSingleDate = item.itemType === 'milestone' || item.itemType === 'gate';
+    if (isSingleDate) return fmt(item.start);
+    return item.originalEnd
+      ? fmt(item.originalEnd)
+      : `${fmt(item.start)} – ${fmt(item.end!)}`;
+  }
+
+  private tooltipTypeLabel(itemType:ProjectTimelineItem['itemType']):string {
+    if (itemType === 'milestone') return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_milestone');
+    if (itemType === 'gate') return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate');
+    return this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
+  }
+
+  private tooltipIcon(item:ProjectTimelineItem):HTMLElement {
+    if (item.itemType === 'milestone') {
+      return octiconElement(diamondIconData, 'xsmall', `octicon __hl_inline_type_${item.typeId!}`);
+    }
+    const iconData = item.itemType === 'gate' ? opGateIconData : opPhaseIconData;
+    return octiconElement(iconData, 'small', `octicon __hl_inline_project_phase_definition_${item.definitionId!}`);
+  }
+
+  private buildPhaseItem(phase:ProjectPhaseData):ProjectTimelineItem {
+    const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
+    const isOneDay = phase.startDate === phase.endDate;
+    let start:Date | string = phase.startDate!;
+    let end:Date | string = phase.endDate!;
+    if (isOneDay) {
+      const startNoon = new Date(`${phase.startDate}T12:00:00`);
+      startNoon.setDate(startNoon.getDate() - 1);
+      start = startNoon;
+      end = new Date(`${phase.endDate}T12:00:00`);
+    }
+    return {
+      id: `phase-${phase.id}`,
+      group: GROUP_PHASES,
+      start,
+      end,
+      originalEnd: isOneDay ? phase.endDate! : undefined,
+      content: phase.name,
+      title: phase.name,
+      type: 'range',
+      className: hlClass,
+      itemType: 'phase',
+      definitionId: phase.definitionId,
+    };
+  }
+
+  private buildGateItem(phase:ProjectPhaseData, position:'start'|'finish'):ProjectTimelineItem {
+    const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
+    const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
+    const isFinish = position === 'finish';
+    const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
+    return {
+      id: `gate-${position}-${phase.id}`,
+      group: GROUP_GATES,
+      start: isFinish ? phase.endDate! : phase.startDate!,
+      content: icon,
+      title: (isFinish ? phase.finishGateName : phase.startGateName) ?? phase.name,
+      type: 'point',
+      className: `op-timeline-gate${isFinish ? ' op-timeline-gate--finish' : ''} ${hlClass}`,
+      itemType: 'gate',
+      definitionId: phase.definitionId,
+    };
+  }
+
+  private buildMilestoneItem(milestone:ProjectMilestoneData, subgroupIndex:number):ProjectTimelineItem {
+    const hlClass = `__hl_background_type_${milestone.typeId}`;
+    return {
+      id: `milestone-${milestone.id}`,
+      group: GROUP_MILESTONES,
+      subgroup: String(subgroupIndex),
+      start: milestone.date,
+      content: '',
+      title: milestone.subject,
+      type: 'point',
+      className: `op-timeline-milestone ${hlClass}`,
+      itemType: 'milestone',
+      typeId: milestone.typeId,
+      workPackageId: milestone.id,
+    };
   }
 }

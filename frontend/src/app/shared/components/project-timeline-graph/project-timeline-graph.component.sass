@@ -92,3 +92,16 @@
     font-weight: var(--base-text-weight-semibold)
     cursor: pointer
     padding: 0 var(--base-size-6)
+
+  // Milestones: diamond shape via CSS rotate on the vis-dot
+  .vis-item.vis-point.op-timeline-milestone
+    background: none !important
+    border-color: transparent !important
+    cursor: pointer
+
+  .vis-item.vis-dot.op-timeline-milestone
+    width: 10px
+    height: 10px
+    border-width: 0
+    border-radius: 0
+    rotate: 45deg
