@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe "Backlogs project settings multiple active sprints", :js do
   let(:project) { create(:project) }
-  let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
+  let(:permissions) { %i[create_sprints select_backlog_types_and_statuses share_sprint] }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before { login_as current_user }
