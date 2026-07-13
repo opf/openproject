@@ -2,6 +2,7 @@
   "name": "openproject",
   "version": "0.1.0",
   "scripts": {
+    "herb:lint": "herb-lint",
     "postinstall": "cd frontend && npm install",
     "test": "cd frontend && npm test && cd ..",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
@@ -14,6 +15,7 @@
     "npm": "^11.0.0"
   },
   "devDependencies": {
+    "@herb-tools/linter": "^0.10.1",
     "@redocly/cli": "^2.32.0"
   },
   "dependencies": {

@@ -1,0 +1,81 @@
+# This file configures Herb for your project and team.
+# Settings here take precedence over individual editor preferences.
+#
+# Herb is a suite of tools for HTML+ERB templates including:
+# - Linter: Validates templates and enforces best practices
+# - Formatter: Auto-formats templates with intelligent indentation
+# - Language Server: Provides IDE support (VS Code, Zed, Neovim, etc.)
+#
+# Website: https://herb-tools.dev
+# Configuration: https://herb-tools.dev/configuration
+# GitHub Repo: https://github.com/marcoroth/herb
+#
+
+version: 0.8.5
+
+files:
+  # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
+  # include:
+  #   - '**/*.xml.erb'
+  #   - 'custom/**/*.html'
+
+  # Patterns to exclude (can exclude defaults too)
+  exclude:
+    - 'coverage/**/*'
+    - 'frontend/**/*'
+    - 'modules/*/frontend/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+
+linter:
+  enabled: true
+
+  # # Additional patterns beyond the defaults for linting
+  # include:
+  #   - '**/*.xml.erb'
+  #
+  # # Patterns to exclude from linting
+  # exclude:
+  #   - 'app/views/admin/**/*'
+
+  # rules:
+  #   erb-no-extra-newline:
+  #     enabled: false
+  #
+  #   # Rules can have 'include', 'only', and 'exclude' patterns
+  #   some-rule:
+  #     # Additional patterns to check (additive, ignored when 'only' is present)
+  #     include:
+  #       - 'app/components/**/*'
+  #     # Don't apply this rule to files matching these patterns
+  #     exclude:
+  #       - 'app/views/admin/**/*'
+  #
+  #   another-rule:
+  #     # Only apply this rule to files matching these patterns (overrides all 'include')
+  #     only:
+  #       - 'app/views/**/*'
+  #     # Exclude still applies even with 'only'
+  #     exclude:
+  #       - 'app/views/admin/**/*'
+
+formatter:
+  enabled: false
+  indentWidth: 2
+  maxLineLength: 80
+
+  # # Additional patterns beyond the defaults for formatting
+  # include:
+  #   - '**/*.xml.erb'
+  #
+  # # Patterns to exclude from formatting
+  # exclude:
+  #   - 'app/views/admin/**/*'
+
+  # # Rewriters modify templates during formatting
+  # rewriter:
+  #   # Pre-format rewriters (modify AST before formatting)
+  #   pre:
+  #     - tailwind-class-sorter
+  #   # Post-format rewriters (modify formatted output string)
+  #   post: []

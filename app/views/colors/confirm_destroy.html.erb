@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++ # %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
                               html: { method: "delete" },
                               as: :color do |f| %>
 
-  <div class='flash warning'>
+  <div class="flash warning">
     <%= t("colors.label_really_delete_color") %>
     <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
       <%= op_icon("icon-close") %>

@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++ # %>
 
 <%= error_messages_for @board_grid %>
 
@@ -79,9 +79,9 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
 
-            <img src="<%= frontend_asset_path board_type.image_path %>"
-                 alt=""
-                 class="op-tile-block--image">
+            <%= image_tag frontend_asset_path(board_type.image_path),
+                          alt: "",
+                          class: "op-tile-block--image" %>
           </label>
         <% end %>
       </div>

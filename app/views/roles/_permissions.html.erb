@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++ # %>
 <% permissions.each do |mod, mod_permissions| %>
   <% module_name = mod.blank? ? Project.model_name.param_key : l_or_humanize(mod, prefix: "project_module_").downcase.tr(" ", "_") %>
   <% module_title = show_global_role && mod.blank? ? t(:label_global) : permission_header_for_project_module(mod) %>

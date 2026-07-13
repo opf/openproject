@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%><!DOCTYPE html>
+++ # %><!DOCTYPE html>
 <% show_decoration = params["layout"].nil? %>
 <html xmlns="http://www.w3.org/1999/xhtml"
       lang="<%= I18n.locale.to_s %>"
@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
-  <meta name="current_menu_item" content="<%= current_menu_item %>"/>
+  <meta name="current_menu_item" content="<%= current_menu_item %>">
 </head>
 <%= content_tag :body,
                 class: "#{body_css_classes}  __overflowing_element_container __overflowing_body",

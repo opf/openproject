@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++ # %>
 <% diff = Redmine::UnifiedDiff.new(diff, type: diff_type, max_lines: Setting.diff_max_lines_displayed.to_i) -%>
 <% diff.each do |table_file| -%>
   <div class="autoscroll">
