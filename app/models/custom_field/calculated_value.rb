@@ -81,8 +81,8 @@ module CustomField::CalculatedValue
     def validate_formula
       if formula_string.blank?
         errors.add(:formula, :blank)
-      elsif !formula_contains_only_allowed_characters?
-        errors.add(:formula, :invalid_characters)
+      elsif !formula_contains_only_allowed_tokens?
+        errors.add(:formula, :invalid_tokens)
       elsif !valid_formula_syntax?
         errors.add(:formula, :invalid)
       else
@@ -168,7 +168,7 @@ module CustomField::CalculatedValue
       false
     end
 
-    def formula_contains_only_allowed_characters?
+    def formula_contains_only_allowed_tokens?
       # List of allowed characters in a formula. This only performs a very basic validation.
       # The allowed characters are:
       # Our mathematical operators, whitespace, digits and decimal points

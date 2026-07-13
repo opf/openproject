@@ -599,7 +599,7 @@ en:
               blank: "Formula can't be blank."
               format: "%{message}"
               invalid: "Formula is invalid."
-              invalid_characters: "Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed."
+              invalid_tokens: "Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             required:
               cannot_be_true: "cannot be set to true."
