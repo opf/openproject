@@ -322,7 +322,7 @@ en:
 
       backlogs:
         multiple_active_sprints:
-          description: "By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be be active in parallel in this project."
+          description: "By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project."
           heading: "Number of active sprints"
         multiple_active_sprints_component:
           cannot_turn_off: "Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active."
