@@ -33,28 +33,41 @@ In the Community edition there is no limit to the number of users. In Enterprise
 
 ## User list
 
-The User list is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
+The user list is where users are managed. Users can be added, edited, or deleted from this list. You can search, sort, and filter the list to quickly find specific users.
 
-![List of users under OpenProject administration](openproject_system_admin_guide_users_list.png)
+![User list in OpenProject administration](openproject_system_admin_guide_users_list.png)
 
-Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
+Column headers can be clicked to toggle the sort direction. An upward arrow indicates ascending order (A–Z/0–9), and a downward arrow indicates descending order (Z–A/9–0). Paging controls are shown at the bottom of the list. The list also indicates whether a user is a system administrator.
 
 ## Filter users
 
-To filter for users, begin by clicking the **Filters** button. 
+Above the user list, you can:
 
-!["Filters" button to filter through users list in OpenProject administration](openproject_systemguide_filters_button.png)
+- Use the **Search** field to search users by free text.
 
-Clicking on it opens up the **+Add filter** form. Here, you can filter by group, status, name or username, and your list is automatically updated. Each filter button displays additional filtering options to help you narrow down results. The results are then filtered based on the selected criteria. Click the **x** symbol in front of each selected filter to clear the filter and the **x** symbol at the **top-right corner** to close the form.
+- Use the **Status** filter to filter by user status (**Active**, **Registered**, **Locked**, or **Invited**). Select one or more statuses using the checkboxes and click **Apply**.
 
-![Add filter form](openproject_systemguide_add_filters.png)
+- Use the **Group** filter to filter by existing groups or departments. Select one or more entries using the checkboxes and click **Apply**.
 
-- **Username** - enter any text or character like @, .com which is unique to the user list.
-- **Name** - enter any text; this can contain a "%" wild card for 0 or more characters.  For example, if you are filtering for a user named Niklas but are unsure if it's Niklas, Niclas, Nikolas, or Nicholas, you can search for “Ni%las” and all matching users will be listed. The filter applies to first name, last name and email address.
-- **Group** - select from the list of existing groups.
-- **Status** - select from Active, Registered, Locked, Invited, Deleted. Each selection shows the number of users.
+  ![Status filter opened for filtering users list in OpenProject administration](openproject_system_guide_users_filter_status.png)
 
-![Filters for user list in OpenProject administration](openproject_systemguide_filter_users.png)
+- Click **All filters** to access additional filtering options.
+
+![Filters available for the user list in OpenProject administration](openproject_systemguide_filters_button.png)
+
+Clicking **All filters** opens the **+ Add filter** form. Here, you can filter by group, status, name, username, and all configured [user attributes](../user-attributes). Each filter provides additional options to help you narrow down the results. The user list is updated automatically based on the selected criteria.
+
+Click the **×** icon next to a filter to remove it, or click the **×** in the top-right corner to close the filter panel.
+
+Available filters include:
+
+- **Username** – Enter any text or character sequence (such as `@` or `.com`) that is unique to the username or email address.
+- **Name** – Enter any text. You can use the `%` wildcard to match zero or more characters. For example, searching for `Ni%las` matches names such as *Niklas*, *Niclas*, *Nikolas*, or *Nicholas*. The filter searches first name, last name, and email address.
+- **Group** – Select one or more existing groups or departments.
+- **Status** – Select one or more statuses: **Active**, **Registered**, **Locked**, **Invited**, or **Deleted**. Each status displays the number of matching users.
+- **User attributes** – Filter by any configured user attribute, such as **Job start date**, **Job title**, **Key skills**, or **Spoken languages**.
+
+![User list filters in OpenProject administration](openproject_systemguide_filter_users.png)
 
 ## Configure view
 
@@ -73,7 +86,7 @@ Handling locking and unlocking of users is also done from the user list. To disa
 If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will free up a user license and so you could add another user to the system within your booked plan.
 
 > [!NOTE]
-> The previous activities from a locked user will still be displayed in the system.
+> The previous activities of a locked user will still be displayed in the system.
 
 ![Lock users in OpenProject](open_project_system_admin_lock_user_permanently.png)
 
@@ -81,20 +94,30 @@ If a user has repeated failed logins, the user will be locked temporarily and a 
 
 ## Create users
 
-New users can be created and configured by an administrator or by the users themselves (if activated).
+New users can be created and configured by an administrator or by the users themselves (if this option is activated).
 
-### Invite user (as administrator)
+### Invite a user
 
-In the user list, click the **+User** button to open the **New user** form.
+In the user list, click the **+ User** button to open the **New user** form.
 
-![Create a new user in OpenProject](openproject_system_guide_create_user.png)
+The form consists of the following sections:
 
-Enter the email address, first name, and last name of the new user. Tick the box to make them a system administrator user.
+- **Account**
+  - Select the **Administrator** checkbox to grant the user administrator privileges.
+- **User attributes**
+  - This section contains both built-in and custom [user attributes](../user-attributes).
+  - Fill in the required attributes: **First name**, **Last name**, and **Email**.
+    > [!NOTE]
+    > The email address must be in a valid format and be unique. Otherwise, the user cannot be created.
+  - Optionally, fill in any additional user attributes, such as **Language** (English is the default), **Department**, **Job title**, **Key skills**, or **Job start date**.
+- **Authentication**
+  - Select an **Authentication source**. Choose **Internal** or an LDAP source (if configured). If you select an LDAP source, enter the user's **Username**.
 
-Note: the email field must be a valid format and be unique or it will be rejected on clicking the button.
+![New user form in OpenProject administration](openproject_system_guide_create_user.png)
 
-Click the **Create** button to add the user and show that user's details page. Click the **Create and continue** button to add the user and stay on the new user form to add another user. Either way, the new user will be invited via email.
-When adding the last of multiple users you can click on **Create** or click the **Users** link in the menu on the left. The **Users list** will be shown. Click on the name of each user to [edit their details](#set-initial-details).
+Click **Create** to add the user. After the user has been created, their user details page opens automatically.
+
+
 
 ### Create user (via self-registration)
 
