@@ -831,7 +831,7 @@ en:
         type/configuration_link:
           attributes:
             source:
-              must_differ_from_type: "can't be the type itself."
+              would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:
             base:

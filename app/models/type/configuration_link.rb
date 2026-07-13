@@ -51,12 +51,24 @@ class Type
     enum :aspect, ASPECTS.index_with(&:itself), validate: true
 
     validates :type_id, uniqueness: { scope: :aspect }
-    validate :source_differs_from_type
+    validate :source_would_not_create_cycle
 
     private
 
-    def source_differs_from_type
-      errors.add(:source, :must_differ_from_type) if source_id.present? && source_id == type_id
+    # Rejects a link whose source chain already reaches this type, so the per-aspect
+    # source graph stays acyclic. A self-link is the degenerate 1-cycle and is caught here.
+    def source_would_not_create_cycle
+      return if source_id.blank?
+
+      # `seen` tolerates cyclic rows created before this validation existed (legacy
+      # FND-129 data): it lets the walk terminate instead of hanging on such data.
+      node = source
+      seen = Set.new
+      while node && seen.add?(node.id)
+        return errors.add(:source, :would_create_cycle) if node.id == type_id
+
+        node = node.source_for(aspect)
+      end
     end
   end
 end

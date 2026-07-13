@@ -68,6 +68,15 @@ RSpec.describe WorkPackageTypes::SetConfigurationLinkService do
       expect(result).not_to be_success
       expect(type).not_to be_linked(aspect)
     end
+
+    it "fails when linking would create a cycle" do
+      create(:type_configuration_link, type: source, source: type, aspect:)
+
+      result = service.call(mode: "linked", source_id: source.id)
+
+      expect(result).not_to be_success
+      expect(type).not_to be_linked(aspect)
+    end
   end
 
   describe "independent mode" do

@@ -71,8 +71,8 @@ class Type
     end
 
     # Walks the link chain to the type that actually owns the aspect (Independent).
-    # The visited-set guard keeps it terminating even before transitive cycle
-    # prevention lands.
+    # The visited-set guard tolerates cyclic rows created before write-time cycle
+    # prevention (FND-133) existed, keeping resolution terminating.
     #
     # Guarded by the subtypes feature flag: with the flag off, links are ignored
     # and every type resolves to its own stored configuration.
