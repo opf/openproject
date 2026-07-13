@@ -105,6 +105,10 @@ RSpec.describe "Version action board",
       board_page.expect_list_option "Shared version"
       board_page.expect_list_option "Closed version"
 
+      # Versions already represented as a column are not offered again
+      board_page.expect_list_option "Open version", present: false
+      board_page.expect_list_option "A second version", present: false
+
       board_page.board(reload: true) do |board|
         expect(board.name).to eq "My Version Board"
         queries = board.contained_queries
