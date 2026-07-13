@@ -44,7 +44,7 @@ module OpenProject
       HEADER_PADDING_DEFAULT = :inherit
       HEADER_PADDING_OPTIONS = [HEADER_PADDING_DEFAULT, :condensed, :default, :spacious].freeze
 
-      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id
+      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id, :list_id
 
       alias_method :collapsible?, :collapsible
 
@@ -212,10 +212,11 @@ module OpenProject
         @interactive = interactive
         @collapsible = collapsible
         @current_user = current_user
-        @system_arguments = system_arguments.except(:list_id)
+        @system_arguments = system_arguments.except(:list_id, :list_arguments)
 
         @system_arguments[:id] ||= dom_target(container)
-        @system_arguments[:list_id] = dom_target(@system_arguments[:id], :list)
+        @list_id = dom_target(@system_arguments[:id], :list)
+        @system_arguments[:list_arguments] = { id: @list_id }
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-border-box-list",
@@ -251,10 +252,6 @@ module OpenProject
         return unless collapsible? && footer?
 
         header.collapsible_id = [list_id, footer_id].compact.join(" ")
-      end
-
-      def list_id
-        @system_arguments[:list_id]
       end
     end
   end
