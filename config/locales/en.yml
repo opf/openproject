@@ -5974,6 +5974,7 @@ en:
 
   types:
     creation_wizard:
+      configuration_link_error: "The reuse mode could not be saved. Please select a source type."
       create_subtype: "Create sub-type"
       fields:
         parent: "Choose parent type"
@@ -5991,7 +5992,6 @@ en:
       success: "Sub-type created successfully."
       workflows:
         copy_caption: "Copy the workflow configuration from an existing type as a starting point."
-        intro: "Optionally start from an existing type's workflow. You can refine it later in the workflow administration."
     edit:
       configuration_link:
         independent:

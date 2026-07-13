@@ -52,8 +52,8 @@ RSpec.describe Type::ConfigurationLink do
                             described_class::PROJECTS, described_class::FORM_CONFIGURATION)
     end
 
-    it "seeds only the aspects whose linked behaviour is implemented" do
-      expect(described_class::SEEDED_ASPECTS)
+    it "links only the aspects whose linked behaviour is implemented to the parent by default" do
+      expect(described_class::DEFAULT_PARENT_LINK_ASPECTS)
         .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS)
     end
 

@@ -37,9 +37,25 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpPrimer::FormHelpers
 
-    def initialize(type:, aspect:, with_submit: true)
+    # +url+/+method+/+form_id+ let a host (the creation wizard) point the mode form at
+    # its own endpoint instead of the aspect's update endpoint.
+    #
+    # +editor_form+ is an ApplicationForm whose fields belong to that same form, so the
+    # host's submit persists mode and editor together. Editors that self-persist through
+    # their own turbo endpoints are passed as the block content instead.
+    # +form_model+ binds the form to the type, nesting its fields under +type[...]+ and
+    # giving an +editor_form+ a model to work with. The aspect tabs post the mode on its
+    # own, unscoped, so they leave it unbound.
+    def initialize(type:, aspect:, url: nil, method: :put, form_id: nil, form_model: nil,
+                   with_submit: true, editor_form: nil, heading: nil)
       @aspect = aspect
+      @url = url
+      @method = method
+      @form_id = form_id
+      @form_model = form_model
       @with_submit = with_submit
+      @editor_form = editor_form
+      @heading = heading
       super(type)
     end
 
@@ -55,14 +71,23 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: type_configuration_link_path(type_id: type.id, aspect: @aspect),
-        method: :put,
+        url: @url || type_configuration_link_path(type_id: type.id, aspect: @aspect),
+        method: @method,
         linked: linked?,
         current_source_id: current_source&.id,
         source_options:,
         with_submit: @with_submit
-      }
+      }.tap do |options|
+        options[:html] = { id: @form_id } if @form_id
+        options[:model] = @form_model if @form_model
+      end
     end
+
+    def editor_form = @editor_form
+
+    def heading = @heading
+
+    def independent_data = WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")
 
     private
 

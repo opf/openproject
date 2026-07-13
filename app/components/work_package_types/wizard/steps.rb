@@ -30,29 +30,26 @@
 
 module WorkPackageTypes
   module Wizard
-    # A single step in the sub-type creation wizard.
-    #
-    # +submit+ marks steps whose "Continue" action persists a form through the
-    # wizard controller (Details, Workflows, Projects). The remaining steps
-    # self-persist through their embedded turbo endpoints, so their "Continue"
-    # is plain navigation to the next step.
-    Step = Data.define(:key, :submit) do
-      def submit? = submit
-
-      def title = I18n.t("types.creation_wizard.steps.#{key}")
-    end
-
+    # The steps of the sub-type creation wizard, in order. Every step submits its form
+    # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = [
-        Step.new(key: :details, submit: true),
-        Step.new(key: :form_configuration, submit: false),
-        Step.new(key: :workflows, submit: true),
-        Step.new(key: :automations, submit: false),
-        Step.new(key: :projects, submit: false),
-        Step.new(key: :pdf, submit: false)
-      ].freeze
+      ALL = %i[details form_configuration workflows automations projects pdf].freeze
+
+      # The configuration aspect each step chooses a reuse mode for. Details has none:
+      # it names the type, so there is nothing to reuse from a source.
+      STEP_ASPECTS = {
+        form_configuration: Type::ConfigurationLink::FORM_CONFIGURATION,
+        workflows: Type::ConfigurationLink::WORKFLOWS,
+        automations: Type::ConfigurationLink::AUTOMATIONS,
+        projects: Type::ConfigurationLink::PROJECTS,
+        pdf: Type::ConfigurationLink::PDF_EXPORT
+      }.freeze
 
       module_function
+
+      def aspect_for(step) = STEP_ASPECTS[step]
+
+      def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
 
       def all = ALL
 
@@ -63,7 +60,7 @@ module WorkPackageTypes
       def for_key(key)
         return nil if key.blank?
 
-        ALL.find { |step| step.key == key.to_sym }
+        ALL.find { |step| step == key.to_sym }
       end
 
       def index(step) = ALL.index(step)

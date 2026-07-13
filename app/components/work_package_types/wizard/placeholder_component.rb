@@ -43,6 +43,8 @@ module WorkPackageTypes
       private
 
       attr_reader :step
+
+      def title = Steps.title(step)
     end
   end
 end

@@ -40,9 +40,9 @@ class Type::ConfigurationLink < ApplicationRecord
     FORM_CONFIGURATION = "form_configuration"
   ].freeze
 
-  # Aspects a new sub-type inherits from its parent on creation. The remaining
-  # aspects start Independent until their linked behaviour is implemented.
-  SEEDED_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
+  # Aspects a new sub-type links to its parent on creation. The remaining aspects
+  # start Independent until their linked behaviour is implemented.
+  DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
 
   belongs_to :type, optional: false
   belongs_to :source, class_name: "Type", optional: false

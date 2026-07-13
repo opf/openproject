@@ -56,32 +56,25 @@ module WorkPackageTypes
         ]
       end
 
-      # Config-link aspect backing the current step's reuse mode. Details has none:
-      # it names the type (and is still unpersisted on the first step), so there is
-      # nothing to reuse from a source.
-      def step_aspect
-        case current_step.key
-        when :form_configuration
-          Type::ConfigurationLink::FORM_CONFIGURATION
-        when :workflows
-          Type::ConfigurationLink::WORKFLOWS
-        when :automations
-          Type::ConfigurationLink::AUTOMATIONS
-        when :projects
-          Type::ConfigurationLink::PROJECTS
-        when :pdf
-          Type::ConfigurationLink::PDF_EXPORT
-        end
+      def step_title = Steps.title(current_step)
+
+      def step_aspect = Steps.aspect_for(current_step)
+
+      def step_url = type_creation_wizard_path(type, step: current_step)
+
+      # Editors whose fields belong to the wizard form itself, so that "Continue"
+      # persists them along with the step's reuse mode.
+      def step_editor_form
+        WorkflowsForm if current_step == :workflows
       end
 
+      # Editors that self-persist through their own turbo endpoints.
       def step_body
-        case current_step.key
+        case current_step
         when :details
           DetailsComponent.new(type:)
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
-        when :workflows
-          WorkflowsStepComponent.new(type:)
         when :projects
           WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
         when :pdf

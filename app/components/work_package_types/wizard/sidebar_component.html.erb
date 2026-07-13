@@ -8,9 +8,9 @@
 
         <% row.with_column(flex: 1) do %>
           <% if (href = href_for(step)) %>
-            <%= render(Primer::Beta::Link.new(href:, color: current?(step) ? :accent : :default, font_weight: current?(step) ? :bold : :normal)) { step.title } %>
+            <%= render(Primer::Beta::Link.new(href:, color: current?(step) ? :accent : :default, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
           <% else %>
-            <%= render(Primer::Beta::Text.new(color: current?(step) ? :accent : :muted, font_weight: current?(step) ? :bold : :normal)) { step.title } %>
+            <%= render(Primer::Beta::Text.new(color: current?(step) ? :accent : :muted, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
           <% end %>
         <% end %>
 

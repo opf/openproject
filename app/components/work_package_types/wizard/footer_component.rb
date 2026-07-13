@@ -32,8 +32,8 @@ module WorkPackageTypes
   module Wizard
     # Wizard footer: progress bar, Back/Cancel and the step's primary action.
     #
-    # "Continue" submits the step form (for +submit+ steps) or links to the next
-    # step (for steps that self-persist). The last step shows "Finish" instead.
+    # The primary action always submits the step form, which persists the step and
+    # advances. It reads "Finish" on the last step.
     class FooterComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
@@ -61,18 +61,14 @@ module WorkPackageTypes
 
       def progress_percentage = (current_number.to_f / total_steps * 100).round
 
+      # The last step still submits: it persists its own reuse mode before finishing.
+      def primary_action_label
+        last_step? ? I18n.t("types.creation_wizard.finish") : I18n.t(:button_continue)
+      end
+
       def back_href
         previous_step = Steps.previous_before(current_step)
-        type_creation_wizard_path(type, step: previous_step.key) if previous_step && type.persisted?
-      end
-
-      def next_href
-        next_step = Steps.next_after(current_step)
-        type_creation_wizard_path(type, step: next_step.key) if next_step && type.persisted?
-      end
-
-      def finish_href
-        finish_type_creation_wizard_path(type) if type.persisted?
+        type_creation_wizard_path(type, step: previous_step) if previous_step && type.persisted?
       end
     end
   end

@@ -56,7 +56,9 @@ module WorkPackageTypes
 
       def steps = Steps.all
 
-      def leading_icon(step) = LEADING_ICONS.fetch(step.key)
+      def leading_icon(step) = LEADING_ICONS.fetch(step)
+
+      def title(step) = Steps.title(step)
 
       def current?(step) = step == current_step
 
@@ -69,7 +71,7 @@ module WorkPackageTypes
       # Only visited/creatable steps are navigable: before the record exists we
       # cannot address a step by its type id.
       def href_for(step)
-        type_creation_wizard_path(type, step: step.key) if type.persisted?
+        type_creation_wizard_path(type, step:) if type.persisted?
       end
     end
   end

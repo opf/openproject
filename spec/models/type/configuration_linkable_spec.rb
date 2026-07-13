@@ -89,8 +89,8 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "sub-type default seeding" do
-    it "links the seeded aspects to the parent when a sub-type is created" do
+  describe "sub-type default parent links" do
+    it "links the default aspects to the parent when a sub-type is created" do
       parent = create(:type)
       child = create(:type, parent:)
 

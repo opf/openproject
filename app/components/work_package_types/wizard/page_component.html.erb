@@ -22,12 +22,23 @@
 
       <% page.with_area("main") do %>
         <% if step_aspect %>
-          <%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type:, aspect: step_aspect, with_submit: false)) do %>
-            <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
+          <%= render(
+                WorkPackageTypes::ConfigurationLinkComponent.new(
+                  type:,
+                  aspect: step_aspect,
+                  url: step_url,
+                  method: :patch,
+                  form_id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+                  form_model: type,
+                  with_submit: false,
+                  editor_form: step_editor_form,
+                  heading: step_title
+                )
+              ) do %>
             <%= render(step_body) %>
           <% end %>
         <% else %>
-          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { current_step.title } %>
+          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
           <%= render(step_body) %>
         <% end %>
       <% end %>

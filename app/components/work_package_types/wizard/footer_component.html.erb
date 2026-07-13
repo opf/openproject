@@ -27,12 +27,12 @@
   <div class="op-step-wizard-footer--actions-right">
     <%= render(Primer::Beta::Button.new(tag: :a, href: types_path)) { I18n.t(:button_cancel) } %>
 
-    <% if last_step? %>
-      <%= render(Primer::Beta::Button.new(tag: :a, href: finish_href, scheme: :primary)) { I18n.t("types.creation_wizard.finish") } %>
-    <% elsif current_step.submit? %>
-      <%= render(Primer::Beta::Button.new(type: :submit, form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER, scheme: :primary)) { I18n.t(:button_continue) } %>
-    <% else %>
-      <%= render(Primer::Beta::Button.new(tag: :a, href: next_href, scheme: :primary)) { I18n.t(:button_continue) } %>
-    <% end %>
+    <%= render(
+          Primer::Beta::Button.new(
+            type: :submit,
+            form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+            scheme: :primary
+          )
+        ) { primary_action_label } %>
   </div>
 </div>

@@ -88,8 +88,8 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
 
       describe "GET show for every step" do
         WorkPackageTypes::Wizard::Steps.all.each do |step|
-          it "renders the #{step.key} step without error" do
-            get :show, params: { type_id: subtype.id, step: step.key }
+          it "renders the #{step} step without error" do
+            get :show, params: { type_id: subtype.id, step: }
 
             expect(response).to have_http_status(:ok)
           end
