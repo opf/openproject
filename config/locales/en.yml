@@ -5977,8 +5977,7 @@ en:
       configuration_link_error: "The reuse mode could not be saved. Please select a source type."
       create_subtype: "Create sub-type"
       fields:
-        parent: "Choose parent type"
-        variant_label: "Variant label"
+        inherited_from_parent_html: "Inherited from parent type <b>%{parent}</b>."
       finish: "Finish"
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
