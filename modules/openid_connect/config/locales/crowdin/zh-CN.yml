@@ -134,7 +134,6 @@ zh-CN:
         metadata_form_banner: 编辑发现端点可能会覆盖现有的预填元数据值。
         metadata_form_description: 如果您的身份提供商有发现端点 URL 。请使用下面的地址来预填写配置。
         metadata_form_title: OpenID Connect 发现端点
-      seeded_from_env: 此提供商是从环境配置中生成的。它无法被编辑。
       side_panel:
         information_component:
           backchannel_logout_url: 后端通道退出登录 URL

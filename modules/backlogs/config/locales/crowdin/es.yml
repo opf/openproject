@@ -42,6 +42,7 @@ es:
         text: Objetivo del sprint
       work_package:
         backlog_bucket: Bucket de backlog
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Tipo de Backlog
         position: Posición
         sprint: Sprint
@@ -87,6 +88,8 @@ es:
         one: Sprint
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: Ahora mismo estamos rediseñando el módulo «Backlogs». La configuración de administración para los sprints y los backlogs estará disponible aquí en breve. La configuración a nivel de proyecto sigue estando disponible.
       title: Las opciones de configuración de Backlog están cambiando
@@ -104,6 +107,8 @@ es:
       select_panel_title: Seleccionar elementos
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Eliminar bucket de backlog
         edit_backlog_bucket: Editar bucket de backlog
       blankslate_description: Arrastre los elementos aquí para añadirlos.
@@ -130,8 +135,12 @@ es:
       select_sprint_label: Seleccionar sprint
       title: Hay elementos en curso
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: Todos los paquetes de trabajo abiertos en este proyecto aparecerán automáticamente aquí.
       blankslate_title: La bandeja de entrada de backlog está vacía
+      label_actions: Inbox actions
       show_more:
         one: Mostrar 1 artículo más
         other: Mostrar %{count} artículos más
@@ -156,7 +165,8 @@ es:
     show_burndown_chart: Diagrama Burndown
     sprint_component:
       action_menu:
-        add_work_package: Añadir paquete de trabajo
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Editar sprint
       blankslate_description: Aún no hay elementos previstos. Arrastre los elementos aquí para añadirlos.
       blankslate_title: "%{name} está vacío"
@@ -185,12 +195,6 @@ es:
     statuses_considered_closed_caption: 'Elige los estados que representen un estado cerrado o finalizado en tu flujo de trabajo. Estos se considerarán como el estado «Cerrado» en los informes (por ejemplo, el diagrama Burndown) y en la planificación de sprints. Por ejemplo, estados como «Hecho», «Resuelto» o «No se corregirá» pueden representar un elemento de trabajo cerrado en tu proceso.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id y direction no pueden estar ambos presentes.
-        invalid_direction: 'la dirección debe ser una de las siguientes: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type debe ser uno de los siguientes: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id o direction debe estar presente.
     story_points:
       one: "%{count} punto de historia"
       other: "%{count} puntos de historia"
@@ -208,6 +212,15 @@ es:
         move_to_inbox: Mover a la bandeja del backlog
         move_to_sprint: Mover al sprint
     work_package_is_closed: El paquete de trabajo esta terminado, cuando
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Puntos de historia
     story_points_ideal: Puntos de historia (ideal)
@@ -278,4 +291,6 @@ es:
         sharing_form_component:
           sharing_description: Este proyecto puede compartir sus propios sprints, recibir sprints compartidos o gestionar los sprints de forma independiente (sin compartir).
           sharing_fallback_description: Al no haber un plan de empresa, las opciones para compartir se limitan a los sprints del propio proyecto. La configuración actualmente activa sigue vigente.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: trabajo restante

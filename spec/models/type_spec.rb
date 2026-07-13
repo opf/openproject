@@ -283,6 +283,10 @@ RSpec.describe Type do
       it ".subtypes returns only nested types" do
         expect(described_class.subtypes).to contain_exactly(child)
       end
+
+      it ".global returns every type (all types are global until project-owned types exist)" do
+        expect(described_class.global).to include(parent, child)
+      end
     end
 
     describe "#root" do

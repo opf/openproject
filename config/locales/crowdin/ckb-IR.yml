@@ -670,7 +670,13 @@ ckb-IR:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'still in use by work packages: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Work packages in non descendant projects reference versions of the project or its descendants.
         project/phase:
@@ -5823,8 +5829,17 @@ ckb-IR:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Ignore this warning.
     message: You may run into errors and degraded experience on this page.

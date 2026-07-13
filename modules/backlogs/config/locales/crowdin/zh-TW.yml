@@ -42,6 +42,7 @@ zh-TW:
         text: Sprint goal
       work_package:
         backlog_bucket: Backlog bucket
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: 待辦事項類型
         position: 位置
         sprint: 衝刺
@@ -85,6 +86,8 @@ zh-TW:
       sprint:
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
       title: Backlog 管理設定不斷演進
@@ -102,6 +105,8 @@ zh-TW:
       select_panel_title: Select items
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Delete backlog bucket
         edit_backlog_bucket: Edit backlog bucket
       blankslate_description: Drag items here to add them.
@@ -128,8 +133,12 @@ zh-TW:
       select_sprint_label: 選擇衝刺
       title: 有進行中的工作項目
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: 此專案中所有開啟的工作任務都會自動出現在這裡。
       blankslate_title: 積壓收件匣為空
+      label_actions: Inbox actions
       show_more:
         other: 再顯示 %{count} 項
       title: Inbox
@@ -152,7 +161,8 @@ zh-TW:
     show_burndown_chart: 未完成圖
     sprint_component:
       action_menu:
-        add_work_package: Add work package
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Edit sprint
       blankslate_description: 尚未規劃任何項目。將項目拖曳至此即可新增。
       blankslate_title: "%{name} 為空"
@@ -181,12 +191,6 @@ zh-TW:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       other: "%{count} 故事點"
     types_and_statuses: Types and statuses
@@ -203,6 +207,15 @@ zh-TW:
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: 視為工作套件已完成
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: 故事點
     story_points_ideal: 理想估算故事點數
@@ -273,4 +286,6 @@ zh-TW:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: 剩餘工時

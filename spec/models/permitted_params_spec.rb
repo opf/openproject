@@ -578,12 +578,6 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "sprint_id" do
-      let(:hash) { { "sprint_id" => "1" } }
-
-      it_behaves_like "allows params"
-    end
-
     describe "notes" do
       let(:hash) { { "journal_notes" => "blubs" } }
 

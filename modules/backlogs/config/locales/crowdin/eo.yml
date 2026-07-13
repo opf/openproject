@@ -42,6 +42,7 @@ eo:
         text: Sprinta celo
       work_package:
         backlog_bucket: Tasklista ujo
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Tasklista tipo
         position: Posicio
         sprint: Sprinto
@@ -87,6 +88,8 @@ eo:
         one: Sprinto
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
       title: La administraj agordoj de la tasklisto evoluas
@@ -104,6 +107,8 @@ eo:
       select_panel_title: Elektu erojn
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Forigi tasklista ujo
         edit_backlog_bucket: Redakti tasklista ujo
       blankslate_description: Tiru objektojn ĉi tien por aldoni ilin.
@@ -130,8 +135,12 @@ eo:
       select_sprint_label: Elektu sprinton
       title: There are work in progress items
     inbox_component:
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
       blankslate_description: Ĉiuj malfermitaj laborpakoj en ĉi tiu projekto aŭtomate aperos ĉi tie.
       blankslate_title: La tasklista ujo estas malplena
+      label_actions: Inbox actions
       show_more:
         one: Montru ankoraŭ 1 plian eron
         other: Show %{count} more items
@@ -156,7 +165,8 @@ eo:
     show_burndown_chart: Burndown-diagramo
     sprint_component:
       action_menu:
-        add_work_package: Aldoni laborpakaĵon
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Redaktu sprinton
       blankslate_description: Ankoraŭ neniuj eroj planitaj. Tiri erojn ĉi tien por aldoni ilin.
       blankslate_title: "%{name} estas malplena"
@@ -185,12 +195,6 @@ eo:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       one: "%{count} story point"
       other: "%{count} rakontaj poentoj"
@@ -208,6 +212,15 @@ eo:
         move_to_inbox: Movu al la tasklista enirkesto
         move_to_sprint: Movigu al sprinto
     work_package_is_closed: Work package is done, when
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        missing_target: target_id or direction must be present.
   burndown:
     story_points: Rakontaj poentoj
     story_points_ideal: Rakontaj poentoj (ideala)
@@ -278,4 +291,6 @@ eo:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: restanta laboro

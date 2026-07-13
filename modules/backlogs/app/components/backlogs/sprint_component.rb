@@ -34,6 +34,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
     include Redmine::I18n
 
     attr_reader :sprint, :project, :work_packages, :current_user, :active_sprint_ids
