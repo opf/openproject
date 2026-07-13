@@ -273,3 +273,18 @@ OpenProject provides several installation mechanisms:
 - _Monitor and Logging_: Implement robust monitoring and logging to track the health and performance of containers. [OpenProject provides individually pluggable health checks for various services as well as flexible logging](../../../installation-and-operations/operation/monitoring/).
 - _Continuous Integration/Continuous Deployment (CI/CD)_: Automate the building, testing, and deployment of containers using CI/CD pipelines. OpenProject builds `dev` containers and packages for every change to the core application.
 - _Documentation_: Maintain comprehensive documentation for installation and configuration processes across different mechanisms. OpenProject documents all changes as part of the standard development workflow. Documentation is released together with OpenProject to ensure consistency. [The documentation workflow is part of the product development handbook.](../../product-development-handbook/)
+
+**Artifact integrity and attestations**
+
+OpenProject publishes signed and attested container images so that consumers and operators can verify the origin and integrity of the delivery artifacts before deployment:
+
+- All public images are signed using [Sigstore cosign](https://github.com/sigstore/cosign), allowing consumers to cryptographically verify that an image was built and published by OpenProject.
+- Each image carries signed attestations:
+  - a **Release attestation** documenting build provenance, including the source package, build workflow, git ref, commit SHA, actor and timestamp
+  - a **Software Bill of Materials (SBOM)** in CycloneDX 1.6 format listing all components contained in the image
+  - a **Vulnerability Exploitability eXchange (VEX)** document in CycloneDX 1.6 format describing the exploitability status of known vulnerabilities in the image
+- The images are immutable delivery artifacts and are subject to static analysis and vulnerability scanning before and during the build (see above).
+
+**Protecting source files at runtime**
+
+The OpenProject source code is included inside the application container image as part of the runtime artifact, but is not intended to be retrievable through the web application. Requests are served through the application server and any ingress or reverse proxy in front of it, which only expose the application's HTTP endpoints. Preventing direct retrieval of source files, configuration files, secrets and runtime directories - for example through correct web server configuration, file permissions and volume mounts - is the responsibility of the operator deploying and running OpenProject.
