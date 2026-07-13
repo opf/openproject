@@ -830,7 +830,7 @@ en:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
         type/configuration_link:
           attributes:
-            source:
+            source_id:
               would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:

@@ -37,33 +37,33 @@ RSpec.describe WorkPackageTypes::SetConfigurationLinkService do
 
   subject(:service) { described_class.new(type:, aspect:) }
 
-  describe "linked mode" do
+  describe "#link" do
     it "links the aspect to the chosen source" do
-      result = service.call(mode: "linked", source_id: source.id)
+      result = service.link(source_id: source.id)
 
       expect(result).to be_success
       expect(type.source_for(aspect)).to eq(source)
     end
 
     it "re-points an existing link to a new source" do
-      service.call(mode: "linked", source_id: source.id)
+      service.link(source_id: source.id)
       other = create(:type)
 
-      result = service.call(mode: "linked", source_id: other.id)
+      result = service.link(source_id: other.id)
 
       expect(result).to be_success
       expect(type.reload.source_for(aspect)).to eq(other)
     end
 
     it "fails when no source is given" do
-      result = service.call(mode: "linked", source_id: nil)
+      result = service.link(source_id: nil)
 
       expect(result).not_to be_success
       expect(type).not_to be_linked(aspect)
     end
 
     it "fails when the source is the type itself" do
-      result = service.call(mode: "linked", source_id: type.id)
+      result = service.link(source_id: type.id)
 
       expect(result).not_to be_success
       expect(type).not_to be_linked(aspect)
@@ -72,42 +72,42 @@ RSpec.describe WorkPackageTypes::SetConfigurationLinkService do
     it "fails when linking would create a cycle" do
       create(:type_configuration_link, type: source, source: type, aspect:)
 
-      result = service.call(mode: "linked", source_id: source.id)
+      result = service.link(source_id: source.id)
 
       expect(result).not_to be_success
       expect(type).not_to be_linked(aspect)
     end
   end
 
-  describe "independent mode" do
+  describe "#make_independent" do
     it "removes an existing link" do
-      service.call(mode: "linked", source_id: source.id)
+      service.link(source_id: source.id)
 
-      result = service.call(mode: "independent")
+      result = service.make_independent
 
       expect(result).to be_success
       expect(type.reload).not_to be_linked(aspect)
     end
 
     it "is a no-op when already independent" do
-      result = service.call(mode: "independent")
+      result = service.make_independent
 
       expect(result).to be_success
       expect(type).not_to be_linked(aspect)
     end
-  end
 
-  describe "independent mode adopting a source" do
-    subject(:service) { described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS) }
+    context "when adopting a source" do
+      subject(:service) { described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS) }
 
-    it "copies the source's config onto the type once and creates no link" do
-      configured = create(:type, patterns: { subject: { blueprint: "Adopt {{id}}", enabled: true } })
+      it "copies the source's config onto the type once and creates no link" do
+        configured = create(:type, patterns: { subject: { blueprint: "Adopt {{id}}", enabled: true } })
 
-      result = service.call(mode: "independent", source_id: configured.id)
+        result = service.make_independent(source_id: configured.id)
 
-      expect(result).to be_success
-      expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
-      expect(type.reload.patterns.subject.blueprint).to eq("Adopt {{id}}")
+        expect(result).to be_success
+        expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
+        expect(type.reload.patterns.subject.blueprint).to eq("Adopt {{id}}")
+      end
     end
   end
 end

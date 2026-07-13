@@ -187,7 +187,12 @@ Rails.application.routes.draw do
     resource :settings, controller: "settings_tab", only: %i[update edit]
     resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
 
-    resources :configuration_links, only: %i[update], param: :aspect
+    # One configuration link per (type, aspect): a singular resource nested under its aspect.
+    resources :aspects,
+              only: [],
+              constraints: { aspect_id: Regexp.union(Type::ConfigurationLink::ASPECTS) } do
+      resource :configuration_link, only: %i[update destroy]
+    end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
 

@@ -65,7 +65,7 @@ class Type
       node = source
       seen = Set.new
       while node && seen.add?(node.id)
-        return errors.add(:source, :would_create_cycle) if node.id == type_id
+        return errors.add(:source_id, :would_create_cycle) if node.id == type_id
 
         node = node.source_for(aspect)
       end

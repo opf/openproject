@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% if feature_active? %>
-  <div data-controller="show-when-value-selected">
+  <%= component_wrapper(data: { controller: "show-when-value-selected" }) do %>
     <%= settings_primer_form_with(**form_options) do |f| %>
       <%= render(WorkPackageTypes::ConfigurationLinkForm.new(f)) %>
 
@@ -39,6 +39,12 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(editor_form.new(f)) %>
         <% end %>
       <% end %>
+
+      <% if standalone? %>
+        <%# Aspect tab: one _method field per mode; only the selected mode's verb submits. %>
+        <%= method_field("patch", "linked") %>
+        <%= method_field("delete", "independent") %>
+      <% end %>
     <% end %>
 
     <% if editor_form.nil? && !linked? %>
@@ -48,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= content %>
       <% end %>
     <% end %>
-  </div>
+  <% end %>
 <% else %>
   <%# Reuse feature off: the tab manages its own configuration directly. %>
   <%= content %>

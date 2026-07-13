@@ -31,38 +31,29 @@
 module WorkPackageTypes
   # Sets one configuration aspect of a type to Linked (a chosen global source) or
   # Independent. The source-graph invariants (present, global, not-self) are the
-  # link record's own validations; this service maps the UI mode onto them.
+  # link record's own validations; the two intents map onto the link resource's
+  # PATCH (link) and DELETE (make independent).
   class SetConfigurationLinkService
     def initialize(type:, aspect:)
       @type = type
       @aspect = aspect
     end
 
-    def call(mode:, source_id: nil)
-      source = Type.global.find_by(id: source_id)
-
-      case mode.to_s
-      when "independent"
-        @type.make_independent!(@aspect, source:)
-        ServiceResult.success(result: @type)
-      when "linked"
-        link_to(source)
-      else
-        ServiceResult.failure(result: @type)
-      end
-    end
-
-    private
-
-    def link_to(source)
+    def link(source_id:)
       link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
-      link.source = source
+      link.source = Type.global.find_by(id: source_id)
 
       if link.save
         ServiceResult.success(result: @type)
       else
-        ServiceResult.failure(result: @type, errors: link.errors)
+        # Return the rejected link so the controller can re-render the picker with its errors.
+        ServiceResult.failure(result: link, errors: link.errors)
       end
+    end
+
+    def make_independent(source_id: nil)
+      @type.make_independent!(@aspect, source: Type.global.find_by(id: source_id))
+      ServiceResult.success(result: @type)
     end
   end
 end
