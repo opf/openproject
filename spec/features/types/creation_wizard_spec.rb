@@ -74,11 +74,10 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     # Step 1 - Details: identity only, so no reuse mode to choose. The core settings
     # are inherited from the parent and shown read-only.
     expect(page).to have_no_text(independent_label)
-    expect(page).to have_text(
-      I18n.t("types.creation_wizard.fields.inherited_from_parent", parent: bug_type.name), count: 3
-    )
+    expect(page).to have_text(inherited_caption, count: 3)
     expect(page).to have_field(Type.human_attribute_name(:is_milestone), disabled: true)
     expect(page).to have_field(Type.human_attribute_name(:is_in_roadmap), disabled: true)
+    expect(page).to have_css(".colors-autocomplete .ng-select-disabled")
 
     subtype = complete_details_step("Critical")
 
