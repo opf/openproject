@@ -28,15 +28,13 @@
 #++
 
 class Queries::Meetings::Filters::InvitedUserFilter < Queries::Meetings::Filters::MeetingFilter
+  include ::Queries::Filters::Shared::VisiblePrincipalFilter
+
   def type
     :list_optional
   end
 
   def type_strategy
-    # Instead of getting the IDs of all the projects a user is allowed
-    # to see we only check that the value is an integer.  Non valid ids
-    # will then simply create an empty result but will not cause any
-    # harm.
     @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 
@@ -47,6 +45,8 @@ class Queries::Meetings::Filters::InvitedUserFilter < Queries::Meetings::Filters
     when "="
       [operator_strategy.sql_for_field(values, MeetingParticipant.table_name, "user_id"), condition].join(" AND ")
     when "!"
+      return "1=1" if values.empty?
+
       <<~SQL.squish
         NOT EXISTS (
           SELECT 1 FROM #{MeetingParticipant.table_name}

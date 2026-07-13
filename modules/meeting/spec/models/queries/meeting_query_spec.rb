@@ -35,7 +35,12 @@ RSpec.describe Queries::Meetings::MeetingQuery do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
 
-  let(:visible_project) { create(:project, members: { user => create(:project_role, permissions: %i[view_meetings]) }) }
+  let(:visible_project) do
+    create(:project, members: {
+             user => create(:project_role, permissions: %i[view_meetings]),
+             other_user => create(:project_role)
+           })
+  end
   let!(:visible_meeting_past) { create(:meeting, project: visible_project, author: user, start_time: 1.day.ago) }
   let!(:visible_meeting_ongoing) do
     # meeting started 20 minutes ago and goes on for 2 hours, so it's still ongoing now and should be included
@@ -46,6 +51,10 @@ RSpec.describe Queries::Meetings::MeetingQuery do
 
   let(:invisible_project) { create(:project) }
   let!(:invisible_meeting) { create(:meeting, project: invisible_project, start_time: 1.day.ago) }
+
+  before do
+    login_as(user)
+  end
 
   context "without a filter" do
     it "returns all visible meetings" do

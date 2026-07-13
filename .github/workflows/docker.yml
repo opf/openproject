@@ -130,7 +130,7 @@ jobs:
     needs:
       - setup
     runs-on:
-      labels: "runs-on=${{ github.run_id }}/ssh=false/${{ matrix.runner }}"
+      labels: "runs-on=${{ github.run_id }}/ssh=false/${{ matrix.runner }}/volume=200g"
     strategy:
       matrix:
         include:

@@ -333,6 +333,24 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
     expect(query_on_entries("costs", "=n", 13.37).pluck("id")).to contain_exactly(ce1.id, ce2.id)
   end
 
+  describe "=n value escaping" do
+    let(:rate) { create(:cost_rate, rate: 10.0) }
+
+    before do
+      create(:cost_entry, units: 1, rate:, cost_type: rate.cost_type)
+      create(:cost_entry, units: 1, rate:, cost_type: rate.cost_type)
+    end
+
+    it "tries to convert invalid values" do
+      expect(query_on_entries("costs", "=n", "0/**/OR/**/1=1")).to be_empty
+    end
+
+    it "returns the correct rows for a legitimate numeric value" do
+      expect(query_on_entries("costs", "=n", "10.0").size).to eq(2)
+      expect(query_on_entries("costs", "=n", "20.0").size).to eq(0)
+    end
+  end
+
   it "does 0" do
     expect(query_on_entries("costs", "0").size).to eq(Entry.all.count { |e| e.costs == 0 })
   end

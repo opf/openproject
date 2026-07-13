@@ -28,15 +28,13 @@
 #++
 
 class Queries::Meetings::Filters::AuthorFilter < Queries::Meetings::Filters::MeetingFilter
+  include ::Queries::Filters::Shared::VisiblePrincipalFilter
+
   def type
     :list_optional
   end
 
   def type_strategy
-    # Instead of getting the IDs of all the projects a user is allowed
-    # to see we only check that the value is an integer.  Non valid ids
-    # will then simply create an empty result but will not cause any
-    # harm.
     @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 

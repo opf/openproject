@@ -28,48 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Queries::Filters::Shared::VisiblePrincipalFilter
+  def values
+    raw = super
+    return raw if raw.empty?
 
-RSpec.describe Users::SetAttributesService, "Integration", type: :model do
-  let(:input_user) { create(:user) }
-  let(:actor) { build_stubbed(:admin) }
-
-  let(:instance) do
-    described_class.new model: input_user,
-                        user: actor,
-                        contract_class: Users::UpdateContract
-  end
-
-  subject { instance.call(params) }
-
-  context "with a boolean castable preference" do
-    let(:params) do
-      { pref: { warn_on_leaving_unsaved: "0" } }
-    end
-
-    it "returns no error for that" do
-      expect(subject.errors).to be_empty
-    end
-  end
-
-  context "with an invalid parameter" do
-    let(:params) do
-      { pref: { workdays: "foobar" } }
-    end
-
-    it "returns an error for that" do
-      expect(subject.errors[:workdays]).to include "is not of type 'array'"
-    end
-  end
-
-  context "with an unknown property" do
-    let(:params) do
-      { pref: { watwatwat: "foobar" } }
-    end
-
-    it "does not raise an error" do
-      expect(subject).to be_success
-      expect(subject.result.pref.settings).not_to be_key(:watwatwat)
-    end
+    ::Principal.visible.where(id: raw).pluck(:id).map(&:to_s)
   end
 end

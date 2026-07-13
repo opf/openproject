@@ -105,4 +105,68 @@ RSpec.describe CostReportsController do
       end
     end
   end
+
+  describe "POST rename" do
+    let(:user) { create(:user) }
+    let(:owner) { create(:user) }
+    let(:cost_query) { create(:public_cost_query, user: owner, project:, name: "Public report") }
+
+    context "when only save_private_cost_reports is granted" do
+      before do
+        is_member project, user, %i[view_cost_entries save_private_cost_reports]
+        post :rename, params: { id: cost_query.id, project_id: project.identifier, query_name: "HACKED" }
+      end
+
+      it "returns forbidden" do
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "does not rename the report" do
+        expect(cost_query.reload.name).to eq("Public report")
+      end
+    end
+
+    context "when save_cost_reports is granted" do
+      before do
+        is_member project, user, %i[view_cost_entries save_cost_reports]
+        post :rename, params: { id: cost_query.id, project_id: project.identifier, query_name: "Renamed report" }
+      end
+
+      it "renames the report" do
+        expect(cost_query.reload.name).to eq("Renamed report")
+      end
+
+      it "redirects to show" do
+        expect(response).to redirect_to(action: "show", id: cost_query.id)
+      end
+    end
+  end
+
+  describe "POST update" do
+    let(:user) { create(:user) }
+    let(:owner) { create(:user) }
+    let(:cost_query) { create(:public_cost_query, user: owner, project:) }
+
+    context "when only save_private_cost_reports is granted" do
+      it "returns forbidden and leaves query unchanged" do
+        is_member project, user, %i[view_cost_entries save_private_cost_reports]
+        serialized = cost_query.reload.serialized.deep_dup
+
+        post :update, params: { id: cost_query.id, project_id: project.identifier, save_query: 1 }
+
+        expect(response).to have_http_status(:forbidden)
+        expect(cost_query.reload.serialized).to eq(serialized)
+      end
+    end
+
+    context "when save_cost_reports is granted" do
+      it "updates and persists the query" do
+        is_member project, user, %i[view_cost_entries save_cost_reports]
+
+        expect do
+          post :update, params: { id: cost_query.id, project_id: project.identifier, save_query: 1 }
+        end.to change { cost_query.reload.serialized }
+      end
+    end
+  end
 end

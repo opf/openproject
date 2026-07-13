@@ -9,7 +9,7 @@ else
   echo "Assets need to be compiled"
   JOBS=8 npm install
 
-  SECRET_KEY_BASE=1 RAILS_ENV=production DATABASE_URL=nulldb://db \
+  SECRET_KEY_BASE="$(openssl rand -hex 64)" RAILS_ENV=production DATABASE_URL=nulldb://db \
     bin/rails openproject:plugins:register_frontend assets:precompile
 
   if [ "$DOCKER" = "1" ]; then

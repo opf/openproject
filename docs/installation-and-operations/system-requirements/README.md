@@ -197,7 +197,7 @@ The all-in-one container will only additionally install [hocuspocus](https://git
 
 OpenProject supports the latest versions of the major browsers.
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 102)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 128)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge) (only MS Edge version based on Chromium is supported)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)

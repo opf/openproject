@@ -221,6 +221,34 @@ RSpec.describe Users::UpdateContract do
         it_behaves_like "contract is valid"
       end
 
+      describe "when changing the password" do
+        before do
+          user.password = "newpassword123!"
+          user.password_confirmation = "newpassword123!"
+        end
+
+        context "without current password" do
+          it_behaves_like "contract is invalid", current_password: :invalid
+        end
+
+        context "with wrong current password" do
+          before do
+            user.current_password_input = "wrong-password"
+          end
+
+          it_behaves_like "contract is invalid", current_password: :invalid
+        end
+
+        context "with valid current password" do
+          before do
+            user.current_password_input = "adminADMIN!"
+            allow(user).to receive(:check_password?).with("adminADMIN!").and_return(true)
+          end
+
+          it_behaves_like "contract is valid"
+        end
+      end
+
       context "when updated user authenticates through LDAP and basic attributes are changed" do
         let(:attributes) { super().merge(ldap_auth_source_id: create(:ldap_auth_source).id) }
 

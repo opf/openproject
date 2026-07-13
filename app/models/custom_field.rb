@@ -96,9 +96,15 @@ class CustomField < ApplicationRecord
     true
   end
 
-  def default_value
+  def default_value # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     if list?
-      ids = custom_options.where(default_value: true).pluck(:id).map(&:to_s)
+      # Use loaded association data when available to avoid N+1 queries.
+      # .where().pluck() always hits the database, bypassing eager-loaded data.
+      ids = if custom_options.loaded?
+              custom_options.select(&:default_value).map { |o| o.id.to_s }
+            else
+              custom_options.where(default_value: true).pluck(:id).map(&:to_s)
+            end
 
       if multi_value?
         ids

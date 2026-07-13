@@ -147,6 +147,48 @@ RSpec.describe Repository::Subversion do
     end
   end
 
+  describe "URL validation" do
+    let(:checkout_root) { "/tmp/svn-checkouts" }
+    let(:managed_git_root) { "/tmp/managed-git" }
+    let(:managed_svn_root) { "/tmp/managed-svn" }
+    let(:config) { { manages: managed_svn_root } }
+
+    before do
+      allow(OpenProject::Configuration).to receive(:scm_local_checkout_path).and_return(checkout_root)
+      allow(Repository::Git).to receive(:managed_root).and_return(managed_git_root)
+    end
+
+    context "file URL points to OpenProject-managed directory" do
+      let(:instance) { build(:repository_subversion, url: "file://#{managed_git_root}/sample-project/.git") }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.full_messages).to include("URL must not point to an OpenProject-managed repository directory.")
+      end
+    end
+
+    context "root_url points to OpenProject-managed directory" do
+      let(:instance) { build(:repository_subversion, url: "https://example.org/svn/repo") }
+
+      before do
+        instance.root_url = "file://#{checkout_root}/sample-project"
+      end
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.full_messages).to include("URL must not point to an OpenProject-managed repository directory.")
+      end
+    end
+
+    context "with non-managed file URL" do
+      let(:instance) { build(:repository_subversion, url: "file:///srv/svn/public") }
+
+      it "is valid" do
+        expect(instance).to be_valid
+      end
+    end
+  end
+
   describe "with a remote repository" do
     let(:instance) do
       build(:repository_subversion,
