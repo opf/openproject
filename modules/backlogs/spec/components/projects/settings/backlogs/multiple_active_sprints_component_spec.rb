@@ -63,7 +63,7 @@ RSpec.describe Projects::Settings::Backlogs::MultipleActiveSprintsComponent, typ
       let(:project) { create(:project, sprint_sharing: "no_sharing", allow_multiple_active_sprints: true) }
 
       context "with only one active sprint" do
-        before { create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow) }
+        before { create(:sprint, project:, status: "active", start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1) }
 
         it "renders the toggle checked" do
           expect(rendered_component).to have_css(".ToggleSwitch--checked")
@@ -80,8 +80,8 @@ RSpec.describe Projects::Settings::Backlogs::MultipleActiveSprintsComponent, typ
 
       context "with multiple active sprints" do
         before do
-          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
-          create(:sprint, project:, status: "active", start_date: Date.yesterday, finish_date: Date.tomorrow)
+          create(:sprint, project:, status: "active", start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
+          create(:sprint, project:, status: "active", start_date: Time.zone.today - 1, finish_date: Time.zone.today + 1)
         end
 
         it "renders the toggle checked" do
