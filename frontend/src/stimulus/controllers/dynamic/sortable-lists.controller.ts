@@ -65,11 +65,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
   declare readonly sortableListsItemOutlets:RootAwareChild[];
+  declare readonly sortableListsScrollableOutlets:RootAwareChild[];
 
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
 
   private monitorCleanupFn?:CleanupFn;
+  private healScheduled = false;
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
@@ -80,12 +82,47 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         void this.handleDrop(args);
       },
     });
+    this.element.addEventListener('turbo:morph-element', this.scheduleRegistrationHeal);
   }
 
   disconnect():void {
+    this.element.removeEventListener('turbo:morph-element', this.scheduleRegistrationHeal);
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
   }
+
+  // A morph desyncs the children's drag-and-drop state in two ways. Stimulus
+  // outlet-connected callbacks do not fire reliably for elements a morph
+  // replaces, so those children never receive the root reference and refuse
+  // every drag and drop (canDrag/canDrop gate on it). And Pragmatic DnD tracks
+  // drop targets in both a marker attribute (which the morph attribute
+  // preservation keeps alive) and a WeakMap registration (which nothing
+  // preserves); an element left with the attribute but no registration
+  // silently aborts Pragmatic's drop-target search, killing every row
+  // rendered underneath it. Re-hand the root and re-register all children
+  // once per morph batch — the outlet getters query the DOM live, so they see
+  // even the children whose connected callbacks were skipped. The microtask
+  // runs before any further drag event can observe the desync, so a morph
+  // mid-drag stays safe too.
+  private scheduleRegistrationHeal = ():void => {
+    if (this.healScheduled) {
+      return;
+    }
+
+    this.healScheduled = true;
+    queueMicrotask(() => {
+      this.healScheduled = false;
+      const children = [
+        ...this.sortableListsListOutlets,
+        ...this.sortableListsItemOutlets,
+        ...this.sortableListsScrollableOutlets,
+      ];
+      children.forEach((child) => {
+        child.connectRoot(this);
+        child.reregister();
+      });
+    });
+  };
 
   sortableListsListOutletConnected(list:RootAwareChild):void {
     list.connectRoot(this);

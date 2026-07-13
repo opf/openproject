@@ -75,10 +75,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   connect():void {
     this.warnOnMissingValues();
-    this.cleanupFn = combine(
-      this.registerDraggable(),
-      this.registerDropTarget(),
-    );
+    this.register();
   }
 
   disconnect():void {
@@ -98,6 +95,23 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   disconnectRoot():void {
     this.root = undefined;
+  }
+
+  // Re-establish the Pragmatic DnD registration from controller state. Called
+  // by the root controller after a morph: a morph can leave an element carrying
+  // Pragmatic's internal drop-target marker attribute without a live registry
+  // entry, and Pragmatic silently aborts its drop-target search at such an
+  // element — every row underneath it stops accepting drops.
+  reregister():void {
+    this.cleanupFn?.();
+    this.register();
+  }
+
+  private register():void {
+    this.cleanupFn = combine(
+      this.registerDraggable(),
+      this.registerDropTarget(),
+    );
   }
 
   // Both values are required: an item with an empty id can never be persisted,

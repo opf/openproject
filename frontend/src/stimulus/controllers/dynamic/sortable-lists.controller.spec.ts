@@ -576,4 +576,87 @@ describe('Sortable lists controller', () => {
     expect(itemController.root).toBe(rootController);
     expect(scrollableController.root).toBe(rootController);
   });
+
+  describe('registration heal after a morph', () => {
+    async function renderedFixtureWithCallCounts() {
+      const fixtureElements = renderFixture();
+      await ctx.nextFrame();
+      // Outlet connections happen after the controller frame; a second frame
+      // ensures the hand-over callbacks have fired.
+      await ctx.nextFrame();
+
+      const { dropTargetForElements, draggable } = vi.mocked(await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
+      const { autoScrollForElements } = vi.mocked(await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
+      return {
+        ...fixtureElements,
+        dropTargetForElements,
+        draggable,
+        autoScrollForElements,
+      };
+    }
+
+    function morph(target:HTMLElement) {
+      target.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+    }
+
+    const flushMicrotasks = () => Promise.resolve();
+
+    it('re-registers items, lists and scrollables from controller state', async () => {
+      const {
+        firstSourceItem, sourceList, scrollable, dropTargetForElements, draggable, autoScrollForElements,
+      } = await renderedFixtureWithCallCounts();
+      const itemRegistrations = () => dropTargetForElements.mock.calls.filter(([options]) => options.element === firstSourceItem).length;
+      const listRegistrations = () => dropTargetForElements.mock.calls.filter(([options]) => options.element === sourceList).length;
+      const scrollableRegistrations = () => autoScrollForElements.mock.calls.filter(([options]) => options.element === scrollable).length;
+      const draggableRegistrations = () => draggable.mock.calls.filter(([options]) => options.element === firstSourceItem).length;
+
+      morph(firstSourceItem);
+      await flushMicrotasks();
+
+      expect(itemRegistrations()).toEqual(2);
+      expect(listRegistrations()).toEqual(2);
+      expect(scrollableRegistrations()).toEqual(2);
+      expect(draggableRegistrations()).toEqual(2);
+    });
+
+    it('coalesces one morph batch into a single heal', async () => {
+      const { root, firstSourceItem, dropTargetForElements } = await renderedFixtureWithCallCounts();
+      const itemRegistrations = () => dropTargetForElements.mock.calls.filter(([options]) => options.element === firstSourceItem).length;
+
+      morph(root);
+      morph(firstSourceItem);
+      morph(firstSourceItem);
+      await flushMicrotasks();
+
+      expect(itemRegistrations()).toEqual(2);
+    });
+
+    it('heals again for a later morph', async () => {
+      const { firstSourceItem, dropTargetForElements } = await renderedFixtureWithCallCounts();
+      const itemRegistrations = () => dropTargetForElements.mock.calls.filter(([options]) => options.element === firstSourceItem).length;
+
+      morph(firstSourceItem);
+      await flushMicrotasks();
+      morph(firstSourceItem);
+      await flushMicrotasks();
+
+      expect(itemRegistrations()).toEqual(3);
+    });
+
+    it('re-hands the root reference to children that lost it', async () => {
+      const { root, firstSourceItem } = await renderedFixtureWithCallCounts();
+      const itemController = ctx.application.getControllerForElementAndIdentifier(firstSourceItem, 'sortable-lists--item') as unknown as { root?:unknown; disconnectRoot():void };
+      const rootController = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists');
+
+      // A morph-replaced element's controller misses the outlet-connected
+      // hand-over; losing the root reference stands in for that here.
+      itemController.disconnectRoot();
+      expect(itemController.root).toBeUndefined();
+
+      morph(firstSourceItem);
+      await flushMicrotasks();
+
+      expect(itemController.root).toBe(rootController);
+    });
+  });
 });

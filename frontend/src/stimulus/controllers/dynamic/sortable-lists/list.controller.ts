@@ -70,6 +70,10 @@ export default class ListController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
 
   connect():void {
+    this.register();
+  }
+
+  private register():void {
     // A list that accepts no item type is not a drop target (display-only).
     if (!this.hasAcceptedTypeValue) {
       return;
@@ -110,6 +114,14 @@ export default class ListController extends Controller<HTMLElement> implements R
     this.cleanupFn?.();
     this.cleanupFn = undefined;
     this.disconnectRoot();
+  }
+
+  // Re-establish the Pragmatic DnD registration from controller state; see the
+  // item controller's reregister for why the root calls this after a morph.
+  reregister():void {
+    this.cleanupFn?.();
+    this.cleanupFn = undefined;
+    this.register();
   }
 
   // Called by the root controller's outlet-connected callback.

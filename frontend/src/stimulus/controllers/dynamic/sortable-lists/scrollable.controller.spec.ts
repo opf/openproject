@@ -79,6 +79,14 @@ describe('Sortable lists scrollable controller', () => {
     expect(autoScrollForElements).toHaveBeenCalledWith(expect.objectContaining({ element }));
   });
 
+  it('drops the previous registration and registers again on reregister', async () => {
+    const { controller } = await mount();
+
+    controller.reregister();
+
+    expect(autoScrollForElements).toHaveBeenCalledTimes(2);
+  });
+
   it('refuses to scroll before a root is connected', async () => {
     const { element } = await mount();
     const options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];

@@ -184,6 +184,19 @@ describe('Sortable lists item controller', () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
+  it('re-establishes registrations and the marker attribute on reregister', () => {
+    const element = document.createElement('li');
+    const controller = connectedControllerFor(element);
+
+    controller.reregister();
+
+    expect(draggable).toHaveBeenCalledTimes(2);
+    expect(dropTargetForElements).toHaveBeenCalledTimes(2);
+    // The mocked cleanup strips the marker attribute, so its presence shows the
+    // fresh registration ran after the stale one was cleaned up.
+    expect(element.getAttribute('data-drop-target-for-element')).toEqual('true');
+  });
+
   it('marks the closest edge while dragging over an item', () => {
     const element = document.createElement('article');
     const controller = controllerFor(element);

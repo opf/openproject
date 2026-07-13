@@ -54,6 +54,23 @@ export default class ScrollableController extends Controller<HTMLElement> implem
   private root?:SortableListsRoot;
 
   connect():void {
+    this.register();
+  }
+
+  disconnect():void {
+    this.cleanupFn?.();
+    this.cleanupFn = undefined;
+    this.disconnectRoot();
+  }
+
+  // Re-establish the Pragmatic DnD registration from controller state; see the
+  // item controller's reregister for why the root calls this after a morph.
+  reregister():void {
+    this.cleanupFn?.();
+    this.register();
+  }
+
+  private register():void {
     this.cleanupFn = autoScrollForElements({
       element: this.element,
       canScroll: ({ source }) => {
@@ -65,12 +82,6 @@ export default class ScrollableController extends Controller<HTMLElement> implem
       getAllowedAxis: () => this.allowedAxis,
       getConfiguration: () => ({ maxScrollSpeed: this.maxScrollSpeed }),
     });
-  }
-
-  disconnect():void {
-    this.cleanupFn?.();
-    this.cleanupFn = undefined;
-    this.disconnectRoot();
   }
 
   // Called by the root controller's outlet-connected callback.

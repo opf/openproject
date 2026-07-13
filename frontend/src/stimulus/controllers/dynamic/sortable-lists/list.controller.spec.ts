@@ -126,6 +126,22 @@ describe('Sortable lists list controller', () => {
     expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({ element: list }));
   });
 
+  it('drops the previous registration and registers again on reregister', async () => {
+    const { list, controller } = await connectedListFor();
+
+    controller.reregister();
+
+    expect(vi.mocked(dropTargetForElements).mock.calls.filter(([options]) => options.element === list)).toHaveLength(2);
+  });
+
+  it('stays inert on reregister for a display-only list', async () => {
+    const { list, controller } = await connectedListFor({ acceptedType: null });
+
+    controller.reregister();
+
+    expect(vi.mocked(dropTargetForElements).mock.calls.filter(([options]) => options.element === list)).toHaveLength(0);
+  });
+
   it('does not register without an accepted type', async () => {
     const { list } = await connectedListFor({ acceptedType: null, root: null });
 
