@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -489,6 +491,14 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :has_project_attributes,
+                 as: :hasProjectAttributes,
+                 writable: false,
+                 uncacheable: true,
+                 getter: ->(*) do
+                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                 end
+
         associated_resource :category
 
         associated_resource :type
@@ -570,6 +580,13 @@ module API
         associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter
+
+        associated_resources :target_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter,
+                             setter: ->(fragment:, **) do
+                               represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
+                             end
 
         associated_resource :parent,
                             v3_path: :work_package,
@@ -794,7 +811,8 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget]
+                                budget
+                                target_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

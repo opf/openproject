@@ -90,7 +90,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => [nil, :priority],
                          "project_id" => [nil, :project],
                          "category_id" => [nil, :category],
-                         "version_id" => [nil, :version],
+                         "target_versions" => [nil, -> { version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
                          "done_ratio" => [nil, 100],
@@ -203,7 +203,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
                          "category_id" => [nil, :category],
-                         "version_id" => %i[version other_version],
+                         "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
                          "done_ratio" => [nil, 100],
@@ -279,7 +279,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => [nil, :other_priority],
                          "project_id" => [nil, :other_project],
                          "category_id" => [nil, :category],
-                         "version_id" => [nil, :other_version],
+                         "target_versions" => [nil, -> { other_version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
                          "done_ratio" => [nil, 100],
@@ -358,7 +358,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
                          "category_id" => [nil, :category],
-                         "version_id" => %i[version other_version],
+                         "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
                          "done_ratio" => [nil, 100],
@@ -441,6 +441,178 @@ RSpec.describe WorkPackage do
 
       context "when attachment saved w/o change" do
         it { expect { attachment.save! }.not_to change(Journal, :count) }
+      end
+    end
+
+    # These examples also guard the callback order between the
+    # WorkPackage::Versions and WorkPackage::Journalized concerns: the journal
+    # snapshots table state during the save, so it only captures the version
+    # associations if they are persisted by the earlier after_save callback.
+    context "on target version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_target_versions(versions)
+        journable.target_version_ids_replacements = versions.map(&:id)
+        journable.save!
+      end
+
+      context "when setting target versions" do
+        it "creates a new journal listing the versions in the details" do
+          expect { set_target_versions([version, other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([nil, [version.id, other_version.id].sort.join(",")])
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_target_versions([version]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "when replacing a target version" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates a new journal with the old and new versions in the details" do
+          expect { set_target_versions([other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([version.id.to_s, other_version.id.to_s])
+        end
+      end
+
+      context "when removing all target versions" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_target_versions([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([version.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged target versions" do
+        before do
+          set_target_versions([version])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_target_versions([version]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+        # The initial journal lies outside the aggregation window so that only
+        # the journals created by the examples can aggregate with each other.
+        shared_let(:journable) do
+          create(:work_package,
+                 subject: "Initial subject",
+                 journals: { 10.minutes.ago => { user: } })
+        end
+
+        context "when changing target versions again" do
+          before do
+            set_target_versions([version])
+          end
+
+          it "aggregates into the previous journal with cumulative details" do
+            expect { set_target_versions([version, other_version]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["target_versions"])
+              .to eq([nil, [version.id, other_version.id].sort.join(",")])
+          end
+        end
+
+        context "when changing target versions shortly after another change" do
+          before do
+            journable.update!(subject: "Changed subject")
+          end
+
+          it "aggregates into one journal capturing both changes" do
+            expect { set_target_versions([version]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["subject"])
+              .to eq(["Initial subject", "Changed subject"])
+            expect(journable.last_journal.details["target_versions"])
+              .to eq([nil, version.id.to_s])
+          end
+        end
+      end
+
+      context "on work package creation" do
+        it "includes the target versions in the initial journal's details" do
+          journable = build(:work_package)
+          journable.target_version_ids_replacements = [version.id]
+          journable.save!
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([nil, version.id.to_s])
+        end
+      end
+
+      # While the deprecated version_id column mirrors the target versions,
+      # every version change produces both a version_id and a target_versions
+      # diff. Only the target_versions representation is exposed.
+      context "when changing the version via the legacy version field" do
+        it "journals the change as target versions only" do
+          journable.update!(version:)
+
+          expect(journable.last_journal.details["target_versions"])
+            .to eq([nil, version.id.to_s])
+          expect(journable.last_journal.details)
+            .not_to have_key("version_id")
+        end
+      end
+
+      context "when setting target versions via the replacements" do
+        it "does not additionally journal the mirrored version_id" do
+          set_target_versions([version])
+
+          expect(journable.last_journal.details)
+            .not_to have_key("version_id")
+        end
+      end
+    end
+
+    # Journal creation (the SQL differ gated by JOURNALED_KINDS) and rendering
+    # (the per-kind details) are independent implementations. A kind journaled
+    # without a matching detail would create journals that display no change.
+    context "on version changes of any journaled kind",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) { create(:work_package) }
+
+      it "journals only kinds the version associations define" do
+        expect(Journals::CreateService::WorkPackageVersion::JOURNALED_KINDS)
+          .to all(be_in(WorkPackageVersion.kinds.keys))
+      end
+
+      it "renders a detail for every journaled kind" do
+        Journals::CreateService::WorkPackageVersion::JOURNALED_KINDS.each do |kind|
+          journable.public_send(:"#{kind}_version_ids_replacements=", [version.id])
+
+          expect { journable.save! }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details)
+            .to have_key("#{kind}_versions"),
+                "journaled kind '#{kind}' creates journals but renders no detail for them"
+        end
       end
     end
 

@@ -34,20 +34,28 @@ module ResourcePlanners
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    FORM_ID = NewDialogComponent::FORM_ID
-
-    def initialize(resource_planner:, project:, base_errors: nil)
+    def initialize(resource_planner:, project:, base_errors: nil,
+                   form_id: NewDialogComponent::FORM_ID,
+                   dialog_id: NewDialogComponent::DIALOG_ID,
+                   url: nil,
+                   method: :post,
+                   include_default_view: true)
       super
 
       @resource_planner = resource_planner
       @project = project
       @base_errors = base_errors
+      @form_id = form_id
+      @dialog_id = dialog_id
+      @url = url
+      @method = method
+      @include_default_view = include_default_view
     end
 
     private
 
     def form_url
-      project_resource_planners_path(@project)
+      @url || project_resource_planners_path(@project)
     end
 
     def can_manage_public?

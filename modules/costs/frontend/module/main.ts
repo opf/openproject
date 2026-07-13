@@ -39,7 +39,7 @@ export function initializeCostsPlugin(injector:Injector) {
       key: 'log_costs',
       icon: 'icon-projects',
       indexBy(actions:any) {
-        const index = _.findIndex(actions, { key: 'log_time' });
+        const index = actions.findIndex((action:any) => action.key === 'log_time');
         return index !== -1 ? index + 1 : actions.length;
       },
       resource: 'workPackage',
@@ -51,7 +51,7 @@ export function initializeCostsPlugin(injector:Injector) {
       icon: 'icon-projects',
       link: 'logCosts',
       indexBy(actions:any) {
-        const index = _.findIndex(actions, { link: 'logTime' });
+        const index = actions.findIndex((action:any) => action.link === 'logTime');
         return index !== -1 ? index + 1 : actions.length;
       },
       text: I18n.t('js.button_log_costs'),

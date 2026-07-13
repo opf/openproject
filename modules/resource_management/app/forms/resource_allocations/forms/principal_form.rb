@@ -52,10 +52,11 @@ module ResourceAllocations
         )
       end
 
-      def initialize(project:, dialog_id:)
+      def initialize(project:, dialog_id:, view: nil)
         super()
         @project = project
         @dialog_id = dialog_id
+        @view = view
       end
 
       private
@@ -70,12 +71,16 @@ module ResourceAllocations
              .presence
       end
 
+      # Constrains the picker to active users of the project, and additionally
+      # to the planner view's users when the dialog was opened from a user view.
       def principal_filters
-        [
+        filters = [
           { name: "type", operator: "=", values: %w[User] },
           { name: "status", operator: "=", values: [Principal.statuses[:active]] },
           { name: "member", operator: "=", values: [@project.id.to_s] }
         ]
+        filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
+        filters
       end
     end
   end

@@ -87,7 +87,7 @@ module Wikis
       private
 
       def save_oauth_client
-        @service_result = Wikis::OAuthClients::CreateService
+        @service_result = OAuthClients::CreateService
                             .new(user: current_user)
                             .call(oauth_client_params.merge(integration: @wiki_provider))
         @oauth_client = @service_result.result

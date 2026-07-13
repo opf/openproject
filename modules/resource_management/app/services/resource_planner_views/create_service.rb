@@ -32,6 +32,11 @@ module ResourcePlannerViews
   class CreateService < ::BaseServices::Create
     protected
 
+    # View types share this service, so resolve a per type contract when one exists
+    def default_contract_class
+      "ResourcePlannerViews::#{model.class}::CreateContract".safe_constantize || super
+    end
+
     # STI sets `type` during `.new`, before the model is extended with
     # ChangedBySystem; mark that initial change as system-made so the contract
     # does not flag `type` as a user-written readonly attribute.

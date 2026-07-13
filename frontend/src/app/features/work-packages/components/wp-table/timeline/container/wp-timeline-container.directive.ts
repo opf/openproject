@@ -253,6 +253,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
+    // timeOutput is a fire-and-forget debug timer; the async callback is intentional.
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.style.setProperty('width', 'auto');
@@ -264,7 +266,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       // Update all cells
       this.cellsRenderer.refreshAllCells();
 
-      _.each(this.renderers, (cb, key) => {
+      Object.entries(this.renderers).forEach(([key, cb]) => {
         debugLog(`Refreshing timeline member ${key}`);
         cb(this._viewParameters);
       });
@@ -485,7 +487,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);
       const visibleDays = timelineWidthInPx / pixelPerDay;
 
-      if (visibleDays >= daysSpan || zoomLevel === _.last(zoomLevelOrder)) {
+      if (visibleDays >= daysSpan || zoomLevel === zoomLevelOrder.at(-1)) {
         // Zoom level is enough
         const previousZoomLevel = this._viewParameters.settings.zoomLevel;
 

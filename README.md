@@ -6,23 +6,27 @@
 
 **We empower teams to achieve great things together for the good of society.**
 
-OpenProject is a web-based project management software. Use OpenProject to manage your projects, tasks and goals. Collaborate via work packages and link them to your pull requests on Github. [Read more about the OpenProject GitHub integration](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
+OpenProject is a web-based open source project management software for teams and organizations that require transparency, flexibility, and data sovereignty.
+Manage projects, portfolios, products, tasks, bugs, agile workflows, roadmaps, and team collaboration in a single platform. OpenProject can be self-hosted and is designed for organizations looking for an open source enterprise-ready alternative to tools such as Jira, MS Project, Monday, Asana, YouTrack while maintaining full control over their data and infrastructure.
+
+OpenProject is trusted by organizations worldwide, including enterprises, public institutions, and highly regulated industries.
 
 ![Screenshot of OpenProject, showing the GitHub tab on a work package](GitHub-tab-new.png)
 
-OpenProject's key features are:
+**OpenProject's key features include:**
 
-* [Project planning and scheduling](https://www.openproject.org/collaboration-software-features/#project-planning)
-* [Product roadmap and release planning](https://www.openproject.org/collaboration-software-features/#product-management)
-* [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/#task-management)
-* [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
-* [Time tracking, cost reporting, and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
+* [Project and portfolio management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+* [Agile boards, Kanban, Scrum, SAFe](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+* [Project planning and scheduling with Gantt charts](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+* [Product and release planning](https://www.openproject.org/collaboration-software-features/product-development/)
+* [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/task-management/)
+* [Time tracking, cost reporting, and budgeting](https://www.openproject.org/collaboration-software-features/time-tracking/)
 * [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Wikis](https://www.openproject.org/docs/user-guide/wysiwyg/)
-* [Forums](https://www.openproject.org/docs/user-guide/forums/)
-* [Meeting agendas and meeting minutes](https://www.openproject.org/docs/user-guide/meetings/)
+* [Team collaboration, wikis, forums, news](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+* [Meeting agendas and meeting minutes](https://www.openproject.org/collaboration-software-features/meeting-management/)
+* [Integrations: Nextcloud, XWiki, GitHub, GitLab, and more](https://www.openproject.org/integrations/)
 
-More information and screenshots can be found on our [website](https://www.openproject.org).
+More information can be found on our [website](https://www.openproject.org).
 
 ## Start now with OpenProject
 
@@ -55,7 +59,7 @@ Here you can find our [contact information](https://www.openproject.org/contact/
 - [LinkedIn](https://www.linkedin.com/company/18706985)
 - [Reddit](https://www.reddit.com/r/openproject/)
 - [Fosstodon](https://fosstodon.org/@openproject)
-- [Twitter/X](https://twitter.com/openproject)
+- [Bluesky](https://bsky.app/profile/openproject.bsky.social)
 
 ## Security / responsible disclosure
 

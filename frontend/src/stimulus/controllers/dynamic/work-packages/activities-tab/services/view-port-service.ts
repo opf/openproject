@@ -34,9 +34,15 @@ export interface ViewPortServiceInterface {
   isWithinSplitScreen():boolean;
   isJournalsContainerScrolledToBottom():boolean;
   scrollableContainer:HTMLElement | null;
+  anchorScrollOffset():number;
 }
 
 export class ViewPortService implements ViewPortServiceInterface {
+  // Small gap kept above a comment reached by its anchor so it seats just below
+  // the connector stem (or, on mobile, just below the pinned toolbar) instead of
+  // exposing the bottom of the previous comment above it.
+  private static readonly ANCHOR_SCROLL_GAP = 16;
+
   private notificationCenterPathName:string;
   private splitScreenPathName:string;
 
@@ -93,5 +99,45 @@ export class ViewPortService implements ViewPortServiceInterface {
 
     // valid for desktop
     return document.querySelector('.tabcontent')!;
+  }
+
+  // How far down to seat a comment scrolled to via its anchor: just below any
+  // header pinned to the top of the scroll container (the work package toolbar on
+  // mobile), plus a small gap. Desktop pins nothing there, so the comment seats a
+  // gap below the top, showing only the connector stem above it rather than the
+  // previous comment.
+  anchorScrollOffset():number {
+    const container = this.scrollableContainer;
+    const pinnedHeader = container ? this.pinnedHeaderHeight(container) : 0;
+
+    return pinnedHeader + ViewPortService.ANCHOR_SCROLL_GAP;
+  }
+
+  // Height of any header pinned to the top of the container, read from the live
+  // paint stack because the toolbar's height is not fixed:
+  //
+  //   ┌─ pinned toolbar ─┐  ← container top
+  //   ├──────────────────┤  ← returned height; the comment seats below this line
+  //   │  journals …      │
+  //
+  private pinnedHeaderHeight(container:HTMLElement):number {
+    const containerRect = container.getBoundingClientRect();
+    const probeX = containerRect.left + (container.clientWidth / 2);
+    const stack = document.elementsFromPoint(probeX, containerRect.top + 1);
+
+    let height = 0;
+    for (const node of stack) {
+      if (node === container || !container.contains(node)) { continue; }
+
+      // Only a sticky header is pinned relative to this container. A fixed
+      // element is positioned against the viewport, so its position over the
+      // container top is incidental and must not reserve space here.
+      const { position } = window.getComputedStyle(node);
+      if (position === 'sticky') {
+        height = Math.max(height, node.getBoundingClientRect().bottom - containerRect.top);
+      }
+    }
+
+    return height;
   }
 }

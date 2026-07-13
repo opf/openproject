@@ -87,31 +87,14 @@ RSpec.describe "Edit", :js do
     planning_page.expect_work_package_not_in_sprint(work_package, second_sprint)
   end
 
-  it "adds a work package to a sprint" do
-    planning_page.click_in_sprint_menu(first_sprint, "Add work package")
-    planning_page.expect_create_work_package_dialog
-
-    page.within("#create-work-package-dialog") do
-      page.fill_in "Subject", with: "Story created in sprint"
-
-      click_on "Create"
-    end
-
-    wait_for_reload
-
-    expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
-    created_wp = first_sprint.reload.work_packages.last
-    expect(created_wp.subject).to eq("Story created in sprint")
-    planning_page.expect_work_package_in_sprint(created_wp, first_sprint)
-  end
-
   context "with the 'create_sprints' permissions" do
     context "when editing a sprint" do
       it "displays all menu entries" do
         planning_page.within_sprint_menu(first_sprint) do |menu|
-          expect(menu).to have_selector :menuitem, count: 2
+          expect(menu).to have_selector :menuitem, count: 3
           expect(menu).to have_selector :menuitem, "Edit sprint"
-          expect(menu).to have_selector :menuitem, "Add work package"
+          expect(menu).to have_selector :menuitem, "Add new work package"
+          expect(menu).to have_selector :menuitem, "Add existing work package"
         end
       end
 
@@ -167,7 +150,7 @@ RSpec.describe "Edit", :js do
             expect(menu).to have_selector :menuitem, count: 1
             expect(menu).to have_selector :menuitem, "Edit sprint"
 
-            expect(menu).to have_no_selector :menuitem, "Add work package"
+            expect(menu).to have_no_selector :menuitem, "Add new work package"
           end
         end
       end

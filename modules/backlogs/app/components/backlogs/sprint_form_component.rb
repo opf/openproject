@@ -100,9 +100,9 @@ module Backlogs
 
     def form_url
       if sprint.new_record?
-        project_backlogs_sprints_path(project, all_backlogs_params)
+        project_backlogs_sprints_path(project, backlog_filter_params)
       else
-        project_backlogs_sprint_path(project, sprint, all_backlogs_params)
+        project_backlogs_sprint_path(project, sprint, backlog_filter_params)
       end
     end
 
@@ -111,7 +111,7 @@ module Backlogs
         controller: "refresh-on-form-changes",
         "refresh-on-form-changes-target": "form",
         "refresh-on-form-changes-turbo-stream-url-value":
-          refresh_form_project_backlogs_sprints_path(project, all_backlogs_params)
+          refresh_form_project_backlogs_sprints_path(project, backlog_filter_params)
       }
     end
   end

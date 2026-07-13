@@ -21,7 +21,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = _.clone(this.tablePass.renderedOrder);
+    const rendered = [...this.tablePass.renderedOrder];
     const missingChildIds:string[] = [];
 
     rendered.forEach((row:RowRenderInfo) => {
@@ -72,7 +72,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
   }
 
   private loadMissingTargets(ids:string[]) {
-    const uniqueIds = _.uniq(ids);
+    const uniqueIds = Array.from(new Set(ids));
 
     if (uniqueIds.length === 0 || this.loadingMissingTargets) {
       return;

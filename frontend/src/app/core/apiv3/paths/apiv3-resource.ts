@@ -100,7 +100,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
   }
 
   public withOptionalId(id?:string|number|null):this|T {
-    if (_.isNil(id)) {
+    if (id == null) {
       return this;
     }
     return this.id(id);

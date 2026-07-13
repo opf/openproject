@@ -33,6 +33,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
 
     TRUNCATE_MIDDLE = 50
 
@@ -51,7 +52,9 @@ module Backlogs
     end
 
     def truncated?
-      !show_all_backlog && work_packages.size > truncate_threshold
+      return @truncated if defined?(@truncated)
+
+      @truncated = !backlog_filters.show_all? && work_packages.size > truncate_threshold
     end
 
     def visible_work_packages

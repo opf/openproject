@@ -547,6 +547,55 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
+          describe "set target_version_ids attribute",
+                   with_settings: { work_package_multiple_versions: true } do
+            shared_let(:target_subproject) do
+              create(:project, parent: project1, types: [type])
+            end
+            shared_let(:target_version) do
+              create(:version, status: "open", sharing: "tree", project: target_subproject)
+            end
+
+            describe "to a version" do
+              before do
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { target_version_ids: [target_version.id.to_s] }
+                    }
+              end
+
+              it "redirects on success" do
+                expect(response).to be_redirect
+              end
+
+              it "assigns the version as target_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([target_version.id])
+              end
+            end
+
+            describe "to none" do
+              before do
+                work_packages.each do |wp|
+                  wp.work_package_versions.create!(version_id: target_version.id, kind: "target")
+                end
+
+                # 'none' is a magic value that clears all target_versions
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { target_version_ids: ["none"] }
+                    }
+              end
+
+              it "clears the target_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([])
+              end
+            end
+          end
+
           describe "set version_id to nil" do
             before do
               # 'none' is a magic value, setting version_id to nil

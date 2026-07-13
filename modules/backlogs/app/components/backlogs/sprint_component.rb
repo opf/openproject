@@ -34,6 +34,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
     include Redmine::I18n
 
     attr_reader :sprint, :project, :work_packages, :current_user, :active_sprint_ids
@@ -86,7 +87,7 @@ module Backlogs
       {
         id: dom_target(sprint, :finish_button),
         tag: :a,
-        href: finish_project_backlogs_sprint_path(project, sprint, all_backlogs_params),
+        href: finish_project_backlogs_sprint_path(project, sprint, backlog_filter_params),
         data: { turbo_method: :post }
       }
     end

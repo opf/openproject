@@ -60,7 +60,7 @@ module OpTurbo
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
     def respond_with_dialog(dialog_component, status: :ok, &format_block)
-      modify_via_turbo_stream(component: dialog_component, action: :dialog, status:)
+      dialog_via_turbo_stream(component: dialog_component, status:)
 
       respond_to_with_turbo_streams(&format_block)
     end
@@ -75,6 +75,10 @@ module OpTurbo
 
     def remove_via_turbo_stream(component:, status: :ok, **)
       modify_via_turbo_stream(component:, action: :remove, status:, **)
+    end
+
+    def dialog_via_turbo_stream(component:, status: :ok, **)
+      modify_via_turbo_stream(component:, action: :dialog, status:, **)
     end
 
     def modify_via_turbo_stream(component:, action:, status:, **)
@@ -158,10 +162,25 @@ module OpTurbo
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
     end
 
+    def reload_frame_via_turbo_stream(target)
+      turbo_streams << turbo_stream.turbo_frame_reload(target)
+    end
+
+    # Prefix required for all events dispatched via the `dispatchEvent` turbo
+    # stream action. The client-side action refuses any event without it; see
+    # `frontend/src/turbo/dispatch-event-stream-action.ts` for the rationale.
+    DISPATCHED_EVENT_PREFIX = "op-dispatched:"
+
     # Dispatches a `CustomEvent` on `document` from a turbo stream, letting the
     # server signal a client-side change without knowing which listeners (if
     # any) react to it. `detail` is serialized and exposed as the event's detail.
+    # The event name must start with `op-dispatched:` to keep injected turbo
+    # streams from forging arbitrary `document` events.
     def dispatch_event_via_turbo_stream(name, detail: {})
+      unless name.to_s.start_with?(DISPATCHED_EVENT_PREFIX)
+        raise ArgumentError, "dispatched event name must start with #{DISPATCHED_EVENT_PREFIX.inspect}, got #{name.inspect}"
+      end
+
       turbo_streams << OpTurbo::StreamComponent
         .new(action: :dispatchEvent, target: nil, "event-name": name, detail: detail.to_json)
         .render_in(view_context)

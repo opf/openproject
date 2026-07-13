@@ -59,6 +59,7 @@ elif [[ "$@" = "run" ]]; then
 elif [[ "$1" = "setup" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend setup
   yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm frontend npm install
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm hocuspocus npm install
 elif [[ "$1" = "restart" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE restart "${@:2}"
 elif [[ "$1" = "reset" ]]; then

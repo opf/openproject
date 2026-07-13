@@ -45,7 +45,8 @@ module API
         description: nil,
         current_user: nil,
         deprecated: nil,
-        placeholder: nil
+        placeholder: nil,
+        options: nil
       )
         @type = type
         @name = name
@@ -57,6 +58,7 @@ module API
         @description = description
         @deprecated = deprecated
         @placeholder = placeholder
+        @options = options
 
         super(nil, current_user:)
       end

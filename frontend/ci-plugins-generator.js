@@ -1,9 +1,9 @@
 const path = require('node:path');
 const fs = require('node:fs');
-const _ = require('lodash');
+const { upperFirst, camelCase } = require('lodash-es');
 
 const LINKED_PLUGINS_MODULE_TEMPLATE = (plugins) => {
-  const importableName = (name) => _.upperFirst(_.camelCase(name));
+  const importableName = (name) => upperFirst(camelCase(name));
   const frontendPlugins = plugins.map(([name]) => [name, importableName(name)]);
 
   return `

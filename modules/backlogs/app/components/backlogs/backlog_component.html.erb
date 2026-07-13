@@ -48,13 +48,20 @@ See COPYRIGHT and LICENSE files for more details.
           )
         )
       end
+    end
+  %>
 
-      if backlog_bucket_creation_allowed?
-        head.with_actions do
+  <%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+    <% flex.with_column do %>
+      <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :bucket_ids) %>
+    <% end %>
+    <% if backlog_bucket_creation_allowed? %>
+      <% flex.with_column do %>
+        <%=
           render Primer::Beta::Button.new(
             tag: :a,
-            label: BacklogBucket.human_model_name,
-            href: new_dialog_project_backlogs_buckets_path(project, all_backlogs_params),
+            href: new_dialog_project_backlogs_buckets_path(project, backlog_filter_params),
+            aria: { label: t(".button_new_backlog_bucket") },
             data: {
               controller: "async-dialog",
               test_selector: "op-backlog-buckets--new-backlog-bucket-button"
@@ -63,31 +70,29 @@ See COPYRIGHT and LICENSE files for more details.
             button.with_leading_visual_icon(icon: :plus)
             BacklogBucket.human_model_name
           end
-        end
-      elsif sprint_creation_allowed?
-        # Ugly hack:
-        # This button will not be rendered, but still takes up space to push the left side down a bit.
-        # Remove as soon as the `+ Sprint` button moves from the Subhead into a SubHeader.
-        head.with_actions do
-          render(Primer::Beta::Button.new(tag: :a, visibility: :hidden)) { "spacer" }
-        end
-      end
-    end
-  %>
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
 
   <% buckets.each do |bucket| %>
     <%=
       render Backlogs::BucketComponent.new(
         project:,
         backlog_bucket: bucket,
-        work_packages: work_packages_for(bucket)
+        work_packages: work_packages_for(bucket),
+        current_user:
       )
     %>
   <% end %>
-  <%=
-    render Backlogs::InboxComponent.new(
-      work_packages: work_packages_for_inbox,
-      project: project
-    )
-  %>
+
+  <% if backlog_filters.show_inbox? %>
+    <%=
+      render Backlogs::InboxComponent.new(
+        work_packages: work_packages_for_inbox,
+        project:,
+        current_user:
+      )
+    %>
+  <% end %>
 <% end %>

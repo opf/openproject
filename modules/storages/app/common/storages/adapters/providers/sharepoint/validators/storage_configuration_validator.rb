@@ -129,7 +129,7 @@ module Storages
             def auth_strategy = Registry["sharepoint.authentication.userless"].call
 
             def error_payload
-              @error_payload ||= query_result.either(->(_) { {} }, -> { MultiJson.load(it.payload, symbolize_keys: true) })
+              @error_payload ||= query_result.either(->(_) { {} }, -> { MultiJSON.load(it.payload, symbolize_keys: true) })
             end
           end
         end

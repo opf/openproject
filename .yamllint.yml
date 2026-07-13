@@ -3,6 +3,7 @@ extends: default
 
 rules:
   comments:
+    min-spaces-from-content: 1
     require-starting-space: false
   key-ordering: {}
   line-length: disable

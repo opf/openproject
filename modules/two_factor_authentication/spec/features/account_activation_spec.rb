@@ -39,7 +39,7 @@ RSpec.describe "activating an invited account",
       visit my_account_path
 
       within_test_selector "my-account-form" do
-        expect(page).to have_field "user_username", with: user.login
+        expect(page).to have_field "user_login", with: user.login
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe "activating an invited account",
       visit my_account_path
 
       within_test_selector "my-account-form" do
-        expect(page).to have_field "user_username", with: user.login
+        expect(page).to have_field "user_login", with: user.login
       end
     end
 

@@ -33,16 +33,13 @@ import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.se
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import type AutoScrollingController from './auto-scrolling.controller';
 import BaseController from './base.controller';
-import type StemsController from './stems.controller';
 
 export default class PollingController extends BaseController {
   static services:ServiceKey[] = ['turboRequests', 'apiV3Service'];
 
-  static outlets = ['work-packages--activities-tab--auto-scrolling', 'work-packages--activities-tab--stems'];
+  static outlets = ['work-packages--activities-tab--auto-scrolling'];
   declare readonly workPackagesActivitiesTabAutoScrollingOutlet:AutoScrollingController;
-  declare readonly workPackagesActivitiesTabStemsOutlet:StemsController;
   private get autoScrollingOutlet() { return this.workPackagesActivitiesTabAutoScrollingOutlet; }
-  private get stemsOutlet() { return this.workPackagesActivitiesTabStemsOutlet; }
 
   static values = {
     lastServerTimestamp: String,
@@ -206,7 +203,6 @@ export default class PollingController extends BaseController {
     // the methods below partially rely on the DOM to be updated
     // a specific signal would be way better than a static timeout, but I couldn't find a suitable one
     setTimeout(() => {
-      this.stemsOutlet.handleStemVisibility();
       this.setLastServerTimestampViaHeaders(headers);
       this.checkForAndHandleWorkPackageUpdate(html);
       this.checkForNewNotifications(html);

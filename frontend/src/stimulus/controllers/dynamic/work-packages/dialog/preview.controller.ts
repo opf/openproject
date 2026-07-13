@@ -31,6 +31,7 @@
 import { Controller } from '@hotwired/stimulus';
 import type { FrameElement, TurboBeforeFrameRenderEvent } from '@hotwired/turbo';
 import { Idiomorph } from 'idiomorph';
+import { isOpenProjectCustomElement } from 'core-turbo/openproject-custom-element';
 
 export abstract class DialogPreviewController extends Controller {
   static targets = [
@@ -79,7 +80,7 @@ export abstract class DialogPreviewController extends Controller {
             beforeNodeMorphed: (oldNode, newNode) => {
               // In case the element is an OpenProject custom dom element, prevent morphing and
               // replace the angular tag with the new version.
-              if (oldNode.tagName?.startsWith('OPCE-')) {
+              if (isOpenProjectCustomElement(oldNode)) {
                 if (schedulingChanged) {
                   oldNode.replaceWith(newNode);
                 }

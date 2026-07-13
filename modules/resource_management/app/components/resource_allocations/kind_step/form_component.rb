@@ -35,10 +35,10 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(project:, work_package: nil)
+      def initialize(project:, allocation:)
         super
         @project = project
-        @work_package = work_package
+        @allocation = allocation
       end
 
       def wrapper_key

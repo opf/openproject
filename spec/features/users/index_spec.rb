@@ -78,6 +78,16 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(alice)
       index_page.expect_not_listed(bob)
     end
+
+    it "filters by group via the quick filter" do
+      index_page.visit!
+      index_page.expect_listed(current_user, alice, bob)
+
+      index_page.quick_filter_by_group("My group")
+
+      index_page.expect_listed(alice)
+      index_page.expect_not_listed(current_user, bob)
+    end
   end
 
   describe "with some sortable users" do
@@ -114,7 +124,11 @@ RSpec.describe "index users", :js do
                         brute_force_block_minutes: 10 } do
       index_page.visit!
 
+      # Default: all users regardless of status
       index_page.expect_listed(current_user, active_user, registered_user, invited_user)
+
+      index_page.filter_by_status(I18n.t(:status_active))
+      index_page.expect_listed(current_user, active_user)
 
       index_page.lock_user(active_user)
       expect_and_dismiss_flash(message: "Successful update.")
@@ -141,14 +155,14 @@ RSpec.describe "index users", :js do
       # temporarily block user — reset via action, no filter needed
       active_user.update(failed_login_count: 6,
                          last_failed_login_on: 9.minutes.ago)
-      index_page.clear_name_search
-      # clearing the name search leaves the active status filter set above in place
-      index_page.expect_listed(current_user, active_user)
+      index_page.clear_filters
+      # after clear, all users are shown again
+      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
 
       index_page.reset_failed_logins(active_user)
       expect_and_dismiss_flash(message: "Successful update.")
       # still listed — reset doesn't change status
-      index_page.expect_listed(current_user, active_user)
+      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
 
       # Lock and unlock — failed logins were reset above, so the user is locked
       # but not blocked, and the row exposes the plain "Unlock" action.

@@ -27,7 +27,6 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { XeokitServer } from 'core-app/features/bim/ifc_models/xeokit/xeokit-server';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -41,7 +40,6 @@ import {
   IfcModelsDataService,
   IfcProjectDefinition,
 } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
-import { BIMViewer } from '@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
@@ -101,6 +99,12 @@ type XeokitBimViewer = Controller&{
   destroy:() => void
 };
 
+/**
+ * Minimal constructor type for the untyped `@xeokit/xeokit-bim-viewer` default export,
+ * so the dynamic import stays type-checked without an `any` escape hatch.
+ */
+type BimViewerConstructor = new (server:unknown, elements:XeokitElements) => XeokitBimViewer;
+
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
   public shouldShowViewer = true;
@@ -123,10 +127,17 @@ export class IFCViewerService extends ViewerBridgeService {
 
   @LazyInject() httpClient:HttpClient;
 
-  public newViewer(elements:XeokitElements, projects:IfcProjectDefinition[]):void {
+  public async newViewer(elements:XeokitElements, projects:IfcProjectDefinition[]):Promise<void> {
+    // Load the heavy xeokit SDK and BIM viewer on demand so they are split into
+    // their own chunk instead of bloating the eager bundle (see OP-19600).
+    const [{ XeokitServer }, { BIMViewer }] = await Promise.all([
+      import('core-app/features/bim/ifc_models/xeokit/xeokit-server'),
+      // @xeokit/xeokit-bim-viewer ships no type declarations; cast its untyped export.
+      import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es') as Promise<{ BIMViewer:BimViewerConstructor }>,
+    ]);
+
     const server = new XeokitServer(this.pathHelper, this.ifcModelsDataService);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const viewerUI = new BIMViewer(server, elements) as XeokitBimViewer;
+    const viewerUI = new BIMViewer(server, elements);
 
     viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
 
