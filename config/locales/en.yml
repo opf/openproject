@@ -4563,13 +4563,13 @@ en:
         label: "Template"
         none_enabled: "No template has been enabled for this work package type"
       toc:
-        label: Table of contents
         caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Generate PDF
     page_nr_footer: "Page %{page} of %{total}"
     template_artefact:
-      label: "PMflex Artefact"
       caption: Work package details rendered as a PMflex Artefact.
+      label: "PMflex Artefact"
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: "Attributes and description"
