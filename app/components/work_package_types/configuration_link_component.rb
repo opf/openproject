@@ -37,8 +37,9 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpPrimer::FormHelpers
 
-    def initialize(type:, aspect:)
+    def initialize(type:, aspect:, with_submit: true)
       @aspect = aspect
+      @with_submit = with_submit
       super(type)
     end
 
@@ -48,7 +49,9 @@ module WorkPackageTypes
 
     def linked? = type.linked?(@aspect)
 
-    def current_source = type.source_for(@aspect)
+    # Not linked yet (any Independent aspect, and every aspect of a fresh sub-type in
+    # the wizard): preselect the parent, the source a sub-type would normally reuse.
+    def current_source = type.source_for(@aspect) || type.parent
 
     def form_options
       {
@@ -56,7 +59,8 @@ module WorkPackageTypes
         method: :put,
         linked: linked?,
         current_source_id: current_source&.id,
-        source_options:
+        source_options:,
+        with_submit: @with_submit
       }
     end
 

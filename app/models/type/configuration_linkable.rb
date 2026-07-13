@@ -102,6 +102,6 @@ module Type::ConfigurationLinkable
   private
 
   def seed_default_configuration_links
-    Type::ConfigurationLink::ASPECTS.each { |aspect| link!(aspect, source: parent) }
+    Type::ConfigurationLink::SEEDED_ASPECTS.each { |aspect| link!(aspect, source: parent) }
   end
 end

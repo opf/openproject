@@ -32,14 +32,28 @@ require "spec_helper"
 
 RSpec.describe Type::ConfigurationLink do
   describe "aspect enum" do
-    it "is string-backed with the two configured aspects" do
+    it "is string-backed with the configured aspects" do
       expect(subject).to define_enum_for(:aspect)
-        .with_values(pdf_export: "pdf_export", patterns: "patterns")
+        .with_values(
+          pdf_export: "pdf_export",
+          patterns: "patterns",
+          workflows: "workflows",
+          automations: "automations",
+          projects: "projects",
+          form_configuration: "form_configuration"
+        )
         .backed_by_column_of_type(:string)
     end
 
     it "exposes the aspect identifiers as constants" do
       expect(described_class::ASPECTS)
+        .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS,
+                            described_class::WORKFLOWS, described_class::AUTOMATIONS,
+                            described_class::PROJECTS, described_class::FORM_CONFIGURATION)
+    end
+
+    it "seeds only the aspects whose linked behaviour is implemented" do
+      expect(described_class::SEEDED_ASPECTS)
         .to contain_exactly(described_class::PDF_EXPORT, described_class::PATTERNS)
     end
 

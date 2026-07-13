@@ -144,6 +144,15 @@ RSpec.describe "Work package type configuration source",
       expect(flash[:notice]).to be_blank
     end
 
+    it "does not link when no source was picked" do
+      put type_configuration_link_path(type_id: type.id, aspect:),
+          params: { mode: "linked", source_id: "" }
+
+      expect(type).not_to be_linked(aspect)
+      expect(flash[:alert]).to be_present
+      expect(flash[:notice]).to be_blank
+    end
+
     it "requires admin" do
       login_as create(:user)
 

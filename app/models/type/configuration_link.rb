@@ -33,8 +33,16 @@
 class Type::ConfigurationLink < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
-    PATTERNS = "patterns"
+    PATTERNS = "patterns",
+    WORKFLOWS = "workflows",
+    AUTOMATIONS = "automations",
+    PROJECTS = "projects",
+    FORM_CONFIGURATION = "form_configuration"
   ].freeze
+
+  # Aspects a new sub-type inherits from its parent on creation. The remaining
+  # aspects start Independent until their linked behaviour is implemented.
+  SEEDED_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
 
   belongs_to :type, optional: false
   belongs_to :source, class_name: "Type", optional: false
