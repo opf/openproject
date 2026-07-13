@@ -201,6 +201,16 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, rowsContainer: intent.rowsContainer, previousItemId: intent.previousItemId });
+
+    // The reorder resolving back to the source's current DOM position means
+    // the drop is a no-op — nothing to persist, so no request. Comparing DOM
+    // placement (not predecessor ids) keeps non-item rows such as truncation
+    // markers out of the equation.
+    if (rowsRemainAt(rollback)) {
+      debugLog('sortable-lists: ignoring drop, the item landed at its original position');
+      return;
+    }
+
     const optimisticPlacement = captureRowPositions(rows);
 
     const result = await this.moveItem({

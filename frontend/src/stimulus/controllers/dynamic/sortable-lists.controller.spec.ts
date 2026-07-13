@@ -231,6 +231,17 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('skips the move request when a drop lands at the source item current position', async () => {
+    const { sourceList } = renderFixture();
+    const lastSourceItem = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="3"]')!;
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(lastSourceItem, sourceList);
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('ignores drops that belong to another sortable lists root', async () => {
     fixture.innerHTML = `
       <div
