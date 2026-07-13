@@ -101,7 +101,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **View internal comments** – Allows users to view internal comments.
 > [!TIP]
->  [Internal comments](../../../work-packages/edit-work-package/#internal-comments-enterprise-add-on) are only visible to users who have this permission:
+>  [Internal comments](../../../../user-guide/work-packages/edit-work-package/#internal-comments-enterprise-add-on) are only visible to users who have this permission:
 - **Write internal comments** – Allows users to create internal comments.
 - **Edit own internal comments** – Allows users to edit their own internal comments.
 - **Moderate internal comments** – Allows users to edit internal comments created by any user.
