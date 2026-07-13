@@ -1034,6 +1034,14 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "without a list_type param" do
+      let(:list_params) { {} }
+
+      it "responds with 400" do
+        expect(response).to have_http_status :bad_request
+      end
+    end
+
     context "with a user lacking manage_sprint_items permission" do
       let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
       let(:list_params) { { list_type: "inbox" } }

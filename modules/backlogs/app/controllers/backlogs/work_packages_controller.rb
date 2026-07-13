@@ -89,7 +89,7 @@ module Backlogs
 
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package:)
-        .call(list_type: params[:list_type], list_id: params[:list_id])
+        .call(list_type: params.expect(:list_type), list_id: params[:list_id])
 
       render_update_turbo_streams(call)
     end
