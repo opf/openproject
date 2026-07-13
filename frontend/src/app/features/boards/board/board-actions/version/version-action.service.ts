@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -11,8 +10,11 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
-  firstValueFrom,
   Observable,
   of,
 } from 'rxjs';
@@ -22,18 +24,24 @@ import { map } from 'rxjs/operators';
 export class BoardVersionActionService extends CachedBoardActionService {
   readonly halNotification = inject(HalResourceNotificationService);
 
-  filterName = 'version';
+  // API identifier used to query versions
+  filterName = 'targetVersion';
+
+  // Filter ids that identify a version column (`version` is the deprecated one)
+  filterNames = [this.filterName, 'version'];
+
+  // Work package attributes that move a card between columns when they change
+  get watchedAttributes():string[] {
+    return ['targetVersions', 'version'];
+  }
 
   /**
-   * The work package show view writes the version via the targetVersions
-   * attribute, while dragging a card between lists still writes the
-   * deprecated version attribute. Watch both so either change moves the card.
-   *
-   * TODO: Reduce to targetVersions once boards write it as well
-   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   * Match the column's version filter by any of its known ids: the current
+   * `targetVersion` filter or the deprecated `version` filter used by columns
+   * created before COMMS-877.
    */
-  get watchedAttributes():string[] {
-    return [this.filterName, 'targetVersions'];
+  getActionFilter(query:QueryResource, _getHref = false):QueryFilterInstanceResource|undefined {
+    return query.filters.find((filter) => this.filterNames.includes(filter.id));
   }
 
   resourceName = 'version';
@@ -60,8 +68,9 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
+      this.writable$ = createForm()
+        .then((form:FormResource) => (form.schema.targetVersions as { writable:boolean }).writable);
     }
 
     return this.writable$;
@@ -103,6 +112,29 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
     return value instanceof VersionResource && value.isOpen();
+  }
+
+  // A card can be moved when its `targetVersions` attribute is writable
+  public canMove(workPackage:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(workPackage);
+    return !!(schema.targetVersions as IFieldSchema)?.writable;
+  }
+
+  // Writes the column's version to the card's `targetVersions` attribute
+  public assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource):void {
+    if (!changeset.isWritable('targetVersions')) {
+      throw new Error(this.I18n.t(
+        'js.boards.error_attribute_not_writable',
+        { attribute: changeset.humanName('targetVersions') },
+      ));
+    }
+
+    const id = this.getActionValueId(query);
+    const value = id
+      ? [this.halResourceService.fromSelfLink(this.apiV3Service.versions.id(id).toString())]
+      : [];
+
+    changeset.setValue('targetVersions', value);
   }
 
   protected loadUncached():Observable<HalResource[]> {
