@@ -39,7 +39,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Manage members** – Allows users to add, remove and manage project members and their roles.
 
-- **Invite members by email** – Allows users to invite new users by email.
+- **Invite members by email** – Allows users to invite project members by email. This includes both new users to the OpenProject instance and existing users who are not visible to them because of the current [user visibility settings](../../user-visibility).
 
   > [!NOTE]
   > Requires the **Manage members** permission.
@@ -100,6 +100,8 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
   > Users with this permission can edit comments created by other users.
 
 - **View internal comments** – Allows users to view internal comments.
+> [!TIP]
+>  [Internal comments](../../../work-packages/edit-work-package/#internal-comments-enterprise-add-on) are only visible to users who have this permission:
 - **Write internal comments** – Allows users to create internal comments.
 - **Edit own internal comments** – Allows users to edit their own internal comments.
 - **Moderate internal comments** – Allows users to edit internal comments created by any user.
@@ -117,7 +119,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 - **Delete work packages** – Allows users to delete work packages.
 - **Manage work package relations** – Allows users to create, edit, and remove work package relations.
 - **Manage work package hierarchies** – Allows users to manage parent-child relationships between work packages.
-- **Manage public views** – Allows users to create, edit, and delete public work package views.
+- **Manage public views** – Allows users to create, edit, and delete public work package views. This permission also affects other work package related views, such as team planner and calendar public views.
 - **Save views** – Allows users to save personal work package views.
 - **View watchers list** – Allows users to see who is watching a work package.
 - **Add watchers** – Allows users to add watchers to work packages.
