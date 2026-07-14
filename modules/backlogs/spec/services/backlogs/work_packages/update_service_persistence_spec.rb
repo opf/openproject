@@ -41,6 +41,31 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, "persistence", type: :mode
   let!(:work_package) { create(:work_package, status:, sprint:, project:) }
 
   describe "atomicity of the two-phase move" do
+    it "rolls back the list change when the update fails after persisting it", :aggregate_failures do
+      # The inner service signals such a failure by raising ActiveRecord::Rollback
+      # from within its own (joined) transaction, where it is silently swallowed.
+      # Fail it in after_perform -- after the work package row is written -- so
+      # the rollback must come from the outer transaction re-raising.
+      inner_service = WorkPackages::UpdateService.new(user:, model: work_package)
+      allow(inner_service).to receive(:after_perform).and_wrap_original do |original, service_call|
+        original.call(service_call).tap { |call| call.success = false }
+      end
+      allow(WorkPackages::UpdateService).to receive(:new).and_return(inner_service)
+      allow(work_package).to receive(:move_after)
+
+      original_sprint_id = work_package.sprint_id
+      original_position = work_package.position
+
+      call = described_class.new(user:, work_package:).call(list_type: "sprint", list_id: other_sprint.id, prev_id: "")
+
+      expect(call).to be_failure
+      expect(work_package).not_to have_received(:move_after)
+
+      reloaded = WorkPackage.find(work_package.id)
+      expect(reloaded.sprint_id).to eq(original_sprint_id)
+      expect(reloaded.position).to eq(original_position)
+    end
+
     it "rolls back the list change when move_after fails", :aggregate_failures do
       # move_after runs after the list-change save, on the work package itself. Raise so
       # the whole move must roll back as one unit.

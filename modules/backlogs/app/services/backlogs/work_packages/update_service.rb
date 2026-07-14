@@ -37,8 +37,10 @@ class Backlogs::WorkPackages::UpdateService
   end
 
   def call(list_type: nil, list_id: nil, position: nil, prev_id: nil)
+    result = nil
+
     WorkPackage.transaction do
-      resolve_required_attributes(list_type:, list_id:)
+      result = resolve_required_attributes(list_type:, list_id:)
         .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: work_package).call(**attrs) }
         .on_success do |call|
           # A blank prev_id ("") is meaningful: it means "insert at the top of
@@ -51,7 +53,15 @@ class Backlogs::WorkPackages::UpdateService
             call.result.move_after(position:)
           end
         end
+
+      # The inner service raises ActiveRecord::Rollback when its result is a
+      # failure, but that raise happens inside its own transaction, which joins
+      # this one and swallows it. Re-raise here so a failure after the work
+      # package row was already written cannot half-commit the move.
+      raise ActiveRecord::Rollback if result.failure?
     end
+
+    result
   end
 
   private
