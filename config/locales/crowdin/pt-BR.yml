@@ -324,12 +324,15 @@ pt-BR:
         attribute_groups: Configuração do formulário
         children: Sub-types
         color: Cor
+        dependent_configuration_links: Linked types
         description: Texto padrão para descrição
         is_default: Ativado para novos projetos por padrão
         is_in_roadmap: Exibido no planejamento como padrão
         is_milestone: É marco
         parent: Parent type
         patterns: Padrões
+      type/configuration_link:
+        source: Source type
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
@@ -795,6 +798,10 @@ pt-BR:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -5733,7 +5740,37 @@ pt-BR:
     help_and_support: Ajuda e suporte
   total_progress: Progresso total
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Selecione quais modelos disponíveis você deseja ativar para este tipo. O modelo define o design e os atributos visíveis no PDF exportado de um pacote de trabalho desse tipo. O primeiro modelo da lista é selecionado por padrão.
         pdf_export_templates:

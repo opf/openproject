@@ -149,8 +149,11 @@ pt-PT:
       base_configuration:
         header: Configuração
         provider_configured: Configuração concluída
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: Não foi possível validar a ligação. Termine primeiro a configuração.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: O OpenProject não conseguiu ligar-se à instância XWiki configurada.
         xwiki_oauth_request_error: Ocorreu um erro inesperado ao tentar comunicar com a instância XWiki.
         xwiki_oauth_token_missing: OpenProject não pode testar a comunicação ao nível do utilizador com o XWiki porque o utilizador ainda não ligou a sua conta XWiki.

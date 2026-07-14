@@ -60,9 +60,11 @@ module OpenProject
       #   Only rendered when the work package actually has a parent.
       # @param link_subject [Boolean] whether to link the subject to the WP or render as plain text instead.
       # @param status_scheme [Symbol] status label scheme for the info line. One of :default or :secondary.
+      # @param system_arguments [Hash] forwarded to the root card element.
       def initialize(work_package:, menu_src: nil, show_drag_handle: false,
                      show_assignee: false, show_priority: false, show_parent: false, link_subject: true,
-                     status_scheme: :default)
+                     status_scheme: :default,
+                     **system_arguments)
         super()
 
         @work_package = work_package
@@ -73,16 +75,20 @@ module OpenProject
         @show_parent = show_parent
         @link_subject = link_subject
         @status_scheme = status_scheme
+        @system_arguments = system_arguments.except(:tag)
+        @system_arguments[:tag] = :article
       end
 
       private
 
-      def layout_classes
-        {
+      def before_render
+        @system_arguments[:classes] = class_names(
+          @system_arguments[:classes],
           "op-work-package-card_with-drag-handle": show_drag_handle?,
-          "op-work-package-card_with-footer": show_footer?,
-          "op-work-package-card_with-menu": menu? || menu_src.present?
-        }
+          "op-work-package-card_with-menu": menu? || menu_src.present?,
+          "op-work-package-card_with-metric": metric?,
+          "op-work-package-card_with-footer": show_footer?
+        )
       end
 
       def show_parent? = show_parent && work_package.parent

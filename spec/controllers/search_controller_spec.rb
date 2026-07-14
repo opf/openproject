@@ -224,6 +224,16 @@ RSpec.describe SearchController do
     end
   end
 
+  describe "unsupported request format" do
+    context "when requesting JSON format" do
+      it "raises UnknownFormat (rendered as 406 Not Acceptable)" do
+        expect do
+          get :index, format: :json
+        end.to raise_error(ActionController::UnknownFormat)
+      end
+    end
+  end
+
   describe "helper methods" do
     describe "#scan_query_tokens" do
       subject { @controller.send(:scan_query_tokens, query) }

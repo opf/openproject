@@ -50,5 +50,11 @@ module Backlogs
     def wrapper_uniq_by
       backlog_bucket.id
     end
+
+    private
+
+    def list_type
+      Backlogs::Target::BucketId.new(backlog_bucket.id).list_type
+    end
   end
 end

@@ -28,10 +28,23 @@ class My::AttributesForm < Users::Form::AttributesForm
     return {} if @contract.writable?(key.to_sym)
 
     options = { readonly: true }
-    if %w[firstname lastname mail].include?(key.to_s)
-      options[:caption] = I18n.t("user.text_change_disabled_for_provider_login")
-    end
+    caption = readonly_caption(key.to_s)
+    options[:caption] = caption if caption
     options
+  end
+
+  def readonly_caption(key)
+    return unless %w[firstname lastname mail].include?(key)
+
+    if authenticates_externally?
+      I18n.t("user.text_change_disabled_for_provider_login")
+    elsif key == "mail"
+      I18n.t("user.text_change_mail_disabled_by_administrator")
+    end
+  end
+
+  def authenticates_externally?
+    @user.uses_external_authentication? || @user.ldap_auth_source_id.present?
   end
 
   # Custom fields a user may not edit themselves (editable: false) are shown
