@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
+RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
   let(:user) { create(:user) }
   let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
   let(:project) { create(:project, members: { user => role }) }
@@ -43,19 +43,19 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
 
   before { login_as user }
 
-  describe "GET /wikis" do
+  describe "GET /wiki_pages" do
     context "when not logged in" do
       before { login_as User.anonymous }
 
       it "redirects to login" do
-        get "/wikis"
+        get "/wiki_pages"
 
-        expect(response).to redirect_to(signin_path(back_url: wikis_url))
+        expect(response).to redirect_to(signin_path(back_url: wiki_pages_url))
       end
     end
 
     it "lists main pages of projects the user can access, with their sub-page count" do
-      get "/wikis"
+      get "/wiki_pages"
 
       expect(response).to have_http_status(:ok)
       expect(page).to have_text "Architecture handbook"
@@ -63,19 +63,19 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
     end
 
     it "does not list sub-pages" do
-      get "/wikis"
+      get "/wiki_pages"
 
       expect(page).to have_no_text "Deployment guide"
     end
 
     it "does not list pages of projects the user cannot access" do
-      get "/wikis"
+      get "/wiki_pages"
 
       expect(page).to have_no_text "Hidden handbook"
     end
 
     it "clamps an out-of-range page param to the last page" do
-      get "/wikis", params: { page: "5" }
+      get "/wiki_pages", params: { page: "5" }
 
       expect(response).to have_http_status(:ok)
       expect(page).to have_text "Architecture handbook"
@@ -83,13 +83,13 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
 
     context "with a name filter" do
       it "returns only pages with a matching title" do
-        get "/wikis", params: { filters: [{ name: { operator: "~", values: ["Architecture"] } }].to_json }
+        get "/wiki_pages", params: { filters: [{ name: { operator: "~", values: ["Architecture"] } }].to_json }
 
         expect(page).to have_text "Architecture handbook"
       end
 
       it "shows a blank slate when no title matches" do
-        get "/wikis", params: { filters: [{ name: { operator: "~", values: ["nonexistent_page_xyz"] } }].to_json }
+        get "/wiki_pages", params: { filters: [{ name: { operator: "~", values: ["nonexistent_page_xyz"] } }].to_json }
 
         expect(page).to have_text I18n.t("wikis.index.no_results_title")
         expect(page).to have_no_text "Architecture handbook"
@@ -97,9 +97,9 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "GET /wikis?query_id=all" do
+  describe "GET /wiki_pages?query_id=all" do
     it "lists main pages and sub-pages of projects the user can access" do
-      get "/wikis", params: { query_id: "all" }
+      get "/wiki_pages", params: { query_id: "all" }
 
       expect(page).to have_text "Architecture handbook"
       expect(page).to have_text "Deployment guide"
@@ -107,7 +107,7 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
     end
 
     it "falls back to main pages for unknown query ids" do
-      get "/wikis", params: { query_id: "everything" }
+      get "/wiki_pages", params: { query_id: "everything" }
 
       expect(page).to have_text "Architecture handbook"
       expect(page).to have_no_text "Deployment guide"
@@ -115,8 +115,8 @@ RSpec.describe "Wikis index", :skip_csrf, type: :rails_request do
 
     context "with a name filter" do
       it "matches sub-pages too" do
-        get "/wikis", params: { query_id: "all",
-                                filters: [{ name: { operator: "~", values: ["Deployment"] } }].to_json }
+        get "/wiki_pages", params: { query_id: "all",
+                                     filters: [{ name: { operator: "~", values: ["Deployment"] } }].to_json }
 
         expect(page).to have_text "Deployment guide"
         expect(page).to have_no_text "Architecture handbook"

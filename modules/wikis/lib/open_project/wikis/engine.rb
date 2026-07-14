@@ -111,7 +111,7 @@ module OpenProject::Wikis
 
       menu :top_menu,
            :wikis,
-           { controller: "/wikis/wikis", action: "index" },
+           { controller: "/wikis/wiki_pages", action: "index" },
            context: :modules,
            caption: :"wikis.index.menu_title",
            after: :cost_reports_global,
@@ -120,7 +120,7 @@ module OpenProject::Wikis
 
       menu :global_menu,
            :wikis,
-           { controller: "/wikis/wikis", action: "index" },
+           { controller: "/wikis/wiki_pages", action: "index" },
            caption: :"wikis.index.menu_title",
            after: :cost_reports_global,
            icon: :book,
@@ -128,9 +128,9 @@ module OpenProject::Wikis
 
       menu :global_menu,
            :wikis_query_select,
-           { controller: "/wikis/wikis", action: "index" },
+           { controller: "/wikis/wiki_pages", action: "index" },
            parent: :wikis,
-           partial: "wikis/menus/menu",
+           partial: "wikis/wiki_pages/menus/menu",
            if: should_render_wiki_index
 
       menu :work_package_split_view,

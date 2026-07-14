@@ -28,6 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%=
   render OpenProject::Common::SubmenuComponent.new(
-    sidebar_menu_items: Wikis::Menu.new(params: params.permit(:query_id)).menu_items
+    sidebar_menu_items: Wikis::WikiPages::Menu.new(params: params.permit(:query_id)).menu_items
   )
 %>

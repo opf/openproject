@@ -84,5 +84,5 @@ Rails.application.routes.draw do
     post :create_and_link
   end
 
-  resources :wikis, only: [:index], controller: "wikis/wikis"
+  resources :wiki_pages, only: [:index], controller: "wikis/wiki_pages"
 end

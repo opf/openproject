@@ -29,11 +29,13 @@
 #++
 
 module Wikis
-  class IndexPageHeaderComponent < ApplicationComponent
-    alias_method :query, :model
+  module WikiPages
+    class IndexPageHeaderComponent < ApplicationComponent
+      alias_method :query, :model
 
-    def initialize(query:)
-      super(query)
+      def initialize(query:)
+        super(query)
+      end
     end
   end
 end

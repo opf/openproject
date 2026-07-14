@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper do %>
-  <%= render(Wikis::TableComponent.new(rows: pages)) %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { query.name } %>
+  <% header.with_breadcrumbs([{ href: wiki_pages_path, text: t("wikis.index.menu_title") }, query.name]) %>
 <% end %>

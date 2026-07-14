@@ -29,13 +29,35 @@
 #++
 
 module Wikis
-  class IndexResultsComponent < ApplicationComponent
-    include OpTurbo::Streamable
+  module WikiPages
+    class Menu < Submenu
+      def initialize(params:, project: nil)
+        super(view_type: nil, project:, params:)
+      end
 
-    alias_method :pages, :model
+      def menu_items
+        [
+          OpenProject::Menu::MenuGroup.new(header: nil, children: top_level_menu_items)
+        ]
+      end
 
-    def initialize(pages:)
-      super(pages)
+      def top_level_menu_items
+        Queries::Wikis::WikiPages::WikiPageQuery.static_queries.map do |query|
+          menu_item(title: query.name,
+                    query_params: { query_id: query.query_id },
+                    selected: query.query_id == current_query_id)
+        end
+      end
+
+      private
+
+      def current_query_id
+        Queries::Wikis::WikiPages::WikiPageQuery.normalized_query_id(params[:query_id])
+      end
+
+      def query_path(query_params)
+        wiki_pages_path(**query_params)
+      end
     end
   end
 end

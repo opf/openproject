@@ -28,29 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  class RowComponent < ::OpPrimer::BorderBoxRowComponent
-    alias_method :page, :model
+require "spec_helper"
 
-    def title
-      render(Primer::Beta::Link.new(
-               href: url_helpers.project_wiki_path(page.wiki.project, page.slug),
-               font_weight: :bold
-             )) { page.title }
+RSpec.describe Wikis::WikiPages::Menu do
+  subject(:menu_entries) do
+    described_class
+      .new(params: ActionController::Parameters.new(params))
+      .menu_items
+      .first
+      .children
+  end
+
+  let(:params) { {} }
+
+  it "renders an entry per static query, linking with its query_id" do
+    expect(menu_entries.map(&:title)).to eq [I18n.t("wikis.index.queries.main"),
+                                             I18n.t("wikis.index.queries.all")]
+    expect(menu_entries.map(&:href)).to eq ["/wiki_pages?query_id=main",
+                                            "/wiki_pages?query_id=all"]
+  end
+
+  it "selects the main pages entry by default" do
+    expect(menu_entries.map(&:selected)).to eq [true, false]
+  end
+
+  context "with the all query active" do
+    let(:params) { { query_id: "all" } }
+
+    it "selects the all pages entry" do
+      expect(menu_entries.map(&:selected)).to eq [false, true]
     end
+  end
 
-    def project_name
-      page.wiki.project.name
-    end
+  context "with an unknown query id" do
+    let(:params) { { query_id: "everything" } }
 
-    def sub_pages_count
-      return "-" if page.sub_pages_count.zero?
-
-      t("wikis.index.sub_pages_count", count: page.sub_pages_count)
-    end
-
-    def last_edited
-      render(OpPrimer::RelativeTimeComponent.new(datetime: page.updated_at, prefix: nil))
+    it "falls back to the main pages entry" do
+      expect(menu_entries.map(&:selected)).to eq [true, false]
     end
   end
 end

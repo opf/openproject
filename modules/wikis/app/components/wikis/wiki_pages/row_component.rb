@@ -28,43 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Wikis
+  module WikiPages
+    class RowComponent < ::OpPrimer::BorderBoxRowComponent
+      alias_method :wiki_page, :model
 
-RSpec.describe Wikis::Menu do
-  subject(:menu_entries) do
-    described_class
-      .new(params: ActionController::Parameters.new(params))
-      .menu_items
-      .first
-      .children
-  end
+      def title
+        render(Primer::Beta::Link.new(
+                 href: url_helpers.project_wiki_path(wiki_page.wiki.project, wiki_page.slug),
+                 font_weight: :bold
+               )) { wiki_page.title }
+      end
 
-  let(:params) { {} }
+      def project_name
+        wiki_page.wiki.project.name
+      end
 
-  it "renders an entry per static query, linking with its query_id" do
-    expect(menu_entries.map(&:title)).to eq [I18n.t("wikis.index.queries.main"),
-                                             I18n.t("wikis.index.queries.all")]
-    expect(menu_entries.map(&:href)).to eq ["/wikis?query_id=main",
-                                            "/wikis?query_id=all"]
-  end
+      def sub_pages_count
+        return "-" if wiki_page.sub_pages_count.zero?
 
-  it "selects the main pages entry by default" do
-    expect(menu_entries.map(&:selected)).to eq [true, false]
-  end
+        t("wikis.index.sub_pages_count", count: wiki_page.sub_pages_count)
+      end
 
-  context "with the all query active" do
-    let(:params) { { query_id: "all" } }
-
-    it "selects the all pages entry" do
-      expect(menu_entries.map(&:selected)).to eq [false, true]
-    end
-  end
-
-  context "with an unknown query id" do
-    let(:params) { { query_id: "everything" } }
-
-    it "falls back to the main pages entry" do
-      expect(menu_entries.map(&:selected)).to eq [true, false]
+      def last_edited
+        render(OpPrimer::RelativeTimeComponent.new(datetime: wiki_page.updated_at, prefix: nil))
+      end
     end
   end
 end

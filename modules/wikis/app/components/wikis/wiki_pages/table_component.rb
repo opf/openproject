@@ -29,39 +29,39 @@
 #++
 
 module Wikis
-  class SubHeaderComponent < ApplicationComponent
-    alias_method :query, :model
+  module WikiPages
+    class TableComponent < ::OpPrimer::BorderBoxTableComponent
+      columns :title, :project_name, :sub_pages_count, :last_edited
 
-    def initialize(query:)
-      super(query)
-    end
+      mobile_columns :title, :project_name
+      mobile_labels :project_name
 
-    def filter_input_value
-      query.find_active_filter(:name)&.values&.first
-    end
+      main_column :title
 
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
-        "filter--filters-form-url-path-name-value": wikis_path,
-        "filter--filters-form-output-format-value": "json",
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        test_selector: "wikis-sub-header"
-      }
-    end
+      def mobile_title
+        I18n.t("wikis.index.menu_title")
+      end
 
-    def filter_input_data_attributes
-      {
-        "filter-name": "name",
-        "filter-type": "string",
-        "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-      }
-    end
+      def headers
+        [
+          [:title,           { caption: I18n.t("wikis.index.column_name") }],
+          [:project_name,    { caption: I18n.t("wikis.index.column_project") }],
+          [:sub_pages_count, { caption: I18n.t("wikis.index.column_sub_pages") }],
+          [:last_edited,     { caption: I18n.t("wikis.index.column_last_edited") }]
+        ]
+      end
 
-    def clear_button_id
-      "wikis-filters-form-clear-button"
+      def blank_title
+        I18n.t("wikis.index.no_results_title")
+      end
+
+      def blank_description
+        I18n.t("wikis.index.no_results_description")
+      end
+
+      def blank_icon
+        :book
+      end
     end
   end
 end

@@ -29,33 +29,51 @@
 #++
 
 module Wikis
-  class Menu < Submenu
-    def initialize(params:, project: nil)
-      super(view_type: nil, project:, params:)
-    end
+  class WikiPagesController < ApplicationController
+    include Layout
+    include OpTurbo::ComponentStream
+    include PaginationHelper
 
-    def menu_items
-      [
-        OpenProject::Menu::MenuGroup.new(header: nil, children: top_level_menu_items)
-      ]
-    end
+    before_action :require_login, :load_query, :load_wiki_pages
+    no_authorization_required! :index
 
-    def top_level_menu_items
-      Queries::Wikis::WikiPages::WikiPageQuery.static_queries.map do |query|
-        menu_item(title: query.name,
-                  query_params: { query_id: query.query_id },
-                  selected: query.query_id == current_query_id)
+    menu_item :wikis
+
+    def index
+      respond_to do |format|
+        format.html do
+          render locals: { menu_name: project_or_global_menu }
+        end
+        format.turbo_stream do
+          replace_via_turbo_stream component: Wikis::WikiPages::IndexResultsComponent.new(wiki_pages: @wiki_pages)
+          turbo_streams << turbo_stream.push_state(current_state)
+          render turbo_stream: turbo_streams
+        end
       end
     end
 
     private
 
-    def current_query_id
-      Queries::Wikis::WikiPages::WikiPageQuery.normalized_query_id(params[:query_id])
+    def current_state
+      url_for(params.permit(:controller, :action, :filters, :query_id))
     end
 
-    def query_path(query_params)
-      wikis_path(**query_params)
+    def load_query
+      @query = ParamsToQueryService.new(
+        WikiPage,
+        current_user,
+        query_class: Queries::Wikis::WikiPages::WikiPageQuery
+      ).call(params)
+      @query.query_id = params[:query_id]
+    end
+
+    def load_wiki_pages
+      @wiki_pages = @query
+        .results
+        .preload(wiki: :project)
+        .page(page_param)
+        .per_page(per_page_param)
+      @wiki_pages = @wiki_pages.page(@wiki_pages.total_pages) if @wiki_pages.out_of_bounds?
     end
   end
 end

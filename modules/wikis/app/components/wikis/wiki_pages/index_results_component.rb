@@ -29,51 +29,15 @@
 #++
 
 module Wikis
-  class WikisController < ApplicationController
-    include Layout
-    include OpTurbo::ComponentStream
-    include PaginationHelper
+  module WikiPages
+    class IndexResultsComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    before_action :require_login, :load_query, :load_pages
-    no_authorization_required! :index
+      alias_method :wiki_pages, :model
 
-    menu_item :wikis
-
-    def index
-      respond_to do |format|
-        format.html do
-          render locals: { menu_name: project_or_global_menu }
-        end
-        format.turbo_stream do
-          replace_via_turbo_stream component: Wikis::IndexResultsComponent.new(pages: @pages)
-          turbo_streams << turbo_stream.push_state(current_state)
-          render turbo_stream: turbo_streams
-        end
+      def initialize(wiki_pages:)
+        super(wiki_pages)
       end
-    end
-
-    private
-
-    def current_state
-      url_for(params.permit(:controller, :action, :filters, :query_id))
-    end
-
-    def load_query
-      @query = ParamsToQueryService.new(
-        WikiPage,
-        current_user,
-        query_class: Queries::Wikis::WikiPages::WikiPageQuery
-      ).call(params)
-      @query.query_id = params[:query_id]
-    end
-
-    def load_pages
-      @pages = @query
-        .results
-        .preload(wiki: :project)
-        .page(page_param)
-        .per_page(per_page_param)
-      @pages = @pages.page(@pages.total_pages) if @pages.out_of_bounds?
     end
   end
 end
