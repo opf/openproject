@@ -147,15 +147,13 @@ module CustomField::CalculatedValue
     end
 
     def usable_custom_field_references_for_formula
-      visible_cfs = ProjectCustomField
-                      .where(field_format: FIELD_FORMATS_FOR_FORMULA)
-                      .where.not(id:)
-                      .visible
-
       cache = {}
-      visible_cfs.reject do |custom_field|
-        custom_field.formula_references_id?(id, cache)
-      end
+
+      ProjectCustomField
+        .where(field_format: FIELD_FORMATS_FOR_FORMULA)
+        .where.not(id:)
+        .visible
+        .reject { it.formula_references_id?(id, cache) }
     end
 
     def validate_referenced_custom_fields
