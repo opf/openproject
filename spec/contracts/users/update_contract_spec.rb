@@ -126,6 +126,15 @@ RSpec.describe Users::UpdateContract do
         it_behaves_like "contract is valid"
       end
 
+      describe "can update the email even when users may not change their own",
+               with_settings: { user_can_change_email: false } do
+        before do
+          user.mail = "a.new@email.address"
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
       context "when user limit is reached" do
         before do
           allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
@@ -243,6 +252,34 @@ RSpec.describe Users::UpdateContract do
         end
 
         it_behaves_like "contract is valid"
+      end
+
+      context "when users are not allowed to change their email", with_settings: { user_can_change_email: false } do
+        describe "cannot update the email" do
+          before do
+            user.mail = "a.new@email.address"
+          end
+
+          it_behaves_like "contract is invalid", mail: :error_readonly
+        end
+
+        describe "can still update the name" do
+          before do
+            user.firstname = "Changed firstname"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+
+        describe "an admin can still update their own email" do
+          let(:user) { build_stubbed(:admin, attributes) }
+
+          before do
+            user.mail = "a.new@email.address"
+          end
+
+          it_behaves_like "contract is valid"
+        end
       end
 
       describe "when changing the password" do
