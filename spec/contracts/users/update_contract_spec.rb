@@ -104,6 +104,31 @@ RSpec.describe Users::UpdateContract do
 
         it_behaves_like "contract is valid"
       end
+
+      # LDAP, SSO and SCIM provisioning synchronize the email on behalf of the system user
+      # (SCIM through an admin service account). That must keep working when users themselves
+      # are not allowed to change their email.
+      context "when users are not allowed to change their email", with_settings: { user_can_change_email: false } do
+        context "when updated user authenticates through LDAP" do
+          let(:attributes) { super().merge(ldap_auth_source_id: create(:ldap_auth_source).id) }
+
+          before do
+            user.mail = "changed@example.com"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+
+        context "when updated user authenticates through an external provider" do
+          before do
+            allow(user).to receive(:uses_external_authentication?).and_return(true)
+
+            user.mail = "changed@example.com"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+      end
     end
 
     context "when user is an admin" do
