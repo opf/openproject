@@ -316,6 +316,24 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "with an optimistic same-list move without any anchor (malformed)" do
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:optimistic) { "true" }
+
+      # A nil param still reaches the controller as a blank string, but blank
+      # means "insert at the top"; a missing anchor needs the key to be absent.
+      subject(:response) do
+        put :move, params: { project_id:, id:, list_type:, list_id:, optimistic: }, format: :turbo_stream
+      end
+
+      it "reloads the frame because the claimed order cannot be verified", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
     context "with an optimistic same-list move by position instead of prev_id" do
       let(:list_type) { "sprint" }
       let(:list_id) { sprint.id }
