@@ -55,20 +55,7 @@ class CustomValue::CalculatedValueStrategy < CustomValue::FormatStrategy
     elsif integer_value?
       number_with_delimiter(value.to_i)
     else
-      delimiter = I18n.t("number.format.delimiter")
-      separator = I18n.t("number.format.separator")
-      formatted = number_with_precision(value.to_f,
-                                        precision: 3,
-                                        strip_insignificant_zeros: true,
-                                        delimiter:,
-                                        separator:)
-
-      # Ensure at least one decimal place for floats
-      if formatted.exclude?(separator)
-        "#{formatted}#{separator}0"
-      else
-        formatted
-      end
+      formatted_as_float
     end
   end
 
@@ -101,5 +88,24 @@ class CustomValue::CalculatedValueStrategy < CustomValue::FormatStrategy
 
   def integer_value?
     value =~ /\A[-+]?\d+\z/
+  end
+
+  def formatted_as_float
+    delimiter = I18n.t("number.format.delimiter")
+    separator = I18n.t("number.format.separator")
+    formatted = number_with_precision(
+      value.to_f,
+      precision: 3,
+      strip_insignificant_zeros: true,
+      delimiter:,
+      separator:
+    )
+
+    # Ensure at least one decimal place for floats
+    if formatted.exclude?(separator)
+      "#{formatted}#{separator}0"
+    else
+      formatted
+    end
   end
 end
