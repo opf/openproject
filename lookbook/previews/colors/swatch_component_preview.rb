@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,24 +26,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Colors
-  class EditPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-
-    def initialize(color:)
-      super
-      @color = color
+  # @logical_path OpenProject
+  class SwatchComponentPreview < Lookbook::Preview
+    # @label Default
+    def default
+      render(Colors::SwatchComponent.new(hexcode: "#218BFF"))
     end
 
-    def breadcrumb_items
-      [
-        { href: admin_index_path, text: t(:label_administration) },
-        { href: custom_style_path(tab: :default_colors), text: t(:label_custom_style) },
-        helpers.nested_breadcrumb_element(t(:"admin.custom_styles.tab_default_colors"), @color.name)
-      ]
+    # @label With value
+    def with_value
+      render(Colors::SwatchComponent.new(hexcode: "#218BFF", show_value: true))
     end
   end
 end

@@ -26,38 +26,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { @color.name }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: colors_path, text: t(:label_color_plural) },
-       @color.name]
-    )
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: I18n.t("colors.index.label_new_color"),
+      tag: :a,
+      href: new_color_path
+    ) do
+      t(:button_add)
+    end
   end
 %>
 
-<%= labelled_tabular_form_for @color,
-                              url: color_url(@color),
-                              html: { method: "delete" },
-                              as: :color do |f| %>
+<%= render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: :default_colors,
+        mb: 3,
+        test_selector: "default-colors-list"
+      )
+    ) do |list| %>
+  <% list.with_header(title: t(:label_color_plural)) %>
+  <% list.with_empty_state(title: t("colors.index.no_results_title_text")) %>
 
-  <div class='flash warning'>
-    <%= t("colors.label_really_delete_color") %>
-    <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
-      <%= op_icon("icon-close") %>
-    </span>
-  </div>
-
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= t("colors.label_properties") %></legend>
-    <div class="form--field">
-      <%= f.text_field :hexcode, disabled: "disabled" %>
-      <%= icon_for_color(@color) %>
-    </div>
-  </fieldset>
-
-  <%= submit_tag t(:button_delete), class: "button -primary" %>
-  <%= link_to t(:button_cancel), colors_path, class: "button" %>
+  <% @colors.each do |color| %>
+    <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do %>
+      <%= render(Primer::Beta::Link.new(href: edit_color_path(color), font_weight: :bold)) { color.name } %>
+      <%= render(Primer::Beta::Text.new(display: :flex, align_items: :center, font_size: :small)) do %>
+        <%= render(Colors::SwatchComponent.new(hexcode: color.hexcode, show_value: true)) %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

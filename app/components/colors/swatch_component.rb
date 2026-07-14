@@ -29,21 +29,50 @@
 # ++
 
 module Colors
-  class EditPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
+  class SwatchComponent < ApplicationComponent
+    def initialize(hexcode:, show_value: false, **system_arguments)
+      super()
 
-    def initialize(color:)
-      super
-      @color = color
+      @hexcode = hexcode
+      @show_value = show_value
+      @system_arguments = system_arguments
+      @system_arguments[:align_items] ||= :center
+
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "op-color-swatch"
+      )
     end
 
-    def breadcrumb_items
-      [
-        { href: admin_index_path, text: t(:label_administration) },
-        { href: custom_style_path(tab: :default_colors), text: t(:label_custom_style) },
-        helpers.nested_breadcrumb_element(t(:"admin.custom_styles.tab_default_colors"), @color.name)
-      ]
+    def call
+      render(Primer::OpenProject::FlexLayout.new(**@system_arguments)) do |flex|
+        flex.with_column do
+          render(Primer::Box.new(**swatch_arguments))
+        end
+
+        if show_value?
+          flex.with_column do
+            render(Primer::Beta::Text.new(tag: :span, ml: 2)) { hexcode }
+          end
+        end
+      end
+    end
+
+    private
+
+    attr_reader :hexcode
+
+    def show_value?
+      @show_value
+    end
+
+    def swatch_arguments
+      {
+        tag: :span,
+        classes: "op-color-swatch--indicator",
+        aria: { hidden: true },
+        style: "background-color: #{hexcode}"
+      }
     end
   end
 end
