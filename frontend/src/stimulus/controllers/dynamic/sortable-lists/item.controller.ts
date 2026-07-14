@@ -37,7 +37,7 @@ import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/elemen
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
-import { Controller } from '@hotwired/stimulus';
+import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
@@ -47,7 +47,7 @@ import {
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { sortableItemSelector, type MoveDirection } from './list-dom';
+import { isMoveDirection, sortableItemSelector } from './list-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
@@ -125,7 +125,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.refreshMoveMenuAvailability();
   }
 
-  move(event:Event):void {
+  move(event:ActionEvent):void {
     const item = event.currentTarget;
     if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
       return;
@@ -135,8 +135,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    const direction = item.dataset.moveDirection as MoveDirection|undefined;
-    if (direction) {
+    const { direction } = event.params;
+    if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
     }
   }
@@ -384,8 +384,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     let available = 0;
     for (const item of this.moveItemTargets) {
-      const direction = item.dataset.moveDirection as MoveDirection|undefined;
-      const enabled = !!direction && availability[direction];
+      // Outside a Stimulus action there is no event.params, so read the
+      // param's backing attribute directly.
+      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
+      const enabled = isMoveDirection(direction) && availability[direction];
       this.setAvailability(item, enabled);
       if (enabled) {
         available += 1;

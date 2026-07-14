@@ -205,7 +205,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       %w[top up down bottom].each do |direction|
         expect(page).to have_css(
           "li[data-sortable-lists--item-target='moveItem']" \
-          "[data-move-direction='#{direction}']" \
+          "[data-sortable-lists--item-direction-param='#{direction}']" \
           "[data-action='click->sortable-lists--item#move']"
         )
       end

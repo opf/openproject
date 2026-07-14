@@ -95,7 +95,7 @@ module Backlogs
         tag: :button,
         data: {
           sortable_lists__item_target: "moveItem",
-          move_direction: direction,
+          sortable_lists__item_direction_param: direction,
           action: "click->sortable-lists--item#move"
         }
       ) do |item|

@@ -53,6 +53,7 @@ import type { draggable as draggableFn, dropTargetForElements as dropTargetForEl
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 
@@ -835,7 +836,7 @@ describe('Sortable lists item controller', () => {
 
       const menuElement = document.createElement('action-menu');
       menuElement.innerHTML = ['top', 'up', 'down', 'bottom'].map((direction) => (
-        `<li data-sortable-lists--item-target="moveItem" data-move-direction="${direction}"`
+        `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
         + ' data-action="click->sortable-lists--item#move"><button></button></li>'
       )).join('');
       const parent = document.createElement('li');
@@ -856,7 +857,7 @@ describe('Sortable lists item controller', () => {
       return { el, menu };
     }
 
-    const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-move-direction="${direction}"]`)!;
+    const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-sortable-lists--item-direction-param="${direction}"]`)!;
     // Availability defaults to the first/last extremes so the position-driven
     // specs read naturally; individual tests can override the map to exercise
     // the marker-aware (truncated list) wiring.
@@ -949,7 +950,7 @@ describe('Sortable lists item controller', () => {
 
       // move() must also no-op rather than throw: there is no menu to read
       // isItemDisabled/isItemHidden from, and no move should reach the root.
-      const moveEvent = new Event('click');
+      const moveEvent:ActionEvent = Object.assign(new Event('click'), { params: {} });
       Object.defineProperty(moveEvent, 'currentTarget', { value: el });
 
       expect(() => controller.move(moveEvent)).not.toThrow();

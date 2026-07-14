@@ -203,6 +203,14 @@ function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
 
 export type MoveDirection = 'top'|'up'|'down'|'bottom';
 
+const moveDirections:readonly string[] = ['top', 'up', 'down', 'bottom'];
+
+// Values crossing the DOM boundary (action params, data attributes) arrive
+// untyped; narrow them instead of casting.
+export function isMoveDirection(value:unknown):value is MoveDirection {
+  return typeof value === 'string' && moveDirections.includes(value);
+}
+
 function isItemRow(row:Element|undefined):boolean {
   return !!row && resolveItemElement(row) !== null;
 }
