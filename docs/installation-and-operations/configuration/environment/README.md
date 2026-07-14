@@ -389,6 +389,7 @@ OPENPROJECT_SYS__API__ENABLED (default=false) Enable internal system API for set
 OPENPROJECT_SYS__API__KEY (default=nil) Internal system API key for setting up managed repositories
 OPENPROJECT_TIME__FORMAT (default=nil) Time
 OPENPROJECT_TOTAL__PERCENT__COMPLETE__MODE (default="work_weighted_average") Mode in which the total % Complete for work packages in a hierarchy is calculated
+OPENPROJECT_USER__CAN__CHANGE__EMAIL (default=true) Whether users can change their own email addresses
 OPENPROJECT_USER__DEFAULT__THEME (default="light")
 OPENPROJECT_USER__DEFAULT__TIMEZONE (default=nil) Users default time zone
 OPENPROJECT_USER__FORMAT (default=:firstname_lastname) Users name format
