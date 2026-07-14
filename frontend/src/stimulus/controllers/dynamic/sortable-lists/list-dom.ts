@@ -230,8 +230,16 @@ export function resolveItemMovePosition({
 
 // A truncation marker is a non-item row that stands in for a block of hidden
 // items, carrying the last omitted item's id on data-sortable-lists-prev-item-id.
-function isMarkerRow(row:Element|undefined):boolean {
-  return !!row && resolveItemElement(row) === null && row.hasAttribute(sortablePreviousItemIdAttribute);
+function isItemRow(row:Element|undefined):boolean {
+  return !!row && resolveItemElement(row) !== null;
+}
+
+// A row a predecessor id can be read from: an item row, or a non-item row
+// annotated with the id of the last hidden item it stands in for (a
+// truncation marker). Unannotated non-item rows (a divider, a heading) give
+// no anchor, so a move over them cannot be expressed.
+function isAddressableRow(row:Element):boolean {
+  return isItemRow(row) || row.hasAttribute(sortablePreviousItemIdAttribute);
 }
 
 // The previous item id to insert `itemElement` after for a directional move:
@@ -243,7 +251,8 @@ function isMarkerRow(row:Element|undefined):boolean {
 // participates. The hidden block a marker represents cannot be addressed one
 // item at a time, so a single-step up/down that would cross it is unavailable;
 // the addressable extremes (top/bottom) and moves that land next to the block
-// via the marker's id stay available.
+// via the marker's id stay available. Unannotated non-item rows are hard gaps
+// for one-step moves, while top/bottom anchor on item rows and stay available.
 export function resolveDirectionalPreviousItemId({
   itemElement,
   direction,
@@ -274,18 +283,22 @@ export function resolveDirectionalPreviousItemId({
       return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1]);
     case 'up': {
       if (isFirstItem) return undefined;
-      // One slot up crosses the hidden block when the row above is the marker.
-      if (isMarkerRow(rows[rowIndex - 1])) return undefined;
+      // One slot up crosses a hidden block (marker row above) or an
+      // uncrossable gap (unannotated row above) -- unavailable either way.
+      if (!isItemRow(rows[rowIndex - 1])) return undefined;
       const anchor = rows[rowIndex - 2];
-      // The row two above becomes the predecessor (its own id, or the marker's
-      // hidden id); no such row means the item reaches the top.
+      // The row two above becomes the predecessor (its own id, or a marker's
+      // hidden id); an unannotated row there means "before the item above but
+      // after the gap", which cannot be expressed. No row means the top.
+      if (anchor && !isAddressableRow(anchor)) return undefined;
       return anchor ? resolvePreviousItemId(anchor) : null;
     }
     case 'down': {
       if (isLastItem) return undefined;
       const below = rows[rowIndex + 1];
-      // One slot down crosses the hidden block when the row below is the marker.
-      if (isMarkerRow(below)) return undefined;
+      // One slot down needs the row below as predecessor: a marker row would
+      // mean crossing its hidden block, an unannotated row gives no anchor.
+      if (!isItemRow(below)) return undefined;
       return resolvePreviousItemId(below);
     }
     default:

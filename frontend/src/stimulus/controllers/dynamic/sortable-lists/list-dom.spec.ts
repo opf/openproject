@@ -411,4 +411,46 @@ describe('directional move helpers', () => {
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 't2'), direction: 'bottom' })).toBeUndefined();
     });
   });
+
+  describe('across an unannotated non-item row (a divider between items)', () => {
+    // Rows: a, b, <divider with no prev-item-id>, c, d. Unlike a truncation
+    // marker the divider gives no anchor, so one-step moves cannot cross or
+    // land next to it; only the extremes stay available.
+    function dividedContainer():HTMLElement {
+      const ul = document.createElement('ul');
+      ul.innerHTML = [
+        '<li data-sortable-lists--item-id-value="a"></li>',
+        '<li data-sortable-lists--item-id-value="b"></li>',
+        '<li class="divider"></li>',
+        '<li data-sortable-lists--item-id-value="c"></li>',
+        '<li data-sortable-lists--item-id-value="d"></li>',
+      ].join('');
+      return ul;
+    }
+    const byId = (ul:HTMLElement, id:string) =>
+      ul.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
+    const at = (ul:HTMLElement, id:string) => ({ itemElement: byId(ul, id), rowsContainer: ul });
+
+    it('disables one-step moves whose neighbouring row is the divider', () => {
+      const ul = dividedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'down' })).toBeUndefined();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'up' })).toBeUndefined();
+    });
+
+    it('disables a one-step up whose would-be predecessor is the divider', () => {
+      const ul = dividedContainer();
+      // "before c but after the divider" cannot be expressed as a previous
+      // item id, so d moving up one slot is unavailable.
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'up' })).toBeUndefined();
+    });
+
+    it('keeps the extremes and same-chunk steps available', () => {
+      const ul = dividedContainer();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'down' })).toBe('b');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'down' })).toBe('d');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'top' })).toBeNull();
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'bottom' })).toBe('d');
+      expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'top' })).toBeNull();
+    });
+  });
 });
