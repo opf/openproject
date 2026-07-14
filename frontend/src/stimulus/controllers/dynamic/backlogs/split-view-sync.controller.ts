@@ -27,33 +27,21 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { FrameElement } from '@hotwired/turbo';
 import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { filter, Subscription } from 'rxjs';
-
 import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
-export default class BacklogsController extends Controller<HTMLElement> {
-  static services:ServiceKey[] = ['halEvents', 'apiV3Service'];
-  declare halEvents:HalEventsService;
-  declare apiV3Service:ApiV3Service;
+// A split view open on a moved work package caches the lock_version it fetched
+// on opening, so the next edit after a move would fail with a
+// conflicting-modifications error. The server signals every successful move via
+// a document event; this controller refreshes the moved work package in the
+// Angular cache so the split view stays editable.
+export default class SplitViewSyncController extends Controller {
+  static services:ServiceKey[] = ['apiV3Service'];
 
-  private subscription:Subscription|null = null;
+  declare apiV3Service:ApiV3Service;
 
   initialize() {
     useAngularServices(this);
-  }
-
-  servicesConnected() {
-    this.subscription = this.halEvents.aggregated$('WorkPackage')
-      .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
-      .subscribe(() => { this.refreshList(); });
-  }
-
-  disconnect() {
-    this.subscription?.unsubscribe();
-    this.subscription = null;
   }
 
   // Bound to the `op-dispatched:backlogs:work-package-moved` document event.
@@ -77,13 +65,5 @@ export default class BacklogsController extends Controller<HTMLElement> {
     if (workPackages.cache.state(id).hasValue()) {
       void workPackages.id(id).refresh();
     }
-  }
-
-  private refreshList() {
-    void this.listElement.reload();
-  }
-
-  private get listElement() {
-    return this.element.querySelector<FrameElement>('#backlogs_container')!;
   }
 }

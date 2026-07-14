@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
         method: :post,
         id: FORM_ID
       ) do |f|
-        render(Backlogs::AddExistingWorkPackageForm.new(f, project:, target_id:))
+        render(Backlogs::AddExistingWorkPackageForm.new(f, project:, target:))
       end
     end
 

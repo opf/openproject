@@ -45,7 +45,7 @@ module Pages
       expect(page).to have_css("turbo-frame#backlogs_container", wait: 10)
       expect(page).to have_css("#owner_backlogs_container", wait: 10)
       expect(page).to have_css("#sprint_backlogs_container", wait: 10)
-      wait_for_network_idle
+      wait_for_backlogs_network_idle
     end
 
     def path
@@ -149,7 +149,7 @@ module Pages
     end
 
     def expect_no_inbox_show_more
-      wait_for_network_idle
+      wait_for_backlogs_network_idle
       within_backlog_inbox do
         expect(page).to have_no_css("#inbox_project_#{project.id}_show_more")
       end
@@ -159,7 +159,7 @@ module Pages
       within_backlog_inbox do
         find("#inbox_project_#{project.id}_show_more").click
       end
-      wait_for_network_idle
+      wait_for_backlogs_network_idle
     end
 
     def expect_work_packages_in_inbox_in_order(work_packages: [])
@@ -187,7 +187,7 @@ module Pages
       selectors = work_packages.map { |wp| work_package_selector(wp) }
       expect(page)
         .to have_css(selectors.join(" + "))
-      wait_for_network_idle
+      wait_for_backlogs_network_idle
     end
 
     def sprint_items_in_visual_order(sprint, *work_packages)
@@ -247,6 +247,13 @@ module Pages
       within_sprint(sprint) do
         expect(page)
           .to have_selector(work_package_selector(work_package).to_s)
+      end
+    end
+
+    def expect_work_package_text_in_sprint(work_package, sprint, text)
+      within_sprint(sprint) do
+        expect(page)
+          .to have_selector(work_package_selector(work_package).to_s, text:)
       end
     end
 
@@ -347,13 +354,19 @@ module Pages
       end
     end
 
-    def click_in_work_package_move_submenu(work_package, item_name, wait: true)
+    # The move submenu items (Move up/down/to top/to bottom) all perform a
+    # successful move, which reloads the `backlogs_container` frame. Wait for that
+    # reload so a subsequent drag does not grab a soon-to-be-detached element.
+    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: true)
       within_work_package_move_submenu(work_package) do |submenu|
-        wait_for_turbo_stream(wait:) do
-          submenu.find(:menuitem, text: item_name).click
+        wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
+          submenu.find(:menuitem, text: item_name, visible: :all).click
         end
       end
     end
+
+    alias_method :click_in_inbox_move_menu, :click_in_work_package_move_submenu
+    alias_method :click_in_sprint_story_move_menu, :click_in_work_package_move_submenu
 
     def expect_no_inbox_menu
       within_backlog_inbox do
@@ -395,7 +408,7 @@ module Pages
 
       expect(page).to have_current_path project_backlogs_backlog_details_path(work_package.project, work_package),
                                         ignore_query: true
-      wait_for_network_idle
+      wait_for_backlogs_network_idle
 
       details_view
     end
@@ -455,6 +468,37 @@ module Pages
         .to have_no_css(draggable_work_package_selector(work_package))
     end
 
+    def pick_up_and_release_work_package(work_package)
+      # A mid-drag list refresh can detach the grabbed row, so retry a bounded
+      # number of times on a stale node. retry_block no-ops under
+      # RSPEC_RETRY_RETRY_COUNT=0, so single/local runs fail fast and surface the
+      # underlying fault instead of spinning on it. See the follow-up to make this
+      # helper robust without any retry.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(draggable_work_package_selector(work_package))
+        install_backlogs_move_request_probe
+        begin
+          pick_up_and_release_backlogs_item(moved_element)
+        ensure
+          stop_backlogs_move_request_probe
+        end
+      end
+
+      # The observable outcomes of releasing in place (no move request,
+      # unchanged order) also hold when the drag never engages, so assert the
+      # drop actually reached the controller — over the list, without an item
+      # target — to keep callers from passing vacuously.
+      expect_backlogs_drop_handled_without_item_target
+    end
+
     def apply_sprint_filter(*sprints)
       within_sprint_backlogs do
         find_test_selector("sprint_filter_button").click
@@ -506,6 +550,14 @@ module Pages
       end
     end
 
+    def expect_no_backlogs_move_request
+      move_requests = page.evaluate_script("window.__opBacklogsMoveRequestProbe?.requests ?? []")
+
+      expect(move_requests).to be_empty
+    ensure
+      stop_backlogs_move_request_probe
+    end
+
     def expect_no_filter_count(type)
       within_filter_container(type) do
         within_test_selector(filter_button_label(type)) do
@@ -514,31 +566,40 @@ module Pages
       end
     end
 
-    def drag_work_package(moved, before: nil, into: nil)
-      raise ArgumentError, "You must specify either before or into" unless before.present? ^ into.present?
+    def drag_work_package(moved, before: nil, after: nil, into: nil)
+      unless [before, after, into].compact.one?
+        raise ArgumentError, "You must specify exactly one of before, after or into"
+      end
 
       moved_element = find(draggable_work_package_selector(moved))
-      target_element = if before
-                         find(work_package_selector(before))
-                       else
-                         find(sprint_selector(into))
-                       end
+      target_element, edge =
+        if before
+          [find(work_package_selector(before)), :top]
+        elsif after
+          [find(work_package_selector(after)), :bottom]
+        else
+          [find(sprint_selector(into)), nil]
+        end
 
-      wait_for_turbo_stream do
-        moved_element.native.drag_to(target_element.native, delay: 0.1)
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
+        drag_backlogs_item(source: moved_element, target: target_element, edge:)
       end
-    rescue Capybara::Cuprite::ObsoleteNode
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
       moved_element = find(draggable_work_package_selector(work_package))
-      target_element = find(list_body_selector(backlog_inbox_selector))
+      inbox = find(backlog_inbox_selector)
+      target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
+      target_element = target_item || inbox.find("[data-empty-list-item]")
 
-      wait_for_turbo_stream do
-        moved_element.native.drag_to(target_element.native, delay: 0.1)
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
+        drag_backlogs_item(source: moved_element, target: target_element, edge: target_item ? :bottom : nil)
       end
-    rescue Capybara::Cuprite::ObsoleteNode
+      wait_for { work_package.reload.backlog_bucket_id }.to be_nil
+      wait_for { work_package.reload.sprint_id }.to be_nil
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
@@ -546,20 +607,22 @@ module Pages
       moved_element = find(draggable_work_package_selector(work_package))
       target_element = find(list_body_selector(bucket_selector(bucket)))
 
-      wait_for_turbo_stream do
-        moved_element.native.drag_to(target_element.native, delay: 0.1)
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
+        drag_backlogs_item(source: moved_element, target: target_element)
       end
-    rescue Capybara::Cuprite::ObsoleteNode
+      wait_for { work_package.reload.backlog_bucket_id }.to eq(bucket.id)
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
     def drag_work_package_to_sprint(work_package, sprint)
       moved_element = find(draggable_work_package_selector(work_package))
       target_element = find(list_body_selector(sprint_selector(sprint)))
-      wait_for_turbo_stream do
-        moved_element.native.drag_to(target_element.native, delay: 0.1)
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
+        drag_backlogs_item(source: moved_element, target: target_element)
       end
-    rescue Capybara::Cuprite::ObsoleteNode
+      wait_for { work_package.reload.sprint_id }.to eq(sprint.id)
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
@@ -685,7 +748,371 @@ module Pages
     end
 
     def draggable_work_package_selector(work_package)
-      "#{work_package_selector(work_package)}[data-draggable-id]"
+      "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
+    end
+
+    def drag_backlogs_item(source:, target:, edge: nil)
+      selenium_drag_backlogs_item(source:, target:, edge:)
+    end
+
+    def pick_up_and_release_backlogs_item(source)
+      install_backlogs_dnd_probe(source:, target: source, edge: nil)
+
+      scroll_to_element(source)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold
+        .pause(duration: 0.1)
+        .move_by(0, 8)
+        .pause(duration: 0.1)
+        .release
+        .perform
+
+      # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
+      # a cleanup, so a regression that leaves the overlay stuck is caught here
+      # instead of being masked by the JS removal below.
+      expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+      clear_pragmatic_dnd_honey_pot
+    end
+
+    def expect_backlogs_drop_handled_without_item_target
+      drop_summary = page.evaluate_script(<<~JS)
+        (() => {
+          const call = window.__opBacklogsDndProbeState?.handleDropCalls?.at(-1);
+
+          return {
+            handled: Boolean(call),
+            dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? []
+          };
+        })()
+      JS
+
+      expect(drop_summary.fetch("handled")).to be(true)
+      expect(drop_summary.fetch("dropTargetTypes")).to include("backlog_bucket")
+      expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
+    end
+
+    def selenium_drag_backlogs_item(source:, target:, edge: nil)
+      install_backlogs_dnd_probe(source:, target:, edge:)
+
+      scroll_to_element(source)
+
+      source_rect = source.native.rect
+      target_rect = target.native.rect
+      target_x, target_y = selenium_target_point(target_rect, edge:)
+      source_x, source_y = selenium_element_center(source_rect)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold(source.native)
+        .pause(duration: 0.1)
+        .move_by(target_x - source_x, target_y - source_y)
+        .pause(duration: 0.1)
+        .release
+        .perform
+
+      # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
+      # a cleanup, so a regression that leaves the overlay stuck is caught here
+      # instead of being masked by the JS removal below.
+      expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+      clear_pragmatic_dnd_honey_pot
+    end
+
+    def selenium_target_point(rect, edge:)
+      offset = [6, rect.height / 4].min
+
+      [
+        rect.x + (rect.width / 2),
+        case edge
+        when :top
+          rect.y + offset
+        when :bottom
+          rect.y + rect.height - offset
+        else
+          rect.y + (rect.height / 2)
+        end
+      ].map(&:round)
+    end
+
+    def selenium_element_center(rect)
+      [
+        rect.x + (rect.width / 2),
+        rect.y + (rect.height / 2)
+      ].map(&:round)
+    end
+
+    def wait_for_backlogs_network_idle
+      wait_for_network_idle if using_cuprite?
+    end
+
+    # Waits for a backlogs move to settle.
+    #
+    # A successful move responds with a turbo stream whose `turbo_frame_reload`
+    # action reloads the `backlogs_container` frame — two round-trips: the stream
+    # render and the frame reload. Callers that go on to touch the refreshed frame
+    # pass `frame_reload: true` to await the frame load rather than racing it.
+    #
+    # A failed move (e.g. dropping onto a completed sprint) only renders an error
+    # flash and never reloads the frame, so the default settles on the stream render.
+    def wait_for_backlogs_turbo_stream(wait: Capybara.default_max_wait_time, frame_reload: false, &)
+      return yield unless wait
+
+      if frame_reload
+        wait_for_turbo_frame(frame: "backlogs_container", wait:, &)
+      else
+        wait_for_turbo_stream(wait:, &)
+      end
+    end
+
+    def install_backlogs_dnd_probe(source:, target:, edge:)
+      page.execute_script(<<~JS, source, target, edge&.to_s)
+        window.__opBacklogsDndProbeAbort?.abort();
+
+        const controller = new AbortController();
+        const sourceElement = arguments[0];
+        const targetElement = arguments[1];
+        const state = {
+          source: describeElement(sourceElement),
+          target: describeElement(targetElement),
+          requestedEdge: arguments[2],
+          events: [],
+          handleDropCalls: [],
+          snapshots: []
+        };
+
+        function itemIdFor(element) {
+          const closestItem = element?.closest?.('[data-sortable-lists--item-id-value]');
+          const descendantItem = element?.querySelector?.('[data-sortable-lists--item-id-value]');
+
+          return (closestItem ?? descendantItem)
+            ?.getAttribute('data-sortable-lists--item-id-value') ?? null;
+        }
+
+        function backlogsItemFor(element) {
+          return element?.closest?.('[data-sortable-lists--item-id-value]') ??
+            element?.querySelector?.('[data-sortable-lists--item-id-value]') ??
+            null;
+        }
+
+        function controllerInfo(element) {
+          const item = backlogsItemFor(element);
+          const application = window.Stimulus;
+
+          if (!item || !application?.getControllerForElementAndIdentifier) {
+            return { available: false };
+          }
+
+          const controller = application.getControllerForElementAndIdentifier(item, 'sortable-lists--item');
+
+          return {
+            available: true,
+            connected: Boolean(controller),
+            idValue: controller?.idValue ?? null,
+            hasCleanupFn: Boolean(controller?.cleanupFn)
+          };
+        }
+
+        function dataSummary(data) {
+          if (!data || typeof data !== 'object') {
+            return data ?? null;
+          }
+
+          const entries = Object.fromEntries(Object.entries(data));
+          const symbols = Object.getOwnPropertySymbols(data).map((symbol) => ({
+            description: symbol.description,
+            value: data[symbol]
+          }));
+
+          return { entries, symbols };
+        }
+
+        function dropTargetSummary(dropTarget) {
+          return {
+            data: dataSummary(dropTarget.data),
+            element: describeElement(dropTarget.element)
+          };
+        }
+
+        function patchSortableListsController() {
+          const application = window.Stimulus;
+          const root = sourceElement.closest('[data-controller~="sortable-lists"]');
+          const sortableListsController = root && application?.getControllerForElementAndIdentifier
+            ? application.getControllerForElementAndIdentifier(root, 'sortable-lists')
+            : null;
+
+          state.sortableListsController = {
+            rootFound: Boolean(root),
+            connected: Boolean(sortableListsController),
+            patched: false
+          };
+
+          if (!sortableListsController?.handleDrop || sortableListsController.__opBacklogsDndProbePatched) {
+            return;
+          }
+
+          const originalHandleDrop = sortableListsController.handleDrop.bind(sortableListsController);
+
+          sortableListsController.handleDrop = (payload) => {
+            state.handleDropCalls.push({
+              source: {
+                data: dataSummary(payload.source?.data),
+                element: describeElement(payload.source?.element)
+              },
+              dropTargets: payload.location?.current?.dropTargets?.map(dropTargetSummary) ?? [],
+              input: payload.location?.current?.input ?? null,
+              time: Math.round(performance.now())
+            });
+
+            return originalHandleDrop(payload);
+          };
+
+          sortableListsController.__opBacklogsDndProbePatched = true;
+          state.sortableListsController.patched = true;
+        }
+
+        function describeElement(element) {
+          if (!element) {
+            return { found: false };
+          }
+
+          const rect = element.getBoundingClientRect();
+          const item = backlogsItemFor(element);
+          const row = element.closest?.('.Box-row');
+
+          return {
+            found: true,
+            tagName: element.tagName,
+            itemId: itemIdFor(element),
+            testSelector: element.closest?.('[data-test-selector]')?.getAttribute('data-test-selector') ?? null,
+            itemTagName: item?.tagName ?? null,
+            draggable: item?.draggable ?? element.draggable,
+            draggableAttribute: item?.getAttribute('draggable') ?? element.getAttribute('draggable'),
+            dataDropTargetForElement: item?.getAttribute('data-drop-target-for-element') ??
+              element.getAttribute('data-drop-target-for-element'),
+            controller: controllerInfo(element),
+            rowClassName: row?.className ?? null,
+            rect: {
+              x: Math.round(rect.x),
+              y: Math.round(rect.y),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height)
+            }
+          };
+        }
+
+        function snapshot(label) {
+          state.snapshots.push({
+            label,
+            draggingCount: document.querySelectorAll('[data-dragging]').length,
+            honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
+            dropPositions: Array
+              .from(document.querySelectorAll('[data-drop-position]'))
+              .map((element) => ({
+                itemId: itemIdFor(element),
+                position: element.getAttribute('data-drop-position')
+              })),
+            source: describeElement(sourceElement),
+            target: describeElement(targetElement),
+            time: Math.round(performance.now())
+          });
+        }
+
+        function pushEvent(event) {
+          const elementsFromPoint = event.clientX == null || event.clientY == null
+            ? []
+            : Array
+              .from(document.elementsFromPoint(event.clientX, event.clientY))
+              .slice(0, 6)
+              .map(describeElement);
+
+          state.events.push({
+            type: event.type,
+            targetItemId: itemIdFor(event.target),
+            clientX: event.clientX,
+            clientY: event.clientY,
+            defaultPrevented: event.defaultPrevented,
+            dropEffect: event.dataTransfer?.dropEffect ?? null,
+            effectAllowed: event.dataTransfer?.effectAllowed ?? null,
+            draggingCount: document.querySelectorAll('[data-dragging]').length,
+            honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
+            dropPositions: Array
+              .from(document.querySelectorAll('[data-drop-position]'))
+              .map((element) => ({
+                itemId: itemIdFor(element),
+                position: element.getAttribute('data-drop-position')
+              })),
+            elementsFromPoint,
+            time: Math.round(performance.now())
+          });
+
+          if (state.events.length > 100) {
+            state.events.shift();
+          }
+        }
+
+        ['mousedown', 'mousemove', 'mouseup', 'dragstart', 'dragenter', 'dragover', 'dragleave', 'drop', 'dragend']
+          .forEach((type) => document.addEventListener(type, pushEvent, {
+            capture: true,
+            signal: controller.signal
+          }));
+
+        patchSortableListsController();
+        snapshot('before-drag');
+
+        window.__opBacklogsDndProbeAbort = controller;
+        window.__opBacklogsDndProbeState = state;
+      JS
+    end
+
+    def install_backlogs_move_request_probe
+      page.execute_script(<<~JS)
+        window.__opBacklogsMoveRequestProbe = { requests: [] };
+
+        if (!window.__opBacklogsOriginalFetch) {
+          window.__opBacklogsOriginalFetch = window.fetch;
+        }
+
+        window.fetch = (...args) => {
+          const request = args[0];
+          const options = args[1] ?? {};
+          const url = String(request?.url ?? request);
+          const method = String(request?.method ?? options.method ?? 'GET').toUpperCase();
+
+          if (method === 'PUT' && url.includes('/backlogs/')) {
+            window.__opBacklogsMoveRequestProbe.requests.push({
+              url,
+              method,
+              time: Math.round(performance.now())
+            });
+          }
+
+          return window.__opBacklogsOriginalFetch(...args);
+        };
+      JS
+    end
+
+    def stop_backlogs_move_request_probe
+      page.execute_script(<<~JS)
+        if (window.__opBacklogsOriginalFetch) {
+          window.fetch = window.__opBacklogsOriginalFetch;
+        }
+      JS
+    end
+
+    def clear_pragmatic_dnd_honey_pot
+      page.execute_script(<<~JS)
+        document
+          .querySelectorAll('[data-pdnd-honey-pot]')
+          .forEach((element) => element.remove());
+      JS
     end
 
     def sprint_complete_modal_selector
@@ -712,8 +1139,18 @@ module Pages
       selector = "##{overlay_id}"
 
       return unless page.has_css?(selector, visible: true, wait: 0)
+      return if page.has_selector?(:modal, wait: 0)
 
-      find(selector).click
+      find(selector, wait: 0).click
+    rescue Capybara::ElementNotFound,
+           Ferrum::CoordinatesNotFoundError,
+           Selenium::WebDriver::Error::ElementNotInteractableError
+      # Menu actions can close the menu or open a modal between the checks
+      # above and the click; once the menu is gone or a modal owns focus,
+      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
+      # Selenium ElementNotInteractableError) and dismissal is moot.
+      raise unless page.has_selector?(:modal, wait: 0) ||
+        page.has_no_css?(selector, visible: true, wait: 0)
     end
 
     def headed_section_titles(id_prefix:)
