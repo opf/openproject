@@ -106,12 +106,15 @@ module Queries::Filters::Shared
       def where
         model_db_table = model.table_name
 
-        <<-SQL
-          #{model_db_table}.id IN
-          (SELECT #{model_db_table}.id
-          FROM #{model_db_table}
-          #{custom_field_context.where_subselect_joins(custom_field)}
-          WHERE #{condition})
+        <<~SQL.squish
+          #{model_db_table}.id IN (
+            SELECT
+              #{model_db_table}.id
+            FROM #{model_db_table}
+            #{custom_field_context.where_subselect_joins(custom_field)}
+            WHERE
+              #{condition}
+          )
         SQL
       end
 
