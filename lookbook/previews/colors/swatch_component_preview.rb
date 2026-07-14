@@ -29,7 +29,7 @@
 #++
 
 module Colors
-  # @logical_path Colors
+  # @logical_path OpenProject
   class SwatchComponentPreview < Lookbook::Preview
     # @label Default
     def default

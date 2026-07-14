@@ -39,10 +39,16 @@ module Colors
     end
 
     def call
-      return swatch unless show_value?
+      return render(Primer::Box.new(**swatch_arguments)) unless show_value?
 
-      render(Primer::Box.new(tag: :span, classes: "color--swatch-with-value")) do
-        safe_join([swatch, value])
+      render(Primer::OpenProject::FlexLayout.new(classes: "op-color-swatch--with-value", align_items: :center)) do |flex|
+        flex.with_column do
+          render(Primer::Box.new(**swatch_arguments))
+        end
+
+        flex.with_column do
+          render(Primer::Beta::Text.new(tag: :span)) { hexcode }
+        end
       end
     end
 
@@ -50,26 +56,14 @@ module Colors
 
     attr_reader :hexcode
 
-    def swatch
-      render(
-        Primer::Box.new(
-          **system_arguments
-        )
-      )
-    end
-
-    def value
-      render(Primer::Beta::Text.new(tag: :span)) { hexcode }
-    end
-
     def show_value?
       @show_value
     end
 
-    def system_arguments
+    def swatch_arguments
       @system_arguments.merge(
         tag: :span,
-        classes: helpers.class_names("color--swatch", @system_arguments[:classes]),
+        classes: helpers.class_names("op-color-swatch", @system_arguments[:classes]),
         aria: @system_arguments.fetch(:aria, {}).merge(hidden: true),
         style: [@system_arguments[:style], "background-color: #{hexcode}"].compact.join("; ")
       )
