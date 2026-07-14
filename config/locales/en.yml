@@ -5397,6 +5397,7 @@ en:
     The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy.
     Work packages without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
+  setting_user_can_change_email: "Users allowed to change their email address"
   setting_user_default_timezone: "Users default time zone"
   setting_user_format: "Users name format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
@@ -5623,6 +5624,7 @@ en:
       section_project_overview: "Settings for project lists"
     session: "Session"
     user:
+      account: "Account"
       default_preferences: "Default preferences"
       deletion: "Deletion"
       display_format: "Display format"
@@ -6154,6 +6156,7 @@ en:
     status_change: "Status change"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     text_change_disabled_for_provider_login: "The name and email is set by your login provider and can thus not be changed."
+    text_change_mail_disabled_by_administrator: "Changing your email address has been disabled by the administrator."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   user_preferences:
