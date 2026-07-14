@@ -933,12 +933,14 @@ module Pages
       list_identity(moved) != list_identity(before || after)
     end
 
-    # Reads the passed record's in-memory list. Callers hand in freshly loaded
-    # records right before the drag, so this reflects the pre-drag list. Do not
-    # reuse the same object across two drags without reloading it first, or a
-    # stale identity would misclassify a same-list reorder as cross-list.
+    # Reads the record's current list from the database rather than trusting
+    # the passed object: specs reuse the same records across consecutive
+    # drags, and a stale in-memory identity would misclassify a cross-list
+    # drag as a same-list reorder, making the drag helper skip the frame
+    # reload wait and race the re-render.
     def list_identity(work_package)
-      [work_package.sprint_id, work_package.backlog_bucket_id]
+      fresh = work_package.class.find(work_package.id)
+      [fresh.sprint_id, fresh.backlog_bucket_id]
     end
 
     def install_backlogs_dnd_probe(source:, target:, edge:)
