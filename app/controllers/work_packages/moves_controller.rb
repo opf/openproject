@@ -147,11 +147,26 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def attributes_for_create
-    permitted_params
-      .move_work_package
+    attributes = permitted_params.move_work_package
+    # target_version_ids is an array param and must not be run through the scalar
+    # "none"/blank magic value transforms below.
+    target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
+
+    attributes = attributes
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
       .transform_values { |v| v == "none" ? nil : v }
       .to_h
+    attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
+    attributes
+  end
+
+  # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
+  #   * blank selection  -> nil  (leave existing target_versions untouched)
+  #   * "none" selection -> []   (clear all target_versions)
+  #   * a version id      -> [id]
+  def normalized_target_version_ids(raw)
+    values = Array(raw).compact_blank
+    values == ["none"] ? [] : values.presence
   end
 end

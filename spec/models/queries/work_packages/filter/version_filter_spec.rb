@@ -162,23 +162,13 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     end
 
     describe "#joins" do
-      context "for status operators" do
-        %w[o c l].each do |op|
-          context "with operator '#{op}'" do
-            let(:operator) { op }
+      %w[o c l =].each do |op|
+        context "with operator '#{op}'" do
+          let(:operator) { op }
 
-            it "returns :version" do
-              expect(instance.joins).to eq(:version)
-            end
+          it "returns nil as the status operators match via subquery" do
+            expect(instance.joins).to be_nil
           end
-        end
-      end
-
-      context "for other operators" do
-        let(:operator) { "=" }
-
-        it "returns nil" do
-          expect(instance.joins).to be_nil
         end
       end
     end
