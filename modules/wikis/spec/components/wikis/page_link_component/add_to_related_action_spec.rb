@@ -42,7 +42,6 @@ RSpec.describe Wikis::PageLinkComponent::AddToRelatedAction do
       href: "https://wiki.example.com/MyPage"
     )
   end
-  let(:url_helpers) { Rails.application.routes.url_helpers }
   let(:already_related) { false }
 
   subject(:action) do
@@ -55,17 +54,23 @@ RSpec.describe Wikis::PageLinkComponent::AddToRelatedAction do
 
   it "builds a menu item posting to the relation page link creation" do
     expect(action.menu_item_args).to include(
-      label: I18n.t("wikis.page_link_component.add_to_related_pages"),
+      label: "Add to related pages",
       tag: :a,
-      href: url_helpers.relation_wiki_page_links_path(
-        wikis_relation_page_link: {
-          provider_id: provider.id,
-          linkable_type: "WorkPackage",
-          linkable_id: work_package.id
-        },
-        identifier: page_info.identifier
-      ),
       content_arguments: { data: { turbo_method: :post } }
+    )
+  end
+
+  it "targets the relation page link creation with the page and linkable as parameters" do
+    href = URI.parse(action.menu_item_args[:href])
+
+    expect(href.path).to eq("/relation_wiki_page_links")
+    expect(Rack::Utils.parse_nested_query(href.query)).to eq(
+      "wikis_relation_page_link" => {
+        "provider_id" => provider.id.to_s,
+        "linkable_type" => "WorkPackage",
+        "linkable_id" => work_package.id.to_s,
+        "identifier" => "MyPage"
+      }
     )
   end
 
@@ -74,7 +79,7 @@ RSpec.describe Wikis::PageLinkComponent::AddToRelatedAction do
 
     it "builds an inert disabled menu item without an href" do
       expect(action.menu_item_args).to eq(
-        label: I18n.t("wikis.page_link_component.add_to_related_pages"),
+        label: "Add to related pages",
         disabled: true
       )
     end

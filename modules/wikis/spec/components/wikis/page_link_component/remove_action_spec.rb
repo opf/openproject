@@ -33,7 +33,6 @@ require_module_spec_helper
 
 RSpec.describe Wikis::PageLinkComponent::RemoveAction do
   let(:page_link) { build_stubbed(:relation_wiki_page_link) }
-  let(:url_helpers) { Rails.application.routes.url_helpers }
 
   subject(:action) { described_class.new(page_link:) }
 
@@ -43,10 +42,10 @@ RSpec.describe Wikis::PageLinkComponent::RemoveAction do
 
   it "builds a danger menu item linking to the delete confirmation dialog" do
     expect(action.menu_item_args).to include(
-      label: I18n.t("wikis.page_link_component.remove"),
+      label: "Remove page link",
       scheme: :danger,
       tag: :a,
-      href: url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(page_link)
+      href: "/relation_wiki_page_links/#{page_link.id}/confirm_delete_dialog"
     )
   end
 end
