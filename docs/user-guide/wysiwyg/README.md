@@ -213,6 +213,20 @@ Example:
 
 **Linking to the current project's status**: `projectValue:status`
 
+### Controlling the layout of multi-value attributes
+
+Attributes that hold multiple values (for example target versions or multi-select custom fields) render one value per line in the application and comma-separated in PDF exports. Append a layout argument to the macro to choose a layout explicitly:
+
+- `workPackageValue:1234:targetVersions:multiline` renders one value per line
+- `workPackageValue:1234:targetVersions:singleline` renders all values on a single line, comma-separated
+
+The layout argument also works with custom fields (`workPackageValue:1234:"My custom field":singleline`), with project attributes (`projectValue:...`) and with relative references (`workPackageValue:targetVersions:singleline`).
+
+Only attributes that hold multiple values are affected. On single-value attributes such as `subject`, the layout argument is accepted but does not change the rendering.
+
+> [!NOTE]
+> The deprecated `version` attribute renders the work package's target versions on a single line by default.
+
 ### Embedding attribute help texts
 
 You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` or `projectLabel`.
@@ -255,7 +269,8 @@ where `1234` stands for the [work package ID](../work-packages).
 | Start date          | `workPackageValue:1234:startDate`                               |
 | Status              | `workPackageValue:1234:status`                                  |
 | Subject / Title     | `workPackageValue:1234:subject`                                 |
-| Version             | `workPackageValue:1234:version`                                 |
+| Target versions     | `workPackageValue:1234:targetVersions`                          |
+| Version _(deprecated)_ | `workPackageValue:1234:version`                              |
 | Work                | `workPackageValue:8415:estimatedTime`                           |
 | Work package type   | `workPackageValue:1234:type`                                    |
 
