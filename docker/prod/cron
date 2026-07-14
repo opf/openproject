@@ -12,25 +12,25 @@ while true; do
 	if [ "$IMAP_ENABLED" = "true" ]; then
 		echo "[cron] Checking for new emails from IMAP"
 		bundle exec rake redmine:email:receive_imap \
-			host="${IMAP_HOST}" \
-			username="${IMAP_USERNAME}" \
-			password="${IMAP_PASSWORD}" \
-			ssl="${IMAP_SSL}" \
-			ssl_verification="${IMAP_SSL_VERIFICATION}" \
-			port="${IMAP_PORT}" \
-			folder="${IMAP_FOLDER}" \
-			project="${IMAP_ATTR_PROJECT}" \
-			category="${IMAP_ATTR_CATEGORY}" \
-			priority="${IMAP_ATTR_PRIORITY}" \
-			status="${IMAP_ATTR_STATUS}" \
-			version="${IMAP_ATTR_VERSION}" \
-			type="${IMAP_ATTR_TYPE}" \
-			assigned_to="${IMAP_ATTR_ASSIGNED_TO}" \
-			unknown_user="${IMAP_UNKNOWN_USER}" \
-			no_permission_check="${IMAP_NO_PERMISSION_CHECK}" \
-			move_on_success="${IMAP_MOVE_ON_SUCCESS}" \
-			move_on_failure="${IMAP_MOVE_ON_FAILURE}" \
-			allow_override="${IMAP_ALLOW_OVERRIDE}" || true
+			${IMAP_HOST:+"host=$IMAP_HOST"} \
+			${IMAP_USERNAME:+"username=$IMAP_USERNAME"} \
+			${IMAP_PASSWORD:+"password=$IMAP_PASSWORD"} \
+			${IMAP_SSL:+"ssl=$IMAP_SSL"} \
+			${IMAP_SSL_VERIFICATION:+"ssl_verification=$IMAP_SSL_VERIFICATION"} \
+			${IMAP_PORT:+"port=$IMAP_PORT"} \
+			${IMAP_FOLDER:+"folder=$IMAP_FOLDER"} \
+			${IMAP_ATTR_PROJECT:+"project=$IMAP_ATTR_PROJECT"} \
+			${IMAP_ATTR_CATEGORY:+"category=$IMAP_ATTR_CATEGORY"} \
+			${IMAP_ATTR_PRIORITY:+"priority=$IMAP_ATTR_PRIORITY"} \
+			${IMAP_ATTR_STATUS:+"status=$IMAP_ATTR_STATUS"} \
+			${IMAP_ATTR_VERSION:+"version=$IMAP_ATTR_VERSION"} \
+			${IMAP_ATTR_TYPE:+"type=$IMAP_ATTR_TYPE"} \
+			${IMAP_ATTR_ASSIGNED_TO:+"assigned_to=$IMAP_ATTR_ASSIGNED_TO"} \
+			${IMAP_UNKNOWN_USER:+"unknown_user=$IMAP_UNKNOWN_USER"} \
+			${IMAP_NO_PERMISSION_CHECK:+"no_permission_check=$IMAP_NO_PERMISSION_CHECK"} \
+			${IMAP_MOVE_ON_SUCCESS:+"move_on_success=$IMAP_MOVE_ON_SUCCESS"} \
+			${IMAP_MOVE_ON_FAILURE:+"move_on_failure=$IMAP_MOVE_ON_FAILURE"} \
+			${IMAP_ALLOW_OVERRIDE:+"allow_override=$IMAP_ALLOW_OVERRIDE"} || true
 	else
 		echo "[cron] IMAP email checking is disabled"
 	fi
