@@ -382,7 +382,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       this.element.removeAttribute(sortableListsBusyAttribute);
     }
-    this.sortableListsListOutlets.forEach((list) => list.reflectBusy(busy));
   }
 
   private dispatchErrorToast():void {

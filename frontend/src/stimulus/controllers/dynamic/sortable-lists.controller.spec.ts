@@ -383,7 +383,7 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('marks the root and lists busy while moving an item', async () => {
+  it('marks the root busy while moving an item without flagging lists aria-busy', async () => {
     let resolveMove:(response:Response) => void;
 
     fetchMock.mockImplementationOnce(() => {
@@ -398,7 +398,9 @@ describe('Sortable lists controller', () => {
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
     expect(root.dataset.sortableListsBusy).toEqual('true');
-    expect(targetList.getAttribute('aria-busy')).toEqual('true');
+    // The reorder already happened; the await window contains no DOM change,
+    // so lists must not claim to be busy (Turbo marks frames busy itself).
+    expect(targetList.hasAttribute('aria-busy')).toBe(false);
 
     resolveMove!(new Response('', { status: 200 }));
     await flushPromises();

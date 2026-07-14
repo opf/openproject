@@ -127,22 +127,10 @@ export default class ListController extends Controller<HTMLElement> implements R
   // Called by the root controller's outlet-connected callback.
   connectRoot(root:SortableListsRoot):void {
     this.root = root;
-    this.reflectBusy(root.busy);
   }
 
   disconnectRoot():void {
     this.root = undefined;
-    // The root only reaches still-connected list outlets when it ends a move, so
-    // a list that disconnects mid-move would otherwise keep aria-busy forever.
-    this.reflectBusy(false);
-  }
-
-  reflectBusy(busy:boolean):void {
-    if (busy) {
-      this.element.setAttribute('aria-busy', 'true');
-    } else {
-      this.element.removeAttribute('aria-busy');
-    }
   }
 
   private get dropPosition():SortableListDropPosition {

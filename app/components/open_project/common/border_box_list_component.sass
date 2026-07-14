@@ -94,17 +94,6 @@
     outline-offset: calc(var(--borderWidth-thick) * -1)
     border-radius: var(--borderRadius-medium)
 
-  // While a move persists the list is aria-busy: show progress and dim the
-  // rows until the server render reconciles them.
-  &[aria-busy="true"]
-    cursor: progress
-
-    .Box-list
-      opacity: 0.7
-
-      @media (prefers-reduced-motion: no-preference)
-        transition: opacity 0.1s ease-in-out
-
   // The empty-state row only makes sense while it is alone in the list. Hiding
   // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
   // a flicker between the drop and the server render removing it.

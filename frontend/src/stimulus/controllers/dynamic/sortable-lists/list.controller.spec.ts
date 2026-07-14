@@ -250,37 +250,6 @@ describe('Sortable lists list controller', () => {
       .toBe(false);
   });
 
-  it('reflects the root busy state as aria-busy on connect', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
-
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-  });
-
-  it('clears aria-busy when reflectBusy is turned off', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    controller.reflectBusy(false);
-    expect(list.hasAttribute('aria-busy')).toBe(false);
-  });
-
-  it('clears aria-busy when the root outlet disconnects mid-move', async () => {
-    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    controller.disconnectRoot();
-    expect(list.hasAttribute('aria-busy')).toBe(false);
-  });
-
-  it('clears aria-busy when the list element disconnects mid-move', async () => {
-    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { busy: true }) });
-    expect(list.getAttribute('aria-busy')).toEqual('true');
-
-    list.remove();
-    await ctx.nextFrame();
-    expect(list.hasAttribute('aria-busy')).toBe(false);
-  });
-
   it('outlines the container for a list-only drop', async () => {
     const { list } = await connectedListFor();
     const options = dropTargetOptionsFor(list);
