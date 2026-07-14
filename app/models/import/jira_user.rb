@@ -53,11 +53,12 @@ module Import
       }
     end
 
-    def try_to_find_existing_op_users
-      op_attributes = to_op_attributes
-      User.by_login(op_attributes[:login]).or(
-        User.where("LOWER(mail) = ?", op_attributes[:mail]&.downcase)
-      )
+    def try_to_find_existing_op_user_by_mail
+      User.where("LOWER(mail) = ?", to_op_attributes[:mail]&.downcase).first
+    end
+
+    def try_to_find_existing_op_user_by_login
+      User.by_login(to_op_attributes[:login]).first
     end
 
     private

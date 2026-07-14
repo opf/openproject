@@ -14,7 +14,6 @@ keywords: development setup
 | [via docker (MacOS)](docker-macos) | MacOS specific docker topics                                                      |
 | [MacOS](macos)                     | Develop setup on MacOS                                                            |
 
-
 ## Start Coding
 
 Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start

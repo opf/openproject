@@ -31,6 +31,7 @@ Styling for a agenda item of the PDF meeting export
 Key: `agenda_item`
 
 Example:
+
 ```yml
 agenda_item: {}
 ```
@@ -51,6 +52,7 @@ Styling for Meeting agenda item notes
 Key: `notes`
 
 Example:
+
 ```yml
 notes:
   markdown_margin: {}
@@ -70,6 +72,7 @@ Margins for agenda item notes
 Key: `markdown_margin`
 
 Example:
+
 ```yml
 markdown_margin:
   margin_bottom: 16
@@ -86,6 +89,7 @@ Styling for Meeting agenda item outcome
 Key: `outcome`
 
 Example:
+
 ```yml
 outcome:
   indent: 15
@@ -109,6 +113,7 @@ Margins for agenda item outcome
 Key: `markdown_margin`
 
 Example:
+
 ```yml
 markdown_margin:
   margin_bottom: 16
@@ -142,6 +147,7 @@ Styling for a agenda section of the PDF meeting export
 Key: `agenda_section`
 
 Example:
+
 ```yml
 agenda_section: {}
 ```
@@ -160,6 +166,7 @@ Styling to denote a quote as alert box
 Key: `alert`
 
 Example:
+
 ```yml
 ALERT:
   alert_color: f4f9ff
@@ -199,6 +206,7 @@ Styling for the attachments table
 Key: `attachments`
 
 Example:
+
 ```yml
 margin_bottom: 12
 cell:
@@ -219,6 +227,7 @@ Properties to set borders
 Key: `border`
 
 Example:
+
 ```yml
 border_color: F000FF
 border_color_top: 000FFF
@@ -255,6 +264,7 @@ Properties to set vertical and horizontal alignment of table cells
 Key: `cell_alignment`
 
 Example:
+
 ```yml
 align: center
 valign: middle
@@ -272,6 +282,7 @@ Styling for the cover page of the PDF report export
 Key: `cover`
 
 Example:
+
 ```yml
 cover:
   header: {}
@@ -292,6 +303,7 @@ Styling for the cover page footer of the PDF report export
 Key: `cover_footer`
 
 Example:
+
 ```yml
 footer:
   offset: 20
@@ -311,6 +323,7 @@ Styling for the cover page header of the PDF report export
 Key: `cover_header`
 
 Example:
+
 ```yml
 header:
   logo_height: 25
@@ -332,6 +345,7 @@ Styling for the cover page header border of the PDF report export
 Key: `cover_header_border`
 
 Example:
+
 ```yml
 border:
   color: d3dee3
@@ -354,6 +368,7 @@ Styling for the hero banner at the bottom at the cover page
 Key: `cover_hero`
 
 Example:
+
 ```yml
 header:
   padding_right: 150
@@ -379,6 +394,7 @@ Properties to set the font style
 Key: `font`
 
 Example:
+
 ```yml
 font: OpenSans
 size: 10
@@ -402,6 +418,7 @@ leading: 2
 Key: `html_table`
 
 Example:
+
 ```yml
 table:
   auto_width: true
@@ -429,6 +446,7 @@ Styling for the heading of the PDF meeting export
 Key: `heading`
 
 Example:
+
 ```yml
 heading:
   size: 12
@@ -448,6 +466,7 @@ heading:
 Key: `hr`
 
 Example:
+
 ```yml
 border:
   color: 6E7781
@@ -465,6 +484,7 @@ border:
 Key: `hr`
 
 Example:
+
 ```yml
 border:
   color: D0D7DE
@@ -496,6 +516,7 @@ Properties to set margins
 Key: `margin`
 
 Example:
+
 ```yml
 margin: 10mm
 margin_top: 15mm
@@ -516,6 +537,7 @@ Styling a clickable link
 Key: `link`
 
 Example:
+
 ```yml
 link:
   color: '000088'
@@ -532,6 +554,7 @@ Styling for markdown content of agenda item notes
 Key: `markdown`
 
 Example:
+
 ```yml
 markdown:
   font: {}
@@ -587,6 +610,7 @@ Styling to denote a paragraph as quote
 Key: `blockquote`
 
 Example:
+
 ```yml
 blockquote:
   background_color: f4f9ff
@@ -617,6 +641,7 @@ Styling to denote a word or phrase as code
 Key: `code`
 
 Example:
+
 ```yml
 code:
   font: Consolas
@@ -634,6 +659,7 @@ Styling to denote a paragraph as code
 Key: `codeblock`
 
 Example:
+
 ```yml
 codeblock:
   background_color: F5F5F5
@@ -657,6 +683,7 @@ codeblock:
 Key: `header`
 
 Example:
+
 ```yml
 header:
   styles:
@@ -686,6 +713,7 @@ Tables without or empty header rows can be styled differently.
 Key: `headless_table`
 
 Example:
+
 ```yml
 headless_table:
   auto_width: true
@@ -708,6 +736,7 @@ Styling for horizontal lines
 Key: `hrule`
 
 Example:
+
 ```yml
 hrule:
   line_width: 1
@@ -725,6 +754,7 @@ Styling of images
 Key: `image`
 
 Example:
+
 ```yml
 image:
   max_width: 50mm
@@ -748,6 +778,7 @@ image:
 Key: `ordered_list`
 
 Example:
+
 ```yml
 ordered_list:
   spacing: 2mm
@@ -766,6 +797,7 @@ ordered_list:
 Key: `ordered_list_point`
 
 Example:
+
 ```yml
 ordered_list_point:
   template: "<number>."
@@ -790,6 +822,7 @@ A block of text
 Key: `paragraph`
 
 Example:
+
 ```yml
 paragraph:
   align: justify
@@ -807,6 +840,7 @@ paragraph:
 Key: `table`
 
 Example:
+
 ```yml
 table:
   auto_width: true
@@ -832,6 +866,7 @@ table:
 Key: `task_list_point`
 
 Example:
+
 ```yml
 task_list_point:
   checked: "☑"
@@ -851,6 +886,7 @@ task_list_point:
 Key: `unordered_list`
 
 Example:
+
 ```yml
 unordered_list:
   spacing: 1.5mm
@@ -869,6 +905,7 @@ unordered_list:
 Key: `unordered_list_point`
 
 Example:
+
 ```yml
 unordered_list_point:
   sign: "•"
@@ -888,6 +925,7 @@ Properties to set paddings
 Key: `padding`
 
 Example:
+
 ```yml
 padding: 10mm
 padding_top: 15mm
@@ -906,6 +944,7 @@ padding_top: 15mm
 Key: `page_footer`
 
 Example:
+
 ```yml
 page_footer:
   offset: -30
@@ -923,6 +962,7 @@ page_footer:
 Key: `page_header`
 
 Example:
+
 ```yml
 page_header:
   align: left
@@ -943,6 +983,7 @@ The main page title heading
 Key: `page_heading`
 
 Example:
+
 ```yml
 page_heading:
   size: 14
@@ -963,6 +1004,7 @@ Styling for logo image in the page header.
 Key: `page_logo`
 
 Example:
+
 ```yml
 page_logo:
   height: 20
@@ -982,6 +1024,7 @@ Properties to set the basic page settings
 Key: `page`
 
 Example:
+
 ```yml
 page:
   page_size: EXECUTIVE
@@ -1009,6 +1052,7 @@ Styling for the participants table
 Key: `participants`
 
 Example:
+
 ```yml
 margin_bottom: 12
 cell:
@@ -1030,6 +1074,7 @@ Styling for a table cell
 Key: `table_cell`
 
 Example:
+
 ```yml
 table_cell:
   size: 9
@@ -1053,6 +1098,7 @@ Styling for a table header cell
 Key: `table_header`
 
 Example:
+
 ```yml
 table_header:
   size: 9
@@ -1074,6 +1120,7 @@ table_header:
 Key: `dates`
 
 Example:
+
 ```yml
 heading:
   spacing: 10
@@ -1095,6 +1142,7 @@ heading:
 Key: `title`
 
 Example:
+
 ```yml
 title:
   max_height: 30
@@ -1115,6 +1163,7 @@ title:
 Key: `subheading`
 
 Example:
+
 ```yml
 subheading:
   max_height: 30
@@ -1134,6 +1183,7 @@ subheading:
 Key: `heading`
 
 Example:
+
 ```yml
 heading:
   spacing: 10

@@ -80,9 +80,8 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
-  # The `allocated` allocations for the given work packages, grouped by work
-  # package id and with principals eager-loaded. Loaded once per page so the
-  # allocation columns (progress bar and members) share a single query.
+  # Loaded once per page so the allocation columns (progress bar and members)
+  # share a single query.
   def self.allocated_for_work_packages(work_packages)
     allocated
       .where(entity_type: "WorkPackage", entity_id: work_packages.map(&:id))
@@ -91,8 +90,16 @@ class ResourceAllocation < ApplicationRecord
       .group_by(&:entity_id)
   end
 
-  # The subset of the given allocations' principal ids that `user` may see.
-  # Used to anonymise members the current user is not allowed to know about.
+  # Loaded once per page so the user-timeline resource cells (overbooking) and
+  # bars share a single query.
+  def self.allocated_for_principals(principals)
+    allocated
+      .where(principal_id: principals.map(&:id))
+      .includes(:entity, :principal)
+      .order(:id)
+      .group_by(&:principal_id)
+  end
+
   def self.visible_principal_ids(allocations, user)
     principal_ids = allocations.filter_map(&:principal_id).uniq
     return Set.new if principal_ids.empty?
@@ -100,12 +107,10 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
-  # The ids of the given allocations that fall into a range in which their
-  # assigned user is overbooked. Users without configured working hours are
-  # skipped — their capacity is unknown, not zero (mirroring the check made
-  # when an allocation is created). The users' working hours and booked
-  # allocations are each fetched in one query; only the per-user capacity
-  # calendar still queries per checked user.
+  # Users without configured working hours are skipped — their capacity is
+  # unknown, not zero (mirroring the check made when an allocation is created).
+  # The users' working hours and booked allocations are each fetched in one
+  # query; only the per-user capacity calendar still queries per checked user.
   def self.overbooked_ids(allocations)
     checkable = overbooking_checkable_principals(allocations)
     return Set.new if checkable.empty?
@@ -116,8 +121,6 @@ class ResourceAllocation < ApplicationRecord
     overbooked.to_set & allocations.map(&:id)
   end
 
-  # The ids of all allocations falling into a range in which the user is
-  # overbooked, given the user's booked allocations.
   def self.overbooked_ids_of(principal, booked)
     ResourceAllocations::Availability
       .new(user: principal, allocations: booked)
@@ -126,8 +129,6 @@ class ResourceAllocation < ApplicationRecord
   end
   private_class_method :overbooked_ids_of
 
-  # The given allocations' assigned users whose capacity is known, i.e. who
-  # have working hours configured, fetched in a single query.
   def self.overbooking_checkable_principals(allocations)
     principals = allocations.filter_map(&:principal).uniq
     checkable_ids = UserWorkingHours.for_user(principals).distinct.pluck(:user_id).to_set
@@ -216,9 +217,8 @@ class ResourceAllocation < ApplicationRecord
     entity.try(:due_date)
   end
 
-  # Describes how the allocation falls outside the schedule of its entity,
-  # comparing only the bounds the entity actually defines. Returns nil when the
-  # allocation fits within those bounds or there is nothing to compare against.
+  # Compares only the bounds the entity actually defines; nil when there is
+  # nothing to compare against.
   def schedule_violation
     if starts_before_entity? && ends_after_entity?
       :before_and_after

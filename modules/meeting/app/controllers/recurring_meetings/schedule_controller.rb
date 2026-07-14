@@ -8,8 +8,14 @@ module RecurringMeetings
     no_authorization_required! :humanize_schedule
 
     def humanize_schedule
-      component = RecurringMeetings::HumanScheduleComponent.new(recurring_meeting: @recurring_meeting)
-      update_via_turbo_stream(component:)
+      [
+        RecurringMeetings::HumanScheduleComponent,
+        RecurringMeetings::OccurrenceCountCaptionComponent,
+        RecurringMeetings::EndDateCaptionComponent
+      ].each do |component|
+        update_via_turbo_stream(component: component.new(recurring_meeting: @recurring_meeting))
+      end
+
       respond_with_turbo_streams
     end
 
@@ -25,7 +31,7 @@ module RecurringMeetings
 
     def schedule_params
       params.expect(meeting: %i[start_date start_time_hour frequency interval monthly_day monthly_ordinal
-                                monthly_weekday time_zone])
+                                monthly_weekday time_zone end_after end_date iterations])
     end
   end
 end

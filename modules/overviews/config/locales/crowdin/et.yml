@@ -1,6 +1,6 @@
 ---
 et:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Töölaud
+    label_home: "%{workspace_type} home"
     label_overview: Ülevaade

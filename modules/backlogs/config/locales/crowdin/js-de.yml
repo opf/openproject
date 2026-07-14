@@ -22,9 +22,9 @@
 ---
 de:
   js:
-    work_packages:
-      properties:
-        storyPoints: Story Punkte
     burndown:
       day: Tag
       points: Punkte
+    work_packages:
+      properties:
+        storyPoints: Story Punkte

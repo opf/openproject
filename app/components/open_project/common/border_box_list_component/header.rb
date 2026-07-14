@@ -54,6 +54,18 @@ module OpenProject
         }.freeze
 
         # @!parse
+        #   # Renders the header title content.
+        #   #
+        #   # Block-based alternative to the `title:` string, for advanced use
+        #   # cases where the title needs more than plain text. Takes precedence
+        #   # over `title:` when both are given.
+        #   #
+        #   # @return [ViewComponent::Slot]
+        #   def with_title(&block)
+        #   end
+        renders_one :title
+
+        # @!parse
         #   # Adds secondary content below the header title.
         #   #
         #   # The content is wrapped in `Primer::Beta::Text` with muted text
@@ -83,8 +95,7 @@ module OpenProject
           end
         }
 
-        attr_reader :title,
-                    :count,
+        attr_reader :count,
                     :count_label,
                     :count_arguments,
                     :title_tag,
@@ -92,7 +103,12 @@ module OpenProject
                     :list_id,
                     :interactive,
                     :collapsed,
-                    :collapsible
+                    :collapsible,
+                    :show_drag_handle,
+                    :multi_line
+
+        alias_method :show_drag_handle?, :show_drag_handle
+        alias_method :multi_line?, :multi_line
 
         attr_writer :collapsible_id
 
@@ -114,9 +130,14 @@ module OpenProject
         # @param collapsible [Boolean] whether the header renders a collapsible
         #   toggle. Defaults to `false`. Pass `true` to render a header
         #   with a toggle button.
+        # @param show_drag_handle [Boolean] whether the header renders a leading
+        #   drag handle. Defaults to `false`.
+        # @param multi_line [Boolean] for collapsible headers, whether the
+        #   description renders on its own line and may wrap. Pass `false` to
+        #   render the description inline on the title row. Defaults to `true`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
-          title:,
+          title: nil,
           count: nil,
           count_label: nil,
           count_arguments: {},
@@ -126,6 +147,8 @@ module OpenProject
           interactive: false,
           collapsed: false,
           collapsible: false,
+          show_drag_handle: false,
+          multi_line: true,
           **system_arguments
         )
           super()
@@ -141,12 +164,30 @@ module OpenProject
           @collapsible_id = list_id
           @collapsed = collapsed
           @collapsible = collapsible
+          @show_drag_handle = show_drag_handle
+          @multi_line = multi_line
           @system_arguments = system_arguments
         end
 
         # @return [Boolean] whether a collapsible toggle should be rendered.
         def collapsible?
           collapsible
+        end
+
+        # @return [Boolean] whether a title is present, from either the slot
+        #   or the `title:` string.
+        def title?
+          super || @title.present?
+        end
+
+        # @return [String, ViewComponent::Slot, nil] the title content to
+        #   render. The slot takes precedence over the `title:` string.
+        def title_content
+          title.presence || @title.presence
+        end
+
+        def before_render
+          raise ArgumentError, "A header title is required: pass `title:` or use the `with_title` slot." unless title?
         end
 
         # Resolves inferred counts after the list slots have been captured.

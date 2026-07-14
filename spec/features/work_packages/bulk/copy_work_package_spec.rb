@@ -76,13 +76,12 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
 
         wait_for_network_idle
 
-        expect_page_reload do
+        wait_for_turbo_stream do
           select_autocomplete page.find_test_selector("new_project_id"),
                               query: project2.name,
                               select_text: project2.name,
                               results_selector: "body"
         end
-        wait_for_network_idle # wait for the change of target project to finish updating the page
       end
 
       it "sets the version on duplicate and leaves a note" do
@@ -347,13 +346,12 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
       context_menu.choose "Duplicate in another project"
 
       # On work packages move page
-      expect_page_reload do
+      wait_for_turbo_stream do
         select_autocomplete page.find_test_selector("new_project_id"),
                             query: project2.name,
                             select_text: project2.name,
                             results_selector: "body"
       end
-      wait_for_network_idle # wait for page reload after selecting the target project
 
       select "nobody", from: "Assignee"
 

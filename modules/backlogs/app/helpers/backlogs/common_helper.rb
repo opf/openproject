@@ -78,5 +78,12 @@ module Backlogs
       bucket_ids = backlog_filters.bucket_ids.reject { |id| id == "inbox" }
       all_buckets_for(project).where(id: bucket_ids)
     end
+
+    def backlogs_move_url_template(project)
+      id_placeholder = "__work_package_id__"
+
+      move_project_backlogs_work_package_path(project, id_placeholder)
+        .sub(id_placeholder, "{id}")
+    end
   end
 end

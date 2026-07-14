@@ -59,6 +59,11 @@ module OpenProject::Wikis
                                  writable: false,
                                  default: {},
                                  format: :hash
+      ::Settings::Definition.add :wiki_providers,
+                                 description: "Configure external wiki providers through environment variables",
+                                 writable: false,
+                                 default: [],
+                                 format: :array
     end
 
     config.to_prepare do

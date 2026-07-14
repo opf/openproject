@@ -43,11 +43,14 @@ RSpec.describe "User resource allocations requests", type: :rails_request do
     create(:resource_planner, project:, principal: user, public: true,
                               start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 1, 31))
   end
+  shared_let(:card_view) do
+    create(:resource_user_card, parent: resource_planner, project:, principal: user)
+  end
 
   shared_let(:visible_wp) { create(:work_package, project:, subject: "Visible work") }
   shared_let(:foreign_wp) { create(:work_package, project: other_project, subject: "Secret work") }
 
-  let(:path) { project_user_resource_allocations_path(project, card_user, resource_planner_id: resource_planner.id) }
+  let(:path) { project_user_resource_allocations_path(project, card_user, resource_planner_view_id: card_view.id) }
 
   before do
     create(:resource_allocation, entity: visible_wp, principal: card_user)
@@ -105,7 +108,7 @@ RSpec.describe "User resource allocations requests", type: :rails_request do
     it "is not found for a user the current user cannot see" do
       hidden = create(:user)
 
-      get project_user_resource_allocations_path(project, hidden, resource_planner_id: resource_planner.id),
+      get project_user_resource_allocations_path(project, hidden, resource_planner_view_id: card_view.id),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)

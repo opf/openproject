@@ -23,47 +23,47 @@
 pt-PT:
   attributes:
     additions_count: Número de adições
-    deletions_count: Número de eliminações
+    changed_files_count: Ficheiros alterados
     comments_count: Número de comentários
-    github_html_url: URL do pedido de extração
-    github_app_owner_avatar_url: URL do avatar do proprietário
-    review_comments_count: Número de comentários revistos
+    deletions_count: Número de eliminações
     github: Identificador do GitHub
+    github_app_owner_avatar_url: URL do avatar do proprietário
     github_avatar_url: URL do Avatar
-    github_updated_at: Atualizado a
+    github_html_url: URL do pedido de extração
     github_login: Início de sessão no GitHub
+    github_updated_at: Atualizado a
     host: Anfitrião
     labels: Etiquetas
     repository: Repositório
-    changed_files_count: Ficheiros alterados
+    review_comments_count: Número de comentários revistos
   button_add_deploy_target: Adicione um destino de implementação
   label_deploy_target: Destino de implementação
   label_deploy_target_new: Novo destino de implementação
   label_deploy_target_plural: Destinos de implementação
+  label_github_comment_user: Interveniente no GitHub
   label_github_integration: Integração GitHub
+  label_github_webhook_secret: Segredo do webhook
   notice_deploy_target_created: Destino de implementação criado
   notice_deploy_target_destroyed: Destino de implementação eliminado
-  label_github_comment_user: Interveniente no GitHub
-  label_github_webhook_secret: Segredo do webhook
-  text_github_comment_user_info: 'O utilizador do OpenProject cuja chave API deve ser utilizada para autenticar os pedidos de webhook recebidos. Quando definido, os pedidos autenticados com as credenciais de qualquer outro utilizador são rejeitados. Este utilizador também publica comentários deploy-status automáticos nos pacotes de trabalho. Quando não definido, a predefinição é o utilizador do sistema.
+  permission_introspection: Leia a versão do núcleo do OpenProject em execução e construa o SHA
+  permission_show_github_content: Mostrar conteúdo GitHub
+  plugin_openproject_github_integration:
+    description: Integra o OpenProject e o GitHub para um melhor fluxo de trabalho
+    name: Integração do OpenProject GitHub
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'Um OpenProject [chave API](docs_url) pertencente a um utilizador que tem a permissão de introspeção global.
 
     '
-  text_github_webhook_secret_missing_warning: 'Não está configurado nenhum segredo de webhook. Qualquer solicitação para o ponto de extremidade do webhook do GitHub será aceite sem verificação, o que pode permitir que atores não autorizados simulem eventos. É altamente recomendável definir um segredo.
+  text_deploy_target_type_info: 'Até ao momento, apenas suportamos o próprio OpenProject.
+
+    '
+  text_github_comment_user_info: 'O utilizador do OpenProject cuja chave API deve ser utilizada para autenticar os pedidos de webhook recebidos. Quando definido, os pedidos autenticados com as credenciais de qualquer outro utilizador são rejeitados. Este utilizador também publica comentários deploy-status automáticos nos pacotes de trabalho. Quando não definido, a predefinição é o utilizador do sistema.
 
     '
   text_github_webhook_secret_info: 'Um token secreto partilhado com GitHub ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Hub-Signature-256 em cada pedido recebido, rejeitando cargas que não correspondam. Deixe em branco para ignorar a verificação (não recomendado).
 
     '
-  plugin_openproject_github_integration:
-    name: Integração do OpenProject GitHub
-    description: Integra o OpenProject e o GitHub para um melhor fluxo de trabalho
-  project_module_github: GitHub
-  permission_show_github_content: Mostrar conteúdo GitHub
-  permission_introspection: Leia a versão do núcleo do OpenProject em execução e construa o SHA
-  text_deploy_target_type_info: 'Até ao momento, apenas suportamos o próprio OpenProject.
-
-    '
-  text_deploy_target_api_key_info: 'Um OpenProject [chave API](docs_url) pertencente a um utilizador que tem a permissão de introspeção global.
+  text_github_webhook_secret_missing_warning: 'Não está configurado nenhum segredo de webhook. Qualquer solicitação para o ponto de extremidade do webhook do GitHub será aceite sem verificação, o que pode permitir que atores não autorizados simulem eventos. É altamente recomendável definir um segredo.
 
     '
   text_pull_request_deployed_to: "%{pr_link} implementado em %{deploy_target_link}"

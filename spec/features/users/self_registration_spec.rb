@@ -58,6 +58,34 @@ RSpec.describe "user self registration", :js do
         .to have_content("Your account was created and is now pending administrator approval.")
     end
 
+    # Self-registrants create a new account, so restricting email changes must not lock them out
+    # of choosing an address.
+    context "when users may not change their email", with_settings: { user_can_change_email: false } do
+      it "still allows self registering with a freely chosen email" do
+        visit signin_path
+
+        click_link "Create a new account"
+
+        within ".registration-modal" do
+          expect(page).to have_field("Email", readonly: false)
+
+          fill_in "Username", with: "heidi"
+          fill_in "First name", with: "Heidi"
+          fill_in "Last name", with: "Switzerland"
+          fill_in "Email", with: "heidi@heidiland.com"
+          fill_in "Password", with: "test123=321test"
+          fill_in "Confirmation", with: "test123=321test"
+
+          click_button "Create"
+        end
+
+        expect(page)
+          .to have_text("Your account was created and is now pending administrator approval.")
+
+        expect(User.find_by(login: "heidi").mail).to eq "heidi@heidiland.com"
+      end
+    end
+
     it "allows self registration and activation by an admin", :signout_via_visit do
       home_page.visit!
       user_menu.open

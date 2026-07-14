@@ -1,6 +1,6 @@
 ---
 cs:
   overviews:
-    label_home: "%{workspace_type}"
     label_dashboard: Nástěnka
+    label_home: "%{workspace_type}"
     label_overview: Přehled

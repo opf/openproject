@@ -393,6 +393,22 @@ class RecurringMeeting < ApplicationRecord
     first_occurrence != start_time
   end
 
+  def occurrence_count_until_end_date
+    return unless end_after_specific_date?
+    return if end_date.blank? || start_time.blank?
+    return if parsed_start_date.present? && end_date < parsed_start_date
+
+    schedule.next_occurrences(MAX_ITERATIONS + 1, Time.current).size
+  end
+
+  def end_date_for_iterations
+    return unless end_after_iterations?
+    return if iterations.blank? || start_time.blank?
+    return unless iterations.between?(1, MAX_ITERATIONS)
+
+    last_occurrence
+  end
+
   private
 
   def unset_schedule

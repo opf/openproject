@@ -1,6 +1,6 @@
 ---
 pt-PT:
   overviews:
-    label_home: "%{workspace_type} casa"
     label_dashboard: Painel de controlo
+    label_home: "%{workspace_type} casa"
     label_overview: Síntese

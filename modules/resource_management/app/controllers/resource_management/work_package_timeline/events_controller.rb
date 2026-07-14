@@ -34,7 +34,7 @@ module ResourceManagement
     # background band per work package.
     class EventsController < FeedsController
       # The granularity keys live with the view definitions they label.
-      Granularity = ResourcePlannerViews::WorkPackageTimeline::Granularity
+      Granularity = ResourcePlannerViews::Timeline::Granularity
 
       def index # rubocop:disable Metrics/AbcSize
         allocations = allocations_by_work_package.values.flatten

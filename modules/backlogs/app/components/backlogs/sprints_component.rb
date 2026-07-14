@@ -31,6 +31,7 @@
 module Backlogs
   class SprintsComponent < ApplicationComponent
     include Primer::AttributesHelper
+    include OpTurbo::Streamable
     include CommonHelper
 
     attr_reader :sprints, :work_packages_by_sprint_id, :active_sprint_ids, :project, :current_user
@@ -49,7 +50,15 @@ module Backlogs
       @current_user = current_user
     end
 
+    def wrapper_uniq_by
+      project
+    end
+
     private
+
+    def total
+      @total ||= work_packages_by_sprint_id.values.sum(&:count)
+    end
 
     def blankslate_description
       if sprint_management_allowed?

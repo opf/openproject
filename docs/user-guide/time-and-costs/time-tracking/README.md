@@ -75,7 +75,7 @@ If you navigate away from the work package in which you have a timer running, yo
 > This is a power user feature that is currently only available for on-premises installations. 
 > **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
 
-To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent time for the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
+To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: _refs #work package number @amount of hours_. For  example refs #123 @2h will log 2 hours of spent time for the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
 
 ## Log time via My page
 
@@ -116,8 +116,8 @@ Starting with OpenProject 12.2, users with certain roles are able to log and edi
 >
 > There are two permissions that can be enabled.
 >
-> - *Log time for other users* allows users with that role to log time on behalf of other users
-> - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
+> - _Log time for other users_ allows users with that role to log time on behalf of other users
+> - _Edit time logs_ for other users allows users with that role to modify and adjust time logged for other users
 
 ![Permissions to log and edit time for others](permissions-log-time-others.png)
 
@@ -149,6 +149,6 @@ Here, you can click the **Edit button** on the top right corner of the user prof
 
 ![User-profile-edit](openproject_user_guide_edit_user_profile.png)
 
-Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
+Alternatively, you can navigate to _Administration -> Users and permissions -> Users_ and click on the respective user name.
 
 Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue.

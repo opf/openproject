@@ -52,3 +52,10 @@ OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
 OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
+
+OpenProject::FeatureDecisions.add :subtypes,
+                                  description: "Enables work package subtypes."
+
+OpenProject::FeatureDecisions.add :work_package_multiple_versions,
+                                  description: "Enables assigning multiple (target) versions to a work package. " \
+                                               "Experimental; the user-facing setting and admin switch follow later."

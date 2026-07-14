@@ -87,7 +87,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.2"
+gem "commonmarker", "~> 2.8.3"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -112,10 +112,10 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "ruby-duration", "~> 3.2.0"
 gem "msgpack", "~> 1.8.3"
+gem "ruby-duration", "~> 3.2.0"
 
-gem "mail", "2.9.0"
+gem "mail", "2.9.1"
 
 gem "csv", "~> 3.3"
 
@@ -124,11 +124,10 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.3"
+gem "multi_json", "~> 1.21.0"
 
 gem "daemons"
-gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.1" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -162,7 +161,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.20.0"
+gem "mcp", "~> 0.21.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -176,7 +175,7 @@ gem "job-iteration"
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 # Global ID for polymorphic associations
-gem "globalid", "~> 1.3"
+gem "globalid", "~> 1.4"
 
 # Recurring meeting events definition
 gem "ice_cube", "~> 0.17.0"
@@ -209,7 +208,7 @@ gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.225"
 
-gem "openproject-token", "~> 8.10.0"
+gem "openproject-token", "~> 8.11.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -386,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.2.0"
+gem "grape", "~> 3.3.2"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -404,7 +403,7 @@ gem "disposable", "~> 0.6.2"
 gem "dentaku", "~> 3.5"
 
 # Used for more powerful counter caches
-gem "counter_culture", "~> 3.13"
+gem "counter_culture", "~> 3.14"
 
 group :postgres do
   gem "pg", "~> 1.6.2"
@@ -433,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.89.0"
+  gem "openproject-primer_view_components", "~>0.89.2"
 end

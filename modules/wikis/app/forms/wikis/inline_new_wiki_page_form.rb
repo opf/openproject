@@ -37,7 +37,7 @@ module Wikis
 
         f.filterable_tree_view(
           name: "wiki_page_selection",
-          label: I18n.t("wikis.page_link_forms.labels.wiki_page"),
+          label: I18n.t("wikis.page_link_forms.labels.parent"),
           src: helpers.search_wiki_pages_path(provider_id: model.provider_id, name: "wiki_page_selection"),
           filter_mode_control_arguments: { hidden: true },
           filter_input_arguments: { placeholder: I18n.t("wikis.page_link_forms.search.placeholder") },

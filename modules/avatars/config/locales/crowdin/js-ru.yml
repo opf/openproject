@@ -1,12 +1,11 @@
-#English strings go here
 ---
 ru:
   js:
-    label_preview: Предпросмотр
-    button_update: Обновить
     avatars:
+      empty_file_error: Пожалуйста, загрузите допустимое изображение (jpg, png, gif)
+      error_image_too_large: Изображение слишком велико.
       label_choose_avatar: Выбрать аватар из файла
       uploading_avatar: Загрузка аватара.
-      error_image_too_large: Изображение слишком велико.
       wrong_file_format: Допустимые форматы — jpg, png, gif
-      empty_file_error: Пожалуйста, загрузите допустимое изображение (jpg, png, gif)
+    button_update: Обновить
+    label_preview: Предпросмотр

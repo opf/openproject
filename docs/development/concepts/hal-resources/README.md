@@ -11,7 +11,7 @@ HAL resources are the frontend counterpart to the `HAL+JSON` API of OpenProject.
 
 ## Key takeaways
 
-*HAL resources ...*
+_HAL resources ..._
 
 - are requested from the APIv3 endpoints and generated from their JSON response by the [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/features/hal/services/hal-resource.service.ts).
 - contain `$links` and `$embedded` properties to map the original JSON object for linked resources, and the ones that were embedded to the response.

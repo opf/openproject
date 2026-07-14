@@ -78,12 +78,7 @@ module OpenProject
         def row_args
           row_arguments = @system_arguments.deep_dup
           row_arguments[:id] ||= dom_id(work_package)
-          row_arguments[:tabindex] ||= 0
           row_arguments[:test_selector] ||= "work-package-#{work_package.id}"
-          row_arguments[:classes] = class_names(
-            row_classes,
-            row_arguments[:classes]
-          )
           row_arguments[:data] = merge_data(
             { data: row_data },
             row_arguments
@@ -110,15 +105,19 @@ module OpenProject
         #
         # @return [ApplicationComponent]
         def build_card
-          WorkPackageCardComponent.new(work_package:)
+          WorkPackageCardComponent.new(work_package:, **card_arguments)
         end
 
-        def row_classes
+        # @return [Hash] keyword arguments forwarded to the card component.
+        def card_arguments
+          { classes: card_classes }
+        end
+
+        def card_classes
           class_names(
-            "Box-row--hover-blue",
-            "Box-row--focus-gray",
-            "Box-row--clickable",
-            "Box-row--draggable" => draggable?
+            "Box-card",
+            "Box-card--clickable",
+            "Box-card--draggable" => draggable?
           )
         end
 

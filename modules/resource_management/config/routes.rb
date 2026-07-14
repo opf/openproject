@@ -59,11 +59,16 @@ Rails.application.routes.draw do
           delete "users/:user_id", action: :remove_user, as: :remove_user
         end
 
-        resource :work_package_timeline, only: [], defaults: { format: :json } do
-          scope module: "resource_management/work_package_timeline" do
-            resources :resources, only: :index
-            resources :events, only: :index
-          end
+        namespace :work_package_timeline, module: "resource_management/work_package_timeline",
+                                          defaults: { format: :json } do
+          resources :resources, only: :index
+          resources :events, only: :index
+        end
+
+        namespace :user_timeline, module: "resource_management/user_timeline",
+                                  defaults: { format: :json } do
+          resources :resources, only: :index
+          resources :events, only: :index
         end
 
         resources :work_packages, only: [] do
@@ -85,7 +90,7 @@ Rails.application.routes.draw do
               only: %i[new create edit update destroy] do
       collection do
         get :step
-        get :refresh_form
+        post :refresh_form
       end
     end
 

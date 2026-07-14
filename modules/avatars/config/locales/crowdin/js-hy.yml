@@ -1,12 +1,11 @@
-#English strings go here
 ---
 hy:
   js:
-    label_preview: Նախադիտել
-    button_update: Թարմացնել
     avatars:
+      empty_file_error: 'Խնդրում ենք վերբեռնել վավեր պատկեր (jpg, png, gif)։ '
+      error_image_too_large: 'Պատկերը չափազանց մեծ է։ '
       label_choose_avatar: Ընտրեք ավատարը նիշքից
       uploading_avatar: Ձեր ավատարը վերբեռնվում է։
-      error_image_too_large: 'Պատկերը չափազանց մեծ է։ '
       wrong_file_format: Թույլատրելի ձևաչափերն են՝ jpg, png, gif։
-      empty_file_error: 'Խնդրում ենք վերբեռնել վավեր պատկեր (jpg, png, gif)։ '
+    button_update: Թարմացնել
+    label_preview: Նախադիտել

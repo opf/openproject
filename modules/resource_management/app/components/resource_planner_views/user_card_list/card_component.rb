@@ -64,7 +64,9 @@ module ResourcePlannerViews::UserCardList
     def job_title
       return unless (custom_field = UserCustomField.for_semantic_key(:job_title))
 
-      @user.formatted_custom_value_for(custom_field).presence
+      # The field carrying the job_title semantic key may be multi-value, in
+      # which case formatted_custom_value_for returns an array of labels.
+      Array.wrap(@user.formatted_custom_value_for(custom_field)).compact_blank.join(", ").presence
     end
 
     def utilization?

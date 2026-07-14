@@ -33,9 +33,37 @@ require "rails_helper"
 RSpec.describe PermittedParams do
   let(:user) { build_stubbed(:user) }
 
-  subject(:permitted) { described_class.new(params, user).backlog_filters.to_h }
+  describe "#update_work_package" do
+    subject(:permitted) { described_class.new(params, user).update_work_package.to_h }
+
+    context "with sprint_id" do
+      let(:params) { ActionController::Parameters.new(work_package: { sprint_id: "1" }) }
+
+      it "permits it" do
+        expect(permitted).to eq("sprint_id" => "1")
+      end
+    end
+
+    context "with backlog_bucket_id" do
+      let(:params) { ActionController::Parameters.new(work_package: { backlog_bucket_id: "1" }) }
+
+      it "permits it" do
+        expect(permitted).to eq("backlog_bucket_id" => "1")
+      end
+    end
+
+    context "with story_points" do
+      let(:params) { ActionController::Parameters.new(work_package: { story_points: "5" }) }
+
+      it "permits it" do
+        expect(permitted).to eq("story_points" => "5")
+      end
+    end
+  end
 
   describe "#backlog_filters" do
+    subject(:permitted) { described_class.new(params, user).backlog_filters.to_h }
+
     context "with bucket_ids and sprint_ids" do
       let(:params) { ActionController::Parameters.new(bucket_ids: %w[1 2], sprint_ids: %w[3]) }
 

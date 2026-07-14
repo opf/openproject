@@ -39,7 +39,7 @@ pl:
       resource_user_card: Karty użytkowników
       resource_work_package_list: Lista pakietów roboczych
   button_next: Dalej
-  label_resource_management: Planowanie zasobów
+  label_resource_management: Resource management
   permission_allocate_user_resources: Przydziel zasoby użytkownika
   permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
   permission_assign_users_to_generic_allocations: Assign users to generic allocations
@@ -60,10 +60,6 @@ pl:
       make_private: Ustaw jako prywatny
       make_public: Ustaw jako publiczny
       unfavorite: Usuń z ulubionych
-    allocation:
-      hours: "%{value} h"
-      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ pl:
       submit: Przydziel
       success_message: Zasób przydzielono.
       title: Przydziel zasób
+    allocation:
+      hours: "%{value} h"
+      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -148,6 +148,23 @@ pl:
       success_message: User assigned.
       title: Staffing
     sub_views: Widoki w tym planiście zasobów
+    timeframe:
+      end_only: Until %{end}
+      full: From %{start} to %{end}
+      start_only: From %{start}
+    timeline:
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      subheader:
+        add: Add
+        allocate: Allocate
+        settings: Configure view
     user_allocations_dialog:
       allocate_work_package: Przydziel pakiet roboczy
       blank: Temu użytkownikowi nie przydzielono żadnych pakietów roboczych.
@@ -169,11 +186,11 @@ pl:
         remove: Usuń użytkownika
         remove_confirmation: Usunąć tego użytkownika z widoku?
       fields:
-        working_times: Czasy pracy
-        input_label: Pola
-        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
-        input_placeholder: Dodaj pole
         drag_area_label: Wyświetlane pola
+        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
+        input_label: Pola
+        input_placeholder: Dodaj pole
+        working_times: Czasy pracy
       subheader:
         resource: Zasób
         settings: Konfiguruj widok
@@ -183,10 +200,26 @@ pl:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
         schedule_change_compact: until %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Add user
+        configure_view: Configure view
+        description: There are no users matching this view's filters yet.
+        manual_description: Add users to this view to see their allocation over time.
+        title: No users to display
+      no_work_schedule: No work schedule planned for this user
+      overbooked: This user is over-allocated in the selected period.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+      subheader:
+        add_user: Add user
     view_types:
       resource_user_card:
         caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
         label: Lista kart użytkowników
+      resource_user_timeline:
+        caption: Create a view based on users and see their allocations over time on a timeline
+        label: Users timeline
       resource_work_package_list:
         caption: Utwórz widok oparty na pakietach roboczych i zobacz jego szczegóły i przydział na liście
         label: Lista pakietów roboczych
@@ -250,12 +283,6 @@ pl:
         description: Nie ma jeszcze pakietów roboczych pasujących do filtrów tego widoku.
         manual_description: Dodaj pakiety robocze do tego widoku, aby zaplanować ich przydział w czasie.
         title: Brak pakietów roboczych do wyświetlenia
-      granularity:
-        day: Dzień
-        month: Miesiąc
-        week: Tydzień kalendarzowy
-      navigation:
-        next: Następny okres
-        previous: Poprzedni okres
-        today: Dzisiaj
       query_name: 'Oś czasu zarządzania zasobami pakietu roboczego: %{name}'
+      subheader:
+        add_work_package: Add work package

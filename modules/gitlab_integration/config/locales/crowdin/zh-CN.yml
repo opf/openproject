@@ -22,6 +22,22 @@
 #++
 ---
 zh-CN:
+  activerecord:
+    attributes:
+      gitlab_merge_request:
+        labels: 标签
+      gitlab_pipeline:
+        ci_details: CI 详情
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: 必须是键为“颜色，标题”的哈希数组
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: 必须是键为“颜色，标题”的哈希数组
   attributes:
     commit: 提交
     gitlab: GitLab 标识符
@@ -33,25 +49,28 @@ zh-CN:
     gitlab_updated_at: 更新于
     gitlab_user_avatar_url: GitLab 头像 URL
     gitlab_username: GitLab 用户名
-  activerecord:
-    attributes:
-      gitlab_pipeline:
-        ci_details: CI 详情
-      gitlab_merge_request:
-        labels: 标签
-    errors:
-      models:
-        gitlab_issue:
-          attributes:
-            labels:
-              invalid_schema: 必须是键为“颜色，标题”的哈希数组
-        gitlab_merge_request:
-          attributes:
-            labels:
-              invalid_schema: 必须是键为“颜色，标题”的哈希数组
-  label_gitlab_integration: GitLab 集成
+  gitlab_integration:
+    issue_closed_referenced_comment: "**问题已关闭**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+    issue_opened_referenced_comment: "**问题已打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
+    issue_reopened_referenced_comment: "**问题已重新打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
+    merge_request_closed_comment: "**合并请求已关闭**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+    merge_request_merged_comment: "**合并请求已合并**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 合并。\n"
+    merge_request_opened_comment: "**合并请求已打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
+    merge_request_reopened_comment: "**合并请求已重新打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
+    note_commit_referenced_comment: "**在提交中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的提交备注 [%{commit_id}](%{commit_url}) 中引用了此工作包： %{commit_note}\n"
+    note_issue_commented_comment: "**在问题中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中对此工作包添加了评论：%{issue_note}\n"
+    note_issue_referenced_comment: "**在问题中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中引用了此工作包：%{issue_note}\n"
+    note_mr_commented_comment: "**在合并请求中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中对此工作包添加了评论：%{mr_note}\n"
+    note_mr_referenced_comment: "**在合并请求中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中引用了此工作包： %{mr_note}\n"
+    note_snippet_referenced_comment: "**在代码段中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的代码段 %{snippet_number} [%{snippet_title}](%{snippet_url}) 中引用了此工作包：%{snippet_note}\n"
+    push_multiple_commits_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将多个提交 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"
+    push_single_commit_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
   label_gitlab_actor: GitLab 执行者
+  label_gitlab_integration: GitLab 集成
   label_gitlab_webhook_secret: 网络钩子密钥
+  permission_show_gitlab_content: 显示 GitLab 内容
+  project_module_gitlab: GitLab
   text_gitlab_actor_info: '必须使用其 API 密钥对传入的网络钩子请求进行身份验证的 OpenProject 用户。如果设置，则会拒绝使用其他任何用户凭据进行身份验证的请求。此用户还会对工作包发布自动评论。如果不设置，则默认为系统用户。
 
     '
@@ -61,22 +80,3 @@ zh-CN:
   text_gitlab_webhook_secret_missing_warning: '未配置网络钩子密钥。任何向 GitLab 网络钩子端点发出的请求都会被接受，无需验证，这可能导致未经授权的执行者伪造事件。强烈建议设置密钥 。
 
     '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: 显示 GitLab 内容
-  gitlab_integration:
-    merge_request_opened_comment: "**合并请求已打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
-    merge_request_closed_comment: "**合并请求已关闭**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
-    merge_request_merged_comment: "**合并请求已合并**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 合并。\n"
-    merge_request_reopened_comment: "**合并请求已重新打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
-    note_commit_referenced_comment: "**在提交中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的提交备注 [%{commit_id}](%{commit_url}) 中引用了此工作包： %{commit_note}\n"
-    note_mr_referenced_comment: "**在合并请求中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中引用了此工作包： %{mr_note}\n"
-    note_mr_commented_comment: "**在合并请求中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中对此工作包添加了评论：%{mr_note}\n"
-    note_issue_referenced_comment: "**在问题中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中引用了此工作包：%{issue_note}\n"
-    note_issue_commented_comment: "**在问题中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中对此工作包添加了评论：%{issue_note}\n"
-    note_snippet_referenced_comment: "**在代码段中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的代码段 %{snippet_number} [%{snippet_title}](%{snippet_url}) 中引用了此工作包：%{snippet_note}\n"
-    issue_opened_referenced_comment: "**问题已打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
-    issue_closed_referenced_comment: "**问题已关闭**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
-    issue_reopened_referenced_comment: "**问题已重新打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
-    push_single_commit_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_multiple_commits_comment: "**在合并请求中推送**：[%{gitlab_user}](%{gitlab_user_url}) 在 %{commit_timestamp} 将多个提交 [%{commit_number}](%{commit_url}) 推送到 [%{repository}](%{repository_url})： %{commit_note}\n"

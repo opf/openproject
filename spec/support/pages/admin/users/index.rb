@@ -109,6 +109,19 @@ module Pages
           wait_for_network_idle
         end
 
+        def quick_filter_by_group(value)
+          within("[data-quick-filter--select-panel-filter-key-value='group']") do
+            click_button "Group"
+
+            within("select-panel") do
+              find("[data-value]", text: value).click
+              click_button "Apply"
+            end
+          end
+
+          wait_for_network_idle
+        end
+
         def expect_group_filter(value)
           open_filter_panel
 
@@ -118,6 +131,10 @@ module Pages
         end
 
         def clear_filters
+          visit!
+        end
+
+        def clear_name_search
           find_by_id("user-filters-form-clear-button").click
 
           wait_for_network_idle
@@ -127,13 +144,12 @@ module Pages
           return if filter_panel_open?
 
           find("[data-test-selector='filter-component-toggle']").click
-          # Wait for the toggle's Stimulus action to actually expand the panel —
-          # otherwise subsequent selectors run against still-collapsed (hidden) UI.
-          expect(page).to have_css(".op-filters-form.-expanded")
+          # Wait for the toggle's Stimulus action to actually expose the form.
+          expect(page).to have_select("add_filter_select", visible: true)
         end
 
         def filter_panel_open?
-          page.has_css?(".op-filters-form.-expanded", wait: 0)
+          page.has_select?("add_filter_select", visible: true, wait: 0)
         end
 
         def within_filter(name, &)
