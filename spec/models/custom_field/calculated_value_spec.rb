@@ -286,6 +286,12 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         expect(field_b.usable_custom_field_references_for_formula).to include(int, float)
         expect(field_c.usable_custom_field_references_for_formula).to include(int, float)
       end
+
+      it "does not enter infinite recursion when called on a field outside of the cycle" do
+        # subject is not part of the field_a -> field_b -> field_c -> field_a cycle,
+        # so traversing the cycle never hits the original id and must terminate on its own
+        expect { subject.usable_custom_field_references_for_formula }.not_to raise_error
+      end
     end
 
     context "when two calculated values reference the same custom field" do
@@ -487,6 +493,10 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       it "returns true when checking from any field in the circular chain" do
         expect(field_b.formula_references_id?(field_b.id)).to be true
         expect(field_c.formula_references_id?(field_c.id)).to be true
+      end
+
+      it "returns true for an id outside of the circular chain instead of raising an error" do
+        expect(field_a.formula_references_id?(int_field.id)).to be true
       end
     end
 
@@ -736,6 +746,26 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       it_behaves_like "invalid formula",
                       "The attribute int, float cannot be used because it leads to a circular reference; " \
                       "one attribute depends on the other."
+    end
+
+    context "when unrelated fields contain a circular reference" do
+      let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
+      let!(:field_a) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
+      let!(:field_b) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
+
+      let(:formula) { "1 + #{int}" }
+
+      current_user { create(:admin) }
+
+      before do
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_a} + 2"
+
+        field_a.save(validate: false)
+        field_b.save(validate: false)
+      end
+
+      it_behaves_like "valid formula"
     end
   end
 end
