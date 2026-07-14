@@ -201,14 +201,14 @@ function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
   }
 }
 
-export type MoveDirection = 'top'|'up'|'down'|'bottom';
+const moveDirections = ['top', 'up', 'down', 'bottom'] as const;
 
-const moveDirections:readonly string[] = ['top', 'up', 'down', 'bottom'];
+export type MoveDirection = typeof moveDirections[number];
 
 // Values crossing the DOM boundary (action params, data attributes) arrive
 // untyped; narrow them instead of casting.
 export function isMoveDirection(value:unknown):value is MoveDirection {
-  return typeof value === 'string' && moveDirections.includes(value);
+  return typeof value === 'string' && (moveDirections as readonly string[]).includes(value);
 }
 
 function isItemRow(row:Element|undefined):boolean {

@@ -939,8 +939,7 @@ module Pages
     # drag as a same-list reorder, making the drag helper skip the frame
     # reload wait and race the re-render.
     def list_identity(work_package)
-      fresh = work_package.class.find(work_package.id)
-      [fresh.sprint_id, fresh.backlog_bucket_id]
+      Backlogs::Target.for_work_package(work_package.class.find(work_package.id))
     end
 
     def install_backlogs_dnd_probe(source:, target:, edge:)
