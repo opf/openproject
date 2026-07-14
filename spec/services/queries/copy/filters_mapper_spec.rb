@@ -30,10 +30,11 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Copy::FiltersMapper do
+RSpec.describe Queries::Copy::FiltersMapper,
+               with_flag: { work_package_multiple_versions: true },
+               with_settings: { work_package_multiple_versions: true } do
   let(:state) { Shared::ServiceState.new }
   let(:instance) { described_class.new(state) }
-
 
   describe "with a query filters array" do
     let(:query) do
@@ -41,6 +42,7 @@ RSpec.describe Queries::Copy::FiltersMapper do
       query.add_filter "parent", "=", ["1"]
       query.add_filter "category_id", "=", ["2"]
       query.add_filter "version_id", "=", ["3"]
+      query.add_filter "target_version_id", "=", ["3"]
 
       query
     end
@@ -58,6 +60,7 @@ RSpec.describe Queries::Copy::FiltersMapper do
         expect(subject[1].values).to eq(["11"])
         expect(subject[2].values).to eq(["22"])
         expect(subject[3].values).to eq(["33"])
+        expect(subject[4].values).to eq(["33"])
       end
     end
 
@@ -66,6 +69,7 @@ RSpec.describe Queries::Copy::FiltersMapper do
         expect(subject[1].values).to eq(["1"])
         expect(subject[2].values).to eq(["2"])
         expect(subject[3].values).to eq(["3"])
+        expect(subject[4].values).to eq(["3"])
       end
     end
   end
@@ -75,7 +79,8 @@ RSpec.describe Queries::Copy::FiltersMapper do
       [
         { "parent" => { "operator" => "=", "values" => ["1"] } },
         { "category_id" => { "operator" => "=", "values" => ["2"] } },
-        { "version_id" => { "operator" => "=", "values" => ["3"] } }
+        { "version_id" => { "operator" => "=", "values" => ["3"] } },
+        { "targetVersion" => { "operator" => "=", "values" => ["3"] } }
       ]
     end
 
@@ -92,6 +97,7 @@ RSpec.describe Queries::Copy::FiltersMapper do
         expect(subject[0]["parent"]["values"]).to eq(["11"])
         expect(subject[1]["category_id"]["values"]).to eq(["22"])
         expect(subject[2]["version_id"]["values"]).to eq(["33"])
+        expect(subject[3]["targetVersion"]["values"]).to eq(["33"])
       end
     end
 
@@ -100,6 +106,7 @@ RSpec.describe Queries::Copy::FiltersMapper do
         expect(subject[0]["parent"]["values"]).to eq(["1"])
         expect(subject[1]["category_id"]["values"]).to eq(["2"])
         expect(subject[2]["version_id"]["values"]).to eq(["3"])
+        expect(subject[3]["targetVersion"]["values"]).to eq(["3"])
       end
     end
   end
