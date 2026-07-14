@@ -284,6 +284,32 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "with an optimistic blank-anchor move that did not land on top" do
+      let!(:other_item) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      before do
+        # The real service always prepends on a blank prev_id, so the anchor
+        # check's failure branch is unreachable through it; inject a result
+        # that stayed mid-list (as a concurrent reorder could leave it).
+        other_item.update_column(:position, 1)
+        work_package_in_sprint.update_column(:position, 2)
+
+        service = instance_double(Backlogs::WorkPackages::UpdateService)
+        allow(Backlogs::WorkPackages::UpdateService).to receive(:new).and_return(service)
+        allow(service).to receive(:call).and_return(ServiceResult.success(result: work_package_in_sprint.reload))
+      end
+
+      it "reloads the frame instead of trusting the top insert", :aggregate_failures do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                              target: "backlogs_container"
+      end
+    end
+
     context "with an optimistic same-list move after a valid predecessor" do
       let!(:first_item) { create(:work_package, status:, sprint:, project:) }
       let(:list_type) { "sprint" }
