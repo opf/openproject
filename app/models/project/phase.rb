@@ -51,6 +51,13 @@ class Project::Phase < ApplicationRecord
   attr_readonly :definition_id
 
   scope :active, -> { where(active: true) }
+  scope :with_timeline_content, -> {
+    joins(:definition).where(
+      "(project_phases.start_date IS NOT NULL AND project_phases.finish_date IS NOT NULL) OR " \
+      "(project_phase_definitions.start_gate = TRUE AND project_phases.start_date IS NOT NULL) OR " \
+      "(project_phase_definitions.finish_gate = TRUE AND project_phases.finish_date IS NOT NULL)"
+    )
+  }
   scopes :order_by_position,
          :covering_dates_or_days_of_week
 
