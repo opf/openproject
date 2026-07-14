@@ -304,6 +304,71 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with multi select custom field and layout argument" do
+      shared_let(:multi_list_custom_field) do
+        create(
+          :list_wp_custom_field,
+          name: "My List Field",
+          multi_value: true,
+          possible_values: %w[Sprint1 Sprint2 Sprint3],
+          is_for_all: true,
+          types: [type_task]
+        )
+      end
+
+      let(:work_package) do
+        create(
+          :work_package,
+          subject: "Work package 1",
+          type: type_task,
+          project: project,
+          custom_field_values: {
+            multi_list_custom_field.id => multi_list_custom_field.custom_options.first(2).map(&:id)
+          }
+        )
+      end
+
+      describe "without layout argument" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\"" }
+
+        it "outputs one value per line" do
+          expect(formatted).to eq("Sprint1  \nSprint2")
+        end
+      end
+
+      describe "with multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":multiline" }
+
+        it "outputs one value per line" do
+          expect(formatted).to eq("Sprint1  \nSprint2")
+        end
+      end
+
+      describe "with singleline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":singleline" }
+
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
+        end
+      end
+
+      describe "with singleline layout and relative work package reference" do
+        let(:markdown) { "workPackageValue:\"My List Field\":singleline" }
+
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
+        end
+      end
+    end
+
+    describe "with singleline layout on a single value attribute" do
+      let(:markdown) { "workPackageValue:subject:singleline" }
+
+      it "outputs the attribute value" do
+        expect(formatted).to eq("Work package 1")
+      end
+    end
+
     describe "with specific work package ID and attribute" do
       let(:markdown) { "workPackageValue:#{work_package.id}:subject" }
 

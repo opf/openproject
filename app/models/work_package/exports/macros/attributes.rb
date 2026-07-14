@@ -48,14 +48,17 @@ module WorkPackage::Exports
     #   projectValue:my-project-identifier:active # Outputs project with identifier my-project-identifier value for "active"
     class Attributes < OpenProject::TextFormatting::Matchers::RegexMatcher
       extend WorkPackage::Exports::Attributes
+
       DISABLED_PROJECT_RICH_TEXT_FIELDS = %i[description status_explanation status_description].freeze
       DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS = %i[description].freeze
+      LAYOUTS = OpenProject::TextFormatting::Matchers::AttributeMacros::LAYOUTS
 
       def self.regexp
         %r{
-          (\w+)(Label|Value) # The model type we try to reference
-          (?::(?:([^"\s]+)|"([^"]+)"))? # Optional: An ID or subject reference
-          (?::([^"\s.]+|"([^".]+)")) # The attribute name we're trying to reference
+          (?<model>\w+)(?<type>Label|Value) # The model type we try to reference
+          (?::(?:(?<id>[^":\s]+)|"(?<quoted_id>[^"]+)"))? # Optional: An ID or subject reference
+          (?::(?<attribute>[^":\s.]+|"(?<quoted_attribute>[^".]+)")) # The attribute name we're trying to reference
+          (?::(?<layout>#{LAYOUTS.join('|')}))? # Optional: A layout argument
         }x
       end
 
@@ -66,20 +69,28 @@ module WorkPackage::Exports
       end
 
       def self.process_match(match, _matched_string, context)
-        type = match[2].downcase
-        model_s = match[1].downcase
-        id = match[4] || match[3]
-        attribute = match[6] || match[5]
-        resolve_match(type, model_s, id, attribute, context)
+        macro_attributes = {
+          model: match[:model].downcase,
+          id: match[:quoted_id] || match[:id],
+          attribute: match[:quoted_attribute] || match[:attribute],
+          layout: match[:layout]
+        }
+        OpenProject::TextFormatting::Matchers::AttributeMacros
+          .reinterpret_idless_layout(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
+
+        resolve_match(match[:type].downcase, macro_attributes, context)
       end
 
-      def self.resolve_match(type, model_s, id, attribute, context)
-        if model_s == "workpackage"
-          resolve_work_package_match(id || context[:work_package]&.id, type, attribute, context[:user])
-        elsif model_s == "project"
-          resolve_project_match(id || context[:project]&.id, type, attribute, context[:user])
+      def self.resolve_match(type, macro_attributes, context)
+        id, attribute, layout = macro_attributes.values_at(:id, :attribute, :layout)
+
+        case macro_attributes[:model]
+        when "workpackage"
+          resolve_work_package_match(id || context[:work_package]&.id, type, attribute, context[:user], layout:)
+        when "project"
+          resolve_project_match(id || context[:project]&.id, type, attribute, context[:user], layout:)
         else
-          msg_macro_error I18n.t("export.macro.model_not_found", model: model_s)
+          msg_macro_error I18n.t("export.macro.model_not_found", model: macro_attributes[:model])
         end
       end
 
@@ -116,7 +127,7 @@ module WorkPackage::Exports
       # @param attribute [String] The attribute to resolve.
       # @param user [User] The user context for visibility checks.
 
-      def self.resolve_work_package_match(id, type, attribute, user)
+      def self.resolve_work_package_match(id, type, attribute, user, layout: nil)
         return resolve_label_work_package(attribute) if type == "label"
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
@@ -125,10 +136,10 @@ module WorkPackage::Exports
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{WorkPackage.name} #{id}"))
         end
 
-        resolve_value_work_package(work_package, attribute)
+        resolve_value_work_package(work_package, attribute, layout:)
       end
 
-      def self.resolve_project_match(id, type, attribute, user)
+      def self.resolve_project_match(id, type, attribute, user, layout: nil)
         return resolve_label_project(attribute) if type == "label"
         return msg_macro_error(I18n.t("export.macro.model_not_found", model: type)) unless type == "value"
 
@@ -138,7 +149,13 @@ module WorkPackage::Exports
           return msg_macro_error(I18n.t("export.macro.resource_not_found", resource: "#{Project.name} #{id}"))
         end
 
-        resolve_value_project(project, attribute)
+        resolve_value_project(project, attribute, layout:)
+      end
+
+      # The multi-line separator ends in two spaces + newline, the markdown
+      # hard line break, so each value renders on its own line in the export.
+      def self.array_separator(layout)
+        layout == "singleline" ? ", " : "  \n"
       end
 
       def self.escape_tags(value)
@@ -146,22 +163,22 @@ module WorkPackage::Exports
         value.to_s.gsub("<", "&lt;").gsub(">", "&gt;")
       end
 
-      def self.resolve_value_project(project, attribute)
-        resolve_value(project, attribute, DISABLED_PROJECT_RICH_TEXT_FIELDS)
+      def self.resolve_value_project(project, attribute, layout: nil)
+        resolve_value(project, attribute, DISABLED_PROJECT_RICH_TEXT_FIELDS, layout:)
       end
 
-      def self.resolve_value_work_package(work_package, attribute)
-        resolve_value(work_package, attribute, DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS)
+      def self.resolve_value_work_package(work_package, attribute, layout: nil)
+        resolve_value(work_package, attribute, DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS, layout:)
       end
 
-      def self.resolve_value(obj, attribute, disabled_rich_text_fields)
+      def self.resolve_value(obj, attribute, disabled_rich_text_fields, layout: nil)
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)
-        [format_attribute_value(attribute_name, obj.class, obj, is_rich_text), is_rich_text]
+        [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout), is_rich_text]
       end
 
       def self.can_view_attribute?(custom_field, obj, attribute_name)
@@ -180,9 +197,9 @@ module WorkPackage::Exports
         obj.available_custom_fields.find { |pcf| pcf.name == attribute }
       end
 
-      def self.format_attribute_value(ar_name, model, obj, is_rich_text)
+      def self.format_attribute_value(ar_name, model, obj, is_rich_text, layout = nil)
         formatter = Exports::Register.formatter_for(model, ar_name, :pdf)
-        value = formatter.format(obj)
+        value = formatter.format(obj, array_separator: array_separator(layout))
         # do NOT escape a tag for custom field link
         return value.to_html if value.is_a?(::Exports::Formatters::LinkFormatter)
 
