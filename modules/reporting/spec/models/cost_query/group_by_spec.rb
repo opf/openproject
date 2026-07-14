@@ -139,6 +139,15 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(2)
     end
 
+    it "computes group_by Version, matching on the target versions" do
+      version = create(:version, project: project1)
+      work_package1.update!(version:)
+
+      query.group_by :version_id
+      # one group for the versioned work package's entries, one for the rest
+      expect(query.result.size).to eq(2)
+    end
+
     it "computes group_by Type" do
       query.group_by :type_id
       expect(query.result.size).to eq(1)

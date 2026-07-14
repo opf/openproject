@@ -28,7 +28,14 @@
 
 class CostQuery::Filter::VersionId < Report::Filter::Base
   use :null_operators
+  # Filters on the target-version join rows instead of the deprecated
+  # work_packages.version_id column. The field is table-qualified because that
+  # column still exists alongside until it is dropped.
   join_table WorkPackage => [Entry, :entity]
+  join_table "LEFT OUTER JOIN work_package_versions " \
+             "ON work_package_versions.work_package_id = work_packages.id " \
+             "AND work_package_versions.kind = 'target'"
+  db_field "work_package_versions.version_id"
   applies_for :label_work_package_attributes
 
   def self.label

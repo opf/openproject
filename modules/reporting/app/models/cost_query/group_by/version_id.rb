@@ -27,7 +27,15 @@
 #++
 
 class CostQuery::GroupBy::VersionId < Report::GroupBy::Base
+  # Groups by the target-version join rows instead of the deprecated
+  # work_packages.version_id column. The field stays the unqualified
+  # "version_id" (it is also the result key); the explicit table_name
+  # qualifies it in the generated SQL.
   join_table WorkPackage => [Entry, :entity]
+  join_table "LEFT OUTER JOIN work_package_versions " \
+             "ON work_package_versions.work_package_id = work_packages.id " \
+             "AND work_package_versions.kind = 'target'"
+  table_name WorkPackageVersion
   applies_for :label_work_package_attributes
 
   def self.label
