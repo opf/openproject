@@ -50,11 +50,16 @@ module Wikis
     attr_reader :linkable, :already_related_page_keys
 
     def menu_actions_for(page_info_result)
-      return [] if page_info_result.failure? || !can_manage_links?
+      page_info_result.either(
+        ->(page_info) do
+          can_manage_links? ? [add_to_relation_action(page_info:, already_related: already_related?(page_info))] : []
+        end,
+        ->(_failure) { [] }
+      )
+    end
 
-      page_info = page_info_result.value!
-      already_related = already_related_page_keys.include?([page_info.provider.id, page_info.identifier])
-      [add_to_relation_action(page_info:, already_related:)]
+    def already_related?(page_info)
+      already_related_page_keys.include?([page_info.provider.id, page_info.identifier])
     end
 
     def add_to_relation_action(page_info:, already_related:)
