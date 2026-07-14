@@ -33,15 +33,8 @@ module BasicData
       BasicData::TypeSeeder
     ]
 
-    def seed!
+    def seed_data!
       seed_data.each("type_configuration") do |type_configuration_data|
-        # The referenced queries are seeded by the GlobalQuerySeeder within the same run. When
-        # re-seeding an installation whose global queries still exist (but whose projects were
-        # deleted), that seeder is skipped and the references are not registered again. We then
-        # cannot re-apply the form configuration, but that is acceptable: the types created in
-        # the initial seeding already carry it.
-        next unless queries_registered?(type_configuration_data)
-
         type = seed_data.find_reference(type_configuration_data["type"])
         groups = query_groups(type_configuration_data)
         groups += type.default_attribute_groups if merge_form_configuration?(type_configuration_data)
@@ -49,12 +42,22 @@ module BasicData
       end
     end
 
-    private
-
-    def queries_registered?(type_configuration_data)
-      type_configuration_data["form_configuration"]
-        .all? { |form_config_attr| seed_data.reference_exists?(form_config_attr["query"]) }
+    # The queries embedded into the form configuration are seeded by the GlobalQuerySeeder within
+    # the same run. When re-seeding an installation whose global queries still exist (but whose
+    # projects were deleted), that seeder is skipped and the references are not registered again.
+    # The seeder is then not applicable: we cannot re-apply the form configuration, but that is
+    # acceptable as the types created in the initial seeding already carry it.
+    def all_required_references
+      references = []
+      seed_data.each("type_configuration") do |type_configuration_data|
+        Array(type_configuration_data["form_configuration"]).each do |form_config_attr|
+          references << form_config_attr["query"]
+        end
+      end
+      references
     end
+
+    private
 
     # Whether the form configuration defined in the seed data should be merged with the type's
     # default form configuration as defined in the Ruby code. Defaults to false, in which case
