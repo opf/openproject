@@ -203,33 +203,6 @@ function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
 
 export type MoveDirection = 'top'|'up'|'down'|'bottom';
 
-// One item element per row of the container, in document order. Mirrors the
-// row model the drag path uses (a row resolves to at most one item element).
-function containerItemElements(rowsContainer:Element):HTMLElement[] {
-  return Array.from(rowsContainer.children)
-    .map((row) => resolveItemElement(row))
-    .filter((item):item is HTMLElement => item !== null);
-}
-
-export function resolveItemMovePosition({
-  itemElement,
-  rowsContainer,
-}:{
-  itemElement:HTMLElement;
-  rowsContainer:Element;
-}):{ isFirst:boolean; isLast:boolean }|null {
-  const items = containerItemElements(rowsContainer);
-  const index = items.indexOf(itemElement);
-
-  if (index === -1) {
-    return null;
-  }
-
-  return { isFirst: index === 0, isLast: index === items.length - 1 };
-}
-
-// A truncation marker is a non-item row that stands in for a block of hidden
-// items, carrying the last omitted item's id on data-sortable-lists-prev-item-id.
 function isItemRow(row:Element|undefined):boolean {
   return !!row && resolveItemElement(row) !== null;
 }
@@ -262,16 +235,63 @@ export function resolveDirectionalPreviousItemId({
   direction:MoveDirection;
   rowsContainer:Element;
 }):string|null|undefined {
+  const context = resolveRowContext(itemElement, rowsContainer);
+
+  return context ? directionalPreviousItemIdIn(context, direction) : undefined;
+}
+
+export type MoveAvailability = Record<MoveDirection, boolean>;
+
+// Availability of all four directional moves for the item, or null when it is
+// not (yet) a row of the container. The row scan happens once; the four
+// per-direction resolutions only index into it.
+export function resolveMoveAvailability({
+  itemElement,
+  rowsContainer,
+}:{
+  itemElement:HTMLElement;
+  rowsContainer:Element;
+}):MoveAvailability|null {
+  const context = resolveRowContext(itemElement, rowsContainer);
+  if (!context) {
+    return null;
+  }
+
+  return {
+    top: directionalPreviousItemIdIn(context, 'top') !== undefined,
+    up: directionalPreviousItemIdIn(context, 'up') !== undefined,
+    down: directionalPreviousItemIdIn(context, 'down') !== undefined,
+    bottom: directionalPreviousItemIdIn(context, 'bottom') !== undefined,
+  };
+}
+
+// The item's row neighbourhood, scanned once and shared by the per-direction
+// resolutions above.
+interface RowContext {
+  rows:Element[];
+  rowIndex:number;
+  itemRows:Element[];
+  itemIndex:number;
+}
+
+function resolveRowContext(itemElement:HTMLElement, rowsContainer:Element):RowContext|null {
   const rows = listRows(rowsContainer);
   const sourceRow = rowOf(rowsContainer, itemElement);
   const rowIndex = sourceRow ? rows.indexOf(sourceRow) : -1;
 
   if (rowIndex === -1) {
-    return undefined;
+    return null;
   }
 
   const itemRows = rows.filter((row) => resolveItemElement(row) !== null);
-  const itemIndex = itemRows.indexOf(sourceRow!);
+
+  return { rows, rowIndex, itemRows, itemIndex: itemRows.indexOf(sourceRow!) };
+}
+
+function directionalPreviousItemIdIn(
+  { rows, rowIndex, itemRows, itemIndex }:RowContext,
+  direction:MoveDirection,
+):string|null|undefined {
   const isFirstItem = itemIndex === 0;
   const isLastItem = itemIndex === itemRows.length - 1;
 

@@ -375,16 +375,17 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    // A null position means the item is not in a list yet; leave the menu alone
-    // until the outlet wiring settles.
-    if (!root.itemMovePosition(this.element)) {
+    // Null availability means the item is not in a list yet; leave the menu
+    // alone until the outlet wiring settles.
+    const availability = root.moveAvailability(this.element);
+    if (!availability) {
       return;
     }
 
     let available = 0;
     for (const item of this.moveItemTargets) {
       const direction = item.dataset.moveDirection as MoveDirection|undefined;
-      const enabled = !!direction && root.directionalMoveAvailable(this.element, direction);
+      const enabled = !!direction && availability[direction];
       this.setAvailability(item, enabled);
       if (enabled) {
         available += 1;

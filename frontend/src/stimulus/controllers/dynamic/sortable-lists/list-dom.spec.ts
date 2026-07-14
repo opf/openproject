@@ -30,7 +30,7 @@ import {
   captureRowPositions,
   reorderRows,
   resolveDirectionalPreviousItemId,
-  resolveItemMovePosition,
+  resolveMoveAvailability,
   resolveListAppendPreviousItemId,
   restoreRowPositions,
   rowOf,
@@ -328,17 +328,20 @@ describe('directional move helpers', () => {
   }
   const itemAt = (ul:HTMLElement, index:number) => ul.children[index] as HTMLElement;
 
-  it('reports first/last position', () => {
+  it('reports per-direction availability', () => {
     const ul = container(['1', '2', '3']);
-    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 0), rowsContainer: ul })).toEqual({ isFirst: true, isLast: false });
-    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 1), rowsContainer: ul })).toEqual({ isFirst: false, isLast: false });
-    expect(resolveItemMovePosition({ itemElement: itemAt(ul, 2), rowsContainer: ul })).toEqual({ isFirst: false, isLast: true });
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 0), rowsContainer: ul }))
+      .toEqual({ top: false, up: false, down: true, bottom: true });
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 1), rowsContainer: ul }))
+      .toEqual({ top: true, up: true, down: true, bottom: true });
+    expect(resolveMoveAvailability({ itemElement: itemAt(ul, 2), rowsContainer: ul }))
+      .toEqual({ top: true, up: true, down: false, bottom: false });
   });
 
-  it('returns null when the item is not in the container', () => {
+  it('returns null availability when the item is not in the container', () => {
     const ul = container(['1']);
     const stray = document.createElement('li');
-    expect(resolveItemMovePosition({ itemElement: stray, rowsContainer: ul })).toBeNull();
+    expect(resolveMoveAvailability({ itemElement: stray, rowsContainer: ul })).toBeNull();
   });
 
   it('maps each direction to a previous item id', () => {

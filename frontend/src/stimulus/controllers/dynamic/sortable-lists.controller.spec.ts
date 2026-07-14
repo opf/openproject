@@ -732,21 +732,22 @@ describe('Sortable lists controller', () => {
     expect(body.body.get('prev_id')).toBe('2');
   });
 
-  it('reports move position for gating', async () => {
-    const { root, firstSourceItem } = renderFixture();
-    await ctx.nextFrame();
-    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
-
-    expect(controller.itemMovePosition(firstSourceItem)).toEqual({ isFirst: true, isLast: false });
-  });
-
-  it('reports directional availability for gating', async () => {
+  it('reports per-direction move availability for gating', async () => {
     const { root, firstSourceItem } = renderFixture();
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
     // First item: down/bottom available, up/top not.
-    expect(controller.directionalMoveAvailable(firstSourceItem, 'down')).toBe(true);
-    expect(controller.directionalMoveAvailable(firstSourceItem, 'up')).toBe(false);
+    expect(controller.moveAvailability(firstSourceItem)).toEqual({
+      top: false, up: false, down: true, bottom: true,
+    });
+  });
+
+  it('reports null availability for an item outside any owned list', async () => {
+    const { root } = renderFixture();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
   });
 });

@@ -37,6 +37,7 @@ import {
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
   rowOf,
+  type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
 
@@ -73,8 +74,8 @@ export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
-  itemMovePosition(itemElement:HTMLElement):{ isFirst:boolean; isLast:boolean }|null;
-  directionalMoveAvailable(itemElement:HTMLElement, direction:MoveDirection):boolean;
+  // A snapshot for menu gating; the click path re-resolves against the live DOM.
+  moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can

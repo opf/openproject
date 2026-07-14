@@ -49,11 +49,12 @@ import {
   reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
-  resolveItemMovePosition,
+  resolveMoveAvailability,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
 
@@ -164,23 +165,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.element.hasAttribute(sortableListsBusyAttribute);
   }
 
-  itemMovePosition(itemElement:HTMLElement):{ isFirst:boolean; isLast:boolean }|null {
-    const list = this.ownerListOf(itemElement);
-
-    return list ? resolveItemMovePosition({ itemElement, rowsContainer: list.rowsContainer }) : null;
-  }
-
   // Availability mirrors executability: a direction is offered exactly when the
   // move resolver can produce a target for it. This keeps the menu honest about
   // truncated lists, where a one-step move across the hidden block is not
-  // addressable and the resolver returns undefined.
-  directionalMoveAvailable(itemElement:HTMLElement, direction:MoveDirection):boolean {
+  // addressable. Null means the item is not in an owned list (yet). The result
+  // is a snapshot for menu gating; the click path re-resolves the live DOM.
+  moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
     const list = this.ownerListOf(itemElement);
-    if (!list) {
-      return false;
-    }
 
-    return resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer }) !== undefined;
+    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
   }
 
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {

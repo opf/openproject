@@ -55,7 +55,6 @@ import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmat
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
-import type { MoveDirection } from './list-dom';
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -98,8 +97,7 @@ describe('Sortable lists item controller', () => {
       element,
       busy,
       moveInDirection: vi.fn(),
-      itemMovePosition: vi.fn(() => null),
-      directionalMoveAvailable: vi.fn(() => false),
+      moveAvailability: vi.fn(() => null),
     };
   }
 
@@ -860,28 +858,21 @@ describe('Sortable lists item controller', () => {
 
     const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-move-direction="${direction}"]`)!;
     // Availability defaults to the first/last extremes so the position-driven
-    // specs read naturally; individual tests can override per direction to
-    // exercise the marker-aware (truncated list) wiring.
-    const availabilityFromPosition = (position:{ isFirst:boolean; isLast:boolean }) =>
-      (_el:HTMLElement, direction:MoveDirection):boolean => {
-        switch (direction) {
-          case 'top':
-          case 'up':
-            return !position.isFirst;
-          case 'down':
-          case 'bottom':
-            return !position.isLast;
-          default:
-            return false;
-        }
-      };
+    // specs read naturally; individual tests can override the map to exercise
+    // the marker-aware (truncated list) wiring.
+    const availabilityFromPosition = (position:{ isFirst:boolean; isLast:boolean }) => ({
+      top: !position.isFirst,
+      up: !position.isFirst,
+      down: !position.isLast,
+      bottom: !position.isLast,
+    });
     const stubRoot = (
       el:HTMLElement,
       position:{ isFirst:boolean; isLast:boolean },
       moveInDirection = vi.fn(),
-      directionalMoveAvailable = availabilityFromPosition(position),
+      availability = availabilityFromPosition(position),
     ) => ({
-      element: el, busy: false, itemMovePosition: () => position, directionalMoveAvailable, moveInDirection,
+      element: el, busy: false, moveAvailability: () => availability, moveInDirection,
     } as unknown as SortableListsRoot);
 
     it('disables up/top for a first item and enables the rest', async () => {
@@ -903,7 +894,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       // Not an extreme (neither first nor last), but the root deems "down"
       // unavailable because it would cross a hidden block.
-      const gappedAvailability = (_el:HTMLElement, direction:MoveDirection) => direction !== 'down';
+      const gappedAvailability = { top: true, up: true, down: false, bottom: true };
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
       controller.moveItemTargetConnected();
 
