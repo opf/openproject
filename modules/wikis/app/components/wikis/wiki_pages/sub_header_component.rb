@@ -37,7 +37,7 @@ module Wikis
         super(query)
       end
 
-      def filter_input_value
+      def name_filter_input_value
         query.find_active_filter(:name)&.values&.first
       end
 
@@ -52,7 +52,7 @@ module Wikis
         }
       end
 
-      def filter_input_data_attributes
+      def name_filter_input_data_attributes
         {
           "filter-name": "name",
           "filter-type": "string",
