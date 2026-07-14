@@ -410,7 +410,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did not change the version" do
-            expect(subject.version_id).to eq(work_package.version_id)
+            expect(subject.target_versions.pluck(:id)).to eq(work_package.target_versions.pluck(:id))
           end
 
           it "did not change the assignee" do
@@ -450,7 +450,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,
-                   version_id: target_version.id,
+                   target_version_ids: [target_version.id],
                    start_date:,
                    due_date:
                  }
@@ -487,8 +487,8 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           end
 
           it "did change the version" do
-            subject.map(&:version_id).each do |id|
-              expect(id).to eq(target_version.id)
+            subject.each do |work_package|
+              expect(work_package.target_versions.pluck(:id)).to eq([target_version.id])
             end
           end
 
