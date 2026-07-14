@@ -175,6 +175,15 @@ module WorkPackage::SemanticIdentifier
     format_display_id(display_id_for(id, identifier))
   end
 
+  # Extracts the sequence number from a semantic identifier ("PROJ-42" → 42).
+  # The inverse of the "<project identifier>-<sequence number>" composition used
+  # when allocating identifiers. Returns nil for a blank identifier.
+  def self.sequence_number_from_identifier(identifier)
+    return if identifier.blank?
+
+    identifier.split("-").last.to_i
+  end
+
   # Returns the user-facing identifier for this work package.
   # In semantic mode: the project-based identifier (e.g. "PROJ-42")
   # In classic mode: the numeric database ID
