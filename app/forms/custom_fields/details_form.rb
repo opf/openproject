@@ -311,13 +311,29 @@ module CustomFields
         { key: op, label: op, insert_as_text: true, enabled: true }
       end
 
+      punctuation = CustomField::CalculatedValue::FORMULA_PUNCTUATION.map do |symbol|
+        { key: symbol, label: symbol, insert_as_text: true, enabled: true }
+      end
+
+      # Insert functions with the opening parenthesis so that the caret ends up where the arguments go.
+      functions = CustomField::CalculatedValue::FORMULA_FUNCTIONS.map do |function|
+        { key: "#{function}(", label: "#{function}()", insert_as_text: true, enabled: true }
+      end
+
+      keywords = CustomField::CalculatedValue::FORMULA_KEYWORDS.map do |kw|
+        { key: kw, label: kw, insert_as_text: true, enabled: true }
+      end
+
       custom_fields = model.usable_custom_field_references_for_formula.map do |cf|
         { key: "cf_#{cf.id}", label: cf.name, enabled: true }
       end
 
       {
         custom_fields: { title: I18n.t("label_custom_field_plural"), tokens: custom_fields },
-        operators: { title: I18n.t("label_mathematical_operators"), tokens: operators }
+        operators: { title: I18n.t("label_operator_plural"), tokens: operators },
+        punctuation: { title: I18n.t("label_punctuation"), tokens: punctuation },
+        functions: { title: I18n.t("label_function_plural"), tokens: functions },
+        keywords: { title: I18n.t("label_keyword_plural"), tokens: keywords }
       }
     end
   end
