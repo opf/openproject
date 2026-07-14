@@ -37,11 +37,8 @@ module Wikis
       menu_item :settings_project_wiki
 
       def create
-        if new_or_changed_wiki.save
-          status = @wiki.enabled? ? ".enabled" : ".disabled"
-          render_success_flash_message_via_turbo_stream(message: t(".success", status: t(".status.#{status}")))
-        else
-          render_error_flash_message_via_turbo_stream(message:)
+        unless new_or_changed_wiki.save
+          render_error_flash_message_via_turbo_stream(message: @wiki.errors.full_messages)
         end
 
         replace_via_turbo_stream(component: ProjectInternalWikiComponent.new(@project.reload))
