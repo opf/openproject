@@ -155,7 +155,7 @@ RSpec.describe Backlogs::Sprints::StartService do
     end
   end
 
-  context "when the model's own uniqueness check is the only thing catching a conflict" do
+  context "when the model's uniqueness check catching an update race condition" do
     before do
       # With the project locked for the whole service call (see service_context),
       # StartContract#validate_only_one_active_sprint can no longer be raced in
