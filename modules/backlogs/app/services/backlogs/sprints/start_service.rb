@@ -36,17 +36,21 @@ class Backlogs::Sprints::StartService < BaseServices::BaseContracted
 
   private
 
+  def service_context(send_notifications:, &)
+    # Lock on the project rather than the sprint, so that concurrent attempts to start
+    # different sprints within the same project are serialized. A database constraint
+    # can't be used here, because the uniqueness check is conditioned on the project's
+    # allow_multiple_active_sprints setting.
+    in_context(model.project, send_notifications:, &)
+  end
+
   def persist(service_call)
-    model.project.with_lock do
-      model.status = "active"
+    ensure_task_boards(service_call)
+    return service_call if service_call.failure?
 
-      ensure_task_boards(service_call) if model.valid?
-      next if service_call.failure?
-
-      unless model.save
-        service_call.success = false
-        service_call.errors = model.errors
-      end
+    unless model.update(status: "active")
+      service_call.success = false
+      service_call.errors = model.errors
     end
 
     service_call

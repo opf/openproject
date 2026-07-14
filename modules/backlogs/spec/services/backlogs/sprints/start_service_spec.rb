@@ -55,11 +55,14 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when persisting" do
-    it "acquires a lock on the project before saving the sprint" do
-      allow(project).to receive(:with_lock).and_call_original
+    it "locks the project for the whole operation" do
+      allow(OpenProject::Mutex)
+        .to receive(:with_advisory_lock_transaction)
+        .with(project)
+        .and_call_original
 
       expect(result).to be_success
-      expect(project).to have_received(:with_lock)
+      expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(project)
     end
   end
 
@@ -152,24 +155,25 @@ RSpec.describe Backlogs::Sprints::StartService do
     end
   end
 
-  context "when another sprint is activated concurrently, after the contract check passed" do
+  context "when the model's own uniqueness check is the only thing catching a conflict" do
     before do
-      # Simulates the race: the conflicting sprint appears only after validate_contract
-      # has already passed, right before persist acquires the project lock.
+      # With the project locked for the whole service call (see service_context),
+      # StartContract#validate_only_one_active_sprint can no longer be raced in
+      # practice. This simulates the model-level backstop still catching a conflict
+      # that appears right before persist, e.g. if this service were ever bypassed.
       allow(instance).to receive(:persist).and_wrap_original do |original, *args|
         create(:sprint, project:, status: "active")
         original.call(*args)
       end
     end
 
-    it "fails gracefully without creating a board", :aggregate_failures do
+    it "fails gracefully instead of raising", :aggregate_failures do
       expect { result }.not_to raise_error
 
       expect(result).not_to be_success
       expect(result.errors.symbols_for(:status)).to include(:taken)
       expect(result.errors[:status]).to include("only one active sprint is allowed per project.")
       expect(sprint.reload).to be_in_planning
-      expect(sprint.task_board_for(project)).to be_nil
     end
   end
 
