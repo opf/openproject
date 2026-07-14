@@ -22,6 +22,22 @@
 #++
 ---
 pl:
+  activerecord:
+    attributes:
+      gitlab_merge_request:
+        labels: Etykiety
+      gitlab_pipeline:
+        ci_details: Szczegóły CI
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
   attributes:
     commit: Zatwierdź
     gitlab: Identyfikator GitLab
@@ -33,25 +49,28 @@ pl:
     gitlab_updated_at: Zaktualizowano o
     gitlab_user_avatar_url: Adres URL awatara GitLab
     gitlab_username: Nazwa użytkownika GitLab
-  activerecord:
-    attributes:
-      gitlab_pipeline:
-        ci_details: Szczegóły CI
-      gitlab_merge_request:
-        labels: Etykiety
-    errors:
-      models:
-        gitlab_issue:
-          attributes:
-            labels:
-              invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
-        gitlab_merge_request:
-          attributes:
-            labels:
-              invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
-  label_gitlab_integration: Integracja GitLab
+  gitlab_integration:
+    issue_closed_referenced_comment: "**Zamknięto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został zamknięty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został otwarty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Ponownie otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został ponownie otwarty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**Zamknięto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało zamknięte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**Scalono MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało scalone przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**Otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało otwarte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**Ponownie otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało ponownie otwarte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Odniesienie w zatwierdzeniu:** [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w uwadze do zatwierdzenia [%{commit_id}](%{commit_url}) na [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Komentarz w problemie:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) skomentował WP w problemie %{issue_number} [%{issue_title}](%{issue_url}) na [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Odniesienia w problemie:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w problemie %{issue_number} [%{issue_title}](%{issue_url}) na [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Komentarz w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) skomentował WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Odniesienie w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Odniesienie we fragmencie kodu:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniós się do WP we fragmencie kodu %{snippet_number} [%{snippet_title}](%{snippet_url}) na [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Wypchnięto w MR:** [%{gitlab_user}](%{gitlab_user_url}) wypchnął wiele zmian [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Wypchnięto w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Wypchnięto w %{reference}:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
   label_gitlab_actor: Użytkownik GitLab
+  label_gitlab_integration: Integracja GitLab
   label_gitlab_webhook_secret: Klucz tajny obiektu webhook
+  permission_show_gitlab_content: Pokaż treść GitLab
+  project_module_gitlab: GitLab
   text_gitlab_actor_info: 'Użytkownik OpenProject, którego klucz interfejsu API musi być używany do uwierzytelniania przychodzących żądań obiektu webhoo. Po jego ustawieniu żądania uwierzytelnione przy użyciu poświadczeń dowolnego innego użytkownika są odrzucane. Ten użytkownik publikuje również automatyczne komentarze dotyczące pakietów roboczych. Domyślnie ustawiany jest użytkownik systemowy.
 
     '
@@ -61,22 +80,3 @@ pl:
   text_gitlab_webhook_secret_missing_warning: 'Nie skonfigurowano klucza tajnego obiektu webhook. Każde żądanie do punktu końcowego obiektu webhook GitLab zostanie zaakceptowane bez weryfikacji, co może pozwolić nieautoryzowanym użytkownikom na fałszowanie zdarzeń. Zdecydowanie zalecane jest ustawienie klucza tajnego.
 
     '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: Pokaż treść GitLab
-  gitlab_integration:
-    merge_request_opened_comment: "**Otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało otwarte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**Zamknięto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało zamknięte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**Scalono MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało scalone przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**Ponownie otwarto MR:** żądanie scalenia %{mr_number} [%{mr_title}](%{mr_url}) dla [%{repository}](%{repository_url}) zostało ponownie otwarte przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Odniesienie w zatwierdzeniu:** [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w uwadze do zatwierdzenia [%{commit_id}](%{commit_url}) na [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_mr_referenced_comment: "**Odniesienie w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_commented_comment: "**Komentarz w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) skomentował WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_issue_referenced_comment: "**Odniesienia w problemie:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w problemie %{issue_number} [%{issue_title}](%{issue_url}) na [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_commented_comment: "**Komentarz w problemie:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) skomentował WP w problemie %{issue_number} [%{issue_title}](%{issue_url}) na [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_snippet_referenced_comment: "**Odniesienie we fragmencie kodu:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniós się do WP we fragmencie kodu %{snippet_number} [%{snippet_title}](%{snippet_url}) na [%{repository}](%{repository_url}): %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został otwarty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Zamknięto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został zamknięty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Ponownie otwarto problem:** problem %{issue_number} [%{issue_title}](%{issue_url}) dotyczący [%{repository}](%{repository_url}) został ponownie otwarty przez [%{gitlab_user}](%{gitlab_user_url}).\n"
-    push_single_commit_comment: "**Wypchnięto w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Wypchnięto w %{reference}:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
-    push_multiple_commits_comment: "**Wypchnięto w MR:** [%{gitlab_user}](%{gitlab_user_url}) wypchnął wiele zmian [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"

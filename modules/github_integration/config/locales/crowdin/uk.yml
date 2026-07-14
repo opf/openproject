@@ -23,47 +23,47 @@
 uk:
   attributes:
     additions_count: Кількість додавань
-    deletions_count: Кількість видалень
+    changed_files_count: Змінені файли
     comments_count: Кількість коментарів
-    github_html_url: URL-адреса запиту на злиття
-    github_app_owner_avatar_url: URL-адреса аватара власника
-    review_comments_count: Кількість переглянутих коментарів
+    deletions_count: Кількість видалень
     github: Ідентифікатор GitHub
+    github_app_owner_avatar_url: URL-адреса аватара власника
     github_avatar_url: URL-адреса аватара
-    github_updated_at: Оновлено о
+    github_html_url: URL-адреса запиту на злиття
     github_login: Вхід у GitHub
+    github_updated_at: Оновлено о
     host: Хост
     labels: Мітки
     repository: Репозиторій
-    changed_files_count: Змінені файли
+    review_comments_count: Кількість переглянутих коментарів
   button_add_deploy_target: Додати ціль розгортання
   label_deploy_target: Ціль розгортання
   label_deploy_target_new: Нова ціль розгортання
   label_deploy_target_plural: Цілі розгортання
+  label_github_comment_user: Суб’єкт GitHub
   label_github_integration: Інтеграція GitHub
+  label_github_webhook_secret: Секрет вебхука
   notice_deploy_target_created: Створено ціль розгортання
   notice_deploy_target_destroyed: Ціль розгортання видалено
-  label_github_comment_user: Суб’єкт GitHub
-  label_github_webhook_secret: Секрет вебхука
-  text_github_comment_user_info: 'Це користувач OpenProject, чий API-ключ має використовуватися для автентифікації вхідних запитів вебхука. Якщо налаштовано, запити, автентифіковані за допомогою облікових даних будь-якого іншого користувача, буде відхилено. Цей користувач також автоматично додає коментарі щодо статусу розгортання до пакетів робіт. За замовчуванням це системний користувач, якщо не вказати іншого.
+  permission_introspection: Зчитування даних про запущену версію ядра OpenProject і SHA складання
+  permission_show_github_content: Показати контент GitHub
+  plugin_openproject_github_integration:
+    description: Інтегрує OpenProject і GitHub для покращення робочого процесу
+    name: Інтеграція OpenProject GitHub
+  project_module_github: GitHub
+  text_deploy_target_api_key_info: 'OpenProject [API key](docs_url), що належить користувачу, який має глобальний дозвіл на аналіз об’єктів.
 
     '
-  text_github_webhook_secret_missing_warning: 'Секрет вебхука не налаштовано. Усі запити до кінцевої точки вебхука GitHub прийматимуться без перевірки, через що у неавторизованих суб’єктів може бути змога підробляти події. Наполегливо рекомендуємо налаштувати секрет.
+  text_deploy_target_type_info: 'Зараз ми підтримуємо лише OpenProject.
+
+    '
+  text_github_comment_user_info: 'Це користувач OpenProject, чий API-ключ має використовуватися для автентифікації вхідних запитів вебхука. Якщо налаштовано, запити, автентифіковані за допомогою облікових даних будь-якого іншого користувача, буде відхилено. Цей користувач також автоматично додає коментарі щодо статусу розгортання до пакетів робіт. За замовчуванням це системний користувач, якщо не вказати іншого.
 
     '
   text_github_webhook_secret_info: 'Це секретний маркер, який передається GitHub при налаштуванні вебхука. Якщо налаштовано, OpenProject перевіряє заголовок X-Hub-Signature-256 для кожного вхідного запиту й відхиляє корисне навантаження, яке не відповідає вимогам. Залиште поле порожнім, щоб пропускати перевірку (не рекомендуємо).
 
     '
-  plugin_openproject_github_integration:
-    name: Інтеграція OpenProject GitHub
-    description: Інтегрує OpenProject і GitHub для покращення робочого процесу
-  project_module_github: GitHub
-  permission_show_github_content: Показати контент GitHub
-  permission_introspection: Зчитування даних про запущену версію ядра OpenProject і SHA складання
-  text_deploy_target_type_info: 'Зараз ми підтримуємо лише OpenProject.
-
-    '
-  text_deploy_target_api_key_info: 'OpenProject [API key](docs_url), що належить користувачу, який має глобальний дозвіл на аналіз об’єктів.
+  text_github_webhook_secret_missing_warning: 'Секрет вебхука не налаштовано. Усі запити до кінцевої точки вебхука GitHub прийматимуться без перевірки, через що у неавторизованих суб’єктів може бути змога підробляти події. Наполегливо рекомендуємо налаштувати секрет.
 
     '
   text_pull_request_deployed_to: "%{pr_link} розгорнуто в %{deploy_target_link}"

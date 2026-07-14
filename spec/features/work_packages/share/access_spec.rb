@@ -110,7 +110,7 @@ RSpec.describe "Shared Work Package Access",
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate category version
+         combinedDate category targetVersions
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
@@ -188,7 +188,7 @@ RSpec.describe "Shared Work Package Access",
       %i[type subject description
          assignee responsible
          estimatedTime remainingTime
-         combinedDate category version
+         combinedDate category targetVersions
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end
@@ -274,7 +274,7 @@ RSpec.describe "Shared Work Package Access",
           .to be_editable
       end
       # Except for
-      %i[version
+      %i[targetVersions
          overallCosts laborCosts].each do |field|
         work_package_page.edit_field(field).expect_read_only
       end

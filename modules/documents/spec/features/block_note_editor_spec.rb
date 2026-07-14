@@ -181,6 +181,29 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.wait_for_autosave { document.reload.description&.include?("####{work_package.id}") }
       end
 
+      it "allows deleting text with Backspace after inserting an inline work package link (bugfix STC-806)" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.element.send_keys("#tiger")
+        editor.wait_for_shadow_content("pet a tiger")
+        send_keys(:enter)
+        expect(editor.element).to have_no_text("#tiger")
+        expect(editor.element).to have_no_text("…")
+        expect(editor.element).to have_text(/##{work_package.display_id}/)
+
+        # Type right after the chip and delete it again with Backspace. Do NOT click / move the caret
+        # first — the bug only manifested when typing immediately after insertion (moving the caret
+        # elsewhere "fixed" it). send_keys (session-level) targets the already-focused editor.
+        send_keys("abc")
+        expect(editor.element).to have_text("abc")
+
+        send_keys(:backspace, :backspace, :backspace)
+
+        expect(editor.element).to have_no_text("abc")
+        expect(editor.element).to have_text(/##{work_package.display_id}/)
+      end
+
       describe "CTRL-Z undo behavior" do
         it "undoes typed text with CTRL-Z" do
           visit document_path(document)

@@ -1,27 +1,26 @@
-#English strings go here for Rails i18n
 ---
 ms:
   plugin_openproject_recaptcha:
-    name: ReCaptcha OpenProject
     description: Modul ini menyediakan pemeriksaan recaptcha semasa log masuk.
+    name: ReCaptcha OpenProject
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Sila tunggu sebentar ...
-    verify_account: Sahkan akaun anda
     error_captcha: Akaun anda tidak dapat disahkan. Sila hubungi pentadbir.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Kunci tapak web (Boleh juga dipanggil "Kunci tapak")
+      captcha_description_html: 'reCAPTCHA ialah perkhidmatan percuma oleh Google yang boleh didayakan untuk contoh OpenProject anda. Jika didayakan, borang captcha akan dipaparkan semasa log masuk untuk semua pengguna yang belum mengesahkan captcha lagi. <br/> Sila lihat pautan berikut untuk mendapatkan butiran lanjut tentang reCAPTCHA dan versinya serta cara membuat tapak web dan kunci rahsia: %{recaptcha_link} <br/> HCaptcha ialah alternatif bebas Google yang boleh anda gunakan jika anda melakukannya tidak mahu menggunakan reCAPTCHA. Lihat pautan ini untuk mendapatkan maklumat lanjut: %{hcaptcha_link} <br/> Cloudflare Turnstile™ ialah alternatif lain yang lebih mudah untuk pengguna sambil masih menyediakan tahap keselamatan yang sama. Lihat pautan ini untuk mendapatkan maklumat lanjut: %{turnstile_link}
+
+        '
       response_limit: Had tindak balas untuk HCaptcha
       response_limit_text: Bilangan maksimum aksara bagi menganggap tindak balas HCaptcha sebagai sah.
-      website_key_text: Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.
       secret_key: Kekunci rahsia
       secret_key_text: Masukkan kekunci rahsia yang anda telah ciptakan di konsol pentadbir reCAPTCHA.
       type: Gunakan reCAPTCHA
       type_disabled: Nyahdayakan reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA ialah perkhidmatan percuma oleh Google yang boleh didayakan untuk contoh OpenProject anda. Jika didayakan, borang captcha akan dipaparkan semasa log masuk untuk semua pengguna yang belum mengesahkan captcha lagi. <br/> Sila lihat pautan berikut untuk mendapatkan butiran lanjut tentang reCAPTCHA dan versinya serta cara membuat tapak web dan kunci rahsia: %{recaptcha_link} <br/> HCaptcha ialah alternatif bebas Google yang boleh anda gunakan jika anda melakukannya tidak mahu menggunakan reCAPTCHA. Lihat pautan ini untuk mendapatkan maklumat lanjut: %{hcaptcha_link} <br/> Cloudflare Turnstile™ ialah alternatif lain yang lebih mudah untuk pengguna sambil masih menyediakan tahap keselamatan yang sama. Lihat pautan ini untuk mendapatkan maklumat lanjut: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Kunci tapak web (Boleh juga dipanggil "Kunci tapak")
+      website_key_text: Masukkan kekunci laman web yang anda telah ciptakan di konsol pentadbir bagi domain ini.
+    verify_account: Sahkan akaun anda

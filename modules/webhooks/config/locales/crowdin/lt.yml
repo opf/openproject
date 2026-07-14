@@ -1,58 +1,38 @@
 ---
 lt:
-  plugin_openproject_webhooks:
-    name: OpenProject žiniatinklio sąsajos
-    description: Teikia priedo API palaikymą OpenProject žiniatinklio sąsajoms, geresniai trečių šalių integracijai.
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: "„Krovinio“ URL"
-        secret: Parašo paslaptis
-        events: Įvykiai
-        enabled: Įjungtas
-        projects: Įgalinti projektai
       webhooks/log:
         event_name: Įvykio pavadinimas
-        url: "„Krovinio“ URL"
-        response_code: Atsako kodas
         response_body: Atsakas
+        response_code: Atsako kodas
+        url: "„Krovinio“ URL"
+      webhooks/webhook:
+        enabled: Įjungtas
+        events: Įvykiai
+        projects: Įgalinti projektai
+        secret: Parašo paslaptis
+        url: "„Krovinio“ URL"
     models:
       webhooks/outgoing_webhook: Išeinantis „webhook“
+  plugin_openproject_webhooks:
+    description: Teikia priedo API palaikymą OpenProject žiniatinklio sąsajoms, geresniai trečių šalių integracijai.
+    name: OpenProject žiniatinklio sąsajos
   webhooks:
-    singular: "„Webhook“"
-    plural: "„Webhook“'ai"
-    resources:
-      time_entry:
-        name: Laiko įrašas
     outgoing:
-      no_results_table: Dar nenustatytas joks „webhook“.
-      label_add_new: Pridėti „webhook“
-      label_edit: Keisti „webhook“
-      label_x_events:
-        one: 1 event
-        other: "%{count} events"
-        zero: No events
+      deliveries:
+        no_results_table: Šiam „webhook“ per paskutines dienas niekas nebuvo atsiųsta.
+        time: Pristatymo laikas
+        title: Paskutiniai pranešimai
       events:
-        created: Sukurta
-        updated: Atnaujinta
         comment: Komentaras
+        created: Sukurta
         internal_comment: Internal comment
+        updated: Atnaujinta
       explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
-      status:
-        enabled: "„Webhook“ įgalintas"
-        disabled: "„Webhook“ atjungtas"
-        enabled_text: "„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams"
-        disabled_text: Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.
-      deliveries:
-        no_results_table: Šiam „webhook“ per paskutines dienas niekas nebuvo atsiųsta.
-        title: Paskutiniai pranešimai
-        time: Pristatymo laikas
       form:
-        introduction: 'Pasiųskite POST užklausa į žemiau pateiktą „krovinio“ URL įvykus bet kuriam įvykiui projektuose, kuriuos jūs prenumeruojate. „Krovinys“ atitiks APIv3 formatą to objekto, kuris turi būti keičiamas.
-
-          '
         apiv3_doc_url: Daugiau informacijos API dokumentacijoje
         description:
           placeholder: Nebūtinas „webhook“ aprašymas.
@@ -62,14 +42,34 @@ lt:
             '
         events:
           title: Įjungti įvykiai
+        introduction: 'Pasiųskite POST užklausa į žemiau pateiktą „krovinio“ URL įvykus bet kuriam įvykiui projektuose, kuriuos jūs prenumeruojate. „Krovinys“ atitiks APIv3 formatą to objekto, kuris turi būti keičiamas.
+
+          '
         project_ids:
-          title: Įgalinti projektai
-          description: Pasirinkite projektus, kuriuose šis „webhook“ turi veikti.
           all: Visi projektai
+          description: Pasirinkite projektus, kuriuose šis „webhook“ turi veikti.
           selected: Tik parinkti projektai
-        selected_project_ids:
-          title: Parinkti projektai
+          title: Įgalinti projektai
         secret:
           description: 'Jei nustatyta, OpenProject naudos šią slaptą reikšmę „krovinio“ pasirašymui.
 
             '
+        selected_project_ids:
+          title: Parinkti projektai
+      label_add_new: Pridėti „webhook“
+      label_edit: Keisti „webhook“
+      label_x_events:
+        one: 1 event
+        other: "%{count} events"
+        zero: No events
+      no_results_table: Dar nenustatytas joks „webhook“.
+      status:
+        disabled: "„Webhook“ atjungtas"
+        disabled_text: Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.
+        enabled: "„Webhook“ įgalintas"
+        enabled_text: "„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams"
+    plural: "„Webhook“'ai"
+    resources:
+      time_entry:
+        name: Laiko įrašas
+    singular: "„Webhook“"

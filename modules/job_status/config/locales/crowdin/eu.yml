@@ -1,21 +1,21 @@
 ---
 eu:
-  label_job_status_plural: Job statuses
-  plugin_openproject_job_status:
-    name: OpenProject Job status
-    description: Listing and status of background jobs.
   job_status_dialog:
-    download_starts: Deskargak automatikoki hasi beharko luke.
     click_to_download: Or [click here](download_url) to download.
-    title: Atzeko lanen egoera
-    redirect: Berbideratzen ari da.
-    redirect_link: Jarraitzeko klikatu hemen, mesedez.
-    redirect_errors: 'Akats horien ondorioz, ezingo da zuzenean berbideratu. '
+    download_starts: Deskargak automatikoki hasi beharko luke.
     errors: Something went wrong
     generic_messages:
-      not_found: Ezin izan da lan hori topatu.
-      in_queue: Lana ilaran jarri da eta laster hasiko da prozesatzen.
-      in_process: Lana prozesatzen ari da.
-      error: Ezin izan da lana bete.
       cancelled: Lana bertan behera gelditu da akats baten ondorioz.
+      error: Ezin izan da lana bete.
+      in_process: Lana prozesatzen ari da.
+      in_queue: Lana ilaran jarri da eta laster hasiko da prozesatzen.
+      not_found: Ezin izan da lan hori topatu.
       success: Lana ongi bete da.
+    redirect: Berbideratzen ari da.
+    redirect_errors: 'Akats horien ondorioz, ezingo da zuzenean berbideratu. '
+    redirect_link: Jarraitzeko klikatu hemen, mesedez.
+    title: Atzeko lanen egoera
+  label_job_status_plural: Job statuses
+  plugin_openproject_job_status:
+    description: Listing and status of background jobs.
+    name: OpenProject Job status

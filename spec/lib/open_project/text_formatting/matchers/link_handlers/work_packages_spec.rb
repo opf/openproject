@@ -172,19 +172,23 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       wp = work_package.reload
       # Prepend "see " so Markly doesn't parse `##...` as an H2 ATX heading.
       rendered = format_text("see ###{wp.display_id} here")
+      macro = Nokogiri::HTML.fragment(rendered).at_css("opce-macro-wp-quickinfo")
 
-      expect(rendered).to include(
-        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="false">)
-      )
+      expect(macro["data-id"]).to eq(wp.id.to_s)
+      expect(macro["data-display-id"]).to eq(wp.display_id)
+      expect(macro["data-detailed"]).to eq("false")
+      expect(macro["aria-label"]).to be_nil
     end
 
     it "renders `###PROJ-N` as a detailed quickinfo macro element" do
       wp = work_package.reload
       rendered = format_text("see ####{wp.display_id} here")
+      macro = Nokogiri::HTML.fragment(rendered).at_css("opce-macro-wp-quickinfo")
 
-      expect(rendered).to include(
-        %(<opce-macro-wp-quickinfo data-id="#{wp.id}" data-display-id="#{wp.display_id}" data-detailed="true">)
-      )
+      expect(macro["data-id"]).to eq(wp.id.to_s)
+      expect(macro["data-display-id"]).to eq(wp.display_id)
+      expect(macro["data-detailed"]).to eq("true")
+      expect(macro["aria-label"]).to be_nil
     end
 
     context "when the referenced work package does not exist" do

@@ -23,7 +23,6 @@ Administrators can enable automatic subjects per work package type by defining a
 - Candidate interview: `[Custom Field: Candidate] with [Assignee] on [Start date]`
 - Supplier invoice: `[Author] Invoice [Creation date] - [Custom Field: Invoice ID]`
 
-
 A locked subject indicates that your administrator has enforced an automatic subject pattern for that work package type (e.g. vacation requests or invoices).
 
 > [!IMPORTANT]
@@ -41,8 +40,6 @@ Work packages with automatic subjects function similarly to standard work packag
 > [!TIP]
 > Any changes to work package attributes trigger an automatic update of the subject, even if the changed attribute isn't referenced in the subject pattern.
 
-
-
 ## How attributes appear in subjects
 
 Automatic subjects reflect actual values from attributes as configured by your admin:
@@ -57,7 +54,6 @@ If a referenced attribute isn't available, the subject displays **"N/A"** (see [
 If a referenced attribute currently has no value, the subject displays **[Attribute Name]**.
 
 ![Example of an automatically generated work package subject](openproject_user_guide_work_packages_automatic_subjects_example_generated.png)
-
 
 ## Automatic subject FAQs
 
@@ -80,7 +76,6 @@ If your subject pattern includes attributes from a **parent work package** or th
 - The attribute referenced **isn't activated** in the current project.
 
 Once the attribute becomes available and is populated, updating and saving the work package automatically refreshes the subject.
-
 
 > [!TIP]
 >

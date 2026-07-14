@@ -39,7 +39,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :search_term, filter_class: Queries::Users::Filters::AnyNameAttributeFilter, operator: "~"
+    filter :search_term, filter_class: "Queries::Users::Filters::AnyNameAttributeFilter", operator: "~"
 
     input_schema(
       properties: {

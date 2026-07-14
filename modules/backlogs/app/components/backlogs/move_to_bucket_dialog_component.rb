@@ -47,5 +47,11 @@ module Backlogs
       @buckets = BacklogBucket.where(project:).order_alphabetically
       @buckets = @buckets.where.not(id: work_package.backlog_bucket_id) if work_package.backlog_bucket_id
     end
+
+    private
+
+    def list_type
+      Backlogs::Target::BucketId.new(nil).list_type
+    end
   end
 end

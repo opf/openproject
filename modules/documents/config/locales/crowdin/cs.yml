@@ -21,12 +21,11 @@
 #++
 ---
 cs:
-  plugin_openproject_documents:
-    name: Dokumenty OpenProject
-    description: OpenProject plugin umožňující vytváření dokumentů v projektech.
-  attributes:
-    collaborative_editing_hocuspocus_url: URL serveru Hocuspocus
   activerecord:
+    attributes:
+      document:
+        content_binary: Binární obsah
+        title: Název
     errors:
       models:
         document_type:
@@ -34,129 +33,130 @@ cs:
     models:
       document: Dokument
       documents: Dokumenty
-    attributes:
-      document:
-        content_binary: Binární obsah
-        title: Název
   activity:
     filter:
       document: Dokumenty
+  attributes:
+    collaborative_editing_hocuspocus_url: URL serveru Hocuspocus
   default_doc_category_tech: Technická dokumentace
   default_doc_category_user: Dokumentace uživatele
-  enumeration_doc_categories: Kategorie dokumentů
   documents:
-    button_add_type: Type
-    page_header:
-      heading: Všechny dokumenty
-      action_menu:
-        document_actions: Operace na dokumentu
-        edit_title: Upravit název
-    subheader:
-      filter:
-        label: Filtr názvu dokumentu
-        placeholder: Hledat podle názvu dokumentu
-    documents_list_blank_slate:
-      heading: Zatím nejsou k dispozici žádné dokumenty
-      description: V tomto zobrazení nejsou žádné dokumenty. Kliknutím na tlačítko níže můžete jeden přidat.
-    document_categories_deprecation_notice:
-      heading: Kategorie souborů se nyní nazývají "Typy dokumentů"
-      description: |-
-        Vaše stávající Kategorie souborů byly zavedením nového modulu Dokumenty převedeny na Typy dokumentů.
-        Do těchto nových typů byly převedeny i všechny stávající dokumenty.
-      primary_action: Konfigurace typů dokumentů
-      secondary_action: Další informace o modulu Dokumenty
-    document_type_actions: Operace na typu dokumentu
-    text_collaboration_disabled_notice:
-      description: |-
-        Dokument nelze otevřít, protože textová spolupráce v reálném čase je zakázána.
-        Obraťte se na správce pro povolení spolupráce v reálném čase, pokud chcete získat přístup k tomuto dokumentu.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-        action: Zkusit znovu
-      tabs: Karty dokumentů
-    index_page:
-      name: Název
-      type: Typ
-      updated_at: Naposledy upraveno
-      label_legacy: Legacy
-    menu:
-      all: Všechny dokumenty
-      types: Typy
-      collaboration_settings: Spolupráce v reálném čase
-    last_updated_at: Naposledy uloženo %{time}.
-    info_line:
-      currently_offline: Nyní jste v režimu offline.
-      connection_restored: Nyní jste opět online.
     active_editors: Aktivní editoři
     active_editors_count:
       one: 1 aktivní editor
       few: "%{count} active editors"
       many: "%{count} active editors"
       other: "%{count} aktivních editorů"
-    label_attachment_author: Autor přílohy
-    label_categories: Kategorie
-    new_category: Nová kategorie
-    new_type: Nový typ
+    admin:
+      collaboration_settings:
+        banner:
+          none_writable: Tyto hodnoty jsou nastaveny pomocí proměnných prostředí a nelze je upravovat zde.
+          some_unwritable: Některé hodnoty jsou konfigurovány pomocí proměnných prostředí a nelze je zde upravovat.
+        hocuspocus_server: Server Hocuspocus
+        hocuspocus_server_secret:
+          caption: Vložte klíč poskytnuté serverem Hocuspocus.
+          label: Tajný klíč klienta
+        hocuspocus_server_url:
+          caption: Adresa WebSocket funkčního serveru Hocuspocus.
+          invalid_scheme: Musíte použít protokol WebSocket (ws:// nebo wss://).
+          label: URL serveru Hocuspocus
+        page_header:
+          description: |-
+            Když je Spolupráce v reálném čase povolena, umožňuje vícero uživatelům upravovat dokument současně.
+            Vyžaduje to funkční %{hocuspocus_server_link}.
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Porozuměl jsem, že mohu trvale ztratit data
+        confirmation_message: Všechny existující dokumenty se mohou stát nedostupnými. Tento postup proveďte pouze v případě, že jste si jisti, že chcete na této instanci vypnout spolupráci v reálném čase a editor BlockNote.
+        heading: Zakázat spolupráci v reálném čase?
+        success: Spolupráce v reálném čase není zapnuta.
+        title: Zakázat spolupráci v reálném čase
+      enable_text_collaboration:
+        description: |-
+          Once enabled, multiple users will be able to work together on a document at the same time.
+          All new documents will be based on a new editor (BlockNote) and will require a working connection to a
+          Hocuspocus server.
+        heading: Spolupráce v reálném čase není zapnuta
+        primary_action: Povolit spolupráci v reálném čase
+        success: Spolupráce v reálném čase byla povolena.
+    button_add_type: Type
     delete_dialog:
-      title: Smazat dokument
-      heading: Smazat tento dokument?
       confirmation_message_html: Tímto bude trvale odstraněn tento dokument a všechny přílohy. Opravdu to chcete udělat?
+      heading: Smazat tento dokument?
+      title: Smazat dokument
     delete_document_type_dialog:
-      title: Smazat typ dokumentu
-      heading: Smazat tento typ dokumentu?
+      at_least_one_type_required:
+        heading: Nelze odstranit poslední typ dokumentu
+        message: Vždy musí být nakonfigurován alespoň jeden typ dokumentu. Chcete-li odstranit tento typ dokumentu, nejprve vytvořte jiný.
+        title: Nelze odstranit typ dokumentu
       confirmation_message: Typ "%{type_name}" se v současné době nepoužívá. Odstranění tohoto typu nebude mít žádný vliv na existující dokumenty.
-      select_reassign_to_label: Přeřazení dokumentů do
+      heading: Smazat tento typ dokumentu?
       reassign_message:
         one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
         few: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
         many: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
         other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-      at_least_one_type_required:
-        title: Nelze odstranit typ dokumentu
-        heading: Nelze odstranit poslední typ dokumentu
-        message: Vždy musí být nakonfigurován alespoň jeden typ dokumentu. Chcete-li odstranit tento typ dokumentu, nejprve vytvořte jiný.
-    admin:
-      collaboration_settings:
-        page_header:
-          description: |-
-            Když je Spolupráce v reálném čase povolena, umožňuje vícero uživatelům upravovat dokument současně.
-            Vyžaduje to funkční %{hocuspocus_server_link}.
-        banner:
-          none_writable: Tyto hodnoty jsou nastaveny pomocí proměnných prostředí a nelze je upravovat zde.
-          some_unwritable: Některé hodnoty jsou konfigurovány pomocí proměnných prostředí a nelze je zde upravovat.
-        hocuspocus_server_url:
-          label: URL serveru Hocuspocus
-          caption: Adresa WebSocket funkčního serveru Hocuspocus.
-          invalid_scheme: Musíte použít protokol WebSocket (ws:// nebo wss://).
-        hocuspocus_server_secret:
-          label: Tajný klíč klienta
-          caption: Vložte klíč poskytnuté serverem Hocuspocus.
-        hocuspocus_server: Server Hocuspocus
-      enable_text_collaboration:
-        heading: Spolupráce v reálném čase není zapnuta
-        description: |-
-          Once enabled, multiple users will be able to work together on a document at the same time.
-          All new documents will be based on a new editor (BlockNote) and will require a working connection to a
-          Hocuspocus server.
-        primary_action: Povolit spolupráci v reálném čase
-        success: Spolupráce v reálném čase byla povolena.
-      disable_text_collaboration_dialog:
-        title: Zakázat spolupráci v reálném čase
-        heading: Zakázat spolupráci v reálném čase?
-        confirmation_message: Všechny existující dokumenty se mohou stát nedostupnými. Tento postup proveďte pouze v případě, že jste si jisti, že chcete na této instanci vypnout spolupráci v reálném čase a editor BlockNote.
-        confirmation_checkbox_message: Porozuměl jsem, že mohu trvale ztratit data
-        success: Spolupráce v reálném čase není zapnuta.
+      select_reassign_to_label: Přeřazení dokumentů do
+      title: Smazat typ dokumentu
+    document_categories_deprecation_notice:
+      description: |-
+        Vaše stávající Kategorie souborů byly zavedením nového modulu Dokumenty převedeny na Typy dokumentů.
+        Do těchto nových typů byly převedeny i všechny stávající dokumenty.
+      heading: Kategorie souborů se nyní nazývají "Typy dokumentů"
+      primary_action: Konfigurace typů dokumentů
+      secondary_action: Další informace o modulu Dokumenty
+    document_type_actions: Operace na typu dokumentu
+    documents_list_blank_slate:
+      description: V tomto zobrazení nejsou žádné dokumenty. Kliknutím na tlačítko níže můžete jeden přidat.
+      heading: Zatím nejsou k dispozici žádné dokumenty
+    index_page:
+      label_legacy: Legacy
+      name: Název
+      type: Typ
+      updated_at: Naposledy upraveno
+    info_line:
+      connection_restored: Nyní jste opět online.
+      currently_offline: Nyní jste v režimu offline.
+    label_attachment_author: Autor přílohy
+    label_categories: Kategorie
+    last_updated_at: Naposledy uloženo %{time}.
+    menu:
+      all: Všechny dokumenty
+      collaboration_settings: Spolupráce v reálném čase
+      types: Typy
+    new_category: Nová kategorie
+    new_type: Nový typ
+    page_header:
+      action_menu:
+        document_actions: Operace na dokumentu
+        edit_title: Upravit název
+      heading: Všechny dokumenty
+    show_edit_view:
+      connection_error_notice:
+        action: Zkusit znovu
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Karty dokumentů
+    subheader:
+      filter:
+        label: Filtr názvu dokumentu
+        placeholder: Hledat podle názvu dokumentu
+    text_collaboration_disabled_notice:
+      description: |-
+        Dokument nelze otevřít, protože textová spolupráce v reálném čase je zakázána.
+        Obraťte se na správce pro povolení spolupráce v reálném čase, pokud chcete získat přístup k tomuto dokumentu.
+  enumeration_doc_categories: Kategorie dokumentů
   label_document_added: Dokument byl přidán
+  label_document_category: Kategorie
+  label_document_description: Popis
   label_document_new: Nový dokument
   label_document_plural: Dokumenty
-  label_documents: Dokumenty
   label_document_title: Název
-  label_document_description: Popis
-  label_document_category: Kategorie
   label_document_type: Typ
+  label_documents: Dokumenty
   permission_manage_documents: Spravovat dokumenty
   permission_view_documents: Zobrazit dokumenty
+  plugin_openproject_documents:
+    description: OpenProject plugin umožňující vytváření dokumentů v projektech.
+    name: Dokumenty OpenProject
   project_module_documents: Dokumenty

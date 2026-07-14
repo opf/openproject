@@ -23,18 +23,18 @@ keywords: XWiki, file storage, integration
 
 ### 1. Install the OpenProject plugin in XWiki
 
-Start by opening the XWiki instance as an administrator. Click on the *Drawer* icon in the top right corner and select
-*Administer Wiki*.
+Start by opening the XWiki instance as an administrator. Click on the _Drawer_ icon in the top right corner and select
+_Administer Wiki_.
 
 ![XWiki administration menu with "Administer Wiki" selected](openproject_system_guide_xwiki_administration.png)
 
-Click on *Extensions*, search for **OpenProject Integration (Pro)**, and install the plugin.
+Click on _Extensions_, search for **OpenProject Integration (Pro)**, and install the plugin.
 
 ![XWiki Extensions page showing the OpenProject Integration (Pro) extension](openproject_system_guide_xwiki_administration_extensions.png)
 
 ### 2. Create the XWiki provider in OpenProject
 
-Navigate to the OpenProject administration settings page. In the left hand menu select *Wikis → Wiki providers*.
+Navigate to the OpenProject administration settings page. In the left hand menu select _Wikis → Wiki providers_.
 Click the **+ Wiki provider** button and select **XWiki**.
 
 ![OpenProject Wiki providers page with the "+ Wiki provider" button](openproject_system_guide_xwiki_add_wiki_button.png)
@@ -75,7 +75,7 @@ you can change them. The generated secret fulfills all requirements to be consid
 including the **Redirect URI**, to your clipboard and insert them in the corresponding form at the XWiki instance. A
 link to the correct XWiki form will be displayed again above the form.
 
-![OpenProject administration showing condiguration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
+![OpenProject administration showing configuration for XWiki OAuth client ID, secret and Redirect URI](openproject_system_guide_xwiki_add_wiki_new_form_wiki_oauth_id_secret.png)
 
 Once this is done, click on **Save and continue**. This will conclude the configuration of the XWiki provider and the
 details page will be shown.

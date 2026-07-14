@@ -1,22 +1,21 @@
-#English strings go here
 ---
 vi:
-  plugin_openproject_team_planner:
-    name: Công cụ lập kế hoạch nhóm OpenProject
-    description: Cung cấp chế độ xem người lập kế hoạch nhóm.
-  permission_view_team_planner: Xem kế hoạch nhóm
-  permission_manage_team_planner: Quản lý kế hoạch nhóm
-  project_module_team_planner_view: Người lập kế hoạch nhóm
   ee:
     feature_names:
       team_planner_view: Người lập kế hoạch nhóm
     upsell:
       team_planner_view:
-        title: Người lập kế hoạch nhóm
         description: Có được cái nhìn tổng quan đầy đủ về việc lập kế hoạch của nhóm bạn với Team Planner. Kéo dài, rút ​​ngắn và kéo và thả các gói công việc để sửa đổi ngày tháng, di chuyển chúng hoặc thay đổi người được giao.
+        title: Người lập kế hoạch nhóm
+  permission_manage_team_planner: Quản lý kế hoạch nhóm
+  permission_view_team_planner: Xem kế hoạch nhóm
+  plugin_openproject_team_planner:
+    description: Cung cấp chế độ xem người lập kế hoạch nhóm.
+    name: Công cụ lập kế hoạch nhóm OpenProject
+  project_module_team_planner_view: Người lập kế hoạch nhóm
   team_planner:
-    label_team_planner: Người lập kế hoạch nhóm
-    label_new_team_planner: Người lập kế hoạch nhóm mới
-    label_create_new_team_planner: Tạo người lập kế hoạch nhóm mới
-    label_team_planner_plural: Người lập kế hoạch nhóm
     label_assignees: người được chuyển nhượng
+    label_create_new_team_planner: Tạo người lập kế hoạch nhóm mới
+    label_new_team_planner: Người lập kế hoạch nhóm mới
+    label_team_planner: Người lập kế hoạch nhóm
+    label_team_planner_plural: Người lập kế hoạch nhóm

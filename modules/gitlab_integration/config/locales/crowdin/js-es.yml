@@ -24,31 +24,31 @@
 es:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Tuberías
       tab_header_issue:
         title: Problemas
       tab_header_mr:
-        title: Fusionar solicitudes
-        create_mr:
-          label: Crear MR
-          description: Crear una solicitud de fusión
         copy_menu:
-          label: Fragmentos de código de Git
           description: Copiar fragmentos de código de Git en el portapapeles
+          label: Fragmentos de código de Git
+        create_mr:
+          description: Crear una solicitud de fusión
+          label: Crear MR
         git_actions:
           branch_name: Nombre de la sucursal
-          commit_message: Commit mensaje
           cmd: Crear rama con commit vacío
-          title: Fragmentos de código rápido para Git
-          copy_success: "✅ ¡Copiado!"
+          commit_message: Commit mensaje
           copy_error: "❌ ¡Copia fallida!"
+          copy_success: "✅ ¡Copiado!"
+          title: Fragmentos de código rápido para Git
+        title: Fusionar solicitudes
       tab_issue:
         empty: Aún no hay temas enlazados. Enlace una cuestión existente utilizando el código <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> para enlaces privados) en el título/descripción de la cuestión o cree una nueva cuestión.
       tab_mrs:
         empty: Aún no hay ninguna solicitud de fusión vinculada. Enlace una MR existente utilizando el código <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> para enlaces privados) en el título/descripción de la MR o cree una nueva MR.
-      gitlab_pipelines: Tuberías
       updated_on: Actualizado el
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

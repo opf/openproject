@@ -21,26 +21,42 @@
 #++
 ---
 fi:
-  plugin_costs:
-    name: Työaika ja kustannukset
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Työpaketti
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        logged_by: Logged by
         overridden_costs: Ohitetut kustannukset
         spent: Käytetty
         spent_on: Päivämäärä
-        logged_by: Logged by
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        work_package: Työpaketti
       cost_type:
-        unit: Yksikön nimi
-        unit_plural: Yksikön nimi monikossa
         default: Cost type by default
         for_all_projects: For all projects
         rates: Rates
+        unit: Yksikön nimi
+        unit_plural: Yksikön nimi monikossa
+      rate:
+        rate: Tuntihinta
+      time_entry:
+        activity: Tapahtumat
+        comments: Kommentti
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: Tunnit
+        project: Projekti
+        spent_on: Päivämäärä
+        start_time: Start time
+        subject: Aihe
+        time: Aika
+        user: Käyttäjä
+        work_package: Työpaketti
+      user:
+        default_rates: Yleinen tuntihinta
       work_package:
         costs_by_type: Käytetyt yksiköt
         labor_costs: Työvoimakustannukset
@@ -48,73 +64,59 @@ fi:
         overall_costs: Kokonaiskustannukset
         spent_costs: Käytetyt kustannukset
         spent_units: Käytetyt yksiköt
-      rate:
-        rate: Tuntihinta
-      user:
-        default_rates: Yleinen tuntihinta
-      time_entry:
-        project: Projekti
-        user: Käyttäjä
-        work_package: Työpaketti
-        subject: Aihe
-        hours: Tunnit
-        comments: Kommentti
-        activity: Tapahtumat
-        spent_on: Päivämäärä
-        start_time: Start time
-        end_time: Finish time
-        time: Aika
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Tehtävä #%{id} ei ole kelvollinen kohde kustannuskirjauksille.'
+          nullify_is_not_valid_for_cost_entries: Kustannuksia ei voi kohdistaa projektiin.
     models:
-      time_entry:
-        one: Time entry
-        other: Time entries
       cost_entry:
         one: Kustannuskirjaus
         other: Cost entries
       cost_type:
         one: Kustannustyyppi
         other: Kustannusten tyypit
+      rate: Tuntihinta
+      time_entry:
+        one: Time entry
+        other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Ajanseurannan tapahtumat
-      rate: Tuntihinta
+  api_v3:
     errors:
-      messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Tehtävä #%{id} ei ole kelvollinen kohde kustannuskirjauksille.'
-          nullify_is_not_valid_for_cost_entries: Kustannuksia ei voi kohdistaa projektiin.
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Please select a project.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Kommentti
     cost_type: Kustannustyyppi
     costs: Kustannukset
     current_rate: Nykyinen tuntihinta
+    fixed_date: Kiinteä päivämäärä
     hours: Tunnit
     units: Yksiköt
     valid_from: Voimassa
-    fixed_date: Kiinteä päivämäärä
+  button_add_activity: Tapahtumat
   button_add_rate: Lisää tuntihinta
+  button_add_time_entry: Kirjaa työaika
   button_log_costs: Kirjaa kustannuksia
   button_log_time: Log
-  button_add_activity: Tapahtumat
-  button_add_time_entry: Kirjaa työaika
   button_stop_timer: Stop timer
   caption_booked_on_project: Kirjattu projektille
   caption_default: Oletus
   caption_default_rate_history_for: Oletushinnan historia käyttäjälle %{user}
   caption_locked_on: Lukittu
+  caption_log_time_dialog: Kirjaa työaika
   caption_materials: Yksiköt
   caption_rate_history: Tuntihinnan historia
   caption_rate_history_for: Tuntihinnan historia käyttäjälle %{user}
@@ -122,20 +124,60 @@ fi:
   caption_save_rate: Tallenna tuntihinta
   caption_set_rate: Aseta nykyinen tuntihinta
   caption_show_locked: Näytä lukitut tyypit
-  caption_log_time_dialog: Kirjaa työaika
-  description_date_for_new_rate: Uuden tuntinnan päivämäärä
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
+  description_date_for_new_rate: Uuden tuntinnan päivämäärä
   description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by requiring exact start and finish times when logging time.
   group_by_others: ei missä missään ryhmässä
+  label_available_cost_types_projects: Available cost types projects
   label_between: välillä
+  label_cost: Cost
   label_cost_filter_add: Lisää suodatin kustannuskirjauksille
-  label_costlog: Kirjatut kustannukset
   label_cost_plural: Kustannukset
   label_cost_type_plural: Kustannusten tyypit
   label_cost_type_specific: 'Cost type #%{id}: %{name}'
+  label_costlog: Kirjatut kustannukset
+  label_costs: Kustannukset
   label_costs_per_page: Kustannuksia sivulla
   label_current_default_rate: Nykyinen vakiotuntihinta
   label_date_on: päälle
+  label_day: Päivä
   label_deleted_cost_types: Poistetut kustannuslajit
   label_display_cost_entries: Näytä yksikkökustannukset
   label_display_time_entries: Näytä tuntikirjaukset
@@ -147,58 +189,54 @@ fi:
   label_group_by_add: Lisätä ryhmittelykenttä
   label_hourly_rate: Tuntihinta
   label_include_deleted: Sisällytä poistetut
-  label_work_package_filter_add: Lisää tehtävien suodatin
   label_kind: Tyyppi
   label_less_or_equal: "<="
+  label_list: Lista
   label_log_costs: Kirjaa kustannuksia
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: Ei
-  label_option_plural: Valinnat
-  label_overall_costs: Kokonaiskustannukset
-  label_rate: Tuntihinta
-  label_rate_plural: Tuntihinnat
-  label_status_finished: Valmis
-  label_show: Näytä
-  label_units: Kustannusten yksiköt
-  label_user: Käyttäjä
-  label_until: saakka
-  label_valid_from: Voimassa
-  label_yes: Kyllä
-  label_time: Aika
-  label_cost: Cost
-  label_costs: Kustannukset
   label_mandatory_fields: Mandatory fields
+  label_month: Kuukausi
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: New time entry activity
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: Seuraava viikko
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: Ei
+  label_no_time: No time tracked
+  label_option_plural: Valinnat
+  label_overall_costs: Kokonaiskustannukset
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: Edellinen viikko
   label_previous_month: Previous month
+  label_previous_week: Edellinen viikko
+  label_previous_workweek: Previous work week
+  label_rate: Tuntihinta
+  label_rate_plural: Tuntihinnat
+  label_show: Näytä
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_list: Lista
-  label_month: Kuukausi
-  label_workweek: Work week
-  label_day: Päivä
-  label_today_capitalized: Tänään
-  label_view_mode_switcher: Change view
+  label_status_finished: Valmis
+  label_time: Aika
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Jotain meni pieleen. Yritä uudelleen.
-  notice_successful_restore: Palautus onnistui.
-  notice_successful_lock: Lukittu onnistuneesti.
+  label_today_capitalized: Tänään
+  label_units: Kustannusten yksiköt
+  label_until: saakka
+  label_user: Käyttäjä
+  label_valid_from: Voimassa
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Lisää tehtävien suodatin
+  label_workweek: Work week
+  label_yes: Kyllä
   notice_cost_logged_successfully: Kustannus kirjattu onnistuneesti.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Jotain meni pieleen. Yritä uudelleen.
+  notice_successful_lock: Lukittu onnistuneesti.
+  notice_successful_restore: Palautus onnistui.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Kirjattujen yksikkökustannusten muokkaus
-  permission_edit_own_cost_entries: Omien yksikkökustannuskirjausten muokkaus
   permission_edit_hourly_rates: Tuntihintojen muokkaus
+  permission_edit_own_cost_entries: Omien yksikkökustannuskirjausten muokkaus
   permission_edit_own_hourly_rate: Omien tuntihintojen muokkaus
   permission_edit_rates: Tuntihintojen muokkaus
   permission_log_costs: Kirjaa kustannuksia
@@ -209,68 +247,30 @@ fi:
   permission_view_own_cost_entries: Omien kustannuskirjausten tarkasteleminen
   permission_view_own_hourly_rate: Oman tuntinnan tarkasteleminen
   permission_view_own_time_entries: Oman aikakirjauksen tarkistelu
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Työaika ja kustannukset
   project_module_costs: Työaika ja kustannukset
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Valuutta
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: Raportoitujen tunti- ja kustannuskirjausten liittäminen projektiin
   text_destroy_cost_entries_question: "%{cost_entries} on raportoitu projektille, jota olet poistamassa. Mitä haluat tehdä?"
   text_destroy_time_and_cost_entries: Poista raportoidut tunnit ja kustannukset
   text_destroy_time_and_cost_entries_question: "%{hours} tuntia, %{cost_entries} on raportoitu tehtäville, joita olet poistamassa. Haluatko?"
   text_reassign_time_and_cost_entries: 'Raportoitujen tunti- ja kustannuskirjausten siirto tehtävälle:'
   text_warning_hidden_elements: Joitain merkintöjä on voitu jättää yhdistämisen ulkopuolelle.
-  week: viikko
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Active projects
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        for_all_projects_hint: This cost type is enabled in all projects.
-        heading: Cost types
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
-        none_active: No cost types are currently active in this project.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: viikko

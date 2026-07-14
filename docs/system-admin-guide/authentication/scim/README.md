@@ -14,7 +14,7 @@ OpenProject supports automated user synchronization via SCIM API, enabling  seam
 > [!NOTE]
 > For users deletion to work please make sure the box **User accounts deletable by admins** in **Administration** -> **Users and permissions** -> **User settings** is checked.
 
-To activate and configure SCIM user and group provisioning in OpenProject, navigate to *Administration* -> *Authentication* and select *SCIM clients* from the left-hand menu.
+To activate and configure SCIM user and group provisioning in OpenProject, navigate to _Administration_ -> _Authentication_ and select _SCIM clients_ from the left-hand menu.
 
 ## Configure a new SCIM client
 
@@ -42,9 +42,9 @@ It must have been configured before creating the SCIM client. It can be an [OIDC
 
 ![A SCIM client creation form in OpenProject administration, with the "Authentication provider" field highlighted and filled out](add_scim_3.png)
 
-### Step 3. Choose an Authentication method.
+### Step 3. Choose an Authentication method
 
-There are three *Authentication method* options you can choose from:
+There are three _Authentication method_ options you can choose from:
 
 #### a. Static access token
 
@@ -59,19 +59,17 @@ Once you click the **Create** button, an access token will be generated. The gen
 
 ![Add SCIM client. Creation form. Static access token. Copy token.](add_scim_5.png)
 
-
 Once created, a SCIM client will appear on the SCIM clients index page.
 
 ![Scim clients index page listing all created clients under authentication settings in OpenProject administration](openproject_system_administration_authetication_scim_index_page.png)
 
 Click on the client name to open the detailed view, edit the information, add revoke or add tokens. You will be able to edit the client information and tokens.
 
-SCIM client tokens can be revoked. To revoke a token click the **Revoke** icon at the far right end of the token listing. To add a new token click the **+ Token** button at the bottom of *Tokens* section.
+SCIM client tokens can be revoked. To revoke a token click the **Revoke** icon at the far right end of the token listing. To add a new token click the **+ Token** button at the bottom of _Tokens_ section.
 
 ![Add or revoke static access token on a SCIM client detailed from under administration settings in OpenProject administration](add_scim_6.png)
 
 Here is an example of a configuration form in Keycloak, if you use it with [SCIM plugin](https://github.com/mitodl/keycloak-scim).
-
 
 ![An example of a Keycloak configuration form to add a SCIM client for OpenProject](add_scim_10.png)
 

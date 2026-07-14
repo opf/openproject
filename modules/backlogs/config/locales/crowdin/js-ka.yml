@@ -22,9 +22,9 @@
 ---
 ka:
   js:
-    work_packages:
-      properties:
-        storyPoints: ისტორიული წერტილები
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: ისტორიული წერტილები

@@ -92,6 +92,11 @@ Rails.application.routes.draw do
       end
 
       resources :work_packages, controller: :work_packages, only: [] do
+        collection do
+          get :add_existing_dialog
+          post :add_existing
+        end
+
         member do
           get :menu
           put :move

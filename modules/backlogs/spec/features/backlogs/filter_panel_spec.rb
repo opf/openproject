@@ -207,7 +207,7 @@ RSpec.describe "Backlog filter panel", :js do
         backlogs_page.expect_no_sprint(Sprint.find_by!(project:, name: "Sprint C"))
         expect_selected_filters_preserved
 
-        backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Edit backlog bucket")
+        backlogs_page.click_in_bucket_menu(bucket_a, "Edit backlog bucket")
         within_dialog "Edit backlog bucket" do
           fill_in "Name", with: "Bucket A Renamed"
           click_on "Save"
@@ -225,7 +225,7 @@ RSpec.describe "Backlog filter panel", :js do
         expect_selected_filters_preserved
       end
 
-      it "preserves the filter after drag and drop" do
+      it "preserves the filter after drag and drop", :selenium do
         backlogs_page.drag_work_package_to_backlog_inbox(sprint_a_wp)
         expect_selected_filters_preserved
 
@@ -243,7 +243,7 @@ RSpec.describe "Backlog filter panel", :js do
 
         backlogs_page.click_in_work_package_menu(sprint_a_wp, "Move to backlog bucket")
         within_modal "Move to backlog bucket" do
-          select bucket_a.name, from: "target_id"
+          select bucket_a.name, from: "list_id"
           click_on "Move"
         end
         wait_for_network_idle
@@ -252,7 +252,7 @@ RSpec.describe "Backlog filter panel", :js do
 
         backlogs_page.click_in_work_package_menu(bucket_a_wp, "Move to sprint")
         within_modal "Move to sprint" do
-          select sprint_a.name, from: "target_id"
+          select sprint_a.name, from: "list_id"
           click_on "Move"
         end
         wait_for_network_idle

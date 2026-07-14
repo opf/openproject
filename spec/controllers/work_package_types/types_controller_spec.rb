@@ -365,12 +365,49 @@ RSpec.describe WorkPackageTypes::TypesController do
 
       before { get :index }
 
-      it "lists roots and sub-types together" do
-        expect(assigns(:types)).to include(parent, child, other_root)
+      it "assigns only top-level types to @types" do
+        expect(assigns(:types)).to include(parent, other_root)
+        expect(assigns(:types)).not_to include(child)
       end
 
-      it "places each sub-type directly beneath its parent" do
-        expect(assigns(:types).index(child)).to eq(assigns(:types).index(parent) + 1)
+      it "exposes each root's sub-types through its children" do
+        assigned_parent = assigns(:types).detect { |type| type == parent }
+        expect(assigned_parent.children).to contain_exactly(child)
+      end
+    end
+
+    describe "PUT drop", with_flag: { subtypes: true } do
+      let!(:first_type) { create(:type, name: "First") }
+      let!(:second_type) { create(:type, name: "Second") }
+
+      it "reorders the dropped root type to the given position" do
+        expect(first_type.position).to be < second_type.position
+
+        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(second_type.reload.position).to eq(1)
+        expect(second_type.position).to be < first_type.reload.position
+      end
+
+      context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+        it "is not available" do
+          put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "GET index without the sub-types feature", with_flag: { subtypes: false } do
+      let!(:parent) { create(:type, name: "Parent type") }
+      let!(:child) { create(:type, name: "Sub-type", parent:) }
+      let!(:other_root) { create(:type, name: "Other root") }
+
+      before { get :index }
+
+      it "lists roots and sub-types together" do
+        expect(assigns(:types)).to include(parent, child, other_root)
       end
     end
   end

@@ -60,10 +60,6 @@ uk:
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
-    allocation:
-      hours: "%{value} год"
-      no_work: Немає запланованих робіт для цього пакета робіт
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ uk:
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
+    allocation:
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -186,11 +186,11 @@ uk:
         remove: Вилучити користувача
         remove_confirmation: Вилучити цього користувача з подання?
       fields:
-        working_times: Робочий час
-        input_label: Поля
-        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
-        input_placeholder: Додати поле
         drag_area_label: Відображувані поля
+        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
+        input_label: Поля
+        input_placeholder: Додати поле
+        working_times: Робочий час
       subheader:
         resource: Ресурс
         settings: Налаштувати подання

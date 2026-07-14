@@ -33,6 +33,7 @@ class Type < ApplicationRecord
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::Type::ConfigurationLinkable
 
   include ::Scopes::Scoped
 
@@ -85,6 +86,9 @@ class Type < ApplicationRecord
 
   scope :roots, -> { where(parent_id: nil) }
   scope :subtypes, -> { where.not(parent_id: nil) }
+  # All types are global until project-owned sub-types exist; this is the seam the
+  # configuration source picker and contract scope against (see FND-103 :manage_subtypes).
+  scope :global, -> { all }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -149,16 +153,63 @@ class Type < ApplicationRecord
     parent || self
   end
 
+  def subtype?
+    parent_id.present?
+  end
+
   def family
     [root, *root.children]
   end
+
+  # A sub-type presents its parent's name and color. Its own name is only the
+  # variant label, exposed through +composite_name+.
+  def displayed_name
+    root.name
+  end
+
+  def displayed_color
+    root.color
+  end
+
+  def composite_name
+    subtype? ? "#{parent.name}: #{name}" : name
+  end
+
+  # Core settings are inherited from the parent for sub-types. The sub-type's
+  # own columns are ignored while it has a parent.
+  def color
+    subtype? ? root.color : super
+  end
+
+  def color_id
+    inherited_core_setting(:color_id)
+  end
+
+  # rubocop:disable Naming/PredicatePrefix
+  # These override the ActiveRecord attribute readers of the same name, so they
+  # must keep the is_ prefix the rest of the code relies on.
+  def is_milestone
+    inherited_core_setting(:is_milestone)
+  end
+  alias_method :is_milestone?, :is_milestone
+
+  def is_in_roadmap
+    inherited_core_setting(:is_in_roadmap)
+  end
+  alias_method :is_in_roadmap?, :is_in_roadmap
+
+  def is_default
+    inherited_core_setting(:is_default)
+  end
+  alias_method :is_default?, :is_default
+  # rubocop:enable Naming/PredicatePrefix
 
   def replacement_pattern_defined_for?(attribute)
     enabled_patterns.key?(attribute)
   end
 
   def enabled_patterns
-    patterns.all_enabled
+    effective_patterns.all_enabled
   end
 
   def pdf_export_templates
@@ -166,6 +217,10 @@ class Type < ApplicationRecord
   end
 
   private
+
+  def inherited_core_setting(name)
+    root.read_attribute(name)
+  end
 
   def check_integrity
     throw :abort if is_standard?

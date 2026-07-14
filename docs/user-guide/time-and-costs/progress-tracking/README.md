@@ -61,28 +61,26 @@ In the work-based progress reporting mode %&nbsp;Complete can either be automati
 
 #### Manual values for % Complete
 
-If you prefer to enter the values for % Complete manually, you can. You can do that in the table view and work package details view.  Values for *Work* and *Remaining work* are not required to enter  % Complete.
+If you prefer to enter the values for % Complete manually, you can. You can do that in the table view and work package details view.  Values for _Work_ and _Remaining work_ are not required to enter  % Complete.
 
 > [!IMPORTANT]
 > If you do not enter \*Work\* or \*Remaining work\*, the \*% Complete\* field will remain an independent, manually editable field and behave like it did prior to OpenProject 14.0.
 
 ![Manually entering values for % Complete in OpenProject](openproject_user_guide_percentage_complete_manual.png)
 
-
-
 #### Automatic values for % Complete
 
-If you enter a value for *% Complete* and one other field (*Work* or *Remaining work*), the third one will automatically be derived based on the other two. This means that there can be one value (if % Complete is entered manually) or three values but never just two  values.
+If you enter a value for _% Complete_ and one other field (_Work_ or _Remaining work_), the third one will automatically be derived based on the other two. This means that there can be one value (if % Complete is entered manually) or three values but never just two  values.
 
 >**%&nbsp;Complete** is work done (**Work** - **Remaining work**) divided by **Work**, expressed as a percentage. For example, if Work is set at 50h and Remaining work is 30h, this means that %&nbsp;Complete is _(50h-30h)/50h))_ = **40%**. Please note that these calculations are independent and unrelated to the value of **Spent time** (which is based on actual time logged).
 
-To make this link clear and transparent, clicking on *Work* or *Remaining work* to modify them will display the following pop-over:
+To make this link clear and transparent, clicking on _Work_ or _Remaining work_ to modify them will display the following pop-over:
 
 ![Work estimates and progress pop-over with work-based progress reporting](progress-popover-work-based-days.png)
 
 This allows you to edit Work or Remaining work and get a preview of the updated %&nbsp;Complete value before saving changes. Changing any one field will automatically update the other two.
 
-When you add, edit, or remove a value for *Work*, *Remaining Work*, or *% Complete*, and it affects another field, a helpful message will appear explaining what has changed and why.
+When you add, edit, or remove a value for _Work_, _Remaining Work_, or _% Complete_, and it affects another field, a helpful message will appear explaining what has changed and why.
 
 ![Helpful hint on progress tracking calculation in OpenProject](openproject_user_guide_percentage_complete_calculation_hint.png)
 
@@ -115,8 +113,8 @@ When one field is already set and you enter a value in a second field, the third
 
 - **Increasing Work**: When you increase the value of Work, the same amount is added to Remaining Work (since the total Work has increased). This change also updates the % Complete accordingly.
 - **Decreasing Work**:
-  - If you decrease *Work*, *Remaining work* is lowered by the same amount.
-  - If you decrease *Work* by more than the current value for *Remaining work*, then *Remaining work* will be set to 0h and *% Complete* to 100%
+  - If you decrease _Work_, _Remaining work_ is lowered by the same amount.
+  - If you decrease _Work_ by more than the current value for _Remaining work_, then _Remaining work_ will be set to 0h and _% Complete_ to 100%
 - **Changing Remaining work updates % Complete**
 - **Changing % Complete updates Remaining work**
 
@@ -149,14 +147,14 @@ OpenProject will automatically show totals for Work, Remaining work and % Comple
 
 ![Hierarchy totals for Work, Remaining work and % Complete](hierarchy-totals-days.png)
 
-OpenProject offers two modes for calculating *% Complete* in hierarchy totals:
+OpenProject offers two modes for calculating _% Complete_ in hierarchy totals:
 
 - **Weighted by work**: The total %&nbsp;Complete value of a hierarchy is a weighted average tied to Work. For example, a feature with Work set to 50h that is 30% done will influence the total of %&nbsp;Complete of the parent more than a feature with Work set to 5h that is 70% done. 
 
 > [!TIP]
-> Work packages without *Work* will be ignored.
+> Work packages without _Work_ will be ignored.
 
-- **Simple average**: *Work* is ignored and the *total % Complete* is calculated as a simple average of the *% Complete* values from the direct work packages children in the hierarchy. The value used on each direct child for computing the average is its *total % Complete* value, or its *% Complete* value if it has no children, or 0% if its *% Complete* value is empty.
+- **Simple average**: _Work_ is ignored and the _total % Complete_ is calculated as a simple average of the _% Complete_ values from the direct work packages children in the hierarchy. The value used on each direct child for computing the average is its _total % Complete_ value, or its _% Complete_ value if it has no children, or 0% if its _% Complete_ value is empty.
 
 > [!NOTE]
 > The administrator of your instance will have selected a mode for the entire instance. If you are an administrator, you can modify this by following our [admin guide on work package settings](../../../system-admin-guide/manage-work-packages/work-package-progress-tracking).
@@ -167,7 +165,7 @@ Total sums of **Work**, **Remaining work** and **% Complete** will also be shown
 
 ### Excluding certain work packages from totals
 
-In some cases, you might want to exclude certain work packages (like those with status *rejected*) from total calculations of the parent. Administrators can define these exclusions by going to the [Administration settings for any status](../../../system-admin-guide/manage-work-packages/work-package-settings/) and check a new option called "Exclude from calculation of totals in hierarchy". All work packages with this status will then be excluded when calculating the total value for the parent (for all fields: Work, Remaining work and %&nbsp;Complete).
+In some cases, you might want to exclude certain work packages (like those with status _rejected_) from total calculations of the parent. Administrators can define these exclusions by going to the [Administration settings for any status](../../../system-admin-guide/manage-work-packages/work-package-settings/) and check a new option called "Exclude from calculation of totals in hierarchy". All work packages with this status will then be excluded when calculating the total value for the parent (for all fields: Work, Remaining work and %&nbsp;Complete).
 
 A small info icon will appear next to excluded values to remind you of this fact:
 
@@ -184,12 +182,10 @@ When switching from Work-based to Status-based mode, the previous value for %&nb
 - If Work was previously set, it will be retained and Remaining work will be re-calculated based on the other two values
 - If Work was previously empty, then Work and Remaining work will remain empty
 
-
-
 ## Status- to work-based
 
 In Status-based mode, it is possible for work packages to have a %&nbsp;Complete value (defined by the status) without having values for Work or Remaining work. In other words, the Work and Remaining work can be empty.
 
 When switching to Work-based mode, OpenProject will retain the value for %&nbsp;Complete that was set with status. 
 
-Changing progress calculation mode from status-based to work-based will make the *% Complete* field freely editable. If you optionally enter values for *Work* or *Remaining work*, they will also be linked to *% Complete*. Changing *Remaining work* can then update *% Complete*.
+Changing progress calculation mode from status-based to work-based will make the _% Complete_ field freely editable. If you optionally enter values for _Work_ or _Remaining work_, they will also be linked to _% Complete_. Changing _Remaining work_ can then update _% Complete_.

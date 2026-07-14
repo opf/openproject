@@ -1,12 +1,11 @@
-#English strings go here
 ---
 eo:
   js:
-    label_preview: Antaŭrigardo
-    button_update: Ĝisdatigi
     avatars:
+      empty_file_error: Bonvolu alŝuti validan bildon (jpg, png, gif)
+      error_image_too_large: La bildo estas tro granda.
       label_choose_avatar: Elektu avataron el dosiero
       uploading_avatar: Alŝutas vian avataron.
-      error_image_too_large: La bildo estas tro granda.
       wrong_file_format: Permesitaj formatoj estas jpg, png, gif
-      empty_file_error: Bonvolu alŝuti validan bildon (jpg, png, gif)
+    button_update: Ĝisdatigi
+    label_preview: Antaŭrigardo

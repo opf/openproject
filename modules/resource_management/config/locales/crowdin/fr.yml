@@ -60,10 +60,6 @@ fr:
       make_private: Rendre privé
       make_public: Rendre public
       unfavorite: Supprimer des favoris
-    allocation:
-      hours: "%{value} h"
-      no_work: Aucun travail n'est prévu pour ce lot de travaux
-      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -89,6 +85,10 @@ fr:
       submit: Attribuer
       success_message: Ressource attribuée.
       title: Attribuer une ressource
+    allocation:
+      hours: "%{value} h"
+      no_work: Aucun travail n'est prévu pour ce lot de travaux
+      summary: "%{allocated}/%{scheduled}"
     assignment_dialog:
       available: "%{hours} disponible"
       confirm_overtime: Attribuer quand même
@@ -186,11 +186,11 @@ fr:
         remove: Supprimer l'utilisateur
         remove_confirmation: Supprimer cet utilisateur de la vue ?
       fields:
-        working_times: Heures de travail
-        input_label: Champs
-        input_caption: Sélectionnez les champs qui s'afficheront dans la fiche utilisateur pour cette vue
-        input_placeholder: Ajouter un champ
         drag_area_label: Champs affichés
+        input_caption: Sélectionnez les champs qui s'afficheront dans la fiche utilisateur pour cette vue
+        input_label: Champs
+        input_placeholder: Ajouter un champ
+        working_times: Heures de travail
       subheader:
         resource: Ressource
         settings: Configurer la vue

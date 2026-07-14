@@ -13,19 +13,19 @@ Perhaps it would be too much trouble or more recent data lost to restore a compl
 For these kinds of cases we describe here how to restore a single project from a backup.
 The following files will be used in the examples.
 
-* [dump.sql](./dump.sql)
-* [restore.sql](./restore.sql)
+- [dump.sql](./dump.sql)
+- [restore.sql](./restore.sql)
 
 There is also a script ([restore.sh](./restore.sh)) that shows how to use everything together.
 
 ## 0. Prerequisites
 
-* you have a Backup of your OpenProject installation with the missing data still present
-* you have restored the database dump of this backup into a new, separate database called `openproject_backup`
-  * Created, for instance, via
-    * `psql -c 'create database openproject_backup'`
-    * `pg_restore -d openproject_backup openproject.pgdump`
-* your present OpenProject database is called `openproject`
+- you have a Backup of your OpenProject installation with the missing data still present
+- you have restored the database dump of this backup into a new, separate database called `openproject_backup`
+  - Created, for instance, via
+    - `psql -c 'create database openproject_backup'`
+    - `pg_restore -d openproject_backup openproject.pgdump`
+- your present OpenProject database is called `openproject`
 
 It does not matter where the actual Postgres server is running.
 In all the following examples we simply use `psql -d openproject_backup` and `psql -d openproject` respectively. Where `openproject_backup` and `openproject` are the names of the databases within Postgres.

@@ -21,87 +21,87 @@
 #++
 ---
 de:
-  plugin_openproject_reporting:
-    name: OpenProject Berichterstattung
-    description: Dieses Plugin ermöglicht die Erstellung benutzerdefinierter Kostenberichte mit Filtern und Gruppierungen
   button_save_report_as: Speichern unter ...
   comments: Kommentar
   cost_reports_title: Zeit und Kosten
-  label_cost_report: Report
-  label_cost_report_plural: Kostenauswertungen
   description_drill_down: Details anzeigen
   description_filter_selection: Auswahl
   description_multi_select: Mehrfachauswahl anzeigen
   description_remove_filter: Filter entfernen
+  export:
+    cost_reports:
+      end_time: Endzeit
+      start_time: Startzeit
+      title: Kostenbericht als XLS-Export
+    timesheet:
+      button: Stundenzettel als PDF exportieren
+      overview_per_user_day: 'Übersicht: Stunden pro Benutzer pro Tag'
+      overview_per_user_total: 'Übersicht: Gesamte Stunden pro Benutzer'
+      sums_hours: Summen
+      time: Zeit
+      timesheet: Stundenzettel
+      title: Ihr PDF-Export des Stundenzettels
   information_restricted_depending_on_permission: Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein.
   label_click_to_edit: Zum Bearbeiten hier klicken.
   label_closed: Geschlossen
   label_columns: Spalten
   label_cost_entry_attributes: Attribute am Kosteneintrag
+  label_cost_report: Report
+  label_cost_report_plural: Kostenauswertungen
+  label_count: Anzahl
   label_days_ago: in den letzten Tagen
   label_entry: Kosteneintrag
+  label_filter: Filter
+  label_filter_add: Filter hinzufügen
+  label_filter_plural: Filter
   label_filter_text: Filtertext
   label_filter_value: Wert
   label_filters: Filter
   label_greater: ">"
+  label_group_by: Gruppieren nach
+  label_group_by_add: Gruppierung hinzufügen
+  label_inactive: "«nicht aktiviert»"
   label_is_not_project_with_subprojects: ist nicht (mit Unterprojekten)
+  label_is_not_work_package_with_descendants: ist nicht (einschließlich Unterelemente)
   label_is_project_with_subprojects: ist (mit Unterprojekten)
   label_is_work_package_with_descendants: ist (einschließlich Unterelemente)
-  label_is_not_work_package_with_descendants: ist nicht (einschließlich Unterelemente)
-  label_work_package_attributes: Attribute am Ticket
   label_less: "<"
   label_logged_by_reporting: Gebucht von
   label_money: Geldwert
   label_month_reporting: Monat der Buchung
   label_new_report: Neue Kostenauswertung
+  label_no: Nein
+  label_no_reports: Es gibt noch keine Kostenauswertungen.
+  label_none: "(Keine Angabe)"
   label_open: Offen
   label_operator: Operator
   label_private_report_plural: Persönliche Kostenauswertungen
   label_progress_bar_explanation: Report wird erstellt ...
   label_public_report_plural: Gemeinsame Kostenauswertungen
   label_really_delete_question: Diesen Report wirklich löschen?
+  label_report: Report
   label_rows: Zeilen
   label_saving: Speichern ...
   label_spent_on_reporting: Datum der Buchung
   label_sum: Summe
   label_units: Einheiten
   label_week_reporting: Woche der Buchung
+  label_work_package_attributes: Attribute am Ticket
   label_year_reporting: Jahr der Buchung
-  label_count: Anzahl
-  label_filter: Filter
-  label_filter_add: Filter hinzufügen
-  label_filter_plural: Filter
-  label_group_by: Gruppieren nach
-  label_group_by_add: Gruppierung hinzufügen
-  label_inactive: "«nicht aktiviert»"
-  label_no: Nein
-  label_none: "(Keine Angabe)"
-  label_no_reports: Es gibt noch keine Kostenauswertungen.
-  label_report: Report
   label_yes: Ja
   load_query_question: Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?
   permission_save_cost_reports: Speichern gemeinsamer Kostenauswertungen
   permission_save_private_cost_reports: Speichern persönlicher Kostenauswertungen
+  plugin_openproject_reporting:
+    description: Dieses Plugin ermöglicht die Erstellung benutzerdefinierter Kostenberichte mit Filtern und Gruppierungen
+    name: OpenProject Berichterstattung
   project_module_reporting_module: Kostenauswertungen
+  reporting:
+    group_by:
+      selected_columns: Ausgewählte Spalten
+      selected_rows: Ausgewählte Zeilen
   text_costs_are_rounded_note: Die angezeigten Werte sind gerundet. Alle Berechnungen basieren auf ungerundeten Werten.
   toggle_multiselect: Mehrfachauswahl aktivieren/deaktivieren
   units: Einheiten
   validation_failure_date: ist kein gültiges Datum
   validation_failure_integer: ist keine ganze Zahl
-  export:
-    timesheet:
-      title: Ihr PDF-Export des Stundenzettels
-      button: Stundenzettel als PDF exportieren
-      timesheet: Stundenzettel
-      time: Zeit
-      sums_hours: Summen
-      overview_per_user_total: 'Übersicht: Gesamte Stunden pro Benutzer'
-      overview_per_user_day: 'Übersicht: Stunden pro Benutzer pro Tag'
-    cost_reports:
-      title: Kostenbericht als XLS-Export
-      start_time: Startzeit
-      end_time: Endzeit
-  reporting:
-    group_by:
-      selected_columns: Ausgewählte Spalten
-      selected_rows: Ausgewählte Zeilen

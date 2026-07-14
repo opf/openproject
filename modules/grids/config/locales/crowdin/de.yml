@@ -1,36 +1,36 @@
 ---
 de:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Anzahl der Spalten
+        page: Seite
+        row_count: Anzahl der Zeilen
+        scope: Gültigkeitsbereich
+        widgets: Widgets
+    errors:
+      models:
+        grids/grid:
+          end_before_start: der Endwert muss größer sein als der Startwert.
+          outside: ist außerhalb des Rasters.
+          overlaps: überlappen.
   grids:
     label_widget_in_grid: Widget im Gitter %{grid_name} enthalten
     widgets:
       empty: Dieses Widget ist derzeit ohne Inhalt.
-      not_available: Dieses Widget ist nicht verfügbar.
-      subitems:
-        title: Unterelemente
-        no_results: Es gibt keine sichtbaren Kinder.
-        view_all_subitems: Alle Unterelemente anzeigen
-        button_text: Unterelement
       members:
-        title: Mitglieder
         no_results: Keine sichtbaren Mitglieder.
-        view_all_members: Alle Mitglieder anzeigen
         show_members_count: Alle %{count} Mitglieder anzeigen
+        title: Mitglieder
+        view_all_members: Alle Mitglieder anzeigen
         x_more:
           one: und ein weiteres Mitglied.
           other: und %{count} weitere Mitglieder.
       news:
         no_results: Nichts Neues zu berichten.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Seite
-        row_count: Anzahl der Zeilen
-        column_count: Anzahl der Spalten
-        widgets: Widgets
-        scope: Gültigkeitsbereich
-    errors:
-      models:
-        grids/grid:
-          overlaps: überlappen.
-          outside: ist außerhalb des Rasters.
-          end_before_start: der Endwert muss größer sein als der Startwert.
+      not_available: Dieses Widget ist nicht verfügbar.
+      subitems:
+        button_text: Unterelement
+        no_results: Es gibt keine sichtbaren Kinder.
+        title: Unterelemente
+        view_all_subitems: Alle Unterelemente anzeigen

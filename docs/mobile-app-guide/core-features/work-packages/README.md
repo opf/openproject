@@ -13,13 +13,14 @@ The **Work Packages** module is one of the central components of the OpenProject
 ## Purpose
 
 The Work Packages module enables you to:
-*   Access and manage tasks across all your projects
-*   Create new work packages quickly or with full detail
-*   Update existing work packages
-*   Collaborate through comments and mentions
-*   Attach files, images, and photos directly from your device
-*   Manage relations, watchers, and attributes
-*   Track time and set reminders for upcoming work
+
+- Access and manage tasks across all your projects
+- Create new work packages quickly or with full detail
+- Update existing work packages
+- Collaborate through comments and mentions
+- Attach files, images, and photos directly from your device
+- Manage relations, watchers, and attributes
+- Track time and set reminders for upcoming work
 
 ## Work Packages Index
 

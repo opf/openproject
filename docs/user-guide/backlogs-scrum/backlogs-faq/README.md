@@ -46,7 +46,6 @@ The backlog can be sorted manually:
 - The work packages are sorted by creation date.
 - When you add a new work package to the project, it is automatically placed at the bottom of the backlog. 
 
-
 ## How are sprint buckets sorted?
 
 - Sprint buckets with start/completion dates are sorted by date showing the latest one on the top. 

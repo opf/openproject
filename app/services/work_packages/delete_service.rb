@@ -37,6 +37,9 @@ class WorkPackages::DeleteService < BaseServices::Delete
     # `to_a` is used to avoid lazy loading. If the relation is laded after the
     # work package is deleted, it would return an empty array.
     descendants = model.descendants.to_a
+    descendants_check = validate_descendant_deletions(descendants)
+    return descendants_check if descendants_check.failure?
+
     successors = find_successors_of_self_and_descendants(model).to_a
 
     result = super
@@ -48,6 +51,17 @@ class WorkPackages::DeleteService < BaseServices::Delete
     end
 
     result
+  end
+
+  def validate_descendant_deletions(descendants)
+    descendants.each do |descendant|
+      success, errors = validate(descendant, user, options: contract_options)
+      next if success
+
+      return ServiceResult.failure(result: model, errors:)
+    end
+
+    ServiceResult.success(result: model)
   end
 
   def destroy_descendants(descendants, result)

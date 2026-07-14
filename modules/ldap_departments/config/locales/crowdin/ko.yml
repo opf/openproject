@@ -27,8 +27,8 @@ ko:
   ee:
     upsell:
       ldap_departments:
-        title: LDAP 부서 동기화
         description: LDAP 조직 단위 구조를 OpenProject 부서 계층에 미러링하고, 부서 멤버를 자동으로 동기화합니다.
+        title: LDAP 부서 동기화
   ldap_departments:
     label_menu_item: LDAP 부서 동기화
     label_synchronize: 조직 단위 동기화
@@ -47,12 +47,12 @@ ko:
       singular: 동기화된 부서
     synchronized_trees:
       add_new: LDAP 부서 동기화 추가
-      synchronization_started: 백그라운드에서 동기화가 시작되었습니다. 동기화가 완료되면 부서가 표시됩니다.
       blankslate:
         description: LDAP 조직 단위 구조를 OpenProject 부서 계층에 미러링하도록 동기화를 설정합니다.
         heading: LDAP 부서 동기화 없음
       destroy:
-        confirmation: 계속하면 동기화 %{name}이(가) 제거되며, 해당 %{departments_count}개 부서는 더 이상 LDAP에 의해 관리되지 않습니다.
+        confirmation_message:
+          other: If you continue, the synchronization %{name} is removed and its %{count} departments are no longer managed by LDAP.
         heading: 동기화 %{name}을(를) 제거하시겠습니까?
         info: 해당 부서와 멤버들은 그대로 유지되며 일반 부서가 됩니다. 관리 → 사용자 및 권한 → 조직에서 나중에 수동으로 편집하거나 삭제할 수 있습니다.
         title: 동기화 %{name} 제거
@@ -82,6 +82,7 @@ ko:
       no_results: 아직 LDAP 부서 동기화가 구성되지 않았습니다.
       plural: LDAP 부서 동기화
       singular: LDAP 부서 동기화
+      synchronization_started: 백그라운드에서 동기화가 시작되었습니다. 동기화가 완료되면 부서가 표시됩니다.
   plugin_openproject_ldap_departments:
     description: LDAP 조직 단위를 OpenProject 부서에 동기화합니다.
     name: OpenProject LDAP 부서
