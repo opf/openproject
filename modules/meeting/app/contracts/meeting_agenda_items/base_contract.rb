@@ -51,13 +51,13 @@ module MeetingAgendaItems
 
     private
 
-    def presenter_can_participate
+    def presenter_can_participate # rubocop:disable Metrics/AbcSize
       return unless model.new_record? || model.presenter_id_changed?
       return if model.meeting.nil?
       return if model.presenter.nil?
       return if model.presenter.allowed_in_project?(:view_meetings, model.meeting.project)
 
-      errors.add(:presenter, :user_invalid)
+      errors.add(:presenter_id, :user_invalid)
     end
 
     def validate_work_package_visible
