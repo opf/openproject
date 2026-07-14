@@ -46,7 +46,7 @@ FactoryBot.define do
     # the same inversion as the functional code. An explicit sequence_number
     # override still wins.
     identifier { nil }
-    sequence_number { WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier) }
+    sequence_number { identifier && WorkPackage::SemanticIdentifier.sequence_number_from_identifier(identifier) }
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }
     author factory: :user

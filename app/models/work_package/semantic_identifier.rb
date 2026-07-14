@@ -177,9 +177,16 @@ module WorkPackage::SemanticIdentifier
 
   # Extracts the sequence number from a semantic identifier ("PROJ-42" → 42).
   # The inverse of the "<project identifier>-<sequence number>" composition used
-  # when allocating identifiers. Returns nil for a blank identifier.
+  # when allocating identifiers.
+  #
+  # Raises ArgumentError unless the identifier is of the expected
+  # "<prefix>-<digits>" shape, rather than silently coercing garbage or a blank
+  # value to 0 ("PROJ-abc".split("-").last.to_i would return 0). Callers that may
+  # legitimately hold a blank identifier must guard before calling.
   def self.sequence_number_from_identifier(identifier)
-    return if identifier.blank?
+    unless /\A#{SEMANTIC_ID_PATTERN.source}\z/.match?(identifier)
+      raise ArgumentError, "#{identifier.inspect} is not a valid semantic identifier"
+    end
 
     identifier.split("-").last.to_i
   end
