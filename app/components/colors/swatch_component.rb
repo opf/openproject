@@ -36,18 +36,24 @@ module Colors
       @hexcode = hexcode
       @show_value = show_value
       @system_arguments = system_arguments
+      @system_arguments[:align_items] ||= :center
+
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "op-color-swatch"
+      )
     end
 
     def call
-      return render(Primer::Box.new(**swatch_arguments)) unless show_value?
-
-      render(Primer::OpenProject::FlexLayout.new(classes: "op-color-swatch--with-value", align_items: :center)) do |flex|
+      render(Primer::OpenProject::FlexLayout.new(**@system_arguments)) do |flex|
         flex.with_column do
           render(Primer::Box.new(**swatch_arguments))
         end
 
-        flex.with_column do
-          render(Primer::Beta::Text.new(tag: :span)) { hexcode }
+        if show_value?
+          flex.with_column do
+            render(Primer::Beta::Text.new(tag: :span, ml: 2)) { hexcode }
+          end
         end
       end
     end
@@ -61,12 +67,12 @@ module Colors
     end
 
     def swatch_arguments
-      @system_arguments.merge(
+      {
         tag: :span,
-        classes: helpers.class_names("op-color-swatch", @system_arguments[:classes]),
-        aria: @system_arguments.fetch(:aria, {}).merge(hidden: true),
-        style: [@system_arguments[:style], "background-color: #{hexcode}"].compact.join("; ")
-      )
+        classes: "op-color-swatch--indicator",
+        aria: { hidden: true },
+        style: "background-color: #{hexcode}"
+      }
     end
   end
 end
