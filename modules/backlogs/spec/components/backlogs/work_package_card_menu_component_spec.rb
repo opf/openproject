@@ -45,12 +45,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   let!(:second_story) { create_story(position: 2) }
   let!(:third_story) { create_story(position: 3) }
   let!(:fourth_story) { create_story(position: 4) }
-  let(:displayed_work_packages) { WorkPackage.where(sprint:).order_by_position }
-  let(:work_package) { enrich_with_neighbours(second_story) }
-
-  def enrich_with_neighbours(work_package, scope: displayed_work_packages)
-    scope.with_backlogs_neighbours.find(work_package.id)
-  end
+  let(:work_package) { second_story }
 
   def create_story(position:, subject: "Test Story", story_points: 5)
     create(:work_package,
@@ -220,7 +215,16 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
     end
 
     context "when the work package is the only item in its list" do
-      let(:displayed_work_packages) { WorkPackage.where(id: second_story.id).order_by_position }
+      let(:work_package) do
+        solo_sprint = create(:sprint, project:, name: "Solo Sprint")
+        create(:work_package,
+               subject: "Solo Story",
+               project:,
+               type: type_feature,
+               status: default_status,
+               priority: default_priority,
+               sprint: solo_sprint)
+      end
 
       it "still shows all four move items; the client disables what does not apply" do
         render_component
@@ -232,7 +236,14 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       end
 
       context "when the work package is already in the inbox" do
-        let(:sprint) { nil }
+        let(:work_package) do
+          create(:work_package,
+                 subject: "Inbox Story",
+                 project:,
+                 type: type_feature,
+                 status: default_status,
+                 priority: default_priority)
+        end
 
         it "still shows the Move to position submenu (permission-gated only)" do
           render_component(open_sprints_exist: false, other_buckets_exist: false)
