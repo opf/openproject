@@ -1307,6 +1307,11 @@ module Settings
       users_deletable_by_admins: {
         default: false
       },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
+      },
       user_default_theme: {
         default: "light",
         format: :string,
