@@ -414,10 +414,23 @@ class WorkPackage < ApplicationRecord
                        joins: ::Type.table_name
   end
 
+  # Grouped via the work_package_versions join rows instead of the deprecated
+  # version_id column; the result keeps the count_and_group_by shape.
   def self.by_version(project)
-    count_and_group_by project:,
-                       field: "version_id",
-                       joins: Version.table_name
+    ActiveRecord::Base.connection.select_all(
+      "select    s.id as status_id,
+        s.is_closed as closed,
+        v.id as version_id,
+        count(i.id) as total
+      from
+          #{WorkPackage.table_name} i
+          join #{Status.table_name} s on i.status_id = s.id
+          join work_package_versions wpv on wpv.work_package_id = i.id and wpv.kind = 'target'
+          join #{Version.table_name} v on v.id = wpv.version_id
+      where
+        i.project_id=#{project.id}
+      group by s.id, s.is_closed, v.id"
+    ).to_a
   end
 
   def self.by_priority(project)
