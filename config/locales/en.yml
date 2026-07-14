@@ -3029,6 +3029,8 @@ en:
   label_blog: "Blog"
   label_board_plural: "Boards"
   label_boolean: "Boolean"
+  label_boolean_false: "is no"
+  label_boolean_true: "is yes"
   label_branch: "Branch"
   label_browse: "Browse"
   label_builtin: "Built-in"

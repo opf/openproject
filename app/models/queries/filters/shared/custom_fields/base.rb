@@ -73,12 +73,17 @@ module Queries::Filters::Shared
       end
 
       def strategies
-        strategies = Queries::Filters::STRATEGIES.dup
-        # Override the integer and float strategies
-        strategies[:integer] = Queries::Filters::Strategies::CfInteger
-        strategies[:float] = Queries::Filters::Strategies::CfFloat
-
-        strategies
+        # Override the integer and float strategies, for simplicity
+        # calculated_value hijacks float instead of adding separate strategy.
+        {
+          **Queries::Filters::STRATEGIES,
+          integer: Queries::Filters::Strategies::CfInteger,
+          float: if custom_field.field_format == "calculated_value"
+                   Queries::Filters::Strategies::CfCalculatedValue
+                 else
+                   Queries::Filters::Strategies::CfFloat
+                 end
+        }
       end
 
       def type
