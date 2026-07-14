@@ -28,42 +28,72 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
+  <% transition_tabs = helpers.workflow_tabs(@type) %>
+  <% current_transition_tab = helpers.selected_tab(transition_tabs) %>
   <%=
     render Primer::OpenProject::SubHeader.new do |subheader|
-      if @type && @available_roles.any?
-        subheader.with_filter_component do
-          render(
-            Primer::Alpha::SelectPanel.new(
-              select_variant: :multiple,
-              fetch_strategy: :local,
-              title: t("admin.workflows.role_selector.title"),
-              data: data_attributes
-            )
-          ) do |panel|
-            panel.with_show_button(scheme: :secondary) do |button|
-              button.with_trailing_visual_icon(icon: :"triangle-down")
-              if @roles.many?
-                t("admin.workflows.role_selector.roles", count: @roles.size)
-              elsif @roles.one?
-                t("admin.workflows.role_selector.label", role: @roles.first.name)
-              else
-                t("admin.workflows.role_selector.no_role")
+      subheader.with_filter_component do
+        render(Primer::OpenProject::FlexLayout.new(align_items: :center)) do |flex|
+          flex.with_column do
+            render(Primer::Alpha::ActionMenu.new) do |menu|
+              menu.with_show_button(
+                test_selector: "workflow-transitions-menu",
+                aria: { label: t("admin.workflows.tabs.aria_label") }
+              ) do |button|
+                button.with_trailing_action_icon(icon: :"triangle-down")
+                helpers.tab_label(current_transition_tab)
+              end
+
+              transition_tabs.each do |tab|
+                menu.with_item(
+                  label: helpers.tab_label(tab),
+                  tag: :a,
+                  href: tab[:path],
+                  active: current_transition_tab == tab,
+                  content_arguments: { data: tab[:data] }
+                ) do |item|
+                  item.with_description { tab[:description] }
+                end
               end
             end
-            @available_roles.each do |available_role|
-              panel.with_item(
-                label: available_role.name,
-                active: @roles.include?(available_role),
-                item_id: available_role.id
-              )
-            end
-            panel.with_footer(show_divider: true) do
+          end
+
+          if @type && @available_roles.any?
+            flex.with_column(ml: 2) do
               render(
-                Primer::Beta::Button.new(
-                  scheme: :primary,
-                  data: { action: "click->admin--workflow-role-select#apply" }
+                Primer::Alpha::SelectPanel.new(
+                  select_variant: :multiple,
+                  fetch_strategy: :local,
+                  title: t("admin.workflows.role_selector.title"),
+                  data: data_attributes
                 )
-              ) { t(:button_apply) }
+              ) do |panel|
+                panel.with_show_button(scheme: :secondary) do |button|
+                  button.with_trailing_visual_icon(icon: :"triangle-down")
+                  if @roles.many?
+                    t("admin.workflows.role_selector.roles", count: @roles.size)
+                  elsif @roles.one?
+                    t("admin.workflows.role_selector.label", role: @roles.first.name)
+                  else
+                    t("admin.workflows.role_selector.no_role")
+                  end
+                end
+                @available_roles.each do |available_role|
+                  panel.with_item(
+                    label: available_role.name,
+                    active: @roles.include?(available_role),
+                    item_id: available_role.id
+                  )
+                end
+                panel.with_footer(show_divider: true) do
+                  render(
+                    Primer::Beta::Button.new(
+                      scheme: :primary,
+                      data: { action: "click->admin--workflow-role-select#apply" }
+                    )
+                  ) { t(:button_apply) }
+                end
+              end
             end
           end
         end
@@ -94,19 +124,6 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
   %>
-
-  <% transition_tabs = helpers.workflow_tabs(@type) %>
-  <%= render(Primer::Alpha::SegmentedControl.new("aria-label": t("admin.workflows.tabs.aria_label"), mb: 3)) do |control| %>
-    <% transition_tabs.each do |tab| %>
-      <% control.with_item(
-           tag: :a,
-           href: tab[:path],
-           label: helpers.tab_label(tab),
-           selected: helpers.selected_tab(transition_tabs) == tab,
-           data: tab[:data]
-         ) %>
-    <% end %>
-  <% end %>
 
   <% if @statuses.any? %>
     <%= form_tag(

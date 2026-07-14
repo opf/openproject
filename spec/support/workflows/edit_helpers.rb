@@ -41,6 +41,11 @@ module Workflows
       visit edit_type_workflow_path(type, **params)
     end
 
+    def switch_transition_tab(label)
+      page.find_test_selector("workflow-transitions-menu").click
+      click_link label
+    end
+
     def switch_role_via_panel(from_role, to_role)
       click_button from_role.name
       find("[data-item-id='#{to_role.id}']").click

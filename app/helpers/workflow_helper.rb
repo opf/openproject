@@ -31,9 +31,15 @@
 module WorkflowHelper
   def workflow_tabs(type)
     [
-      { name: "always", label: I18n.t(:"admin.workflows.tabs.default_transitions") },
-      { name: "author", label: I18n.t(:"admin.workflows.tabs.user_author") },
-      { name: "assignee", label: I18n.t(:"admin.workflows.tabs.user_assignee") }
+      { name: "always",
+        label: I18n.t(:"admin.workflows.tabs.default_transitions"),
+        description: I18n.t(:"admin.workflows.tabs.descriptions.default_transitions") },
+      { name: "author",
+        label: I18n.t(:"admin.workflows.tabs.user_author"),
+        description: I18n.t(:"admin.workflows.tabs.descriptions.user_author") },
+      { name: "assignee",
+        label: I18n.t(:"admin.workflows.tabs.user_assignee"),
+        description: I18n.t(:"admin.workflows.tabs.descriptions.user_assignee") }
     ].map do |tab|
       tab.merge(
         partial: "workflows/form",

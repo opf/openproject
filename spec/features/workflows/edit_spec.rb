@@ -173,7 +173,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     it "shows the author matrix when switching to the author tab" do
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within "#workflow_form_author" do
         expect(page).to have_field workflow_checkbox(1, 2), checked: true
@@ -182,7 +182,7 @@ RSpec.describe "Workflow edit", :js do
     end
 
     it "shows the assignee matrix when switching to the assignee tab" do
-      click_link "User is assignee"
+      switch_transition_tab "User is assignee"
 
       within "#workflow_form_assignee" do
         expect(page).to have_field workflow_checkbox(0, 2), checked: true
@@ -195,13 +195,13 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
         click_button "Ignore changes"
       end
 
-      click_link "Default transitions"
+      switch_transition_tab "Default transitions"
 
       within "#workflow_form_always" do
         expect(page).to have_field workflow_checkbox(1, 0), checked: false
@@ -213,7 +213,7 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
         click_button "Save changes and continue"
@@ -231,7 +231,7 @@ RSpec.describe "Workflow edit", :js do
         check workflow_checkbox(1, 0)
       end
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       within_dialog "Save changes before continuing?" do
         find(".close-button").click
@@ -249,7 +249,7 @@ RSpec.describe "Workflow edit", :js do
       add_status_via_dialog(statuses[2])
       expect(page).to have_field workflow_checkbox(0, 2)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
@@ -263,7 +263,7 @@ RSpec.describe "Workflow edit", :js do
 
       expect(page).to have_no_field workflow_checkbox(0, 1)
 
-      click_link "User is author"
+      switch_transition_tab "User is author"
 
       expect(page).to have_dialog("Save changes before continuing?")
     end
