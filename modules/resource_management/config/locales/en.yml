@@ -29,6 +29,9 @@ en:
           attributes:
             end_date:
               greater_than_start_date: must be after the start date.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
