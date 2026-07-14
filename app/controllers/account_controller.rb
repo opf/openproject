@@ -145,7 +145,7 @@ class AccountController < ApplicationController
   end
 
   # User self-registration
-  def register
+  def register # rubocop:disable Metrics/AbcSize
     return self_registration_disabled unless allow_registration?
 
     @user = invited_user
@@ -156,7 +156,7 @@ class AccountController < ApplicationController
       enforce_invited_mail!
 
       if Setting.email_login?
-        params[:user][:login] = params[:user][:mail]
+        params[:user][:login] = params[:user][:mail] # rubocop:disable Rails/StrongParametersExpect
       end
 
       self_registration!
