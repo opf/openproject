@@ -64,7 +64,7 @@ module WorkPackageTypes
         attribute(:parent_subject, -> { WorkPackage.human_attribute_name(:subject) }, ->(parent) { parent.subject }),
         attribute(:parent_status, -> { WorkPackage.human_attribute_name(:status) }, ->(parent) { parent.status }),
         attribute(:parent_type, -> { WorkPackage.human_attribute_name(:type) }, ->(parent) { parent.type }),
-        attribute(:parent_version, -> { WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.version }),
+        attribute(:parent_version, -> { WorkPackage.human_attribute_name(:version) }, ->(parent) { parent.target_versions.first }),
         attribute(:priority, -> { WorkPackage.human_attribute_name(:priority) }, ->(wp) { wp.priority }),
         attribute(:project_id, -> { Project.human_attribute_name(:id) }, ->(project) { project.id }),
         attribute(:project_active, -> { Project.human_attribute_name(:active) }, ->(project) { project.active? }),
@@ -75,7 +75,7 @@ module WorkPackageTypes
         attribute(:start_date, -> { WorkPackage.human_attribute_name(:start_date) }, ->(wp) { wp.start_date }, DATE),
         attribute(:status, -> { WorkPackage.human_attribute_name(:status) }, ->(wp) { wp.status }),
         attribute(:type, -> { WorkPackage.human_attribute_name(:type) }, ->(wp) { wp.type }),
-        attribute(:version, -> { WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.version })
+        attribute(:version, -> { WorkPackage.human_attribute_name(:version) }, ->(wp) { wp.target_versions.first })
       ].freeze
       # rubocop:enable Layout/LineLength
 

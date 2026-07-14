@@ -61,15 +61,14 @@ module OpenProject
               list.option(
                 label: version.name,
                 value: version.id,
-                selected: version.id == model.version&.id
+                selected: version.id == current_version&.id
               )
             end
           end
         end
 
         def assign_defaults!
-          version = model.version
-          @system_arguments[:autocomplete_options][:inputValue] = version&.id
+          @system_arguments[:autocomplete_options][:inputValue] = current_version&.id
           @system_arguments[:autocomplete_options][:model] = version_model
           @system_arguments[:autocomplete_options][:decorated] = true
           @system_arguments[:autocomplete_options][:closeOnSelect] = true
@@ -78,7 +77,12 @@ module OpenProject
         end
 
         def version_model
-          version ? { id: version.id, name: version.name } : nil
+          current_version ? { id: current_version.id, name: current_version.name } : nil
+        end
+
+        # The single-version field is backed by the first target version.
+        def current_version
+          @current_version ||= model.try(:target_versions)&.first
         end
 
         def input_name
