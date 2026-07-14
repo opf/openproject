@@ -83,11 +83,14 @@ export class AttributeValueMacroComponent implements OnInit {
 
   fieldName:string;
 
+  layout?:string;
+
   ngOnInit():void {
     const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
+    this.layout = element.dataset.layout;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
     this.ariaContext = this.text.aria_label(model);
 
