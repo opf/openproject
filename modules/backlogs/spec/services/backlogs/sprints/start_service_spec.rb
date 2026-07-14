@@ -54,6 +54,15 @@ RSpec.describe Backlogs::Sprints::StartService do
     end
   end
 
+  context "when persisting" do
+    it "acquires a lock on the project before saving the sprint" do
+      allow(project).to receive(:with_lock).and_call_original
+
+      expect(result).to be_success
+      expect(project).to have_received(:with_lock)
+    end
+  end
+
   context "when a task board already exists" do
     let!(:existing_board) { create(:board_grid_with_query, project:, linked: sprint) }
 
@@ -140,6 +149,27 @@ RSpec.describe Backlogs::Sprints::StartService do
         expect(sprint.reload).to be_active
         expect(sprint.task_board_for(project)).to be_present
       end
+    end
+  end
+
+  context "when another sprint is activated concurrently, after the contract check passed" do
+    before do
+      # Simulates the race: the conflicting sprint appears only after validate_contract
+      # has already passed, right before persist acquires the project lock.
+      allow(instance).to receive(:persist).and_wrap_original do |original, *args|
+        create(:sprint, project:, status: "active")
+        original.call(*args)
+      end
+    end
+
+    it "fails gracefully without creating a board", :aggregate_failures do
+      expect { result }.not_to raise_error
+
+      expect(result).not_to be_success
+      expect(result.errors.symbols_for(:status)).to include(:taken)
+      expect(result.errors[:status]).to include("only one active sprint is allowed per project.")
+      expect(sprint.reload).to be_in_planning
+      expect(sprint.task_board_for(project)).to be_nil
     end
   end
 

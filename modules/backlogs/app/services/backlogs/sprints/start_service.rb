@@ -37,10 +37,17 @@ class Backlogs::Sprints::StartService < BaseServices::BaseContracted
   private
 
   def persist(service_call)
-    ensure_task_boards(service_call)
-    return service_call if service_call.failure?
+    model.project.with_lock do
+      model.status = "active"
 
-    model.active!
+      ensure_task_boards(service_call) if model.valid?
+      next if service_call.failure?
+
+      unless model.save
+        service_call.success = false
+        service_call.errors = model.errors
+      end
+    end
 
     service_call
   end
