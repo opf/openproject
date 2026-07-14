@@ -31,6 +31,7 @@ class EnvDataSeeder < CompositeSeeder
     [
       EnvData::CustomDesignSeeder,
       EnvData::LdapSeeder,
+      EnvData::ScimClientSeeder,
       EnvData::TokenSeeder
     ]
   end

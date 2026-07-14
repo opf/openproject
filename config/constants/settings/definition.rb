@@ -1015,6 +1015,12 @@ module Settings
       repository_truncate_at: {
         default: 500
       },
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
+      },
       scm: {
         format: :hash,
         default: {},

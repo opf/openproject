@@ -23,12 +23,31 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ScimClients
-  class CreateContract < BaseContract
+  class BaseContract < ModelContract
+    attribute :name
+    validates :name, presence: true
+
+    attribute :auth_provider
+    validates :auth_provider, presence: true
+
+    attribute :authentication_method
+    validates :authentication_method, inclusion: { in: ScimClient.authentication_methods.keys }
+
+    attribute :jwt_sub
+    validates :jwt_sub, presence: true, if: -> { @model.authentication_method_sso? }
+
+    validate :not_configured_from_env
+
+    def not_configured_from_env
+      if model.configured_from_env?
+        errors.add :base, :configured_via_env
+      end
+    end
   end
 end
