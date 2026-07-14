@@ -68,32 +68,22 @@ module McpTools
       end
 
       def input_schema(schema = nil)
-        # Used as a setter during class definition: only store the raw
-        # definition. Assembling the effective schema is deferred to the getter
-        # so that runtime conditions (e.g. feature flags) are evaluated per
-        # request rather than frozen at load time.
-        return @input_schema_definition = schema if schema.present?
+        if schema.present?
+          if pagination_enabled?
+            page = {
+              type: "number",
+              default: 1,
+              description: "Page number for pagination. If no page is defined, the first result set is returned. " \
+                           "To get the rest of the results, use a page number of 2 or higher."
+            }
 
-        decorate_input_schema(resolve_input_schema)
-      end
+            @input_schema = schema.deep_merge({ properties: { page: } })
+          else
+            @input_schema = schema
+          end
+        end
 
-      # The raw schema definition before pagination is applied. Overridable by
-      # subclasses that need to adjust the schema at request time.
-      def resolve_input_schema
-        @input_schema_definition
-      end
-
-      def decorate_input_schema(schema)
-        return schema if schema.nil? || !pagination_enabled?
-
-        page = {
-          type: "number",
-          default: 1,
-          description: "Page number for pagination. If no page is defined, the first result set is returned. " \
-                       "To get the rest of the results, use a page number of 2 or higher."
-        }
-
-        schema.deep_merge({ properties: { page: } })
+        @input_schema
       end
 
       def output_schema(schema = nil)

@@ -208,29 +208,6 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
-    describe "the target_version_id input schema" do
-      subject { described_class.input_schema[:properties].keys }
-
-      context "when the multiple versions feature is active",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
-        it "advertises target_version_id" do
-          expect(subject).to include(:target_version_id)
-        end
-      end
-
-      context "when the multiple versions feature is inactive",
-              with_flag: { work_package_multiple_versions: false } do
-        it "does not advertise target_version_id" do
-          expect(subject).not_to include(:target_version_id)
-        end
-
-        it "still advertises the deprecated version_id" do
-          expect(subject).to include(:version_id)
-        end
-      end
-    end
-
     describe "filtering by subject" do
       context "with exact subject" do
         let(:call_args) { { subject: "First Work Package" } }

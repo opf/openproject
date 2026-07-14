@@ -80,27 +80,14 @@ module McpTools
           type: %w[number null],
           description: "Deprecated: use target_version_id instead. Matches work packages whose target versions " \
                        "include this version. Pass null to search for work packages without a version."
+        },
+        target_version_id: {
+          type: %w[number null],
+          description: "The ID of a version the work package targets. Matches work packages whose target " \
+                       "versions include this version. Pass null to search for work packages without any target version."
         }
       }
     )
-
-    # `target_version_id` is only advertised while the multiple versions feature
-    # is active. The equivalent, deprecated `version_id` filter stays available
-    # in all cases.
-    def self.resolve_input_schema
-      schema = super
-      return schema unless Setting::WorkPackageMultipleVersions.active?
-
-      schema.deep_merge(
-        properties: {
-          target_version_id: {
-            type: %w[number null],
-            description: "The ID of a version the work package targets. Matches work packages whose target " \
-                         "versions include this version. Pass null to search for work packages without any target version."
-          }
-        }
-      )
-    end
 
     output_schema(
       type: :object,
