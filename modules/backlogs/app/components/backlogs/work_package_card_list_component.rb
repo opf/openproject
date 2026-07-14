@@ -128,6 +128,9 @@ module Backlogs
       if drag_and_drop[:drop_position].present?
         data[:sortable_lists__list_drop_position_value] = drag_and_drop[:drop_position]
       end
+      if drag_and_drop[:name].present?
+        data[:sortable_lists__list_name_value] = drag_and_drop[:name]
+      end
       data
     end
 
