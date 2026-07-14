@@ -36,6 +36,12 @@ class Backlogs::WorkPackages::UpdateService
     @work_package = work_package
   end
 
+  # The transaction turns the attribute change and the reorder into one atomic
+  # move. After-commit callbacks (e.g. the work_package_after_update plugin
+  # hook) therefore fire only once the whole move has committed, and since
+  # move_after reloads the work package mid-method, they observe the final
+  # list and position with `saved_changes` already cleared: consumers cannot
+  # rely on change tracking for backlogs moves.
   def call(list_type: nil, list_id: nil, position: nil, prev_id: nil)
     result = nil
 

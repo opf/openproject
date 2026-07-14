@@ -84,6 +84,43 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, "persistence", type: :mode
     end
   end
 
+  describe "after-commit hooks around the two-phase move" do
+    it "fires the update hook once, observing the completed move", :aggregate_failures do
+      # An occupant makes the final position discriminating: the top insert
+      # ends at 1, while the plain list-change save would have appended.
+      create(:work_package, status:, sprint: other_sprint, project:)
+
+      observed = []
+      allow(OpenProject::Hook).to receive(:call_hook).and_call_original
+      allow(OpenProject::Hook).to receive(:call_hook).with(:work_package_after_update, anything) do |_hook, context|
+        hooked_work_package = context[:work_package]
+        observed << { sprint_id: hooked_work_package.sprint_id, position: hooked_work_package.position }
+      end
+
+      call = described_class.new(user:, work_package:).call(list_type: "sprint", list_id: other_sprint.id, prev_id: "")
+
+      expect(call).to be_success
+      # Exactly one hook call, and it already sees the final list and top
+      # position: the wrapping transaction defers it past move_after.
+      expect(call.result.position).to eq(1)
+      expect(observed).to eq([{ sprint_id: other_sprint.id, position: 1 }])
+    end
+
+    it "does not fire the update hook when the move rolls back" do
+      inner_service = WorkPackages::UpdateService.new(user:, model: work_package)
+      allow(inner_service).to receive(:after_perform).and_wrap_original do |original, service_call|
+        original.call(service_call).tap { |call| call.success = false }
+      end
+      allow(WorkPackages::UpdateService).to receive(:new).and_return(inner_service)
+      allow(OpenProject::Hook).to receive(:call_hook).and_call_original
+
+      call = described_class.new(user:, work_package:).call(list_type: "sprint", list_id: other_sprint.id, prev_id: "")
+
+      expect(call).to be_failure
+      expect(OpenProject::Hook).not_to have_received(:call_hook).with(:work_package_after_update, anything)
+    end
+  end
+
   describe "dirty tracking after a move (guards the controller's list snapshot)" do
     it "does not expose the list change via _before_last_save (move_after reloads)" do
       call = described_class.new(user:, work_package:).call(list_type: "sprint", list_id: other_sprint.id, prev_id: "")
