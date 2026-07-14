@@ -33,7 +33,7 @@ require "rails_helper"
 RSpec.describe Backlogs::SprintsComponent, type: :component do
   shared_let(:sprints) { [] }
   shared_let(:work_packages_by_sprint_id) { WorkPackage.all.group_by(&:sprint_id) }
-  shared_let(:active_sprint_ids) { [] }
+  shared_let(:active_sprints) { [] }
 
   let(:permissions) { %i[create_sprints] }
   let(:project) { create(:project) }
@@ -43,7 +43,7 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
 
   def render_component
     render_inline described_class.new(
-      sprints:, work_packages_by_sprint_id:, active_sprint_ids:, project:, current_user:
+      sprints:, work_packages_by_sprint_id:, active_sprints:, project:, current_user:
     )
   end
 

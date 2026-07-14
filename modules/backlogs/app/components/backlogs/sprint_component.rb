@@ -36,16 +36,16 @@ module Backlogs
     include CommonHelper
     include Redmine::I18n
 
-    attr_reader :sprint, :project, :work_packages, :current_user, :active_sprint_ids
+    attr_reader :sprint, :project, :work_packages, :current_user, :active_sprints
 
     def initialize(sprint:, project:, work_packages: nil, current_user: User.current,
-                   active_sprint_ids: nil)
+                   active_sprints: nil)
       super()
 
       @sprint = sprint
       @project = project
       @current_user = current_user
-      @active_sprint_ids = active_sprint_ids
+      @active_sprints = active_sprints
       @work_packages = work_packages || sprint.work_packages_for(project)
                                               .includes(:status, :type, :assigned_to, :priority, :parent)
     end
@@ -116,7 +116,7 @@ module Backlogs
     end
 
     def project_has_another_active_sprint?
-      (resolved_active_sprint_ids - [sprint.id]).any?
+      (resolved_active_sprints.map(&:id) - [sprint.id]).any?
     end
 
     def start_sprint_disabled_reason
@@ -129,8 +129,8 @@ module Backlogs
       end
     end
 
-    def resolved_active_sprint_ids
-      active_sprint_ids || Sprint.for_project(sprint.project).active.pluck(:id)
+    def resolved_active_sprints
+      active_sprints || Sprint.for_project(sprint.project).active
     end
 
     def show_task_board_link?

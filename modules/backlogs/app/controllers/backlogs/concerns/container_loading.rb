@@ -39,7 +39,7 @@ module Backlogs::Concerns
 
     def load_sprint_data
       @sprints = filtered_sprints_for(@project)
-      @active_sprint_ids = @sprints.select(&:active?).map(&:id)
+      @active_sprints = @sprints.select(&:active?)
 
       @work_packages_by_sprint_id = WorkPackage
                                       .where(sprint: @sprints, project: @project)
