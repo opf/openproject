@@ -354,10 +354,12 @@ module Pages
       end
     end
 
-    # The move submenu items (Move up/down/to top/to bottom) all perform a
-    # successful move, which reloads the `backlogs_container` frame. Wait for that
-    # reload so a subsequent drag does not grab a soon-to-be-detached element.
-    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: true)
+    # The move submenu items (Move up/down/to top/to bottom) reorder the row
+    # client-side and persist via a background fetch; a same-list move no
+    # longer reloads the `backlogs_container` frame (see
+    # Backlogs::WorkPackagesController#optimistic_same_list_move?). Wait for
+    # the turbo-stream response instead, which still fires either way.
+    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: false)
       within_work_package_move_submenu(work_package) do |submenu|
         wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
           submenu.find(:menuitem, text: item_name, visible: :all).click
@@ -372,6 +374,20 @@ module Pages
       within_backlog_inbox do
         expect(page).to have_no_button(accessible_name: "Inbox actions")
       end
+    end
+
+    # Arms a reload probe for the Backlogs container before a move action.
+    #
+    # @see WaitHelpers#install_turbo_frame_reload_probe
+    def install_backlogs_container_reload_probe
+      install_turbo_frame_reload_probe("backlogs_container")
+    end
+
+    # Confirms that the Backlogs container did not reload after the move.
+    #
+    # @see WaitHelpers#expect_turbo_frame_not_reloaded
+    def expect_backlogs_container_not_reloaded(wait: Capybara.default_max_wait_time)
+      expect_turbo_frame_not_reloaded("backlogs_container", wait:)
     end
 
     def expect_no_backlog_bucket_menu(bucket)
@@ -581,7 +597,7 @@ module Pages
           [find(sprint_selector(into)), nil]
         end
 
-      wait_for_backlogs_turbo_stream(frame_reload: true) do
+      wait_for_backlogs_turbo_stream(frame_reload: cross_list_drag?(moved, before:, after:, into:)) do
         drag_backlogs_item(source: moved_element, target: target_element, edge:)
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
@@ -869,6 +885,28 @@ module Pages
       else
         wait_for_turbo_stream(wait:, &)
       end
+    end
+
+    # A same-list reorder (drag within the same sprint/bucket/inbox) is applied
+    # optimistically and never reloads the `backlogs_container` frame (see
+    # Backlogs::WorkPackagesController#optimistic_same_list_move?), so
+    # {#drag_work_package} must not wait for one. An `into:` drop always targets
+    # a different sprint, and a `before:`/`after:` drop may or may not cross
+    # lists (e.g. dragging a bucket item to just before a sprint item), so list
+    # membership is compared directly.
+    def cross_list_drag?(moved, before:, after:, into:)
+      return true if into
+
+      list_identity(moved) != list_identity(before || after)
+    end
+
+    # Reads the record's current list from the database rather than trusting
+    # the passed object: specs reuse the same records across consecutive
+    # drags, and a stale in-memory identity would misclassify a cross-list
+    # drag as a same-list reorder, making the drag helper skip the frame
+    # reload wait and race the re-render.
+    def list_identity(work_package)
+      Backlogs::Target.for_work_package(work_package.class.find(work_package.id))
     end
 
     def install_backlogs_dnd_probe(source:, target:, edge:)

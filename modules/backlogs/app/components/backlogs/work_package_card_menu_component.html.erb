@@ -108,7 +108,8 @@ See COPYRIGHT and LICENSE files for more details.
           component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
           label: t(".action_menu.move_menu"),
           select_variant: :none,
-          form_arguments: {}
+          form_arguments: {},
+          data: { sortable_lists__item_target: "moveMenu" }
         ) do |move_menu|
           move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
 

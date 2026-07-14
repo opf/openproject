@@ -37,7 +37,8 @@ import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/elemen
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
-import { Controller } from '@hotwired/stimulus';
+import { Controller, type ActionEvent } from '@hotwired/stimulus';
+import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
   isItemFromRoot,
@@ -46,36 +47,60 @@ import {
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { sortableItemSelector } from './list-dom';
+import { isMoveDirection, sortableItemSelector } from './list-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu'];
+  static elements = { menu: 'action-menu' };
 
   static values = {
     id: String,
     type: String,
+    hideUnavailable: { type: Boolean, default: true },
   };
 
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
+  declare readonly hideUnavailableValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
   declare readonly previewTarget:HTMLElement;
   declare readonly hasPreviewTarget:boolean;
+  declare readonly moveItemTargets:HTMLElement[];
+  declare readonly moveMenuTarget:HTMLElement;
+  declare readonly hasMoveMenuTarget:boolean;
+
+  // Provided by the stimulus-elements blessing; absent when the item is not
+  // inside a Primer action-menu (a drag-only consumer), in which case the move
+  // menu simply does nothing — drag behaviour is unaffected.
+  declare readonly menuElement:ActionMenuElement;
+  declare readonly hasMenuElement:boolean;
 
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
 
+  private readonly onMenuToggle = (event:Event):void => {
+    // The toggle event does not bubble, so listen in capture phase; recompute
+    // availability whenever the card menu opens, since a reorder can have
+    // shifted siblings meanwhile. Read newState by duck typing rather than
+    // `instanceof ToggleEvent` so a browser without the ToggleEvent global
+    // cannot throw.
+    if ((event as ToggleEvent).newState === 'open') {
+      this.refreshMoveMenuAvailability();
+    }
+  };
+
   connect():void {
     this.warnOnMissingValues();
     this.register();
+    this.element.addEventListener('toggle', this.onMenuToggle, true);
   }
 
   disconnect():void {
@@ -85,7 +110,35 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.clearDropIndicator();
     this.cleanupFn?.();
     this.cleanupFn = undefined;
+    this.element.removeEventListener('toggle', this.onMenuToggle, true);
     this.disconnectRoot();
+  }
+
+  // A move item entering the DOM (inline or via a deferred fragment) triggers
+  // an availability refresh here, but `this.root` is usually still unset at
+  // this point (the outlet's connectRoot callback runs later), so this call
+  // typically no-ops. The menu-open toggle handler is what actually
+  // establishes correct availability, refreshing on every open once the root
+  // is connected and after any reorder has shifted siblings. No
+  // include-fragment knowledge, so both hooks work for any menu.
+  moveItemTargetConnected():void {
+    this.refreshMoveMenuAvailability();
+  }
+
+  move(event:ActionEvent):void {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+      return;
+    }
+
+    const { direction } = event.params;
+    if (isMoveDirection(direction)) {
+      this.root?.moveInDirection(this.element, direction);
+    }
   }
 
   // Called by the root controller's outlet-connected callback.
@@ -314,5 +367,55 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     this.dropIndicatorElement = undefined;
+  }
+
+  private refreshMoveMenuAvailability():void {
+    const root = this.root;
+    if (!root || !this.hasMenuElement) {
+      return;
+    }
+
+    // Null availability means the item is not in a list yet; leave the menu
+    // alone until the outlet wiring settles.
+    const availability = root.moveAvailability(this.element);
+    if (!availability) {
+      return;
+    }
+
+    let available = 0;
+    for (const item of this.moveItemTargets) {
+      // Outside a Stimulus action there is no event.params, so read the
+      // param's backing attribute directly.
+      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
+      const enabled = isMoveDirection(direction) && availability[direction];
+      this.setAvailability(item, enabled);
+      if (enabled) {
+        available += 1;
+      }
+    }
+
+    if (this.hasMoveMenuTarget) {
+      this.setAvailability(this.moveMenuTarget, available > 0);
+    }
+  }
+
+  // Availability goes through the action-menu element's API: disableItem sets the
+  // ActionListItem--disabled class plus aria-disabled on the item's content, and
+  // hideItem toggles hidden. It operates on any descendant li, including the ones
+  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
+  private setAvailability(item:HTMLElement, available:boolean):void {
+    const menu = this.menuElement;
+
+    if (this.hideUnavailableValue) {
+      if (available) {
+        menu.showItem(item);
+      } else {
+        menu.hideItem(item);
+      }
+    } else if (available) {
+      menu.enableItem(item);
+    } else {
+      menu.disableItem(item);
+    }
   }
 }

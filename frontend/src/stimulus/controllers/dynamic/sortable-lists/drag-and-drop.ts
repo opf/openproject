@@ -37,6 +37,8 @@ import {
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
   rowOf,
+  type MoveAvailability,
+  type MoveDirection,
 } from './list-dom';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
@@ -71,6 +73,9 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
+  // A snapshot for menu gating; the click path re-resolves against the live DOM.
+  moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
