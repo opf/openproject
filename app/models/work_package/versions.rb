@@ -117,18 +117,45 @@ module WorkPackage::Versions
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to
-  #   * the version it was already assigned to
+  #   * the versions it was already assigned to
   #     (to make sure, that you can still update closed tickets)
   #   * for custom fields only_open: false can be used, if the CF is configured so
   def assignable_versions(only_open: true)
     if only_open
       @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
+        current_versions = Version.where(id: persisted_target_version_ids)
+        ((project&.assignable_versions || []) + current_versions).compact.uniq
       end
     else
       # The called method memoizes the result, no need to memoize it here.
       project&.assignable_versions(only_open: false)
+    end
+  end
+
+  # The target version ids the work package will have after the pending save,
+  # following the same precedence as #persist_version_associations: an explicit
+  # override wins, then a legacy version_id write, then the persisted rows.
+  # The mirror keeps version_id equal to the first target, so including it in
+  # the persisted set is redundant for saved records; it covers records whose
+  # legacy version was assigned without going through a save (e.g. test stubs).
+  def effective_target_version_ids
+    if override_target_versions?
+      target_version_ids_replacements
+    elsif version_id_changed?
+      Array(version_id)
+    else
+      persisted_target_version_ids | Array(version_id)
+    end
+  end
+
+  # The Version records for #effective_target_version_ids.
+  def effective_target_versions
+    if override_target_versions?
+      Version.where(id: target_version_ids_replacements)
+    elsif version_id_changed?
+      Array(version)
+    else
+      target_versions.to_a | Array(version)
     end
   end
 
@@ -154,6 +181,10 @@ module WorkPackage::Versions
   end
 
   private
+
+  def persisted_target_version_ids
+    work_package_versions.where(kind: "target").pluck(:version_id)
+  end
 
   def system_version_overrides
     @system_version_overrides ||= Set.new

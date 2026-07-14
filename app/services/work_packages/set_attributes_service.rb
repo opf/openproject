@@ -268,7 +268,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     model.change_by_system do
-      set_versions_to_nil
+      filter_unassignable_versions
       reassign_category
       set_parent_to_nil
       clear_semantic_identifier
@@ -362,13 +362,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
-  def set_versions_to_nil
-    if work_package.version &&
-       work_package.project&.shared_versions&.exclude?(work_package.version)
-      work_package.version = nil
-    end
-
+  def filter_unassignable_versions
     clear_unassignable_versions
+
+    # The deprecated version_id column follows the (possibly filtered) target
+    # versions, so both agree already at validation time, before the
+    # save-time mirror runs.
+    replacements = work_package.target_version_ids_replacements
+    work_package.version_id = replacements.first unless replacements.nil?
   end
 
   def clear_unassignable_versions
@@ -385,8 +386,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     attr = :"#{kind}_version_ids_replacements"
     current_replacements = work_package.send(attr)
 
-    current_ids = current_replacements ||
-      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    current_ids = current_replacements || current_version_ids_for(kind)
     filtered_ids = current_ids & assignable_ids
 
     return if filtered_ids.sort == current_ids.sort
@@ -399,6 +399,16 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # is marked as such and exempted from that permission. A user-requested
     # set that merely got filtered stays attributed to the user.
     work_package.mark_system_version_override(kind) if current_replacements.nil?
+  end
+
+  # For the target kind, the effective ids also cover a pending in-memory
+  # change of the deprecated version_id, which the persisted rows would miss.
+  def current_version_ids_for(kind)
+    if kind == "target"
+      work_package.effective_target_version_ids
+    else
+      work_package.work_package_versions.where(kind:).pluck(:version_id)
+    end
   end
 
   def set_parent_to_nil

@@ -251,23 +251,13 @@ RSpec.describe WorkPackage do
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
 
-    it "returns the former version if the version changed" do
+    it "returns the versions persisted as targets even when they are not shared (anymore)" do
       stub_shared_versions
 
       stub_work_package.version = stub_version2
 
-      allow(stub_work_package).to receive_messages(version_id_changed?: true, version_id_was: stub_version.id)
-      allow(Version).to receive(:find_by).with(id: stub_version.id).and_return(stub_version)
-
-      expect(stub_work_package.assignable_versions).to eq([stub_version])
-    end
-
-    it "returns the current version if the version did not change" do
-      stub_shared_versions
-
-      stub_work_package.version = stub_version
-
-      allow(stub_work_package).to receive(:version_id_changed?).and_return false
+      allow(stub_work_package).to receive(:persisted_target_version_ids).and_return([stub_version.id])
+      allow(Version).to receive(:where).with(id: [stub_version.id]).and_return([stub_version])
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
