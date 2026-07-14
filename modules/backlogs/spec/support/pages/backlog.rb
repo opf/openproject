@@ -376,51 +376,18 @@ module Pages
       end
     end
 
-    # Arms a listener for `turbo:frame-load` on `#backlogs_container` that
-    # fires at most once and latches a flag. A
-    # `reload_frame_via_turbo_stream("backlogs_container")` response (the
-    # non-optimistic move path) fetches and re-renders that frame, firing the
-    # event; an optimistic same-list move never touches the frame, so the
-    # flag stays unset. Call before the action under test, then assert with
-    # {#expect_backlogs_container_not_reloaded}. Each call resets the flag and
-    # arms a fresh listener, so re-arm before probing another action.
+    # Arms a reload probe for the Backlogs container before a move action.
+    #
+    # @see WaitHelpers#install_turbo_frame_reload_probe
     def install_backlogs_container_reload_probe
-      page.execute_script(<<~JS)
-        window.__opBacklogsContainerReloaded = false;
-        document.getElementById('backlogs_container')?.addEventListener(
-          'turbo:frame-load',
-          () => { window.__opBacklogsContainerReloaded = true; },
-          { once: true }
-        );
-      JS
+      install_turbo_frame_reload_probe("backlogs_container")
     end
 
-    # Confirms the probe armed by {#install_backlogs_container_reload_probe}
-    # never fired. Unlike the client's DOM reorder (synchronous) or the DB
-    # write (already committed by the time the response is received), a frame
-    # reload is a second, independent round trip with no synchronous signal to
-    # key off of -- so this actively waits up to `wait` seconds, long enough
-    # for that round trip to finish on a real (non-optimistic) move, before
-    # asserting the probe stayed unset.
+    # Confirms that the Backlogs container did not reload after the move.
+    #
+    # @see WaitHelpers#expect_turbo_frame_not_reloaded
     def expect_backlogs_container_not_reloaded(wait: Capybara.default_max_wait_time)
-      # Capybara caps `evaluate_async_script` at Capybara.default_max_wait_time
-      # (it sets Selenium's script_timeout to it). The in-page probe below waits
-      # `wait` seconds before resolving, so give Selenium a strictly larger
-      # budget -- otherwise the two race at the same instant and CI overhead
-      # lands `done` just past the driver's deadline (ScriptTimeoutError).
-      reloaded = Capybara.using_wait_time(wait + 5) do
-        page.evaluate_async_script(<<~JS, wait * 1000)
-          const [timeoutMs, done] = [arguments[0], arguments[arguments.length - 1]];
-
-          if (window.__opBacklogsContainerReloaded) {
-            done(true);
-          } else {
-            setTimeout(() => done(window.__opBacklogsContainerReloaded === true), timeoutMs);
-          }
-        JS
-      end
-
-      expect(reloaded).to be(false)
+      expect_turbo_frame_not_reloaded("backlogs_container", wait:)
     end
 
     def expect_no_backlog_bucket_menu(bucket)
