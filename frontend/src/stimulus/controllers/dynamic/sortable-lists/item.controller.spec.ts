@@ -876,36 +876,8 @@ describe('Sortable lists item controller', () => {
       element: el, busy: false, moveAvailability: () => availability, moveInDirection,
     } as unknown as SortableListsRoot);
 
-    it('disables up/top for a first item and enables the rest', async () => {
+    it('hides up/top for a first item and shows the rest', async () => {
       const { el, menu } = renderItemWithMenu(1);
-      document.body.appendChild(el);
-      const controller = await mountItemController(el);
-      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
-
-      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
-      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
-      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'down'));
-      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
-    });
-
-    it('disables a mid-list direction the root reports unavailable (truncation gap)', async () => {
-      const { el, menu } = renderItemWithMenu(1);
-      document.body.appendChild(el);
-      const controller = await mountItemController(el);
-      // Not an extreme (neither first nor last), but the root deems "down"
-      // unavailable because it would cross a hidden block.
-      const gappedAvailability = { top: true, up: true, down: false, bottom: true };
-      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
-      controller.moveItemTargetConnected();
-
-      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'down'));
-      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'up'));
-    });
-
-    it('hides unavailable items instead of disabling them when hideUnavailable is set', async () => {
-      const { el, menu } = renderItemWithMenu(1);
-      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'true');
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
@@ -915,11 +887,39 @@ describe('Sortable lists item controller', () => {
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
-      expect(menu.disableItem).not.toHaveBeenCalled();
-      expect(menu.enableItem).not.toHaveBeenCalled();
     });
 
-    it('disables the parent submenu when nothing is available (single item)', async () => {
+    it('hides a mid-list direction the root reports unavailable (truncation gap)', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      // Not an extreme (neither first nor last), but the root deems "down"
+      // unavailable because it would cross a hidden block.
+      const gappedAvailability = { top: true, up: true, down: false, bottom: true };
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
+      controller.moveItemTargetConnected();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
+    });
+
+    it('disables unavailable items instead of hiding them when hideUnavailable is off', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+      expect(menu.hideItem).not.toHaveBeenCalled();
+      expect(menu.showItem).not.toHaveBeenCalled();
+    });
+
+    it('hides the parent submenu when nothing is available (single item)', async () => {
       const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
@@ -927,7 +927,7 @@ describe('Sortable lists item controller', () => {
       controller.moveItemTargetConnected();
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
-      expect(menu.disableItem).toHaveBeenCalledWith(parent);
+      expect(menu.hideItem).toHaveBeenCalledWith(parent);
     });
 
     it('delegates an enabled click to the root and no-ops a disabled one', async () => {

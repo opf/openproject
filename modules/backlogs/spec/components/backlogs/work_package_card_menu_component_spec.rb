@@ -226,7 +226,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
                sprint: solo_sprint)
       end
 
-      it "still shows all four move items; the client disables what does not apply" do
+      it "still shows all four move items; the client hides what does not apply" do
         render_component
 
         expect(page).to have_text(I18n.t(:label_sort_highest))

@@ -456,7 +456,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       planning_page.expect_inbox_show_more
     end
 
-    it "disables one-step menu moves that would cross the hidden block", :aggregate_failures do
+    it "hides one-step menu moves that would cross the hidden block", :aggregate_failures do
       last_visible_head_item = inbox_wps.second
       only_visible_tail_item = inbox_wps.last
 

@@ -59,7 +59,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   static values = {
     id: String,
     type: String,
-    hideUnavailable: { type: Boolean, default: false },
+    hideUnavailable: { type: Boolean, default: true },
   };
 
   declare readonly idValue:string;
@@ -402,7 +402,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // Availability goes through the action-menu element's API: disableItem sets the
   // ActionListItem--disabled class plus aria-disabled on the item's content, and
   // hideItem toggles hidden. It operates on any descendant li, including the ones
-  // in the nested move submenu. Default is disable; hideUnavailable switches to hide.
+  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
   private setAvailability(item:HTMLElement, available:boolean):void {
     const menu = this.menuElement;
 
