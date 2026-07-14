@@ -1,0 +1,87 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if last_backup? %>
+  <%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead|
+        subhead.with_heading(tag: :h3, size: :medium) { t("js.backup.last_backup") }
+      end %>
+
+  <p>
+    <%= t("js.backup.last_backup_from") %>:
+    <em><%= @last_backup_date %></em>
+  </p>
+
+  <%= render Primer::Beta::Button.new(
+        tag: :a,
+        href: attachment_download_url,
+        data: { turbo: false }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :download)
+        t("js.backup.download_backup")
+      end %>
+<% end %>
+
+<%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t("js.backup.title") }
+    end %>
+
+<p><%= t("js.backup.info") %></p>
+
+<%= render(Primer::OpenProject::InlineMessage.new(scheme: :critical, mb: 3)) do %>
+  <%= t("js.backup.note") %>
+<% end %>
+
+<% unless @may_include_attachments %>
+  <%= render(Primer::OpenProject::InlineMessage.new(scheme: :warning, mb: 3)) do %>
+    <%= t("js.backup.attachments_disabled") %>
+  <% end %>
+<% end %>
+
+<%=
+  primer_form_with(url: request_backup_admin_backups_path, method: :post, data: { turbo: true }) do |f|
+    render_inline_form(f) do |form|
+      if @may_include_attachments
+        form.check_box(
+          name: :include_attachments,
+          label: helpers.t("js.backup.include_attachments"),
+          checked: true
+        )
+      end
+      form.text_field(
+        name: :backup_token,
+        label: helpers.t("backup.label_backup_token"),
+        type: :password,
+        required: true,
+        input_width: :large,
+        autocomplete: "off"
+      )
+      form.submit(name: :submit, label: helpers.t("js.backup.request_backup"), scheme: :primary)
+    end
+  end
+%>

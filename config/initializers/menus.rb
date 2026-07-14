@@ -679,12 +679,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "paintbrush",
             enterprise_feature: "define_custom_style"
 
-  menu.push :colors,
-            { controller: "/colors", action: "index" },
-            if: ->(_) { User.current.admin? },
-            caption: :label_color_plural,
-            icon: "meter"
-
   menu.push :enterprise,
             { controller: "/enterprise_tokens", action: :index },
             caption: :label_enterprise_edition,

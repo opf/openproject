@@ -92,7 +92,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "button[data-action='backlogs--story#openSplitPane']",
+        "button[data-action='backlogs--work-package#openSplitPane']",
         text: I18n.t(:"js.button_open_details")
       )
     end
@@ -201,6 +201,13 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
 
       expect(page).to have_text(I18n.t(:label_sort_lowest))
       expect(page).to have_octicon(:"move-to-bottom")
+    end
+
+    it "carries the work package's current sprint as list_type and list_id on reorder items" do
+      render_component
+
+      expect(page).to have_field("list_type", type: :hidden, with: "sprint", count: 2)
+      expect(page).to have_field("list_id", type: :hidden, with: sprint.id.to_s, count: 2)
     end
 
     context "when item is first" do
@@ -342,6 +349,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
         expect(page).to have_octicon(:inbox)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_inbox"))
+        expect(page).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
       end
     end
 

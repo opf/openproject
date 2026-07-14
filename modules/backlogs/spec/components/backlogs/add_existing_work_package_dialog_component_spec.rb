@@ -37,8 +37,8 @@ RSpec.describe Backlogs::AddExistingWorkPackageDialogComponent, type: :component
   current_user { admin }
 
   let(:project) { create(:project) }
-  let(:target_id) { Backlogs::Target.for(container) }
-  let(:expected_url) { add_existing_project_backlogs_work_packages_path(project, target_id:) }
+  let(:target) { Backlogs::Target.for(container) }
+  let(:expected_url) { add_existing_project_backlogs_work_packages_path(project, target.to_list_params) }
 
   before do
     render_inline(described_class.new(project:, container:))

@@ -81,7 +81,7 @@ RSpec.describe "Editing a work package in the split view after moving it",
       backlogs_page.click_in_work_package_menu(work_package, "Move to sprint")
 
       within_modal "Move to sprint" do
-        select target.name, from: "target_id"
+        select target.name, from: "Sprint"
         click_on "Move"
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe "Editing a work package in the split view after moving it",
     it_behaves_like "editing works after the move"
   end
 
-  context "when moving the work package by dragging it with the mouse" do
+  context "when moving the work package by dragging it with the mouse", :selenium do
     def move_work_package(target)
       backlogs_page.drag_work_package(work_package, into: target)
     end

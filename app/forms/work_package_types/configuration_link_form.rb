@@ -67,7 +67,9 @@ module WorkPackageTypes
         source_group.select_list(
           name: :source_id,
           input_width: :medium,
-          label: I18n.t("types.edit.configuration_link.source.label")
+          label: I18n.t("types.edit.configuration_link.source.label"),
+          required: true,
+          include_blank: true
         ) do |list|
           source_options.each do |type|
             list.option(value: type.id, label: type.name, selected: type.id == current_source_id)
@@ -87,6 +89,10 @@ module WorkPackageTypes
     def current_source_id = @builder.options[:current_source_id]
     def source_options = @builder.options[:source_options]
 
+    # Off in the wizard, where navigation (and persistence) is driven by the footer
+    # rather than a per-aspect Save.
+    def with_submit? = @builder.options.fetch(:with_submit, true)
+
     def source_group_options
       return {} if linked?
 
@@ -95,19 +101,30 @@ module WorkPackageTypes
 
     # The caution message + Save for the mode the type can switch *to*.
     def switch_confirmation(source_form)
-      if linked?
-        # -> Independent: copy-on-adopt is explained when "Independent" is picked; Save is always available.
-        source_form.group(hidden: true, data: effect_data("independent")) do |group|
-          group.html_content { warning_flash(I18n.t("types.edit.configuration_link.independent.warning")) }
-        end
-        source_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
-      else
-        # -> Linked: destructive warning and Save appear together only while "Linked" is picked.
-        source_form.group(hidden: true, data: effect_data("linked")) do |group|
-          group.html_content { warning_flash(I18n.t("types.edit.configuration_link.linked.warning")) }
-          group.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
-        end
+      linked? ? confirm_switch_to_independent(source_form) : confirm_switch_to_linked(source_form)
+    end
+
+    # Copy-on-adopt is explained when "Independent" is picked; Save is always available.
+    def confirm_switch_to_independent(source_form)
+      source_form.group(hidden: true, data: effect_data("independent")) do |group|
+        group.html_content { warning_flash(I18n.t("types.edit.configuration_link.independent.warning")) }
       end
+
+      submit(source_form)
+    end
+
+    # Destructive warning and Save appear together only while "Linked" is picked.
+    def confirm_switch_to_linked(source_form)
+      source_form.group(hidden: true, data: effect_data("linked")) do |group|
+        group.html_content { warning_flash(I18n.t("types.edit.configuration_link.linked.warning")) }
+        submit(group)
+      end
+    end
+
+    def submit(container)
+      return unless with_submit?
+
+      container.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
     end
 
     def warning_flash(message)

@@ -33,7 +33,7 @@ module Backlogs
     include OpTurbo::ComponentStream
 
     # Document event dispatched after a successful move so the frontend can refresh a
-    # split view open on the moved work package (see backlogs.controller.ts).
+    # split view open on the moved work package (see split-view-sync.controller.ts).
     WORK_PACKAGE_MOVED_EVENT = "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}backlogs:work-package-moved".freeze
 
     before_action :load_work_package, only: %i[menu move_to_sprint_dialog move_to_bucket_dialog move]
@@ -51,15 +51,15 @@ module Backlogs
     end
 
     def add_existing_dialog
-      target_id = Target.parse(params[:target_id])
-      container = target_id&.container_for(@project)
+      target = Target.from_list(params[:list_type], params[:list_id])
+      container = target&.container_for(@project)
 
       if container
         respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
           project: @project,
           container:
         )
-      elsif target_id
+      elsif target
         render_error_flash_message_via_turbo_stream(message: t(".target_not_found"))
         respond_with_turbo_streams(status: :not_found)
       else
@@ -89,7 +89,7 @@ module Backlogs
 
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package:)
-        .call(target_id: params.expect(:target_id))
+        .call(list_type: params.expect(:list_type), list_id: params[:list_id])
 
       render_update_turbo_streams(call)
     end
@@ -97,7 +97,7 @@ module Backlogs
     def move
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package: @work_package)
-        .call(**move_params.to_h.symbolize_keys)
+        .call(**move_service_params)
 
       render_update_turbo_streams(call)
     end
@@ -129,7 +129,9 @@ module Backlogs
     def render_invisible_after_move_flash(work_package)
       return unless work_package_invisible_after_move?(work_package)
 
-      backlog_name = work_package.backlog_bucket&.name || I18n.t(:label_inbox)
+      backlog_name = work_package.sprint&.name ||
+        work_package.backlog_bucket&.name ||
+        I18n.t(:label_inbox)
       render_flash_message_via_turbo_stream(
         message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
       )
@@ -142,10 +144,6 @@ module Backlogs
 
     def move_path
       move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
-    end
-
-    def move_params
-      params.permit(:position, :prev_id, :target_id, :direction)
     end
 
     def displayed_work_packages
@@ -164,22 +162,46 @@ module Backlogs
 
     def target_open_sprints
       Sprint.for_project(@project)
-            .visible.not_completed
-            .where.not(id: @work_package.sprint_id)
+        .visible.not_completed
+        .where.not(id: @work_package.sprint_id)
     end
 
     def target_buckets
       BacklogBucket.where(project: @project)
-                   .where.not(id: @work_package.backlog_bucket_id)
+        .where.not(id: @work_package.backlog_bucket_id)
     end
 
-    # After a work package is moved to the backlog, it might no longer be visible due to
-    # the project settings for excluded types and statuses.
+    # After a move the work package might no longer be visible: the page's active
+    # sprint/bucket filters (the move dialogs offer every destination, filtered or
+    # not) can hide the destination list, and for backlog destinations the project
+    # settings for excluded types and statuses apply on top.
     def work_package_invisible_after_move?(work_package)
+      return true if work_package_hidden_by_filters?(work_package)
       return false if work_package.sprint_id?
 
       @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
         @project.done_status_ids.include?(work_package.status_id)
+    end
+
+    def work_package_hidden_by_filters?(work_package)
+      if work_package.sprint_id?
+        backlog_filters.sprint_ids&.exclude?(work_package.sprint_id) || false
+      elsif work_package.backlog_bucket_id?
+        backlog_filters.bucket_ids&.exclude?(work_package.backlog_bucket_id) || false
+      else
+        !backlog_filters.show_inbox?
+      end
+    end
+
+    def move_params
+      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
+    end
+
+    # A blank prev_id (drag or menu move to the top of a list) is kept so the
+    # service inserts at the top; nil values (absent prev_id/direction) are
+    # dropped. The service resolves list_type/list_id into the destination list.
+    def move_service_params
+      move_params.to_h.symbolize_keys.compact
     end
   end
 end

@@ -189,6 +189,8 @@ Rails.application.routes.draw do
 
     resources :configuration_links, only: %i[update], param: :aspect
 
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
                                     path: "pdf_export_template" do
@@ -205,6 +207,8 @@ Rails.application.routes.draw do
 
     collection do
       post "move/:id", action: "move"
+      get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+      post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
     end
 
     member do
@@ -903,8 +907,9 @@ Rails.application.routes.draw do
 
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
-        get :reset_token
-        post :reset_token, action: :perform_token_reset
+        get :reset_token_dialog
+        post :perform_token_reset
+        post :request_backup
 
         post :delete_token
       end
@@ -1224,9 +1229,8 @@ Rails.application.routes.draw do
     get "onboarding_video_dialog", action: "onboarding_video_dialog"
   end
 
-  resources :colors do
+  resources :colors, except: [:index] do
     member do
-      get :confirm_destroy
       get :move
       post :move
     end

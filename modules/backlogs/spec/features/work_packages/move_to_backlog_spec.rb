@@ -91,7 +91,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to backlog bucket")
 
         within_modal "Move to backlog bucket" do
-          select bucket_b.name, from: "target_id"
+          select bucket_b.name, from: "list_id"
           click_on "Move"
         end
 
@@ -110,7 +110,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to backlog bucket")
 
         within_modal "Move to backlog bucket" do
-          select bucket_a.name, from: "target_id"
+          select bucket_a.name, from: "list_id"
           click_on "Move"
         end
 
@@ -157,10 +157,10 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
         within_modal "Move to sprint" do
-          expect(page).to have_no_select("target_id", with_options: [sprint.name])
-          expect(page).to have_select("target_id", with_options: [second_sprint.name])
+          expect(page).to have_no_select("list_id", with_options: [sprint.name])
+          expect(page).to have_select("list_id", with_options: [second_sprint.name])
 
-          select second_sprint.name, from: "target_id"
+          select second_sprint.name, from: "list_id"
           click_on "Move"
         end
 
@@ -181,7 +181,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
         within_modal "Move to sprint" do
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_on "Move"
         end
 
@@ -203,7 +203,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
         within_modal "Move to sprint" do
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_on "Move"
         end
 
