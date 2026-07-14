@@ -591,7 +591,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         # The liveRegion stream carries its message as an attribute on the
         # <turbo-stream> element itself (see render_live_region_update_message),
         # not inside a <template>, so we assert against the raw body.
-        expect(response.body).to include("moved to Sprint 2, position 2 of 2")
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Sprint 2, position 2 of 2")
       end
     end
 
@@ -610,7 +610,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       it "streams a live region announcement with the new position" do
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "liveRegion"
-        expect(response.body).to include("moved to Agile Sprint 1, position 2 of 2")
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Agile Sprint 1, position 2 of 2")
       end
     end
 

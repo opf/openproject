@@ -515,6 +515,11 @@ describe('resolveItemPosition', () => {
 
     expect(resolveItemPosition({ row: foreign, rowsContainer: container })).toBeNull();
     expect(resolveItemPosition({ row: marker(3), rowsContainer: container })).toBeNull();
+
+    // Also test an in-container marker row
+    const inContainerMarker = marker(5);
+    container.append(inContainerMarker);
+    expect(resolveItemPosition({ row: inContainerMarker, rowsContainer: container })).toBeNull();
   });
 });
 
