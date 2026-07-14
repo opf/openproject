@@ -903,6 +903,22 @@ describe('Sortable lists item controller', () => {
       expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'up'));
     });
 
+    it('hides unavailable items instead of disabling them when hideUnavailable is set', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'true');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+      controller.moveItemTargetConnected();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'bottom'));
+      expect(menu.disableItem).not.toHaveBeenCalled();
+      expect(menu.enableItem).not.toHaveBeenCalled();
+    });
+
     it('disables the parent submenu when nothing is available (single item)', async () => {
       const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
