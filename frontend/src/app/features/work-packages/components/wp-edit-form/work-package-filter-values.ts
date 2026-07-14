@@ -72,9 +72,11 @@ export class WorkPackageFilterValues {
    * @private
    */
   private applyFirstValue(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
+    const attributeName = this.mapFilterToAttribute(filter);
+
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
-    if (this.filterAlreadyApplied(change, filter)) {
+    if (this.filterAlreadyApplied(change, filter, attributeName)) {
       return;
     }
 
@@ -83,7 +85,6 @@ export class WorkPackageFilterValues {
 
     // Avoid empty values
     if (value) {
-      const attributeName = this.mapFilterToAttribute(filter);
       this.setValueFor(change, attributeName, value);
     }
   }
@@ -98,14 +99,14 @@ export class WorkPackageFilterValues {
   private setToNull(change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource):void {
     const attributeName = this.mapFilterToAttribute(filter);
 
-    this.setValue(change, attributeName, { href: null });
+    this.setValue(change, attributeName, this.isMultiValueAttribute(attributeName) ? [] : { href: null });
   }
 
   private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:string|HalResource):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
-      this.setValue(change, field, newValue);
+      this.setValue(change, field, this.isMultiValueAttribute(field) ? [newValue] : newValue);
     }
   }
 
@@ -138,8 +139,12 @@ export class WorkPackageFilterValues {
    * Avoid applying filter values when changeset already matches one of the selected values
    * @param filter
    */
-  private filterAlreadyApplied(change:WorkPackageChangeset|Record<string, unknown>, filter:{ id:string, values:unknown[] }):boolean {
-    const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
+  private filterAlreadyApplied(
+    change:WorkPackageChangeset|Record<string, unknown>,
+    filter:{ id:string, values:unknown[] },
+    attributeName:string = filter.id,
+  ):boolean {
+    const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
     for (let i = 0; i < filter.values.length; i++) {
@@ -166,7 +171,17 @@ export class WorkPackageFilterValues {
       return 'project';
     }
 
+    // Version filters write the multi-valued targetVersions attribute,
+    // which replaces the deprecated single-valued version attribute.
+    if (filter.id === 'version' || filter.id === 'targetVersion') {
+      return 'targetVersions';
+    }
+
     // Default to returning the filter id
     return filter.id;
+  }
+
+  private isMultiValueAttribute(attributeName:string):boolean {
+    return attributeName === 'targetVersions';
   }
 }

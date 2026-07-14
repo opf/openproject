@@ -46,11 +46,20 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
+   * The work package attribute written when a card is assigned to a list.
+   * Defaults to the filter name, but may differ from it while a deprecated
+   * attribute is replaced (e.g. the version filter writes targetVersions).
+   */
+  get attributeName():string {
+    return this.filterName;
+  }
+
+  /**
    * The work package attributes whose changes may move a work package
    * between the lists of the board.
    */
   get watchedAttributes():string[] {
-    return [this.filterName];
+    return [this.attributeName];
   }
 
   /**
@@ -222,7 +231,7 @@ export abstract class BoardActionService {
    */
   canMove(workPackage:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(workPackage);
-    const fieldSchema = schema[this.filterName] as IFieldSchema;
+    const fieldSchema = schema[this.attributeName] as IFieldSchema;
     return fieldSchema?.writable;
   }
 
@@ -231,10 +240,10 @@ export abstract class BoardActionService {
    */
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     // Ensure attribute remains writable in the form
-    if (!changeset.isWritable(this.filterName)) {
+    if (!changeset.isWritable(this.attributeName)) {
       throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(this.filterName) },
+        { attribute: changeset.humanName(this.attributeName) },
       ));
     }
 

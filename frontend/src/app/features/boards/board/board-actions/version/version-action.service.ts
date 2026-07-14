@@ -25,15 +25,13 @@ export class BoardVersionActionService extends CachedBoardActionService {
   filterName = 'version';
 
   /**
-   * The work package show view writes the version via the targetVersions
-   * attribute, while dragging a card between lists still writes the
-   * deprecated version attribute. Watch both so either change moves the card.
-   *
-   * TODO: Reduce to targetVersions once boards write it as well
-   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   * The list-defining filter stays "version" (stored in board queries), but
+   * assigning a card writes the targetVersions attribute replacing the
+   * deprecated single version attribute.
    */
-  get watchedAttributes():string[] {
-    return [this.filterName, 'targetVersions'];
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
+  get attributeName():string {
+    return 'targetVersions';
   }
 
   resourceName = 'version';
@@ -61,7 +59,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
     if (!this.writable$) {
       this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+        .then((form:FormResource) => form.schema.targetVersions.writable);
     }
 
     return this.writable$;
