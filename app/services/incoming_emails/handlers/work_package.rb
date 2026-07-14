@@ -164,7 +164,7 @@ module IncomingEmails::Handlers
         "start_date" => wp_start_date_from_keywords,
         "status_id" => wp_status_from_keywords,
         "type_id" => wp_type_from_keywords(work_package),
-        "version_id" => wp_version_from_keywords(work_package)
+        "target_version_ids" => wp_target_version_ids_from_keywords(work_package)
       }.compact_blank!
     end
 
@@ -205,8 +205,11 @@ module IncomingEmails::Handlers
       Principal.possible_assignee(work_package.project).where(id: Principal.like(keyword)).first.try(:id)
     end
 
-    def wp_version_from_keywords(work_package)
-      lookup_case_insensitive_key(work_package.project.shared_versions, :version, Arel.sql("#{Version.table_name}.name"))
+    def wp_target_version_ids_from_keywords(work_package)
+      version_id = lookup_case_insensitive_key(work_package.project.shared_versions, :version,
+                                               Arel.sql("#{Version.table_name}.name"))
+
+      [version_id] if version_id
     end
 
     def wp_start_date_from_keywords

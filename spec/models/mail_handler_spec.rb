@@ -593,8 +593,8 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
 
         it "sets the version" do
-          expect(subject.version)
-            .to eql(version)
+          expect(subject.target_versions)
+            .to eq([version])
         end
 
         it "sets the estimated_hours" do
@@ -954,7 +954,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         it "assigns the status to the created work package" do
           expect(subject.status).to eq(status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to eq([version])
           expect(subject.priority).to eq priority_low
         end
       end
@@ -1206,7 +1206,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           expect(subject.subject).to eq("New ticket with full attributes")
           expect(subject.type).to eq(feature_type)
           expect(subject.status).to eq(resolved_status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to eq([version])
           expect(subject.priority).to eq(urgent_priority)
           expect(subject.assigned_to).to eq(user)
           expect(subject.responsible).to eq(user)
@@ -1231,7 +1231,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.subject).to eq("Neues Arbeitspaket")
             expect(subject.type).to eq(feature_type)
             expect(subject.status).to eq(resolved_status)
-            expect(subject.version).to eq(version)
+            expect(subject.target_versions).to eq([version])
             expect(subject.priority).to eq(urgent_priority)
             expect(subject.assigned_to).to eq(user)
             expect(subject.responsible).to eq(user)
