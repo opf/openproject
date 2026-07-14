@@ -40,6 +40,7 @@ import {
   input,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
@@ -62,6 +63,7 @@ export interface ProjectTimelineItem {
   group:string;
   start:Date|string;
   end?:Date|string;
+  originalEnd?:Date|string;
   content:string|HTMLElement;
   title:string;
   type:'range'|'point'|'background';
@@ -89,6 +91,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   );
 
   private readonly i18n = inject(I18nService);
+  private readonly timezone = inject(TimezoneService);
 
   private timeline:Timeline | null = null;
 
@@ -118,11 +121,21 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
       const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
 
       if (phase.startDate && phase.endDate) {
+        const isOneDay = phase.startDate === phase.endDate;
+        let visualStart:Date | string = phase.startDate;
+        let visualEnd:Date | string = phase.endDate;
+        if (isOneDay) {
+          const startNoon = new Date(`${phase.startDate}T12:00:00`);
+          startNoon.setDate(startNoon.getDate() - 1);
+          visualStart = startNoon;
+          visualEnd = new Date(`${phase.endDate}T12:00:00`);
+        }
         items.push({
           id: `phase-${phase.id}`,
           group: GROUP_LIFECYCLE,
-          start: phase.startDate,
-          end: phase.endDate,
+          start: visualStart,
+          end: visualEnd,
+          originalEnd: isOneDay ? phase.endDate : undefined,
           content: phase.name,
           title: phase.name,
           type: 'range',
@@ -185,6 +198,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
+        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
@@ -195,10 +209,12 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     if (item.type === 'background') return '';
 
     const isGate = item.type === 'point';
-    const formatDate = (d:Date | string) => new Date(d).toLocaleDateString();
+    const formatDate = (d:Date | string) => this.timezone.formattedDate(d as string);
     const dateStr = isGate
       ? formatDate(item.start)
-      : `${formatDate(item.start)} – ${formatDate(item.end!)}`;
+      : item.originalEnd
+        ? formatDate(item.originalEnd)
+        : `${formatDate(item.start)} – ${formatDate(item.end!)}`;
     const typeLabel = isGate
       ? this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate')
       : this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
@@ -223,6 +239,13 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     wrapper.append(metaRow, name);
 
     return wrapper;
+  }
+
+  private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {
+    if (a.group !== GROUP_GATES || b.group !== GROUP_GATES) return false;
+
+    const diff = Math.abs(new Date(a.start).getTime() - new Date(b.start).getTime());
+    return diff <= 24 * 60 * 60 * 1000; // 24 hours
   }
 
   private updateTimeline(phases:ProjectPhaseData[]):void {

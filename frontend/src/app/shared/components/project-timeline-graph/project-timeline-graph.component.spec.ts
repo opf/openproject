@@ -28,6 +28,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-timeline-graph.component';
 
 describe('ProjectTimelineGraphComponent', () => {
@@ -38,6 +39,10 @@ describe('ProjectTimelineGraphComponent', () => {
         'js.grid.widgets.project_timeline.tooltip_type_gate': 'Gate',
       }[key] ?? key;
     },
+  };
+
+  const timezoneStub = {
+    formattedDate(date:string):string { return date; },
   };
 
   const phaseWithDates = {
@@ -64,6 +69,18 @@ describe('ProjectTimelineGraphComponent', () => {
     finishGateName: 'Build End',
   };
 
+  const oneDayPhase = {
+    id: 4,
+    definitionId: 9,
+    name: 'Kickoff',
+    startDate: '2024-05-15',
+    endDate: '2024-05-15',
+    startGate: false,
+    startGateName: null,
+    finishGate: false,
+    finishGateName: null,
+  };
+
   const phaseWithoutDates = {
     id: 3,
     definitionId: 7,
@@ -87,6 +104,7 @@ describe('ProjectTimelineGraphComponent', () => {
       imports: [ProjectTimelineGraphComponent],
       providers: [
         { provide: I18nService, useValue: i18nStub },
+        { provide: TimezoneService, useValue: timezoneStub },
       ],
     }).compileComponents();
 
@@ -144,6 +162,37 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(items.find((i) => i.id === 'gate-finish-1')).toBeUndefined();
     });
 
+    describe('for a one-day phase', () => {
+      let item:ProjectTimelineItem;
+
+      beforeEach(() => {
+        ({ items: [item] } = buildData([oneDayPhase]));
+      });
+
+      it('creates a range item', () => {
+        expect(item).toBeDefined();
+        expect(item.type).toBe('range');
+      });
+
+      it('sets start to previous day local noon', () => {
+        expect(item.start instanceof Date).toBe(true);
+        const start = item.start as Date;
+        expect(start.getHours()).toBe(12);
+        expect(start.getDate()).toBe(14); // day before May 15
+      });
+
+      it('sets end to same day local noon', () => {
+        expect(item.end instanceof Date).toBe(true);
+        const end = item.end as Date;
+        expect(end.getHours()).toBe(12);
+        expect(end.getDate()).toBe(15);
+      });
+
+      it('stores originalEnd as the original date string', () => {
+        expect(item.originalEnd).toBe('2024-05-15');
+      });
+    });
+
     it('always creates gates and lifecycle groups', () => {
       const { groups } = buildData([]);
       expect(groups.map((g) => g.id)).toEqual(['gates', 'lifecycle']);
@@ -189,6 +238,35 @@ describe('ProjectTimelineGraphComponent', () => {
 
       it('applies the highlight class to the type indicator', () => {
         expect(result.querySelector('.__hl_inline_project_phase_definition_3')).toBeTruthy();
+      });
+    });
+
+    describe('for a one-day phase item', () => {
+      let result:HTMLElement;
+
+      beforeEach(() => {
+        result = tooltipTemplate({
+          id: 'phase-4',
+          group: 'lifecycle',
+          type: 'range',
+          start: new Date('2024-05-14T12:00:00'),
+          end: new Date('2024-05-15T12:00:00'),
+          originalEnd: '2024-05-15',
+          content: 'Kickoff',
+          title: 'Kickoff',
+          className: '__hl_background_project_phase_definition_9',
+          definitionId: 9,
+        }) as HTMLElement;
+      });
+
+      it('shows only a single date (no range)', () => {
+        const meta = result.querySelector('.op-timeline-tooltip--meta-row');
+        expect(meta?.textContent).not.toContain('–');
+      });
+
+      it('shows the phase name', () => {
+        const name = result.querySelector('.op-timeline-tooltip--name');
+        expect(name?.textContent).toBe('Kickoff');
       });
     });
 

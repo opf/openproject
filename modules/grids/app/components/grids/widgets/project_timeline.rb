@@ -34,7 +34,13 @@ module Grids
       param :project
 
       def title
-        t("grids.widgets.project_timeline.title")
+        if project.portfolio?
+          t("grids.widgets.project_timeline.title_portfolio")
+        elsif project.program?
+          t("grids.widgets.project_timeline.title_program")
+        else
+          t("grids.widgets.project_timeline.title")
+        end
       end
 
       def phases_data
@@ -46,7 +52,7 @@ module Grids
       end
 
       def any_phases?
-        project.phases.active.exists?
+        project.phases.active.with_timeline_content.exists?
       end
 
       def render?
