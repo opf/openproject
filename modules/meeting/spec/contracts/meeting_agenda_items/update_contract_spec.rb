@@ -133,7 +133,7 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
       end
     end
 
-    context "with presenter" do
+    context "when changing the presenter" do
       before do
         item.presenter = presenter
       end
@@ -152,6 +152,41 @@ RSpec.describe MeetingAgendaItems::UpdateContract do
             expect(contract.errors[:presenter]).not_to include(presenter.name)
           end
         end
+      end
+    end
+
+    context "with an unchanged presenter who cannot view meetings in the project anymore" do
+      let(:presenter) { create(:user, member_with_permissions: { project => [:view_meetings] }) }
+      let(:item) { create(:meeting_agenda_item, meeting:, presenter:) }
+
+      before do
+        Member.where(user_id: presenter.id).delete_all
+        item.title = "Updated title"
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an unchanged presenter who cannot view meetings in the destination project" do
+      let(:presenter) { create(:user, member_with_permissions: { project => [:view_meetings] }) }
+      let(:item) { create(:meeting_agenda_item, meeting:, presenter:) }
+      let(:other_meeting) { create(:meeting, project: other_project) }
+      let(:other_section) { create(:meeting_section, meeting: other_meeting) }
+
+      before do
+        item.meeting = other_meeting
+        item.meeting_section = other_section
+      end
+
+      context "with permission to manage agendas in the source and destination projects" do
+        let(:user) do
+          create(:user, member_with_permissions: {
+                   project => [:manage_agendas],
+                   other_project => [:manage_agendas]
+                 })
+        end
+
+        it_behaves_like "contract is valid"
       end
     end
 

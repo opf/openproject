@@ -52,6 +52,7 @@ module MeetingAgendaItems
     private
 
     def presenter_can_participate
+      return unless model.new_record? || model.presenter_id_changed?
       return if model.meeting.nil?
       return if model.presenter.nil?
       return if model.presenter.allowed_in_project?(:view_meetings, model.meeting.project)
