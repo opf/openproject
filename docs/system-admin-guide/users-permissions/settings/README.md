@@ -18,6 +18,7 @@ User settings are accessible by administrators from the OpenProject **Administra
 | ------------------------------------------- | -------------------------- |
 | [Default preferences](#default-preferences) | User default preferences.  |
 | [Display format](#display-format)           | Users name format.         |
+| [Account](#account)                         | What users may change on their own account. |
 | [User deletion](#user-deletion)             | Who can delete users.      |
 | [User consent](#user-consent)               | User privacy and security. |
 
@@ -40,6 +41,14 @@ These settings can be changed by users in their **Account settings** page later 
 ![Users display format](openproject_system_guide_user_display_format.png)
 
 The **Display format** section covers how users name format should be displayed.
+
+## Account
+
+The **Account** section covers which of their own account attributes users are allowed to change.
+
+The option **Users allowed to change their email address** is activated by default. If you deactivate it, users can no longer edit their email address on their **Account settings** page, and the email address can no longer be changed through the API. Users who are invited by an administrator have to activate their account with exactly the email address they were invited with.
+
+Administrators can still change the email address of any user from the user administration page. Email addresses that are provisioned from an external system (LDAP, SSO or SCIM) keep being synchronized regardless of this setting.
 
 ## User deletion
 

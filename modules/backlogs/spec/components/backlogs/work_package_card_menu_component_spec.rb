@@ -45,12 +45,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   let!(:second_story) { create_story(position: 2) }
   let!(:third_story) { create_story(position: 3) }
   let!(:fourth_story) { create_story(position: 4) }
-  let(:displayed_work_packages) { WorkPackage.where(sprint:).order_by_position }
-  let(:work_package) { enrich_with_neighbours(second_story) }
-
-  def enrich_with_neighbours(work_package, scope: displayed_work_packages)
-    scope.with_backlogs_neighbours.find(work_package.id)
-  end
+  let(:work_package) { second_story }
 
   def create_story(position:, subject: "Test Story", story_points: 5)
     create(:work_package,
@@ -92,7 +87,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "button[data-action='backlogs--story#openSplitPane']",
+        "button[data-action='backlogs--work-package#openSplitPane']",
         text: I18n.t(:"js.button_open_details")
       )
     end
@@ -203,93 +198,57 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_octicon(:"move-to-bottom")
     end
 
-    context "when item is first" do
-      let(:work_package) { enrich_with_neighbours(first_story) }
+    it "always renders the four move items as client targets", :aggregate_failures do
+      render_inline(described_class.new(work_package:, project:, open_sprints_exist: false, other_buckets_exist: false))
 
-      it "hides Move to top and Move up" do
-        render_component
-
-        expect(page).to have_no_text(I18n.t(:label_sort_highest))
-        expect(page).to have_no_text(I18n.t(:label_sort_higher))
+      # The target, direction, and action live on the item <li>, not the content button.
+      %w[top up down bottom].each do |direction|
+        expect(page).to have_css(
+          "li[data-sortable-lists--item-target='moveItem']" \
+          "[data-sortable-lists--item-direction-param='#{direction}']" \
+          "[data-action='click->sortable-lists--item#move']"
+        )
       end
-
-      it "shows Move down and Move to bottom, sending next_id as prev_id" do
-        render_component
-
-        expect(page).to have_text(I18n.t(:label_sort_lower))
-        expect(page).to have_text(I18n.t(:label_sort_lowest))
-        expect(page).to have_field("prev_id", type: :hidden, count: 1)
-        expect(page).to have_field("prev_id", type: :hidden, with: second_story.id.to_s)
-      end
+      expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu']")
+      expect(page).to have_no_field("direction", type: :hidden)
+      expect(page).to have_no_field("prev_id", type: :hidden)
     end
 
-    context "when item is in the middle with one predecessor" do
-      it "shows all move options, sending nil prev_id for Move up and next_id as prev_id for Move down" do
+    context "when the work package is the only item in its list" do
+      let(:work_package) do
+        solo_sprint = create(:sprint, project:, name: "Solo Sprint")
+        create(:work_package,
+               subject: "Solo Story",
+               project:,
+               type: type_feature,
+               status: default_status,
+               priority: default_priority,
+               sprint: solo_sprint)
+      end
+
+      it "still shows all four move items; the client hides what does not apply" do
         render_component
 
         expect(page).to have_text(I18n.t(:label_sort_highest))
         expect(page).to have_text(I18n.t(:label_sort_higher))
         expect(page).to have_text(I18n.t(:label_sort_lower))
         expect(page).to have_text(I18n.t(:label_sort_lowest))
-        expect(page).to have_field("prev_id", type: :hidden, count: 2)
-        expect(page).to have_field("prev_id", type: :hidden, with: third_story.id.to_s)
-      end
-    end
-
-    context "when item is in the middle with two predecessors" do
-      let(:work_package) { enrich_with_neighbours(third_story) }
-
-      it "shows all move options, sending prev_prev_id and next_id as prev_id" do
-        render_component
-
-        expect(page).to have_text(I18n.t(:label_sort_highest))
-        expect(page).to have_text(I18n.t(:label_sort_higher))
-        expect(page).to have_text(I18n.t(:label_sort_lower))
-        expect(page).to have_text(I18n.t(:label_sort_lowest))
-        expect(page).to have_field("prev_id", type: :hidden, with: first_story.id.to_s)
-        expect(page).to have_field("prev_id", type: :hidden, with: fourth_story.id.to_s)
-      end
-    end
-
-    context "when item is last" do
-      let(:work_package) { enrich_with_neighbours(fourth_story) }
-
-      it "hides Move down and Move to bottom" do
-        render_component
-
-        expect(page).to have_no_text(I18n.t(:label_sort_lower))
-        expect(page).to have_no_text(I18n.t(:label_sort_lowest))
-      end
-
-      it "shows Move to top and Move up, sending prev_prev_id as prev_id" do
-        render_component
-
-        expect(page).to have_text(I18n.t(:label_sort_highest))
-        expect(page).to have_text(I18n.t(:label_sort_higher))
-        expect(page).to have_field("prev_id", type: :hidden, count: 1)
-        expect(page).to have_field("prev_id", type: :hidden, with: second_story.id.to_s)
-      end
-    end
-
-    context "when there is only one item" do
-      let(:displayed_work_packages) { WorkPackage.where(id: second_story.id).order_by_position }
-
-      it "hides all move options" do
-        render_component
-
-        expect(page).to have_no_text(I18n.t(:label_sort_highest))
-        expect(page).to have_no_text(I18n.t(:label_sort_higher))
-        expect(page).to have_no_text(I18n.t(:label_sort_lower))
-        expect(page).to have_no_text(I18n.t(:label_sort_lowest))
       end
 
       context "when the work package is already in the inbox" do
-        let(:sprint) { nil }
+        let(:work_package) do
+          create(:work_package,
+                 subject: "Inbox Story",
+                 project:,
+                 type: type_feature,
+                 status: default_status,
+                 priority: default_priority)
+        end
 
-        it "hides the Move to position submenu entirely" do
+        it "still shows the Move to position submenu (permission-gated only)" do
           render_component(open_sprints_exist: false, other_buckets_exist: false)
 
-          expect(page).to have_no_selector(:menuitem, text: "Move to position")
+          expect(page).to have_selector(:menuitem, text: "Move to position")
         end
       end
     end
@@ -342,6 +301,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
         expect(page).to have_octicon(:inbox)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_inbox"))
+        expect(page).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
       end
     end
 

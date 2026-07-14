@@ -907,8 +907,9 @@ Rails.application.routes.draw do
 
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
-        get :reset_token
-        post :reset_token, action: :perform_token_reset
+        get :reset_token_dialog
+        post :perform_token_reset
+        post :request_backup
 
         post :delete_token
       end
@@ -1228,9 +1229,8 @@ Rails.application.routes.draw do
     get "onboarding_video_dialog", action: "onboarding_video_dialog"
   end
 
-  resources :colors do
+  resources :colors, except: [:index] do
     member do
-      get :confirm_destroy
       get :move
       post :move
     end

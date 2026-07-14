@@ -70,12 +70,39 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response).to have_turbo_frame "content-bodyRight"
     end
 
-    it "passes all=true on the backlog turbo frame when requested" do
+    it "renders the sortable lists configuration on the backlogs turbo frame" do
+      get "/projects/#{project.identifier}/backlogs/backlog"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
+      expect(response.body).to include(
+        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
+      )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--list-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
+      )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--item-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
+      )
+      expect(response.body).to include(
+        "data-sortable-lists-sortable-lists--scrollable-outlet=" \
+        "\"#backlogs_container [data-controller~=&#39;sortable-lists--scrollable&#39;]\""
+      )
+    end
+
+    it "passes all=true to the frame src but keeps it off the move URL template" do
       get "/projects/#{project.identifier}/backlogs/backlog", params: { all: "1" }
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_frame "backlogs_container",
                                            src: "/projects/#{project.identifier}/backlogs/backlog?all=true"
+      # The move endpoint ignores the filter, so it stays out of the move URL
+      # template even when the backlog itself is filtered.
+      expect(response.body).to include(
+        %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
+      )
     end
 
     context "with a Turbo Frame request" do
@@ -87,6 +114,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
         expect(response).to have_turbo_frame "backlogs_container"
         expect(response).to have_no_turbo_frame "content-bodyRight"
+        expect(response.body.scan('data-controller="sortable-lists--scrollable"').size).to eq(2)
       end
 
       context "with no sprints available" do
@@ -103,6 +131,29 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
           expect(response).to have_http_status(:ok)
           expect(response.body).to include('id="owner_backlogs_container"')
           expect(response.body).to include('id="sprint_backlogs_container"')
+        end
+      end
+
+      it "uses the inbox border box as a backlogs list target" do
+        get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(id="inbox_project_#{project.id}"))
+        expect(response.body).to include('data-controller="sortable-lists--list"')
+        expect(response.body).to include('data-sortable-lists--list-type-value="inbox"')
+        expect(response.body).not_to include('data-sortable-lists--list-id-value="inbox"')
+      end
+
+      context "with backlog buckets" do
+        shared_let(:backlog_bucket) { create(:backlog_bucket, project:) }
+
+        it "uses each backlog bucket border box as a backlogs list target" do
+          get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(%(data-test-selector="backlog-bucket-#{backlog_bucket.id}"))
+          expect(response.body).to include('data-sortable-lists--list-type-value="backlog_bucket"')
+          expect(response.body).to include(%(data-sortable-lists--list-id-value="#{backlog_bucket.id}"))
         end
       end
     end

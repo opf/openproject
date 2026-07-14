@@ -42,6 +42,10 @@ class ScimClient < ApplicationRecord
     oauth2_token: 2
   }, scopes: false, prefix: true
 
+  def configured_from_env?
+    Setting.scim_clients.any? { |c| c["name"] == name_was }
+  end
+
   def access_tokens
     return Doorkeeper::AccessToken.none unless authentication_method_oauth2_token?
 

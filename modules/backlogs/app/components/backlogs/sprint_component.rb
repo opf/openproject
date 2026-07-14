@@ -57,6 +57,10 @@ module Backlogs
 
     private
 
+    def list_type
+      Backlogs::Target::SprintId.new(sprint.id).list_type
+    end
+
     def show_start_sprint_action?
       sprint.in_planning? && ::Backlogs::Sprints::StartContract.can_start?(user: current_user, sprint:, project:)
     end

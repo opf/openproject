@@ -27,12 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%= turbo_frame_tag "backlogs_container", refresh: :morph, class: "op-backlogs-page" do %>
-  <div class="op-sprint-planning-container" data-controller="generic-drag-and-drop"
-       data-generic-drag-and-drop-position-mode-value="prev_id"
-       data-generic-drag-and-drop-handle-value="false">
-    <div id="owner_backlogs_container" class="op-sprint-planning-lists"
-         data-generic-drag-and-drop-target="scrollContainer">
+<%# Attributes on this frame tag are ignored; only its children are reconciled — set them in show.html.erb. %>
+<%= turbo_frame_tag "backlogs_container" do %>
+  <div class="op-sprint-planning-container">
+    <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
       <%=
         render Backlogs::BacklogComponent.new(
           buckets: @backlog_buckets,
@@ -41,8 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
         )
       %>
     </div>
-    <div id="sprint_backlogs_container" class="op-sprint-planning-lists"
-         data-generic-drag-and-drop-target="scrollContainer">
+    <div id="sprint_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
       <%=
         render Backlogs::SprintsComponent.new(
           sprints: @sprints,

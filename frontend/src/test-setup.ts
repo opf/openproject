@@ -2,6 +2,12 @@ import { I18n } from 'i18n-js';
 import '@testing-library/jest-dom/vitest';
 import { afterEach, vi } from 'vitest';
 import { registerDialogStreamAction } from 'core-turbo/dialog-stream-action';
+import { installElements } from '@openproject/stimulus-elements';
+
+// Blesses every controller registered afterwards with `static elements`
+// accessors, mirroring the production bootstrap in stimulus/setup.ts. Must run
+// before any controller is registered, so it lives in this global setup file.
+installElements();
 
 registerDialogStreamAction();
 

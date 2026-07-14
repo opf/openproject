@@ -54,8 +54,7 @@ module Backlogs
     private
 
     def show_move_items?
-      allowed_to_manage_sprint_items? &&
-        !(first_item? && last_item?)
+      allowed_to_manage_sprint_items?
     end
 
     def show_move_to_inbox?
@@ -79,50 +78,33 @@ module Backlogs
     end
 
     def build_move_menu(menu)
-      unless first_item?
-        build_move_item(menu, label: :label_sort_highest, direction: "highest", icon: :"move-to-top")
-        build_move_item(menu, label: :label_sort_higher, prev_id: work_package.prev_prev_id, icon: :"chevron-up")
-      end
-      unless last_item?
-        build_move_item(menu, label: :label_sort_lower, prev_id: work_package.next_id, icon: :"chevron-down")
-        build_move_item(menu, label: :label_sort_lowest, direction: "lowest", icon: :"move-to-bottom")
-      end
+      build_move_item(menu, label: :label_sort_highest, direction: "top", icon: :"move-to-top")
+      build_move_item(menu, label: :label_sort_higher, direction: "up", icon: :"chevron-up")
+      build_move_item(menu, label: :label_sort_lower, direction: "down", icon: :"chevron-down")
+      build_move_item(menu, label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
     end
 
-    def build_move_item(menu, label:, icon:, direction: nil, prev_id: nil)
-      inputs = if direction
-                 [{ name: "direction", value: direction }]
-               else
-                 [{ name: "target_id", value: move_target_id }, { name: "prev_id", value: prev_id }]
-               end
-
+    def build_move_item(menu, label:, icon:, direction:)
+      # The `data:` hash must live on the item level so Primer renders it on
+      # the ActionList `<li>`: the controller's `<li>` targets and the
+      # action-menu API's `disableItem`/`enableItem` both address that element,
+      # and the click action rides it via the bubbled button click.
       menu.with_item(
         id: dom_target(work_package, :menu, label),
         label: I18n.t(label),
         tag: :button,
-        href: move_project_backlogs_work_package_path(project, work_package),
-        form_arguments: { method: :put, inputs: }
+        data: {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: direction,
+          action: "click->sortable-lists--item#move"
+        }
       ) do |item|
         item.with_leading_visual_icon(icon:)
       end
     end
 
-    def first_item?
-      work_package.prev_id.nil?
-    end
-
-    def last_item?
-      work_package.next_id.nil?
-    end
-
-    def move_target_id
-      @move_target_id ||= if work_package.backlog_bucket_id?
-                            Target::BucketId[work_package.backlog_bucket_id]
-                          elsif work_package.sprint_id?
-                            Target::SprintId[work_package.sprint_id]
-                          else
-                            Target::InboxId
-                          end
+    def inbox_list_type
+      Backlogs::Target::InboxId.list_type
     end
   end
 end

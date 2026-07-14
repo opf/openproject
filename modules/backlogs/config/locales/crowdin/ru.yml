@@ -39,9 +39,9 @@ ru:
           in_planning: В планировании
         work_packages: Пакеты работ
       sprint_goal:
-        text: Sprint goal
+        text: Цель спринта
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Раздел бэклога
         backlog_inbox: Backlog inbox
         backlogs_work_package_type: Тип невыполненной работы
         position: Позиция
@@ -71,7 +71,7 @@ ru:
             status:
               not_active: не активен, поэтому не может быть закрыт.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: уже имеет цель для этого спринта.
         work_package:
           attributes:
             backlog_bucket:
@@ -87,32 +87,32 @@ ru:
           backlog_bucket_xor_sprint: не может быть назначен для спринта и для раздела бэклога одновременно.
     models:
       sprint:
-        one: Sprint
-        few: Sprints
-        many: Sprints
-        other: Sprints
+        one: Спринт
+        few: Спринта
+        many: Спринтов
+        other: Спринтов
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: Добавить существующий пакет работ в %{name}
     administration_blankslate:
       text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
       title: Настройки администрирования бэклога будут в будущем
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Новый раздел бэклога
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Раздел бэклога
+        other: Разделы бэклога
+        zero: Все разделы бэклога
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: Спринт
+        other: Спринтов
+        zero: Все спринты
+      select_panel_title: Выберите элементы
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Добавить существующий пакет работ
+        add_new_work_package: Добавить новый пакет работ
         delete_backlog_bucket: Удалить раздел бэклога
         edit_backlog_bucket: Редактировать раздел бэклога
       blankslate_description: Перетащите элементы сюда, чтобы добавить их.

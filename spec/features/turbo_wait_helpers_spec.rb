@@ -44,6 +44,93 @@ RSpec.describe "Turbo wait helpers", :js do
   end
 
   shared_examples "blocks until its event fires" do
+    before do
+      page.execute_script(<<~JS)
+        for (const id of ["reload_probe_frame", "unrelated_frame"]) {
+          const frame = document.createElement("turbo-frame");
+          frame.id = id;
+          document.body.appendChild(frame);
+        }
+      JS
+    end
+
+    def dispatch_turbo_frame_load(frame_id)
+      page.execute_script(<<~JS, frame_id)
+        document.getElementById(arguments[0]).dispatchEvent(
+          new CustomEvent("turbo:frame-load", { bubbles: true })
+        );
+      JS
+    end
+
+    it "passes when the named Turbo frame does not reload" do
+      install_turbo_frame_reload_probe("reload_probe_frame")
+
+      expect(expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)).to be_nil
+    end
+
+    it "fails when the named Turbo frame reloads" do
+      install_turbo_frame_reload_probe("reload_probe_frame")
+      dispatch_turbo_frame_load("reload_probe_frame")
+
+      expect do
+        expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+    end
+
+    it "fails when the named Turbo frame reloads during the wait" do
+      install_turbo_frame_reload_probe("reload_probe_frame")
+      page.execute_script(<<~JS)
+        setTimeout(() => {
+          document.getElementById("reload_probe_frame").dispatchEvent(
+            new CustomEvent("turbo:frame-load", { bubbles: true })
+          );
+        }, 50);
+      JS
+
+      expect do
+        expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.2)
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+    end
+
+    it "ignores reloads from other Turbo frames" do
+      install_turbo_frame_reload_probe("reload_probe_frame")
+      dispatch_turbo_frame_load("unrelated_frame")
+
+      expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)
+    end
+
+    it "ignores nested frame reloads and remains armed for the named frame" do
+      page.execute_script(<<~JS)
+        const nestedFrame = document.createElement("turbo-frame");
+        nestedFrame.id = "nested_frame";
+        document.getElementById("reload_probe_frame").appendChild(nestedFrame);
+      JS
+      install_turbo_frame_reload_probe("reload_probe_frame")
+
+      dispatch_turbo_frame_load("nested_frame")
+      expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)
+
+      dispatch_turbo_frame_load("reload_probe_frame")
+      expect do
+        expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+    end
+
+    it "resets and re-arms a probe for the same Turbo frame" do
+      install_turbo_frame_reload_probe("reload_probe_frame")
+      dispatch_turbo_frame_load("reload_probe_frame")
+
+      install_turbo_frame_reload_probe("reload_probe_frame")
+
+      expect_turbo_frame_not_reloaded("reload_probe_frame", wait: 0.1)
+    end
+
+    it "fails clearly when the Turbo frame is absent" do
+      expect do
+        install_turbo_frame_reload_probe("missing_frame")
+      end.to raise_error(Capybara::ElementNotFound, /missing_frame/)
+    end
+
     it "wait_for_turbo_stream returns only after op:turbo-stream-rendered" do
       page.execute_script("window.__turboWaitFlag = false;")
       wait_for_turbo_stream do
