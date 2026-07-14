@@ -265,9 +265,9 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       before do
         # Set up circular reference: field_a -> field_b -> field_c -> field_a
-        field_a.formula = "{{cf_#{field_b.id}}} + 1"
-        field_b.formula = "{{cf_#{field_c.id}}} + 2"
-        field_c.formula = "{{cf_#{field_a.id}}} + 3"
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_c} + 2"
+        field_c.formula = "#{field_a} + 3"
 
         field_a.save(validate: false)
         field_b.save(validate: false)
@@ -291,16 +291,16 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     context "when two calculated values reference the same custom field" do
       let!(:constant_cf1) { create(:project_custom_field, :integer, default_value: 1, is_for_all: true) }
       let!(:calculated_cf2) do
-        create(:calculated_value_project_custom_field, formula: "{{cf_#{constant_cf1.id}}}", is_for_all: true)
+        create(:calculated_value_project_custom_field, formula: constant_cf1.ref, is_for_all: true)
       end
       let!(:calculated_cf3) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{constant_cf1.id}}} + {{cf_#{calculated_cf2.id}}}",
+               formula: "#{constant_cf1} + #{calculated_cf2}",
                is_for_all: true)
       end
 
       it "does not lead to a false positive" do
-        subject.formula = "{{cf_#{calculated_cf3.id}}}"
+        subject.formula = calculated_cf3.ref
         subject.save(validate: false)
 
         expect(subject.usable_custom_field_references_for_formula).to include(constant_cf1, calculated_cf2, calculated_cf3)
@@ -311,7 +311,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       let!(:self_referencing_field) { create(:calculated_value_project_custom_field, formula: "1 + 1", is_for_all: true) }
 
       before do
-        self_referencing_field.formula = "{{cf_#{self_referencing_field.id}}} + 1"
+        self_referencing_field.formula = "#{self_referencing_field} + 1"
         self_referencing_field.save(validate: false)
       end
 
@@ -332,7 +332,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     current_user { create(:admin) }
 
     it "splits formula and referenced custom fields on persist if given a string" do
-      formula = "1 * {{cf_#{int.id}}} + {{cf_#{float.id}}}"
+      formula = "1 * #{int} + #{float}"
       subject.formula = formula
 
       expect(subject.formula).to eq({ "formula" => formula, "referenced_custom_fields" => [int.id, float.id] })
@@ -434,13 +434,13 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     context "when checking for direct circular reference" do
       let!(:self_referencing_field) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
+               formula: "#{int_field} + 1",
                is_for_all: true)
       end
 
       before do
         # Manually set the formula to reference itself
-        self_referencing_field.formula = "{{cf_#{self_referencing_field.id}}} + 1"
+        self_referencing_field.formula = "#{self_referencing_field} + 1"
         self_referencing_field.save(validate: false)
       end
 
@@ -471,9 +471,9 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       before do
         # Set up the circular reference: field_a -> field_b -> field_c -> field_a
-        field_a.formula = "{{cf_#{field_b.id}}} + 1"
-        field_b.formula = "{{cf_#{field_c.id}}} + 2"
-        field_c.formula = "{{cf_#{field_a.id}}} + 3"
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_c} + 2"
+        field_c.formula = "#{field_a} + 3"
 
         field_a.save(validate: false)
         field_b.save(validate: false)
@@ -494,19 +494,19 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       # Set up a linear chain: field_x -> field_y -> field_z (no circular reference)
       let!(:field_x) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
+               formula: "#{int_field} + 1",
                is_for_all: true)
       end
 
       let!(:field_y) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field_x.id}}} + 2",
+               formula: "#{field_x} + 2",
                is_for_all: true)
       end
 
       let!(:field_z) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field_y.id}}} + 3",
+               formula: "#{field_y} + 3",
                is_for_all: true)
       end
 
@@ -522,13 +522,13 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     context "when checking with visited nodes tracking" do
       let!(:field1) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
+               formula: "#{int_field} + 1",
                is_for_all: true)
       end
 
       let!(:field2) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field1.id}}} + 2",
+               formula: "#{field1} + 2",
                is_for_all: true)
       end
 
@@ -719,7 +719,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         create(:calculated_value_project_custom_field, formula: "2 + 2", projects: [project_with_permission])
       end
 
-      let(:formula) { "1 + {{cf_#{int.id}}} + {{cf_#{float.id}}} + {{cf_#{other_calculated_value.id}}}" }
+      let(:formula) { "1 + #{int} + #{float} + #{other_calculated_value}" }
 
       current_user { user }
 
