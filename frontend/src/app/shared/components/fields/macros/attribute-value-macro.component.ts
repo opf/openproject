@@ -127,7 +127,15 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
+    let attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
+
+    // The deprecated version attribute renders the work package's target
+    // versions, single-line by default so legacy macros keep their inline shape.
+    if (resource._type === 'WorkPackage' && attribute === 'version') {
+      attribute = 'targetVersions';
+      this.layout = this.layout ?? 'singleline';
+    }
+
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {

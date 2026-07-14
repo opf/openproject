@@ -369,6 +369,41 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with target versions" do
+      shared_let(:version_one) { create(:version, project:, name: "1.0") }
+      shared_let(:version_two) { create(:version, project:, name: "2.0") }
+
+      before do
+        create(:work_package_version, work_package:, version: version_one)
+        create(:work_package_version, work_package:, version: version_two)
+      end
+
+      describe "with targetVersions attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:targetVersions" }
+
+        it "outputs one version per line" do
+          # the association carries no order, so compare the lines as a set
+          expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with legacy version attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:version" }
+
+        it "outputs all target versions on a single line" do
+          expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with legacy version attribute and multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:version:multiline" }
+
+        it "outputs one version per line" do
+          expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
+        end
+      end
+    end
+
     describe "with specific work package ID and attribute" do
       let(:markdown) { "workPackageValue:#{work_package.id}:subject" }
 

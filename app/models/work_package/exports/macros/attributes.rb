@@ -175,10 +175,23 @@ module WorkPackage::Exports
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
+        attribute_name, layout = map_legacy_version(attribute_name, layout, obj)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)
         [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout), is_rich_text]
+      end
+
+      ##
+      # The deprecated version attribute renders the work package's target
+      # versions, on a single line by default so legacy macros keep their
+      # inline shape within existing content.
+      def self.map_legacy_version(attribute_name, layout, obj)
+        if obj.is_a?(WorkPackage) && attribute_name == "version"
+          ["target_versions", layout || "singleline"]
+        else
+          [attribute_name, layout]
+        end
       end
 
       def self.can_view_attribute?(custom_field, obj, attribute_name)
