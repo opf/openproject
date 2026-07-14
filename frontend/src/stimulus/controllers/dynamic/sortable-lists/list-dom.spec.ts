@@ -32,6 +32,8 @@ import {
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
   resolveListAppendPreviousItemId,
+  resolveItemPosition,
+  resolveItemLabel,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -455,5 +457,76 @@ describe('directional move helpers', () => {
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'a'), direction: 'bottom' })).toBe('d');
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'd'), direction: 'top' })).toBeNull();
     });
+  });
+});
+
+describe('resolveItemPosition', () => {
+  function item(id:string, label?:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    if (label) {
+      row.setAttribute('data-sortable-lists--item-label-value', label);
+    }
+    return row;
+  }
+
+  function marker(omittedCount:number, prevItemId = '99'):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-sortable-lists-prev-item-id', prevItemId);
+    row.setAttribute('data-sortable-lists-omitted-count', String(omittedCount));
+    return row;
+  }
+
+  it('returns the 1-based position and total of an item row', () => {
+    const container = document.createElement('ul');
+    const rows = [item('1'), item('2'), item('3')];
+    container.append(...rows);
+
+    expect(resolveItemPosition({ row: rows[1], rowsContainer: container }))
+      .toEqual({ position: 2, total: 3 });
+  });
+
+  it('counts the hidden items a truncation marker stands in for', () => {
+    const container = document.createElement('ul');
+    const before = item('1');
+    const after = item('2');
+    container.append(before, marker(40), after);
+
+    expect(resolveItemPosition({ row: before, rowsContainer: container }))
+      .toEqual({ position: 1, total: 42 });
+    expect(resolveItemPosition({ row: after, rowsContainer: container }))
+      .toEqual({ position: 42, total: 42 });
+  });
+
+  it('ignores non-item rows without an omitted count', () => {
+    const container = document.createElement('ul');
+    const divider = document.createElement('li');
+    const row = item('1');
+    container.append(divider, row);
+
+    expect(resolveItemPosition({ row, rowsContainer: container }))
+      .toEqual({ position: 1, total: 1 });
+  });
+
+  it('returns null for a row that is not an item row of the container', () => {
+    const container = document.createElement('ul');
+    container.append(item('1'));
+    const foreign = item('2');
+
+    expect(resolveItemPosition({ row: foreign, rowsContainer: container })).toBeNull();
+    expect(resolveItemPosition({ row: marker(3), rowsContainer: container })).toBeNull();
+  });
+});
+
+describe('resolveItemLabel', () => {
+  it('reads the label from the row item element and returns null without one', () => {
+    const labelled = document.createElement('li');
+    labelled.setAttribute('data-sortable-lists--item-id-value', '1');
+    labelled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
+    const bare = document.createElement('li');
+    bare.setAttribute('data-sortable-lists--item-id-value', '2');
+
+    expect(resolveItemLabel(labelled)).toEqual('Story one');
+    expect(resolveItemLabel(bare)).toBeNull();
   });
 });
