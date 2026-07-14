@@ -77,5 +77,43 @@ RSpec.describe "API v3 Query Column resource" do
         expect(last_response).to have_http_status(404)
       end
     end
+
+    context "with multiple versions inactive" do
+      context "for the version column" do
+        let(:column_name) { "version" }
+
+        it "succeeds" do
+          expect(last_response).to have_http_status(200)
+        end
+      end
+
+      context "for the targetVersions column" do
+        let(:column_name) { "targetVersions" }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status(404)
+        end
+      end
+    end
+
+    context "with multiple versions active",
+            with_flag: { work_package_multiple_versions: true },
+            with_settings: { work_package_multiple_versions: true } do
+      context "for the targetVersions column" do
+        let(:column_name) { "targetVersions" }
+
+        it "succeeds" do
+          expect(last_response).to have_http_status(200)
+        end
+      end
+
+      context "for the version column" do
+        let(:column_name) { "version" }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status(404)
+        end
+      end
+    end
   end
 end

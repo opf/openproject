@@ -27,46 +27,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
-  class QueryExporter < Exports::Exporter
-    self.model = WorkPackage
+  module Formatters
+    class TargetVersions < ::Exports::Formatters::Default
+      def self.apply?(attribute, _export_format)
+        attribute.to_sym == :target_versions
+      end
 
-    alias :query :object
-
-    attr_reader :column_objects, :columns, :work_packages
-
-    def initialize(object, options = {})
-      super
-
-      @column_objects = get_columns
-      @columns = column_objects.map { |c| { name: c.name, caption: c.caption } }
-      @work_packages = get_work_packages
-    end
-
-    def get_columns
-      query
-        .columns
-        .reject { |c| c.is_a?(Queries::WorkPackages::Selects::RelationSelect) }
-    end
-
-    def page
-      options[:page] || 1
-    end
-
-    def get_work_packages
-      query
-        .results
-        .work_packages
-        .includes(column_associations)
-        .page(page)
-        .per_page(Setting.work_packages_projects_export_limit.to_i)
-    end
-
-    # Preload only names that are real associations so that a column whose
-    # association metadata does not match one falls back to lazy loading
-    # instead of raising.
-    def column_associations
-      column_objects.filter_map { it.association&.to_sym } & WorkPackage.reflections.keys.map(&:to_sym)
+      def retrieve_value(object)
+        object.target_versions.map(&:name)
+      end
     end
   end
 end
