@@ -301,39 +301,44 @@ module CustomFields
       model.is_a?(UserCustomField)
     end
 
+    # Formula suggestions for operators, punctuation, functions and keywords are inserted as plain text
+    # nodes instead of tokens, since displaying them as tokens would result in too much visual clutter.
+    # We still want to offer autocompletion for them.
+    FORMULA_OPERATOR_SUGGESTIONS = CustomField::CalculatedValue::FORMULA_OPERATORS
+      # Hide % from the suggestions as it can be used as either modulo or percentage.
+      .reject { it == "%" }
+      .map { { key: it, label: it, insert_as_text: true, enabled: true } }
+      .freeze
+
+    FORMULA_PUNCTUATION_SUGGESTIONS = CustomField::CalculatedValue::FORMULA_PUNCTUATION
+      .map { { key: it, label: it, insert_as_text: true, enabled: true } }
+      .freeze
+
+    # Insert functions with the opening parenthesis so that the caret ends up where the arguments go.
+    FORMULA_FUNCTION_SUGGESTIONS = CustomField::CalculatedValue::FORMULA_FUNCTIONS
+      .map { { key: "#{it}(", label: "#{it}()", insert_as_text: true, enabled: true } }
+      .freeze
+
+    FORMULA_KEYWORD_SUGGESTIONS = CustomField::CalculatedValue::FORMULA_KEYWORDS
+      .map { { key: it, label: it, insert_as_text: true, enabled: true } }
+      .freeze
+
+    private_constant :FORMULA_OPERATOR_SUGGESTIONS,
+                     :FORMULA_PUNCTUATION_SUGGESTIONS,
+                     :FORMULA_FUNCTION_SUGGESTIONS,
+                     :FORMULA_KEYWORD_SUGGESTIONS
+
     def formula_suggestions
-      operators = CustomField::CalculatedValue::FORMULA_OPERATORS
-                    # Hide % from the suggestions as it can be used as either modulo or percentage.
-                    .reject { it == "%" }
-                    .map do |op|
-        # Insert operators as plain text nodes instead of tokens, since displaying them as tokens would result
-        # in too much visual clutter. We still want to offer autocompletion for them.
-        { key: op, label: op, insert_as_text: true, enabled: true }
-      end
-
-      punctuation = CustomField::CalculatedValue::FORMULA_PUNCTUATION.map do |symbol|
-        { key: symbol, label: symbol, insert_as_text: true, enabled: true }
-      end
-
-      # Insert functions with the opening parenthesis so that the caret ends up where the arguments go.
-      functions = CustomField::CalculatedValue::FORMULA_FUNCTIONS.map do |function|
-        { key: "#{function}(", label: "#{function}()", insert_as_text: true, enabled: true }
-      end
-
-      keywords = CustomField::CalculatedValue::FORMULA_KEYWORDS.map do |kw|
-        { key: kw, label: kw, insert_as_text: true, enabled: true }
-      end
-
       custom_fields = model.usable_custom_field_references_for_formula.map do |cf|
         { key: "cf_#{cf.id}", label: cf.name, enabled: true }
       end
 
       {
         custom_fields: { title: I18n.t("label_custom_field_plural"), tokens: custom_fields },
-        operators: { title: I18n.t("label_operator_plural"), tokens: operators },
-        punctuation: { title: I18n.t("label_punctuation"), tokens: punctuation },
-        functions: { title: I18n.t("label_function_plural"), tokens: functions },
-        keywords: { title: I18n.t("label_keyword_plural"), tokens: keywords }
+        operators: { title: I18n.t("label_operator_plural"), tokens: FORMULA_OPERATOR_SUGGESTIONS },
+        punctuation: { title: I18n.t("label_punctuation"), tokens: FORMULA_PUNCTUATION_SUGGESTIONS },
+        functions: { title: I18n.t("label_function_plural"), tokens: FORMULA_FUNCTION_SUGGESTIONS },
+        keywords: { title: I18n.t("label_keyword_plural"), tokens: FORMULA_KEYWORD_SUGGESTIONS }
       }
     end
   end
