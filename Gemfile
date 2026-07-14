@@ -87,7 +87,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.2"
+gem "commonmarker", "~> 2.8.3"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -112,8 +112,8 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "ruby-duration", "~> 3.2.0"
 gem "msgpack", "~> 1.8.3"
+gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
 
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.1"
+gem "grape", "~> 3.3.2"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -403,7 +403,7 @@ gem "disposable", "~> 0.6.2"
 gem "dentaku", "~> 3.5"
 
 # Used for more powerful counter caches
-gem "counter_culture", "~> 3.13"
+gem "counter_culture", "~> 3.14"
 
 group :postgres do
   gem "pg", "~> 1.6.2"
@@ -432,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.89.1"
+  gem "openproject-primer_view_components", "~>0.89.2"
 end

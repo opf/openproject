@@ -169,6 +169,25 @@ RSpec.describe MembersController do
         end
       end
 
+      context "when searching for a group the user belongs to" do
+        let!(:visible_group) { create(:group, lastname: "Visible group", members: [user]) }
+        let!(:hidden_group) { create(:group, lastname: "Hidden group") }
+        let(:query) { "Visible group" }
+
+        it "returns the group even if it is not a member of the project" do
+          subject
+
+          expect(json_response).to include(
+            {
+              "id" => visible_group.id,
+              "name" => visible_group.name,
+              "href" => "/api/v3/groups/#{visible_group.id}"
+            }
+          )
+          expect(json_response.pluck("id")).not_to include(hidden_group.id)
+        end
+      end
+
       context "when the user is authorized to see email addresses" do
         let(:global_permissions) { [:view_user_email] }
 

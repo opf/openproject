@@ -1,0 +1,51 @@
+<%= render(StepWizard::PageLayoutComponent.new) do |layout| %>
+  <%= layout.with_page_header do %>
+    <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+      <% header.with_title { title } %>
+      <% header.with_breadcrumbs(breadcrumb_items) %>
+      <% header.with_action_icon_button(
+           tag: :a,
+           icon: :x,
+           mobile_icon: :x,
+           label: I18n.t(:button_cancel),
+           href: types_path,
+           aria: { label: I18n.t(:button_cancel) }
+         ) %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_wizard_content do %>
+    <%= grid_layout("op-work-package-types-wizard", tag: :div) do |page| %>
+      <% page.with_area("sidebar") do %>
+        <%= render(WorkPackageTypes::Wizard::SidebarComponent.new(type:, current_step:)) %>
+      <% end %>
+
+      <% page.with_area("main") do %>
+        <% if step_aspect %>
+          <%= render(
+                WorkPackageTypes::ConfigurationLinkComponent.new(
+                  type:,
+                  aspect: step_aspect,
+                  url: step_url,
+                  method: :patch,
+                  form_id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+                  form_model: type,
+                  with_submit: false,
+                  editor_form: step_editor_form,
+                  heading: step_title
+                )
+              ) do %>
+            <%= render(step_body) %>
+          <% end %>
+        <% else %>
+          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
+          <%= render(step_body) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= layout.with_footer do %>
+    <%= render(WorkPackageTypes::Wizard::FooterComponent.new(type:, current_step:)) %>
+  <% end %>
+<% end %>

@@ -29,30 +29,31 @@ Within a project Modules can be activated and deactivated under "Modules" in the
 
 Please choose the module or feature you want to learn more about.
 
-| Topic                                                            | Content                                                      |
-|------------------------------------------------------------------| :----------------------------------------------------------- |
-| [Activity](activity)                                             | How to find out about the latest activities in a project.    |
-| [Backlogs (Scrum)](backlogs-scrum)                               | How to manage a Scrum team in OpenProject with a product backlog and taskboard. |
-| [Baseline comparison](work-packages/baseline-comparison)         | View and compare changes in a work package table within a given period of time. |
-| [Boards](agile-boards)                                           | How to work with Agile boards for agile project management, e.g. Kanban. |
-| [Budgets](budgets)                                               | How to create and manage a project budget.                   |
-| [Calendar](calendar)                                             | How to display your work in a calendar in OpenProject.       |
-| [Documents](documents)                                           | How to upload and share documents in OpenProject.            |
-| [Forums](forums)                                                 | How to manage forums to discuss and comment on topics.       |
-| [Gantt chart](gantt-chart)                                       | How to create and manage a project plan in a Gantt chart.    |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [Activity](activity)                                         | How to find out about the latest activities in a project.    |
+| [Backlogs (Scrum)](backlogs-scrum)                           | How to manage a Scrum team in OpenProject with a product backlog and taskboard. |
+| [Baseline comparison](work-packages/baseline-comparison)     | View and compare changes in a work package table within a given period of time. |
+| [Boards](agile-boards)                                       | How to work with Agile boards for agile project management, e.g. Kanban. |
+| [Budgets](budgets)                                           | How to create and manage a project budget.                   |
+| [Calendar](calendar)                                         | How to display your work in a calendar in OpenProject.       |
+| [Documents](documents)                                       | How to upload and share documents in OpenProject.            |
+| [Forums](forums)                                             | How to manage forums to discuss and comment on topics.       |
+| [Gantt chart](gantt-chart)                                   | How to create and manage a project plan in a Gantt chart.    |
 | [GitHub](../system-admin-guide/integrations/github-integration/) | How to manage the GitHub integration.                        |
 | [GitLab](../system-admin-guide/integrations/gitlab-integration/) | How to manage the GitLab integration.                        |
-| [Meetings](meetings)                                             | How to manage meetings to create and share meeting agenda and meeting outcomes. |
-| [Members](members)                                               | How to manage Members in a project.                          |
-| [My time tracking](./time-and-costs/my-time-tracking)            | How to manage personal time entries in list and calendar views. |
-| [News](news)                                                     | How to create and manage News for your projects.             |
+| [Meetings](meetings)                                         | How to manage meetings to create and share meeting agenda and meeting outcomes. |
+| [Members](members)                                           | How to manage Members in a project.                          |
+| [My time tracking](./time-and-costs/my-time-tracking)        | How to manage personal time entries in list and calendar views. |
+| [News](news)                                                 | How to create and manage News for your projects.             |
 | [Nextcloud integration](./file-management/nextcloud-integration) | How to link and use Nextcloud files and folders in OpenProject. |
-| [OneDrive integration](./file-management/one-drive-integration)  | How to link and use OneDrive files and folders in OpenProject. |
-| [Portfolios](portfolios)                                         | How to create, edit and manage portfolios in OpenProject.    |
-| [Projects](./projects/)                                          | Edit, create, copy, delete projects and change project settings. |
-| [Project home page](./projects/project-home/)                    | How to create a project overview dashboard with important project information. |
-| [Roadmap](roadmap)                                               | How to create a product roadmap with OpenProject.            |
-| [Team planner](team-planner)                                     | How to use the team planner module.                          |
-| [Time and costs](time-and-costs)                                 | How to track time and costs in OpenProject and report spent time and costs. |
-| [Wiki](wiki)                                                     | How to create and manage a wiki to collaboratively document and share information. |
-| [Work packages](work-packages)                                   | How to manage your work in a project.                        |
+| [OneDrive integration](./file-management/one-drive-integration) | How to link and use OneDrive files and folders in OpenProject. |
+| [Portfolios](portfolios)                                     | How to create, edit and manage portfolios in OpenProject.    |
+| [Projects](./projects/)                                      | Edit, create, copy, delete projects and change project settings. |
+| [Project home page](./projects/project-home/)                | How to create a project overview dashboard with important project information. |
+| [Resource management](./resource-management)                 | How to manage resources and overview project capacities in your organization. |
+| [Roadmap](roadmap)                                           | How to create a product roadmap with OpenProject.            |
+| [Team planner](team-planner)                                 | How to use the team planner module.                          |
+| [Time and costs](time-and-costs)                             | How to track time and costs in OpenProject and report spent time and costs. |
+| [Wiki](wiki)                                                 | How to create and manage a wiki to collaboratively document and share information. |
+| [Work packages](work-packages)                               | How to manage your work in a project.                        |

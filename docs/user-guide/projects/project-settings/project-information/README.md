@@ -21,7 +21,7 @@ Project settings are grouped into three sections:
 
 3. **Project status**. Here you can: 
 
-   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
+   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects).
    - Add a **project status description**. The status description will be shown on the [project home](../../project-home/) page.
 
 4. **Project relations**, where you can select the **parent project**.
@@ -72,7 +72,13 @@ You will then see the form to change and save the new project identifier.
 
 You can copy an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
 
+> [!NOTE]
+> Users who copy a project are assigned a **New role for users that create projects** in the copied project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
+
 ![Copy a project under project settings in OpenProject](openproject_user_guide_project_settings_information_copy_project.png)
+
+> [!NOTE]
+> To access the **Copy** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
 
 Under the **Copy from project** section you can select what additional project data and settings, such as versions, work package categories, attachments, project life cycle and project members should be copied as well. 
 You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../project-home/#project-overview) dashboards along with your project, too. 

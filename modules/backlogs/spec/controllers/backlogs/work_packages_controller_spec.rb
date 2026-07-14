@@ -174,7 +174,9 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:list_type) { "inbox" }
         let(:prev_id) { existing_inbox_item.id }
 
-        it "replaces the sprint and backlog components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
+          subject
+
           expect(response).to be_successful
           expect(response).to have_http_status :ok
           expect(response).to have_turbo_stream action: "turbo_frame_reload",
@@ -231,7 +233,9 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:list_id) { bucket.id }
         let(:prev_id) { bucket_items.first.id }
 
-        it "replaces the sprint and backlog components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
+          subject
+
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "turbo_frame_reload",
                                                 target: "backlogs_container"
@@ -309,7 +313,9 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:list_type) { "sprint" }
         let(:list_id) { target_sprint.id }
 
-        it "replaces inbox and target sprint components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
+          subject
+
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "turbo_frame_reload",
                                                 target: "backlogs_container"
@@ -395,11 +401,12 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:list_type) { "sprint" }
         let(:list_id) { target_sprint.id }
 
-        it "replaces the backlog and sprint components without a flash", :aggregate_failures do
+        it "replaces the sprints and backlog components without a flash", :aggregate_failures do
+          subject
+
           expect(response).to be_successful
           expect(response).to have_turbo_stream action: "turbo_frame_reload",
                                                 target: "backlogs_container"
-
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 

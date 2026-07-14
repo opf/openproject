@@ -42,7 +42,7 @@ fr:
         text: Objectif du sprint
       work_package:
         backlog_bucket: Bucket de backlog
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Boîte de réception du backlog
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -89,7 +89,7 @@ fr:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: Ajouter un lot de travaux existant à %{name}
     administration_blankslate:
       text: Nous sommes en train de redessiner le module Backlogs. Les paramètres d'administration pour les sprints et les backlogs seront visibles ici dans un futur proche. Les paramètres au niveau du projet restent disponibles.
       title: Les paramètres d'administration du backlog évoluent
@@ -107,8 +107,8 @@ fr:
       select_panel_title: Sélectionner les éléments
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Ajouter un lot de travaux existant
+        add_new_work_package: Ajouter un lot de travaux
         delete_backlog_bucket: Supprimer un bucket de backlog
         edit_backlog_bucket: Modifier le backlog en attente
       blankslate_description: Faites glisser les éléments ici pour les ajouter.
@@ -136,8 +136,8 @@ fr:
       title: Il y a des travaux en cours
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Ajouter un lot de travaux existant
+        add_new_work_package: Ajouter un nouveau lot de travaux
       blankslate_description: Tous les lots de travaux ouverts dans ce projet apparaîtront automatiquement ici.
       blankslate_title: La boîte de réception de backlog est vide
       label_actions: Inbox actions
@@ -165,8 +165,8 @@ fr:
     show_burndown_chart: Graphique burndown
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Ajouter un lot de travaux existant
+        add_new_work_package: Ajouter un nouveau lot de travaux
         edit_sprint: Modifier le sprint
       blankslate_description: Aucun élément n'a encore été planifié. Faites glisser les éléments ici pour les ajouter.
       blankslate_title: "%{name} est vide"
@@ -214,7 +214,7 @@ fr:
     work_package_is_closed: Le lot de travaux est fait lorsque
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
+        invalid_target: La cible à laquelle vous essayez d'ajouter est invalide.
         target_not_found: The sprint or backlog you are trying to add to was not found.
       update_service:
         ambiguous_target: target_id and direction cannot both be present.

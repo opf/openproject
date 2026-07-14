@@ -73,7 +73,7 @@ You can filter or group notifications by using the two sets of predefined filter
 
 (Area 5) The split screen view lets you not only view work package activity as previously described, but also lets you access all other work package tabs, including overview, files, relations and watchers.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To learn more about Email reminders, [click here](../../user-guide/account-settings/#email-reminders).
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To learn more about Email reminders, [click here](../../user-guide/notifications/notification-settings/#email-reminders).
 
 ## Mark notifications as read
 

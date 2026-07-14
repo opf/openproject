@@ -324,12 +324,15 @@ ko:
         attribute_groups: 양식 구성
         children: Sub-types
         color: 색상
+        dependent_configuration_links: Linked types
         description: 설명의 기본 텍스트
         is_default: 새 프로젝트에 대해 기본적으로 활성화됨
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
         parent: Parent type
         patterns: 패턴
+      type/configuration_link:
+        source: Source type
       user:
         admin: 관리자
         auth_source: 인증 소스
@@ -794,6 +797,10 @@ ko:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 필드 내의 특성이 하나 이상의 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -5690,7 +5697,37 @@ ko:
     help_and_support: 도움말과 지원
   total_progress: 총 진행률
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: 사용 가능한 템플릿 중에서 이 유형에 대해 활성화하려는 템플릿을 선택하세요. 템플릿은 이 유형을 사용하여 작업 패키지의 내보낸 PDF에서 표시되는 디자인과 특성을 결정합니다. 목록의 첫 번째 템플릿이 기본적으로 선택됩니다.
         pdf_export_templates:

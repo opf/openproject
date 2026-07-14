@@ -58,4 +58,4 @@ To configure **Incoming emails** in OpenProject, navigate to **Administration â†
 
 **To set up incoming email**, please visit our [Operations guide](../../installation-and-operations/configuration/incoming-emails).
 
-**To configure individual email reminders**, please visit our [User guide](../../user-guide/account-settings/#email-reminders).
+**To configure individual email reminders**, please visit our [User guide](../../user-guide/account-settings/notification-and-email/#email-reminders).

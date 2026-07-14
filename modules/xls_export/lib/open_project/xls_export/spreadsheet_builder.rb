@@ -57,7 +57,7 @@ module OpenProject::XlsExport
         return 18
       end
 
-      tot_w = [Float(0)]
+      tot_w = [0.0]
       idx = 0
       value.to_s.each_char do |c|
         case c
@@ -69,7 +69,7 @@ module OpenProject::XlsExport
           tot_w[idx] += 1.2
         when "\n"
           idx = idx + 1
-          tot_w << Float(0)
+          tot_w << 0.0
         else
           tot_w[idx] += 1.05
         end
