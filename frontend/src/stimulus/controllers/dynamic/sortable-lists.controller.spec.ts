@@ -56,7 +56,8 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-previe
 
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { waitFor } from '@testing-library/dom';
-import { type Mock } from 'vitest';
+import { type Mock, type MockInstance } from 'vitest';
+import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
 import type {
@@ -76,6 +77,10 @@ describe('Sortable lists controller', () => {
   let fixture:HTMLElement;
   let fetchMock:Mock;
   let renderStreamMessageMock:Mock;
+  // `ReturnType<typeof vi.spyOn>` collapses to a call signature TypeScript
+  // cannot resolve `.mock.calls`'s element type from; pin the spied method's
+  // own signature instead so calls stay typed.
+  let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
 
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
@@ -103,7 +108,12 @@ describe('Sortable lists controller', () => {
     row.setAttribute('data-controller', 'sortable-lists--item');
     row.setAttribute('data-sortable-lists--item-id-value', id);
     row.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+    row.setAttribute('data-sortable-lists--item-label-value', `Story ${id}`);
     return row;
+  }
+
+  function announcedMessages():[string, unknown][] {
+    return announceSpy.mock.calls.map((call) => [call[0], call[1]]);
   }
 
   function renderFixture({
@@ -118,8 +128,8 @@ describe('Sortable lists controller', () => {
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
       >
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Product backlog"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Sprint 1"></ul>
         <div data-controller="sortable-lists--scrollable"></div>
       </div>
     `;
@@ -153,6 +163,7 @@ describe('Sortable lists controller', () => {
               sortableListData({
                 type: list.getAttribute('data-sortable-lists--list-type-value')!,
                 listId: list.getAttribute('data-sortable-lists--list-id-value'),
+                name: list.getAttribute('data-sortable-lists--list-name-value'),
               }),
             ),
           ],
@@ -204,6 +215,29 @@ describe('Sortable lists controller', () => {
       renderStreamMessage: renderStreamMessageMock,
     });
 
+    document.body.appendChild(document.createElement('live-region'));
+    announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
+    // I18n.store merges straight into I18n#translations, which the lookup
+    // reads through the active locale ("en" by default); an unlocalized
+    // payload here would resolve to nothing and every message would report
+    // as missing.
+    window.I18n.store({
+      en: {
+        js: {
+          sortable_lists: {
+            announcements: {
+              fallback_item_label: 'Item',
+              fallback_list_name: 'another list',
+              move_failed_check_position: 'Move failed. Check the item\'s current position.',
+              move_failed_rolled_back: 'Move failed. %{label} returned to its previous position.',
+              moved: '%{label} moved to position %{position} of %{total}',
+              moved_to_list: '%{label} moved to %{list}, position %{position} of %{total}',
+            },
+          },
+        },
+      },
+    });
+
     ctx = await setupStimulusTest({
       controllers: {
         'sortable-lists': SortableListsController,
@@ -217,6 +251,7 @@ describe('Sortable lists controller', () => {
 
   afterEach(() => {
     ctx.dispose();
+    document.body.querySelector('live-region')?.remove();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
@@ -536,6 +571,121 @@ describe('Sortable lists controller', () => {
 
     expect(itemIds(sourceList)).toEqual(['2', '3', '1']);
     expect(itemIds(targetList)).toEqual(['4', '5']);
+  });
+
+  it('announces a same-list move with its absolute position', async () => {
+    const { sourceList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, sourceList);
+
+    expect(announcedMessages()).toEqual([
+      ['Story 1 moved to position 3 of 3', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('announces a cross-list move with the target list name', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    expect(announcedMessages()).toEqual([
+      ['Story 1 moved to Sprint 1, position 3 of 3', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('falls back to generic wording without item label and list name', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+    firstSourceItem.removeAttribute('data-sortable-lists--item-label-value');
+    targetList.removeAttribute('data-sortable-lists--list-name-value');
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    expect(announcedMessages()).toEqual([
+      ['Item moved to another list, position 3 of 3', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('announces absolute positions across a truncation marker', async () => {
+    const { sourceList, firstSourceItem } = renderFixture();
+    const markerRow = document.createElement('li');
+    markerRow.setAttribute('data-sortable-lists-prev-item-id', '90');
+    markerRow.setAttribute('data-sortable-lists-omitted-count', '40');
+    sourceList.insertBefore(markerRow, sourceList.querySelector('[data-sortable-lists--item-id-value="3"]'));
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, sourceList);
+
+    expect(announcedMessages()).toEqual([
+      ['Story 1 moved to position 43 of 43', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('announces nothing for a drop at the current position', async () => {
+    const { sourceList } = renderFixture();
+    const lastSourceItem = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="3"]')!;
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(lastSourceItem, sourceList);
+
+    expect(announceSpy).not.toHaveBeenCalled();
+  });
+
+  it('stays silent on a 422, whose error flash announces server-side', async () => {
+    fetchMock.mockResolvedValueOnce(new Response('', { status: 422 }));
+    const { targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+    await flushPromises();
+
+    // Only the optimistic-placement announcement; no client failure message.
+    expect(announcedMessages()).toEqual([
+      ['Story 1 moved to Sprint 1, position 3 of 3', { politeness: 'polite' }],
+    ]);
+  });
+
+  it('announces a verified rollback assertively on a network failure', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('Network failure'));
+    const { targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+    await flushPromises();
+
+    expect(announcedMessages()).toEqual([
+      ['Story 1 moved to Sprint 1, position 3 of 3', { politeness: 'polite' }],
+      ['Move failed. Story 1 returned to its previous position.', { politeness: 'assertive' }],
+    ]);
+  });
+
+  it('announces the fallback failure wording when the rollback is skipped', async () => {
+    let rejectMove:(error:Error) => void;
+
+    fetchMock.mockImplementationOnce(() => {
+      return new Promise<Response>((_resolve, reject) => {
+        rejectMove = reject;
+      });
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    // A concurrent morph (e.g. an unrelated list refresh) relocates the row
+    // before the move request fails, so the fresher-morph guard skips the
+    // rollback (same setup as the rollback-skip test above).
+    sourceList.append(firstSourceItem);
+
+    rejectMove!(new Error('Network failure'));
+    await flushPromises();
+
+    expect(announcedMessages()[1]).toEqual(
+      ['Move failed. Check the item\'s current position.', { politeness: 'assertive' }],
+    );
   });
 
   it('does not dispatch a generic toast when a 422 turbo stream rejects the move', async () => {

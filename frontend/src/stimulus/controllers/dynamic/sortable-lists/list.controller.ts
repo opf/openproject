@@ -49,6 +49,7 @@ export default class ListController extends Controller<HTMLElement> implements R
     id: String,
     dropPosition: { type: String, default: 'end' },
     acceptedType: String,
+    name: String,
   };
 
   static elements = { rowsContainer: ':scope > ul' };
@@ -60,6 +61,8 @@ export default class ListController extends Controller<HTMLElement> implements R
   declare readonly dropPositionValue:string;
   declare readonly acceptedTypeValue:string;
   declare readonly hasAcceptedTypeValue:boolean;
+  declare readonly nameValue:string;
+  declare readonly hasNameValue:boolean;
 
   // Provided by the stimulus-elements blessing, declared manually in the same
   // style as the controller's values/targets.
@@ -150,6 +153,7 @@ export default class ListController extends Controller<HTMLElement> implements R
       listId: this.hasIdValue ? this.idValue : null,
       dropPosition: this.dropPosition,
       rowsContainer: this.rowsContainer,
+      name: this.hasNameValue ? this.nameValue : null,
     });
   }
 
