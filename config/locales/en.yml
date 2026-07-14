@@ -237,6 +237,8 @@ en:
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
+        portfolio: "Portfolio"
+        program: "Program"
         project_creation_wizard_assignee_custom_field: "Assignee when submitted"
         project_creation_wizard_enabled: "Project initiation request"
         project_creation_wizard_notification_text: "Notification text"
