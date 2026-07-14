@@ -14,7 +14,7 @@ import {
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
 
-const schema = BlockNoteSchema.create().extend({
+const defaultSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
   },
@@ -23,8 +23,8 @@ const schema = BlockNoteSchema.create().extend({
   },
 });
 
-function Editor({ onEditor }:{ onEditor?:(editor:any) => void }) {
-  const editor = useCreateBlockNote({ schema });
+function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:any }) {
+  const editor = useCreateBlockNote({ schema: schema ?? defaultSchema });
   onEditor?.(editor);
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
@@ -52,6 +52,6 @@ function Editor({ onEditor }:{ onEditor?:(editor:any) => void }) {
   );
 }
 
-export function renderEditor(opts?:{ onEditor?:(editor:any) => void }) {
-  return render(<Editor onEditor={opts?.onEditor} />);
+export function renderEditor(opts?:{ onEditor?:(editor:any) => void; schema?:any }) {
+  return render(<Editor onEditor={opts?.onEditor} schema={opts?.schema} />);
 }

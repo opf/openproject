@@ -5,6 +5,7 @@ import {
   computeWorkPackageBlockExternalData,
   parseWorkPackageBlockExternalHTML,
 } from './externalHtml';
+import { PasteWorkPackageLinkExtension } from '../../plugins/pasteWorkPackageLinkExtension';
 
 export { blockConfig };
 
@@ -28,5 +29,9 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
     },
 
     parse: (element) => parseWorkPackageBlockExternalHTML(element),
-  }
+  },
+
+  [
+    PasteWorkPackageLinkExtension,
+  ]
 );
