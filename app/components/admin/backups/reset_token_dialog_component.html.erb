@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,39 +25,42 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
-<% html_title t(:label_administration), t(:label_backup) -%>
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id:,
+      title:,
+      confirm_button_text:,
+      size: :medium_portrait,
+      form_arguments: {
+        action: perform_token_reset_admin_backups_path,
+        method: :post,
+        data: password_confirmation_data_attribute({ turbo: true })
+      }
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { title }
+      message.with_description do
+        flex_layout do |flex|
+          flex.with_row(mb: 3, text_align: :center) do
+            render Primer::Beta::Text.new(color: :muted) do
+              t("backup.reset_token.implications")
+            end
+          end
+          if show_warning?
+            flex.with_row(text_align: :center) do
+              render Primer::Beta::Text.new(color: :muted) do
+                t("backup.reset_token.warning")
+              end
+            end
+          end
+        end
+      end
+    end
 
-<%= render Admin::Backups::ShowPageHeaderComponent.new(backup_token: @backup_token) %>
-
-<p>
-<%= t("backup.reset_token.info") %>
-</p>
-
-<% if Token::Backup.count > 0 %>
-  <span><%= I18n.t("backup.label_token_users") %></span>:
-
-  <div class="wiki">
-    <ul>
-      <% Token::Backup.includes(:user).find_each do |token| %>
-        <li>
-          <% if current_user.allowed_globally?(:manage_user) %>
-            <%= link_to token.user.name, edit_user_path(token.user) %>
-          <% else %>
-            <%= token.user.name %>
-          <% end %>
-          <%= token.user == current_user ? "(#{I18n.t(:you)})" : "" %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<% if @backup_token.present? %>
-  <%= render Admin::Backups::RequestBackupComponent.new(
-        last_backup_attachment_id: @last_backup_attachment_id,
-        last_backup_date: @last_backup_date,
-        may_include_attachments: @may_include_attachments
-      ) %>
-<% end %>
+    dialog.with_confirmation_check_box_content(checkbox_confirmation)
+  end
+%>

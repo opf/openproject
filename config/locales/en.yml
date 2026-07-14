@@ -1786,6 +1786,8 @@ en:
     reset_token:
       action_create: Create
       action_reset: Reset
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: "Create backup token"
       heading_reset: "Reset backup token"
       implications: >
