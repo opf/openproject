@@ -39,8 +39,6 @@ module Projects
         end
 
         def call
-          # The graph queries work packages by the single-version filter, so it
-          # is only rendered when that filter finds any.
           return unless version.targeted_work_packages.any?
 
           widget_wrapper do |widget|

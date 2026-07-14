@@ -32,11 +32,6 @@ module WorkPackage::Versions
   extend ActiveSupport::Concern
 
   included do
-    # Deprecated single-version column, kept in sync with the first target
-    # version (see #update_legacy_version_field). Can be dropped once all
-    # subsystems read target_versions instead.
-    belongs_to :version, optional: true
-
     has_many :work_package_versions, dependent: :delete_all
     has_many :versions, through: :work_package_versions, source: :version
     has_many :target_versions,
@@ -96,15 +91,17 @@ module WorkPackage::Versions
       # a different project and that is not systemwide shared
       having_version_from_other_project
         .where(conditions)
-        .includes(:project, :version)
-        .references(:versions).find_each do |work_package|
+        .includes(:project, :target_versions)
+        .joins("LEFT OUTER JOIN #{Version.table_name} " \
+               "ON #{Version.table_name}.id = #{WorkPackage.table_name}.version_id")
+        .find_each do |work_package|
         next if work_package.project.nil? || work_package.version.nil?
 
         unless work_package.project.shared_versions.include?(work_package.version)
           # this path clears version_id without going through the services,
           # so we need to manually drop the matching target association here too.
           work_package.target_versions.delete(work_package.version)
-          work_package.version = nil
+          work_package.version_id = nil
           unless work_package.save
             Rails.logger.error "Failed to clear version on work package ##{work_package.id}: " \
                                "#{work_package.errors.full_messages.to_sentence}"
@@ -112,6 +109,21 @@ module WorkPackage::Versions
         end
       end
     end
+  end
+
+  # Read-only replacement for the former +belongs_to :version+ association.
+  #
+  # Returns the work package's single target version, or nil when it has none.
+  # The legacy single-version API cannot represent more than one target
+  # version, so rather than silently picking one we refuse and raise. Callers
+  # that need to deal with multiple versions must use #target_versions.
+  def version
+    if target_versions.size > 1
+      raise "WorkPackage##{id} has multiple target versions and cannot be " \
+            "represented as a single version. Use #target_versions instead."
+    end
+
+    target_versions.first
   end
 
   # Versions that the work_package can be assigned to
@@ -122,10 +134,8 @@ module WorkPackage::Versions
   #   * for custom fields only_open: false can be used, if the CF is configured so
   def assignable_versions(only_open: true)
     if only_open
-      @assignable_versions ||= begin
-        current_version = version_id_changed? ? Version.find_by(id: version_id_was) : version
-        ((project&.assignable_versions || []) + [current_version]).compact.uniq
-      end
+      @assignable_versions ||=
+        ((project&.assignable_versions || []) + target_versions.to_a).compact.uniq
     else
       # The called method memoizes the result, no need to memoize it here.
       project&.assignable_versions(only_open: false)
