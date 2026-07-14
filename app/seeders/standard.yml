@@ -1143,6 +1143,58 @@ types:
     is_in_roadmap: true
     position: 7
 
+# Hidden global queries embedded into the form configuration of the Epic and User story
+# types (see type_configuration below). The `parent: '{id}'` filter is a templated value that
+# is resolved to the currently displayed work package, so each query lists that work package's
+# children.
+global_queries:
+  - t_name: "Epic children: User stories and bugs"
+    reference: :default_type_epic__children_query
+    parent: '{id}'
+    hidden: true
+    public: false
+    type:
+      - :default_type_user_story
+      - :default_type_bug
+    sort_by:
+      - [status, desc] # work in progress first
+      - [sprint, asc] # current sprint first, no sprint last
+      - [position, asc] # keep the order defined within the sprint
+    columns:
+      - id
+      - subject
+      - status
+      - assigned_to
+      - story_points
+      - sprint
+  - t_name: "User story children: Tasks"
+    reference: :default_type_user_story__children_query
+    parent: '{id}'
+    hidden: true
+    public: false
+    sort_by:
+      - [status, desc] # work in progress first
+      - [id, asc] # older first
+    columns:
+      - id
+      - subject
+      - type
+      - status
+      - assigned_to
+      - sprint
+
+type_configuration:
+  - type: :default_type_epic
+    merge_form_configuration: true
+    form_configuration:
+      - t_group_name: "User stories and bugs"
+        query: :default_type_epic__children_query
+  - type: :default_type_user_story
+    merge_form_configuration: true
+    form_configuration:
+      - t_group_name: "Tasks"
+        query: :default_type_user_story__children_query
+
 workflows:
   - type: :default_type_task
     statuses:
