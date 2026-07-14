@@ -76,6 +76,27 @@ RSpec.describe Bim::Bcf::Issues::CreateService, type: :model do
       end
     end
 
+    # An instance can start out in semantic mode and later switch to classic.
+    # When it does, existing work packages keep their semantic identifiers, so a
+    # BCF issue that references one must still import. We look identifiers up by
+    # their shape, not by the current setting, which makes this work.
+    context "with a link containing a semantic identifier allocated under semantic mode" do
+      it "still links the topic to the referenced work package after switching to classic mode" do
+        with_settings(work_packages_identifier: "semantic")
+        project = create(:project, identifier: "SEMID", enabled_module_names: %i[bim work_package_tracking])
+        work_package = create(:work_package, project:)
+        permissions = %i[manage_bcf view_linked_issues view_work_packages edit_work_packages]
+        user = create(:user, member_with_permissions: { project => permissions })
+        expect(work_package.identifier).to start_with("SEMID-")
+
+        with_settings(work_packages_identifier: "classic")
+        result = described_class.new(user:).call(reference_links: [api_v3_paths.work_package(work_package.identifier)])
+
+        expect(result).to be_success
+        expect(result.result.work_package).to eq work_package
+      end
+    end
+
     context "with semantic work package identifiers",
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, identifier: "SEMID", enabled_module_names: %i[bim work_package_tracking]) }
