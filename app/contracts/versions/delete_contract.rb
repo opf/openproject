@@ -37,7 +37,7 @@ module Versions
     protected
 
     def validate_no_work_packages_attached
-      return unless model.work_packages.exists?
+      return unless model.work_package_versions.exists?(kind: "target")
 
       errors.add(:base, :undeletable_work_packages_attached)
     end

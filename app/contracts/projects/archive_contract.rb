@@ -39,10 +39,11 @@ module Projects
     # to one of the project or descendant versions
     def validate_no_foreign_wp_references
       version_ids = model.rolled_up_versions.select(:id)
+      referencing_wp_ids = WorkPackageVersion.where(version_id: version_ids).select(:work_package_id)
 
       exists = WorkPackage
                  .where.not(project_id: model.self_and_descendants.select(:id))
-                 .exists?(version_id: version_ids)
+                 .exists?(id: referencing_wp_ids)
 
       errors.add :base, :foreign_wps_reference_version if exists
     end
