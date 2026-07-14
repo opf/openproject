@@ -348,7 +348,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
-    context "with a same-list move and optimistic=false (menu move)" do
+    context "with a same-list move from a client not flagging it optimistic" do
       let(:list_type) { "sprint" }
       let(:list_id) { sprint.id }
       let(:prev_id) { "" }

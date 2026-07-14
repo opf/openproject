@@ -85,10 +85,10 @@ module Backlogs
     end
 
     def build_move_item(menu, label:, icon:, direction:)
-      # Item-level `data:` renders on the ActionList `<li>` (verify against
-      # Primer::Alpha::ActionList::Item) so the controller's `<li>` targets and
-      # the API's `disableItem`/`enableItem` land on the right element; the click
-      # action rides the same `<li>` and fires on the bubbled button click.
+      # The `data:` hash must live on the item level so Primer renders it on
+      # the ActionList `<li>`: the controller's `<li>` targets and the
+      # action-menu API's `disableItem`/`enableItem` both address that element,
+      # and the click action rides it via the bubbled button click.
       menu.with_item(
         id: dom_target(work_package, :menu, label),
         label: I18n.t(label),

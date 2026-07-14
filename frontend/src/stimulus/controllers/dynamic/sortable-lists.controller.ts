@@ -317,6 +317,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
+  // The template must expand to a same-origin relative URL: the expansion is
+  // reduced to path + search + hash, so an absolute template's origin would
+  // be dropped silently.
   private resolveMoveUrl(data:{ itemId:string }):string|null {
     if (!this.hasMoveUrlTemplateValue) {
       return null;

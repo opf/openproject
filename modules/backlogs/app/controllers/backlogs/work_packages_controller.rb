@@ -95,13 +95,13 @@ module Backlogs
     end
 
     def move
-      source_list = [@work_package.sprint_id, @work_package.backlog_bucket_id]
+      source_target = Backlogs::Target.for_work_package(@work_package)
 
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package: @work_package)
         .call(**move_service_params)
 
-      if optimistic_same_list_move?(call, source_list)
+      if optimistic_same_list_move?(call, source_target)
         # A same-list optimistic move (drag or menu) already reordered the row
         # client-side and changes nothing else visible. Skip the frame reload
         # (it would fight that order); still emit the moved event for split-view
@@ -193,11 +193,11 @@ module Backlogs
       end
     end
 
-    # Snapshot the source list before the call, not dirty tracking: move_after
+    # Snapshot the source target before the call, not dirty tracking: move_after
     # reloads mid-method, wiping the saved_changes _before_last_save needs.
-    def optimistic_same_list_move?(call, source_list)
+    def optimistic_same_list_move?(call, source_target)
       optimistic_move? && call.success? &&
-        [call.result.sprint_id, call.result.backlog_bucket_id] == source_list &&
+        Backlogs::Target.for_work_package(call.result) == source_target &&
         requested_anchor_honored?(call.result)
     end
 
