@@ -65,9 +65,9 @@ module Wikis
           wikis_relation_page_link: {
             provider_id: page_info.provider.id,
             linkable_type: linkable.class.name,
-            linkable_id: linkable.id
-          },
-          identifier: page_info.identifier
+            linkable_id: linkable.id,
+            identifier: page_info.identifier
+          }
         )
       end
     end
