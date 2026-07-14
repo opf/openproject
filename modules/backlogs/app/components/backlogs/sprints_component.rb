@@ -51,6 +51,10 @@ module Backlogs
 
     private
 
+    def visible_sprint_ids
+      @visible_sprint_ids ||= sprints.map(&:id)
+    end
+
     def blankslate_description
       if sprint_management_allowed?
         description_with_settings_link
