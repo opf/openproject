@@ -36,23 +36,21 @@ module Admin
           name: :name,
           label: attribute_name(:name),
           required: true,
-          validation_message: validation_message_for(:name),
           input_width: :medium
         )
 
-        color_form.group(layout: :horizontal, classes: "color--hexcode-form-row") do |hexcode_group|
+        color_form.group(layout: :horizontal, classes: "color-form--hexcode-row") do |hexcode_group|
           hexcode_group.text_field(
             name: :hexcode,
             label: attribute_name(:hexcode),
             required: true,
             autocomplete: "off",
-            validation_message: validation_message_for(:hexcode),
             input_width: :small
           )
 
           if show_swatch?
             hexcode_group.html_content do
-              render(Colors::DefaultColorSwatchComponent.new(color: model, classes: "color--hexcode-form-swatch"))
+              render(Colors::SwatchComponent.new(hexcode: model.hexcode, classes: "color-form--hexcode-row-swatch"))
             end
           end
         end
@@ -82,10 +80,6 @@ module Admin
 
       def show_swatch?
         model.hexcode.present? && model.errors.messages_for(:hexcode).empty?
-      end
-
-      def validation_message_for(attribute)
-        model.errors.messages_for(attribute).to_sentence.presence
       end
     end
   end

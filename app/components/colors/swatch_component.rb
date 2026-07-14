@@ -29,15 +29,28 @@
 # ++
 
 module Colors
-  class DefaultColorSwatchComponent < ApplicationComponent
-    def initialize(color:, **system_arguments)
+  class SwatchComponent < ApplicationComponent
+    def initialize(hexcode:, show_value: false, **system_arguments)
       super()
 
-      @color = color
+      @hexcode = hexcode
+      @show_value = show_value
       @system_arguments = system_arguments
     end
 
     def call
+      return swatch unless show_value?
+
+      render(Primer::Box.new(tag: :span, classes: "color--swatch-with-value")) do
+        safe_join([swatch, value])
+      end
+    end
+
+    private
+
+    attr_reader :hexcode
+
+    def swatch
       render(
         Primer::Box.new(
           **system_arguments
@@ -45,16 +58,20 @@ module Colors
       )
     end
 
-    private
+    def value
+      render(Primer::Beta::Text.new(tag: :span)) { hexcode }
+    end
 
-    attr_reader :color
+    def show_value?
+      @show_value
+    end
 
     def system_arguments
       @system_arguments.merge(
         tag: :span,
-        classes: helpers.class_names("color--default-color-swatch", @system_arguments[:classes]),
+        classes: helpers.class_names("color--swatch", @system_arguments[:classes]),
         aria: @system_arguments.fetch(:aria, {}).merge(hidden: true),
-        style: [@system_arguments[:style], "background-color: #{color.hexcode}"].compact.join("; ")
+        style: [@system_arguments[:style], "background-color: #{hexcode}"].compact.join("; ")
       )
     end
   end
