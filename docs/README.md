@@ -24,11 +24,11 @@ The guides for [upgrading](./installation-and-operations/operation/upgrading) ar
 
 ## Operation
 
-* [Backing up your installation](./installation-and-operations/operation/backing-up)
-* [Alter configuration of OpenProject](./installation-and-operations/configuration)
-* [Manual repository integration for Git and Subversion](./installation-and-operations/configuration/repositories)
-* [Configure incoming mails](./installation-and-operations/configuration/incoming-emails)
-* [Install custom plugins](./installation-and-operations/configuration/plugins)
+- [Backing up your installation](./installation-and-operations/operation/backing-up)
+- [Alter configuration of OpenProject](./installation-and-operations/configuration)
+- [Manual repository integration for Git and Subversion](./installation-and-operations/configuration/repositories)
+- [Configure incoming mails](./installation-and-operations/configuration/incoming-emails)
+- [Install custom plugins](./installation-and-operations/configuration/plugins)
 
 ## User Guides
 
@@ -40,12 +40,12 @@ Please see our [Use Cases section](./use-cases/) for detailed how-to guides and 
 
 ## Development
 
-* [Full development environment for developers](./development/development-environment)
-* [Developing plugins](./development/create-openproject-plugin)
-* [Developing OmniAuth Plugins](./development/create-omniauth-plugin)
-* [Running tests](./development/testing)
-* [Code review guidelines](./development/code-review-guidelines)
-* [API documentation](./api)
+- [Full development environment for developers](./development/development-environment)
+- [Developing plugins](./development/create-openproject-plugin)
+- [Developing OmniAuth Plugins](./development/create-omniauth-plugin)
+- [Running tests](./development/testing)
+- [Code review guidelines](./development/code-review-guidelines)
+- [API documentation](./api)
 
 ## APIv3 documentation sources
 

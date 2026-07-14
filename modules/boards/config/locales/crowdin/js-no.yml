@@ -1,4 +1,3 @@
-#English strings go here
 ---
 'no':
   ee:
@@ -7,42 +6,32 @@
         description: Ønsker du å automatisere dine arbeidsflyter med Tavler? Avanserte tavler er et Enterprise add-on. Vennligst oppgrader til et betalt abonnement.
   js:
     boards:
-      create_new: Opprett ny tavle
-      label_unnamed_board: Navnløs tavle
-      label_unnamed_list: Navnløs liste
-      label_board_type: Tavle type
-      lists:
-        delete: Slett liste
-      version:
-        is_locked: Låst versjon. Ingen elementer kan legges til i denne versjonen.
-        is_closed: Låst versjon. Ingen elementer kan legges til i denne versjonen.
-        close_version: Lukk versjonen
-        open_version: Åpne versjon
-        lock_version: Lås versjon
-        unlock_version: Lås opp versjon
-        edit_version: Rediger versjon
-        show_version: Vis versjon
-        locked: Låst
-        closed: Stengt
-      new_board: Ny tavle
-      add_list: Legge til listen på tavlen
       add_card: Legg til kort
-      error_attribute_not_writable: Kan ikke flytte oppgaven, %{attribute} er ikke skrivbar.
-      error_loading_the_list: 'Feil under lasting av listen: %{error_message}'
-      error_permission_missing: Tillatelsen til å opprette offentlige spørringer mangler
-      error_cannot_move_into_self: Du kan ikke flytte en oppgaven til sin egen kolonne.
-      text_hidden_list_warning: Ikke alle lister vises fordi du ikke har tillatelse. Kontakt systemansvarlig for mer informasjon.
-      click_to_remove_list: Klikk for å fjerne denne listen
+      add_list: Legge til listen på tavlen
+      add_list_modal:
+        labels:
+          assignee: Velg bruker å legge til som ny liste over utførende
+          status: Velg status å legge til som ny liste
+          subproject: Velg underprosjekt å legge til som ny liste
+          subtasks: Velg arbeidspakke som skal legges til som ny liste
+          version: Velg versjon som skal legges til som ny liste
+        warning:
+          add_members: <a href="%{link}">Legg til nytt medlem i prosjektet</a> for å velge brukere på nytt.
+          assignee: Det er ikke noe medlem som samsvarer med filterverdien.  <br>
+          no_member: Dette prosjektet har for tiden ikke noen medlemmer som kan legges til.  <br>
+          status: |
+            Det er for øyeblikket ingen status tilgjengelig. <br>
+            Enten finnes det ingen eller alle har allerede blitt lagt til i tavlen.
       board_type:
-        text: Tavletype
-        free: grunnleggende
-        select_board_type: Vennligst velg type tavle du trenger.
-        free_text: 'Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
-
-          '
         action: Oppgavetavle
         action_by_attribute: Handlingstavle (%{attribute})
         action_text: 'Et tavle med filtrerte lister på %{attribute} attributt. Flytting av arbeidspakker til andre lister vil oppdatere attributtet deres.
+
+          '
+        action_text_assignee: 'Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
+
+          '
+        action_text_status: 'Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
 
           '
         action_text_subprojects: 'Tavle med automatiserte kolonner for underprosjekter. Å dra arbeidspakker til andre lister oppdaterer (under)prosjekter tilsvarende.
@@ -51,45 +40,55 @@
         action_text_subtasks: 'Tavle med automatiserte kolonner for underprosjekter. Å dra oppgaver til andre lister oppdaterer overordnet prosjekt tilsvarende.
 
           '
-        action_text_status: 'Grunnleggende kanban-stil tavle med kolonner for status, slik som Å Gjøre, Underveis, Ferdig.
-
-          '
-        action_text_assignee: 'Tavle med automatiserte kolonner basert på tildelte brukere. Ideelt for utsendelse av arbeidspakker.
-
-          '
         action_text_version: 'Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
 
           '
         action_type:
           assignee: utførende
           status: status
-          version: versjon
           subproject: underprosjekt
           subtasks: overordnet-underordnet
+          version: versjon
         board_type_title:
           assignee: Deltaker
+          basic: Enkel
           status: Status
-          version: Versjon
           subproject: Underprosjekt
           subtasks: Foreldre-barn
-          basic: Enkel
+          version: Versjon
+        free: grunnleggende
+        free_text: 'Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
+
+          '
         select_attribute: Oppgave egenskap
-      add_list_modal:
-        labels:
-          assignee: Velg bruker å legge til som ny liste over utførende
-          status: Velg status å legge til som ny liste
-          version: Velg versjon som skal legges til som ny liste
-          subproject: Velg underprosjekt å legge til som ny liste
-          subtasks: Velg arbeidspakke som skal legges til som ny liste
-        warning:
-          status: |
-            Det er for øyeblikket ingen status tilgjengelig. <br>
-            Enten finnes det ingen eller alle har allerede blitt lagt til i tavlen.
-          assignee: Det er ikke noe medlem som samsvarer med filterverdien.  <br>
-          no_member: Dette prosjektet har for tiden ikke noen medlemmer som kan legges til.  <br>
-          add_members: <a href="%{link}">Legg til nytt medlem i prosjektet</a> for å velge brukere på nytt.
+        select_board_type: Vennligst velg type tavle du trenger.
+        text: Tavletype
+      click_to_remove_list: Klikk for å fjerne denne listen
       configuration_modal:
-        title: Konfigurer tavlen
         display_settings:
           card_mode: Vis som oppgavelapper
           table_mode: Vis som tabell
+        title: Konfigurer tavlen
+      create_new: Opprett ny tavle
+      error_attribute_not_writable: Kan ikke flytte oppgaven, %{attribute} er ikke skrivbar.
+      error_cannot_move_into_self: Du kan ikke flytte en oppgaven til sin egen kolonne.
+      error_loading_the_list: 'Feil under lasting av listen: %{error_message}'
+      error_permission_missing: Tillatelsen til å opprette offentlige spørringer mangler
+      label_board_type: Tavle type
+      label_unnamed_board: Navnløs tavle
+      label_unnamed_list: Navnløs liste
+      lists:
+        delete: Slett liste
+      new_board: Ny tavle
+      text_hidden_list_warning: Ikke alle lister vises fordi du ikke har tillatelse. Kontakt systemansvarlig for mer informasjon.
+      version:
+        close_version: Lukk versjonen
+        closed: Stengt
+        edit_version: Rediger versjon
+        is_closed: Låst versjon. Ingen elementer kan legges til i denne versjonen.
+        is_locked: Låst versjon. Ingen elementer kan legges til i denne versjonen.
+        lock_version: Lås versjon
+        locked: Låst
+        open_version: Åpne versjon
+        show_version: Vis versjon
+        unlock_version: Lås opp versjon

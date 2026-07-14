@@ -39,7 +39,7 @@ uk:
       resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
   button_next: Далі
-  label_resource_management: Планування ресурсів
+  label_resource_management: Resource management
   permission_allocate_user_resources: Призначати ресурси користувачів
   permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти призначення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
   permission_assign_users_to_generic_allocations: Assign users to generic allocations
@@ -60,10 +60,6 @@ uk:
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
-    allocation:
-      hours: "%{value} год"
-      no_work: Немає запланованих робіт для цього пакета робіт
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +83,10 @@ uk:
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
+    allocation:
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -148,6 +148,23 @@ uk:
       success_message: User assigned.
       title: Staffing
     sub_views: Подання в цьому планувальнику ресурсів
+    timeframe:
+      end_only: Until %{end}
+      full: From %{start} to %{end}
+      start_only: From %{start}
+    timeline:
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      subheader:
+        add: Add
+        allocate: Allocate
+        settings: Configure view
     user_allocations_dialog:
       allocate_work_package: Виділити пакет робіт
       blank: Цьому користувачу не призначено жодних пакетів робіт.
@@ -169,11 +186,11 @@ uk:
         remove: Вилучити користувача
         remove_confirmation: Вилучити цього користувача з подання?
       fields:
-        working_times: Робочий час
-        input_label: Поля
-        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
-        input_placeholder: Додати поле
         drag_area_label: Відображувані поля
+        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
+        input_label: Поля
+        input_placeholder: Додати поле
+        working_times: Робочий час
       subheader:
         resource: Ресурс
         settings: Налаштувати подання
@@ -183,10 +200,26 @@ uk:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
         schedule_change_compact: until %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Add user
+        configure_view: Configure view
+        description: There are no users matching this view's filters yet.
+        manual_description: Add users to this view to see their allocation over time.
+        title: No users to display
+      no_work_schedule: No work schedule planned for this user
+      overbooked: This user is over-allocated in the selected period.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+      subheader:
+        add_user: Add user
     view_types:
       resource_user_card:
         caption: Створюйте списки користувачів, щоб переглядати інформацію про них і обсяг виділених їм ресурсів за певний період на часовій шкалі
         label: Список карток користувачів
+      resource_user_timeline:
+        caption: Create a view based on users and see their allocations over time on a timeline
+        label: Users timeline
       resource_work_package_list:
         caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
         label: Список пакетів робіт
@@ -250,12 +283,6 @@ uk:
         description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
         manual_description: Додайте пакети робіт до цього режиму перегляду, щоб планувати обсяг виділених їм ресурсів за певний період.
         title: Немає пакетів робіт
-      granularity:
-        day: День
-        month: Місяць
-        week: Календарний тиждень
-      navigation:
-        next: Наступний період
-        previous: Попередній період
-        today: Сьогодні
       query_name: 'Управління ресурсами — часова шкала пакетів робіт: %{name}'
+      subheader:
+        add_work_package: Add work package

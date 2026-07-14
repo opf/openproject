@@ -16,7 +16,6 @@ To schedule work packages in the Gantt chart, there is an **automatic scheduling
 
 </div>
 
-
 Since the scheduling mode only affects individual work packages, you can combine manual scheduling (top-down planning) and automatic scheduling (bottom-up planning) within the same project.
 
 | Topic                                                   | Content                                                      |
@@ -25,14 +24,13 @@ Since the scheduling mode only affects individual work packages, you can combine
 | [Automatic scheduling](#automatic-scheduling) | How to use automatic scheduling to automatically derive dates |
 | [Changing modes](#changing-mode)                         | How can I change between manual and automatic scheduling mode? |
 
-
 ## Manual scheduling
 
 By default, all work packages in OpenProject are manually scheduled. 
 
 In this mode you can select dates at your discretion. Project managers can set timelines based on specific needs, deadlines, or external factors. Manually-scheduled work packages can still have predecessor, successor, parent or child relations, but these relations will not affect the manually input dates.
 
-Manual scheduling is useful because no *other* work package can affect the dates that are set. For example, a manually scheduled work package can have a predecessor, but even if the predecessor moves forwards in time, the manually scheduled work package will remain unchanged.
+Manual scheduling is useful because no _other_ work package can affect the dates that are set. For example, a manually scheduled work package can have a predecessor, but even if the predecessor moves forwards in time, the manually scheduled work package will remain unchanged.
 
 The **manual scheduling mode** can makes sense if:
 
@@ -43,7 +41,6 @@ The **manual scheduling mode** can makes sense if:
 Moving a child work package in the manual scheduling mode will not move the dates of the parent work package. The scheduling differences will be indicated by a black or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). See [this explanation](../#understanding-the-colors-and-lines-in-the-gantt-chart) to find out more about the lines and colors in the Gantt chart.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Top-down-Scheduling.mp4"></video>
-
 
 ## Automatic scheduling
 
@@ -61,7 +58,7 @@ For automatically-scheduled work packages with children, the start and finish da
 
 ## Changing mode
 
-You can **activate manual or automatic scheduling mode** by clicking on the date of a work package and selecting the respective option in the *Scheduling mode* toggle in the date picker. This will activate the chosen scheduling mode only for the respective work package. 
+You can **activate manual or automatic scheduling mode** by clicking on the date of a work package and selecting the respective option in the _Scheduling mode_ toggle in the date picker. This will activate the chosen scheduling mode only for the respective work package. 
 
 While switching to manual mode is always possible, a work package can only be set to automatic mode if it has predecessors or children.
 

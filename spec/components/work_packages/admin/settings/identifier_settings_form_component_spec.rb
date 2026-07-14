@@ -104,7 +104,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
     it "renders the radio buttons as disabled" do
       render_component(component)
       expect(page).to have_field("Instance-wide numerical sequence (default)", disabled: true)
-      expect(page).to have_field("Project-based semantic identifiers (Beta)", disabled: true)
+      expect(page).to have_field("Project-based semantic identifiers", disabled: true)
     end
 
     it "does not render the save or autofix buttons" do
@@ -136,7 +136,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
     it "renders the radio buttons as enabled" do
       render_component(component)
       expect(page).to have_field("Instance-wide numerical sequence (default)", disabled: false)
-      expect(page).to have_field("Project-based semantic identifiers (Beta)", disabled: false)
+      expect(page).to have_field("Project-based semantic identifiers", disabled: false)
     end
 
     it "does not call PreviewQuery" do
@@ -147,7 +147,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
     context "with semantic setting", with_settings: { work_packages_identifier: "semantic" } do
       it "shows semantic as selected" do
         render_component(component)
-        expect(page).to have_field("Project-based semantic identifiers (Beta)", checked: true)
+        expect(page).to have_field("Project-based semantic identifiers", checked: true)
         expect(page).to have_field("Instance-wide numerical sequence (default)", checked: false)
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe WorkPackages::Admin::Settings::IdentifierSettingsFormComponent, t
       it "shows classic as selected" do
         render_component(component)
         expect(page).to have_field("Instance-wide numerical sequence (default)", checked: true)
-        expect(page).to have_field("Project-based semantic identifiers (Beta)", checked: false)
+        expect(page).to have_field("Project-based semantic identifiers", checked: false)
       end
     end
   end

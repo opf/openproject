@@ -93,7 +93,7 @@ module Backlogs
       inputs = if direction
                  [{ name: "direction", value: direction }]
                else
-                 [{ name: "target_id", value: move_target_id }, { name: "prev_id", value: prev_id }]
+                 current_list_inputs + [{ name: "prev_id", value: prev_id }]
                end
 
       menu.with_item(
@@ -115,14 +115,14 @@ module Backlogs
       work_package.next_id.nil?
     end
 
-    def move_target_id
-      @move_target_id ||= if work_package.backlog_bucket_id?
-                            Target::BucketId[work_package.backlog_bucket_id]
-                          elsif work_package.sprint_id?
-                            Target::SprintId[work_package.sprint_id]
-                          else
-                            Target::InboxId
-                          end
+    def current_list_inputs
+      target = Backlogs::Target.for_work_package(work_package)
+
+      [{ name: "list_type", value: target.list_type }, { name: "list_id", value: target.list_id }]
+    end
+
+    def inbox_list_type
+      Backlogs::Target::InboxId.list_type
     end
   end
 end

@@ -82,7 +82,7 @@ module Storages
               parsing_error = Failure(error.with(code: :invalid_response, payload: response.body))
 
               json = response.json(symbolize_keys: true)
-              url = json.dig(:ocs, :data, :url)
+              url = json_fetch(json, :ocs, :data, :url)
               return parsing_error if url.blank?
 
               path = URI.parse(url).path

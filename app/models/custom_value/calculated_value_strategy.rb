@@ -61,10 +61,7 @@ class CustomValue::CalculatedValueStrategy < CustomValue::FormatStrategy
   end
 
   def validate_type_of_value
-    Kernel.Float(value)
-    nil
-  rescue StandardError
-    :not_a_number
+    :not_a_number unless Kernel.Float(value, exception: false)
   end
 
   private

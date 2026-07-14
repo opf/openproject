@@ -43,7 +43,7 @@ You easily can start a new BIM trial on our [OpenProject BIM website](https://ww
 
 ## How to enable the BCF module
 
-The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your ***project settings***.
+The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your _**project settings**_.
 
 ## Reporting bugs
 
@@ -67,7 +67,7 @@ Yes of course. We are of the opinion that the full potential of the BIM method o
 
 ### Why do I need a Revit add-in?
 
-You don't need it, but it makes your BIM Issue Management much easier. The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other BCF software.
+You don't need it, but it makes your BIM Issue Management much easier. The _OpenProject Revit Add-In_ allows you to use the open source project management software _OpenProject BIM_ directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other BCF software.
 
 ### Are there any system requirements for the Revit add-in?
 
@@ -93,7 +93,7 @@ Yes, we want to develop some other integrations to stay interoperable with other
 
 The BCF Module and the included IFC viewer can be enabled or disabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within the project settings.
 
-*The BCF Module is an OpenProject BIM Enterprise add-on. Please make sure, that you are already using the OpenProject BIM edition ([switch to the BIM edition](../installation-and-operations/bim-edition/))*
+_The BCF Module is an OpenProject BIM Enterprise add-on. Please make sure, that you are already using the OpenProject BIM edition ([switch to the BIM edition](../installation-and-operations/bim-edition/))_
 
 ### Why can't I see a building model?
 

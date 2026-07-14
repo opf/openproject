@@ -24,31 +24,31 @@
 pt-PT:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Pipelines
       tab_header_issue:
         title: Problemas
       tab_header_mr:
-        title: Pedidos de fusão
-        create_mr:
-          label: Criar MR
-          description: Crie Pedido de Fusão
         copy_menu:
-          label: Fragmentos de código Git
           description: Copiar trechos de código git para área de transferência
+          label: Fragmentos de código Git
+        create_mr:
+          description: Crie Pedido de Fusão
+          label: Criar MR
         git_actions:
           branch_name: Nome do ramo
-          commit_message: Mensagem de confirmação
           cmd: Criar ramificação com a confirmação vazia
-          title: Fragmentos de código rápido para Git
-          copy_success: "✅ Copiado!"
+          commit_message: Mensagem de confirmação
           copy_error: "❌ A cópia falhou!"
+          copy_success: "✅ Copiado!"
+          title: Fragmentos de código rápido para Git
+        title: Pedidos de fusão
       tab_issue:
         empty: Ainda não existem problemas associados. Associe um problema existente utilizando o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para ligações privadas) no título/descrição do problema ou crie um problema novo.
       tab_mrs:
         empty: Ainda não existem pedidos de fusão associados. Associe um MR existente utilizando o código <code>OP#%{wp_id}</code> (ou <code>PP#%{wp_id}</code> para ligações privadas) no título/descrição do MR ou crie um novo MR.
-      gitlab_pipelines: Pipelines
       updated_on: Atualizado em
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

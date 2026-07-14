@@ -34,7 +34,7 @@ class Project < ApplicationRecord
   include Projects::CustomFields
   include Projects::Hierarchy
   include Projects::Storage
-  include Projects::Types
+  include Projects::EnabledTypes
   include Projects::Versions
   include Projects::WorkPackageCustomFields
   include Projects::CreationWizard

@@ -94,6 +94,32 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     end
   end
 
+  describe "excluded_filters" do
+    it "drops the named filters from the Add filter options" do
+      render_form(query:, excluded_filters: [:status])
+
+      expect(page).to have_select "add_filter_select", with_options: %w[Name Username]
+      expect(page).to have_select "add_filter_select" do |select|
+        expect(select).to have_no_selector :option, text: "Status"
+      end
+    end
+
+    it "hides a filter even when it is already active on the query" do
+      query.where(:status, "=", ["active"])
+      render_form(query:, excluded_filters: [:status])
+
+      expect(page).to have_no_element "data-filter--filters-form-target": "filter",
+                                      "data-filter-name": "status",
+                                      visible: :all
+    end
+
+    it "keeps the full set when nothing is excluded" do
+      render_form(query:, excluded_filters: [])
+
+      expect(page).to have_select "add_filter_select", with_options: %w[Name Status Username]
+    end
+  end
+
   describe "wrap_with_controller:" do
     it "does not emit a controller wrapper by default" do
       render_form

@@ -581,6 +581,13 @@ module API
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter
 
+        associated_resources :target_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter,
+                             setter: ->(fragment:, **) do
+                               represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
+                             end
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -625,7 +632,12 @@ module API
                             v3_path: :budget,
                             link_title_attribute: :subject,
                             representer: ::API::V3::Budgets::BudgetRepresenter,
-                            skip_render: ->(*) { !view_budgets_allowed? }
+                            link_cache_if: -> { view_budgets_allowed? },
+                            getter: ->(*) {
+                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
+                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
+                              end
+                            }
 
         resources :customActions,
                   uncacheable_link: true,
@@ -799,7 +811,8 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget]
+                                budget
+                                target_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

@@ -21,12 +21,11 @@
 #++
 ---
 zh-TW:
-  plugin_openproject_documents:
-    name: OpenProject 文件
-    description: 一個允許在 OpenProject 專案中建立文件的外掛。
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus 伺服器 URL
   activerecord:
+    attributes:
+      document:
+        content_binary: 二進制內容
+        title: 標題
     errors:
       models:
         document_type:
@@ -34,125 +33,126 @@ zh-TW:
     models:
       document: 文件
       documents: 文件
-    attributes:
-      document:
-        content_binary: 二進制內容
-        title: 標題
   activity:
     filter:
       document: 文件
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus 伺服器 URL
   default_doc_category_tech: 技術文件
   default_doc_category_user: 使用者文件
-  enumeration_doc_categories: 文件類別
   documents:
-    button_add_type: Type
-    page_header:
-      heading: 所有文件
-      action_menu:
-        document_actions: 文件操作
-        edit_title: 編輯標題
-    subheader:
-      filter:
-        label: 文件名篩選器
-        placeholder: 在此鍵入名稱以搜尋文件
-    documents_list_blank_slate:
-      heading: 尚未有任何文件
-      description: 此檢視中沒有文件。您可以點擊下面的按鈕添加一個。
-    document_categories_deprecation_notice:
-      heading: 檔案類別現在稱為「文件類型」
-      description: |-
-        隨著新文件模組的推出，您現有的文件類別已轉換為文件類型。
-        所有現有的文件也已轉換成這些新的類型。
-      primary_action: 設定文件類型
-      secondary_action: 進一步瞭解文件模組
-    document_type_actions: 文件類型動作
-    text_collaboration_disabled_notice:
-      description: |-
-        由於即時文字協作已停用，因此無法開啟文件。
-        如果您要存取此文件，請聯絡您的管理員啟用即時文字協作。
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          由於即時文字協作伺服器無法連線，因此無法開啟文件。
-          如果問題仍然存在，請聯絡管理員。
-        action: 再試一次
-      tabs: 文件標籤
-    index_page:
-      name: 名稱
-      type: 類型
-      updated_at: 最近編輯紀錄
-      label_legacy: 傳統方式
-    menu:
-      all: 所有文件
-      types: 類型
-      collaboration_settings: 即時協作
-    last_updated_at: 最後儲存 %{time}。
-    info_line:
-      currently_offline: 你目前狀態為離線。
-      connection_restored: 您現在已經重新上線。
     active_editors: 活躍的編輯者
     active_editors_count:
       other: "%{count} 活躍的編輯"
-    label_attachment_author: 附件作者
-    label_categories: 類別
-    new_category: 新增類別
-    new_type: 新增種類
-    delete_dialog:
-      title: 刪除文件
-      heading: 刪除此文件？
-      confirmation_message_html: 這將永久刪除本文件和所有檔案附件。您確定要這麼做？
-    delete_document_type_dialog:
-      title: 刪除文件類型
-      heading: 刪除此文件類型？
-      confirmation_message: '%{type_name}" 類型目前尚未使用。刪除此類型對現有文件沒有影響。'
-      select_reassign_to_label: 重新分配文件至
-      reassign_message:
-        other: 類型 "%{type_name}" 目前用於 %{document_count} 文件。請選擇將其重新指定為哪一種類型。
-      at_least_one_type_required:
-        title: 無法刪除文件類型
-        heading: 無法刪除最後一個文件類型
-        message: 必須始終至少配置一個文件類型。如果要刪除此文件類型，請先建立另一個。
     admin:
       collaboration_settings:
+        banner:
+          none_writable: 這些值透過環境變數設定，無法在此編輯。
+          some_unwritable: 某些值透過環境變數設定，無法在此編輯。
+        hocuspocus_server: Hocuspocus 伺服器
+        hocuspocus_server_secret:
+          caption: 貼上 Hocuspocus 伺服器提供的秘碼。
+          label: 用戶端密碼
+        hocuspocus_server_url:
+          caption: 工作中的 Hocuspocus 伺服器的 WebSocket 位址。
+          invalid_scheme: 必須使用 WebSocket 通訊協定 (ws:// 或 wss://)。
+          label: Hocuspocus 伺服器 URL
         page_header:
           description: |-
             啟用時，即時協作可讓多位使用者同時編輯一份文件。
             它需要工作中的 %{hocuspocus_server_link} 才能運作。
-        banner:
-          none_writable: 這些值透過環境變數設定，無法在此編輯。
-          some_unwritable: 某些值透過環境變數設定，無法在此編輯。
-        hocuspocus_server_url:
-          label: Hocuspocus 伺服器 URL
-          caption: 工作中的 Hocuspocus 伺服器的 WebSocket 位址。
-          invalid_scheme: 必須使用 WebSocket 通訊協定 (ws:// 或 wss://)。
-        hocuspocus_server_secret:
-          label: 用戶端密碼
-          caption: 貼上 Hocuspocus 伺服器提供的秘碼。
-        hocuspocus_server: Hocuspocus 伺服器
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: 我瞭解我可能會永久遺失資料
+        confirmation_message: |-
+          所有現有文件可能無法存取。請僅在您確定要停用
+          即時協作和 BlockNote 編輯器的情況下才執行此操作。
+        heading: 停用即時協作？
+        success: 即時協作已停用。
+        title: 停用即時協作
       enable_text_collaboration:
-        heading: 未啟用即時協作
         description: |-
           一旦啟用，多位使用者將可同時共同處理一份文件。
           所有新文件都將基於新的編輯器 (BlockNote)，並需要與
           Hocuspocus 伺服器建立工作連接。
+        heading: 未啟用即時協作
         primary_action: 實現即時協作
         success: 已啟用即時協作。
-      disable_text_collaboration_dialog:
-        title: 停用即時協作
-        heading: 停用即時協作？
-        confirmation_message: |-
-          所有現有文件可能無法存取。請僅在您確定要停用
-          即時協作和 BlockNote 編輯器的情況下才執行此操作。
-        confirmation_checkbox_message: 我瞭解我可能會永久遺失資料
-        success: 即時協作已停用。
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: 這將永久刪除本文件和所有檔案附件。您確定要這麼做？
+      heading: 刪除此文件？
+      title: 刪除文件
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: 無法刪除最後一個文件類型
+        message: 必須始終至少配置一個文件類型。如果要刪除此文件類型，請先建立另一個。
+        title: 無法刪除文件類型
+      confirmation_message: '%{type_name}" 類型目前尚未使用。刪除此類型對現有文件沒有影響。'
+      heading: 刪除此文件類型？
+      reassign_message:
+        other: 類型 "%{type_name}" 目前用於 %{document_count} 文件。請選擇將其重新指定為哪一種類型。
+      select_reassign_to_label: 重新分配文件至
+      title: 刪除文件類型
+    document_categories_deprecation_notice:
+      description: |-
+        隨著新文件模組的推出，您現有的文件類別已轉換為文件類型。
+        所有現有的文件也已轉換成這些新的類型。
+      heading: 檔案類別現在稱為「文件類型」
+      primary_action: 設定文件類型
+      secondary_action: 進一步瞭解文件模組
+    document_type_actions: 文件類型動作
+    documents_list_blank_slate:
+      description: 此檢視中沒有文件。您可以點擊下面的按鈕添加一個。
+      heading: 尚未有任何文件
+    index_page:
+      label_legacy: 傳統方式
+      name: 名稱
+      type: 類型
+      updated_at: 最近編輯紀錄
+    info_line:
+      connection_restored: 您現在已經重新上線。
+      currently_offline: 你目前狀態為離線。
+    label_attachment_author: 附件作者
+    label_categories: 類別
+    last_updated_at: 最後儲存 %{time}。
+    menu:
+      all: 所有文件
+      collaboration_settings: 即時協作
+      types: 類型
+    new_category: 新增類別
+    new_type: 新增種類
+    page_header:
+      action_menu:
+        document_actions: 文件操作
+        edit_title: 編輯標題
+      heading: 所有文件
+    show_edit_view:
+      connection_error_notice:
+        action: 再試一次
+        description_server_unavailable: |-
+          由於即時文字協作伺服器無法連線，因此無法開啟文件。
+          如果問題仍然存在，請聯絡管理員。
+      tabs: 文件標籤
+    subheader:
+      filter:
+        label: 文件名篩選器
+        placeholder: 在此鍵入名稱以搜尋文件
+    text_collaboration_disabled_notice:
+      description: |-
+        由於即時文字協作已停用，因此無法開啟文件。
+        如果您要存取此文件，請聯絡您的管理員啟用即時文字協作。
+  enumeration_doc_categories: 文件類別
   label_document_added: 文件已新增
+  label_document_category: 類別
+  label_document_description: 說明
   label_document_new: 建立新文件
   label_document_plural: 文件
-  label_documents: 文件
   label_document_title: 標題
-  label_document_description: 說明
-  label_document_category: 類別
   label_document_type: 類型
+  label_documents: 文件
   permission_manage_documents: 管理文件
   permission_view_documents: 檢視文件
+  plugin_openproject_documents:
+    description: 一個允許在 OpenProject 專案中建立文件的外掛。
+    name: OpenProject 文件
   project_module_documents: 文件

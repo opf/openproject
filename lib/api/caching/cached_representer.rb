@@ -38,7 +38,7 @@ module API
       }.freeze
 
       included do
-        def to_json(*args)
+        def to_json(*)
           return super if no_caching?
 
           cached_json_rep = OpenProject::Cache.fetch(json_cache_key) do
@@ -51,17 +51,25 @@ module API
             super
           end
 
-          cached_hash_rep = ::JSON::parse(cached_json_rep)
+          cached_hash_rep = ::JSON.parse(cached_json_rep)
 
           apply_link_cache_ifs(cached_hash_rep)
           apply_property_cache_ifs(cached_hash_rep)
 
           add_uncacheable_links(cached_hash_rep)
 
-          uncached_hash_rep = ::JSON::parse(uncached_json_rep)
-          hash_rep = uncached_hash_rep.deep_merge(cached_hash_rep)
+          uncached_hash_rep = ::JSON.parse(uncached_json_rep)
 
-          ::JSON::dump(hash_rep)
+          ::JSON.dump(uncached_hash_rep.deep_merge(cached_hash_rep))
+        end
+
+        # When this representer is a nested value inside another
+        # representer, the JSON adapter (multi_json >= 1.21 json_gem) serializes it
+        # via #as_json instead of #to_json. Needs to be routed through the cache-aware #to_json
+        # so cache_if/uncacheable stripping is applied. Without it, ActiveSupport's
+        # Object#as_json falls back to #to_hash and leaks guarded fields.
+        def as_json(*)
+          ::JSON.parse(to_json)
         end
 
         def json_cache_key
@@ -99,7 +107,7 @@ module API
 
             name = config[:rel]
 
-            delete_from_hash(hash_rep, "_links", name)
+            delete_from_hash(hash_rep, "_links", name.to_s)
           end
         end
 
@@ -143,7 +151,7 @@ module API
 
         # Overriding Roar::Hypermedia#combile_links_for
         # to remove all uncacheable links if the caching_state is set to :cacheable
-        def compile_links_for(configs, *args)
+        def compile_links_for(configs, *)
           current_configs = case caching_state
                             when :cacheable
                               configs.reject { |c| c.first[:uncacheable] }
@@ -153,7 +161,7 @@ module API
                               configs
                             end
 
-          super(current_configs, *args)
+          super(current_configs, *)
         end
 
         def delete_from_hash(hash, path, key)

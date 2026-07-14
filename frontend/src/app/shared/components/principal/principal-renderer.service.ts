@@ -186,6 +186,9 @@ export class PrincipalRendererService {
     image.src = url;
     image.title = principal.name;
     image.alt = options.imageAltText ?? principal.name;
+    // Avatars are never meaningfully draggable; suppressing the browser's native
+    // image drag stops it from pre-empting Pragmatic DnD card reordering.
+    image.draggable = false;
     image.onload = () => {
       fallback.replaceWith(image);
       (fallback as unknown) = undefined;

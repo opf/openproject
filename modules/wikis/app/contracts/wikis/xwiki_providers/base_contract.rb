@@ -40,6 +40,14 @@ module Wikis
       validates :url, presence: true, length: { maximum: 255 }
       validates :url, url: true, unless: -> { url.blank? || errors.include?(:url) }
       validates :url, secure_context_uri: true, unless: -> { url.blank? || errors.include?(:url) }
+
+      validate :not_configured_from_env
+
+      def not_configured_from_env
+        if model.configured_from_env?
+          errors.add :base, :configured_via_env
+        end
+      end
     end
   end
 end

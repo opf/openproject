@@ -22,9 +22,9 @@
 ---
 ms:
   js:
-    work_packages:
-      properties:
-        storyPoints: Titik Cerita
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Titik Cerita

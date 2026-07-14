@@ -29,20 +29,22 @@
 #++
 
 class Backlogs::WorkPackages::UpdateService
-  attr_accessor :user, :story
+  attr_reader :user, :work_package
 
-  def initialize(user:, story:)
-    self.user = user
-    self.story = story
+  def initialize(user:, work_package:)
+    @user = user
+    @work_package = work_package
   end
 
-  def call(direction: nil, target_id: nil, position: nil, prev_id: nil)
-    resolve_required_attributes(direction:, target_id:)
-      .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: story).call(**attrs) }
+  def call(direction: nil, list_type: nil, list_id: nil, position: nil, prev_id: nil)
+    resolve_required_attributes(direction:, list_type:, list_id:)
+      .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: work_package).call(**attrs) }
       .on_success do |call|
+        # A blank prev_id is meaningful (insert at the top of the list), a
+        # blank position is not: it would cast to nil and move to the top too.
         if prev_id
           call.result.move_after(prev_id:)
-        elsif position
+        elsif position.present?
           call.result.move_after(position:)
         end
       end
@@ -50,28 +52,27 @@ class Backlogs::WorkPackages::UpdateService
 
   private
 
-  def resolve_required_attributes(direction:, target_id:)
-    if target_id && direction
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
-    elsif target_id
-      attributes_result_from_target(target_id)
+  def resolve_required_attributes(direction:, list_type:, list_id:)
+    list_given = list_type.present? || list_id.present?
+
+    if list_given && direction
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.ambiguous_target"))
+    elsif list_given
+      attributes_result_from_list(list_type, list_id)
     elsif direction
       attributes_result_from_direction(direction)
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.missing_target"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.missing_target"))
     end
   end
 
-  def attributes_result_from_target(target_id)
-    case Backlogs::Target.parse(target_id)
-    in Backlogs::Target::SprintId[sprint_id]
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: })
-    in Backlogs::Target::BucketId[backlog_bucket_id]
-      ServiceResult.success(result: { backlog_bucket_id:, sprint_id: nil })
-    in Backlogs::Target::InboxId
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
+  def attributes_result_from_list(list_type, list_id)
+    target = Backlogs::Target.from_list(list_type, list_id)
+
+    if target
+      ServiceResult.success(result: target.attributes)
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
     end
   end
 
@@ -79,7 +80,7 @@ class Backlogs::WorkPackages::UpdateService
     if direction.in? %w(higher highest lower lowest)
       ServiceResult.success(result: { move_to: direction })
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_direction"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_direction"))
     end
   end
 end

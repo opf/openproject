@@ -23,6 +23,7 @@ Styling for the cover page of the PDF report export
 Key: `cover`
 
 Example:
+
 ```yml
 cover:
   header: {}
@@ -43,6 +44,7 @@ Styling for the cover page footer of the PDF report export
 Key: `cover_footer`
 
 Example:
+
 ```yml
 footer:
   offset: 20
@@ -62,6 +64,7 @@ Styling for the cover page header of the PDF report export
 Key: `cover_header`
 
 Example:
+
 ```yml
 header:
   logo_height: 25
@@ -83,6 +86,7 @@ Styling for the cover page header border of the PDF report export
 Key: `cover_header_border`
 
 Example:
+
 ```yml
 border:
   color: d3dee3
@@ -105,6 +109,7 @@ Styling for the hero banner at the bottom at the cover page
 Key: `cover_hero`
 
 Example:
+
 ```yml
 header:
   padding_right: 150
@@ -130,6 +135,7 @@ Properties to set the font style
 Key: `font`
 
 Example:
+
 ```yml
 font: OpenSans
 size: 10
@@ -155,6 +161,7 @@ Properties to set margins
 Key: `margin`
 
 Example:
+
 ```yml
 margin: 10mm
 margin_top: 15mm
@@ -173,6 +180,7 @@ margin_top: 15mm
 Key: `page_footer`
 
 Example:
+
 ```yml
 page_footer:
   offset: -30
@@ -190,6 +198,7 @@ page_footer:
 Key: `page_header`
 
 Example:
+
 ```yml
 page_header:
   align: left
@@ -210,6 +219,7 @@ The main page title heading
 Key: `page_heading`
 
 Example:
+
 ```yml
 page_heading:
   size: 14
@@ -230,6 +240,7 @@ Styling for logo image in the page header.
 Key: `page_logo`
 
 Example:
+
 ```yml
 page_logo:
   height: 20
@@ -249,6 +260,7 @@ Properties to set the basic page settings
 Key: `page`
 
 Example:
+
 ```yml
 page:
   page_size: EXECUTIVE
@@ -274,6 +286,7 @@ page:
 Key: `dates`
 
 Example:
+
 ```yml
 heading:
   spacing: 10
@@ -295,6 +308,7 @@ heading:
 Key: `title`
 
 Example:
+
 ```yml
 title:
   max_height: 30
@@ -315,6 +329,7 @@ title:
 Key: `subheading`
 
 Example:
+
 ```yml
 subheading:
   max_height: 30
@@ -334,6 +349,7 @@ subheading:
 Key: `heading`
 
 Example:
+
 ```yml
 heading:
   spacing: 10

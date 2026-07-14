@@ -14,7 +14,7 @@ The status can be set at the top of the work package details view or in the tabl
 
 ![Work packages status dropdown menu in OpenProject](openproject_system_guide_create_wp_stati_dropdown.png)
 
-The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package statuses in the system. You can add new statuses or change the name and order of existing statuses.
+The status field can be configured under _Administration ->_ _Work packages_ -> _Status_. You will see the list of all the existing work package statuses in the system. You can add new statuses or change the name and order of existing statuses.
 
 ![Work package status overview in OpenProject administration](openproject_system_guide_create_wp_status_overview.png)
 
@@ -22,8 +22,7 @@ To learn about the options for configuring the transition from one status to ano
 
 ## Create a new work package status
 
-To create a new work package status click the green ***+ Status*** icon.
-
+To create a new work package status click the green _**+ Status**_ icon.
 
 A new window will open, where you will be able to specify the following:
 
@@ -42,7 +41,7 @@ A new window will open, where you will be able to specify the following:
 
 [feature: readonly_work_packages ]
 
-6. Check **Exclude from calculation of totals in hierarchy** if you want work packages with this status to *not* be included in the calculation of totals in a hierarchy. This is useful for statuses like *rejected*.
+6. Check **Exclude from calculation of totals in hierarchy** if you want work packages with this status to _not_ be included in the calculation of totals in a hierarchy. This is useful for statuses like _rejected_.
 
 7. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.
 

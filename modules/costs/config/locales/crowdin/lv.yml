@@ -21,26 +21,42 @@
 #++
 ---
 lv:
-  plugin_costs:
-    name: Laiks un izmaksas
-    description: This module adds features for planning and tracking costs of projects.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Darba pieteikums
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        logged_by: Ielogoja
         overridden_costs: Pārsniegtās izmaksas
         spent: Pavadīts
         spent_on: Datums
-        logged_by: Ielogoja
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        work_package: Darba pieteikums
       cost_type:
-        unit: Vienības nosaukums
-        unit_plural: Pluralized unit name
         default: Cost type by default
         for_all_projects: For all projects
         rates: Rates
+        unit: Vienības nosaukums
+        unit_plural: Pluralized unit name
+      rate:
+        rate: Likme
+      time_entry:
+        activity: Aktivitāte
+        comments: Komentârs
+        end_time: Finish time
+        entity: Logged for
+        entity_gid: Logged for
+        entity_id: Logged for
+        hours: Stundas
+        project: Projekts
+        spent_on: Datums
+        start_time: Start time
+        subject: Nosaukums
+        time: Laiks
+        user: Lietotāji
+        work_package: Darba pieteikums
+      user:
+        default_rates: Default rates
       work_package:
         costs_by_type: Izlietotās vienības
         labor_costs: Darba izmaksas
@@ -48,30 +64,22 @@ lv:
         overall_costs: Kopējās izmaksas
         spent_costs: Spent costs
         spent_units: Izlietotās vienības
-      rate:
-        rate: Likme
-      user:
-        default_rates: Default rates
-      time_entry:
-        project: Projekts
-        user: Lietotāji
-        work_package: Darba pieteikums
-        subject: Nosaukums
-        hours: Stundas
-        comments: Komentârs
-        activity: Aktivitāte
-        spent_on: Datums
-        start_time: Start time
-        end_time: Finish time
-        time: Laiks
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+    errors:
+      messages:
+        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+      models:
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
+        time_entry:
+          cannot_log_for_this_work_package: Cannot log time for this work package.
+          duplicate_ongoing: An ongoing time entry already exists for this user.
+          invalid_time: must be between 00:00 and 23:59.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
+          nullify_is_not_valid_for_cost_entries: ''
     models:
-      time_entry:
-        zero: Time entries
-        one: Time entry
-        other: Time entries
       cost_entry:
         zero: Cost entries
         one: Izmaksu ieraksts
@@ -80,43 +88,39 @@ lv:
         zero: Izmaksu veids
         one: Izmaksu veids
         other: Cost types
+      rate: Likme
+      time_entry:
+        zero: Time entries
+        one: Time entry
+        other: Time entries
       time_entry_activity:
         zero: Time tracking activities
         one: Time tracking activity
         other: Time tracking activities
-      rate: Likme
+  api_v3:
     errors:
-      models:
-        time_entry:
-          invalid_time: must be between 00:00 and 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
-          nullify_is_not_valid_for_cost_entries: ''
-        cost_types_project:
-          attributes:
-            project_ids:
-              blank: Please select a project.
+      validation:
+        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
     comment: Komentârs
     cost_type: Izmaksu veids
     costs: Izmaksas
     current_rate: Current rate
+    fixed_date: Fixed date
     hours: Stundas
     units: Vienības
     valid_from: Derīgs no
-    fixed_date: Fixed date
+  button_add_activity: Aktivitāte
   button_add_rate: Add rate
+  button_add_time_entry: Log time
   button_log_costs: Uzskaitīt vienības izmaksas
   button_log_time: Log
-  button_add_activity: Aktivitāte
-  button_add_time_entry: Log time
   button_stop_timer: Stop timer
   caption_booked_on_project: Booked on project
   caption_default: Default
   caption_default_rate_history_for: Default rate history for %{user}
   caption_locked_on: Locked on
+  caption_log_time_dialog: Log time
   caption_materials: Vienības
   caption_rate_history: Rate history
   caption_rate_history_for: Rate history for %{user}
@@ -124,20 +128,60 @@ lv:
   caption_save_rate: Save rate
   caption_set_rate: Set current rate
   caption_show_locked: Show locked types
-  caption_log_time_dialog: Log time
-  description_date_for_new_rate: Date for new rate
+  cost_types:
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: This cost type is enabled in all projects
+        no_projects:
+          description: Add projects so this cost type can be used in them.
+          heading: No projects assigned
+      rates:
+        title: Rate history
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    settings:
+      cost_types:
+        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Cost types
+        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        none_active: No cost types are currently active in this project.
+      time_and_costs: Time and costs
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Log time
+          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
+          heading: Start tracking your time and costs
+        title: Actual costs by month
+        view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
+  description_date_for_new_rate: Date for new rate
   description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  ee:
+    features:
+      time_entry_time_restrictions: Require exact time tracking
+    upsell:
+      time_entry_time_restrictions:
+        description: Improve your time tracking by requiring exact start and finish times when logging time.
   group_by_others: not in any group
+  label_available_cost_types_projects: Available cost types projects
   label_between: between
+  label_cost: Cost
   label_cost_filter_add: Add cost entry filter
-  label_costlog: Logged unit costs
   label_cost_plural: Izmaksas
   label_cost_type_plural: Izmaksu veids
   label_cost_type_specific: 'Cost type #%{id}: %{name}'
+  label_costlog: Logged unit costs
+  label_costs: Izmaksas
   label_costs_per_page: Costs per page
   label_current_default_rate: Current default rate
   label_date_on: " "
+  label_day: Diena
   label_deleted_cost_types: Deleted cost types
   label_display_cost_entries: Display unit costs
   label_display_time_entries: Display reported hours
@@ -149,58 +193,54 @@ lv:
   label_group_by_add: Add grouping field
   label_hourly_rate: Stundas likme
   label_include_deleted: Iekļaut dzēstos
-  label_work_package_filter_add: Add work package filter
   label_kind: Veids
   label_less_or_equal: mazāks vai vienāds
+  label_list: List
   label_log_costs: Uzskaitīt vienības izmaksas
-  label_new_time_entry_activity: New time entry activity
-  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
-  label_no: Nē
-  label_option_plural: Opcijas
-  label_overall_costs: Kopējās izmaksas
-  label_rate: Likme
-  label_rate_plural: Likmes
-  label_status_finished: Pabeigts
-  label_show: Rādīt
-  label_units: Izmaksu vienības
-  label_user: Lietotāji
-  label_until: līdz
-  label_valid_from: Derīgs no
-  label_yes: Jā
-  label_time: Laiks
-  label_cost: Cost
-  label_costs: Izmaksas
   label_mandatory_fields: Mandatory fields
+  label_month: Month
   label_my_time_tracking: My time tracking
-  label_no_time: No time tracked
+  label_new_time_entry_activity: New time entry activity
   label_next_day: Next day
+  label_next_month: Next month
   label_next_week: Next week
   label_next_workweek: Next work week
-  label_next_month: Next month
+  label_no: Nē
+  label_no_time: No time tracked
+  label_option_plural: Opcijas
+  label_overall_costs: Kopējās izmaksas
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
-  label_previous_week: Previous week
   label_previous_month: Previous month
+  label_previous_week: Previous week
+  label_previous_workweek: Previous work week
+  label_rate: Likme
+  label_rate_plural: Likmes
+  label_show: Rādīt
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_list: List
-  label_month: Month
-  label_workweek: Work week
-  label_day: Diena
-  label_today_capitalized: Today
-  label_view_mode_switcher: Change view
+  label_status_finished: Pabeigts
+  label_time: Laiks
+  label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_timer_since: Started at %{time}
-  placeholder_activity_select_work_package_first: Work package selection is required first
-  notice_something_wrong: Kļūda. Mēģiniet vēlreiz.
-  notice_successful_restore: Veiksmīga atjaunošana.
-  notice_successful_lock: Locked successfully.
+  label_today_capitalized: Today
+  label_units: Izmaksu vienības
+  label_until: līdz
+  label_user: Lietotāji
+  label_valid_from: Derīgs no
+  label_view_mode_switcher: Change view
+  label_work_package_filter_add: Add work package filter
+  label_workweek: Work week
+  label_yes: Jā
   notice_cost_logged_successfully: Sekmīgi reģistrētas vienības izmaksas.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
-  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
+  notice_something_wrong: Kļūda. Mēģiniet vēlreiz.
+  notice_successful_lock: Locked successfully.
+  notice_successful_restore: Veiksmīga atjaunošana.
   notice_time_entry_delete_failed: 'Failed to delete time entry. Errors: %{errors}'
+  notice_time_entry_update_failed: 'Failed to update time entry. Errors: %{errors}'
   permission_edit_cost_entries: Edit booked unit costs
-  permission_edit_own_cost_entries: Edit own booked unit costs
   permission_edit_hourly_rates: Edit hourly rates
+  permission_edit_own_cost_entries: Edit own booked unit costs
   permission_edit_own_hourly_rate: Edit own hourly rates
   permission_edit_rates: Rediģēšanas likmes
   permission_log_costs: Uzskaitīt vienības izmaksas
@@ -211,67 +251,30 @@ lv:
   permission_view_own_cost_entries: View own booked costs
   permission_view_own_hourly_rate: View own hourly rate
   permission_view_own_time_entries: View own spent time
+  placeholder_activity_select_work_package_first: Work package selection is required first
+  plugin_costs:
+    description: This module adds features for planning and tracking costs of projects.
+    name: Laiks un izmaksas
   project_module_costs: Laiks un izmaksas
   setting_allow_tracking_start_and_end_times: Allow start and finish times
+  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_costs_currency: Valūta
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Require start and finish times
-  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
   text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: Delete reported hours and costs
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_reassign_time_and_cost_entries: 'Reassign reported hours and costs to this work package:'
   text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
-  week: nedēļa
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
-    month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Active projects
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        heading: Cost types
-        none_active: No cost types are currently active in this project.
-        for_all_projects_hint: This cost type is enabled in all projects.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Require exact time tracking
-    upsell:
-      time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+    month: 'Month Total: %{hours}'
+    week: 'Week Total: %{hours}'
+    workweek: 'Workweek Total: %{hours}'
+  week: nedēļa

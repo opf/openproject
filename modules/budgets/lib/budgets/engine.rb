@@ -58,6 +58,9 @@ module Budgets
 
     patch_with_namespace :Projects, :RowComponent
 
+    # Allow assigning a budget when moving work packages
+    additional_permitted_attributes move_work_package: %i[budget_id]
+
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end

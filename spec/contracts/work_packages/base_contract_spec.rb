@@ -1353,6 +1353,34 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    describe "target versions length" do
+      let(:other_assignable_version) { build_stubbed(:version) }
+
+      before do
+        allow(work_package).to receive(:assignable_versions)
+          .and_return([assignable_version, other_assignable_version])
+        work_package.target_version_ids_replacements = [assignable_version.id, other_assignable_version.id]
+      end
+
+      context "when the multiple-versions feature is disabled" do
+        before { contract.validate }
+
+        it "rejects more than one target version" do
+          expect(contract.errors.symbols_for(:base)).to include(:target_versions_only_allow_single_value)
+        end
+      end
+
+      context "when the multiple-versions feature is enabled",
+              with_flag: { work_package_multiple_versions: true },
+              with_settings: { work_package_multiple_versions: true } do
+        before { contract.validate }
+
+        it "allows more than one target version" do
+          expect(contract.errors.symbols_for(:base)).not_to include(:target_versions_only_allow_single_value)
+        end
+      end
+    end
+
     describe "observed_in versions assignability" do
       context "with assignable IDs" do
         before do

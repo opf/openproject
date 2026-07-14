@@ -709,6 +709,43 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "targetVersions" do
+      context "when no version is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/targetVersions")
+          expect(subject).to have_json_size(0).at_path("_embedded/targetVersions")
+        end
+      end
+
+      context "when a version is set" do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "wraps the version in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_links/targetVersions/0/title")
+        end
+
+        it "wraps the version in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql("Version".to_json)
+            .at_path("_embedded/targetVersions/0/_type")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
+        end
+      end
+    end
+
     describe "project" do
       it_behaves_like "has workspace linked"
     end
@@ -834,6 +871,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql(budget.subject.to_json)
                   .at_path("_embedded/budget/subject")
         end
+
+        context "when a non-privileged user's response is cached before the current user reads it" do
+          let(:non_privileged_user) { build_stubbed(:user) }
+          let(:non_privileged_representer) do
+            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
+          end
+
+          before do
+            # Non-privileged user renders first, warming the shared cache key
+            non_privileged_representer.to_json
+          end
+
+          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
+            expect(subject).to have_json_path("_links/budget")
+          end
+        end
       end
 
       context "with the user lacking the view_budgets permission" do
@@ -845,6 +898,28 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         it "has no budget embedded" do
           expect(subject)
             .not_to have_json_path("_embedded/budget")
+        end
+
+        it "does not instantiate a budget representer" do
+          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
+          subject
+          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
+        end
+      end
+
+      context "when a privileged user's response is cached before the current user reads it" do
+        let(:privileged_user) { build_stubbed(:admin) }
+        let(:privileged_representer) do
+          described_class.create(work_package, current_user: privileged_user, embed_links:)
+        end
+
+        before do
+          # Privileged user renders first, warming the shared cache key
+          privileged_representer.to_json
+        end
+
+        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
+          expect(subject).not_to have_json_path("_links/budget")
         end
       end
     end

@@ -65,6 +65,8 @@ module OpenProject::ResourceManagement
                      "resource_management/work_package_resource_allocations": %i[index],
                      "resource_management/work_package_timeline/resources": %i[index],
                      "resource_management/work_package_timeline/events": %i[index],
+                     "resource_management/user_timeline/resources": %i[index],
+                     "resource_management/user_timeline/events": %i[index],
                      "resource_management/user_resource_allocations": %i[index],
                      "resource_management/menus": %i[show]
                    },

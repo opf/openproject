@@ -62,6 +62,14 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       delete (payload as { subject?:string }).subject;
     }
 
+    // On create/copy the whole form payload is submitted, which includes an
+    // empty `targetVersions` link. Sending `[]` would be interpreted as
+    // "clear the field", so while target_versions sync with the
+    // work package versions server-side, it must be excluded from the request.
+    if (isNewResource(this.pristineResource)) {
+      delete (payload as { _links?:{ targetVersions?:unknown } })._links?.targetVersions;
+    }
+
     return super.applyChanges(payload);
   }
 

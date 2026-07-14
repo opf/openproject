@@ -17,4 +17,3 @@ keywords: use-cases
 | [Resource management](resource-management)                   | OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations. This guide with detailed step-by-step instructions introduces a workaround that can provide an avenue to accomplish this manually and visually beyond the features of the Team Planner module. |
 | [Implementing Scaled Agile Framework (SAFe) in OpenProject](safe-framework) | Learn how to set up and configure OpenProject to support the Scaled Agile Framework (SAFe) to successfully deliver value to customers using agile practices at scale. |
 | [Test management](test-management)                           | OpenProject can be configured to support lightweight test management using custom work package types, workflows and project templates. This guide describes how to manage test cases and test runs in a reusable, scalable way. |
-

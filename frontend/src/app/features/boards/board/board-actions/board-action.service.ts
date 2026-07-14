@@ -46,6 +46,14 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
+   * The work package attributes whose changes may move a work package
+   * between the lists of the board.
+   */
+  get watchedAttributes():string[] {
+    return [this.filterName];
+  }
+
+  /**
    * The action resource name for the autocompleter
    */
   resourceName:string;

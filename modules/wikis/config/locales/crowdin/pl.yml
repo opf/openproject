@@ -50,7 +50,7 @@ pl:
       external_wiki_providers: Dostawcy wiki
       internal_wiki_provider: Wewnętrzna wiki
       wikis: Wiki
-  permission_manage_wiki_page_links: Zarządzanie linkami do stron Wiki
+  permission_manage_wiki_page_links: Manage wiki page links
   project_module_wiki_platforms: Dostawcy wiki
   wikis:
     admin:
@@ -157,14 +157,18 @@ pl:
       base_configuration:
         header: Konfiguracja
         provider_configured: Ukończono konfigurację
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: OpenProject nie może połączyć się ze skonfigurowanym wystąpieniem XWiki.
         xwiki_oauth_request_error: Podczas próby komunikacji z wystąpieniem XWiki wystąpił nieoczekiwany błąd.
         xwiki_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z XWiki na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta XWiki.
         xwiki_oauth_unauthorized: Token użytkownika nie został rozpoznany przez XWiki.
-    inline_existing_wiki_page_dialog:
-      title: Dodaj istniejącą stronę wiki
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: Administracja XWiki
@@ -190,6 +194,8 @@ pl:
         page_access_forbidden: Nie masz uprawnień dostępu do tej strony wiki
         page_not_found: Powiązana linkiem strona wiki nie jest już dostępna
         unexpected: Wystąpił nieoczekiwany błąd
+      source:
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

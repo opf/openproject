@@ -77,19 +77,19 @@ As in 17.0., also the package URL is changing, we recommend you remove the packa
 
 **Debian / Ubuntu**
 
-```bash
+```shell
 rm /etc/apt/sources.list.d/openproject.list
 ```
 
 **Enterprise Linux / Centos**
 
-```bash
+```shell
 rm /etc/yum.repos.d/openproject.repo
 ```
 
 **SLES15**
 
-```bash
+```shell
 rm /etc/zypp/repos.d/openproject.repo
 ```
 
@@ -230,19 +230,19 @@ you will need to adjust that package source.
 
 - Update the reference to `opf/openproject-ce` in `/etc/apt/sources.list.d/openproject.list` to `opf/openproject`.
 - Update the reference to `stable/8` in `/etc/apt/sources.list.d/openproject.list` to `stable/9`.
-- Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+- Perform the Upgrade steps as mentioned above in _Upgrading your OpenProject installation_
 
 #### YUM-based systems (CentOS, RHEL)
 
 - Update the reference to `opf/openproject-ce` in `/etc/yum.repos.d/openproject.repo` to `opf/openproject`.
 - Update the reference to `stable/8` in `/etc/yum.repos.d/openproject.repo` to `stable/9`.
-- Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+- Perform the Upgrade steps as mentioned above in _Upgrading your OpenProject installation_
 
 #### SUSE Linux Enterprise Server 12
 
 - Update the reference to `opf/openproject-ce` in `/etc/zypp/repos.d/openproject.repo` to `opf/openproject`.
 - Update the reference to `stable/8` in `/etc/zypp/repos.d/openproject.repo` to `stable/9`.
-- Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
+- Perform the Upgrade steps as mentioned above in _Upgrading your OpenProject installation_
 
 ## Upgrade notes for OpenProject 7.x to 8.x
 

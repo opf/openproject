@@ -29,7 +29,7 @@
 #++
 
 module ScimClients
-  class UpdateContract < CreateContract
+  class UpdateContract < BaseContract
     attribute :authentication_method, writable: false
   end
 end

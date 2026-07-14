@@ -1,104 +1,83 @@
 ---
 ru:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID Подключение
-    description: Добавлена стратегия OmniAuth OpenID Connect для OpenProject.
-  logout_warning: 'Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: Идентификатор группы OpenID
       openid_connect/provider:
-        name: Имя
-        slug: Уникальный идентификатор
-        display_name: Отображаемое имя
+        acr_values: Значения ACR
+        authorization_endpoint: Конечная точка авторизации
+        claims: Претензии
         client_id: Идентификатор клиента
         client_secret: Закрытый ключ клиента
-        groups_claim: Требования для групп
-        group_regexes: Шаблон (регулярное выражение)
-        secret: Закрытый ключ
-        scope: Масштаб
-        sync_groups: Синхронизировать группы
-        grant_types_supported: Поддерживаемые типы разрешений
-        limit_self_registration: Ограничение самостоятельной регистрации
-        authorization_endpoint: Конечная точка авторизации
-        userinfo_endpoint: Конечная точка получения информации о пользователе
-        token_endpoint: Конечная точка токена
+        display_name: Отображаемое имя
         end_session_endpoint: Конечная точка завершения сеанса
-        post_logout_redirect_uri: URI перенаправления после выхода из системы
-        jwks_uri: JWKS URI
-        issuer: Издатель
-        tenant: Владелец
-        metadata_url: URL метаданных
+        grant_types_supported: Поддерживаемые типы разрешений
+        group_regexes: Шаблон (регулярное выражение)
+        groups_claim: Требования для групп
         icon: Пользовательская иконка
-        claims: Претензии
-        acr_values: Значения ACR
+        issuer: Издатель
+        jwks_uri: JWKS URI
+        limit_self_registration: Ограничение самостоятельной регистрации
+        metadata_url: URL метаданных
+        name: Имя
+        post_logout_redirect_uri: URI перенаправления после выхода из системы
         redirect_url: URL переадресации
+        scope: Масштаб
+        secret: Закрытый ключ
+        slug: Уникальный идентификатор
+        sync_groups: Синхронизировать группы
+        tenant: Владелец
+        token_endpoint: Конечная точка токена
+        userinfo_endpoint: Конечная точка получения информации о пользователе
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: URL конечной точки обнаружения %{message}
-              response_is_not_successful: " отвечает %{status}."
               response_is_not_json: " не возвращает тело JSON."
+              response_is_not_successful: " отвечает %{status}."
               response_misses_required_attributes: " не возвращает необходимые атрибуты. Недостающими атрибутами являются: %{missing_attributes}."
           invalid_claims_essential: не определяет логическое значение %{attribute}.
           invalid_claims_location: 'содержат неподдерживаемые местоположения: %{invalid}. К поддерживаемым местоположениям относятся: %{supported}.'
           invalid_claims_values: не определяет массив значений в %{attribute}.
           non_object_attribute: не определяет JSON объект в %{attribute}.
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Введите имя провайдера %{name} для подтверждения удаления.
-      irreversible_notice: Удаление SSO провайдера является необратимым действием.
-      provider_html: 'Вы уверены, что хотите удалить провайдера SSO %{name}? Имейте в виду, что это приведет к:'
-      delete_result_1: Удалить провайдера из списка доступных провайдеров.
-      delete_result_user_count:
-        zero: Нет пользователей в настоящее время с этим провайдером. Никаких дальнейших действий не требуется.
-        one: Один пользователь в настоящее время все еще использует этого провайдера. Его нужно будет заново пригласить или войти в систему с другим провайдером.
-        other: "%{count} пользователей все еще используют этого провайдера. Они должны быть повторно приглашены или авторизованы через другого провайдера."
-      delete_result_direct: Этот провайдер отмечен как провайдер прямого входа в систему. Эта настройка будет удалена, и пользователи больше не будут перенаправляться к этому провайдеру для входа в систему.
+  logout_warning: 'Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
+
+    '
   openid_connect:
-    menu_title: Провайдеры OpenID
-    delete_title: Удалить провайдера OpenID Connect
     delete_heading: Удалить этого провайдера OpenID Connect?
+    delete_title: Удалить провайдера OpenID Connect
     group_links_heading: Ссылки на группу OpenID Connect
     groups:
       match_preview_component:
-        title: Извлеченные имена групп
         placeholder_none: В настоящее время нет групп, соответствующих шаблону.
+        title: Извлеченные имена групп
       match_preview_dialog_component:
         description: Это позволяет протестировать регулярное выражение на примерных данных, чтобы убедиться, что имена групп, которые вы хотите извлечь, действительно извлекаются. Здесь вы можете изменить ваш шаблон, но тестовая строка не будет сохранена с конфигурацией.
-        group_names_label: Имена тестовых групп
         group_names_description: Введите одно название группы в строку, как оно будет отображаться в формуле OIDC, чтобы увидеть, как Ваши шаблоны регулярных выражений влияют на них.
+        group_names_label: Имена тестовых групп
         show_button: Тестовый шаблон
         title: Тестовое регулярное выражение
     instructions:
+      acr_values: 'Запрос несущественных требований в более удобном формате. Смотрите [нашу документацию по acr_values](docs_url) для получения дополнительной информации.
+
+        '
+      claims: 'Вы можете запросить дополнительные требования к конечным точкам пользовательской информации и id токена. Пожалуйста, обратитесь к [нашей документации для OpenID подключения](docs_url) для получения дополнительной информации.
+
+        '
+      client_id: Это идентификатор клиента, присвоенный вам провайдером OpenID Connect
+      client_secret: Это ключ клиента, предоставленный вам провайдером OpenID Connect
+      display_name: Имя провайдера. Оно будет отображаться как кнопка входа и в списке провайдеров.
       endpoint_url: URL-адрес конечной точки, указанный поставщиком OpenID Connect
       group_regexes: По одному регулярному выражению на строку. Пожалуйста, прочитайте [документацию](docs_url) для получения дополнительной информации о том, как это сделать.
       group_regexes_detail: В качестве опции задайте шаблоны с помощью регулярных выражений для сопоставления имен групп из формулы групп. Например, если ввести шаблон <code>^Level1/Level2/([\w/]+)$</code>, то из ответа, включающего "Level1/Level2/GroupName/SubGroup", будет извлечена группа "Groupname/SubGroup". Если шаблон не совпадает, группа игнорируется. Оставьте пустым, чтобы синхронизировать все группы, используя их полное групповое имя.
       group_regexes_testing: Нажмите на кнопку 'Тест шаблона' для проверки шаблона регулярных выражений на примере пользовательской информации OIDC.
       group_sync: Автоматически извлекать и синхронизировать информацию о членстве в группах от поставщика идентификационных данных.
       groups_claim: Укажите имя формулы, которая, как ожидается, будет указывать на имена групп, членом которых является пользователь.
-      metadata_none: У меня нет этой информации
-      metadata_url: У меня есть URL конечной точки обнаружения
-      oidc_information: Эти значения необходимы для настройки провайдера OpenID Connect.
-      client_id: Это идентификатор клиента, присвоенный вам провайдером OpenID Connect
-      client_secret: Это ключ клиента, предоставленный вам провайдером OpenID Connect
       limit_self_registration: Если эта опция включена, пользователи смогут регистрироваться у этого провайдера только в том случае, если конфигурация провайдера позволяет это делать.
-      display_name: Имя провайдера. Оно будет отображаться как кнопка входа и в списке провайдеров.
-      tenant: Пожалуйста, замените владельца по умолчанию на своего собственного, если это применимо. См. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">это</a>.
-      scope: Если Вы хотите запросить пользовательские области видимости, Вы можете добавить здесь одно или несколько значений диапазона, разделенных пробелами. Более подробную информацию Вы найдете в [документации OpenID Connect](docs_url).
-      post_logout_redirect_uri: URL-адрес, на который провайдер OpenID Connect должен перенаправить Вас после запроса на выход из системы.
-      claims: 'Вы можете запросить дополнительные требования к конечным точкам пользовательской информации и id токена. Пожалуйста, обратитесь к [нашей документации для OpenID подключения](docs_url) для получения дополнительной информации.
-
-        '
-      acr_values: 'Запрос несущественных требований в более удобном формате. Смотрите [нашу документацию по acr_values](docs_url) для получения дополнительной информации.
-
-        '
-      mapping_login: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для атрибута логина.
+      mapping_admin: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для определения статуса администратора. Ожидается, что будет возвращен атрибут boolean.
 
         '
       mapping_email: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для атрибута электронной почты.
@@ -110,57 +89,77 @@ ru:
       mapping_last_name: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для атрибута фамилии.
 
         '
-      mapping_admin: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для определения статуса администратора. Ожидается, что будет возвращен атрибут boolean.
+      mapping_login: 'Предоставьте пользовательское отображение в ответе userinfo, которое будет использоваться для атрибута логина.
 
         '
-    settings:
       metadata_none: У меня нет этой информации
       metadata_url: У меня есть URL конечной точки обнаружения
-      endpoint_url: URL конечной точки
+      oidc_information: Эти значения необходимы для настройки провайдера OpenID Connect.
+      post_logout_redirect_uri: URL-адрес, на который провайдер OpenID Connect должен перенаправить Вас после запроса на выход из системы.
+      scope: Если Вы хотите запросить пользовательские области видимости, Вы можете добавить здесь одно или несколько значений диапазона, разделенных пробелами. Более подробную информацию Вы найдете в [документации OpenID Connect](docs_url).
+      tenant: Пожалуйста, замените владельца по умолчанию на своего собственного, если это применимо. См. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">это</a>.
+    menu_title: Провайдеры OpenID
     providers:
-      label_providers: Провайдеры
-      seeded_from_env: Этот провайдер был инициализирован из конфигурации среды. Он не может быть отредактирован.
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Информация о настройке OpenProject в качестве клиента OIDC
       custom:
         name: Пользовательский
-      upsell:
-        title: Single Sign-On (SSO) с подключением OpenID
-        description: Подключить OpenProject к провайдеру идентификации OpenID connect
+      google:
+        name: Google
       label_add_new: Добавить нового провайдера OpenID
+      label_advanced_configuration: Расширенные настройки
+      label_attribute_mapping: Привязки атрибутов
+      label_automatic_configuration: Автоматическая настройка
+      label_client_details: Информация о клиенте
+      label_configuration_details: Метаданные
       label_edit: Редактировать провайдера OpenID %{name}
-      label_empty_title: Провайдеры OpenID еще не настроены.
       label_empty_description: Добавьте провайдера, чтобы увидеть их здесь.
+      label_empty_title: Провайдеры OpenID еще не настроены.
       label_group_mapping: Сопоставление групп
       label_metadata: Конечная точка обнаружения OpenID Connect
-      label_automatic_configuration: Автоматическая настройка
       label_optional_configuration: Необязательные настройки
-      label_advanced_configuration: Расширенные настройки
-      label_configuration_details: Метаданные
-      label_client_details: Информация о клиенте
-      label_attribute_mapping: Привязки атрибутов
-      notice_created: Новый провайдер OpenID был успешно создан.
-      client_details_description: Информация о настройке OpenProject в качестве клиента OIDC
+      label_providers: Провайдеры
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Ни один провайдер еще не был определен.
+      notice_created: Новый провайдер OpenID был успешно создан.
       plural: Провайдеры OpenID
-      singular: Провайдер OpenID
       section_texts:
+        attribute_mapping: Настройте сопоставление атрибутов между OpenProject и провайдером OpenID Connect.
+        claims: Запросите дополнительные требования к ID-токену или ответу userinfo.
+        configuration: Подробности конфигурации провайдера OpenID Connect
+        configuration_metadata: Эта информация была предварительно заполнена с использованием URL обнаружения. В большинстве случаев она не требует редактирования.
+        display_name: Отображаемое имя, видимое пользователям.
         group_mapping: Сопоставьте имена групп, предоставленные поставщиком идентификационных данных, с группами в OpenProject.
         metadata: Предварительно заполните конфигурацию, используя URL обнаружения OpenID Connect
         metadata_form_banner: Редактирование URL может перезаписать ранее заполненные значения метаданных.
-        metadata_form_title: Конечная точка обнаружения OpenID Connect
         metadata_form_description: Если ваш поставщик идентификации имеет URL обнаружения. Используйте его ниже для предварительного заполнения.
-        configuration_metadata: Эта информация была предварительно заполнена с использованием URL обнаружения. В большинстве случаев она не требует редактирования.
-        configuration: Подробности конфигурации провайдера OpenID Connect
-        display_name: Отображаемое имя, видимое пользователям.
-        attribute_mapping: Настройте сопоставление атрибутов между OpenProject и провайдером OpenID Connect.
-        claims: Запросите дополнительные требования к ID-токену или ответу userinfo.
+        metadata_form_title: Конечная точка обнаружения OpenID Connect
       side_panel:
         information_component:
           backchannel_logout_url: URL-адрес выхода из обратного канала
+      singular: Провайдер OpenID
+      upsell:
+        description: Подключить OpenProject к провайдеру идентификации OpenID connect
+        title: Single Sign-On (SSO) с подключением OpenID
     setting_instructions:
       limit_self_registration: 'Если эта опция включена, пользователи могут регистрироваться с помощью этого провайдера только в том случае, если настройка саморегистрации позволяет это сделать.
 
         '
+    settings:
+      endpoint_url: URL конечной точки
+      metadata_none: У меня нет этой информации
+      metadata_url: У меня есть URL конечной точки обнаружения
+  plugin_openproject_openid_connect:
+    description: Добавлена стратегия OmniAuth OpenID Connect для OpenProject.
+    name: OpenProject OpenID Подключение
+  provider:
+    delete_warning:
+      delete_result_1: Удалить провайдера из списка доступных провайдеров.
+      delete_result_direct: Этот провайдер отмечен как провайдер прямого входа в систему. Эта настройка будет удалена, и пользователи больше не будут перенаправляться к этому провайдеру для входа в систему.
+      delete_result_user_count:
+        one: Один пользователь в настоящее время все еще использует этого провайдера. Его нужно будет заново пригласить или войти в систему с другим провайдером.
+        other: "%{count} пользователей все еще используют этого провайдера. Они должны быть повторно приглашены или авторизованы через другого провайдера."
+        zero: Нет пользователей в настоящее время с этим провайдером. Никаких дальнейших действий не требуется.
+      input_delete_confirmation_html: Введите имя провайдера %{name} для подтверждения удаления.
+      irreversible_notice: Удаление SSO провайдера является необратимым действием.
+      provider_html: 'Вы уверены, что хотите удалить провайдера SSO %{name}? Имейте в виду, что это приведет к:'

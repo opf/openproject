@@ -22,9 +22,9 @@
 ---
 'no':
   js:
-    work_packages:
-      properties:
-        storyPoints: Historiepoeng
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Historiepoeng

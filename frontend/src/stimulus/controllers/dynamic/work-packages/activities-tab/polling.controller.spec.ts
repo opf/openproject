@@ -94,11 +94,6 @@ describe('Activities tab polling controller', () => {
       },
       configurable: true,
     });
-    Object.defineProperty(controller, 'workPackagesActivitiesTabStemsOutlet', {
-      value: { handleStemVisibility: vi.fn() },
-      configurable: true,
-    });
-
     return controller;
   }
 

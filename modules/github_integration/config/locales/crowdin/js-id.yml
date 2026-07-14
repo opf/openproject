@@ -23,33 +23,33 @@
 id:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Permintaan pull
-        copy_menu:
-          label: Cuplikan Git
-          description: Salin cuplikan git ke papan klip
-        git_actions:
-          branch_name: Nama cabang
-          commit_message: Pesan commit
-          cmd: Buat cabang dengan komit kosong
-          title: Cuplikan cepat untuk Git
-          copy_success: "✅ Tersalin!"
-          copy_error: "❌ Gagal tersalin!"
-      tab_prs:
-        empty: Belum ada pull request yang terhubung. Hubungkan pull request yang sudah ada dengan menggunakan kode <code>OP#%{wp_id}</code> dalam deskripsi pull request atau buat pull request baru.
       github_actions: Tindakan
       pull_requests:
-        message: 'Permintaan tarik #%{pr_number} %{pr_link} untuk %{repository_link} yang ditulis oleh %{github_user_link} telah %{pr_state}.'
         merged_message: 'Permintaan penarikan #%{pr_number} %{pr_link} untuk %{repository_link} telah %{pr_state} oleh %{github_user_link}.'
+        message: 'Permintaan tarik #%{pr_number} %{pr_link} untuk %{repository_link} yang ditulis oleh %{github_user_link} telah %{pr_state}.'
         referenced_message: 'Permintaan tarik #%{pr_number} %{pr_link} untuk %{repository_link} yang ditulis oleh %{github_user_link} yang mereferensikan paket kerja ini.'
         states:
-          opened: terbuka
           closed: berakhir
           draft: terancang
           merged: tergabung
+          opened: terbuka
           ready_for_review: ditandai siap untuk ditinjau
+      tab_header:
+        copy_menu:
+          description: Salin cuplikan git ke papan klip
+          label: Cuplikan Git
+        git_actions:
+          branch_name: Nama cabang
+          cmd: Buat cabang dengan komit kosong
+          commit_message: Pesan commit
+          copy_error: "❌ Gagal tersalin!"
+          copy_success: "✅ Tersalin!"
+          title: Cuplikan cepat untuk Git
+        title: Permintaan pull
+      tab_prs:
+        empty: Belum ada pull request yang terhubung. Hubungkan pull request yang sudah ada dengan menggunakan kode <code>OP#%{wp_id}</code> dalam deskripsi pull request atau buat pull request baru.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

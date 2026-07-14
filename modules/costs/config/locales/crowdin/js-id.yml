@@ -22,15 +22,15 @@
 ---
 id:
   js:
-    text_are_you_sure: Apakah anda yakin?
-    myTimeTracking:
-      noSpecificTime: Tidak ada waktu khusus
-    work_packages:
-      property_groups:
-        costs: Biaya
-      properties:
-        overallCosts: Biaya keseluruhan
-        spentUnits: Unit terpakai
     button_log_costs: Log biaya unit
     label_hour: jam
     label_hours: jam
+    myTimeTracking:
+      noSpecificTime: Tidak ada waktu khusus
+    text_are_you_sure: Apakah anda yakin?
+    work_packages:
+      properties:
+        overallCosts: Biaya keseluruhan
+        spentUnits: Unit terpakai
+      property_groups:
+        costs: Biaya

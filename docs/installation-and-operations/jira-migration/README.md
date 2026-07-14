@@ -64,21 +64,20 @@ Therefore, please make sure that you have [a backup of your OpenProject instance
 
 ### Setup the API connection
 
-Navigate to *Administration → Import*. To create a new import configuration, click the **+ Jira configuration** button.
-
+Navigate to _Administration → Import_. To create a new import configuration, click the **+ Jira configuration** button.
 
 ![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import_initial.png)
 > [!IMPORTANT]
 >
 > To activate the configuration you need to activate project-based semantic identifiers on the OpenProject side first. If not yet active, you will see a warning banner. Once activated, the button will become selectable. 
 
-
 ![Jira importer settings under OpenProject administration](openproject_admin_import_jira_import.png)
 
 Provide the following details:
--  A name for the import configuration
--  Your Jira Server or Data Center URL
--  A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+
+- A name for the import configuration
+- Your Jira Server or Data Center URL
+- A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
 
 ### Test configuration
 
@@ -104,7 +103,7 @@ Click **Import run** to start a new import.
 
 ### Check available data
 
-In the *Get base data* section, click **Check available data** to retrieve metadata from your Jira instance.
+In the _Get base data_ section, click **Check available data** to retrieve metadata from your Jira instance.
 
 ![Checking available Jira data for import](openproject_admin_import_jira_import_check_data.png)
 
@@ -130,7 +129,7 @@ Click **Start import** to begin the import process.
 
 ![Start import button in Jira import workflow](openproject_admin_import_jira_import_start_import_button.png)
 
-A warning dialog will appear. Confirm that you understand the limitations (e.g., incomplete feature coverage, recommendation to avoid production use, and the need for backups). Select *I understand* and click **Start import**.
+A warning dialog will appear. Confirm that you understand the limitations (e.g., incomplete feature coverage, recommendation to avoid production use, and the need for backups). Select _I understand_ and click **Start import**.
 
 ![Warning dialog before starting Jira import](openproject_admin_import_jira_import_warning_banner.png)
 
@@ -141,11 +140,11 @@ During import, Jira [wiki markup](#wiki-markup) is automatically converted to Op
 
 ### Review import
 
-After the import completes, the data is available in *review mode*. You can:
+After the import completes, the data is available in _review mode_. You can:
 
--  Inspect imported projects and work packages
--  Validate data integrity
--  Decide whether to approve or revert the import
+- Inspect imported projects and work packages
+- Validate data integrity
+- Decide whether to approve or revert the import
 
 ![Example of an imported work package in review mode](openproject_admin_import_jira_import_imported_work_package_example.png)
 
@@ -207,12 +206,13 @@ A confirmation warning will also be shown.
 ### Wiki markup
 
 Most standard Jira wiki markup converts to Markdown automatically, but Jira-specific macro boxes do not have a Markdown equivalent and convert imperfectly:
-  - `{info}`, `{warning}`, `{note}`, `{tip}` callout boxes - content is preserved but the visual callout styling is lost
-  - `{toc}` (table of contents) - dropped
-  - `{expand}` (collapsible sections) - content is preserved but the expand/collapse behaviour is lost
-  - `{section}`/`{column}` (multi-column layouts) - columns are collapsed into a single flow
-  - `[^attachment.pdf]` (inline attachment links) - link target is lost
-  - Bare Jira issue key links (e.g. `[PROJECT-123]`) - not yet supported
+
+- `{info}`, `{warning}`, `{note}`, `{tip}` callout boxes - content is preserved but the visual callout styling is lost
+- `{toc}` (table of contents) - dropped
+- `{expand}` (collapsible sections) - content is preserved but the expand/collapse behaviour is lost
+- `{section}`/`{column}` (multi-column layouts) - columns are collapsed into a single flow
+- `[^attachment.pdf]` (inline attachment links) - link target is lost
+- Bare Jira issue key links (e.g. `[PROJECT-123]`) - not yet supported
 
 ## Current status and next steps of the Jira Migrator
 

@@ -71,16 +71,75 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         }
       end
 
-      before do
+      def update_projects
         put :update, params:
       end
 
-      it { expect(response).to redirect_to(edit_type_projects_path(type_id: type.id)) }
+      it "redirects to the projects tab" do
+        update_projects
+
+        expect(response).to redirect_to(edit_type_projects_path(type_id: type.id))
+      end
 
       context "if the project id does not exist" do
         let(:project_ids) { ["not_here"] }
 
+        it "responds with an error" do
+          update_projects
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
+      context "if the project contains work packages of the type" do
+        let(:project) { create(:project, types: [type]) }
+        let!(:work_package) { create(:work_package, project:, type:) }
+        let(:project_ids) { [] }
+
+        before do
+          update_projects
+        end
+
         it { expect(response).to have_http_status(:unprocessable_entity) }
+
+        it "shows an error message with a link to the affected work packages" do
+          expect(sanitize_string(flash[:error]))
+            .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+          expect(flash[:error])
+            .to include(work_packages_path(query_props: { f: [
+              { n: "type", o: "=", v: [type.id] },
+              { n: "project", o: "=", v: [project.id.to_s] }
+            ] }.to_json))
+        end
+
+        it "keeps the type active in the project" do
+          expect(project.reload.types).to include(type)
+        end
+      end
+
+      context "if visible and invisible projects contain work packages of the type" do
+        let(:project) { create(:project, types: [type]) }
+        let(:archived_project) { create(:project, :archived, types: [type]) }
+        let!(:work_package) { create(:work_package, project:, type:) }
+        let!(:archived_work_package) { create(:work_package, project: archived_project, type:) }
+        let(:project_ids) { [] }
+
+        before do
+          update_projects
+        end
+
+        it "does not include invisible project ids in the work packages link" do
+          expect(flash[:error])
+            .to include(work_packages_path(query_props: { f: [
+              { n: "type", o: "=", v: [type.id] },
+              { n: "project", o: "=", v: [project.id.to_s] }
+            ] }.to_json))
+        end
+
+        it "informs the user that some projects are not visible" do
+          expect(flash[:error])
+            .to include(I18n.t(:error_can_not_deactivate_type_invisible_projects))
+        end
       end
     end
   end

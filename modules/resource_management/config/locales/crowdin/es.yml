@@ -39,11 +39,11 @@ es:
       resource_user_card: Tarjetas de usuario
       resource_work_package_list: Lista de paquetes de trabajo
   button_next: Siguiente
-  label_resource_management: Planificación de recursos
+  label_resource_management: Administración de recursos
   permission_allocate_user_resources: Asignar recursos de usuario
   permission_allocate_user_resources_explanation: Permite a los usuarios crear, actualizar y eliminar asignaciones de recursos dentro de un planificador de recursos. Esto incluye asignar usuarios (o filtros de usuarios) a un planificador y ajustar el intervalo de tiempo y fecha asignado.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
+  permission_assign_users_to_generic_allocations: Asociar usuarios a asignaciones genéricas
+  permission_assign_users_to_generic_allocations_explanation: Permite a los usuarios utilizar la vista de personal para asignar usuarios reales a asignaciones genéricas (basadas en filtros) de recursos que aún no tienen un usuario. No permite crear o editar asignaciones.
   permission_manage_public_resource_planners: Gestionar los planificadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite a los usuarios crear y gestionar planificadores de recursos públicos. Les permite ver, crear, gestionar y publicar sus propios planificadores de recursos. No permite a los usuarios ver los planificadores de recursos creados por otros usuarios que no se hayan compartido públicamente.
   permission_view_resource_planners: Ver planificadores de recursos
@@ -60,10 +60,6 @@ es:
       make_private: Marcar como privado
       make_public: Marcar como público
       unfavorite: Eliminar de favoritos
-    allocation:
-      hours: "%{value} h"
-      no_work: Sin trabajo planeado en este paquete de trabajo
-      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,19 +83,23 @@ es:
       submit: Asignar
       success_message: Recurso asignado.
       title: Asignar recurso
+    allocation:
+      hours: "%{value} h"
+      no_work: Sin trabajo planeado en este paquete de trabajo
+      summary: "%{allocated}/%{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} disponibles"
+      confirm_overtime: Asignar de todos modos
+      filter_criteria: Criterios de filtrado
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: Ningún miembro del proyecto cumple los criterios de filtrado de esta asignación.
+        title: No hay miembros que coincidan
+      no_schedule: Este usuario no tiene ningún programa de trabajo configurado, por lo que no podemos determinar si esta asignación encaja.
+      overbooked_detail: Este usuario tiene %{available} disponible en este período, el paquete de trabajo requiere %{requested}.
+      requested_for: Solicitado para
+      select_user: Por favor, seleccione un usuario a asignar.
+      submit: Asignar
+      title: Asignar %{filter_name}
     blankslate:
       desc: Cree un planificador de recursos para empezar a planificar la capacidad de este proyecto.
       title: Aún no hay planificadores de recursos
@@ -132,22 +132,39 @@ es:
       private: Privado
       public: Público
     staffing:
-      assign: Assign user
+      assign: Asignar usuario
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Todas las asignaciones genéricas de este proyecto tienen un usuario asignado.
+        title: Nada para dotar de recursos
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
+        dates: Fechas
+        requested_time: Hora deseada
+        resource: Recurso
+        work_package: Paquete de trabajo
+      context_menu_label: Acciones de asignación
+      delete_confirmation: "¿Está seguro de que desea eliminar esta asignación?"
+      menu_item: Dotación de personal
+      starts_in_past: Esta asignación ya ha comenzado y aún no está asignada.
+      success_message: Usuario asignado.
+      title: Dotación de personal
     sub_views: Vistas en este planificador de recursos
+    timeframe:
+      end_only: Hasta %{end}
+      full: Desde %{start} hasta %{end}
+      start_only: Desde %{start}
+    timeline:
+      granularity:
+        day: Día
+        month: Mes
+        week: Semana del calendario
+      navigation:
+        next: Siguiente período
+        previous: Período anterior
+        today: Hoy
+      subheader:
+        add: Añadir
+        allocate: Asignar
+        settings: Configurar vista
     user_allocations_dialog:
       allocate_work_package: Asignar un paquete de trabajo
       blank: Este usuario no tiene paquetes de trabajo asignados.
@@ -167,11 +184,11 @@ es:
         remove: Eliminar usuario
         remove_confirmation: "¿Eliminar este usuario de la vista?"
       fields:
-        working_times: Horario de trabajo
-        input_label: Campos
-        input_caption: Selecciona los campos que se mostrarán en la ficha de usuario para esta vista
-        input_placeholder: Añadir un campo
         drag_area_label: Campos mostrados
+        input_caption: Selecciona los campos que se mostrarán en la ficha de usuario para esta vista
+        input_label: Campos
+        input_placeholder: Añadir un campo
+        working_times: Horario de trabajo
       subheader:
         resource: Recurso
         settings: Configurar vista
@@ -181,10 +198,26 @@ es:
         blank: No se han configurado horarios de trabajo
         schedule_availability_compact: "%{schedule} (%{factor}% disponible)"
         schedule_change_compact: hasta el %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Añadir usuario
+        configure_view: Configurar vista
+        description: Aún no hay usuarios que coincidan con los filtros de esta vista.
+        manual_description: Añadir usuarios a esta vista para ver su asignación con el tiempo.
+        title: No hay usuarios para mostrar
+      no_work_schedule: No hay ningún cronograma de trabajo previsto para este usuario
+      overbooked: Este usuario ha superado su asignación total en el periodo seleccionado.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} programado, %{available} disponible"
+      subheader:
+        add_user: Añadir usuario
     view_types:
       resource_user_card:
         caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
         label: Lista de tarjetas de usuario
+      resource_user_timeline:
+        caption: Crear una vista basada en los usuarios y ver sus asignaciones con el tiempo en una línea de tiempo
+        label: Línea de tiempo de usuarios
       resource_work_package_list:
         caption: Crea una vista basada en los paquetes de trabajo y consulta sus detalles y su asignación en una lista
         label: Lista de paquetes de trabajo
@@ -246,12 +279,6 @@ es:
         description: Todavía no hay paquetes de trabajo que se ajusten a los filtros de esta vista.
         manual_description: Añade paquetes de trabajo a esta vista para planificar su asignación a lo largo del tiempo.
         title: No hay paquetes de trabajo para mostrar
-      granularity:
-        day: Día
-        month: Mes
-        week: Calendario semanal
-      navigation:
-        next: Siguiente período
-        previous: Período anterior
-        today: Hoy
       query_name: 'Calendario del paquete de trabajo de gestión de recursos: %{name}'
+      subheader:
+        add_work_package: Añadir paquete de trabajo

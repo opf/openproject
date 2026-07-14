@@ -392,6 +392,13 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return if filtered_ids.sort == current_ids.sort
 
     work_package.send(:"#{attr}=", filtered_ids)
+    # Assigning the replacement above marks the versions as changed, which the
+    # contract only allows for users holding the assign_versions permission.
+    # When the user did not ask for any version change (current_replacements
+    # is nil), the clearing is system-initiated (e.g. a project move), so it
+    # is marked as such and exempted from that permission. A user-requested
+    # set that merely got filtered stays attributed to the user.
+    work_package.mark_system_version_override(kind) if current_replacements.nil?
   end
 
   def set_parent_to_nil

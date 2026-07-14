@@ -9,7 +9,7 @@
             end
             content_container.with_column do
               render(Primer::Beta::Text.new(font_weight: :bold)) do
-                @user_custom_field_section.name.presence || t("settings.user_custom_fields.label_untitled_section")
+                @user_custom_field_section.name
               end
             end
           end

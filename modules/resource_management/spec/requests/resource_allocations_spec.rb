@@ -61,6 +61,18 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).to include('name="start_date"', 'value="2026-06-10"')
       expect(response.body).to include('name="end_date"', 'value="2026-06-12"')
     end
+
+    it "opens the allocation step for a preselected user with the timeline dates filled" do
+      # The user timeline passes `principal_id`; the dialog skips the kind step and
+      # pre-fills the allocation (incl. the selected date range).
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("2026-06-10", "2026-06-12")
+    end
   end
 
   describe "GET step" do
@@ -104,25 +116,49 @@ RSpec.describe "ResourceAllocations requests",
     end
   end
 
-  describe "GET refresh_form" do
+  describe "POST refresh_form" do
+    it "refreshes the form via POST as a turbo stream" do
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               start_date: "2026-03-02",
+               end_date: "2026-03-03",
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "replace",
+        target: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.wrapper_key
+      )
+    end
+  end
+
+  describe "POST refresh_form (date warning)" do
     shared_let(:dated_work_package) do
       create(:work_package, project:, start_date: Date.new(2026, 1, 15), due_date: Date.new(2026, 2, 20))
     end
 
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
-      get refresh_form_project_resource_allocations_path(project),
-          params: {
-            allocation_kind: "principal",
-            resource_allocation: {
-              principal_id: assignee.id,
-              entity_type: "WorkPackage",
-              entity_id:,
-              start_date:,
-              end_date:,
-              allocated_hours: "40h"
-            }
-          },
-          as: :turbo_stream
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id:,
+               start_date:,
+               end_date:,
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
     end
 
     it "streams the inline warning banner when the dates fall outside the work package" do
@@ -728,21 +764,23 @@ RSpec.describe "ResourceAllocations requests",
       create(:resource_planner, project:, principal: user,
                                 start_date: Date.new(2026, 3, 1), end_date: Date.new(2026, 3, 31))
     end
+    shared_let(:card_view) do
+      create(:resource_user_card, parent: resource_planner, project:, principal: user)
+    end
     let(:user_dialog_id) { ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID }
 
     it "replaces the utilization dialog and opens the allocation step prefilled for the user" do
       get new_project_resource_allocation_path(project, principal_id: assignee.id,
-                                                        resource_planner_id: resource_planner.id),
+                                                        resource_planner_view_id: card_view.id),
           as: :turbo_stream
 
-      # The user dialog is closed and the kind step is skipped
       expect(response).to have_http_status(:ok)
       expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
       expect(response.body).not_to include('value="filter"')
     end
 
     it "reopens a refreshed utilization dialog after a successful create" do
-      post project_resource_allocations_path(project, resource_planner_id: resource_planner.id),
+      post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
            params: {
              allocation_kind: "principal",
              resource_allocation: {

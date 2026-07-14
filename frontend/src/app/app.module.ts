@@ -78,7 +78,6 @@ import { LinkedPluginsModule } from 'core-app/features/plugins/linked-plugins.mo
 import {
   OpenProjectInAppNotificationsModule,
 } from 'core-app/features/in-app-notifications/in-app-notifications.module';
-import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import {
   OpenprojectContentLoaderModule,
@@ -159,7 +158,6 @@ import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-
 import {
   InAppNotificationBellComponent,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
-import { BackupComponent } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EditableQueryPropsComponent,
 } from 'core-app/features/admin/editable-query-props/editable-query-props.component';
@@ -205,6 +203,7 @@ import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
+import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -349,7 +348,6 @@ export function runBootstrap(appRef:ApplicationRef) {
       deps: [ConfigurationService, HttpClient],
     },
     PaginationService,
-    OpenProjectBackupService,
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
     CopyToClipboardService,
@@ -402,7 +400,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-spot-switch', SpotSwitchComponent, { injector });
     registerCustomElement('opce-modal-overlay', OpModalOverlayComponent, { injector });
     registerCustomElement('opce-in-app-notification-bell', InAppNotificationBellComponent, { injector });
-    registerCustomElement('opce-backup', BackupComponent, { injector });
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
@@ -421,5 +418,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
+    registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });
   }
 }

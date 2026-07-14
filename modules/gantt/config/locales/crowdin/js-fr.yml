@@ -2,6 +2,6 @@
 fr:
   js:
     work_packages:
-      label_gantt_chart_plural: Diagrammes de Gantt
       default_queries:
         milestones: Étapes importantes
+      label_gantt_chart_plural: Diagrammes de Gantt

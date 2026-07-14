@@ -22,9 +22,9 @@
 ---
 ru:
   js:
-    work_packages:
-      properties:
-        storyPoints: Исторические точки
     burndown:
       day: День
       points: Точки
+    work_packages:
+      properties:
+        storyPoints: Исторические точки

@@ -33,7 +33,7 @@ The **Portfolios** global module displays all portfolios in your OpenProject ins
 
 > [!TIP]
 >
-> This module is only visible if you can see at least one portfolio or if you have the *create projects* permission.
+> This module is only visible if you can see at least one portfolio or if you have the _create projects_ permission.
 
 You can create a new portfolio here directly by using the  **+ Portfolio** button.
 
@@ -45,9 +45,11 @@ Read more on [Portfolios in OpenProject](../../portfolios).
 
 The **Projects** global module displays all projects in your OpenProject instance of which you are a member and/or have the right to see (for example as an administrator), including public projects. **Active projects** is the default view and shows only active projects.
 
-You can create a new project here directly by using the  **+ Project** button.
+You can create a new project here directly by using the  **+ Add** button.
 
 ![OpenProject projects overview in the global modules menu](openproject_global_modules_projects.png)
+
+![OpenProject projects overview in the global modules menu](openproject_global_modules_add_project.png)
 
 Read more on [Project lists filters](../../../user-guide/projects/project-lists/#project-lists-filters).
 

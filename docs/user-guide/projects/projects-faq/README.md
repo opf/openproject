@@ -13,7 +13,7 @@ keywords: projects FAQ, project questions
 There are several possibilities:
 
 1. To see only the projects without their work packages go to [Projects](../project-lists/) ("View all projects"). Here you can also display the Project list in a Gantt chart view with all important milestones of all Projects. Therefore you have to click on "Open as Gantt view".
-2. For work packages of all projects click on *Modules -> Work packages* in the upper right hand corner (9 squares) in the navigation bar, to access the [global work packages list](../project-lists/#global-work-package-tables). Use the view configuration to group the work packages by project.
+2. For work packages of all projects click on _Modules -> Work packages_ in the upper right hand corner (9 squares) in the navigation bar, to access the [global work packages list](../project-lists/#global-work-package-tables). Use the view configuration to group the work packages by project.
 3. Select a project with subprojects, go to the Project overview, add the widget "Work package table" and set the filter "Including subproject". Find more information on this topic [here](../../projects/project-home/project-widgets/). Additionally you could add the column "Progress" to compare your different Project progress.
 4. Add the widget "Work package table" to your My page and set the filter mentioned above. Find more information on this topic [here](../../../getting-started/my-page/#configure-the-my-page). Additionally you could add the column "Progress".
 
@@ -46,7 +46,7 @@ You can't remove fields/attributes that are no custom fields. However, you can h
 
 ## Can I create a custom project status?
 
-There are six project status to choose from: on track, at risk, off track, not started, finished and discontinued. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/). Both, status description and the project custom field can be displayed in the **project list**.
+There are six project status to choose from: on track, at risk, off track, not started, finished and discontinued. These cannot be changed. However, if you want to add additional information, you can do so in the status description or you can create an additional [project custom field](../../../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects). Both, status description and the project custom field can be displayed in the **project list**.
 
 ## How do I reopen an archived project?
 
@@ -64,12 +64,11 @@ For portfolio management or custom reporting, you can use either the project lis
 
 For more information on portfolio management options in OpenProject please refer to this [Use Case](../../../use-cases/resource-management).
 
-
 ## When I set up the overview page for a project, work packages can be arranged as a Gantt chart. I would also need this for the subprojects. How does it work?
 
-If you have selected the "Work package table" widget on the under the *Dashboard* tab of the home page, you can open the *more (three dots)* menu at the top right corner of the widget and click **Configure view**. In the configuration, you can select subprojects under *Filter*. You can choose all subprojects, a single subproject, or several subprojects.  
+If you have selected the "Work package table" widget on the under the _Dashboard_ tab of the home page, you can open the _more (three dots)_ menu at the top right corner of the widget and click **Configure view**. In the configuration, you can select subprojects under _Filter_. You can choose all subprojects, a single subproject, or several subprojects.  
 
-In the *Gantt chart* tab of the Work package table configuration, tick the box next to "Show Gantt chart". All work packages of the selected subprojects will then be displayed in a combined Gantt chart view.  
+In the _Gantt chart_ tab of the Work package table configuration, tick the box next to "Show Gantt chart". All work packages of the selected subprojects will then be displayed in a combined Gantt chart view.  
 
 If you want to see the individual Gantt charts of the subprojects separately, you need to add a Work package table widget for each subproject.
 

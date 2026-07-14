@@ -11,7 +11,7 @@ keywords: project attributes, create, project settings, attribute help text, hel
 Project attributes are custom fields shown on the [Project home](../../../user-guide/projects/project-home/) page. They allow you to communicate key information relevant to a project.
 
 > [!NOTE]
-> Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, they are referred to as *project attributes*.
+> Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/#add-a-custom-field-to-one-or-multiple-projects) page. Starting with 14.0, they are referred to as _project attributes_.
 
 This page describes how instance administrators can create, order, and group project attributes, and assign them to projects. For instructions on editing project attribute values within a project, see the [Project home](../../../user-guide/projects/project-home/) page.
 
@@ -49,6 +49,7 @@ Name the section and save it.
 ![Name a new project attribute section in OpenProject administration](open_project_system_admin_guide_project_attributes_new_section_name.png) 
 
 Each section includes a location selector defining where it appears on the Project home page:
+
 - **Side panel** — Shows the section and its attributes in the right-hand panel.  
 - **Main area** — Shows the section and its attributes as a widget in the central area.
 
@@ -62,10 +63,9 @@ Use the **More** menu on the right side of the section header to rename, delete,
 Attributes can be dragged between sections. Entire sections can be reordered via drag and drop. Use the drag and drop handle to the left of the section name.
 
 > [!TIP]
-> Attributes always appear in the section they are assigned to across *all* projects.
+> Attributes always appear in the section they are assigned to across _all_ projects.
 
 ![Edit project attribute sections in OpenProject administration](open_project_system_admin_guide_project_attributes_section_more_icon_menu.png)
-
 
 ## Create a project attribute
 
@@ -78,7 +78,7 @@ You can pick from multiple [project attribute formats](#project-attribute-format
 
 ![Create a new project attribute type in OpenProject administration](open_project_system_admin_guide_project_attributes_add_button.png)
 
-This is an example of new project attribute with a format *List*. 
+This is an example of new project attribute with a format _List_. 
 
 ![Create a new attribute form in OpenProject administration](open_project_system_guide_project_attributes_new_attribute.png)
 
@@ -114,15 +114,15 @@ There are multiple format options for project attributes in OpenProject. You can
 - **Calculated value** (Enterprise add-on) - creates a project attribute that enables automatic computations based on formulas using numeric project attributes, for example from **Weighted item lists**.
 - **Date** - creates a project attribute, which allows selecting dates from a date picker.
 - **Float** - creates a project attribute for rational numbers.
-- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the *Items* tab of the project attribute.
+- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the project attribute.
 - **Integer** - creates a project attribute for integers.
 - **Link (URL)** - creates a project attribute for URLs.
 - **List** - creates a project attribute with flat list options. 
 - **Text** - creates a project attribute in text format with the specified length restrictions.
 - **Long text** - creates a project attribute for cases where longer text needs to be entered.
 - **User** - creates a project attribute, which allows selecting users that are allowed to access the entity containing the project attribute.
-- **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in *Backlogs* module.
-- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the *Hierarchy* type, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**. Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
+- **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
+- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**. Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
 
 ### Hierarchy project attribute (Enterprise add-on)
 
@@ -150,9 +150,9 @@ This numeric value is required and can be used in calculations — for example, 
 
 **Calculated values** enable automatic computations based on formulas using numeric project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
 
-To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the *Calculated value* option. Define the name, section it will appear in and the calculation formula. 
+To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the _Calculated value_ option. Define the name, section it will appear in and the calculation formula. 
 
-In the example below, a project attribute called **Initiative score (calculated)** is determined by this formula: (Strategic fit * 0.4) + ( User benefit* 0.4) - (Effort * 0.2).
+In the example below, a project attribute called **Initiative score (calculated)** is determined by this formula: `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)`.
 
 ![An example of a project attribute of type "Calculated value" in OpenProject administration](open_project_system_guide_project_attributes_calculated_value.png)
 
@@ -172,20 +172,19 @@ You can also use the drag handles to the left of each project attribute to drag 
 > [!NOTE]
 > Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
 
-
 ## Enable project attributes
 
-Under **Administration settings** → **Projects** → **Project attributes** select the *More* menu and select *Edit* or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected. 
+Under **Administration settings** → **Projects** → **Project attributes** select the _More_ menu and select _Edit_ or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected. 
 
-The *Details* tab will allow you to edit the name, section and visibility, and enable a comment text field.
+The _Details_ tab will allow you to edit the name, section and visibility, and enable a comment text field.
 
 ![OpenProject project attribute details editing](open_project_system_admin_guide_project_attributes_details.png)
 
-The *Projects* tab will show a list of all the projects this project attributes was activated in. 
+The _Projects_ tab will show a list of all the projects this project attributes was activated in. 
 
 ![Project attributes enabled in projects list in OpenProject administration](open_project_system_admin_guide_project_attributes_enabled_in_projects.png)
 
-You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the *Remove from project* option.
+You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the _Remove from project_ option.
 
 ![Remove a project attribute from a project in OpenProject administration](open_project_system_admin_guide_project_attributes_deactivate_for_project.png)
 
@@ -194,7 +193,6 @@ To add this project attribute to a specific project click the **+Add projects** 
 ![ Configure which projects are activated for a project attribute in OpenProject administration](open_project_system_admin_guide_project_attributes_add.png)
 
 > [!NOTE]
->
 > It is not possible to add or remove a project attribute, if a project attribute is set to be required.
 
 ## Define project attribute help text
@@ -206,9 +204,6 @@ To define field caption and help text click on a project attribute and navigate 
 - **Attachments** - attach files or images to illustrate a project attribute. 
 
 > [!IMPORTANT]
->
 > Any text and images you add here will be publicly visible to all logged in users. 
 
-
-
-![Project attribute detailed view, showing *Help text* tab in OpenProject administration](open_project_system_admin_guide_project_attributes_attribute_text.png)
+![Project attribute detailed view, showing _Help text_ tab in OpenProject administration](open_project_system_admin_guide_project_attributes_attribute_text.png)
