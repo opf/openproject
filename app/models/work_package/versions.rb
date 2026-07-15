@@ -62,16 +62,16 @@ module WorkPackage::Versions
     # Unassigns work packages from +version+ if it's no longer shared with
     # the work package's project
     def update_versions_from_sharing_change(version)
-      # Update work packages assigned to the version
-      update_versions(["#{WorkPackage.table_name}.version_id = ?", version.id])
+      # Update work packages referencing the version
+      update_versions(["#{WorkPackageVersion.table_name}.version_id = ?", version.id])
     end
 
     # Unassigns work packages from versions that are no longer shared
     # after +project+ was moved
     def update_versions_from_hierarchy_change(project)
       moved_project_ids = project.self_and_descendants.reload.map(&:id)
-      # Update work packages of the moved projects and work packages assigned
-      # to a version of a moved project
+      # Update work packages of the moved projects and work packages referencing
+      # a version of a moved project
       update_versions(
         ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
          moved_project_ids,
@@ -81,35 +81,56 @@ module WorkPackage::Versions
 
     private
 
+    # Work packages referencing (through any work_package_versions kind) a
+    # non-systemwide version of another project
     def having_version_from_other_project
-      where(
-        "#{WorkPackage.table_name}.version_id IS NOT NULL" +
-        " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-        " AND #{Version.table_name}.sharing <> 'system'"
-      )
+      joins(work_package_versions: :version)
+        .where.not(versions: { sharing: "system" })
+        .where("#{Version.table_name}.project_id <> #{WorkPackage.table_name}.project_id")
+        .distinct
     end
 
-    # Update work packages so their versions are not pointing to a
-    # version that is not shared with the work package's project
-    def update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
-      # Only need to update work packages with a version from
-      # a different project and that is not systemwide shared
+    # Update work packages so they do not reference versions that are not
+    # shared with their project
+    def update_versions(conditions = nil)
       having_version_from_other_project
         .where(conditions)
-        .includes(:project, :version)
-        .references(:versions).find_each do |work_package|
-        next if work_package.project.nil? || work_package.version.nil?
+        .includes(:project)
+        .find_each do |work_package|
+        next if work_package.project.nil?
 
-        unless work_package.project.shared_versions.include?(work_package.version)
-          # this path clears version_id without going through the services,
-          # so we need to manually drop the matching target association here too.
-          work_package.target_versions.delete(work_package.version)
-          work_package.version = nil
-          unless work_package.save
-            Rails.logger.error "Failed to clear version on work package ##{work_package.id}: " \
-                               "#{work_package.errors.full_messages.to_sentence}"
-          end
-        end
+        remove_unshared_version_references(work_package)
+      end
+    end
+
+    def remove_unshared_version_references(work_package)
+      changed_kinds = prune_unshared_version_kinds(work_package)
+      return if changed_kinds.empty?
+
+      # Keep the deprecated column in agreement with the first target already
+      # before the save-time mirror runs.
+      if changed_kinds.include?("target")
+        work_package.version_id = work_package.target_version_ids_replacements.first
+      end
+
+      unless work_package.save
+        Rails.logger.error "Failed to clear versions on work package ##{work_package.id}: " \
+                           "#{work_package.errors.full_messages.to_sentence}"
+      end
+    end
+
+    # Sets the replacements for every kind that references versions not shared
+    # with the work package's project, returning the kinds that changed.
+    def prune_unshared_version_kinds(work_package)
+      shared_ids = work_package.project.shared_versions.pluck(:id)
+
+      %w[target observed_in].filter_map do |kind|
+        current_ids = work_package.work_package_versions.where(kind:).pluck(:version_id)
+        kept_ids = current_ids & shared_ids
+        next if kept_ids.sort == current_ids.sort
+
+        work_package.public_send(:"#{kind}_version_ids_replacements=", kept_ids)
+        kind
       end
     end
   end

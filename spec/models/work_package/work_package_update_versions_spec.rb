@@ -61,4 +61,36 @@ RSpec.describe WorkPackage, ".update_versions keeping target_versions consistent
     expect(work_package.version_id).to be_nil
     expect(target_version_ids(work_package)).to be_empty
   end
+
+  it "drops an unshared target version beyond the first, keeping the others" do
+    own_version = create(:version, project: child_project)
+    work_package.work_package_versions.create!(version: own_version, kind: "target")
+
+    shared_version.update!(sharing: "none")
+    described_class.update_versions_from_sharing_change(shared_version)
+
+    work_package.reload
+    expect(target_version_ids(work_package)).to contain_exactly(own_version.id)
+    expect(work_package.version_id).to eq(own_version.id)
+  end
+
+  it "drops an unshared observed_in version" do
+    work_package.work_package_versions.create!(version: shared_version, kind: "observed_in")
+
+    shared_version.update!(sharing: "none")
+    described_class.update_versions_from_sharing_change(shared_version)
+
+    work_package.reload
+    expect(work_package.work_package_versions.where(kind: "observed_in")).to be_empty
+    expect(target_version_ids(work_package)).to be_empty
+  end
+
+  it "leaves systemwide-shared versions alone" do
+    shared_version.update!(sharing: "system")
+    described_class.update_versions_from_sharing_change(shared_version)
+
+    work_package.reload
+    expect(target_version_ids(work_package)).to contain_exactly(shared_version.id)
+    expect(work_package.version_id).to eq(shared_version.id)
+  end
 end
