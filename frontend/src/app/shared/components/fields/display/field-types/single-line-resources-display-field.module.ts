@@ -34,6 +34,10 @@ import { ResourcesDisplayField } from './resources-display-field.module';
  * the abridged two-values-plus-badge rendering of the base class.
  */
 export class SingleLineResourcesDisplayField extends ResourcesDisplayField {
+  public get valueString():string {
+    return this.stringValue.join(', ');
+  }
+
   protected renderValues(values:string[], element:HTMLElement):void {
     element.textContent = values.join(', ');
   }

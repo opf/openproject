@@ -94,7 +94,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     // The singleline layout (macro argument) renders multi value fields as a
     // comma-separated list instead of the one-per-line variants below
     const multiValueTypes = ['[]CustomOption', '[]Version', '[]User', '[]CustomField::Hierarchy::Item'];
-    if (context.options.layout === 'singleline' && multiValueTypes.includes(schema.type)) {
+    if (context.container === 'single-view' && context.options.layout === 'singleline' && multiValueTypes.includes(schema.type)) {
       return new SingleLineResourcesDisplayField(fieldName, context);
     }
 

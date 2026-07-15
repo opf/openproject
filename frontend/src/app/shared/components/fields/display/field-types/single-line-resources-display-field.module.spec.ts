@@ -41,11 +41,10 @@ describe('SingleLineResourcesDisplayField', () => {
     expect(element.textContent).toEqual('Sprint 1, Master backlog, backlog');
   });
 
-  it('does not abridge to a count badge for more than two values', () => {
+  it('renders every value in full for more than two values', () => {
     render(['Sprint 1', 'Master backlog', 'backlog', 'Release 1.0.0']);
 
-    expect(element.querySelector('.badge')).toBeNull();
-    expect(element.textContent).toContain('Release 1.0.0');
+    expect(element.textContent).toEqual('Sprint 1, Master backlog, backlog, Release 1.0.0');
   });
 
   it('renders a single value plainly', () => {
@@ -58,5 +57,11 @@ describe('SingleLineResourcesDisplayField', () => {
     render(['Sprint 1', 'Master backlog']);
 
     expect(element.getAttribute('title')).toEqual('Sprint 1, Master backlog');
+  });
+
+  it('renders the placeholder for an empty value list', () => {
+    render([]);
+
+    expect(element.textContent).toEqual('js.placeholders.default');
   });
 });
