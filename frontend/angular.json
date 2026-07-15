@@ -52,7 +52,6 @@
                 "bundleName": "blocknote"
               },
               "src/styles.scss",
-              "node_modules/codemirror/lib/codemirror.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
               "src/vendor/ckeditor/ckeditor.css"
             ],

@@ -1,17 +1,14 @@
 
-// Additional styles for CodeMirror
+// Additional styles for CodeMirror (6.x)
 // when editing code style snippets
-.CodeMirror
+.cm-editor
   border: 1px solid #ddd
   color: var(--codeMirror-fgColor) !important
   background-color: var(--codeMirror-bgColor) !important
 
-.CodeMirror-gutters
+.cm-gutters
   background-color: var(--codeMirror-gutters-bgColor) !important
 
-.CodeMirror-cursor
+.cm-cursor,
+.cm-cursor-primary
   border-left-color: var(--codeMirror-cursor-fgColor) !important
-// ensure a toolbar on top of the code mirror area
-// can still be clicked. The two interfere as both have position: relative
-.CodeMirror-code
-  pointer-events: none
