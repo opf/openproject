@@ -5,6 +5,7 @@
     padding-bottom: 1rem
 
   &--item
+    position: relative
     padding: 5px
     margin-right: 5px
     margin-bottom: 5px
@@ -16,11 +17,35 @@
     align-items: center
     justify-content: space-between
 
+    &[data-dragging]
+      opacity: 0.4
+
+    // Drop indicator: a vertical accent line on the left/right edge of the
+    // chip the dragged item would be inserted next to. Driven by the
+    // data-drop-position host attribute of the sortable-lists item directive.
+    &[data-drop-position]::after
+      content: ''
+      position: absolute
+      top: 0
+      bottom: 0
+      width: 2px
+      background: var(--fgColor-accent)
+      pointer-events: none
+      z-index: 1
+
+    &[data-drop-position="left"]::after
+      left: -4px
+
+    &[data-drop-position="right"]::after
+      right: -4px
+
   &--remove-item
     font-size: 8px
     color: #999
-    padding-left: 5px
+    padding: 0 0 0 5px
     cursor: pointer
+    border: none
+    background: transparent
 
 // Hack to allow the ng-select dropdown bound to this id to be positioned correctly.
 // The ng-select needs to be bound to the id because the component is currently used in a modal.
