@@ -47,7 +47,9 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
     context "when not logged in" do
       before { login_as User.anonymous }
 
-      it "redirects to login" do
+      it "redirects to login", with_settings: { login_required: false } do
+        create(:anonymous_role, permissions: %i[view_wiki_pages])
+
         get "/wiki_pages"
 
         expect(response).to redirect_to(signin_path(back_url: wiki_pages_url))
