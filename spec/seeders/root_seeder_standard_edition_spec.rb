@@ -260,34 +260,51 @@ RSpec.describe RootSeeder,
       )
     end
 
-    it "seeds the epic type with an embedded children query in its form configuration" do
+    it "seeds the epic type with embedded query in its form configuration while keeping the default attribute groups" do
       epic = root_seeder.seed_data.find_reference(:default_type_epic)
+      query_group = epic.attribute_groups[0]
+      default_groups = epic.attribute_groups[1..]
 
-      # The default (Ruby-defined) attribute groups are merged in, so the type keeps its regular
-      # fields in addition to the embedded query group.
-      expect(epic.attribute_groups.map(&:class)).to include(Type::AttributeGroup, Type::QueryGroup)
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
 
-      query_group = epic.attribute_groups.find { |group| group.is_a?(Type::QueryGroup) }
+      # Filters on children (templated parent) that are user stories or bugs.
       query = query_group.query
       expect(query.column_names).to eq(%i[id subject status assigned_to story_points sprint])
       expect(query.sort_criteria).to eq([["status", "desc"], ["sprint", "asc"], ["position", "asc"]])
       expect(query.hidden).to be(true)
-      # Filters on children (templated parent) that are user stories or bugs.
-      expect(query.filters.map(&:name)).to contain_exactly(:parent, :type_id)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+      expect(query.find_active_filter(:type_id)).to be_present
+      expect(query.find_active_filter(:type_id).operator).to eql "="
+      expect(query.find_active_filter(:type_id).values)
+        .to eql [root_seeder.seed_data.find_reference(:default_type_user_story).id.to_s,
+                 root_seeder.seed_data.find_reference(:default_type_bug).id.to_s]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql epic.default_attribute_groups
     end
 
-    it "seeds the user story type with an embedded children query in its form configuration" do
+    it "seeds the user story type with embedded query in its form configuration while keeping the default attribute groups" do
       user_story = root_seeder.seed_data.find_reference(:default_type_user_story)
+      query_group = user_story.attribute_groups[0]
+      default_groups = user_story.attribute_groups[1..]
 
-      expect(user_story.attribute_groups.map(&:class)).to include(Type::AttributeGroup, Type::QueryGroup)
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
 
-      query_group = user_story.attribute_groups.find { |group| group.is_a?(Type::QueryGroup) }
+      # Filters on children (templated parent) that are user stories or bugs.
       query = query_group.query
       expect(query.column_names).to eq(%i[id subject type status assigned_to sprint])
       expect(query.sort_criteria).to eq([["status", "desc"], ["id", "asc"]])
       expect(query.hidden).to be(true)
-      # Filters on children (templated parent) only, no type restriction.
-      expect(query.filters.map(&:name)).to contain_exactly(:parent)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql user_story.default_attribute_groups
     end
 
     include_examples "it creates records", model: Color, expected_count: 148
