@@ -39,6 +39,9 @@ module WorkPackage::Exports
     #   workPackageValue:"custom field name" # Outputs the custom field value of the current work package
     #   workPackageValue:1234:"custom field name" # Outputs the custom field value of #1234
     #
+    #   workPackageValue:1234:targetVersions:singleline # Outputs the values of #1234 comma-separated (export default)
+    #   workPackageValue:1234:targetVersions:multiline # Outputs the values of #1234 one per line
+    #
     #   projectLabel:active # Outputs current project label attribute "active"
     #   projectLabel:1234:active # Outputs project label attribute "active"
     #   projectLabel:my-project-identifier:active # Outputs project label attribute "active"
