@@ -28,14 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::ProjectInitiation::Styles
+module Exports::PDF::Artefact::Styles
   class PDFStyles
     include MarkdownToPDF::Common
     include MarkdownToPDF::StyleHelper
     include Exports::PDF::Common::Styles
     include Exports::PDF::Components::PageStyles
-    include Project::PDFExport::ProjectInitiation::CoverStyles
-    include Project::PDFExport::Common::ProjectAttributesStyles
+    include Exports::PDF::Components::WpTableStyles
+    include Exports::PDF::Artefact::CoverStyles
+    include Exports::PDF::Common::ProjectAttributesStyles
+    include WorkPackage::PDFExport::Common::MarkdownFieldStyles
+    include WorkPackage::PDFExport::Common::AttributesTableStyles
+
+    # Styling for inline hint/error messages in reused work package components
+    def inline_error
+      resolve_font(@styles[:inline_error])
+    end
+
+    def inline_hint
+      resolve_font(@styles[:inline_hint])
+    end
 
     def page_subheading
       resolve_font(@styles[:page_subheading])
@@ -51,6 +63,26 @@ module Project::PDFExport::ProjectInitiation::Styles
 
     def section_title
       resolve_font(@styles.dig(:section, :title))
+    end
+
+    def toc_margins
+      resolve_margin(@styles.dig(:toc, :margins))
+    end
+
+    def toc_heading
+      resolve_font(@styles.dig(:toc, :heading))
+    end
+
+    def toc_heading_margins
+      resolve_margin(@styles.dig(:toc, :heading))
+    end
+
+    def toc_item
+      resolve_font(@styles.dig(:toc, :item))
+    end
+
+    def toc_item_margins
+      resolve_margin(@styles.dig(:toc, :item))
     end
 
     def section_title_hr
