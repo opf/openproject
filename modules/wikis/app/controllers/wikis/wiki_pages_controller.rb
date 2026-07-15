@@ -34,7 +34,7 @@ module Wikis
     include OpTurbo::ComponentStream
     include PaginationHelper
 
-    before_action :require_login, :load_query, :load_wiki_pages
+    before_action :load_query, :load_wiki_pages
     no_authorization_required! :index
 
     menu_item :wikis

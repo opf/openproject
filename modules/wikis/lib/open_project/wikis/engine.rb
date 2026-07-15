@@ -104,7 +104,7 @@ module OpenProject::Wikis
       end
 
       should_render_wiki_index = ->(_) {
-        User.current.logged? && User.current.allowed_in_any_project?(:view_wiki_pages)
+        User.current.allowed_in_any_project?(:view_wiki_pages)
       }
 
       menu :top_menu,

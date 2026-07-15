@@ -44,15 +44,32 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
   before { login_as user }
 
   describe "GET /wiki_pages" do
-    context "when not logged in" do
+    context "when not logged in and a login is required", with_settings: { login_required: true } do
       before { login_as User.anonymous }
 
-      it "redirects to login", with_settings: { login_required: false } do
-        create(:anonymous_role, permissions: %i[view_wiki_pages])
-
+      it "redirects to login" do
         get "/wiki_pages"
 
         expect(response).to redirect_to(signin_path(back_url: wiki_pages_url))
+      end
+    end
+
+    context "when not logged in and no login is required", with_settings: { login_required: false } do
+      let!(:anonymous_role) { create(:anonymous_role, permissions: %i[view_wiki_pages]) }
+      let!(:public_page) do
+        create(:wiki_page,
+               wiki: create(:public_project, enabled_module_names: %w[wiki]).wiki,
+               title: "Public handbook")
+      end
+
+      before { login_as User.anonymous }
+
+      it "lists the main pages of public projects with anonymous wiki access" do
+        get "/wiki_pages"
+
+        expect(response).to have_http_status(:ok)
+        expect(page).to have_text "Public handbook"
+        expect(page).to have_no_text "Architecture handbook"
       end
     end
 
