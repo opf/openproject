@@ -33,12 +33,12 @@ require "spec_helper"
 RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
   let(:user) { create(:user) }
   let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
-  let(:project) { create(:project, members: { user => role }) }
+  let(:project) { create(:project, :with_internal_wiki, members: { user => role }) }
   let(:wiki) { project.wiki }
   let!(:main_page) { create(:wiki_page, wiki:, title: "Architecture handbook") }
   let!(:sub_page) { create(:wiki_page, wiki:, parent: main_page, title: "Deployment guide") }
 
-  let(:other_project) { create(:project) }
+  let(:other_project) { create(:project, :with_internal_wiki) }
   let!(:other_page) { create(:wiki_page, wiki: other_project.wiki, title: "Hidden handbook") }
 
   before { login_as user }
@@ -58,7 +58,7 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
       let!(:anonymous_role) { create(:anonymous_role, permissions: %i[view_wiki_pages]) }
       let!(:public_page) do
         create(:wiki_page,
-               wiki: create(:public_project, enabled_module_names: %w[wiki]).wiki,
+               wiki: create(:public_project, :with_internal_wiki).wiki,
                title: "Public handbook")
       end
 

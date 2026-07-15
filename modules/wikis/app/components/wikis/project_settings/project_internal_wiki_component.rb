@@ -23,44 +23,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Wikis
+  module ProjectSettings
+    class ProjectInternalWikiComponent < ApplicationComponent
+      include ApplicationHelper
+      include OpTurbo::Streamable
 
-RSpec.describe WikiMenuItemsController do
-  let(:project) { create(:project, :with_internal_wiki).reload }
-  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
-  let(:params) { { project_id: project.id, id: wiki_page.title } }
+      def initialize(project)
+        super
+        @project = project
+      end
 
-  before do
-    User.delete_all
-    Role.delete_all
-  end
-
-  describe "w/ valid auth" do
-    it "renders the edit action" do
-      admin_user = create(:admin)
-
-      allow(User).to receive(:current).and_return admin_user
-      permission_role = create(:project_role, name: "accessgranted", permissions: [:manage_wiki])
-      create(:member, principal: admin_user, user: admin_user, project:, roles: [permission_role])
-
-      get("edit", params:)
-
-      expect(response).to be_successful
-    end
-  end
-
-  describe "w/o valid auth" do
-    it "be forbidden" do
-      allow(User).to receive(:current).and_return create(:user)
-
-      get("edit", params:)
-
-      expect(response).to have_http_status(:not_found)
+      def wiki_enabled?
+        !!@project.wiki&.enabled?
+      end
     end
   end
 end

@@ -36,7 +36,7 @@ RSpec.describe OpenProject::TextFormatting,
   include_context "expected markdown modules"
 
   describe ".format_text" do
-    shared_let(:project) { create(:valid_project) }
+    shared_let(:project) { create(:valid_project, :with_internal_wiki, start_page: "CookBook documentation").reload }
     let(:identifier) { project.identifier }
 
     shared_let(:role) do
@@ -446,14 +446,9 @@ RSpec.describe OpenProject::TextFormatting,
 
     context "Wiki links" do
       let(:project_2) do
-        create(:valid_project,
-               identifier: "onlinestore")
+        create(:valid_project, :with_internal_wiki, identifier: "onlinestore")
       end
-      let(:wiki_1) do
-        create(:wiki,
-               start_page: "CookBook documentation",
-               project:)
-      end
+      let(:wiki_1) { project.wiki } # rubocop:disable Naming/VariableNumber
       let(:wiki_page_1_1) do
         create(:wiki_page,
                wiki: wiki_1,

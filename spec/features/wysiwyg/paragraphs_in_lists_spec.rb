@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg paragraphs in lists behavior (Regression #28765)", :js do
   let(:user) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:editor) { Components::WysiwygEditor.new }
 
   let(:wiki_page) do

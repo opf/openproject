@@ -23,44 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Wikis
+  module ProjectSettings
+    class WikiController < Projects::SettingsController
+      include OpTurbo::ComponentStream
+      include OpTurbo::FlashStreamHelper
 
-RSpec.describe WikiMenuItemsController do
-  let(:project) { create(:project, :with_internal_wiki).reload }
-  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
-  let(:params) { { project_id: project.id, id: wiki_page.title } }
+      menu_item :settings_project_wiki
 
-  before do
-    User.delete_all
-    Role.delete_all
-  end
+      def create
+        unless new_or_changed_wiki.save
+          render_error_flash_message_via_turbo_stream(message: @wiki.errors.full_messages)
+        end
 
-  describe "w/ valid auth" do
-    it "renders the edit action" do
-      admin_user = create(:admin)
+        replace_via_turbo_stream(component: ProjectInternalWikiComponent.new(@project.reload))
+        respond_with_turbo_streams
+      end
 
-      allow(User).to receive(:current).and_return admin_user
-      permission_role = create(:project_role, name: "accessgranted", permissions: [:manage_wiki])
-      create(:member, principal: admin_user, user: admin_user, project:, roles: [permission_role])
+      private
 
-      get("edit", params:)
+      def new_or_changed_wiki
+        @wiki = Wiki.find_or_initialize_by(project: @project, start_page: "Wiki")
+        @wiki.enabled = params.require(:value) unless @wiki.new_record?
 
-      expect(response).to be_successful
-    end
-  end
-
-  describe "w/o valid auth" do
-    it "be forbidden" do
-      allow(User).to receive(:current).and_return create(:user)
-
-      get("edit", params:)
-
-      expect(response).to have_http_status(:not_found)
+        @wiki
+      end
     end
   end
 end

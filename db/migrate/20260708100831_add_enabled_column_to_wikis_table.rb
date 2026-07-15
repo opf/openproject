@@ -23,44 +23,39 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+class AddEnabledColumnToWikisTable < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
 
-RSpec.describe WikiMenuItemsController do
-  let(:project) { create(:project, :with_internal_wiki).reload }
-  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
-  let(:params) { { project_id: project.id, id: wiki_page.title } }
+  def up
+    say "Creating enabled column on wikis"
+    add_column :wikis, :enabled, :boolean, default: true, null: false
 
-  before do
-    User.delete_all
-    Role.delete_all
-  end
+    transaction do
+      say "Updating wiki enabled state based on enabled modules"
+      execute <<~SQL.squish
+        UPDATE wikis
+        SET enabled = false
+        WHERE project_id NOT IN (select project_id from enabled_modules where name = 'wiki');
+      SQL
 
-  describe "w/ valid auth" do
-    it "renders the edit action" do
-      admin_user = create(:admin)
-
-      allow(User).to receive(:current).and_return admin_user
-      permission_role = create(:project_role, name: "accessgranted", permissions: [:manage_wiki])
-      create(:member, principal: admin_user, user: admin_user, project:, roles: [permission_role])
-
-      get("edit", params:)
-
-      expect(response).to be_successful
+      say "Removing wiki from the list of enabled modules"
+      execute <<~SQL.squish
+        DELETE FROM enabled_modules WHERE name = 'wiki';
+      SQL
     end
   end
 
-  describe "w/o valid auth" do
-    it "be forbidden" do
-      allow(User).to receive(:current).and_return create(:user)
+  def down
+    execute <<~SQL.squish
+      INSERT INTO enabled_modules (project_id, name)
+      SELECT project_id, 'wiki' from wikis where enabled = true;
+    SQL
 
-      get("edit", params:)
-
-      expect(response).to have_http_status(:not_found)
-    end
+    remove_column :wikis, :enabled
   end
 end
