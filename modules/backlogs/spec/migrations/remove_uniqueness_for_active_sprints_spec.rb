@@ -33,10 +33,13 @@ require Rails.root.join("db/migrate/20260708203257_remove_uniqueness_for_active_
 
 RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
   describe "#down" do
+    subject(:migrate) do
+      ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
+    end
+
     context "when no project has multiple active sprints" do
       it "does not raise any errors" do
-        expect { described_class.new.down }
-          .not_to raise_error(RuntimeError, /Cannot roll back/)
+        expect { migrate }.not_to raise_error(RuntimeError, /Cannot roll back/)
       end
     end
 
@@ -48,8 +51,7 @@ RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
       shared_let(:sprints) { create_list(:sprint, 2, project:, status: "active") }
 
       it "raises an error describing which projects need cleanup" do
-        expect { described_class.new.down }
-          .to raise_error(RuntimeError, /Cannot roll back/)
+        expect { migrate }.to raise_error(RuntimeError, /Cannot roll back/)
       end
     end
   end
