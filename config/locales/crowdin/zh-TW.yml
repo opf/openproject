@@ -21,6 +21,24 @@
 #++
 ---
 zh-TW:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: 刪除帳號
@@ -1063,6 +1081,7 @@ zh-TW:
         primary-button-color: 強烈的重點顏色，用於螢幕上最重要的按鈕。
       manage_colors: 編輯顏色選擇選項
       tab_branding: 品牌化
+      tab_default_colors: Default colors
       tab_interface: 介面
       tab_pdf_export_font: PDF 匯出字型
       tab_pdf_export_styles: PDF 匯出類型
@@ -1722,6 +1741,8 @@ zh-TW:
     reset_token:
       action_create: 建立
       action_reset: 重置
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: 產生備份用的token
       heading_reset: 重置備份令牌(Token)
       implications: '啓用備份將允許具有所需權限和此備份令牌(Token)的任何用戶下載包含此 OpenProject 安裝的所有數據的備份。這包括所有其他用戶的數據。
@@ -5146,6 +5167,7 @@ zh-TW:
   setting_total_percent_complete_mode_work_weighted_average: 工作加權
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>總完成百分比</i>將根據層級架構中每個工作套件的<i>工作量</i>加權計算。沒有<i>工作</i>的工作套件將被忽略。"
   setting_use_wysiwyg_description: 勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG) 編輯器。CKEditor 對 GFM Markdown的功能有限。
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: 使用者預設時區
   setting_user_format: 姓名顯示方式
   setting_users_deletable_by_admins: 使用者帳戶可被管理者刪除
@@ -5350,6 +5372,7 @@ zh-TW:
       section_project_overview: 專案列表設置
     session: 連線
     user:
+      account: Account
       default_preferences: 默認偏好設置
       deletion: 消除
       display_format: 顯示格式
@@ -5851,6 +5874,7 @@ zh-TW:
     status_change: 狀態變更
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: 按此啟用
     unlock_and_reset_failed_logins: 啟用並清除登入紀錄
   user_preferences:

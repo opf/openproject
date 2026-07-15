@@ -21,6 +21,24 @@
 #++
 ---
 vi:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: Xoá tài khoản
@@ -1063,6 +1081,7 @@ vi:
         primary-button-color: Màu nhấn mạnh, được sử dụng cho nút quan trọng nhất trên màn hình.
       manage_colors: Chỉnh sửa màu sắc trong select option
       tab_branding: Xây dựng thương hiệu
+      tab_default_colors: Default colors
       tab_interface: Giao diện
       tab_pdf_export_font: Phông chữ xuất PDF
       tab_pdf_export_styles: Kiểu xuất PDF
@@ -1716,6 +1735,8 @@ vi:
     reset_token:
       action_create: Tạo mới
       action_reset: Reset
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Tạo mã thông báo dự phòng
       heading_reset: Đặt lại mã thông báo dự phòng
       implications: 'Kích hoạt sao lưu sẽ cho phép bất kỳ người dùng nào có quyền và token sao lưu đều có thể tải xuống bản sao lưu có chứa tất cả dữ liệu của trang này. Nó cũng bao gồm dữ liệu của tất cả người dùng khác.
@@ -5151,6 +5172,7 @@ vi:
   setting_total_percent_complete_mode_work_weighted_average: Bị đè nặng bởi công việc
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>total % Complete</i> sẽ được tính trọng số theo <i>Work</i> của từng gói công việc trong hệ thống phân cấp. Các gói công việc không có <i>Work</i> sẽ bị bỏ qua."
   setting_use_wysiwyg_description: Chọn để cho phép bộ soạn thảo CKEditor đối với tất cả người dùng mặc định. CKEditor đã được hạn chế bởi GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Time zone mặc định
   setting_user_format: Định dạng tên người dùng
   setting_users_deletable_by_admins: Tài khoản người dùng có thể bị quản trị viên xóa
@@ -5353,6 +5375,7 @@ vi:
       section_project_overview: Cài đặt cho danh sách dự án
     session: Phiên
     user:
+      account: Account
       default_preferences: Cấu hình mặc định
       deletion: Xóa
       display_format: Định dạng hiển thị
@@ -5856,6 +5879,7 @@ vi:
     status_change: Thay đổi trạng thái
     status_user_and_brute_force: "%{user} và %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Mở khoá
     unlock_and_reset_failed_logins: Mở khóa và đặt lại thông tin đăng nhập thất bại
   user_preferences:

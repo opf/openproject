@@ -204,8 +204,11 @@ pt-BR:
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
-          macro_help_tooltip: Esse segmento de texto está sendo dinamicamente renderizado por uma macro.
           nested_macro: Esta macro está fazendo referência recursiva a %{model} %{id}.
           not_found: Não foi possível encontrar o recurso solicitado
         child_pages:

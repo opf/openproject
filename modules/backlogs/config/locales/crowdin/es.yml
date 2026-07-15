@@ -111,8 +111,9 @@ es:
         add_new_work_package: Add new work package
         delete_backlog_bucket: Eliminar bucket de backlog
         edit_backlog_bucket: Editar bucket de backlog
-      blankslate_description: Arrastre los elementos aquí para añadirlos.
+      blankslate_description: Drag items here to add them
       blankslate_title: El bucket de backlog está vacío
+      drop_zone_label: Drop here to add this item
       label_actions: Acciones de bucket de backlog
     bucket_destroy_modal_component:
       details: Se eliminará el bucket de backlog «%{name}» y todos los paquetes de trabajo se trasladarán a la bandeja de entrada de tareas pendientes. No se eliminará ningún paquete de trabajo.
@@ -138,8 +139,9 @@ es:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: Todos los paquetes de trabajo abiertos en este proyecto aparecerán automáticamente aquí.
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: La bandeja de entrada de backlog está vacía
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         one: Mostrar 1 artículo más
@@ -170,6 +172,7 @@ es:
         edit_sprint: Editar sprint
       blankslate_description: Aún no hay elementos previstos. Arrastre los elementos aquí para añadirlos.
       blankslate_title: "%{name} está vacío"
+      drop_zone_label: Drop here to add this item
       label_actions: Acciones de sprint
       label_complete_sprint: Completar sprint
       label_start_sprint: Iniciar sprint
@@ -217,10 +220,8 @@ es:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: Puntos de historia
     story_points_ideal: Puntos de historia (ideal)

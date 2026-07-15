@@ -178,6 +178,7 @@ ko:
         no_results: 위키 페이지를 찾을 수 없습니다
         placeholder: 위키 페이지 검색(또는 해당 URL 입력)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
         page_not_found: 링크된 위키 페이지를 더 이상 사용할 수 없음

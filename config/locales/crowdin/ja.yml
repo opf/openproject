@@ -21,6 +21,24 @@
 #++
 ---
 ja:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: アカウントを削除
@@ -1065,6 +1083,7 @@ ja:
         primary-button-color: 画面上で最も重要なボタンに使用される強いアクセントカラー。
       manage_colors: 色の選択オプションを編集
       tab_branding: ブランディング
+      tab_default_colors: Default colors
       tab_interface: インターフェース
       tab_pdf_export_font: PDFエクスポート時に使用するフォント
       tab_pdf_export_styles: PDF export styles
@@ -1718,6 +1737,8 @@ ja:
     reset_token:
       action_create: 作成
       action_reset: リセット
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: バックアップトークンを作成する
       heading_reset: バックアップトークンをリセットする
       implications: 'バックアップを有効にすると、必要な権限とこのバックアップトークンを持つすべてのユーザーが、この OpenProject にインストールされたすべてのデータを含むバックアップをダウンロードできるようになります。これには、他のすべてのユーザーのデータも含まれます。
@@ -5141,6 +5162,7 @@ ja:
   setting_total_percent_complete_mode_work_weighted_average: 予定時間によるウェイト
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>総完了</i>率は、階層内の各ワークパッケージの<i>作業に対して</i>重み付けされる。<i>作業の</i>ないワークパッケージは無視される。"
   setting_use_wysiwyg_description: すべてのユーザーに対してデフォルトで CKEditor5 WYSIWYGエディタ を有効にする場合に選択します。 CKEditor は GFM Markdown の機能が制限されています。
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: ユーザーのデフォルトのタイム ゾーン
   setting_user_format: ユーザー名の形式
   setting_users_deletable_by_admins: 管理者によるユーザアカウント削除を許可
@@ -5339,6 +5361,7 @@ ja:
       section_project_overview: プロジェクトリストの設定
     session: セッション
     user:
+      account: Account
       default_preferences: デフォルト設定
       deletion: 削除
       display_format: 表示形式
@@ -5843,6 +5866,7 @@ ja:
     status_change: ステータスの変更
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: ロックを解除
     unlock_and_reset_failed_logins: ロックを解除して、失敗したログイン数をリセットする
   user_preferences:

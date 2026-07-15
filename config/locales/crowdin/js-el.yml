@@ -204,8 +204,11 @@ el:
       error_saving_failed: 'Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει.
-          macro_help_tooltip: Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Ο ζητούμενος πόρος δεν βρέθηκε.
         child_pages:

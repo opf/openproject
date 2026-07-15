@@ -204,8 +204,11 @@ sl:
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Izbrana lastnost '%{name}' ne obstaja.
-          macro_help_tooltip: Ta del besedla je izveden dinamično s pomočjo makroprograma.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Zahtevanega vira ni mogoče najti
         child_pages:

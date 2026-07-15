@@ -204,8 +204,11 @@ uk:
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Вибраний атрибут «%{name}» не існує.
-          macro_help_tooltip: Цей текстовий фрагмент динамічно візуалізується макросом.
           nested_macro: Цей макрос рекурсивно посилається на %{model} %{id}.
           not_found: Не вдалося знайти потрібний ресурс
         child_pages:

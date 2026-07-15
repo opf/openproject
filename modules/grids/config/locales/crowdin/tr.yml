@@ -29,6 +29,11 @@ tr:
       news:
         no_results: Rapor için yeni birşey bulunamadı.
       not_available: Bu widget mevcut değil.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: Alt öğe
         no_results: Görüntülenebilir alt öğe yok.

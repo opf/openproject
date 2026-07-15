@@ -190,6 +190,7 @@ pl:
         no_results: Nie znaleziono żadnych stron wiki
         placeholder: Wyszukaj stronę wiki (lub wprowadź jej adres URL)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: Nie masz uprawnień dostępu do tej strony wiki
         page_not_found: Powiązana linkiem strona wiki nie jest już dostępna

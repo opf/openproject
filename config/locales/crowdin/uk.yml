@@ -21,6 +21,24 @@
 #++
 ---
 uk:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Увійдіть, як <em>%{login}</em> для активації облікового запису.
     delete: Видалити обліковий запис
@@ -1121,6 +1139,7 @@ uk:
         primary-button-color: Насичений акцентний колір використовується для більшості важливих кнопок на екрані.
       manage_colors: Редагувати параметри вибору кольору
       tab_branding: Брендування
+      tab_default_colors: Default colors
       tab_interface: Інтерфейс
       tab_pdf_export_font: Шрифт для експорту в PDF
       tab_pdf_export_styles: Стилі експорту PDF
@@ -1804,6 +1823,8 @@ uk:
     reset_token:
       action_create: Створити
       action_reset: Скинути
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Створення маркера резервного копіювання
       heading_reset: Скидання маркера резервного копіювання
       implications: 'Увімкнення резервних копій дасть змогу всім користувачам з обов’язковими дозволами та цим маркером резервного копіювання завантажувати резервні копії з усіма даними цього встановлення OpenProject. Це включає дані всіх інших користувачів.
@@ -5350,6 +5371,7 @@ uk:
   setting_total_percent_complete_mode_work_weighted_average: Зважено за роботою
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Атрибут <i>Загальний % завершення</i> буде зважено за атрибутом <i>Робота</i> кожного пакета робіт в ієрархії. Пакети робіт без атрибута <i>Робота</i> ігноруватимуться.
   setting_use_wysiwyg_description: Виберіть, щоб увімкнути редактор CKEditor5 WYSIWYG для всіх користувачів за умовчанням. CKEditor має обмежену функціональність для GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Часовий пояс користувача за замовчуванням
   setting_user_format: Формат імені користувача
   setting_users_deletable_by_admins: Облікові записи користувачів можуть бути видалені адміністраторами
@@ -5550,6 +5572,7 @@ uk:
       section_project_overview: Налаштування для списків проєктів
     session: Сесія
     user:
+      account: Account
       default_preferences: Параметри за умовчанням
       deletion: Видалення
       display_format: Формат відображення
@@ -6056,6 +6079,7 @@ uk:
     status_change: Зміна стану
     status_user_and_brute_force: "%{user} і %{brute_force}"
     text_change_disabled_for_provider_login: Ім’я і електронну адресу вказав ваш постачальник облікових даних, тому їх не можна змінити.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Розблокувати
     unlock_and_reset_failed_logins: Розблокувати та скинути помилки входу до системи
   user_preferences:

@@ -21,6 +21,24 @@
 #++
 ---
 ru:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Пожалуйста, войдите в систему как <em>%{login}</em> чтобы активировать свою учетную запись.
     delete: Удалить учётную запись
@@ -1117,6 +1135,7 @@ ru:
         primary-button-color: Яркий контрастный цвет, который обычно используют для важных кнопок на экране.
       manage_colors: Изменить цвет выбранных опций
       tab_branding: Фирменное оформление
+      tab_default_colors: Default colors
       tab_interface: Интерфейс
       tab_pdf_export_font: Шрифт для экспорта в PDF
       tab_pdf_export_styles: Стили экспорта PDF
@@ -1802,6 +1821,8 @@ ru:
     reset_token:
       action_create: Создать
       action_reset: Сбросить
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Создать маркер резервного копирования
       heading_reset: Сбросить маркер резервного копирования
       implications: 'Включение резервных копий позволит любому пользователю с необходимыми правами и этим ключом резервного копирования загрузить резервную копию, содержащую все данные этой установки OpenProject. Сюда входят данные всех других пользователей.
@@ -5332,6 +5353,7 @@ ru:
   setting_total_percent_complete_mode_work_weighted_average: Взвешенное по работе
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>Общий % завершения</i> будет рассчитан как средневзвешенное значение по  <i>Предполагаемому времени</i> каждого пакета работ в иерархии. Пакеты работ без <i>Предполагаемого времени</i> будут игнорироваться."
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью для GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Часовой пояс пользователя по умолчанию
   setting_user_format: Формат имени пользователя
   setting_users_deletable_by_admins: Учётные записи пользователей могут быть удалены администратором
@@ -5532,6 +5554,7 @@ ru:
       section_project_overview: Настройки для списков проектов
     session: Сессия
     user:
+      account: Account
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
       display_format: Формат отображения
@@ -6037,6 +6060,7 @@ ru:
     status_change: Смена статуса
     status_user_and_brute_force: "%{user} и %{brute_force}"
     text_change_disabled_for_provider_login: Это имя и адрес электронной почты заданы вашим поставщиком авторизации, поэтому их нельзя изменить.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Разблокировать
     unlock_and_reset_failed_logins: Разблокировать и сбросить неудачные попытки входа
   user_preferences:

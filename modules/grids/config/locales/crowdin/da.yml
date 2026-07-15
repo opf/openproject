@@ -29,6 +29,11 @@ da:
       news:
         no_results: Intet nyt at rapportere.
       not_available: Denne widget er ikke tilgængelig.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: Underpunkt
         no_results: Der er ingen synlige underordnede.

@@ -29,6 +29,11 @@ es:
       news:
         no_results: Nada nuevo sobre lo que informar.
       not_available: Este widget no está disponible.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: Subelemento
         no_results: No hay subelementos visibles.

@@ -216,8 +216,11 @@ hu:
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: A kiválasztott "%{name}" attribútum nem létezik.
-          macro_help_tooltip: Ezt a szövegrészt dinamikusan megjeleníti egy makró.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: A kért erőforrás nem található.
         child_pages:

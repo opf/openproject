@@ -21,6 +21,24 @@
 #++
 ---
 de:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.
     delete: Konto löschen
@@ -1081,6 +1099,7 @@ de:
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
+      tab_default_colors: Default colors
       tab_interface: Benutzeroberfläche
       tab_pdf_export_font: Schriftart für den PDF-Export
       tab_pdf_export_styles: PDF-Exportstile
@@ -1744,6 +1763,8 @@ de:
     reset_token:
       action_create: Erstellen
       action_reset: Zurücksetzen
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Backup-Token erstellen
       heading_reset: Backup-Token zurücksetzen
       implications: 'Das Aktivieren von Backups erlaubt jedem Benutzer mit den erforderlichen Berechtigungen und diesem Backup-Token ein Backup herunterzuladen, das alle Daten dieser OpenProject-Installation enthält. Dies schließt die Daten aller anderen Benutzer ein.
@@ -5210,6 +5231,7 @@ de:
   setting_total_percent_complete_mode_work_weighted_average: Nach Aufwand gewichtet
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
   setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen für Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Standard-Zeitzone für Benutzer
   setting_user_format: Format des Benutzernamens
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
@@ -5410,6 +5432,7 @@ de:
       section_project_overview: Einstellungen für Projektlisten
     session: Sitzung
     user:
+      account: Account
       default_preferences: Standardeinstellungen
       deletion: Löschen
       display_format: Anzeigeformat
@@ -5912,6 +5935,7 @@ de:
     status_change: Status geändert
     status_user_and_brute_force: "%{user} und %{brute_force}"
     text_change_disabled_for_provider_login: Der Login-Anbieter legt den Namen und die E-Mail-Adresse fest. Daher können sie nicht geändert werden.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Entsperren
     unlock_and_reset_failed_logins: Entsperren und fehlgeschlagene Logins zurücksetzen
   user_preferences:

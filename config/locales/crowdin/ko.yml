@@ -21,6 +21,24 @@
 #++
 ---
 ko:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: "<em>%{login}</em>(으)로 로그인하여 계정을 활성화하세요."
     delete: 계정 삭제
@@ -1063,6 +1081,7 @@ ko:
         primary-button-color: 강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다.
       manage_colors: 색상 선택 옵션 편집
       tab_branding: 브랜딩
+      tab_default_colors: Default colors
       tab_interface: 인터페이스
       tab_pdf_export_font: PDF 내보내기 글꼴
       tab_pdf_export_styles: PDF 내보내기 스타일
@@ -1714,6 +1733,8 @@ ko:
     reset_token:
       action_create: 만들기
       action_reset: 재설정
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: 백업 토큰 생성
       heading_reset: 백업 토큰 초기화
       implications: '백업을 활성화하면 필요한 권한과 이 백업 토큰이 있는 모든 사용자가 이 OpenProject 프로젝트의 모든 데이터가 포함된 백업을 다운로드할 수 있습니다. 여기에는 다른 모든 사용자의 데이터도 포함됩니다.
@@ -5152,6 +5173,7 @@ ko:
   setting_total_percent_complete_mode_work_weighted_average: 작업별 가중치 적용됨
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>총 완료 %</i>는 계층에 있는 각 작업 패키지의 <i>작업</i>에 따라 가중치가 적용됩니다. <i>작업</i>이 없는 작업 패키지는 무시됩니다."
   setting_use_wysiwyg_description: 기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면 선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: 사용자의 기본 표준 시간대
   setting_user_format: 사용자 이름 형식
   setting_users_deletable_by_admins: 관리자가 삭제 가능한 사용자 계정
@@ -5350,6 +5372,7 @@ ko:
       section_project_overview: 프로젝트 목록의 설정
     session: 세션
     user:
+      account: Account
       default_preferences: 기본 설정
       deletion: 삭제
       display_format: 표시 형식
@@ -5853,6 +5876,7 @@ ko:
     status_change: 상태 변경
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     text_change_disabled_for_provider_login: 이름 및 이메일은 로그인 공급자가 설정하므로 변경할 수 없습니다.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: 잠금 해제
     unlock_and_reset_failed_logins: 실패한 로그인 잠금 해제 및 재설정
   user_preferences:
