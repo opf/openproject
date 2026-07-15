@@ -152,10 +152,11 @@ module WorkPackage::Exports
         resolve_value_project(project, attribute, layout:)
       end
 
-      # The multi-line separator ends in two spaces + newline, the markdown
+      # Values are comma-joined unless the multiline layout is requested
+      # explicitly; its separator ends in two spaces + newline, the markdown
       # hard line break, so each value renders on its own line in the export.
       def self.array_separator(layout)
-        layout == "singleline" ? ", " : "  \n"
+        layout == "multiline" ? "  \n" : ", "
       end
 
       def self.escape_tags(value)
@@ -175,7 +176,7 @@ module WorkPackage::Exports
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
-        attribute_name, layout = map_legacy_version(attribute_name, layout, obj)
+        attribute_name = map_legacy_version(attribute_name, obj)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)
@@ -184,13 +185,12 @@ module WorkPackage::Exports
 
       ##
       # The deprecated version attribute renders the work package's target
-      # versions, on a single line by default so legacy macros keep their
-      # inline shape within existing content.
-      def self.map_legacy_version(attribute_name, layout, obj)
+      # versions.
+      def self.map_legacy_version(attribute_name, obj)
         if obj.is_a?(WorkPackage) && attribute_name == "version"
-          ["target_versions", layout || "singleline"]
+          "target_versions"
         else
-          [attribute_name, layout]
+          attribute_name
         end
       end
 

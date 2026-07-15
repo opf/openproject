@@ -331,8 +331,8 @@ RSpec.describe Exports::PDF::Common::Macro do
       describe "without layout argument" do
         let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\"" }
 
-        it "outputs one value per line" do
-          expect(formatted).to eq("Sprint1  \nSprint2")
+        it "outputs the values comma-separated on one line" do
+          expect(formatted).to eq("Sprint1, Sprint2")
         end
       end
 
@@ -381,8 +381,16 @@ RSpec.describe Exports::PDF::Common::Macro do
       describe "with targetVersions attribute" do
         let(:markdown) { "workPackageValue:#{work_package.id}:targetVersions" }
 
+        it "outputs all versions on a single line" do
+          # the association carries no order, so compare the values as a set
+          expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+        end
+      end
+
+      describe "with targetVersions attribute and multiline layout" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:targetVersions:multiline" }
+
         it "outputs one version per line" do
-          # the association carries no order, so compare the lines as a set
           expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
         end
       end
