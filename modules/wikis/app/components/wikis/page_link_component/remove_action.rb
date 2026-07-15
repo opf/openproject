@@ -29,45 +29,29 @@
 #++
 
 module Wikis
-  class CollapsiblePageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  class PageLinkComponent
+    class RemoveAction
+      include OpenProject::StaticRouting::UrlHelpers
 
-    attr_reader :heading
+      def initialize(page_link:)
+        @page_link = page_link
+      end
 
-    alias_method :page_links, :model
+      def icon = :trash
 
-    def initialize(model = nil, heading:, linkable:, already_related_page_keys:, **)
-      @heading = heading
-      @linkable = linkable
-      @already_related_page_keys = already_related_page_keys
+      def menu_item_args
+        {
+          label: I18n.t("wikis.page_link_component.remove"),
+          scheme: :danger,
+          tag: :a,
+          href: confirm_delete_dialog_relation_wiki_page_link_path(page_link),
+          content_arguments: { data: { controller: "async-dialog" } }
+        }
+      end
 
-      super(model, **)
-    end
+      private
 
-    private
-
-    attr_reader :linkable, :already_related_page_keys
-
-    def menu_actions_for(page_info_result)
-      page_info_result.either(
-        ->(page_info) do
-          can_manage_links? ? [add_to_relation_action(page_info:, already_related: already_related?(page_info))] : []
-        end,
-        ->(_failure) { [] }
-      )
-    end
-
-    def already_related?(page_info)
-      already_related_page_keys.include?([page_info.provider.id, page_info.identifier])
-    end
-
-    def add_to_relation_action(page_info:, already_related:)
-      PageLinkComponent::AddToRelatedAction.new(page_info:, linkable:, already_related:)
-    end
-
-    def can_manage_links?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, linkable.project)
+      attr_reader :page_link
     end
   end
 end

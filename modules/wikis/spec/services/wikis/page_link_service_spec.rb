@@ -28,46 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  class CollapsiblePageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
+require_module_spec_helper
 
-    attr_reader :heading
+RSpec.describe Wikis::PageLinkService do
+  subject(:service) { described_class.new }
 
-    alias_method :page_links, :model
+  describe "#relation_page_link_keys_for" do
+    let(:work_package) { create(:work_package) }
+    let(:provider) { create(:internal_wiki_provider) }
 
-    def initialize(model = nil, heading:, linkable:, already_related_page_keys:, **)
-      @heading = heading
-      @linkable = linkable
-      @already_related_page_keys = already_related_page_keys
-
-      super(model, **)
+    let!(:relation_page_link) do
+      create(:relation_wiki_page_link, linkable: work_package, provider:, identifier: "/related")
     end
 
-    private
-
-    attr_reader :linkable, :already_related_page_keys
-
-    def menu_actions_for(page_info_result)
-      page_info_result.either(
-        ->(page_info) do
-          can_manage_links? ? [add_to_relation_action(page_info:, already_related: already_related?(page_info))] : []
-        end,
-        ->(_failure) { [] }
-      )
+    before do
+      create(:inline_wiki_page_link, linkable: work_package, provider:, identifier: "/inline-only")
+      create(:relation_wiki_page_link, provider:, identifier: "/other-work-package")
     end
 
-    def already_related?(page_info)
-      already_related_page_keys.include?([page_info.provider.id, page_info.identifier])
-    end
-
-    def add_to_relation_action(page_info:, already_related:)
-      PageLinkComponent::AddToRelatedAction.new(page_info:, linkable:, already_related:)
-    end
-
-    def can_manage_links?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, linkable.project)
+    it "returns the [provider_id, identifier] keys of the linkable's relation page links" do
+      expect(service.relation_page_link_keys_for(linkable: work_package))
+        .to eq(Set[[provider.id, "/related"]])
     end
   end
 end
