@@ -63,8 +63,8 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public activate(event:MouseEvent) {
-    // Prevent opening the edit mode if a link was clicked
-    if (this.clickedElementIsLinkWithinDisplayContainer(event)) {
+    // Let controls rendered by macros handle the click themselves.
+    if (this.clickedElementIsInteractiveWithinDisplayContainer(event)) {
       return;
     }
 
@@ -128,7 +128,20 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     this.customText = this.sanitization.bypassSecurityTrustHtml(this.handler.htmlText);
   }
 
-  private clickedElementIsLinkWithinDisplayContainer(event:any) {
-    return this.displayContainer.nativeElement.contains(event.target.closest('a,macro'));
+  private clickedElementIsInteractiveWithinDisplayContainer(event:MouseEvent) {
+    const displayContainer = this.displayContainer.nativeElement;
+    const eventPath = event.composedPath();
+    const displayContainerIndex = eventPath.indexOf(displayContainer);
+
+    if (displayContainerIndex === -1) {
+      return false;
+    }
+
+    const eventPathWithinDisplayContainer = eventPath.slice(0, displayContainerIndex);
+
+    return eventPathWithinDisplayContainer.some(
+      (target) => target instanceof Element
+        && target.matches('a, button, input, select, textarea, [role="button"], macro'),
+    );
   }
 }
