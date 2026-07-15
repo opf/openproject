@@ -40,7 +40,7 @@ module Wikis
                 return failure(code: :not_found) if parent.nil?
 
                 service_result_to_monad(
-                  WikiPages::CreateService.new(user:).call(
+                  ::WikiPages::CreateService.new(user:).call(
                     title: input_data.title,
                     parent:,
                     wiki: parent.wiki
