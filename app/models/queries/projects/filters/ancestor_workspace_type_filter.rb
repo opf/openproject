@@ -48,12 +48,10 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
   end
 
   def autocomplete_options
-    {
-      component: "opce-project-autocompleter",
+    super.merge(
       resource: self.class.key.to_s.pluralize,
-      url: ::API::V3::Utilities::PathHelper::ApiV3Path.public_send(self.class.key.to_s.pluralize),
-      filters: [{ name: "active", operator: "=", values: ["t"] }]
-    }
+      url: ::API::V3::Utilities::PathHelper::ApiV3Path.public_send(self.class.key.to_s.pluralize)
+    )
   end
 
   private
