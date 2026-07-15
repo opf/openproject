@@ -54,6 +54,14 @@ See COPYRIGHT and LICENSE files for more details.
           t.with_text { t("backlogs.sharing") }
         end
       end
+
+      tab_nav.with_tab(
+        selected: selected_tab?(:multiple_active_sprints),
+        href: project_settings_backlog_multiple_active_sprints_path(project),
+        data: { turbo_action: "advance" }
+      ) do |t|
+        t.with_text { t("backlogs.multiple_active_sprints") }
+      end
     end
 
     if selected_tab == :types_and_statuses

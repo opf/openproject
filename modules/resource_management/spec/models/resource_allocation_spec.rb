@@ -269,6 +269,25 @@ RSpec.describe ResourceAllocation do
     end
   end
 
+  describe ".for_project" do
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+    shared_let(:other_work_package) { create(:work_package, project: other_project) }
+
+    let!(:in_project) { create(:resource_allocation, entity: work_package) }
+
+    before { create(:resource_allocation, entity: other_work_package) }
+
+    it "returns only allocations whose entity belongs to the given project" do
+      expect(described_class.for_project(project)).to contain_exactly(in_project)
+    end
+
+    it "accepts a project id as well as a record" do
+      expect(described_class.for_project(project.id)).to contain_exactly(in_project)
+    end
+  end
+
   describe "entity GlobalID handling" do
     shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:) }
@@ -400,6 +419,17 @@ RSpec.describe ResourceAllocation do
       it "is valid when positive" do
         allocation.allocated_time = 1
         expect(allocation).to be_valid
+      end
+
+      it "is valid at the upper cap" do
+        allocation.allocated_time = described_class::MAX_ALLOCATED_TIME
+        expect(allocation).to be_valid
+      end
+
+      it "is invalid (rather than overflowing the column) above the cap" do
+        allocation.allocated_time = described_class::MAX_ALLOCATED_TIME + 1
+        expect(allocation).not_to be_valid
+        expect(allocation.errors.symbols_for(:allocated_time)).to include(:less_than_or_equal_to)
       end
     end
 
@@ -602,6 +632,90 @@ RSpec.describe ResourceAllocation do
         expect(results).to include(german_developer, english_developer, bilingual_developer)
         expect(results).not_to include(french_developer, german_designer)
       end
+    end
+  end
+
+  describe ".allocated_for_work_packages" do
+    shared_let(:work_package) { create(:work_package) }
+    shared_let(:other_work_package) { create(:work_package) }
+
+    def allocations_for(*work_packages)
+      described_class.allocated_for_work_packages(work_packages)
+    end
+
+    it "groups the work package's allocations by entity id" do
+      first = create(:resource_allocation, entity: work_package, allocated_time: 120)
+      second = create(:resource_allocation, entity: work_package, allocated_time: 300)
+
+      expect(allocations_for(work_package)).to eq(work_package.id => [first, second])
+    end
+
+    it "includes only allocations in the 'allocated' state" do
+      allocated = create(:resource_allocation, entity: work_package, allocated_time: 120)
+      create(:resource_allocation, :requested, entity: work_package, allocated_time: 999)
+      create(:resource_allocation, :rejected, entity: work_package, allocated_time: 999)
+      create(:resource_allocation, :canceled, entity: work_package, allocated_time: 999)
+
+      expect(allocations_for(work_package)).to eq(work_package.id => [allocated])
+    end
+
+    it "covers several work packages and omits those without allocations" do
+      mine = create(:resource_allocation, entity: work_package, allocated_time: 120)
+      create(:resource_allocation, entity: other_work_package, allocated_time: 500)
+
+      result = allocations_for(work_package, other_work_package)
+
+      expect(result[work_package.id]).to eq([mine])
+      expect(result).to have_key(other_work_package.id)
+    end
+
+    it "is empty when the work packages have no allocations" do
+      expect(allocations_for(work_package)).to eq({})
+    end
+  end
+
+  describe ".overbooked_ids" do
+    shared_let(:work_package) { create(:work_package) }
+    shared_let(:assignee) { create(:user) }
+
+    # The factory books Mon-Fri 2026-01-05..09 with 40 hours — exactly the
+    # capacity of a full-time (8h/day) week.
+    def allocation(**attributes)
+      create(:resource_allocation, entity: work_package, principal: assignee, **attributes)
+    end
+
+    def overbooked_allocation
+      allocation(start_date: Date.new(2026, 2, 2), end_date: Date.new(2026, 2, 2), allocated_time: 16 * 60)
+    end
+
+    context "when the assigned user has working hours configured" do
+      shared_let(:working_hours) { create(:user_working_hours, user: assignee, valid_from: Date.new(2025, 1, 1)) }
+
+      it "returns the ids of the allocations in overbooked ranges" do
+        fitting = allocation
+        overbooked = overbooked_allocation
+
+        expect(described_class.overbooked_ids([fitting, overbooked])).to eq(Set[overbooked.id])
+      end
+
+      it "is empty when every allocation fits" do
+        fitting = allocation
+
+        expect(described_class.overbooked_ids([fitting])).to be_empty
+      end
+    end
+
+    context "when the assigned user has no working hours configured" do
+      it "is empty, since the user's capacity is unknown rather than zero" do
+        expect(described_class.overbooked_ids([overbooked_allocation])).to be_empty
+      end
+    end
+
+    it "ignores filter-based allocations without an assigned user" do
+      filter = create(:resource_allocation,
+                      entity: work_package, principal_explicit: false, principal: nil, filter_name: "Developer")
+
+      expect(described_class.overbooked_ids([filter])).to be_empty
     end
   end
 end

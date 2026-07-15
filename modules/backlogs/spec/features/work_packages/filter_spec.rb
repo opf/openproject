@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -49,6 +51,11 @@ RSpec.describe "Filter work packages by backlog filters", :js do
   shared_let(:shared_sprint) { create(:sprint, project: create(:project)) }
   shared_let(:work_package_in_own_sprint) { create(:work_package, type: task_type, project:, sprint: own_sprint) }
   shared_let(:work_package_in_shared_sprint) { create(:work_package, type: task_type, project:, sprint: shared_sprint) }
+
+  shared_let(:bucket_a) { create(:backlog_bucket, project:) }
+  shared_let(:bucket_b) { create(:backlog_bucket, project:) }
+  shared_let(:work_package_in_bucket_a) { create(:work_package, type: task_type, project:, backlog_bucket: bucket_a) }
+  shared_let(:work_package_in_bucket_b) { create(:work_package, type: task_type, project:, backlog_bucket: bucket_b) }
 
   let(:user) do
     create(:user,
@@ -122,6 +129,69 @@ RSpec.describe "Filter work packages by backlog filters", :js do
       let(:wp_table) { Pages::WorkPackagesTable.new }
 
       include_examples "filtering on sprints"
+    end
+  end
+
+  context "on the backlog bucket" do
+    shared_examples_for "filtering on backlog buckets" do
+      it "allows filtering by backlog bucket" do
+        filters.open
+
+        filters.add_filter_by("Backlog bucket", "is (OR)", bucket_a.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_b,
+                                                 work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is (OR)", bucket_b.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_a,
+                                                 work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is (OR)", [bucket_a.name, bucket_b.name], "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_with_story_type,
+                                                 work_package_with_task_type
+
+        filters.clear_filter_value "backlogBucket"
+        filters.set_filter("Backlog bucket", "is not", bucket_b.name, "backlogBucket")
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_with_story_type,
+                                            work_package_with_task_type
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_b
+
+        filters.set_operator "Backlog bucket", "is empty", "backlogBucket"
+
+        wp_table.expect_work_package_listed work_package_with_story_type,
+                                            work_package_with_task_type
+        wp_table.ensure_work_package_not_listed! work_package_in_bucket_a,
+                                                 work_package_in_bucket_b
+
+        filters.set_operator "Backlog bucket", "is not empty", "backlogBucket"
+
+        wp_table.expect_work_package_listed work_package_in_bucket_a,
+                                            work_package_in_bucket_b
+        wp_table.ensure_work_package_not_listed! work_package_with_story_type,
+                                                 work_package_with_task_type
+      end
+    end
+
+    context "when filtering inside a project" do
+      include_examples "filtering on backlog buckets"
+    end
+
+    context "when filtering globally" do
+      let(:wp_table) { Pages::WorkPackagesTable.new }
+
+      include_examples "filtering on backlog buckets"
     end
   end
 end

@@ -9,7 +9,7 @@ keywords: project information
 
 ## Edit project information
 
-To edit your project information in OpenProject, select a project from the **Select a project** drop-down menu. Then navigate to *Project settings → Information* in the project menu on the left.
+To edit your project information in OpenProject, select a project from the **Select a project** drop-down menu. Then navigate to _Project settings → Information_ in the project menu on the left.
 
 Project settings are grouped into three sections:
 
@@ -21,7 +21,7 @@ Project settings are grouped into three sections:
 
 3. **Project status**. Here you can: 
 
-   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/custom-fields-projects).
+   - Set a **project status**. The project status can be displayed in the [project home](../../project-home/). If you want to set additional or different status options you can create and use a [project custom field](../../../../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects).
    - Add a **project status description**. The status description will be shown on the [project home](../../project-home/) page.
 
 4. **Project relations**, where you can select the **parent project**.
@@ -46,7 +46,7 @@ Further, in the top right corner you can:
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to [*Project settings*](../) -> *Information* and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [_Project settings_](../) -> _Information_ and click on the green **+ Subproject** button.
 
 Then follow the instructions to [create a new project](../../../../getting-started/projects/#create-a-new-project).
 
@@ -60,7 +60,6 @@ A project identifier is the part of the project name shown in the URL, e.g. /dem
 
 You will then see the form to change and save the new project identifier. 
 
-
 > [!NOTE]
 > When changing a project identifier, previous identifiers will remain valid. Requests to an old identifier will still resolve to the same project.
 > Retired identifiers cannot be used by other projects. A project can, however, revert to a previously used identifier.
@@ -69,13 +68,17 @@ You will then see the form to change and save the new project identifier.
 > Keep in mind that once a project identifier is changed, members of the project will have to relocate the project's repositories. 
 > Existing links using previous identifiers will continue to work.
 
-
-
 ## Copy a project
 
-You can copy an existing project by navigating to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
+You can copy an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
+
+> [!NOTE]
+> Users who copy a project are assigned a **New role for users that create projects** in the copied project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
 
 ![Copy a project under project settings in OpenProject](openproject_user_guide_project_settings_information_copy_project.png)
+
+> [!NOTE]
+> To access the **Copy** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
 
 Under the **Copy from project** section you can select what additional project data and settings, such as versions, work package categories, attachments, project life cycle and project members should be copied as well. 
 You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../project-home/#project-overview) dashboards along with your project, too. 
@@ -102,7 +105,7 @@ Click the **Copy** button to proceed.
 
 ## Make a project public
 
-If you want to set a project to be public, navigate to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
+If you want to set a project to be public, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
 
 ![Make a project public in OpenProject](openproject_user_guide_project_settings_information_mark_public.png)
 
@@ -114,7 +117,7 @@ Setting a project to public will make it accessible to all people within your Op
 
 ## Archive a project
 
-In order to archive a project, navigate to the *Project settings -> Project information*. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
+In order to archive a project, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
 
 > [!NOTE]
 > This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _Archive project_ permission for that role via the [Roles and permissions](../../../../system-admin-guide/users-permissions/roles-permissions/) page in the administrator settings.
@@ -129,7 +132,7 @@ You can also archive a project directly on the [project overview page.](../../pr
 
 ## Change the project hierarchy
 
-To change the project's hierarchy, navigate to the *Project settings -> Information* and change the **Subproject of** in *Project relations* section.
+To change the project's hierarchy, navigate to the _Project settings -> Information_ and change the **Subproject of** in _Project relations_ section.
 
 ![Project relations section under project settings in OpenProject](openproject_user_guide_project_settings_information_relations_section.png)
 

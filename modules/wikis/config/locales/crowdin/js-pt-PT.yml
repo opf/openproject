@@ -22,6 +22,11 @@
 ---
 pt-PT:
   js:
+    editor:
+      macro:
+        wikis:
+          add_existing: Página wiki existente
+          create_new: Nova página wiki
     work_packages:
       tabs:
         wikis: Wikis

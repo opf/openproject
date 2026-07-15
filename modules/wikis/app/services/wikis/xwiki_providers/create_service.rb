@@ -31,6 +31,55 @@
 module Wikis
   module XWikiProviders
     class CreateService < ::BaseServices::Create
+      private
+
+      def after_validate(service_call)
+        call = super
+        return call unless call.success?
+
+        provider = call.result
+        if provider.configured_from_env?
+          fetch_id_later! unless explicit_uid?
+        else
+          fetch_id_now(provider, call)
+        end
+
+        call
+      end
+
+      def after_persist(_call)
+        call = super
+        return call unless call.success?
+
+        XWikiProviders::FetchInstanceIdJob.perform_later(call.result) if fetch_id_later?
+
+        call
+      end
+
+      def fetch_id_now(provider, call)
+        result = Wikis::XWikiProviders::FetchInstanceIdService.new(provider:).call
+        if result.success?
+          provider.universal_identifier = result.value!
+        else
+          call.errors.add(:url, :wiki_provider_unreachable)
+          call.success = false
+        end
+      end
+
+      # In cases where we can't expect the id fetching to work immediately, we'll queue a job that will do it
+      # asynchronously "later". This is mostly the case when creating the provider during seeding, when the corresponding
+      # XWiki instance might not be running yet
+      def fetch_id_later!
+        @fetch_id_later = true
+      end
+
+      def fetch_id_later?
+        @fetch_id_later
+      end
+
+      def explicit_uid?
+        params.key?(:universal_identifier)
+      end
     end
   end
 end

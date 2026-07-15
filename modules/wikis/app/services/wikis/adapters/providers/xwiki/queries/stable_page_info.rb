@@ -35,7 +35,18 @@ module Wikis
         module Queries
           # Fetch page information using a stable XWiki identifier
           class StablePageInfo < BaseQuery
-            include Concerns::XWikiQuery
+            include Concerns::XWikiRequest
+
+            class << self
+              def json_to_page_info(data, provider:)
+                Results::PageInfo.new(
+                  identifier: fetch_json(data, "id"),
+                  title: fetch_json(data, "title"),
+                  href: fetch_json(data, "xwikiAbsoluteUrl"),
+                  provider:
+                )
+              end
+            end
 
             def call(input_data:, auth_strategy:)
               ref = StablePageReference.parse(input_data.identifier)
@@ -43,14 +54,7 @@ module Wikis
 
               authenticated(auth_strategy) do |http|
                 handle_response(http.get(rest_url(ref.rest_path))) do |data|
-                  success(
-                    Results::PageInfo.new(
-                      identifier: ref.to_s,
-                      title: fetch_json(data, "title"),
-                      href: fetch_json(data, "xwikiAbsoluteUrl"),
-                      provider:
-                    )
-                  )
+                  success(self.class.json_to_page_info(data, provider:))
                 end
               end
             end

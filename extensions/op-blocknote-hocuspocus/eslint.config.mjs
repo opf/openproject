@@ -6,6 +6,9 @@ import { defineConfig } from "eslint/config";
 import stylistic from "@stylistic/eslint-plugin";
 
 export default defineConfig([
+  {
+    ignores: ["package-lock.json"],
+  },
   tseslint.configs.recommended,
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
@@ -25,6 +28,12 @@ export default defineConfig([
       "@stylistic/semi": ["warn", "always"],
       "@stylistic/indent": ["warn", 2],
     }
+  },
+  {
+    files: ["**/*.ts"],
+    rules: {
+      "no-undef": "off",
+    },
   },
   {
     files: ["**/*.json"],

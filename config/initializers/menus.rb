@@ -277,8 +277,7 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :working_hours,
             { controller: "/my", action: "working_hours" },
             caption: :label_schedule_and_availability,
-            icon: "calendar",
-            if: ->(_) { OpenProject::FeatureDecisions.user_working_times_active? }
+            icon: "calendar"
   menu.push :locale,
             { controller: "/my", action: "locale" },
             caption: :label_locale,
@@ -287,11 +286,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my", action: "interface" },
             caption: :label_interface,
             icon: "device-desktop"
-  menu.push :password,
-            { controller: "/my", action: "password" },
-            caption: :button_change_password,
-            if: ->(_) { User.current.change_password_allowed? },
-            icon: "lock"
+  menu.push :security,
+            { controller: "/my", action: "security" },
+            caption: :label_my_security,
+            icon: "shield-lock"
   menu.push :access_tokens,
             { controller: "/my/access_tokens", action: "index" },
             caption: I18n.t("my_account.access_tokens.access_tokens"),
@@ -354,6 +352,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions,
             enterprise_feature: "placeholder_users"
 
+  menu.push :user_custom_fields_settings,
+            { controller: "/admin/settings/user_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_user_attributes_plural,
+            parent: :users_and_permissions
+
   menu.push :groups,
             { controller: "/groups" },
             if: ->(_) { User.current.admin? },
@@ -362,7 +366,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :departments,
             { controller: "/admin/departments" },
-            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.departments_active? },
+            if: ->(_) { User.current.admin? },
             caption: :label_departments,
             parent: :users_and_permissions
 
@@ -464,7 +468,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :project_reserved_identifiers_settings,
             { controller: "/admin/settings/project_reserved_identifiers", action: :index },
-            if: ->(_) { User.current.admin? && Setting::WorkPackageIdentifier.classic? },
+            if: ->(_) { User.current.admin? },
             caption: :label_reserved_identifiers,
             parent: :admin_projects_settings
 
@@ -674,12 +678,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_custom_style,
             icon: "paintbrush",
             enterprise_feature: "define_custom_style"
-
-  menu.push :colors,
-            { controller: "/colors", action: "index" },
-            if: ->(_) { User.current.admin? },
-            caption: :label_color_plural,
-            icon: "meter"
 
   menu.push :enterprise,
             { controller: "/enterprise_tokens", action: :index },

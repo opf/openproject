@@ -29,9 +29,6 @@
 #++
 
 module ResourceAllocations
-  # Answers availability questions for a single user by combining their working
-  # time capacity with the allocations booked against them.
-  #
   # Load is every `allocated` allocation the user is the principal of, across all
   # projects (capacity is a user-level property). Filter-based allocations have no
   # principal and are excluded.
@@ -40,8 +37,16 @@ module ResourceAllocations
     # checking a not-yet-persisted allocation.
     CANDIDATE_ID = :candidate
 
-    def initialize(user:)
+    # `allocations` takes the user's `allocated` allocations when the caller
+    # already loaded them (e.g. in bulk for several users); they are queried
+    # lazily otherwise.
+    # `global_non_working_days` is forwarded to the working-time calendars so a
+    # caller handling several users can share one `NonWorkingDay` lookup; it must
+    # cover the span of the user's allocations. Fetched per calendar when omitted.
+    def initialize(user:, allocations: nil, global_non_working_days: nil)
       @user = user
+      @allocations = allocations
+      @global_non_working_days = global_non_working_days
     end
 
     def overbooked?
@@ -63,7 +68,6 @@ module ResourceAllocations
       overbooked_ranges.any? { |range| range.covers?(date) }
     end
 
-    # The user's working time optimally allocated to their work packages.
     def optimal_schedule
       @optimal_schedule ||= build_optimal_schedule
     end
@@ -103,6 +107,20 @@ module ResourceAllocations
       active_index.nil? ? records : records[active_index..]
     end
 
+    def utilization_ratio(range)
+      capacity = WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
+      return if capacity.zero?
+
+      ((booked_minutes_within(range).to_f / capacity) * 100).round
+    end
+
+    # Minutes already booked against the user within the given range. Allocations
+    # overlapping it only partially are counted proportionally to capacity.
+    # Zero when the user has nothing booked there.
+    def scheduled_minutes_within(range)
+      booked_minutes_within(range)
+    end
+
     private
 
     def allocations
@@ -123,7 +141,7 @@ module ResourceAllocations
 
     def calendar_for(work_items)
       range = work_items.map(&:start_date).min..work_items.map(&:end_date).max
-      WorkingTimeCalendar.new(user: @user, range:)
+      WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days)
     end
 
     def build_optimal_schedule
@@ -150,6 +168,29 @@ module ResourceAllocations
 
       by_date.each_value { |entries| entries.sort_by!(&:minutes) }
       by_date
+    end
+
+    def booked_minutes_within(range)
+      return 0 if items.empty?
+
+      allocations.sum { |allocation| allocation_minutes_within(allocation, range) }
+    end
+
+    def allocation_minutes_within(allocation, range)
+      overlap_start = [allocation.start_date, range.begin].max
+      overlap_end = [allocation.end_date, range.end].min
+      return 0 if overlap_start > overlap_end
+
+      total = capacity_between(allocation.start_date, allocation.end_date)
+      return 0 if total.zero?
+
+      overlap = capacity_between(overlap_start, overlap_end)
+
+      (allocation.allocated_time * overlap.to_f / total).round
+    end
+
+    def capacity_between(first, last)
+      base_calendar.prefix_total(last) - base_calendar.prefix_total(first - 1)
     end
   end
 end

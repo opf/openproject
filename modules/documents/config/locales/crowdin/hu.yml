@@ -21,12 +21,11 @@
 #++
 ---
 hu:
-  plugin_openproject_documents:
-    name: OpenProject Dokumentumok
-    description: Egy OpenProjekt plugin projekten belüli dokumentumok létrehozásához.
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
+    attributes:
+      document:
+        content_binary: Bináris tartalom
+        title: Cím
     errors:
       models:
         document_type:
@@ -34,126 +33,128 @@ hu:
     models:
       document: Dokumentum
       documents: Dokumentumok
-    attributes:
-      document:
-        content_binary: Bináris tartalom
-        title: Cím
   activity:
     filter:
       document: Dokumentumok
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   default_doc_category_tech: Technikai dokumentáció
   default_doc_category_user: Felhasználói dokumentáció
-  enumeration_doc_categories: Dokumentum kategóriák
   documents:
-    page_header:
-      heading: Összes dokumentum
-      action_menu:
-        document_actions: Dokumentum-műveletek
-        edit_title: Cím szerkesztése
-    subheader:
-      filter:
-        label: Dokumentumnév-szűrő
-        placeholder: A dokumentumnevek kereséséhez írja be ide
-    documents_list_blank_slate:
-      heading: Még nincsenek dokumentumok
-      description: Ebben a nézetben nincsenek dokumentumok. Az alábbi gombra kattintva hozzáadhat egyet.
-    document_categories_deprecation_notice:
-      heading: A fájlkategóriák neve mostantól 'Dokumentumtípusok'
-      description: |-
-        Az új Dokumentumok modul bevezetésével a meglévő fájlkategóriákat dokumentumtípusokká alakítottuk át.
-        Az összes meglévő dokumentumot is átalakítottuk ezekbe az új típusokba.
-      primary_action: Dokumentumtípusok beállítása
-      secondary_action: Tudjon meg többet a Dokumentumok modulról
-    document_type_actions: Dokumentumtípus-műveletek
-    text_collaboration_disabled_notice:
-      description: |-
-        Nem lehet megnyitni a dokumentumot, mert a valós idejű szöveges együttműködés le van tiltva.
-        Kérjük, lépjen kapcsolatba a rendszergazdával a valós idejű szöveges együttműködés engedélyezése érdekében, ha hozzá szeretne férni ehhez a dokumentumhoz.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-        action: Próbálja újra
-      tabs: Document tabs
-    index_page:
-      name: Név
-      type: Típus
-      updated_at: Utoljára szerkesztve
-      label_legacy: Legacy
-    menu:
-      all: Összes dokumentum
-      types: Típus
-      collaboration_settings: Valós idejű együttműködés
-    last_updated_at: Last saved %{time}.
-    info_line:
-      currently_offline: You are currently offline.
-      connection_restored: You are now back online.
     active_editors: Aktív szerkesztők
     active_editors_count:
       one: 1 active editor
       other: "%{count} active editors"
-    label_attachment_author: Melléklet szerzője
-    label_categories: Kategóriák
-    new_category: Új kategória
-    new_type: Új típus
-    delete_dialog:
-      title: Dokumentum törlése
-      heading: Törli a dokumentumot?
-      confirmation_message_html: Ez véglegesen törli a dokumentumot és az összes csatolt fájlt. Biztos, hogy ezt szeretné?
-    delete_document_type_dialog:
-      title: Ddokumentumtípus törlése
-      heading: Törli a dokumentumtípust?
-      confirmation_message: A "%{type_name}" típus jelenleg nincs használatban. A típus törlése nem lesz hatással a meglévő dokumentumokra.
-      select_reassign_to_label: A dokumentumok újbóli hozzárendelése
-      reassign_message:
-        one: A "%{type_name}" típus jelenleg %{document_count} dokumentumban van használatban. Kérjük, válassza ki, hogy melyik típushoz kívánja újból hozzárendelni.
-        other: A "%{type_name}" típus jelenleg %{document_count} dokumentumban van használatban. Kérjük, válassza ki, hogy melyik típushoz kívánja azokat újból hozzárendelni.
-      at_least_one_type_required:
-        title: Nem lehet törölni a dokumentumtípust
-        heading: Nem lehet törölni az utolsó dokumentumtípust
-        message: Legalább egy dokumentumtípust mindig be kell állítani. Először hozzon létre egy másikat, ha ezt törölni szeretné.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: Ezek az értékek környezeti változókon keresztül vannak beállításra, és itt nem szerkeszthetők.
+          some_unwritable: Egyes értékek környezeti változókon keresztül vannak beállítva, és itt nem szerkeszthetők.
+        hocuspocus_server: Hocuspocus szerver
+        hocuspocus_server_secret:
+          caption: Paste the secret provided by the Hocuspocus server.
+          label: Kliens szerver
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus szerver URL címe
         page_header:
           description: |-
             Ha engedélyezve van, a valós idejű együttműködés lehetővé teszi, hogy több felhasználó egyszerre szerkesszen egy dokumentumot.
             Ehhez egy működő %{hocuspocus_server_link} kiszolgálóra van szükség.
-        banner:
-          none_writable: Ezek az értékek környezeti változókon keresztül vannak beállításra, és itt nem szerkeszthetők.
-          some_unwritable: Egyes értékek környezeti változókon keresztül vannak beállítva, és itt nem szerkeszthetők.
-        hocuspocus_server_url:
-          label: Hocuspocus szerver URL címe
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
-        hocuspocus_server_secret:
-          label: Kliens szerver
-          caption: Paste the secret provided by the Hocuspocus server.
-        hocuspocus_server: Hocuspocus szerver
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: Tudomásul veszem, hogy véglegesen elveszíthetem az adatokat
+        confirmation_message: |-
+          Minden meglévő dokumentum elérhetetlenné válhat. Kérjük, csak akkor tegye ezt, ha biztos benne, hogy ezen példány esetében le akarja tiltani a
+          valós idejű együttműködést és a BlockNote szerkesztőt.
+        heading: Valós idejű együttműködés letiltása?
+        success: A valós idejű együttműködés letiltásra került.
+        title: Valós idejű együttműködés letiltása
       enable_text_collaboration:
-        heading: A valós idejű együttműködés nem engedélyezett
         description: |-
           Ha engedélyezve van, több felhasználó egyszerre dolgozhat egy dokumentumon.
           Minden új dokumentum egy új szerkesztőn (BlockNote) fog alapulni, és működő kapcsolatot igényel a
           Hocuspocus szerverrel.
+        heading: A valós idejű együttműködés nem engedélyezett
         primary_action: Valós idejű együttműködés engedélyezése
         success: A valós idejű együttműködés engedélyezve.
-      disable_text_collaboration_dialog:
-        title: Valós idejű együttműködés letiltása
-        heading: Valós idejű együttműködés letiltása?
-        confirmation_message: |-
-          Minden meglévő dokumentum elérhetetlenné válhat. Kérjük, csak akkor tegye ezt, ha biztos benne, hogy ezen példány esetében le akarja tiltani a
-          valós idejű együttműködést és a BlockNote szerkesztőt.
-        confirmation_checkbox_message: Tudomásul veszem, hogy véglegesen elveszíthetem az adatokat
-        success: A valós idejű együttműködés letiltásra került.
+    button_add_type: Típus
+    delete_dialog:
+      confirmation_message_html: Ez véglegesen törli a dokumentumot és az összes csatolt fájlt. Biztos, hogy ezt szeretné?
+      heading: Törli a dokumentumot?
+      title: Dokumentum törlése
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Nem lehet törölni az utolsó dokumentumtípust
+        message: Legalább egy dokumentumtípust mindig be kell állítani. Először hozzon létre egy másikat, ha ezt törölni szeretné.
+        title: Nem lehet törölni a dokumentumtípust
+      confirmation_message: A "%{type_name}" típus jelenleg nincs használatban. A típus törlése nem lesz hatással a meglévő dokumentumokra.
+      heading: Törli a dokumentumtípust?
+      reassign_message:
+        one: A "%{type_name}" típus jelenleg %{document_count} dokumentumban van használatban. Kérjük, válassza ki, hogy melyik típushoz kívánja újból hozzárendelni.
+        other: A "%{type_name}" típus jelenleg %{document_count} dokumentumban van használatban. Kérjük, válassza ki, hogy melyik típushoz kívánja azokat újból hozzárendelni.
+      select_reassign_to_label: A dokumentumok újbóli hozzárendelése
+      title: Ddokumentumtípus törlése
+    document_categories_deprecation_notice:
+      description: |-
+        Az új Dokumentumok modul bevezetésével a meglévő fájlkategóriákat dokumentumtípusokká alakítottuk át.
+        Az összes meglévő dokumentumot is átalakítottuk ezekbe az új típusokba.
+      heading: A fájlkategóriák neve mostantól 'Dokumentumtípusok'
+      primary_action: Dokumentumtípusok beállítása
+      secondary_action: Tudjon meg többet a Dokumentumok modulról
+    document_type_actions: Dokumentumtípus-műveletek
+    documents_list_blank_slate:
+      description: Ebben a nézetben nincsenek dokumentumok. Az alábbi gombra kattintva hozzáadhat egyet.
+      heading: Még nincsenek dokumentumok
+    index_page:
+      label_legacy: Legacy
+      name: Név
+      type: Típus
+      updated_at: Utoljára szerkesztve
+    info_line:
+      connection_restored: Most már újra online vagy.
+      currently_offline: Jelenleg offline vagy.
+    label_attachment_author: Melléklet szerzője
+    label_categories: Kategóriák
+    last_updated_at: Last saved %{time}.
+    menu:
+      all: Összes dokumentum
+      collaboration_settings: Valós idejű együttműködés
+      types: Típus
+    new_category: Új kategória
+    new_type: Új típus
+    page_header:
+      action_menu:
+        document_actions: Dokumentum-műveletek
+        edit_title: Cím szerkesztése
+      heading: Összes dokumentum
+    show_edit_view:
+      connection_error_notice:
+        action: Próbálja újra
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Document tabs
+    subheader:
+      filter:
+        label: Dokumentumnév-szűrő
+        placeholder: A dokumentumnevek kereséséhez írja be ide
+    text_collaboration_disabled_notice:
+      description: |-
+        Nem lehet megnyitni a dokumentumot, mert a valós idejű szöveges együttműködés le van tiltva.
+        Kérjük, lépjen kapcsolatba a rendszergazdával a valós idejű szöveges együttműködés engedélyezése érdekében, ha hozzá szeretne férni ehhez a dokumentumhoz.
+  enumeration_doc_categories: Dokumentum kategóriák
   label_document_added: Dokumentum hozzáadva
+  label_document_category: Kategória
+  label_document_description: Leírás
   label_document_new: Új dokumentum
   label_document_plural: Dokumentumok
-  label_documents: Dokumentumok
   label_document_title: Cím
-  label_document_description: Leírás
-  label_document_category: Kategória
   label_document_type: Típus
+  label_documents: Dokumentumok
   permission_manage_documents: Dokumentumok kezelése
   permission_view_documents: Dokumetumok megtekintése
+  plugin_openproject_documents:
+    description: Egy OpenProjekt plugin projekten belüli dokumentumok létrehozásához.
+    name: OpenProject Dokumentumok
   project_module_documents: Dokumentumok

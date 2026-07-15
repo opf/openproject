@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 require "services/base_services/behaves_like_create_service"
 
@@ -37,5 +38,78 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
     let(:factory) { :xwiki_provider }
     let(:call_attributes) { { name: "My XWiki", url: "https://xwiki.example.com" } }
     let!(:model_instance) { build_stubbed(factory, name: "My XWiki", url: "https://xwiki.example.com") }
+
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
+        .and_return(instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: Dry::Monads::Success("test-id")))
+    end
+  end
+
+  describe "instance id fetching" do
+    subject(:result) { service.call(**call_attributes) }
+
+    let(:call_attributes) { { name: "My XWiki", url: "https://xwiki.example.com" } }
+    let(:current_user) { build_stubbed(:admin) }
+    let(:service) { described_class.new(user: current_user) }
+    let(:fetch_service) { instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: fetch_result) }
+    let(:fetch_result) { Success("xwiki-instance-abc123") }
+
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service)
+    end
+
+    it "stores the universal_identifier" do
+      expect(result).to be_success
+      expect(result.result.universal_identifier).to eq("xwiki-instance-abc123")
+    end
+
+    it "fetches the universal identifier immediately" do
+      subject
+      expect(fetch_service).to have_received(:call)
+    end
+
+    it "enqueues no job to update the universal identifier" do
+      expect { subject }.not_to have_enqueued_job(Wikis::XWikiProviders::FetchInstanceIdJob)
+    end
+
+    context "when XWiki is unreachable" do
+      let(:fetch_result) { Failure(:connection_error) }
+
+      it "fails with a url error" do
+        expect(result).not_to be_success
+        expect(result.errors[:url]).to include("could not be reached.")
+      end
+    end
+
+    context "when wiki provider is configured from environment", with_settings: { wiki_providers: [{ "name" => "My XWiki" }] } do
+      let(:service) { described_class.new(user: current_user, contract_class: Wikis::XWikiProviders::EnvironmentCreateContract) }
+
+      it "does not fetch the universal identifier immediately" do
+        subject
+        expect(fetch_service).not_to have_received(:call)
+      end
+
+      it "enqueues a job to update the universal identifier" do
+        expect { subject }.to have_enqueued_job(Wikis::XWikiProviders::FetchInstanceIdJob)
+      end
+
+      context "and when the universal identifier was explicitly set" do
+        let(:call_attributes) { { name: "My XWiki", url: "https://xwiki.example.com", universal_identifier: "the-uid" } }
+
+        it "persists the given identifier" do
+          expect(result).to be_success
+          expect(result.result.universal_identifier).to eq("the-uid")
+        end
+
+        it "does not fetch the universal identifier immediately" do
+          subject
+          expect(fetch_service).not_to have_received(:call)
+        end
+
+        it "enqueues no job to update the universal identifier" do
+          expect { subject }.not_to have_enqueued_job(Wikis::XWikiProviders::FetchInstanceIdJob)
+        end
+      end
+    end
   end
 end

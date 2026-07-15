@@ -53,7 +53,7 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
 
   public includeParent = false;
 
-  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
+  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef<HTMLInputElement>;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.child_pages.button'),

@@ -87,32 +87,32 @@ The variable accepts a comma- or space-separated list of IPv4 and IPv6 addresses
 
 Allow a single host:
 
-```
+```shell
 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST=192.168.1.42
 ```
 
 Allow an entire subnet:
 
-```
+```env
 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST=192.168.0.0/16
 ```
 
 Allow multiple ranges (comma-separated):
 
-```
+```env
 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 ```
 
 Allow multiple ranges (space-separated):
 
-```
-OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST=10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
+```env
+OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
 ```
 
 Allow multiple ranges (space-separated; mixed IPv4 and IPv6):
 
-```
-OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST=172.16.0.0/12 fd12:3456::/48
+```env
+OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST="172.16.0.0/12 fd12:3456::/48"
 ```
 
 > [!WARNING]

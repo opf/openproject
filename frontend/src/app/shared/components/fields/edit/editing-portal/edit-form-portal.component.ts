@@ -24,7 +24,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly injector = inject(Injector);
   readonly editField = inject(EditFieldService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly cdRef = inject(ChangeDetectorRef);
 
   @Input() schemaInput:IFieldSchema;

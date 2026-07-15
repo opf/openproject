@@ -133,11 +133,12 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
         end
 
         let(:attachment_content) { Rails.root.join("spec/fixtures/files/airplane-wing-over-cloudy-sky.jpg").binread }
+        let(:download_attachment_url) { "https://jira-dc.openproject.org/secure/attachment/10100/airplane-wing-over-cloudy-sky.jpg" }
 
         include_context "with ssrf stubs"
 
         before do
-          stub_request(:get, "https://jira-dc.openproject.org/secure/attachment/10100/airplane-wing-over-cloudy-sky.jpg")
+          stub_request(:get, download_attachment_url)
             .to_return(status: 200, body: attachment_content, headers: { "Content-Type" => "image/jpg" })
         end
 
@@ -227,6 +228,40 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
         it "creates references for imported entities" do
           expect { described_class.new.perform(jira_import.id) }
             .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
+        end
+
+        context "if priority is nil or hidden in jira filed configuration" do
+          let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read) }
+
+          it "creates work_packge with default priority if it exists" do
+            priority = create(:default_priority)
+            described_class.new.perform(jira_import.id)
+
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.priority).to eq(priority)
+          end
+
+          it "raises an error if default priority does not exist" do
+            expect do
+              described_class.new.perform(jira_import.id)
+            end.to raise_error("Create a priority. OpenProject work package requires a priority!")
+          end
+        end
+
+        context "when attachment download fails" do
+          before do
+            stub_request(:get, download_attachment_url).to_return(status: 404, body: "Not Found")
+          end
+
+          it "does not fail, but logs the error" do
+            # rubocop:disable RSpec/MessageSpies
+            expect(OpenProject.logger).to receive(:error).with(
+              "Bug DPPP-6: Demo bug: Download attachment failed for airplane-wing-over-cloudy-sky.jpg: " \
+              "Jira API returned error status 404"
+            )
+            # rubocop:enable RSpec/MessageSpies
+            described_class.new.perform(jira_import.id)
+          end
         end
 
         context "when there is issue from a different import run with the same jira_project_id" do

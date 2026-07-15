@@ -1,36 +1,41 @@
 ---
 fr:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Nombre de colonnes
+        page: Page
+        row_count: Nombre de lignes
+        scope: Périmètre
+        widgets: Widgets
+    errors:
+      models:
+        grids/grid:
+          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
+          outside: est hors de la grille.
+          overlaps: superposition.
   grids:
     label_widget_in_grid: Widget contenu dans la grille %{grid_name}
     widgets:
       empty: Ce widget est actuellement vide.
-      not_available: Ce widget n'est pas disponible.
-      subitems:
-        title: Sous-éléments
-        no_results: Il n'y a pas d'enfants visibles.
-        view_all_subitems: Voir tous les sous-éléments
-        button_text: Sous-élément
       members:
-        title: Membres
         no_results: Aucun membre visible.
-        view_all_members: Afficher tous les membres
         show_members_count: Afficher tous les membres de %{count}
+        title: Membres
+        view_all_members: Afficher tous les membres
         x_more:
           one: et un membre supplémentaire.
           other: et %{count} plus de membres.
       news:
         no_results: Rien de nouveau à signaler.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Page
-        row_count: Nombre de lignes
-        column_count: Nombre de colonnes
-        widgets: Widgets
-        scope: Périmètre
-    errors:
-      models:
-        grids/grid:
-          overlaps: superposition.
-          outside: est hors de la grille.
-          end_before_start: la valeur finale doit être supérieure à la valeur de départ.
+      not_available: Ce widget n'est pas disponible.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Sous-élément
+        no_results: Il n'y a pas d'enfants visibles.
+        title: Sous-éléments
+        view_all_subitems: Voir tous les sous-éléments

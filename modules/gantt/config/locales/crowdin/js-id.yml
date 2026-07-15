@@ -2,6 +2,6 @@
 id:
   js:
     work_packages:
-      label_gantt_chart_plural: Diagram Gantt
       default_queries:
         milestones: Pencapaian
+      label_gantt_chart_plural: Diagram Gantt

@@ -23,10 +23,10 @@ Additionally, in your OpenProject work package, the GitHub integration supports 
 
 Pull request activities will also appear in the Activity tab when the pull request is:
 
-* first referenced (usually when opened)
-* marked ready for review
-* merged
-* closed
+- first referenced (usually when opened)
+- marked ready for review
+- merged
+- closed
 
 ![Github comments on Activity tab of an OpenProject work package](openproject-system-guide-github-integation-github-activity-tab.png)
 
@@ -38,7 +38,7 @@ To enable the integration, you must configure both OpenProject and GitHub.
 
 First, create a user in OpenProject to make the comments. Add this user to each project with a role that grants permission to view and comment on work packages. 
 
-First you will need to create a user in OpenProject that has the permission to make comments. We recommend creating a dedicated role and assigning this role to the user. This role only requires two permissions, *View work packages* and *Add notes*, which you will find in the Work packages and Gantt charts section under [Roles and Permissions](../../users-permissions/roles-permissions/).
+First you will need to create a user in OpenProject that has the permission to make comments. We recommend creating a dedicated role and assigning this role to the user. This role only requires two permissions, _View work packages_ and _Add notes_, which you will find in the Work packages and Gantt charts section under [Roles and Permissions](../../users-permissions/roles-permissions/).
 
 ![GitHub role with necessary permissions in OpenProject administration](openproject-system-guide-github-integation-github-new-role.png)
 
@@ -47,8 +47,8 @@ First you will need to create a user in OpenProject that has the permission to m
 Once the user is created you need to generate an OpenProject API token for this user (you will need it on the GitHub side). For this you have to:
 
 1. Login as the newly created user
-2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select *Account settings*)
-3. Go to [*Access Tokens*](../../../user-guide/account-settings/#access-tokens)
+2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select _Account settings_)
+3. Go to [_Access Tokens_](../../../user-guide/account-settings/access-tokens)
 4. Click on **+ API token**
 
 > [!IMPORTANT]
@@ -99,7 +99,7 @@ The **Payload URL** must point to your OpenProject server's GitHub webhook endpo
 > - pull_request
 > If the GitHub webhook sends an event that OpenProject does not support, a 404 error is returned by OpenProject.
 
-You will need the API key you copied earlier in OpenProject. Append it to the *Payload URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
+You will need the API key you copied earlier in OpenProject. Append it to the _Payload URL_ as a simple GET parameter named `key`. In the end the URL should look something like this:
 
 `https://myopenproject.com/webhooks/github?key=42`
 
@@ -119,7 +119,7 @@ Then, open your GitHub desktop client. There, you create your branch with the na
 
 ![Enter new branch git snippet to your git desktop client](openproject-system-guide-github-desktop-create-branch.png)
 
-Once you click the *Create branch* button, you can directly publish that branch in the next step.
+Once you click the _Create branch_ button, you can directly publish that branch in the next step.
 
 ![Publish branch with GitHub Desktop client](openproject-system-guide-github-desktop-publish-branch.png)
 
@@ -127,7 +127,7 @@ With the branch opened, you can start the actual development work using whatever
 
 ![GitHub changes](openproject-system-guide-github-integation-github-changes.png)
 
-Once your changes are complete, create a commit. To do that, copy the suggested *Commit message* from the *Git snippets* dropdown menu. It is based on the title and the URL of the work package.
+Once your changes are complete, create a commit. To do that, copy the suggested _Commit message_ from the _Git snippets_ dropdown menu. It is based on the title and the URL of the work package.
 
 ![Commit message in the Git snippets dropdown menu under Github dropdown menu in OpenProject work package](openproject-system-guide-github-integation-github-tab-in-wp-commit-message.png)
 
@@ -135,7 +135,7 @@ A URL pointing to a work package within a pull request description or a comment 
 
 ![Commit message in Github Desktop client](openproject-system-guide-github-integation-commit-message-in-desktop-client.png)
 
-You can now create your pull request by clicking the *Commit* button. Title and comment with the link to the respective OpenProject work package will be prefilled, at least if there is only one commit to the branch. Because of this one commit limitation and if the policy is to create a branch as early as possible, there is a third option in the 'Git snippets' menu ('Create branch with empty commit') that will open a branch and add an empty commit to it in one command. Using this option, one can first create the branch quickly and have it linked to the work package right from the beginning. Commits can of course be added to the branch (and PR) after that.
+You can now create your pull request by clicking the _Commit_ button. Title and comment with the link to the respective OpenProject work package will be prefilled, at least if there is only one commit to the branch. Because of this one commit limitation and if the policy is to create a branch as early as possible, there is a third option in the 'Git snippets' menu ('Create branch with empty commit') that will open a branch and add an empty commit to it in one command. Using this option, one can first create the branch quickly and have it linked to the work package right from the beginning. Commits can of course be added to the branch (and PR) after that.
 
 The branch description can be amended before a PR is created giving the opportunity to further describe the changes. To help with that, it is also possible to copy parts of the work package description since the description can be displayed in the markdown format. Links to additional work packages can also be included in the PR description.
 

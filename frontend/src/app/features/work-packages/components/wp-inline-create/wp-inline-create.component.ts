@@ -70,7 +70,7 @@ import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 })
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   readonly injector = inject(Injector);
-  protected readonly elementRef = inject(ElementRef);
+  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly schemaCache = inject(SchemaCacheService);
   protected readonly I18n = inject(I18nService);
   protected readonly querySpace = inject(IsolatedQuerySpace);

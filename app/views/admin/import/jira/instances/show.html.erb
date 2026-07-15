@@ -60,7 +60,8 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :primary,
           tag: :a,
           size: :medium,
-          href: new_admin_import_jira_run_path(jira_id: @jira.id)
+          href: admin_import_jira_run_index_path(jira_id: @jira.id),
+          data: { turbo_method: :post }
         )
       ) do |button|
         button.with_leading_visual_icon(icon: :plus)

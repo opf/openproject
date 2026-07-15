@@ -46,7 +46,7 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
   standalone: false,
 })
 export class AddAssigneeComponent {
-  protected elementRef = inject(ElementRef);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected halResourceService = inject(HalResourceService);
   protected I18n = inject(I18nService);
   protected halNotification = inject(HalResourceNotificationService);

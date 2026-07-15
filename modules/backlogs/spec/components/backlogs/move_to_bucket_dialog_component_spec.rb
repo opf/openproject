@@ -57,13 +57,13 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
 
   context "when params[:all] is true" do
     let(:move_path) do
-      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "1")
+      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "true")
     end
 
     it "submits the move form with the all query preserved" do
       render_component
 
-      expect(page).to have_element(:form, action: /all=1/)
+      expect(page).to have_element(:form, action: /all=true/)
     end
   end
 
@@ -78,11 +78,15 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
     let!(:bucket_a) { create(:backlog_bucket, project:, name: "Alpha") }
     let!(:bucket_b) { create(:backlog_bucket, project:, name: "Beta") }
 
-    it "lists them as select options with backlog_bucket: prefix values" do
+    it "submits backlog_bucket list data" do
       render_component
 
-      expect(page).to have_element(:option, value: "backlog_bucket:#{bucket_a.id}", text: "Alpha")
-      expect(page).to have_element(:option, value: "backlog_bucket:#{bucket_b.id}", text: "Beta")
+      expect(page).to have_css(
+        "input[name='list_type'][value='#{Backlogs::Target::BucketId.new(nil).list_type}']",
+        visible: :all
+      )
+      expect(page).to have_element(:option, value: bucket_a.id, text: "Alpha")
+      expect(page).to have_element(:option, value: bucket_b.id, text: "Beta")
     end
   end
 
@@ -105,7 +109,7 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
       render_component
 
       expect(page).to have_no_css(:option, text: "Current")
-      expect(page).to have_element(:option, value: "backlog_bucket:#{target_bucket.id}", text: "Target")
+      expect(page).to have_element(:option, value: target_bucket.id, text: "Target")
     end
   end
 end

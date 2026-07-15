@@ -1,0 +1,32 @@
+<table style="table-layout: fixed; width: 300px; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="width: 200px; text-align: left; padding: 8px; border-bottom: 1px solid var(--borderColor-default);">
+        Permission
+      </th>
+      <th style="width: 100px; text-align: center; padding: 8px; border-bottom: 1px solid var(--borderColor-default);">
+        Enabled
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% [
+         "View work packages",
+         "Automatically managed project folders: Share files and manage permissions",
+         "Edit work packages",
+         "Create and manage public saved views for work packages",
+         "Delete wiki pages"
+       ].each do |permission| %>
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid var(--borderColor-muted);">
+          <%= render(OpPrimer::ExpandableTextComponent.new(flex: 1)) do %>
+            <%= permission %>
+          <% end %>
+        </td>
+        <td style="text-align: center; padding: 8px; border-bottom: 1px solid var(--borderColor-muted);">
+          <%= render(Primer::Beta::Octicon.new(icon: :check, color: :success)) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

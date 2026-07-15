@@ -197,12 +197,6 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
       end
     end
 
-    context "with MeetingParticipant" do
-      it_behaves_like "rewritten record",
-                      MeetingParticipant,
-                      :user_id
-    end
-
     context "with News" do
       it_behaves_like "rewritten record",
                       News,

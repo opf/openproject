@@ -98,7 +98,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "disables all templates" do
         put_reload :disable_all
-        expect(wp_type.export_templates_disabled.length).to eq(2)
+        expect(wp_type.export_templates_disabled.length).to eq(wp_type.pdf_export_templates.list.length)
       end
     end
   end

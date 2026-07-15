@@ -6,11 +6,11 @@ release_version: 17.4.0
 release_date: 2026-05-13
 ---
 
- # OpenProject 17.4.0
+# OpenProject 17.4.0
 
- Release date: 2026-04-23
+Release date: 2026-04-23
 
- We released [OpenProject 17.4.0](https://community.openproject.org/versions/2267). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+We released [OpenProject 17.4.0](https://community.openproject.org/versions/2267). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 > [!NOTE]
 > This release includes several security fixes. [Click here to go directly to them](#security-fixes).
@@ -119,26 +119,23 @@ As a fix, the docker containers now validate that a proper `SECRET_KEY_BASE` env
 
 **This will force all users using 2 factor authentication to authenticate on their next login, even if they have saved a cookie to skip 2FA for the next 14 days.**
 
-
 Guides to setting this for your installation method:
 
-*   Packaged installations: This secret is already being generated automatically. You are not affected
+- Packaged installations: This secret is already being generated automatically. You are not affected
 
-*   Docker-compose: Add `SECRET_KEY_BASE=<your-secret-key-base>` to your .env file. See [docker-compose](https://www.openproject.org/docs/installation-and-operations/installation/docker-compose/) for more information.
+- Docker-compose: Add `SECRET_KEY_BASE=<your-secret-key-base>` to your .env file. See [docker-compose](https://www.openproject.org/docs/installation-and-operations/installation/docker-compose/) for more information.
 
-*   Docker All-in-One: Add `SECRET_KEY_BASE=<your-secret-key-base>` to your docker run call. See [docker](../../installation-and-operations/installation/docker/) for more information.
+- Docker All-in-One: Add `SECRET_KEY_BASE=<your-secret-key-base>` to your docker run call. See [docker](../../installation-and-operations/installation/docker/) for more information.
 
-*   Helm-charts: [Version 13.5.4](https://github.com/opf/helm-charts/releases/) and higher of the helm chart will automatically create a kubernetes secret using a random string.
+- Helm-charts: [Version 13.5.4](https://github.com/opf/helm-charts/releases/) and higher of the helm chart will automatically create a kubernetes secret using a random string.
 
-    *   If you have not used a `SECRET_KEY_BASE` env previously, we recommend updating to the newest helm version.
+  - If you have not used a `SECRET_KEY_BASE` env previously, we recommend updating to the newest helm version.
 
-    *   If you have an existing strong secret, you are safe already and nothing needs to be done. You _can optionally_ place it as the `existingSecret` as shown [in the Helm chart documentation](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#secrets) to use the conventional secret to pass it into the specs.
+  - If you have an existing strong secret, you are safe already and nothing needs to be done. You _can optionally_ place it as the `existingSecret` as shown [in the Helm chart documentation](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/#secrets) to use the conventional secret to pass it into the specs.
 
 This vulnerability was responsibly reported by GitHub user [hkolvenbach](https://github.com/hkolvenbach).
 
 For more information, please see the [GitHub advisory #GHSA-r85r-gjq2-f83r](https://github.com/opf/openproject/security/advisories/GHSA-r85r-gjq2-f83r).
-
-
 
 ### CVE-2026-44696 - Stored CSS injection via Sanitize::Config::RELAXED[:css] enables phishing overlays and data exfiltration
 
@@ -158,7 +155,6 @@ This vulnerability was reported by user tuannq\_gg as part of the [YesWeHack.com
 
 For more information, please see the [GitHub advisory #GHSA-x7j3-cfgf-7mc4](https://github.com/opf/openproject/security/advisories/GHSA-x7j3-cfgf-7mc4)
 
-
 ### CVE-2026-44732 - IDOR on OpenProject through /api/v3/documents/{id} via PATCH parameter "project_id" leads to Unauthorized Modification of Resources
 
 OpenProject exposes a document update endpoint used to modify existing documents. The target document is loaded with visibility checks and then updated.
@@ -169,7 +165,6 @@ This vulnerability was reported by sam91281 as part of the [YesWeHack.com OpenPr
 
 For more information, please see the [GitHub advisory #GHSA-mqvv-5mvc-7pg7](https://github.com/opf/openproject/security/advisories/GHSA-mqvv-5mvc-7pg7)
 
-
 ### CVE-2026-44733 - Business Logic Error on OpenProject through PATCH request to /api/v3/users/me permits to bypass password requirements
 
 A password validation flaw in the change password behavior allows attackers to change a user&#39;s password only with an active session takeover.
@@ -177,7 +172,6 @@ A password validation flaw in the change password behavior allows attackers to c
 This vulnerability was reported by user herdiyanitdev as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
 For more information, please see the [GitHub advisory #GHSA-px7f-cj9f-7m4m](https://github.com/opf/openproject/security/advisories/GHSA-px7f-cj9f-7m4m)
-
 
 ### CVE-2026-44734 - Improper Access Control on OpenProject through the POST request to /projects/[PROJECT_NAME]/cost_reports/[REPORT_ID]/rename
 
@@ -309,4 +303,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [Christophe Gesché](https://crowdin.com/profile/Moosh-be), for a great number of translations into French.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
-

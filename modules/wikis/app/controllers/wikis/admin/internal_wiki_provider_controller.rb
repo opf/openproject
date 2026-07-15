@@ -43,7 +43,10 @@ module Wikis
 
       def update
         provider = Wikis::InternalProvider.first
-        provider.update!(enabled: internal_provider_params[:enabled])
+        result = Wikis::InternalProviders::UpdateService.new(user: current_user, model: provider).call(internal_provider_params)
+
+        flash[:error] = result.message if result.failure?
+
         redirect_to admin_settings_internal_wiki_provider_path
       end
 

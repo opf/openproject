@@ -64,7 +64,7 @@ module Meetings
       end
 
       def render?
-        global_scoped? || project.module_enabled?("meetings")
+        current_user.logged? && (global_scoped? || project.module_enabled?("meetings"))
       end
 
       private

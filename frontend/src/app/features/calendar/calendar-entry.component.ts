@@ -39,7 +39,7 @@ import {
   standalone: false,
 })
 export class CalendarEntryComponent implements OnDestroy {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() queryId:string;
 

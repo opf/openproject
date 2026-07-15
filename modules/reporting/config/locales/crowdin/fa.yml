@@ -21,87 +21,87 @@
 #++
 ---
 fa:
-  plugin_openproject_reporting:
-    name: گزارش OpenProject
-    description: این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد.
   button_save_report_as: ذخیره گزارش به عنوان...
   comments: نظر
   cost_reports_title: زمان و هزینه‌ها
-  label_cost_report: گزارش هزینه
-  label_cost_report_plural: گزارش هزینه‌ها
   description_drill_down: نمایش جزئیات
   description_filter_selection: انتخاب
   description_multi_select: نمایش چندانتخابی
   description_remove_filter: حذف فیلتر
+  export:
+    cost_reports:
+      end_time: End time
+      start_time: زمان شروع
+      title: Your Cost Reports XLS export
+    timesheet:
+      button: Export PDF timesheet
+      overview_per_user_day: 'Overview: Hours per user per day'
+      overview_per_user_total: 'Overview: Total hours per user'
+      sums_hours: Sums
+      time: زمان
+      timesheet: Timesheet
+      title: Your PDF timesheet export
   information_restricted_depending_on_permission: با توجه به مجوزهای دسترسی شما، این صفحه ممکن است اطلاعات محدودی داشته باشد.
   label_click_to_edit: برای ویرایش کلیک کنید.
   label_closed: بسته
   label_columns: ستون‌ها
   label_cost_entry_attributes: ویژگی‌های ورودی هزینه
+  label_cost_report: گزارش هزینه
+  label_cost_report_plural: گزارش هزینه‌ها
+  label_count: Count
   label_days_ago: در طی روزهای گذشته
   label_entry: ورودی هزینه
+  label_filter: فیلتر
+  label_filter_add: Add Filter
+  label_filter_plural: فیلترها
   label_filter_text: متن فیلتر
   label_filter_value: مقدار
   label_filters: فیلتر
   label_greater: ">"
+  label_group_by: گروه‌بندی بر اساس
+  label_group_by_add: Add Group-by Attribute
+  label_inactive: "«inactive»"
   label_is_not_project_with_subprojects: نیست (شامل پروژه‌های زیرمجموعه)
+  label_is_not_work_package_with_descendants: is not (includes descendants)
   label_is_project_with_subprojects: هست (شامل پروژه‌های زیرمجموعه)
   label_is_work_package_with_descendants: is (includes descendants)
-  label_is_not_work_package_with_descendants: is not (includes descendants)
-  label_work_package_attributes: خصوصیات پکیج‌کاری
   label_less: "<"
   label_logged_by_reporting: گزارش شده توسط
   label_money: Cash value
   label_month_reporting: Month (Spent)
   label_new_report: New cost report
+  label_no: نه
+  label_no_reports: تا کنون گزارش هزینه ای وجود ندارد.
+  label_none: "(no data)"
   label_open: باز
   label_operator: اپراتور
   label_private_report_plural: Private cost reports
   label_progress_bar_explanation: Generating report...
   label_public_report_plural: Public cost reports
   label_really_delete_question: آیا مطمئن هستید که می خواهید این گزارش را حذف کنید؟
+  label_report: گزارش
   label_rows: ردیف ها
   label_saving: درحال ذخیره...
   label_spent_on_reporting: Date (Spent)
   label_sum: جمع
   label_units: واحدها
   label_week_reporting: Week (Spent)
+  label_work_package_attributes: خصوصیات پکیج‌کاری
   label_year_reporting: Year (Spent)
-  label_count: Count
-  label_filter: فیلتر
-  label_filter_add: Add Filter
-  label_filter_plural: فیلترها
-  label_group_by: گروه‌بندی بر اساس
-  label_group_by_add: Add Group-by Attribute
-  label_inactive: "«inactive»"
-  label_no: نه
-  label_none: "(no data)"
-  label_no_reports: تا کنون گزارش هزینه ای وجود ندارد.
-  label_report: گزارش
   label_yes: بله
   load_query_question: Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?
   permission_save_cost_reports: Save public cost reports
   permission_save_private_cost_reports: Save private cost reports
+  plugin_openproject_reporting:
+    description: این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد.
+    name: گزارش OpenProject
   project_module_reporting_module: گزارش هزینه‌ها
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: ردیف های انتخاب شده
   text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
   toggle_multiselect: activate/deactivate multiselect
   units: واحدها
   validation_failure_date: تاریخ صحیح نیست
   validation_failure_integer: عدد درست نیست
-  export:
-    timesheet:
-      title: Your PDF timesheet export
-      button: Export PDF timesheet
-      timesheet: Timesheet
-      time: زمان
-      sums_hours: Sums
-      overview_per_user_total: 'Overview: Total hours per user'
-      overview_per_user_day: 'Overview: Hours per user per day'
-    cost_reports:
-      title: Your Cost Reports XLS export
-      start_time: زمان شروع
-      end_time: End time
-  reporting:
-    group_by:
-      selected_columns: Selected columns
-      selected_rows: ردیف های انتخاب شده

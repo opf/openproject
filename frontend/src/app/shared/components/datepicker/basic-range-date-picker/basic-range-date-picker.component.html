@@ -19,6 +19,18 @@
     (focus)="showDatePicker()"
     (click)="sentCalendarToTopLayer()"
     />
+  @if (clearable && stringValue && !disabled) {
+    <button
+      type="button"
+      class="op-basic-range-datepicker--clear-button"
+      data-test-selector="op-basic-range-date-picker-clear"
+      [attr.aria-label]="text.clear"
+      [title]="text.clear"
+      (click)="clearValue()"
+      >
+      <svg x-icon size="small" />
+    </button>
+  }
 }
 @if (mobile) {
   <input

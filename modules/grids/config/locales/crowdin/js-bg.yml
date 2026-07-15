@@ -3,58 +3,61 @@ bg:
   js:
     grid:
       add_widget: Add widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Премахване на притурка
       configure: Конфигурирайте приспособление
+      remove: Премахване на притурка
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: You don't have the necessary permissions to view this widget.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Custom text
         documents:
-          title: Документи
           no_results: Все още няма документи.
+          title: Документи
         members:
           title: Потребители
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: Новини
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Любими проекти
         project_status:
-          title: Status
-          not_started: Not started
-          on_track: On track
-          off_track: Off track
           at_risk: At risk
-          not_set: Не е зададено
-          finished: Завършено
           discontinued: Discontinued
+          finished: Завършено
+          not_set: Не е зададено
+          not_started: Not started
+          off_track: Off track
+          on_track: On track
+          title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Любими проекти
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Мое употребено време
           displayed_days: 'Дни, показани в приспособлението:'
+          title: Мое употребено време
         time_entries_list:
-          title: Употребено време (последните 7 дни)
           no_results: No time entries for the last 7 days.
+          title: Употребено време (последните 7 дни)
         work_packages_accountable:
           title: Work packages I am accountable for
         work_packages_assigned:
           title: Работни пакети, възложени на мен
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_table:
-          title: Work packages table
-        work_packages_graph:
-          title: Work packages graph
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Календар
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Work packages graph
         work_packages_overview:
-          title: Work packages overview
           placeholder: Click to edit ...
+          title: Work packages overview
+        work_packages_table:
+          title: Work packages table
+        work_packages_watched:
+          title: Work packages watched by me

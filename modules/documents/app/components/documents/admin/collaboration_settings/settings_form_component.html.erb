@@ -61,7 +61,7 @@
           placeholder: Setting.collaborative_editing_hocuspocus_secret.present? ? "••••••••••••••••" : nil
         )
 
-        form.submit
+        form.submit unless none_writable_settings?
       end
     end
   else

@@ -1,0 +1,10 @@
+<%= flex_layout(align_items: :center, justify_content: :space_between, classes: "op-rm-timeline-resource") do |row| %>
+  <% row.with_column(flex: 1, mr: 2) do %>
+    <%= info_line %>
+    <%= subject_link %>
+    <%= progress %>
+  <% end %>
+  <% row.with_column do %>
+    <%= context_menu %>
+  <% end %>
+<% end %>

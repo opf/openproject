@@ -1,6 +1,6 @@
 ---
 ro:
   overviews:
-    label_home: "%{workspace_type}"
     label_dashboard: Panou de control
+    label_home: "%{workspace_type}"
     label_overview: Vedere de ansamblu

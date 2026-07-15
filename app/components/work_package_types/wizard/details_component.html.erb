@@ -1,0 +1,8 @@
+<%= primer_form_with(
+      model: type,
+      url: form_url,
+      method: form_method,
+      html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
+    ) do |f| %>
+  <%= render(WorkPackageTypes::Wizard::DetailsForm.new(f)) %>
+<% end %>

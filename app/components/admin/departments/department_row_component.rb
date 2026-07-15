@@ -46,13 +46,17 @@ module Admin
           end
 
           row.with_column do
-            render(Primer::Alpha::ActionMenu.new) do |menu|
-              menu.with_show_button(
-                icon: "kebab-horizontal",
-                scheme: :invisible,
-                "aria-label": I18n.t(:label_actions)
-              )
-              menu_items(menu)
+            if @department.ldap_managed?
+              render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t(:label_managed_by_ldap) }
+            else
+              render(Primer::Alpha::ActionMenu.new) do |menu|
+                menu.with_show_button(
+                  icon: "kebab-horizontal",
+                  scheme: :invisible,
+                  "aria-label": I18n.t(:label_actions)
+                )
+                menu_items(menu)
+              end
             end
           end
         end

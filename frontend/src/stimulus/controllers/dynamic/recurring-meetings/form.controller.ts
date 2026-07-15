@@ -7,7 +7,7 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
 
   declare persistedValue:boolean;
 
-  updateFrequencyText():void {
+  async updateFrequencyText() {
     const data = new FormData(this.element as HTMLFormElement);
     const urlSearchParams = new URLSearchParams();
     [
@@ -19,15 +19,18 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
       'monthly_ordinal',
       'monthly_weekday',
       'time_zone',
+      'end_after',
+      'end_date',
+      'iterations',
     ].forEach((name) => {
       const key = `meeting[${name}]`;
       urlSearchParams.append(key, data.get(key) as string);
     });
 
-    void this
-      .turboRequests
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests
       .request(
-        `${this.pathHelper.staticBase}/recurring_meetings/humanize_schedule?${urlSearchParams.toString()}`,
+        `${pathHelperService.staticBase}/recurring_meetings/humanize_schedule?${urlSearchParams.toString()}`,
         {
           headers: {
             Accept: 'text/vnd.turbo-stream.html',
@@ -36,12 +39,12 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
       );
   }
 
-  updateTimezoneText() {
+  async updateTimezoneText() {
     // We don't update the timezone text on editing recurring meetings
     if (this.persistedValue) {
       return;
     }
 
-    super.updateTimezoneText();
+    await super.updateTimezoneText();
   }
 }

@@ -1,104 +1,83 @@
 ---
 uk:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID Connect
-    description: Додає постачальників стратегії OmniAuth OpenID Connect в OpenProject.
-  logout_warning: 'Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: Ідентифікатор групи OpenID
       openid_connect/provider:
-        name: Назва
-        slug: Унікальний ідентифікатор
-        display_name: Коротке ім’я
+        acr_values: Значення ACR
+        authorization_endpoint: Кінцева точка авторизації
+        claims: Запити
         client_id: ID клієнта
         client_secret: Секретний ключ клієнта
-        groups_claim: Запит груп
-        group_regexes: Шаблони (регулярні вирази)
-        secret: Секретний ключ
-        scope: Область
-        sync_groups: Синхронізувати групи
-        grant_types_supported: Підтримувані типи дозволів
-        limit_self_registration: Обмежити самостійну реєстрацію
-        authorization_endpoint: Кінцева точка авторизації
-        userinfo_endpoint: Кінцева точка доступу до даних користувача
-        token_endpoint: Кінцева точка маркера
+        display_name: Коротке ім’я
         end_session_endpoint: Кінцева точка завершення сеансу
-        post_logout_redirect_uri: URI переспрямування після виходу із системи
-        jwks_uri: JWKS URI
-        issuer: Видавець
-        tenant: Клієнт
-        metadata_url: URL-адреса метаданих
+        grant_types_supported: Підтримувані типи дозволів
+        group_regexes: Шаблони (регулярні вирази)
+        groups_claim: Запит груп
         icon: Користувацький значок
-        claims: Запити
-        acr_values: Значення ACR
+        issuer: Видавець
+        jwks_uri: JWKS URI
+        limit_self_registration: Обмежити самостійну реєстрацію
+        metadata_url: URL-адреса метаданих
+        name: Назва
+        post_logout_redirect_uri: URI переспрямування після виходу із системи
         redirect_url: URL переспрямування
+        scope: Область
+        secret: Секретний ключ
+        slug: Унікальний ідентифікатор
+        sync_groups: Синхронізувати групи
+        tenant: Клієнт
+        token_endpoint: Кінцева точка маркера
+        userinfo_endpoint: Кінцева точка доступу до даних користувача
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: URL-адреса кінцевої точки виявлення %{message}
-              response_is_not_successful: " відповідає %{status}."
               response_is_not_json: " не повертає тіло JSON."
+              response_is_not_successful: " відповідає %{status}."
               response_misses_required_attributes: " не повертає необхідних атрибутів. Відсутні атрибути: %{missing_attributes}."
           invalid_claims_essential: не визначає логічне значення в атрибуті «%{attribute}».
           invalid_claims_location: 'містять непідтримувані місцезнаходження: %{invalid}. Підтримуються такі: %{supported}.'
           invalid_claims_values: не визначає масив даних в атрибуті «%{attribute}».
           non_object_attribute: не визначає об’єкт JSON в атрибуті «%{attribute}».
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Введіть ім’я постачальника послуг %{name}, щоб підтвердити видалення.
-      irreversible_notice: Видалення постачальника послуг SSO не можна скасувати.
-      provider_html: 'Справді видалити постачальника SSO %{name}? Майте на увазі, що це призведе до таких наслідків:'
-      delete_result_1: Вилучіть постачальника послуг зі списку доступних постачальників.
-      delete_result_user_count:
-        zero: Зараз у цього постачальника послуг немає користувачів. Нічого робити не потрібно.
-        one: Зараз у цього постачальника послуг один користувач. Надішліть йому нове запрошення. Або ж він має ввійти за допомогою іншого постачальника.
-        other: 'Зараз у цього постачальника послуг стільки користувачів: %{count}. Надішліть їм нові запрошення. Або ж вони мають увійти за допомогою іншого постачальника.'
-      delete_result_direct: Цього постачальника визначено як постачальника послуг прямого входу. Цей параметр буде вилучено, і користувачам більше не пропонуватиметься вхід за допомогою цього постачальника.
+  logout_warning: 'Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
+
+    '
   openid_connect:
-    menu_title: Постачальники OpenID
-    delete_title: Видалити постачальника послуг OpenID Connect
     delete_heading: Видалити цього постачальника послуг OpenID Connect?
+    delete_title: Видалити постачальника послуг OpenID Connect
     group_links_heading: Посилання на групи OpenID Connect
     groups:
       match_preview_component:
-        title: Отримані назви груп
         placeholder_none: Немає груп, які відповідають цьому шаблону.
+        title: Отримані назви груп
       match_preview_dialog_component:
         description: Це дає змогу протестувати шаблон регулярного виразу на прикладі даних, щоб переконатися, що назви груп, які ви хочете отримати, справді отримуються належним чином. Тут можна змінити шаблон, але сам тестовий рядок і збіги не буде збережено разом із конфігурацією.
-        group_names_label: Тестові назви груп
         group_names_description: Введіть по одній назві групи на рядок так, як вони б з’являлися в запиті OIDC, щоб побачити, як ваші шаблони регулярних виразів впливають на них.
+        group_names_label: Тестові назви груп
         show_button: Тестовий шаблон
         title: Тестові регулярні вирази
     instructions:
+      acr_values: 'Надсилайте необов’язкові запити в простішому форматі. Щоб дізнатися більше, ознайомтеся з [нашою документацією щодо acr_values](docs_url).
+
+        '
+      claims: 'Ви також можете надсилати запити на кінцеві точки даних користувача й маркера ID. Щоб дізнатися більше, ознайомтеся з [нашою документацією щодо OpenID Connect](docs_url).
+
+        '
+      client_id: ID клієнта, наданий вам постачальником OpenID Connect
+      client_secret: Це клієнтський секрет ключ, наданий вам постачальником OpenID Connect
+      display_name: Ім’я постачальника послуг. Відображатиметься як кнопка входу й пункт у списку постачальників послуг.
       endpoint_url: URL-адреса кінцевої точки, надана вам постачальником послуг OpenID Connect
       group_regexes: Використовуйте один шаблон регулярного виразу на рядок. Щоб дізнатися більше про те, як це робити, перегляньте [документацію](docs_url).
       group_regexes_detail: За потреби визначте шаблони, використовуючи регулярні вирази, щоб отримати відповідні назви груп із запиту груп. Наприклад, якщо ввести шаблон на зразок <code>^Level1/Level2/([\w/]+)$</code>, ви отримаєте групу Groupname/SubGroup із відповіді, що містить запис Level1/Level2/GroupName/SubGroup. Якщо немає шаблонів, які відповідають запису, відповідну групу буде проігноровано. Щоб синхронізувати всі групи, використовуючи їх повні назви, не вказуйте нічого.
       group_regexes_testing: Натисніть «Тестовий шаблон», щоб протестувати свій шаблон регулярного виразу на зразку інформації про користувача OIDC.
       group_sync: Автоматично отримувати й синхронізувати інформацію про членство в групі від постачальника ідентифікаційних даних.
       groups_claim: Укажіть назву запиту, яка має вказувати на назви груп, членом яких є користувач.
-      metadata_none: Я не володію такою інформацією
-      metadata_url: У мене є URL-адреса кінцевої точки виявлення
-      oidc_information: Ці значення потрібні для налаштування постачальника OpenID Connect.
-      client_id: ID клієнта, наданий вам постачальником OpenID Connect
-      client_secret: Це клієнтський секрет ключ, наданий вам постачальником OpenID Connect
       limit_self_registration: Якщо увімкнено, користувачі можуть зареєструватися через цього постачальника послуг лише за умови, що його конфігурація це дозволяє.
-      display_name: Ім’я постачальника послуг. Відображатиметься як кнопка входу й пункт у списку постачальників послуг.
-      tenant: Замініть клієнта за замовчуванням власним, якщо це можливо. Див. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">тут</a>.
-      scope: Якщо ви хочете запросити користувацькі області, ви можете додати одне або кілька значень областей, розділених пробілами, тут. Для отримання додаткової інформації дивіться [OpenID Connect documentation](docs_url).
-      post_logout_redirect_uri: URL-адреса, на яку постачальник послуг OpenID Connect має виконувати переспрямування після отримання запиту на вихід.
-      claims: 'Ви також можете надсилати запити на кінцеві точки даних користувача й маркера ID. Щоб дізнатися більше, ознайомтеся з [нашою документацією щодо OpenID Connect](docs_url).
-
-        '
-      acr_values: 'Надсилайте необов’язкові запити в простішому форматі. Щоб дізнатися більше, ознайомтеся з [нашою документацією щодо acr_values](docs_url).
-
-        '
-      mapping_login: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для атрибута «Вхід».
+      mapping_admin: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для статусу атрибута «Адміністратор». Має повертатися значення логічного типу.
 
         '
       mapping_email: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для атрибута «Електронна адреса».
@@ -110,57 +89,77 @@ uk:
       mapping_last_name: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для атрибута «Прізвище».
 
         '
-      mapping_admin: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для статусу атрибута «Адміністратор». Має повертатися значення логічного типу.
+      mapping_login: 'Надайте користувацьке зіставлення у відповіді на запит даних користувача, яке використовуватиметься для атрибута «Вхід».
 
         '
-    settings:
-      metadata_none: У мене немає цієї інформації
+      metadata_none: Я не володію такою інформацією
       metadata_url: У мене є URL-адреса кінцевої точки виявлення
-      endpoint_url: URL кінцевої точки
+      oidc_information: Ці значення потрібні для налаштування постачальника OpenID Connect.
+      post_logout_redirect_uri: URL-адреса, на яку постачальник послуг OpenID Connect має виконувати переспрямування після отримання запиту на вихід.
+      scope: Якщо ви хочете запросити користувацькі області, ви можете додати одне або кілька значень областей, розділених пробілами, тут. Для отримання додаткової інформації дивіться [OpenID Connect documentation](docs_url).
+      tenant: Замініть клієнта за замовчуванням власним, якщо це можливо. Див. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">тут</a>.
+    menu_title: Постачальники OpenID
     providers:
-      label_providers: Постачальники
-      seeded_from_env: Цього постачальника послуг додано з конфігурації середовища. Його не можна змінити.
-      google:
-        name: Google
-      microsoft_entra:
-        name: Microsoft Entra
+      client_details_description: Деталі конфігурації OpenProject як клієнта OIDC
       custom:
         name: Власний
-      upsell:
-        title: Єдиний вхід (SSO) з OpenID Connect
-        description: Підключіть OpenProject до постачальника ідентифікаційних даних OpenID
+      google:
+        name: Google
       label_add_new: Додати нового постачальника OpenID
+      label_advanced_configuration: Розширена конфігурація
+      label_attribute_mapping: Зіставлення атрибутів
+      label_automatic_configuration: Автоматична конфігурація
+      label_client_details: Відомості про клієнта
+      label_configuration_details: Метадані
       label_edit: Редагувати OpenID провайдера %{name}
-      label_empty_title: Поки не налаштовано жодного постачальника послуг OpenID.
       label_empty_description: Додайте постачальника послуг, і він з’явиться тут.
+      label_empty_title: Поки не налаштовано жодного постачальника послуг OpenID.
       label_group_mapping: Зіставлення груп
       label_metadata: Кінцева точка виявлення OpenID Connect
-      label_automatic_configuration: Автоматична конфігурація
       label_optional_configuration: Додаткова конфігурація
-      label_advanced_configuration: Розширена конфігурація
-      label_configuration_details: Метадані
-      label_client_details: Відомості про клієнта
-      label_attribute_mapping: Зіставлення атрибутів
-      notice_created: Нового постачальника OpenID успішно створено.
-      client_details_description: Деталі конфігурації OpenProject як клієнта OIDC
+      label_providers: Постачальники
+      microsoft_entra:
+        name: Microsoft Entra
       no_results_table: Ще не додано жодного постачальника.
+      notice_created: Нового постачальника OpenID успішно створено.
       plural: Постачальники OpenID
-      singular: OpenID постачальник
       section_texts:
+        attribute_mapping: Налаштуйте зіставлення атрибутів між OpenProject і постачальником послуг OpenID Connect.
+        claims: Надсилайте додаткові запити відповіді щодо маркера ID або даних користувача.
+        configuration: Деталі конфігурації постачальника послуг OpenID Connect
+        configuration_metadata: Цю інформацію попередньо заповнено з використанням наданої кінцевої точки виявлення. Здебільшого вона не потребує редагування.
+        display_name: Коротке імʼя, яке бачать користувачі.
         group_mapping: Зіставте назви груп, які надає постачальник ідентифікаційних даних із групами в OpenProject.
         metadata: Попередньо заповнюйте конфігурацію, використовуючи URL-адресу кінцевої точки виявлення OpenID Connect
         metadata_form_banner: Редагування кінцевої точки виявлення може перевизначити наявні, попередньо заповнені значення метаданих.
-        metadata_form_title: Кінцева точка виявлення OpenID Connect
         metadata_form_description: Якщо в постачальника ідентифікаційних даних є URL-адреса кінцевої точки виявлення. Скористайтеся нею нижче, щоб попередньо заповнити конфігурацію.
-        configuration_metadata: Цю інформацію попередньо заповнено з використанням наданої кінцевої точки виявлення. Здебільшого вона не потребує редагування.
-        configuration: Деталі конфігурації постачальника послуг OpenID Connect
-        display_name: Коротке імʼя, яке бачать користувачі.
-        attribute_mapping: Налаштуйте зіставлення атрибутів між OpenProject і постачальником послуг OpenID Connect.
-        claims: Надсилайте додаткові запити відповіді щодо маркера ID або даних користувача.
+        metadata_form_title: Кінцева точка виявлення OpenID Connect
       side_panel:
         information_component:
           backchannel_logout_url: URL-адреса зворотного каналу для виходу
+      singular: OpenID постачальник
+      upsell:
+        description: Підключіть OpenProject до постачальника ідентифікаційних даних OpenID
+        title: Єдиний вхід (SSO) з OpenID Connect
     setting_instructions:
       limit_self_registration: 'Якщо ввімкнено, користувачі можуть зареєструватися лише через цього постачальника послуг (якщо це дозволено параметром самостійної реєстрації).
 
         '
+    settings:
+      endpoint_url: URL кінцевої точки
+      metadata_none: У мене немає цієї інформації
+      metadata_url: У мене є URL-адреса кінцевої точки виявлення
+  plugin_openproject_openid_connect:
+    description: Додає постачальників стратегії OmniAuth OpenID Connect в OpenProject.
+    name: OpenProject OpenID Connect
+  provider:
+    delete_warning:
+      delete_result_1: Вилучіть постачальника послуг зі списку доступних постачальників.
+      delete_result_direct: Цього постачальника визначено як постачальника послуг прямого входу. Цей параметр буде вилучено, і користувачам більше не пропонуватиметься вхід за допомогою цього постачальника.
+      delete_result_user_count:
+        one: Зараз у цього постачальника послуг один користувач. Надішліть йому нове запрошення. Або ж він має ввійти за допомогою іншого постачальника.
+        other: 'Зараз у цього постачальника послуг стільки користувачів: %{count}. Надішліть їм нові запрошення. Або ж вони мають увійти за допомогою іншого постачальника.'
+        zero: Зараз у цього постачальника послуг немає користувачів. Нічого робити не потрібно.
+      input_delete_confirmation_html: Введіть ім’я постачальника послуг %{name}, щоб підтвердити видалення.
+      irreversible_notice: Видалення постачальника послуг SSO не можна скасувати.
+      provider_html: 'Справді видалити постачальника SSO %{name}? Майте на увазі, що це призведе до таких наслідків:'

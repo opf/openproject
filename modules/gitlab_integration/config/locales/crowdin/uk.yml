@@ -22,6 +22,22 @@
 #++
 ---
 uk:
+  activerecord:
+    attributes:
+      gitlab_merge_request:
+        labels: Мітки
+      gitlab_pipeline:
+        ci_details: Деталі CI
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: 'має бути масивом гешів із ключами: color, title'
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: 'має бути масивом гешів із ключами: color, title'
   attributes:
     commit: Коміт
     gitlab: Ідентифікатор GitLab
@@ -33,25 +49,28 @@ uk:
     gitlab_updated_at: Оновлено о
     gitlab_user_avatar_url: URL-адреса аватара GitLab
     gitlab_username: Ім’я користувача GitLab
-  activerecord:
-    attributes:
-      gitlab_pipeline:
-        ci_details: Деталі CI
-      gitlab_merge_request:
-        labels: Мітки
-    errors:
-      models:
-        gitlab_issue:
-          attributes:
-            labels:
-              invalid_schema: 'має бути масивом гешів із ключами: color, title'
-        gitlab_merge_request:
-          attributes:
-            labels:
-              invalid_schema: 'має бути масивом гешів із ключами: color, title'
-  label_gitlab_integration: Інтеграція з GitLab
+  gitlab_integration:
+    issue_closed_referenced_comment: "**Закрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**Закрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**Об’єднано MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Додано посилання в коміті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у примітці до коміта [%{commit_id}](%{commit_url}) у [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Додано посилання в задачі:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP у задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Додано посилання у фрагменті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у фрагменті %{snippet_number} [%{snippet_title}](%{snippet_url}) у [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
   label_gitlab_actor: Суб’єкт GitLab
+  label_gitlab_integration: Інтеграція з GitLab
   label_gitlab_webhook_secret: Секрет вебхука
+  permission_show_gitlab_content: Показати контент Gitlab
+  project_module_gitlab: GitLab
   text_gitlab_actor_info: 'Це користувач OpenProject, чий API-ключ має використовуватися для автентифікації вхідних запитів вебхука. Якщо налаштовано, запити, автентифіковані за допомогою облікових даних будь-якого іншого користувача, буде відхилено. Цей користувач також автоматично додає коментарі до пакетів робіт. За замовчуванням це системний користувач, якщо не вказати іншого.
 
     '
@@ -61,22 +80,3 @@ uk:
   text_gitlab_webhook_secret_missing_warning: 'Секрет вебхука не налаштовано. Усі запити до кінцевої точки вебхука GitLab прийматимуться без перевірки, через що у неавторизованих суб’єктів може бути змога підробляти події. Наполегливо рекомендуємо налаштувати секрет.
 
     '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: Показати контент Gitlab
-  gitlab_integration:
-    merge_request_opened_comment: "**Відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**Закрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**Об’єднано MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) об’єднано користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**Повторно відкрито MR:** запит на злиття %{mr_number} [%{mr_title}](%{mr_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Додано посилання в коміті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у примітці до коміта [%{commit_id}](%{commit_url}) у [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_mr_referenced_comment: "**Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_commented_comment: "**Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_issue_referenced_comment: "**Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_commented_comment: "**Додано посилання в задачі:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP у задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_snippet_referenced_comment: "**Додано посилання у фрагменті:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у фрагменті %{snippet_number} [%{snippet_title}](%{snippet_url}) у [%{repository}](%{repository_url}): %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Закрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) закрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Повторно відкрито задачу:** задачу %{issue_number} [%{issue_title}](%{issue_url}) для [%{repository}](%{repository_url}) повторно відкрито користувачем [%{gitlab_user}](%{gitlab_user_url}).\n"
-    push_single_commit_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
-    push_multiple_commits_comment: "**Внесено дані в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс кілька комітів [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"

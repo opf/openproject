@@ -29,13 +29,16 @@
  */
 
 import { ApplicationController, useMeta } from 'stimulus-use';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { BeforeunloadController } from '../../beforeunload.controller';
 import { appendCollapsedState } from '../../../helpers/meetings-helpers';
 import { hasUnsavedChanges } from '../../../helpers/meetings-helpers';
 
 export default class extends ApplicationController {
-  private turboRequests:TurboRequestsService;
+  static services:ServiceKey[] = ['turboRequests'];
+
+  declare services:Promise<PickedServices<'turboRequests'>>;
+
   private beforeUnloadController:BeforeunloadController;
   private boundBeforeUnloadHandler = this.beforeUnloadHandler.bind(this);
 
@@ -45,18 +48,16 @@ export default class extends ApplicationController {
 
   private isSubmittingOutcomeForm = false;
 
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
+
   connect():void {
     useMeta(this, { suffix: false });
 
     window.addEventListener('beforeunload', this.boundBeforeUnloadHandler);
     this.beforeUnloadController = this.application.getControllerForElementAndIdentifier(document.body, 'beforeunload') as BeforeunloadController;
-
-    void this.initializeTurboRequests();
-  }
-
-  private async initializeTurboRequests():Promise<void> {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
   }
 
   interceptOutcomeFormSubmission(event:SubmitEvent):void {
@@ -79,13 +80,18 @@ export default class extends ApplicationController {
 
     this.isSubmittingOutcomeForm = true;
 
-    void this.turboRequests.request(form.action, {
-      method: form.method.toUpperCase(),
+    void this.submitOutcomeForm(form.action, form.method.toUpperCase(), new FormData(form));
+  }
+
+  private async submitOutcomeForm(url:string, method:string, body:FormData):Promise<void> {
+    const { turboRequests } = await this.services;
+    void turboRequests.request(url, {
+      method,
       headers: {
         'X-CSRF-Token': this.csrfToken,
         Accept: 'text/vnd.turbo-stream.html',
       },
-      body: new FormData(form),
+      body,
     }).finally(() => {
       this.isSubmittingOutcomeForm = false;
     });
@@ -113,10 +119,10 @@ export default class extends ApplicationController {
     if (hasUnsavedChanges()) {
       if (window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
         window.OpenProject.pageState = 'pristine';
-        this.sendRequest(url, method);
+        void this.sendRequest(url, method);
       }
     } else {
-      this.sendRequest(url, method);
+      void this.sendRequest(url, method);
     }
   }
 
@@ -126,8 +132,9 @@ export default class extends ApplicationController {
     }
   }
 
-  private sendRequest(url:string, method:string):void {
-    void this.turboRequests.request(url, {
+  private async sendRequest(url:string, method:string):Promise<void> {
+    const { turboRequests } = await this.services;
+    void turboRequests.request(url, {
       method: method,
       headers: {
         'X-CSRF-Token': this.csrfToken,

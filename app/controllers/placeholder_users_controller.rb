@@ -29,6 +29,8 @@
 #++
 
 class PlaceholderUsersController < ApplicationController
+  include OpTurbo::ComponentStream
+
   layout "admin"
   before_action :authorize_global, except: %i[show]
   no_authorization_required! :show
@@ -126,7 +128,7 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def deletion_info
-    respond_to :html
+    respond_with_dialog PlaceholderUsers::DeleteDialogComponent.new(placeholder_user: @placeholder_user)
   end
 
   def destroy

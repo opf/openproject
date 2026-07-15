@@ -22,6 +22,22 @@
 #++
 ---
 pt-BR:
+  activerecord:
+    attributes:
+      gitlab_merge_request:
+        labels: Rótulos
+      gitlab_pipeline:
+        ci_details: Detalhes do CI
+    errors:
+      models:
+        gitlab_issue:
+          attributes:
+            labels:
+              invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
   attributes:
     commit: Confirmar
     gitlab: Identificador do GitLab
@@ -33,25 +49,28 @@ pt-BR:
     gitlab_updated_at: Atualizado em
     gitlab_user_avatar_url: URL da imagem de perfil do GitLab
     gitlab_username: Nome de usuário do GitLab
-  activerecord:
-    attributes:
-      gitlab_pipeline:
-        ci_details: Detalhes do CI
-      gitlab_merge_request:
-        labels: Rótulos
-    errors:
-      models:
-        gitlab_issue:
-          attributes:
-            labels:
-              invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
-        gitlab_merge_request:
-          attributes:
-            labels:
-              invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
-  label_gitlab_integration: Integração do GitLab
+  gitlab_integration:
+    issue_closed_referenced_comment: "**Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**SC Fechada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechada por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**SC Combinada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR Aberto:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Referenciou em Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
   label_gitlab_actor: Ator do GitLab
+  label_gitlab_integration: Integração do GitLab
   label_gitlab_webhook_secret: Segredo do webhook
+  permission_show_gitlab_content: Exibir conteúdo GitLab
+  project_module_gitlab: GitLab
   text_gitlab_actor_info: 'O usuário do OpenProject cuja chave de API deve ser usada para autenticar requisições de webhook recebidas. Quando definido, requisições autenticadas com credenciais de qualquer outro usuário são rejeitadas. Este usuário também publica comentários automatizados em pacotes de trabalho. O padrão é o usuário do sistema quando não for definido.
 
     '
@@ -61,22 +80,3 @@ pt-BR:
   text_gitlab_webhook_secret_missing_warning: 'Nenhum segredo de webhook está configurado. Qualquer requisição ao endpoint de webhook do GitLab será aceita sem verificação, o que pode permitir que agentes não autorizados falsifiquem eventos. É altamente recomendado definir um segredo.
 
     '
-  project_module_gitlab: GitLab
-  permission_show_gitlab_content: Exibir conteúdo GitLab
-  gitlab_integration:
-    merge_request_opened_comment: "**MR Aberto:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi aberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**SC Fechada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi fechada por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**SC Combinada:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi combinado por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**SC Reaberta:** Solicitação de combinação %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) foi reaberta por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Referenciado em Confirmação:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em uma Nota de Confirmação %{commit_id}](%{commit_url}) em [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_mr_referenced_comment: "**Referenciado na SC:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_commented_comment: "**Comentado na SC:** [%{gitlab_user}](%{gitlab_user_url}) comentado este WP em Solicitação de Combinação %{mr_number} [%{mr_title}](%{mr_url}) em [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_issue_referenced_comment: "**Referenciado em Problema:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_commented_comment: "**Comentou em Problema:** [%{gitlab_user}](%{gitlab_user_url}) comentou este WP em Problema %{issue_number} [%{issue_title}](%{issue_url}) em [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_snippet_referenced_comment: "**Referenciou em Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenciou este WP no Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) em [%{repository}](%{repository_url}): %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Problema Aberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi aberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Problema Fechado:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi fechado por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Problema Reaberto:** Problema %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) foi reaberto por [%{gitlab_user}](%{gitlab_user_url}).\n"
-    push_single_commit_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Submetido em %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) submeteu [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"
-    push_multiple_commits_comment: "**Submetido em SC:** [%{gitlab_user}](%{gitlab_user_url}) submeteu várias confirmações [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) em %{commit_timestamp}: %{commit_note}\n"

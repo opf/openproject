@@ -84,18 +84,22 @@
 
       body.with_row(w: :full) do
         form_with(
-          url: project_resource_allocations_path(@project),
-          method: :post,
-          id: ResourceAllocations::NewDialogComponent::FORM_ID,
+          url: form_url,
+          method: form_method,
+          id: form_id,
           data: { turbo_stream: true }
         ) do
-          safe_join(
-            [
-              hidden_field_tag("allocation_kind", @allocation_kind),
-              (hidden_field_tag("filters", @filters) if @filters.present?),
-              *@form_values.map { |name, value| hidden_field_tag("resource_allocation[#{name}]", value) }
-            ].compact
-          )
+          if hidden_fields
+            safe_join(hidden_fields.map { |name, value| hidden_field_tag(name, value) })
+          else
+            safe_join(
+              [
+                hidden_field_tag("allocation_kind", @allocation_kind),
+                (hidden_field_tag("filters", @filters) if @filters.present?),
+                *@form_values.map { |name, value| hidden_field_tag("resource_allocation[#{name}]", value) }
+              ].compact
+            )
+          end
         end
       end
     end

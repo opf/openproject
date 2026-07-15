@@ -1,20 +1,28 @@
 ---
 ar:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: عدد الأعمدة
+        page: 'الصفحة '
+        row_count: عدد الصفوف
+        scope: النطاق
+        widgets: الودجات
+    errors:
+      models:
+        grids/grid:
+          end_before_start: يجب أن تكون قيمة النهاية أكبر من قيمة البداية.
+          outside: هو خارج الشبكة.
+          overlaps: تداخل.
   grids:
     label_widget_in_grid: الويدجت متوفر في الشبكة %{grid_name}
     widgets:
       empty: This widget is currently empty.
-      not_available: This widget is not available.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Members
         no_results: No visible members.
-        view_all_members: عرض جميع الأعضاء
         show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: عرض جميع الأعضاء
         x_more:
           zero: and %{count} more members.
           one: and one more member.
@@ -24,17 +32,14 @@ ar:
           other: and %{count} more members.
       news:
         no_results: لا شيء جديد للتقرير.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: 'الصفحة '
-        row_count: عدد الصفوف
-        column_count: عدد الأعمدة
-        widgets: الودجات
-        scope: النطاق
-    errors:
-      models:
-        grids/grid:
-          overlaps: تداخل.
-          outside: هو خارج الشبكة.
-          end_before_start: يجب أن تكون قيمة النهاية أكبر من قيمة البداية.
+      not_available: This widget is not available.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

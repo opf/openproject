@@ -28,12 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::OpenProject::SubHeader.new) do |subheader|
-      subheader.with_filter_button(
-        icon_only: true,
-        leading_icon: :search,
-        mobile_label: t(:label_filter)
-      )
-
       if render_create_button?
         subheader.with_action_button(
           tag: :a,

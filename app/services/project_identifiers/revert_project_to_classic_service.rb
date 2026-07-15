@@ -65,9 +65,13 @@ module ProjectIdentifiers
     end
 
     def save_identifier!(identifier)
-      # Suppress notifications: this is a background system operation, not a user edit.
-      Journal::NotificationConfiguration.with(false) do
-        project.update!(identifier:)
+      # Attribute the resulting journal to the system user, not the anonymous user: this is a
+      # background system operation, not a user edit.
+      User.system.run_given do
+        # Suppress notifications: this is a background system operation, not a user edit.
+        Journal::NotificationConfiguration.with(false) do
+          project.update!(identifier:)
+        end
       end
     end
 

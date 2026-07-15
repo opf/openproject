@@ -88,7 +88,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   public _container:HTMLElement;
 
   @ViewChild('container')
-  set container(v:ElementRef|undefined) {
+  set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
@@ -239,7 +239,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const { filterName } = service;
         const idFilterName = `${filterName}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
-        const instance = _.find(options.filters, (f) => !!f[filterName] || !!f[idFilterName]);
+        const instance = options.filters.find((f) => !!f[filterName] || !!f[idFilterName]);
 
         if (instance) {
           return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;

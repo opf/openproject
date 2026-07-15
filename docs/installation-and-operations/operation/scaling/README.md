@@ -110,4 +110,3 @@ workers:
         memory: "4Gi"
         cpu: "4"
 ```
-

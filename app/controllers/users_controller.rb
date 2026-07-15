@@ -115,7 +115,7 @@ class UsersController < ApplicationController
     prepare_views_for_tab
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     call = Users::CreateService
            .new(user: current_user)
            .call(create_params)
@@ -124,7 +124,7 @@ class UsersController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
+      redirect_to helpers.allowed_management_user_profile_path(@user)
     else
       @contract = Users::CreateContract.new(@user, current_user)
       render action: :new, status: :unprocessable_entity
@@ -160,8 +160,10 @@ class UsersController < ApplicationController
     call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
 
     if call.success?
+      department_result = update_department
+
       if update_params[:password].present? && @user.change_password_allowed?
-        send_information = params[:send_information]
+        send_information = params[:send_information].present? || assign_random_password?
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
@@ -182,7 +184,11 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          flash[:notice] = I18n.t(:notice_successful_update)
+          if department_result&.failure?
+            flash[:error] = department_result.errors.full_messages.join("\n")
+          else
+            flash[:notice] = I18n.t(:notice_successful_update)
+          end
           redirect_to action: :edit
         end
       end
@@ -391,6 +397,10 @@ class UsersController < ApplicationController
     params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
   end
 
+  def assign_random_password?
+    ActiveModel::Type::Boolean.new.cast(params.dig(:user, :assign_random_password))
+  end
+
   protected
 
   def build_user_update_params # rubocop:disable Metrics/AbcSize
@@ -402,7 +412,7 @@ class UsersController < ApplicationController
 
     return update_params unless @user.change_password_allowed?
 
-    if params[:user][:assign_random_password]
+    if assign_random_password?
       password = OpenProject::Passwords::Generator.random_password
       update_params.merge!(
         password:,
@@ -423,6 +433,38 @@ class UsersController < ApplicationController
     update_params
   end
 
+  # Reconciles the user's department membership with the submitted department_id.
+  # Editing the department is restricted to administrators; the field is disabled
+  # in the form for everyone else, and this guard prevents bypassing that.
+  # Returns the ServiceResult of the membership change, or nil when nothing changed.
+  def update_department
+    return unless current_user.active_admin?
+    return unless params[:user]&.key?(:department_id)
+
+    target_id = params[:user][:department_id].presence&.to_i
+    current = @user.department
+    return if target_id == current&.id
+
+    target_id ? assign_department(target_id) : remove_department(current)
+  end
+
+  def assign_department(department_id)
+    department = Group.organizational_units.find_by(id: department_id)
+    return unless department
+
+    Departments::AddUserService
+      .new(department, user: current_user)
+      .call(user_id: @user.id, remove_from_previous_department: true)
+  end
+
+  def remove_department(department)
+    return unless department
+
+    Departments::RemoveUserService
+      .new(department, user: current_user)
+      .call(user_id: @user.id)
+  end
+
   def create_params
     permitted_params
       .user_create_as_admin(false, false)
@@ -436,20 +478,18 @@ class UsersController < ApplicationController
     update_via_turbo_stream(component: Users::UserFilterButtonComponent.new(query: @query))
     replace_via_turbo_stream(component: Users::TableComponent.new(rows: @query, current_user:))
     turbo_streams << turbo_stream.push_state(url_for(params.permit(:filters, :sortBy, :sort, :page, :per_page, :columns)))
-    turbo_streams << turbo_stream.replace("primerized-flash-messages", helpers.render_flash_messages)
+    turbo_streams << helpers.render_flash_messages_as_turbo_streams
     render turbo_stream: turbo_streams
   end
 
   def prepare_views_for_tab # rubocop:disable Metrics/AbcSize
     if params[:tab] == "non_working_times"
       authorize_manage_working_times
-      check_working_times_feature_flag_is_active
 
       @year = (params[:year].presence || Date.current.year).to_i
       @non_working_times = @user.non_working_time_entities_for_year(@year)
     elsif params[:tab] == "working_hours"
       authorize_manage_working_times
-      check_working_times_feature_flag_is_active
 
       @current_working_hours = @user.working_hours.current
 

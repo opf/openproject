@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -39,6 +39,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { snakeCase } from 'lodash-es';
 import { firstValueFrom } from 'rxjs';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
@@ -54,7 +55,7 @@ export const ATTRIBUTE_MACRO_CLASS = 'op-attribute-value-macro';
   standalone: false,
 })
 export class AttributeValueMacroComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly resourceLoader = inject(AttributeModelLoaderService);
   readonly schemaCache = inject(SchemaCacheService);
@@ -68,24 +69,27 @@ export class AttributeValueMacroComponent implements OnInit {
   error:string|null = null;
 
   text = {
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: (model:SupportedAttributeModels) => this.I18n.t(
+      `js.editor.macro.attribute_reference.aria_label_${snakeCase(model)}_attribute`,
+    ),
     placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  ariaContext = '';
 
   resource:HalResource;
 
   fieldName:string;
 
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
+    this.ariaContext = this.text.aria_label(model);
 
     if (this.isNestedMacro(model, id, attributeName)) {
       const error = this.I18n.t('js.editor.macro.attribute_reference.nested_macro', { model, id });
@@ -96,7 +100,7 @@ export class AttributeValueMacroComponent implements OnInit {
   }
 
   private isNestedMacro(model:SupportedAttributeModels, id:string, attributeName:string):boolean {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const parent = element.parentElement;
     return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${model}"][data-id="${id}"][data-attribute="${attributeName}"]`);
   }
@@ -120,7 +124,7 @@ export class AttributeValueMacroComponent implements OnInit {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     const proxied = this.schemaCache.proxied(resource, schema);
-    const attribute = schema.attributeFromLocalizedName(attributeName) || this.dateAttribute(resource, proxied, attributeName);
+    const attribute = schema.attributeFromLocalizedName(attributeName) ?? this.dateAttribute(resource, proxied, attributeName);
     const fieldSchema = proxied.ofProperty(attribute) as IFieldSchema|undefined;
 
     if (fieldSchema) {

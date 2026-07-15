@@ -55,10 +55,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
     end
     let(:input_data) { Wikis::Adapters::Input::ReferencingPages.build(linkable:).value! }
     let(:query) { described_class.new(model: wiki_provider) }
+    let(:resolved_page_references) { result.value!.map(&:value!) }
+    let(:resolved_identifiers) { resolved_page_references.map { it.page_info.identifier } }
+    let(:resolved_sources) { resolved_page_references.map(&:source) }
 
     subject(:result) { query.call(input_data:, auth_strategy:) }
 
-    context "when the same page appears multiple times in results" do
+    context "when the same page appears multiple times in link results" do
       let(:duplicate_id) { "xwiki:Main.WebHome" }
       let(:same_title_different_id) { "xwiki:Other.WebHome" }
 
@@ -72,6 +75,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
           provider: wiki_provider,
           linkable:
         )
+        stub_mentions([], provider: wiki_provider, linkable:)
         stub_canonical_page_info(duplicate_id,
                                  uid: "aaa111",
                                  title: "Home",
@@ -87,17 +91,113 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       it { is_expected.to be_success }
 
       it "deduplicates by page identifier, not by title" do
-        expect(result.value!.map { it.value!.identifier }).to contain_exactly("aaa111", "bbb222")
+        expect(resolved_identifiers).to contain_exactly("aaa111", "bbb222")
+      end
+
+      it "tags all results as :parent" do
+        expect(resolved_sources).to all(eq(:parent))
       end
     end
 
-    context "when the search request fails" do
+    context "with mixed link and mention pages" do
+      let(:link_only_id) { "xwiki:Link.Only" }
+      let(:shared_id) { "xwiki:Shared.Page" }
+      let(:mention_only_id) { "xwiki:Mention.Only" }
+
       before do
-        stub_request(:get, search_endpoint(linkable, provider: wiki_provider))
-          .to_return(status: 500, body: "Internal Server Error")
+        stub_search([{ "id" => link_only_id }, { "id" => shared_id }], provider: wiki_provider, linkable:)
+        stub_mentions([{ "id" => shared_id }, { "id" => mention_only_id }], provider: wiki_provider, linkable:)
+        stub_canonical_page_info(link_only_id, uid: "aaa111", title: "Link Only",
+                                               href: "https://xwiki.example.com/link/", provider: wiki_provider)
+        stub_canonical_page_info(shared_id, uid: "bbb222", title: "Shared",
+                                            href: "https://xwiki.example.com/shared/", provider: wiki_provider)
+        stub_canonical_page_info(mention_only_id, uid: "ccc333", title: "Mention Only",
+                                                  href: "https://xwiki.example.com/mention/", provider: wiki_provider)
       end
 
-      it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
+      it "returns each page exactly once" do
+        expect(resolved_identifiers).to contain_exactly("aaa111", "bbb222", "ccc333")
+      end
+
+      it "assigns sources correctly" do
+        sources_by_identifier = result.value!.to_h { [it.value!.page_info.identifier, it.value!.source] }
+        expect(sources_by_identifier).to eq("aaa111" => :parent, "bbb222" => :parent, "ccc333" => :mention)
+      end
+    end
+
+    context "with a single page" do
+      let(:page_id) { "xwiki:Main.WebHome" }
+
+      before do
+        stub_canonical_page_info(page_id,
+                                 uid: "aaa111",
+                                 title: "Home",
+                                 href: "https://xwiki.example.com/bin/view/Main/",
+                                 provider: wiki_provider)
+      end
+
+      context "when a page appears in both links and mentions" do
+        before do
+          stub_search([{ "id" => page_id, "title" => "Home" }], provider: wiki_provider, linkable:)
+          stub_mentions([{ "id" => page_id }], provider: wiki_provider, linkable:)
+        end
+
+        it "returns the page only once" do
+          expect(resolved_identifiers).to contain_exactly("aaa111")
+        end
+
+        it "tags the shared page as :parent" do
+          expect(resolved_sources).to contain_exactly(:parent)
+        end
+      end
+
+      context "when pages appear only in mentions" do
+        before do
+          stub_search([], provider: wiki_provider, linkable:)
+          stub_mentions([{ "id" => page_id }], provider: wiki_provider, linkable:)
+        end
+
+        it "includes pages from the mentions endpoint" do
+          expect(resolved_identifiers).to contain_exactly("aaa111")
+        end
+
+        it "tags mention-only pages as :mention" do
+          expect(resolved_sources).to contain_exactly(:mention)
+        end
+      end
+
+      context "when the mentions request fails" do
+        before do
+          stub_search([{ "id" => page_id, "title" => "Home" }], provider: wiki_provider, linkable:)
+          stub_request(:get, mentions_endpoint(linkable, provider: wiki_provider))
+            .to_return(status: 500, body: "Internal Server Error")
+        end
+
+        it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
+      end
+    end
+
+    context "when the links request fails" do
+      context "with a server error" do
+        before do
+          stub_request(:get, search_endpoint(linkable, provider: wiki_provider))
+            .to_return(status: 500, body: "Internal Server Error")
+        end
+
+        it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
+      end
+
+      context "when unauthorized" do
+        before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_return(status: 401, body: "") }
+
+        it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
+      end
+
+      context "when timing out" do
+        before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_timeout }
+
+        it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
+      end
     end
 
     context "when no OAuth token exists for the user" do
@@ -106,34 +206,25 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :missing_token)) }
     end
 
-    context "when the search request returns unauthorized" do
-      before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_return(status: 401, body: "") }
-
-      it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
-    end
-
-    context "when the search request times out" do
-      before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_timeout }
-
-      it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
-    end
-
-    context "with real XWiki responses", vcr: "xwiki/referencing_pages" do
+    # VCR setup: replace installation_uuid with one accepted by your XWiki instance (possible to search-and-replace it afterwards)
+    context "with real XWiki responses", vcr: "xwiki/referencing_pages", with_settings: { installation_uuid: "test_uuid" } do
       let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
       let(:linkable) { create(:work_package, id: 14) }
       let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
 
-      it "returns PageInfo for all linked pages" do
+      it "returns PageReference for all linked and mentioned pages" do
         expect(result).to be_success
-        expect(result.value!.map { it.value!.to_h.except(:provider) }).to contain_exactly(
+        expect(result.value!.map { it.value!.page_info.to_h.except(:provider) }).to contain_exactly(
           { identifier: "48944", title: "OpenProject integration", href: "https://xwiki.local/bin/view/test/" },
           { identifier: "42f2f", title: "Def New Page", href: "https://xwiki.local/bin/view/test/Def%20New%20Page/" },
-          { identifier: "a3739", title: "Just a normal page", href: "https://xwiki.local/bin/view/Just%20a%20normal%20page/" }
+          { identifier: "a3739", title: "Just a normal page", href: "https://xwiki.local/bin/view/Just%20a%20normal%20page/" },
+          { identifier: "f58c0", title: "Test reference", href: "https://xwiki.local/bin/view/Test%20reference/" }
         )
       end
     end
 
-    context "with no linked pages in XWiki (VCR)", vcr: "xwiki/referencing_pages_empty" do
+    context "with no linked pages in XWiki (VCR)", vcr: "xwiki/referencing_pages_empty",
+                                                   with_settings: { installation_uuid: "test_uuid" } do
       let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
       let(:linkable) { create(:work_package, id: 21) }
       let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }

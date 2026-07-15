@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debounce } from 'lodash-es';
 import {
   AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
 } from '@angular/core';
@@ -60,9 +61,9 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   private pendingMode:string|undefined;
 
-  public debouncedLanguageLoader = _.debounce(() => this.loadLanguageAsMode(this.language), 300);
+  public debouncedLanguageLoader = debounce(() => this.loadLanguageAsMode(this.language), 300);
 
-  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef;
+  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLTextAreaElement>;
 
   readonly I18n = inject(I18nService);
   readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
@@ -101,7 +102,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   ngAfterViewInit():void {
     void this.codeMirrorLoader.loadCore().then((CodeMirror) => {
       this.codeMirrorInstance = CodeMirror.fromTextArea(
-        this.codeMirrorPane.nativeElement as HTMLTextAreaElement,
+        this.codeMirrorPane.nativeElement,
         {
           lineNumbers: true,
           smartIndent: true,

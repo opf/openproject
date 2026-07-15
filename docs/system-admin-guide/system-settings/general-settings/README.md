@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: General settings
-  priority: 990
+  priority: 900
 description: General system settings in OpenProject.
 keywords: general settings
 ---

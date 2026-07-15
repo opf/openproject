@@ -31,6 +31,7 @@ import {
   InputState,
 } from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
+import { cloneDeep } from 'lodash-es';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
@@ -219,7 +220,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public get changes():Record<string, unknown> {
     const changes:Record<string, unknown> = {};
 
-    _.each(this.changeset.all, (item, key) => {
+    Object.entries(this.changeset.all).forEach(([key, item]) => {
       changes[key] = item.to;
     });
 
@@ -256,7 +257,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param attribute
    */
   public humanName(attribute:string):string {
-    return _.get(this.schema, `${attribute}.name`, attribute);
+    return (this.schema?.[attribute] as { name?:string }|undefined)?.name ?? attribute;
   }
 
   /**
@@ -389,7 +390,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       reference = this.form$.value.payload.$source;
     }
 
-    _.each(this.changeset.all, (val:ChangeItem, key:string) => {
+    Object.entries(this.changeset.all).forEach(([key, val]) => {
       if (!this.schema.isAttributeEditable(key)) {
         debugLog(`Trying to write ${key} but is not writable in schema`);
         return;
@@ -425,9 +426,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       // to let all default values be transmitted (type, status, etc.)
       // We clone the object to avoid later manipulations to affect the original resource.
       if (this.form$.value) {
-        payload = _.cloneDeep(this.form$.value.payload.$source);
+        payload = cloneDeep((this.form$.value.payload as { $source:unknown }).$source) as typeof payload;
       } else {
-        payload = _.cloneDeep(this.pristineResource.$source);
+        payload = cloneDeep(this.pristineResource.$source) as typeof payload;
       }
 
       // Add attachments to be assigned.
@@ -459,7 +460,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected getLinkedValue(val:any, fieldSchema:IFieldSchema) {
     // Links should always be nullified as { href: null }, but
     // this wasn't always the case, so ensure null values are returned as such.
-    if (_.isNil(val)) {
+    if (val == null) {
       return { href: null };
     }
 
@@ -487,7 +488,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
 
       return links;
     }
-    return { href: _.get(val, 'href', null) };
+    return { href: (val as { href?:string }|null|undefined)?.href ?? null };
   }
 
   /**
@@ -495,7 +496,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * that we need to set.
    */
   protected setNewDefaults(form:FormResource) {
-    _.each(form.payload, (val:unknown, key:string) => {
+    Object.entries(form.payload as Record<string, unknown>).forEach(([key, val]) => {
       const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
       if (!fieldSchema?.writable && !fieldSchema?.required) {
         return;

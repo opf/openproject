@@ -57,7 +57,7 @@ module Components
 
       def confirm_deletion
         within_dialog do
-          check "I understand that this deletion cannot be reversed"
+          check "I understand that this deletion cannot be reversed."
           expect(page).to have_button "Delete permanently", disabled: false
           click_button "Delete permanently"
         end

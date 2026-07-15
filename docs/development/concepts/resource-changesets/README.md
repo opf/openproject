@@ -11,7 +11,7 @@ Resource changesets allow to edit resources in a transparent way, tracking its c
 
 ## Key takeaways
 
-*Changesets ...*
+_Changesets ..._
 
 - are created temporarily when editing HAL resources such as work packages
 - contain an isolated object of changes to apply when the resource is saved
@@ -36,9 +36,9 @@ The `ResourceChangeset` class is a temporarily created class whose lifetime is d
 
 The changeset maintains references to
 
-* The source HAL resource (a pristine, unchanged version) such as a work package
-* The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
-* The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
+- The source HAL resource (a pristine, unchanged version) such as a work package
+- The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
+- The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
 
 The changeset provides a high level access to getting and writing changes as well as caching resources around editing to avoid reloading them too often. It also provides access to a `projectedResource`, which is a proxy class on the HAL resource with all overridden values returned from the changeset. It behaves as if the modified resource was saved and returned.
 
@@ -46,7 +46,7 @@ The ResourceChangeset is possibly subclassed for specific HAL resource types. Fo
 
 ### HalResourceEditingService
 
-In order to *create*, *remove* or *saving* changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
+In order to _create_, _remove_ or _saving_ changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
 
 The main entry point for editing changesets is `HalResourceEditingService#changeFor`, which will either continue editing an existing changeset, or create a new one for the given class.
 
@@ -99,7 +99,7 @@ Assume you start creating a new work package of type `Task`, and then switch to 
 
 ![Type switching resulting in new attributes](type-switching.gif)
 
-For this to work, the `WorkPackageSingleView` needs to have access to the work package *as if it was saved* after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
+For this to work, the `WorkPackageSingleView` needs to have access to the work package _as if it was saved_ after the type was changed. But the work package is a new resource and not yet actually saved. That's why `HalResourceEditingService#temporaryEditingResource` returns an observable state that returns either the pristine work package, or the proxied work package by the changeset to transparently access the modified-yet-unsaved work package resource.
 
 ## Additional resources
 

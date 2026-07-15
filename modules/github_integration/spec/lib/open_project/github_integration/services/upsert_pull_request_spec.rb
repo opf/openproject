@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -33,9 +35,9 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   let(:params) do
     {
-      "id" => 123,
+      "id" => github_id,
       "number" => 5,
-      "html_url" => "https://github.com/test_user/repo",
+      "html_url" => github_html_url,
       "updated_at" => "20210409T12:13:14Z",
       "state" => pr_state,
       "title" => "The PR title",
@@ -50,7 +52,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
       "base" => {
         "repo" => {
           "full_name" => "test_user/repo",
-          "html_url" => "https://github.com/test_user/repo"
+          "html_url" => github_html_url
         }
       },
       "user" => user_payload,
@@ -77,6 +79,8 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
   let(:work_packages) { create_list(:work_package, 1) }
   let(:github_user) { create(:github_user) }
   let(:upsert_github_user_service) { instance_double(OpenProject::GithubIntegration::Services::UpsertGithubUser) }
+  let(:github_id) { 123 }
+  let(:github_html_url) { "https://github.com/test_user/repo" }
 
   before do
     allow(OpenProject::GithubIntegration::Services::UpsertGithubUser).to receive(:new).and_return(upsert_github_user_service)
@@ -89,9 +93,9 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
     expect(upsert_github_user_service).to have_received(:call).with(user_payload)
 
     expect(GithubPullRequest.last).to have_attributes(
-      github_id: 123,
+      github_id:,
       number: 5,
-      github_html_url: "https://github.com/test_user/repo",
+      github_html_url:,
       github_updated_at: Time.zone.parse("20210409T12:13:14Z"),
       state: "open",
       title: "The PR title",
@@ -114,11 +118,22 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context "when a github pull request with that id already exists" do
     let(:github_pull_request) do
-      create(:github_pull_request, github_id: 123, title: "old title")
+      create(:github_pull_request, github_id:, github_html_url:, title: "old title")
     end
 
     it "updates the github pull request" do
       expect { upsert }.to change { github_pull_request.reload.title }.from("old title").to("The PR title")
+    end
+  end
+
+  context "when the repository was renamed and only the id still matches" do
+    let!(:github_pull_request) do
+      create(:github_pull_request, github_id:, github_html_url: "https://github.com/test_user/old_repo_name")
+    end
+
+    it "updates the existing record and stores the new url instead of duplicating" do
+      expect { upsert }.not_to change(GithubPullRequest, :count)
+      expect(github_pull_request.reload.github_html_url).to eql github_html_url
     end
   end
 
@@ -132,21 +147,21 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
              review_comments_count: nil,
              additions_count: nil,
              deletions_count: nil,
-             github_html_url: "https://github.com/test_user/repo",
+             github_html_url:,
              state: "closed")
     end
 
-    it "updates the github pull request" do
+    it "promotes the partial pull request in place instead of creating a duplicate" do
       expect { upsert }.to change { github_pull_request.reload.state }.from("closed").to("open")
 
+      expect(GithubPullRequest.where(github_html_url:).count).to eq(1)
       expect(github_pull_request).to have_attributes(
-        github_id: 123,
-        state: "open",
+        github_id:,
         number: 5,
         title: "The PR title",
         body: "The PR body",
-        github_html_url: "https://github.com/test_user/repo",
-        github_updated_at: DateTime.parse("20210409T12:13:14Z"),
+        github_html_url:,
+        github_updated_at: Time.zone.parse("20210409T12:13:14Z"),
         repository: "test_user/repo"
       )
     end
@@ -154,7 +169,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context "when a github pull request with that id and work_package exists" do
     let(:github_pull_request) do
-      create(:github_pull_request, github_id: 123, work_packages:)
+      create(:github_pull_request, github_id:, github_html_url:, work_packages:)
     end
 
     it "does not change the associated work packages" do
@@ -164,7 +179,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context "when a github pull request with that id and work_package exists and a new work_package is referenced" do
     let(:github_pull_request) do
-      create(:github_pull_request, github_id: 123,
+      create(:github_pull_request, github_id:, github_html_url:,
                                    work_packages: already_known_work_packages)
     end
     let(:work_packages) { create_list(:work_package, 2) }
@@ -192,7 +207,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
       expect(upsert_github_user_service).to have_received(:call).with(user_payload).twice
 
       expect(GithubPullRequest.last).to have_attributes(
-        github_id: 123,
+        github_id:,
         github_user:,
         merged: true,
         merged_by: github_user,
@@ -206,7 +221,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
     let(:labels_payload) do
       [
         {
-          "id" => 123456789,
+          "id" => 42,
           "name" => "grey",
           "color" => "#666",
           "description" => "An evil'ish gray tone"
@@ -224,7 +239,7 @@ RSpec.describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
       expect { upsert }.to change(GithubPullRequest, :count).by(1)
 
       expect(GithubPullRequest.last).to have_attributes(
-        github_id: 123,
+        github_id:,
         labels: [
           {
             "name" => "grey",

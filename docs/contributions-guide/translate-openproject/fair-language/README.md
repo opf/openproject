@@ -20,9 +20,9 @@ This means that, where possible, we have opted for gender neutral wording, and w
 
 To make sure that our translations are as close to the original English version as possible, there are a few tricks we can employ to help lay the groundwork for gender neutral translations in German:
 
-* Address the user directly: "Click the button." instead of "The user clicks the button."
-* Use terms not specific to one person: "Project management" instead of "project manager"
-* Use the plural of the people you are describing: "Users" instead of "user"
-* Use a neutral word: "Team members" instead of "Employees"
+- Address the user directly: "Click the button." instead of "The user clicks the button."
+- Use terms not specific to one person: "Project management" instead of "project manager"
+- Use the plural of the people you are describing: "Users" instead of "user"
+- Use a neutral word: "Team members" instead of "Employees"
 
 Changing the way a language is spoken and written isn't a one time effort. We will inevitably make mistakes, in the source text and in the translations. Thank you for helping us get better at inclusive language every day.

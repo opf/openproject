@@ -65,6 +65,38 @@ RSpec.describe "Sprint displayed and selectable on work package view", :js do
     wp_page.expect_attributes sprint: next_sprint.name
   end
 
+  context "when attempting to assign the wp to a bucket" do
+    shared_let(:bucket) { create(:backlog_bucket, name: "Bucket", project:) }
+
+    it "clears the sprint (and the other way around) instead of throwing an error" do
+      wp_page.visit!
+
+      wp_page.expect_attributes sprint: sprint.name, backlog_bucket: nil
+
+      # Assign to bucket
+      field = wp_page.work_package_field(:backlog_bucket)
+      field.activate!
+      field.autocomplete(bucket.name, select: true)
+      wp_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
+
+      # Sprint was unassigned, bucket is assigned
+      wp_page.expect_attributes sprint: nil, backlog_bucket: bucket.name
+      wp_page.visit!
+      wp_page.expect_attributes sprint: nil, backlog_bucket: bucket.name
+
+      # Assign to sprint
+      field = wp_page.work_package_field(:sprint)
+      field.activate!
+      field.autocomplete(sprint.name, select: true)
+      wp_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
+
+      # Bucket was unassigned, sprint is assigned
+      wp_page.expect_attributes sprint: sprint.name, backlog_bucket: nil
+      wp_page.visit!
+      wp_page.expect_attributes sprint: sprint.name, backlog_bucket: nil
+    end
+  end
+
   context "when lacking the permission to see sprints" do
     let(:permissions) { %i(view_work_packages) }
 

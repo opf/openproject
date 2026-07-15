@@ -82,8 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(
             Wikis::PageLinkComponent.new(
               page_link_aggregate.page_info_result,
-              actions: [:remove],
-              page_link: page_link_aggregate.page_link
+              menu_actions: menu_actions_for(page_link_aggregate.page_link)
             )
           )
         end

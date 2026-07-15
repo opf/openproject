@@ -34,8 +34,23 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
+      # `dialog_id` names the dialog the cancel button closes: the create
+      # wizard's by default, the edit dialog's when confirming an update. The
+      # Staffing flow passes its own dialog/form/footer ids and submit label.
+      def initialize(dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
+                     form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
+                     footer_id: ResourceAllocations::NewDialogComponent::FOOTER_ID,
+                     submit_label: I18n.t("resource_management.allocate_resource_dialog.submit"))
+        super
+
+        @dialog_id = dialog_id
+        @form_id = form_id
+        @footer_id = footer_id
+        @submit_label = submit_label
+      end
+
       def wrapper_key
-        ResourceAllocations::NewDialogComponent::FOOTER_ID
+        @footer_id
       end
 
       def call
@@ -44,7 +59,7 @@ module ResourceAllocations
             render(
               Primer::Beta::Button.new(
                 scheme: :invisible,
-                form: ResourceAllocations::NewDialogComponent::FORM_ID,
+                form: @form_id,
                 type: :submit,
                 name: "back",
                 value: "1"
@@ -58,7 +73,7 @@ module ResourceAllocations
           footer.with_column(mr: 1) do
             render(
               Primer::Beta::Button.new(
-                data: { "close-dialog-id": ResourceAllocations::NewDialogComponent::DIALOG_ID }
+                data: { "close-dialog-id": @dialog_id }
               )
             ) { I18n.t(:button_cancel) }
           end
@@ -67,12 +82,12 @@ module ResourceAllocations
             render(
               Primer::Beta::Button.new(
                 scheme: :danger,
-                form: ResourceAllocations::NewDialogComponent::FORM_ID,
+                form: @form_id,
                 type: :submit,
                 name: "confirmed",
                 value: "1"
               )
-            ) { I18n.t("resource_management.allocate_resource_dialog.submit") }
+            ) { @submit_label }
           end
         end
       end

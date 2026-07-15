@@ -33,11 +33,11 @@ require "rails_helper"
 RSpec.describe Grids::Widgets::FavoriteProjects, type: :component do
   include Rails.application.routes.url_helpers
 
-  shared_let(:admin) { create(:admin) }
+  shared_let(:user) { create(:admin) }
 
-  current_user { admin }
+  current_user { user }
 
-  subject(:rendered_component) { render_inline(described_class.new(current_user: admin)) }
+  subject(:rendered_component) { render_inline(described_class.new(current_user: user)) }
 
   context "with no favorite projects" do
     let!(:visible_project) { create(:project, name: "Visible project") }
@@ -57,7 +57,7 @@ RSpec.describe Grids::Widgets::FavoriteProjects, type: :component do
     let!(:visible_project) { create(:project, name: "Visible project") }
 
     before do
-      create(:favorite, user: admin, favorited: favorite_project)
+      create(:favorite, user:, favorited: favorite_project)
     end
 
     it "renders only favorite projects and a link to all projects" do
@@ -73,23 +73,32 @@ RSpec.describe Grids::Widgets::FavoriteProjects, type: :component do
     end
 
     context "when a favorited project is not visible to the user" do
-      let(:user) { create(:user) }
+      let(:non_admin) { create(:user) }
       let!(:favorite_project) { create(:public_project, name: "Visible favorite project") }
       let!(:invisible_favorite_project) { create(:private_project, name: "Invisible favorite project") }
 
-      current_user { user }
+      current_user { non_admin }
 
       subject(:rendered_component) { render_inline(described_class.new(current_user: user)) }
 
       before do
-        create(:favorite, user:, favorited: favorite_project)
-        create(:favorite, user:, favorited: invisible_favorite_project)
+        create(:favorite, user: non_admin, favorited: favorite_project)
+        create(:favorite, user: non_admin, favorited: invisible_favorite_project)
       end
 
       it "only renders visible favorite projects" do
         expect(rendered_component).to have_link(favorite_project.name, href: project_path(favorite_project))
         expect(rendered_component).to have_no_link(invisible_favorite_project.name)
       end
+    end
+  end
+
+  context "when being an anonymous user" do
+    let!(:project) { create(:public_project, name: "Visible favorite project") }
+    let(:user) { create(:anonymous) }
+
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

@@ -75,8 +75,9 @@ RSpec.describe ResourcePlanner do
       let(:start_date) { nil }
       let(:end_date) { Date.new(2026, 1, 2) }
 
-      it "is valid" do
-        expect(planner).to be_valid
+      it "is invalid, as the timeframe is picked as a range" do
+        expect(planner).not_to be_valid
+        expect(planner.errors.symbols_for(:start_date)).to include(:required_with_end_date)
       end
     end
 
@@ -84,8 +85,9 @@ RSpec.describe ResourcePlanner do
       let(:start_date) { Date.new(2026, 1, 2) }
       let(:end_date) { nil }
 
-      it "is valid" do
-        expect(planner).to be_valid
+      it "is invalid, as the timeframe is picked as a range" do
+        expect(planner).not_to be_valid
+        expect(planner.errors.symbols_for(:end_date)).to include(:required_with_start_date)
       end
     end
 
@@ -142,10 +144,70 @@ RSpec.describe ResourcePlanner do
     end
   end
 
+  describe "child entity counts" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+    shared_let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
+    end
+    shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+
+    let(:planner) { create(:resource_planner, project:, principal: user) }
+
+    before { login_as(user) }
+
+    def work_package_view(work_packages)
+      query = Query.new_default(project:, user:).tap do |q|
+        q.name = "q"
+        q.add_filter("manual_sort", "ow", [])
+        q.sort_criteria = [%w[manual_sorting asc]]
+        q.save!
+      end
+      ResourceWorkPackageList.create!(name: "List", parent: planner, project:, principal: user, query:)
+      work_packages.each_with_index { |wp, i| query.ordered_work_packages.create!(work_package: wp, position: i + 1) }
+    end
+
+    def user_view(members)
+      query = UserQuery.new(name: "People", project:, principal: user).tap do |q|
+        q.manual_elements = true
+        q.save!
+      end
+      ResourceUserCard.create!(name: "Card", parent: planner, project:, principal: user, query:)
+      members.each_with_index { |m, i| query.ordered_entities.create!(entity: m, position: i + 1) }
+    end
+
+    describe "#work_package_count" do
+      it "is zero without any work-package views" do
+        expect(planner.reload.work_package_count).to eq(0)
+      end
+
+      it "counts work packages distinct across all work-package views" do
+        first, second = create_list(:work_package, 2, project:)
+        shared = create(:work_package, project:)
+        work_package_view([first, shared])
+        work_package_view([second, shared])
+
+        expect(planner.reload.work_package_count).to eq(3)
+      end
+    end
+
+    describe "#member_count" do
+      it "is zero without any user views" do
+        expect(planner.reload.member_count).to eq(0)
+      end
+
+      it "counts members distinct across all user views" do
+        user_view([user, member])
+        user_view([member])
+
+        expect(planner.reload.member_count).to eq(2)
+      end
+    end
+  end
+
   describe ".allowed_child_class" do
     it "resolves an allowed child name to its class" do
       expect(described_class.allowed_child_class("ResourceWorkPackageList")).to eq(ResourceWorkPackageList)
-      expect(described_class.allowed_child_class("UserCard")).to eq(UserCard)
+      expect(described_class.allowed_child_class("ResourceUserCard")).to eq(ResourceUserCard)
     end
 
     it "returns nil for a real but disallowed constant" do
@@ -160,7 +222,7 @@ RSpec.describe ResourcePlanner do
     end
 
     it "is scoped per view type: a leaf view allows no children" do
-      expect(ResourceWorkPackageList.allowed_child_class("UserCard")).to be_nil
+      expect(ResourceWorkPackageList.allowed_child_class("ResourceUserCard")).to be_nil
     end
   end
 end

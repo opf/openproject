@@ -41,6 +41,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
+<% if @provider.configured_from_env? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :info)) { t("admin.banners.environment_configured_readonly") } %>
+<% end %>
+
 <%=
   primer_form_with(model: @provider, url: admin_settings_internal_wiki_provider_path) do |form|
     render(Wikis::Admin::InternalProviderForm.new(form))

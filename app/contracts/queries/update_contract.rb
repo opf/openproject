@@ -32,7 +32,10 @@ require "queries/base_contract"
 
 module Queries
   class UpdateContract < BaseContract
+    include UnchangedProject
+
     validate :user_allowed_to_change
+    validate :user_allowed_to_manage_public_in_destination_project
 
     ##
     # Check if the current user may save the changes
@@ -55,6 +58,17 @@ module Queries
     end
 
     def user_allowed_to_change_public
+      with_unchanged_project_id do
+        if may_not_manage_queries?
+          errors.add :base, :error_unauthorized
+        end
+      end
+    end
+
+    def user_allowed_to_manage_public_in_destination_project
+      return unless model.project_id_changed?
+      return unless model.public? || model.public_was
+
       if may_not_manage_queries?
         errors.add :base, :error_unauthorized
       end

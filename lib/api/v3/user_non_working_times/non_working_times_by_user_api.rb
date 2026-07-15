@@ -34,7 +34,6 @@ module API
       class NonWorkingTimesByUserAPI < ::API::OpenProjectAPI
         resource :non_working_times do
           after_validation do
-            guard_feature_flag :user_working_times
             raise API::Errors::NotFound unless @user == current_user || current_user.allowed_globally?(:manage_working_times)
           end
 

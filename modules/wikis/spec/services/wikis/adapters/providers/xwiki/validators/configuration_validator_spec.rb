@@ -23,17 +23,23 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::ConfigurationValidator do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::ConfigurationValidator, :webmock do
   subject(:validation_result) { described_class.new(provider).call }
 
-  let(:provider) { create(:xwiki_provider, :with_oauth_configured) }
+  let(:provider) { create(:xwiki_provider, :for_local_connection, universal_identifier: instance_id) }
+  let(:instance_id) { "xwiki-instance-abc123" }
+
+  before do
+    stub_request(:get, "https://xwiki.local/rest/openproject/metadata")
+      .to_return(status: 200, body: { instanceId: instance_id }.to_json, headers: { "Content-Type" => "application/json" })
+  end
 
   it "returns a ResultGroup" do
     expect(validation_result).to be_a(HealthReport::ResultGroup)
@@ -49,6 +55,28 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::ConfigurationValid
 
     it "indicates that the provider is not configured" do
       expect(validation_result[:provider_configured].code).to eq(:not_configured)
+    end
+  end
+
+  context "when the XWiki instance can't be reached" do
+    before do
+      stub_request(:get, "https://xwiki.local/rest/openproject/metadata").to_timeout
+    end
+
+    it { is_expected.to be_failure }
+
+    it "indicates that the provider could not be reached" do
+      expect(validation_result[:universal_id_known].code).to eq(:connection_error)
+    end
+  end
+
+  context "when the XWiki instance reports a different installation ID" do
+    let(:provider) { create(:xwiki_provider, :for_local_connection, universal_identifier: "different-known-id") }
+
+    it { is_expected.to be_warning }
+
+    it "indicates that the ID mismatched the known ID" do
+      expect(validation_result[:universal_id_known].code).to eq(:uid_mismatch)
     end
   end
 end

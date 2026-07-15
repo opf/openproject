@@ -33,6 +33,12 @@
 
 <% if @document.collaborative? %>
   <% if Setting.real_time_text_collaboration_enabled? %>
+    <% content_for :header_tags do %>
+      <%# Keep this page out of Turbo's snapshot cache: a restored snapshot rebuilds
+          the editor against a stale collaboration token and reconnects the WebSocket,
+          which the editor briefly surfaces as a spurious offline banner (STC-642). %>
+      <meta name="turbo-cache-control" content="no-cache">
+    <% end %>
     <%=
       render(
         Documents::ShowEditView::BlockNoteEditorComponent.new(

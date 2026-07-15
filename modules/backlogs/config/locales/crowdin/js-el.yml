@@ -22,9 +22,9 @@
 ---
 el:
   js:
-    work_packages:
-      properties:
-        storyPoints: Πόντοι Ιστορίας
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Πόντοι Ιστορίας

@@ -38,7 +38,7 @@ This view will be saved and shown under your private work package filters (you c
 
 ## Adding sums to the work packages view
 
-You can also use the sum function. Select **\[⋮\]** -> ***Configure view*** -> ***Display settings*** -> and check the ***Display Sums*** box:
+You can also use the sum function. Select **\[⋮\]** -> _**Configure view**_ -> _**Display settings**_ -> and check the _**Display Sums**_ box:
 
 ![OpenProject work package configure view](openproject_configure_view.png)
 

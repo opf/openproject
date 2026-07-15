@@ -43,28 +43,16 @@ module Queries::Projects::CustomFieldContext
     end
 
     def custom_fields(_context = nil)
-      custom_field_class.visible
+      RequestStore.fetch("#{self}.custom_fields") do
+        custom_field_class.visible
+      end
     end
 
     def find_custom_field(id)
-      custom_field_cache.fetch(id.to_i) do |key|
-        preload_custom_fields([key]).first
-      end
-    end
+      id_int = id.to_i
 
-    def preload_custom_fields(ids) # rubocop:disable Metrics/AbcSize
-      ids_to_load = ids.map(&:to_i) - custom_field_cache.keys
-
-      if ids_to_load.any?
-        found = custom_fields_eager_loaded
-                  .where(id: ids_to_load)
-                  .index_by(&:id)
-        # Iterating over the ids_to_load will also cache missing custom fields
-        # as nil, making sure we only try to load them once.
-        ids_to_load.each { |id| custom_field_cache[id] = found[id] }
-      end
-
-      ids.filter_map { |id| custom_field_cache[id.to_i] }
+      custom_fields
+        .detect { |cf| cf.id == id_int }
     end
 
     def where_subselect_joins(custom_field)
@@ -90,8 +78,6 @@ module Queries::Projects::CustomFieldContext
 
     private
 
-    def custom_fields_eager_loaded = custom_fields.includes(:calculated_value_errors)
-    def custom_field_cache = RequestStore.fetch("Queries::Projects::CustomFieldContext/cache") { {} }
     def cv_db_table = CustomValue.table_name
     def project_db_table = Project.table_name
   end

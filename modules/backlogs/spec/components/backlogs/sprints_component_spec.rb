@@ -32,8 +32,7 @@ require "rails_helper"
 
 RSpec.describe Backlogs::SprintsComponent, type: :component do
   shared_let(:sprints) { [] }
-  shared_let(:work_packages_by_sprint_id) { WorkPackage.all.group_by(&:sprint_id) }
-  shared_let(:active_sprint_ids) { [] }
+  shared_let(:active_sprints) { [] }
 
   let(:permissions) { %i[create_sprints] }
   let(:project) { create(:project) }
@@ -44,7 +43,11 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
   def render_component
     render_inline(
       described_class.new(
-        sprints:, work_packages_by_sprint_id:, active_sprint_ids:, project:, current_user:
+        sprints:,
+        work_packages_by_sprint_id: WorkPackage.all.group_by(&:sprint_id),
+        active_sprints:,
+        project:,
+        current_user:
       )
     )
   end
@@ -53,6 +56,7 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
 
   it "renders the sprints heading" do
     expect(page).to have_css("h3", text: "Sprints")
+    expect(page).to have_no_css(".Counter")
   end
 
   describe "new sprint button" do
@@ -149,8 +153,20 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
   describe "with sprints" do
     let(:sprints) { create_list(:sprint, 2, project:) }
 
+    before do
+      create(:work_package, sprint_id: sprints.first.id, project:)
+      create(:work_package, sprint_id: sprints.last.id, project:)
+
+      render_component
+    end
+
     it "does not render the blankslate" do
       expect(page).to have_no_text("No sprints present yet")
+    end
+
+    it "renders the sprints heading with the work package count" do
+      expect(page).to have_css("h3", text: "Sprints")
+      expect(page).to have_css(".Counter.Counter--primary", text: "2")
     end
 
     it "renders a SprintComponent for each sprint" do

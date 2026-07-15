@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -52,7 +52,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class WorkPackageQuickinfoMacroComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly apiV3Service = inject(ApiV3Service);
   readonly schemaCache = inject(SchemaCacheService);
@@ -66,10 +66,12 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: (name:string) => this.I18n.t('js.editor.macro.attribute_reference.aria_label_with_name', {
+      name,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      description: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_link'),
+    }),
   };
-
-  @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
@@ -81,7 +83,7 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
   detailed = false;
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     // Prefer `data-display-id`; fall back to `data-id` for legacy
     // stored markdown emitted before the attribute split.
     const id:string = element.dataset.displayId ?? element.dataset.id!;

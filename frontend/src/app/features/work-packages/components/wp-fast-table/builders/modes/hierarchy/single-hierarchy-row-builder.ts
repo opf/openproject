@@ -85,7 +85,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     }
 
     const ancestors = workPackage.getAncestors();
-    if (_.isArray(ancestors)) {
+    if (Array.isArray(ancestors)) {
       ancestors.forEach((ancestor) => {
         rowClasses.push(hierarchyGroupClass(ancestor.id!));
 

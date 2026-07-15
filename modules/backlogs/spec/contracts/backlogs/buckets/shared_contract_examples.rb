@@ -36,7 +36,7 @@ RSpec.shared_context "as backlog bucket contract" do
   let(:user) { build_stubbed(:user) }
 
   let(:project) { build_stubbed(:project) }
-  let(:name) { "Backlog Bucket 1" }
+  let(:name) { "Backlog bucket 1" }
   let(:permissions) { [:create_sprints] }
 
   subject(:contract) { described_class.new(backlog_bucket, user) }

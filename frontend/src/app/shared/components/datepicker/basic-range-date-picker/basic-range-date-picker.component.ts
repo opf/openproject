@@ -41,7 +41,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const rangeSeparator = '-';
@@ -70,12 +70,19 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   readonly timezoneService = inject(TimezoneService);
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly deviceService = inject(DeviceService);
 
   @HostBinding('class.op-basic-range-datepicker') className = true;
 
   @HostBinding('class.op-basic-range-datepicker_mobile') mobile = false;
+
+  // Only laid out for the clear button when one is actually rendered, so that
+  // the usages without it keep their previous layout. On mobile the native date
+  // inputs clear themselves, so no button is rendered there.
+  @HostBinding('class.op-basic-range-datepicker_clearable') get clearable():boolean {
+    return this.showClearButton && !this.mobile;
+  }
 
   @Output() valueChange = new EventEmitter();
 
@@ -103,6 +110,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   @Input() disabled = false;
 
+  @Input() showClearButton = false;
+
   @Input() placeholder = '';
 
   @Input() minimalDate:Date|null = null;
@@ -120,7 +129,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   private _inputAttrs:Record<string, string> = {};
 
-  @ViewChild('input') input:ElementRef;
+  @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
   stringValue = '';
 
@@ -130,6 +139,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
     spacer: this.I18n.t('js.filter.value_spacer'),
+    clear: this.I18n.t('js.button_clear'),
   };
 
   constructor() {
@@ -148,8 +158,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   private applyInputAttrs():void {
-    const el = (this.input?.nativeElement as HTMLInputElement | null)
-      ?? (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+    const el = this.input?.nativeElement
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
     if (el) {
       Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
@@ -179,6 +189,13 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     }
   }
 
+  // Flatpickr keeps its own selection, so it has to be reset alongside the value
+  // or it would restore the cleared dates the next time the calendar is opened.
+  clearValue():void {
+    this.datePickerInstance?.clear();
+    this.changeValueFromInput([]);
+  }
+
   private initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
@@ -204,6 +221,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
         onOpen: () => {
           this.sentCalendarToTopLayer();
         },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
@@ -215,7 +233,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
         static: false,
         appendTo: this.appendToBodyOrDialog(),
       },
-      this.input.nativeElement as HTMLInputElement,
+      this.input.nativeElement,
     );
   }
 
@@ -223,8 +241,11 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     this.value = value;
   }
 
+  // No-ops until the ControlValueAccessor registers the real callbacks below.
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange = (_:string[]):void => {};
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = (_:string[]):void => {};
 
   registerOnChange(fn:(_:string[]) => void):void {

@@ -78,7 +78,7 @@ RSpec.describe Queries::Meetings::MeetingQuery do
   context "when filtering by time" do
     context "for future meetings" do
       before do
-        subject.where("time", "=", ["future"])
+        subject.where("time", "upcoming", [])
       end
 
       it "returns meetings starting in the future and meetings currently ongoing" do
@@ -88,7 +88,7 @@ RSpec.describe Queries::Meetings::MeetingQuery do
 
     context "for past meetings" do
       before do
-        subject.where("time", "=", ["past"])
+        subject.where("time", "past", [])
       end
 
       it "returns meetings starting in the past and meetings currently ongoing" do

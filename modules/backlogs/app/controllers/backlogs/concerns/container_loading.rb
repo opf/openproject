@@ -38,11 +38,11 @@ module Backlogs::Concerns
     end
 
     def load_sprint_data
-      @sprints = Sprint.for_project(@project)
-                       .not_completed
-                       .order_by_date
-                       .includes(:project, :task_boards)
-      @active_sprint_ids = @sprints.select(&:active?).map(&:id)
+      @sprints = filtered_sprints_for(@project)
+      # Not just @sprints.select(&:active?): a sprint's owning project may have
+      # another active sprint that isn't shared with (and is thus invisible to)
+      # @project, which would still block starting a sprint it owns.
+      @active_sprints = Sprint.active.where(project_id: @sprints.map(&:project_id).uniq)
 
       @work_packages_by_sprint_id = WorkPackage
                                       .where(sprint: @sprints, project: @project)
@@ -52,7 +52,7 @@ module Backlogs::Concerns
     end
 
     def load_backlog_data
-      @backlog_buckets = BacklogBucket.for_project(@project)
+      @backlog_buckets = filtered_buckets_for(@project)
 
       # Includes the work packages of both the buckets and the inbox.
       # This has the drawback of loading more work packages than are displayed in the inbox as pagination

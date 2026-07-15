@@ -71,6 +71,28 @@ RSpec.describe Backlogs::BacklogController do
         expect(assigns(:work_packages_by_backlog_id)).to eq({ nil => [inbox_work_package],
                                                               backlog_bucket.id => [bucket_work_package] })
       end
+
+      context "when a shared sprint's owning project has another active sprint invisible to this project" do
+        let(:sharer_project) { create(:project, sprint_sharing: "no_sharing") }
+        let(:receiving_project) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
+        let!(:shared_sprint) { create(:sprint, project: sharer_project) }
+        let!(:work_package_linking_shared_sprint) do
+          create(:work_package, project: receiving_project, type: type_feature, status:, sprint: shared_sprint)
+        end
+        let!(:invisible_active_sprint) do
+          create(:sprint, project: sharer_project, status: "active",
+                          start_date: Date.yesterday, finish_date: Date.tomorrow)
+        end
+
+        it "includes the invisible active sprint among @active_sprints", :aggregate_failures do
+          request.headers["Turbo-Frame"] = "backlogs_container"
+          get :show, params: { project_id: receiving_project.id }, format: :html
+
+          expect(assigns(:sprints)).to contain_exactly(shared_sprint)
+          expect(assigns(:sprints)).not_to include(invisible_active_sprint)
+          expect(assigns(:active_sprints)).to include(invisible_active_sprint)
+        end
+      end
     end
   end
 end

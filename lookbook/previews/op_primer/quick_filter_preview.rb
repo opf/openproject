@@ -30,6 +30,7 @@
 
 module OpPrimer
   # @logical_path OpenProject/Primer
+  # @display min_height 400px
   class QuickFilterPreview < Lookbook::Preview
     def segmented_control
       render_with_template(locals: { query: meeting_query })
@@ -50,6 +51,12 @@ module OpPrimer
     def select_panel_with_active_filter
       query = meeting_query
       query.where("project_id", "=", [Project.visible.first&.id.to_s].compact)
+      render_with_template(locals: { query: })
+    end
+
+    def select_panel_single_select
+      query = meeting_query
+      query.where("time", "=", ["past"])
       render_with_template(locals: { query: })
     end
 

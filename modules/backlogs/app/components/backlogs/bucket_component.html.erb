@@ -35,22 +35,24 @@ See COPYRIGHT and LICENSE files for more details.
         project:,
         container: backlog_bucket,
         drag_and_drop: {
-          target_id: "backlog_bucket:#{backlog_bucket.id}",
-          allowed_drag_type: "story"
+          list_type:,
+          list_id: backlog_bucket.id,
+          accepted_type: "work_package",
+          drop_position: "start"
         },
-        params: all_backlogs_params,
+        params: backlog_filter_params,
         current_user:,
         test_selector: "backlog-bucket-#{backlog_bucket.id}"
       )
     ) do |list|
       list.with_header(title: backlog_bucket.name) do |header|
-        if show_menu?
-          header.with_menu(button_aria_label: t(".label_actions")) do |menu|
-            with_item_group(menu) do
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if user_allowed?(:create_sprints)
               menu.with_item(
                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
                 label: t(".action_menu.edit_backlog_bucket"),
-                href: edit_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                href: edit_dialog_project_backlogs_bucket_path(project, backlog_bucket, backlog_filter_params),
                 content_arguments: { data: { controller: "async-dialog" } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :pencil)
@@ -60,19 +62,22 @@ See COPYRIGHT and LICENSE files for more details.
                 id: dom_target(backlog_bucket, :menu, :delete_backlog_bucket),
                 label: t(".action_menu.delete_backlog_bucket"),
                 scheme: :danger,
-                href: destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                href: destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket, backlog_filter_params),
                 content_arguments: { data: { controller: "async-dialog" } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :trash)
               end
             end
           end
+
+          with_add_work_package_menu_group(menu, backlog_bucket)
         end
       end
 
       list.with_empty_state(
         title: t(".blankslate_title"),
-        description: t(".blankslate_description")
+        description: t(".blankslate_description"),
+        drop_target_label: t(".drop_zone_label")
       )
     end
   %>

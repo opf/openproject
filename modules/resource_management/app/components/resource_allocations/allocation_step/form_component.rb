@@ -35,11 +35,18 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(allocation:, project:, allocation_kind:)
+      # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
+      # attach to it): the create wizard's by default, the edit dialog's when
+      # editing a persisted allocation.
+      def initialize(allocation:, project:, allocation_kind:,
+                     dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
+                     view: nil)
         super
         @allocation = allocation
         @project = project
         @allocation_kind = allocation_kind
+        @dialog_id = dialog_id
+        @view = view
       end
 
       def wrapper_key
@@ -48,12 +55,24 @@ module ResourceAllocations
 
       private
 
+      attr_reader :dialog_id
+
       def filter_based?
         @allocation_kind.to_s == "filter"
       end
 
-      def dialog_id
-        ResourceAllocations::NewDialogComponent::DIALOG_ID
+      # A persisted allocation submits an update to itself; a new one goes
+      # through the create flow (with its confirmation step).
+      def form_url
+        if @allocation.persisted?
+          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+        else
+          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+        end
+      end
+
+      def form_method
+        @allocation.persisted? ? :patch : :post
       end
 
       def form_list_component(form)
@@ -74,14 +93,15 @@ module ResourceAllocations
                        ResourceAllocations::Forms::PrincipalForm.new(
                          form,
                          project: @project,
-                         dialog_id: dialog_id
+                         dialog_id: dialog_id,
+                         view: @view
                        )
                      ]
                    end
 
         Primer::Forms::FormList.new(
           *prepends,
-          ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id),
+          ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id, view: @view),
           ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
           ResourceAllocations::Forms::HoursForm.new(form),
           ResourceAllocations::Forms::AllocationKindForm.new(form, allocation_kind: @allocation_kind)

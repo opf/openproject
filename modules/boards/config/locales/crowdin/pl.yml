@@ -1,42 +1,21 @@
-#English strings go here
 ---
 pl:
-  plugin_openproject_boards:
-    name: Tablice OpenProject
-    description: Dostarcza widoki tablic.
-  permission_show_board_views: Wyświetl tablice
-  permission_manage_board_views: Zarządzaj tablicami
-  project_module_board_view: Tablice
-  ee:
-    upsell:
-      board_view:
-        description: Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.
   boards:
-    label_board: Tablica
-    label_boards: Tablice
-    label_create_new_board: Utwórz nową tablicę
-    label_board_type: Typ tablicy
-    board_types:
-      free: Podstawowe
-      action: Tablica działania (%{attribute})
     board_type_attributes:
       assignee: Przypisany do
+      basic: Podstawowe
       status: Kanban
-      version: Wersja
       subproject: Podprojekt
       subtasks: Nadrzędny-podrzędny
-      basic: Podstawowe
+      version: Wersja
     board_type_descriptions:
+      assignee: 'Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
+
+        '
       basic: 'Zacznij od zera z pustą tablicą. Ręcznie dodaj karty i kolumny do tej tablicy.
 
         '
       status: 'Podstawowa tablica w stylu kanban z kolumnami statusu, takimi jak Do wykonania, W toku, Gotowe.
-
-        '
-      assignee: 'Tablica z zautomatyzowanymi kolumnami odpowiadającymi przypisanym użytkownikom. Idealna do rozsyłania pakietów roboczych.
-
-        '
-      version: 'Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
 
         '
       subproject: 'Tablica z zautomatyzowanymi kolumnami projektów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje (pod)projekt.
@@ -45,3 +24,23 @@ pl:
       subtasks: 'Tablica z zautomatyzowanymi kolumnami elementów składowych. Przeciąganie pakietów roboczych na inne listy odpowiednio aktualizuje elementy nadrzędne.
 
         '
+      version: 'Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
+
+        '
+    board_types:
+      action: Tablica działania (%{attribute})
+      free: Podstawowe
+    label_board: Tablica
+    label_board_type: Typ tablicy
+    label_boards: Tablice
+    label_create_new_board: Utwórz nową tablicę
+  ee:
+    upsell:
+      board_view:
+        description: Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.
+  permission_manage_board_views: Zarządzaj tablicami
+  permission_show_board_views: Wyświetl tablice
+  plugin_openproject_boards:
+    description: Dostarcza widoki tablic.
+    name: Tablice OpenProject
+  project_module_board_view: Tablice

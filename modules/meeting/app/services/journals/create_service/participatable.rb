@@ -59,10 +59,9 @@ class Journals::CreateService
           COALESCE(participants.invited, false),
           COALESCE(participants.attended, false),
           participants.participation_status
-        FROM meeting_participants participants
+        FROM (#{current_participants_sql}) participants
         WHERE
           #{only_if_created_sql}
-          AND participants.meeting_id = :journable_id
         ON CONFLICT (journal_id, user_id) DO UPDATE SET
           invited = EXCLUDED.invited,
           attended = EXCLUDED.attended,
@@ -81,9 +80,7 @@ class Journals::CreateService
         ON
           meeting_participant_journals.journal_id = max_journals.id
         FULL JOIN
-          (SELECT *
-           FROM meeting_participants
-           WHERE meeting_participants.meeting_id = :journable_id) participants
+          (#{current_participants_sql}) participants
         ON
           participants.user_id = meeting_participant_journals.user_id
         WHERE
@@ -91,6 +88,26 @@ class Journals::CreateService
           OR (participants.invited IS DISTINCT FROM meeting_participant_journals.invited)
           OR (participants.attended IS DISTINCT FROM meeting_participant_journals.attended)
           OR (participants.participation_status IS DISTINCT FROM meeting_participant_journals.participation_status)
+      SQL
+    end
+
+    private
+
+    def current_participants_sql
+      <<~SQL.squish
+        SELECT DISTINCT ON (meeting_participants.user_id)
+          meeting_participants.user_id,
+          COALESCE(meeting_participants.invited, false) AS invited,
+          COALESCE(meeting_participants.attended, false) AS attended,
+          meeting_participants.participation_status
+        FROM meeting_participants
+        WHERE
+          meeting_participants.meeting_id = :journable_id
+          AND meeting_participants.user_id IS NOT NULL
+        ORDER BY
+          meeting_participants.user_id,
+          meeting_participants.updated_at DESC,
+          meeting_participants.id DESC
       SQL
     end
   end

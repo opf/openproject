@@ -39,19 +39,29 @@ See COPYRIGHT and LICENSE files for more details.
         header_padding: :default,
         test_selector: "backlog-inbox",
         data: {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_id: "inbox",
-          target_allowed_drag_type: "story"
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: list_type,
+          sortable_lists__list_accepted_type_value: "work_package",
+          sortable_lists__list_drop_position_value: "start"
         }
       )
     ) do |list|
-      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 })
+      list.with_header(
+        title: t(".title"),
+        count: work_packages.size,
+        count_arguments: { scheme: :secondary },
+        title_arguments: { font_size: 4 }
+      ) do |header|
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_add_work_package_menu_group(menu, Backlogs::Target::Inbox)
+        end
+      end
 
       list.with_empty_state(
         title: t(".blankslate_title"),
         description: t(".blankslate_description"),
         icon: :"op-backlogs",
+        drop_target_label: t(".drop_zone_label"),
         spacious: true
       )
 
@@ -59,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
         list.with_work_package_item(
           work_package:,
           project:,
-          params: all_backlogs_params,
+          params: backlog_filter_params,
           component_klass: Backlogs::WorkPackageCardListItemComponent
         )
 
@@ -67,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
           list.with_item(
             scheme: :neutral,
             classes: "op-work-package-card-list--show-more-row",
-            data: { draggable_id: last_omitted_id }
+            data: { sortable_lists_prev_item_id: last_omitted_id }
           ) do
             render(
               Primer::Beta::Button.new(
@@ -78,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
                 block: true,
                 align_content: :start,
                 underline: true,
-                href: project_backlogs_backlog_path(project, all: 1),
+                href: project_backlogs_backlog_path(project, backlog_filter_params.merge(all: true)),
                 data: {
                   turbo_frame: "backlogs_container",
                   turbo_action: :advance

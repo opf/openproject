@@ -78,10 +78,35 @@ RSpec.describe "Sprint index", :js do
     end
   end
 
-  it "orders the sprints by date first, and then by name" do
-    sprints_page.visit!
+  context "when ordering by activity" do
+    let(:ordering_project) { create(:project) }
+    let(:ordering_page) { Pages::Sprints.new(ordering_project) }
+    let!(:completed_sprint) do
+      create(:sprint, project: ordering_project, status: :completed,
+                      name: "Completed sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
+    let!(:planning_sprint) do
+      create(:sprint, project: ordering_project, status: :in_planning,
+                      name: "Planning sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
+    let!(:active_sprint) do
+      create(:sprint, project: ordering_project, status: :active,
+                      name: "Active sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
 
-    sprints_page.expect_sprints_in_order(sprints: [past_sprint, past_sprint_with_other_name, sprint, other_sprint])
+    current_user { create(:user, member_with_permissions: { ordering_project => permissions }) }
+
+    it "orders active first, then in_planning, then completed" do
+      ordering_page.visit!
+
+      ordering_page.expect_sprints_in_order(sprints: [active_sprint, planning_sprint, completed_sprint])
+    end
   end
 
   it "shows the correct values per column" do
@@ -101,18 +126,18 @@ RSpec.describe "Sprint index", :js do
     sprints_page.visit!
 
     sprints_page.expect_pagination_range(from: 1, to: 2, total: 4)
-    sprints_page.expect_sprint_present(past_sprint)
-    sprints_page.expect_sprint_present(past_sprint_with_other_name)
-    sprints_page.expect_sprint_not_present(sprint)
-    sprints_page.expect_sprint_not_present(other_sprint)
+    sprints_page.expect_sprint_present(other_sprint)
+    sprints_page.expect_sprint_present(sprint)
+    sprints_page.expect_sprint_not_present(past_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
 
     sprints_page.go_to_page!(2)
 
     sprints_page.expect_pagination_range(from: 3, to: 4, total: 4)
-    sprints_page.expect_sprint_present(sprint)
-    sprints_page.expect_sprint_present(other_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_present(past_sprint)
+    sprints_page.expect_sprint_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_not_present(other_sprint)
+    sprints_page.expect_sprint_not_present(sprint)
   end
 
   context "when there are no sprints" do
@@ -153,7 +178,8 @@ RSpec.describe "Sprint index", :js do
       sprints_page.visit!
 
       sprints_page.expect_sprint_present(shared_sprint)
-      sprints_page.expect_sprint_name_link(shared_sprint, href: project_backlogs_backlog_path(receiving_project))
+      sprints_page.expect_sprint_name_link(shared_sprint,
+                                           href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id]))
     end
   end
 
@@ -196,7 +222,8 @@ RSpec.describe "Sprint index", :js do
     it "links the sprint name according to status" do
       sprints_page.visit!
 
-      sprints_page.expect_sprint_name_link(planning_sprint, href: project_backlogs_backlog_path(project))
+      sprints_page.expect_sprint_name_link(planning_sprint,
+                                           href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id]))
       sprints_page.expect_sprint_name_link(active_sprint, href: project_work_package_board_path(project, active_board))
 
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)

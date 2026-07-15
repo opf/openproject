@@ -24,31 +24,31 @@
 pl:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Lejki
       tab_header_issue:
         title: Problemy
       tab_header_mr:
-        title: Żądania scalania
-        create_mr:
-          label: Utwórz MR
-          description: Utwórz żądanie scalenia
         copy_menu:
-          label: Fragmenty git
           description: Skopiuj fragmenty git do schowka
+          label: Fragmenty git
+        create_mr:
+          description: Utwórz żądanie scalenia
+          label: Utwórz MR
         git_actions:
           branch_name: Nazwa gałęzi
-          commit_message: Wiadomość o zmianach
           cmd: Utwórz gałąź z pustą zmianą
-          title: Szybkie fragmenty do Git
-          copy_success: "✅ Skopiowano!"
+          commit_message: Wiadomość o zmianach
           copy_error: "❌ Kopiowanie nie powiodło się!"
+          copy_success: "✅ Skopiowano!"
+          title: Szybkie fragmenty do Git
+        title: Żądania scalania
       tab_issue:
         empty: Nie ma jeszcze żadnych powiązanych problemów. Powiąż istniejący problem, używając kodu <code>OP#%{wp_id}</code> (lub <code>PP#%{wp_id}</code> w przypadku linków prywatnych) w tytule/opisie problemu lub utwórz nowy problem.
       tab_mrs:
         empty: Nie ma jeszcze żadnych powiązanych żądań scalenia. Powiąż istniejące MR, używając kodu <code>OP#%{wp_id}</code> (lub <code>PP#%{wp_id}</code> w przypadku linków prywatnych) w tytule/opisie MR lub utwórz nowe MR.
-      gitlab_pipelines: Lejki
       updated_on: Zaktualizowano
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

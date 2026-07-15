@@ -42,9 +42,10 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::RowComponent, type: :compo
   let(:view) do
     ResourceWorkPackageList.create!(name: "List", parent: resource_planner, project:, principal: user, query:)
   end
+  let(:allocations) { {} }
   let(:table) do
     ResourcePlannerViews::WorkPackageList::TableComponent.new(
-      rows: work_packages, view:, project:, resource_planner:
+      rows: work_packages, view:, project:, resource_planner:, allocations:
     )
   end
 
@@ -88,6 +89,47 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::RowComponent, type: :compo
     end
   end
 
+  context "with the edit-work-packages permission" do
+    shared_let(:editor) do
+      create(:user,
+             member_with_permissions: {
+               project => %i[view_resource_planners view_work_packages edit_work_packages]
+             })
+    end
+    let(:query) { automatic_query }
+
+    before { login_as(editor) }
+
+    it "offers the edit total work action linking to the progress dialog" do
+      expect(rendered).to have_text(I18n.t("#{i18n_ns}.edit_total_work"))
+      expect(rendered).to have_css(
+        "a[data-controller='async-dialog']" \
+        "[href='#{edit_project_resource_planner_view_work_package_progress_path(
+          project, resource_planner, view, work_packages.first
+        )}']"
+      )
+    end
+  end
+
+  context "without the edit-work-packages permission" do
+    let(:query) { automatic_query }
+
+    it "hides the edit total work action" do
+      expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.edit_total_work"))
+    end
+  end
+
+  context "with members allocated to the work package" do
+    let(:query) { automatic_query }
+    let(:member) { create(:user, firstname: "Michael", lastname: "Johnson") }
+    let(:allocation) { create(:resource_allocation, entity: work_packages.first, principal: member) }
+    let(:allocations) { { work_packages.first.id => [allocation] } }
+
+    it "renders the allocated members' avatar stack instead of the placeholder" do
+      expect(rendered).to have_css("avatar-fallback[data-unique-id='#{member.id}']")
+    end
+  end
+
   context "with a manually hand-picked view" do
     let(:query) { manual_query }
 
@@ -115,6 +157,19 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::RowComponent, type: :compo
       expect(rendered).to have_text(I18n.t("#{i18n_ns}.move_to_bottom"))
       expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.move_up"))
       expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.move_to_top"))
+    end
+  end
+
+  context "with a single hand-picked row" do
+    let(:query) { manual_query }
+    let(:table) do
+      ResourcePlannerViews::WorkPackageList::TableComponent.new(
+        rows: [work_packages.first], view:, project:, resource_planner:, allocations:
+      )
+    end
+
+    it "disables the move entry, since it cannot be moved" do
+      expect(rendered).to have_css(".ActionListItem--disabled", text: "Move", visible: :all)
     end
   end
 end

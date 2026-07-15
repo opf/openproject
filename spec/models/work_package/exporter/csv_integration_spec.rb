@@ -134,6 +134,75 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:semantic_project) do
+      create(:project,
+             identifier: "CSVPROJ",
+             member_with_permissions: { user => %i[view_work_packages] })
+    end
+    let!(:work_package) { create(:work_package, project: semantic_project) }
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project: semantic_project, user:, column_names: %i(id subject))
+    end
+
+    it "exports the semantic identifier in the ID column" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(work_package.identifier).to match(/\ACSVPROJ-\d+\z/)
+      # the leading ID header is downcased by the exporter to avoid SYLK detection
+      expect(pairs["#{byte_order_mark}id"]).to eq work_package.identifier
+      expect(pairs["Subject"]).to eq work_package.subject
+    end
+  end
+
+  context "with the target versions column",
+          with_flag: { work_package_multiple_versions: true },
+          with_settings: { work_package_multiple_versions: true } do
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let(:version_two) { create(:version, project:, name: "2.0") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a).tap do |wp|
+        wp.target_version_ids_replacements = [version_one.id, version_two.id]
+        wp.save!
+      end
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject target_versions))
+    end
+
+    it "exports the joined target version names" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      # the association carries no order, so compare the cell as a set
+      expect(pairs["Target versions"].split("; ")).to match_array %w[1.0 2.0]
+    end
+
+    it "preloads target versions so cell rendering does not query per row" do
+      loaded = instance.work_packages.to_a
+
+      expect { loaded.each { it.target_versions.map(&:name) } }.to have_a_query_limit(0)
+    end
+  end
+
+  context "when no displayed column has a backing association" do
+    let!(:work_package) { create(:work_package, project:, type: type_a, subject: "No associations") }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject start_date))
+    end
+
+    it "exports successfully with an empty preload list" do
+      headers, values = CSV.parse instance.export!.content
+
+      expect(headers.first).to eq "#{byte_order_mark}Subject"
+      expect(values.first).to eq "No associations"
+    end
+  end
+
   context "with multiple work packages" do
     shared_let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
     shared_let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a, id: 2) }

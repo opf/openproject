@@ -33,15 +33,30 @@ class Sprint < ApplicationRecord
 
   belongs_to :project
   has_many :work_packages, inverse_of: :sprint, dependent: :nullify
+  has_many :goals,
+           class_name: "SprintGoal",
+           inverse_of: :sprint,
+           dependent: :delete_all
+
+  accepts_nested_attributes_for :goals,
+                                allow_destroy: true,
+                                reject_if: ->(attributes) {
+                                  attributes["id"].blank? && attributes["text"].blank?
+                                },
+                                limit: 1
+
   has_many :task_boards,
            as: :linked,
            class_name: "Boards::Grid",
            inverse_of: :linked,
            dependent: :nullify
 
+  delegate :allow_multiple_active_sprints?, to: :project, allow_nil: true
+
   scopes :assignable,
          :for_project,
          :not_completed,
+         :order_by_activity,
          :order_by_date,
          :receiving_projects,
          :visible,
@@ -68,7 +83,7 @@ class Sprint < ApplicationRecord
               conditions: -> { active },
               message: :only_one_active_sprint_allowed
             },
-            if: :active?
+            if: -> { active? && !allow_multiple_active_sprints? }
 
   def date_range_set?
     start_date? && finish_date?
@@ -98,6 +113,14 @@ class Sprint < ApplicationRecord
 
   def visible_to?(project)
     self.class.for_project(project).exists?(id:)
+  end
+
+  def goal_for(project)
+    goals.find { |goal| goal.project_id == project.id }
+  end
+
+  def goal_text_for(project)
+    goal_for(project)&.text
   end
 
   def to_s = name

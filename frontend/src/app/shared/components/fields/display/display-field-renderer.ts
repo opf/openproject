@@ -1,3 +1,4 @@
+import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -160,7 +161,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(labelContent, 'text/html');
-        titleContent = _.escape(doc.body.textContent ?? '');
+        titleContent = escape(doc.body.textContent ?? '');
       } catch {
         console.error('Failed to parse formattable labelContent');
         titleContent = `Label for ${field.displayName}`;

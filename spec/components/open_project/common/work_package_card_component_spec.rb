@@ -72,6 +72,10 @@ RSpec.describe OpenProject::Common::WorkPackageCardComponent, type: :component d
     expect(rendered_component).to have_text("Card subject")
   end
 
+  it "marks the subject link as non-draggable so it cannot start a native drag" do
+    expect(rendered_component).to have_element :a, draggable: "false", text: "Card subject"
+  end
+
   it "does not render story points by default" do
     expect(rendered_component).to have_no_text("5 points", normalize_ws: true)
   end
@@ -159,6 +163,10 @@ RSpec.describe OpenProject::Common::WorkPackageCardComponent, type: :component d
           expect(rendered_component).to have_link("Parent subject", href: work_package_path(parent))
         end
 
+        it "marks the parent link as non-draggable so it cannot start a native drag" do
+          expect(rendered_component).to have_element :a, draggable: "false", text: "Parent subject"
+        end
+
         it "does not render Undisclosed" do
           expect(rendered_component).to have_no_text("Undisclosed")
         end
@@ -175,6 +183,20 @@ RSpec.describe OpenProject::Common::WorkPackageCardComponent, type: :component d
           expect(rendered_component).to have_no_link("Hidden subject")
         end
       end
+    end
+
+    it "passes system arguments to the root card element" do
+      rendered = render_inline(
+        described_class.new(
+          work_package:,
+          data: { controller: "custom-card" },
+          draggable: true
+        )
+      )
+
+      expect(rendered).to have_css(
+        ".op-work-package-card[data-controller='custom-card'][draggable='true']"
+      )
     end
   end
 end

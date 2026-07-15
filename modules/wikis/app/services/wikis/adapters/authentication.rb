@@ -39,6 +39,8 @@ module Wikis
             AuthenticationStrategies::BearerToken.new(strategy.user, strategy.provider)
           when :internal
             AuthenticationStrategies::InternalUser.new(strategy.user)
+          when :noop
+            AuthenticationStrategies::Noop.new
           end
         end
       end

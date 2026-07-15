@@ -1,3 +1,4 @@
+import { escape } from 'lodash-es';
 import { AfterViewChecked, Directive, ElementRef, Input, inject } from '@angular/core';
 
 @Directive({
@@ -5,12 +6,12 @@ import { AfterViewChecked, Directive, ElementRef, Input, inject } from '@angular
   standalone: false,
 })
 export class OpSearchHighlightDirective implements AfterViewChecked {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input('opSearchHighlight') public query = '';
 
   ngAfterViewChecked():void {
-    let el = this.elementRef.nativeElement as HTMLElement;
+    let el = this.elementRef.nativeElement;
     const highlightedElement = el.querySelector('.op-search-highlight');
 
     if (!!highlightedElement && highlightedElement.innerHTML.toLocaleLowerCase() === this.query?.toLocaleLowerCase()) {
@@ -39,7 +40,7 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
     const end = content.slice(startIndex + query.length);
 
     const newNode = document.createElement('span');
-    newNode.innerHTML = `${_.escape(start)}<span class="op-search-highlight">${_.escape(result)}</span>${_.escape(end)}`;
+    newNode.innerHTML = `${escape(start)}<span class="op-search-highlight">${escape(result)}</span>${escape(end)}`;
     el.replaceChild(newNode, textNode);
   }
 

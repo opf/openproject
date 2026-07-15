@@ -29,15 +29,15 @@
 ---
 en:
   js:
-    text_are_you_sure: "Are you sure?"
-    myTimeTracking:
-      noSpecificTime: "No specific time"
-    work_packages:
-      property_groups:
-        costs: "Costs"
-      properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
     button_log_costs: "Log unit costs"
     label_hour: "hour"
     label_hours: "hours"
+    myTimeTracking:
+      noSpecificTime: "No specific time"
+    text_are_you_sure: "Are you sure?"
+    work_packages:
+      properties:
+        overallCosts: "Overall costs"
+        spentUnits: "Spent units"
+      property_groups:
+        costs: "Costs"

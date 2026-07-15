@@ -49,7 +49,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFullViewEntryComponent {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() workPackageId:string;
   @Input() activeTab:string;

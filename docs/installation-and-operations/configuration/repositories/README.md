@@ -13,7 +13,7 @@ We support integration with the Apache webserver to create and serve repositorie
 
 ## Existing Repositories
 
-Using the default configuration, OpenProject allows you to *link* existing Subversion and Git repositories from the local filesystem (For Subversion, you can also integrate repositories from other servers using basic auth credentials).
+Using the default configuration, OpenProject allows you to _link_ existing Subversion and Git repositories from the local filesystem (For Subversion, you can also integrate repositories from other servers using basic auth credentials).
 
 After linking the repositories, you may browse the repository through OpenProject.
 
@@ -21,7 +21,7 @@ This functionality is extended with managed repositories, whose life spans are a
 
 ## Managed Repositories
 
-You can create repositories explicitly on the filesystem using *managed* repositories.
+You can create repositories explicitly on the filesystem using _managed_ repositories.
 Managed repositories need to be enabled manually for each SCM vendor individually by configuring `configuration.yml`
 
 It contains a YAML configuration section for repository management residing under the namespace `scm`.
@@ -110,7 +110,7 @@ Upon creating and deleting repositories in the frontend, OpenProject will POST t
 The endpoint is expected to return a JSON with at least a `message` property when the response is not successful (2xx).
 When the response is successful, it must at least return a `url` property that contains an accessible URL and optionally a `path` property to access the repository locally.
 
-*Note* that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
+_Note_ that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
 For Subversion, you can either return a `file:///<path>` URL, or a local path.
 
 Our main use-cases for this feature is to eliminate the complexity associated with permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
@@ -149,12 +149,12 @@ OpenProject 5.0 introduces more features regarding repository management that we
 OpenProject 5.0 also integrates functionality to display checkout instructions and URLs for Subversion and Git repositories.
 This functionality is very basic and we hope to make it more robust over the next releases.
 
-* Checkout instructions may be configured globally for each vendor
-* Checkout URLs are constructed from a base URL and the project identifier
-* On the repository page, the user is provided with a button to show/expand checkout instructions on demand.
-* This checkout instruction contains the checkout URL for the given repository and some further information on how the       checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
-* The instructions contain information regarding the capabilities a user has (read, read-write)
-* The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
+- Checkout instructions may be configured globally for each vendor
+- Checkout URLs are constructed from a base URL and the project identifier
+- On the repository page, the user is provided with a button to show/expand checkout instructions on demand.
+- This checkout instruction contains the checkout URL for the given repository and some further information on how the       checkout works for this particular vendor (e.g., Subversion → svn checkout, Git → git clone).
+- The instructions contain information regarding the capabilities a user has (read, read-write)
+- The instructions are defined by the SCM vendor implementations themselves, so that the checkout instructions could be extended by some 3rd party SCM vendor plugin
 
 ### Required Disk Storage Information
 
@@ -178,7 +178,7 @@ This script needs to be in your Apache perl path (for example it might be sym-li
 
 To work with the authentication, you need to generate a secret repository API key, generated in your
 OpenProject instance at `Modules → Administration → Settings → Repositories`.
-On that page, enable  *"Enable repository management web service"* and generate an API key (do not
+On that page, enable  _"Enable repository management web service"_ and generate an API key (do not
 forget to save the settings). We need that API key later in our Apache configuration.
 
 You also need a distinct filesystem path for Subversion and Git repositories.
@@ -202,12 +202,12 @@ a2enmod proxy proxy_http dav dav_svn
 Due to the implementation of `mod_svn`, we have no way to influence the permissions determined by apache when changing repositories (i.e., by committing changes).
 Without correcting the permissions, the following situation will occur:
 
-* The run user of OpenProject can correctly create and manage repository under the managed path with appropriate permissions set
-* As soon as a user checks out the repository and commits new data
-  * Apache alters and adds files to the repository on the server, now owned by the apache user its default umask.
-* If the user decides to delete the repository through the frontend
-  * Altered files are not / no longer owned or writable by the OpenProject user
-  * The deletion fails
+- The run user of OpenProject can correctly create and manage repository under the managed path with appropriate permissions set
+- As soon as a user checks out the repository and commits new data
+  - Apache alters and adds files to the repository on the server, now owned by the apache user its default umask.
+- If the user decides to delete the repository through the frontend
+  - Altered files are not / no longer owned or writable by the OpenProject user
+  - The deletion fails
 
 The following workarounds exist:
 
@@ -222,11 +222,11 @@ You'll need the the `acl` package and define the ACL.
 
 Assuming the following situation:
 
-* Apache run user / group: `www-data`
+- Apache run user / group: `www-data`
 
-* OpenProject run user: `openproject`
+- OpenProject run user: `openproject`
 
-* Repository path for SCM vendor X: `/srv/repositories/X`
+- Repository path for SCM vendor X: `/srv/repositories/X`
 
 ```shell
 # Set existing ACL

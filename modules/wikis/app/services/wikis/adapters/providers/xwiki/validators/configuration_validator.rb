@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,10 +40,12 @@ module Wikis
 
             def validate
               register_checks(
-                :provider_configured
+                :provider_configured,
+                :universal_id_known
               )
 
               provider_configured
+              universal_id_known
               # TODO: check dependencies (e.g. OpenProject extension) and version requirements
             end
 
@@ -52,6 +54,17 @@ module Wikis
                 pass_check(:provider_configured)
               else
                 fail_check(:provider_configured, :not_configured)
+              end
+            end
+
+            def universal_id_known
+              result = XWikiProviders::FetchInstanceIdService.new(provider: subject).call
+              fail_check(:universal_id_known, :connection_error) if result.failure?
+
+              if result.value! == subject.universal_identifier
+                pass_check(:universal_id_known)
+              else
+                warn_check(:universal_id_known, :uid_mismatch)
               end
             end
           end

@@ -8,14 +8,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-border-box-list_transparent
-  > .Box-header
-    background-color: transparent
-    border-bottom: none
-    padding-bottom: var(--stack-padding-condensed)
+// Edge borders for row states. The top edge is the row's own top border, the
+// bottom edge is the following row's top border; the last row draws its own
+// bottom border, overlapping the Box border like the upstream
+// Box-body:last-of-type rule.
+@mixin op-box-list-item-edge-borders($color)
+  border-top-color: $color
 
-  > ul > .Box-row:first-of-type
-    border-top: none
+  & + .Box-row
+    border-top-color: $color
+
+  &:last-child
+    margin-bottom: calc(var(--borderWidth-thin) * -1)
+    border-bottom: var(--borderWidth-thin) solid $color
 
 .op-border-box-list
   --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
@@ -47,21 +52,85 @@
     .Box-title
       font-size: var(--text-title-size-medium)
 
+  &_transparent
+    > .Box-header
+      background-color: transparent
+      border-bottom: none
+      padding-bottom: var(--stack-padding-condensed)
+
+    // A transparent (not absent) border keeps the first row's height stable
+    // when a state recolors it. These recolors repeat the state rules from
+    // further down because this selector outweighs them.
+    > ul > .Box-row:first-of-type
+      border-top-color: transparent
+
+      &:has(> .Box-card[data-selected])
+        border-top-color: var(--box-list-item-selected-border-color)
+
+      &:has(> .Box-card[aria-current="true"])
+        border-top-color: var(--box-list-item-pressed-border-color)
+
   &.op-border-box-list_transparent
     &.op-border-box-list_header-padding-default,
     &.op-border-box-list_header-padding-spacious
       > .Box-header
         padding-bottom: var(--stack-padding-condensed)
 
+  // Upstream rounds the outer row corners for boxes whose rows form the box
+  // edge. With a header or footer between the row and the box edge, a row
+  // background (hover, focus, selected) would show rounded corners mid-box.
+  &:has(> .Box-header) > ul > .Box-row:first-of-type
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+  &:has(> .Box-footer) > ul > .Box-row:last-of-type
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+  // Drop container: the whole list outlines while a sortable item hovers it,
+  // signalling the item will land inside this list.
+  &[data-drop-container]
+    outline: var(--borderWidth-thick) solid var(--fgColor-accent)
+    outline-offset: calc(var(--borderWidth-thick) * -1)
+    border-radius: var(--borderRadius-medium)
+
+  // While a move persists the list is aria-busy: show progress and dim the
+  // rows until the server render reconciles them.
+  &[aria-busy="true"]
+    cursor: progress
+
+    .Box-list
+      opacity: 0.7
+
+      @media (prefers-reduced-motion: no-preference)
+        transition: opacity 0.1s ease-in-out
+
+  // The empty-state row only makes sense while it is alone in the list. Hiding
+  // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
+  // a flicker between the drop and the server render removing it.
+  > .Box-list > .Box-row[data-empty-list-item]:not(:only-child)
+    display: none
+
 .op-border-box-list-header
   display: grid
   grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
   grid-template-areas: "heading actions menu" "description description description"
   align-items: center
-  row-gap: var(--op-border-box-list-header-row-gap)
 
   &_collapsible
     grid-template-areas: "heading actions menu"
+
+  &_with-drag-handle
+    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
+    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+    margin-left: calc(-1 * var(--stack-padding-normal))
+    &.op-border-box-list-header_collapsible
+      grid-template-areas: "drag_handle heading actions menu"
+  &--drag_handle
+    align-self: stretch
+    cursor: grab
+    color: var(--fgColor-muted)
+    justify-self: center
 
   &--heading
     min-width: 0
@@ -80,3 +149,147 @@
 
     .Box-title
       min-width: 0
+
+  &--description
+    margin-top: var(--op-border-box-list-header-row-gap)
+
+.Box-card--clickable
+  cursor: pointer
+
+.Box-card--draggable
+  cursor: grab
+  user-select: none
+
+  &:active
+    cursor: grabbing
+
+// Rows wrapping a card delegate their padding to the card and take their
+// colors from the box-list-item state variables.
+.Box-row:has(> .Box-card)
+  padding: 0
+  background-color: var(--box-list-item-bg-color)
+  border-top-color: var(--box-list-item-border-color)
+
+  &:hover
+    background-color: var(--box-list-item-bg-hover-color)
+
+  &:has(> .Box-card:focus-visible)
+    background-color: var(--bgColor-muted)
+
+// Selected state: applied synchronously on activation by the
+// backlogs--work-package controller (single selection), so the list reacts
+// before the split screen has loaded.
+.Box-row:has(> .Box-card[data-selected])
+  background-color: var(--box-list-item-selected-bg-color)
+  @include op-box-list-item-edge-borders(var(--box-list-item-selected-border-color))
+
+  &:hover,
+  &:has(> .Box-card:focus-visible)
+    background-color: var(--box-list-item-selected-bg-hover-color)
+
+// Current state: the card is open in the split screen. aria-current is
+// maintained by the backlogs--work-package controller once the URL reflects
+// the details pane; the strong border wins over a simultaneous selected state.
+.Box-row:has(> .Box-card[aria-current="true"])
+  @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
+
+// Drag-and-drop row states, scoped to the border-box list. The global
+// generic-drag-and-drop controller sets `data-dragging="source"` on any dragged
+// `.Box-row` (dragula lists in admin/settings), so these must not sit at the top
+// level or they would restyle those unrelated rows.
+.op-border-box-list
+  .Box-row[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+  .Box-row[data-drop-position]
+    --op-border-box-list-drop-gap-border-width: 2px
+    --op-border-box-list-drop-gap-height: 8px
+
+    position: relative
+
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-border-box-list-drop-gap-height)
+      background: linear-gradient(
+        to bottom,
+        var(--bgColor-accent-muted) 0,
+        var(--bgColor-accent-muted) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% - var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) calc(50% + var(--op-border-box-list-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) 100%
+      )
+      pointer-events: none
+      z-index: 1
+
+    &[data-drop-position="top"]::before
+      content: ''
+      top: calc(var(--op-border-box-list-drop-gap-height) / -2)
+
+    &[data-drop-position="bottom"]::after
+      content: ''
+      bottom: calc(var(--op-border-box-list-drop-gap-height) / -2)
+
+// Empty-state wrapper. With a drop target label, an overlay covers the
+// blankslate while a sortable item hovers the list, labelling it as a drop
+// zone. Hidden via visibility so it is unreachable while inactive; the
+// visibility delay keeps the overlay shown until the fade-out finishes.
+.op-border-box-list-empty-state
+  position: relative
+
+  &--drop-overlay
+    position: absolute
+    // Bottom inset keeps the box's bottom border and rounding visible.
+    inset: 0 0 var(--base-size-4) 0
+    z-index: 1
+
+    display: flex
+    align-items: center
+    justify-content: center
+
+    background: var(--bgColor-default)
+    color: var(--fgColor-default)
+
+    opacity: 0
+    visibility: hidden
+    pointer-events: none
+
+    @media (prefers-reduced-motion: no-preference)
+      transition: opacity 0.1s ease-in-out, visibility 0s linear 0.1s
+
+.op-border-box-list[data-drop-container] .op-border-box-list-empty-state--drop-overlay
+  opacity: 1
+  visibility: visible
+  pointer-events: auto
+
+  @media (prefers-reduced-motion: no-preference)
+    transition: opacity 0.1s ease-in-out, visibility 0s
+
+// Reapplies the padding removed from the containing .Box-row, matching the
+// .Box-row padding of each Box density variant upstream.
+.Box-card
+  padding: var(--stack-padding-normal)
+
+  &[data-preview]
+    background-color: var(--bgColor-default)
+    border-radius: var(--borderRadius-medium)
+    box-shadow: var(--shadow-floating-medium)
+    opacity: 1
+
+    // Firefox folds a card's box-shadow ink overflow into the native drag-image
+    // snapshot, shifting the snapshot origin off the border box so the grab
+    // offset no longer lines up under the pointer. Drop the lift shadow on
+    // Firefox only; other browsers snapshot the border box and are unaffected.
+    .-browser-firefox &
+      box-shadow: none
+
+.Box--condensed .Box-card
+  padding: var(--stack-padding-condensed) var(--stack-padding-normal)
+
+.Box--spacious .Box-card
+  padding: var(--stack-padding-spacious)

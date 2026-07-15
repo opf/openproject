@@ -43,7 +43,7 @@ module Pages
         page.fill_in("new_password", with: new_password)
         page.fill_in("new_password_confirmation", with: confirmation)
 
-        page.click_link_or_button "Save"
+        page.click_button "Change password"
       end
 
       def expect_password_reuse_error_message(count)

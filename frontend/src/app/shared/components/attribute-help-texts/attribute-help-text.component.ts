@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalService } from './attribute-help-text-modal.service';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 
@@ -42,7 +42,7 @@ export const attributeHelpTextSelector = 'attribute-help-text';
   standalone: false,
 })
 export class AttributeHelpTextComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected attributeHelpTexts = inject(AttributeHelpTextsService);
   protected attributeHelpTextModalService = inject(AttributeHelpTextModalService);
   protected cdRef = inject(ChangeDetectorRef);

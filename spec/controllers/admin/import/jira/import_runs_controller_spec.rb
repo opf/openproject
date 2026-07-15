@@ -87,8 +87,8 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       expect(response).to have_http_status(:forbidden)
     end
 
-    it "returns forbidden for GET #new" do
-      get :new, params: { jira_id: jira.id }
+    it "returns forbidden for POST #create" do
+      post :create, params: { jira_id: jira.id }
       expect(response).to have_http_status(:forbidden)
     end
 
@@ -132,10 +132,10 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
     end
   end
 
-  describe "GET #new" do
+  describe "POST #create" do
     it "creates a new jira import and redirects to show" do
       expect do
-        get :new, params: { jira_id: jira.id }
+        post :create, params: { jira_id: jira.id }
       end.to change(Import::JiraImport, :count).by(1)
 
       new_import = Import::JiraImport.last

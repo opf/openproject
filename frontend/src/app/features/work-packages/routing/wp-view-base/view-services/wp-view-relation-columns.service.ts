@@ -75,7 +75,7 @@ workPackage:WorkPackageResource,
     }
 
     // Only if any relations exist for this work package
-    if (_.isNil(relations)) {
+    if (relations == null) {
       return;
     }
 
@@ -89,10 +89,8 @@ workPackage:WorkPackageResource,
     const type = this.relationColumnType(column);
 
     if (type !== null) {
-      _.each(
-this.relationsForColumn(workPackage, relations, column),
-        (relation) => eachCallback(relation, column, type),
-);
+      this.relationsForColumn(workPackage, relations, column)
+        .forEach((relation:RelationResource) => eachCallback(relation, column, type));
     }
   }
 
@@ -105,7 +103,7 @@ this.relationsForColumn(workPackage, relations, column),
    * @return The filtered relations
    */
   public relationsForColumn(workPackage:WorkPackageResource, relations:RelationsStateValue|undefined, column:QueryColumn) {
-    if (_.isNil(relations)) {
+    if (relations == null) {
       return [];
     }
 
@@ -114,11 +112,11 @@ this.relationsForColumn(workPackage, relations, column),
     if (type === 'toType') {
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
-      return _.filter(relations, (relation:RelationResource) => {
+      return Object.values(relations).filter((relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
         const target = this.apiV3Service.work_packages.cache.state(denormalized.targetId).value;
 
-        return _.get(target, 'type.href') === typeHref;
+        return target?.type?.href === typeHref;
       });
     }
 
@@ -126,7 +124,7 @@ this.relationsForColumn(workPackage, relations, column),
     if (type === 'ofType') {
       const { relationType } = column as RelationQueryColumn;
 
-      return _.filter(relations, (relation:RelationResource) => relation.denormalized(workPackage).relationType === relationType);
+      return Object.values(relations).filter((relation:RelationResource) => relation.denormalized(workPackage).relationType === relationType);
     }
 
     return [];

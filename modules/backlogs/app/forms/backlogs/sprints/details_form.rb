@@ -31,6 +31,10 @@
 module Backlogs
   module Sprints
     class DetailsForm < ApplicationForm
+      extend Dry::Initializer
+
+      option :disabled, default: -> { false }
+
       form do |f|
         f.hidden(name: :id)
 
@@ -38,17 +42,10 @@ module Backlogs
           label: attribute_name(:name),
           name: :name,
           required: true,
-          autofocus: true,
+          autofocus: !disabled,
+          disabled:,
           w: :full
         )
-
-        # f.text_area(
-        #   label: attribute_name(:goal),
-        #   name: :goal,
-        #   required: false,
-        #   w: :full,
-        #   rows: 3
-        # )
       end
     end
   end

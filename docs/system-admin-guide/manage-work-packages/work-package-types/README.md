@@ -10,7 +10,7 @@ keywords: work package types, work package form, related work package, work pack
 
 In OpenProject, you can create and manage as many work package types as needed, such as Tasks, Bugs, Ideas, Risks, and Features.
 
-To add or modify work package types, navigate to *Administration → Work packages → Types*.
+To add or modify work package types, navigate to _Administration → Work packages → Types_.
 
 Here, you will see a list of all existing work package types.
 
@@ -99,7 +99,6 @@ The related work packages table is then displayed directly in the work package f
 
 Please refer to [this guide](automatic-subjects) for a detailed description of automatically generated work package subjects in OpenProject. 
 
-
 ## Activate work package types for projects
 
 Under **Administration → Work packages → Types**, open the **Projects** tab to select for which projects a work package type should be activated.
@@ -114,7 +113,6 @@ If **Enable for all projects** is disabled, a list of projects is displayed. Sel
 
 ![activate projects for work package types in OpenProject administration](openproject_system_guide_wp_type_activate_projects.png)
 
-
 ## Activate templates for PDF exports
 
 Under the **Generate PDF** tab of  **Administration -> Work packages -> Types**, you can select which PDF export templates are available for this work package type.
@@ -122,4 +120,3 @@ Under the **Generate PDF** tab of  **Administration -> Work packages -> Types**,
 The template determines the design and attributes visible in the exported PDF of a work package using this type. The first  template on the list is selected by default.
 
 ![Generate PDF tab under work package types settings in OpenProject administration](openproject_system_guide_work_package_types_pdf_tab.png)
-

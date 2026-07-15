@@ -9,6 +9,12 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
+interface QueryFormSchemaProperties {
+  filtersSchemas:{ elements:QueryFilterInstanceSchemaResource[] };
+}
+
+type QueryFormSchema = QueryFormResource['schema'] & QueryFormSchemaProperties;
+
 @Injectable()
 export class QueryFiltersService {
   protected schemaCache = inject(SchemaCacheService);
@@ -19,8 +25,9 @@ export class QueryFiltersService {
    * from the schema
    */
   private getFilterSchema(filter:QueryFilterInstanceResource, form:QueryFormResource):QueryFilterInstanceSchemaResource|undefined {
-    const available = form.$embedded.schema.filtersSchemas.elements;
-    return _.find(available, (schema) => schema.allowedFilterValue.href === filter.filter.href);
+    const schema = form.schema as QueryFormSchema;
+    const available = schema.filtersSchemas.elements;
+    return available.find((schema) => schema.allowedFilterValue.href === filter.filter.href);
   }
 
   /**

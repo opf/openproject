@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -37,7 +39,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
 
   let(:handler_instance) { described_class.new }
   let(:upsert_service) { OpenProject::GitlabIntegration::Services::UpsertIssue.new }
-  let(:gitlab_issue) { GitlabIssue.find_by_gitlab_identifiers(id: 5) }
+  let(:gitlab_url) { "http://79dfcd98b723/root/hot_do/-/issues/4" }
+  let(:gitlab_issue) { GitlabIssue.find_by_gitlab_identifiers(id: 5, url: gitlab_url) }
 
   let(:mr_description) { "Mentioning OP##{work_package.id}" }
   let(:gitlab_action) { "open" }
@@ -70,7 +73,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
         "id" => 5,
         "iid" => 5,
         "head_pipeline_id" => nil,
-        "url" => "http://79dfcd98b723/root/hot_do/-/issues/4",
+        "url" => gitlab_url,
         "updated_at" => Time.current.iso8601
       },
       "labels" => labels,
@@ -78,7 +81,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
         "name" => "Hot Do",
         "url" => "git@79dfcd98b723:root/hot_do.git",
         "description" => nil,
-        "homepage" => "http://79dfcd98b723/root/hot_do/-/issues/4"
+        "homepage" => gitlab_url
       }
     }
   end
@@ -164,7 +167,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
     it_behaves_like "calls the issue upsert service"
 
     context "when the work package is already known to the GitlabIssue" do
-      let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, work_packages: [work_package]) }
+      let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, gitlab_html_url: gitlab_url, work_packages: [work_package]) }
 
       it_behaves_like "adding a comment"
 

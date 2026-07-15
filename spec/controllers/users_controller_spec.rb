@@ -880,6 +880,7 @@ RSpec.describe UsersController do
     context "when updating fields as an admin" do
       current_user { admin }
 
+      let(:generated_password) { nil }
       let(:params) do
         {
           id: some_user.id,
@@ -892,6 +893,14 @@ RSpec.describe UsersController do
             comments_sorting: "desc"
           }
         }
+      end
+
+      prepend_before do
+        if generated_password
+          allow(OpenProject::Passwords::Generator)
+            .to receive(:random_password)
+            .and_return(generated_password)
+        end
       end
 
       before do
@@ -941,6 +950,32 @@ RSpec.describe UsersController do
         end
       end
 
+      context "when assigning a random password" do
+        let(:generated_password) { "randompassPASS!" }
+        let(:params) do
+          {
+            id: some_user.id,
+            user: {
+              assign_random_password: "1"
+            }
+          }
+        end
+
+        it "sends an email to the user with the generated password" do
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.to)
+            .to contain_exactly(some_user.mail)
+
+          expect(mail.body.encoded)
+            .to include(generated_password)
+        end
+
+        it "forces a password change on next login" do
+          expect(some_user.reload.force_password_change).to be(true)
+        end
+      end
+
       context "when manually setting a password without send_information" do
         let(:params) do
           {
@@ -977,6 +1012,47 @@ RSpec.describe UsersController do
           expect(assigns(:user).errors.first)
             .to have_attributes(attribute: :firstname, type: :blank)
         end
+      end
+
+      # Department membership lives in a separate table and is mutated by these
+      # examples, so use a fresh user per example rather than the shared some_user.
+      context "when changing the department" do
+        let(:edited_user) { create(:user) }
+        let(:department) { create(:department, name: "Engineering") }
+
+        it "assigns the user to the selected department" do
+          put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+          expect(edited_user.reload.department).to eq(department)
+        end
+
+        context "when the user already belongs to a department" do
+          let!(:current_department) { create(:department, name: "Sales", members: [edited_user]) }
+
+          it "moves the user to the selected department" do
+            put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+            expect(edited_user.reload.department).to eq(department)
+          end
+
+          it "clears the department when submitted blank" do
+            put :update, params: { id: edited_user.id, user: { department_id: "" } }
+            expect(edited_user.reload.department).to be_nil
+          end
+        end
+      end
+    end
+
+    context "when a non-admin with manage_user permission changes the department" do
+      shared_let(:manager) { create(:user, global_permissions: %i[manage_user view_all_principals]) }
+      let(:edited_user) { create(:user, firstname: "Original") }
+      let(:department) { create(:department, name: "Engineering") }
+
+      current_user { manager }
+
+      it "ignores the department change while still updating other attributes" do
+        put :update, params: { id: edited_user.id, user: { firstname: "Renamed", department_id: department.id } }
+
+        expect(edited_user.reload.firstname).to eq("Renamed")
+        expect(edited_user.department).to be_nil
       end
     end
 

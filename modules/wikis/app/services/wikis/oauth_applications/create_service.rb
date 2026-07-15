@@ -40,20 +40,13 @@ module Wikis
         @user = user
       end
 
-      def call
+      def call(client_id: nil, client_secret: nil)
         result = nil
         ApplicationRecord.transaction do
           wiki_provider.oauth_application&.destroy!
-          result = ::OAuth::Applications::CreateService
-                     .new(user:)
-                     .call(
-                       name: wiki_provider.name,
-                       redirect_uri: oidc_redirect_uri,
-                       scopes: "api_v3",
-                       confidential: true,
-                       owner: user,
-                       integration: wiki_provider
-                     )
+          result = ::OAuth::Applications::CreateService.new(user:).call(
+            **attributes(client_id:, client_secret:)
+          )
           raise ActiveRecord::Rollback unless result.success?
         end
         result
@@ -61,7 +54,20 @@ module Wikis
 
       private
 
-      def oidc_redirect_uri
+      def attributes(client_id:, client_secret:)
+        {
+          name: wiki_provider.name,
+          redirect_uri:,
+          scopes: "api_v3",
+          confidential: true,
+          owner: user,
+          integration: wiki_provider,
+          uid: client_id,
+          secret: client_secret
+        }.compact
+      end
+
+      def redirect_uri
         URI.join("#{wiki_provider.url.chomp('/')}/", OIDC_CALLBACK_PATH).to_s
       end
     end

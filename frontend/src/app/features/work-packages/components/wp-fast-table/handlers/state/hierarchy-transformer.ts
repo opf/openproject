@@ -73,7 +73,7 @@ export class HierarchyTransformer {
     const collapsed:Record<number, boolean> = {};
 
     // Hide all collapsed hierarchies
-    _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
+    Object.entries(state.collapsed).forEach(([wpId, isCollapsed]) => {
       // Toggle the root style
       document.querySelector(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`)?.classList.toggle(indicatorCollapsedClass, isCollapsed);
 

@@ -3,58 +3,61 @@ sv:
   js:
     grid:
       add_widget: Lägg till widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Ta bort widget
       configure: Konfigurera widget
+      remove: Ta bort widget
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Du har inte de nödvändiga behörigheterna för att visa den här widgeten.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Egen text
         documents:
-          title: Dokument
           no_results: Inga dokument ännu.
+          title: Dokument
         members:
           title: Medlemmar
+        missing_permission: Du har inte de nödvändiga behörigheterna för att visa den här widgeten.
         news:
           title: Nyheter
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favoritprojekt
         project_status:
-          title: Status
-          not_started: Inte påbörjad
-          on_track: På rätt spår
-          off_track: Urspårat
           at_risk: I riskzonen
-          not_set: Ej inställd
-          finished: Avslutad
           discontinued: Utgången
+          finished: Avslutad
+          not_set: Ej inställd
+          not_started: Inte påbörjad
+          off_track: Urspårat
+          on_track: På rätt spår
+          title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Underpunkter
-        project_favorites:
-          title: Favoritprojekt
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Min tillbringade tid
           displayed_days: 'Dagar som visas i widgeten:'
+          title: Min tillbringade tid
         time_entries_list:
-          title: Spenderad tid (senaste 7 dagarna)
           no_results: Inga tidsinlägg för de senaste 7 dagarna.
+          title: Spenderad tid (senaste 7 dagarna)
         work_packages_accountable:
           title: Arbetspaket Jag är ansvarig för
         work_packages_assigned:
           title: Arbetspaket som tilldelats till mig
-        work_packages_created:
-          title: Arbetspaket skapade av mig
-        work_packages_watched:
-          title: Arbetspaket bevakade av mig
-        work_packages_table:
-          title: Tabell för arbetspaket
-        work_packages_graph:
-          title: Graf för arbetspaket
-          summary: "%{chartType} diagram visar arbetspaket som är %{description}."
         work_packages_calendar:
           title: Kalender
+        work_packages_created:
+          title: Arbetspaket skapade av mig
+        work_packages_graph:
+          summary: "%{chartType} diagram visar arbetspaket som är %{description}."
+          title: Graf för arbetspaket
         work_packages_overview:
-          title: Översikt över arbetspaket
           placeholder: Klicka för att redigera ...
+          title: Översikt över arbetspaket
+        work_packages_table:
+          title: Tabell för arbetspaket
+        work_packages_watched:
+          title: Arbetspaket bevakade av mig

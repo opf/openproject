@@ -18,7 +18,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   resizeObs:ResizeObserver;
 
-  resizeObserver(v:ElementRef|undefined):void {
+  resizeObserver(v:ElementRef<HTMLElement>|undefined):void {
     if (!v) {
       return;
     }
@@ -27,7 +27,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       this.resizeObs = new ResizeObserver(() => this.resize$.next());
     }
 
-    this.resizeObs.observe(v.nativeElement as Element);
+    this.resizeObs.observe(v.nativeElement);
   }
 
   applyNonWorkingDay({ date }:{ date?:Date }, nonWorkingDays:IDay[]):string[] {

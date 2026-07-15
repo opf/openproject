@@ -127,6 +127,18 @@ RSpec.describe "my", :js do
     end
   end
 
+  describe "non-editable custom fields" do
+    let!(:readonly_cf) do
+      create(:user_custom_field, :string, name: "Employee ID", editable: false)
+    end
+
+    it "renders them read-only on the account page" do
+      visit my_account_path
+
+      expect(page).to have_field("Employee ID", disabled: true)
+    end
+  end
+
   context "user" do
     describe "#account" do
       let(:dialog) { Components::PasswordConfirmationDialog.new }
@@ -170,6 +182,30 @@ RSpec.describe "my", :js do
             expect_changed!
           end
         end
+      end
+    end
+
+    describe "#account when users may not change their email",
+             with_config: { internal_password_confirmation: false },
+             with_settings: { user_can_change_email: false } do
+      before do
+        visit my_account_path
+      end
+
+      it "renders the email read-only but still allows changing the name" do
+        expect(page).to have_field("user[mail]", readonly: true)
+        expect(page).to have_text(I18n.t("user.text_change_mail_disabled_by_administrator"))
+        expect(page).to have_no_text(I18n.t("user.text_change_disabled_for_provider_login"))
+
+        fill_in "user[firstname]", with: "Foo"
+        fill_in "user[lastname]", with: "Bar"
+        click_on "Update profile"
+
+        expect(page).to have_text I18n.t(:notice_account_updated)
+
+        user.reload
+        expect(user.name).to eq "Foo Bar"
+        expect(user.mail).to eq "old@mail.com"
       end
     end
 

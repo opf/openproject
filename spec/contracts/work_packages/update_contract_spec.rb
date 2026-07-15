@@ -126,6 +126,45 @@ RSpec.describe WorkPackages::UpdateContract do
         it_behaves_like "contract is invalid", project_id: :error_readonly
       end
 
+      context "when the current assignee and accountable are not assignable in the target project" do
+        before do
+          work_package.update_columns(assigned_to_id: persisted_possible_assignee.id,
+                                       responsible_id: persisted_possible_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+          contract.validate
+        end
+
+        it "rejects the move on assigned_to" do
+          expect(contract.errors[:assigned_to])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.assignee")))
+        end
+
+        it "rejects the move on responsible" do
+          expect(contract.errors[:responsible])
+            .to include(I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
+                               property: I18n.t("attributes.responsible")))
+        end
+      end
+
+      context "when the current assignee remains assignable in the target project" do
+        let(:cross_project_assignee) do
+          create(:user, member_with_permissions: {
+                   persisted_project => %i[view_work_packages work_package_assigned],
+                   target_project => %i[view_work_packages work_package_assigned]
+                 })
+        end
+
+        before do
+          work_package.update_columns(assigned_to_id: cross_project_assignee.id)
+          work_package.reload
+          work_package.project = target_project
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
       context "when modifying attributes while moving (authorization bypass prevention)" do
         before do
           work_package.subject = "modified-subject"

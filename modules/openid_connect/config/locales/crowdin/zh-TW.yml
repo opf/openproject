@@ -1,104 +1,83 @@
 ---
 zh-TW:
-  plugin_openproject_openid_connect:
-    name: OpenProject OpenID 連接
-    description: 新增 OmniAuth OpenID 連線部署提供商至 OpenProject。
-  logout_warning: '你已被登出，你嘗試送出的內容可能都會遺失。請登入。
-
-    '
   activerecord:
     attributes:
       openid_connect/group_link:
         oidc_group_name: OpenID 群組識別碼
       openid_connect/provider:
-        name: 名稱
-        slug: 唯一識別碼
-        display_name: 顯示名稱
+        acr_values: ACR 值
+        authorization_endpoint: 授權端點
+        claims: 要求
         client_id: 客戶端 ID
         client_secret: 客戶端金鑰
-        groups_claim: 群組欄位
-        group_regexes: 模式（正規表達式）
-        secret: 金鑰
-        scope: 範圍
-        sync_groups: 同步群組
-        grant_types_supported: 支援授權類型
-        limit_self_registration: 限制自行註冊
-        authorization_endpoint: 授權端點
-        userinfo_endpoint: 使用者資訊端點
-        token_endpoint: 令牌(token)端點
+        display_name: 顯示名稱
         end_session_endpoint: 結束會話端點
-        post_logout_redirect_uri: 登出後重定向 URI
-        jwks_uri: JWKS URI
-        issuer: 發行者
-        tenant: 租用戶
-        metadata_url: 後設資料 URL
+        grant_types_supported: 支援授權類型
+        group_regexes: 模式（正規表達式）
+        groups_claim: 群組欄位
         icon: 自訂圖示
-        claims: 要求
-        acr_values: ACR 值
+        issuer: 發行者
+        jwks_uri: JWKS URI
+        limit_self_registration: 限制自行註冊
+        metadata_url: 後設資料 URL
+        name: 名稱
+        post_logout_redirect_uri: 登出後重定向 URI
         redirect_url: 重新導向網址
+        scope: 範圍
+        secret: 金鑰
+        slug: 唯一識別碼
+        sync_groups: 同步群組
+        tenant: 租用戶
+        token_endpoint: 令牌(token)端點
+        userinfo_endpoint: 使用者資訊端點
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
               format: 發現端點 URL %{message}
-              response_is_not_successful: " 回應 %{status}。"
               response_is_not_json: " 沒有回傳JSON正文"
+              response_is_not_successful: " 回應 %{status}。"
               response_misses_required_attributes: " 未返回所需的屬性。缺少的屬性有： %{missing_attributes}."
           invalid_claims_essential: 沒有在 %{attribute}定義布林。
           invalid_claims_location: 包含不支援的位置： %{invalid}。支援的位置有： %{supported}。
           invalid_claims_values: 沒有在 %{attribute}定義陣列。
           non_object_attribute: 沒有定義 JSON 物件 %{attribute}。
-  provider:
-    delete_warning:
-      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: 刪除 SSO 提供者是不可逆轉的動作。
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
-      delete_result_1: 從可用提供者清單中移除提供者。
-      delete_result_user_count:
-        zero: 目前沒有使用者使用此供應商。不需要採取進一步的行動。
-        one: 目前有一位使用者仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。
-        other: "%{count} 使用者目前仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。"
-      delete_result_direct: 此提供商標記為直接登入提供商。該設定將被移除，使用者將不再被重定向到提供者進行登入。
+  logout_warning: '你已被登出，你嘗試送出的內容可能都會遺失。請登入。
+
+    '
   openid_connect:
-    menu_title: OpenID 提供商
-    delete_title: 刪除 OpenID Connect 提供者
     delete_heading: Delete this OpenID Connect provider?
+    delete_title: 刪除 OpenID Connect 提供者
     group_links_heading: OpenID Connect 群組連結
     groups:
       match_preview_component:
-        title: 擷取的群組名稱
         placeholder_none: 目前沒有群組符合該模式。
+        title: 擷取的群組名稱
       match_preview_dialog_component:
         description: 這可讓您針對樣本資料測試正則表達式模式，以驗證您想要萃取的群組名稱是否確實被正確萃取。您可以在此修改您的模式，但測試字串和匹配結果本身不會與組態一起儲存。
-        group_names_label: 測試群組名稱
         group_names_description: 每行輸入一個 OIDC 索賠中出現的群組名稱，看看您的正則表達式模式對它們有何影響。
+        group_names_label: 測試群組名稱
         show_button: 測試模式
         title: 測試正則表達式
     instructions:
+      acr_values: '以更簡易的格式要求非必要的資料。更多資訊請參閱 [我們的 acr_values 文件](docs_url)。
+
+        '
+      claims: '您可以為使用者資訊與 id 令牌端點請求額外的聲明（claims）。詳細資訊請參考我們的 OpenID Connect 文件。
+
+        '
+      client_id: 這是 OpenID Connect 提供者給予您的用戶端 ID
+      client_secret: 這是 OpenID Connect 提供者給予您的用戶端密鑰
+      display_name: 提供商的名稱。這將會顯示在登入按鈕及提供商清單中。
       endpoint_url: OpenID Connect 提供者給予您的端點 URL
       group_regexes: 每行一個正則表達模式。請閱讀 [說明文件](docs_url) 以取得更多相關資訊。
       group_regexes_detail: 可選擇使用正規表達式定義模式，以從群組聲稱中匹配群組名稱。例如，輸入類似 ^Level1/Level2/<code>([\w/]+)$</code>的模式將從包含「Level1/Level2/GroupName/SubGroup」的回覆中抽取「Groupname/SubGroup」的群組。如果沒有模式匹配，群組會被忽略。留空可使用群組全名同步處理所有群組。
       group_regexes_testing: 按一下「測試樣式」，針對 OIDC 使用者資訊範例測試您的正則表達式樣式。
       group_sync: 自動從身分提供者擷取和同步群組成員資訊。
       groups_claim: 請指定用來表示使用者所屬群組名稱的 claim 名稱。
-      metadata_none: 我沒有這些資訊
-      metadata_url: 我有一個發現端點 URL
-      oidc_information: 這些值需要用來設定 OpenID Connect 提供者。
-      client_id: 這是 OpenID Connect 提供者給予您的用戶端 ID
-      client_secret: 這是 OpenID Connect 提供者給予您的用戶端密鑰
       limit_self_registration: 如果啟用，只有在提供商端的設定允許的情況下，使用者才能使用此提供商註冊。
-      display_name: 提供商的名稱。這將會顯示在登入按鈕及提供商清單中。
-      tenant: 如果適用，請用您自己的租戶取代預設租戶。請參閱<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此內容</a>。
-      scope: 如果您想要要求自訂範圍，您可以在此新增一個或多個範圍值，並以空格分隔。如需詳細資訊，請參閱 [OpenID Connect 文件](docs_url)。
-      post_logout_redirect_uri: OpenID Connect 提供者應在登出請求後重定向至的 URL。
-      claims: '您可以為使用者資訊與 id 令牌端點請求額外的聲明（claims）。詳細資訊請參考我們的 OpenID Connect 文件。
-
-        '
-      acr_values: '以更簡易的格式要求非必要的資料。更多資訊請參閱 [我們的 acr_values 文件](docs_url)。
-
-        '
-      mapping_login: '在使用者資料回應中，提供用於登入屬性的自訂對應。
+      mapping_admin: '在使用者資料回應中，提供用於管理狀態的自訂對應。它預期會傳回一個布林屬性。
 
         '
       mapping_email: '在使用者資料回應中，提供用於email屬性的自訂對應。
@@ -110,57 +89,77 @@ zh-TW:
       mapping_last_name: '在使用者資料回應中，提供用於姓氏屬性的自訂對應。
 
         '
-      mapping_admin: '在使用者資料回應中，提供用於管理狀態的自訂對應。它預期會傳回一個布林屬性。
+      mapping_login: '在使用者資料回應中，提供用於登入屬性的自訂對應。
 
         '
-    settings:
       metadata_none: 我沒有這些資訊
-      metadata_url: 我有發現一個端點 URL
-      endpoint_url: 端點 URL
+      metadata_url: 我有一個發現端點 URL
+      oidc_information: 這些值需要用來設定 OpenID Connect 提供者。
+      post_logout_redirect_uri: OpenID Connect 提供者應在登出請求後重定向至的 URL。
+      scope: 如果您想要要求自訂範圍，您可以在此新增一個或多個範圍值，並以空格分隔。如需詳細資訊，請參閱 [OpenID Connect 文件](docs_url)。
+      tenant: 如果適用，請用您自己的租戶取代預設租戶。請參閱<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此內容</a>。
+    menu_title: OpenID 提供商
     providers:
-      label_providers: 提供商
-      seeded_from_env: 此提供者是從環境組態根植的。無法編輯。
-      google:
-        name: Google
-      microsoft_entra:
-        name: 微軟 Entra
+      client_details_description: OpenProject 作為 OIDC 用戶端的細節設定
       custom:
         name: 自訂
-      upsell:
-        title: 使用 OpenID 連線的單一登入 (SSO)
-        description: 將 OpenProject 連接到 OpenID connect 身分提供者
+      google:
+        name: Google
       label_add_new: 新增 OpenID 提供商
+      label_advanced_configuration: 進階設定
+      label_attribute_mapping: 屬性對應
+      label_automatic_configuration: 自動設定
+      label_client_details: 客戶端詳細資訊
+      label_configuration_details: 後設資料
       label_edit: 編輯 OpenID 提供商：%{name}
-      label_empty_title: 尚未設定 Saml 提供商。
       label_empty_description: 增加可供查詢之提供商名稱
+      label_empty_title: 尚未設定 Saml 提供商。
       label_group_mapping: 群組對應
       label_metadata: OpenID 連接搜尋端點
-      label_automatic_configuration: 自動設定
       label_optional_configuration: 可選配置
-      label_advanced_configuration: 進階設定
-      label_configuration_details: 後設資料
-      label_client_details: 客戶端詳細資訊
-      label_attribute_mapping: 屬性對應
-      notice_created: 新的 OpenID 提供者已成功建立。
-      client_details_description: OpenProject 作為 OIDC 用戶端的細節設定
+      label_providers: 提供商
+      microsoft_entra:
+        name: 微軟 Entra
       no_results_table: 尚未定義任何提供商。
+      notice_created: 新的 OpenID 提供者已成功建立。
       plural: OpenID 提供商
-      singular: OpenID 提供商
       section_texts:
+        attribute_mapping: 設定 OpenProject 與 OpenID Connect 提供者之間的屬性對應。
+        claims: 要求 ID 令牌 或 使用者資訊回應額外聲明。
+        configuration: OpenID Connect 提供者的組態詳細資訊
+        configuration_metadata: 資訊已使用提供的發現端點預先填入。在大多數情況下，它們不需要編輯。
+        display_name: 使用者可見的顯示名稱。
         group_mapping: 將身份提供者提供的群組名稱對應到 OpenProject 中的群組。
         metadata: 使用 OpenID Connect 發現端點 URL 預先填寫設定
         metadata_form_banner: 編輯發現端點可能會覆寫現有預先填入的後置資料值。
-        metadata_form_title: OpenID Connect 發現端點
         metadata_form_description: 如果您的身分提供者有發現端點 URL。請在下面使用它來預先填寫設定。
-        configuration_metadata: 資訊已使用提供的發現端點預先填入。在大多數情況下，它們不需要編輯。
-        configuration: OpenID Connect 提供者的組態詳細資訊
-        display_name: 使用者可見的顯示名稱。
-        attribute_mapping: 設定 OpenProject 與 OpenID Connect 提供者之間的屬性對應。
-        claims: 要求 ID 令牌 或 使用者資訊回應額外聲明。
+        metadata_form_title: OpenID Connect 發現端點
       side_panel:
         information_component:
           backchannel_logout_url: 後端登出通知 URL
+      singular: OpenID 提供商
+      upsell:
+        description: 將 OpenProject 連接到 OpenID connect 身分提供者
+        title: 使用 OpenID 連線的單一登入 (SSO)
     setting_instructions:
       limit_self_registration: '如果啟用，使用者只能在允許自行註冊情況下，使用此提供者進行註冊。
 
         '
+    settings:
+      endpoint_url: 端點 URL
+      metadata_none: 我沒有這些資訊
+      metadata_url: 我有發現一個端點 URL
+  plugin_openproject_openid_connect:
+    description: 新增 OmniAuth OpenID 連線部署提供商至 OpenProject。
+    name: OpenProject OpenID 連接
+  provider:
+    delete_warning:
+      delete_result_1: 從可用提供者清單中移除提供者。
+      delete_result_direct: 此提供商標記為直接登入提供商。該設定將被移除，使用者將不再被重定向到提供者進行登入。
+      delete_result_user_count:
+        one: 目前有一位使用者仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。
+        other: "%{count} 使用者目前仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。"
+        zero: 目前沒有使用者使用此供應商。不需要採取進一步的行動。
+      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: 刪除 SSO 提供者是不可逆轉的動作。
+      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'

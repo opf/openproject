@@ -44,18 +44,6 @@ module PasswordHelper
     form_for(record, options, &)
   end
 
-  ##
-  # Decorate the form_tag helper with the request-for-confirmation directive
-  # when the user is internally authenticated.
-  def password_confirmation_form_tag(url_for_options = {}, options = {}, &)
-    if password_confirmation_required?
-      options[:data] ||= {}
-      options[:data] = password_confirmation_data_attribute(options[:data])
-    end
-
-    form_tag(url_for_options, options, &)
-  end
-
   def password_confirmation_data_attribute(with_data = {})
     controller = with_data.fetch(:controller, "")
 

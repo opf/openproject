@@ -30,24 +30,13 @@
 
 module OpenProject::Backlogs
   class WorkPackageSprintSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+    include WorkPackageSelectConcern
+
+    attr_reader :project
+
     SORT_ORDER = %w[visible_sprints.name
                     visible_sprints.start_date
                     visible_sprints.finish_date].freeze
-
-    def self.instances(context = nil)
-      return [] if context && !context.backlogs_enabled?
-      return [] unless user_allowed_to_select_sprint?(context)
-
-      [new(context)]
-    end
-
-    def self.user_allowed_to_select_sprint?(context)
-      if context
-        User.current.allowed_in_project?(:view_sprints, context)
-      else
-        User.current.allowed_in_any_project?(:view_sprints)
-      end
-    end
 
     def initialize(project = nil)
       @project = project
@@ -56,21 +45,14 @@ module OpenProject::Backlogs
       super(:sprint,
             sortable: SORT_ORDER,
             groupable_join: sprint_join_with_permissions,
-            groupable: group_by_statement,
-            groupable_select: groupable_select)
+            groupable: group_by_statement)
     end
 
     def sortable_join_statement(_query)
       sprint_join_with_permissions
     end
 
-    def groupable_select
-      group_by_statement
-    end
-
-    def group_by_statement
-      "visible_sprints.id"
-    end
+    def group_by_statement = "visible_sprints.id"
 
     private
 
@@ -87,7 +69,6 @@ module OpenProject::Backlogs
     #    sharer when the user only has permission in the receiver.
     def sprint_join_with_permissions
       <<~SQL.squish
-        LEFT OUTER JOIN "projects" ON "projects"."id" = "work_packages"."project_id"
         LEFT OUTER JOIN (
           #{visible_sprints.to_sql}
         ) AS visible_sprints
@@ -97,20 +78,13 @@ module OpenProject::Backlogs
     end
 
     def visible_sprints
-      if @project
-        Sprint.for_project(@project)
-      else
-        Sprint
-      end
-        .visible
-    end
+      scope = if project
+                Sprint.for_project(project)
+              else
+                Sprint
+              end
 
-    def projects_with_view_sprints
-      if @project
-        Project.where(id: @project)
-      else
-        Project.allowed_to(User.current, :view_sprints)
-      end
+      scope.visible
     end
   end
 end
