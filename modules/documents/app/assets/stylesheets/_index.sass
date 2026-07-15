@@ -1,4 +1,5 @@
 $blocknote-max-width: 800px
+$blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag handle + "+"); BlockNote doesn't expose this, its own default is 54px
 
 .document-form--long-description
   .ck-content
@@ -28,7 +29,8 @@ $blocknote-max-width: 800px
     width: 100%
     background-color: transparent
     padding-top: 10px // Small padding to display cursor label when at the very top
-    padding-inline: 0 // No inline padding necessary given transparent background
+    padding-inline: 0 // Drop BlockNote's default 54px inline padding
+    padding-left: $blocknote-side-menu-gutter
     font-size: var(--body-font-size)
   > .bn-default-styles
     font-family: var(--body-font-family)
