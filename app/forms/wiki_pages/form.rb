@@ -108,11 +108,11 @@ module WikiPages
     end
 
     def cancel_href
-      if model.new_record?
-        url_helpers.url_for(controller: "wiki", action: "show", project_id: model.project, only_path: true)
-      else
-        url_helpers.project_wiki_path(model.project, model)
-      end
+      url_helpers.url_for(controller: "wiki",
+                          action: "show",
+                          project_id: model.wiki.project,
+                          id: model.new_record? ? nil : model,
+                          only_path: true)
     end
   end
 end
