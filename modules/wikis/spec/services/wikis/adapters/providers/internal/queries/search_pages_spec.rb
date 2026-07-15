@@ -38,16 +38,16 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
   let(:auth_strategy) { provider.auth_strategy_for(user).value! }
   let(:query) { wiki_page.title }
 
-  let(:wiki_page) { create(:wiki_page, title: "Wiki Page with a Title you will love") }
-  let(:wiki_project) { wiki_page.project }
+  let(:wiki) { create(:wiki) }
+  let(:wiki_project) { wiki.project }
+  let(:wiki_page) { create(:wiki_page, wiki:, parent: wiki_page_parent, title: "Wiki Page with a Title you will love") }
+  let(:wiki_page_parent) { create(:wiki_page, wiki:, title: "Nothing to see here") }
   let(:wiki_project_permissions) { %i[view_wiki_pages] }
 
   let(:user) { create(:user) }
 
   before do
-    create(:member, project: wiki_project,
-                    user:,
-                    roles: [create(:project_role, permissions: wiki_project_permissions)])
+    create(:member, project: wiki_project, user:, roles: [create(:project_role, permissions: wiki_project_permissions)])
 
     wiki_page
   end
@@ -56,7 +56,17 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
 
   it "returns pages matching the search term exactly" do
     expect(subject.value!).not_to be_empty
-    expect(subject.value!.first.title).to eq(wiki_page.title)
+    expect(subject.value!.first.page.title).to eq(wiki_page.title)
+  end
+
+  it "returns the page's ancestors" do
+    expect(subject.value!).not_to be_empty
+    expect(subject.value!.first.ancestors.first.identifier).to eq(wiki_page_parent.id.to_s)
+  end
+
+  it "returns the page's wiki" do
+    expect(subject.value!).not_to be_empty
+    expect(subject.value!.first.wiki.identifier).to eq(wiki.id.to_s)
   end
 
   context "when the search term only matches partially" do
@@ -66,7 +76,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
 
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.title).to eq(wiki_page.title)
+      expect(subject.value!.first.page.title).to eq(wiki_page.title)
     end
   end
 
@@ -77,7 +87,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::SearchPages do
 
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.title).to eq(wiki_page.title)
+      expect(subject.value!.first.page.title).to eq(wiki_page.title)
     end
   end
 

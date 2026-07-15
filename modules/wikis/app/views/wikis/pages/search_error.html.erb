@@ -28,25 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  search_result.either(
-    ->(pages) do
-      render(
-        Primer::Alpha::TreeView.new(
-          form_arguments: { builder:, name: },
-          data: { target: "filterable-tree-view.treeViewList" }
-        )
-      ) do |tree_view|
-        pages.each do |page|
-          tree_view.with_leaf(select_variant: :single, label: page.title, data: { node_id: page.identifier }, value: page.identifier) do |item|
-            item.with_leading_visual_icon(icon: :"op-file-doc")
-          end
-        end
-      end
-    end,
-    ->(_failure) do
-      render(Primer::Alpha::TreeView.new(data: { target: "filterable-tree-view.treeViewList" })) do |tree_view|
-        tree_view.with_leaf(select_variant: :none, label: t("wikis.link_existing_wiki_page_dialog.no_results"))
-      end
-    end
-  )
+  render(Primer::Alpha::TreeView.new(data: { target: "filterable-tree-view.treeViewList" })) do |tree|
+    tree.with_leaf(label: message)
+  end
 %>

@@ -28,25 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        module Queries
-          class SearchPages < BaseQuery
-            MAXIMUM_RESULTS = 50
+module Wikis::Adapters::Results
+  class PageSearchTreeNode
+    attr_accessor :enabled
 
-            def call(input_data:, auth_strategy:)
-              success(
-                WikiPage.visible(auth_strategy.user)
-                        .where("title ILIKE ?", "%#{input_data.query}%")
-                        .limit(MAXIMUM_RESULTS)
-                        .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
-              )
-            end
-          end
-        end
-      end
+    attr_reader :identifier, :type, :name, :children
+
+    def initialize(identifier:, type:, name:, children:, enabled:)
+      @identifier = identifier
+      @type = type
+      @name = name
+      @children = children
+      @enabled = enabled
     end
+
+    def key = "#{type}:#{identifier}"
   end
 end
