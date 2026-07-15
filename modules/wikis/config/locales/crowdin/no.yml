@@ -182,6 +182,7 @@
         no_results: No wiki pages found
         placeholder: Search for a wiki page (or enter its URL)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: You do not have permission to access this wiki page
         page_not_found: Linked wiki page no longer available

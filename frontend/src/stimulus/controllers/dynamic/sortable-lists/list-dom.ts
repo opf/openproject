@@ -200,3 +200,136 @@ function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
     rowsContainer.prepend(row);
   }
 }
+
+const moveDirections = ['top', 'up', 'down', 'bottom'] as const;
+
+export type MoveDirection = typeof moveDirections[number];
+
+// Values crossing the DOM boundary (action params, data attributes) arrive
+// untyped; narrow them instead of casting.
+export function isMoveDirection(value:unknown):value is MoveDirection {
+  return typeof value === 'string' && (moveDirections as readonly string[]).includes(value);
+}
+
+function isItemRow(row:Element|undefined):boolean {
+  return !!row && resolveItemElement(row) !== null;
+}
+
+// A row a predecessor id can be read from: an item row, or a non-item row
+// annotated with the id of the last hidden item it stands in for (a
+// truncation marker). Unannotated non-item rows (a divider, a heading) give
+// no anchor, so a move over them cannot be expressed.
+function isAddressableRow(row:Element):boolean {
+  return isItemRow(row) || row.hasAttribute(sortablePreviousItemIdAttribute);
+}
+
+// The previous item id to insert `itemElement` after for a directional move:
+//   null      -> top of the list
+//   string    -> after that item id
+//   undefined -> the move is unavailable in this direction (caller no-ops)
+//
+// Reasoning happens over rows, not just item elements, so a truncation marker
+// participates. The hidden block a marker represents cannot be addressed one
+// item at a time, so a single-step up/down that would cross it is unavailable;
+// the addressable extremes (top/bottom) and moves that land next to the block
+// via the marker's id stay available. Unannotated non-item rows are hard gaps
+// for one-step moves, while top/bottom anchor on item rows and stay available.
+export function resolveDirectionalPreviousItemId({
+  itemElement,
+  direction,
+  rowsContainer,
+}:{
+  itemElement:HTMLElement;
+  direction:MoveDirection;
+  rowsContainer:Element;
+}):string|null|undefined {
+  const context = resolveRowContext(itemElement, rowsContainer);
+
+  return context ? directionalPreviousItemIdIn(context, direction) : undefined;
+}
+
+export type MoveAvailability = Record<MoveDirection, boolean>;
+
+// Availability of all four directional moves for the item, or null when it is
+// not (yet) a row of the container. The row scan happens once; the four
+// per-direction resolutions only index into it.
+export function resolveMoveAvailability({
+  itemElement,
+  rowsContainer,
+}:{
+  itemElement:HTMLElement;
+  rowsContainer:Element;
+}):MoveAvailability|null {
+  const context = resolveRowContext(itemElement, rowsContainer);
+  if (!context) {
+    return null;
+  }
+
+  return {
+    top: directionalPreviousItemIdIn(context, 'top') !== undefined,
+    up: directionalPreviousItemIdIn(context, 'up') !== undefined,
+    down: directionalPreviousItemIdIn(context, 'down') !== undefined,
+    bottom: directionalPreviousItemIdIn(context, 'bottom') !== undefined,
+  };
+}
+
+// The item's row neighbourhood, scanned once and shared by the per-direction
+// resolutions above.
+interface RowContext {
+  rows:Element[];
+  rowIndex:number;
+  itemRows:Element[];
+  itemIndex:number;
+}
+
+function resolveRowContext(itemElement:HTMLElement, rowsContainer:Element):RowContext|null {
+  const rows = listRows(rowsContainer);
+  const sourceRow = rowOf(rowsContainer, itemElement);
+  const rowIndex = sourceRow ? rows.indexOf(sourceRow) : -1;
+
+  if (rowIndex === -1) {
+    return null;
+  }
+
+  const itemRows = rows.filter((row) => resolveItemElement(row) !== null);
+
+  return { rows, rowIndex, itemRows, itemIndex: itemRows.indexOf(sourceRow!) };
+}
+
+function directionalPreviousItemIdIn(
+  { rows, rowIndex, itemRows, itemIndex }:RowContext,
+  direction:MoveDirection,
+):string|null|undefined {
+  const isFirstItem = itemIndex === 0;
+  const isLastItem = itemIndex === itemRows.length - 1;
+
+  switch (direction) {
+    case 'top':
+      return isFirstItem ? undefined : null;
+    case 'bottom':
+      // After the last visible item; the server appends past the hidden block.
+      return isLastItem ? undefined : resolvePreviousItemId(itemRows[itemRows.length - 1]);
+    case 'up': {
+      if (isFirstItem) return undefined;
+      // One slot up crosses a hidden block (marker row above) or an
+      // uncrossable gap (unannotated row above) -- unavailable either way.
+      if (!isItemRow(rows[rowIndex - 1])) return undefined;
+      const anchor = rows[rowIndex - 2];
+      // The row two above becomes the predecessor (its own id, or a marker's
+      // hidden id); an unannotated row there means "before the item above but
+      // after the gap", which cannot be expressed. No row means the top.
+      if (anchor && !isAddressableRow(anchor)) return undefined;
+      return anchor ? resolvePreviousItemId(anchor) : null;
+    }
+    case 'down': {
+      if (isLastItem) return undefined;
+      const below = rows[rowIndex + 1];
+      // One slot down needs the row below as predecessor: a marker row would
+      // mean crossing its hidden block, an unannotated row gives no anchor.
+      if (!isItemRow(below)) return undefined;
+      return resolvePreviousItemId(below);
+    }
+    default:
+      return undefined;
+  }
+}

@@ -204,8 +204,11 @@ vi:
       error_saving_failed: 'Lưu tài liệu không thành công với lỗi sau: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Thuộc tính đã chọn '%{name}' không tồn tại.
-          macro_help_tooltip: Đoạn văn bản này đang được macro hiển thị động.
           nested_macro: Macro này đang tham chiếu đệ quy %{model} %{id}.
           not_found: Không thể tìm thấy tài nguyên được yêu cầu
         child_pages:

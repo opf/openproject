@@ -32,6 +32,9 @@ tr:
           off_track: Hedeften uzaklaşmış
           on_track: Takipte
           title: Durum
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Alt öğeler
         time_entries_current_user:

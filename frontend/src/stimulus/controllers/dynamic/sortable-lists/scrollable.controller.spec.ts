@@ -67,7 +67,12 @@ describe('Sortable lists scrollable controller', () => {
   }
 
   function stubRoot(element:HTMLElement):SortableListsRoot {
-    return { element, busy: false };
+    return {
+      element,
+      busy: false,
+      moveInDirection: vi.fn(),
+      moveAvailability: vi.fn(() => null),
+    };
   }
 
   function scrollArgs(element:HTMLElement, data:Record<string|symbol, unknown>) {

@@ -204,8 +204,11 @@ ca:
       error_saving_failed: 'No s''ha pogut guardar el document per culpa del següent error: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: L'atribut seleccionat "%{name}" no existeix.
-          macro_help_tooltip: Aquest segment de text s'està presentant dinàmicament per una macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: El recurs sol·licitat no s'ha trobat
         child_pages:

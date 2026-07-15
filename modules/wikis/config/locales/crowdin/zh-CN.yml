@@ -186,6 +186,7 @@ zh-CN:
         no_results: 找不到 Wiki 页面
         placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用

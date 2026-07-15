@@ -21,6 +21,24 @@
 #++
 ---
 es:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Inicia sesión como <em>%{login}</em> para activar tu cuenta.
     delete: Borrar cuenta
@@ -1081,6 +1099,7 @@ es:
         primary-button-color: Color de acento fuerte, utilizado para el botón más importante de una pantalla.
       manage_colors: Editar opciones de selección de colores
       tab_branding: Personalización de marca
+      tab_default_colors: Default colors
       tab_interface: Interfaz
       tab_pdf_export_font: Fuente de exportación PDF
       tab_pdf_export_styles: Estilos de exportación PDF
@@ -1744,6 +1763,8 @@ es:
     reset_token:
       action_create: Crear
       action_reset: Reiniciar
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Crear token de copias de seguridad
       heading_reset: Restablecer token de copias de seguridad
       implications: 'Al habilitar las copias de seguridad, cualquier usuario con los permisos necesarios y este token de copias de seguridad podrá descargar una copia de seguridad que contenga todos los datos de esta instalación de OpenProject, incluidos los datos del resto de los usuarios.
@@ -5198,6 +5219,7 @@ es:
   setting_total_percent_complete_mode_work_weighted_average: Ponderado por trabajo
   setting_total_percent_complete_mode_work_weighted_average_caption_html: El <i>% total completado</i> se ponderará con respecto al <i>Trabajo</i> de cada paquete de trabajo de la jerarquía. Los paquetes de trabajo sin <i>Trabajo</i> se ignorarán.
   setting_use_wysiwyg_description: Seleccione esta opción para habilitar el editor WYSIWYG de CKEditor 5 de forma predeterminada para todos los usuarios. CKEditor tiene funciones limitadas para la versión GFM de Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Zona horaria por defecto de los usuarios
   setting_user_format: Formato de nombre de usuarios
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
@@ -5398,6 +5420,7 @@ es:
       section_project_overview: Configuración de las listas de proyectos
     session: Sesión
     user:
+      account: Account
       default_preferences: Preferencias predeterminadas
       deletion: Eliminación
       display_format: Formato de presentación
@@ -5899,6 +5922,7 @@ es:
     status_change: Cambio de estado
     status_user_and_brute_force: "%{user} y %{brute_force}"
     text_change_disabled_for_provider_login: El nombre y el correo electrónico los configura su proveedor de inicio de sesión y no se pueden cambiar.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear y resetear los inicios de sesión fallidos
   user_preferences:

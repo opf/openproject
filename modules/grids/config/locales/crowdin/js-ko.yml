@@ -32,6 +32,9 @@ ko:
           off_track: 비정상 상태
           on_track: 정상 상태
           title: 상태
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: 하위 항목
         time_entries_current_user:

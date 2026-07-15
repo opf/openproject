@@ -47,9 +47,15 @@ import {
 import {
   captureRowPositions,
   reorderRows,
+  resolveDirectionalPreviousItemId,
+  resolveItemId,
+  resolveMoveAvailability,
   restoreRowPositions,
+  rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  type MoveAvailability,
+  type MoveDirection,
 } from './sortable-lists/list-dom';
 
 type CleanupFn = () => void;
@@ -159,6 +165,56 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.element.hasAttribute(sortableListsBusyAttribute);
   }
 
+  // Availability mirrors executability: a direction is offered exactly when the
+  // move resolver can produce a target for it. This keeps the menu honest about
+  // truncated lists, where a one-step move across the hidden block is not
+  // addressable. Null means the item is not in an owned list (yet). The result
+  // is a snapshot for menu gating; the click path re-resolves the live DOM.
+  moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
+    const list = this.ownerListOf(itemElement);
+
+    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+  }
+
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
+    if (this.busy) {
+      return;
+    }
+
+    const list = this.ownerListOf(itemElement);
+    if (!list) {
+      return;
+    }
+
+    const itemId = resolveItemId(itemElement);
+    if (!itemId) {
+      return;
+    }
+
+    const previousItemId = resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer });
+    if (previousItemId === undefined) {
+      return;
+    }
+
+    const moveUrl = this.resolveMoveUrl({ itemId });
+    const sourceRow = rowOf(list.rowsContainer, itemElement);
+    if (!moveUrl || !sourceRow) {
+      return;
+    }
+
+    void this.performMove({
+      sourceRow,
+      rowsContainer: list.rowsContainer,
+      listData: list.listData,
+      previousItemId,
+      moveUrl,
+    });
+  }
+
+  private ownerListOf(itemElement:HTMLElement) {
+    return this.sortableListsListOutlets.find((list) => list.element.contains(itemElement)) ?? null;
+  }
+
   private async handleDrop({ location, source }:ElementDropPayload) {
     if (this.busy) {
       debugLog('sortable-lists: ignoring drop, a move is already in progress');
@@ -201,29 +257,47 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    // Move the row optimistically, then persist. The server response (a
-    // turbo-stream) reconciles the list on success; a failure rolls the row
-    // back to where it started.
+    await this.performMove({
+      sourceRow,
+      rowsContainer: intent.rowsContainer,
+      listData: intent.listData,
+      previousItemId: intent.previousItemId,
+      moveUrl,
+    });
+  }
+
+  // Optimistically reorder a single row, persist the move, and roll the row
+  // back (with a FLIP animation and an error toast) if the server rejects it.
+  // Shared by drag drops and programmatic menu moves.
+  private async performMove({
+    sourceRow,
+    rowsContainer,
+    listData,
+    previousItemId,
+    moveUrl,
+  }:{
+    sourceRow:HTMLElement;
+    rowsContainer:HTMLElement;
+    listData:SortableListData;
+    previousItemId:string|null;
+    moveUrl:string;
+  }):Promise<void> {
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
-    reorderRows({ rows, rowsContainer: intent.rowsContainer, previousItemId: intent.previousItemId });
+    reorderRows({ rows, rowsContainer, previousItemId });
 
     // The reorder resolving back to the source's current DOM position means
-    // the drop is a no-op — nothing to persist, so no request. Comparing DOM
+    // the move is a no-op — nothing to persist, so no request. Comparing DOM
     // placement (not predecessor ids) keeps non-item rows such as truncation
     // markers out of the equation.
     if (rowsRemainAt(rollback)) {
-      debugLog('sortable-lists: ignoring drop, the item landed at its original position');
+      debugLog('sortable-lists: ignoring move, the item landed at its original position');
       return;
     }
 
     const optimisticPlacement = captureRowPositions(rows);
 
-    const result = await this.moveItem({
-      listData: intent.listData,
-      previousItemId: intent.previousItemId,
-      moveUrl,
-    });
+    const result = await this.moveItem({ listData, previousItemId, moveUrl });
 
     if (!result.ok) {
       try {
@@ -243,12 +317,22 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
+  // The template must expand to a same-origin relative URL: the expansion is
+  // reduced to path + search + hash, so an absolute template's origin would
+  // be dropped silently.
   private resolveMoveUrl(data:{ itemId:string }):string|null {
     if (!this.hasMoveUrlTemplateValue) {
       return null;
     }
 
-    return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const expanded = parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+    const url = new URL(expanded, window.location.href);
+    // Both drag and menu moves share this path and are flagged optimistic=true
+    // (the move is already applied in the DOM), so the server skips the frame
+    // reload for a same-list move.
+    url.searchParams.set('optimistic', 'true');
+
+    return `${url.pathname}${url.search}${url.hash}`;
   }
 
   private async moveItem({

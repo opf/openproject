@@ -32,6 +32,9 @@ es:
           off_track: Fuera de lo previsto
           on_track: Según lo previsto
           title: Estado
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subelementos
         time_entries_current_user:

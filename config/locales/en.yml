@@ -4598,8 +4598,14 @@ en:
       templates:
         label: "Template"
         none_enabled: "No template has been enabled for this work package type"
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Generate PDF
     page_nr_footer: "Page %{page} of %{total}"
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: "PMflex Artefact"
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: "Attributes and description"
@@ -4894,11 +4900,11 @@ en:
           no_status_when_submitted: "Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type."
           no_work_package_type: "Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project."
         export:
-          description_attachment_export: "The generated artifact will be saved as a PDF attachment to the artifact work package."
-          description_file_link_export: "The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
+          description_attachment_export: "The generated artefact will be saved as a PDF attachment to the artefact work package."
+          description_file_link_export: "The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported."
           description_file_storage_selection: "Select which of the configured external file storages should be used."
           external_file_storage: "External file storage"
-          label_artifact_export: "Artifact export"
+          label_artifact_export: "Artefact export"
           label_attachment_export: "Save as work package file attachment"
           label_file_link_export: "Upload file to external file storage and add file link to work package"
           pdf_file_storage: "PDF file storage"
@@ -4992,13 +4998,13 @@ en:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: "Failed to store artifact in file storage"
-      create_artifact_work_package_error: "Failed to create artifact work package"
+      create_artifact_storage_error: "Failed to store artefact in file storage"
+      create_artifact_work_package_error: "Failed to create artefact work package"
       no_help_text: "This attribute has no help text defined."
       progress_label: "%{current} of %{total}"
       sections: "Sections"
       sidebar_content_title: "Content"
-      success: "Project attributes saved and artifact work package created successfully."
+      success: "Project attributes saved and artefact work package created successfully."
       title: "Project initiation request"
   queries:
     apply_filter: Apply preconfigured filter
@@ -5562,10 +5568,10 @@ en:
         title: "Disable project initiation request"
       header_description: >
         OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request.
-        You can choose which project attributes should be included and create a PDF artifact as a result.
+        You can choose which project attributes should be included and create a PDF artefact as a result.
       name:
-        artifact_name: "Artifact name"
-        artifact_name_caption: "Choose the name for this artifact that your project management framework recommends."
+        artifact_name: "Artefact name"
+        artifact_name_caption: "Choose the name for this artefact that your project management framework recommends."
         options:
           project_creation_wizard: "Project creation wizard"
           project_initiation_request: "Project initiation request"
@@ -5581,11 +5587,11 @@ en:
         assignee_caption_html: "The user or group assigned to this project attribute will also become the assignee of the new work package. This list includes active project attributes of type <i>User</i> only."
         confirmation_email_default: "Hello,\n\nYou submitted a project initiation request for **%{project_name}**. It is now awaiting review.\nClick the link below to access the work package with your request."
         confirmation_email_text: "Confirmation email text"
-        description: "When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package."
+        description: "When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package."
         description_template: >
           **This work package was automatically created upon completion of the %{wizard_name} workflow.**
 
-          A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes.
+          A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes.
 
           If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:
         send_confirmation_email: "Send confirmation email to the user who submitted the project initiation request"
@@ -5595,7 +5601,7 @@ en:
         work_package_comment_caption: "The assignee selected above will automatically be @mentioned in the comment."
         work_package_comment_default: "A project initiation request for **%{project_name}** was submitted and is awaiting review."
         work_package_type: "Work package type"
-        work_package_type_caption: "The work package type that should be used to store the completed artifact."
+        work_package_type_caption: "The work package type that should be used to store the completed artefact."
       wizard_status_button:
         project_creation_wizard: "Open project creation wizard"
         project_initiation_request: "Open project initiation request"

@@ -32,6 +32,9 @@ lt:
           off_track: Pasiklydęs
           on_track: Teisingame kelyje
           title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
         time_entries_current_user:

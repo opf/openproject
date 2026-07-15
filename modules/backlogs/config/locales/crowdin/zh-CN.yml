@@ -109,8 +109,9 @@ zh-CN:
         add_new_work_package: Add new work package
         delete_backlog_bucket: 删除积压工作存储桶
         edit_backlog_bucket: 编辑积压工作存储桶
-      blankslate_description: 将项目拖到此处添加。
+      blankslate_description: Drag items here to add them
       blankslate_title: 积压工作存储桶为空
+      drop_zone_label: Drop here to add this item
       label_actions: 积压工作存储桶操作
     bucket_destroy_modal_component:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
@@ -136,8 +137,9 @@ zh-CN:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-      blankslate_description: 此项目中所有未完成的工作包都会自动出现在此处。
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 积压工作收件箱为空
+      drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
         other: 显示其他 %{count} 个条目
@@ -166,6 +168,7 @@ zh-CN:
         edit_sprint: 编辑冲刺
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
+      drop_zone_label: Drop here to add this item
       label_actions: 冲刺行动
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
@@ -212,10 +215,8 @@ zh-CN:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
       update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 故事点
     story_points_ideal: 故事点（理想）

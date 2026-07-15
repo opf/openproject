@@ -43,6 +43,27 @@
             end
           end
         end
+        modal_body.with_row(
+          mt: 3,
+          classes: templates_default&.id == "artefact" ? nil : "d-none",
+          data: {
+            template: "artefact",
+            "work-packages--export--generate-pdf-form-target": "inputGroups"
+          }
+        ) do
+          render(
+            Primer::Alpha::CheckBox.new(
+              id: "toc_enabled",
+              name: "toc",
+              checked: true,
+              value: "true",
+              unchecked_value: "false",
+              label: I18n.t("pdf_generator.dialog.toc.label"),
+              caption: I18n.t("pdf_generator.dialog.toc.caption"),
+              visually_hide_label: false
+            )
+          )
+        end
         modal_body.with_row(mt: 3) do
           render(
             Primer::Alpha::CheckBox.new(

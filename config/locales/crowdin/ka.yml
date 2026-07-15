@@ -21,6 +21,24 @@
 #++
 ---
 ka:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: ანგარიშის წაშლა
@@ -1081,6 +1099,7 @@ ka:
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Edit color select options
       tab_branding: Branding
+      tab_default_colors: Default colors
       tab_interface: Interface
       tab_pdf_export_font: PDF export font
       tab_pdf_export_styles: PDF export styles
@@ -1744,6 +1763,8 @@ ka:
     reset_token:
       action_create: შექმნა
       action_reset: ჩამოყრა
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Create backup token
       heading_reset: Reset backup token
       implications: 'Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
@@ -5211,6 +5232,7 @@ ka:
   setting_total_percent_complete_mode_work_weighted_average: Weighted by work
   setting_total_percent_complete_mode_work_weighted_average_caption_html: The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Users default time zone
   setting_user_format: Users name format
   setting_users_deletable_by_admins: User accounts deletable by admins
@@ -5411,6 +5433,7 @@ ka:
       section_project_overview: Settings for project lists
     session: სესია
     user:
+      account: Account
       default_preferences: Default preferences
       deletion: წაშლა
       display_format: ჩვენების ფორმატი
@@ -5916,6 +5939,7 @@ ka:
     status_change: სტატუსის ცვლილება
     status_user_and_brute_force: "%{user} and %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: განბლოკვა
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   user_preferences:

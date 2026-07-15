@@ -204,8 +204,11 @@ zh-TW:
       error_saving_failed: '保存文件失敗, 出現以下錯誤: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 所選屬性 '%{name}' 不存在。
-          macro_help_tooltip: 此文本段正由macro動態呈現。
           nested_macro: 該macro遞歸引用 %{model} %{id}。
           not_found: 無法找到請求的資源
         child_pages:

@@ -190,6 +190,7 @@ uk:
         no_results: Сторінок вікі не знайдено
         placeholder: Виконайте пошук сторінки вікі (або введіть її URL-адресу)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна

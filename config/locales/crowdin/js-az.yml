@@ -204,8 +204,11 @@ az:
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: The selected attribute '%{name}' does not exist.
-          macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Requested resource could not be found
         child_pages:

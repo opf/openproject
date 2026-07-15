@@ -28,6 +28,11 @@ ja:
       news:
         no_results: 新しい報告はありません。
       not_available: このウィジェットは使用できません。
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
       subitems:
         button_text: 小項目
         no_results: 表示されている子がありません。

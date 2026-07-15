@@ -204,8 +204,11 @@ cs:
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Vybraný atribut '%{name}' neexistuje.
-          macro_help_tooltip: Tento textový segment je dynamicky rendrován makrem.
           nested_macro: Tento makro rekurzivně odkazuje na %{model} %{id}.
           not_found: Požadovaný zdroj nebyl nalezen.
         child_pages:

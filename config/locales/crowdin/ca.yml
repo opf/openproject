@@ -21,6 +21,24 @@
 #++
 ---
 ca:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: Elimina el compte
@@ -1081,6 +1099,7 @@ ca:
         primary-button-color: Color d'accent fort, utilitzat per al botó més important de la pantalla.
       manage_colors: Edita les opcions de selecció de colors
       tab_branding: Branding
+      tab_default_colors: Default colors
       tab_interface: Interface
       tab_pdf_export_font: PDF export font
       tab_pdf_export_styles: PDF export styles
@@ -1744,6 +1763,8 @@ ca:
     reset_token:
       action_create: Crear
       action_reset: Reinciar
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Crea un token de còpia de seguretat
       heading_reset: Reinicia el token de còpia de seguretat
       implications: 'Activar les còpies de seguretat permetrà a qualsevol usuari amb els permisos adients i aquest token de còpia de seguretat descarregar-lo i obtenir totes les dades d''aquesta instal·lació d''OpenProject. Això, inclou les dades de tots els altres usuaris.
@@ -5198,6 +5219,7 @@ ca:
   setting_total_percent_complete_mode_work_weighted_average: Weighted by work
   setting_total_percent_complete_mode_work_weighted_average_caption_html: The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: Selecciona per activar l'editor CKEditor5 WYSIWYG per a tots els usuaris per defecte. CKEditor té funcionalitats limitades per a GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Zona horària per defecte de l'usuari
   setting_user_format: Format de nom d'usuari
   setting_users_deletable_by_admins: Comptes d'usuari esborrables pels administradors
@@ -5398,6 +5420,7 @@ ca:
       section_project_overview: Settings for project lists
     session: Sessió
     user:
+      account: Account
       default_preferences: Preferències per defecte
       deletion: Eliminació
       display_format: Format the visualització
@@ -5903,6 +5926,7 @@ ca:
     status_change: Canvi d'estat
     status_user_and_brute_force: "%{user} i %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Desbloquejar
     unlock_and_reset_failed_logins: Desbloquejar i reiniciar inicis de sessió fallits
   user_preferences:

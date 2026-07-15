@@ -21,6 +21,24 @@
 #++
 ---
 cs:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Přihlaste se prosím jako <em>%{login}</em> pro aktivaci vašeho účtu.
     delete: Odstranit účet
@@ -1119,6 +1137,7 @@ cs:
         primary-button-color: Výrazná akcentní barva, která se používá pro nejdůležitější tlačítko na obrazovce.
       manage_colors: Upravit možnosti výběru barvy
       tab_branding: Značka
+      tab_default_colors: Default colors
       tab_interface: Rozhraní
       tab_pdf_export_font: Písmo pro export do PDF
       tab_pdf_export_styles: Styly exportu do PDF
@@ -1802,6 +1821,8 @@ cs:
     reset_token:
       action_create: Vytvořit
       action_reset: Obnovit
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Vytvořit záložní token
       heading_reset: Resetovat záložní token
       implications: 'Povolení záloh umožní každému uživateli s požadovaným oprávněním a tímto záložním tokenem stáhnout zálohu obsahující všechna data této OpenProject instalace. To zahrnuje údaje všech ostatních uživatelů.
@@ -5349,6 +5370,7 @@ cs:
   setting_total_percent_complete_mode_work_weighted_average: Váženo prací
   setting_total_percent_complete_mode_work_weighted_average_caption_html: The <i>total % Complete</i> will be weighted against the <i>Work</i> of each work package in the hierarchy. Work packages without <i>Work</i> will be ignored.
   setting_use_wysiwyg_description: Zaškrtnutím tohoto políčka povolíte CKEditor5 WYSIWYG editor pro všechny uživatele ve výchozím nastavení. Aplikaci CKEditor má omezenou funkčnost pro GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Výchozí časové pásmo uživatele
   setting_user_format: Formát uživatelského jména
   setting_users_deletable_by_admins: Uživatelské účty lze odstranit administrátory
@@ -5549,6 +5571,7 @@ cs:
       section_project_overview: Nastavení pro seznamy projektů
     session: Relace
     user:
+      account: Account
       default_preferences: Výchozí předvolby
       deletion: Odstranění
       display_format: Formát zobrazení
@@ -6058,6 +6081,7 @@ cs:
     status_change: Změna stavu
     status_user_and_brute_force: "%{user} a %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Odemknout
     unlock_and_reset_failed_logins: Odemknout a resetovat nezdařené přihlášení
   user_preferences:

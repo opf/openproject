@@ -42,7 +42,7 @@ module Backlogs
     def menu
       render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
-               work_package: work_package_with_backlog_neighbours,
+               work_package: @work_package,
                open_sprints_exist: target_open_sprints.exists?,
                other_buckets_exist: target_buckets.exists?,
                current_user:
@@ -95,9 +95,23 @@ module Backlogs
     end
 
     def move
+      source_target = Backlogs::Target.for_work_package(@work_package)
+
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package: @work_package)
         .call(**move_service_params)
+
+      if optimistic_same_list_move?(call, source_target)
+        # A same-list optimistic move (drag or menu) already reordered the row
+        # client-side and changes nothing else visible. Skip the frame reload
+        # (it would fight that order); still emit the moved event for split-view
+        # lock refresh.
+        dispatch_event_via_turbo_stream(
+          WORK_PACKAGE_MOVED_EVENT,
+          detail: { work_package_id: call.result.id }
+        )
+        return respond_with_turbo_streams(status: call)
+      end
 
       render_update_turbo_streams(call)
     end
@@ -146,20 +160,6 @@ module Backlogs
       move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
     end
 
-    def displayed_work_packages
-      if @work_package.sprint_id?
-        @work_packages.where(sprint_id: @work_package.sprint_id)
-      elsif @work_package.backlog_bucket_id?
-        @work_packages.merge(@work_package.backlog_bucket.displayed_work_packages)
-      else
-        @work_packages.merge(WorkPackage.in_inbox_for(project: @project))
-      end
-    end
-
-    def work_package_with_backlog_neighbours
-      displayed_work_packages.with_backlogs_neighbours.find(@work_package.id)
-    end
-
     def target_open_sprints
       Sprint.for_project(@project)
         .visible.not_completed
@@ -193,12 +193,45 @@ module Backlogs
       end
     end
 
+    # Snapshot the source target before the call, not dirty tracking: move_after
+    # reloads mid-method, wiping the saved_changes _before_last_save needs.
+    def optimistic_same_list_move?(call, source_target)
+      optimistic_move? && call.success? &&
+        Backlogs::Target.for_work_package(call.result) == source_target &&
+        requested_anchor_honored?(call.result)
+    end
+
+    # A nonblank prev_id that has left the target list resolves to nothing, so
+    # move_after silently drops the work package at the top, diverging from the
+    # optimistic client order. Only skip the reload once the requested anchor
+    # is verifiably the persisted one: a nonblank prev_id must be the item
+    # right above, and a blank prev_id (top insert) must have nothing above.
+    # Requests without an anchor -- a missing prev_id, or a position-based
+    # move (nothing sends those optimistically today) -- cannot be verified,
+    # so they reconcile via reload.
+    def requested_anchor_honored?(work_package)
+      return false if move_params[:position].present?
+      return false unless move_params.key?(:prev_id)
+
+      prev_id = move_params[:prev_id].presence
+      if prev_id
+        work_package.higher_item&.id == prev_id.to_i
+      else
+        work_package.higher_item.nil?
+      end
+    end
+
+    # Kept out of move_params: the service's keyword args reject it.
+    def optimistic_move?
+      ActiveModel::Type::Boolean.new.cast(params[:optimistic])
+    end
+
     def move_params
-      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
+      params.permit(:prev_id, :position, :list_type, :list_id)
     end
 
     # A blank prev_id (drag or menu move to the top of a list) is kept so the
-    # service inserts at the top; nil values (absent prev_id/direction) are
+    # service inserts at the top; nil values (an absent prev_id) are
     # dropped. The service resolves list_type/list_id into the destination list.
     def move_service_params
       move_params.to_h.symbolize_keys.compact
