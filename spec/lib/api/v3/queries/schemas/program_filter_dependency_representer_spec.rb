@@ -30,10 +30,10 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
+RSpec.describe API::V3::Queries::Schemas::ProgramFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
+  let(:filter) { Queries::Projects::Filters::ProgramFilter.create! }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -47,11 +47,11 @@ RSpec.describe API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
   context "with generation" do
     context "for properties" do
       let(:path) { "values" }
-      let(:type) { "[]Project" }
-      let(:filters) do
-        "?filters=%5B%7B%22active%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22t%22%5D%7D%7D%5D&pageSize=-1"
+      let(:type) { "[]Program" }
+      let(:href) do
+        filters = CGI.escape(JSON.dump([{ active: { operator: "=", values: ["t"] } }]))
+        "#{api_v3_paths.programs}?filters=#{filters}&pageSize=-1"
       end
-      let(:href) { api_v3_paths.projects + filters }
 
       context "for operator 'Queries::Operators::Equals'" do
         let(:operator) { Queries::Operators::Equals }

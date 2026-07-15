@@ -182,8 +182,38 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
             expect(uri.path).to eq projects_path
             expect(uri.query_values["filters"]).to be_json_eql %{[
               {"active":{"operator":"=","values":["t"]}},
-              {"parent_id":{"operator":"=","values":[#{project.id}]}}
+              {"parent_id":{"operator":"=","values":["#{project.id}"]}}
             ]}
+          end
+        end
+
+        context "and the project is a portfolio" do
+          let(:project) { create(:project, workspace_type: "portfolio") }
+
+          it "renders 'view all' link to projects with a portfolio filter", :aggregate_failures do
+            expect(rendered_component).to have_link "View all subitems" do |link|
+              uri = Addressable::URI.parse(link[:href])
+              expect(uri.path).to eq projects_path
+              expect(uri.query_values["filters"]).to be_json_eql %{[
+                {"active":{"operator":"=","values":["t"]}},
+                {"portfolio":{"operator":"=","values":["#{project.id}"]}}
+              ]}
+            end
+          end
+        end
+
+        context "and the project is a program" do
+          let(:project) { create(:project, workspace_type: "program") }
+
+          it "renders 'view all' link to projects with a program filter", :aggregate_failures do
+            expect(rendered_component).to have_link "View all subitems" do |link|
+              uri = Addressable::URI.parse(link[:href])
+              expect(uri.path).to eq projects_path
+              expect(uri.query_values["filters"]).to be_json_eql %{[
+                {"active":{"operator":"=","values":["t"]}},
+                {"program":{"operator":"=","values":["#{project.id}"]}}
+              ]}
+            end
           end
         end
       end
