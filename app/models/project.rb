@@ -231,10 +231,6 @@ class Project < ApplicationRecord
     self
   end
 
-  def wiki
-    super&.enabled ? super : nil
-  end
-
   def <=>(other)
     name.downcase <=> other.name.downcase
   end

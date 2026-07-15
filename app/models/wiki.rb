@@ -53,8 +53,10 @@ class Wiki < ApplicationRecord
   after_create :create_menu_item_for_start_page
 
   def visible?(user = User.current)
-    enabled && user&.allowed_in_project?(:view_wiki_pages, project)
+    enabled && user.allowed_in_project?(:view_wiki_pages, project)
   end
+
+  def disabled? = !enabled?
 
   # find the page with the given title
   # if page doesn't exist, return a new page

@@ -34,7 +34,6 @@ RSpec.describe Projects::Settings::ModulesController, "menu" do
   let(:current_user) { create(:admin) }
 
   let(:project) do
-    # project contains wiki by default
     create(:project, :with_internal_wiki, enabled_module_names: enabled_modules).tap(&:reload)
   end
   let(:enabled_modules) { %w[] }
