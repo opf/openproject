@@ -34,6 +34,7 @@ class Queries::Projects::Filters::ProgramFilter < Queries::Projects::Filters::Ba
   def self.key = :program
 
   def allowed_values
-    @allowed_values ||= ::Project.program.visible.map { |p| [p.name, p.id.to_s] }
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::Project.program.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 end

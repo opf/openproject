@@ -42,14 +42,27 @@ RSpec.describe Queries::Projects::Filters::ProgramFilter do
 
     before do
       allow(Project)
-        .to receive_message_chain(:program, :visible, :map) # rubocop:disable RSpec/MessageChain
-        .and_return([[program.name, program.id.to_s]])
+        .to receive_message_chain(:program, :visible, :pluck) # rubocop:disable RSpec/MessageChain
+        .with(:id)
+        .and_return([program.id])
     end
 
     it "returns visible programs" do
       instance = described_class.create!(name: :program, operator: "=", values: [])
 
-      expect(instance.allowed_values).to eq([[program.name, program.id.to_s]])
+      expect(instance.allowed_values).to eq([[program.id, program.id.to_s]])
+    end
+  end
+
+  describe "#autocomplete_options" do
+    it "points the autocompleter at the dedicated programs endpoint" do
+      instance = described_class.create!(name: :program, operator: "=", values: [])
+
+      expect(instance.autocomplete_options).to include(
+        component: "opce-project-autocompleter",
+        resource: "programs",
+        url: API::V3::Utilities::PathHelper::ApiV3Path.programs
+      )
     end
   end
 

@@ -94,6 +94,12 @@ export class ApiV3Service {
   // /api/v3/principals
   public readonly principals = this.apiV3CollectionEndpoint('principals');
 
+  // /api/v3/portfolios
+  public readonly portfolios = this.apiV3CollectionEndpoint('portfolios');
+
+  // /api/v3/programs
+  public readonly programs = this.apiV3CollectionEndpoint('programs');
+
   // /api/v3/root
   public readonly root = this.apiV3SingularEndpoint<RootResource>('');
 

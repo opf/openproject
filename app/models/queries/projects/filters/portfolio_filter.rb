@@ -34,6 +34,7 @@ class Queries::Projects::Filters::PortfolioFilter < Queries::Projects::Filters::
   def self.key = :portfolio
 
   def allowed_values
-    @allowed_values ||= ::Project.portfolio.visible.map { |p| [p.name, p.id.to_s] }
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::Project.portfolio.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 end

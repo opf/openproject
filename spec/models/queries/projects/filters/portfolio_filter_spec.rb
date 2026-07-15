@@ -42,14 +42,27 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
 
     before do
       allow(Project)
-        .to receive_message_chain(:portfolio, :visible, :map) # rubocop:disable RSpec/MessageChain
-        .and_return([[portfolio.name, portfolio.id.to_s]])
+        .to receive_message_chain(:portfolio, :visible, :pluck) # rubocop:disable RSpec/MessageChain
+        .with(:id)
+        .and_return([portfolio.id])
     end
 
     it "returns visible portfolios" do
       instance = described_class.create!(name: :portfolio, operator: "=", values: [])
 
-      expect(instance.allowed_values).to eq([[portfolio.name, portfolio.id.to_s]])
+      expect(instance.allowed_values).to eq([[portfolio.id, portfolio.id.to_s]])
+    end
+  end
+
+  describe "#autocomplete_options" do
+    it "points the autocompleter at the dedicated portfolios endpoint" do
+      instance = described_class.create!(name: :portfolio, operator: "=", values: [])
+
+      expect(instance.autocomplete_options).to include(
+        component: "opce-project-autocompleter",
+        resource: "portfolios",
+        url: API::V3::Utilities::PathHelper::ApiV3Path.portfolios
+      )
     end
   end
 
