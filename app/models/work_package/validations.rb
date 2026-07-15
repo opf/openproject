@@ -50,7 +50,7 @@ module WorkPackage::Validations
                :status,
                :author,
                :category,
-               :version)
+               :target_versions)
     }
   end
 end
