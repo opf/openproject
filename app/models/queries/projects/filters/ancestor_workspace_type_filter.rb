@@ -46,7 +46,7 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
   private
 
   def type_strategy
-    @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
+    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 
   def exists_condition
