@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +54,7 @@ module WikiPages
       f.select_list(
         name: :parent_id,
         label: WikiPage.human_attribute_name(:parent_title),
-        input_width: :large
+        input_width: :xlarge
       ) do |list|
         helpers.wiki_page_options_for_select(model.wiki.pages).each do |label, value|
           list.option(
@@ -70,6 +70,7 @@ module WikiPages
         label: I18n.t(:"attributes.comment"),
         visually_hide_label: true,
         autocomplete: :off,
+        input_width: :xlarge,
         placeholder: I18n.t(:text_what_did_you_change_click_to_add_comment)
       )
 

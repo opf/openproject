@@ -35,8 +35,6 @@ module WikiPages
     include AttachmentsHelper
     include OpPrimer::ComponentHelpers
 
-    UPLOAD_BUTTON_ID = "wiki-page-add-attachments"
-
     alias_method :page, :model
 
     private

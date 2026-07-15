@@ -42,7 +42,7 @@
               allowUploading: true,
               destroyImmediately: false,
               showTimestamp: false,
-              externalUploadButton: "##{UPLOAD_BUTTON_ID}"
+              externalUploadButton: "#wiki-page-add-attachments"
             }
           )
         end
@@ -51,7 +51,7 @@
           render Primer::Beta::Button.new(
             color: :accent,
             scheme: :link,
-            id: UPLOAD_BUTTON_ID,
+            id: "wiki-page-add-attachments",
             classes: "hide-when-print"
           ) do |button|
             button.with_leading_visual_icon(icon: "op-add-attachment")
