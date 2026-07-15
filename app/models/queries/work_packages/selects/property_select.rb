@@ -33,35 +33,6 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     WorkPackage.human_attribute_name(name)
   end
 
-  # Correlated subqueries against the target-version join rows, so that sorting
-  # and grouping don't rely on the deprecated work_packages.version_id column.
-  # LIMIT 1 keeps them scalar; without the multiple-versions feature there is at
-  # most one target version anyway. The tables are aliased so that the sort
-  # machinery's association-alias substitution can't rewrite them.
-  FIRST_TARGET_VERSION_NAME_SQL = <<~SQL.squish
-    (SELECT LOWER(v.name)
-       FROM work_package_versions wpv
-       INNER JOIN versions v ON v.id = wpv.version_id
-      WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-      ORDER BY LOWER(v.name)
-      LIMIT 1)
-  SQL
-
-  FIRST_TARGET_VERSION_ID_SQL = <<~SQL.squish
-    (SELECT wpv.version_id
-       FROM work_package_versions wpv
-      WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-      ORDER BY wpv.version_id
-      LIMIT 1)
-  SQL
-
-  AGGREGATED_TARGET_VERSION_NAMES_SQL = <<~SQL.squish
-    (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name))
-       FROM work_package_versions wpv
-       INNER JOIN versions v ON v.id = wpv.version_id
-      WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
-  SQL
-
   class_attribute :property_selects
 
   self.property_selects = {
@@ -131,14 +102,46 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
     },
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
-      association: "target_versions",
-      sortable: FIRST_TARGET_VERSION_NAME_SQL,
-      groupable: FIRST_TARGET_VERSION_ID_SQL
+      sortable: <<~SQL.squish,
+        (SELECT LOWER(v.name)
+           FROM work_package_versions wpv
+           INNER JOIN versions v ON v.id = wpv.version_id
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
+          ORDER BY LOWER(v.name), wpv.version_id
+          LIMIT 1)
+      SQL
+      groupable: <<~SQL.squish
+        (SELECT wpv.version_id
+           FROM work_package_versions wpv
+           INNER JOIN versions v ON v.id = wpv.version_id
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
+          ORDER BY LOWER(v.name), wpv.version_id
+          LIMIT 1)
+      SQL
     },
     target_versions: {
       if: -> { Setting::WorkPackageMultipleVersions.active? },
-      association: "target_versions",
-      sortable: AGGREGATED_TARGET_VERSION_NAMES_SQL
+      sortable: [
+        <<~SQL.squish,
+          (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+      ],
+      groupable:
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"

@@ -161,7 +161,14 @@ module ::Query::Results::GroupBy
 
   def transform_property_keys(groups)
     association = find_association_for_group
-    association ? transform_association_property_keys(association, groups) : groups
+
+    if association.nil?
+      groups
+    elsif association.collection?
+      transform_collection_association_property_keys(association, groups)
+    else
+      transform_association_property_keys(association, groups)
+    end
   end
 
   def transform_association_property_keys(association, groups)
@@ -169,6 +176,15 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       ar_keys.detect { |ar_key| ar_key.id == key }
+    end
+  end
+
+  def transform_collection_association_property_keys(association, groups)
+    ids = groups.keys.compact.flat_map { |key| key.split(".") }.uniq
+    records = association.klass.where(id: ids).index_by { |record| record.id.to_s }
+
+    groups.transform_keys do |key|
+      Array(key&.split(".")).map { |id| records.fetch(id) }
     end
   end
 

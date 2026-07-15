@@ -320,6 +320,75 @@ RSpec.describe "GET api/v3/workspace/:id/work_packages", content_type: :json do
       let(:workspace) { project }
 
       include_context "with work package indexing"
+
+      describe "grouping by target versions",
+               with_flag: { work_package_multiple_versions: true },
+               with_settings: { work_package_multiple_versions: true } do
+        let(:query) { { groupBy: "targetVersions" } }
+        let(:version_one) { create(:version, project:, name: "1.0") }
+        let(:version_two) { create(:version, project:, name: "2.0") }
+        let(:work_packages) do
+          [
+            create(:work_package, project:, version: version_one),
+            create(:work_package, project:, version: version_one).tap do |wp|
+              create(:work_package_version, work_package: wp, version: version_two)
+            end,
+            create(:work_package, project:)
+          ]
+        end
+        let(:group_by_link) do
+          {
+            href: api_v3_paths.query_group_by("targetVersions"),
+            title: "Target versions"
+          }
+        end
+        let(:single_version_group) do
+          {
+            _links: {
+              valueLink: [{
+                href: api_v3_paths.version(version_one.id),
+                title: version_one.name
+              }],
+              groupBy: group_by_link
+            },
+            value: version_one.name,
+            count: 1
+          }
+        end
+        let(:both_versions_group) do
+          {
+            _links: {
+              valueLink: [
+                { href: api_v3_paths.version(version_one.id), title: version_one.name },
+                { href: api_v3_paths.version(version_two.id), title: version_two.name }
+              ],
+              groupBy: group_by_link
+            },
+            value: "#{version_one.name}, #{version_two.name}",
+            count: 1
+          }
+        end
+        let(:no_version_group) do
+          {
+            _links: {
+              valueLink: [],
+              groupBy: group_by_link
+            },
+            value: nil,
+            count: 1
+          }
+        end
+
+        it "succeeds" do
+          expect(subject.status).to eq 200
+        end
+
+        it "contains a group element per version set" do
+          expect(subject.body).to include_json(single_version_group.to_json).at_path("groups")
+          expect(subject.body).to include_json(both_versions_group.to_json).at_path("groups")
+          expect(subject.body).to include_json(no_version_group.to_json).at_path("groups")
+        end
+      end
     end
 
     context "within a portfolio" do
