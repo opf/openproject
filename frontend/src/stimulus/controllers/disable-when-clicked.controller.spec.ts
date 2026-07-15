@@ -76,9 +76,11 @@ describe('DisableWhenClickedController', () => {
   });
 
   it('prevents default on a second click for anchor elements', async () => {
-    // href="#" so the unprevented first click can't navigate the test iframe
+    // data-turbo="false" keeps Turbo (started by the global test setup) from
+    // intercepting the click and visiting the tester iframe's URL; href="#"
+    // makes the unprevented default action a harmless same-document hash jump.
     await ctx.mount(`
-      <a href="#" data-controller="disable-when-clicked">
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
         + Document
       </a>
     `);
@@ -95,9 +97,9 @@ describe('DisableWhenClickedController', () => {
   });
 
   it('marks anchor elements as aria-disabled instead of using the disabled attribute', async () => {
-    // href="#" so the unprevented first click can't navigate the test iframe
+    // data-turbo="false" + href="#": see first anchor test
     await ctx.mount(`
-      <a href="#" data-controller="disable-when-clicked">
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
         + Document
       </a>
     `);
@@ -112,9 +114,9 @@ describe('DisableWhenClickedController', () => {
   });
 
   it('resets its state when the element is disconnected and reconnected', async () => {
-    // href="#" so the unprevented first click can't navigate the test iframe
+    // data-turbo="false" + href="#": see first anchor test
     await ctx.mount(`
-      <a href="#" data-controller="disable-when-clicked">
+      <a href="#" data-turbo="false" data-controller="disable-when-clicked">
         + Document
       </a>
     `);
