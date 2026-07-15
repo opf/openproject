@@ -75,8 +75,8 @@ module WorkPackage::Exports
           attribute: match[:quoted_attribute] || match[:attribute],
           layout: match[:layout]
         }
-        OpenProject::TextFormatting::Matchers::AttributeMacros
-          .reinterpret_idless_layout(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
+        macro_attributes = OpenProject::TextFormatting::Matchers::AttributeMacros
+          .reinterpret_as_relative_embed(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
 
         resolve_match(match[:type].downcase, macro_attributes, context)
       end
@@ -180,7 +180,7 @@ module WorkPackage::Exports
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)
-        [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout), is_rich_text]
+        [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout:), is_rich_text]
       end
 
       ##
@@ -210,7 +210,7 @@ module WorkPackage::Exports
         obj.available_custom_fields.find { |pcf| pcf.name == attribute }
       end
 
-      def self.format_attribute_value(ar_name, model, obj, is_rich_text, layout = nil)
+      def self.format_attribute_value(ar_name, model, obj, is_rich_text, layout: nil)
         formatter = Exports::Register.formatter_for(model, ar_name, :pdf)
         value = formatter.format(obj, array_separator: array_separator(layout))
         # do NOT escape a tag for custom field link

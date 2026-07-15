@@ -105,23 +105,25 @@ module OpenProject::TextFormatting
           layout: match[:layout]
         }
 
-        reinterpret_idless_layout(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
+        macro_attributes = reinterpret_as_relative_embed(macro_attributes, quoted_attribute: !match[:quoted_attribute].nil?)
         macro_attributes[:id] = relative_id(macro_attributes, context) if relative_embed?(macro_attributes)
         macro_attributes
       end
 
       ##
-      # In the id-less form (workPackageValue:targetVersions:singleline), the regex
-      # binds the attribute to the id slot and the layout keyword to the attribute
-      # slot. A bare attribute matching a reserved layout keyword marks that form,
-      # so shift the segments accordingly.
-      def self.reinterpret_idless_layout(macro_attributes, quoted_attribute:)
-        return if macro_attributes[:layout] || quoted_attribute || macro_attributes[:id].nil?
-        return unless LAYOUTS.include?(macro_attributes[:attribute])
+      # In the relative form (workPackageValue:targetVersions:singleline), the
+      # regex binds the attribute to the id slot and the layout keyword to the
+      # attribute slot. A bare attribute matching a reserved layout keyword
+      # marks that form, so shift the segments into a relative embed.
+      def self.reinterpret_as_relative_embed(macro_attributes, quoted_attribute:)
+        return macro_attributes if macro_attributes[:layout] || quoted_attribute || macro_attributes[:id].nil?
+        return macro_attributes unless LAYOUTS.include?(macro_attributes[:attribute])
 
-        macro_attributes[:layout] = macro_attributes[:attribute]
-        macro_attributes[:attribute] = macro_attributes[:id]
-        macro_attributes[:id] = nil
+        macro_attributes.merge(
+          layout: macro_attributes[:attribute],
+          attribute: macro_attributes[:id],
+          id: nil
+        )
       end
     end
   end
