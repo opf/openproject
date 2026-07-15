@@ -6,7 +6,7 @@ tr:
     description: BIM ve BCF özelliğini kazandıran OpenProject eklentisi.
   bim:
     label_bim: 'BIM: Bina Bilgi Modellemesi'
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: Doğrudan yükleme başarız.
   bcf:
     label_bcf: BCF
     label_imported_failed: BCF konularının başarısız ithalatı
