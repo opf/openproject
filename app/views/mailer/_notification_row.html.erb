@@ -70,7 +70,7 @@
                 <tr>
                   <td width="100%" style="color: #333333;">
                     <span style="color: <%= type_color(work_package.type, "#333333") %>;white-space: nowrap;">
-                      <%= work_package.type.to_s.upcase %>
+                      <%= work_package.type.displayed_name.upcase %>
                     </span>
                     <%= work_package.subject %>
                   </td>

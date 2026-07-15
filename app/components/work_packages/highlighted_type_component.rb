@@ -39,6 +39,6 @@ class WorkPackages::HighlightedTypeComponent < ApplicationComponent
   end
 
   def call
-    render(Primer::Beta::Text.new(**@system_arguments)) { @type.name.upcase }
+    render(Primer::Beta::Text.new(**@system_arguments)) { @type.displayed_name.upcase }
   end
 end

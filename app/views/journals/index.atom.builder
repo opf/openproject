@@ -39,7 +39,8 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   journals.each do |change|
     work_package = change.journable
     xml.entry do
-      xml.title   "#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}: #{work_package.subject}"
+      xml.title "#{work_package.project.name} - #{work_package.type.displayed_name} " \
+                "##{work_package.id}: #{work_package.subject}"
       xml.link    "rel" => "alternate", "href" => work_package_url(work_package)
       # RFC 4287 §4.2.6.1: atom:id MUST NOT change over time. Feed readers
       # key entry deduplication on its byte value, so flipping the URL

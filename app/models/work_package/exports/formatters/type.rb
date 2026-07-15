@@ -28,18 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Helpers
-    # Anchor text for the static-HTML form of a WP quickinfo macro:
-    # `[status ]type label: subject`. Used in channels (HTML mailers,
-    # server-side previews) that can't hydrate the `<opce-*>` widget.
-    module StaticMacroLabel
-      def self.call(work_package, label:, detailed:)
-        parts = []
-        parts << work_package.status&.name if detailed
-        parts << work_package.type&.displayed_name
-        parts << label
-        "#{parts.compact.join(' ')}: #{work_package.subject}"
+module WorkPackage::Exports
+  module Formatters
+    # A sub-type is exported using its root type's name
+    class Type < ::Exports::Formatters::Default
+      def self.apply?(attribute, _export_format)
+        attribute.to_sym == :type
+      end
+
+      protected
+
+      def retrieve_value(object)
+        object.type&.displayed_name
       end
     end
   end

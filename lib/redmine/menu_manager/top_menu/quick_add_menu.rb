@@ -104,12 +104,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_quick_add_items
     return unless any_types?
 
+    # Collapse each type family to one entry, labelled by the root name
     visible_types
-      .pluck(:id, :name)
-      .uniq
-      .map do |id, name|
-      work_package_create_link(id, name)
-    end
+      .uniq { |type| type.root.id }
+      .map { |type| work_package_create_link(type.id, type.displayed_name) }
   end
 
   def visible_types
