@@ -32,7 +32,7 @@ class RemoveUniquenessForActiveSprints < ActiveRecord::Migration[8.0]
   disable_ddl_transaction!
 
   def up
-    remove_index :sprints, name: "index_sprints_on_project_id_when_active", algorithm: :concurrently
+    remove_index :sprints, name: "index_sprints_on_project_id_when_active"
   end
 
   def down
