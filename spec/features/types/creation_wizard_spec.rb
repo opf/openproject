@@ -49,8 +49,14 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     click_on I18n.t("types.index.add_subtype", name: bug_type.name)
   end
 
+  def inherited_caption
+    ActionController::Base.helpers.strip_tags(
+      I18n.t("types.creation_wizard.fields.inherited_from_parent_html", parent: bug_type.name)
+    )
+  end
+
   def complete_details_step(name)
-    fill_in I18n.t("types.creation_wizard.fields.variant_label"), with: name
+    fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
     bug_type.children.find_by(name:).tap { |subtype| expect(subtype).to be_present }
@@ -65,8 +71,14 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
   it "guides the admin through creating a sub-type with defaults" do
     start_wizard
 
-    # Step 1 - Details: identity only, so no reuse mode to choose.
+    # Step 1 - Details: identity only, so no reuse mode to choose. The core settings
+    # are inherited from the parent and shown read-only.
     expect(page).to have_no_text(independent_label)
+    expect(page).to have_text(inherited_caption, count: 3)
+    expect(page).to have_field(Type.human_attribute_name(:is_milestone), disabled: true)
+    expect(page).to have_field(Type.human_attribute_name(:is_in_roadmap), disabled: true)
+    expect(page).to have_css(".colors-autocomplete .ng-select-disabled")
+
     subtype = complete_details_step("Critical")
 
     # Step 2 - Form configuration: every step from here offers the reuse mode selector.

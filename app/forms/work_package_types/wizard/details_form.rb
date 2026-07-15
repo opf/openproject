@@ -32,39 +32,55 @@ module WorkPackageTypes
   module Wizard
     # Fields for the wizard's Details step. Intentionally submit-button free: the
     # wizard footer drives submission (see FooterComponent).
+    #
+    # The parent is chosen before the wizard starts and only the variant name is
+    # editable here. The core settings are inherited from the parent (see Type),
+    # so they are shown read-only to explain where their values come from.
     class DetailsForm < ApplicationForm
       form do |details_form|
-        details_form.select_list(
-          name: :parent_id,
-          input_width: :medium,
-          label: I18n.t("types.creation_wizard.fields.parent"),
-          caption: I18n.t("types.edit.settings.parent_type_text"),
-          required: true,
-          validation_message: validation_message_for(:parent)
-        ) do |parent_types|
-          available_parents.each do |type|
-            parent_types.option(value: type.id, label: type.name, selected: type.id == model.parent_id)
-          end
-        end
+        details_form.hidden(name: :parent_id)
 
         details_form.text_field(
           name: :name,
-          label: I18n.t("types.creation_wizard.fields.variant_label"),
+          label: label(:name),
+          input_width: :large,
           required: true,
+          autocomplete: "off",
           validation_message: validation_message_for(:name)
         )
 
-        details_form.rich_text_area(
-          name: :description,
-          label: Type.human_attribute_name(:description),
-          rich_text_options: { showAttachments: false }
+        details_form.color_select_list(
+          name: :color_id,
+          label: label(:color),
+          input_width: :large,
+          required: true,
+          disabled: true,
+          caption: inherited_caption
+        )
+
+        details_form.check_box(
+          name: :is_milestone,
+          label: label(:is_milestone),
+          disabled: true,
+          caption: inherited_caption
+        )
+
+        details_form.check_box(
+          name: :is_in_roadmap,
+          label: label(:is_in_roadmap),
+          disabled: true,
+          caption: inherited_caption
         )
       end
 
       private
 
-      def available_parents
-        Type.roots.where.not(id: model.id)
+      def label(attribute)
+        Type.human_attribute_name(attribute)
+      end
+
+      def inherited_caption
+        helpers.t("types.creation_wizard.fields.inherited_from_parent_html", parent: model.parent&.name)
       end
 
       def validation_message_for(attribute)

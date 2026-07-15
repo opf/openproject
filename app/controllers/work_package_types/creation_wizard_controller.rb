@@ -138,7 +138,7 @@ module WorkPackageTypes
     end
 
     def details_params
-      params.expect(type: %i[name parent_id description])
+      params.expect(type: %i[name parent_id])
     end
 
     def require_subtypes_feature
