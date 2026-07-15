@@ -40,7 +40,7 @@ module Wikis
       end
 
       def wiki_enabled?
-        !!@project.wiki
+        !!@project.wiki&.enabled?
       end
     end
   end

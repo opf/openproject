@@ -31,7 +31,7 @@ module Redmine::MenuManager::WikiMenuHelper
     return unless Wikis::InternalProvider.enabled?
 
     project_wiki = project.wiki
-    return if project_wiki.nil?
+    return if project_wiki.nil? || project.wiki.disabled?
 
     wiki_main_items(project_wiki).reverse_each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|

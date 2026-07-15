@@ -56,12 +56,10 @@ module DemoData
       end
     end
 
-    # FIXME: find a better solution to handle all things wiki seeding. - @mereghost
     def create_project_wiki!
-      return project.reload.wiki if Wiki.exists?(project: @project)
+      Wiki.create!(project: project, start_page: "Wiki") unless Wiki.exists?(project:)
 
-      Wiki.create!(project: @project, start_page: "Wiki")
-      @project.reload
+      project.reload
     end
 
     def create_wiki_page!(data, project:, parent: nil)
