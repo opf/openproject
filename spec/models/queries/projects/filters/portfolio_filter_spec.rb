@@ -42,15 +42,14 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
 
     before do
       allow(Project)
-        .to receive_message_chain(:portfolio, :visible, :pluck) # rubocop:disable RSpec/MessageChain
-        .with(:id)
-        .and_return([portfolio.id])
+        .to receive_message_chain(:portfolio, :visible, :map) # rubocop:disable RSpec/MessageChain
+        .and_return([[portfolio.name, portfolio.id.to_s]])
     end
 
     it "returns visible portfolios" do
       instance = described_class.create!(name: :portfolio, operator: "=", values: [])
 
-      expect(instance.allowed_values).to eq([[portfolio.id, portfolio.id.to_s]])
+      expect(instance.allowed_values).to eq([[portfolio.name, portfolio.id.to_s]])
     end
   end
 

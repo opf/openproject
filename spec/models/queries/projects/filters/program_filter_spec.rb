@@ -42,15 +42,14 @@ RSpec.describe Queries::Projects::Filters::ProgramFilter do
 
     before do
       allow(Project)
-        .to receive_message_chain(:program, :visible, :pluck) # rubocop:disable RSpec/MessageChain
-        .with(:id)
-        .and_return([program.id])
+        .to receive_message_chain(:program, :visible, :map) # rubocop:disable RSpec/MessageChain
+        .and_return([[program.name, program.id.to_s]])
     end
 
     it "returns visible programs" do
       instance = described_class.create!(name: :program, operator: "=", values: [])
 
-      expect(instance.allowed_values).to eq([[program.id, program.id.to_s]])
+      expect(instance.allowed_values).to eq([[program.name, program.id.to_s]])
     end
   end
 

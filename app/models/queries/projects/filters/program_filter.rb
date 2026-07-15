@@ -36,6 +36,6 @@ class Queries::Projects::Filters::ProgramFilter < Queries::Projects::Filters::Ba
   def self.ancestor_workspace_type = :program
 
   def allowed_values
-    @allowed_values ||= ::Project.program.visible.pluck(:id).map { |id| [id, id.to_s] }
+    @allowed_values ||= ::Project.program.visible.map { |p| [p.name, p.id.to_s] }
   end
 end

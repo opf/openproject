@@ -36,6 +36,6 @@ class Queries::Projects::Filters::PortfolioFilter < Queries::Projects::Filters::
   def self.ancestor_workspace_type = :portfolio
 
   def allowed_values
-    @allowed_values ||= ::Project.portfolio.visible.pluck(:id).map { |id| [id, id.to_s] }
+    @allowed_values ||= ::Project.portfolio.visible.map { |p| [p.name, p.id.to_s] }
   end
 end
