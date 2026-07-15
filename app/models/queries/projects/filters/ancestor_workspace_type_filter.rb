@@ -42,6 +42,9 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
   def where = nil
 
   def type = :list_optional
+  def available?
+    Project.workspace_type(self.class.key.to_s).visible.exists?
+  end
 
   private
 

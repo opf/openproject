@@ -53,6 +53,34 @@ RSpec.describe Queries::Projects::Filters::ProgramFilter do
     end
   end
 
+  describe "#available?" do
+    it "is true if any program is visible to the current user" do
+      allow(Project)
+        .to receive_message_chain(:workspace_type, :visible, :exists?) # rubocop:disable RSpec/MessageChain
+        .with("program")
+        .with(no_args)
+        .with(no_args)
+        .and_return(true)
+
+      instance = described_class.create!(name: :program, operator: "=", values: [])
+
+      expect(instance).to be_available
+    end
+
+    it "is false if no program is visible to the current user" do
+      allow(Project)
+        .to receive_message_chain(:workspace_type, :visible, :exists?) # rubocop:disable RSpec/MessageChain
+        .with("program")
+        .with(no_args)
+        .with(no_args)
+        .and_return(false)
+
+      instance = described_class.create!(name: :program, operator: "=", values: [])
+
+      expect(instance).not_to be_available
+    end
+  end
+
   describe "#apply_to", :with_temporary_session_options do
     subject(:filter) { described_class.create!(name: :program, operator:, values:) }
 
