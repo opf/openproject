@@ -145,8 +145,11 @@ ko:
       base_configuration:
         header: 구성
         provider_configured: 구성 완료
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: 구성된 XWiki 인스턴스에 OpenProject가 연결할 수 없습니다.
         xwiki_oauth_request_error: XWiki 인스턴스와 통신을 시도할 때 예기치 않은 오류가 발생했습니다.
         xwiki_oauth_token_missing: 사용자가 아직 XWiki 계정을 연결하지 않았기 때문에 OpenProject가 XWiki와의 사용자 수준 통신을 테스트할 수 없습니다.
@@ -175,6 +178,7 @@ ko:
         no_results: 위키 페이지를 찾을 수 없습니다
         placeholder: 위키 페이지 검색(또는 해당 URL 입력)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
         page_not_found: 링크된 위키 페이지를 더 이상 사용할 수 없음

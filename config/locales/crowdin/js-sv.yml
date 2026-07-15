@@ -204,8 +204,11 @@ sv:
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Det valda attributet '%{name}' finns inte.
-          macro_help_tooltip: Detta textsegment renderas dynamiskt av ett makro.
           nested_macro: Detta makro refererar rekursivt till %{model} %{id}.
           not_found: Begärd resurs kunde inte hittas
         child_pages:

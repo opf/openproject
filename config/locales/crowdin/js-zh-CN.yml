@@ -204,8 +204,11 @@ zh-CN:
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 所选属性 '%{name}' 不存在。
-          macro_help_tooltip: 此文本段正由宏动态呈现。
           nested_macro: 该宏递归引用 %{model} %{id}。
           not_found: 无法找到请求的资源
         child_pages:

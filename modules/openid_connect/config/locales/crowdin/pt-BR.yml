@@ -134,7 +134,6 @@ pt-BR:
         metadata_form_banner: Editar o endpoint de descoberta pode substituir os valores de metadados pré-preenchidos automaticamente.
         metadata_form_description: Se o seu provedor de identidade tiver um URL de endpoint de descoberta, use-o abaixo para pré-preencher a configuração.
         metadata_form_title: Endpoint de descoberta do OpenID Connect
-      seeded_from_env: Este provedor foi configurado a partir das configurações do ambiente e não pode ser editado.
       side_panel:
         information_component:
           backchannel_logout_url: URL de logout backchannel

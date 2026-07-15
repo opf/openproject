@@ -204,8 +204,11 @@ lt:
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Pasirinktas atributas „%{name}“ neegzistuoja.
-          macro_help_tooltip: Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Reikalaujamas resursas nerastas
         child_pages:

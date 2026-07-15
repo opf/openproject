@@ -204,8 +204,11 @@ ja:
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: 選択した属性 '%{name}' は存在しません。
-          macro_help_tooltip: このテキストセグメントはマクロによって動的にレンダリングされています。
           nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
           not_found: 要求されたリソースが見つかりませんでした
         child_pages:

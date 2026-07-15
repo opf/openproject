@@ -35,7 +35,8 @@
 # - Other users can see Principals if:
 #   - they are a member of the same project as the Principal, or
 #   - they are the same user, or
-#   - they share a group with the Principal.
+#   - they share a group with the Principal, or
+#   - the Principal is a group they belong to.
 module Principals::Scopes
   module Visible
     extend ActiveSupport::Concern
@@ -46,6 +47,7 @@ module Principals::Scopes
           all
         else
           in_visible_project_or_me_or_same_groups(user)
+            .or(where(id: Group.containing_user(user).select(:id)))
         end
       end
     end

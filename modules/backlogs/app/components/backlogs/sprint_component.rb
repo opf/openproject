@@ -34,6 +34,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
     include Redmine::I18n
 
     attr_reader :sprint, :project, :work_packages, :current_user, :active_sprints, :visible_sprint_ids
@@ -56,6 +57,10 @@ module Backlogs
     end
 
     private
+
+    def list_type
+      Backlogs::Target::SprintId.new(sprint.id).list_type
+    end
 
     def show_start_sprint_action?
       sprint.in_planning? && ::Backlogs::Sprints::StartContract.can_start?(user: current_user, sprint:, project:)

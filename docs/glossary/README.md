@@ -168,7 +168,7 @@ A custom query in OpenProject consists of saved [filters](#filters), sort criter
 
 ### Dark mode
 
-The dark mode for OpenProject is a personal setting to display the application in a dark [theme](#theme). Other available modes are the regular light mode, the (light or dark) [high contrast mode](#high-contrast-mode) or the automatic mode that selects the color mode based on your operating system. [Read in our documentation how to enable dark mode](../user-guide/account-settings/#select-the-dark-mode).
+The dark mode for OpenProject is a personal setting to display the application in a dark [theme](#theme). Other available modes are the regular light mode, the (light or dark) [high contrast mode](#high-contrast-mode) or the automatic mode that selects the color mode based on your operating system. [Read in our documentation how to enable dark mode](../user-guide/account-settings/interface/#select-the-dark-mode).
 
 ### Dashboard
 

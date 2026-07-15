@@ -190,6 +190,19 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
     end
   end
 
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:project) { create(:project, identifier: "BIMPROJ") }
+
+    it "writes the semantic identifier into the ReferenceLink" do
+      work_package.reload
+
+      expect(work_package.display_id).to start_with "BIMPROJ-"
+      expect(subject.at("Topic/ReferenceLink").content)
+        .to end_with "/work_packages/#{work_package.display_id}"
+    end
+  end
+
   context "when bcf_issue snapshot is false" do
     let(:vp_snapshot) { false }
 

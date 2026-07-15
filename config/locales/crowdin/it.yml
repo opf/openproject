@@ -21,6 +21,24 @@
 #++
 ---
 it:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Accedi come <em>%{login}</em> per attivare il tuo account.
     delete: Cancella account
@@ -324,12 +342,15 @@ it:
         attribute_groups: Configurazione del modulo
         children: Sottotipi
         color: Colore
+        dependent_configuration_links: Linked types
         description: Testo predefinito per la descrizione
         is_default: Attivato nei nuovi progetti per impostazione predefinita
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_milestone: È un traguardo
         parent: Tipo genitore
         patterns: Schemi
+      type/configuration_link:
+        source: Source type
       user:
         admin: Amministratore
         auth_source: Origine dell'autenticazione
@@ -670,7 +691,13 @@ it:
               must_start_with_letter: deve iniziare con una lettera
               no_special_characters: può contenere solo lettere maiuscole, numeri e underscore
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: L'utente selezionato non è autorizzato a essere assegnato alle macro-attività.
           foreign_wps_reference_version: Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.
         project/phase:
@@ -789,6 +816,10 @@ it:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Uno o più attributi all'interno del campo non sono validi. Correggi gli attributi prima di salvare.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1072,6 +1103,7 @@ it:
         primary-button-color: Colore forte, utilizzato per far risaltare il pulsante principale sullo schermo.
       manage_colors: Modifica opzioni di selezione del colore
       tab_branding: Branding
+      tab_default_colors: Default colors
       tab_interface: Interfaccia
       tab_pdf_export_font: Font per l'esportazione in PDF
       tab_pdf_export_styles: Stili di esportazione PDF
@@ -1735,6 +1767,8 @@ it:
     reset_token:
       action_create: Crea
       action_reset: Reimposta
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Crea token di backup
       heading_reset: Ripristina token di backup
       implications: 'Abilitare i backup consentirà a ogni utente i permessi necessari e a questo token di backup di scaricare un backup contenente tutti i dati di quest''installazione di OpenProject. Questo include i dati di tutti gli altri utenti.
@@ -5197,6 +5231,7 @@ it:
   setting_total_percent_complete_mode_work_weighted_average: Ponderato in base al lavoro
   setting_total_percent_complete_mode_work_weighted_average_caption_html: La <i>% completamento</i> totale sarà ponderata in base al <i>Lavoro</i> di ogni macro-attività nella gerarchia. Le macro-attività senza <i>Lavoro</i> verranno ignorate.
   setting_use_wysiwyg_description: Seleziona questa opzione per abilitare l'editor CKEditor5 WYSIWYG per tutti gli utenti come impostazione predefinita. CKEditor ha funzionalità limitate per il GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Orario predefinito utenti
   setting_user_format: Formato del nome utente
   setting_users_deletable_by_admins: Account degli utenti eliminabili dagli amministratori
@@ -5397,6 +5432,7 @@ it:
       section_project_overview: Impostazioni per l'elenco di progetti
     session: Sessione
     user:
+      account: Account
       default_preferences: Preferenze predefinite
       deletion: Eliminazione
       display_format: Formato di visualizzazione
@@ -5739,7 +5775,37 @@ it:
     help_and_support: Guida e Assistenza
   total_progress: Progresso totale
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Seleziona quali modelli tra quelli disponibili desideri abilitare per questo tipo. Il modello determina il design e gli attributi visibili nel PDF esportato di una macro-attività che utilizza questo tipo. Il primo modello nell'elenco è selezionato per impostazione predefinita.
         pdf_export_templates:
@@ -5817,8 +5883,17 @@ it:
             work_package: Macro-attività
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Crea un nuovo tipo
       no_results_title_text: Al momento non esistono tipi.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Ignora questo avviso.
     message: Puoi incorrere in errori ed esperienza non ottimizzata su questa pagina.
@@ -5858,6 +5933,7 @@ it:
     status_change: Cambiamento di stato
     status_user_and_brute_force: "%{user} e %{brute_force}"
     text_change_disabled_for_provider_login: Il nome e l'e-mail sono impostati dal servizio con cui hai effettuato l'accesso e non possono essere modificati.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Sblocca
     unlock_and_reset_failed_logins: Sblocca e azzera gli accessi non riusciti
   user_preferences:

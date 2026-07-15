@@ -60,12 +60,14 @@ RSpec.describe "script/order_yaml", :aggregate_failures do # rubocop:disable RSp
           folded: >
             first
 
+
             second
           label_who: Who?
           # before changed
           changed: "changed"
           literal: |
             first
+
 
             second
           created: "created"
@@ -88,6 +90,7 @@ RSpec.describe "script/order_yaml", :aggregate_failures do # rubocop:disable RSp
           folded: >
             first
 
+
             second
           label_sort_asc: "Newest at the bottom"
           label_sort_desc: "Newest on top"
@@ -95,7 +98,10 @@ RSpec.describe "script/order_yaml", :aggregate_failures do # rubocop:disable RSp
           literal: |
             first
 
+
             second
+
+
 
         xindex:
           no_results: no activity in this time frame
@@ -103,6 +109,8 @@ RSpec.describe "script/order_yaml", :aggregate_failures do # rubocop:disable RSp
       let_this_be_here: 1
       no_results: >
         nothing to display
+
+
   YAML
 
   let(:unexpected) { <<~YAML }
@@ -191,11 +199,10 @@ RSpec.describe "script/order_yaml", :aggregate_failures do # rubocop:disable RSp
 
   it "aborts when the parsed result is not the same" do
     stdout, stderr, status = run_script(<<~YAML)
-      path:
-        to:
-          a:
-            problem: |+ # next newline is important, but will be deleted in output
+      b: 1
 
+      a: |+ # blank line above moves below this block and changes its value
+        text
     YAML
 
     expect(status).not_to be_success

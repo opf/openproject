@@ -21,6 +21,24 @@
 #++
 ---
 es:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Inicia sesión como <em>%{login}</em> para activar tu cuenta.
     delete: Borrar cuenta
@@ -324,12 +342,15 @@ es:
         attribute_groups: Configuración del formulario
         children: Subtipos
         color: Color
+        dependent_configuration_links: Linked types
         description: Texto predeterminado para descripción
         is_default: Activado para nuevos proyectos de forma predeterminada
         is_in_roadmap: Mostrado en la hoja de ruta de forma predeterminada
         is_milestone: Es un hito
         parent: Tipo de padre
         patterns: Patrones
+      type/configuration_link:
+        source: Source type
       user:
         admin: Administrador
         auth_source: Fuente de autentificación
@@ -670,7 +691,13 @@ es:
               must_start_with_letter: debe empezar con una letra
               no_special_characters: solo puede contener letras mayúsculas, números y guiones bajos
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'todavia en uso por los paquetes de trabajo: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: El usuario elegido no se puede asignar a paquetes de trabajo.
           foreign_wps_reference_version: Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.
         project/phase:
@@ -789,6 +816,10 @@ es:
               standard_type_must_be_root: no se puede establecer para el tipo estándar.
             patterns:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1068,6 +1099,7 @@ es:
         primary-button-color: Color de acento fuerte, utilizado para el botón más importante de una pantalla.
       manage_colors: Editar opciones de selección de colores
       tab_branding: Personalización de marca
+      tab_default_colors: Default colors
       tab_interface: Interfaz
       tab_pdf_export_font: Fuente de exportación PDF
       tab_pdf_export_styles: Estilos de exportación PDF
@@ -1731,6 +1763,8 @@ es:
     reset_token:
       action_create: Crear
       action_reset: Reiniciar
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Crear token de copias de seguridad
       heading_reset: Restablecer token de copias de seguridad
       implications: 'Al habilitar las copias de seguridad, cualquier usuario con los permisos necesarios y este token de copias de seguridad podrá descargar una copia de seguridad que contenga todos los datos de esta instalación de OpenProject, incluidos los datos del resto de los usuarios.
@@ -5185,6 +5219,7 @@ es:
   setting_total_percent_complete_mode_work_weighted_average: Ponderado por trabajo
   setting_total_percent_complete_mode_work_weighted_average_caption_html: El <i>% total completado</i> se ponderará con respecto al <i>Trabajo</i> de cada paquete de trabajo de la jerarquía. Los paquetes de trabajo sin <i>Trabajo</i> se ignorarán.
   setting_use_wysiwyg_description: Seleccione esta opción para habilitar el editor WYSIWYG de CKEditor 5 de forma predeterminada para todos los usuarios. CKEditor tiene funciones limitadas para la versión GFM de Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Zona horaria por defecto de los usuarios
   setting_user_format: Formato de nombre de usuarios
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
@@ -5385,6 +5420,7 @@ es:
       section_project_overview: Configuración de las listas de proyectos
     session: Sesión
     user:
+      account: Account
       default_preferences: Preferencias predeterminadas
       deletion: Eliminación
       display_format: Formato de presentación
@@ -5728,7 +5764,37 @@ es:
     help_and_support: Ayuda y soporte
   total_progress: Progreso total
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Seleccione qué plantillas de las disponibles desea habilitar para este tipo. La plantilla determina el diseño y los atributos visibles en el PDF exportado de un paquete de trabajo que utilice este tipo. La primera plantilla de la lista se selecciona por defecto.
         pdf_export_templates:
@@ -5806,8 +5872,17 @@ es:
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Crear un nuevo tipo
       no_results_title_text: Actualmente no existen tipos.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Ignore esta advertencia.
     message: Podrás experimentar errores y una experiencia de mala calidad en esta página.
@@ -5847,6 +5922,7 @@ es:
     status_change: Cambio de estado
     status_user_and_brute_force: "%{user} y %{brute_force}"
     text_change_disabled_for_provider_login: El nombre y el correo electrónico los configura su proveedor de inicio de sesión y no se pueden cambiar.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear y resetear los inicios de sesión fallidos
   user_preferences:

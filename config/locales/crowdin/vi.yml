@@ -21,6 +21,24 @@
 #++
 ---
 vi:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: Xoá tài khoản
@@ -324,12 +342,15 @@ vi:
         attribute_groups: Cấu hình biểu mẫu
         children: Sub-types
         color: Màu sắc
+        dependent_configuration_links: Linked types
         description: Văn bản mặc định cho mô tả
         is_default: Kích hoạt cho các dự án mới theo mặc định
         is_in_roadmap: Hiển thị trong lộ trình mặc định
         is_milestone: Là cột mốc quan trọng
         parent: Parent type
         patterns: mẫu
+      type/configuration_link:
+        source: Source type
       user:
         admin: Người Quản lý
         auth_source: Nguồn xác thực
@@ -669,7 +690,13 @@ vi:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'gói công việc vẫn được sử dụng: %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: Người dùng đã chọn không được phép gán cho các gói công việc.
           foreign_wps_reference_version: Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó.
         project/phase:
@@ -788,6 +815,10 @@ vi:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: Một hoặc nhiều thuộc tính bên trong trường này không hợp lệ. Vui lòng sửa các thuộc tính trước khi lưu.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1050,6 +1081,7 @@ vi:
         primary-button-color: Màu nhấn mạnh, được sử dụng cho nút quan trọng nhất trên màn hình.
       manage_colors: Chỉnh sửa màu sắc trong select option
       tab_branding: Xây dựng thương hiệu
+      tab_default_colors: Default colors
       tab_interface: Giao diện
       tab_pdf_export_font: Phông chữ xuất PDF
       tab_pdf_export_styles: Kiểu xuất PDF
@@ -1703,6 +1735,8 @@ vi:
     reset_token:
       action_create: Tạo mới
       action_reset: Reset
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Tạo mã thông báo dự phòng
       heading_reset: Đặt lại mã thông báo dự phòng
       implications: 'Kích hoạt sao lưu sẽ cho phép bất kỳ người dùng nào có quyền và token sao lưu đều có thể tải xuống bản sao lưu có chứa tất cả dữ liệu của trang này. Nó cũng bao gồm dữ liệu của tất cả người dùng khác.
@@ -5138,6 +5172,7 @@ vi:
   setting_total_percent_complete_mode_work_weighted_average: Bị đè nặng bởi công việc
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>total % Complete</i> sẽ được tính trọng số theo <i>Work</i> của từng gói công việc trong hệ thống phân cấp. Các gói công việc không có <i>Work</i> sẽ bị bỏ qua."
   setting_use_wysiwyg_description: Chọn để cho phép bộ soạn thảo CKEditor đối với tất cả người dùng mặc định. CKEditor đã được hạn chế bởi GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Time zone mặc định
   setting_user_format: Định dạng tên người dùng
   setting_users_deletable_by_admins: Tài khoản người dùng có thể bị quản trị viên xóa
@@ -5340,6 +5375,7 @@ vi:
       section_project_overview: Cài đặt cho danh sách dự án
     session: Phiên
     user:
+      account: Account
       default_preferences: Cấu hình mặc định
       deletion: Xóa
       display_format: Định dạng hiển thị
@@ -5687,7 +5723,37 @@ vi:
     help_and_support: Trợ giúp và hỗ trợ
   total_progress: Tổng tiến độ
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Chọn mẫu nào trong số những mẫu có sẵn mà bạn muốn bật cho loại này. Mẫu xác định thiết kế và các thuộc tính hiển thị trong tệp PDF đã xuất của gói công việc sử dụng loại này. Mẫu đầu tiên trong danh sách được chọn theo mặc định.
         pdf_export_templates:
@@ -5765,8 +5831,16 @@ vi:
             work_package: Gói công việc
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Tạo loại mới
       no_results_title_text: Hiện tại không có loại nào.
+      subtype_label: Sub-type
+      subtypes_count:
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Bỏ qua cảnh báo này.
     message: Bạn có thể gặp phải lỗi và trải nghiệm không mong muốn trên trang này.
@@ -5805,6 +5879,7 @@ vi:
     status_change: Thay đổi trạng thái
     status_user_and_brute_force: "%{user} và %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Mở khoá
     unlock_and_reset_failed_logins: Mở khóa và đặt lại thông tin đăng nhập thất bại
   user_preferences:

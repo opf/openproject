@@ -204,8 +204,11 @@ nl:
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Het geselecteerde attribuut '%{name}' bestaat niet.
-          macro_help_tooltip: Dit tekstsegment wordt dynamisch weergegeven door een macro.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           not_found: Gevraagde bron kan niet worden gevonden
         child_pages:

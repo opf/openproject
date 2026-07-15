@@ -134,7 +134,6 @@ zh-TW:
         metadata_form_banner: 編輯發現端點可能會覆寫現有預先填入的後置資料值。
         metadata_form_description: 如果您的身分提供者有發現端點 URL。請在下面使用它來預先填寫設定。
         metadata_form_title: OpenID Connect 發現端點
-      seeded_from_env: 此提供者是從環境組態根植的。無法編輯。
       side_panel:
         information_component:
           backchannel_logout_url: 後端登出通知 URL

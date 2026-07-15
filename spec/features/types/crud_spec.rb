@@ -120,6 +120,14 @@ RSpec.describe "Types", :js do
 
     index_page.visit!
 
+    expect(page).to have_link("Phase", visible: :all)
+  end
+
+  it "lists a sub-type in the flat table when the feature flag is disabled", with_flag: { subtypes: false } do
+    create(:type, name: "Phase", parent: existing_type)
+
+    index_page.visit!
+
     within "table" do
       expect(page).to have_link("Phase")
     end

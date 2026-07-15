@@ -42,6 +42,7 @@ ko:
         text: 스프린트 목표
       work_package:
         backlog_bucket: 백로그 버킷
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: 백로그 유형
         position: 위치
         sprint: 스프린트
@@ -85,6 +86,8 @@ ko:
       sprint:
         other: 스프린트
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
       title: 백로그 관리자 설정을 개선하는 중입니다
@@ -102,10 +105,13 @@ ko:
       select_panel_title: 항목 선택
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: 백로그 버킷 삭제
         edit_backlog_bucket: 백로그 버킷 편집
-      blankslate_description: 항목을 여기로 드래그하여 추가합니다.
+      blankslate_description: Drag items here to add them
       blankslate_title: 백로그 버킷이 비어 있습니다.
+      drop_zone_label: Drop here to add this item
       label_actions: 백로그 버킷 작업
     bucket_destroy_modal_component:
       details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
@@ -128,8 +134,13 @@ ko:
       select_sprint_label: 스프린트 선택
       title: 진행 중인 작업 항목이 있습니다
     inbox_component:
-      blankslate_description: 이 프로젝트에서 열려 있는 모든 작업 패키지가 자동으로 여기에 표시됩니다.
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 백로그 받은 편지함이 비어 있습니다
+      drop_zone_label: Drop here to add this item
+      label_actions: Inbox actions
       show_more:
         other: "%{count}개 항목 더 보기"
       title: 받은 편지함
@@ -152,10 +163,12 @@ ko:
     show_burndown_chart: 번다운 차트
     sprint_component:
       action_menu:
-        add_work_package: 작업 패키지 추가
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: 스프린트 편집
       blankslate_description: 아직 계획된 항목이 없습니다. 항목을 추가하려면 여기로 드래그하세요.
       blankslate_title: "%{name}이(가) 비어 있습니다"
+      drop_zone_label: Drop here to add this item
       label_actions: 스프린트 작업
       label_complete_sprint: 스프린트 완료
       label_start_sprint: 스프린트 시작
@@ -181,12 +194,6 @@ ko:
     statuses_considered_closed_caption: '해당 워크플로에서 마감 또는 완료 상태를 나타내는 상태를 선택하세요. 이러한 상태는 보고(예: 번다운) 및 스프린트 계획 전반에서 "마감됨" 상태로 처리됩니다. 예를 들어, 완료됨, 해결됨 또는 수정 안 함 등의 상태는 모두 해당 프로세스에서 마감된 작업 항목을 나타낼 수 있습니다.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id와 direction 둘 다가 존재할 수는 없습니다.
-        invalid_direction: 'direction은 다음 중 하나여야 합니다: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type은 다음 중 하나여야 합니다: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id 또는 direction이 있어야 합니다.
     story_points:
       other: "%{count} 스토리 포인트"
     types_and_statuses: 유형 및 상태
@@ -203,6 +210,13 @@ ko:
         move_to_inbox: 백로그 받은 편지함으로 이동
         move_to_sprint: 스프린트로 이동
     work_package_is_closed: 다음 경우에 작업 패키지가 완료됩니다.
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 스토리 포인트
     story_points_ideal: 스토리 포인트(적합함)
@@ -273,4 +287,6 @@ ko:
         sharing_form_component:
           sharing_description: 이 프로젝트는 자체 스프린트를 공유하거나, 공유 스프린트를 받거나, 스프린트를 독립적으로 처리할 수 있습니다(공유 없음).
           sharing_fallback_description: 기업 엔터프라이즈 플랜이 없는 경우 공유 옵션은 프로젝트 고유한 스프린트로 제한됩니다. 현재 활성 설정이 활성 상태로 유지됩니다.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: 남은 작업

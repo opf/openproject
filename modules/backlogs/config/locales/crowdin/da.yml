@@ -42,6 +42,7 @@ da:
         text: Sprint mål
       work_package:
         backlog_bucket: Backlog bucket
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Backlog-type
         position: Position
         sprint: Sprint
@@ -87,6 +88,8 @@ da:
         one: Sprint
         other: Sprints
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
       text: Vi er i gang med at redesigne Backlog-modulet. Admin-indstillinger for sprints og backlogs vil fremgå her i den nærmeste fremtid. Projektniveauindstillinger forbliver tilgængelige.
       title: Backlog admin-indstillinger udvikler sig
@@ -104,10 +107,13 @@ da:
       select_panel_title: Select items
     bucket_component:
       action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: Delete backlog bucket
         edit_backlog_bucket: Edit backlog bucket
-      blankslate_description: Drag items here to add them.
+      blankslate_description: Drag items here to add them
       blankslate_title: Backlog bucket is empty
+      drop_zone_label: Drop here to add this item
       label_actions: Backlog bucket actions
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -130,8 +136,13 @@ da:
       select_sprint_label: Vælg sprint
       title: Der er igangværende arbejdsemner
     inbox_component:
-      blankslate_description: Alle åbne arbejdspakker i dette projekt vises automatisk her.
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Backlog-indbakke er tom
+      drop_zone_label: Drop here to add this item
+      label_actions: Inbox actions
       show_more:
         one: Vis 1 emne mere
         other: Vis %{count} emner mere
@@ -156,10 +167,12 @@ da:
     show_burndown_chart: Burndown-diagram
     sprint_component:
       action_menu:
-        add_work_package: Add work package
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Edit sprint
       blankslate_description: Ingen emner planlagt endnu. Træk emner hertil for at tilføje dem.
       blankslate_title: "%{name} er tom"
+      drop_zone_label: Drop here to add this item
       label_actions: Sprint actions
       label_complete_sprint: Complete sprint
       label_start_sprint: Start sprint
@@ -185,12 +198,6 @@ da:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       one: "%{count} historiepoint"
       other: "%{count} historiepoint"
@@ -208,6 +215,13 @@ da:
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: Arbejdspakken er færdig, når
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: Historiepoint
     story_points_ideal: Historiepoint (idéell)
@@ -278,4 +292,6 @@ da:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: resterende arbejde

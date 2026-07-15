@@ -204,8 +204,11 @@ tr:
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Seçilen '%{name}' özniteliği mevcut değil.
-          macro_help_tooltip: Bu metin parçası bir makro tarafından dinamik olarak işleniyor.
           nested_macro: Bu makro özyinelemeli olarak %{model} %{id}adresine referans verir.
           not_found: İstenen kaynak bulunamadı
         child_pages:

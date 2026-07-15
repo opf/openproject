@@ -68,6 +68,13 @@ See COPYRIGHT and LICENSE files for more details.
   </fieldset>
 
   <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t(:"settings.user.account") %></legend>
+    <div class="form--field">
+      <%= setting_check_box :user_can_change_email %>
+    </div>
+  </fieldset>
+
+  <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= t(:"settings.user.deletion") %></legend>
     <div class="form--field">
       <%= setting_check_box :users_deletable_by_admins %>

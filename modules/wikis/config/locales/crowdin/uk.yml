@@ -157,8 +157,11 @@ uk:
       base_configuration:
         header: Конфігурація
         provider_configured: Конфігурацію налаштовано
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: OpenProject не вдалося під’єднатися до налаштованого екземпляра XWiki.
         xwiki_oauth_request_error: Під час спроби зв’язатися з екземпляром XWiki сталася несподівана помилка.
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
@@ -187,6 +190,7 @@ uk:
         no_results: Сторінок вікі не знайдено
         placeholder: Виконайте пошук сторінки вікі (або введіть її URL-адресу)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна

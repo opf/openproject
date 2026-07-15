@@ -32,6 +32,9 @@ sv:
           off_track: Urspårat
           on_track: På rätt spår
           title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Underpunkter
         time_entries_current_user:

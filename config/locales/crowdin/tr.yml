@@ -21,6 +21,24 @@
 #++
 ---
 tr:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Hesabınızı aktifleştirmek için lütfen <em>%{login}</em> olarak giriş yapın.
     delete: Hesabı sil
@@ -324,12 +342,15 @@ tr:
         attribute_groups: Formu yapılandırma
         children: Sub-types
         color: Renk
+        dependent_configuration_links: Linked types
         description: Açıklama için varsayılan metin
         is_default: Yeni projelerde varsayılan olarak aktif
         is_in_roadmap: Yol haritasında varsayılan olarak gösterilsin
         is_milestone: Kilometre taşı
         parent: Parent type
         patterns: Desenler
+      type/configuration_link:
+        source: Source type
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama kaynağı
@@ -674,7 +695,13 @@ tr:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: hala iş paketleri tarafından kullanılmaktadır:%{types}
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.
         project/phase:
@@ -793,6 +820,10 @@ tr:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1072,6 +1103,7 @@ tr:
         primary-button-color: Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır.
       manage_colors: Renk seçim seçeneklerini düzenle
       tab_branding: Markalama
+      tab_default_colors: Default colors
       tab_interface: Arayüz
       tab_pdf_export_font: PDF dışa aktarma yazı tipi
       tab_pdf_export_styles: PDF dışa aktarma biçimi
@@ -1737,6 +1769,8 @@ tr:
     reset_token:
       action_create: Oluştur
       action_reset: Sıfırla
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Yedek jeton oluşturun
       heading_reset: Yedekleme jetonunu sıfırlayın
       implications: 'Yedeklemeleri etkinleştirmek, gerekli izinlere ve bu yedekleme jetonuna sahip herhangi bir kullanıcının bu OpenProject kurulumunun tüm verilerini içeren bir yedeği indirmesine izin verecektir. Bu, diğer tüm kullanıcıların verilerini içerir.
@@ -5204,6 +5238,7 @@ tr:
   setting_total_percent_complete_mode_work_weighted_average: İşe göre ağırlıklandırılmış
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>Toplam Tamamlanma Yüzdesi</i>, hiyerarşideki her bir iş paketinin <i>İşine</i> göre ağırlıklandırılacaktır. <i>İş</i> içermeyen iş paketleri göz ardı edilecektir."
   setting_use_wysiwyg_description: Tüm kullanıcılar için varsayılan olarak CKEditor5 WYSIWYG düzenleyiciyi etkinleştirmek için seçin. GFM Markdown için CKEditor sınırlı işleve sahiptir.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Kullanıcıların varsayılan saat dilimi
   setting_user_format: Kullanıcı adı biçimi
   setting_users_deletable_by_admins: Yöneticiler kullanıcı hesaplarını silebilsin
@@ -5402,6 +5437,7 @@ tr:
       section_project_overview: Proje listeleri için ayarlar
     session: Oturum
     user:
+      account: Account
       default_preferences: Varsayılan Tercihler
       deletion: Silme
       display_format: Gösterim biçimi
@@ -5743,7 +5779,37 @@ tr:
     help_and_support: Yardım ve Destek
   total_progress: Toplam ilerleme
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
@@ -5821,8 +5887,17 @@ tr:
             work_package: İş paketi
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Bu uyarıyı yoksay.
     message: Bu sayfada hatalara ve bozulmuş deneyime maruz kalabilirsiniz.
@@ -5862,6 +5937,7 @@ tr:
     status_change: Durum değişikliği
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Kilidi kaldır
     unlock_and_reset_failed_logins: Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla
   user_preferences:

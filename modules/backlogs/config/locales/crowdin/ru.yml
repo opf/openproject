@@ -39,9 +39,10 @@ ru:
           in_planning: В планировании
         work_packages: Пакеты работ
       sprint_goal:
-        text: Sprint goal
+        text: Цель спринта
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Раздел бэклога
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: Тип невыполненной работы
         position: Позиция
         sprint: Спринт
@@ -70,7 +71,7 @@ ru:
             status:
               not_active: не активен, поэтому не может быть закрыт.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: уже имеет цель для этого спринта.
         work_package:
           attributes:
             backlog_bucket:
@@ -86,32 +87,37 @@ ru:
           backlog_bucket_xor_sprint: не может быть назначен для спринта и для раздела бэклога одновременно.
     models:
       sprint:
-        one: Sprint
-        few: Sprints
-        many: Sprints
-        other: Sprints
+        one: Спринт
+        few: Спринта
+        many: Спринтов
+        other: Спринтов
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Добавить существующий пакет работ в %{name}
     administration_blankslate:
       text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
       title: Настройки администрирования бэклога будут в будущем
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Новый раздел бэклога
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Раздел бэклога
+        other: Разделы бэклога
+        zero: Все разделы бэклога
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: Спринт
+        other: Спринтов
+        zero: Все спринты
+      select_panel_title: Выберите элементы
     bucket_component:
       action_menu:
+        add_existing_work_package: Добавить существующий пакет работ
+        add_new_work_package: Добавить новый пакет работ
         delete_backlog_bucket: Удалить раздел бэклога
         edit_backlog_bucket: Редактировать раздел бэклога
-      blankslate_description: Перетащите элементы сюда, чтобы добавить их.
+      blankslate_description: Drag items here to add them
       blankslate_title: Раздел бэклога пуст
+      drop_zone_label: Drop here to add this item
       label_actions: Действия с разделом бэклога
     bucket_destroy_modal_component:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -134,8 +140,13 @@ ru:
       select_sprint_label: Выберите спринт
       title: Есть элементы, находящиеся в процессе работы
     inbox_component:
-      blankslate_description: Все открытые пакеты работ в этом проекте автоматически появятся здесь.
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Папка "Входящие" пуста
+      drop_zone_label: Drop here to add this item
+      label_actions: Inbox actions
       show_more:
         one: Показать еще 1 элемент
         few: Показать еще %{count} элементов
@@ -164,10 +175,12 @@ ru:
     show_burndown_chart: Диаграмма выгорания
     sprint_component:
       action_menu:
-        add_work_package: Добавить пакет работ
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         edit_sprint: Редактировать спринт
       blankslate_description: Пока ничего не запланировано. Перетащите элементы сюда, чтобы добавить их.
       blankslate_title: "%{name} пустой"
+      drop_zone_label: Drop here to add this item
       label_actions: Действия в спринте
       label_complete_sprint: Завершить спринт
       label_start_sprint: Начать спринт
@@ -193,12 +206,6 @@ ru:
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    stories:
-      update_service:
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        missing_target: target_id or direction must be present.
     story_points:
       one: "%{count} сюжетная точка"
       few: "%{count} сюжетные точки"
@@ -218,6 +225,13 @@ ru:
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Переместить в спринт
     work_package_is_closed: Пакет работ завершен, когда
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: Стори-поинты
     story_points_ideal: Стори-поинты (идеально)
@@ -288,4 +302,6 @@ ru:
         sharing_form_component:
           sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
           sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: оставшиеся часы

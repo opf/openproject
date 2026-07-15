@@ -48,6 +48,52 @@ RSpec.describe Project::Phase do
     it { is_expected.to have_many(:work_packages).through(:definition) }
   end
 
+  describe ".with_timeline_content" do
+    let(:project) { create(:project) }
+
+    let!(:phase_with_both_dates) do
+      create(:project_phase, project:, start_date: Time.zone.today, finish_date: Time.zone.today + 5)
+    end
+    let!(:phase_without_dates) do
+      create(:project_phase, project:, start_date: nil, finish_date: nil)
+    end
+    let!(:phase_with_only_start_date) do
+      create(:project_phase, project:, start_date: Time.zone.today, finish_date: nil)
+    end
+    let!(:phase_with_start_gate_and_start_date) do
+      create(:project_phase, project:,
+                             definition: create(:project_phase_definition, :with_start_gate),
+                             start_date: Time.zone.today, finish_date: nil)
+    end
+    let!(:phase_with_finish_gate_and_finish_date) do
+      create(:project_phase, project:,
+                             definition: create(:project_phase_definition, :with_finish_gate),
+                             start_date: nil, finish_date: Time.zone.today + 5)
+    end
+
+    subject { described_class.with_timeline_content }
+
+    it "includes phases with both dates" do
+      expect(subject).to include(phase_with_both_dates)
+    end
+
+    it "includes phases with a start gate and start date" do
+      expect(subject).to include(phase_with_start_gate_and_start_date)
+    end
+
+    it "includes phases with a finish gate and finish date" do
+      expect(subject).to include(phase_with_finish_gate_and_finish_date)
+    end
+
+    it "excludes phases without any dates" do
+      expect(subject).not_to include(phase_without_dates)
+    end
+
+    it "excludes phases with only a start date" do
+      expect(subject).not_to include(phase_with_only_start_date)
+    end
+  end
+
   describe ".visible" do
     let(:project) { create(:project) }
     let(:development_project) { create(:project) }

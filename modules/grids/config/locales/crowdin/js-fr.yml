@@ -32,6 +32,9 @@ fr:
           off_track: Sur la mauvaise voie
           on_track: Sur la bonne voie
           title: Statut
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Sous-éléments
         time_entries_current_user:

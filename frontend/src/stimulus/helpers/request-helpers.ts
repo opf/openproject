@@ -30,6 +30,7 @@
 
 import { FetchRequest, FetchResponse, Options } from '@rails/request.js';
 import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
+import { TurboHelpers } from 'core-turbo/helpers';
 import invariant from 'tiny-invariant';
 
 export function post(url:string|URL, options?:Options) {
@@ -37,14 +38,21 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
-function withLoadingIndicator(request:Promise<FetchResponse>) {
+export function withLoadingIndicator(request:Promise<FetchResponse>) {
   const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
   invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
   showElement(loadingIndicator);
 
-  return request.then((response) => {
+  return request.finally(() => {
     hideElement(loadingIndicator);
-    return response;
+  });
+}
+
+export function withProgressBar(request:Promise<FetchResponse>) {
+  TurboHelpers.showProgressBar();
+
+  return request.finally(() => {
+    TurboHelpers.hideProgressBar();
   });
 }
 

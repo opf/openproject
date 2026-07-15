@@ -134,7 +134,6 @@ vi:
         metadata_form_banner: Việc chỉnh sửa điểm cuối khám phá có thể ghi đè các giá trị siêu dữ liệu được điền sẵn hiện có.
         metadata_form_description: Nếu nhà cung cấp danh tính của bạn có URL điểm cuối khám phá. Sử dụng nó bên dưới để điền trước cấu hình.
         metadata_form_title: Điểm cuối khám phá kết nối OpenID
-      seeded_from_env: Nhà cung cấp này được chọn từ cấu hình môi trường. Nó không thể được chỉnh sửa.
       side_panel:
         information_component:
           backchannel_logout_url: URL đăng xuất kênh sau

@@ -149,8 +149,11 @@ es:
       base_configuration:
         header: Configuración
         provider_configured: Configuración completada
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: No se ha podido validar la conexión. Finalice primero la configuración.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: OpenProject no ha podido conectarse a la instancia de XWiki configurada.
         xwiki_oauth_request_error: Se ha producido un error inesperado al intentar conectarse con la instancia de XWiki.
         xwiki_oauth_token_missing: OpenProject no puede comprobar la comunicación a nivel de usuario con XWiki, ya que aún no has vinculado tu cuenta de XWiki.
@@ -179,6 +182,7 @@ es:
         no_results: No se han encontrado páginas wiki
         placeholder: Busque una página wiki (o introduzca su URL)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: No tienes permiso para acceder a esta página wiki
         page_not_found: La página wiki enlazada ya no está disponible

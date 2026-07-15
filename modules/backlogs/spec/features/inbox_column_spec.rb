@@ -89,7 +89,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.expect_inbox_blankslate
         planning_page.expect_sprints_blankslate
         planning_page.expect_sprints_blankslate_description(
-          "To start planning your sprint, create one here or go to the project settings to receive sprints from a different project."
+          "To start planning your sprint, create one here or go to the project " \
+          "settings to receive sprints from a different project."
         )
         planning_page.expect_backlog_settings_link
         planning_page.expect_new_sprint_button
@@ -268,9 +269,9 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
         within_modal "Move to sprint" do
           # Expect to have all sprints listed
-          expect(page).to have_select("target_id", with_options: ["Sprint 1", "Sprint 2"])
+          expect(page).to have_select("list_id", with_options: ["Sprint 1", "Sprint 2"])
 
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_button "Move"
         end
 
@@ -284,8 +285,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
           planning_page.click_in_work_package_menu(inbox_wp1, "Move to sprint", wait: false)
 
           within_modal "Move to sprint" do
-            expect(page).to have_select("target_id", with_options: ["Sprint 1", "Sprint 2"])
-            select sprint.name, from: "target_id"
+            expect(page).to have_select("list_id", with_options: ["Sprint 1", "Sprint 2"])
+            select sprint.name, from: "list_id"
 
             # Before saving the selection, simulate that another user completed the sprint
             sprint.completed!
@@ -305,7 +306,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       end
     end
 
-    describe "moving backlog items to a sprint via drag-and-drop" do
+    describe "moving backlog items to a sprint via drag-and-drop", :selenium do
       it "moves multiple items into the sprint one by one" do
         planning_page.drag_work_package_to_sprint(inbox_wp1, sprint)
         planning_page.expect_no_inbox_item(inbox_wp1)
@@ -322,7 +323,13 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.expect_work_package_in_sprint(inbox_wp3, sprint)
       end
 
-      context "with real authentication and a private project" do
+      context "with real authentication and a private project",
+              with_settings: {
+                "plugin_openproject_two_factor_authentication" => {
+                  "active_strategies" => [],
+                  "disabled" => true
+                }
+              } do
         let!(:project) do
           create(:private_project,
                  types: [type],
@@ -389,7 +396,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       end
     end
 
-    describe "moving sprint items back to the inbox via drag-and-drop" do
+    describe "moving sprint items back to the inbox via drag-and-drop", :selenium do
       let!(:sprint_wp1) { create(:work_package, project:, sprint:) }
       let!(:sprint_wp2) { create(:work_package, project:, sprint:) }
 
@@ -433,6 +440,45 @@ RSpec.describe "Inbox column in sprint planning view", :js do
     end
   end
 
+  context "with a truncated inbox" do
+    let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
+    # With TRUNCATE_MIDDLE stubbed to 2 (tail_size 1, threshold 4), five items
+    # truncate to: the first two, a show-more marker standing in for the two
+    # hidden items, then the last one.
+    let!(:inbox_wps) { create_list(:work_package, 5, project:) }
+
+    before do
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
+      planning_page.visit!
+    end
+
+    it "collapses the hidden items behind a show-more marker" do
+      planning_page.expect_inbox_show_more
+    end
+
+    it "hides one-step menu moves that would cross the hidden block", :aggregate_failures do
+      last_visible_head_item = inbox_wps.second
+      only_visible_tail_item = inbox_wps.last
+
+      planning_page.within_work_package_move_submenu(last_visible_head_item) do |submenu|
+        # Moving down one slot would jump the whole hidden block, so it is
+        # unavailable; moving up within the visible head and the addressable
+        # extreme (bottom) stay available.
+        expect(submenu).to have_no_selector(:menuitem, text: "Move down")
+        expect(submenu).to have_selector(:menuitem, text: "Move up")
+        expect(submenu).to have_selector(:menuitem, text: "Move to bottom")
+      end
+
+      planning_page.within_work_package_move_submenu(only_visible_tail_item) do |submenu|
+        # Moving up one slot would jump the whole hidden block, so it is
+        # unavailable; moving to the top across the block is addressable and
+        # stays available.
+        expect(submenu).to have_no_selector(:menuitem, text: "Move up")
+        expect(submenu).to have_selector(:menuitem, text: "Move to top")
+      end
+    end
+  end
+
   describe "retaining the 'show all' state" do
     let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
     let!(:inbox_items) { create_list(:work_package, 5, project:, type:) }
@@ -444,13 +490,13 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       planning_page.visit!
     end
 
-    it "retains the expanded inbox across all update actions", :aggregate_failures do
+    it "retains the expanded inbox across all update actions", :aggregate_failures, :selenium do
       # Initial load shows pagination
       planning_page.expect_inbox_show_more
 
       # Expand inbox — URL advances to ?all=true
       planning_page.click_inbox_show_more
-      expect(page.current_url).to include("all=true")
+      expect(page).to have_current_path(project_backlogs_backlog_path(project, all: true))
       planning_page.expect_no_inbox_show_more
 
       # Drag an inbox item to the sprint
@@ -468,7 +514,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       # Move an inbox item to the sprint via the dialog
       planning_page.click_in_work_package_menu(inbox_items.last, "Move to sprint", wait: false)
       within_modal "Move to sprint" do
-        select sprint.name, from: "target_id"
+        select sprint.name, from: "list_id"
         click_button "Move"
       end
       planning_page.expect_no_inbox_show_more
@@ -479,6 +525,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       details_view.expect_and_dismiss_toaster message: "Successful update."
       details_view.close
 
+      planning_page.expect_work_package_text_in_sprint(sprint_wp1, sprint, "Updated subject")
       planning_page.expect_no_inbox_show_more
     end
 

@@ -204,8 +204,11 @@ it:
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       macro:
         attribute_reference:
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: L'attributo selezionato '%{name}' non esiste.
-          macro_help_tooltip: Questo segmento di testo viene renderizzato dinamicamente da una macro.
           nested_macro: Questa macro fa riferimento in modo ricorsivo a %{model} %{id}.
           not_found: Impossibile trovare la risorsa richiesta
         child_pages:

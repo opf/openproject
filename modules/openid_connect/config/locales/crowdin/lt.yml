@@ -134,7 +134,6 @@ lt:
         metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
         metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
         metadata_form_title: OpenID Connect Discovery endpoint
-      seeded_from_env: This provider was seeded from the environment configuration. It cannot be edited.
       side_panel:
         information_component:
           backchannel_logout_url: Backchannel logout URL

@@ -21,6 +21,24 @@
 #++
 ---
 zh-TW:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: 刪除帳號
@@ -324,12 +342,15 @@ zh-TW:
         attribute_groups: 表單設定
         children: Sub-types
         color: 顏色
+        dependent_configuration_links: Linked types
         description: 描述的預設文字
         is_default: 新專案的預設啟動類型
         is_in_roadmap: 在藍圖中預設為顯示
         is_milestone: 里程碑
         parent: Parent type
         patterns: 樣板
+      type/configuration_link:
+        source: Source type
       user:
         admin: 管理員
         auth_source: 驗證方式
@@ -669,7 +690,13 @@ zh-TW:
               must_start_with_letter: must start with a letter
               no_special_characters: may only contain uppercase letters, numbers, and underscores
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: "%{types} 仍在被工作套件使用中"
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: 不允許指定所選使用者為工作套件。
           foreign_wps_reference_version: 非子孫專案中的工作套件參考該專案或其子孫專案的版本。
         project/phase:
@@ -788,6 +815,10 @@ zh-TW:
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
               invalid_tokens: 欄位內的一個或多個屬性不正確。請在儲存前修正屬性。
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1050,6 +1081,7 @@ zh-TW:
         primary-button-color: 強烈的重點顏色，用於螢幕上最重要的按鈕。
       manage_colors: 編輯顏色選擇選項
       tab_branding: 品牌化
+      tab_default_colors: Default colors
       tab_interface: 介面
       tab_pdf_export_font: PDF 匯出字型
       tab_pdf_export_styles: PDF 匯出類型
@@ -1709,6 +1741,8 @@ zh-TW:
     reset_token:
       action_create: 建立
       action_reset: 重置
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: 產生備份用的token
       heading_reset: 重置備份令牌(Token)
       implications: '啓用備份將允許具有所需權限和此備份令牌(Token)的任何用戶下載包含此 OpenProject 安裝的所有數據的備份。這包括所有其他用戶的數據。
@@ -5133,6 +5167,7 @@ zh-TW:
   setting_total_percent_complete_mode_work_weighted_average: 工作加權
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>總完成百分比</i>將根據層級架構中每個工作套件的<i>工作量</i>加權計算。沒有<i>工作</i>的工作套件將被忽略。"
   setting_use_wysiwyg_description: 勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG) 編輯器。CKEditor 對 GFM Markdown的功能有限。
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: 使用者預設時區
   setting_user_format: 姓名顯示方式
   setting_users_deletable_by_admins: 使用者帳戶可被管理者刪除
@@ -5337,6 +5372,7 @@ zh-TW:
       section_project_overview: 專案列表設置
     session: 連線
     user:
+      account: Account
       default_preferences: 默認偏好設置
       deletion: 消除
       display_format: 顯示格式
@@ -5682,7 +5718,37 @@ zh-TW:
     help_and_support: 説明和支援
   total_progress: 總進度
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: 從可用的範本中選擇您想要為此類型啟用的範本。範本決定了使用此類工作套件匯出的 PDF 中顯示的設計和屬性。預設為選定清單中的第一個模板。
         pdf_export_templates:
@@ -5760,8 +5826,16 @@ zh-TW:
             work_package: 工作套件
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: 新增一個類型
       no_results_title_text: 目前沒有類型
+      subtype_label: Sub-type
+      subtypes_count:
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: 忽略此警告。
     message: 您可能會在此頁面上遇到錯誤和降級的體驗。
@@ -5800,6 +5874,7 @@ zh-TW:
     status_change: 狀態變更
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: 按此啟用
     unlock_and_reset_failed_logins: 啟用並清除登入紀錄
   user_preferences:

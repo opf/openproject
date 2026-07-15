@@ -15,6 +15,8 @@ A user is any individual who can log into your OpenProject instance.
 
 Permissions control what users can see and do within OpenProject. Permission are granted to users by assigning one or more roles to the users.
 
+For more detailed description of each permission please refer to [Permissions guide](../permissions-guide)
+
 ## Roles
 
 A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
@@ -84,6 +86,15 @@ OpenProject allows to share project information with **anonymous** users which a
 ## Customize roles with individual permissions
 
 Administrators can add new roles with custom permissions or configure existing ones in _Administration_ > _Users and permissions_ > _Roles and permissions_.
+
+### Copy projects permission
+
+The **Copy projects** permission allows users to create a new project by copying an existing one.
+
+> [!NOTE]
+> A user copying a project is assigned the configured **New role for users that create projects** in the new project. This role may grant additional permissions compared to the user's role in the source project.
+
+To access the **Copy** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
 
 ### Permissions report
 

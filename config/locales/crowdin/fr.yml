@@ -21,6 +21,24 @@
 #++
 ---
 fr:
+  accessibility:
+    macro:
+      aria_label_with_name: "%{name}: %{description}"
+      resource_links:
+        attachment: A dynamic link to an attachment placed using a macro.
+        commit: A dynamic link to a commit placed using a macro.
+        document: A dynamic link to a document placed using a macro.
+        export: A dynamic link to a source file export placed using a macro.
+        group: A dynamic link to a group placed using a macro.
+        meeting: A dynamic link to a meeting placed using a macro.
+        message: A dynamic link to a message placed using a macro.
+        project: A dynamic link to a project placed using a macro.
+        revision: A dynamic link to a revision placed using a macro.
+        source: A dynamic link to a source file placed using a macro.
+        user: A dynamic link to a user placed using a macro.
+        version: A dynamic link to a version placed using a macro.
+        view: A dynamic link to a view placed using a macro.
+        work_package: A dynamic link to a work package placed using a macro.
   account:
     auth_source_login_html: Veuillez vous connecter en tant que <em>%{login}</em> pour activer votre compte.
     delete: Supprimer le compte
@@ -324,12 +342,15 @@ fr:
         attribute_groups: Configuration du formulaire
         children: Sous-types
         color: Couleur
+        dependent_configuration_links: Linked types
         description: Texte par défaut pour la description
         is_default: Activé par défaut pour les nouveaux projets
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
         parent: Type de parent
         patterns: Modèles
+      type/configuration_link:
+        source: Source type
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -670,7 +691,13 @@ fr:
               must_start_with_letter: doit commencer par une lettre
               no_special_characters: ne peut contenir que des lettres majuscules, des chiffres et des traits de soulignement
             types:
+              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
+              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
+              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
+              switch_source_not_a_subtype: Can only switch away from a subtype
+              switch_target_identical: The target Type must be different from the current subtype
+              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: L'utilisateur sélectionné ne peut pas être assigné à des lots de travaux.
           foreign_wps_reference_version: Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.
         project/phase:
@@ -789,6 +816,10 @@ fr:
               standard_type_must_be_root: ne peut pas être défini pour le type standard.
             patterns:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
+        type/configuration_link:
+          attributes:
+            source:
+              must_differ_from_type: can't be the type itself.
         user:
           attributes:
             base:
@@ -1068,6 +1099,7 @@ fr:
         primary-button-color: Couleur d'accentuation, utilisée pour le bouton le plus important à l'écran.
       manage_colors: Modifier les options du sélecteur de couleur
       tab_branding: Image de marque
+      tab_default_colors: Default colors
       tab_interface: Interface
       tab_pdf_export_font: Police d'exportation PDF
       tab_pdf_export_styles: Styles d'exportation PDF
@@ -1731,6 +1763,8 @@ fr:
     reset_token:
       action_create: Créer
       action_reset: Réinitialiser
+      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
+      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
       heading_create: Créer un jeton de sauvegarde
       heading_reset: Réinitialiser le jeton de sauvegarde
       implications: 'L''activation des sauvegardes permettra à tout utilisateur ayant les autorisations requises et ce jeton de sauvegarde de télécharger une sauvegarde contenant toutes les données de cette installation OpenProject. Cela inclut les données de tous les autres utilisateurs.
@@ -2438,8 +2472,8 @@ fr:
   error_attribute_not_highlightable: 'Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l'utilisateur '%{value}' a échoué
   error_can_not_archive_project: 'Ce projet ne peut être archivé : %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type: Impossible de désactiver le type « %{type} », car il est toujours utilisé par %{work_packages_link}
+  error_can_not_deactivate_type_invisible_projects: Il existe également des lots de travail dans des projets que vous ne pouvez pas voir.
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_entry: Impossible de supprimer l'élément
   error_can_not_delete_in_use_archived_undisclosed: Des lots de travaux sont également repris dans les projets archivés. Vous devez demander à un administrateur d'effectuer la suppression pour voir quels projets sont affectés.
@@ -5196,6 +5230,7 @@ fr:
   setting_total_percent_complete_mode_work_weighted_average: Pondéré par le travail
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Le <i>% d'achèvement total</i> sera pondéré en fonction du <i>travail</i> de chaque lot de travaux repris dans la hiérarchie. Les lots de travaux sans <i>travail</i> seront ignorés.
   setting_use_wysiwyg_description: Sélectionnez cette option pour activer l'éditeur CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités limitées pour GFM Markdown.
+  setting_user_can_change_email: Users allowed to change their email address
   setting_user_default_timezone: Fuseau horaire par défaut des utilisateurs
   setting_user_format: Format du nom d'utilisateur
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
@@ -5396,6 +5431,7 @@ fr:
       section_project_overview: Paramètres pour les listes de projets
     session: Session
     user:
+      account: Account
       default_preferences: Préférences par défaut
       deletion: Suppression
       display_format: Format d'affichage
@@ -5738,7 +5774,37 @@ fr:
     help_and_support: Aide et support
   total_progress: Progression totale
   types:
+    creation_wizard:
+      configuration_link_error: The reuse mode could not be saved. Please select a source type.
+      create_subtype: Create sub-type
+      fields:
+        parent: Choose parent type
+        variant_label: Variant label
+      finish: Finish
+      placeholder_description: This step will be available soon.
+      progress_label: Step %{number} of %{total}
+      steps:
+        automations: Automations
+        details: Details
+        form_configuration: Form configuration
+        pdf: PDF generation
+        projects: Projects
+        workflows: Workflows
+      success: Sub-type created successfully.
+      workflows:
+        copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      configuration_link:
+        independent:
+          caption: These settings belong to this type and are edited here. They are not linked to any other type.
+          label: Independent
+          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+        linked:
+          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
+          label: Linked
+          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        source:
+          label: Source type
       export_configuration:
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
@@ -5794,7 +5860,7 @@ fr:
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         tab: Projets
       settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
+        parent_type_text: Vous pouvez, si vous le souhaitez, imbriquer ce type en tant que sous-type en sélectionnant un type parent.
         tab: Paramètres
         type_color_text: La couleur sélectionnée distingue les différents types dans les graphiques de Gantt ou les tableaux des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
       subject_configuration:
@@ -5816,8 +5882,17 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
     index:
+      add_subtype: Add sub-type to %{name}
+      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+
+        '
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
+      subtype_label: Sub-type
+      subtypes_count:
+        one: 1 sub-type
+        other: "%{count} sub-types"
+      type_label: Type
   unsupported_browser:
     close_warning: Ignorer cet avertissement.
     message: Vous pouvez rencontrer des erreurs et une expérience dégradée sur cette page.
@@ -5857,6 +5932,7 @@ fr:
     status_change: Changement de statut
     status_user_and_brute_force: "%{user} et %{brute_force}"
     text_change_disabled_for_provider_login: Le nom et l'adresse e-mail sont définis par votre fournisseur d'accès et ne peuvent donc pas être modifiés.
+    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
     unlock: Déverrouiller
     unlock_and_reset_failed_logins: Déverrouiller et réinitialiser les échecs de connexion
   user_preferences:

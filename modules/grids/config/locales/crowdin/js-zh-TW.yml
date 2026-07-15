@@ -32,6 +32,9 @@ zh-TW:
           off_track: 進度落後
           on_track: 如期進行
           title: 狀態
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: 子項目
         time_entries_current_user:

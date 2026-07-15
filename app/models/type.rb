@@ -33,6 +33,7 @@ class Type < ApplicationRecord
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::Type::ConfigurationLinkable
 
   include ::Scopes::Scoped
 
@@ -85,6 +86,9 @@ class Type < ApplicationRecord
 
   scope :roots, -> { where(parent_id: nil) }
   scope :subtypes, -> { where.not(parent_id: nil) }
+  # All types are global until project-owned sub-types exist; this is the seam the
+  # configuration source picker and contract scope against (see FND-103 :manage_subtypes).
+  scope :global, -> { all }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -205,7 +209,7 @@ class Type < ApplicationRecord
   end
 
   def enabled_patterns
-    patterns.all_enabled
+    effective_patterns.all_enabled
   end
 
   def pdf_export_templates

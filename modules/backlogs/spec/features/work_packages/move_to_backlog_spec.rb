@@ -59,10 +59,13 @@ RSpec.describe "Move to backlog", :js do
 
       it "moves the work package to the backlog inbox" do
         planning_page.visit!
+        planning_page.expect_sprints_total_count(1)
+
         planning_page.click_in_work_package_menu(work_package, "Move to backlog inbox")
 
         planning_page.expect_work_package_not_in_sprint(work_package, sprint)
         planning_page.expect_inbox_item(work_package)
+        planning_page.expect_no_sprints_total_counter
       end
     end
 
@@ -88,7 +91,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to backlog bucket")
 
         within_modal "Move to backlog bucket" do
-          select bucket_b.name, from: "target_id"
+          select bucket_b.name, from: "list_id"
           click_on "Move"
         end
 
@@ -107,7 +110,7 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to backlog bucket")
 
         within_modal "Move to backlog bucket" do
-          select bucket_a.name, from: "target_id"
+          select bucket_a.name, from: "list_id"
           click_on "Move"
         end
 
@@ -154,10 +157,10 @@ RSpec.describe "Move to backlog", :js do
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
         within_modal "Move to sprint" do
-          expect(page).to have_no_select("target_id", with_options: [sprint.name])
-          expect(page).to have_select("target_id", with_options: [second_sprint.name])
+          expect(page).to have_no_select("list_id", with_options: [sprint.name])
+          expect(page).to have_select("list_id", with_options: [second_sprint.name])
 
-          select second_sprint.name, from: "target_id"
+          select second_sprint.name, from: "list_id"
           click_on "Move"
         end
 
@@ -173,10 +176,12 @@ RSpec.describe "Move to backlog", :js do
 
       it "opens the dialog and moves the work package to the selected sprint" do
         planning_page.visit!
+        planning_page.expect_no_sprints_total_counter
+
         planning_page.click_in_work_package_menu(work_package, "Move to sprint")
 
         within_modal "Move to sprint" do
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_on "Move"
         end
 
@@ -184,6 +189,7 @@ RSpec.describe "Move to backlog", :js do
 
         planning_page.expect_no_inbox_item(work_package)
         planning_page.expect_work_package_in_sprint(work_package, sprint)
+        planning_page.expect_sprints_total_count(1)
       end
     end
 
@@ -192,10 +198,12 @@ RSpec.describe "Move to backlog", :js do
 
       it "opens the dialog and moves the work package to the selected sprint" do
         planning_page.visit!
+        planning_page.expect_no_sprints_total_counter
+
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
         within_modal "Move to sprint" do
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_on "Move"
         end
 
@@ -203,6 +211,7 @@ RSpec.describe "Move to backlog", :js do
 
         planning_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
         planning_page.expect_work_package_in_sprint(work_package, sprint)
+        planning_page.expect_sprints_total_count(1)
       end
     end
   end
