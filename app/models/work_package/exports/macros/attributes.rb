@@ -36,10 +36,12 @@ module WorkPackage::Exports
 
     #   workPackageValue:subject # Outputs the subject of the current work package
     #   workPackageValue:1234:subject # Outputs the subject of #1234
+    #   workPackageValue:PROJ-10:subject # Outputs the subject of PROJ-10 (semantic identifier mode)
     #   workPackageValue:"custom field name" # Outputs the custom field value of the current work package
     #   workPackageValue:1234:"custom field name" # Outputs the custom field value of #1234
     #
     #   workPackageValue:1234:targetVersions:singleline # Outputs the values of #1234 comma-separated (export default)
+    #   workPackageValue:PROJ-10:targetVersions:singleline # Outputs the values of PROJ-10 comma-separated
     #   workPackageValue:1234:targetVersions:multiline # Outputs the values of #1234 one per line
     #
     #   projectLabel:active # Outputs current project label attribute "active"

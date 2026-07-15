@@ -410,6 +410,30 @@ RSpec.describe Exports::PDF::Common::Macro do
           expect(formatted.split("  \n")).to match_array(%w[1.0 2.0])
         end
       end
+
+      describe "in semantic identifier mode",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_identifier) do
+          work_package.allocate_and_register_semantic_id
+          work_package.reload.identifier
+        end
+
+        describe "with targetVersions attribute and singleline layout" do
+          let(:markdown) { "workPackageValue:#{semantic_identifier}:targetVersions:singleline" }
+
+          it "resolves the semantic reference and outputs the versions on a single line" do
+            expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+          end
+        end
+
+        describe "with legacy version attribute" do
+          let(:markdown) { "workPackageValue:#{semantic_identifier}:version" }
+
+          it "outputs all target versions on a single line" do
+            expect(formatted.split(", ")).to match_array(%w[1.0 2.0])
+          end
+        end
+      end
     end
 
     describe "with specific work package ID and attribute" do
