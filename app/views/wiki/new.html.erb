@@ -39,14 +39,21 @@ See COPYRIGHT and LICENSE files for more details.
     )
   end
 %>
-<%= settings_primer_form_with(
+<%= primer_form_with(
       model: @page,
       scope: :page,
       url: create_project_wiki_index_path(project_id: @project),
       method: :post,
       data: { turbo: false }
     ) do |f| %>
-  <%= render WikiPages::Form.new(f) %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+    <% layout.with_main do %>
+      <%= render WikiPages::Form.new(f) %>
+    <% end %>
+    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+      <%= render WikiPages::AttachmentsSidePanelComponent.new(@page) %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <% content_for :header_tags do %>

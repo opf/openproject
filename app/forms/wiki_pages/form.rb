@@ -46,7 +46,8 @@ module WikiPages
           macros: true,
           resource:,
           previewContext: preview_context,
-          turboMode: false
+          turboMode: false,
+          showAttachments: false
         }
       )
 

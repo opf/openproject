@@ -41,6 +41,9 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
   let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new }
   let(:attachments_list) { Components::AttachmentsList.new }
+  let(:side_panel_attachments_list) do
+    Components::AttachmentsList.new("[data-test-selector='wiki-page-attachments-side-panel']")
+  end
   let(:wiki_page_content) { project.wiki.pages.first.text }
 
   before do
@@ -53,14 +56,14 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     # adding an image
     editor.drag_attachment image_fixture.path, "Image uploaded the first time"
 
-    editor.attachments_list.expect_attached("image.png")
+    side_panel_attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
     click_on "Save"
 
     expect_and_dismiss_flash(message: "Successful creation")
     expect(page).to have_css("#content img", count: 1)
-    expect(page).to have_content("Image uploaded the first time")
+    expect(page).to have_text("Image uploaded the first time")
     attachments_list.expect_attached("image.png")
 
     page.find_test_selector("wiki-edit-action-button").click
@@ -71,7 +74,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
 
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
-    editor.attachments_list.expect_attached("image.png", count: 2)
+    side_panel_attachments_list.expect_attached("image.png", count: 2)
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
@@ -88,7 +91,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     expect(page).to have_text("Successful update")
     expect(page).to have_css("#content img", count: 2)
     # First figcaption is lost by having replaced the markdown
-    expect(page).to have_content("Image uploaded the second time")
+    expect(page).to have_text("Image uploaded the second time")
     attachments_list.expect_attached("image.png", count: 2)
 
     # Both images rendered referring to the api endpoint
@@ -103,12 +106,12 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
   it "can upload an image to new and existing wiki page via drag & drop on attachments" do
     visit project_wiki_path(project, "test")
 
-    editor.attachments_list.expect_empty
+    side_panel_attachments_list.expect_empty
 
     # adding an image
-    editor.attachments_list.drop(image_fixture.path)
+    side_panel_attachments_list.drop(image_fixture.path)
 
-    editor.attachments_list.expect_attached("image.png")
+    side_panel_attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
     click_on "Save"
@@ -121,10 +124,10 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     page.find_test_selector("wiki-edit-action-button").click
 
     # adding an image
-    editor.attachments_list.drag_enter
-    editor.attachments_list.drop(image_fixture)
+    side_panel_attachments_list.drag_enter
+    side_panel_attachments_list.drop(image_fixture)
 
-    editor.attachments_list.expect_attached("image.png", count: 2)
+    side_panel_attachments_list.expect_attached("image.png", count: 2)
     editor.wait_until_upload_progress_toaster_cleared
 
     click_on "Save"
