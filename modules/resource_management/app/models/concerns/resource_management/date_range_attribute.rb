@@ -28,40 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module Forms
-    class DateRangeForm < ApplicationForm
-      REFRESH_ACTION = "change->refresh-on-form-changes#triggerTurboStream"
+module ResourceManagement
+  # Presents the `start_date`/`end_date` pair as the single joined string the
+  # range date picker posts and reads back ("2026-08-01 - 2026-08-14"). Only
+  # `start_date`/`end_date` are ever persisted or validated; `date_range` exists
+  # so the picker can be bound through the regular attribute assignment used by
+  # the SetAttributes services.
+  module DateRangeAttribute
+    extend ActiveSupport::Concern
 
-      form do |f|
-        f.range_date_picker(
-          name: :date_range,
-          label: ResourceAllocation.human_attribute_name(:date_range),
-          required: true,
-          value: model.date_range,
-          validation_message: date_validation_message,
-          datepicker_options: { inDialog: @dialog_id, data: { action: REFRESH_ACTION } }
-        )
+    SEPARATOR = " - "
 
-        f.html_content do
-          render(ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation: model))
-        end
-      end
+    def date_range
+      return "" if start_date.blank? && end_date.blank?
 
-      def initialize(dialog_id:)
-        super()
-        @dialog_id = dialog_id
-      end
+      # A half-open range keeps its separator so that reading the value back in
+      # assigns the date to the side it came from.
+      [start_date&.iso8601, end_date&.iso8601].join(SEPARATOR)
+    end
 
-      private
+    def date_range=(value)
+      from, to = value.to_s.split(SEPARATOR, 2)
 
-      # The picker is a single input, so the errors both dates can carry have to
-      # be surfaced on it together.
-      def date_validation_message
-        (model.errors.full_messages_for(:start_date) + model.errors.full_messages_for(:end_date))
-          .to_sentence
-          .presence
-      end
+      self.start_date = from.presence
+      self.end_date = to.presence
     end
   end
 end

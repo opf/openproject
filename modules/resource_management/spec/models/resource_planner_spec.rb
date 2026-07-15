@@ -75,8 +75,9 @@ RSpec.describe ResourcePlanner do
       let(:start_date) { nil }
       let(:end_date) { Date.new(2026, 1, 2) }
 
-      it "is valid" do
-        expect(planner).to be_valid
+      it "is invalid, as the timeframe is picked as a range" do
+        expect(planner).not_to be_valid
+        expect(planner.errors.symbols_for(:start_date)).to include(:required_with_end_date)
       end
     end
 
@@ -84,8 +85,9 @@ RSpec.describe ResourcePlanner do
       let(:start_date) { Date.new(2026, 1, 2) }
       let(:end_date) { nil }
 
-      it "is valid" do
-        expect(planner).to be_valid
+      it "is invalid, as the timeframe is picked as a range" do
+        expect(planner).not_to be_valid
+        expect(planner.errors.symbols_for(:end_date)).to include(:required_with_start_date)
       end
     end
 

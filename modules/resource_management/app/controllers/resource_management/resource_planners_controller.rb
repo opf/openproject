@@ -162,7 +162,7 @@ module ::ResourceManagement
     end
 
     def resource_planner_params(extra: [])
-      params.expect(resource_planner: %i[name start_date end_date] + extra)
+      params.expect(resource_planner: %i[name date_range] + extra)
     end
 
     def can_manage_public?

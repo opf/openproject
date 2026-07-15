@@ -141,6 +141,7 @@ en:
     button_cancel: "Cancel"
     button_change_project: "Move to another project"
     button_check_all: "Check all"
+    button_clear: "Clear"
     button_close: "Close"
     button_close_details: "Close details view"
     button_collapse_all: "Collapse all"
