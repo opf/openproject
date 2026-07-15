@@ -29,6 +29,8 @@
 #++
 
 module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
+  include Queries::Filters::Shared::ProjectFilter::Optional
+
   def apply_to(_query_scope)
     case operator
     when "="  then super.where(exists_condition.exists)
@@ -41,16 +43,15 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
 
   def where = nil
 
-  def type = :list_optional
   def available?
     Project.workspace_type(self.class.key.to_s).visible.exists?
   end
 
-  private
-
-  def type_strategy
-    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+  def autocomplete_options
+    {}
   end
+
+  private
 
   def exists_condition
     Project.from("#{Project.table_name} ancestors")
@@ -70,7 +71,7 @@ module Queries::Projects::Filters::AncestorWorkspaceTypeFilter
   end
 
   def ancestor_workspace_type_condition
-    projects_ancestor_table[:workspace_type].eq(self.class.ancestor_workspace_type.to_s)
+    projects_ancestor_table[:workspace_type].eq(self.class.key.to_s)
   end
 
   def ancestor_in_values_condition

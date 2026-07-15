@@ -33,8 +33,6 @@ class Queries::Projects::Filters::ProgramFilter < Queries::Projects::Filters::Ba
 
   def self.key = :program
 
-  def self.ancestor_workspace_type = :program
-
   def allowed_values
     @allowed_values ||= ::Project.program.visible.map { |p| [p.name, p.id.to_s] }
   end
