@@ -52,7 +52,7 @@ module OpenProject::TextFormatting
           (?<model>\w+)(?<type>Label|Value) # The model type we try to reference
           (?::(?:(?<id>[^":\s]+)|"(?<quoted_id>[^"]+)"))? # Optional: An ID or subject reference
           (?::(?<attribute>[^":\s.]+|"(?<quoted_attribute>[^"]+)")) # The attribute name we're trying to reference
-          (?::(?<layout>#{LAYOUTS.join('|')}))? # Optional: A layout argument
+          (?::(?<layout>#{LAYOUTS.join('|')})\b)? # Optional: A layout argument (whole keyword only)
         }x
       end
 

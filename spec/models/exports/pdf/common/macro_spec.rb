@@ -359,6 +359,14 @@ RSpec.describe Exports::PDF::Common::Macro do
           expect(formatted).to eq("Sprint1, Sprint2")
         end
       end
+
+      describe "with a prefixed layout keyword" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:\"My List Field\":multilinefoo" }
+
+        it "does not treat the prefix as a layout and keeps it as trailing text" do
+          expect(formatted).to eq("Sprint1, Sprint2:multilinefoo")
+        end
+      end
     end
 
     describe "with singleline layout on a single value attribute" do
