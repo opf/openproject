@@ -71,12 +71,11 @@ module Wikis
       respond_with_dialog Wikis::CreateNewWikiPageDialog.new(form_object)
     end
 
-    def search # rubocop:disable Metrics/AbcSize
-      provider = Provider.visible.enabled.find(params.expect(:provider_id))
+    def search
       query = params[:query]
       form_name = params[:name]
-      builder = ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
-      search_result = search_pages(query, provider)
+      builder = form_builder
+      search_result = search_pages(query, fetch_provider)
 
       search_result.either(
         ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
@@ -85,6 +84,14 @@ module Wikis
     end
 
     private
+
+    def fetch_provider
+      Provider.visible.enabled.find(params.expect(:provider_id))
+    end
+
+    def form_builder
+      ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
+    end
 
     def search_pages(query, provider)
       PageSearchService.new(provider:, user: current_user).search_pages(query)

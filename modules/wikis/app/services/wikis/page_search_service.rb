@@ -44,7 +44,7 @@ module Wikis
 
       if url?(query)
         search_by_url(query).either(
-          ->(page_info) { Success([to_tree_node(page_info)]) },
+          ->(page) { Success([to_tree_node(page:, enabled: true)]) },
           ->(failure) { failure.code == :not_found ? Success([]) : Failure(failure) }
         )
       else
@@ -78,12 +78,12 @@ module Wikis
       end
     end
 
-    def to_tree_node(page)
+    def to_tree_node(page:, enabled:)
       Adapters::Results::PageSearchTreeNode.new(identifier: page.identifier,
                                                 type: :page,
                                                 name: page.title,
                                                 children: [],
-                                                enabled: true)
+                                                enabled:)
     end
 
     def build_result_tree(pages)
@@ -127,12 +127,7 @@ module Wikis
       ancestors.reverse_each do |ancestor|
         ancestor_node = accumulator[:all_nodes].find { it.key == node_key(type: :page, identifier: ancestor.identifier) }
         if ancestor_node.nil?
-          ancestor_node = Adapters::Results::PageSearchTreeNode.new(identifier: ancestor.identifier,
-                                                                    type: :page,
-                                                                    name: ancestor.title,
-                                                                    children: [],
-                                                                    enabled: false)
-
+          ancestor_node = to_tree_node(page: ancestor, enabled: false)
           previous_ancestor_node.children << ancestor_node
           accumulator[:all_nodes] << ancestor_node
         end
@@ -147,12 +142,7 @@ module Wikis
       return if enable_if_node_exists(accumulator, page)
 
       parent_node = find_parent(accumulator, ancestors, wiki)
-      new_node = Adapters::Results::PageSearchTreeNode.new(identifier: page.identifier,
-                                                           type: :page,
-                                                           name: page.title,
-                                                           children: [],
-                                                           enabled: true)
-
+      new_node = to_tree_node(page:, enabled: true)
       parent_node.children << new_node
       accumulator[:all_nodes] << new_node
     end
