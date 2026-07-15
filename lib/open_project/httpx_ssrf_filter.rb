@@ -54,7 +54,11 @@ module OpenProject
           SsrfProtection.send(:unsafe_ip_address?, addr)
         end
 
-        raise ServerSideRequestForgeryError, "#{@origin.host} has no public IP addresses" if addrs.empty?
+        if addrs.empty?
+          raise ServerSideRequestForgeryError,
+                "#{@origin.host} resolves only to private IP addresses, blocked to prevent SSRF. " \
+                "To allow this host, add its IP addresses to OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST."
+        end
 
         super
       end
