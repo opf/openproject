@@ -193,8 +193,8 @@ en:
       label_complete_sprint: "Complete sprint"
       label_start_sprint: "Start sprint"
       start_sprint_disabled_reason_active_sprint: "Another sprint is already active."
-      start_sprint_disabled_reason_shared_sprint: "This sprint is from another project that doesn't support multiple active sprints."
       start_sprint_disabled_reason_missing_dates: "Start and finish dates are required in order to start the sprint."
+      start_sprint_disabled_reason_shared_sprint: "This sprint is from another project that doesn't support multiple active sprints."
 
     sprint_form:
       goal_caption: "The sprint goal is unique to this project and is not shared with other projects also using this sprint."
