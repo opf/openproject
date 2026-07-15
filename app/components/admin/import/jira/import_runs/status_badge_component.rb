@@ -36,7 +36,7 @@ module Admin::Import::Jira::ImportRuns
       super
 
       @title = I18n.t(status.to_s, default: "", scope: "admin.jira.run.status")
-      @system_arguments = system_arguments.merge({ bg: status_color_scheme(status) })
+      @system_arguments = system_arguments.merge(bg: status_color_scheme(status))
     end
 
     def status_color_scheme(status)
@@ -55,7 +55,6 @@ module Admin::Import::Jira::ImportRuns
            Import::JiraImportStateMachine::IMPORTING,
            Import::JiraImportStateMachine::FINALIZING,
            Import::JiraImportStateMachine::REVERTING,
-           Import::JiraImportStateMachine::REVERT_CANCELLING
         :accent
       else
         :attention

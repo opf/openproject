@@ -29,28 +29,25 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
-
-    has_many :jira_imports, dependent: :destroy
-
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
+  class JiraFetchPrioritiesJob < JiraFetchBaseJob
+    def text
+      "Fetch Priorities"
     end
 
     private
 
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
+    def fetch_data
+      priorities_upsert_data = @jira_client.priorities.map do |priority|
+        {
+          payload: priority,
+          jira_id: @jira_id,
+          jira_priority_id: priority.fetch("id"),
+          jira_import_id: @jira_import.id,
+          created_at: @created_at,
+          updated_at: @updated_at
+        }
       end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+      Import::JiraPriority.upsert_all(priorities_upsert_data, unique_by: %i[jira_id jira_priority_id])
     end
   end
 end

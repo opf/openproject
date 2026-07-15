@@ -47,7 +47,9 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%=
   table = Class.new(OpPrimer::BorderBoxTableComponent) do
-    columns :from_state, :to_state, :created_at, :metadata
+    columns :from_to, :metadata
+
+    main_column :metadata
 
     def self.name
       "HistoryTable"
@@ -66,31 +68,57 @@ See COPYRIGHT and LICENSE files for more details.
         def button_links
           []
         end
-
-        def created_at
-          model.created_at
-        end
-
-        def from_state
-          render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.from_state))
-        end
-
-        def to_state
-          render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.to_state))
+        
+        def from_to
+          render(Primer::OpenProject::FlexLayout.new) do |c|
+            c.with_column do
+              render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.from_state))
+            end
+            c.with_column do
+              render(Primer::Beta::Octicon.new(:"arrow-right", size: :small))
+            end
+            c.with_column do
+              render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.to_state))
+            end
+          end
         end
 
         def metadata
           render(Primer::OpenProject::FlexLayout.new) do |component|
-            job_id = model.metadata["job_id"]
-            if job_id
-              gj_url_helpers = GoodJob::Engine.routes.url_helpers
+            gj_url_helpers = GoodJob::Engine.routes.url_helpers
+
+            component.with_row(p: 1) do
+              model.created_at.to_s
+            end
+            if user_id = model.metadata["user_id"]
+              user = User.find_by(id: user_id)
+              component.with_row(p: 1) do
+                if user.present?
+                  "User #{user}"
+                else
+                  "User with id #{user_id} not found"
+                end
+              end
+            end
+            if job_id = model.metadata["job_id"]
               component.with_row(bg: :attention, p: 1) do
                 render(
                   Primer::Beta::Link.new(
                     href: gj_url_helpers.job_path(id: job_id),
                     target: "_blank"
                 )) do |link|
-                  job_id
+                  "Job"
+                end
+              end
+            end
+            if batch_id = model.metadata["batch_id"]
+              component.with_row(bg: :attention, p: 1) do
+                render(
+                  Primer::Beta::Link.new(
+                    href: gj_url_helpers.batch_path(id: batch_id),
+                    target: "_blank"
+                )) do |link|
+                  "Batch"
                 end
               end
             end
@@ -115,8 +143,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     def headers
       [
-        [:from_state, { caption: "From state" }],
-        [:to_state, { caption: "To state" }],
+        [:from_to, { caption: "From To" }],
         [:metadata, { caption: "Metadata" }]
       ]
     end

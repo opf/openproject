@@ -29,28 +29,30 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
+  class JiraCreateProjectRoleJob < ApplicationJob
+    include Import::JiraOpenProjectReferenceCreation
 
-    has_many :jira_imports, dependent: :destroy
-
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
+    def text
+      "Create 'JiraMember' project role"
     end
 
-    private
-
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
+    def perform(jira_import_id)
+      service_call = Roles::CreateService.new(user: User.system).call(
+        name: "JiraMember",
+        permissions: %i[add_work_packages
+                        view_work_packages
+                        add_work_package_comments
+                        add_work_package_attachments
+                        work_package_assigned]
+      )
+      if service_call.success?
+        create_reference!(op_leg: service_call.result,
+                          jira_leg: nil,
+                          jira_import: @jira_import,
+                          uses_existing: false)
+      elsif service_call.errors.find { |error| error.type == :taken }.blank?
+        raise service_call.message
       end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
     end
   end
 end

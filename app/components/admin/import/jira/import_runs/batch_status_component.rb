@@ -28,29 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
+module Admin::Import::Jira::ImportRuns
+  class BatchStatusComponent < Primer::Component
+    include OpPrimer::ComponentHelpers
 
-    has_many :jira_imports, dependent: :destroy
-
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
+    def initialize(batch:)
+      super()
+      @batch = batch
     end
 
-    private
-
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
+    def call
+      render(OpPrimer::InsetBoxComponent.new(border: false)) do
+        flex_layout do |flex|
+          @batch._record.jobs.order(:created_at).each do |job|
+            flex.with_row do
+              render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
+            end
+          end
+        end
       end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
     end
   end
 end

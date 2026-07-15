@@ -29,28 +29,10 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
-
-    has_many :jira_imports, dependent: :destroy
-
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
-    end
-
-    private
-
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
-      end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+  module ProgressableJob
+    def text
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.import_batch_jobs.#{to_s.demodulize.underscore}.title", default: to_s)
     end
   end
 end
+

@@ -46,7 +46,6 @@ en:
         version: "A dynamic link to a version placed using a macro."
         view: "A dynamic link to a view placed using a macro."
         work_package: "A dynamic link to a work package placed using a macro."
-
   account:
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
     delete: "Delete account"

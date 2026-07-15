@@ -29,28 +29,36 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
-
-    has_many :jira_imports, dependent: :destroy
-
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
-    end
-
+  class JiraFetchIssuesJob < JiraFetchBaseJob
     private
 
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
+    def fetch_data
+      Import::JiraProject.where(jira_id: @jira_id, jira_project_id: @jira_import.project_ids).find_each do |jira_project|
+        sync_project_issues(jira_project)
       end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+    end
+
+    def sync_project_issues(jira_project)
+      jql = "project = '#{jira_project.payload['key']}'"
+      start_at = 0
+      loop do
+        result = @jira_client.issues(jql:, start_at:, max_results: 50)
+        issues = result["issues"]
+        issues_upsert_data = issues.map do |issue|
+          {
+            payload: issue,
+            jira_id: @jira_id,
+            jira_project_id: jira_project.id,
+            jira_issue_id: issue.fetch("id"),
+            jira_import_id: @jira_import.id,
+            created_at: @created_at,
+            updated_at: @updated_at
+          }
+        end
+        Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_id jira_issue_id])
+        start_at = result["startAt"] + result["maxResults"]
+        break if start_at >= result["total"]
+      end
     end
   end
 end

@@ -29,28 +29,18 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
+  class JiraCreateProjectRoleJob < ApplicationJob
+    include Import::JiraOpenProjectReferenceCreation
+    include ::Import::JiraCreateProjectsJob::JiraImportCustomFields
 
-    has_many :jira_imports, dependent: :destroy
+    def text
+      "Create custom fields"
+    end
 
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
+    def perform(jira_import_id, jira_project_id)
+      custom_field_registry = build_custom_field_registry
     end
 
     private
-
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
-      end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
-    end
   end
 end

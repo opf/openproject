@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout do |box|
-  if model.in_state?(:reverting, :reverted, :revert_error)
+  if model.in_state?(:reverting, :reverted, :revert_cancelling, :revert_cancelled, :revert_error)
     box.with_row do
       concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
         I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert")
@@ -37,9 +37,26 @@ See COPYRIGHT and LICENSE files for more details.
     case model.current_state.to_sym
     when :reverting
       box.with_row(mt: 3) do
+        render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job: model.state_machine.last_transition_to(:reverting).actual_job))
+      end
+    when :revert_cancelling
+      box.with_row(mt: 3) do
         render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_progress")
+          message: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_cancelling")
         ))
+      end
+    when :revert_cancelled
+      box.with_row(mt: 3) do
+        concat(render(Primer::Beta::Text.new(font_weight: :bold, tag: :div)) {
+          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_revert_cancelled")
+        })
+        concat(render(Primer::Beta::Button.new(scheme: :link,
+                                               block: false,
+                                               href: continue_admin_import_jira_run_path(step: :revert),
+                                               color: :accent,
+                                               data: { turbo_stream: true },
+                                               tag: :a,
+        )) { |_c| "Continue" })
       end
     when :reverted
       box.with_row(mt: 3) do
@@ -61,9 +78,11 @@ See COPYRIGHT and LICENSE files for more details.
     case model.current_state.to_sym
     when :finalizing
       box.with_row(mt: 3) do
-        render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-          I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
-        ))
+        render(
+          Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
+            message: I18n.t(:"admin.jira.run.wizard.sections.import_result.label_finalizing")
+          )
+        )
       end
     when :finalizing_done
       box.with_row(mt: 3) do

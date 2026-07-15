@@ -47,15 +47,12 @@ See COPYRIGHT and LICENSE files for more details.
         "#{I18n.t(:"admin.jira.run.title")} #{@jira_import.id.to_s}"
       ]
     )
-    header.with_description(underlined_links: false) do 
-      render(
-        Primer::Beta::Link.new(
-          href: history_admin_import_jira_run_path(jira_id: @jira_import.jira.id, id: @jira_import.id),
-          underline: false,
-      )) do |link|
-        I18n.t(:"admin.jira.run.history")
-      end
-    end
+    header.with_action_link(
+      mobile_icon: "link",
+      mobile_label: I18n.t(:"admin.jira.run.history"),
+      href: history_admin_import_jira_run_path(jira_id: @jira_import.jira.id, id: @jira_import.id),
+      target: "_blank"
+    ) { I18n.t(:"admin.jira.run.history") }
   end
 %>
 <%=

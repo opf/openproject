@@ -34,10 +34,15 @@ module Admin::Import::Jira::ImportRuns
     include Admin::Import::Jira::ImportRunsHelper
 
     def imported_data
-      [
+      a = Import::JiraOpenProjectReference
+        .where(jira_import: model)
+        .where.not(op_entity_class: ["WorkPackage", "Project"])
+        .order(:op_entity_class)
+        .map { |i| { label: i.op_entity_class + " " + i.op_leg.to_s + (i.uses_existing ? " REUSED" : " CREATED")}}
+      a.push(
         { label: projects_label(imported_projects.count), checked: true, url: imported_projects_url },
         { label: work_packages_label(imported_work_packages.count), checked: true, url: imported_work_packages_url }
-      ].compact
+      )
     end
 
     def imported_projects

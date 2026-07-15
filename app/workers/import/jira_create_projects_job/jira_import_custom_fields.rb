@@ -29,7 +29,7 @@
 #++
 
 module Import
-  class JiraImportProjectsJob
+  class JiraCreateProjectsJob
     module JiraImportCustomFields
       JIRA_IMPORT_GROUP_KEY = "Jira import"
 
@@ -73,7 +73,7 @@ module Import
       end
 
       def build_registry_entries_for_field(jira_field)
-        return [] unless supported_field?(jira_field)
+        return [] unless JiraImportCustomFieldBuilder.supported?(jira_field)
 
         if multicheckbox_field?(jira_field)
           build_multicheckbox_registry_entries(jira_field)
@@ -82,10 +82,6 @@ module Import
         else
           [{ jira_field:, contexts: build_contexts_for_field(jira_field) }]
         end
-      end
-
-      def supported_field?(jira_field)
-        JiraImportCustomFieldBuilder.supported?(jira_field)
       end
 
       def multicheckbox_field?(jira_field)
@@ -226,7 +222,11 @@ module Import
           needs_disambiguation:,
           jira_import: @jira_import
         )
-        custom_field = find_or_create_custom_field(jira_field, builder)
+
+        jira_import = jira_field.jira_import
+        custom_field = OpenProject::Mutex.with_advisory_lock(jira_import, "jira_import_#{jira_import.id}_find_or_create_custom_field") do
+          find_or_create_custom_field(jira_field, builder)
+        end
         {
           projects: Array(context_group&.dig("projects")),
           issuetypes: Array(context_group&.dig("issuetypes")),

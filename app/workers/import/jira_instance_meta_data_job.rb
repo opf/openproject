@@ -39,6 +39,10 @@ module Import
       key: -> { "Import::JiraInstanceMetaDataJob-#{arguments.last}" }
     )
 
+    def text
+      "Fetching instance meta data"
+    end
+
     def perform(jira_import_id)
       jira_import = Import::JiraImport.find(jira_import_id)
       get_meta(jira_import)

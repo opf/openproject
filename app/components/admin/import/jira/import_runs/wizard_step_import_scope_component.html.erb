@@ -102,10 +102,49 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
   elsif model.in_state?(:projects_meta_fetching)
-    box.with_row(mt: 3) do
-      render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
-      ))
+    box.with_row(mb: 3, mt: 3) do
+      render(Primer::Beta::Text.new) {
+        I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
+      }
+    end
+    job_status_icon = case model.state_machine.last_transition_to(:projects_meta_fetching).actual_job.status
+        when :running
+          {icon: :"kebab-horizontal", color: :muted}
+        when :queued,
+          :retried,
+          :scheduled
+          {icon: :"clock", color: :muted}
+        when :succeeded
+          {icon: :"check-circle-fill", color: :success}
+        when :discarded
+          {icon: :"x-circle-fill", color: :danger}
+        end
+    box.with_row(mb: 3) do
+      render(Primer::Alpha::Stack.new(direction: :horizontal)) do
+        concat(
+          render(Primer::Beta::Button.new(
+            size: :medium,
+            tag: :a,
+            href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
+            disabled: true,
+            data: { controller: "async-dialog" }
+          )) do |component|
+          component.with_trailing_visual_counter(count: selected_projects_count)
+          I18n.t(:"admin.jira.run.wizard.sections.import_scope.button_select")
+          end
+        )
+        concat(render(Primer::Beta::Button.new(
+          scheme: :primary,
+          tag: :a,
+          size: :medium,
+          disabled: true,
+          href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'fetch_instance_meta'),
+          data: { turbo_stream: true }
+        )) do |button|
+               button.with_leading_visual_icon(**job_status_icon)
+               "Fetching selected projects metadata"
+        end)
+      end
     end
   end
 end

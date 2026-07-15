@@ -41,9 +41,23 @@ module Import
                       delete_references
                       delete_jira_objects].freeze
 
+    def text
+      "REVERTING"
+    end
+
+    def percentage
+      jira_import = Import::JiraImport.find(arguments[0])
+      cursor = jira_import.get_job_cursor(self)
+      if cursor.present?
+        (REVERT_STEPS.index(cursor.to_sym) + 1) / REVERT_STEPS.count * 100
+      else
+        0
+      end
+    end
+
     def build_enumerator(jira_import_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
-      # cursor ||= REVERT_STEPS.index(@jira_import.cursor&.to_sym)
+      cursor ||= @jira_import.get_job_cursor(self)&.to_sym
       enumerator_builder.array(REVERT_STEPS, cursor:)
     rescue StandardError => e
       @jira_import.transition_to!(:revert_error,
@@ -55,10 +69,10 @@ module Import
     def each_iteration(revert_step, jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
+      @jira_import.set_job_cursor(self, revert_step)
       ApplicationRecord.transaction do
         send(revert_step)
       end
-      @jira_import.update_column(:cursor, revert_step)
     rescue StandardError => e
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
@@ -69,14 +83,6 @@ module Import
     end
 
     private
-
-    def job_should_exit?
-      if @jira_import.reload.in_state?(:revert_cancelling)
-        @jira_import.transition_to!(:revert_cancelled)
-        throw(:abort)
-      end
-      super
-    end
 
     def delete_projects
       Import::JiraOpenProjectReference

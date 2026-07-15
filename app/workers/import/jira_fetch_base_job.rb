@@ -29,28 +29,24 @@
 #++
 
 module Import
-  class Jira < ApplicationRecord
-    self.table_name = "jiras"
+  class JiraFetchBaseJob < ApplicationJob
+    include ProgressableJob
 
-    has_many :jira_imports, dependent: :destroy
+    def perform(jira_import_id, *)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      @jira_id = jira.id
+      @updated_at = Time.zone.now
+      @created_at = @updated_at
+      @jira_client = jira.client
 
-    validate :url_must_be_http_or_https
-
-    def client
-      Import::JiraClient.new(url:, personal_access_token:)
+      fetch_data(*)
     end
 
     private
 
-    def url_must_be_http_or_https
-      return if url.blank?
-
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
-      end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+    def fetch_data(*)
+      raise NotImplementedError, "Subclasses must implement #fetch_data"
     end
   end
 end

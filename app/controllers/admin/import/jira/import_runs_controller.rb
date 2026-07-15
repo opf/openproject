@@ -42,6 +42,9 @@ module Admin::Import::Jira
       import
       revert
       finalize
+      abort_import
+      resume
+      retry
     ].freeze
 
     menu_item :jira_import
@@ -58,7 +61,7 @@ module Admin::Import::Jira
     end
 
     def continue
-      change_step(params[:step]) unless @jira_import.status_running?
+      change_step(params[:step])
       stream_wizard
     rescue StandardError => e
       handle_error(e)
@@ -100,6 +103,7 @@ module Admin::Import::Jira
 
     def handle_error(error)
       respond_to do |format|
+        OpenProject.logger.error(error.backtrace)
         format.turbo_stream do
           render_error_flash_message_via_turbo_stream(message: error.message.to_s)
           respond_with_turbo_streams
@@ -120,25 +124,7 @@ module Admin::Import::Jira
     end
 
     def import
-      # raise StandardError.new(I18n.t(:"admin.jira.run.import_blocked_error")) if blocking_run
-
       @jira_import.transition_to!(:importing)
-    end
-
-    def blocking_run
-      Import::JiraImport
-        .joins(:transitions)
-        .where.not(id: @jira_import.id)
-        .where(
-          jira_import_transitions: {
-            # Filtering by most_recent: true ensures the query checks each import's current state, not its history.
-            # Without it, an import that once passed through importing but has since moved to reverted
-            # would still match — giving a false positive.
-            most_recent: true,
-            to_state: %w[imported import_error importing reverting revert_error]
-          }
-        )
-        .first
     end
 
     def configure
@@ -151,6 +137,24 @@ module Admin::Import::Jira
 
     def finalize
       @jira_import.transition_to!(:finalizing)
+    end
+
+    def abort_import
+      @jira_import.transition_to!(:import_aborting)
+    end
+
+    def retry
+      last_transition = @jira_import.state_machine.last_transition
+      if @jira_import.state_machine.status_error?
+        @jira_import.transition_to!(last_transition.from_state)
+      end
+    end
+
+    def resume
+      last_transition = @jira_import.state_machine.last_transition
+      if @jira_import.in_state?(:aborted)
+        @jira_import.transition_to!(last_transition.from_state)
+      end
     end
 
     def find_jira_and_jira_import

@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
     end)
     concat(
       render(Admin::Import::Jira::ImportRuns::ProgressBoxComponent.new(
-        I18n.t("admin.jira.form.label_testing"),
+        message: I18n.t("admin.jira.form.label_testing"),
         hidden: true,
         mt: 3,
         data: { "admin--jira-configuration-form-target": "progressBanner" }
