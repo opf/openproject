@@ -1,12 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
 
-export default class DisableWhenClickedController extends Controller<HTMLInputElement> {
+export default class DisableWhenClickedController extends Controller<HTMLElement> {
   static values = {
     text: String,
   };
 
   declare textValue:string;
-  private clickListener = this.toggleDisabled.bind(this);
+  private alreadyClicked = false;
+  private clickListener = this.handleClick.bind(this);
 
   connect() {
     super.connect();
@@ -15,15 +16,50 @@ export default class DisableWhenClickedController extends Controller<HTMLInputEl
 
   disconnect() {
     this.element.removeEventListener('click', this.clickListener);
+
+    // Reset state so a reconnect (e.g. Turbo cache/restore, or the element
+    // being removed and reinserted) starts fresh rather than treating the
+    // first click as an already-clicked one.
+    this.alreadyClicked = false;
+    this.enable();
   }
 
-  private toggleDisabled():void {
-    setTimeout(() => {
-      this.element.disabled = true;
+  private handleClick(event:Event):void {
+    if (this.alreadyClicked) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
 
-      if (this.textValue) {
-        this.element.textContent = this.textValue;
-      }
-    });
+    this.alreadyClicked = true;
+    setTimeout(() => this.disable(), 0);
+  }
+
+  private disable():void {
+    const el = this.element;
+
+    // Only form elements support the `disabled` attribute. For other elements
+    // (e.g. anchors) fall back to `aria-disabled`, which keeps them focusable
+    // for assistive tech. Actual click prevention is handled by the
+    // `alreadyClicked` guard.
+    if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+      el.disabled = true;
+    } else {
+      el.setAttribute('aria-disabled', 'true');
+    }
+
+    if (this.textValue) {
+      el.textContent = this.textValue;
+    }
+  }
+
+  private enable():void {
+    const el = this.element;
+
+    if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+      el.disabled = false;
+    } else {
+      el.removeAttribute('aria-disabled');
+    }
   }
 }
