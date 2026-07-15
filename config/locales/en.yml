@@ -601,7 +601,7 @@ en:
               blank: "Formula can't be blank."
               format: "%{message}"
               invalid: "Formula is invalid."
-              invalid_characters: "Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed."
+              invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             required:
               cannot_be_true: "cannot be set to true."
@@ -2091,7 +2091,7 @@ en:
       editable:
         all: "Allow the field to be editable by users themselves."
       formula:
-        project: "Add numeric values or type / to search for an attribute or a mathematical operator."
+        project: "Add numeric values or type / to search for an attribute, operator, function or other token."
       has_comment:
         project: "Allows the user to add a comment related to the project attribute when selecting the value in the project overview."
       is_filter:
@@ -3031,6 +3031,8 @@ en:
   label_blog: "Blog"
   label_board_plural: "Boards"
   label_boolean: "Boolean"
+  label_boolean_false: "is no"
+  label_boolean_true: "is yes"
   label_branch: "Branch"
   label_browse: "Browse"
   label_builtin: "Built-in"
@@ -3077,6 +3079,7 @@ en:
   label_configuration: configuration
   label_confirmation: "Confirmation"
   label_consent_settings: "User Consent"
+  label_constant_plural: "Constants"
   label_contains: "contains"
   label_content: "Content"
   label_continued_from_previous_year: "continued from previous year"
@@ -3214,6 +3217,7 @@ en:
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
   label_forums_locked: "Locked"
+  label_function_plural: "Functions"
   label_gantt_chart: "Gantt chart"
   label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
@@ -3314,7 +3318,6 @@ en:
   label_managed_by_ldap: "Managed by LDAP synchronization"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_mapping_for: "Mapping for: %{attribute}"
-  label_mathematical_operators: "Mathematical operators"
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
@@ -3405,6 +3408,7 @@ en:
   label_operator_equals_all: "is (AND)"
   label_operator_equals_or: "is (OR)"
   label_operator_none: "is empty"
+  label_operator_plural: "Operators"
   label_operator_shared_with_user_any: "any"
   label_optional_description: "Description"
   label_options: "Options"
@@ -3485,6 +3489,7 @@ en:
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_projects_menu: "Projects"
   label_public_projects: "Public projects"
+  label_punctuation: "Punctuation"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
   label_read: "Read..."

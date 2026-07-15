@@ -28,17 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Allows cleaner building of calculated value formulas in specs:
-#
-#     using CustomFieldFormulaReferencing
-#
-#     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
-module CustomFieldFormulaReferencing
-  refine CustomField do
-    def ref
-      "{{cf_#{id}}}"
-    end
+module Queries::Operators::CustomFields::CalculatedValues
+  class LessOrEqual < ::Queries::Operators::Base
+    include BooleanLiterals
 
-    alias_method :to_s, :ref
+    label "less_or_equal"
+    set_symbol "<="
+
+    # Calculated values can also hold boolean results stored as "t" / "f"
+    def self.sql_for_field(values, db_table, db_field)
+      "CASE WHEN #{db_table}.#{db_field} NOT IN ('', '#{DB_VALUE_TRUE}', '#{DB_VALUE_FALSE}') " \
+        "THEN CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{values.first.to_f} END"
+    end
   end
 end

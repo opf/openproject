@@ -28,17 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Allows cleaner building of calculated value formulas in specs:
-#
-#     using CustomFieldFormulaReferencing
-#
-#     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
-module CustomFieldFormulaReferencing
-  refine CustomField do
-    def ref
-      "{{cf_#{id}}}"
+require "spec_helper"
+
+RSpec.describe Queries::Operators::CustomFields::CalculatedValues::IsTrue do
+  describe ".symbol" do
+    it "is =t" do
+      expect(described_class.symbol).to eq("=t")
+    end
+  end
+
+  describe ".requires_value?" do
+    it "does not require a value" do
+      expect(described_class.requires_value?).to be(false)
+    end
+  end
+
+  describe ".sql_for_field" do
+    it "matches rows storing the boolean true literal" do
+      expect(described_class.sql_for_field([], "custom_values", "value"))
+        .to eq("custom_values.value = 't'")
     end
 
-    alias_method :to_s, :ref
+    it "ignores any supplied values" do
+      expect(described_class.sql_for_field(["ignored"], "custom_values", "value"))
+        .to eq("custom_values.value = 't'")
+    end
   end
 end

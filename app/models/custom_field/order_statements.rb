@@ -32,7 +32,8 @@ module CustomField::OrderStatements
   ORDER_JOIN_METHOD_BY_FIELD_FORMAT = OpenProject::MultiKeyHash.expand(
     %w[string date bool link] => :join_for_order_by_string_sql,
     "int" => :join_for_order_by_int_sql,
-    %w[float calculated_value] => :join_for_order_by_float_sql,
+    "float" => :join_for_order_by_float_sql,
+    "calculated_value" => :join_for_order_by_calculated_value_sql,
     "list" => :join_for_order_by_list_sql,
     "user" => :join_for_order_by_user_sql,
     "version" => :join_for_order_by_version_sql,
@@ -141,6 +142,10 @@ module CustomField::OrderStatements
   def join_for_order_by_int_sql = join_for_order_sql(value: "cv.value::decimal(60)")
 
   def join_for_order_by_float_sql = join_for_order_sql(value: "cv.value::double precision")
+
+  def join_for_order_by_calculated_value_sql
+    join_for_order_sql(value: "CASE cv.value WHEN 't' THEN 1 WHEN 'f' THEN 0 ELSE cv.value::double precision END")
+  end
 
   def join_for_order_by_list_sql
     join_for_order_sql(

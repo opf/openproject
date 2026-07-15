@@ -28,17 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Allows cleaner building of calculated value formulas in specs:
-#
-#     using CustomFieldFormulaReferencing
-#
-#     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
-module CustomFieldFormulaReferencing
-  refine CustomField do
-    def ref
-      "{{cf_#{id}}}"
-    end
+module Queries::Filters::Strategies
+  class CfCalculatedValue < CfFloat
+    self.supported_operators = ["=", "!", ">=", "<=", "=t", "=f", "!*", "*"]
 
-    alias_method :to_s, :ref
+    private
+
+    def operator_map
+      super_value = super.dup
+      super_value[">="] = Queries::Operators::CustomFields::CalculatedValues::GreaterOrEqual
+      super_value["<="] = Queries::Operators::CustomFields::CalculatedValues::LessOrEqual
+      super_value["=t"] = Queries::Operators::CustomFields::CalculatedValues::IsTrue
+      super_value["=f"] = Queries::Operators::CustomFields::CalculatedValues::IsFalse
+
+      super_value
+    end
   end
 end

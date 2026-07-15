@@ -28,17 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Allows cleaner building of calculated value formulas in specs:
-#
-#     using CustomFieldFormulaReferencing
-#
-#     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
-module CustomFieldFormulaReferencing
-  refine CustomField do
-    def ref
-      "{{cf_#{id}}}"
-    end
-
-    alias_method :to_s, :ref
+module Queries::Operators::CustomFields::CalculatedValues
+  module BooleanLiterals
+    DB_VALUE_TRUE = OpenProject::Database::DB_VALUE_TRUE
+    DB_VALUE_FALSE = OpenProject::Database::DB_VALUE_FALSE
   end
 end

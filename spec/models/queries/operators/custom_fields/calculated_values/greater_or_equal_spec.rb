@@ -28,17 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Allows cleaner building of calculated value formulas in specs:
-#
-#     using CustomFieldFormulaReferencing
-#
-#     create(:calculated_value_project_custom_field, formula: "#{cf_1} * #{cf_2} + #{cf_3}")
-module CustomFieldFormulaReferencing
-  refine CustomField do
-    def ref
-      "{{cf_#{id}}}"
+require "spec_helper"
+
+RSpec.describe Queries::Operators::CustomFields::CalculatedValues::GreaterOrEqual do
+  subject(:sql) { described_class.sql_for_field(values, db_table, db_field) }
+
+  let(:values) { ["5"] }
+  let(:db_table) { "custom_values" }
+  let(:db_field) { "value" }
+
+  describe ".symbol" do
+    it "is >=" do
+      expect(described_class.symbol).to eq(">=")
+    end
+  end
+
+  describe ".sql_for_field" do
+    it "casts the value and compares it with the numeric operand" do
+      expect(sql).to eq(
+        "CASE WHEN custom_values.value NOT IN ('', 't', 'f') " \
+        "THEN CAST(custom_values.value AS decimal(60,4)) >= 5.0 END"
+      )
     end
 
-    alias_method :to_s, :ref
+    it "guards boolean and empty rows so they never match the numeric comparison" do
+      # The CASE guard excludes the stored boolean literals ('t'/'f') and the
+      # empty string, leaving them as NULL (not a match) rather than casting them.
+      expect(sql).to include("NOT IN ('', 't', 'f')")
+    end
+
+    it "coerces the operand to a float" do
+      expect(described_class.sql_for_field(["3.5"], db_table, db_field))
+        .to include(">= 3.5 END")
+    end
   end
 end
