@@ -24,6 +24,18 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   filterName = 'version';
 
+  /**
+   * The work package show view writes the version via the targetVersions
+   * attribute, while dragging a card between lists still writes the
+   * deprecated version attribute. Watch both so either change moves the card.
+   *
+   * TODO: Reduce to targetVersions once boards write it as well
+   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   */
+  get watchedAttributes():string[] {
+    return [this.filterName, 'targetVersions'];
+  }
+
   resourceName = 'version';
 
   text = this.I18n.t('js.boards.board_type.board_type_title.version');

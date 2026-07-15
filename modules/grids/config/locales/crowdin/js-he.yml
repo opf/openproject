@@ -3,58 +3,61 @@ he:
   js:
     grid:
       add_widget: הוסף ווידג'ט
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: הסר רכיב
       configure: הגדר תוסף
+      remove: הסר רכיב
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: You don't have the necessary permissions to view this widget.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: טקסט מותאם אישית
         documents:
-          title: מסמכים
           no_results: עדיין אין מסמכים
+          title: מסמכים
         members:
           title: חברים
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: חדשות
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Favorite projects
         project_status:
-          title: Status
-          not_started: Not started
-          on_track: On track
-          off_track: Off track
           at_risk: At risk
-          not_set: Not set
-          finished: הסתיים
           discontinued: Discontinued
+          finished: הסתיים
+          not_set: Not set
+          not_started: Not started
+          off_track: Off track
+          on_track: On track
+          title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Favorite projects
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: הזמן שהשקעתי
           displayed_days: 'מספר ימים בתוסף:'
+          title: הזמן שהשקעתי
         time_entries_list:
-          title: זמן משוקע(7 ימים אחרונים)
           no_results: No time entries for the last 7 days.
+          title: זמן משוקע(7 ימים אחרונים)
         work_packages_accountable:
           title: Work packages I am accountable for
         work_packages_assigned:
           title: חבילות עבודה שהוקצו לי
-        work_packages_created:
-          title: Work packages created by me
-        work_packages_watched:
-          title: Work packages watched by me
-        work_packages_table:
-          title: Work packages table
-        work_packages_graph:
-          title: Work packages graph
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: לוח שנה
+        work_packages_created:
+          title: Work packages created by me
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Work packages graph
         work_packages_overview:
-          title: Work packages overview
           placeholder: Click to edit ...
+          title: Work packages overview
+        work_packages_table:
+          title: Work packages table
+        work_packages_watched:
+          title: Work packages watched by me

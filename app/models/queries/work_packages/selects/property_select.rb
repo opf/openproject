@@ -101,9 +101,14 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       groupable: "#{WorkPackage.table_name}.category_id"
     },
     version: {
+      if: -> { !Setting::WorkPackageMultipleVersions.active? },
       association: "version",
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.version_id"
+    },
+    target_versions: {
+      if: -> { Setting::WorkPackageMultipleVersions.active? },
+      association: "target_versions"
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"

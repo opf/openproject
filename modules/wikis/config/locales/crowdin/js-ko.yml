@@ -25,8 +25,8 @@ ko:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: 기존 위키 페이지
+          create_new: 새 위키 페이지
     work_packages:
       tabs:
         wikis: 위키

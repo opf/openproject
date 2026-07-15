@@ -36,7 +36,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
   let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:project_html_title) { Components::HtmlTitle.new project }
-  let(:wp_title_segment) { work_package.infoline }
+  let(:wp_title_segment) { work_package.to_fs(:caption) }
 
   let!(:query) do
     query = build(:query, user:, project:)

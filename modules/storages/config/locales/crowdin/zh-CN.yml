@@ -42,7 +42,7 @@ zh-CN:
         storage_url: 存储 URL
         tenant: 目录 (租户) ID
       work_package:
-        file_links: File links
+        file_links: 文件链接
     errors:
       messages:
         invalid_host_url: 不是有效的 URL。

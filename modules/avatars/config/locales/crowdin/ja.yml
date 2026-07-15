@@ -1,29 +1,28 @@
-#English strings go here
 ---
 ja:
-  plugin_openproject_avatars:
-    name: アバター
-    description: このプラグインにより、OpenProjectユーザーはアバターとして使用する画像をアップロードしたり、Gravatarから登録した画像を使用することができます。
-  label_avatar: Avatar
-  label_avatar_plural: アバター
-  label_current_avatar: 現在のアバター
-  label_choose_avatar: アップロードしてアバターを選択
-  message_avatar_uploaded: アバターの変更が完了しました。
-  error_image_upload: 画像の保存時にエラーが発生しました。
-  error_image_size: 画像が大きすぎます。
   are_you_sure_delete_avatar: アバターを削除してもよろしいですか?
   avatar_deleted: アバターの削除が完了しました。
-  unable_to_delete_avatar: アバターを削除できませんでした。
-  wrong_file_format: 利用可能な形式は jpg、png、gif です。
-  empty_file_error: 正しい画像をアップロードしてください (jpg、png、gif)
   avatars:
     label_avatar: アバター
     label_gravatar: Gravatar
     label_local_avatar: カスタムのアバター
+    settings:
+      enable_gravatars: ユーザーのGravatarを有効にする
+      enable_local_avatars: ユーザーのカスタムアバターを有効にする
+      gravatar_default: デフォルトのグラバター画像
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: ユーザーのGravatarを有効にする
-      gravatar_default: デフォルトのグラバター画像
-      enable_local_avatars: ユーザーのカスタムアバターを有効にする
+  empty_file_error: 正しい画像をアップロードしてください (jpg、png、gif)
+  error_image_size: 画像が大きすぎます。
+  error_image_upload: 画像の保存時にエラーが発生しました。
+  label_avatar: Avatar
+  label_avatar_plural: アバター
+  label_choose_avatar: アップロードしてアバターを選択
+  label_current_avatar: 現在のアバター
+  message_avatar_uploaded: アバターの変更が完了しました。
+  plugin_openproject_avatars:
+    description: このプラグインにより、OpenProjectユーザーはアバターとして使用する画像をアップロードしたり、Gravatarから登録した画像を使用することができます。
+    name: アバター
+  unable_to_delete_avatar: アバターを削除できませんでした。
+  wrong_file_format: 利用可能な形式は jpg、png、gif です。

@@ -177,11 +177,11 @@ class WorkPackages::UpdateService < BaseServices::Update
     service_calls
       .group_by { |sc| sc.result.id }
       .map do |(_, same_work_package_calls)|
-        same_work_package_calls.pop.tap do |master|
-          same_work_package_calls.each do |sc|
-            master.result.attributes = sc.result.changes.transform_values(&:last)
-          end
+      same_work_package_calls.pop.tap do |master|
+        same_work_package_calls.each do |sc|
+          master.result.attributes = sc.result.changes.transform_values(&:last)
         end
+      end
     end
   end
 end

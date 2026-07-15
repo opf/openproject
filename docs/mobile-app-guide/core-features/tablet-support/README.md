@@ -19,10 +19,11 @@ On tablets, the mobile app uses a **split-screen layout** that allows you to kee
 This makes it easier to navigate through projects and work packages without constantly switching between screens.
 
 With the split-screen layout you can:
-* View a **list of projects or work packages** on one side of the screen.
-* Open the **details of a selected project or work package** on the other side.
-* Navigate through items while keeping the list visible.
-* Quickly switch between work packages when reviewing or updating tasks.
+
+- View a **list of projects or work packages** on one side of the screen.
+- Open the **details of a selected project or work package** on the other side.
+- Navigate through items while keeping the list visible.
+- Quickly switch between work packages when reviewing or updating tasks.
 
 This layout helps maintain context while browsing and makes it easier to work with multiple items in sequence.
 

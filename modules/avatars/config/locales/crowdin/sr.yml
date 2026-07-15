@@ -1,29 +1,28 @@
-#English strings go here
 ---
 sr:
-  plugin_openproject_avatars:
-    name: Avatari
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: Avatar
-  label_avatar_plural: Avatari
-  label_current_avatar: Trenutni Avatar
-  label_choose_avatar: Izaberi avatar kao datoteku
-  message_avatar_uploaded: Avatar je uspešno promenjen.
-  error_image_upload: Greška prilikom čuvanja slike.
-  error_image_size: Slika je prevelika.
   are_you_sure_delete_avatar: Da li ste sigurni da želite da obrišete svoj avatar?
   avatar_deleted: Avatar je uspešno obrisan.
-  unable_to_delete_avatar: Avatar nije moguće obrisati.
-  wrong_file_format: 'Dozvoljeni formati su: jpg, png, gif'
-  empty_file_error: Postavite ispravnu sliku (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Prilagođeni avatar
+    settings:
+      enable_gravatars: Omogućite gravatare korisnika
+      enable_local_avatars: Omogući prilagođene avatare za korisnike
+      gravatar_default: Podrazumevana Gravatar slika
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Omogućite gravatare korisnika
-      gravatar_default: Podrazumevana Gravatar slika
-      enable_local_avatars: Omogući prilagođene avatare za korisnike
+  empty_file_error: Postavite ispravnu sliku (jpg, png, gif)
+  error_image_size: Slika je prevelika.
+  error_image_upload: Greška prilikom čuvanja slike.
+  label_avatar: Avatar
+  label_avatar_plural: Avatari
+  label_choose_avatar: Izaberi avatar kao datoteku
+  label_current_avatar: Trenutni Avatar
+  message_avatar_uploaded: Avatar je uspešno promenjen.
+  plugin_openproject_avatars:
+    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    name: Avatari
+  unable_to_delete_avatar: Avatar nije moguće obrisati.
+  wrong_file_format: 'Dozvoljeni formati su: jpg, png, gif'

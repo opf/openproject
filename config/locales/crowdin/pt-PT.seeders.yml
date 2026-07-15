@@ -93,6 +93,21 @@ pt-PT:
           name: Alto
         item_3:
           name: Imediato
+      departments:
+        item_0:
+          name: Marketing e comunicação
+        item_1:
+          name: Relações públicas
+        item_2:
+          name: Design e conteúdo
+        item_3:
+          name: Eventos e operações
+        item_4:
+          name: Web e TI
+        item_5:
+          name: Finanças e Administração
+        item_6:
+          name: Controlo de Qualidade
       projects:
         demo-project:
           name: Projeto de demonstração
@@ -182,8 +197,10 @@ pt-PT:
                 item_2:
                   subject: Configurar site da conferência
             item_2:
-              subject: Conferência
+              subject: Testar e verificar a qualidade do site da conferência
             item_3:
+              subject: Conferência
+            item_4:
               subject: Tarefas de acompanhamento
               children:
                 item_0:
@@ -195,7 +212,7 @@ pt-PT:
                     * [ ] Snacks
                     * [ ] Música
                     * [ ] Ainda mais cerveja
-            item_4:
+            item_5:
               subject: Fim do projeto
           wiki: |
             _Neste wiki pode criar e editar páginas e subpáginas de forma colaborativa para criar um projeto wiki._

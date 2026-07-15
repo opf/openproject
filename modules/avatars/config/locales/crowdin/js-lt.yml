@@ -1,12 +1,11 @@
-#English strings go here
 ---
 lt:
   js:
-    label_preview: Peržiūra
-    button_update: Atnaujinti
     avatars:
+      empty_file_error: Prašome įkelti tinkamą piešinį (jpg, png, gif)
+      error_image_too_large: Paveikslas per didelis.
       label_choose_avatar: Parinkite nuotrauką iš failo
       uploading_avatar: Įkeliamas jūsų avataras
-      error_image_too_large: Paveikslas per didelis.
       wrong_file_format: Leidžiami formatai yra jpg, png, gif
-      empty_file_error: Prašome įkelti tinkamą piešinį (jpg, png, gif)
+    button_update: Atnaujinti
+    label_preview: Peržiūra

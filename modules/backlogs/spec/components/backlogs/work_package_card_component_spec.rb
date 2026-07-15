@@ -82,6 +82,12 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: 
                                                src: menu_src
   end
 
+  it "forwards extra system arguments to the common card root" do
+    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+
+    expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
+  end
+
   it "supports inline menu items through the menu slot" do
     rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|

@@ -104,6 +104,31 @@ RSpec.describe Users::UpdateContract do
 
         it_behaves_like "contract is valid"
       end
+
+      # LDAP, SSO and SCIM provisioning synchronize the email on behalf of the system user
+      # (SCIM through an admin service account). That must keep working when users themselves
+      # are not allowed to change their email.
+      context "when users are not allowed to change their email", with_settings: { user_can_change_email: false } do
+        context "when updated user authenticates through LDAP" do
+          let(:attributes) { super().merge(ldap_auth_source_id: create(:ldap_auth_source).id) }
+
+          before do
+            user.mail = "changed@example.com"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+
+        context "when updated user authenticates through an external provider" do
+          before do
+            allow(user).to receive(:uses_external_authentication?).and_return(true)
+
+            user.mail = "changed@example.com"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+      end
     end
 
     context "when user is an admin" do
@@ -121,6 +146,15 @@ RSpec.describe Users::UpdateContract do
         before do
           user.password = "newpassword"
           user.password_confirmation = "newpassword"
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      describe "can update the email even when users may not change their own",
+               with_settings: { user_can_change_email: false } do
+        before do
+          user.mail = "a.new@email.address"
         end
 
         it_behaves_like "contract is valid"
@@ -243,6 +277,34 @@ RSpec.describe Users::UpdateContract do
         end
 
         it_behaves_like "contract is valid"
+      end
+
+      context "when users are not allowed to change their email", with_settings: { user_can_change_email: false } do
+        describe "cannot update the email" do
+          before do
+            user.mail = "a.new@email.address"
+          end
+
+          it_behaves_like "contract is invalid", mail: :error_readonly
+        end
+
+        describe "can still update the name" do
+          before do
+            user.firstname = "Changed firstname"
+          end
+
+          it_behaves_like "contract is valid"
+        end
+
+        describe "an admin can still update their own email" do
+          let(:user) { build_stubbed(:admin, attributes) }
+
+          before do
+            user.mail = "a.new@email.address"
+          end
+
+          it_behaves_like "contract is valid"
+        end
       end
 
       describe "when changing the password" do

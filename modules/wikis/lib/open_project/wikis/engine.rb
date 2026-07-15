@@ -53,6 +53,19 @@ module OpenProject::Wikis
       end
     end
 
+    initializer "openproject_wikis.configuration" do
+      ::Settings::Definition.add :internal_wiki_provider,
+                                 description: "Overwrite settings of the internal wiki provider through environment variables",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
+      ::Settings::Definition.add :wiki_providers,
+                                 description: "Configure external wiki providers through environment variables",
+                                 writable: false,
+                                 default: [],
+                                 format: :array
+    end
+
     config.to_prepare do
       API::V3::Configuration::ConfigurationRepresenter.property(
         :wikisAvailable,

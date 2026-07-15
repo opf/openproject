@@ -204,7 +204,7 @@ RSpec.describe "Meetings", "Index", :js do
           wait_for_network_idle
 
           sort = [["start_time", "desc"]].to_json
-          time_filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
+          time_filters = [{ "time" => { "operator" => "past", "values" => [] } }].to_json
           if context == :global
             expect(page).to have_current_path(meetings_path(filters: time_filters, sortBy: sort))
           else
@@ -236,7 +236,7 @@ RSpec.describe "Meetings", "Index", :js do
           # On mobile the segmented quick filter is hidden, so users apply the past
           # filter via the all filters form. That form does not add sortBy to the URL.
           # The backend must apply start_time: :desc as a default in this case
-          time_filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
+          time_filters = [{ "time" => { "operator" => "past", "values" => [] } }].to_json
 
           if context == :global
             visit meetings_path(filters: time_filters)
@@ -254,6 +254,23 @@ RSpec.describe "Meetings", "Index", :js do
             yesterdays_meeting
           )
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
+        end
+      end
+
+      context "when the time filter is removed via the all filters form" do
+        before do
+          meetings_page.set_quick_filter upcoming: true
+        end
+
+        it "lets the quick filter enter an unselected state" do
+          meetings_page.expect_quick_filter_selected "Upcoming"
+
+          meetings_page.open_filters
+          meetings_page.remove_filter "time"
+
+          wait_for_network_idle
+
+          meetings_page.expect_quick_filter_unselected
         end
       end
 

@@ -90,8 +90,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
           planning_page.expect_inbox_blankslate
           planning_page.expect_sprints_blankslate
           planning_page.expect_sprints_blankslate_description(
-            "To start planning your sprint, create one here or go to the project " \
-            "settings to receive sprints from a different project."
+            "To start planning your sprint, create one here or go to the project settings to receive sprints from a different project."
           )
           planning_page.expect_backlog_settings_link
           planning_page.expect_new_sprint_button
@@ -307,7 +306,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         end
       end
 
-      describe "moving backlog items to a sprint via drag-and-drop" do
+      describe "moving backlog items to a sprint via drag-and-drop", :selenium do
         it "moves multiple items into the sprint one by one" do
           planning_page.drag_work_package_to_sprint(inbox_wp1, sprint)
           planning_page.expect_no_inbox_item(inbox_wp1)
@@ -391,7 +390,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         end
       end
 
-      describe "moving sprint items back to the inbox via drag-and-drop" do
+      describe "moving sprint items back to the inbox via drag-and-drop", :selenium do
         let!(:sprint_wp1) { create(:work_package, project:, sprint:) }
         let!(:sprint_wp2) { create(:work_package, project:, sprint:) }
 
@@ -446,7 +445,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.visit!
       end
 
-      it "retains the expanded inbox across all update actions", :aggregate_failures do
+      it "retains the expanded inbox across all update actions", :aggregate_failures, :selenium do
         # Initial load shows pagination
         planning_page.expect_inbox_show_more
 

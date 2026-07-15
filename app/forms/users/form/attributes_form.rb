@@ -105,7 +105,7 @@ module Users
       end
 
       def section_title(section)
-        section.name.presence || I18n.t("settings.user_custom_fields.label_untitled_section")
+        section.name
       end
 
       def render_built_in(group, key)

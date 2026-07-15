@@ -127,7 +127,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author: current_user.mail,
             modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package.display_id)
             ],
             stage: bcf_issue.stage,
             title: work_package.subject,
@@ -590,28 +590,35 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
 
       {
         guid: issue&.uuid,
-        topic_type: (base && base.type.name) || type.name,
-        topic_status: (base && base.status.name) || default_status.name,
-        priority: (base && base.priority.name) || default_priority.name,
+        topic_type: base_attribute_name(base, :type, type),
+        topic_status: base_attribute_name(base, :status, default_status),
+        priority: base_attribute_name(base, :priority, default_priority),
         title:,
         labels: [],
         index: nil,
         reference_links: [
-          api_v3_paths.work_package(work_package&.id)
+          api_v3_paths.work_package(work_package.display_id)
         ],
         assigned_to: assigned_to || base&.assigned_to&.mail,
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at,
+        creation_date: work_package.created_at,
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at,
+        modified_date: work_package.updated_at,
         description: description || base&.description,
         authorization: {
-          topic_status: [(base && base.status.name) || default_status.name],
+          topic_status: [base_attribute_name(base, :status, default_status)],
           topic_actions: %w[update updateRelatedTopics updateFiles createViewpoint]
         }
       }
+    end
+
+    # Returns the `.name` of `base`'s associated record (e.g. its type/status/
+    # priority), falling back to the given default record when no base work
+    # package is provided.
+    def base_attribute_name(base, association, default)
+      (base ? base.public_send(association) : default).name
     end
 
     context "with minimal parameters" do

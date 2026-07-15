@@ -22,6 +22,19 @@
 ---
 'no':
   js:
+    admin:
+      type_form:
+        edit_query: Rediger spørring
+      work_packages_settings:
+        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
+        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+      working_days:
+        add_non_working_day: Arbeidsfri dag
+        already_added_error: En arbeidsfri dag for denne datoen finnes allerede. Det kan bare være en arbeidsfri dag som er opprettet for hver unike dato.
+        calendar:
+          empty_state_description: Ingen spesifikke arbeidsfrie dager er definert for dette år. Klikk på "+ Arbeidsfri dag" nedenfor for å legge til en dato.
+          empty_state_header: Arbeidsfrie dager
+          new_date: "(ny)"
     ajax:
       hide: Skjul
       loading: Laster …
@@ -42,139 +55,176 @@
       not_found: Ingen elementer funnet
       type_to_search: Skriv for å søke
     autocomplete_select:
+      active: Aktiv %{label} %{name}
       placeholder:
         multi: Legg til "%{name}"
         single: Velg "%{name}"
       remove: Fjern %{name}
-      active: Aktiv %{label} %{name}
+    autocompleter:
+      notFoundText: Ingen elementer funnet
+      placeholder: Skriv for å søke
+      project:
+        placeholder: Velg prosjekt
+      search: Søk
     backup:
       attachments_disabled: Vedlegg kan ikke inkluderes siden de overskrider den maksimale totale størrelsen tillatt. Du kan endre dette via konfigurasjonen (krever omstart).
+      download_backup: Last ned sikkerhetskopi
+      include_attachments: Inkluder vedlegg
       info: 'Du kan starte en sikkerhetskopi her. Prosessen kan ta litt tid avhengig av mengden data (spesielt vedlegg) du har. Du vil motta en e-post når den er klar.
-
-        '
-      note: 'En ny sikkerhetskopi vil overskrive alle tidligere. Kun et begrenset antall sikkerhetskopier per dag kan startes.
 
         '
       last_backup: Siste sikkerhetskopi
       last_backup_from: Siste sikkerhetskopi fra
-      title: Sikkerhetskopier OpenProject
+      note: 'En ny sikkerhetskopi vil overskrive alle tidligere. Kun et begrenset antall sikkerhetskopier per dag kan startes.
+
+        '
       options: Alternativer
-      include_attachments: Inkluder vedlegg
-      download_backup: Last ned sikkerhetskopi
       request_backup: Start sikkerhetskopi
-    close_popup_title: Lukk sprettoppvindu
-    close_filter_title: Lukk filter
-    close_form_title: Lukk skjema
-    button_add_watcher: Legg til overvåker
+      title: Sikkerhetskopier OpenProject
+    baseline:
+      apply: Bruk
+      clear: Nullstill
+      drop_down:
+        a_specific_date: en bestemt dato
+        between_two_specific_dates: mellom to spesifikke datoer
+        last_month: siste måned
+        last_week: siste uke
+        last_working_day: siste arbeidsdag
+        none: "-"
+        yesterday: i går
+      from: Fra
+      header_description: Marker endringer som er gjort på denne listen tidligere.
+      help_description: Referansetidssone for grunnlinjen.
+      icon_tooltip:
+        added: Lagt til for visning i tidsperioden for sammenligning
+        changed: Beholdt med modifikasjoner
+        removed: Fjernet fra visning i tidsperioden for sammenligning
+      legends:
+        changes_between: Endringer mellom
+        changes_since: Endringer siden
+        in_your_timezone: 'I din lokale tidssone:'
+        maintained_with_changes: Beholdt med endringer
+        no_longer_meets_filter_criteria: Oppfyller ikke lenger filterkriteriene
+        now_meets_filter_criteria: Oppfyller nå filterkriteriene
+      show_changes_since: Vis endringer siden
+      time: Tidspunkt
+      time_description: 'I din lokale tid: %{datetime}'
+      to: Til
+      toggle_title: Grunnlinje
+    breadcrumb: Brødsmule
     button_add: Legg til
+    button_add_watcher: Legg til overvåker
+    button_advanced_filter: Avansert filter
     button_back: Tilbake
     button_back_to_list_view: Tilbake til listevisning
     button_cancel: Avbryt
-    button_close: Lukk
     button_change_project: Move to another project
     button_check_all: Velg alle
+    button_close: Lukk
+    button_close_details: Lukk detaljvisning
+    button_collapse_all: Skjul alle
     button_configure-form: Konfigurer skjema
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Kopier lenke til utklippstavlen
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
+    button_create: Opprett
     button_custom-fields: Egendefinerte felter
     button_delete: Slett
     button_delete_watcher: Slett overvåker
     button_details_view: Detaljvisning
     button_duplicate: Kopier
     button_edit: Rediger
-    button_filter: Filter
-    button_collapse_all: Skjul alle
     button_expand_all: Utvid alle
-    button_advanced_filter: Avansert filter
+    button_export-atom: Last ned Atom
+    button_filter: Filter
+    button_generate_pdf: Generate PDF
     button_list_view: Listevisning
-    button_show_view: Fullskjermvisning
     button_log_time: Logg tid
-    button_start_timer: Start timer
-    button_stop_timer: Stop timer
     button_more: Mer
-    button_open_details: Åpne detaljvisning
-    button_close_details: Lukk detaljvisning
-    button_open_fullscreen: Åpne fullskjermvisning
-    button_show_cards: Vis oppgavelappvisning
-    button_show_list: Vis som liste
-    button_show_table: Vis tabellvisning
-    button_show_gantt: Vis Gantt-visning
-    button_show_fullscreen: Vis fullskjermvisning
     button_more_actions: Flere handlinger
+    button_open_details: Åpne detaljvisning
+    button_open_fullscreen: Åpne fullskjermvisning
     button_quote: Sitèr
     button_save: Lagre
     button_settings: Innstillinger
+    button_show_cards: Vis oppgavelappvisning
+    button_show_fullscreen: Vis fullskjermvisning
+    button_show_gantt: Vis Gantt-visning
+    button_show_list: Vis som liste
+    button_show_table: Vis tabellvisning
+    button_show_view: Fullskjermvisning
+    button_start_timer: Start timer
+    button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
     button_update: Oppdatèr
-    button_export-atom: Last ned Atom
-    button_generate_pdf: Generate PDF
-    button_create: Opprett
+    caption_rate_history: Satshistorikk
     card:
       add_new: Legg til nytt kort
       highlighting:
-        inline: 'Uthev linje:'
         entire_card_by: Hele kortet med
+        inline: 'Uthev linje:'
       remove_from_list: Fjern oppgavelapp fra listen
-    caption_rate_history: Satshistorikk
+    chart:
+      axis_criteria: Akse- kriterier
+      errors:
+        could_not_load: Data for visning av grafen kan ikke lastes. De nødvendige tillatelsene kan være mangler.
+      modal_title: Konfigurering av arbeidspakkediagram
+      tabs:
+        dataset: Datasett %{number}
+        graph_settings: Generell
+      type: Diagram type
+      types:
+        bar: Stolpe
+        doughnut: Smultring
+        horizontal_bar: Horisontal linje
+        line: Linje
+        pie: Kake
+        polar_area: Polar område
+        radar: Radar
     clipboard:
       browser_error: 'Nettleseren støtter ikke kopiering til utklippstavlen. Kopier den manuelt: %{content}'
       copied_successful: Kopiert til utklippstavlen!
-    chart:
-      type: Diagram type
-      axis_criteria: Akse- kriterier
-      modal_title: Konfigurering av arbeidspakkediagram
-      types:
-        line: Linje
-        horizontal_bar: Horisontal linje
-        bar: Stolpe
-        pie: Kake
-        doughnut: Smultring
-        radar: Radar
-        polar_area: Polar område
-      tabs:
-        graph_settings: Generell
-        dataset: Datasett %{number}
-      errors:
-        could_not_load: Data for visning av grafen kan ikke lastes. De nødvendige tillatelsene kan være mangler.
+    close_filter_title: Lukk filter
+    close_form_title: Lukk skjema
+    close_popup_title: Lukk sprettoppvindu
+    custom_actions:
+      date:
+        current_date: Dagens dato
+        specific: på
     description_available_columns: Tilgjengelige Kolonner
     description_current_position: 'Du er her: '
     description_select_work_package: 'Velg arbeidspakke #%{id}'
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
     editor:
-      revisions: Show local modifications
-      no_revisions: No local modifications found
-      preview: Veksle forhåndsvisningsmodus
-      source_code: Veksle 'Markdown'-kildemodus
-      error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
       ckeditor_error: Det oppstod en feil i CKEditor
-      mode:
-        manual: Bytt til Markdown-kilde
-        wysiwyg: Bytt til WYSIWYG editor
+      error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
       macro:
         attribute_reference:
-          macro_help_tooltip: Dette tekstsegmentet er dynamisk gjengitt av en makro.
-          not_found: Finner ikke forespurt ressurs
-          nested_macro: This macro is recursively referencing %{model} %{id}.
+          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_with_name: "%{name}: %{description}"
+          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
+          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
           invalid_attribute: Den valgte egenskapen '%{name}' eksisterer ikke.
+          nested_macro: This macro is recursively referencing %{model} %{id}.
+          not_found: Finner ikke forespurt ressurs
         child_pages:
-          button: Lenker til undersider
-          include_parent: Inkluder overordnet
-          text: "[Placeholder] Lenker til undersider i"
-          page: Wiki-side
-          this_page: denne siden
+          button: List of sub-pages
           hint: 'La dette feltet stå tomt for å liste alle undersider av gjeldende side. Har du en annen side å referere til, dens tittel eller slug.
 
             '
+          include_parent: Inkluder overordnet
+          page: Wiki-side
+          text: "[Placeholder] List of sub-pages of"
+          this_page: denne siden
         code_block:
           button: Sett inn code snippet
-          title: Sett inn / rediger Code snippet
           language: Formaterer språk
           language_hint: Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet).
+          title: Sett inn / rediger Code snippet
         embedded_calendar:
           text: "[Placeholder] Innbygget kalender"
         embedded_table:
@@ -187,120 +237,184 @@
         toolbar_help: Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten.
         wiki_page_include:
           button: Inkluder innhold fra en annen wiki-side
-          text: "[Placeholder] Inkludert wiki-side"
-          page: Wiki-side
-          not_set: "(Siden er ikke valgt ennå)"
           hint: |
             Inkluder innholdet i en annen wiki-side ved å angi dets tittel eller slug.
             Du kan inkludere wiki-siden til et annet prosjekt ved å separere dem med et kolon som følgende eksempel.
+          not_set: "(Siden er ikke valgt ennå)"
+          page: Wiki-side
+          text: "[Placeholder] Inkludert wiki-side"
         work_package_button:
           button: Sett inn knappen for Opprett arbeidspakke
-          type: Arbeidspakke type
           button_style: Bruk stil for knapper
           button_style_hint: 'Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke.'
-          without_type: Opprett arbeidspakke
+          type: Arbeidspakke type
           with_type: 'Opprett arbeidspakke (ype: %{typename})'
-    admin:
-      type_form:
-        edit_query: Rediger spørring
-      working_days:
-        calendar:
-          empty_state_header: Arbeidsfrie dager
-          empty_state_description: Ingen spesifikke arbeidsfrie dager er definert for dette år. Klikk på "+ Arbeidsfri dag" nedenfor for å legge til en dato.
-          new_date: "(ny)"
-        add_non_working_day: Arbeidsfri dag
-        already_added_error: En arbeidsfri dag for denne datoen finnes allerede. Det kan bare være en arbeidsfri dag som er opprettet for hver unike dato.
-      work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
-        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-    custom_actions:
-      date:
-        specific: på
-        current_date: Dagens dato
-    error:
-      internal: En intern feil har oppstått.
-      cannot_save_changes_with_message: 'Kan ikke lagre endringene på grunn av følgende feil: %{error}'
-      query_saving: Visningen kunne ikke lagres.
-      embedded_table_loading: 'Den innebygde visningen kunne ikke lastes: %{message}'
+          without_type: Opprett arbeidspakke
+      mode:
+        manual: Bytt til Markdown-kilde
+        wysiwyg: Bytt til WYSIWYG editor
+      no_revisions: No local modifications found
+      preview: Veksle forhåndsvisningsmodus
+      revisions: Show local modifications
+      source_code: Veksle 'Markdown'-kildemodus
     enumeration_activities: Aktiviteter (tidsstyring)
     enumeration_doc_categories: Dokumentkategorier
     enumeration_work_package_priorities: Prioritering av arbeidspakker
+    error:
+      cannot_save_changes_with_message: 'Kan ikke lagre endringene på grunn av følgende feil: %{error}'
+      embedded_table_loading: 'Den innebygde visningen kunne ikke lastes: %{message}'
+      internal: En intern feil har oppstått.
+      query_saving: Visningen kunne ikke lagres.
+    error_attachment_upload: 'Filen kunne ikke lastes opp: %{error}'
+    error_attachment_upload_permission: Du har ikke tillatelse til å laste opp filer på denne ressursen.
+    error_could_not_resolve_user_name: Kunne ikke slå opp brukernavn
+    error_could_not_resolve_version_name: Kunne ikke slå opp versjonsnavnet
+    exclusion_info:
+      modal:
+        content: Statusen '%{status_name}' er konfigurert til å bli ekskludert fra hierarkiske summer av Arbeid, Gjenstående arbeid og % Ferdig. Summene tar ikke hensyn til denne verdien.
+        title: Status ekskludert fra hierarkiske summer
+    favorite_projects:
+      no_results: Du har ingen favorittprosjekter
+      no_results_subtext: Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste.
+    field_value_enter_prompt: Angi en verdi for '%{field}'
     filter:
-      more_values_not_shown: Det finnes flere %{total} resultater, søk for å  filtrere resultater.
       description:
-        text_open_filter: Åpne dette filteret med 'ALT' og piltastene.
         text_close_filter: For å velge en oppføring kan du fokusere for eksempel ved å trykke enter. Velg den første (tom) oppføringen for å la være å filtrere.
+        text_open_filter: Åpne dette filteret med 'ALT' og piltastene.
+      more_values_not_shown: Det finnes flere %{total} resultater, søk for å  filtrere resultater.
       noneElement: "(ingen)"
-      time_zone_converted:
-        two_values: "%{from} – %{to} i din lokaltid."
-        only_start: Fra %{from} i din lokaltid.
-        only_end: Til  %{to} i din lokale tid.
-      value_spacer: "-"
       sorting:
         criteria:
           one: Første sorteringskriterie
-          two: Andre sorteringskriterie
           three: Tredje sorteringskriterie
+          two: Andre sorteringskriterie
+      time_zone_converted:
+        only_end: Til  %{to} i din lokale tid.
+        only_start: Fra %{from} i din lokaltid.
+        two_values: "%{from} – %{to} i din lokaltid."
+      value_spacer: "-"
+    forms:
+      advanced_settings: Avanserte innstillinger
+      load_error_message: En feil oppstod under lasting av skjemaet
+      submit_success_message: Skjemaet ble sendt inn
+      validation_error_message: Vennligst fiks feilene i skjemaet
     gantt_chart:
-      label: Gantt diagram
-      quarter_label: Q%{quarter_number}
-      labels:
-        title: Etikettkonfigurasjon
-        bar: Linjeetiketter
-        left: Venstre
-        right: Høyre
-        farRight: Langt til høyre
-        description: 'Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
-
-          '
       button_activate: Vis Gantt-diagram
       button_deactivate: Skjul Gantt-diagram
       filter:
         noneSelection: "(ingen)"
+      label: Gantt diagram
+      labels:
+        bar: Linjeetiketter
+        description: 'Velg attributtene du vil bli vist i de respektive posisjonene i Gantt-diagrammet til enhver tid. Merk at når man peker på et element, vil datomerkene vises i stedet for disse attributtene.
+
+          '
+        farRight: Langt til høyre
+        left: Venstre
+        right: Høyre
+        title: Etikettkonfigurasjon
+      quarter_label: Q%{quarter_number}
       selection_mode:
         notification: Klikk på eventuelle uthevede arbeidspakker for å opprette relasjonen. Trykk escape for å avbryte.
       zoom:
-        in: Zoom inn
-        out: Zoom ut
         auto: Automatisk zoom
         days: Dager
-        weeks: Uker
-        months: Måneder
-        quarters: Kvartaler
-        years: År
         description: 'Velg standard zoom-nivå som skal vises når autozoom ikke er tilgjengelig.
 
           '
-    general_text_no: nei
-    general_text_yes: ja
+        in: Zoom inn
+        months: Måneder
+        out: Zoom ut
+        quarters: Kvartaler
+        weeks: Uker
+        years: År
     general_text_No: Nei
     general_text_Yes: Ja
+    general_text_no: nei
+    general_text_yes: ja
+    global_search:
+      all_projects: I alle prosjekter
+      close_search: Lukk søk
+      current_project: I dette prosjektet
+      current_project_and_all_descendants: I dette prosjektet + underprosjekter
+      direct_hit_available: Work package with exact ID found. Press Enter to open it.
+      items_available: "%{count} items available"
+      recently_viewed: Nylig sett
+      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      title:
+        all_projects: alle prosjekter
+        project_and_subprojects: og alle underprosjekter
+        search_for: Søk etter
     hal:
       error:
-        update_conflict_refresh: Klikk her for å oppdatere ressursen og oppdatere til nyeste versjon.
         edit_prohibited: Redigering av %{attribute} er blokkert for denne ressursen. Enten er egenskapent avledet fra en relasjon (f.eks. underprosjekt) eller kan ikke konfigureres.
         format:
           date: "%{attribute} er ingen gyldig dato - ÅÅÅÅ-MM-DD forventet."
         general: En feil har oppstått.
+        update_conflict_refresh: Klikk her for å oppdatere ressursen og oppdatere til nyeste versjon.
+    help_texts:
+      show_modal: Show help text
     ical_sharing_modal:
-      title: Abonner på kalender
-      inital_setup_error_message: En feil oppstod under henting av data.
+      copy_url_label: Kopier URL
       description: Du kan bruke URLen (iCalendar) til å abonnere på denne kalenderen i en ekstern klient og vise oppdatert arbeidspakkeinformasjon derfra.
-      warning: Ikke del denne URL-adressen med andre brukere. Alle med denne lenken vil kunne se arbeidspakkedetaljer uten konto eller passord.
+      ical_generation_error_text: Det oppstod en feil ved generering av kalenderURL.
+      inital_setup_error_message: En feil oppstod under henting av data.
+      success_message: URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.
+      title: Abonner på kalender
+      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
       token_name_label: Hvor kommer du til å bruke dette?
       token_name_placeholder: Skriv inn et navn, f.eks. "Telefon"
-      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
-      copy_url_label: Kopier URL
-      ical_generation_error_text: Det oppstod en feil ved generering av kalenderURL.
-      success_message: URL-adressen "%{name}" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet.
+      warning: Ikke del denne URL-adressen med andre brukere. Alle med denne lenken vil kunne se arbeidspakkedetaljer uten konto eller passord.
+    include_projects:
+      apply: Bruk
+      clear_selection: Tøm valg
+      include_subprojects: Inkluder alle underprosjekter
+      no_results: Ingen treff på dine søkekriterier.
+      search_placeholder: Search projects...
+      selected_filter:
+        all: Alle prosjekter
+        selected: Kun valgte
+      title: Prosjekter
+      toggle_title: Inkluder prosjekter
+      tooltip:
+        current_project: Dette er det nåværende prosjektet du er i.
+        does_not_match_search: Prosjektet samsvarer ikke med søkekriteriene.
+        include_all_selected: Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.
+    include_workspaces:
+      types:
+        portfolio: Portfolio
+        program: Program
+    inplace:
+      btn_preview_disable: Deaktiver forhåndsvisning
+      btn_preview_enable: Forhåndsvis
+      button_cancel: "%{attribute}: Avbryt"
+      button_cancel_all: Avbryt
+      button_edit: "%{attribute}: rediger"
+      button_save: "%{attribute}: lagre"
+      button_save_all: Lagre
+      clear_value_label: "-"
+      errors:
+        maxlength: "%{field} kan ikke inneholde mer enn %{maxLength} siffer()"
+        messages_on_field: 'Dette feltet er ugyldig: %{messages}'
+        minlength: "%{field} kan ikke inneholde mindre enn %{minLength} digit(s)"
+        number: "%{field} er ikke et gyldig tall"
+        required: "%{field} kan ikke være tomt"
+      link_formatting_help: Tekstformatering hjelp
+      null_value_label: Ingen verdi
+    invalid_job_response: Invalid response from server.
+    invite_user_modal:
+      invite: Inviter
+      placeholder_add_tag: Create placeholder user
     label_activate: Aktiver
-    label_assignee: Deltaker
-    label_assignee_alt_text: This work package is assigned to %{name}
+    label_activity_show_all: Vis alle aktiviteter
+    label_activity_show_only_comments: Vis bare aktiviteter med kommentarer
+    label_add_attachments: Legg ved filer
     label_add_column_after: Legg til kolonne etter
     label_add_column_before: Legg til kolonne før
     label_add_columns: Legg til kolonner
     label_add_comment: Legg til kommentar
     label_add_comment_title: Kommenter og skriv @ for å varsle andre
+    label_add_description: Legg til en beskrivelse for %{file}
     label_add_row_after: Legg til rad etter
     label_add_row_before: Sett inn rad før
     label_add_selected_columns: Legg til valgte kolonner
@@ -313,6 +427,9 @@
     label_all_work_packages: alle arbeidspakker
     label_and: og
     label_ascending: Stigende
+    label_assignee: Deltaker
+    label_assignee_alt_text: This work package is assigned to %{name}
+    label_attachments: Vedlegg
     label_author: 'Forfatter: %{user}'
     label_avatar: Profilbilde
     label_between: mellom
@@ -320,42 +437,52 @@
     label_board_locked: Låst
     label_board_plural: Tavler
     label_board_sticky: Sticky
+    label_cancel_comment: Avbryt kommentar
     label_change: Endre
+    label_children_derived_duration: Arbeidspakkens underordnet varighet
+    label_closed_work_packages: lukket
+    label_collapse: Skjul
+    label_collapse_all: Skjul alle
+    label_collapse_text: Collapse text
+    label_collapsed: skjult
+    label_columns: Kolonner
+    label_comment: Kommentar
+    label_contains: inneholder
     label_create: Opprett
     label_create_work_package: Opprett ny arbeidspakke
     label_created_by: Opprettet av
+    label_created_on: Opprettet
     label_current: current
+    label_custom_queries: Privat
     label_date: Dato
     label_date_with_format: 'Angi %{date_attribute} med følgende format: %{format}'
     label_deactivate: Deaktiver
+    label_default_queries: Standard
     label_descending: Synkende
     label_description: Beskrivelse
     label_details: Detaljer
     label_display: Vis
-    label_cancel_comment: Avbryt kommentar
-    label_closed_work_packages: lukket
-    label_collapse: Skjul
-    label_collapsed: skjult
-    label_collapse_all: Skjul alle
-    label_collapse_text: Collapse text
-    label_comment: Kommentar
-    label_contains: inneholder
-    label_created_on: Opprettet
+    label_drop_files: Slipp filer her for å legge ved filer.
+    label_drop_folders_hint: Du kan ikke laste opp mapper som vedlegg. Velg én fil.
+    label_drop_or_click_files: Slipp filer her eller klikk for å legge ved filer.
     label_edit_comment: Rediger denne kommentaren
     label_edit_status: Rediger status for arbeidspakken
     label_email: E-post
     label_equals: er
     label_expand: Utvid
-    label_expanded: utvidet
     label_expand_all: Utvid alle
-    label_expand_text: Show full text
     label_expand_project_menu: Utvid prosjektmeny
+    label_expand_text: Show full text
+    label_expanded: utvidet
     label_export: Eksportèr
     label_export_preparing: Eksporten forberedes og lastes ned i løpet av kort tid.
     label_favorites: Favoritter
     label_filename: Fil
+    label_files_to_upload: 'Disse filene vil bli lastet opp:'
     label_filesize: Størrelse
+    label_formattable_attachment_hint: Koble til og link filer ved å slippe i dette feltet, eller lime inn fra utklippstavlen.
     label_general: Generell
+    label_global_queries: Offentlig
     label_greater_or_equal: ">="
     label_group: Gruppe
     label_group_by: Grupper etter
@@ -363,16 +490,16 @@
     label_hide_attributes: Vis færre
     label_hide_column: Skjul kolonne
     label_hide_project_menu: Skjul Prosjekt-meny
+    label_import: Importer
     label_in: i
     label_in_less_than: i mindre enn
     label_in_more_than: i mer enn
     label_incoming_emails: Inkommende e-post
-    label_information_plural: Informasjon
     label_infinity: Infinity
+    label_information_plural: Informasjon
     label_invalid: Ugyldig
-    label_import: Importer
-    label_latest_activity: Siste aktivitet
     label_last_updated_on: Sist oppdatert
+    label_latest_activity: Siste aktivitet
     label_learn_more_link: Mer informasjon
     label_less_or_equal: "<="
     label_less_than_ago: mindre enn dager siden
@@ -382,39 +509,45 @@
     label_me: meg
     label_meeting_agenda: Saksliste
     label_meeting_minutes: Referat
-    label_more_than_ago: mer enn dager siden
     label_moderate_comment: Moderate comment
+    label_more_than_ago: mer enn dager siden
     label_next: Neste
     label_no_color: Ingen farge
     label_no_data: Ingen data å vise
+    label_no_date: ingen dato
     label_no_due_date: ingen ferdigdato
     label_no_start_date: ingen startdato
-    label_no_date: ingen dato
     label_no_value: Ingen verdi
     label_none: ingen
-    label_not_contains: inneholder ikke
     label_not_available: Not available
+    label_not_contains: inneholder ikke
     label_not_equals: er ikke
     label_on: på
-    label_open_menu: Åpne meny
     label_open_context_menu: Åpne kontekstmeny
+    label_open_menu: Åpne meny
     label_open_work_packages: åpne
     label_password: Passord
-    label_previous: Forrige
     label_per_page: 'Pr. side:'
     label_please_wait: Vennligst vent
+    label_press_enter_to_save: Trykk enter for å lagre.
+    label_previous: Forrige
     label_project: Prosjekt
     label_project_plural: Prosjekter
-    label_visibility_settings: Innstillinger for synlighet
+    label_public_query: Offentlig
     label_quote_comment: Siter denne kommentaren
     label_recent: Siste
-    label_reset: Nullstill
+    label_rejected_files: 'Disse filene kan ikke lastes opp:'
+    label_rejected_files_reason: Disse filene kan ikke lastes opp fordi deres størrelse er større enn %{maximumFilesize}
     label_remove: Fjern
+    label_remove_all_files: Slett alle filer
     label_remove_column: Fjern kolonne
     label_remove_columns: Fjern valgte kolonner
+    label_remove_file: Slett %{fileName}
     label_remove_row: Slett rad
+    label_remove_watcher: Fjern overvåker %{name}
     label_report: Rapport
     label_repository_plural: Pakkebrønner
+    label_reset: Nullstill
     label_resize_project_menu: Resize project menu
     label_save_as: Lagre som
     label_search_columns: Søk i en kolonne
@@ -423,168 +556,172 @@
     label_show_attributes: Vis alle attributter
     label_show_in_menu: Vis visning i meny
     label_sort_by: Sorter på
-    label_sorted_by: sortert på
     label_sort_higher: Flytt opp
     label_sort_lower: Flytt ned
+    label_sorted_by: sortert på
     label_sorting: Sortering
     label_spent_time: Tid brukt
     label_star_query: Favorited
-    label_press_enter_to_save: Trykk enter for å lagre.
-    label_public_query: Offentlig
+    label_starred_queries: Favoritt
+    label_subject: Emne
     label_sum: Sum
     label_sum_for: Sum for
-    label_total_sum: Totalsum
-    label_subject: Emne
     label_this_week: denne uken
-    label_today: I dag
     label_time_entry_plural: Tid brukt
-    label_up: Opp
-    label_user_plural: Brukere
-    label_activity_show_only_comments: Vis bare aktiviteter med kommentarer
-    label_activity_show_all: Vis alle aktiviteter
-    label_total_progress: "%{percent}% utført"
+    label_today: I dag
     label_total_amount: 'Totalt: %{amount}'
+    label_total_progress: "%{percent}% utført"
+    label_total_sum: Totalsum
+    label_unwatch: Stopp overvåking
+    label_unwatch_work_package: Stopp overvåking av arbeidspakke
+    label_up: Opp
     label_updated_on: oppdatert den
+    label_upload_counter: "%{done} av %{count} filer ferdig"
+    label_upload_notification: Laster opp filer...
+    label_uploaded_by: Opplastet av
+    label_user_plural: Brukere
+    label_validation_error: 'Arbeidspakken kunne ikke lagres på grunn av følgende feil:'
     label_value_derived_from_children: "(verdi utledet fra underordnet)"
-    label_children_derived_duration: Arbeidspakkens underordnet varighet
+    label_version_plural: Versjoner
+    label_view_has_changed: Denne visningen har ulagrede endringer. Klikk for å lagre dem.
+    label_visibility_settings: Innstillinger for synlighet
+    label_wait: Vennligst vent på konfigurasjonen...
     label_warning: Advarsel
-    label_work_package: Arbeidspakke
-    label_work_package_parent: Overordnet arbeidspakke
-    label_work_package_plural: Arbeidspakker
     label_watch: Overvåk
     label_watch_work_package: Overvåk arbeidspakke
     label_watcher_added_successfully: Overvåkeren ble lagt til!
     label_watcher_deleted_successfully: Overvåkeren ble slettet!
-    label_work_package_details_you_are_here: Du er på %{tab} fanen for %{type} %{subject}.
+    label_work_package: Arbeidspakke
     label_work_package_context_menu: Kontekstmeny for arbeidspakke
-    label_unwatch: Stopp overvåking
-    label_unwatch_work_package: Stopp overvåking av arbeidspakke
-    label_uploaded_by: Opplastet av
-    label_default_queries: Standard
-    label_starred_queries: Favoritt
-    label_global_queries: Offentlig
-    label_custom_queries: Privat
-    label_columns: Kolonner
-    label_attachments: Vedlegg
-    label_drop_files: Slipp filer her for å legge ved filer.
-    label_drop_or_click_files: Slipp filer her eller klikk for å legge ved filer.
-    label_drop_folders_hint: Du kan ikke laste opp mapper som vedlegg. Velg én fil.
-    label_add_attachments: Legg ved filer
-    label_formattable_attachment_hint: Koble til og link filer ved å slippe i dette feltet, eller lime inn fra utklippstavlen.
-    label_remove_file: Slett %{fileName}
-    label_remove_watcher: Fjern overvåker %{name}
-    label_remove_all_files: Slett alle filer
-    label_add_description: Legg til en beskrivelse for %{file}
-    label_upload_notification: Laster opp filer...
+    label_work_package_details_you_are_here: Du er på %{tab} fanen for %{type} %{subject}.
+    label_work_package_parent: Overordnet arbeidspakke
+    label_work_package_plural: Arbeidspakker
     label_work_package_upload_notification: 'Laster opp filer for arbeidspakke #%{id}: %{subject}'
     label_wp_id_added_by: "#%{id} lagt til av %{author}"
-    label_files_to_upload: 'Disse filene vil bli lastet opp:'
-    label_rejected_files: 'Disse filene kan ikke lastes opp:'
-    label_rejected_files_reason: Disse filene kan ikke lastes opp fordi deres størrelse er større enn %{maximumFilesize}
-    label_wait: Vennligst vent på konfigurasjonen...
-    label_upload_counter: "%{done} av %{count} filer ferdig"
-    label_validation_error: 'Arbeidspakken kunne ikke lagres på grunn av følgende feil:'
-    label_version_plural: Versjoner
-    label_view_has_changed: Denne visningen har ulagrede endringer. Klikk for å lagre dem.
-    help_texts:
-      show_modal: Show help text
-    onboarding:
-      buttons:
-        skip: Hopp over
-        next: Neste
-        got_it: Forstått
-      steps:
-        help_menu: Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!
-        members: Inviter nye <b>medlemmer</b> til å bli med i prosjektet ditt.
-        quick_add_button: Klikk på plussikonet (+) i toppnavigasjonen til <b>opprette et nytt prosjekt</b> eller for å  <b>inviterer kolleger</b>.
-        sidebar_arrow: Bruk returpilen i øvre venstre hjørne for å gå tilbake til prosjektets <b>hovedmeny</b>.
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: I <b>wiki</b> kan du dokumentere og dele kunnskap sammen med teamet.
-        boards:
-          overview: Velg <b>tavler</b> for å skift visningen og administrere prosjektet ved hjelp av den dynamiske tavlevisningen.
-          lists_kanban: Her kan du opprette flere lister (kolonner) i tavlen. Denne funksjonen lar deg for eksempel opprette en <b>Kanban tavle</b>.
-          lists_basic: Her kan du lage flere lister (kolonner) på din dynamiske tavle.
-          add: Klikk på pluss (+) ikonet til <b>opprette et nytt kort</b> eller <b>legg til et eksisterende kort</b> på listen på tavlen.
-          drag: Dra og slipp oppgavelapper innenfor en gitt liste for å omorganisere dem, eller flytte dem til en annen liste. <br> Du kan klikke på informasjonsikonet (i) i øvre høyre hjørne eller dobbeltklikke på et kort for å åpne detaljene.
-        wp:
-          toggler: La oss nå se på seksjonen <b>arbeidspakke</b> som gir deg en mer detaljert visning av arbeidet ditt.
-          list: Denne <b>arbeidspakke</b>-oversikten viser en liste over alt arbeidet i ditt prosjekt, som oppgaver, milepæler, faser m.m.<br>Arbeidspakker kan opprettes og redigeres fra denne visningen.  For p se detaljer i den enkelte arbeidspakke, er det bare å dobbeltklikke på raden.
-          full_view: "<b>Arbeidspakke detaljer</b>-visningen gir deg all relevant informasjon vedrørende en gitt arbeidspakke, som beskrivelse, status, prioritet, aktiviteter, avhengigheter og kommentarer."
-          back_button: Bruk returpilen i øvre venstre hjørne for å avslutte og gå tilbake til listen med arbeidspakker.
-          create_button: "<b>+ Opprett</b>-knappen vil legge til en ny nettverkspakke til ditt prosjekt."
-          gantt_menu: Opprett prosjektplaner og tidslinjer uanstrengt ved hjelp av Gantt-kartmodulen.
-          timeline: Her kan du <b>redigere prosjektplanen din</b>, opprette nye nettverkspakker som oppgaver, milepæler, fases og mer, og også <b>legge til avhengigheter</b>.  Alle medlemmer kan se og oppdatere de siste planene til enhver tid.
-        team_planner:
-          overview: Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva.
-          calendar: Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene.
-          add_assignee: For å komme i gang, legg til utførende i gruppeplanleggeren.
-          add_existing: Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato.
-          card: Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem.
+    modals:
+      button_apply: Bruk
+      button_cancel: Avbryt
+      button_delete: Slett
+      button_save: Lagre
+      button_submit: Lagre
+      destroy_time_entry:
+        text: Er du sikker på at du vil slette følgende tidsregistrering?
+        title: Bekreft sletting av tidsregistrering
+      form_submit:
+        text: Er du sikker på at du vil utføre denne handlingen?
+        title: Bekreft for å fortsette
+      label_delete_page: Slett gjeldende side
+      label_name: Navn
+    no_job_id: No job ID returned from server.
+    notice_bad_request: Ugyldig forespørsel.
+    notice_job_started: jobb startet.
+    notice_no_results_to_display: Ingen synlige resultater å vise.
+    notice_successful_create: Opprettelsen var vellykket.
+    notice_successful_delete: Slettingen var vellykket.
+    notice_successful_update: Oppdateringen var vellykket.
     notifications:
-      title: Varsler
-      no_unread: Ingen uleste varsler
-      reasons:
-        mentioned: Nevnt
-        watched: Overvåker
-        assigned: Deltaker
-        responsible: Ansvarlig
-        created: Opprettet
-        scheduled: Planlagt
-        commented: Kommentert
-        processed: Processed
-        prioritized: Prioritized
-        dateAlert: Dato varsel
-        shared: Delt
-        reminder: Reminder
+      center:
+        and_more_users:
+          one: og 1 annen
+          other: og %{count} andre
+        empty_state:
+          no_notification: Ser ut som du er helt oppdatert.
+          no_notification_for_filter: Looks like you are all caught up for this filter.
+          no_notification_with_current_filter: Ser ut som du er helt oppdatert med filteret %{filter}.
+          no_notification_with_current_project_filter: Ser ut som du er helt oppdatert med det valgte prosjektet.
+          no_selection: Klikk på en melding for å se alle aktivitetsdetaljer.
+        label_actor_and: og
+        mark_all_read: Merk alle som lest
+        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
+        mark_as_read: Merk som lest
+        new_notifications:
+          link_text: Klikk her for å laste dem
+          message: Det finnes nye varsler.
+        no_results:
+          at_all: Nye varsler vises her når det er aktivitet som gjelder deg.
+          with_current_filter: Det er ingen varsler i denne visningen for øyeblikket
+        text_update_date_by: "%{date} av"
+        total_count_warning: Viser de %{newest_count} nyeste varsler. %{more_count} flere er ikke vist.
       date_alerts:
         milestone_date: Milepæl dato
         overdue: Forfalt
         overdue_since: for %{difference_in_days}.
-        property_today: is today.
         property_is: is in %{difference_in_days}.
-        property_was: was %{difference_in_days} ago.
         property_is_deleted: is deleted.
-      center:
-        label_actor_and: og
-        and_more_users:
-          one: og 1 annen
-          other: og %{count} andre
-        no_results:
-          at_all: Nye varsler vises her når det er aktivitet som gjelder deg.
-          with_current_filter: Det er ingen varsler i denne visningen for øyeblikket
-        mark_all_read: Merk alle som lest
-        mark_as_read: Merk som lest
-        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
-        text_update_date_by: "%{date} av"
-        total_count_warning: Viser de %{newest_count} nyeste varsler. %{more_count} flere er ikke vist.
-        empty_state:
-          no_notification: Ser ut som du er helt oppdatert.
-          no_notification_with_current_project_filter: Ser ut som du er helt oppdatert med det valgte prosjektet.
-          no_notification_with_current_filter: Ser ut som du er helt oppdatert med filteret %{filter}.
-          no_notification_for_filter: Looks like you are all caught up for this filter.
-          no_selection: Klikk på en melding for å se alle aktivitetsdetaljer.
-        new_notifications:
-          message: Det finnes nye varsler.
-          link_text: Klikk her for å laste dem
+        property_today: is today.
+        property_was: was %{difference_in_days} ago.
+      no_unread: Ingen uleste varsler
+      reasons:
+        assigned: Deltaker
+        commented: Kommentert
+        created: Opprettet
+        dateAlert: Dato varsel
+        mentioned: Nevnt
+        prioritized: Prioritized
+        processed: Processed
+        reminder: Reminder
+        responsible: Ansvarlig
+        scheduled: Planlagt
+        shared: Delt
+        watched: Overvåker
       reminders:
         note: 'Note: “%{note}”'
       settings:
         change_notification_settings: Du kan endre <a target="_blank" href="%{url}">varslingsinnstillinger</a> for å sikre at du aldri går glipp av en viktig oppdatering.
         title: Varslingsinnstillinger
+      title: Varsler
+    onboarding:
+      buttons:
+        got_it: Forstått
+        next: Neste
+        skip: Hopp over
+      steps:
+        boards:
+          add: Klikk på pluss (+) ikonet til <b>opprette et nytt kort</b> eller <b>legg til et eksisterende kort</b> på listen på tavlen.
+          drag: Dra og slipp oppgavelapper innenfor en gitt liste for å omorganisere dem, eller flytte dem til en annen liste. <br> Du kan klikke på informasjonsikonet (i) i øvre høyre hjørne eller dobbeltklikke på et kort for å åpne detaljene.
+          lists_basic: Her kan du lage flere lister (kolonner) på din dynamiske tavle.
+          lists_kanban: Her kan du opprette flere lister (kolonner) i tavlen. Denne funksjonen lar deg for eksempel opprette en <b>Kanban tavle</b>.
+          overview: Velg <b>tavler</b> for å skift visningen og administrere prosjektet ved hjelp av den dynamiske tavlevisningen.
+        help_menu: Hjelpemenyen (?) gir <b>ytterligere hjelpemidler</b>. Her kan du finne en brukerveiledning, hjelpevideoer og mer. <br> Nyt ditt arbeid med OpenProject!
+        members: Inviter nye <b>medlemmer</b> til å bli med i prosjektet ditt.
+        quick_add_button: Klikk på plussikonet (+) i toppnavigasjonen til <b>opprette et nytt prosjekt</b> eller for å  <b>inviterer kolleger</b>.
+        sidebar_arrow: Bruk returpilen i øvre venstre hjørne for å gå tilbake til prosjektets <b>hovedmeny</b>.
+        team_planner:
+          add_assignee: For å komme i gang, legg til utførende i gruppeplanleggeren.
+          add_existing: Søk etter eksisterende arbeidspakker og dra dem til gruppeplanleggeren for å umiddelbart tildele dem til et gruppemedlem og definere start- og sluttdato.
+          calendar: Ukentlig eller annenhver uke viser tavlen alle arbeidspakker som er tilordnet gruppemedlemmene.
+          card: Dra arbeidspakker horisontalt for å flytte dem bakover eller forover i tid, dra kantene for å endre start- og sluttdatoer, og selv dra dem vertikalt til en annen rad for å tilordne dem til en annen medlem.
+          overview: Gruppeplanleggeren lar deg visuelt tildele oppgaver til teammedlemmer og få en oversikt over hvem som jobber med hva.
+        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
+        wiki: I <b>wiki</b> kan du dokumentere og dele kunnskap sammen med teamet.
+        wp:
+          back_button: Bruk returpilen i øvre venstre hjørne for å avslutte og gå tilbake til listen med arbeidspakker.
+          create_button: "<b>+ Opprett</b>-knappen vil legge til en ny nettverkspakke til ditt prosjekt."
+          full_view: "<b>Arbeidspakke detaljer</b>-visningen gir deg all relevant informasjon vedrørende en gitt arbeidspakke, som beskrivelse, status, prioritet, aktiviteter, avhengigheter og kommentarer."
+          gantt_menu: Opprett prosjektplaner og tidslinjer uanstrengt ved hjelp av Gantt-kartmodulen.
+          list: Denne <b>arbeidspakke</b>-oversikten viser en liste over alt arbeidet i ditt prosjekt, som oppgaver, milepæler, faser m.m.<br>Arbeidspakker kan opprettes og redigeres fra denne visningen.  For p se detaljer i den enkelte arbeidspakke, er det bare å dobbeltklikke på raden.
+          timeline: Her kan du <b>redigere prosjektplanen din</b>, opprette nye nettverkspakker som oppgaver, milepæler, fases og mer, og også <b>legge til avhengigheter</b>.  Alle medlemmer kan se og oppdatere de siste planene til enhver tid.
+          toggler: La oss nå se på seksjonen <b>arbeidspakke</b> som gir deg en mer detaljert visning av arbeidet ditt.
+    open_project_storage_modal:
+      waiting_subtitle:
+        network_off: Det er et nettverksproblem.
+        network_on: Nettverket er tilbake. Vi prøver igjen.
+      waiting_title:
+        timeout: Tidsavbrudd
     pagination:
       no_other_page: Du er på den eneste siden.
-      pages_skipped: Pages skipped.
       page_navigation: Pagination navigation
-      per_page_navigation: Items per page selection
       pages:
         page_number: Page %{number}
         show_per_page: Show %{number} per page
+      pages_skipped: Pages skipped.
+      per_page_navigation: Items per page selection
     placeholders:
       default: "-"
-      subject: Angi emne her
-      selection: Vennligst velg
       description: 'Beskrivelse: Klikk for å redigere...'
       relation_description: Klikk for å legge til beskrivelse for denne relasjonen
+      selection: Vennligst velg
+      subject: Angi emne her
     project:
       autocompleter:
         label: Prosjektet autofullføring
@@ -594,214 +731,277 @@
       required_outside_context: 'Velg et prosjekt for å opprette arbeidspakken og se alle egenskaper. Du kan bare velge prosjekter som har typen ovenfor aktivert.
 
         '
-    text_are_you_sure: Er du sikker?
-    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
-    breadcrumb: Brødsmule
-    text_data_lost: Alle angitte data vil gå tapt.
-    text_user_wrote: "%{value} skrev:"
-    time_entry:
-      work_package_required: Valg av arbeidspakke er påkrevd
-      title: Logg tid
-      tracking: Tidsstyring
-      stop: Stopp
-    timer:
-      start_new_timer: Start ny tidtaker
-      timer_already_running: 'For å starte en ny tidtaker må du først stoppe den gjeldende tidtakeren:'
-      timer_already_stopped: Ingen aktiv tidtaker for denne arbeidspakken, har du stoppet den i et annet vindu?
-      tracking_time: Sporingstid
-      button_stop: Stopp nåværende tidtaker
-    two_factor_authentication:
-      label_two_factor_authentication: Tofaktorautentisering
-    watchers:
-      label_loading: laster overvåkere...
-      label_error_loading: Det oppstod en feil under lasting av overvåkere
-      label_search_watchers: Søk overvåkere
-      label_add: Legg til overvåker
-      label_discard: Forkast utvalg
-      typeahead_placeholder: Søk etter mulige overvåkere
-    relation_labels:
-      parent: Overordnet
-      child: Child
-      children: Underordnede
-      relates: Relatert til
-      duplicates: Duplikater
-      duplicated: Duplisert av
-      blocks: Blokkeringer
-      blocked: Blokkert av
-      precedes: Rangerer foran
-      follows: Følger
-      includes: Inkluderer
-      partof: Del av
-      requires: Krever
-      required: Kreves av
-      relation_type: type relasjon
-    relations_hierarchy:
-      parent_headline: Overordnet
-      hierarchy_headline: Hierarki
-      children_headline: Underordnede
+    project_menu_details: Detaljer
+    projects:
+      identifier_suggestion:
+        loading: Loading suggestion...
+        set_name_first: Please set the name first.
     relation_buttons:
-      set_parent: Angi overordnet
-      change_parent: Endre overordnet
-      remove_parent: Fjern overordnet
-      hierarchy_indent: Indent-hierarki
-      hierarchy_outdent: Utdødd hierarki
-      group_by_wp_type: Gruppere etter arbeidspakke
-      group_by_relation_type: Grupper etter type relasjon
-      add_parent: Legg til eksisterende overordnet
-      add_new_child: Opprett ny underordnet
-      create_new: Opprett ny
+      abort: Avbryt
       add_existing: Legg til eksisterende
       add_existing_child: Legg til underordnet
-      remove_child: Fjern underordnet
-      add_new_relation: Lag ny relasjon
       add_existing_relation: Legg til eksisterende relasjon
-      update_description: Velg eller oppdater beskrivelse for denne relasjonen
-      toggle_description: Veksle relasjonsbeskrivelse
-      update_relation: Klikk for å endre relasjonstype
-      show_relations: Vis relasjoner
+      add_new_child: Opprett ny underordnet
+      add_new_relation: Lag ny relasjon
+      add_parent: Legg til eksisterende overordnet
       add_predecessor: Legg til forgjenger
       add_successor: Add successor
+      change_parent: Endre overordnet
+      create_new: Opprett ny
+      group_by_relation_type: Grupper etter type relasjon
+      group_by_wp_type: Gruppere etter arbeidspakke
+      hierarchy_indent: Indent-hierarki
+      hierarchy_outdent: Utdødd hierarki
       remove: Fjern relasjonen
+      remove_child: Fjern underordnet
+      remove_parent: Fjern overordnet
       save: Lagre relasjon
-      abort: Avbryt
+      set_parent: Angi overordnet
+      show_relations: Vis relasjoner
+      toggle_description: Veksle relasjonsbeskrivelse
+      update_description: Velg eller oppdater beskrivelse for denne relasjonen
+      update_relation: Klikk for å endre relasjonstype
+    relation_labels:
+      blocked: Blokkert av
+      blocks: Blokkeringer
+      child: Child
+      children: Underordnede
+      duplicated: Duplisert av
+      duplicates: Duplikater
+      follows: Følger
+      includes: Inkluderer
+      parent: Overordnet
+      partof: Del av
+      precedes: Rangerer foran
+      relates: Relatert til
+      relation_type: type relasjon
+      required: Kreves av
+      requires: Krever
+    relations:
+      empty: Det eksisterer ingen relasjoner
+      remove: Fjern relasjonen
     relations_autocomplete:
-      placeholder: Skriv for å søke
       parent_placeholder: Velg ny overordnet eller trykk på escape for å avbryte.
-    autocompleter:
       placeholder: Skriv for å søke
-      notFoundText: Ingen elementer funnet
-      search: Søk
-      project:
-        placeholder: Velg prosjekt
+    relations_hierarchy:
+      children_headline: Underordnede
+      hierarchy_headline: Hierarki
+      parent_headline: Overordnet
     repositories:
-      select_tag: Velg etikett
       select_branch: Velg gren
-    field_value_enter_prompt: Angi en verdi for '%{field}'
-    project_menu_details: Detaljer
+      select_tag: Velg etikett
+    sharing:
+      selected_count: "%{count} valgte"
+      selection:
+        mixed: Blandet
+      share: Del
     sort:
+      activate_asc: aktiver for å bruke stigende sortering
+      activate_dsc: aktiver for å bruke synkende sortering
+      activate_no: aktiver for å fjerne sortering
       sorted_asc: Stigende sortering er valgt,
       sorted_dsc: Synkende sortering er valgt,
       sorted_no: Ingen sortering er valgt,
       sorting_disabled: Sortering er deaktivert
-      activate_asc: aktiver for å bruke stigende sortering
-      activate_dsc: aktiver for å bruke synkende sortering
-      activate_no: aktiver for å fjerne sortering
-    text_work_packages_destroy_confirmation: Er du sikker på at du vil slette valgte arbeidspakke(r)?
+    spot:
+      drop_modal:
+        close: Lukk modal
+        focus_grab: Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet.
+      filter_chip:
+        remove: Fjern
+    text_are_you_sure: Er du sikker?
+    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
+    text_data_lost: Alle angitte data vil gå tapt.
     text_query_destroy_confirmation: Er du sikker på at du vil slette valgte visning?
+    text_user_wrote: "%{value} skrev:"
+    text_work_packages_destroy_confirmation: Er du sikker på at du vil slette valgte arbeidspakke(r)?
+    time_entry:
+      stop: Stopp
+      title: Logg tid
+      tracking: Tidsstyring
+      work_package_required: Valg av arbeidspakke er påkrevd
+    timer:
+      button_stop: Stopp nåværende tidtaker
+      start_new_timer: Start ny tidtaker
+      timer_already_running: 'For å starte en ny tidtaker må du først stoppe den gjeldende tidtakeren:'
+      timer_already_stopped: Ingen aktiv tidtaker for denne arbeidspakken, har du stoppet den i et annet vindu?
+      tracking_time: Sporingstid
     tl_toolbar:
-      zooms: Zoom-nivå
       outlines: Nivå
+      zooms: Zoom-nivå
+    toolbar:
+      filter: Filter
+      search_query_label: Søk lagrede visninger
+      settings:
+        columns: Kolonner
+        configure_view: Konfigurer visning
+        delete: Slett
+        display_hierarchy: Vis hierarki
+        display_sums: Vis summer
+        export: Eksportèr
+        group_by: Grupper etter
+        hide_hierarchy: Skjul hierarki
+        hide_sums: Skjul summer
+        page_settings: Endre visningsnavn
+        save: Lagre
+        save_as: Lagre som
+        share_calendar: Abonner på kalender
+        sort_by: Sorter på
+        visibility_settings: Innstillinger for synlighet
+      unselected_title: Arbeidspakke
+    two_factor_authentication:
+      label_two_factor_authentication: Tofaktorautentisering
+    units:
+      child_work_packages:
+        one: en underordnet arbeidspakke
+        other: "%{count} underordnet arbeidspakke"
+      day:
+        one: 1 dag
+        other: "%{count} dager"
+        zero: 0 dager
+      hour:
+        one: 1 t
+        other: "%{count} t"
+        zero: 0 t
+      hour_string: "%{hours} h"
+      word:
+        one: 1 word
+        other: "%{count} words"
+      workPackage:
+        one: arbeidspakke
+        other: arbeidspakker
     upsell:
       ee_only: Enterprise edition utvidelse
+    views:
+      card: Kort
+      list: Tabell
+      timeline: Gantt
+    watchers:
+      label_add: Legg til overvåker
+      label_discard: Forkast utvalg
+      label_error_loading: Det oppstod en feil under lasting av overvåkere
+      label_loading: laster overvåkere...
+      label_search_watchers: Søk overvåkere
+      typeahead_placeholder: Søk etter mulige overvåkere
     wiki_formatting:
-      strong: Halvfet
-      italic: Kursiv
-      underline: Underlinjert
-      deleted: Slettet
       code: Inline kode
+      deleted: Slettet
       heading1: Overskrift 1
       heading2: Overskrift 2
       heading3: Overskrift 3
-      unordered_list: Punktmerket liste
-      ordered_list: Nummerert liste
-      quote: Sitèr
-      unquote: Fjern sitatformattering
-      preformatted_text: Preformattert tekst
-      wiki_link: Lenke til en Wiki-side
       image: Bilde
-    sharing:
-      share: Del
-      selected_count: "%{count} valgte"
-      selection:
-        mixed: Blandet
+      italic: Kursiv
+      ordered_list: Nummerert liste
+      preformatted_text: Preformattert tekst
+      quote: Sitèr
+      strong: Halvfet
+      underline: Underlinjert
+      unordered_list: Punktmerket liste
+      unquote: Fjern sitatformattering
+      wiki_link: Lenke til en Wiki-side
     work_packages:
+      baseline:
+        addition_label: Lagt til for visning i tidsperioden for sammenligning
+        column_incompatible: Denne kolonnen viser ikke endringer i baseline modus.
+        modification_label: Endret i perioden for sammenligning
+        removal_label: Fjernet fra visning i tidsperioden for sammenligning
       bulk_actions:
-        edit: Bulk redigere
         delete: Bulk slette
         duplicate: Bulk duplicate
+        edit: Bulk redigere
         move: Endre prosjekt i bulk
       button_clear: Nullstill
       comment_added: Kommentaren ble lagt til.
       comment_send_failed: En feil har oppstått.  Kommentaren kunne ikke sendes inn.
       comment_updated: Kommentaren ble lagt til.
       confirm_edit_cancel: Er du sikker å at du vil avbryte redigeringen av arbeidspakken?
-      description_filter: Filter
+      create:
+        button: Opprett
+        header: Ny %{type}
+        header_no_type: Ny arbeidspakke (type ikke satt ennå)
+        header_with_parent: 'Ny %{type} (Undertype av %{parent_type} #%{id})'
+        title: Ny arbeidspakke
+      default_queries:
+        all_open: Alle åpne
+        assigned_to_me: Tildelt meg
+        created_by_me: Opprettet av meg
+        latest_activity: Siste aktivitet
+        manually_sorted: New manually sorted query
+        overdue: Forfalt
+        recently_created: Nylig opprettet
+        shared_with_me: Delt med meg
+        shared_with_users: Delt med brukere
+        summary: Sammendrag
       description_enter_text: Skriv tekst
+      description_filter: Filter
       description_options_hide: Skjul alternativer
       description_options_show: Vis alternativer
+      duplicate:
+        title: Duplicate work package
       edit_attribute: "%{attribute} - Rediger"
+      faulty_query:
+        description: Visningen din er feilaktig og kunne ikke behandles.
+        title: Arbeidspakker kan ikke lastes.
+      filters:
+        baseline_incompatible: Dette filterattributtet er ikke tatt i betraktning i baseline-modus.
+        baseline_warning: Basismodus er på men noen av dine aktive filtre er ikke inkludert i sammenligningen.
+        title: Filtrer arbeidspakker
+      hierarchy:
+        children_collapsed: Nivå %{level}for hierarki, skjules. Klikk for å vise de filtrerte underpakkene
+        children_expanded: Hierarki nivå %{level}, utvidet. Klikk for å kollapse de filtrerte underordnede
+        hide: Skjul hierarkimodus
+        leaf: Lad av arbeidspakker på nivå %{level}.
+        show: Vis hierarki modus
+        toggle_button: Klikk for å endre hierarkimodus.
+      inline_create:
+        title: Klikk her for å legge til en nye arbeidspakke i listen
+      jump_marks:
+        content: Hopp til innhold
+        label_content: Klikk her for å hoppe over menyen og gå til innholdet
+        label_pagination: Klikk her for å hoppe over tabellen for arbeidspakker og gå til paginering
+        pagination: Gå til tabell paginering
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: Aktiver multivalg
+      label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft valg med enter, slette med tilbaketasten'
       label_disable_multi_select: Deaktivere multivalg
+      label_enable_multi_select: Aktiver multivalg
       label_filter_add: Legg til filter
       label_filter_by_text: Filtrer etter tekst
       label_options: Alternativer
-      label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft valg med enter, slette med tilbaketasten'
+      limited_results: Bare %{count} arbeidspakker kan vises i manuell sorterings modus. Vennligst reduser resultatene ved filtrering eller bytt til automatisk sortering.
       message_error_during_bulk_delete: Det oppstod en feil undersletting av arbeidspakker.
       message_successful_bulk_delete: Arbeidspakkene ble slettet.
       message_successful_show_in_fullscreen: Klikk her for å åpne denne arbeidspakken i fullskjermsmodus.
       message_view_spent_time: Vis brukt tid for denne arbeidspakken
       message_work_package_read_only: Arbeidspakken er låst i denne statusen. Ingen egenskaper annet enn status kan endres.
       message_work_package_status_blocked: Status for arbeidspakke er ikke skrivbar på grunn av at lukket status og lukket versjon er tildelt.
+      no_results:
+        description: Enten kan den ikke opprettes eller så er alle arbeidspakker filtrert ut.
+        title: Ingen arbeidspakke å vise.
       placeholder_filter_by_text: Emne, beskrivelse, kommentarer, ...
+      placeholders:
+        date: Velg dato
+        default: "-"
       progress:
         title: Arbeidsestimater og framdrift
-      baseline:
-        addition_label: Lagt til for visning i tidsperioden for sammenligning
-        removal_label: Fjernet fra visning i tidsperioden for sammenligning
-        modification_label: Endret i perioden for sammenligning
-        column_incompatible: Denne kolonnen viser ikke endringer i baseline modus.
-      filters:
-        title: Filtrer arbeidspakker
-        baseline_incompatible: Dette filterattributtet er ikke tatt i betraktning i baseline-modus.
-        baseline_warning: Basismodus er på men noen av dine aktive filtre er ikke inkludert i sammenligningen.
-      inline_create:
-        title: Klikk her for å legge til en nye arbeidspakke i listen
-      create:
-        title: Ny arbeidspakke
-        header: Ny %{type}
-        header_no_type: Ny arbeidspakke (type ikke satt ennå)
-        header_with_parent: 'Ny %{type} (Undertype av %{parent_type} #%{id})'
-        button: Opprett
-      duplicate:
-        title: Duplicate work package
-      hierarchy:
-        show: Vis hierarki modus
-        hide: Skjul hierarkimodus
-        toggle_button: Klikk for å endre hierarkimodus.
-        leaf: Lad av arbeidspakker på nivå %{level}.
-        children_collapsed: Nivå %{level}for hierarki, skjules. Klikk for å vise de filtrerte underpakkene
-        children_expanded: Hierarki nivå %{level}, utvidet. Klikk for å kollapse de filtrerte underordnede
-      faulty_query:
-        title: Arbeidspakker kan ikke lastes.
-        description: Visningen din er feilaktig og kunne ikke behandles.
-      no_results:
-        title: Ingen arbeidspakke å vise.
-        description: Enten kan den ikke opprettes eller så er alle arbeidspakker filtrert ut.
-      limited_results: Bare %{count} arbeidspakker kan vises i manuell sorterings modus. Vennligst reduser resultatene ved filtrering eller bytt til automatisk sortering.
-      property_groups:
-        details: Detaljer
-        people: Personer
-        estimatesAndTime: Estimater og tid
-        other: Øvrig
       properties:
         assignee: Deltaker
         author: Forfatter
+        category: Kategori
         createdAt: Opprettet
-        description: Beskrivelse
         date: Dato
-        percentComplete: "% Ferdig"
-        percentCompleteAlternative: Fremgang
+        description: Beskrivelse
         dueDate: Sluttdato
         duration: Varighet
-        spentTime: Tid brukt
-        category: Kategori
+        percentComplete: "% Ferdig"
+        percentCompleteAlternative: Fremgang
         percentageDone: Prosent utført
         priority: Prioritet
         projectName: Prosjekt
+        remainingTime: Gjenstående arbeid
         remainingWork: Gjenstående arbeid
         remainingWorkAlternative: Gjenstående timer
         responsible: Ansvarlig
+        spentTime: Tid brukt
         startDate: Startdato
         status: Status
         subject: Emne
@@ -809,302 +1009,106 @@
         title: Tittel
         type: Type
         updatedAt: Oppdatert
-        versionName: Versjon
         version: Versjon
+        versionName: Versjon
         work: Arbeid
         workAlternative: Tidsestimat
-        remainingTime: Gjenstående arbeid
-      default_queries:
-        manually_sorted: New manually sorted query
-        latest_activity: Siste aktivitet
-        created_by_me: Opprettet av meg
-        assigned_to_me: Tildelt meg
-        recently_created: Nylig opprettet
-        all_open: Alle åpne
-        overdue: Forfalt
-        summary: Sammendrag
-        shared_with_users: Delt med brukere
-        shared_with_me: Delt med meg
-      jump_marks:
-        pagination: Gå til tabell paginering
-        label_pagination: Klikk her for å hoppe over tabellen for arbeidspakker og gå til paginering
-        content: Hopp til innhold
-        label_content: Klikk her for å hoppe over menyen og gå til innholdet
-      placeholders:
-        default: "-"
-        date: Velg dato
+      property_groups:
+        details: Detaljer
+        estimatesAndTime: Estimater og tid
+        other: Øvrig
+        people: Personer
       query:
+        click_to_edit_query_name: Klikk for å redigere tittelen på denne visningen.
         column_names: Kolonner
-        group_by: Gruppèr resultater etter
+        confirm_edit_cancel: Er du sikker på at du vil avbryte redigering av navnet på denne visningen? Tittelen vil bli satt tilbake til forrige verdi.
+        display_sums: Vis summer
+        errors:
+          duplicate_query_title: Navnet på denne visningen finnes allerede. Endre allikevel?
+          not_found: Det finnes ingen slik visning.
+          unretrievable_query: Kan ikke hente visning fra URL
+        filters: Filtre
         group: Grupper etter
+        group_by: Gruppèr resultater etter
         group_by_disabled_by_hierarchy: Gruppen av er deaktivert på grunn av at hierarki-modus er aktiv.
+        hide_column: Skjul kolonne
         hierarchy_disabled_by_group_by: Hierarki-modus er deaktivert på grunn av at resultatene blir gruppert av %{column}.
-        sort_ascending: Stigende sortering
-        sort_descending: Synkende sortering
+        insert_columns: Sett inn kolonner
         move_column_left: Flytt kolonne til venstre
         move_column_right: Flytt kolonne til høyre
-        hide_column: Skjul kolonne
-        insert_columns: Sett inn kolonner
-        filters: Filtre
-        display_sums: Vis summer
-        confirm_edit_cancel: Er du sikker på at du vil avbryte redigering av navnet på denne visningen? Tittelen vil bli satt tilbake til forrige verdi.
-        click_to_edit_query_name: Klikk for å redigere tittelen på denne visningen.
-        rename_query_placeholder: Navn for denne visningen
-        star_text: Marker denne visningen som favoritt og legg til i visnings meny på venstre side.
         public_text: 'Publiser denne visningen, slik at andre brukere får tilgang til visningen din. Brukere med ''Administrere offentlige visninger'' kan endre eller fjerne offentlig spørring. Dette påvirker ikke synligheten til arbeidspakken resultatene i denne oversikten og avhengig av tillatelser,  vil brukerne kunne se forskjellige resultater.
 
           '
-        errors:
-          unretrievable_query: Kan ikke hente visning fra URL
-          not_found: Det finnes ingen slik visning.
-          duplicate_query_title: Navnet på denne visningen finnes allerede. Endre allikevel?
+        rename_query_placeholder: Navn for denne visningen
+        sort_ascending: Stigende sortering
+        sort_descending: Synkende sortering
+        star_text: Marker denne visningen som favoritt og legg til i visnings meny på venstre side.
         text_no_results: Ingen samsvarende visninger ble funnet.
       reminders:
         button_label: Set reminder
-        title:
-          new: Set a reminder
-          edit: Edit reminder
-        subtitle: You will receive a notification for this work package at the chosen time.
         presets:
-          tomorrow: Tomorrow
-          three_days: In 3 days
-          week: In a week
-          month: In a month
           custom: At a particular date/time
+          month: In a month
+          three_days: In 3 days
+          tomorrow: Tomorrow
+          week: In a week
+        subtitle: You will receive a notification for this work package at the chosen time.
+        title:
+          edit: Edit reminder
+          new: Set a reminder
       scheduling:
         is_parent: Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene.
         is_switched_from_manual_to_automatic: Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker.
       sharing:
-        title: Del arbeidspakke
         show_all_users: Vis alle brukere som arbeidspakken er delt med
+        title: Del arbeidspakke
       table:
         configure_button: Konfigurer tabell for arbeidspakke
         summary: Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper.
         text_inline_edit: De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen.
-        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
         text_select_hint: Velg bokser skal åpnes med 'ALT' og piltaster.
+        text_sort_hint: Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner.
       table_configuration:
         button: Konfigurer tabellen for arbeidspakker
         choose_display_mode: Vis arbeidspakker som
-        modal_title: Tabelloppsett for arbeidspakke
-        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
+        columns_help_text: Bruk inndatafelt over for å legge til kolonner til din tabellvisning. Du kan dra og slippe kolonnene for å endre rekkefølgen for dem.
         default: standard
-        display_settings: Skjerminnstillinger
         default_mode: Flat liste
-        hierarchy_mode: Hierarki
-        hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
+        display_settings: Skjerminnstillinger
         display_sums_hint: Vis summer av alle summerbare egenskaper i en rad under tabellresultatene.
-        show_timeline_hint: Vis et interaktivt gantt-diagram på høyre side av tabellen. Du kan endre bredden ved å dra skillelinjen mellom tabell og gantt-tegnet.
+        embedded_tab_disabled: Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer.
+        hierarchy_hint: Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses.
+        hierarchy_mode: Hierarki
         highlighting: Utheving
         highlighting_mode:
           description: Marker med farge
-          none: Ingen utheving
+          entire_row_by: Hele raden etter
           inline: Uthevede egenskap(er)
           inline_all: Alle egenskaper
-          entire_row_by: Hele raden etter
-          status: Status
+          none: Ingen utheving
           priority: Prioritet
+          status: Status
           type: Type
-        sorting_mode:
-          description: 'Velg modus for å sortere arbeidspakkene:'
-          automatic: Automatisk
-          manually: Manuelt
-          warning: Du vil miste din forrige sortering når du aktiverer automatiske sorteringsmodus.
-        columns_help_text: Bruk inndatafelt over for å legge til kolonner til din tabellvisning. Du kan dra og slippe kolonnene for å endre rekkefølgen for dem.
+        modal_title: Tabelloppsett for arbeidspakke
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer arbeidspakker etter relasjonstype
+        show_timeline_hint: Vis et interaktivt gantt-diagram på høyre side av tabellen. Du kan endre bredden ved å dra skillelinjen mellom tabell og gantt-tegnet.
+        sorting_mode:
+          automatic: Automatisk
+          description: 'Velg modus for å sortere arbeidspakkene:'
+          manually: Manuelt
+          warning: Du vil miste din forrige sortering når du aktiverer automatiske sorteringsmodus.
       tabs:
-        overview: Oversikt
         activity: Aktivitet
+        files: Filer
+        overview: Oversikt
+        project_attributes: Project attributes
         relations: Relasjoner
         watchers: Overvåkere
-        files: Filer
       time_relative:
         days: dager
-        weeks: uker
         months: måneder
-    toolbar:
-      settings:
-        configure_view: Konfigurer visning
-        columns: Kolonner
-        sort_by: Sorter på
-        group_by: Grupper etter
-        display_sums: Vis summer
-        display_hierarchy: Vis hierarki
-        hide_hierarchy: Skjul hierarki
-        hide_sums: Skjul summer
-        save: Lagre
-        save_as: Lagre som
-        export: Eksportèr
-        visibility_settings: Innstillinger for synlighet
-        share_calendar: Abonner på kalender
-        page_settings: Endre visningsnavn
-        delete: Slett
-      filter: Filter
-      unselected_title: Arbeidspakke
-      search_query_label: Søk lagrede visninger
-    modals:
-      label_name: Navn
-      label_delete_page: Slett gjeldende side
-      button_apply: Bruk
-      button_save: Lagre
-      button_submit: Lagre
-      button_cancel: Avbryt
-      button_delete: Slett
-      form_submit:
-        title: Bekreft for å fortsette
-        text: Er du sikker på at du vil utføre denne handlingen?
-      destroy_time_entry:
-        title: Bekreft sletting av tidsregistrering
-        text: Er du sikker på at du vil slette følgende tidsregistrering?
-    notice_no_results_to_display: Ingen synlige resultater å vise.
-    notice_successful_create: Opprettelsen var vellykket.
-    notice_successful_delete: Slettingen var vellykket.
-    notice_successful_update: Oppdateringen var vellykket.
-    notice_job_started: jobb startet.
-    no_job_id: No job ID returned from server.
-    invalid_job_response: Invalid response from server.
-    notice_bad_request: Ugyldig forespørsel.
-    relations:
-      empty: Det eksisterer ingen relasjoner
-      remove: Fjern relasjonen
-    inplace:
-      button_edit: "%{attribute}: rediger"
-      button_save: "%{attribute}: lagre"
-      button_cancel: "%{attribute}: Avbryt"
-      button_save_all: Lagre
-      button_cancel_all: Avbryt
-      link_formatting_help: Tekstformatering hjelp
-      btn_preview_enable: Forhåndsvis
-      btn_preview_disable: Deaktiver forhåndsvisning
-      null_value_label: Ingen verdi
-      clear_value_label: "-"
-      errors:
-        required: "%{field} kan ikke være tomt"
-        number: "%{field} er ikke et gyldig tall"
-        maxlength: "%{field} kan ikke inneholde mer enn %{maxLength} siffer()"
-        minlength: "%{field} kan ikke inneholde mindre enn %{minLength} digit(s)"
-        messages_on_field: 'Dette feltet er ugyldig: %{messages}'
-    error_could_not_resolve_version_name: Kunne ikke slå opp versjonsnavnet
-    error_could_not_resolve_user_name: Kunne ikke slå opp brukernavn
-    error_attachment_upload: 'Filen kunne ikke lastes opp: %{error}'
-    error_attachment_upload_permission: Du har ikke tillatelse til å laste opp filer på denne ressursen.
-    units:
-      workPackage:
-        one: arbeidspakke
-        other: arbeidspakker
-      child_work_packages:
-        one: en underordnet arbeidspakke
-        other: "%{count} underordnet arbeidspakke"
-      hour_string: "%{hours} h"
-      hour:
-        one: 1 t
-        other: "%{count} t"
-        zero: 0 t
-      day:
-        one: 1 dag
-        other: "%{count} dager"
-        zero: 0 dager
-      word:
-        one: 1 word
-        other: "%{count} words"
+        weeks: uker
     zen_mode:
       button_activate: Aktiver zen modus
       button_deactivate: Deaktiver zen modus
-    global_search:
-      all_projects: I alle prosjekter
-      close_search: Lukk søk
-      items_available: "%{count} items available"
-      direct_hit_available: Work package with exact ID found. Press Enter to open it.
-      current_project_and_all_descendants: I dette prosjektet + underprosjekter
-      current_project: I dette prosjektet
-      recently_viewed: Nylig sett
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
-      title:
-        all_projects: alle prosjekter
-        project_and_subprojects: og alle underprosjekter
-        search_for: Søk etter
-    views:
-      card: Kort
-      list: Tabell
-      timeline: Gantt
-    invite_user_modal:
-      invite: Inviter
-      placeholder_add_tag: Create placeholder user
-    exclusion_info:
-      modal:
-        title: Status ekskludert fra hierarkiske summer
-        content: Statusen '%{status_name}' er konfigurert til å bli ekskludert fra hierarkiske summer av Arbeid, Gjenstående arbeid og % Ferdig. Summene tar ikke hensyn til denne verdien.
-    favorite_projects:
-      no_results: Du har ingen favorittprosjekter
-      no_results_subtext: Legg til ett eller flere prosjekter som favoritt via oversikten eller i en prosjektliste.
-    include_projects:
-      toggle_title: Inkluder prosjekter
-      title: Prosjekter
-      clear_selection: Tøm valg
-      apply: Bruk
-      selected_filter:
-        all: Alle prosjekter
-        selected: Kun valgte
-      search_placeholder: Search projects...
-      include_subprojects: Inkluder alle underprosjekter
-      tooltip:
-        include_all_selected: Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.
-        current_project: Dette er det nåværende prosjektet du er i.
-        does_not_match_search: Prosjektet samsvarer ikke med søkekriteriene.
-      no_results: Ingen treff på dine søkekriterier.
-    include_workspaces:
-      types:
-        program: Program
-        portfolio: Portfolio
-    baseline:
-      toggle_title: Grunnlinje
-      clear: Nullstill
-      apply: Bruk
-      header_description: Marker endringer som er gjort på denne listen tidligere.
-      show_changes_since: Vis endringer siden
-      help_description: Referansetidssone for grunnlinjen.
-      time_description: 'I din lokale tid: %{datetime}'
-      time: Tidspunkt
-      from: Fra
-      to: Til
-      drop_down:
-        none: "-"
-        yesterday: i går
-        last_working_day: siste arbeidsdag
-        last_week: siste uke
-        last_month: siste måned
-        a_specific_date: en bestemt dato
-        between_two_specific_dates: mellom to spesifikke datoer
-      legends:
-        changes_since: Endringer siden
-        changes_between: Endringer mellom
-        now_meets_filter_criteria: Oppfyller nå filterkriteriene
-        no_longer_meets_filter_criteria: Oppfyller ikke lenger filterkriteriene
-        maintained_with_changes: Beholdt med endringer
-        in_your_timezone: 'I din lokale tidssone:'
-      icon_tooltip:
-        added: Lagt til for visning i tidsperioden for sammenligning
-        removed: Fjernet fra visning i tidsperioden for sammenligning
-        changed: Beholdt med modifikasjoner
-    forms:
-      submit_success_message: Skjemaet ble sendt inn
-      load_error_message: En feil oppstod under lasting av skjemaet
-      validation_error_message: Vennligst fiks feilene i skjemaet
-      advanced_settings: Avanserte innstillinger
-    spot:
-      filter_chip:
-        remove: Fjern
-      drop_modal:
-        focus_grab: Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet.
-        close: Lukk modal
-    open_project_storage_modal:
-      waiting_title:
-        timeout: Tidsavbrudd
-      waiting_subtitle:
-        network_off: Det er et nettverksproblem.
-        network_on: Nettverket er tilbake. Vi prøver igjen.
-    projects:
-      identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.

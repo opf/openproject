@@ -64,11 +64,15 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
       expect(page).to have_css(".Box#inbox_project_#{project.id}")
     end
 
-    it "wires drop-target data attributes for the inbox" do
+    it "wires the list controller for the inbox" do
+      list_type = Backlogs::Target::InboxId.list_type
+
       expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
-        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-        expect(box["data-target-id"]).to eq("inbox")
-        expect(box["data-target-allowed-drag-type"]).to eq("story")
+        expect(box["data-controller"]).to include("sortable-lists--list")
+        expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
+        expect(box["data-sortable-lists--list-id-value"]).to be_nil
+        expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
+        expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
       end
     end
 
@@ -97,6 +101,29 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
         aria: { label: I18n.t(:label_x_items, count: 2) }
       )
     end
+
+    it "renders the add work package menu actions" do
+      expect(page).to have_selector(:menuitem, "Add new work package") do |link|
+        expect(link[:href]).to eq new_project_work_packages_dialog_path(project)
+      end
+      expect(page).to have_selector(:menuitem, "Add existing work package") do |link|
+        expect(link[:href]).to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "inbox")
+      end
+    end
+
+    context "when the user lacks the manage_sprint_items permission" do
+      let(:user) do
+        create(:user,
+               member_with_roles: {
+                 project => create(:project_role, permissions: %i[view_sprints view_work_packages])
+               })
+      end
+
+      it "does not render the add work package menu actions" do
+        expect(page).to have_no_selector(:menuitem, "Add new work package")
+        expect(page).to have_no_selector(:menuitem, "Add existing work package")
+      end
+    end
   end
 
   describe "empty state" do
@@ -104,7 +131,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
 
     it "shows the blankslate heading and description" do
       expect(page).to have_css("h4", text: "Backlog inbox is empty")
-      expect(page).to have_text("All open work packages in this project will automatically appear here.")
+      expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
     end
   end
 
@@ -196,7 +223,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs
       it "renders the show-more row with the last omitted work package id" do
         last_omitted = work_packages.sort_by(&:position)[-(tail_size + 1)]
 
-        expect(page).to have_css("[data-draggable-id='#{last_omitted.id}']")
+        expect(page).to have_css("[data-sortable-lists-prev-item-id='#{last_omitted.id}']")
       end
     end
 

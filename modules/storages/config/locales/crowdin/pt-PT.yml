@@ -42,7 +42,7 @@ pt-PT:
         storage_url: URL de armazenamento
         tenant: ID do Diretório (inquilino)
       work_package:
-        file_links: File links
+        file_links: Ligações do ficheiro
     errors:
       messages:
         invalid_host_url: não é um URL válido.

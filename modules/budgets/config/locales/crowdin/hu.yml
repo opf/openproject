@@ -21,24 +21,22 @@
 #++
 ---
 hu:
-  plugin_budgets_engine:
-    name: Költségvetések
   activerecord:
     attributes:
       budget:
         author: Szerző
         available: Elérhető
+        base_amount: Alap mennyiség
         budget: Tervezet
         budget_ratio: Elköltött (arány)
         description: Leírás
+        labor_budget: Tervezett munkaerő-költségek
+        labor_budget_items: Planned labor costs
+        material_budget: Tervezett egység költség
         spent: Elköltve
         status: Állapot
         subject: Tárgy
         type: Költségtípus
-        labor_budget: Tervezett munkaerő-költségek
-        labor_budget_items: Planned labor costs
-        material_budget: Tervezett egység költség
-        base_amount: Alap mennyiség
       work_package:
         budget_subject: Költségvetési cím
     errors:
@@ -56,49 +54,49 @@ hu:
       budget: Költségvetések
   attributes:
     budget: Költségvetés
-  button_add_budget_item: Új tervezett költség
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Költségvetések
   button_add_budget: Új költségvetés
+  button_add_budget_item: Új tervezett költség
   button_add_cost_type: Új költségtípus
   button_cancel_edit_budget: Költségvetés szerkeztésének visszavonása
   button_cancel_edit_costs: Költségek szerkeztésének visszavonása
   caption_labor: Munkaerő
   caption_labor_costs: Munkaerő költség
   caption_material_costs: Tényleges egységnyi költség
-  budgets_title: Költségvetések
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Szerkesztett költségvetés
   help_click_to_edit: Szerkesztéshez kattintson ide.
@@ -106,23 +104,25 @@ hu:
   help_override_rate: Adjon meg egy értéket az alapértelmezett díj felülírásához.
   label_budget: Költségvetés
   label_budget_available: Rendelkezésre álló költségvetés
+  label_budget_details: Költségvetés részletei
   label_budget_id: 'Költségvetés #%{id}'
   label_budget_new: Új költségvetés
   label_budget_planned: Tervezett költségvetés
   label_budget_plural: Költségvetések
   label_budget_spent: Elköltött költségvetés
   label_budget_spent_ratio: Elköltött költségvetés aránya
+  label_budget_totals: Össszesen
   label_deliverable: Költségvetés
   label_example_placeholder: például %{decimal}
   label_view_all_budgets: Minden költség megtekintése
   label_yes: Igen
-  label_budget_totals: Össszesen
-  label_budget_details: Költségvetés részletei
   notice_budget_conflict: A munkacsomagoknak ugyanabba a projektbe kell tartozniuk.
   notice_no_budgets_available: Nincs költségvetés.
   permission_edit_budgets: Költségvetés szerkesztése
   permission_view_budgets: Költségvetések megtekintése
+  plugin_budgets_engine:
+    name: Költségvetések
   project_module_budgets: Költségvetések
-  text_budget_reassign_to: 'Újra hozzárendelve ehhez a költségkerethez:'
   text_budget_delete: Költségvetés törlése az összes munkacsomagból
   text_budget_destroy_assigned_wp: "%{count} munkacsomag van hozzárendelve ehhez a költségkerethez. Mit szeretne csinálni?\n"
+  text_budget_reassign_to: 'Újra hozzárendelve ehhez a költségkerethez:'

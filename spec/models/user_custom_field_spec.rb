@@ -111,6 +111,54 @@ RSpec.describe UserCustomField do
     end
   end
 
+  describe "semantic_key" do
+    it "exposes the known semantic keys via the enum" do
+      expect(described_class.semantic_keys).to eq("job_title" => "job_title")
+    end
+
+    it "allows a nil semantic_key (no purpose)" do
+      cf = build(:user_custom_field, semantic_key: nil)
+      cf.valid?
+      expect(cf.errors[:semantic_key]).to be_empty
+    end
+
+    it "allows multiple fields without a semantic_key" do
+      create(:user_custom_field, semantic_key: nil)
+      second = build(:user_custom_field, semantic_key: nil)
+      second.valid?
+      expect(second.errors[:semantic_key]).to be_empty
+    end
+
+    it "is invalid when the semantic_key is already taken" do
+      create(:user_custom_field, semantic_key: "job_title")
+      duplicate = build(:user_custom_field, semantic_key: "job_title")
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:semantic_key]).to be_present
+    end
+
+    it "enforces uniqueness at the database level" do
+      create(:user_custom_field, semantic_key: "job_title")
+
+      expect do
+        described_class.new(
+          name: "Another job title", field_format: "string",
+          custom_field_section: create(:user_custom_field_section), semantic_key: "job_title"
+        ).save!(validate: false)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    describe ".with_semantic_key / .for_semantic_key" do
+      let!(:job_title_cf) { create(:user_custom_field, semantic_key: "job_title") }
+      let!(:other_cf)     { create(:user_custom_field, semantic_key: nil) }
+
+      it "returns the matching field" do
+        expect(described_class.with_semantic_key(:job_title)).to contain_exactly(job_title_cf)
+        expect(described_class.for_semantic_key(:job_title)).to eq(job_title_cf)
+      end
+    end
+  end
+
   describe "section deletion restriction" do
     let(:section) { create(:user_custom_field_section) }
     let!(:cf) { create(:user_custom_field, user_custom_field_section: section) }

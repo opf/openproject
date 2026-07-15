@@ -179,8 +179,17 @@ Rails.application.routes.draw do
         post :enable_all, to: "projects_tab#enable_all_projects"
       end
     end
+    resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
+      post :toggle
+      put :enable_all_of_section
+      put :disable_all_of_section
+    end
     resource :settings, controller: "settings_tab", only: %i[update edit]
     resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
+
+    resources :configuration_links, only: %i[update], param: :aspect
+
+    resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
@@ -198,6 +207,12 @@ Rails.application.routes.draw do
 
     collection do
       post "move/:id", action: "move"
+      get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+      post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+    end
+
+    member do
+      put :drop
     end
   end
 
@@ -343,7 +358,7 @@ Rails.application.routes.draw do
           post :update_name_settings
           post :update_submission_settings
           post :update_artifact_export_settings
-          get :refresh_submission_form
+          post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section
           put :disable_all_of_section
@@ -687,7 +702,7 @@ Rails.application.routes.draw do
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
       resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update] do
         collection do
-          get :av_form
+          post :av_form
         end
       end
 
@@ -767,6 +782,10 @@ Rails.application.routes.draw do
       end
 
       resources :user_custom_fields, controller: "/admin/settings/user_custom_fields" do
+        collection do
+          patch :semantic_keys, action: :update_semantic_keys
+        end
+
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
@@ -845,7 +864,7 @@ Rails.application.routes.draw do
         member do
           delete :delete_token
         end
-        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras do
+        resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: [:new] do
           member do
             get :continue
             post :continue
@@ -888,8 +907,9 @@ Rails.application.routes.draw do
 
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
-        get :reset_token
-        post :reset_token, action: :perform_token_reset
+        get :reset_token_dialog
+        post :perform_token_reset
+        post :request_backup
 
         post :delete_token
       end
@@ -957,12 +977,14 @@ Rails.application.routes.draw do
     concerns :shareable
 
     get "hover_card" => "work_packages/hover_card#show", on: :member
+    get "project_attributes" => "work_packages/project_attributes_tab#index", on: :member
 
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
+    post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
@@ -1207,9 +1229,8 @@ Rails.application.routes.draw do
     get "onboarding_video_dialog", action: "onboarding_video_dialog"
   end
 
-  resources :colors do
+  resources :colors, except: [:index] do
     member do
-      get :confirm_destroy
       get :move
       post :move
     end

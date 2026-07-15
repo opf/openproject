@@ -181,7 +181,6 @@ module OpenProject::Meeting
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],
                                  "MeetingOutcome" => :author_id,
-                                 "MeetingParticipant" => :user_id,
                                  "RecurringMeeting" => :author_id
 
     extend_api_response(:v3, :work_packages, :work_package,
@@ -190,6 +189,10 @@ module OpenProject::Meeting
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Meetings::MeetingsAPI
       mount ::API::V3::RecurringMeetings::RecurringMeetingsAPI
+    end
+
+    add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
+      mount ::API::V3::MeetingAgendaItems::MeetingAgendaItemsByWorkPackageAPI
     end
 
     config.to_prepare do
@@ -247,6 +250,10 @@ module OpenProject::Meeting
       else
         "#{root}/meeting_agenda_items"
       end
+    end
+
+    add_api_path :meeting_agenda_items_by_work_package do |work_package_id|
+      "#{work_package(work_package_id)}/meeting_agenda_items"
     end
 
     add_api_path :meeting_agenda_item do |id, meeting_id: nil|

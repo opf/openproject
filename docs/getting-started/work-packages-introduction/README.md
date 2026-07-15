@@ -75,7 +75,7 @@ To **update the status**, click on the highlighted displayed status on top of th
 
 ## Activity of work packages
 
-To keep informed about all changes to a work package, open the *Activity* tab in the details view.
+To keep informed about all changes to a work package, open the _Activity_ tab in the details view.
 
 Here you will see all changes which have been made to this work package.
 

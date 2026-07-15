@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
-  # TODO - separate controllers per view?
-
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
@@ -278,8 +276,9 @@ module ::ResourceManagement
       @resource_planner.children.reload
 
       replace_via_turbo_stream(
-        component: ResourcePlanners::SubViewsComponent.new(
+        component: ResourcePlanners::ShowPageHeaderComponent.new(
           resource_planner: @resource_planner,
+          project: @project,
           selected_view: view
         )
       )
@@ -306,9 +305,9 @@ module ::ResourceManagement
     end
 
     # The radio is scoped to the `:view` form (`view[filter_mode]`) while the
-    # filters JSON is top-level, so read the toggle from either place.
+    # filters JSON and the card-field list are top-level, so read them directly.
     def query_configuration_params
-      { filters: params[:filters], filter_mode: filter_mode_param }
+      { filters: params[:filters], filter_mode: filter_mode_param, card_fields: params[:card_fields] }
     end
 
     def filter_mode_param
@@ -327,14 +326,6 @@ module ::ResourceManagement
 
     def allowed_view_class(name)
       ResourcePlanner.allowed_child_class(name)
-    end
-
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:resource_planner_id))
     end
 
     def find_view

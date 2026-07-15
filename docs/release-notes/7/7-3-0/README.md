@@ -40,7 +40,7 @@ project member and inform him or her about the current status. While you
 could accomplish this by adding the user as a watcher, it is often more
 clear and personal to directly address the person. This is possible with
 @notations. When you write a comment for a work package (or filling out
-a description), simply enter an *@* sign, followed by the user’s name.
+a description), simply enter an _@_ sign, followed by the user’s name.
 The user then receives an email notification.
 
 ## Resize work package split screen with drag & drop
@@ -81,7 +81,7 @@ In order to make it more clear in which project a work package is
 located, we added a notification that is shown when the work package you
 are looking at is in a different project from your current project. We
 also removed the project attribute from the work package page. Instead,
-you can use the *Move* function from the *More* menu to assign a work
+you can use the _Move_ function from the _More_ menu to assign a work
 package to another project.
 
 ## Substantial number of bug fixes

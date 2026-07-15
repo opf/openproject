@@ -46,7 +46,11 @@ module Backlogs
     private
 
     def build_card
-      WorkPackageCardComponent.new(work_package:, menu_src:)
+      WorkPackageCardComponent.new(
+        work_package:,
+        menu_src:,
+        **card_arguments
+      )
     end
 
     def draggable?
@@ -61,34 +65,63 @@ module Backlogs
       url_helpers.work_package_path(work_package)
     end
 
-    def drop_url
-      url_helpers.move_project_backlogs_work_package_path(project, work_package)
-    end
-
     def menu_src
       url_helpers.menu_project_backlogs_work_package_path(project, work_package)
     end
 
-    # `story` data attrs match the live Stimulus controller and Dragula
-    # drag-type; renaming requires coordinated JS changes (separate PR).
-    def row_data
-      super.merge(
+    # @return [Hash] card arguments carrying the Backlogs-only keyboard wiring.
+    #   `tabindex` lives here rather than in the base because only this subclass
+    #   attaches the `backlogs--work-package` Enter handler; a focusable base card
+    #   would be a dead tab stop. The `:has(> .Box-card:focus-visible)` row rule
+    #   depends on this focusability.
+    def card_arguments
+      arguments = super
+      arguments[:tabindex] = 0
+      arguments[:data] = merge_data(arguments, { data: card_data })
+      arguments[:aria] = merge_aria(arguments, { aria: card_aria })
+      arguments
+    end
+
+    def card_data
+      data = {
         story: true,
-        controller: "backlogs--story",
-        backlogs__story_id_value: work_package.id,
-        backlogs__story_display_id_value: work_package.display_id,
-        backlogs__story_split_url_value: split_url,
-        backlogs__story_full_url_value: full_url,
-        backlogs__story_selected_class: "Box-row--blue"
-      )
+        controller: "backlogs--work-package",
+        backlogs__work_package_id_value: work_package.id,
+        backlogs__work_package_display_id_value: work_package.display_id,
+        backlogs__work_package_split_url_value: split_url,
+        backlogs__work_package_full_url_value: full_url
+      }
+
+      return data unless draggable?
+
+      data.merge(sortable_lists__item_target: "preview handle")
+    end
+
+    # @return [Hash] ARIA wiring announcing the card's Enter activation without
+    #   claiming button or draggable semantics. Lives in the subclass because
+    #   only here is the `backlogs--work-package` Enter handler attached; the
+    #   base card is focusable for styling alone and must not claim a shortcut.
+    def card_aria
+      {
+        keyshortcuts: "Enter",
+        label: work_package.to_fs(:caption)
+      }
     end
 
     def draggable_data
       {
-        draggable_id: work_package.id,
-        draggable_type: "story",
-        drop_url:
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_type_value: "work_package"
       }
+    end
+
+    public
+
+    def row_args
+      arguments = super
+      arguments[:draggable] = true if draggable?
+      arguments
     end
   end
 end

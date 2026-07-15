@@ -45,11 +45,12 @@ module Backlogs
       ActionView::RecordIdentifier.dom_id(work_package, FRAME_ID_PREFIX)
     end
 
-    def initialize(work_package:, menu_src: nil)
+    def initialize(work_package:, menu_src: nil, **system_arguments)
       super()
 
       @work_package = work_package
       @menu_src = menu_src
+      @system_arguments = system_arguments
     end
 
     def call
@@ -82,7 +83,8 @@ module Backlogs
         show_assignee: true,
         show_priority: true,
         show_parent: true,
-        status_scheme: :secondary
+        status_scheme: :secondary,
+        **@system_arguments
       )
     end
 

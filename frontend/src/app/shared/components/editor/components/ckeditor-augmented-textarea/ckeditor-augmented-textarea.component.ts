@@ -168,6 +168,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     this.registerFormSubmitListener();
+    this.registerRefreshSyncListener();
   }
 
   private registerFormSubmitListener():void {
@@ -180,6 +181,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         evt.preventDefault();
         void this.saveForm(evt);
       });
+  }
+
+  private registerRefreshSyncListener():void {
+    fromEvent(this.formElement, 'refresh-on-form-changes:beforeSnapshot')
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.syncToTextarea());
   }
 
   public editorFocused():void {

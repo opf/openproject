@@ -72,7 +72,7 @@ describe('CheckableController', () => {
     expect(inputs.every((i) => !i.checked)).toBe(true);
   });
 
-  it('dispatches input event', () => {
+  it('dispatches a bubbling change event', () => {
     const dispatchSpy = vi.spyOn(inputs[0], 'dispatchEvent');
 
     controller.toggleAll(new Event('click'));
@@ -81,9 +81,8 @@ describe('CheckableController', () => {
 
     const eventArg = vi.mocked(dispatchSpy).mock.lastCall![0];
 
-    expect(eventArg.type).toBe('input');
-    expect(eventArg.bubbles).toBe(false);
-    expect(eventArg.cancelable).toBe(true);
+    expect(eventArg.type).toBe('change');
+    expect(eventArg.bubbles).toBe(true);
   });
 
   it('checkAll calls toggleChecked(true)', () => {

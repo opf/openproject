@@ -42,7 +42,7 @@ fr:
         storage_url: URL de l'espace de stockage
         tenant: ID du répertoire (locataire)
       work_package:
-        file_links: File links
+        file_links: Liens de fichiers
     errors:
       messages:
         invalid_host_url: n'est pas une URL valide.
@@ -386,7 +386,7 @@ fr:
       error_could_not_be_saved: Les paramètres de notification par e-mail n'ont pas pu être enregistrés. Veuillez réessayer.
       title: Envoi de mises à jour par e-mail aux administrateurs
     help_texts:
-      project_folder: Le dossier de projet est le dossier par défaut pour les téléversements de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore téléverser des fichiers vers d'autres emplacements.
+      project_folder: Le dossier de projet est le dossier par défaut pour les importations de fichiers pour ce projet. Les utilisateurs peuvent néanmoins encore importer des fichiers vers d'autres emplacements.
       project_folder_bulk: Le dossier du projet est le dossier par défaut pour les téléchargements de fichiers pour tous les projets sélectionnés. Vous pouvez le modifier individuellement dans les paramètres de chaque projet. Les utilisateurs peuvent néanmoins télécharger des fichiers vers d'autres emplacements.
     instructions:
       all_available_storages_already_added: Tous les espaces de stockage disponibles sont déjà ajoutés au projet.
@@ -406,7 +406,7 @@ fr:
         storage_audience: L'identifiant du client que l'instance Nextcloud utilise pour communiquer avec le fournisseur d'identification.
         storage_audience_placeholder: p. ex., Nextcloud
         token_exchange_scope: Les portées qui doivent être demandées lors de l'échange de jetons, chacune séparée par un espace.
-      no_specific_folder: Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il téléversera un fichier.
+      no_specific_folder: Par défaut, chaque utilisateur démarrera dans son propre dossier d'accueil lorsqu'il importera un fichier.
       no_storage_set_up: Aucun espace de stockage de fichiers n'a été configuré pour le moment.
       not_logged_into_storage: Pour sélectionner un dossier de projet, veuillez d'abord vous connecter
       oauth_application_details_html: La clé secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les [paramètres d'intégration Nextcloud OpenProject](oauth_application_details_link).
@@ -539,7 +539,7 @@ fr:
         name: Microsoft Office SharePoint Online
         name_placeholder: par exemple SharePoint
     show_attachments_toggle:
-      description: Si vous désactivez cette option, la liste des pièces jointes dans l'onglet des fichiers des lots de travaux sera masquée. Les fichiers joints dans la description d'un lot de travaux seront toujours téléversés dans l'espace de stockage interne des pièces jointes.
+      description: Si vous désactivez cette option, la liste des pièces jointes dans l'onglet des fichiers des lots de travaux sera masquée. Les fichiers joints dans la description d'un lot de travaux seront toujours importés dans l'espace de stockage interne des pièces jointes.
       label: Afficher les pièces jointes dans l'onglet des fichiers des lots de travaux
     storage_audience:
       documentation_intro: Veuillez lire notre documentation pour en savoir plus sur les options suivantes et la configuration du fournisseur d'identité.
@@ -560,5 +560,5 @@ fr:
           des lots de travaux dans un projet.
         title: Intégration de OneDrive
       sharepoint:
-        description: Intégrez votre OneDrive/SharePoint en tant qu'espace de stockage de fichiers avec OpenProject. Téléversez des fichiers et liez-les directement aux lots de travaux d'un projet.
+        description: Intégrez votre OneDrive/SharePoint en tant qu'espace de stockage de fichiers avec OpenProject. Importez des fichiers et liez-les directement aux lots de travaux d'un projet.
         title: Intégration de SharePoint

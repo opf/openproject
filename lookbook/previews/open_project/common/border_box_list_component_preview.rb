@@ -59,7 +59,7 @@ module OpenProject
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
           list.with_header(title: "Things we're building", count: true) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :pencil)
               "Edit"
@@ -100,7 +100,7 @@ module OpenProject
           collapsible: boolean_preview_param(collapsible)
         ) do |list|
           list.with_header(title: "Sprint backlog", count: true) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
             header.with_action_button do |button|
               button.with_leading_visual_icon(icon: :rocket)
               "Start sprint"
@@ -154,6 +154,7 @@ module OpenProject
       # @param description text
       # @param interactive toggle
       # @param collapsible toggle
+      # @param multi_line toggle
       def playground(
         title_tag: :h4,
         count: :inferred,
@@ -163,7 +164,8 @@ module OpenProject
         header_padding: :inherit,
         description: PLAYGROUND_DESCRIPTION,
         interactive: false,
-        collapsible: false
+        collapsible: false,
+        multi_line: true
       )
         render OpenProject::Common::BorderBoxListComponent.new(
           container: "border-box-list-playground-preview",
@@ -176,13 +178,14 @@ module OpenProject
             title: "Playground list",
             title_tag: title_tag.to_sym,
             count: preview_count(count),
+            multi_line: boolean_preview_param(multi_line),
             count_arguments: {
               scheme: count_scheme.to_sym,
               hide_if_zero: boolean_preview_param(hide_zero_count),
               aria: { label: "Visible list item count" }
             }
           ) do |header|
-            header.with_description_content(description)
+            header.with_description_content(description) if description.present?
           end
 
           list.with_item { "First item" }
@@ -210,6 +213,24 @@ module OpenProject
             title: "No items yet",
             description: "There is nothing to show."
           )
+        end
+      end
+
+      # @label With header drag handle
+      # @param padding [Symbol] select [default, condensed, spacious]
+      # @param header_padding [Symbol] select [inherit, condensed, default, spacious]
+      # @param collapsible toggle
+      def with_header_drag_handle(padding: :default, header_padding: :inherit, collapsible: false)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-header-drag-handle-preview",
+          padding:,
+          header_padding:,
+          collapsible: boolean_preview_param(collapsible)
+        ) do |list|
+          list.with_header(title: "Reorderable section", count: true, show_drag_handle: true)
+
+          list.with_item { "First item" }
+          list.with_item { "Second item" }
         end
       end
 

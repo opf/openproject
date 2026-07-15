@@ -45,6 +45,10 @@ allOf:
       readonly:
         type: boolean
         description: If true, the work package is in a readonly status so with the exception of the status, no other property can be altered.
+      hasProjectAttributes:
+        type: boolean
+        description: If true, the work package's type has at least one project custom field activated and visible to the current user.
+        readOnly: true
       startDate:
         type:
           - "string"
@@ -559,12 +563,33 @@ allOf:
 
                   **Resource**: Type
           version:
+            deprecated: true
             allOf:
               - $ref: "./link.yml"
               - description: |-
                   The version associated to the work package
 
                   **Resource**: Version
+
+                  # Conditions
+
+                  **Deprecated**: this single-valued field is being replaced by `targetVersions`.
+                  Read and write `targetVersions` instead. While multiple versions is not enabled,
+                  `version` must not be written together with `targetVersions` in the same request.
+          targetVersions:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of versions associated to the work package
+
+              **Resource**: Collection of Version
+
+              # Conditions
+
+              - Transitioning from single to multiple version support
+              - (Temporary) Only allows a single value for compatibility with the version field
+              - (Temporary) Must not be written together with `version` in the same request
           watchers:
             allOf:
               - $ref: "./link.yml"
@@ -643,6 +668,9 @@ example:
     version:
       href: "/api/v3/versions/1"
       title: Version 1
+    targetVersions:
+      - href: "/api/v3/versions/1"
+        title: Version 1
     availableWatchers:
       href: "/api/v3/work_packages/1528/available_watchers"
     watch:

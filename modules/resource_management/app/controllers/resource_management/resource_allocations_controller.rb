@@ -40,21 +40,24 @@ module ::ResourceManagement
     def new
       # Opened from a user's utilization dialog: replace it rather than stack on
       # top. It is reopened (refreshed) after a successful create.
-      if preselected_user
+      if reopen_user_allocations_dialog?
         close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
       end
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
         project: @project,
-        work_package: context_work_package,
         allocation: prefilled_allocation,
-        resource_planner_id: params[:resource_planner_id]
+        view: resource_planner_view
       )
     end
 
     def step
-      # Pre-select the autocompleter when the dialog was opened from a work package.
-      render_allocation_step(ResourceAllocation.new(entity: context_work_package))
+      # Pre-select the autocompleter when the dialog was opened from a work package,
+      # and carry any date range picked on the timeline into the new allocation.
+      render_allocation_step(
+        ResourceAllocation.new(entity: preselected_work_package,
+                               start_date: params[:start_date], end_date: params[:end_date])
+      )
     end
 
     # Recomputes the inline "outside dates" warning whenever a date field
@@ -71,14 +74,14 @@ module ::ResourceManagement
     end
 
     def edit
-      if reopen_planner
+      if reopen_user_allocations_dialog?
         close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
       end
 
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
         project: @project,
         allocation: @resource_allocation,
-        resource_planner_id: params[:resource_planner_id]
+        view: resource_planner_view
       )
     end
 
@@ -132,7 +135,7 @@ module ::ResourceManagement
           allocation:,
           project: @project,
           allocation_kind:,
-          resource_planner_id: params[:resource_planner_id]
+          view: resource_planner_view
         ),
         status:
       )
@@ -150,7 +153,7 @@ module ::ResourceManagement
           allocation_kind:,
           form_values: submitted_allocation_params,
           filters: params[:filters],
-          resource_planner_id: params[:resource_planner_id],
+          view: resource_planner_view,
           overbooked_ranges: ranges,
           working_schedules: working_schedules(allocation, ranges)
         )
@@ -245,8 +248,8 @@ module ::ResourceManagement
     end
 
     def reopen_user_dialog(allocation)
-      planner = reopen_planner
-      return if planner.nil? || allocation.principal.nil?
+      return unless reopen_user_allocations_dialog?
+      return if allocation.principal.nil?
 
       user = allocation.principal
       allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
@@ -254,7 +257,7 @@ module ::ResourceManagement
       dialog_via_turbo_stream(
         component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
           project: @project,
-          resource_planner: planner,
+          view: resource_planner_view,
           user:,
           allocations:,
           overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
@@ -262,10 +265,28 @@ module ::ResourceManagement
       )
     end
 
-    def reopen_planner
-      return if params[:resource_planner_id].blank?
+    # The user-utilization dialog only exists in the user-card view, so the
+    # close-and-reopen dance around it is limited to allocations opened there.
+    def reopen_user_allocations_dialog?
+      resource_planner_view.is_a?(ResourceUserCard)
+    end
 
-      ResourcePlanner.visible(current_user).where(project: @project).find_by(id: params[:resource_planner_id])
+    # The planner sub-view the dialog was opened from. Its query scopes the
+    # autocompleters and its parent planner drives the user-dialog reopen flow.
+    # Absent when opened outside a planner (e.g. from a work package's
+    # allocations list).
+    def resource_planner_view
+      return @resource_planner_view if defined?(@resource_planner_view)
+
+      id = params[:resource_planner_view_id]
+      @resource_planner_view =
+        if id.blank?
+          nil
+        else
+          PersistedView
+            .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+            .find_by(id:)
+        end
     end
 
     def set_update_attributes
@@ -293,14 +314,15 @@ module ::ResourceManagement
           project: @project,
           allocation_kind:,
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
-          resource_planner_id: params[:resource_planner_id]
+          view: resource_planner_view
         ),
         status:
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FooterComponent.new(
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
-          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit")
+          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit"),
+          allocation:
         )
       )
       respond_with_turbo_streams(status:)
@@ -321,13 +343,16 @@ module ::ResourceManagement
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.work_package_allocations_dialog.delete_success")
       )
+      # Closes the edit dialog when the delete was triggered from it; a harmless
+      # no-op when deleting from a list row, where the dialog is not open.
+      close_dialog_via_turbo_stream("##{ResourceAllocations::EditDialogComponent::DIALOG_ID}")
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
       respond_with_turbo_streams
     end
 
-    # Re-renders the allocation list of the work package's allocations dialog.
-    # The stream is a no-op on the client when that dialog is not open.
+    # The stream is a no-op on the client when the work package's allocations
+    # dialog is not open.
     def refresh_allocations_list(work_package)
       return unless work_package.is_a?(WorkPackage)
 
@@ -343,14 +368,13 @@ module ::ResourceManagement
       )
     end
 
-    # Announces that an allocation of the work package changed. A resource
-    # planner table open on the page reloads the affected work package in
-    # response; the controller stays unaware of which view (if any) is on
-    # screen. The stream is a harmless no-op when nothing listens.
+    # The controller stays unaware of which view (if any) is on screen: a
+    # resource planner table open on the page reloads the affected work package
+    # in response, and the stream is a harmless no-op when nothing listens.
     def notify_allocation_change(entity)
       return unless entity.is_a?(WorkPackage)
 
-      dispatch_event_via_turbo_stream("resource-allocations:changed", detail: { work_package_id: entity.id })
+      dispatch_event_via_turbo_stream("op-dispatched:resource-allocations:changed", detail: { work_package_id: entity.id })
     end
 
     def allocation_kind
@@ -359,12 +383,6 @@ module ::ResourceManagement
 
     def filter_based_kind?
       allocation_kind == "filter"
-    end
-
-    def context_work_package
-      return @context_work_package if defined?(@context_work_package)
-
-      @context_work_package = resolve_entity("WorkPackage", params[:work_package_id])
     end
 
     # Raw, untransformed values to carry through the confirmation step as hidden
@@ -393,17 +411,8 @@ module ::ResourceManagement
                     .symbolize_keys
 
       principal_id = permitted.delete(:principal_id)
-      entity = resolve_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
+      entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
       permitted.merge(entity:, **resource_params(principal_id))
-    end
-
-    # Allow-list the type before constantizing it. Returns nil for an unknown
-    # type or unreachable id, letting the entity validations surface the error.
-    def resolve_entity(entity_type, entity_id)
-      return if entity_id.blank?
-      return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)
-
-      entity_type.constantize.visible(current_user).where(project: @project).find_by(id: entity_id)
     end
 
     def resource_params(principal_id)
@@ -435,16 +444,28 @@ module ::ResourceManagement
       query.filters
     end
 
-    def prefilled_allocation
-      return if preselected_user.nil?
+    def preselected_work_package
+      return @preselected_work_package if defined?(@preselected_work_package)
 
-      ResourceAllocation.new(principal: preselected_user, principal_explicit: true, entity: context_work_package)
+      @preselected_work_package = resolve_visible_entity("WorkPackage", params[:work_package_id])
     end
 
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+    end
+
+    # A pre-selected user lets the dialog skip the kind step and open directly on
+    # the allocation form.
+    def prefilled_allocation
+      ResourceAllocation.new(
+        principal: preselected_user,
+        principal_explicit: preselected_user.present?,
+        entity: preselected_work_package,
+        start_date: params[:start_date],
+        end_date: params[:end_date]
+      )
     end
   end
 end

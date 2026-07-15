@@ -22,9 +22,9 @@
 ---
 hu:
   js:
+    burndown:
+      day: Nap
+      points: Pontok
     work_packages:
       properties:
         storyPoints: Story pontok
-    burndown:
-      day: Day
-      points: Points

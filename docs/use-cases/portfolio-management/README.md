@@ -60,8 +60,6 @@ A portfolio can contain programs, projects, or a mix of both. Define a structure
 
 ![An example of a portfolio, which includes programs that in turn contain projects, shown in the "all projects" dropdown menu in OpenProject](openproject_use_case_portfolios_hierarchy_examples.png)
 
-
-
 Read more about [portfolio hierarchies](../../user-guide/portfolios/). 
 
 ### 3. Manage portfolio subitems

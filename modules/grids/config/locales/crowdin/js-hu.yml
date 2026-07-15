@@ -3,58 +3,61 @@ hu:
   js:
     grid:
       add_widget: Widget hozzáadása
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Widget eltávolítása
       configure: Widget konfigurálása
+      remove: Widget eltávolítása
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: Nincs meg a szükséges jogosultsága a widget megtekintéséhez.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Egyéni szöveg
         documents:
-          title: Dokumentumok
           no_results: Még nincs dokumentum.
+          title: Dokumentumok
         members:
           title: Tagok
+        missing_permission: Nincs meg a szükséges jogosultsága a widget megtekintéséhez.
         news:
           title: Hírek
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Kedvenc projektek
         project_status:
-          title: Status
-          not_started: El nem kezdett
-          on_track: Terv szerint
-          off_track: Kisiklott
           at_risk: Veszélyben
-          not_set: Nincs beállítva
-          finished: Befejezett
           discontinued: Megszakított
+          finished: Befejezett
+          not_set: Nincs beállítva
+          not_started: El nem kezdett
+          off_track: Kisiklott
+          on_track: Terv szerint
+          title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Kedvenc projektek
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: Eltöltött idő rögzítése
           displayed_days: Napok megjelenítése a főoldalon.
+          title: Eltöltött idő rögzítése
         time_entries_list:
-          title: Eltöltött idő (elmúlt 7 nap)
           no_results: Az elmúlt 7 napra nincs bejegyzés.
+          title: Eltöltött idő (elmúlt 7 nap)
         work_packages_accountable:
           title: Feladatcsoportok, amelyért én vagyok a felelős
         work_packages_assigned:
           title: Magamhoz rendelt feladatcsoportok
-        work_packages_created:
-          title: Általam készített munkacsomagok
-        work_packages_watched:
-          title: Megfigyelt munkacsomagok
-        work_packages_table:
-          title: Munka-csomag tábla
-        work_packages_graph:
-          title: Munka-csomag grafikon
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Naptár
+        work_packages_created:
+          title: Általam készített munkacsomagok
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Munka-csomag grafikon
         work_packages_overview:
-          title: Munkacsomag áttekintés
           placeholder: Kattints ide, hogy szerkeszthess…
+          title: Munkacsomag áttekintés
+        work_packages_table:
+          title: Munka-csomag tábla
+        work_packages_watched:
+          title: Megfigyelt munkacsomagok

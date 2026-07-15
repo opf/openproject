@@ -34,4 +34,3 @@ title: OpenProject Version 16 Release Notes
 | [OpenProject 16.1.0](16-1-0/)   | 2025-06-18   |
 | [OpenProject 16.0.1](16-0-1/)   | 2025-06-05   |
 | [OpenProject 16.0.0](16-0-0/)   | 2025-05-21   |
-

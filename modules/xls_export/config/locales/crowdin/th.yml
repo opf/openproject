@@ -1,17 +1,17 @@
 ---
 th:
-  plugin_openproject_xls_export:
-    name: OpenProject XLS Export
-    description: Export issue lists as Excel spreadsheets (.xls).
-  export_to_excel: ส่งออกไฟล์ XLS
-  print_with_description: แสดงตัวอย่างการพิมพ์พร้อมคำอธิบาย
-  sentence_separator_or: หรือ
   different_formats: รูปแบบอื่น ๆ
   export:
     format:
       xls: XLS
       xls_with_descriptions: ไฟล์ XLS พร้อมคำอธิบาย
       xls_with_relations: ไฟล์ XLS พร้อมความสัมพันธ์
+  export_to_excel: ส่งออกไฟล์ XLS
+  plugin_openproject_xls_export:
+    description: Export issue lists as Excel spreadsheets (.xls).
+    name: OpenProject XLS Export
+  print_with_description: แสดงตัวอย่างการพิมพ์พร้อมคำอธิบาย
+  sentence_separator_or: หรือ
   xls_export:
     child_of: เป็นรายการย่อยของ
     parent_of: เป็นรายการหลักของ

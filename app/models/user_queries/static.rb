@@ -29,21 +29,20 @@
 # ++
 
 class UserQueries::Static
-  DEFAULT = "active"
+  DEFAULT = "all"
 
   class << self
     def query(id)
       case id
       when DEFAULT, nil
-        static_query_active
+        static_query_all
       end
     end
 
     private
 
-    def static_query_active
-      UserQuery.new(name: I18n.t(:status_active)) do |query|
-        query.where("status", "=", "active")
+    def static_query_all
+      UserQuery.new(name: I18n.t(:label_all)) do |query|
         query.select(*Queries::Users::Selects::Default::KEYS, add_not_existing: false)
         query.clear_changes_information
       end

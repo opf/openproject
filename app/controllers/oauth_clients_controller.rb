@@ -198,7 +198,7 @@ class OAuthClientsController < ApplicationController
 
       # FIXME: This is a hack, fetching additional information of the storage to identify the oauth client.
       # This must be fixed in #50872.
-      state_value = MultiJson.load(cookie, symbolize_keys: true)
+      state_value = MultiJSON.load(cookie, symbolize_keys: true)
       @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
                                           integration_id: state_value[:integrationId])
     end

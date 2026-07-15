@@ -39,6 +39,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name("version") }
     let(:scope) { instance_double(ActiveRecord::Relation) }
+
     before do
       if project
         allow(project)
@@ -178,6 +179,89 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
 
         it "returns nil" do
           expect(instance.joins).to be_nil
+        end
+      end
+    end
+
+    describe "#where" do
+      let(:where_project) { create(:project) }
+      let(:open_version) { create(:version, project: where_project) }
+      let(:closed_version) { create(:version, project: where_project, status: "closed") }
+
+      let!(:wp_targeting_open) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :target)
+        end
+      end
+      let!(:wp_targeting_closed) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: closed_version, kind: :target)
+        end
+      end
+      let!(:wp_observed_only) do
+        create(:work_package, project: where_project).tap do |wp|
+          create(:work_package_version, work_package: wp, version: open_version, kind: :observed_in)
+        end
+      end
+      let!(:wp_without_versions) { create(:work_package, project: where_project) }
+
+      subject(:result) { WorkPackage.where(instance.where) }
+
+      it "does not filter on the version_id column" do
+        expect(instance.where)
+          .not_to include("#{WorkPackage.table_name}.version_id")
+      end
+
+      context 'for "=" with a version' do
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages targeting that version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "!" with a version' do
+        let(:operator) { "!" }
+        let(:values) { [open_version.id.to_s] }
+
+        it "returns work packages not targeting that version, including ones without target versions" do
+          expect(result).to contain_exactly(wp_targeting_closed, wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "*" (any target version)' do
+        let(:operator) { "*" }
+        let(:values) { [] }
+
+        it "returns work packages with at least one target version" do
+          expect(result).to contain_exactly(wp_targeting_open, wp_targeting_closed)
+        end
+      end
+
+      context 'for "!*" (no target version)' do
+        let(:operator) { "!*" }
+        let(:values) { [] }
+
+        it "returns work packages without any target version" do
+          expect(result).to contain_exactly(wp_observed_only, wp_without_versions)
+        end
+      end
+
+      context 'for "o" (open version)' do
+        let(:operator) { "o" }
+        let(:values) { [] }
+
+        it "returns work packages targeting an open version" do
+          expect(result).to contain_exactly(wp_targeting_open)
+        end
+      end
+
+      context 'for "c" (closed version)' do
+        let(:operator) { "c" }
+        let(:values) { [] }
+
+        it "returns work packages targeting a closed version" do
+          expect(result).to contain_exactly(wp_targeting_closed)
         end
       end
     end

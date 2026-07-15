@@ -1,29 +1,28 @@
-#English strings go here
 ---
 zh-CN:
-  plugin_openproject_avatars:
-    name: Avatar头像
-    description: 该插件允许 OpenProject 用户上传图片作为头像，并使用 Gravatar 中注册的图像。
-  label_avatar: 头像
-  label_avatar_plural: 头像
-  label_current_avatar: 当前头像
-  label_choose_avatar: 从文件中选择头像
-  message_avatar_uploaded: 头像更改成功。
-  error_image_upload: 保存图像时出错。
-  error_image_size: 图像太大。
   are_you_sure_delete_avatar: 确定要删除头像吗？
   avatar_deleted: 成功删除头像。
-  unable_to_delete_avatar: 无法删除头像。
-  wrong_file_format: 允许的格式是 jpg、png、gif
-  empty_file_error: 请上传一张有效的图像（jpg、png、gif）
   avatars:
     label_avatar: 头像
     label_gravatar: Gravatar
     label_local_avatar: 自定义头像
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: 启用用户 Gravatar
-      gravatar_default: 默认的 Gravatar 图像
       enable_local_avatars: 启用用户自定义头像
+      gravatar_default: 默认的 Gravatar 图像
+    text_avatar_gravatar_html: OpenProject 将使用您的 Gravatar（如果已在 %{gravatar_url} 注册）或者默认图像或图标（如果存在）。
+    text_avatar_local: 您也可以点击图像，上传自定义头像以覆盖 Gravatar。建议使用 128×128 像素的图像。
+    text_avatar_local_only: 您可以点击图像，上传自定义头像。建议使用 128×128 像素的图像。
+  empty_file_error: 请上传一张有效的图像（jpg、png、gif）
+  error_image_size: 图像太大。
+  error_image_upload: 保存图像时出错。
+  label_avatar: 头像
+  label_avatar_plural: 头像
+  label_choose_avatar: 从文件中选择头像
+  label_current_avatar: 当前头像
+  message_avatar_uploaded: 头像更改成功。
+  plugin_openproject_avatars:
+    description: 该插件允许 OpenProject 用户上传图片作为头像，并使用 Gravatar 中注册的图像。
+    name: Avatar头像
+  unable_to_delete_avatar: 无法删除头像。
+  wrong_file_format: 允许的格式是 jpg、png、gif

@@ -112,12 +112,15 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
         expect(rendered_component).to have_css(".Box-row", count: 2)
       end
 
-      it "wires drop-target data attributes for the sprint" do
+      it "wires the list controller and value attributes for the sprint" do
+        list_type = Backlogs::Target::SprintId.new(sprint.id).list_type
+
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-          expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
-          expect(box["data-target-allowed-drag-type"]).to eq("story")
+          expect(box["data-controller"]).to include("sortable-lists--list")
+          expect(box["data-sortable-lists--list-type-value"]).to eq(list_type)
+          expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
+          expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
+          expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
         end
       end
 
@@ -127,16 +130,31 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
 
       it "wires draggable data on work package rows" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-          expect(row["data-draggable-id"]).to eq(work_package1.id.to_s)
-          expect(row["data-draggable-type"]).to eq("story")
-          expect(row["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
-          expect(row["data-drop-url"])
-            .to end_with(move_project_backlogs_work_package_path(project, work_package1))
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
+          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+          expect(row["draggable"]).to eq("true")
+        end
+
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
+          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+          expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
       end
 
       it "renders the sprint kebab menu in the header" do
         expect(rendered_component).to have_element :"action-menu"
+      end
+
+      it "renders the add work package menu actions" do
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package") do |link|
+          expect(link[:href]).to eq new_project_work_packages_dialog_path(project, sprint_id: sprint.id)
+        end
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package") do |link|
+          expect(link[:href])
+            .to eq add_existing_dialog_project_backlogs_work_packages_path(project, list_type: "sprint", list_id: sprint.id)
+        end
       end
     end
 
@@ -150,9 +168,18 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
 
       it "does not mark work package rows as draggable" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}.Box-row--draggable")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-draggable-id]")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-drop-url]")
+        expect(rendered_component)
+          .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-id-value]")
+        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[draggable='true']")
+        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
+        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
+        expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
+        expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
+      end
+
+      it "does not render the add work package menu actions" do
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
       end
     end
 
@@ -323,9 +350,18 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
         it "preserves the grouped sprint action-menu structure" do
           rendered_component
 
-          expect(menu_items).to eq(["Edit sprint", "Add work package", "Sprint board", "Burndown chart"])
+          expect(menu_items).to eq(
+            [
+              "Edit sprint",
+              "Add new work package",
+              "Add existing work package",
+              "Sprint board",
+              "Burndown chart"
+            ]
+          )
           # The three item groups are separated by presentation-only dividers.
-          expect(page).to have_css("li[role='presentation']", count: 2)
+          expect(page).to have_css('li[role="presentation"]:nth-child(2)')
+          expect(page).to have_css('li[role="presentation"]:nth-child(5)')
         end
       end
     end

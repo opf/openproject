@@ -78,11 +78,11 @@ OpenProject is your go-to product, which enables a successful implementation of 
 
 Each PM² project is established as an individual OpenProject project, incorporating the PM²-specific roles. Projects can be configured with:
 
-+ **Project members** assigned to specific PM² roles (Project Owner, Business Manager, Project Manager, Project Steering Committee etc.)
-+ **Project life cycle / phases** to split projects into the four sequential and non-overlapping PM² project life cycle phases
-+ **Custom work packages** to mirror the PM²-specific artefacts (e.g. Business Case, Project Handbook etc.) incl. official PM² artefacts templates
-+ **Gantt charts** for giving you a visual timeline of your PM² project
-+ **Meetings module** to help you prepare meetings (incl. agenda, reference to work packages) and collect all meeting-relevant information in one place
+- **Project members** assigned to specific PM² roles (Project Owner, Business Manager, Project Manager, Project Steering Committee etc.)
+- **Project life cycle / phases** to split projects into the four sequential and non-overlapping PM² project life cycle phases
+- **Custom work packages** to mirror the PM²-specific artefacts (e.g. Business Case, Project Handbook etc.) incl. official PM² artefacts templates
+- **Gantt charts** for giving you a visual timeline of your PM² project
+- **Meetings module** to help you prepare meetings (incl. agenda, reference to work packages) and collect all meeting-relevant information in one place
 
 ### How to use project templates to quickly setup new PM² projects?
 
@@ -107,8 +107,6 @@ To conduct the approval process we suggest to use work packages in combination w
 
 ![Initiating phase-exit checklist in the meeting module in OpenProject](openproject_use_case_PM2_meeting-phase-review.png)
 
-
-
 ### How to create and share PM² artefacts with OpenProject?
 
 PM² methodology includes specific **deliverables** that can be managed through OpenProject's custom work packages. To do so, create custom work packages for PM² artefacts like Project Charter, Business Case, Project Work Plan etc. 
@@ -129,8 +127,8 @@ OpenProject provides multiple views for managing PM² project work effectively.
 
 **Table view:**  
 
-* Tabular display of all project artefacts and deliverables
-* Customizable sorting, grouping, and filtering by PM² phases or artefact types
+- Tabular display of all project artefacts and deliverables
+- Customizable sorting, grouping, and filtering by PM² phases or artefact types
 
 These tables are highly customizable and can be [configured](../../user-guide/work-packages/work-package-table-configuration) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
 
@@ -139,9 +137,10 @@ To quickly access your most used table views, save these as your **favorite filt
 ![Table view containing work packages from the Planning Phase in OpenProject](openproject_use_case_PM2_planning_phase_pm2.png)
 
 **Gantt View:**  
-* Timeline-based visualization of PM² phases  
-* Dependencies between tasks and artefacts  
-* Critical path analysis for phase gate readiness
+
+- Timeline-based visualization of PM² phases  
+- Dependencies between tasks and artefacts  
+- Critical path analysis for phase gate readiness
 
 The [Gantt chart](../../user-guide/gantt-chart) module allows you to quickly visualize planning of each phase in a timeline view that also displays [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies). Like table view, it can be filtered to create custom views that can be saved.
 
@@ -149,9 +148,9 @@ The [Gantt chart](../../user-guide/gantt-chart) module allows you to quickly vis
 
 **Board View**:
 
-* Phases board presenting split of tasks into different phases.
-* Assignee board with automated columns based on assigned users. Ideal for dispatching work packages.
-* Basic Kanban style board with columns for status such as To Do, In Progress, Done.
+- Phases board presenting split of tasks into different phases.
+- Assignee board with automated columns based on assigned users. Ideal for dispatching work packages.
+- Basic Kanban style board with columns for status such as To Do, In Progress, Done.
 
 ![Board view showing all tasks per phase in OpenProject](openproject_use_case_PM2_phases_board.png)
 
@@ -175,9 +174,7 @@ PM² emphasizes **accountability, transparency, and stakeholder communication**,
 
 ![Project overview in OpenProject](openproject_use_case_PM2_project_overview.png)
 
-
-
-## Here for you now!
+## Here for you now
 
 OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your PM² implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](../../user-guide/budgets), [time and cost tracking](../../user-guide/time-and-costs), [wiki](../../user-guide/wiki) and [file storage integrations](../../development/file-storage-integration)) that further enable your PM² teams to work efficiently and deliver value.
 

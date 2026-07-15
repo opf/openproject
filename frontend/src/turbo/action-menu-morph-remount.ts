@@ -41,8 +41,8 @@
  * morph, frame morph, and full-page morph alike.
  */
 
-export function registerActionMenuMorphRemount():void {
-  document.addEventListener('turbo:morph-element', (event) => {
+export function registerActionMenuMorphRemount(target:Document = document, signal?:AbortSignal):void {
+  target.addEventListener('turbo:morph-element', (event) => {
     const currentElement = event.detail?.currentElement;
     if (!currentElement?.matches('action-menu:has(include-fragment[src])')) {
       return;
@@ -50,5 +50,5 @@ export function registerActionMenuMorphRemount():void {
 
     const clone = currentElement.cloneNode(true);
     currentElement.replaceWith(clone);
-  });
+  }, { signal });
 }

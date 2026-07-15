@@ -117,16 +117,23 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id}[data-controller='backlogs--story']"
+        ".Box-row#work_package_#{work_package.id}[data-controller='sortable-lists--item'] " \
+        ".op-work-package-card[data-controller='backlogs--work-package']"
       )
     end
 
-    it "renders Backlogs-specific row data attributes" do
+    it "renders Backlogs-specific row and card data attributes" do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-story"]).to be_present
-        expect(row["data-backlogs--story-id-value"]).to eq(work_package.id.to_s)
+        expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
+        expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+      end
+
+      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
+        expect(card["data-story"]).to be_present
+        expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
+        expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
       end
     end
 
@@ -218,10 +225,20 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
 
       it "renders the provided count and accessible label" do
         expect(rendered_component).to have_css(
-          ".Counter",
+          ".Counter.Counter--secondary",
           text: "7",
           aria: { label: "7 backlog stories" }
         )
+      end
+    end
+
+    context "when the count arguments are overridden" do
+      let(:header_arguments) do
+        { title: "Sprint 1", count: 7, count_arguments: { scheme: :primary } }
+      end
+
+      it "renders the counter with the provided arguments" do
+        expect(rendered_component).to have_css(".Counter.Counter--primary", text: "7")
       end
     end
   end
@@ -289,23 +306,23 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
   describe "drag-and-drop data merging" do
     context "without drag_and_drop" do
       it "does not emit drag-and-drop data" do
-        expect(rendered_component).to have_no_css(".Box[data-generic-drag-and-drop-target]")
-        expect(rendered_component).to have_no_css(".Box[data-target-id]")
-        expect(rendered_component).to have_no_css(".Box[data-target-allowed-drag-type]")
+        expect(rendered_component).to have_no_css(".Box[data-controller~='sortable-lists--list']")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists--list-type-value]")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists--list-id-value]")
       end
     end
 
     context "with drag_and_drop configured" do
       let(:drag_and_drop) do
-        { target_id: "sprint:#{sprint.id}", allowed_drag_type: "story" }
+        { list_type: "sprint", list_id: sprint.id, accepted_type: "work_package" }
       end
 
-      it "merges drag-and-drop data attributes onto the box" do
+      it "wires the list controller and value attributes onto the box" do
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-          expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
-          expect(box["data-target-allowed-drag-type"]).to eq("story")
+          expect(box["data-controller"]).to include("sortable-lists--list")
+          expect(box["data-sortable-lists--list-type-value"]).to eq("sprint")
+          expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
+          expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("work_package")
         end
       end
     end

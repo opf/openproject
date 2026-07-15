@@ -23,33 +23,33 @@
 sv:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Pull förfrågningar
-        copy_menu:
-          label: Git snippets
-          description: Kopiera git snippets till urklipp
-        git_actions:
-          branch_name: Grenens namn
-          commit_message: Skicka commit
-          cmd: Skapa en gren med en tom commit
-          title: Snabb snippets för Git
-          copy_success: "✅ Kopierad!"
-          copy_error: "❌ Kopiering misslyckades!"
-      tab_prs:
-        empty: Det finns inga pull-förfrågningar länkade ännu. Länka en befintlig PR med koden <code>OP#%{wp_id}</code> i PR-beskrivningen eller skapa en ny PR.
       github_actions: Åtgärder
       pull_requests:
-        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
         merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
+        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
         referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
         states:
-          opened: opened
           closed: stängt
           draft: drafted
           merged: merged
+          opened: opened
           ready_for_review: marked ready for review
+      tab_header:
+        copy_menu:
+          description: Kopiera git snippets till urklipp
+          label: Git snippets
+        git_actions:
+          branch_name: Grenens namn
+          cmd: Skapa en gren med en tom commit
+          commit_message: Skicka commit
+          copy_error: "❌ Kopiering misslyckades!"
+          copy_success: "✅ Kopierad!"
+          title: Snabb snippets för Git
+        title: Pull förfrågningar
+      tab_prs:
+        empty: Det finns inga pull-förfrågningar länkade ännu. Länka en befintlig PR med koden <code>OP#%{wp_id}</code> i PR-beskrivningen eller skapa en ny PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

@@ -30,9 +30,9 @@ module LdapDepartments
       end
 
       def confirmation_text
-        I18n.t("ldap_departments.synchronized_trees.destroy.confirmation",
+        I18n.t("ldap_departments.synchronized_trees.destroy.confirmation_message",
                name: tree.name,
-               departments_count: tree.synchronized_departments.size)
+               count: tree.synchronized_departments.size)
       end
 
       def info_text

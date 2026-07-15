@@ -30,9 +30,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div data-turbo="true" data-controller="filter--filter-list" data-filter--filter-list-clear-button-id-value="attribute-filter-clear-button">
   <%= render(Settings::UserCustomFields::HeaderComponent.new(allow_custom_field_creation: @allow_custom_field_creation)) %>
-  <%= render(
-        Settings::UserCustomFieldSections::IndexComponent.new(
-          user_custom_field_sections: @user_custom_field_sections
-        )
-      ) %>
+  <% if params[:tab] == "semantic_keys" %>
+    <%= render(partial: "admin/settings/user_custom_fields/semantic_keys") %>
+  <% else %>
+    <%= render(
+          Settings::UserCustomFieldSections::IndexComponent.new(
+            user_custom_field_sections: @user_custom_field_sections
+          )
+        ) %>
+  <% end %>
 </div>

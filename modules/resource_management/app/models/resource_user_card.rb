@@ -28,67 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO - OP-19587: support placeholder users (results, cards, add/allocate forms)
 class ResourceUserCard < PersistedView
   include ResourceManagement::Categorized
+  include ResourceManagement::UserSelection
 
-  validate :query_must_be_user_query
+  # Ordered list of field identifiers shown on each user card. Built-in keys
+  # ("department", "working_times") and custom field column names ("cf_<id>").
+  store_attribute :options, :card_fields, :json, default: %w[department working_times]
 
-  def results
-    query = effective_query
-    return if query.nil?
-
-    query.results.in_project(project)
-  end
-
-  def manually_picked?
-    effective_query&.manual_elements? || false
-  end
-
-  def build_default_query
-    UserQuery.new(project:, principal:)
-  end
-
-  def apply_query_configuration(filters_json:, filter_mode:)
-    query = effective_query
-    return if query.nil?
-
-    query.filters.clear
-
-    if manual_mode?(filter_mode)
-      query.manual_elements = true
-    else
-      query.manual_elements = false
-
-      query.ordered_entities.destroy_all
-      configure_automatic(query, filters_json)
-    end
-  end
-
-  private
-
-  def manual_mode?(filter_mode)
-    filter_mode.to_s == "manual"
-  end
-
-  def configure_automatic(query, filters_json)
-    parse_filters(filters_json).each do |filter|
-      query.where(filter[:attribute], filter[:operator], filter[:values])
-    end
-  end
-
-  def parse_filters(filters_json)
-    return [] if filters_json.blank?
-
-    ::Queries::ParamsParser::APIV3FiltersParser.parse(filters_json)
-  rescue JSON::ParserError
-    []
-  end
-
-  def query_must_be_user_query
-    resolved = effective_query
-    return if resolved.nil? || resolved.is_a?(UserQuery)
-
-    errors.add(:query, :invalid)
+  # `store_attribute_unset_values_fallback_to_default` is disabled globally, so
+  # the declared default is only materialised for new in-memory records; a
+  # persisted view whose `options` never stored the key reads back as `nil`.
+  # Coalesce to an empty array so views never receive `nil`; the view's creator
+  # can then pick their own fields.
+  def card_fields
+    super || []
   end
 end

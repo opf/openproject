@@ -40,7 +40,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :name, filter_class: Queries::Versions::Filters::NameFilter, operator: "~"
+    filter :name, filter_class: "Queries::Versions::Filters::NameFilter", operator: "~"
     filter :sharing
 
     input_schema(

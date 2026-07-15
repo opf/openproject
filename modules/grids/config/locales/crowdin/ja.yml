@@ -1,35 +1,40 @@
 ---
 ja:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: 列数
+        page: ページ
+        row_count: 行数
+        scope: スコープ
+        widgets: ウィジェット
+    errors:
+      models:
+        grids/grid:
+          end_before_start: 終了値は開始値よりも大きくする必要があります。
+          outside: グリッドの外側です。
+          overlaps: オーバーラップ。
   grids:
     label_widget_in_grid: グリッド %{grid_name} に含まれるウィジェット
     widgets:
       empty: このウィジェットは現在空です。
-      not_available: このウィジェットは使用できません。
-      subitems:
-        title: 小項目
-        no_results: 表示されている子がありません。
-        view_all_subitems: すべてのサブ項目を見る
-        button_text: 小項目
       members:
-        title: 会員
         no_results: 表示するメンバーはありません。
-        view_all_members: すべてのメンバーを表示
         show_members_count: すべての %{count} メンバーを表示
+        title: 会員
+        view_all_members: すべてのメンバーを表示
         x_more:
           other: と %{count}。
       news:
         no_results: 新しい報告はありません。
-  activerecord:
-    attributes:
-      grids/grid:
-        page: ページ
-        row_count: 行数
-        column_count: 列数
-        widgets: ウィジェット
-        scope: スコープ
-    errors:
-      models:
-        grids/grid:
-          overlaps: オーバーラップ。
-          outside: グリッドの外側です。
-          end_before_start: 終了値は開始値よりも大きくする必要があります。
+      not_available: このウィジェットは使用できません。
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: 小項目
+        no_results: 表示されている子がありません。
+        title: 小項目
+        view_all_subitems: すべてのサブ項目を見る

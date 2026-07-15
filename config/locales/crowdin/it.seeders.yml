@@ -93,6 +93,21 @@ it:
           name: Alto
         item_3:
           name: Immediata
+      departments:
+        item_0:
+          name: Marketing e comunicazione
+        item_1:
+          name: Pubbliche relazioni
+        item_2:
+          name: Design e contenuti
+        item_3:
+          name: Eventi e operazioni
+        item_4:
+          name: Web e IT
+        item_5:
+          name: Finanza e amministrazione
+        item_6:
+          name: Controllo qualità
       projects:
         demo-project:
           name: Progetto Dimostrativo
@@ -182,9 +197,11 @@ it:
                 item_2:
                   subject: Configura il sito web della conferenza
             item_2:
-              subject: Conferenza
+              subject: Testa e verifica la qualità del sito web della conferenza
             item_3:
-              subject: Incarichi di verifica
+              subject: Conferenza
+            item_4:
+              subject: Attività di follow-up
               children:
                 item_0:
                   subject: Carica le presentazioni al sito web
@@ -195,7 +212,7 @@ it:
                     *   [ ] Snack
                     *   [ ] Musica
                     *   [ ] Altra birra
-            item_4:
+            item_5:
               subject: Fine del progetto
           wiki: |
             _In questa wiki puoi creare e modificare in modo collaborativo pagine e sottopagine per creare una wiki di progetto._

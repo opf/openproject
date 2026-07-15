@@ -21,12 +21,11 @@
 #++
 ---
 zh-CN:
-  plugin_openproject_documents:
-    name: OpenProject 文档
-    description: 允许在项目中创建文档的 OpenProject 插件。
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus 服务器 URL
   activerecord:
+    attributes:
+      document:
+        content_binary: 二进制内容
+        title: 文档标题
     errors:
       models:
         document_type:
@@ -34,122 +33,123 @@ zh-CN:
     models:
       document: 文档
       documents: 文档
-    attributes:
-      document:
-        content_binary: 二进制内容
-        title: 文档标题
   activity:
     filter:
       document: 文档
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus 服务器 URL
   default_doc_category_tech: 技术文档
   default_doc_category_user: 用户文档
-  enumeration_doc_categories: 文档类别
   documents:
-    button_add_type: Type
-    page_header:
-      heading: 所有文档
-      action_menu:
-        document_actions: 文档操作
-        edit_title: 编辑标题
-    subheader:
-      filter:
-        label: 文档名称过滤器
-        placeholder: 在此输入搜索文档名称
-    documents_list_blank_slate:
-      heading: 还没有文档
-      description: 此视图中没有文档。您可以点击下方按钮添加一个文档。
-    document_categories_deprecation_notice:
-      heading: 文件类别现在称为“文档类型”
-      description: |-
-        随着新“文档”模块的推出，您现有的文件类别已转换为文档类型。
-        所有现有文档也已迁移到这些新类型。
-      primary_action: 配置文档类型
-      secondary_action: 详细了解“文档”模块
-    document_type_actions: 文档类型操作
-    text_collaboration_disabled_notice:
-      description: |-
-        无法打开文档，因为实时文本协作已被禁用。
-        如果要访问此文档，请联系管理员启用实时文本协作。
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          无法打开文档，因为无法访问实时文本协作服务器。
-          如果问题一直存在，请联系管理员。
-        action: 重试
-      tabs: "“文档”选项卡"
-    index_page:
-      name: 名称
-      type: 类型
-      updated_at: 上次编辑
-      label_legacy: 旧版
-    menu:
-      all: 所有文档
-      types: 类型
-      collaboration_settings: 实时协作
-    last_updated_at: 最后保存时间：%{time}。
-    info_line:
-      currently_offline: 您目前处于离线状态。
-      connection_restored: 您已恢复在线状态。
     active_editors: 有效编辑器
     active_editors_count:
       other: "%{count} 位活跃编辑者"
-    label_attachment_author: 附件作者
-    label_categories: 类别
-    new_category: 新类别
-    new_type: 新类型
-    delete_dialog:
-      title: 删除文档
-      heading: 是否删除此文档？
-      confirmation_message_html: 这将永久删除此文档和所有文件附件。确定要这样做吗？
-    delete_document_type_dialog:
-      title: 删除文档类型
-      heading: 是否删除此文档类型？
-      confirmation_message: "“%{type_name}”类型目前未使用。删除此类型对现有文档没有影响。"
-      select_reassign_to_label: 将文档重新指定至
-      reassign_message:
-        other: 类型“%{type_name}”目前正在 %{document_count} 个文档中使用。请选择要将其重新指定至的类型。
-      at_least_one_type_required:
-        title: 无法删除文档类型
-        heading: 无法删除最后一个文档类型
-        message: 必须始终至少配置一个文档类型。如果要删除此类型，请先创建另一个。
     admin:
       collaboration_settings:
+        banner:
+          none_writable: 这些值通过环境变量配置，无法在此处编辑。
+          some_unwritable: 一些值通过环境变量配置，无法在此处编辑。
+        hocuspocus_server: Hocuspocus 服务器
+        hocuspocus_server_secret:
+          caption: 粘贴 Hocuspocus 服务器提供的密钥。
+          label: 客户端密钥
+        hocuspocus_server_url:
+          caption: 有效 Hocuspocus 服务器的 WebSocket 地址。
+          invalid_scheme: 必须使用 WebSocket 协议（ws:// 或 wss://）。
+          label: Hocuspocus 服务器 URL
         page_header:
           description: |-
             启用实时协作后，多个用户可以同时编辑一个文档。
             它需要一个有效的 %{hocuspocus_server_link} 才能运行。
-        banner:
-          none_writable: 这些值通过环境变量配置，无法在此处编辑。
-          some_unwritable: 一些值通过环境变量配置，无法在此处编辑。
-        hocuspocus_server_url:
-          label: Hocuspocus 服务器 URL
-          caption: 有效 Hocuspocus 服务器的 WebSocket 地址。
-          invalid_scheme: 必须使用 WebSocket 协议（ws:// 或 wss://）。
-        hocuspocus_server_secret:
-          label: 客户端密钥
-          caption: 粘贴 Hocuspocus 服务器提供的密钥。
-        hocuspocus_server: Hocuspocus 服务器
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: 我明白我可能会永久丢失数据
+        confirmation_message: 所有现有文档可能变为无法访问。请仅在确定要禁用实时协作和 BlockNote 编辑器的情况下才执行此操作。
+        heading: 是否禁用实时协作？
+        success: 实时协作已禁用。
+        title: 禁用实时协作
       enable_text_collaboration:
-        heading: 实时协作未启用
         description: |-
           启用后，多个用户将能够同时处理一个文档。
           所有新文档都将基于新的编辑器 (BlockNote)，并需要与 Hocuspocus 服务器建立有效连接。
+        heading: 实时协作未启用
         primary_action: 启用实时协作
         success: 实时协作已启用。
-      disable_text_collaboration_dialog:
-        title: 禁用实时协作
-        heading: 是否禁用实时协作？
-        confirmation_message: 所有现有文档可能变为无法访问。请仅在确定要禁用实时协作和 BlockNote 编辑器的情况下才执行此操作。
-        confirmation_checkbox_message: 我明白我可能会永久丢失数据
-        success: 实时协作已禁用。
+    button_add_type: 类型
+    delete_dialog:
+      confirmation_message_html: 这将永久删除此文档和所有文件附件。确定要这样做吗？
+      heading: 是否删除此文档？
+      title: 删除文档
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: 无法删除最后一个文档类型
+        message: 必须始终至少配置一个文档类型。如果要删除此类型，请先创建另一个。
+        title: 无法删除文档类型
+      confirmation_message: "“%{type_name}”类型目前未使用。删除此类型对现有文档没有影响。"
+      heading: 是否删除此文档类型？
+      reassign_message:
+        other: 类型“%{type_name}”目前正在 %{document_count} 个文档中使用。请选择要将其重新指定至的类型。
+      select_reassign_to_label: 将文档重新指定至
+      title: 删除文档类型
+    document_categories_deprecation_notice:
+      description: |-
+        随着新“文档”模块的推出，您现有的文件类别已转换为文档类型。
+        所有现有文档也已迁移到这些新类型。
+      heading: 文件类别现在称为“文档类型”
+      primary_action: 配置文档类型
+      secondary_action: 详细了解“文档”模块
+    document_type_actions: 文档类型操作
+    documents_list_blank_slate:
+      description: 此视图中没有文档。您可以点击下方按钮添加一个文档。
+      heading: 还没有文档
+    index_page:
+      label_legacy: 旧版
+      name: 名称
+      type: 类型
+      updated_at: 上次编辑
+    info_line:
+      connection_restored: 您已恢复在线状态。
+      currently_offline: 您目前处于离线状态。
+    label_attachment_author: 附件作者
+    label_categories: 类别
+    last_updated_at: 最后保存时间：%{time}。
+    menu:
+      all: 所有文档
+      collaboration_settings: 实时协作
+      types: 类型
+    new_category: 新类别
+    new_type: 新类型
+    page_header:
+      action_menu:
+        document_actions: 文档操作
+        edit_title: 编辑标题
+      heading: 所有文档
+    show_edit_view:
+      connection_error_notice:
+        action: 重试
+        description_server_unavailable: |-
+          无法打开文档，因为无法访问实时文本协作服务器。
+          如果问题一直存在，请联系管理员。
+      tabs: "“文档”选项卡"
+    subheader:
+      filter:
+        label: 文档名称过滤器
+        placeholder: 在此输入搜索文档名称
+    text_collaboration_disabled_notice:
+      description: |-
+        无法打开文档，因为实时文本协作已被禁用。
+        如果要访问此文档，请联系管理员启用实时文本协作。
+  enumeration_doc_categories: 文档类别
   label_document_added: 文档已添加
+  label_document_category: 类别
+  label_document_description: 描述
   label_document_new: 新建文档
   label_document_plural: 文档
-  label_documents: 文档
   label_document_title: 标题
-  label_document_description: 描述
-  label_document_category: 类别
   label_document_type: 类型
+  label_documents: 文档
   permission_manage_documents: 管理文档
   permission_view_documents: 查看文档
+  plugin_openproject_documents:
+    description: 允许在项目中创建文档的 OpenProject 插件。
+    name: OpenProject 文档
   project_module_documents: 文档

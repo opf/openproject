@@ -117,25 +117,25 @@ table:
   margin-top: 2mm
   margin-bottom: 4mm
   header:
-    styles: [ 'bold' ]
-    background-color: 'F0F0F0'
     size: 11
+    no_border: true
   cell:
     padding: 1mm
     size: 11
+    no_border: true
+    valign: middle
 
 html_table:
   margin-top: 2mm
   margin-bottom: 4mm
   header:
-    styles: [ 'bold' ]
-    background-color: 'F0F0F0'
     size: 11
     border-width: 0.25
     border-color: '000000'
     no_border: true
   cell:
     padding: 1mm
+    padding-bottom: 3mm
     size: 11
     border-width: 0.25
     border-color: '000000'

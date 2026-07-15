@@ -8,7 +8,9 @@
         id: ResourceAllocations::NewDialogComponent::FORM_ID
       }
     ) do |f|
-      render(ResourceAllocations::Forms::KindSelectForm.new(f, work_package: @work_package))
+      render(
+        ResourceAllocations::Forms::KindSelectForm.new(f, allocation: @allocation)
+      )
     end
   end
 %>

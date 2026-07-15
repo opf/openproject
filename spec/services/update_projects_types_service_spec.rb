@@ -133,5 +133,74 @@ RSpec.describe UpdateProjectsTypesService do
         expect(project).not_to have_received(:work_package_custom_field_ids=)
       end
     end
+
+    context "when a subtype is provided" do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let(:subtype) { create(:type, parent: parent_type) }
+      let(:ids) { [subtype.id] }
+
+      context "and the subtypes feature is not active", with_flag: { subtypes: false } do
+        it "returns false and sets an error message" do
+          expect(subject).to be_falsey
+          expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtypes_yet)
+          expect(project).not_to have_received(:type_ids=)
+        end
+      end
+
+      context "and the subtypes feature is active", with_flag: { subtypes: true } do
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
+
+    context "when multiple subtypes of the same parent are provided", with_flag: { subtypes: true } do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let!(:subtype) { create(:type, parent: parent_type) }
+      let!(:sibling_subtype) { create(:type, parent: parent_type) }
+      let(:ids) { [subtype.id, sibling_subtype.id] }
+
+      it "returns false and sets an error message" do
+        expect(subject).to be_falsey
+        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_multiple_subtypes_of_parent)
+        expect(project).not_to have_received(:type_ids=)
+      end
+
+      context "and the subtypes belong to different parents" do
+        let(:other_parent_type) { create(:type) }
+        let!(:sibling_subtype) { create(:type, parent: other_parent_type) }
+
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
+
+    context "when a subtype and its parent are provided", with_flag: { subtypes: true } do
+      let(:project) { create(:project, no_types: true) }
+      let(:parent_type) { create(:type) }
+      let!(:subtype) { create(:type, parent: parent_type) }
+      let(:ids) { [parent_type.id, subtype.id] }
+
+      it "returns false and sets an error message" do
+        expect(subject).to be_falsey
+        expect(project.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtype_and_parent)
+        expect(project).not_to have_received(:type_ids=)
+      end
+
+      context "and the subtype belongs to a different parent than the one provided" do
+        let(:other_parent_type) { create(:type) }
+        let!(:subtype) { create(:type, parent: other_parent_type) }
+
+        it "returns true and updates the ids" do
+          expect(subject).to be_truthy
+          expect(project).to have_received(:type_ids=).with(ids)
+        end
+      end
+    end
   end
 end
