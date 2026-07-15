@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: I18n.t("colors.index.label_new_color"),
+      tag: :a,
+      href: new_color_path
+    ) do
+      t(:button_add)
+    end
+  end
+%>
+
+<%= render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: :default_colors,
+        mb: 3,
+        test_selector: "default-colors-list"
+      )
+    ) do |list| %>
+  <% list.with_header(title: t(:label_color_plural)) %>
+  <% list.with_empty_state(title: t("colors.index.no_results_title_text")) %>
+
+  <% @colors.each do |color| %>
+    <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do %>
+      <%= render(Primer::Beta::Link.new(href: edit_color_path(color), font_weight: :bold)) { color.name } %>
+      <%= render(Primer::Beta::Text.new(display: :flex, align_items: :center, font_size: :small)) do %>
+        <%= render(Colors::SwatchComponent.new(hexcode: color.hexcode, show_value: true)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

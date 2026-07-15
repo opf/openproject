@@ -175,6 +175,16 @@ RSpec.shared_examples "work package contract with backlogs extensions" do
         it_behaves_like "contract is invalid", backlog_bucket: :backlog_bucket_from_another_project
       end
     end
+
+    context "when the backlog bucket id points to no existing bucket" do
+      let(:work_package_sprint) { nil }
+
+      before do
+        work_package.backlog_bucket_id = 0
+      end
+
+      it_behaves_like "contract is invalid", backlog_bucket: :does_not_exist
+    end
   end
 
   describe "writable_attributes" do

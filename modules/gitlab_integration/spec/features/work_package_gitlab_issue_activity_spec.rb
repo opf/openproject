@@ -14,9 +14,9 @@ RSpec.describe "Work Package Activity Tab",
   shared_let(:issue_author) { create(:gitlab_user, gitlab_username: "i_am_the_author") }
   shared_let(:issue_closing_user) { create(:gitlab_user, gitlab_username: "i_closed") }
 
+  shared_let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/issues/4" }
   shared_let(:issue) do
-    create(:gitlab_issue,
-           gitlab_user: issue_author)
+    create(:gitlab_issue, gitlab_html_url:, gitlab_user: issue_author)
   end
 
   def trigger_issue_action
@@ -56,7 +56,7 @@ RSpec.describe "Work Package Activity Tab",
         "id" => issue.gitlab_id,
         "iid" => issue.gitlab_id,
         "head_pipeline_id" => nil,
-        "url" => "http://79dfcd98b723/root/hot_do/-/issues/4",
+        "url" => gitlab_html_url,
         "updated_at" => Time.current.iso8601
       },
       "labels" => labels,
@@ -64,7 +64,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => "Hot Do",
         "url" => "git@79dfcd98b723:root/hot_do.git",
         "description" => nil,
-        "homepage" => "http://79dfcd98b723/root/hot_do/-/issues/4"
+        "homepage" => gitlab_html_url
       }
     }
   end

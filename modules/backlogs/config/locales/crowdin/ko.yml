@@ -21,14 +21,11 @@
 #++
 ---
 ko:
-  plugin_openproject_backlogs:
-    name: OpenProject 백로그
-    description: 이 모듈은 애자일 팀이 Scrum 프로젝트에서 OpenProject로 작업할 수 있도록 하는 기능을 추가합니다.
   activerecord:
     attributes:
       project:
-        sprint_sharing: 스프린트 공유
         backlog_excluded_types: 제외된 작업 패키지 유형
+        sprint_sharing: 스프린트 공유
         statuses_considered_closed: 마감됨으로 간주되는 상태
       sprint:
         duration: 기간
@@ -37,100 +34,124 @@ ko:
         name: 스프린트 이름
         sharing: 공유
         statuses:
-          in_planning: 계획 중
           active: 활성
           completed: 완료됨
+          in_planning: 계획 중
         work_packages: 작업 패키지
       sprint_goal:
-        text: Sprint goal
+        text: 스프린트 목표
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: 백로그 버킷
+        backlog_inbox: Backlog inbox
         backlogs_work_package_type: 백로그 유형
         position: 위치
         sprint: 스프린트
         story_points: 스토리 포인트
     errors:
       messages:
+        dates_required: 스프린트를 시작하려면 시작 날짜와 완료 날짜가 필요합니다.
         must_be_in_planning: "- 시작하려면 계획 단계에 있어야 합니다."
         only_one_active_sprint_allowed: 프로젝트당 하나의 활성 스프린트만 허용됩니다.
-        dates_required: 스프린트를 시작하려면 시작 날짜와 완료 날짜가 필요합니다.
       models:
         project:
-          receiving_sprints: "- 공유 스프린트를 받고 있습니다. 자체 스프린트는 생성할 수 없습니다."
           attributes:
             sprint_sharing:
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
-        sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          receiving_sprints: "- 공유 스프린트를 받고 있습니다. 자체 스프린트는 생성할 수 없습니다."
         sprint:
           attributes:
             base:
+              format: "%{message}"
               unfinished_work_packages:
                 other: 이 스프린트에서 완료되지 않은 %{count}개 작업 패키지가 있습니다.
-              format: "%{message}"
             status:
               not_active: "- 활성화되어 있지 않으므로 닫을 수 없습니다."
+        sprint_goal:
+          project_already_has_goal: "- 이미 이 스프린트에 대한 목표가 있습니다."
         work_package:
-          backlog_bucket_xor_sprint: "- 스프린트와 백로그 버킷 모두에 할당할 수는 없습니다."
           attributes:
             backlog_bucket:
               backlog_bucket_from_another_project: "- 작업 패키지와 동일한 프로젝트에 속해야 합니다."
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: 은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다.
               must_block_at_least_one_work_package: 은(는) 티켓 하나 이상의 ID를 포함해야 합니다.
-            version_id:
-              task_version_must_be_the_same_as_story_version: 은(는) 부모 스토리의 버전과 동일해야 합니다.
             sprint:
               not_assignable: "- 프로젝트와 공유되지 않았거나 이미 완료되었으므로 할당할 수 없습니다."
               not_eligible_for_moving: "- 작업 패키지가 이동된 스프린트가 속한 프로젝트에서 활성 스프린트가 아닙니다."
+            version_id:
+              task_version_must_be_the_same_as_story_version: 은(는) 부모 스토리의 버전과 동일해야 합니다.
+          backlog_bucket_xor_sprint: "- 스프린트와 백로그 버킷 모두에 할당할 수는 없습니다."
     models:
-      sprint: 스프린트
+      sprint:
+        other: 스프린트
   backlogs:
+    add_existing_work_package_dialog_component:
+      title: Add existing work package to %{name}
     administration_blankslate:
-      title: 백로그 관리자 설정을 개선하는 중입니다
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
-    bucket_destroy_modal_component:
-      title: 백로그 버킷을 삭제하시겠습니까?
-      details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
+      title: 백로그 관리자 설정을 개선하는 중입니다
+    backlog_component:
+      button_new_backlog_bucket: 새로운 백로그 버킷
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: 백로그 버킷
+        other: 백로그 버킷
+        zero: 모든 백로그 버킷
+      label_sprint_filter:
+        one: 스프린트
+        other: 스프린트
+        zero: 모든 스프린트
+      select_panel_title: 항목 선택
     bucket_component:
-      blankslate_title: 백로그 버킷이 비어 있습니다.
-      blankslate_description: 항목을 여기로 드래그하여 추가합니다.
-      label_actions: 백로그 버킷 작업
       action_menu:
-        edit_backlog_bucket: 백로그 버킷 편집
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
         delete_backlog_bucket: 백로그 버킷 삭제
+        edit_backlog_bucket: 백로그 버킷 편집
+      blankslate_description: Drag items here to add them
+      blankslate_title: 백로그 버킷이 비어 있습니다.
+      drop_zone_label: Drop here to add this item
+      label_actions: 백로그 버킷 작업
+    bucket_destroy_modal_component:
+      details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
+      title: 백로그 버킷을 삭제하시겠습니까?
     burndown_chart:
       show:
-        blankslate_title: 사용 가능한 번다운 데이터 없음
         blankslate_description: 스프린트의 시작 날짜와 종료 날짜를 설정하여 번다운 차트를 생성합니다.
+        blankslate_title: 사용 가능한 번다운 데이터 없음
     excluded_work_package_types_caption: '백로그에서 숨길 작업 패키지 유형을 선택합니다. 선택한 유형의 항목은 백로그에 자동으로 표시되지 않으므로 팀에 중요한 작업에 집중할 수 있습니다. 예를 들어, 상위 수준에서 관리되는 에픽이나 마일스톤과 같은 유형은 백로그를 실행 가능한 항목에 집중할 수 있도록 숨길 수 있습니다.
 
       '
     finish_sprint_dialog_component:
-      title: 진행 중인 작업 항목이 있습니다
-      body: "%{message} 이것을 어떻게 처리하시겠습니까?"
-      legend: 미완료 작업 패키지에 대한 액션
       actions:
-        move_to_top_of_backlog: 백로그의 맨 위로 이동
         move_to_bottom_of_backlog: 백로그의 맨 아래로 이동
         move_to_sprint: 다른 스프린트로 이동
-      select_sprint_label: 스프린트 선택
+        move_to_top_of_backlog: 백로그의 맨 위로 이동
+      body: "%{message} 이것을 어떻게 처리하시겠습니까?"
       button_complete_sprint: 스프린트 완료
+      legend: 미완료 작업 패키지에 대한 액션
+      select_sprint_label: 스프린트 선택
+      title: 진행 중인 작업 항목이 있습니다
     inbox_component:
-      title: 받은 편지함
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: 백로그 받은 편지함이 비어 있습니다
-      blankslate_description: 이 프로젝트에서 열려 있는 모든 작업 패키지가 자동으로 여기에 표시됩니다.
+      drop_zone_label: Drop here to add this item
+      label_actions: Inbox actions
       show_more:
         other: "%{count}개 항목 더 보기"
+      title: 받은 편지함
     label_burndown_chart: 번다운 차트
     label_is_done_status: "%{status_name} 상태는 완료를 의미합니다."
     label_sprint_board: 스프린트 보드
     move_to_bucket_dialog_component:
       title: 백로그 버킷으로 이동
     move_to_sprint_dialog_component:
-      title: 스프린트로 이동
       label_sprint: 스프린트
+      title: 스프린트로 이동
     points_label:
       other: 포인트
     positions_could_not_be_rebuilt: 위치를 다시 빌드할 수 없습니다.
@@ -141,57 +162,61 @@ ko:
     sharing: 공유
     show_burndown_chart: 번다운 차트
     sprint_component:
-      blankslate_title: "%{name}이(가) 비어 있습니다"
+      action_menu:
+        add_existing_work_package: Add existing work package
+        add_new_work_package: Add new work package
+        edit_sprint: 스프린트 편집
       blankslate_description: 아직 계획된 항목이 없습니다. 항목을 추가하려면 여기로 드래그하세요.
+      blankslate_title: "%{name}이(가) 비어 있습니다"
+      drop_zone_label: Drop here to add this item
       label_actions: 스프린트 작업
-      label_start_sprint: 스프린트 시작
       label_complete_sprint: 스프린트 완료
+      label_start_sprint: 스프린트 시작
       start_sprint_disabled_reason_active_sprint: 다른 스프린트가 이미 활성화되어 있습니다.
       start_sprint_disabled_reason_missing_dates: 스프린트를 시작하려면 시작 날짜와 종료 날짜가 필요합니다.
-      action_menu:
-        edit_sprint: 스프린트 편집
-        add_work_package: 작업 패키지 추가
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: 이 스프린트 목표는 본 프로젝트에만 해당되며, 이 스프린트를 사용하는 다른 프로젝트와는 공유되지 않습니다.
+      goal_for_this_project_label: "%{attribute}(이 프로젝트용)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: 공유 스프린트입니다. 수정 사항은 이 스프린트를 사용하는 모든 프로젝트에 반영됩니다.
+      shared_sprint_warning_banner: 공유 스프린트입니다. 이 스프린트를 편집하는 데 필요한 권한이 없습니다.
     sprints_component:
       blankslate:
-        title: 아직 스프린트 없음
-        settings_link_text: 프로젝트 설정
-        receive_and_manage_description_html: 이 프로젝트는 다른 프로젝트에서 스프린트를 받습니다. %{settings_link}에서 관리하세요.
-        receive_description_text: 이 프로젝트는 다른 프로젝트에서 공유 스프린트를 받지만, 현재 사용할 수 있는 스프린트가 없습니다.
         create_and_manage_description_html: 스프린트 계획을 시작하려면 여기에서 스프린트를 만들거나 %{settings_link}(으)로 이동하여 다른 프로젝트의 스프린트를 받아보세요.
         create_description_text: 스프린트 계획을 시작하려면 여기에서 스프린트를 생성하세요.
         manage_description_html: 스프린트 계획을 시작하려면 %{settings_link}(으)로 이동하여 다른 프로젝트의 스프린트를 받아보세요.
         no_actions_description_text: 아직 이 프로젝트에 사용할 수 있는 스프린트가 없습니다.
-    story_points:
-      other: "%{count} 스토리 포인트"
+        receive_and_manage_description_html: 이 프로젝트는 다른 프로젝트에서 스프린트를 받습니다. %{settings_link}에서 관리하세요.
+        receive_description_text: 이 프로젝트는 다른 프로젝트에서 공유 스프린트를 받지만, 현재 사용할 수 있는 스프린트가 없습니다.
+        settings_link_text: 프로젝트 설정
+        title: 아직 스프린트 없음
+      button_new_sprint: 새로운 스프린트
     statuses_considered_closed_caption: '해당 워크플로에서 마감 또는 완료 상태를 나타내는 상태를 선택하세요. 이러한 상태는 보고(예: 번다운) 및 스프린트 계획 전반에서 "마감됨" 상태로 처리됩니다. 예를 들어, 완료됨, 해결됨 또는 수정 안 함 등의 상태는 모두 해당 프로세스에서 마감된 작업 항목을 나타낼 수 있습니다.
 
       '
+    story_points:
+      other: "%{count} 스토리 포인트"
     types_and_statuses: 유형 및 상태
     unassigned: 할당되지 않음
     user_preference:
-      header_backlogs: 백로그 모듈
       button_update_backlogs: 백로그 모듈 업데이트
-    stories:
-      update_service:
-        missing_target: target_id 또는 direction이 있어야 합니다.
-        ambiguous_target: target_id와 direction 둘 다가 존재할 수는 없습니다.
-        invalid_target_type: 'target_type은 다음 중 하나여야 합니다: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        invalid_direction: 'direction은 다음 중 하나여야 합니다: higher, highest, lower, lowest.'
+      header_backlogs: 백로그 모듈
     work_package_card_menu_component:
       action_menu:
         copy_url_to_clipboard: 클립보드에 URL 복사
         copy_work_package_id: 작업 패키지 ID 복사
-        move_menu: Move to position
+        move_menu: 위치로 이동
         move_to_backlog_bucket: 백로그 버킷으로 이동
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: 백로그 받은 편지함으로 이동
         move_to_sprint: 스프린트로 이동
     work_package_is_closed: 다음 경우에 작업 패키지가 완료됩니다.
+    work_packages:
+      add_existing_dialog:
+        invalid_target: The target you are trying to add to is invalid.
+        target_not_found: The sprint or backlog you are trying to add to was not found.
+      update_service:
+        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
+        missing_target: list_type or list_id must be present.
   burndown:
     story_points: 스토리 포인트
     story_points_ideal: 스토리 포인트(적합함)
@@ -203,24 +228,24 @@ ko:
         description: 프로젝트 간에 스프린트를 공유하여 팀을 조율하고 확장된 애자일 설정(SAFe)에서 작업을 조정합니다.
   label_all_sprints: 모든 스프린트
   label_backlog: 백로그
-  label_backlogs: 백로그
   label_backlog_and_sprints: 백로그 및 스프린트
   label_backlog_bucket_edit: 백로그 버킷 편집
   label_backlog_bucket_new: 새로운 백로그 버킷
+  label_backlogs: 백로그
   label_burndown_chart: 번다운 차트
   label_inbox: 받은 편지함
-  label_sprint_board: 스프린트 보드
   label_points_burn_down: 아래
   label_points_burn_up: 위
+  label_sprint_board: 스프린트 보드
   label_sprint_edit: 스프린트 편집
   label_sprint_new: 새로운 스프린트
   label_task_board: 작업 보드
-  notice_successful_start: 스프린트가 시작되었습니다.
   notice_successful_finish: 스프린트가 완료되었습니다.
-  notice_unsuccessful_start: 스프린트를 시작할 수 없습니다.
-  notice_unsuccessful_start_with_reason: '스프린트를 시작할 수 없습니다: %{reason}'
+  notice_successful_start: 스프린트가 시작되었습니다.
   notice_unsuccessful_finish: 스프린트를 완료할 수 없습니다.
   notice_unsuccessful_finish_with_reason: '스프린트를 완료할 수 없습니다: %{reason}'
+  notice_unsuccessful_start: 스프린트를 시작할 수 없습니다.
+  notice_unsuccessful_start_with_reason: '스프린트를 시작할 수 없습니다: %{reason}'
   notice_work_package_invisible_after_move: '작업 패키지가 %{backlog}(으)로 이동되었지만 해당 유형이나 상태가 백로그에서 제외되었으므로 표시되지 않습니다.
 
     '
@@ -233,30 +258,35 @@ ko:
   permission_share_sprint: 스프린트 공유
   permission_start_complete_sprint: 스프린트 시작/완료
   permission_view_sprints: 스프린트 보기
+  plugin_openproject_backlogs:
+    description: 이 모듈은 애자일 팀이 Scrum 프로젝트에서 OpenProject로 작업할 수 있도록 하는 기능을 추가합니다.
+    name: OpenProject 백로그
   project_module_backlogs: 백로그
   projects:
     settings:
       backlog_sharing:
         options:
           no_sharing:
-            label: 공유 안 함
             caption: 이 프로젝트에서 생성된 스프린트는 이 프로젝트에서만 사용할 수 있고 표시됩니다. 또한 하위 프로젝트에는 표시되지 않습니다.
+            label: 공유 안 함
           receive_shared:
-            label: 공유 스프린트 받기
             caption: 이 프로젝트는 다른 프로젝트에 의해 공유된 스프린트만 사용할 수 있습니다.
+            label: 공유 스프린트 받기
             warning: 이 프로젝트는 다른 프로젝트에 의해 공유된 스프린트만 사용할 수 있습니다. 이전에 이 프로젝트에서 생성된 미사용 스프린트는 더 이상 표시되지 않습니다.
           share_all_projects:
-            label: 모든 프로젝트
             caption: 이 프로젝트에서 생성된 스프린트는 이 인스턴스의 모든 프로젝트에서 사용할 수 있습니다. 이 옵션을 선택하면 다른 프로젝트에서 더 이상 사용할 수 없게 됩니다.
             disabled_caption: 프로젝트 "%{name}"은(는) 현재 모든 프로젝트와 공유 중이며 하나의 프로젝트만 이 작업을 수행할 수 있으므로 옵션을 사용할 수 없습니다.
             disabled_caption_anonymous: 다른 프로젝트는 현재 모든 프로젝트와 공유 중이며 하나의 프로젝트만 이 작업을 수행할 수 있으므로 옵션을 사용할 수 없습니다.
+            label: 모든 프로젝트
           share_subprojects:
-            label: 하위 프로젝트
             caption: 이 프로젝트에서 생성된 스프린트는 현재 프로젝트의 모든 하위 프로젝트에서 사용할 수 있습니다.
             info: 스프린트를 공유하면 모든 프로젝트에서 이름, 상태, 시작 날짜 및 종료 날짜가 공유됩니다. 이러한 스프린트를 받고 사용하는 프로젝트에서는 해당 항목을 수정할 수 없습니다.
+            label: 하위 프로젝트
         sprint_sharing: 스프린트 공유
       backlogs:
         sharing_form_component:
           sharing_description: 이 프로젝트는 자체 스프린트를 공유하거나, 공유 스프린트를 받거나, 스프린트를 독립적으로 처리할 수 있습니다(공유 없음).
           sharing_fallback_description: 기업 엔터프라이즈 플랜이 없는 경우 공유 옵션은 프로젝트 고유한 스프린트로 제한됩니다. 현재 활성 설정이 활성 상태로 유지됩니다.
+  query_fields:
+    backlog_inbox: Backlog inbox
   remaining_hours: 남은 작업

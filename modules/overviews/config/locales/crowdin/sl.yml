@@ -1,6 +1,6 @@
 ---
 sl:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Nadzorna plošča
+    label_home: "%{workspace_type} home"
     label_overview: Pregled

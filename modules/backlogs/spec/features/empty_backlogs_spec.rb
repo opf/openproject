@@ -50,7 +50,7 @@ RSpec.describe "Empty backlogs project",
     it "shows blankslate with description" do
       within "#owner_backlogs_container .blankslate" do
         expect(page).to have_heading("Backlog inbox is empty", exact: true)
-        expect(page).to have_text("All open work packages in this project will automatically appear here.")
+        expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
       end
 
       within "#sprint_backlogs_container .blankslate" do
@@ -68,7 +68,7 @@ RSpec.describe "Empty backlogs project",
     it "shows a blankslate without description" do
       within "#owner_backlogs_container .blankslate" do
         expect(page).to have_heading("Backlog inbox is empty", exact: true)
-        expect(page).to have_text("All open work packages in this project will automatically appear here.")
+        expect(page).to have_text("Open work packages that are not in a sprint or backlog bucket automatically appear here")
       end
 
       within "#sprint_backlogs_container .blankslate" do

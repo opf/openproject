@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :backlog_sharing, only: %i[show update]
+      resource :backlog_multiple_active_sprints, only: %i[show] do
+        post :toggle_multiple_active_sprints
+      end
     end
   end
 
@@ -81,7 +84,7 @@ Rails.application.routes.draw do
       resources :sprints, param: :sprint_id, only: %i[index create update] do
         collection do
           get :new_dialog
-          get :refresh_form
+          post :refresh_form
         end
 
         member do
@@ -92,6 +95,11 @@ Rails.application.routes.draw do
       end
 
       resources :work_packages, controller: :work_packages, only: [] do
+        collection do
+          get :add_existing_dialog
+          post :add_existing
+        end
+
         member do
           get :menu
           put :move

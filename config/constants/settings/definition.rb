@@ -709,6 +709,10 @@ module Settings
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
         default: false
       },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
+        default: false
+      },
       ldap_users_disable_sync_job: {
         description: "Deactivate user attributes synchronization from LDAP",
         default: false
@@ -1011,6 +1015,12 @@ module Settings
       repository_truncate_at: {
         default: 500
       },
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
+      },
       scm: {
         format: :hash,
         default: {},
@@ -1303,6 +1313,11 @@ module Settings
       users_deletable_by_admins: {
         default: false
       },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
+      },
       user_default_theme: {
         default: "light",
         format: :string,
@@ -1343,6 +1358,11 @@ module Settings
       work_package_done_ratio: {
         default: "field",
         allowed: %w[field status]
+      },
+      work_package_multiple_versions: {
+        description: "Enable multiple version assignments on work packages.",
+        format: :boolean,
+        default: false
       },
       work_packages_projects_export_limit: {
         default: 500

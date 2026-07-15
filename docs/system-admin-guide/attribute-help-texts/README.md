@@ -26,7 +26,7 @@ This way you will reduce wrong entries for attributes. This is especially releva
 | [Projects](#projects)                                                       | Where will Attribute help texts for projects be used?      |
 | [WYSIWYG editor](#wysiwyg-editor)                                           | Where can Attribute help texts be displayed?               |
 
-Navigate to *Administration* -> *Attribute help texts* to set up help texts for attributes and custom fields in work packages and projects. Here you can add, edit and delete Attribute help texts.
+Navigate to _Administration_ -> _Attribute help texts_ to set up help texts for attributes and custom fields in work packages and projects. Here you can add, edit and delete Attribute help texts.
 
 ![Attribute help texts in OpenProject administration](openproject_system_admin_guide_attribute_help_texts_overview.png)
 
@@ -53,7 +53,7 @@ When the users click on it, they see the description for this attribute.
 
 ## Edit or delete Attribute help texts
 
-Navigate to *Administration* -> *Work packages* -> *Attribute help texts* in order to edit or remove an attribute help text.
+Navigate to _Administration_ -> _Work packages_ -> _Attribute help texts_ in order to edit or remove an attribute help text.
 
 1. Click on the **name** of the attribute to edit an existing attribute help text. Alternatively you can also edit the attribute help text when you view it in a work package.
 2. Click on the **delete icon** to delete an attribute help text.

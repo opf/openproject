@@ -49,6 +49,7 @@ export default class BaseController extends Controller implements ViewPortServic
   isWithinNotificationCenter() { return this.indexOutlet.viewPortService.isWithinNotificationCenter(); }
   isWithinSplitScreen() { return this.indexOutlet.viewPortService.isWithinSplitScreen(); }
   isJournalsContainerScrolledToBottom() { return this.indexOutlet.viewPortService.isJournalsContainerScrolledToBottom(); }
+  anchorScrollOffset() { return this.indexOutlet.viewPortService.anchorScrollOffset(); }
 
   get scrollableContainer() { return this.indexOutlet.viewPortService.scrollableContainer; }
 

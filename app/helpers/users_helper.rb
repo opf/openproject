@@ -153,4 +153,34 @@ module UsersHelper
   def can_users_have_auth_source?
     LdapAuthSource.any? && !OpenProject::Configuration.disable_password_login?
   end
+
+  # Renders the user form extension hooks inside the (Primer) user form.
+  #
+  # - +view_users_primer_form+ receives the Primer form builder and is the API
+  #   plugins should use going forward.
+  # - +view_users_form+ is deprecated but kept working: it receives a legacy
+  #   TabularFormBuilder rendered inside the same form, so existing plugins keep
+  #   submitting their fields. It is only rendered (and the deprecation logged)
+  #   when a listener is actually registered.
+  def render_user_form_hooks(user:, form:)
+    safe_join([
+      call_hook(:view_users_primer_form, user:, form:),
+      legacy_user_form_hook(user:)
+    ].compact)
+  end
+
+  private
+
+  def legacy_user_form_hook(user:)
+    return unless OpenProject::Hook.hook_listeners(:view_users_form).any?
+
+    OpenProject::Deprecation.warn(
+      "The `view_users_form` hook is deprecated; migrate to `view_users_primer_form` " \
+      "which receives a Primer form builder."
+    )
+
+    fields_for(:user, user, builder: TabularFormBuilder) do |legacy_form|
+      call_hook(:view_users_form, user:, form: legacy_form)
+    end
+  end
 end

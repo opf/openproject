@@ -423,7 +423,7 @@ class RecurringMeetingsController < ApplicationController
       .not_cancelled
       .exists?(recurrence_start_time: @first_occurrence)
 
-    if is_scheduled
+    if is_scheduled && !@recurring_meeting.template.draft?
       flash[:info] = I18n.t("recurring_meeting.occurrence.first_already_exists")
       redirect_to action: :show, status: :see_other
     end

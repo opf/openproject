@@ -41,6 +41,8 @@
         storage: Storage
         storage_url: Storage URL
         tenant: Katalog (leietaker) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: er ikke en gyldig URL.

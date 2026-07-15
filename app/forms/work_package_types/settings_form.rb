@@ -39,12 +39,37 @@ module WorkPackageTypes
         disabled: model.is_standard?
       )
 
-      settings_form.color_select_list(
-        name: :color_id,
-        label: Color.model_name.human,
-        input_width: :medium,
-        caption: I18n.t("types.edit.settings.type_color_text")
-      )
+      if show_parent_select?
+        settings_form.select_list(
+          name: :parent_id,
+          input_width: :medium,
+          label: label(:parent),
+          caption: I18n.t("types.edit.settings.parent_type_text"),
+          include_blank: true,
+          validation_message: validation_message_for(:parent),
+          data: { action: "change->admin--work-package-type-settings#toggle" }
+        ) do |parent_types|
+          available_parents.each do |type|
+            parent_types.option(
+              value: type.id,
+              label: type.name,
+              selected: type.id == model.parent_id
+            )
+          end
+        end
+      end
+
+      # Core settings are inherited from the parent for sub-types, so they are
+      # hidden and disabled while a parent is selected (see Type inheritance).
+      # The admin--work-package-type-settings controller toggles this live.
+      settings_form.group(**core_settings_group_options) do |color_group|
+        color_group.color_select_list(
+          name: :color_id,
+          label: Color.model_name.human,
+          input_width: :medium,
+          caption: I18n.t("types.edit.settings.type_color_text")
+        )
+      end
 
       if show_work_flow_copy?
         settings_form.select_list(
@@ -70,20 +95,22 @@ module WorkPackageTypes
         rich_text_options: { showAttachments: false }
       )
 
-      settings_form.check_box(
-        name: :is_milestone,
-        label: label(:is_milestone)
-      )
+      settings_form.group(**core_settings_group_options) do |flags_group|
+        flags_group.check_box(
+          name: :is_milestone,
+          label: label(:is_milestone)
+        )
 
-      settings_form.check_box(
-        name: :is_in_roadmap,
-        label: label(:is_in_roadmap)
-      )
+        flags_group.check_box(
+          name: :is_in_roadmap,
+          label: label(:is_in_roadmap)
+        )
 
-      settings_form.check_box(
-        name: :is_default,
-        label: label(:is_default)
-      )
+        flags_group.check_box(
+          name: :is_default,
+          label: label(:is_default)
+        )
+      end
 
       settings_form.submit(
         name: :submit,
@@ -98,8 +125,27 @@ module WorkPackageTypes
       model.class.human_attribute_name(attribute)
     end
 
+    def core_settings_group_options
+      options = { data: { "admin--work-package-type-settings-target": "coreSetting" } }
+      # Only hide initially; leave the visible layout to the group itself so its
+      # vertical spacing is preserved. The controller toggles d-none from here.
+      options[:display] = :none if model.subtype?
+      options
+    end
+
     def show_work_flow_copy?
       model.new_record?
+    end
+
+    def show_parent_select?
+      return false unless OpenProject::FeatureDecisions.subtypes_active?
+      return false if model.is_standard?
+
+      model.new_record? || !model.children.exists?
+    end
+
+    def available_parents
+      Type.roots.where.not(id: model.id)
     end
 
     def work_package_types

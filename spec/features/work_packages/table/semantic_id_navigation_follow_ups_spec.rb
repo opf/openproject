@@ -41,6 +41,14 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       expect(details_anchor[:href]).not_to end_with("/null")
       expect(details_anchor[:href]).not_to include("/details/#{work_package.id}")
     end
+
+    it "switches an already open split view to the clicked work package (OP-19486)" do
+      wp_table.open_split_view(work_package)
+
+      split_page = wp_table.open_split_view(other_wp)
+
+      split_page.expect_attributes Subject: other_wp.subject
+    end
   end
 
   describe "right-click context menu 'Open fullscreen' item" do
@@ -81,6 +89,52 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
 
       expect(copied).to include("/wp/#{semantic_id}")
       expect(copied).not_to include("/wp/#{work_package.id}")
+    end
+  end
+
+  describe "right-click context menu 'Copy numeric ID to clipboard' item" do
+    it "copies the numeric id and does not navigate away (regression: used to 404)" do
+      numeric_id = work_package.id.to_s
+      semantic_id = work_package.reload.identifier
+
+      # Spy directly on navigator.clipboard.writeText (see the sibling
+      # 'Copy link to clipboard' example for why the flash matcher won't do).
+      page.execute_script(<<~JS)
+        window.__lastCopiedText = null;
+        navigator.clipboard.writeText = function(text) {
+          window.__lastCopiedText = text;
+          return Promise.resolve();
+        };
+      JS
+
+      context_menu.open_for(work_package)
+      context_menu.choose("Copy numeric ID to clipboard")
+
+      copied = nil
+      retry_block do
+        copied = page.evaluate_script("window.__lastCopiedText")
+        raise "clipboard write not yet observed" if copied.nil?
+      end
+
+      expect(copied).to eq(numeric_id)
+      expect(copied).not_to eq(semantic_id)
+
+      # The action used to fall through to `window.location.href = undefined`,
+      # navigating to a non-existent URL. It must stay on the table instead.
+      wp_table.expect_work_package_listed(work_package, other_wp)
+    end
+  end
+
+  context "in classic (numeric) mode", with_settings: { work_packages_identifier: "classic" } do
+    # Classic mode validates project identifiers against the lowercase classic
+    # format, so the uppercase semantic identifier used above is invalid here.
+    let(:project) { create(:project, identifier: "navfollow") }
+
+    describe "right-click context menu 'Copy numeric ID to clipboard' item" do
+      it "is not offered (the displayed id is already the numeric id)" do
+        context_menu.open_for(work_package)
+        context_menu.expect_no_options("Copy numeric ID to clipboard")
+      end
     end
   end
 

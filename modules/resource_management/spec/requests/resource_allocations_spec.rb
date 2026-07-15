@@ -51,6 +51,28 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).to include('value="principal"')
       expect(response.body).to include('value="filter"')
     end
+
+    it "carries a timeline date selection as hidden fields through the kind step" do
+      get new_project_resource_allocation_path(project, work_package_id: work_package.id,
+                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('name="start_date"', 'value="2026-06-10"')
+      expect(response.body).to include('name="end_date"', 'value="2026-06-12"')
+    end
+
+    it "opens the allocation step for a preselected user with the timeline dates filled" do
+      # The user timeline passes `principal_id`; the dialog skips the kind step and
+      # pre-fills the allocation (incl. the selected date range).
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("2026-06-10", "2026-06-12")
+    end
   end
 
   describe "GET step" do
@@ -77,27 +99,64 @@ RSpec.describe "ResourceAllocations requests",
         expect(response.body).to include('name="filters"')
       end
     end
+
+    context "with start_date and end_date carried from a timeline selection" do
+      it "pre-fills the date fields from the params" do
+        get step_project_resource_allocations_path(project,
+                                                   allocation_kind: "principal",
+                                                   work_package_id: work_package.id,
+                                                   start_date: "2026-06-10",
+                                                   end_date: "2026-06-12"),
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("2026-06-10")
+        expect(response.body).to include("2026-06-12")
+      end
+    end
   end
 
-  describe "GET refresh_form" do
+  describe "POST refresh_form" do
+    it "refreshes the form via POST as a turbo stream" do
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "replace",
+        target: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.wrapper_key
+      )
+    end
+  end
+
+  describe "POST refresh_form (date warning)" do
     shared_let(:dated_work_package) do
       create(:work_package, project:, start_date: Date.new(2026, 1, 15), due_date: Date.new(2026, 2, 20))
     end
 
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
-      get refresh_form_project_resource_allocations_path(project),
-          params: {
-            allocation_kind: "principal",
-            resource_allocation: {
-              principal_id: assignee.id,
-              entity_type: "WorkPackage",
-              entity_id:,
-              start_date:,
-              end_date:,
-              allocated_hours: "40h"
-            }
-          },
-          as: :turbo_stream
+      post refresh_form_project_resource_allocations_path(project),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id:,
+               date_range: "#{start_date} - #{end_date}",
+               allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
     end
 
     it "streams the inline warning banner when the dates fall outside the work package" do
@@ -141,8 +200,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -166,7 +224,7 @@ RSpec.describe "ResourceAllocations requests",
         perform
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('target="resource-allocations-list-component"')
+        expect(response.body).to have_turbo_stream(action: "replace", target: "resource-allocations-list-component")
         expect_allocation_change_announced_for(work_package)
       end
     end
@@ -181,8 +239,7 @@ RSpec.describe "ResourceAllocations requests",
                  filter_name: "Full stack Developer (DE-EN)",
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -211,8 +268,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-03",
-                 end_date: "2026-03-02", # before start_date
+                 date_range: "2026-03-03 - 2026-03-02", # finish date before the start date
                  allocated_hours: "40h"
                }
              },
@@ -236,8 +292,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: other_work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -261,8 +316,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: non_member.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -284,8 +338,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "Project",
                  entity_id: project.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -310,8 +363,7 @@ RSpec.describe "ResourceAllocations requests",
             principal_id: assignee.id,
             entity_type: "WorkPackage",
             entity_id: dated_work_package.id,
-            start_date: "2026-02-24", # after the work package's finish date
-            end_date: "2026-02-25",
+            date_range: "2026-02-24 - 2026-02-25", # after the work package's finish date
             allocated_hours: "40h"
           }
         }
@@ -342,8 +394,7 @@ RSpec.describe "ResourceAllocations requests",
                    principal_id: assignee.id,
                    entity_type: "WorkPackage",
                    entity_id: dated_work_package.id,
-                   start_date: "2026-01-20",
-                   end_date: "2026-01-21",
+                   date_range: "2026-01-20 - 2026-01-21",
                    allocated_hours: "40h"
                  }
                },
@@ -368,8 +419,7 @@ RSpec.describe "ResourceAllocations requests",
             principal_id: working_assignee.id,
             entity_type: "WorkPackage",
             entity_id: work_package.id,
-            start_date: "2026-03-02",
-            end_date: "2026-03-03",
+            date_range: "2026-03-02 - 2026-03-03",
             allocated_hours: "40h"
           }
         }
@@ -448,8 +498,7 @@ RSpec.describe "ResourceAllocations requests",
                    principal_id: assignee.id,
                    entity_type: "WorkPackage",
                    entity_id: work_package.id,
-                   start_date: "2026-03-02",
-                   end_date: "2026-03-03",
+                   date_range: "2026-03-02 - 2026-03-03",
                    allocated_hours: "40h"
                  }
                },
@@ -468,6 +517,15 @@ RSpec.describe "ResourceAllocations requests",
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.title"))
       expect(response.body).to include("resource_allocation[allocated_hours]")
+    end
+
+    it "offers a Delete button targeting the destroy path" do
+      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+
+      expect(response.body).to have_turbo_stream(action: "dialog") do
+        assert_select "a[data-turbo-method='delete'][href$='/resource_allocations/#{allocation.id}']",
+                      text: I18n.t(:button_delete)
+      end
     end
 
     context "for an allocation of another project's work package" do
@@ -494,8 +552,7 @@ RSpec.describe "ResourceAllocations requests",
                 principal_id: assignee.id,
                 entity_type: "WorkPackage",
                 entity_id: work_package.id,
-                start_date: "2026-03-02",
-                end_date: "2026-03-06",
+                date_range: "2026-03-02 - 2026-03-06",
                 allocated_hours:
               }
             },
@@ -562,8 +619,7 @@ RSpec.describe "ResourceAllocations requests",
                   principal_id: working_assignee.id,
                   entity_type: "WorkPackage",
                   entity_id: work_package.id,
-                  start_date: "2026-03-02",
-                  end_date: "2026-03-03",
+                  date_range: "2026-03-02 - 2026-03-03",
                   allocated_hours: "40h"
                 }
               }.deep_merge(extra),
@@ -620,8 +676,17 @@ RSpec.describe "ResourceAllocations requests",
     it "refreshes the open allocations list and announces the change for the planner table" do
       delete project_resource_allocation_path(project, allocation), as: :turbo_stream
 
-      expect(response.body).to include('target="resource-allocations-list-component"')
+      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-allocations-list-component")
       expect_allocation_change_announced_for(work_package)
+    end
+
+    it "closes the edit dialog, so deleting from within it dismisses the dialog" do
+      delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+
+      expect(response.body).to have_turbo_stream(
+        action: "closeDialog",
+        target: "##{ResourceAllocations::EditDialogComponent::DIALOG_ID}"
+      )
     end
   end
 
@@ -668,8 +733,7 @@ RSpec.describe "ResourceAllocations requests",
                  principal_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
-                 start_date: "2026-03-02",
-                 end_date: "2026-03-03",
+                 date_range: "2026-03-02 - 2026-03-03",
                  allocated_hours: "40h"
                }
              },
@@ -680,13 +744,49 @@ RSpec.describe "ResourceAllocations requests",
     end
   end
 
+  describe "opened from a user's utilization dialog" do
+    shared_let(:resource_planner) do
+      create(:resource_planner, project:, principal: user,
+                                start_date: Date.new(2026, 3, 1), end_date: Date.new(2026, 3, 31))
+    end
+    shared_let(:card_view) do
+      create(:resource_user_card, parent: resource_planner, project:, principal: user)
+    end
+    let(:user_dialog_id) { ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID }
+
+    it "replaces the utilization dialog and opens the allocation step prefilled for the user" do
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        resource_planner_view_id: card_view.id),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
+      expect(response.body).not_to include('value="filter"')
+    end
+
+    it "reopens a refreshed utilization dialog after a successful create" do
+      post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
+
+      expect(response.body).to include(user_dialog_id)
+      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+    end
+  end
+
   # The controller emits a `dispatchEvent` turbo stream carrying the changed
   # work package so an open resource planner table can reload it.
   def expect_allocation_change_announced_for(work_package)
-    event = Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
-
-    expect(event).to be_present
-    expect(event["event-name"]).to eq("resource-allocations:changed")
-    expect(JSON.parse(event["detail"])).to eq("work_package_id" => work_package.id)
+    expect(response.body).to have_turbo_stream(action: "dispatchEvent") do |streams|
+      event = streams.first
+      expect(event["event-name"]).to eq("op-dispatched:resource-allocations:changed")
+      expect(JSON.parse(event["detail"])).to eq("work_package_id" => work_package.id)
+    end
   end
 end

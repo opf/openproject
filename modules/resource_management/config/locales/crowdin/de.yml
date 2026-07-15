@@ -3,11 +3,11 @@ de:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
         end_date: Endtermin
         entity: Entität
-        filter_name: Resource filter name
+        filter_name: Name des Ressourcenfilters
         principal: Zugewiesen an
         start_date: Anfangstermin
         state: Status
@@ -36,12 +36,14 @@ de:
     models:
       resource_allocation: Ressourcenzuteilung
       resource_planner: Ressourcenplanung
+      resource_user_card: Benutzerkarten
       resource_work_package_list: Liste von Arbeitspaketen
-      user_card: Benutzer-Karten
   button_next: Weiter
-  label_resource_management: Ressourcenplanung
+  label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
+  permission_assign_users_to_generic_allocations: Benutzer an generische Zuweisungen zuordnen
+  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer generischen (filterbasierten) Ressourcenzuweisungen zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
   permission_manage_public_resource_planners_explanation: Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
   permission_view_resource_planners: Ressourcenplaner anzeigen
@@ -53,37 +55,51 @@ de:
   resource_management:
     action:
       delete: Löschen
+      edit: Bearbeiten
       favorite: Zu Favoriten hinzufügen
       make_private: Als Privat festlegen
       make_public: Veröffentlichen
       unfavorite: Aus Favoriten entfernen
-    allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Legen Sie Filterkriterien auf der Grundlage von Benutzerattributen fest, um einen Platzhalter zu erstellen.
+          label: Filterkriterien
+        label: Typ
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Arbeitszeit für einen bestimmten Benutzer zuweisen.
+          label: Benutzer
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Die ausgewählten Zeiten (%{resource_dates}) liegen außerhalb der geplanten Zeiten des Arbeitspakets (%{work_package_dates}).
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} verfügbar · %{scheduled} geplant"
+        description: Der ausgewählte Benutzer, %{user}, würde in diesem Zeitraum über seine Arbeitszeit hinaus verplant werden.
+        hidden_work: Sonstige Zuweisungen
+        schedule_availability: "%{schedule} (%{factor}% für Projektarbeit verfügbar)"
+        schedule_change: bis %{date}, dann %{schedule}
+        schedule_note: Dieser Benutzer arbeitet %{schedule}.
+        submit: Überstunden zuweisen
+        title: Möchten Sie dem Benutzer Überstunden zuweisen?
+      submit: Zuweisen
+      success_message: Ressource zugewiesen.
+      title: Ressourcen zuweisen
+    allocation:
+      hours: "%{value}h"
+      no_work: Keine Arbeit für dieses Arbeitspaket geplant
+      summary: "%{allocated} / %{scheduled}"
+    assignment_dialog:
+      available: "%{hours} verfügbar"
+      confirm_overtime: Trotzdem zuweisen
+      filter_criteria: Filterkriterien
+      no_candidates:
+        description: Es gibt kein Projektmitglied, das den Filterkriterien dieser Zuweisung entspricht.
+        title: Keine entsprechenden Mitglieder
+      no_schedule: Für diesen Benutzer wurde kein Arbeitszeitplan eingerichtet, daher können wir nicht feststellen, ob diese Zuweisung passt.
+      overbooked_detail: Dieser Benutzer steht in diesem Zeitraum für %{available} zur Verfügung; für das Arbeitspaket sind %{requested} erforderlich.
+      requested_for: Angefordert für
+      select_user: Bitte wählen Sie einen Benutzer aus, dem Sie die Zeit zuweisen möchten.
+      submit: Zuweisen
+      title: "%{filter_name} zuweisen"
     blankslate:
       desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
       title: Keine Ressourcenplaner vorhanden
@@ -99,10 +115,11 @@ de:
           label: Manuell ausgewählt
       title: Ansicht konfigurieren
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Speichern
+      success_message: Ressourcenzuordnung aktualisiert.
+      title: Zuweisung bearbeiten
     favorite_caption: Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
+    label_edit_resource_planner: Ressourcenplaner bearbeiten
     label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
     label_resource_planner_plural: Ressourcenplaner
@@ -114,31 +131,119 @@ de:
     sidebar:
       private: Privat
       public: Öffentlich
+    staffing:
+      assign: Benutzer zuweisen
+      blank:
+        description: Allen Resourcenplanungen in diesem Projekt ist ein Benutzer zugewiesen.
+        title: Keine Zuweisungen erforderlich
+      columns:
+        dates: Daten
+        requested_time: Gewünschte Zeit
+        resource: Ressource
+        work_package: Arbeitspaket
+      context_menu_label: Zuweisungsmaßnahmen
+      delete_confirmation: Sind Sie sicher, dass Sie diese Anwendung entfernen möchten?
+      menu_item: Ressourcenzuweisung
+      starts_in_past: Diese Zuweisung hat bereits begonnen und ist noch nicht zugewiesen.
+      success_message: Der Benutzer wurde erfolgreich zugewiesen.
+      title: Ressourcenzuweisung
     sub_views: Ansichten in dieser Ressourcenplanung
+    timeframe:
+      end_only: Bis %{end}
+      full: von %{start} bis %{end}
+      start_only: Ab %{start}
+    timeline:
+      granularity:
+        day: Tag
+        month: Monat
+        week: Kalenderwoche
+      navigation:
+        next: Nächster Zeitraum
+        previous: Vorheriger Zeitraum
+        today: Heute
+      subheader:
+        add: Hinzufügen
+        allocate: Zuweisen
+        settings: Ansicht konfigurieren
+    user_allocations_dialog:
+      allocate_work_package: Arbeitspakete zuweisen
+      blank: Diesem Benutzer wurden keine Arbeitspakete zugewiesen.
+      other_work_packages:
+        one: ein anderes Arbeitspaket
+        other: "%{count} andere Arbeitspakete"
+      title: Auslastung
+    user_card_list:
+      add_user_dialog:
+        title: Benutzer hinzufügen
+      blank:
+        description: Es gibt noch keine Benutzer, die den Filtern dieser Ansicht entsprechen.
+        manual_description: Dieser Ansicht wurden noch keine Benutzer hinzugefügt.
+        title: Keine Benutzer zur Anzeige
+      card:
+        multi_value_more: "+%{count} weitere"
+        remove: Benutzer entfernen
+        remove_confirmation: Diesen Benutzer aus der Ansicht entfernen?
+      fields:
+        drag_area_label: Angezeigte Felder
+        input_caption: Wählen Sie die Felder, die in der Benutzerkarte für diese Ansicht angezeigt werden sollen
+        input_label: Felder
+        input_placeholder: Feld hinzufügen
+        working_times: Arbeitszeiten
+      subheader:
+        resource: Ressource
+        settings: Ansicht konfigurieren
+      utilization:
+        label: Auslastung
+      working_hours:
+        blank: Es wurden keine Arbeitszeiten konfiguriert
+        schedule_availability_compact: "%{schedule} (%{factor}% verfügbar)"
+        schedule_change_compact: bis %{date}, dann %{schedule}
+    user_timeline:
+      blank:
+        add_user: Benutzer hinzufügen
+        configure_view: Ansicht konfigurieren
+        description: Es gibt noch keine Benutzer, die den Filtern dieser Ansicht entsprechen.
+        manual_description: Fügen Sie dieser Ansicht Benutzer hinzu, um deren Zuweisung über die Zeit zu sehen.
+        title: Keine Ergebnisse
+      no_work_schedule: Für den Benutzer ist kein Arbeitszeitplan hinterlegt
+      overbooked: Dieser Benutzer ist im ausgewählten Zeitraum überbucht.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} geplant, %{available} verfügbar"
+      subheader:
+        add_user: Benutzer hinzufügen
     view_types:
+      resource_user_card:
+        caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
+        label: Benutzer-Karten
+      resource_user_timeline:
+        caption: Erstellen Sie eine Ansicht auf der Grundlage von Benutzern und verfolgen Sie deren Zuweisungen im Zeitverlauf auf einer Zeitachse
+        label: Benutzer-Zeitleiste
       resource_work_package_list:
         caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
         label: Liste von Arbeitspaketen
+      resource_work_package_timeline:
+        caption: Erstellen Sie eine Ansicht auf der Grundlage von Arbeitspaketen und verfolgen Sie deren Zuweisungen im Zeitverlauf auf einer Zeitachse
+        label: Arbeitspakete-Zeitleiste
       user_card:
         caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
         label: Benutzer-Karten
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Ressourcen zuweisen
+      context_menu_label: Zuweisungsmaßnahmen
+      delete_confirmation: Sind Sie sicher, dass Sie diese Zuweisung löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden.
+      delete_success: Ressourcenzuweisung gelöscht.
+      hidden_user: Versteckte Benutzer
+      overbooked: Der Nutzer wird während dieses Zeitraums über seine Arbeitszeit hinaus eingesetzt.
+      title: Zuweisung
     work_package_list:
       add_work_package_dialog:
         title: Arbeitspaket hinzufügen
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} Benutzer"
+          other: "%{count} Benutzer"
+        unassigned: Nicht zugewiesen
       allocation_placeholder: "—"
       blank:
         description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
@@ -167,3 +272,13 @@ de:
         add_work_package: Arbeitspaket hinzufügen
         allocate: Zuweisen
         settings: Ansicht konfigurieren
+    work_package_timeline:
+      blank:
+        add_work_package: Arbeitspaket hinzufügen
+        configure_view: Ansicht konfigurieren
+        description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
+        manual_description: Fügen Sie dieser Ansicht Arbeitspakete hinzu, um deren Zuweisung über die Zeit zu planen.
+        title: Keine Arbeitspakete anzuzeigen
+      query_name: 'Arbeitspakete-Zeitleiste für Ressourcenmanagement: %{name}'
+      subheader:
+        add_work_package: Arbeitspaket hinzufügen

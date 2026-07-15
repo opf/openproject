@@ -41,7 +41,7 @@ module Users
     attribute :mail,
               # We restrict email changes to admins (not :manage_user role), to prevent privilege escalation
               # Escalation path: change email of user with desired permissions to own email -> reset password -> login as user
-              writable: ->(*) { model.new_record? || user.admin? || can_change_self? }
+              writable: ->(*) { model.new_record? || user.admin? || can_change_own_mail? }
     attribute :admin,
               writable: ->(*) { user.admin? && !editing_self? }
     attribute :language
@@ -134,6 +134,10 @@ module Users
       return false if authenticates_externally?
 
       editing_self?
+    end
+
+    def can_change_own_mail?
+      can_change_self? && Setting.user_can_change_email?
     end
 
     def authenticates_externally?

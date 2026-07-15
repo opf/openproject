@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - OpenProject 17.6.0 HTTPX Client
+      - OpenProject 17.7.0 HTTPX Client
       Accept:
       - application/json
       Accept-Encoding:
@@ -27,19 +27,19 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Wed, 10 Jun 2026 06:23:07 GMT
+      - Mon, 13 Jul 2026 15:05:32 GMT
       Set-Cookie:
-      - JSESSIONID=6653CAF1A1F9B748F41B143F534D9C38; Path=/; HttpOnly
+      - JSESSIONID=F6D52519ACAB98970ED3BE5A16527BBE; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - L5DY6HB46AhTFvPuxIu0Cg
+      - 38BS5292Lr4kuFGf4ZLbCQ
       Xwiki-User:
-      - xwiki:XWiki.admin
+      - xwiki:XWiki.DarthVader
       Xwiki-Version:
-      - 18.3.0
+      - 18.5.0
       Content-Length:
-      - '251'
+      - '245'
     body:
       encoding: UTF-8
       string: '{"links":[],"searchResults":[],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
-  recorded_at: Wed, 10 Jun 2026 06:23:07 GMT
+  recorded_at: Mon, 13 Jul 2026 15:05:32 GMT
 recorded_with: VCR 6.4.0

@@ -1,37 +1,42 @@
 ---
 zh-CN:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: 列数
+        page: 页
+        row_count: 行数
+        scope: 范围
+        widgets: 微件
+    errors:
+      models:
+        grids/grid:
+          end_before_start: 结束值需要大于起始值。
+          outside: 不在网格内。
+          overlaps: 重叠.
   grids:
     label_widget_in_grid: 网格 %{grid_name} 中包含的微件
     widgets:
       empty: 此微件目前为空。
-      not_available: 此微件不可用。
-      subitems:
-        title: 子项目
-        no_results: 没有可见的子级。
-        view_all_subitems: 查看所有子项目
-        button_text: 子条目
       members:
-        title: 成员
         no_results: 无可见成员。
-        view_all_members: 查看所有成员
         show_members_count: 显示全部 %{count} 个成员
+        title: 成员
+        view_all_members: 查看所有成员
         x_more:
           other: |-
             以及另外一位成员。
             以及另外 %{count} 位成员。
       news:
         no_results: 没有新消息报告。
-  activerecord:
-    attributes:
-      grids/grid:
-        page: 页
-        row_count: 行数
-        column_count: 列数
-        widgets: 微件
-        scope: 范围
-    errors:
-      models:
-        grids/grid:
-          overlaps: 重叠.
-          outside: 不在网格内。
-          end_before_start: 结束值需要大于起始值。
+      not_available: 此微件不可用。
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: 子条目
+        no_results: 没有可见的子级。
+        title: 子项目
+        view_all_subitems: 查看所有子项目

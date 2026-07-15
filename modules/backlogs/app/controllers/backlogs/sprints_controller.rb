@@ -36,10 +36,9 @@ module Backlogs
     SHARED_SPRINT_EDIT_ACTIONS = %i[edit_dialog update refresh_form].freeze
     SPRINTLESS_ACTIONS = %i[index new_dialog create].freeze
 
-    skip_before_action :load_sprint_and_project, only: SPRINTLESS_ACTIONS
+    skip_before_action :load_sprint, only: SPRINTLESS_ACTIONS
     skip_before_action :authorize, only: SPRINT_STATE_ACTIONS + SHARED_SPRINT_EDIT_ACTIONS
 
-    prepend_before_action :load_project, only: SPRINTLESS_ACTIONS
     before_action :load_sprint_from_form_id, only: :refresh_form
     before_action :authorize_sprint_edit!, only: SHARED_SPRINT_EDIT_ACTIONS
     before_action :authorize_start!, only: :start
@@ -51,8 +50,7 @@ module Backlogs
 
     def index
       @sprints = Sprint.for_project(@project)
-                       .order_by_date
-                       .order(:name)
+                       .order_by_activity
                        .page(helpers.page_param(params))
                        .per_page(helpers.per_page_param)
 
@@ -137,7 +135,7 @@ module Backlogs
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_finish)
-        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
       elsif result.includes_error?(:base, :unfinished_work_packages)
         show_finish_sprint_dialog
       else
@@ -189,7 +187,7 @@ module Backlogs
 
     def respond_with_create_success
       flash[:notice] = I18n.t(:notice_successful_create)
-      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
     end
 
     def sprint_params

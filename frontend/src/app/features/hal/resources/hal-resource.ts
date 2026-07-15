@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { InputState } from '@openproject/reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
@@ -34,6 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { cloneDeep } from 'lodash-es';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export type HalResourceClass<T extends HalResource = HalResource> = new(
@@ -171,11 +173,14 @@ export class HalResource {
   public $copy<T extends HalResource = HalResource>(source:object = {}):T {
     const clone:HalResourceClass<T> = this.constructor as any;
 
-    return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
+    return new clone(this.injector, merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
 
   public $plain():any {
-    return _.cloneDeep(this.$source);
+    // Use a deep clone (not structuredClone) because $source may contain
+    // HalResource instances (e.g. filter values), which carry functions and
+    // injector state that structuredClone cannot clone (DataCloneError).
+    return cloneDeep(this.$source);
   }
 
   public get $isHal():boolean {
@@ -286,7 +291,7 @@ export class HalResource {
    */
   public $embeddableKeys():string[] {
     const properties = Object.keys(this.$source);
-    return _.without(properties, '_links', '_embedded', 'id');
+    return properties.filter((property) => !['_links', '_embedded', 'id'].includes(property));
   }
 
   /**
@@ -295,6 +300,6 @@ export class HalResource {
    */
   public $linkableKeys():string[] {
     const properties = Object.keys(this.$links);
-    return _.without(properties, 'self');
+    return properties.filter((property) => property !== 'self');
   }
 }

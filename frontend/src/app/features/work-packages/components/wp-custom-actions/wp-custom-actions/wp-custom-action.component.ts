@@ -170,7 +170,7 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       resource: saved,
       wasNew: false,
       changes,
-    } as ResourceChangesetCommit<WorkPackageResource>;
+    };
   }
 
   // `$source` is untyped (`any`), so narrow it before reading the HAL `_links`

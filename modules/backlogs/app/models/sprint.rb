@@ -51,9 +51,12 @@ class Sprint < ApplicationRecord
            inverse_of: :linked,
            dependent: :nullify
 
+  delegate :allow_multiple_active_sprints?, to: :project, allow_nil: true
+
   scopes :assignable,
          :for_project,
          :not_completed,
+         :order_by_activity,
          :order_by_date,
          :receiving_projects,
          :visible,
@@ -80,7 +83,7 @@ class Sprint < ApplicationRecord
               conditions: -> { active },
               message: :only_one_active_sprint_allowed
             },
-            if: :active?
+            if: -> { active? && !allow_multiple_active_sprints? }
 
   def date_range_set?
     start_date? && finish_date?
@@ -113,11 +116,7 @@ class Sprint < ApplicationRecord
   end
 
   def goal_for(project)
-    if goals.loaded?
-      goals.find { |goal| goal.project_id == project.id }
-    else
-      goals.find_by(project:)
-    end
+    goals.find { |goal| goal.project_id == project.id }
   end
 
   def goal_text_for(project)

@@ -212,7 +212,7 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
         it "assigns a default name for the first sprint" do
           service_call
 
-          expected_name = "#{I18n.t('activerecord.models.sprint')} 1"
+          expected_name = "#{Sprint.human_model_name} 1"
           expect(sprint.name).to eq(expected_name)
         end
       end
@@ -309,7 +309,7 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
           create(:sprint, project: other_project, name: "Other Sprint 5")
 
           service_call
-          expect(sprint.name).to eq("#{I18n.t('activerecord.models.sprint')} 1")
+          expect(sprint.name).to eq("#{Sprint.human_model_name} 1")
         end
 
         it "only considers sprints from the same project" do

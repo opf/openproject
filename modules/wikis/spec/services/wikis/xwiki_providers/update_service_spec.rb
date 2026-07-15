@@ -53,29 +53,19 @@ RSpec.describe Wikis::XWikiProviders::UpdateService, type: :model do
     context "when the URL changes" do
       before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Success("xwiki-instance-abc123")) }
 
-      it "re-fetches and updates the universal_identifier" do
+      it "does not touch the universal identifier" do
         result = service.call(url: "https://xwiki.local/")
         expect(result).to be_success
-        expect(result.result.universal_identifier).to eq("xwiki-instance-abc123")
-      end
-    end
-
-    context "when the URL is unchanged" do
-      it "skips the fetch and preserves the universal_identifier" do
-        result = service.call(name: "Renamed Wiki")
-        expect(result).to be_success
-        expect(fetch_service).not_to have_received(:call)
         expect(result.result.universal_identifier).to eq("old-id")
       end
     end
 
-    context "when XWiki is unreachable" do
-      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Failure(:connection_error)) }
-
-      it "fails with a url error" do
-        result = service.call(url: "https://xwiki.local/")
-        expect(result).not_to be_success
-        expect(result.errors[:url]).to include("could not be reached.")
+    context "when the name changes" do
+      it "persists the change" do
+        result = service.call(name: "Renamed Wiki")
+        expect(result).to be_success
+        expect(fetch_service).not_to have_received(:call)
+        expect(result.result.name).to eq("Renamed Wiki")
       end
     end
   end

@@ -122,7 +122,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             enableMeasurements: false,
           },
           this.ifcData.projects,
-        );
+        ).catch((error:unknown) => {
+          // The viewer chunk is loaded on demand; surface a download/init failure.
+          console.error('Failed to initialize the IFC viewer:', error);
+        });
       });
 
     this.insertXeokitToolbarIcons();

@@ -263,6 +263,65 @@ RSpec.describe "Workflow edit with multiple roles", :js do
       click_button "Save"
       expect_flash(message: "Successful update.")
     end
+
+    it "bulk-checks an indeterminate cell when toggling its column" do
+      expect(page).to have_field workflow_checkbox(0, 1), checked: false
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be true
+
+      toggle_select_all_in_column(1)
+
+      expect(page).to have_field workflow_checkbox(0, 1), checked: true
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be false
+
+      click_button "Save"
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 0, 1, exist: true)
+      expect_transition(role2, 0, 1, exist: true)
+    end
+
+    it "bulk-checks an indeterminate cell when toggling its row" do
+      expect(page).to have_field workflow_checkbox(0, 1), checked: false
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be true
+
+      toggle_select_all_in_row(0)
+
+      expect(page).to have_field workflow_checkbox(0, 1), checked: true
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be false
+
+      click_button "Save"
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 0, 1, exist: true)
+      expect_transition(role2, 0, 1, exist: true)
+    end
+
+    it "bulk-unchecks an indeterminate cell when toggling its column twice" do
+      expect(page).to have_field workflow_checkbox(0, 1), checked: false
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be true
+
+      toggle_select_all_in_column(1) # check all
+      toggle_select_all_in_column(1) # uncheck all
+
+      expect(page).to have_field workflow_checkbox(0, 1), checked: false
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be false
+
+      click_button "Save"
+      expect_flash(message: "Successful update.")
+
+      expect_transition(role, 0, 1, exist: false)
+      expect_transition(role2, 0, 1, exist: false)
+    end
+
+    it "marks the form dirty when bulk-toggling a column" do
+      expect(page).to have_field workflow_checkbox(0, 1), checked: false
+      expect(indeterminate?(workflow_checkbox(0, 1))).to be true
+
+      toggle_select_all_in_column(1)
+
+      click_link "User is author"
+      expect(page).to have_dialog("Save changes before continuing?")
+    end
   end
 
   context "when deselecting all roles in the select panel" do

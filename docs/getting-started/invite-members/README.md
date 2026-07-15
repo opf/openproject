@@ -36,8 +36,7 @@ To view the list of **all project members and their roles** in the project, sele
 You can use both filters in the left hand menu, as well as the filter options next to the **+ Member** button.
 
 > [!NOTE]
->
-> If you do not have a global permission to **View all users and groups **, you will not see all users of your instance.  The selection is limited to users who you share a project with or are in the same group with. 
+> If you do not have a global permission to **View all users and groups**, you will not see all users of your instance.  The selection is limited to users who you share a project with or are in the same group with. 
 
 Please also refer to [Members module guide](../../user-guide/members).
 
@@ -85,9 +84,9 @@ Click **Continue** to proceed.
 
 ![Form to specify user and permissions when inviting new users to a project in OpenProject](openproject_getting_started_invite_new_user_popover_form_invitation_message.png)
 
-If you selected *User* or *Group* in the previous step, you can either select an existing user in your instance from the dropdown list of enter an email address to invite a new one. You can then assign a specific role to that user within the project and provide context by adding an invitation message.
+If you selected _User_ or _Group_ in the previous step, you can either select an existing user in your instance from the dropdown list of enter an email address to invite a new one. You can then assign a specific role to that user within the project and provide context by adding an invitation message.
 
-If you chose to add a *Placeholder user*, you can enter the name of a user to assigned a role. 
+If you chose to add a _Placeholder user_, you can enter the name of a user to assigned a role. 
 
 ![Form to add a placeholder user to a project in OpenProject](openproject_getting_started_invite_new_user_popover_form_placeholder_user.png)
 

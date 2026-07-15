@@ -22,9 +22,9 @@
 ---
 fi:
   js:
-    work_packages:
-      properties:
-        storyPoints: Tarinapisteet
     burndown:
       day: Day
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Tarinapisteet

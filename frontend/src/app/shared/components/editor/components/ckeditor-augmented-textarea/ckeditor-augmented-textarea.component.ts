@@ -168,6 +168,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     this.registerFormSubmitListener();
+    this.registerRefreshSyncListener();
   }
 
   private registerFormSubmitListener():void {
@@ -180,6 +181,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         evt.preventDefault();
         void this.saveForm(evt);
       });
+  }
+
+  private registerRefreshSyncListener():void {
+    fromEvent(this.formElement, 'refresh-on-form-changes:beforeSnapshot')
+      .pipe(this.untilDestroyed())
+      .subscribe(() => this.syncToTextarea());
   }
 
   public editorFocused():void {
@@ -296,7 +303,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private setupAttachmentRemovalSignal(editor:ICKEditorInstance) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-    this.attachments = _.clone((this.halResource as HalResource).attachments.elements);
+    this.attachments = [...(this.halResource as HalResource).attachments.elements];
 
     this
       .states
@@ -307,11 +314,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         filter((resource) => !!resource),
       )
       .subscribe((resource:HalResource&{ attachments:AttachmentCollectionResource }) => {
-        const missingAttachments = _.differenceBy(
-          this.attachments,
-          resource.attachments.elements,
-          (attachment:HalResource) => attachment.id,
-        );
+        const presentIds = new Set<string|null>(resource.attachments.elements.map((other:HalResource) => other.id));
+        const missingAttachments = this.attachments.filter((attachment:HalResource) => !presentIds.has(attachment.id));
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return
         const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
@@ -320,7 +324,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
           editor.model.fire('op:attachment-removed', removedUrls);
         }
 
-        this.attachments = _.clone(resource.attachments.elements);
+        this.attachments = [...resource.attachments.elements];
       });
   }
 

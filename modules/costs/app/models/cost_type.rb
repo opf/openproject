@@ -37,6 +37,8 @@ class CostType < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   after_update :save_rates
+  after_update :activate_for_projects_with_costs,
+               if: -> { saved_change_to_for_all_projects? && !for_all_projects? }
   after_save :persist_current_rate_input
 
   include ActiveModel::ForbiddenAttributesProtection
@@ -138,5 +140,31 @@ class CostType < ApplicationRecord
     return if value.to_s.strip.empty?
 
     CostRate.parse_number_string_to_number(value.to_s)
+  end
+
+  private
+
+  # When a cost type stops applying to all projects, keep it explicitly enabled
+  # in every project that already logged costs for it (including archived ones, so
+  # the costs stay consistent in case they are unarchived)
+  # Runs inside the update transaction, so a failure rolls back the for_all_projects change.
+  def activate_for_projects_with_costs
+    projects = Project.where(id: project_ids_with_unmapped_costs)
+    return if projects.empty?
+
+    result = CostTypes::CostTypeProjects::BulkCreateService
+               .new(user: User.system, projects:, model: self, include_sub_projects: false)
+               .call
+    return if result.success?
+
+    raise "Failed to enable cost type #{id} for projects with logged costs: " \
+          "#{result.errors.full_messages.to_sentence}"
+  end
+
+  def project_ids_with_unmapped_costs
+    cost_entries
+      .where.not(project_id: cost_types_projects.select(:project_id))
+      .distinct
+      .pluck(:project_id)
   end
 end

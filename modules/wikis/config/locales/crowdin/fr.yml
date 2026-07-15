@@ -21,8 +21,8 @@ fr:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: appartient au fournisseur de wiki déjà connu sous le nom de « %{name} ».
+              wiki_provider_unreachable: est introuvable.
     models:
       wikis/inline_page_link:
         one: Lien de page en ligne
@@ -42,7 +42,7 @@ fr:
       external_wiki_providers: Fournisseurs de wiki
       internal_wiki_provider: Wiki interne
       wikis: Wikis
-  permission_manage_wiki_page_links: Gérer les liens de la page wiki
+  permission_manage_wiki_page_links: Gérer les liens vers les pages wiki
   project_module_wiki_platforms: Fournisseurs de wiki
   wikis:
     admin:
@@ -129,9 +129,18 @@ fr:
       wiki_page: Page wiki
     create_new_wiki_page_dialog:
       title: Créer une nouvelle page wiki
+    deferred_inline_page_link_macro_component:
+      loading: Chargement...
     delete_relation_page_link_confirmation_dialog:
       heading: Supprimer le lien vers la page wiki associée ?
       title: Supprimer le lien vers la page wiki associée
+    errors:
+      connection_error: Impossible de se connecter au fournisseur du wiki.
+      invalid_parent: La page sélectionnée n'est pas une page parent valide.
+      invalid_response: Le fournisseur du wiki a répondu de manière inattendue.
+      missing_token: Le compte utilisateur n'est pas encore connecté au fournisseur de wiki.
+      request_failed: Le fournisseur du wiki a rencontré une erreur inattendue.
+      unauthorized: Une erreur d'autorisation s'est produite.
     health_checks:
       authentication:
         existing_token: Jeton d'utilisateur
@@ -140,14 +149,18 @@ fr:
       base_configuration:
         header: Configuration
         provider_configured: Configuration terminée
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
         xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la communication avec l'instance XWiki.
         xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
         xwiki_oauth_unauthorized: Le jeton d'utilisateur n'a pas été reconnu par XWiki.
-    inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+    inline_wiki_page_dialog:
+      title_add: Ajouter une page wiki existante
+      title_create: Créer une nouvelle page wiki
     instructions:
       xwiki:
         integration: Administration de XWiki
@@ -162,29 +175,32 @@ fr:
       remove: Supprimer le lien de la page
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: Titre
+        parent: Page wiki parent
+        wiki_page: Page wiki
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Aucune page wiki trouvée
+        placeholder: Recherchez une page wiki (ou saisissez son URL)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
         page_not_found: La page wiki liée n'est plus disponible
         unexpected: Une erreur inattendue s'est produite
+      source:
+        parent: En tant que parent
     provider_types:
       xwiki:
         name: XWiki
     relation_page_links_component:
       empty_heading: Aucune page liée
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: Ajoutez les pages wiki en rapport avec ce lot de travaux.
       link_existing: Page wiki existante
       link_new: Nouvelle page wiki
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: Connectez XWiki à OpenProject pour synchroniser votre documentation et votre travail, créer des liens entre les pages, suivre les références et tout gérer depuis un seul et même endroit.
+        title: Intégration de XWiki
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: Mentionné dans la description
       referencing_pages: Référencé dans

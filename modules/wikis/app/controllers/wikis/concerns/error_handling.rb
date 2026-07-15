@@ -35,7 +35,11 @@ module Wikis
         in Dry::Validation::Result => failure
           failure.errors(full: true).to_h.values.flatten.join(" ")
         in Adapters::Results::Error => err
-          "An error occurred: #{err.code}, #{err.source}"
+          if I18n.exists?("wikis.errors.#{err.code}")
+            I18n.t("wikis.errors.#{err.code}")
+          else
+            "An unexpected error occurred: #{err.code}, #{err.source}"
+          end
         else
           error.to_s
         end

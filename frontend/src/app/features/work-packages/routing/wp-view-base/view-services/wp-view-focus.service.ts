@@ -28,7 +28,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -37,6 +37,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 export interface WPFocusState {
   workPackageId:string;
   focusAfterRender:boolean;
+  navigate:boolean;
 }
 
 @Injectable()
@@ -44,7 +45,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
   wpTableSelection = inject(WorkPackageViewSelectionService);
 
   public isFocused(workPackageId:string) {
-    return this.focusedWorkPackage === workPackageId;
+    return this.current?.workPackageId === workPackageId;
   }
 
   public ifShouldFocus(callback:(workPackageId:string) => void) {
@@ -81,15 +82,24 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
       );
   }
 
-  public updateFocus(workPackageId:string, setFocusAfterRender = false) {
+  public whenNavigationRequested():Observable<string> {
+    return this.live$()
+      .pipe(
+        filter((val:WPFocusState) => val.navigate),
+        map((val:WPFocusState) => val.workPackageId),
+        distinctUntilChanged(),
+      );
+  }
+
+  public updateFocus(workPackageId:string, setFocusAfterRender = false, navigate = true) {
     // Set the selection to this row, if nothing else is selected.
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.update({ workPackageId, focusAfterRender: setFocusAfterRender });
+    this.update({ workPackageId, focusAfterRender: setFocusAfterRender, navigate });
   }
 
-  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):WPFocusState|undefined {
+  valueFromQuery(_query:QueryResource, _results:WorkPackageCollectionResource):WPFocusState|undefined {
     return undefined;
   }
 }

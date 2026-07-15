@@ -37,6 +37,7 @@ class Header::ProjectsController < ApplicationController
   def index
     @current_project_id = params[:current_project_id].presence&.to_i
     @jump = params[:jump].presence
+    @query_terms = query.split
     @projects = load_projects
     @favorited_ids = load_favorited_ids
     @tree = build_tree(@projects)

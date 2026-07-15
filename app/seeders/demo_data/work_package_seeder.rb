@@ -88,12 +88,14 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
+      # TODO(COMMS-863): remove once the version_id column is dropped in favor of target_versions.
       set_version! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
       work_package = WorkPackage.create! wp_attr
 
+      set_target_versions! work_package, attributes
       create_children! work_package, attributes
       create_attachments! work_package, attributes
       update_description! work_package
@@ -171,9 +173,20 @@ module DemoData
     end
 
     def set_version!(wp_attr, attributes)
-      version = seed_data.find_reference(attributes["version"])
+      reference = Array(attributes["target_versions"]).first
+      version = seed_data.find_reference(reference)
       if version
         wp_attr[:version] = version
+      end
+    end
+
+    def set_target_versions!(work_package, attributes)
+      Array(attributes["target_versions"]).each do |reference|
+        version = seed_data.find_reference(reference)
+        next unless version
+
+        # The first version already has a row, mirrored from version_id on save.
+        work_package.work_package_versions.find_or_create_by!(version_id: version.id, kind: "target")
       end
     end
 
@@ -219,7 +232,9 @@ module DemoData
           duration:,
           ignore_non_working_days:,
           schedule_manually:,
-          estimated_hours:
+          estimated_hours:,
+          remaining_hours:,
+          done_ratio:
         }
       end
 
@@ -260,6 +275,14 @@ module DemoData
 
       def estimated_hours
         attributes["estimated_hours"]&.to_i
+      end
+
+      def remaining_hours
+        attributes["remaining_hours"]&.to_i
+      end
+
+      def done_ratio
+        attributes["done_ratio"]&.to_i
       end
 
       def all_days

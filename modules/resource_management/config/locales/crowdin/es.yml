@@ -36,12 +36,14 @@ es:
     models:
       resource_allocation: Asignación de recursos
       resource_planner: Planificador de recursos
+      resource_user_card: Tarjetas de usuario
       resource_work_package_list: Lista de paquetes de trabajo
-      user_card: Tarjetas de usuario
   button_next: Siguiente
-  label_resource_management: Planificación de recursos
+  label_resource_management: Administración de recursos
   permission_allocate_user_resources: Asignar recursos de usuario
   permission_allocate_user_resources_explanation: Permite a los usuarios crear, actualizar y eliminar asignaciones de recursos dentro de un planificador de recursos. Esto incluye asignar usuarios (o filtros de usuarios) a un planificador y ajustar el intervalo de tiempo y fecha asignado.
+  permission_assign_users_to_generic_allocations: Asociar usuarios a asignaciones genéricas
+  permission_assign_users_to_generic_allocations_explanation: Permite a los usuarios utilizar la vista de personal para asignar usuarios reales a asignaciones genéricas (basadas en filtros) de recursos que aún no tienen un usuario. No permite crear o editar asignaciones.
   permission_manage_public_resource_planners: Gestionar los planificadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite a los usuarios crear y gestionar planificadores de recursos públicos. Les permite ver, crear, gestionar y publicar sus propios planificadores de recursos. No permite a los usuarios ver los planificadores de recursos creados por otros usuarios que no se hayan compartido públicamente.
   permission_view_resource_planners: Ver planificadores de recursos
@@ -53,18 +55,15 @@ es:
   resource_management:
     action:
       delete: Eliminar
+      edit: Editar
       favorite: Añadir a favoritos
       make_private: Marcar como privado
       make_public: Marcar como público
       unfavorite: Eliminar de favoritos
-    allocation:
-      hours: "%{value}hs"
-      no_work: Sin trabajo planeado en este paquete de trabajo
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Establecer criterios de filtro basados en atributos de usuario para crear un recurso de marcador de posición (placeholder).
+          caption: Establece criterios de filtrado basados en los atributos del usuario para crear un recurso de marcador de posición.
           label: Criterios de filtrado
         label: Tipo de asignación
         principal:
@@ -84,6 +83,23 @@ es:
       submit: Asignar
       success_message: Recurso asignado.
       title: Asignar recurso
+    allocation:
+      hours: "%{value} h"
+      no_work: Sin trabajo planeado en este paquete de trabajo
+      summary: "%{allocated}/%{scheduled}"
+    assignment_dialog:
+      available: "%{hours} disponibles"
+      confirm_overtime: Asignar de todos modos
+      filter_criteria: Criterios de filtrado
+      no_candidates:
+        description: Ningún miembro del proyecto cumple los criterios de filtrado de esta asignación.
+        title: No hay miembros que coincidan
+      no_schedule: Este usuario no tiene ningún programa de trabajo configurado, por lo que no podemos determinar si esta asignación encaja.
+      overbooked_detail: Este usuario tiene %{available} disponible en este período, el paquete de trabajo requiere %{requested}.
+      requested_for: Solicitado para
+      select_user: Por favor, seleccione un usuario a asignar.
+      submit: Asignar
+      title: Asignar %{filter_name}
     blankslate:
       desc: Cree un planificador de recursos para empezar a planificar la capacidad de este proyecto.
       title: Aún no hay planificadores de recursos
@@ -103,6 +119,7 @@ es:
       success_message: Asignación de recursos actualizada.
       title: Editar asignación
     favorite_caption: Convierta esta vista en favorita para añadirla a la sección superior del menú de la barra lateral.
+    label_edit_resource_planner: Editar planificador de recursos
     label_new_resource_planner: Nuevo planificador de recursos
     label_resource_planner: Planificador de recursos
     label_resource_planner_plural: Planificadores de recursos
@@ -114,21 +131,109 @@ es:
     sidebar:
       private: Privado
       public: Público
+    staffing:
+      assign: Asignar usuario
+      blank:
+        description: Todas las asignaciones genéricas de este proyecto tienen un usuario asignado.
+        title: Nada para dotar de recursos
+      columns:
+        dates: Fechas
+        requested_time: Hora deseada
+        resource: Recurso
+        work_package: Paquete de trabajo
+      context_menu_label: Acciones de asignación
+      delete_confirmation: "¿Está seguro de que desea eliminar esta asignación?"
+      menu_item: Dotación de personal
+      starts_in_past: Esta asignación ya ha comenzado y aún no está asignada.
+      success_message: Usuario asignado.
+      title: Dotación de personal
     sub_views: Vistas en este planificador de recursos
+    timeframe:
+      end_only: Hasta %{end}
+      full: Desde %{start} hasta %{end}
+      start_only: Desde %{start}
+    timeline:
+      granularity:
+        day: Día
+        month: Mes
+        week: Semana del calendario
+      navigation:
+        next: Siguiente período
+        previous: Período anterior
+        today: Hoy
+      subheader:
+        add: Añadir
+        allocate: Asignar
+        settings: Configurar vista
+    user_allocations_dialog:
+      allocate_work_package: Asignar un paquete de trabajo
+      blank: Este usuario no tiene paquetes de trabajo asignados.
+      other_work_packages:
+        one: 1 paquete de trabajo más
+        other: "%{count} paquetes de trabajo más"
+      title: Utilización
+    user_card_list:
+      add_user_dialog:
+        title: Añadir usuario
+      blank:
+        description: Todavía no hay usuarios que se ajusten a los filtros de esta vista.
+        manual_description: Aún no se han añadido usuarios a esta vista.
+        title: No hay usuarios que mostrar
+      card:
+        multi_value_more: "+%{count} más"
+        remove: Eliminar usuario
+        remove_confirmation: "¿Eliminar este usuario de la vista?"
+      fields:
+        drag_area_label: Campos mostrados
+        input_caption: Selecciona los campos que se mostrarán en la ficha de usuario para esta vista
+        input_label: Campos
+        input_placeholder: Añadir un campo
+        working_times: Horario de trabajo
+      subheader:
+        resource: Recurso
+        settings: Configurar vista
+      utilization:
+        label: Utilización
+      working_hours:
+        blank: No se han configurado horarios de trabajo
+        schedule_availability_compact: "%{schedule} (%{factor}% disponible)"
+        schedule_change_compact: hasta el %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Añadir usuario
+        configure_view: Configurar vista
+        description: Aún no hay usuarios que coincidan con los filtros de esta vista.
+        manual_description: Añadir usuarios a esta vista para ver su asignación con el tiempo.
+        title: No hay usuarios para mostrar
+      no_work_schedule: No hay ningún cronograma de trabajo previsto para este usuario
+      overbooked: Este usuario ha superado su asignación total en el periodo seleccionado.
+      overbooked_tooltip:
+        range: "%{dates}: %{scheduled} programado, %{available} disponible"
+      subheader:
+        add_user: Añadir usuario
     view_types:
+      resource_user_card:
+        caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
+        label: Lista de tarjetas de usuario
+      resource_user_timeline:
+        caption: Crear una vista basada en los usuarios y ver sus asignaciones con el tiempo en una línea de tiempo
+        label: Línea de tiempo de usuarios
       resource_work_package_list:
         caption: Crea una vista basada en los paquetes de trabajo y consulta sus detalles y su asignación en una lista
         label: Lista de paquetes de trabajo
+      resource_work_package_timeline:
+        caption: Crea una vista basada en los paquetes de trabajo y consulta su distribución a lo largo del tiempo en un calendario
+        label: Calendario de los paquetes de trabajo
       user_card:
         caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
         label: Lista de tarjetas de usuario
     work_package_allocations_dialog:
       allocate_resource: Asignar recurso
       context_menu_label: Acciones de asignación
-      delete_confirmation: "¿Está seguro de que desea eliminar esta asignación? Esta acción no se puede deshacer."
+      delete_confirmation: "¿Seguro que quieres eliminar esta asignación? Esta acción no se puede deshacer."
       delete_success: Asignación de recurso eliminada.
       hidden_user: Usuario oculto
-      overbooked: The user is allocated beyond their working hours during this period.
+      overbooked: Durante este periodo, el usuario queda asignado fuera de su horario laboral.
       title: Asignación
     work_package_list:
       add_work_package_dialog:
@@ -137,7 +242,7 @@ es:
         additional: "+%{count}"
         other_users:
           one: "%{count} usuario"
-          other: "%{count} users"
+          other: "%{count} usuarios"
         unassigned: Sin asignar
       allocation_placeholder: "—"
       blank:
@@ -167,3 +272,13 @@ es:
         add_work_package: Añadir paquete de trabajo
         allocate: Asignar
         settings: Configurar vista
+    work_package_timeline:
+      blank:
+        add_work_package: Añadir paquete de trabajo
+        configure_view: Configurar vista
+        description: Todavía no hay paquetes de trabajo que se ajusten a los filtros de esta vista.
+        manual_description: Añade paquetes de trabajo a esta vista para planificar su asignación a lo largo del tiempo.
+        title: No hay paquetes de trabajo para mostrar
+      query_name: 'Calendario del paquete de trabajo de gestión de recursos: %{name}'
+      subheader:
+        add_work_package: Añadir paquete de trabajo

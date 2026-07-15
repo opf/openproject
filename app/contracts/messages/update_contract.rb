@@ -28,9 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: This is but a stub
 module Messages
   class UpdateContract < BaseContract
+    attribute :forum_id, permission: :edit_messages
+    attribute :locked, permission: :edit_messages
+    attribute :sticky, permission: :edit_messages
+
     validate :moving_message_to_another_forum
 
     private

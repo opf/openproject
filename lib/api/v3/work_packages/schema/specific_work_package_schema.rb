@@ -55,6 +55,7 @@ module API
                    :assignable_categories,
                    :assignable_priorities,
                    :assignable_versions,
+                   :assignable_target_versions,
                    :assignable_budgets,
                    :assignable_project_phases,
                    to: :contract

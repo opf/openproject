@@ -7,17 +7,17 @@ keywords: cost type, currency, time and costs, budget
 ---
 # Time and costs
 
-Navigate to *Administration* -> *Time and costs*. Here you can configure costs in OpenProject and create cost types to track unit costs. Also, you can configure the currency you want to use for your cost reports.
+Navigate to _Administration_ -> _Time and costs_. Here you can configure costs in OpenProject and create cost types to track unit costs. Also, you can configure the currency you want to use for your cost reports.
 
 ## Default time and cost settings
 
-To define default settings for logging time and costs navigate to *Administration* -> *Time and costs* -> *Defaults* and select *Time* or *Costs* tab respectively.
+To define default settings for logging time and costs navigate to _Administration_ -> _Time and costs_ -> _Defaults_ and select _Time_ or _Costs_ tab respectively.
 
 ### Define default time settings (Enterprise add-on)
 
 [feature: time_entry_time_restrictions ]
 
-Under the *Time* tab you can define which fields are required to be fill out when logging time across all projects. 
+Under the _Time_ tab you can define which fields are required to be fill out when logging time across all projects. 
 
 - **Allow exact times tracking**: enables entering start and finish times when logging time.  If disabled, only the amount of time spent can be logged, but not the start or end times. 
   
@@ -39,7 +39,7 @@ Under the *Time* tab you can define which fields are required to be fill out whe
 
 You can create and manage **cost types** to [book unit costs to work packages in OpenProject](../../user-guide/time-and-costs/cost-tracking/).
 
-Navigate to *Administration* -> *Time and costs* -> *Cost types* to create and manage unit costs types.
+Navigate to _Administration_ -> _Time and costs_ -> _Cost types_ to create and manage unit costs types.
 
 Click the green **+ Cost type** button to create a new cost type.
 
@@ -75,12 +75,12 @@ In the overview list of all cost types you can define the following.
 
 ## Create and manage time tracking activities
 
-To get an overview of existing values for time tracking activities, navigate to *Administration -> Time and Costs -> Time tracking activities*. You can adjust the items within the list by using the options behind the **More (three dots)** menu on the right side. You can also re-arrange the order by using the drag-and-drop handle on the left. 
+To get an overview of existing values for time tracking activities, navigate to _Administration -> Time and Costs -> Time tracking activities_. You can adjust the items within the list by using the options behind the **More (three dots)** menu on the right side. You can also re-arrange the order by using the drag-and-drop handle on the left. 
 
 ![Overview of existing time tracking activities in OpenProject administration](openproject_system_admin_guide_time_costs_time_tracking_activities_overview.png)
 
 > [!NOTE]
-> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.
+> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/time-and-costs) in a certain project, navigate to _Project settings -> Time and costs_.
 
 ### Create new time tracking activity
 
@@ -96,8 +96,7 @@ To **edit** an existing configuration either click on the name of the activity d
 
 ![Edit a time tracking activity in OpenProject administration](openproject_system_admin_guide_time_costs_time_tracking_activities_edit_icon.png)
 
-
 To remove a time tracking activity, open the **More (three dots)** menu on the right end of the row and click on the **delete icon**.
 
 > [!NOTE]
-> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.
+> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/time-and-costs) in a certain project, navigate to _Project settings -> Time and costs_.

@@ -40,6 +40,11 @@ module WorkPackage::PDFExport::Templates
         id: "contract",
         label: I18n.t("pdf_generator.template_contract.label"),
         caption: I18n.t("pdf_generator.template_contract.caption")
+      },
+      {
+        id: "artefact",
+        label: I18n.t("pdf_generator.template_artefact.label"),
+        caption: I18n.t("pdf_generator.template_artefact.caption")
       }
     ]
   end

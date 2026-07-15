@@ -53,6 +53,19 @@ module OpenProject::Wikis
       end
     end
 
+    initializer "openproject_wikis.configuration" do
+      ::Settings::Definition.add :internal_wiki_provider,
+                                 description: "Overwrite settings of the internal wiki provider through environment variables",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
+      ::Settings::Definition.add :wiki_providers,
+                                 description: "Configure external wiki providers through environment variables",
+                                 writable: false,
+                                 default: [],
+                                 format: :array
+    end
+
     config.to_prepare do
       API::V3::Configuration::ConfigurationRepresenter.property(
         :wikisAvailable,
@@ -63,8 +76,13 @@ module OpenProject::Wikis
 
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
+        filter ::Queries::Wikis::PageLinks::Filter::IdentifierFilter
         filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
         filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
+      end
+
+      ::Queries::Register.register(::Queries::Wikis::WikiPages::WikiPageQuery) do
+        filter ::Queries::Wikis::WikiPages::Filter::NameFilter
       end
     end
 
@@ -84,6 +102,34 @@ module OpenProject::Wikis
                    dependencies: %i[edit_work_packages],
                    contract_actions: { wiki_page_links: %i[manage] }
       end
+
+      should_render_wiki_index = ->(_) {
+        User.current.allowed_in_any_project?(:view_wiki_pages)
+      }
+
+      menu :top_menu,
+           :wikis,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           context: :modules,
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           caption: :"wikis.index.menu_title",
+           after: :cost_reports_global,
+           icon: :book,
+           if: should_render_wiki_index
+
+      menu :global_menu,
+           :wikis_query_select,
+           { controller: "/wikis/wiki_pages", action: "index" },
+           parent: :wikis,
+           partial: "wikis/wiki_pages/menus/menu",
+           if: should_render_wiki_index
 
       menu :work_package_split_view,
            :wikis,
@@ -126,7 +172,7 @@ module OpenProject::Wikis
     add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
     add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
     add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
-    add_api_path(:work_package_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
+    add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::PageLinks::PageLinksAPI

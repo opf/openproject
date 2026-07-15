@@ -1,36 +1,41 @@
 ---
 sv:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Antal kolumner
+        page: Sida
+        row_count: Antal rader
+        scope: Omfattning
+        widgets: Widgets
+    errors:
+      models:
+        grids/grid:
+          end_before_start: slutvärdet måste vara större än startvärdet.
+          outside: är utanför nätet.
+          overlaps: överlappar.
   grids:
     label_widget_in_grid: Widget som finns i Grid %{grid_name}
     widgets:
       empty: Denna widget är för närvarande tom.
-      not_available: Denna widget är inte tillgänglig.
-      subitems:
-        title: Underpunkter
-        no_results: Det finns inga synliga barn.
-        view_all_subitems: Visa alla underobjekt
-        button_text: Underobjekt
       members:
-        title: Medlemmar
         no_results: Inga synliga medlemmar.
-        view_all_members: Visa alla medlemmar
         show_members_count: Visa alla %{count} medlemmar
+        title: Medlemmar
+        view_all_members: Visa alla medlemmar
         x_more:
           one: och ytterligare en medlem.
           other: och %{count} fler medlemmar.
       news:
         no_results: Inget nytt att rapportera.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Sida
-        row_count: Antal rader
-        column_count: Antal kolumner
-        widgets: Widgets
-        scope: Omfattning
-    errors:
-      models:
-        grids/grid:
-          overlaps: överlappar.
-          outside: är utanför nätet.
-          end_before_start: slutvärdet måste vara större än startvärdet.
+      not_available: Denna widget är inte tillgänglig.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Underobjekt
+        no_results: Det finns inga synliga barn.
+        title: Underpunkter
+        view_all_subitems: Visa alla underobjekt

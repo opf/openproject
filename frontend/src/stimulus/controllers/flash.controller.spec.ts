@@ -27,7 +27,7 @@
  * See COPYRIGHT and LICENSE files for more details.
  * ++
  */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 
 import FlashController, { LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';

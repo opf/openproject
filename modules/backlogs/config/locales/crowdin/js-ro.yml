@@ -22,9 +22,9 @@
 ---
 ro:
   js:
-    work_packages:
-      properties:
-        storyPoints: Puncte cerință
     burndown:
       day: Zi
       points: Puncte
+    work_packages:
+      properties:
+        storyPoints: Puncte cerință

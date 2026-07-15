@@ -35,17 +35,31 @@ const VALID_FILTER_MODES = new Set(['all', 'favorited']);
 const NON_DEFAULT_FILTER_MODES = new Set(['favorited']);
 
 export default class HeaderProjectSelectController extends Controller {
+  private treeViewObserver:MutationObserver|null = null;
+
   connect():void {
     this.element.addEventListener('click', this.onFilterModeClick);
+    this.element.addEventListener('keydown', this.onKeydown);
 
     // Before the overlay becomes visible, inject the stored filter mode into
     // the turbo-frame src so the server renders the correct initial state.
     const popover = this.element.closest<HTMLElement>('[popover]');
     popover?.addEventListener('beforetoggle', this.onBeforeFirstOpen, { once: true });
+
+    // After the outer Turbo frame loads the FilterableTreeView shell, that component
+    // makes a second fetch() of its own to populate the tree. We observe aria-busy on
+    // the filterable-tree-view element: when it transitions from "true" → "false" the
+    // tree is in the DOM and we can scroll the current project into view.
+    // { once: true } on the frame event ensures we only attach the observer on the
+    // initial open, not on subsequent search-driven reloads of the outer frame.
+    const frame = this.element.querySelector('turbo-frame#op-header-project-frame');
+    frame?.addEventListener('turbo:frame-load', this.onInitialTreeViewLoad, { once: true });
   }
 
   disconnect():void {
     this.element.removeEventListener('click', this.onFilterModeClick);
+    this.treeViewObserver?.disconnect();
+    this.element.removeEventListener('keydown', this.onKeydown);
   }
 
   private onBeforeFirstOpen = ():void => {
@@ -61,6 +75,43 @@ export default class HeaderProjectSelectController extends Controller {
     const url = new URL(src, window.location.href);
     url.searchParams.set('filter_mode', stored);
     frame.setAttribute('src', url.toString());
+  };
+
+  private onInitialTreeViewLoad = ():void => {
+    const filterableTreeView = this.element.querySelector('filterable-tree-view');
+    if (!filterableTreeView) return;
+
+    this.treeViewObserver = new MutationObserver(this.scrollCurrentProjectAfterLoad);
+    this.treeViewObserver.observe(filterableTreeView, { attributes: true, attributeFilter: ['aria-busy'] });
+    this.scrollCurrentProjectAfterLoad();
+  };
+
+  private scrollCurrentProjectAfterLoad = ():void => {
+    const filterableTreeView = this.element.querySelector('filterable-tree-view');
+    if (filterableTreeView?.getAttribute('aria-busy') === 'false') {
+      this.scrollCurrentProjectIntoView();
+    }
+  };
+
+  private scrollCurrentProjectIntoView = ():void => {
+    const current = this.element.querySelector<HTMLElement>('[role="treeitem"][aria-current="true"]');
+    current?.scrollIntoView({ block: 'center' });
+  };
+
+  private onKeydown = (event:KeyboardEvent):void => {
+    if (event.key !== 'Enter') return;
+    const target = event.target as HTMLElement;
+    if (target.tagName !== 'INPUT') return;
+
+    const links = this.element.querySelectorAll<HTMLAnchorElement>(
+      'a[role="treeitem"][href]:not([aria-disabled="true"])',
+    );
+    const visibleLinks = [...links].filter((link) => !link.closest('[hidden]'));
+    const link = visibleLinks.find((candidate) => candidate.getAttribute('aria-current') === 'true') ?? visibleLinks[0];
+    if (!link) return;
+
+    event.preventDefault();
+    link.click();
   };
 
   private onFilterModeClick = (event:MouseEvent):void => {

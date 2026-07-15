@@ -25,8 +25,8 @@ es:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Página wiki ya existente
+          create_new: Nueva página wiki
     work_packages:
       tabs:
         wikis: Wikis

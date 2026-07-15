@@ -149,6 +149,19 @@ module Pages::Meetings
       wait_for_network_idle
     end
 
+    def expect_quick_filter_selected(label)
+      within "#content-body" do
+        expect(page).to have_css("segmented-control .SegmentedControl-item--selected", text: label)
+      end
+    end
+
+    def expect_quick_filter_unselected
+      within "#content-body" do
+        expect(page).to have_css("segmented-control")
+        expect(page).to have_no_css("segmented-control .SegmentedControl-item--selected")
+      end
+    end
+
     def set_project_filter(*projects)
       find_test_selector("quick-filter-select-panel-button").click
 

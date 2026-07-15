@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 12 Jun 2026 07:01:29 GMT
+      - Mon, 22 Jun 2026 07:11:10 GMT
       Set-Cookie:
-      - JSESSIONID=6533D0723B8276B5E0C9F0DF53503F6D; Path=/; HttpOnly
+      - JSESSIONID=9D29DF572D1B1245C0DC709197019EC7; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - Lgex3rjqeBxHH0hyu8cGBQ
+      - Q2mTvZxYrU5KAp9nzlv5lg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -45,7 +45,7 @@ http_interactions:
         Page for RSpec","rawTitle":"Test Page for RSpec","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1781247375000,"creator":"XWiki.admin","creatorName":null,"modified":1781247375000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
         URL Shortener.","content":"I recreated this page, but it is for RSpec still.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
         Page for RSpec","name":"Test Page for RSpec","type":"space","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 12 Jun 2026 07:01:29 GMT
+  recorded_at: Mon, 22 Jun 2026 07:11:10 GMT
 - request:
     method: put
     uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Test%20Page%20for%20RSpec.A%20page%20automatically%20created%20during%20a%20create_page%20test.WebHome
@@ -67,8 +67,8 @@ http_interactions:
       - Bearer <SECRET>
   response:
     status:
-      code: 201
-      message: Created
+      code: 202
+      message: Accepted
     headers:
       Content-Language:
       - en
@@ -77,20 +77,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 12 Jun 2026 07:01:29 GMT
+      - Mon, 22 Jun 2026 07:11:10 GMT
       Set-Cookie:
-      - JSESSIONID=ADC41F7E6B022B280D38635BE03C2FF1; Path=/; HttpOnly
+      - JSESSIONID=C9FC39EF8472F667AD66A9ECB63CC8AD; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - Lgex3rjqeBxHH0hyu8cGBQ
+      - Q2mTvZxYrU5KAp9nzlv5lg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
       - 18.3.0
       Content-Length:
-      - '2974'
+      - '3231'
     body:
       encoding: UTF-8
-      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Test%20Page%20for%20RSpec.A%20page%20automatically%20created%20during%20a%20create_page%20test.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"91d8c","fullName":"Test
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Test%20Page%20for%20RSpec.A%20page%20automatically%20created%20during%20a%20create_page%20test.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"91d8c","fullName":"Test
         Page for RSpec.A page automatically created during a create_page test.WebHome","wiki":"xwiki","space":"Test
         Page for RSpec.A page automatically created during a create_page test","name":"WebHome","title":"A
         page automatically created during a create_page test","rawTitle":"A page automatically
@@ -98,7 +98,7 @@ http_interactions:
         Page for RSpec","name":"Test Page for RSpec","type":"space","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/"},{"label":"A
         page automatically created during a create_page test","name":"A page automatically
         created during a create_page test","type":"space","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 12 Jun 2026 07:01:29 GMT
+  recorded_at: Mon, 22 Jun 2026 07:11:10 GMT
 - request:
     method: get
     uri: https://xwiki.local/rest/openproject/documents/91d8c
@@ -126,27 +126,26 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 12 Jun 2026 07:01:29 GMT
+      - Mon, 22 Jun 2026 07:11:10 GMT
       Set-Cookie:
-      - JSESSIONID=D0A3382830FA89629B3D86592A6FF515; Path=/; HttpOnly
+      - JSESSIONID=BB6E6FF41DAE21FD493B5A4377417832; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - Lgex3rjqeBxHH0hyu8cGBQ
+      - Q2mTvZxYrU5KAp9nzlv5lg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
       - 18.3.0
       Content-Length:
-      - '3259'
+      - '3237'
     body:
       encoding: UTF-8
       string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page%20for%20RSpec/spaces/A%20page%20automatically%20created%20during%20a%20create_page%20test/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/91d8c","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Test%20Page%20for%20RSpec.A%20page%20automatically%20created%20during%20a%20create_page%20test.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"91d8c","fullName":"Test
         Page for RSpec.A page automatically created during a create_page test.WebHome","wiki":"xwiki","space":"Test
         Page for RSpec.A page automatically created during a create_page test","name":"WebHome","title":"A
         page automatically created during a create_page test","rawTitle":"A page automatically
-        created during a create_page test","parent":"","parentId":"","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/","translations":{"links":[],"translations":[],"default":""},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1781247689000,"creator":"XWiki.admin","creatorName":null,"modified":1781247689000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
-        URL Shortener.","content":"","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
+        created during a create_page test","parent":"","parentId":"","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/","translations":{"links":[],"translations":[],"default":""},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1781247689000,"creator":"XWiki.admin","creatorName":null,"modified":1781247689000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"","content":"","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
         Page for RSpec","name":"Test Page for RSpec","type":"space","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/"},{"label":"A
         page automatically created during a create_page test","name":"A page automatically
         created during a create_page test","type":"space","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20Page%20for%20RSpec/A%20page%20automatically%20created%20during%20a%20create_page%20test/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 12 Jun 2026 07:01:29 GMT
+  recorded_at: Mon, 22 Jun 2026 07:11:10 GMT
 recorded_with: VCR 6.4.0

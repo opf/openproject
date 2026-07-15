@@ -100,6 +100,7 @@ table.generic-table
       text-align: left
       line-height: 34px
       padding: 0
+      border-bottom: 1px solid var(--borderColor-default)
       // This is needed for a bug in FF as described here
       // https://www.456bereastreet.com/archive/201305/firefox_and_the_magical_text-overflowellipsis_z-index/
       z-index: 1
@@ -283,7 +284,6 @@ thead.-sticky th
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
-  border-bottom: 1px solid var(--borderColor-default)
 
   &:hover,
   &.hover
@@ -306,7 +306,6 @@ thead.-sticky th
 .generic-table--empty-header
   height:        var(--generic-table--header-height)
   line-height:   var(--generic-table--header-height)
-  border-bottom: 1px solid var(--borderColor-default)
   z-index:       1
 
   // In case the table header contains invisible content for screen readers

@@ -22,9 +22,9 @@
 ---
 eo:
   js:
+    burndown:
+      day: Tago
+      points: Poentoj
     work_packages:
       properties:
-        storyPoints: Historiaj poentoj
-    burndown:
-      day: Day
-      points: Points
+        storyPoints: Rakontaj poentoj

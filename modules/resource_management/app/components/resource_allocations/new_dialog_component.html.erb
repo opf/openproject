@@ -40,16 +40,31 @@ See COPYRIGHT and LICENSE files for more details.
     dialog.with_header(variant: :large)
 
     dialog.with_body(classes: "Overlay-body_autocomplete_height") do
-      render(
-        ResourceAllocations::KindStep::FormComponent.new(
-          project: @project,
-          work_package: @work_package
+      if skip_kind_step?
+        render(
+          ResourceAllocations::AllocationStep::FormComponent.new(
+            allocation: @allocation,
+            project: @project,
+            allocation_kind:,
+            view: @view
+          )
         )
-      )
+      else
+        render(
+          ResourceAllocations::KindStep::FormComponent.new(
+            project: @project,
+            allocation: @allocation
+          )
+        )
+      end
     end
 
     dialog.with_footer do
-      render(ResourceAllocations::KindStep::FooterComponent.new)
+      if skip_kind_step?
+        render(ResourceAllocations::AllocationStep::FooterComponent.new)
+      else
+        render(ResourceAllocations::KindStep::FooterComponent.new)
+      end
     end
   end
 %>

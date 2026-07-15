@@ -30,5 +30,18 @@
 
 module ResourcePlanners
   class UpdateContract < BaseContract
+    attribute :public
+
+    validate :user_allowed_to_set_public
+
+    private
+
+    def user_allowed_to_set_public
+      return unless model.public_changed?
+      return if model.project.nil?
+      return if user.allowed_in_project?(:manage_public_resource_planners, model.project)
+
+      errors.add :public, :error_unauthorized
+    end
   end
 end

@@ -108,7 +108,7 @@ RSpec.describe "project export", :js do
       it "exports with that filter" do
         index_page.expect_projects_listed(important_project, party_project)
 
-        index_page.open_filters
+        click_button accessible_name: "Project name filter"
 
         index_page.set_filter("name_and_identifier",
                               "Name or identifier",

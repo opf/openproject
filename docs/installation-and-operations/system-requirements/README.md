@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # System requirements
 
-__Note__: The configurations described below are what we use and test against.
+**Note**: The configurations described below are what we use and test against.
 This means that other configurations might also work but we do not
 provide any official support for them.
 
@@ -16,9 +16,9 @@ The server hardware requirements should be roughly the same for both the package
 
 ### Minimum hardware requirements
 
-* __CPU:__ Quad Core CPU (>= 2ghz)
-* __Memory:__ 4096 MB
-* __Free disk space:__ 20 GB
+- **CPU:** Quad Core CPU (>= 2ghz)
+- **Memory:** 4096 MB
+- **Free disk space:** 20 GB
 
 This is for a single server running OpenProject for up to 200 total users. Depending on your number of concurrent users,  these requirements might vary drastically.
 
@@ -36,7 +36,6 @@ OpenProject currently requires some bundled extensions, that should be available
 
 Additionally, OpenProject will try to create a [custom collation](https://www.postgresql.org/docs/current/collation.html) for version sorting that depends on `und-u-kn-true` ICU collation.
 
-
 ## Scaling requirements
 
 Generally speaking you will need more CPUs (the faster the better) and more RAM with an increasing number of users.
@@ -53,11 +52,12 @@ There may come a point where you will have to make configuration changes to the 
 Using a rough estimate we can give the following recommendations based on the number of total active users.
 
 | Total active users | CPU cores | RAM in GB | web workers | background workers | disk space in GB |
-| ------------------ | --------- | --------- | ----------- | ------------------ | ---------------- |
+| ------------------ | --------- | --------- |-------------| ------------------ | ---------------- |
 | <=200              | 4         | 4         | 2           | 1                  | 20               |
 | 500                | 8         | 8         | 4           | 2                  | 40               |
-| 1500               | 16        | 16        | 8          | 4                  | 80               |
-| >1500 | Please refer to the [additional scaling recommendations](#additional-scaling-recommendations)  |
+| 1500               | 16        | 16        | 8           | 4                  | 80               |
+
+For over 1500, please refer to the [additional scaling recommendations](#additional-scaling-recommendations).
 
 Mind, even just for 5 users we do recommend 2 web workers as each page may require
 multiple requests to be made simultaneously. Having just one will work, but pages may take longer to finish loading.
@@ -82,7 +82,6 @@ In the _packaged installation_ you can have multiple servers running OpenProject
 > We recommend to run OpenProject in a [Kubernetes deployment using our Helm charts](../installation/helm-chart), or in smaller environments, [docker compose](../installation/docker-compose) or [docker Swarm](../installation/docker/#docker-swarm). Kubernetes and Docker swarm are fully horizontally scalable
 
 [For more information on applying scaling options depending on your installation method, please see this document](../operation/scaling/).
-
 
 ### Scaling parameters
 
@@ -172,20 +171,20 @@ For high-availability setups, distribute traffic across multiple servers and ava
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
 
-**Please note**, that we only provide packages for the __AMD64__ (x86) architecture. We do provide *docker containers* for both __ARM64__ and __AMD64__.
+**Please note**, that we only provide packages for the **AMD64** (x86) architecture. We do provide _docker containers_ for both **ARM64** and **AMD64**.
 
 ### Packaged-based installation (.rpm/.deb)
 
 The [package-based installation](../installation/packaged) requires one of the following Linux distributions:
 
-| Distribution (__64 bits only__) | End of life software package                                 |
-| ------------------------------- | ------------------------------------------------------------ |
-| Ubuntu 22.04 Jammy              | *≈ 2027 Q2*                                                  |
+| Distribution (**64 bits only**) | End of life software package                                 |
+|---------------------------------| ------------------------------------------------------------ |
+| Ubuntu 22.04 Jammy              | _≈ 2027 Q2_                                                  |
 | Ubuntu 20.04 Focal              | 2025 Q3 - [OpenProject 16.2](https://community.openproject.org/wp/64078) |
-| Debian 12 Bookworm              | *≈ 2027 Q2*                                                  |
-| Debian 11 Bullseye              | *2026 Q3*                                                    |
-| CentOS/RHEL 9.x                 | *≈ 2027 Q2*                                                  |
-| Suse Linux Enterprise Server 15 | *≈ 2027 Q2*                                                  |
+| Debian 12 Bookworm              | _≈ 2027 Q2_                                                  |
+| Debian 11 Bullseye              | _2026 Q3_                                                    |
+| CentOS/RHEL 9.x                 | _≈ 2027 Q2_                                                  |
+| Suse Linux Enterprise Server 15 | _≈ 2027 Q2_                                                  |
 
 ### Overview of dependencies
 
@@ -193,14 +192,15 @@ Both the package and docker based installations will install and setup the the [
 
 For the [packaged installation](../installation/packaged/) and the [all-in-one docker container](../installation/docker#all-in-one-container) container, an [Apache](https://httpd.apache.org/) web server and a [PostgreSQL 17](https://www.postgresql.org/) database are installed.
 The all-in-one container will only additionally install [hocuspocus](https://github.com/opf/openproject/tree/dev/extensions/op-blocknote-hocuspocus), which is required for the [real-time collaboration](../../user-guide/documents/#collaborative-editing) feature in OpenProject.
+
 ## Client
 
 OpenProject supports the latest versions of the major browsers.
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/)
-* [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
-* [Google Chrome](https://www.google.com/chrome/browser/desktop/)
-* [Apple Safari](https://www.apple.com/safari/)
+- [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/)
+- [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
+- [Google Chrome](https://www.google.com/chrome/browser/desktop/)
+- [Apple Safari](https://www.apple.com/safari/)
 
 ## Integrations (optional)
 
@@ -212,25 +212,25 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 #### Nextcloud Server
 
-* [Nextcloud 31](https://nextcloud.com/changelog/#latest31)
-* [Nextcloud 32](https://nextcloud.com/changelog/#latest32)
-* [Nextcloud 33](https://nextcloud.com/changelog/#latest33)
+- [Nextcloud 32](https://nextcloud.com/changelog/#latest32)
+- [Nextcloud 33](https://nextcloud.com/changelog/#latest33)
+- [Nextcloud 34](https://nextcloud.com/changelog/#latest34)
 
 > [!TIP]
 >
-> * If you run Nextcloud in the community edition be careful to not blindly follow the update hints in the
+> - If you run Nextcloud in the community edition be careful to not blindly follow the update hints in the
 >   administration area of a Nextcloud instance, as they nudge you to use the `latest` version, which might not be the
 >   latest `stable` version.
-> * If you installed Nextcloud via the [community](https://hub.docker.com/_/nextcloud) docker image, we advise you to
+> - If you installed Nextcloud via the [community](https://hub.docker.com/_/nextcloud) docker image, we advise you to
 >   pin it to the `stable` tag.
-> * Nextcloud company advises the use of their [all-in-one](https://hub.docker.com/r/nextcloud/all-in-one) docker image.
+> - Nextcloud company advises the use of their [all-in-one](https://hub.docker.com/r/nextcloud/all-in-one) docker image.
 
 #### Nextcloud Apps
 
 ##### OpenProject integration
 
-* [OpenProject Integration 3.0.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.0.0) — Nextcloud 33 or higher
-* [OpenProject Integration 2.11.2](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.2) — Nextcloud 31, 32
+- [OpenProject Integration 3.1.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.1.0) — Nextcloud 33, 34 or higher
+- [OpenProject Integration 2.11.3](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.3) — Nextcloud 32
 
 ##### Team folders
 
@@ -242,7 +242,7 @@ Please choose the latest available version depending on your version of Nextclou
 
 OpenProject is tested against the following version:
 
-* [Keycloak 26.6.1](https://github.com/keycloak/keycloak/releases/tag/26.6.1)
+- [Keycloak 26.6.1](https://github.com/keycloak/keycloak/releases/tag/26.6.1)
 
 ## Frequently asked questions (FAQ)
 

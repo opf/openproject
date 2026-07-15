@@ -87,15 +87,15 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
       assigned_to_me_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
       expect(assigned_to_me_area.area)
         .to have_css(".subject", text: other_type_work_package.subject)
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       my_page.add_widget(1, 3, :column, "Work packages table")
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       created_by_me_area.remove
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
       assigned_to_me_area.remove
-      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
       filter_area.expect_to_span(1, 1, 2, 2)

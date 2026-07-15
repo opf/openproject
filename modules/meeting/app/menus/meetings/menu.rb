@@ -77,8 +77,8 @@ module Meetings
       )
     end
 
-    def all_meetings_item
-      all_filter = [].to_json
+    def all_meetings_item # rubocop:disable Metrics/AbcSize
+      all_filter = [{ time: { operator: Queries::Operators::Upcoming.symbol, values: [] } }].to_json
       my_meetings_href = polymorphic_path([project, :meetings])
       query_params = { filters: all_filter }
 
@@ -114,7 +114,10 @@ module Meetings
     end
 
     def recurring_menu_item
-      recurring_filter = [{ type: { operator: "=", values: ["t"] } }].to_json
+      recurring_filter = [
+        { type: { operator: "=", values: ["t"] } },
+        { time: { operator: Queries::Operators::Upcoming.symbol, values: [] } }
+      ].to_json
 
       menu_item(title: I18n.t("label_recurring_meeting_plural"),
                 query_params: { filters: recurring_filter, sort: "start_time" })
@@ -144,7 +147,7 @@ module Meetings
     def attendee_filter
       [
         { attended_user_id: { operator: "=", values: [User.current.id.to_s] } },
-        { time: { operator: "=", values: ["past"] } }
+        { time: { operator: Queries::Operators::Past.symbol, values: [] } }
       ].to_json
     end
 

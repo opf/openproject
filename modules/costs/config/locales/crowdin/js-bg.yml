@@ -22,15 +22,15 @@
 ---
 bg:
   js:
-    text_are_you_sure: Сигурни ли сте?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Разходи
-      properties:
-        overallCosts: Общи разходи
-        spentUnits: Изразходвани единици
     button_log_costs: Разходи за единична регистрация
     label_hour: час
     label_hours: Часове
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Сигурни ли сте?
+    work_packages:
+      properties:
+        overallCosts: Общи разходи
+        spentUnits: Изразходвани единици
+      property_groups:
+        costs: Разходи

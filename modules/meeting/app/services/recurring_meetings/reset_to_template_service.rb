@@ -38,19 +38,25 @@ module RecurringMeetings
   #   ResetToTemplateService.new(user:, meeting:, params: { state: :open })
   class ResetToTemplateService < ::BaseServices::BaseCallable
     include ::Shared::ServiceContext
+    include ::Contracted
 
     attr_reader :user, :meeting, :extra_params
 
-    def initialize(user:, meeting:, params: {})
+    def initialize(user:, meeting:, params: {}, contract_class: RecurringMeetings::ResetToTemplateContract)
       super()
       @user = user
       @meeting = meeting
       @extra_params = params
+      self.contract_class = contract_class
+      self.contract_options = { reopening: reopening?(params) }
     end
 
     protected
 
     def perform
+      contract_result = validate_contract
+      return contract_result unless contract_result.success?
+
       in_context(meeting, send_notifications: false) do
         ServiceResult.new(success: reset_to_template!, result: meeting)
       rescue ActiveRecord::RecordInvalid => e
@@ -59,6 +65,17 @@ module RecurringMeetings
     end
 
     private
+
+    def reopening?(params)
+      params[:state].to_s == "open"
+    end
+
+    def validate_contract
+      success, errors = validate(meeting, user, options: contract_options)
+      return ServiceResult.failure(errors:) unless success
+
+      ServiceResult.success
+    end
 
     def template
       meeting.recurring_meeting.template

@@ -29,57 +29,64 @@
 #++
 
 class Backlogs::WorkPackages::UpdateService
-  attr_accessor :user, :story
+  attr_reader :user, :work_package
 
-  def initialize(user:, story:)
-    self.user = user
-    self.story = story
+  def initialize(user:, work_package:)
+    @user = user
+    @work_package = work_package
   end
 
-  def call(direction: nil, target_id: nil, position: nil, prev_id: nil)
-    resolve_required_attributes(direction:, target_id:)
-      .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: story).call(**attrs) }
-      .on_success do |call|
-        if prev_id
-          call.result.move_after(prev_id:)
-        elsif position
-          call.result.move_after(position:)
+  # The transaction turns the attribute change and the reorder into one atomic
+  # move. After-commit callbacks (e.g. the work_package_after_update plugin
+  # hook) therefore fire only once the whole move has committed, and since
+  # move_after reloads the work package mid-method, they observe the final
+  # list and position with `saved_changes` already cleared: consumers cannot
+  # rely on change tracking for backlogs moves.
+  def call(list_type: nil, list_id: nil, position: nil, prev_id: nil)
+    result = nil
+
+    WorkPackage.transaction do
+      result = resolve_required_attributes(list_type:, list_id:)
+        .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: work_package).call(**attrs) }
+        .on_success do |call|
+          # A blank prev_id ("") is meaningful: it means "insert at the top of
+          # the list", so a truthy check is used here. A blank position is not
+          # meaningful (it would cast to nil and move to the top unintentionally),
+          # so `position.present?` is used instead.
+          if prev_id
+            call.result.move_after(prev_id:)
+          elsif position.present?
+            call.result.move_after(position:)
+          end
         end
-      end
+
+      # The inner service raises ActiveRecord::Rollback when its result is a
+      # failure, but that raise happens inside its own transaction, which joins
+      # this one and swallows it. Re-raise here so a failure after the work
+      # package row was already written cannot half-commit the move.
+      raise ActiveRecord::Rollback if result.failure?
+    end
+
+    result
   end
 
   private
 
-  def resolve_required_attributes(direction:, target_id:)
-    if target_id && direction
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
-    elsif target_id
-      attributes_result_from_target(target_id)
-    elsif direction
-      attributes_result_from_direction(direction)
+  def resolve_required_attributes(list_type:, list_id:)
+    if list_type.present? || list_id.present?
+      attributes_result_from_list(list_type, list_id)
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.missing_target"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.missing_target"))
     end
   end
 
-  def attributes_result_from_target(target_id)
-    case target_id.to_s.split(":", 2)
-    in ["sprint", /\A\d+\z/ => sprint_id]
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: })
-    in ["backlog_bucket", /\A\d+\z/ => backlog_bucket_id]
-      ServiceResult.success(result: { backlog_bucket_id:, sprint_id: nil })
-    in ["inbox"]
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
-    else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))
-    end
-  end
+  def attributes_result_from_list(list_type, list_id)
+    target = Backlogs::Target.from_list(list_type, list_id)
 
-  def attributes_result_from_direction(direction)
-    if direction.in? %w(higher highest lower lowest)
-      ServiceResult.success(result: { move_to: direction })
+    if target
+      ServiceResult.success(result: target.attributes)
     else
-      ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_direction"))
+      ServiceResult.failure(message: I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
     end
   end
 end

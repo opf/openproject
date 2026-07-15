@@ -37,7 +37,7 @@ module OpPrimer
     # @param text "The text content to display" text
     # @param width "Container width in pixels" range { min: 100, max: 600, step: 10 }
     # @param truncate "Truncation style" select { choices: [single_line, multi_line] }
-    # @param lines "Lines (multi_line mode only)" range { min: 2, max: 8, step: 1 }
+    # @param lines "Lines (multi_line mode only)" range { min: 2, max: 12, step: 1 }
     # @param expansion "Reveal text in place or in a dialog" select { choices: [inline, dialog] }
     def playground(text: "OpenProject is an open source project management software that supports " \
                          "classic, agile, and hybrid approaches.",
@@ -63,7 +63,7 @@ module OpPrimer
     end
 
     # Multi-line truncation with inline expansion using line-clamp
-    # @param lines "Number of visible lines" range { min: 2, max: 8, step: 1 }
+    # @param lines "Number of visible lines" range { min: 2, max: 12, step: 1 }
     # @display min_height 300px
     def multi_line(lines: 3)
       render_with_template(locals: { lines: })

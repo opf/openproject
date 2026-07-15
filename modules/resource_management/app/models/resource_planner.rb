@@ -29,7 +29,12 @@
 #++
 
 class ResourcePlanner < PersistedView
-  self.allowed_children = %w[UserCard ResourceWorkPackageList]
+  self.allowed_children = %w[
+    ResourceWorkPackageTimeline
+    ResourceUserTimeline
+    ResourceWorkPackageList
+    ResourceUserCard
+  ]
 
   # Virtual attributes used by the new-planner form. They are not persisted on
   # the planner itself: `default_view_class_name` is consumed when creating the
@@ -44,13 +49,14 @@ class ResourcePlanner < PersistedView
   validates :parent, absence: true
   validates :query, absence: true
 
-  # resource planner must belong to a project and a user
   validates :principal, :project,
             presence: true
 
   validate :end_date_after_start_date
+  validate :dates_set_together
 
   include ResourceManagement::Categorized
+  include ResourceManagement::DateRangeAttribute
 
   def visible?(user)
     return false if project.nil?
@@ -59,12 +65,42 @@ class ResourcePlanner < PersistedView
     public? || principal == user
   end
 
+  def work_package_count
+    @work_package_count ||= distinct_child_count(ResourceManagement::WorkPackageSelection) do |view|
+      view.work_packages.reorder(nil).ids
+    end
+  end
+
+  def member_count
+    @member_count ||= distinct_child_count(ResourceManagement::UserSelection) do |view|
+      view.results&.ids || []
+    end
+  end
+
   private
+
+  def distinct_child_count(selection_module)
+    children.each_with_object(Set.new) do |view, ids|
+      ids.merge(yield(view)) if view.is_a?(selection_module)
+    end.size
+  end
 
   def end_date_after_start_date
     return if start_date.blank? || end_date.blank?
     return if end_date > start_date
 
     errors.add :end_date, :greater_than_start_date
+  end
+
+  # The timeframe is optional, but it is picked as a range: it is either left
+  # empty or both of its ends are given.
+  def dates_set_together
+    return if start_date.blank? == end_date.blank?
+
+    if start_date.blank?
+      errors.add :start_date, :required_with_end_date
+    else
+      errors.add :end_date, :required_with_start_date
+    end
   end
 end

@@ -58,7 +58,7 @@ RSpec.describe "Backlog bucket deletion", :js do
     backlogs_page.visit!
     backlogs_page.expect_bucket_names_in_order("Deprecated bucket")
 
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Delete backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Delete backlog bucket")
 
     backlogs_page.expect_and_confirm_backlog_bucket_delete_modal
 

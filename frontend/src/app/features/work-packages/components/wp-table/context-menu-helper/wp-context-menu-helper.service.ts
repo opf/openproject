@@ -98,7 +98,7 @@ export class WorkPackageContextMenuHelperService {
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
-    _.each(allowedActions, (allowedAction) => {
+    allowedActions.forEach((allowedAction) => {
       singularPermittedActions.push({
         key: allowedAction.key,
         text: allowedAction.text,
@@ -123,12 +123,12 @@ export class WorkPackageContextMenuHelperService {
     return link;
   }
 
-  public getIntersectOfPermittedActions(workPackages:any) {
-    const bulkPermittedActions:any = [];
-    const possibleActions = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
-    const permittedActions = _.filter(possibleActions, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
+  public getIntersectOfPermittedActions(workPackages:WorkPackageResource[]) {
+    const bulkPermittedActions:WorkPackageAction[] = [];
+    const possibleActions:WorkPackageAction[] = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
+    const permittedActions = possibleActions.filter((action) => workPackages.every((workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
-    _.each(permittedActions, (permittedAction:any) => {
+    permittedActions.forEach((permittedAction) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
@@ -154,20 +154,20 @@ export class WorkPackageContextMenuHelperService {
   }
 
   private isActionAllowed(workPackage:WorkPackageResource, action:WorkPackageAction):boolean {
-    return _.filter(this.getAllowedActions(workPackage, [action]), (a) => a === action).length >= 1;
+    return this.getAllowedActions(workPackage, [action]).filter((a) => a === action).length >= 1;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
     const allowedActions:WorkPackageAction[] = [];
 
-    _.each(actions, (action) => {
+    actions.forEach((action) => {
       if (action.link && workPackage[action.link] !== undefined) {
         action.text = action.text || I18n.t(`js.button_${action.key}`);
         allowedActions.push(action);
       }
     });
 
-    _.each(this.HookService.call('workPackageTableContextMenu'), (action:WorkPackageAction) => {
+    this.HookService.call('workPackageTableContextMenu').forEach((action:WorkPackageAction) => {
       if (workPackage[action.link!] !== undefined) {
         const index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action);

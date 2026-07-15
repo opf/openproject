@@ -1,6 +1,6 @@
 ---
 mn:
   overviews:
-    label_home: "%{workspace_type} home"
     label_dashboard: Хянах самбар
+    label_home: "%{workspace_type} home"
     label_overview: Overview

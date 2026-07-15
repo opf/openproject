@@ -306,16 +306,26 @@ module Meetings
 
     # Methods for recurring meetings
     def add_instantiated_occurrences(recurring_meeting:)
-      previous, upcoming = instantiated_schedules(recurring_meeting)
-                             .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
-
-      recent_previous = previous
-                          .sort_by(&:recurrence_start_time)
-                          .last(PAST_OCCURRENCES_LIMIT)
-
-      (recent_previous + upcoming).each do |meeting|
+      instantiated_occurrences_for_export(recurring_meeting).each do |meeting|
         add_single_recurring_occurrence(meeting:)
       end
+    end
+
+    def instantiated_occurrences_for_export(recurring_meeting)
+      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
+      # reject the whole series if an event is < master DTSTART.
+      upcoming_schedule_occurrences(recurring_meeting)
+    end
+
+    def upcoming_schedule_occurrences(recurring_meeting)
+      instantiated_schedules_partitioned(recurring_meeting).second
+    end
+
+    def instantiated_schedules_partitioned(recurring_meeting)
+      @instantiated_schedules_partition_cache ||= {}
+      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
+        instantiated_schedules(recurring_meeting)
+          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
     end
 
     def in_previous_schedule?(meeting, recurring_meeting)

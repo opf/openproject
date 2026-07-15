@@ -24,13 +24,13 @@ import CkeditorFocusController from './controllers/ckeditor-focus.controller';
 import IndexController from './controllers/dynamic/work-packages/activities-tab/index.controller';
 import AutoScrollingController from './controllers/dynamic/work-packages/activities-tab/auto-scrolling.controller';
 import PollingController from './controllers/dynamic/work-packages/activities-tab/polling.controller';
-import StemsController from './controllers/dynamic/work-packages/activities-tab/stems.controller';
 import EditorController from './controllers/dynamic/work-packages/activities-tab/editor.controller';
 import LazyPageController from './controllers/dynamic/work-packages/activities-tab/lazy-page.controller';
 import EditablePageHeaderTitleController from './controllers/dynamic/editable-page-header-title.controller';
 import WorkingHoursFormController from './controllers/dynamic/users/working-hours-form.controller';
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
+import ResourceTimelineController from './controllers/dynamic/resource-management/resource-timeline.controller';
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
@@ -49,6 +49,7 @@ import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
 import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
+import { installElements } from '@openproject/stimulus-elements';
 
 declare global {
   interface Window {
@@ -85,7 +86,6 @@ OpenProjectStimulusApplication.preregister('reveal', RevealController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--index', IndexController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--auto-scrolling', AutoScrollingController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--polling', PollingController);
-OpenProjectStimulusApplication.preregister('work-packages--activities-tab--stems', StemsController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--editor', EditorController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
@@ -96,6 +96,7 @@ OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeCont
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
+OpenProjectStimulusApplication.preregister('resource-management--resource-timeline', ResourceTimelineController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);
@@ -103,6 +104,8 @@ OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
 OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
+
+installElements();
 
 const instance = OpenProjectStimulusApplication.start();
 window.Stimulus = instance;
