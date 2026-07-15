@@ -151,6 +151,15 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
         expect(instance.where)
           .not_to include(root.id.to_s)
       end
+
+      it "returns work packages of the root type and its sub-types, but not unrelated types" do
+        root_work_package = create(:work_package, type: root)
+        sub_work_package = create(:work_package, type: sub_type)
+        create(:work_package, type: create(:type))
+
+        expect(WorkPackage.where(instance.where))
+          .to contain_exactly(root_work_package, sub_work_package)
+      end
     end
   end
 end
