@@ -647,7 +647,11 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "ROUNDDOWN(1.5)",
       "ABS(0 - 1)",
       # case expression
-      "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END"
+      "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END",
+      # constants
+      "TRUE",
+      "FALSE",
+      "IF(1 > 2, TRUE, FALSE)"
     ].each do |formula|
       context "with formula #{formula.inspect}" do
         let(:formula) { formula }
@@ -688,6 +692,12 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
     context "with a formula using a lowercase function name" do
       let(:formula) { "if(1, 2)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula using a lowercase constant" do
+      let(:formula) { "true" }
 
       it_behaves_like "invalid formula", :invalid_tokens
     end

@@ -3077,6 +3077,7 @@ en:
   label_configuration: configuration
   label_confirmation: "Confirmation"
   label_consent_settings: "User Consent"
+  label_constant_plural: "Constants"
   label_contains: "contains"
   label_content: "Content"
   label_continued_from_previous_year: "continued from previous year"

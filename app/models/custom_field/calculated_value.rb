@@ -58,13 +58,19 @@ module CustomField::CalculatedValue
     CASE WHEN THEN ELSE END
   ].freeze
 
+  # Boolean literals allowed in a formula.
+  FORMULA_CONSTANTS = %w[
+    TRUE FALSE
+  ].freeze
+
   # Longer alternatives must come first, otherwise matching ROUND breaks matching ROUNDUP.
   FORMULA_SPLITTER = Regexp.union([
     " ",
     *FORMULA_OPERATORS,
     *FORMULA_PUNCTUATION,
     *FORMULA_FUNCTIONS,
-    *FORMULA_KEYWORDS
+    *FORMULA_KEYWORDS,
+    *FORMULA_CONSTANTS
   ].uniq.sort_by { -it.length })
   FORMULA_TOKENS = /\A(\{\{cf_\d+}}|[\d.]+|)\z/
   private_constant :FORMULA_SPLITTER, :FORMULA_TOKENS

@@ -323,10 +323,15 @@ module CustomFields
       .map { { key: it, label: it, insert_as_text: true, enabled: true } }
       .freeze
 
+    FORMULA_CONSTANT_SUGGESTIONS = CustomField::CalculatedValue::FORMULA_CONSTANTS
+      .map { { key: it, label: it, insert_as_text: true, enabled: true } }
+      .freeze
+
     private_constant :FORMULA_OPERATOR_SUGGESTIONS,
                      :FORMULA_PUNCTUATION_SUGGESTIONS,
                      :FORMULA_FUNCTION_SUGGESTIONS,
-                     :FORMULA_KEYWORD_SUGGESTIONS
+                     :FORMULA_KEYWORD_SUGGESTIONS,
+                     :FORMULA_CONSTANT_SUGGESTIONS
 
     def formula_suggestions
       custom_fields = model.usable_custom_field_references_for_formula.map do |cf|
@@ -338,7 +343,8 @@ module CustomFields
         operators: { title: I18n.t("label_operator_plural"), tokens: FORMULA_OPERATOR_SUGGESTIONS },
         punctuation: { title: I18n.t("label_punctuation"), tokens: FORMULA_PUNCTUATION_SUGGESTIONS },
         functions: { title: I18n.t("label_function_plural"), tokens: FORMULA_FUNCTION_SUGGESTIONS },
-        keywords: { title: I18n.t("label_keyword_plural"), tokens: FORMULA_KEYWORD_SUGGESTIONS }
+        keywords: { title: I18n.t("label_keyword_plural"), tokens: FORMULA_KEYWORD_SUGGESTIONS },
+        constants: { title: I18n.t("label_constant_plural"), tokens: FORMULA_CONSTANT_SUGGESTIONS }
       }
     end
   end

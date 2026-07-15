@@ -183,6 +183,19 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       it_behaves_like "handles operations"
     end
 
+    context "with boolean constants" do
+      let(:formulae_and_results) do
+        {
+          "TRUE" => true,
+          "FALSE" => false,
+          "IF(1 < 2, TRUE, FALSE)" => true,
+          "IF(1 > 2, TRUE, FALSE)" => false
+        }
+      end
+
+      it_behaves_like "handles operations"
+    end
+
     describe "division by zero" do
       let(:cf_div) { build_stubbed(:calculated_value_project_custom_field, formula: "5 / 0") }
       let(:cf_mod) { build_stubbed(:calculated_value_project_custom_field, formula: "5 % 0") }
