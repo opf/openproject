@@ -28,36 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BackfillDefaultUserCustomFieldSectionName < ActiveRecord::Migration[8.1]
-  def up
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = #{quote(default_section_name)}, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND (name IS NULL OR name = '')
-    SQL
-  end
+require "spec_helper"
+require Rails.root.join("db/migrate/20260708203257_remove_uniqueness_for_active_sprints")
 
-  def down
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = NULL, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND name = #{quote(default_section_name)}
-    SQL
-  end
+RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
+  describe "#down" do
+    subject(:migrate) do
+      ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
+    end
 
-  private
+    context "when no project has multiple active sprints" do
+      it "does not raise any errors" do
+        expect { migrate }.not_to raise_error(RuntimeError, /Cannot roll back/)
+      end
+    end
 
-  def default_section_name
-    I18n.t("settings.user_custom_fields.label_default_section", locale: default_language)
-  end
+    context "when a project has multiple active sprints" do
+      shared_let(:project) do
+        create(:project, sprint_sharing: "no_sharing", allow_multiple_active_sprints: true)
+      end
 
-  # Settings may be unavailable when migrating a clean database (e.g. the settings
-  # table or its seeds are not yet present), so fall back to English.
-  def default_language
-    Setting.default_language.presence || "en"
-  rescue StandardError
-    "en"
+      shared_let(:sprints) { create_list(:sprint, 2, project:, status: "active") }
+
+      it "raises an error describing which projects need cleanup" do
+        expect { migrate }.to raise_error(RuntimeError, /Cannot roll back/)
+      end
+    end
   end
 end

@@ -28,36 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BackfillDefaultUserCustomFieldSectionName < ActiveRecord::Migration[8.1]
-  def up
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = #{quote(default_section_name)}, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND (name IS NULL OR name = '')
-    SQL
-  end
+module Projects
+  module Settings
+    module Backlogs
+      class MultipleActiveSprintsComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-  def down
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = NULL, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND name = #{quote(default_section_name)}
-    SQL
-  end
+        def initialize(project:)
+          super
 
-  private
+          @project = project
+        end
 
-  def default_section_name
-    I18n.t("settings.user_custom_fields.label_default_section", locale: default_language)
-  end
+        private
 
-  # Settings may be unavailable when migrating a clean database (e.g. the settings
-  # table or its seeds are not yet present), so fall back to English.
-  def default_language
-    Setting.default_language.presence || "en"
-  rescue StandardError
-    "en"
+        attr_reader :project
+
+        def available?
+          return @available if defined?(@available)
+
+          @available = project.not_sharing_sprints?
+        end
+
+        def enabled?
+          return @enabled if defined?(@enabled)
+
+          @enabled = !too_many_active_sprints?
+        end
+
+        def checked?
+          return @checked if defined?(@checked)
+
+          @checked = project.allow_multiple_active_sprints?
+        end
+
+        def too_many_active_sprints?
+          return @too_many_active_sprints if defined?(@too_many_active_sprints)
+
+          @too_many_active_sprints = checked? && project.sprints.active.many?
+        end
+      end
+    end
   end
 end

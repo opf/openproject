@@ -3,7 +3,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_ee: %i[sprint_sharing] do
+RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_ee: %i[sprint_sharing multiple_active_sprints] do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
@@ -156,8 +156,8 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
   end
 
   describe "#writable_attributes" do
-    it "only allows sprint_sharing to be written" do
-      expect(contract.writable_attributes).to include("sprint_sharing")
+    it "allows sprint_sharing and allow_multiple_active_sprints to be written" do
+      expect(contract.writable_attributes).to include("sprint_sharing", "allow_multiple_active_sprints")
       expect(contract.writable_attributes).not_to include("settings")
       expect(contract.writable_attributes).not_to include("deactivate_work_package_attachments")
     end
@@ -172,6 +172,14 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       it_behaves_like "contract is valid"
     end
 
+    context "when allow_multiple_active_sprints is the only changed setting" do
+      before { project.allow_multiple_active_sprints = true }
+
+      it "includes the settings column too" do
+        expect(contract.writable_attributes).to include("settings")
+      end
+    end
+
     context "when other settings keys are also changed" do
       before do
         project.sprint_sharing = "share_subprojects"
@@ -183,6 +191,83 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       end
 
       it_behaves_like "contract is invalid", settings: :error_readonly
+    end
+  end
+
+  describe "allow_multiple_active_sprints validations" do
+    context "when the `multiple_active_sprints` EE feature is not available", with_ee: [] do
+      context "when enabling the setting" do
+        before { project.allow_multiple_active_sprints = true }
+
+        it_behaves_like "contract is invalid",
+                        allow_multiple_active_sprints: { error: :enterprise_plan_required, plan_name: "basic enterprise plan" }
+      end
+
+      context "when disabling the setting" do
+        let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+        before { project.allow_multiple_active_sprints = false }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when the setting is unchanged" do
+        let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is valid"
+      end
+    end
+
+    context "when enabling the setting while sprint sharing is no_sharing (default)" do
+      before { project.allow_multiple_active_sprints = true }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when enabling the setting while sprint sharing is not no_sharing" do
+      before do
+        project.sprint_sharing = Project::SHARE_ALL_PROJECTS
+        project.allow_multiple_active_sprints = true
+      end
+
+      it_behaves_like "contract is invalid", allow_multiple_active_sprints: :requires_no_sharing
+    end
+
+    context "when sprint_sharing is changed while allow_multiple_active_sprints is enabled" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      before { project.sprint_sharing = Project::SHARE_SUBPROJECTS }
+
+      it_behaves_like "contract is invalid", sprint_sharing: :locked_by_multiple_active_sprints
+    end
+
+    context "when sprint_sharing is unchanged while allow_multiple_active_sprints is enabled" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when toggling allow_multiple_active_sprints while multiple active sprints exist" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      before do
+        create(:sprint, project:, status: "active")
+        create(:sprint, project:, status: "active")
+        project.allow_multiple_active_sprints = false
+      end
+
+      it_behaves_like "contract is invalid", allow_multiple_active_sprints: :locked_by_multiple_active_sprints
+    end
+
+    context "when toggling allow_multiple_active_sprints while only one active sprint exists" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      before do
+        create(:sprint, project:, status: "active")
+        project.allow_multiple_active_sprints = false
+      end
+
+      it_behaves_like "contract is valid"
     end
   end
 end

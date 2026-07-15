@@ -39,7 +39,10 @@ module Backlogs::Concerns
 
     def load_sprint_data
       @sprints = filtered_sprints_for(@project)
-      @active_sprint_ids = @sprints.select(&:active?).map(&:id)
+      # Not just @sprints.select(&:active?): a sprint's owning project may have
+      # another active sprint that isn't shared with (and is thus invisible to)
+      # @project, which would still block starting a sprint it owns.
+      @active_sprints = Sprint.active.where(project_id: @sprints.map(&:project_id).uniq)
 
       @work_packages_by_sprint_id = WorkPackage
                                       .where(sprint: @sprints, project: @project)

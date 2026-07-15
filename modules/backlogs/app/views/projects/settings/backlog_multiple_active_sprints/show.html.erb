@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -25,29 +25,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
-<%# Attributes on this frame tag are ignored; only its children are reconciled — set them in show.html.erb. %>
-<%= turbo_frame_tag "backlogs_container" do %>
-  <div class="op-sprint-planning-container">
-    <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
-      <%=
-        render Backlogs::BacklogComponent.new(
-          buckets: @backlog_buckets,
-          work_packages_by_backlog_id: @work_packages_by_backlog_id,
-          project: @project
-        )
-      %>
-    </div>
-    <div id="sprint_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
-      <%=
-        render Backlogs::SprintsComponent.new(
-          sprints: @sprints,
+<%= turbo_frame_tag "backlogs-settings" do %>
+  <%= render(
+        Projects::Settings::Backlogs::SettingsHeaderComponent.new(
           project: @project,
-          work_packages_by_sprint_id: @work_packages_by_sprint_id,
-          active_sprints: @active_sprints
+          selected_tab: :multiple_active_sprints
         )
+      ) %>
+
+  <% if EnterpriseToken.allows_to?(:multiple_active_sprints) %>
+    <div class="op-admin-settings-form-wrapper">
+      <%=
+        render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
+          I18n.t("projects.settings.backlogs.multiple_active_sprints.description")
+        end
       %>
+      <%= render(Projects::Settings::Backlogs::MultipleActiveSprintsComponent.new(project: @project)) %>
     </div>
-  </div>
+  <% else %>
+    <%= render(EnterpriseEdition::BannerComponent.new(:multiple_active_sprints, variant: :inline)) %>
+  <% end %>
 <% end %>

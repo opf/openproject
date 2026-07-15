@@ -28,36 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BackfillDefaultUserCustomFieldSectionName < ActiveRecord::Migration[8.1]
-  def up
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = #{quote(default_section_name)}, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND (name IS NULL OR name = '')
-    SQL
-  end
+require "spec_helper"
 
-  def down
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = NULL, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND name = #{quote(default_section_name)}
-    SQL
-  end
+RSpec.describe Projects::Settings::BacklogMultipleActiveSprintsController do
+  describe "routing" do
+    it {
+      expect(get("/projects/project_42/settings/backlog_multiple_active_sprints")).to route_to(
+        controller: "projects/settings/backlog_multiple_active_sprints",
+        action: "show",
+        project_id: "project_42"
+      )
+    }
 
-  private
-
-  def default_section_name
-    I18n.t("settings.user_custom_fields.label_default_section", locale: default_language)
-  end
-
-  # Settings may be unavailable when migrating a clean database (e.g. the settings
-  # table or its seeds are not yet present), so fall back to English.
-  def default_language
-    Setting.default_language.presence || "en"
-  rescue StandardError
-    "en"
+    it {
+      expect(post("/projects/project_42/settings/backlog_multiple_active_sprints/toggle_multiple_active_sprints")).to route_to(
+        controller: "projects/settings/backlog_multiple_active_sprints",
+        action: "toggle_multiple_active_sprints",
+        project_id: "project_42"
+      )
+    }
   end
 end

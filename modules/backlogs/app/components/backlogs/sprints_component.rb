@@ -34,18 +34,18 @@ module Backlogs
     include OpTurbo::Streamable
     include CommonHelper
 
-    attr_reader :sprints, :work_packages_by_sprint_id, :active_sprint_ids, :project, :current_user
+    attr_reader :sprints, :work_packages_by_sprint_id, :active_sprints, :project, :current_user
 
     def initialize(sprints:,
                    work_packages_by_sprint_id:,
-                   active_sprint_ids:,
+                   active_sprints:,
                    project:,
                    current_user: User.current)
       super()
 
       @sprints = sprints
       @work_packages_by_sprint_id = work_packages_by_sprint_id
-      @active_sprint_ids = active_sprint_ids
+      @active_sprints = active_sprints
       @project = project
       @current_user = current_user
     end
@@ -55,6 +55,10 @@ module Backlogs
     end
 
     private
+
+    def visible_sprint_ids
+      @visible_sprint_ids ||= sprints.map(&:id)
+    end
 
     def total
       @total ||= work_packages_by_sprint_id.values.sum(&:count)

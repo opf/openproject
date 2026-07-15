@@ -28,36 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class BackfillDefaultUserCustomFieldSectionName < ActiveRecord::Migration[8.1]
-  def up
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = #{quote(default_section_name)}, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND (name IS NULL OR name = '')
-    SQL
-  end
+class Projects::Settings::BacklogMultipleActiveSprintsController < Projects::SettingsController
+  include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
 
-  def down
-    execute(<<~SQL.squish)
-      UPDATE custom_field_sections
-      SET name = NULL, updated_at = NOW()
-      WHERE type = 'UserCustomFieldSection'
-        AND name = #{quote(default_section_name)}
-    SQL
-  end
+  menu_item :settings_backlogs
 
-  private
+  def show; end
 
-  def default_section_name
-    I18n.t("settings.user_custom_fields.label_default_section", locale: default_language)
-  end
+  def toggle_multiple_active_sprints
+    call = Projects::UpdateService
+             .new(user: current_user, model: @project, contract_class: ::Backlogs::Projects::BacklogSettingsContract)
+             .call(allow_multiple_active_sprints: ActiveRecord::Type::Boolean.new.cast(params[:value]))
 
-  # Settings may be unavailable when migrating a clean database (e.g. the settings
-  # table or its seeds are not yet present), so fall back to English.
-  def default_language
-    Setting.default_language.presence || "en"
-  rescue StandardError
-    "en"
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+
+    respond_with_turbo_streams do |format|
+      format.html { project_settings_backlog_multiple_active_sprints_path(@project) }
+    end
   end
 end

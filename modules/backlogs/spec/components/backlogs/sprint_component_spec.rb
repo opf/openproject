@@ -353,6 +353,163 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
         end
       end
+
+      context "when another active sprint blocks starting this one" do
+        let(:sprint) do
+          create(:sprint, project: sprint_owner, name: "Sprint 1",
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                          status: "in_planning")
+        end
+
+        context "when the sprint is native to the project" do
+          let(:sprint_owner) { project }
+
+          context "with another active sprint in the same project" do
+            let!(:active_sprint) do
+              create(:sprint, project:, status: "active",
+                              start_date: Date.yesterday, finish_date: Date.tomorrow)
+            end
+
+            it "disables the start-sprint button" do
+              expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+            end
+
+            it "gives the generic active-sprint reason" do
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
+            end
+          end
+
+          context "without another active sprint" do
+            it "renders the start-sprint link enabled" do
+              expect(rendered_component).to have_link("Start sprint")
+            end
+          end
+        end
+
+        context "when the sprint is shared into the project via a work package (leftover), without sprint sharing enabled" do
+          let(:project) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
+          let(:sprint_owner) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
+          let!(:work_package) do
+            create(:work_package, project:, type: type_feature, status: default_status,
+                                  priority: default_priority, sprint:)
+          end
+
+          context "when the owning project has another active sprint not shared with this project" do
+            let!(:invisible_active_sprint) do
+              create(:sprint, project: sprint_owner, status: "active",
+                              start_date: Date.yesterday, finish_date: Date.tomorrow)
+            end
+
+            it "disables the start-sprint button" do
+              expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+            end
+
+            it "gives the shared-sprint reason" do
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_shared_sprint")
+              )
+            end
+
+            context "and this project also has its own active sprint" do
+              let!(:own_active_sprint) do
+                create(:sprint, project:, status: "active",
+                                start_date: Date.yesterday, finish_date: Date.tomorrow)
+              end
+
+              it "disables the start-sprint button" do
+                expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+              end
+
+              it "gives the generic active-sprint reason instead, since this project can't start anything either way" do
+                expect(rendered_component).to have_element(
+                  "tool-tip",
+                  text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+                )
+              end
+            end
+          end
+
+          context "when the owning project allows multiple active sprints" do
+            let(:sprint_owner) do
+              create(:project, sprint_sharing: "no_sharing", allow_multiple_active_sprints: true,
+                               types: [type_feature, type_task])
+            end
+            let!(:invisible_active_sprint) do
+              create(:sprint, project: sprint_owner, status: "active",
+                              start_date: Date.yesterday, finish_date: Date.tomorrow)
+            end
+
+            it "renders the start-sprint link enabled" do
+              expect(rendered_component).to have_link("Start sprint")
+            end
+          end
+
+          context "when the owning project has no other active sprint" do
+            it "renders the start-sprint link enabled" do
+              expect(rendered_component).to have_link("Start sprint")
+            end
+          end
+        end
+
+        context "when a shared sprint that is visible on this project is active" do
+          let(:project) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
+          let(:sprint_owner) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
+          let!(:active_shared_sprint) do
+            create(:sprint, project: sprint_owner, status: "active",
+                            start_date: Date.yesterday, finish_date: Date.tomorrow)
+          end
+          let!(:work_package_for_active_shared_sprint) do
+            create(:work_package, project:, type: type_feature, status: default_status,
+                                  priority: default_priority, sprint: active_shared_sprint)
+          end
+
+          context "when rendering this project's own sprint" do
+            let(:sprint) do
+              create(:sprint, project:, name: "Own Sprint",
+                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                              status: "in_planning")
+            end
+
+            it "disables the start-sprint button" do
+              expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+            end
+
+            it "gives the generic active-sprint reason" do
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
+            end
+          end
+
+          context "when rendering another leftover sprint from the same owning project" do
+            let(:sprint) do
+              create(:sprint, project: sprint_owner, name: "Second Leftover Sprint",
+                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                              status: "in_planning")
+            end
+            let!(:work_package) do
+              create(:work_package, project:, type: type_feature, status: default_status,
+                                    priority: default_priority, sprint:)
+            end
+
+            it "disables the start-sprint button" do
+              expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+            end
+
+            it "gives the generic active-sprint reason, since the blocking sprint is visible on this board" do
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
+            end
+          end
+        end
+      end
     end
   end
 end
