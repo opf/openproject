@@ -58,6 +58,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       expect(response).to have_http_status :ok
       expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       expect(turbo_stream_template(action: "flash")).to include(message)
+      expect(response).not_to have_turbo_stream action: "liveRegion"
     end
   end
 
@@ -573,6 +574,87 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with a non-optimistic move to another sprint (dialog move)" do
+      let(:other_sprint) { create(:sprint, name: "Sprint 2", project:) }
+      let!(:wp_in_target) { create(:work_package, status:, sprint: other_sprint, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { wp_in_target.id }
+
+      it "streams a live region announcement with the new position" do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "liveRegion"
+        # The liveRegion stream carries its message as an attribute on the
+        # <turbo-stream> element itself (see render_live_region_update_message),
+        # not inside a <template>, so we assert against the raw body.
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Sprint 2, position 2 of 2")
+      end
+    end
+
+    context "with a non-optimistic same-list move that changes only the position" do
+      let!(:predecessor) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { predecessor.id }
+
+      before do
+        # Start the moved work package at the top so moving it after the
+        # predecessor changes its position without changing its list.
+        work_package_in_sprint.move_after(prev_id: nil)
+      end
+
+      it "streams a live region announcement with the new position" do
+        expect(response).to be_successful
+        expect(response).to have_turbo_stream action: "liveRegion"
+        expect(response.body).to include("#{work_package_in_sprint.to_fs(:caption)} moved to Agile Sprint 1, position 2 of 2")
+      end
+    end
+
+    context "with an optimistic move (client announces)" do
+      let!(:other_wp_in_sprint) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { other_wp_in_sprint.id }
+      let(:optimistic) { "true" }
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with an optimistic cross-list move (client announces)" do
+      let(:other_sprint) { create(:sprint, name: "Sprint 2", project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { other_sprint.id }
+      let(:prev_id) { "" }
+      let(:optimistic) { "true" }
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
+      end
+    end
+
+    context "with a non-optimistic same-list move that changes nothing" do
+      let!(:predecessor) { create(:work_package, status:, sprint:, project:) }
+      let(:list_type) { "sprint" }
+      let(:list_id) { sprint.id }
+      let(:prev_id) { predecessor.id }
+
+      before do
+        # Put the moved work package right after its requested predecessor
+        # already, so the move is a persisted no-op.
+        work_package_in_sprint.move_after(prev_id: predecessor.id)
+      end
+
+      it "does not stream a live region announcement" do
+        expect(response).to be_successful
+        expect(response).not_to have_turbo_stream action: "liveRegion"
       end
     end
   end
@@ -1045,6 +1127,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+        expect(response).not_to have_turbo_stream action: "liveRegion"
       end
     end
 

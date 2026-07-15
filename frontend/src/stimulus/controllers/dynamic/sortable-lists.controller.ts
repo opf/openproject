@@ -32,6 +32,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
+import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
@@ -49,6 +50,8 @@ import {
   reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
+  resolveItemLabel,
+  resolveItemPosition,
   resolveMoveAvailability,
   restoreRowPositions,
   rowOf,
@@ -61,6 +64,7 @@ import {
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
+interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
@@ -283,6 +287,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     moveUrl:string;
   }):Promise<void> {
     const rows = [sourceRow];
+    // Captured before the reorder: afterwards the row already belongs to the
+    // target list, so source-relative facts would be lost.
+    const announcementContext:MoveAnnouncementContext = {
+      label: resolveItemLabel(sourceRow),
+      listName: listData.name,
+      crossList: sourceRow.parentElement !== rowsContainer,
+    };
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, rowsContainer, previousItemId });
 
@@ -295,17 +306,24 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
+    this.announceMove(announcementContext, sourceRow, rowsContainer);
+
     const optimisticPlacement = captureRowPositions(rows);
 
     const result = await this.moveItem({ listData, previousItemId, moveUrl });
 
     if (!result.ok) {
+      let rolledBack = false;
       try {
         // A concurrent morph that removed or repositioned the rows carries
         // fresher server state than the pre-move snapshot; roll back only
         // while the rows still sit where the optimistic move put them.
         if (rowsRemainAt(optimisticPlacement)) {
           flipMove(rows, () => restoreRowPositions(rollback));
+          // restoreRowPositions silently skips rows whose captured parent
+          // disconnected, so verify the postcondition instead of trusting
+          // the absence of an exception.
+          rolledBack = rowsRemainAt(rollback);
         }
       } catch (error) {
         debugLog('Failed to roll back sortable list item move', error);
@@ -313,6 +331,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
       if (result.showToast) {
         this.dispatchErrorToast();
+        this.announceMoveFailure(announcementContext, rolledBack);
       }
     }
   }
@@ -382,7 +401,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     } else {
       this.element.removeAttribute(sortableListsBusyAttribute);
     }
-    this.sortableListsListOutlets.forEach((list) => list.reflectBusy(busy));
   }
 
   private dispatchErrorToast():void {
@@ -392,5 +410,46 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         type: 'error',
       },
     }));
+  }
+
+  // The one meaningful message for the whole optimistic move; spoken from the
+  // global live region, in sync with what sighted users see. Failure paths
+  // append their own message below. A 422 stays silent here: its error flash
+  // is streamed by the server and self-announces (matching the toast rule).
+  private announceMove(context:MoveAnnouncementContext, sourceRow:HTMLElement, rowsContainer:HTMLElement):void {
+    const placement = resolveItemPosition({ row: sourceRow, rowsContainer });
+    if (!placement) {
+      return;
+    }
+
+    // Resolved outside the options object literal below: nested inside it,
+    // the call's generic return type would be inferred from the object's
+    // contextual `TranslateOptions` index signature (`any`) instead of its
+    // own `string` default.
+    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
+    const listName = context.listName ?? I18n.t('js.sortable_lists.announcements.fallback_list_name');
+    const message = context.crossList
+      ? I18n.t('js.sortable_lists.announcements.moved_to_list', {
+        label,
+        list: listName,
+        position: placement.position,
+        total: placement.total,
+      })
+      : I18n.t('js.sortable_lists.announcements.moved', {
+        label,
+        position: placement.position,
+        total: placement.total,
+      });
+
+    void announce(message, { politeness: 'polite' });
+  }
+
+  private announceMoveFailure(context:MoveAnnouncementContext, rolledBack:boolean):void {
+    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
+    const message = rolledBack
+      ? I18n.t('js.sortable_lists.announcements.move_failed_rolled_back', { label })
+      : I18n.t('js.sortable_lists.announcements.move_failed_check_position');
+
+    void announce(message, { politeness: 'assertive' });
   }
 }

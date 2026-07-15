@@ -259,6 +259,8 @@ en:
       add_existing_dialog:
         invalid_target: "The target you are trying to add to is invalid."
         target_not_found: "The sprint or backlog you are trying to add to was not found."
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
         invalid_target_type: "list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id."
         missing_target: "list_type or list_id must be present."
