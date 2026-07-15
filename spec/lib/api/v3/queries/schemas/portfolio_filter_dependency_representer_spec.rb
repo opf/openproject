@@ -48,7 +48,10 @@ RSpec.describe API::V3::Queries::Schemas::PortfolioFilterDependencyRepresenter d
     context "for properties" do
       let(:path) { "values" }
       let(:type) { "[]Portfolio" }
-      let(:href) { "#{api_v3_paths.portfolios}?pageSize=-1" }
+      let(:href) do
+        filters = CGI.escape(JSON.dump([{ active: { operator: "=", values: ["t"] } }]))
+        "#{api_v3_paths.portfolios}?filters=#{filters}&pageSize=-1"
+      end
 
       context "for operator 'Queries::Operators::Equals'" do
         let(:operator) { Queries::Operators::Equals }

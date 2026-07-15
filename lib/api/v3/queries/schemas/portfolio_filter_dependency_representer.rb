@@ -34,7 +34,9 @@ module API
       module Schemas
         class PortfolioFilterDependencyRepresenter < FilterDependencyRepresenter
           def href_callback
-            "#{api_v3_paths.portfolios}?pageSize=-1"
+            params = [{ active: { operator: "=", values: ["t"] } }]
+            escaped = CGI.escape(::JSON.dump(params))
+            "#{api_v3_paths.portfolios}?filters=#{escaped}&pageSize=-1"
           end
 
           def type

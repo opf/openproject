@@ -34,7 +34,9 @@ module API
       module Schemas
         class ProgramFilterDependencyRepresenter < FilterDependencyRepresenter
           def href_callback
-            "#{api_v3_paths.programs}?pageSize=-1"
+            params = [{ active: { operator: "=", values: ["t"] } }]
+            escaped = CGI.escape(::JSON.dump(params))
+            "#{api_v3_paths.programs}?filters=#{escaped}&pageSize=-1"
           end
 
           def type
