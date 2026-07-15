@@ -23,49 +23,53 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DangerZone
-  include Capybara::DSL
-  include Capybara::RSpecMatchers
+module Wikis
+  class PageLinkComponent
+    class AddToRelatedAction
+      include OpenProject::StaticRouting::UrlHelpers
 
-  attr_reader :page
+      def initialize(page_info:, linkable:, already_related:)
+        @page_info = page_info
+        @linkable = linkable
+        @already_related = already_related
+      end
 
-  def initialize(page)
-    @page = page
-  end
+      def icon = :plus
 
-  def container_selector
-    ".danger-zone--verification"
-  end
+      def menu_item_args
+        return { label:, disabled: true } if already_related
 
-  def confirmation_field
-    page.within container_selector do
-      find("input[type=text]")
+        {
+          label:,
+          tag: :a,
+          href: create_relation_page_link_href,
+          content_arguments: { data: { turbo_method: :post } }
+        }
+      end
+
+      private
+
+      attr_reader :page_info, :linkable, :already_related
+
+      def label
+        I18n.t("wikis.page_link_component.add_to_related_pages")
+      end
+
+      def create_relation_page_link_href
+        relation_wiki_page_links_path(
+          wikis_relation_page_link: {
+            provider_id: page_info.provider.id,
+            linkable_type: linkable.class.name,
+            linkable_id: linkable.id,
+            identifier: page_info.identifier
+          }
+        )
+      end
     end
   end
-
-  def danger_button
-    page.within container_selector do
-      find("button.-primary")
-    end
-  end
-
-  def cancel_button
-    page.within container_selector do
-      find("a.icon-cancel")
-    end
-  end
-
-  ##
-  # Set the confirmation field to the given value
-  def confirm_with(value)
-    confirmation_field.set value
-  end
-
-  ##
-  delegate :disabled?, to: :danger_button
 end

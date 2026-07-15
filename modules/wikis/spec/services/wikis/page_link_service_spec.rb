@@ -23,47 +23,33 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::Common::ProjectAttributesStyles
-  def project_markdown_label
-    resolve_font(@styles.dig(:project, :markdown_label))
-  end
+require "spec_helper"
+require_module_spec_helper
 
-  def project_markdown_label_margins
-    resolve_margin(@styles.dig(:project, :markdown_label))
-  end
+RSpec.describe Wikis::PageLinkService do
+  subject(:service) { described_class.new }
 
-  def project_markdown_margins
-    resolve_margin(@styles.dig(:project, :markdown_margins))
-  end
+  describe "#relation_page_link_keys_for" do
+    let(:work_package) { create(:work_package) }
+    let(:provider) { create(:internal_wiki_provider) }
 
-  def project_attribute_value
-    resolve_font(@styles.dig(:project, :attribute_value) || {})
-  end
+    let!(:relation_page_link) do
+      create(:relation_wiki_page_link, linkable: work_package, provider:, identifier: "/related")
+    end
 
-  def project_markdown_styling_yml
-    resolve_markdown_styling(@styles.dig(:project, :markdown) || {})
-  end
+    before do
+      create(:inline_wiki_page_link, linkable: work_package, provider:, identifier: "/inline-only")
+      create(:relation_wiki_page_link, provider:, identifier: "/other-work-package")
+    end
 
-  def project_attributes_table_margins
-    resolve_margin(@styles.dig(:project, :attributes_table))
-  end
-
-  def project_attributes_table_cell
-    resolve_table_cell(@styles.dig(:project, :attributes_table, :cell))
-  end
-
-  def project_attributes_table_label
-    resolve_font(@styles.dig(:project, :attributes_table, :cell_label))
-  end
-
-  def project_attributes_table_label_cell
-    project_attributes_table_cell.merge(
-      resolve_table_cell(@styles.dig(:project, :attributes_table, :cell_label)) || {}
-    )
+    it "returns the [provider_id, identifier] keys of the linkable's relation page links" do
+      expect(service.relation_page_link_keys_for(linkable: work_package))
+        .to eq(Set[[provider.id, "/related"]])
+    end
   end
 end

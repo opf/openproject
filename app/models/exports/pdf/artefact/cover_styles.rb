@@ -28,34 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Common::MarkdownField
-  include Exports::PDF::Common::Markdown
-  include Exports::PDF::Common::Macro
-
-  def write_markdown_field!(work_package, markdown, label)
-    return if markdown.blank?
-
-    write_optional_page_break
-    write_markdown_field_label(label) if label.present?
-    write_markdown_field_value(work_package, markdown)
+module Exports::PDF::Artefact::CoverStyles
+  def cover_header_logo_height
+    resolve_pt(@styles.dig(:cover, :header, :logo_height), 25)
   end
 
-  private
-
-  def write_markdown_field_label(label)
-    style = styles.markdown_field_label
-    with_margin(styles.markdown_field_label_margins) do
-      pdf.formatted_text([style.merge({ text: label })], style)
-    end
+  def cover_header_margin
+    resolve_margin(@styles.dig(:cover, :header))
   end
 
-  def write_markdown_field_value(work_package, markdown)
-    with_margin(styles.markdown_field_margins) do
-      write_markdown!(
-        apply_markdown_field_macros(markdown,
-                                    { work_package:, project: work_package.project, user: User.current }),
-        styles.markdown_field_styling_yml
-      )
-    end
+  def cover_heading
+    resolve_font(@styles.dig(:cover, :heading))
+  end
+
+  def cover_heading_margin
+    resolve_margin(@styles.dig(:cover, :heading))
+  end
+
+  def cover_heading_border
+    resolve_borders(@styles.dig(:cover, :heading))
+  end
+
+  def cover_heading_padding
+    resolve_padding(@styles.dig(:cover, :heading))
+  end
+
+  def cover_title
+    resolve_font(@styles.dig(:cover, :title))
+  end
+
+  def cover_title_margin
+    resolve_margin(@styles.dig(:cover, :title))
+  end
+
+  def cover_title_border
+    resolve_borders(@styles.dig(:cover, :title))
+  end
+
+  def cover_title_padding
+    resolve_padding(@styles.dig(:cover, :title))
+  end
+
+  def cover_footer
+    resolve_font(@styles.dig(:cover, :footer))
+  end
+
+  def cover_footer_margin
+    resolve_margin(@styles.dig(:cover, :footer))
   end
 end

@@ -23,57 +23,35 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::PDFExport::ProjectInitiation::CoverStyles
-  def cover_header_logo_height
-    resolve_pt(@styles.dig(:cover, :header, :logo_height), 25)
-  end
+module Wikis
+  class PageLinkComponent
+    class RemoveAction
+      include OpenProject::StaticRouting::UrlHelpers
 
-  def cover_header_margin
-    resolve_margin(@styles.dig(:cover, :header))
-  end
+      def initialize(page_link:)
+        @page_link = page_link
+      end
 
-  def cover_heading
-    resolve_font(@styles.dig(:cover, :heading))
-  end
+      def icon = :trash
 
-  def cover_heading_margin
-    resolve_margin(@styles.dig(:cover, :heading))
-  end
+      def menu_item_args
+        {
+          label: I18n.t("wikis.page_link_component.remove"),
+          scheme: :danger,
+          tag: :a,
+          href: confirm_delete_dialog_relation_wiki_page_link_path(page_link),
+          content_arguments: { data: { controller: "async-dialog" } }
+        }
+      end
 
-  def cover_heading_border
-    resolve_borders(@styles.dig(:cover, :heading))
-  end
+      private
 
-  def cover_heading_padding
-    resolve_padding(@styles.dig(:cover, :heading))
-  end
-
-  def cover_title
-    resolve_font(@styles.dig(:cover, :title))
-  end
-
-  def cover_title_margin
-    resolve_margin(@styles.dig(:cover, :title))
-  end
-
-  def cover_title_border
-    resolve_borders(@styles.dig(:cover, :title))
-  end
-
-  def cover_title_padding
-    resolve_padding(@styles.dig(:cover, :title))
-  end
-
-  def cover_footer
-    resolve_font(@styles.dig(:cover, :footer))
-  end
-
-  def cover_footer_margin
-    resolve_margin(@styles.dig(:cover, :footer))
+      attr_reader :page_link
+    end
   end
 end

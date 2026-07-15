@@ -23,39 +23,29 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::Common::MarkdownField
-  include Exports::PDF::Common::Markdown
-  include Exports::PDF::Common::Macro
+require "spec_helper"
+require_module_spec_helper
 
-  def write_markdown_field!(work_package, markdown, label)
-    return if markdown.blank?
+RSpec.describe Wikis::PageLinkComponent::RemoveAction do
+  let(:page_link) { build_stubbed(:relation_wiki_page_link) }
 
-    write_optional_page_break
-    write_markdown_field_label(label) if label.present?
-    write_markdown_field_value(work_package, markdown)
+  subject(:action) { described_class.new(page_link:) }
+
+  it "uses the trash icon" do
+    expect(action.icon).to eq(:trash)
   end
 
-  private
-
-  def write_markdown_field_label(label)
-    style = styles.markdown_field_label
-    with_margin(styles.markdown_field_label_margins) do
-      pdf.formatted_text([style.merge({ text: label })], style)
-    end
-  end
-
-  def write_markdown_field_value(work_package, markdown)
-    with_margin(styles.markdown_field_margins) do
-      write_markdown!(
-        apply_markdown_field_macros(markdown,
-                                    { work_package:, project: work_package.project, user: User.current }),
-        styles.markdown_field_styling_yml
-      )
-    end
+  it "builds a danger menu item linking to the delete confirmation dialog" do
+    expect(action.menu_item_args).to include(
+      label: "Remove page link",
+      scheme: :danger,
+      tag: :a,
+      href: "/relation_wiki_page_links/#{page_link.id}/confirm_delete_dialog"
+    )
   end
 end

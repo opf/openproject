@@ -28,11 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Deprecated
-    # @logical_path OpenProject/deprecated
-    class DangerZonePreview < Lookbook::Preview
-      def default; end
-    end
+module Exports::PDF::Common::ProjectAttributesStyles
+  def project_markdown_label
+    resolve_font(@styles.dig(:project, :markdown_label))
+  end
+
+  def project_markdown_label_margins
+    resolve_margin(@styles.dig(:project, :markdown_label))
+  end
+
+  def project_markdown_margins
+    resolve_margin(@styles.dig(:project, :markdown_margins))
+  end
+
+  def project_attribute_value
+    resolve_font(@styles.dig(:project, :attribute_value) || {})
+  end
+
+  def project_markdown_styling_yml
+    resolve_markdown_styling(@styles.dig(:project, :markdown) || {})
+  end
+
+  def project_attributes_table_margins
+    resolve_margin(@styles.dig(:project, :attributes_table))
+  end
+
+  def project_attributes_table_cell
+    resolve_table_cell(@styles.dig(:project, :attributes_table, :cell))
+  end
+
+  def project_attributes_table_label
+    resolve_font(@styles.dig(:project, :attributes_table, :cell_label))
+  end
+
+  def project_attributes_table_label_cell
+    project_attributes_table_cell.merge(
+      resolve_table_cell(@styles.dig(:project, :attributes_table, :cell_label)) || {}
+    )
   end
 end

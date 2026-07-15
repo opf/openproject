@@ -35,11 +35,10 @@ module Wikis
 
     alias_method :page_info_result, :model
 
-    attr_reader :actions, :source
+    attr_reader :source
 
-    def initialize(model = nil, actions: [], page_link: nil, source: nil, **)
-      @actions = actions
-      @page_link = page_link
+    def initialize(model = nil, menu_actions: [], source: nil, **)
+      @menu_actions = menu_actions
       @source = source
 
       super(model, **)
@@ -74,38 +73,19 @@ module Wikis
     end
 
     def show_action_menu?
-      actions.any?
+      menu_actions.any?
     end
 
     def menu_items(menu)
-      if actions.include?(:remove)
-        deletion_action_item(menu)
+      menu_actions.each do |action|
+        menu.with_item(**action.menu_item_args) do |item|
+          item.with_leading_visual_icon(icon: action.icon)
+        end
       end
     end
 
     private
 
-    def project
-      @page_link&.linkable&.project
-    end
-
-    def deletion_action_item(menu)
-      return if @page_link.nil?
-      return unless user_allowed_to_delete?
-
-      href = url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(@page_link)
-
-      menu.with_item(label: t(".remove"),
-                     scheme: :danger,
-                     tag: :a,
-                     href:,
-                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
-        item.with_leading_visual_icon(icon: :trash)
-      end
-    end
-
-    def user_allowed_to_delete?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, project)
-    end
+    attr_reader :menu_actions
   end
 end
