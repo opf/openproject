@@ -85,6 +85,7 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
                    .attributes
                    .slice(*writable_work_package_attributes(work_package))
                    .merge("custom_field_values" => work_package.custom_value_attributes)
+                   .merge(version_reference_attributes(work_package))
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
@@ -98,6 +99,19 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
 
   def writable_work_package_attributes(work_package)
     instantiate_contract(work_package, user).writable_attributes
+  end
+
+  # The version associations are not part of #attributes, and copying the
+  # mirrored version_id column only recreates the first target version. Carry
+  # all target/observed_in references over explicitly (overrides still win,
+  # e.g. the project copy remaps them to the copied project's versions).
+  # Empty sets are omitted: an empty replacement would count as a
+  # user-requested clearing, needing the assign_versions permission.
+  def version_reference_attributes(work_package)
+    {
+      "target_version_ids" => work_package.work_package_versions.where(kind: "target").pluck(:version_id).presence,
+      "observed_in_version_ids" => work_package.work_package_versions.where(kind: "observed_in").pluck(:version_id).presence
+    }.compact
   end
 
   def remove_author_watcher(copied)
