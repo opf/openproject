@@ -75,7 +75,9 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
           visit project_settings_backlog_multiple_active_sprints_path(project)
 
           expect(page).to have_css(".ToggleSwitch--disabled")
-          expect(page).to have_text("Multiple sprints are currently active")
+          expect(page).to have_text(
+            I18n.t("projects.settings.backlogs.multiple_active_sprints_component.cannot_turn_off")
+          )
         end
       end
     end

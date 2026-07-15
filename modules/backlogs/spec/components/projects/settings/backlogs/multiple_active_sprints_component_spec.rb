@@ -74,7 +74,9 @@ RSpec.describe Projects::Settings::Backlogs::MultipleActiveSprintsComponent, typ
         end
 
         it "does not render the too-many-active-sprints warning" do
-          expect(rendered_component).to have_no_text("multiple sprints are currently active", normalize_ws: true)
+          expect(rendered_component).to have_no_text(
+            I18n.t("projects.settings.backlogs.multiple_active_sprints_component.cannot_turn_off")
+          )
         end
       end
 
@@ -93,7 +95,9 @@ RSpec.describe Projects::Settings::Backlogs::MultipleActiveSprintsComponent, typ
         end
 
         it "renders the too-many-active-sprints warning" do
-          expect(rendered_component).to have_text("Multiple sprints are currently active")
+          expect(rendered_component).to have_text(
+            I18n.t("projects.settings.backlogs.multiple_active_sprints_component.cannot_turn_off")
+          )
         end
       end
     end
