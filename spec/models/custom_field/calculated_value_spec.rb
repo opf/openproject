@@ -572,20 +572,20 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
     end
 
-    shared_examples_for "invalid formula" do |error_message|
+    shared_examples_for "invalid formula" do |error_symbol_or_message|
       it "is invalid", :aggregate_failures do
         subject.formula = formula
         subject.validate_formula
 
         expect(subject).not_to be_valid
-        expect(subject.errors[:formula]).to include(error_message)
+        expect(subject.errors).to be_of_kind(:formula, error_symbol_or_message)
       end
     end
 
     let(:formula) { "" }
 
     context "with an empty formula" do
-      it_behaves_like "invalid formula", "Formula can't be blank."
+      it_behaves_like "invalid formula", :blank
     end
 
     context "with a formula containing only allowed characters" do
@@ -615,29 +615,25 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     context "when omitting trailing decimals after a decimal point" do
       let(:formula) { "1.5 + 1. - 3.25" }
 
-      it_behaves_like "invalid formula", "Formula is invalid."
+      it_behaves_like "invalid formula", :invalid
     end
 
     context "with a formula containing forbidden characters" do
       let(:formula) { "abc + 2" }
 
-      it_behaves_like "invalid formula",
-                      "Only numeric values, mathematical operators and project attributes of type integer, float, " \
-                      "calculated value and weighted list are allowed."
+      it_behaves_like "invalid formula", :invalid_tokens
     end
 
     context "with a formula containing references to custom fields without pattern-mustaches" do
       let(:formula) { "100 * cf_3" }
 
-      it_behaves_like "invalid formula",
-                      "Only numeric values, mathematical operators and project attributes of type integer, float, " \
-                      "calculated value and weighted list are allowed."
+      it_behaves_like "invalid formula", :invalid_tokens
     end
 
     context "with a formula that is not a valid equation" do
       let(:formula) { "1 / + - 3" }
 
-      it_behaves_like "invalid formula", "Formula is invalid."
+      it_behaves_like "invalid formula", :invalid
     end
 
     context "with a formula that contains custom fields that are not visible to the user" do
@@ -660,7 +656,8 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it_behaves_like "invalid formula",
-                      /The attribute (int, float|float, int) cannot be used because it leads to a circular reference/
+                      "The attribute int, float cannot be used because it leads to a circular reference; " \
+                      "one attribute depends on the other."
     end
   end
 end
