@@ -355,8 +355,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       context "when another active sprint blocks starting this one" do
-        subject(:component) { described_class.new(sprint:, project:, current_user: user) }
-
         let(:sprint) do
           create(:sprint, project: sprint_owner, name: "Sprint 1",
                           start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
@@ -377,8 +375,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             end
 
             it "gives the generic active-sprint reason" do
-              expect(component.send(:start_sprint_disabled_reason))
-                .to eq(I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint"))
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
             end
           end
 
@@ -408,8 +408,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             end
 
             it "gives the shared-sprint reason" do
-              expect(component.send(:start_sprint_disabled_reason))
-                .to eq(I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_shared_sprint"))
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_shared_sprint")
+              )
             end
 
             context "and this project also has its own active sprint" do
@@ -423,8 +425,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
               end
 
               it "gives the generic active-sprint reason instead, since this project can't start anything either way" do
-                expect(component.send(:start_sprint_disabled_reason))
-                  .to eq(I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint"))
+                expect(rendered_component).to have_element(
+                  "tool-tip",
+                  text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+                )
               end
             end
           end
@@ -475,8 +479,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             end
 
             it "gives the generic active-sprint reason" do
-              expect(component.send(:start_sprint_disabled_reason))
-                .to eq(I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint"))
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
             end
           end
 
@@ -496,8 +502,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             end
 
             it "gives the generic active-sprint reason, since the blocking sprint is visible on this board" do
-              expect(component.send(:start_sprint_disabled_reason))
-                .to eq(I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint"))
+              expect(rendered_component).to have_element(
+                "tool-tip",
+                text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
+              )
             end
           end
         end
