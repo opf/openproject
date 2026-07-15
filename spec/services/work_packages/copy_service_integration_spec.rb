@@ -113,6 +113,40 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
             .to eql project_phase_definition
         end
       end
+
+      describe "copied version references",
+               with_flag: { work_package_multiple_versions: true },
+               with_settings: { work_package_multiple_versions: true } do
+        shared_let(:assign_versions_user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i[view_work_packages add_work_packages assign_versions]
+                 })
+        end
+
+        let(:instance) { described_class.new(work_package:, user: assign_versions_user) }
+        let(:version_one) { create(:version, project:, name: "Copy target 1") }
+        let(:version_two) { create(:version, project:, name: "Copy target 2") }
+        let(:observed_version) { create(:version, project:, name: "Copy observed") }
+
+        current_user { assign_versions_user }
+
+        before do
+          # bypassing the single-value contract validation to exercise copying
+          # of multiple target versions
+          [version_one, version_two].each do |version|
+            work_package.work_package_versions.create!(version:, kind: "target")
+          end
+          work_package.work_package_versions.create!(version: observed_version, kind: "observed_in")
+          work_package.update_columns(version_id: version_one.id)
+        end
+
+        it "copies all target and observed_in versions, not only the mirrored first one" do
+          expect(copy.target_versions).to contain_exactly(version_one, version_two)
+          expect(copy.observed_in_versions).to contain_exactly(observed_version)
+          expect(copy.version_id).to eq(version_one.id)
+        end
+      end
     end
 
     describe "to a different project" do
