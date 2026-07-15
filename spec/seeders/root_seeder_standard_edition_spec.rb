@@ -60,8 +60,6 @@ RSpec.describe RootSeeder,
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      # 26 project/global queries with views + 2 hidden global queries embedded into the
-      # Epic and User story form configuration.
       expect(Query.count).to eq 28
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3

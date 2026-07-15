@@ -68,10 +68,7 @@ module DemoData
       set_display_representation! attr
 
       query = Query.new attr
-      # Skip validations while seeding: some seed queries reference columns that are only
-      # resolvable in the runtime rendering context and not at seed time. For example, the
-      # backlogs `sprint` column requires the :view_sprints permission in a project, which the
-      # seeding user does not necessarily hold for a project-less (global) query.
+      # Skip validations while seeding: some seed queries reference columns requiring permissions.
       query.save!(validate: false)
 
       create_view(query) unless config[:hidden]
@@ -113,10 +110,8 @@ module DemoData
 
       attr[:sort_criteria] =
         if sort_by.is_a?(Array)
-          # A list of [column, direction] pairs, e.g. [[status, desc], [id, asc]].
           sort_by.map { |criterion| Array(criterion).map(&:to_s) }
         else
-          # A single column name, sorted ascending.
           [[sort_by.to_s, "asc"]]
         end
     end
