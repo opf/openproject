@@ -34,8 +34,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   with_enterprise_banner_guard(
     :resource_management,
-    variant: :large,
-    image: "enterprise/resource-management.png"
+    variant: :medium,
+    image: "enterprise/resource-management.jpg",
+    dark_image: "enterprise/resource-management-dark.png"
   ) do
 %>
   <%= render(ResourcePlanners::IndexSubHeaderComponent.new(project: @project)) %>
