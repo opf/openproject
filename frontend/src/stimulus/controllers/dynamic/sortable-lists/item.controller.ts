@@ -59,6 +59,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   static values = {
     id: String,
     type: String,
+    externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
     label: String,
   };
@@ -67,6 +68,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasIdValue:boolean;
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
+  declare readonly externalUrlValue:string;
+  declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
@@ -193,6 +196,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return draggable({
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
+      // Native drag data for consumers outside this window (other browser
+      // windows, editors, chat apps). Optional: items without an external
+      // URL expose nothing, exactly as before.
+      ...(this.hasExternalUrlValue && this.externalUrlValue !== '' ? {
+        getInitialDataForExternal: () => this.externalDragData(),
+      } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
         if (root == null || root.busy) {
@@ -202,6 +211,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
+        // Cancels drops landing outside registered drop targets. This also
+        // guards the external data channel: a misdropped card carrying
+        // text/uri-list would otherwise navigate the current tab to that URL.
         preventUnhandled.start();
         this.element.setAttribute('data-dragging', 'source');
       },
@@ -304,6 +316,27 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     return input.clientY >= firstRow.getBoundingClientRect().top
       && input.clientY <= lastRow.getBoundingClientRect().bottom;
+  }
+
+  // The URL flavours carry the bare URL; text/html joins in only when the item
+  // has a label (the same one announcements use), as a link for rich-text
+  // targets (notes apps, editors). The anchor is built through a detached DOM
+  // element so the browser escapes the label and URL canonically.
+  private externalDragData():Record<string, string> {
+    const url = this.externalUrlValue;
+    const data:Record<string, string> = {
+      'text/uri-list': url,
+      'text/plain': url,
+    };
+
+    if (this.hasLabelValue && this.labelValue !== '') {
+      const anchor = this.element.ownerDocument.createElement('a');
+      anchor.href = url;
+      anchor.textContent = this.labelValue;
+      data['text/html'] = anchor.outerHTML;
+    }
+
+    return data;
   }
 
   private getItemData():SortableItemData {

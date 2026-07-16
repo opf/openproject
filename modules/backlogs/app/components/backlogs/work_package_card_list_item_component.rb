@@ -102,7 +102,11 @@ module Backlogs
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
         sortable_lists__item_label_value: work_package.to_fs(:caption),
-        sortable_lists__item_type_value: "work_package"
+        sortable_lists__item_type_value: "work_package",
+        # Native drag payload for external consumers; the same absolute URL
+        # as the card menu's "Copy URL to clipboard" item. The label above
+        # doubles as the link text of the text/html flavour.
+        sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }
     end
 
