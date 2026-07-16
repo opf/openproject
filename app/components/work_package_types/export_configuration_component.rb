@@ -33,6 +33,13 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
+    def initialize(model, readonly: false, **)
+      @readonly = readonly
+      super(model, **)
+    end
+
+    def readonly? = @readonly
+
     def artefact_export_form_options
       {
         model:,

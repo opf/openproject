@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateListComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "rails_helper"
 
-    def initialize(type:, readonly: false)
-      super
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { subtypes: true } do
+  let(:parent) { create(:type, name: "Phase") }
+  let(:type) { create(:type) }
 
-      @type = type
-      @readonly = readonly
-    end
+  before do
+    login_as(create(:admin))
+    type.link!(Type::ConfigurationLink::PDF_EXPORT, source: parent)
+  end
 
-    def readonly? = @readonly
+  it "shows the read-only PDF preview on the pdf step" do
+    render_inline(described_class.new(type:, current_step: :pdf))
 
-    def wrapper_data_attributes
-      return {} if @readonly
-
-      {
-        controller: "generic-drag-and-drop"
-      }
-    end
-
-    def drag_and_drop_target_config
-      {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
-        test_selector: "pdf-export-template-rows"
-      }
-    end
-
-    def draggable_item_config(template)
-      {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
-        test_selector: "pdf-export-template-row-#{template.id}"
-      }
-    end
+    expect(page).to have_text("Configuration reused from Phase")
   end
 end

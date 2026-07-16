@@ -86,13 +86,15 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("The current settings are discarded and work packages of this type may be affected.")
     end
 
-    it "hides the editor and shows the source picker when Linked" do
+    it "shows the source picker and a read-only preview instead of the editable editor when Linked" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response.body).to include("Source type")
-      expect(response.body).not_to include("PDF Export templates")
+      expect(response.body).to include("Configuration reused from")
+      # the preview lists the templates but drops the editable enable/disable actions
+      expect(response.body).not_to include("enable-all-pdf-export-templates")
     end
 
     it "explains the copy-on-adopt when a Linked type may switch to Independent" do
