@@ -6086,7 +6086,7 @@ en:
             work_package: "Work package"
           label_with_context: "%{attribute_context}: %{attribute_label}"
       workflow:
-        tab: "Workflow"
+        tab: "Workflows"
     index:
       add_subtype: "Add sub-type to %{name}"
       description: >
