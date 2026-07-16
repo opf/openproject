@@ -58,7 +58,7 @@ module WorkPackageTypes
                     op_icon("icon3 icon-warning"),
                     t(:text_type_no_workflow),
                     " (",
-                    link_to(t(:button_edit), edit_workflow_path(model)),
+                    link_to(t(:button_edit), edit_type_workflow_path(model)),
                     ")"
                   ])
       end

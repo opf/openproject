@@ -190,6 +190,18 @@ Rails.application.routes.draw do
     resources :configuration_links, only: %i[update], param: :aspect
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
+    resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      resources :tabs, only: %i[edit update], param: :tab, controller: "/workflows/tabs" do
+        member do
+          get :status_dialog
+          post :confirm_statuses
+        end
+      end
+      resource :copy, only: %i[new], controller: "/workflows/copies" do
+        resource :from_type, only: %i[create], controller: "/workflows/copies/from_types"
+        resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
+      end
+    end
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
@@ -209,6 +221,7 @@ Rails.application.routes.draw do
       post "move/:id", action: "move"
       get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
       post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
@@ -939,26 +952,6 @@ Rails.application.routes.draw do
         patch :update_organization_name
       end
     end
-  end
-
-  resources :workflows, only: %i[index edit], param: :type_id do
-    scope module: :workflows do
-      resources :tabs, only: %i[edit update], param: :tab do # params[:tab] used in TabsHelper
-        member do
-          get :status_dialog
-          post :confirm_statuses
-        end
-      end
-      resource :copy, only: %i[new] do
-        scope module: :copies do
-          resource :from_type, only: %i[create]
-          resource :from_role, only: %i[create]
-        end
-      end
-    end
-  end
-  namespace :workflows do
-    resource :summary, only: %i[show]
   end
 
   namespace :work_packages do

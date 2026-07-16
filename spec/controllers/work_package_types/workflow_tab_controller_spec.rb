@@ -28,45 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkflowsController < ApplicationController
-  include OpTurbo::ComponentStream
+require "spec_helper"
 
-  layout "admin"
+module WorkPackageTypes
+  RSpec.describe WorkflowTabController do
+    let(:user) { create(:admin) }
+    let(:wp_type) { create(:type) }
 
-  before_action :require_admin
+    current_user { user }
 
-  before_action :find_types, only: %i[index]
+    context "when the user is not logged in" do
+      let(:user) { User.anonymous }
 
-  before_action :find_type, only: %i[edit]
-  before_action :find_optional_roles, only: %i[edit]
+      it "requires login" do
+        get :edit, params: { type_id: wp_type.id }
+        expect(response).to redirect_to signin_url(back_url: edit_type_workflow_url(wp_type))
+      end
+    end
 
-  def index; end
+    context "when the user is not an admin" do
+      let(:user) { create(:user) }
 
-  def edit
-    @current_tab = current_tab
-  end
+      it "responds with forbidden" do
+        get :edit, params: { type_id: wp_type.id }
+        expect(response).to have_http_status :forbidden
+      end
+    end
 
-  private
+    describe "GET #edit" do
+      it "renders the edit template with the workflow-table frame" do
+        get :edit, params: { type_id: wp_type.id }
 
-  def current_tab
-    params[:tab] || "always"
-  end
-
-  def find_types
-    @types = ::Type.order(:position)
-  end
-
-  def find_type
-    @type = ::Type.find(params[:type_id])
-  end
-
-  def find_optional_roles
-    ordered = eligible_roles.order(:builtin, :position)
-    @roles = ordered.where(id: params[:role_ids])
-    @roles = [ordered.first] if @roles.empty?
-  end
-
-  def eligible_roles
-    @eligible_roles ||= Workflow.eligible_roles
+        expect(response).to have_http_status :ok
+        expect(response).to render_template "work_package_types/workflow_tab/edit"
+      end
+    end
   end
 end

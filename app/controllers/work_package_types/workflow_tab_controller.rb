@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,31 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Workflows::PageHeaders
-  class IndexComponent < BaseComponent
-    def title
-      t(:label_workflow_plural)
+module WorkPackageTypes
+  class WorkflowTabController < BaseTabController
+    current_menu_item :edit do
+      :types
     end
 
-    def description
-      t(".description")
+    def edit
+      @current_tab = params[:tab] || "always"
+      @roles = optional_roles
     end
 
-    def add_action_buttons(header)
-      header.with_action_button(
-        tag: :a,
-        mobile_icon: :info,
-        mobile_label: helpers.t(:label_workflow_summary),
-        size: :medium,
-        href: workflows_summary_path,
-        aria: { label: helpers.t(:label_workflow_summary) },
-        title: helpers.t(:label_workflow_summary)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :info)
-        helpers.t(:label_workflow_summary)
-      end
+    private
+
+    def optional_roles
+      ordered = Workflow.eligible_roles.order(:builtin, :position)
+      selected = ordered.where(id: params[:role_ids])
+      selected.any? ? selected : [ordered.first]
     end
   end
 end
