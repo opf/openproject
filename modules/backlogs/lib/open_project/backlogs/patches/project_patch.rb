@@ -44,4 +44,8 @@ module OpenProject::Backlogs::Patches::ProjectPatch
   def backlogs_enabled?
     module_enabled? "backlogs"
   end
+
+  def many_active_sprints?
+    sprints.active.many?
+  end
 end

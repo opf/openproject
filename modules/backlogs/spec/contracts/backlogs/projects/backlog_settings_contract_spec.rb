@@ -233,7 +233,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       it_behaves_like "contract is invalid", allow_multiple_active_sprints: :requires_no_sharing
     end
 
-    context "when sprint_sharing is changed while allow_multiple_active_sprints is enabled" do
+    context "when sprint_sharing is changed to 'share_subprojects' while allow_multiple_active_sprints is enabled" do
       let(:project) { create(:project, allow_multiple_active_sprints: true) }
 
       before { project.sprint_sharing = Project::SHARE_SUBPROJECTS }
@@ -241,8 +241,32 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       it_behaves_like "contract is invalid", sprint_sharing: :locked_by_multiple_active_sprints
     end
 
+    context "when sprint_sharing is changed to 'share_all_projects' while allow_multiple_active_sprints is enabled" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      before { project.sprint_sharing = Project::SHARE_ALL_PROJECTS }
+
+      it_behaves_like "contract is invalid", sprint_sharing: :locked_by_multiple_active_sprints
+    end
+
+    context "when sprint_sharing is changed to 'receive_shared' while allow_multiple_active_sprints is enabled" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      before { project.sprint_sharing = Project::RECEIVE_SHARED }
+
+      it_behaves_like "contract is invalid", sprint_sharing: :locked_by_multiple_active_sprints
+    end
+
     context "when sprint_sharing is unchanged while allow_multiple_active_sprints is enabled" do
       let(:project) { create(:project, allow_multiple_active_sprints: true) }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when sprint_sharing is explicitly set to its current value while allow_multiple_active_sprints is enabled" do
+      let(:project) { create(:project, allow_multiple_active_sprints: true, sprint_sharing: Project::NO_SHARING) }
+
+      before { project.sprint_sharing = Project::NO_SHARING }
 
       it_behaves_like "contract is valid"
     end
