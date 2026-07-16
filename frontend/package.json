@@ -165,7 +165,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.0",
     "screenfull": "^6.0.2",
-    "stimulus-use": "^0.52.2",
+    "stimulus-use": "^0.53.0",
     "tablesorter": "^2.31.3",
     "tiny-invariant": "^1.3.3",
     "ts-action": "^11.0.0",
