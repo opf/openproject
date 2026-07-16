@@ -908,9 +908,9 @@ GEM
     openssl (4.0.2)
     openssl-signature_algorithm (1.3.0)
       openssl (> 2.0)
-    opentelemetry-api (1.10.0)
+    opentelemetry-api (1.10.1)
       logger
-    opentelemetry-common (0.25.0)
+    opentelemetry-common (0.25.1)
       opentelemetry-api (~> 1.0)
     opentelemetry-exporter-otlp (0.34.0)
       google-protobuf (>= 3.18)
@@ -1073,15 +1073,15 @@ GEM
       opentelemetry-helpers-sql-processor
       opentelemetry-instrumentation-base (~> 0.25)
       opentelemetry-semantic_conventions (>= 1.8.0)
-    opentelemetry-registry (0.6.0)
+    opentelemetry-registry (0.6.1)
       opentelemetry-api (~> 1.1)
-    opentelemetry-sdk (1.12.0)
+    opentelemetry-sdk (1.12.1)
       logger
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
       opentelemetry-registry (~> 0.2)
       opentelemetry-semantic_conventions
-    opentelemetry-semantic_conventions (1.41.0)
+    opentelemetry-semantic_conventions (1.43.0)
       opentelemetry-api (~> 1.0)
     optimist (3.2.1)
     os (1.1.4)
@@ -1686,7 +1686,7 @@ DEPENDENCIES
   openproject-xls_export!
   opentelemetry-exporter-otlp (~> 0.34.0)
   opentelemetry-instrumentation-all (~> 0.94.0)
-  opentelemetry-sdk (~> 1.10)
+  opentelemetry-sdk (~> 1.12)
   overviews!
   ox
   pagy
@@ -2064,8 +2064,8 @@ CHECKSUMS
   openproject-xls_export (1.0.0)
   openssl (4.0.2) sha256=1037ad2868ae58df9ad917891c0c0f9815a1172f6846d4bcdd508e4c2ee747c2
   openssl-signature_algorithm (1.3.0) sha256=a3b40b5e8276162d4a6e50c7c97cdaf1446f9b2c3946a6fa2c14628e0c957e80
-  opentelemetry-api (1.10.0) sha256=99ee7c829b18381c31a817ee9bf6a160d737542d99cb8da55d443336d266bfa9
-  opentelemetry-common (0.25.0) sha256=73915362e58d337fc92acbe1abfdaee1f725442527125fdb2af1420417f1149d
+  opentelemetry-api (1.10.1) sha256=5db9535a8aa9e569808518aa103b2cfac44728672a1799e1dd217fe6d9c5642e
+  opentelemetry-common (0.25.1) sha256=38fe87c751e4e13fcd47a8290b4ad67bbedf76c4ed89aeced5ea5c620e66bfb1
   opentelemetry-exporter-otlp (0.34.0) sha256=3b3cdf4329ba30f4389d849c7f13b8f9f983ecb4a030031c03997dffae1e2a60
   opentelemetry-helpers-mysql (0.6.0) sha256=7eeb5e6950c434775a8cf28b5fde4defc12e8b865c86479ce3119fcf593d9337
   opentelemetry-helpers-sql (0.4.0) sha256=b10e8c3a2cca28a98af951bbb3e4efdc59e68b25ba0825e055574af543420afb
@@ -2116,9 +2116,9 @@ CHECKSUMS
   opentelemetry-instrumentation-sidekiq (0.29.0) sha256=b1d2a0cb9041a5e14239fe7c94d99e3dd07f870e2759460ab63592d7cdd8aadc
   opentelemetry-instrumentation-sinatra (0.30.0) sha256=b67301153420f43264a0c68cdb3ca5bd77467cf5054e57b83a2bf891aaaa0361
   opentelemetry-instrumentation-trilogy (0.69.0) sha256=0676dd720eeab284abfa52f273967442156fcac7084a1e1411373cf14ec026ad
-  opentelemetry-registry (0.6.0) sha256=5d3ed32ab9eee0fbdb30d4f0d0bb61ad11a4040b267b475ae815b80a8498a728
-  opentelemetry-sdk (1.12.0) sha256=a224abe0c59023d41cb7ac1c634d9d28843907efcd045ed1ae320796c48b864b
-  opentelemetry-semantic_conventions (1.41.0) sha256=3be5e4c141f9c5e9db17ab491ac76826519296ea80994bf7b9ada95c668cc010
+  opentelemetry-registry (0.6.1) sha256=a4569df4e366742ab435634115a20169c0073db681eaea406de0dfcaf015e8d1
+  opentelemetry-sdk (1.12.1) sha256=d706be6d7fa0e15b5b36916f65ca6397562b48ad05d4f9b18426d030600525ea
+  opentelemetry-semantic_conventions (1.43.0) sha256=d96eb7da3bc89335786ea676b448701f566cf241a7ca56ae1e814b83816922af
   optimist (3.2.1) sha256=8cf8a0fd69f3aa24ab48885d3a666717c27bc3d9edd6e976e18b9d771e72e34e
   os (1.1.4) sha256=57816d6a334e7bd6aed048f4b0308226c5fb027433b67d90a9ab435f35108d3f
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
