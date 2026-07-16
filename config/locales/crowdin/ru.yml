@@ -226,6 +226,8 @@ ru:
         identifier: Идентификатор
         latest_activity_at: Последние действия
         parent: Подпроект
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Исполнитель при отправке
         project_creation_wizard_enabled: Запрос на инициализацию проекта
         project_creation_wizard_notification_text: Текст уведомления
@@ -589,7 +591,7 @@ ru:
               blank: Формула не может быть пустой.
               format: "%{message}"
               invalid: Формула неверна.
-              invalid_characters: Допускаются только числовые значения, математические операторы и атрибуты проекта типа integer, float, calculated value и weighted list.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Атрибут %{custom_fields} не может быть использован, потому что это приводит к циклической ссылке, один атрибут зависит от другого.
             required:
               cannot_be_true: не может быть установлено в true.
@@ -2092,7 +2094,7 @@ ru:
       editable:
         all: Разрешить редактирование поля самими пользователями.
       formula:
-        project: Добавьте числовые значения или введите / для поиска атрибута или математического оператора.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       is_filter:
@@ -3034,6 +3036,8 @@ ru:
   label_blog: Блог
   label_board_plural: Доски
   label_boolean: Логическое значение
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Ветка
   label_browse: Обзор
   label_builtin: Встроенный
@@ -3080,6 +3084,7 @@ ru:
   label_configuration: Настройки
   label_confirmation: Подтверждение
   label_consent_settings: Согласие пользователя
+  label_constant_plural: Constants
   label_contains: содержит
   label_content: Содержание
   label_continued_from_previous_year: продолжился с предыдущего года
@@ -3217,6 +3222,7 @@ ru:
   label_forum_plural: Форумы
   label_forum_sticky: Прикреплено
   label_forums_locked: Заблокирован
+  label_function_plural: Functions
   label_gantt_chart: Диаграмма Ганта
   label_gantt_chart_plural: Диаграммы Ганта
   label_general: Общие
@@ -3316,7 +3322,6 @@ ru:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Управляемые %{vendor} репозиториев
   label_mapping_for: 'Привязки для: %{attribute}'
-  label_mathematical_operators: Математические операторы
   label_max_size: Максимальный размер
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
@@ -3407,6 +3412,7 @@ ru:
   label_operator_equals_all: И
   label_operator_equals_or: ИЛИ
   label_operator_none: пусто
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: любой
   label_optional_description: Описание
   label_options: Параметры
@@ -3487,6 +3493,7 @@ ru:
   label_projects_disk_usage_information: "%{count} проектов, использующих %{used_disk_space} дискового пространства"
   label_projects_menu: Проекты
   label_public_projects: Проекты, доступные всем
+  label_punctuation: Punctuation
   label_query_new: Новый запрос
   label_query_plural: Пользовательские запросы
   label_read: Читать...
@@ -4599,8 +4606,14 @@ ru:
       templates:
         label: Шаблон
         none_enabled: Для этого типа пакета работ не был определен шаблон
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Создать PDF
     page_nr_footer: Страница %{page} из %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Все атрибуты, представленные в текущей форме настроек, используют шаблон по умолчанию.
       label: Атрибуты и описание
@@ -4889,11 +4902,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: Созданный артефакт будет сохранен в виде PDF-вложения к пакету работ.
-          description_file_link_export: Пакет работ будет содержать ссылку на файл PDF, хранящийся во внешнем файловом хранилище. Требуется рабочее файловое хранилище с автоматически управляемыми папками для данного проекта. На данный момент поддерживаются только файловые хранилища Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Экспорт артефакта
+          label_artifact_export: Artefact export
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -4984,13 +4997,13 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Не удалось сохранить артефакт в файловом хранилище
-      create_artifact_work_package_error: Не удалось создать артефактный пакет работ
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Атрибуты проекта сохранены и пакет работ успешно создан.
+      success: Project attributes saved and artefact work package created successfully.
       title: Запрос на инициализацию проекта
   queries:
     apply_filter: Применить ранее настроенный фильтр
@@ -5490,12 +5503,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject может создать пошаговый мастер, который поможет руководителям проектов заполнить запрос на инициацию проекта. Вы можете выбрать, какие атрибуты проекта должны быть включены, и в результате создать артефакт в формате PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Название артефакта
-        artifact_name_caption: Выберите для этого артефакта название, которое рекомендует Ваша система управления проектами.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -5515,8 +5528,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: Когда пользователь подает запрос на инициирование проекта, будет создан новый пакет работ с запросом, прикрепленным в виде PDF-файла. Настройки, приведенные ниже, определяют тип, статус и назначение этого нового рабочего пакета.
-        description_template: "**Этот рабочий пакет был автоматически создан по завершении рабочего процесса %{wizard_name} .** Артефакт в формате PDF, содержащий всю предоставленную информацию, был создан и прикреплен к этому рабочему пакету для справки и аудита. Если Вам необходимо обновить или повторно выполнить шаги инициации, Вы можете в любой момент снова открыть мастер, воспользовавшись приведенной ниже ссылкой:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -5524,7 +5537,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: Тип пакета работ, который должен использоваться для хранения завершенного артефакта.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -5809,8 +5822,8 @@ ru:
     '
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем 100 элементов на странице может увеличить время загрузки.'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия. Вы уверены?
-  text_permanent_delete_confirmation_checkbox_label: Я понимаю, что это удаление невозможно отменить
-  text_permanent_remove_confirmation_checkbox_label: Я понимаю, что это удаление не может быть отменено
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Папка активов дополнения(plugin) доступна для записи
   text_powered_by: С использованием %{link}
   text_project_custom_field_html: 'Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
@@ -5900,8 +5913,7 @@ ru:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

@@ -226,6 +226,8 @@ vi:
         identifier: Định danh
         latest_activity_at: Các hoạt động mới nhất tại
         parent: Dự án con của
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Người được chuyển nhượng khi nộp
         project_creation_wizard_enabled: Yêu cầu khởi tạo dự án
         project_creation_wizard_notification_text: Văn bản thông báo
@@ -589,7 +591,7 @@ vi:
               blank: Công thức không được để trống.
               format: "%{message}"
               invalid: Công thức không hợp lệ.
-              invalid_characters: Chỉ cho phép các giá trị số, toán tử toán học và thuộc tính dự án thuộc loại số nguyên, số float, giá trị được tính toán và danh sách có trọng số.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Thuộc tính %{custom_fields} không thể được sử dụng vì nó dẫn đến tham chiếu vòng tròn; một thuộc tính phụ thuộc vào thuộc tính khác.
             required:
               cannot_be_true: không thể được đặt thành đúng.
@@ -2006,7 +2008,7 @@ vi:
       editable:
         all: Cho phép người dùng tự chỉnh sửa trường này.
       formula:
-        project: Thêm giá trị số hoặc nhập / để tìm kiếm thuộc tính hoặc toán tử toán học.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2875,6 +2877,8 @@ vi:
   label_blog: Nhật ký
   label_board_plural: bảng
   label_boolean: Boolean
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Nhánh
   label_browse: Duyệt
   label_builtin: Tích hợp sẵn
@@ -2921,6 +2925,7 @@ vi:
   label_configuration: cấu hình
   label_confirmation: xác nhận
   label_consent_settings: Sự đồng ý của người dùng
+  label_constant_plural: Constants
   label_contains: bao gồm
   label_content: Nội dung
   label_continued_from_previous_year: continued from previous year
@@ -3058,6 +3063,7 @@ vi:
   label_forum_plural: diễn đàn
   label_forum_sticky: dính
   label_forums_locked: bị khóa
+  label_function_plural: Functions
   label_gantt_chart: Biểu đồ Gantt
   label_gantt_chart_plural: biểu đồ Gantt
   label_general: Tổng quan
@@ -3157,7 +3163,6 @@ vi:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Kho lưu trữ %{vendor} được quản lý
   label_mapping_for: 'Ánh xạ cho: %{attribute}'
-  label_mathematical_operators: Toán tử toán học
   label_max_size: Kích thước tối đa
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
@@ -3248,6 +3253,7 @@ vi:
   label_operator_equals_all: là (VÀ)
   label_operator_equals_or: là (HOẶC)
   label_operator_none: trống rỗng
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: bất kỳ
   label_optional_description: mô tả
   label_options: Tuỳ chọn
@@ -3328,6 +3334,7 @@ vi:
   label_projects_disk_usage_information: "%{count} dự án sử dụng dung lượng đĩa %{used_disk_space}"
   label_projects_menu: dự án
   label_public_projects: Các dự án công khai
+  label_punctuation: Punctuation
   label_query_new: Truy vấn mới
   label_query_plural: Truy vấn tùy chỉnh
   label_read: Đọc...
@@ -4412,8 +4419,14 @@ vi:
       templates:
         label: mẫu
         none_enabled: Không có mẫu nào được bật cho loại gói công việc này
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Tạo PDF
     page_nr_footer: Trang %{page} trong số %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Tất cả các thuộc tính có trong cấu hình biểu mẫu hiện tại sử dụng mẫu mặc định.
       label: Thuộc tính và mô tả
@@ -4699,11 +4712,11 @@ vi:
           no_status_when_submitted: Failed to enable project initiation request because gói công việc (work package) type %{type} requires at least one status associated with it. Please enable at least one status workflow for this gói công việc (work package) type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active gói công việc (work package) type and this project has none. Please add at least one gói công việc (work package) type to this project.
         export:
-          description_attachment_export: Tạo tác được tạo sẽ được lưu dưới dạng tệp đính kèm PDF vào gói tác phẩm tạo tác.
-          description_file_link_export: Gói công việc tạo tác sẽ có liên kết tệp tới tệp PDF được lưu trữ trong bộ lưu trữ tệp bên ngoài. Yêu cầu lưu trữ tệp đang hoạt động với các thư mục dự án được quản lý tự động cho dự án này. Hiện tại chỉ hỗ trợ lưu trữ tệp Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Chọn kho lưu trữ tệp bên ngoài được định cấu hình sẽ được sử dụng.
           external_file_storage: Lưu trữ tập tin bên ngoài
-          label_artifact_export: Xuất khẩu hiện vật
+          label_artifact_export: Artefact export
           label_attachment_export: Lưu dưới dạng tệp đính kèm tệp gói công việc
           label_file_link_export: Tải tệp lên bộ lưu trữ tệp bên ngoài và thêm liên kết tệp vào gói công việc
           pdf_file_storage: lưu trữ tập tin PDF
@@ -4794,13 +4807,13 @@ vi:
     status:
       button_edit: Chỉnh sửa trạng thái
     wizard:
-      create_artifact_storage_error: Không thể lưu trữ thành phần lạ trong bộ lưu trữ tệp
-      create_artifact_work_package_error: Không tạo được gói công việc tạo tác
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Thuộc tính này không có văn bản trợ giúp được xác định.
       progress_label: "%{current} trong số %{total}"
       sections: phần
       sidebar_content_title: Nội dung
-      success: Thuộc tính dự án đã được lưu và gói công việc tạo tác được tạo thành công.
+      success: Project attributes saved and artefact work package created successfully.
       title: Yêu cầu khởi tạo dự án
   queries:
     apply_filter: Áp dụng bộ lọc được cấu hình sẵn
@@ -5309,12 +5322,12 @@ vi:
         confirmation_message: Trình hướng dẫn yêu cầu khởi tạo sẽ không còn khả dụng cho các dự án mới dựa trên mẫu này nữa. Người quản lý dự án và chủ sở hữu dự án sẽ cần định cấu hình và điền thông tin liên quan theo cách thủ công trong phần Tổng quan về dự án.
         heading: Tắt yêu cầu bắt đầu dự án này?
         title: Tắt yêu cầu khởi tạo dự án
-      header_description: 'OpenProject có thể tạo trình hướng dẫn từng bước để giúp người quản lý dự án điền vào yêu cầu khởi tạo dự án. Bạn có thể chọn những thuộc tính dự án nào sẽ được đưa vào và kết quả là tạo một tạo phẩm PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Tên hiện vật
-        artifact_name_caption: Chọn tên cho tạo phẩm này mà khung quản lý dự án của bạn đề xuất.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Trình hướng dẫn tạo dự án
           project_initiation_request: Yêu cầu khởi tạo dự án
@@ -5334,10 +5347,8 @@ vi:
           Bạn đã gửi yêu cầu bắt đầu dự án cho **%{project_name}**. Bây giờ nó đang chờ xem xét.
           Nhấp vào liên kết bên dưới để truy cập gói công việc với yêu cầu của bạn.
         confirmation_email_text: Văn bản email xác nhận
-        description: Khi người dùng gửi yêu cầu bắt đầu dự án, một gói công việc mới sẽ được tạo với tạo phẩm yêu cầu được đính kèm dưới dạng tệp PDF. Các cài đặt bên dưới xác định loại, trạng thái và người được giao cho gói công việc mới này.
-        description_template: '**Gói công việc này được tạo tự động sau khi hoàn thành quy trình làm việc " %{wizard_name} ".** Một tệp PDF chứa tất cả thông tin đã nộp đã được tạo và đính kèm vào gói công việc này để tham khảo và kiểm toán. Nếu bạn cần cập nhật hoặc chạy lại các bước khởi tạo, bạn có thể mở lại trình hướng dẫn bất cứ lúc nào bằng cách sử dụng liên kết bên dưới:
-
-          '
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Gửi email xác nhận cho người dùng đã gửi yêu cầu bắt đầu dự án
         status_when_submitted: Trạng thái khi gửi
         status_when_submitted_caption: Trạng thái của gói công việc được tạo sẽ chuyển sang trạng thái sau khi yêu cầu được gửi.
@@ -5345,7 +5356,7 @@ vi:
         work_package_comment_caption: Người được giao được chọn ở trên sẽ tự động được @đề cập trong nhận xét.
         work_package_comment_default: Yêu cầu bắt đầu dự án cho **%{project_name}** đã được gửi và đang chờ xem xét.
         work_package_type: Loại gói công việc
-        work_package_type_caption: Loại gói công việc nên được sử dụng để lưu trữ tạo phẩm đã hoàn thành.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Mở trình hướng dẫn tạo dự án
         project_initiation_request: Mở yêu cầu bắt đầu dự án
@@ -5634,8 +5645,8 @@ vi:
   text_own_membership_delete_confirmation: |-
     Bạn sắp xóa một số hoặc tất cả các quyền của mình và sau đó có thể không chỉnh sửa được dự án này nữa.
     Bạn có chắc chắn muốn tiếp tục không?
-  text_permanent_delete_confirmation_checkbox_label: Tôi hiểu rằng việc xóa này không thể đảo ngược
-  text_permanent_remove_confirmation_checkbox_label: Tôi hiểu rằng việc xóa này không thể hoàn tác được
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Thư mục nội dung plugin có thể ghi
   text_powered_by: Được cung cấp bởi %{link}
   text_project_custom_field_html: 'Phiên bản Enterprise sẽ thêm các phần bổ sung cho các trường tùy chỉnh của dự án: <br> <ul> <li><b>Thêm các trường tùy chỉnh cho dự án vào danh sách Dự án của bạn để tạo cái nhìn tổng quan về danh mục dự án</b></li> </ul>
@@ -5727,8 +5738,7 @@ vi:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

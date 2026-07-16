@@ -226,6 +226,8 @@ fr:
         identifier: Identifiant
         latest_activity_at: Dernière activité à
         parent: Sous-projet de
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Responsable au moment de l'envoi
         project_creation_wizard_enabled: Demande de lancement du projet
         project_creation_wizard_notification_text: Texte de la notification
@@ -589,7 +591,7 @@ fr:
               blank: La formule ne peut pas être vide.
               format: "%{message}"
               invalid: La formule n'est pas valide.
-              invalid_characters: Seules les valeurs numériques, les opérateurs mathématiques et les attributs de projet de type entier, flottant, valeur calculée et liste pondérée sont autorisés.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             required:
               cannot_be_true: ne peut pas être défini comme vrai.
@@ -2034,7 +2036,7 @@ fr:
       editable:
         all: Permettre aux utilisateurs de modifier eux-mêmes le champ.
       formula:
-        project: Ajoutez des valeurs numériques ou saisissez / pour rechercher un attribut ou un opérateur mathématique.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
       is_filter:
@@ -2928,6 +2930,8 @@ fr:
   label_blog: Blog
   label_board_plural: Tableaux
   label_boolean: Booléen
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Branche
   label_browse: Parcourir
   label_builtin: Intégré
@@ -2974,6 +2978,7 @@ fr:
   label_configuration: configuration
   label_confirmation: Confirmation
   label_consent_settings: Accord de l'utilisateur
+  label_constant_plural: Constants
   label_contains: contenus
   label_content: Contenu
   label_continued_from_previous_year: suite de l'année précédente
@@ -3111,6 +3116,7 @@ fr:
   label_forum_plural: Forums
   label_forum_sticky: Épinglé
   label_forums_locked: Verrouillé
+  label_function_plural: Functions
   label_gantt_chart: Diagramme de Gantt
   label_gantt_chart_plural: Diagrammes de Gantt
   label_general: Général
@@ -3210,7 +3216,6 @@ fr:
   label_managed_by_ldap: Géré par synchronisation LDAP
   label_managed_repositories_vendor: Référentiels %{vendor} gérés
   label_mapping_for: 'Mapping pour : %{attribute}'
-  label_mathematical_operators: Opérateurs mathématiques
   label_max_size: Taille maximale
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
@@ -3301,6 +3306,7 @@ fr:
   label_operator_equals_all: est (ET)
   label_operator_equals_or: est (OU)
   label_operator_none: est vide
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: tous
   label_optional_description: Description
   label_options: Options
@@ -3381,6 +3387,7 @@ fr:
   label_projects_disk_usage_information: "%{count} projets utilisant %{used_disk_space} d'espace disque"
   label_projects_menu: Projets
   label_public_projects: Projets publics
+  label_punctuation: Punctuation
   label_query_new: Nouvelle requête
   label_query_plural: Requêtes personnalisées
   label_read: Lire...
@@ -4470,8 +4477,14 @@ fr:
       templates:
         label: Modèle
         none_enabled: Aucun modèle n'a été activé pour ce type de lot de travaux
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Générer un fichier PDF
     page_nr_footer: Page %{page} sur %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Tous les attributs présents dans la configuration actuelle du formulaire en utilisant le modèle par défaut.
       label: Attributs et description
@@ -4758,11 +4771,11 @@ fr:
           no_status_when_submitted: Échec de l'activation de la demande d'initiation de projet, car le type de lot de travaux %{type} doit être associé à au moins un statut. Veuillez activer au moins un flux de travail de statut pour ce type de lot de travaux.
           no_work_package_type: La demande d'initiation de projet n'a pas pu être activée, car elle nécessite au moins un type de lot de travaux actif et ce projet n'en a pas. Veuillez ajouter au moins un type de lot de travaux à ce projet.
         export:
-          description_attachment_export: L'artefact généré sera enregistré en tant que pièce jointe au format PDF dans le lot de travaux de l'artefact.
-          description_file_link_export: Le lot de travaux de l'artefact contient un lien vers un fichier PDF stocké dans un espace de stockage de fichiers externe. Nécessite un stockage de fichiers de travail avec des dossiers de projet gérés automatiquement pour ce projet. Pour le moment, seuls les espaces de stockage de fichiers Nextcloud sont pris en charge.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Sélectionnez les espaces de stockage de fichiers externes configurés qui doivent être utilisés.
           external_file_storage: Espace de stockage de fichiers externe
-          label_artifact_export: Exportation d'artefact
+          label_artifact_export: Artefact export
           label_attachment_export: Enregistrer en tant que pièce jointe au lot de travaux
           label_file_link_export: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
           pdf_file_storage: Stockage de fichiers PDF
@@ -4853,13 +4866,13 @@ fr:
     status:
       button_edit: Modifier le statut
     wizard:
-      create_artifact_storage_error: Échec de l'enregistrement de l'artefact dans l'espace de stockage de fichiers
-      create_artifact_work_package_error: Échec de la création d'un lot de travaux d'artefact
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Cet attribut n'a pas de texte d'aide défini.
       progress_label: "%{current} sur %{total}"
       sections: Sections
       sidebar_content_title: Contenu
-      success: Les attributs du projet ont été enregistrés et le lot de travaux de l'artefact a été créé avec succès.
+      success: Project attributes saved and artefact work package created successfully.
       title: Demande de lancement du projet
   queries:
     apply_filter: Appliquer le filtre préconfiguré
@@ -5367,12 +5380,12 @@ fr:
         confirmation_message: L'assistant de demande de lancement ne sera plus disponible pour les nouveaux projets basés sur ce modèle. Les chefs de projet et les propriétaires de projet devront configurer et remplir manuellement les informations pertinentes dans la vue d'ensemble du projet.
         heading: Désactiver cette demande de lancement de projet ?
         title: Désactiver la demande de lancement de projet
-      header_description: 'OpenProject peut générer un assistant étape par étape pour aider les chefs de projet à remplir une demande de lancement de projet. Vous pouvez choisir les attributs du projet à inclure et créer un artefact PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Nom de l'artefact
-        artifact_name_caption: Choisissez le nom de cet artefact recommandé par votre cadre de gestion de projet.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Assistant de création de projet
           project_initiation_request: Demande de lancement du projet
@@ -5392,8 +5405,8 @@ fr:
           Vous avez envoyé une demande de lancement de projet pour **%{project_name}**. Elle est actuellement en attente d'examen.
           Cliquez sur le lien ci-dessous pour accéder au lot de travaux contenant votre demande.
         confirmation_email_text: Texte de l'e-mail de confirmation
-        description: Lorsqu'un utilisateur envoie une demande de lancement de projet, un nouveau lot de travaux est créé avec l'artefact de la demande en pièce jointe au format PDF. Les paramètres ci-dessous définissent le type, le statut et le destinataire de ce nouveau lot de travaux.
-        description_template: "**Ce dossier de travail a été créé automatiquement à l'issue du flux de travail %{wizard_name}.** Un artefact PDF contenant toutes les informations soumises a été généré et joint à ce dossier de travail à des fins de référence et d'audit. Si vous avez besoin de mettre à jour ou de réexécuter les étapes d'initiation, vous pouvez rouvrir l'assistant à tout moment en utilisant le lien ci-dessous :\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Envoyer un e-mail de confirmation à l'utilisateur qui a soumis la demande de lancement du projet
         status_when_submitted: Statut lors de l'envoi
         status_when_submitted_caption: Le statut que le lot de travaux généré prendra une fois la demande envoyée.
@@ -5401,7 +5414,7 @@ fr:
         work_package_comment_caption: Le responsable sélectionné ci-dessus sera automatiquement @mentionné dans le commentaire.
         work_package_comment_default: Une demande de lancement de projet pour **%{project_name}** a été envoyée et est en attente d'examen.
         work_package_type: Type de lot de travaux
-        work_package_type_caption: Le type de lot de travaux qui doit être utilisé pour stocker l'artefact terminé.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Ouvrir l'assistant de création de projet
         project_initiation_request: Ouvrir la demande de lancement du projet
@@ -5685,8 +5698,8 @@ fr:
   text_own_membership_delete_confirmation: |-
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
-  text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée
-  text_permanent_remove_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
@@ -5778,8 +5791,7 @@ fr:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

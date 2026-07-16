@@ -120,6 +120,7 @@ fr:
     button_cancel: Annuler
     button_change_project: Déplacer vers un autre projet
     button_check_all: Tout cocher
+    button_clear: Clear
     button_close: Fermer
     button_close_details: Fermer la vue détaillée
     button_collapse_all: Tout replier
@@ -803,6 +804,14 @@ fr:
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
       sorted_no: 'Aucun tri appliqué, '
       sorting_disabled: le tri est désactivé
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Fermer la fenêtre modale

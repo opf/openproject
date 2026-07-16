@@ -120,6 +120,7 @@ uk:
     button_cancel: Скасувати
     button_change_project: Перейти до іншого проєкту
     button_check_all: Перевірити все
+    button_clear: Clear
     button_close: Закрити
     button_close_details: Закрити подання деталей
     button_collapse_all: Згорнути все
@@ -805,6 +806,14 @@ uk:
       sorted_dsc: Застосовується сортування за спаданням,
       sorted_no: Не застосовано жодного сорту
       sorting_disabled: сортування відключено
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Закрити модальне вікно

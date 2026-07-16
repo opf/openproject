@@ -226,6 +226,8 @@ pl:
         identifier: Identyfikator
         latest_activity_at: Ostatnia aktywność o
         parent: Projekt nadrzędny
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Osoba przypisana w chwili przesłania
         project_creation_wizard_enabled: Żądanie zainicjowania projektu
         project_creation_wizard_notification_text: Tekst powiadomienia
@@ -589,7 +591,7 @@ pl:
               blank: Wzór nie może być pusty.
               format: "%{message}"
               invalid: Wzór jest nieprawidłowy.
-              invalid_characters: Dozwolone są tylko wartości liczbowe, operatory matematyczne i atrybuty projektu typu liczba całkowita, liczba zmiennoprzecinkowa, obliczana wartość i lista ważona.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Nie można użyć atrybutu %{custom_fields}, ponieważ prowadzi to do odwołania cyklicznego; jeden atrybut zależy od drugiego.
             required:
               cannot_be_true: nie można ustawić na wartość true.
@@ -2090,7 +2092,7 @@ pl:
       editable:
         all: Zezwól na edycję pola przez samych użytkowników.
       formula:
-        project: Dodaj wartości liczbowe lub wpisz „/”, aby wyszukać atrybut lub operator matematyczny.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Umożliwia użytkownikowi dodanie komentarza związanego z atrybutem projektu podczas wybierania wartości w przeglądzie projektu.
       is_filter:
@@ -3030,6 +3032,8 @@ pl:
   label_blog: Blog
   label_board_plural: Tablice
   label_boolean: Wartość logiczna
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Branch
   label_browse: Przeglądaj
   label_builtin: Wbudowany
@@ -3076,6 +3080,7 @@ pl:
   label_configuration: konfiguracja
   label_confirmation: Potwierdzenie
   label_consent_settings: Zgoda użytkownika
+  label_constant_plural: Constants
   label_contains: zawiera
   label_content: Zawartość
   label_continued_from_previous_year: kontynuacja z poprzedniego roku
@@ -3213,6 +3218,7 @@ pl:
   label_forum_plural: Fora
   label_forum_sticky: Przyklejony
   label_forums_locked: Zablokowany
+  label_function_plural: Functions
   label_gantt_chart: Wykres Gantta
   label_gantt_chart_plural: Wykresy Gantta
   label_general: Ogólne
@@ -3312,7 +3318,6 @@ pl:
   label_managed_by_ldap: Zarządzane za pomocą synchronizacji LDAP
   label_managed_repositories_vendor: Zarządzane %{vendor} repozytoria
   label_mapping_for: 'Mapowanie dla: %{attribute}'
-  label_mathematical_operators: Operatory matematyczne
   label_max_size: Maksymalny rozmiar
   label_me: ja
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
@@ -3403,6 +3408,7 @@ pl:
   label_operator_equals_all: jest (AND)
   label_operator_equals_or: jest (OR)
   label_operator_none: jest puste
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: którekolwiek
   label_optional_description: Opis
   label_options: Opcje
@@ -3483,6 +3489,7 @@ pl:
   label_projects_disk_usage_information: Projekty (%{count}) zajmują %{used_disk_space} miejsca na dysku
   label_projects_menu: Projekty
   label_public_projects: Projekty publiczne
+  label_punctuation: Punctuation
   label_query_new: Nowe zapytanie
   label_query_plural: Zapytania niestandardowe
   label_read: Czytaj...
@@ -4601,8 +4608,14 @@ pl:
       templates:
         label: Szablon
         none_enabled: Dla tego typu pakietu roboczego nie włączono żadnego szablonu
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Wygeneruj PDF
     page_nr_footer: Strona %{page} z %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Wszystkie atrybuty obecne w bieżącej konfiguracji formularza, używając szablonu domyślnego.
       label: Atrybuty i opis
@@ -4891,11 +4904,11 @@ pl:
           no_status_when_submitted: Nie udało się włączyć żądania zainicjowania projektu, ponieważ typ pakietu roboczego %{type} wymaga co najmniej jednego powiązanego z nim statusu. Włącz co najmniej jeden przepływ pracy statusu dla tego typu pakietu roboczego.
           no_work_package_type: Nie udało się włączyć żądania zainicjowania projektu, ponieważ wymaga to co najmniej jednego aktywnego typu pakietu roboczego, a ten projekt nie ma żadnego. Dodaj co najmniej jeden typ pakietu roboczego do tego projektu.
         export:
-          description_attachment_export: Wygenerowany artefakt zostanie zapisany jako załącznik PDF do pakietu roboczego artefaktu.
-          description_file_link_export: Pakiet roboczy artefaktu będzie zawierał link do pliku PDF przechowywanego w zewnętrznym magazynie plików. Wymaga działającego magazynu plików z automatycznie zarządzanymi folderami tego projektu. Obecnie obsługiwane są tylko magazyny plików Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Wybierz, który ze skonfigurowanych zewnętrznych magazynów plików ma być używany.
           external_file_storage: Zewnętrzny magazyn plików
-          label_artifact_export: Eksport artefaktu
+          label_artifact_export: Artefact export
           label_attachment_export: Zapisz jako załącznik pliku pakietu roboczego
           label_file_link_export: Prześlij plik do zewnętrznego magazynu plików i dodaj link do pakietu roboczego
           pdf_file_storage: Magazyn plików PDF
@@ -4986,13 +4999,13 @@ pl:
     status:
       button_edit: Edytuj status
     wizard:
-      create_artifact_storage_error: Nie udało się zapisać artefaktu w magazynie plików
-      create_artifact_work_package_error: Nie udało się utworzyć pakietu roboczego artefaktu
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Ten atrybut nie ma zdefiniowanego tekstu pomocy.
       progress_label: "%{current} z %{total}"
       sections: Sekcje
       sidebar_content_title: Zawartość
-      success: Atrybuty projektu zostały zapisane, a pakiet roboczy artefaktu został utworzony.
+      success: Project attributes saved and artefact work package created successfully.
       title: Żądanie zainicjowania projektu
   queries:
     apply_filter: Zastosuj wstępny filtr
@@ -5492,12 +5505,12 @@ pl:
         confirmation_message: Kreator żądania zainicjowania nie będzie już dostępny dla nowych projektów opartych na tym szablonie. Kierownicy i właściciele projektów będą musieli ręcznie skonfigurować i wypełnić odpowiednie informacje w przeglądzie projektu.
         heading: Wyłączyć to żądanie zainicjowania projektu?
         title: Wyłącz żądanie zainicjowania projektu
-      header_description: 'OpenProject może wygenerować kreatora krok po kroku, aby pomóc kierownikom projektów wypełnić wniosek o zainicjowanie projektu. Można wybrać, które atrybuty projektu powinny zostać uwzględnione i w wyniku utworzyć artefakt PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Nazwa artefaktu
-        artifact_name_caption: Wybierz dla tego artefaktu nazwę, którą zaleca Twoja struktura zarządzania projektami.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Kreator tworzenia projektu
           project_initiation_request: Żądanie zainicjowania projektu
@@ -5516,8 +5529,8 @@ pl:
 
           otrzymaliśmy od Ciebie żądanie zainicjowania projektu **%{project_name}**. Oczekuje ono teraz na rozpatrzenie. Kliknij poniższy link, aby uzyskać dostęp do pakietu roboczego z Twoim żądaniem.
         confirmation_email_text: Tekst wiadomości e-mail z potwierdzeniem
-        description: Gdy użytkownik prześle żądanie zainicjowania projektu, zostanie utworzony nowy pakiet roboczy z artefaktem żądania załączonym jako plik PDF. Poniższe ustawienia definiują typ, status i odbiorcę tego nowego pakietu roboczego.
-        description_template: "**Ten pakiet roboczy został automatycznie utworzony po zakończeniu przepływu pracy %{wizard_name}. ** Artefakt PDF zawierający wszystkie przesłane informacje został wygenerowany i dołączony do tego pakietu roboczego w celach referencyjnych i związanych z audytem. Jeśli musisz zaktualizować lub ponownie uruchomić kroki inicjowania, możesz ponownie otworzyć kreatora w dowolnym momencie, korzystając z poniższego linku:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Wyślij wiadomość e-mail z potwierdzeniem do użytkownika, który przesłał żądanie zainicjowania projektu
         status_when_submitted: Status w chwili przesłania
         status_when_submitted_caption: Status, do którego przejdzie wygenerowany pakiet roboczy po przesłaniu żądania.
@@ -5525,7 +5538,7 @@ pl:
         work_package_comment_caption: Wybrana powyżej przypisana osoba zostanie automatycznie @wspomniana w komentarzu.
         work_package_comment_default: Żądanie zainicjowania projektu **%{project_name}** zostało przesłane i oczekuje na rozpatrzenie.
         work_package_type: Typ pakietu roboczego
-        work_package_type_caption: Typ pakietu roboczego, który powinien być używany do przechowywania ukończonego artefaktu.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Otwórz kreatora tworzenia projektu
         project_initiation_request: Otwórz żądanie zainicjowania projektu
@@ -5813,8 +5826,8 @@ pl:
   text_own_membership_delete_confirmation: |-
     Chcesz usunąć niektóre lub wszystkie swoje uprawnienia, przez które możesz nie być w stanie edytować tego projektu.
     Czy na pewno chcesz kontynuować?
-  text_permanent_delete_confirmation_checkbox_label: Rozumiem, że tego usunięcia nie można cofnąć
-  text_permanent_remove_confirmation_checkbox_label: Rozumiem, że tego usunięcia nie można cofnąć
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Plugin assets directory writable
   text_powered_by: Napędzany przez %{link}
   text_project_custom_field_html: 'Wersja Enterprise doda te dodatkowe funkcje niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
@@ -5906,8 +5919,7 @@ pl:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

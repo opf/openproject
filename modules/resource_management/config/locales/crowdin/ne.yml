@@ -5,6 +5,7 @@ ne:
       resource_allocation:
         allocated_hours: Hours
         allocated_time: Allocated time
+        date_range: Dates
         end_date: Finish date
         entity: Entity
         filter_name: Resource filter name
@@ -13,6 +14,7 @@ ne:
         state: State
         user_filter: User filter
       resource_planner:
+        date_range: Dates
         default_view_class_name: Default view
         end_date: Finish date
         favorite: Favorite
@@ -29,6 +31,9 @@ ne:
           attributes:
             end_date:
               greater_than_start_date: must be after the start date.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -149,9 +154,7 @@ ne:
       title: Staffing
     sub_views: Views in this resource planner
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day

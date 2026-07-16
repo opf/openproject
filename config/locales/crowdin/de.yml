@@ -226,6 +226,8 @@ de:
         identifier: Kennung
         latest_activity_at: Letzte Aktivität am
         parent: Unterprojekt von
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Zuweisung bei Einreichung
         project_creation_wizard_enabled: Projektinitiierungsantrag
         project_creation_wizard_notification_text: Benachrichtigungstext
@@ -589,7 +591,7 @@ de:
               blank: Die Formel kann nicht leer sein.
               format: "%{message}"
               invalid: Die Formel ist ungültig.
-              invalid_characters: Nur numerische Werte, mathematische Operatoren und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
             required:
               cannot_be_true: kann nicht auf 'wahr' gesetzt werden.
@@ -2034,7 +2036,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut oder einem mathematischen Operator zu suchen.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -2926,6 +2928,8 @@ de:
   label_blog: Blog
   label_board_plural: Boards
   label_boolean: Boolesch
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Zweig
   label_browse: Codebrowser
   label_builtin: Vordefiniert
@@ -2972,6 +2976,7 @@ de:
   label_configuration: Konfiguration
   label_confirmation: Bestätigung
   label_consent_settings: Nutzer-Einwilligung
+  label_constant_plural: Constants
   label_contains: enthält
   label_content: Inhalt
   label_continued_from_previous_year: fortgeführt vom Vorjahr
@@ -3109,6 +3114,7 @@ de:
   label_forum_plural: Foren
   label_forum_sticky: Angepinnt
   label_forums_locked: Gesperrt
+  label_function_plural: Functions
   label_gantt_chart: Gantt-Diagramm
   label_gantt_chart_plural: Gantt Diagramme
   label_general: Allgemein
@@ -3208,7 +3214,6 @@ de:
   label_managed_by_ldap: Verwaltet durch LDAP-Synchronisation
   label_managed_repositories_vendor: Verwaltete %{vendor} Projektarchive
   label_mapping_for: 'Zuordnung für: %{attribute}'
-  label_mathematical_operators: Mathematische Operatoren
   label_max_size: Maximale Größe
   label_me: ich
   label_member_all_admin: "(Alle Rollen, da Administrator)"
@@ -3299,6 +3304,7 @@ de:
   label_operator_equals_all: ist (UND)
   label_operator_equals_or: ist (ODER)
   label_operator_none: ist leer
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: beliebig
   label_optional_description: Beschreibung
   label_options: Optionen
@@ -3379,6 +3385,7 @@ de:
   label_projects_disk_usage_information: "%{count} Projekte, die %{used_disk_space} Speicherplatz belegen"
   label_projects_menu: Projekte
   label_public_projects: Öffentliche Projekte
+  label_punctuation: Punctuation
   label_query_new: Neuer Bericht
   label_query_plural: Benutzerdefinierte Berichte
   label_read: Lesen ...
@@ -4471,8 +4478,14 @@ de:
       templates:
         label: Vorlage
         none_enabled: Für diesen Arbeitspakettyp ist keine Vorlage aktiv
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: PDF generieren
     page_nr_footer: Seite %{page} von %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration mit der Standardvorlage vorhanden sind.
       label: Attribute und Beschreibung
@@ -4759,11 +4772,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: Das erzeugte Artefakt wird als PDF-Anhang zum erstellten Arbeitspaket gespeichert.
-          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artefakt-Export
+          label_artifact_export: Artefact export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -4854,13 +4867,13 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
-      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
+      success: Project attributes saved and artefact work package created successfully.
       title: Projektinitiierungsantrag
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
@@ -5368,12 +5381,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Name des Artefakts
-        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -5393,8 +5406,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
-        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -5402,7 +5415,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -5686,8 +5699,8 @@ de:
   text_own_membership_delete_confirmation: |-
     Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.
     Sind Sie sicher, dass Sie dies tun möchten?
-  text_permanent_delete_confirmation_checkbox_label: Ich verstehe, dass diese Löschung nicht rückgängig gemacht werden kann
-  text_permanent_remove_confirmation_checkbox_label: Ich verstehe, dass diese Löschung nicht rückgängig gemacht werden kann
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_powered_by: Powered by %{link}
   text_project_custom_field_html: 'Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
@@ -5779,8 +5792,7 @@ de:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

@@ -226,6 +226,8 @@ uk:
         identifier: Ідентифікатор
         latest_activity_at: Остання активність на
         parent: Підпроект
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Виконавець на момент подання
         project_creation_wizard_enabled: Запит на ініціювання проєкту
         project_creation_wizard_notification_text: Текст сповіщення
@@ -591,7 +593,7 @@ uk:
               blank: Потрібно вказати формулу.
               format: "%{message}"
               invalid: Формула недійсна.
-              invalid_characters: 'Допускаються лише числові значення, математичні оператори й атрибути проєкту таких типів: ціле число, число з рухомою комою, розраховане значення й список зважених елементів.'
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: Атрибут «%{custom_fields}» не можна використовувати, оскільки це призведе до циклічного посилання; один атрибут залежить від іншого.
             required:
               cannot_be_true: не може мати значення true.
@@ -2096,7 +2098,7 @@ uk:
       editable:
         all: Дозвольте користувачам самостійно редагувати це поле.
       formula:
-        project: Додайте числові значення або введіть «/» для пошуку атрибута чи математичного оператора.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Дає змогу користувачу додати коментар до атрибута проєкту при виборі значення на сторінці «Огляд проєкту».
       is_filter:
@@ -3040,6 +3042,8 @@ uk:
   label_blog: Блог
   label_board_plural: Дошки
   label_boolean: Логічний тип
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Гілка
   label_browse: Огляд
   label_builtin: Вбудовано
@@ -3086,6 +3090,7 @@ uk:
   label_configuration: конфігурація
   label_confirmation: Підтвердження
   label_consent_settings: Згода користувача
+  label_constant_plural: Constants
   label_contains: містить
   label_content: Контент
   label_continued_from_previous_year: продовжується з попереднього року
@@ -3223,6 +3228,7 @@ uk:
   label_forum_plural: Форуми
   label_forum_sticky: Приліплена
   label_forums_locked: Заблоковані
+  label_function_plural: Functions
   label_gantt_chart: Діаграма Ґанта
   label_gantt_chart_plural: Діаграми Ґанта
   label_general: Загальні
@@ -3322,7 +3328,6 @@ uk:
   label_managed_by_ldap: Синхронізується з LDAP
   label_managed_repositories_vendor: Керований %{vendor} repositories
   label_mapping_for: 'Зіставлення для: %{attribute}'
-  label_mathematical_operators: Математичні оператори
   label_max_size: Максимальний розмір
   label_me: мені
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
@@ -3413,6 +3418,7 @@ uk:
   label_operator_equals_all: є (І)
   label_operator_equals_or: є (АБО)
   label_operator_none: не вказано
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: усі
   label_optional_description: Опис
   label_options: Опції
@@ -3493,6 +3499,7 @@ uk:
   label_projects_disk_usage_information: 'Проєктів, що використовують %{used_disk_space} місця на диску: %{count}'
   label_projects_menu: Проєкти
   label_public_projects: Публічні проекти
+  label_punctuation: Punctuation
   label_query_new: Новий запит
   label_query_plural: Спеціальні запити
   label_read: Читання...
@@ -4605,8 +4612,14 @@ uk:
       templates:
         label: Шаблон
         none_enabled: Для цього типу пакета робіт не ввімкнено шаблон
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Згенерувати PDF
     page_nr_footer: Сторінка %{page} з %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Усі атрибути, наявні в поточній конфігурації форми, що використовують шаблон за замовчуванням.
       label: Атрибути й опис
@@ -4895,11 +4908,11 @@ uk:
           no_status_when_submitted: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки з типом пакета робіт «%{type}» має бути пов’язано принаймні один статус. Увімкніть для нього принаймні один робочий процес статусу.
           no_work_package_type: Не вдалося ввімкнути запит на ініціювання проєкту, оскільки для цього потрібен принаймні один активний тип пакета робіт, а в цьому проєкті немає жодного. Додайте в нього принаймні один тип пакета робіт.
         export:
-          description_attachment_export: Створений артефакт буде збережено як вкладення у форматі PDF у пакеті робіт артефакту.
-          description_file_link_export: Пакет робіт артефакту міститиме посилання на файл PDF, що зберігатиметься в зовнішньому сховищі. Знадобиться робоче файлове сховище з папками проєкту з автоматичним керуванням для цього проєкту. Зараз підтримуються лише файлові сховища Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Виберіть налаштоване зовнішнє файлове сховище, яке слід використовувати.
           external_file_storage: Зовнішнє файлове сховище
-          label_artifact_export: Експорт артефакту
+          label_artifact_export: Artefact export
           label_attachment_export: Зберегти як вкладення файлу в пакеті робіт
           label_file_link_export: Завантажити файл у зовнішнє файлове сховище й додати посилання на нього в пакет робіт
           pdf_file_storage: Сховище файлів PDF
@@ -4990,13 +5003,13 @@ uk:
     status:
       button_edit: Редагувати статус
     wizard:
-      create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
-      create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
       sidebar_content_title: Зміст
-      success: Атрибути проєкту збережено, пакет робіт артефакту успішно створено.
+      success: Project attributes saved and artefact work package created successfully.
       title: Запит на ініціювання проєкту
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
@@ -5508,12 +5521,12 @@ uk:
         confirmation_message: Майстер запиту на ініціювання більше не буде доступний для нових проєктів, створених на основі цього шаблону. Менеджерам і власникам проєктів доведеться вручну вибирати налаштування й указувати відповідну інформацію на сторінці «Огляд проєкту».
         heading: Вимкнути цей запит на ініціювання проєкту?
         title: Вимкнути запит на ініціювання проєкту
-      header_description: 'OpenProject може створити покроковий майстер, який допомагатиме менеджерам проєктів заповнювати запити на ініціювання проєктів. Ви можете вибрати атрибути проєктів, які слід включити, і в результаті створити артефакт у форматі PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Назва артефакту
-        artifact_name_caption: Виберіть для цього артефакту назву, яка відповідатиме вашому методу управління проєктами.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Майстер створення проєктів
           project_initiation_request: Запит на ініціювання проєкту
@@ -5533,8 +5546,8 @@ uk:
           Ви подали запит на ініціювання проєкту **%{project_name}**. Зараз він очікує на розгляд.
           Перейдіть за посиланням нижче, щоб отримати доступ до пакета робіт із Вашим запитом.
         confirmation_email_text: Текст листа з підтвердженням
-        description: Коли користувач подає запит на ініціювання проєкту, створюється новий пакет робіт з артефактом запиту, долученим як файл PDF. Наведені нижче налаштування визначають тип, статус і виконавця нового пакета робіт.
-        description_template: "**Цей пакет робіт автоматично створено після завершення робочого процесу «%{wizard_name}».** Артефакт у форматі PDF, що містить усю подану інформацію, було створено й додано в цей пакет робіт для довідки й аудиту. Якщо знадобиться оновити дані або повторити кроки із запуску, можна будь-коли знову відкрити майстер, скориставшись посиланням, наведеним нижче:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Надіслати лист із підтвердженням користувачу, що подав запит на ініціювання проєкту
         status_when_submitted: Статус на момент подання
         status_when_submitted_caption: Статус, який буде присвоєно створеному пакету робіт після подання запиту.
@@ -5542,7 +5555,7 @@ uk:
         work_package_comment_caption: Виконавця, вибраного вище, буде автоматично @згадано в коментарі.
         work_package_comment_default: Запит на ініціювання проєкту **%{project_name}** подано, і він очікує на розгляд.
         work_package_type: Тип пакета робіт
-        work_package_type_caption: Тип пакета робіт, який слід використовувати для зберігання завершеного артефакту.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Відкрити майстер створення проєктів
         project_initiation_request: Відкрити запит на ініціювання проєкту
@@ -5828,8 +5841,8 @@ uk:
   text_own_membership_delete_confirmation: |-
     Ви збираєтесь видалити деякі або всі права, через що можуть зникнути права на редагування цього проекту.
     Ви впевнені що хочете продовжити?
-  text_permanent_delete_confirmation_checkbox_label: Я розумію, що це видалення не можна відмінити
-  text_permanent_remove_confirmation_checkbox_label: Я розумію, що вилучення не можна буде скасувати
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Каталог ресурсів модулів доступний для запису
   text_powered_by: Працює на %{link}
   text_project_custom_field_html: 'У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul>
@@ -5921,8 +5934,7 @@ uk:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

@@ -226,6 +226,8 @@ zh-TW:
         identifier: 識別碼
         latest_activity_at: 最新活動
         parent: 上層專案
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: 提交時的執行者
         project_creation_wizard_enabled: 專案啟動請求
         project_creation_wizard_notification_text: 通知文字
@@ -589,7 +591,7 @@ zh-TW:
               blank: 公式不能為空白。
               format: "%{message}"
               invalid: 公式無效。
-              invalid_characters: 只允許數值、數學運算符號以及整數、浮點數、計算值和加權列表類型的專案屬性。
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: 不能使用屬性 %{custom_fields} ，因為這會導致循環引用；一個屬性依賴於另一個屬性。
             required:
               cannot_be_true: 不能設定為 true。
@@ -2012,7 +2014,7 @@ zh-TW:
       editable:
         all: 允許使用者自行編輯欄位。
       formula:
-        project: 加入數值或輸入 / 搜尋屬性或數學運算符號。
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2879,6 +2881,8 @@ zh-TW:
   label_blog: 部落格
   label_board_plural: 看板
   label_boolean: 布林值
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: 分支
   label_browse: 瀏覽
   label_builtin: 內建
@@ -2925,6 +2929,7 @@ zh-TW:
   label_configuration: 組態
   label_confirmation: 確認
   label_consent_settings: 使用者同意個資意向書
+  label_constant_plural: Constants
   label_contains: 包含
   label_content: 內容
   label_continued_from_previous_year: continued from previous year
@@ -3062,6 +3067,7 @@ zh-TW:
   label_forum_plural: 討論區
   label_forum_sticky: 釘選
   label_forums_locked: 停用
+  label_function_plural: Functions
   label_gantt_chart: 甘特圖
   label_gantt_chart_plural: 甘特圖
   label_general: 一般
@@ -3161,7 +3167,6 @@ zh-TW:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 已管理的 %{vendor} 版本庫
   label_mapping_for: 對應為： %{attribute}
-  label_mathematical_operators: 數學運算元
   label_max_size: 最大容量
   label_me: 我
   label_member_all_admin: "(所有角色都由管理員狀態決定)"
@@ -3252,6 +3257,7 @@ zh-TW:
   label_operator_equals_all: 包含
   label_operator_equals_or: 包含(多選)
   label_operator_none: 無
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: 任何
   label_optional_description: 說明
   label_options: 選項
@@ -3332,6 +3338,7 @@ zh-TW:
   label_projects_disk_usage_information: "%{count} 專案，使用 %{used_disk_space} 磁碟空間"
   label_projects_menu: 專案
   label_public_projects: 公開專案
+  label_punctuation: Punctuation
   label_query_new: 新增查詢
   label_query_plural: 自訂查詢
   label_read: 讀取...
@@ -4411,8 +4418,14 @@ zh-TW:
       templates:
         label: 範本
         none_enabled: 尚未啟用此工作套件類型範本
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: 產生PDF檔案
     page_nr_footer: 頁面 %{page} of %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 目前表單配置中存在的所有屬性均使用預設範本。
       label: 屬性以及說明
@@ -4698,11 +4711,11 @@ zh-TW:
           no_status_when_submitted: 啟用專案啟動請求失敗，因為工作包類型 %{type} 至少需要一個狀態與之相關。請為此工作包類型啟用至少一個狀態工作流程。
           no_work_package_type: 啟用專案啟動請求失敗，因為它需要至少一個作用中的工作套件類型，而此專案沒有。請為此專案新增至少一個工作套件類型。
         export:
-          description_attachment_export: 產生的產物將會以 PDF 附件的形式，儲存到該產物的工作套件中。
-          description_file_link_export: 該成品工作套件將會包含一個檔案連結，指向儲存在外部檔案儲存空間中的 PDF 檔案。這要求有一個具備檔案儲存功能的空間，並且其中有為此專案自動化管理的專案資料夾。目前僅支援 Nextcloud 檔案儲存空間。
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 選擇應使用哪個已設定的外部檔案儲存空間。
           external_file_storage: 外部存儲空間
-          label_artifact_export: 產物匯出
+          label_artifact_export: Artefact export
           label_attachment_export: 儲存為工作套件檔案附件
           label_file_link_export: 將檔案上傳至外部檔案儲存空間，並將檔案連結新增至工作套件
           pdf_file_storage: PDF 檔案儲存
@@ -4793,13 +4806,13 @@ zh-TW:
     status:
       button_edit: 編輯狀態
     wizard:
-      create_artifact_storage_error: 在檔案儲存中儲存工件失敗
-      create_artifact_work_package_error: 建立成品工作套件失敗
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: 此屬性未定義任何說明文字。
       progress_label: "%{current} of %{total}"
       sections: 區段
       sidebar_content_title: 內容
-      success: 專案屬性已儲存，且成品工作套件已成功建立。
+      success: Project attributes saved and artefact work package created successfully.
       title: 專案啟動請求
   queries:
     apply_filter: 套用篩選條件
@@ -5306,12 +5319,12 @@ zh-TW:
         confirmation_message: 啟動請求精靈將不再適用於基於此模板的新專案。專案經理和專案所有人將需要在專案概述中手動設定和填寫相關資訊。
         heading: 停用此專案啟動請求？
         title: 停用專案啟動請求
-      header_description: 'OpenProject 可以產生逐步操作精靈，協助專案經理填寫專案啟動申請。你可以選擇要包含哪些專案屬性，並產出 PDF 成果檔。
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: 產物名稱
-        artifact_name_caption: 請選擇您的專案管理框架所建議的成品名稱。
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 專案建立精靈
           project_initiation_request: 專案啟動請求
@@ -5329,10 +5342,8 @@ zh-TW:
           您已提交 %{project_name} 的專案啟動請求，目前正等待審核。
           請點擊下方連結以存取包含您請求的工作套件。
         confirmation_email_text: 確認電子郵件文字
-        description: 當使用者提交專案啟動請求時，將會建立一個新的工作套件，並將請求成品以 PDF 檔案的形式附加到其中。下方的設定將定義這個新工作套件的類型、狀態和指派對象。
-        description_template: '此工作套件是在完成 %{wizard_name} 工作流程後自動建立的。 系統已產生一份包含所有已提交資訊的 PDF 成品，並已附加至此工作套件，供日後查閱與稽核使用。 若您需要更新內容或重新執行啟動步驟，可隨時透過下方連結重新開啟精靈：
-
-          '
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交專案啟動請求的使用者傳送確認電子郵件
         status_when_submitted: 提交時的狀態
         status_when_submitted_caption: 提交請求後，產生的工作套件將轉換到的狀態。
@@ -5340,7 +5351,7 @@ zh-TW:
         work_package_comment_caption: 上面選擇的執行者會自動在留言中 @。
         work_package_comment_default: "%{project_name} 的專案啟動請求已提交，正在等待審核。"
         work_package_type: 工作套件類型
-        work_package_type_caption: 應用於儲存已完成成品之工作套件的類型。
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 開啟專案建立精靈
         project_initiation_request: 開啟專案啟動請求
@@ -5629,8 +5640,8 @@ zh-TW:
   text_own_membership_delete_confirmation: |-
     您將要刪除部分或全部權限, 之後可能無法再編輯此專案。
     是否要繼續？
-  text_permanent_delete_confirmation_checkbox_label: 我了解此刪除無法逆轉
-  text_permanent_remove_confirmation_checkbox_label: 我了解此移除無法逆轉
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Plugin 資產目錄可寫
   text_powered_by: 由 %{link} 提供
   text_project_custom_field_html: '企業版將為項目的自定義字段添加以下其他附加組件：<br> <ul> <li><b>在項目列表中添加項目自定義字段，以創建項目組合視圖</b></li> </ul>
@@ -5722,8 +5733,7 @@ zh-TW:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}

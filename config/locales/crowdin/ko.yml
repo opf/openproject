@@ -226,6 +226,8 @@ ko:
         identifier: 식별자
         latest_activity_at: 다음의 최근 활동
         parent: 하위 프로젝트
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: 제출 시 담당자
         project_creation_wizard_enabled: 프로젝트 시작 요청
         project_creation_wizard_notification_text: 알림 텍스트
@@ -589,7 +591,7 @@ ko:
               blank: 수식은 비워둘 수 없습니다.
               format: "%{message}"
               invalid: 수식이 유효하지 않습니다.
-              invalid_characters: 정수, 부동 소수점, 계산된 값 및 가중치 목록 유형의 숫자 값, 수학 연산자 및 프로젝트 특성만 허용됩니다.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: "%{custom_fields} 특성은 순환 참조로 이어지기 때문에 사용할 수 없습니다. 한 특성이 다른 특성에 종속됩니다."
             required:
               cannot_be_true: "- true로 설정할 수 없습니다."
@@ -2004,7 +2006,7 @@ ko:
       editable:
         all: 사용자가 필드를 편집할 수 있도록 허용합니다.
       formula:
-        project: 숫자 값을 추가하거나 /를 입력하여 특성 또는 수학 연산자를 검색합니다.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
       is_filter:
@@ -2891,6 +2893,8 @@ ko:
   label_blog: 블로그
   label_board_plural: 보드
   label_boolean: 부울
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: 브랜치
   label_browse: 찾아보기
   label_builtin: 내장
@@ -2937,6 +2941,7 @@ ko:
   label_configuration: 구성
   label_confirmation: 확인
   label_consent_settings: 사용자 동의
+  label_constant_plural: Constants
   label_contains: 포함
   label_content: 내용
   label_continued_from_previous_year: 이전 연도에서 계속
@@ -3074,6 +3079,7 @@ ko:
   label_forum_plural: 포럼
   label_forum_sticky: 스티커형
   label_forums_locked: 잠김
+  label_function_plural: Functions
   label_gantt_chart: Gantt 차트
   label_gantt_chart_plural: Gantt 차트
   label_general: 일반
@@ -3173,7 +3179,6 @@ ko:
   label_managed_by_ldap: LDAP 동기화를 통해 관리됨
   label_managed_repositories_vendor: 관리 되는 %{vendor} 저장소
   label_mapping_for: '매핑 대상: %{attribute}'
-  label_mathematical_operators: 수학 연산자
   label_max_size: 최대 크기
   label_me: 나
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
@@ -3264,6 +3269,7 @@ ko:
   label_operator_equals_all: "(AND)"
   label_operator_equals_or: "(OR)"
   label_operator_none: 비어 있음
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: 모두
   label_optional_description: 설명
   label_options: 옵션
@@ -3344,6 +3350,7 @@ ko:
   label_projects_disk_usage_information: "%{used_disk_space} 디스크 공간을 사용하고 있는 %{count}개 프로젝트"
   label_projects_menu: 프로젝트
   label_public_projects: 공용 프로젝트
+  label_punctuation: Punctuation
   label_query_new: 새 쿼리
   label_query_plural: 사용자 지정 쿼리
   label_read: 읽기...
@@ -4422,8 +4429,14 @@ ko:
       templates:
         label: 템플릿
         none_enabled: 이 작업 패키지 유형에 대해 활성화된 템플릿이 없습니다
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: PDF 생성
     page_nr_footer: "%{page}/%{total}페이지"
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 기본 템플릿을 사용하는 현재 양식 구성에 있는 모든 특성입니다.
       label: 특성 및 설명
@@ -4706,11 +4719,11 @@ ko:
           no_status_when_submitted: 작업 패키지 유형 %{type}에는 연결된 상태가 하나 이상 필요하므로 프로젝트 시작 요청을 활성화하지 못했습니다. 이 작업 패키지 유형에 대한 상태 워크플로를 하나 이상 활성화하세요.
           no_work_package_type: 프로젝트 시작 요청을 사용하려면 활성 작업 패키지 유형이 하나 이상 필요하지만 이 프로젝트에는 하나도 없기 때문에 프로젝트 시작 요청을 활성화하지 못했습니다. 이 프로젝트에 작업 패키지 유형을 하나 이상 추가하세요.
         export:
-          description_attachment_export: 생성된 아티팩트는 아티팩트 작업 패키지에 PDF 첨부 파일로 저장됩니다.
-          description_file_link_export: 아티팩트 작업 패키지에는 외부 파일 저장소에 저장된 PDF에 대한 파일 링크가 있습니다. 이 프로젝트에 대해 자동으로 관리되는 프로젝트 폴더가 있는 작업 파일 저장소가 필요합니다. 현재는 Nextcloud 파일 저장소만 지원됩니다.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 구성된 외부 파일 저장소 중 어떤 저장소를 사용할지 선택합니다.
           external_file_storage: 외부 파일 저장소
-          label_artifact_export: 아티팩트 내보내기
+          label_artifact_export: Artefact export
           label_attachment_export: 작업 패키지 파일 첨부 파일로 저장
           label_file_link_export: 외부 파일 저장소에 파일을 업로드하고 작업 패키지에 파일 링크 추가
           pdf_file_storage: PDF 파일 저장소
@@ -4801,13 +4814,13 @@ ko:
     status:
       button_edit: 상태 편집
     wizard:
-      create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
-      create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
       sidebar_content_title: 콘텐츠
-      success: 프로젝트 특성이 저장되고 아티팩트 작업 패키지가 생성되었습니다.
+      success: Project attributes saved and artefact work package created successfully.
       title: 프로젝트 시작 요청
   queries:
     apply_filter: 미리 구성된 필터 적용
@@ -5308,12 +5321,12 @@ ko:
         confirmation_message: 이 템플릿을 기반으로 하는 새 프로젝트에는 시작 요청 마법사를 더 이상 사용할 수 없습니다. 프로젝트 관리자와 프로젝트 소유자는 프로젝트 개요에서 관련 정보를 수동으로 구성하고 작성해야 합니다.
         heading: 이 프로젝트 시작 요청을 비활성화하시겠습니까?
         title: 프로젝트 시작 요청 비활성화
-      header_description: 'OpenProject는 프로젝트 관리자가 프로젝트 시작 요청을 작성하는 데 도움이 되는 단계별 마법사를 생성할 수 있습니다. 어떤 프로젝트 특성을 포함할지 선택하고 PDF 아티팩트를 결과로 생성할 수 있습니다.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: 아티팩트 이름
-        artifact_name_caption: 프로젝트 관리 프레임워크에서 권장하는 이 아티팩트의 이름을 선택합니다.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 프로젝트 생성 마법사
           project_initiation_request: 프로젝트 시작 요청
@@ -5333,8 +5346,8 @@ ko:
           **%{project_name}**에 대한 프로젝트 시작 요청을 제출하셨습니다. 이제 검토를 기다리고 있습니다.
           요청이 포함된 작업 패키지에 액세스하려면 아래 링크를 클릭하세요.
         confirmation_email_text: 확인 이메일 텍스트
-        description: 사용자가 프로젝트 시작 요청을 제출하면 요청 아티팩트가 PDF 파일로 첨부된 새 작업 패키지가 생성됩니다. 아래 설정은 이 새 작업 패키지의 유형, 상태 및 담당자를 정의합니다.
-        description_template: "**이 작업 패키지는 %{wizard_name} 워크플로를 완료하면 자동으로 생성됩니다.** 제출된 모든 정보가 포함된 PDF 아티팩트가 생성되어 참조 및 감사 목적으로 이 작업 패키지에 첨부되었습니다. 시작 단계를 업데이트하거나 다시 실행해야 하는 경우 아래 링크를 사용하여 언제든지 마법사를 다시 열 수 있습니다.\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 프로젝트 시작 요청을 제출한 사용자에게 확인 이메일 보내기
         status_when_submitted: 제출 시 상태
         status_when_submitted_caption: 요청이 제출되면 생성된 작업 패키지가 전환되는 상태입니다.
@@ -5342,7 +5355,7 @@ ko:
         work_package_comment_caption: 위에서 선택한 담당자가 코멘트에서 자동으로 @멘션됩니다.
         work_package_comment_default: "%{project_name}**에 대한 프로젝트 시작 요청이 제출되어 검토를 기다리고 있습니다."
         work_package_type: 작업 패키지 유형
-        work_package_type_caption: 완료된 아티팩트를 저장하는 데 사용할 작업 패키지 유형입니다.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 프로젝트 생성 마법사 열기
         project_initiation_request: 프로젝트 시작 요청 열기
@@ -5631,8 +5644,8 @@ ko:
   text_own_membership_delete_confirmation: |-
     권한의 일부 또는 전부를 삭제하려고 합니다. 이렇게 한 후에는 이 프로젝트를 더 이상 편집하지 못할 수 있습니다.
     계속하시겠습니까?
-  text_permanent_delete_confirmation_checkbox_label: 이 삭제는 되돌릴 수 없음을 이해합니다.
-  text_permanent_remove_confirmation_checkbox_label: 이 제거는 되돌릴 수 없음을 이해합니다
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: 플러그인 자산 디렉터리 쓰기 가능
   text_powered_by: "%{link} 제공"
   text_project_custom_field_html: 'Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
@@ -5724,8 +5737,7 @@ ko:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
