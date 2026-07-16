@@ -57,6 +57,10 @@ module WorkPackageTypes
 
     def source_path = edit_type_settings_path(type_id: source.id)
 
+    def copy_supported? = CopyConfiguration.supported?(aspect)
+
+    def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
+
     def linked_description
       helpers.link_translate(
         "types.edit.reuse_mode.linked.description",
@@ -67,7 +71,7 @@ module WorkPackageTypes
     end
 
     def parent_suffix
-      source_is_parent? ? I18n.t("types.edit.reuse_mode.linked.parent_suffix") : ""
+      source_is_parent? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
     end
   end
 end
