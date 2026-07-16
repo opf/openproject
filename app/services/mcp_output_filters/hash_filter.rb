@@ -29,43 +29,32 @@
 #++
 
 module McpOutputFilters
-  class RemoveWorkPackageActionLinks < HashFilter
-    BLOCKED_LINKS = %w[
-      update
-      updateImmediately
-      delete
-      logTime
-      move
-      copy
-      generate_pdf
-      configureForm
-      availableWatchers
-      watch
-      unwatch
-      addWatcher
-      removeWatcher
-      addRelation
-      addChild
-      changeParent
-      addComment
-      addAttachment
-      previewMarkup
-      timeEntries
-      showCosts
-      addFileLink
-    ].to_set
-
+  # Base class for output filters that want to filter on the content of hashes in a result.
+  # It will descend into the values of arrays and hashes and call #on_hash for each hash found
+  # along the way, allowing for the implementation to modify the given hash along the way.
+  class HashFilter
     class << self
+      def filter(hash_or_array)
+        case hash_or_array
+        when Hash
+          filter_hash(hash_or_array)
+        when Array
+          hash_or_array.each { |value| filter(value) }
+        end
+      end
+
       private
 
-      def on_hash(hash) # rubocop:disable Naming/PredicateMethod
-        links = hash["_links"]
-        if links
-          links.delete_if { |key| BLOCKED_LINKS.include?(key) }
-          return false
+      def filter_hash(hash)
+        if on_hash(hash)
+          hash.each_value { |value| filter(value) }
         end
+      end
 
-        true
+      # Expected to be overwritten by subclasses. Should return a truthy value to descend further into
+      # values of the given hash or false to stop descending here.
+      def on_hash(_hash)
+        raise SubclassResponsibilityError
       end
     end
   end
