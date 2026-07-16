@@ -104,6 +104,20 @@ RSpec.describe "Work package type configuration source",
     end
   end
 
+  describe "read-only preview of a Linked aspect" do
+    it "shows the inherited subject pattern and links to the source" do
+      source.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
+      type.link!(Type::ConfigurationLink::PATTERNS, source:)
+
+      get edit_type_subject_configuration_path(type_id: type.id)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Configuration reused from")
+      expect(response.body).to include("PR-{{id}}")
+      expect(response.body).to include(edit_type_subject_configuration_path(source))
+    end
+  end
+
   describe "PATCH update (link)" do
     it "links the aspect to the chosen source" do
       patch type_aspect_configuration_link_path(type, aspect),

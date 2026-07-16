@@ -27,30 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if readonly? %>
-  <%= settings_primer_form_with(**form_options) do |f| %>
-    <%= render(WorkPackageTypes::SubjectConfigurationForm.new(f)) %>
+<%= render(Primer::Beta::Flash.new(scheme: :default, mt: 3, mb: 3)) do %>
+  <%= t("types.edit.configuration_link.reference.reusing", source: source.name) %>
+  <% if show_link? %>
+    <%= render(Primer::Beta::Link.new(href: link_path)) { t("types.edit.configuration_link.reference.edit_at_source") } %>
   <% end %>
-<% elsif show_upsale_page? %>
-  <%= render(
-        EnterpriseEdition::BannerComponent.new(
-          :work_package_subject_generation,
-          variant: :large,
-          video: "enterprise/automatically_generated_subjects.mp4"
-        )
-      ) %>
-<% else %>
-  <%= render(
-        EnterpriseEdition::BannerComponent.new(
-          :work_package_subject_generation,
-          variant: :medium,
-          image: "enterprise/automatically-generated-subjects.png"
-        )
-      ) %>
-
-  <%=
-    settings_primer_form_with(**form_options) do |f|
-      render(WorkPackageTypes::SubjectConfigurationForm.new(f))
-    end
-  %>
 <% end %>

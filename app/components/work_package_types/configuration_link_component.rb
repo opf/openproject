@@ -38,6 +38,8 @@ module WorkPackageTypes
     include OpPrimer::FormHelpers
     include OpTurbo::Streamable
 
+    renders_one :readonly_preview
+
     # +url+/+method+/+form_id+/+form_model+ let a host (the creation wizard) point the mode
     # form at its own endpoint, binding its fields under that model. +editor_form+ is an
     # ApplicationForm rendered inside the same form so the host's submit persists mode and
@@ -103,6 +105,21 @@ module WorkPackageTypes
     def heading = @heading
 
     def independent_data = WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")
+
+    def linked_data = WorkPackageTypes::ConfigurationLinkForm.effect_data("linked")
+
+    def effective_source = type.effective_source_for(@aspect)
+
+    # Aspect → the source type's own configuration tab. Only the two implemented aspects
+    # resolve; anything else has no destination yet.
+    def source_edit_path
+      case @aspect
+      when Type::ConfigurationLink::PATTERNS
+        edit_type_subject_configuration_path(effective_source)
+      when Type::ConfigurationLink::PDF_EXPORT
+        edit_type_pdf_export_template_index_path(type_id: effective_source.id)
+      end
+    end
 
     private
 
