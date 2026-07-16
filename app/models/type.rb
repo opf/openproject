@@ -41,6 +41,7 @@ class Type < ApplicationRecord
 
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
+  store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
 
   before_destroy :check_integrity
 
@@ -214,6 +215,23 @@ class Type < ApplicationRecord
 
   def pdf_export_templates
     @pdf_export_templates ||= ::Type::PdfExportTemplates.new(self)
+  end
+
+  # The store_attribute :default is not returned when the JSON key is present
+  # but nil, so mirror the getter-override pattern used elsewhere (see
+  # Projects::CreationWizard) to guarantee a value.
+  def artefact_export_mode
+    super.presence || Type::ArtefactExport::DEFAULT
+  end
+
+  def artefact_export_enabled?
+    effective_artefact_export_mode != Type::ArtefactExport::OFF
+  end
+
+  # Sub-types inherit the artefact export configuration from their linked source
+  # for the PDF_EXPORT aspect, consistent with the export templates.
+  def effective_artefact_export_mode
+    effective_source_for(Type::ConfigurationLink::PDF_EXPORT).artefact_export_mode
   end
 
   private

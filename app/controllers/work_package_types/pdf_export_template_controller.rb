@@ -34,7 +34,7 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[edit toggle drop enable_all disable_all]
+    before_action :find_type, only: %i[edit toggle drop enable_all disable_all update_artefact_export]
     before_action :find_template, only: %i[toggle drop]
 
     current_menu_item do
@@ -42,6 +42,21 @@ module WorkPackageTypes
     end
 
     def edit; end
+
+    def update_artefact_export
+      mode = params.dig(:type, :artefact_export_mode)
+      unless Type::ArtefactExport::MODES.include?(mode)
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t("types.edit.export_configuration.artefact_export.invalid_mode")
+        )
+        return respond_with_turbo_streams(status: :unprocessable_entity)
+      end
+
+      @type.artefact_export_mode = mode
+      @type.save!
+      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+      respond_with_turbo_streams
+    end
 
     def enable_all
       return render_404_turbo_stream if @type.nil?
