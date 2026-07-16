@@ -5,7 +5,7 @@ import { useWorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 import { useColors } from '../../services/colors';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { ChipBase, ChipBaseXXS } from './chipLayouts';
-import { WorkPackageId } from '../WorkPackage/atoms';
+import { WorkPackageId, WorkPackageTitleLink, workPackageLinkProps } from '../WorkPackage/atoms';
 import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
@@ -21,7 +21,7 @@ import {
 } from '../../utils/inlineChipActions';
 import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
@@ -229,7 +229,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     const cardIcon = kind === 'unauthorized'
       ? <EyeClosedIcon size={16} />
       : <AlertIcon size={16} />;
-    const shortLabel = t(`unavailableWorkPackage.${kind}.short_message`);
+    const displayId = inlineContent.props.displayId || rawWpid;
+    const shortMessageKey = `unavailableWorkPackage.${kind}.short_message`;
+    const shortLabel = t(shortMessageKey).replace(/<\/?wplink>/g, '');
 
     // xxs stays tiny (icon only); the full message lives in the hover/long-press preview.
     const iconOnly = size === 'xxs';
@@ -249,7 +251,15 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       >
         <Base>
           {inlineIcon}
-          {!iconOnly && <UnavailableLabel>{shortLabel}</UnavailableLabel>}
+          {!iconOnly && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
+          {!iconOnly && (
+            <UnavailableLabel>
+              <Trans
+                i18nKey={shortMessageKey}
+                components={{ wplink: <WorkPackageTitleLink {...workPackageLinkProps(displayId)} /> }}
+              />
+            </UnavailableLabel>
+          )}
         </Base>
 
         {showPreview && (
@@ -260,8 +270,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           >
             <UnavailableCard
               icon={cardIcon}
-              header={t(`unavailableWorkPackage.${kind}.header`)}
-              message={t(`unavailableWorkPackage.${kind}.message`)}
+              headerKey={`unavailableWorkPackage.${kind}.header`}
+              messageKey={`unavailableWorkPackage.${kind}.message`}
+              displayId={displayId}
             />
           </WpPreviewPopover>
         )}

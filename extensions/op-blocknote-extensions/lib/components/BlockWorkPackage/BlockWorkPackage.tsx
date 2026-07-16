@@ -84,6 +84,9 @@ export const BlockWorkPackageComponent = ({
   }, [selectedWorkPackage?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const cardSize:BlockWpSize = block.props.size ?? 'm';
+  // The stored displayId may be '' (schema default), so ?? is not enough here.
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const displayId = block.props.displayId || String(block.props.wpid);
 
   useEffect(() => {
     return () => { pendingBlockRegistry.delete(block.id); };
@@ -175,8 +178,8 @@ export const BlockWorkPackageComponent = ({
           <>
             {workPackageResult.loading && (
               <UnavailableCard
-                header={t('unavailableWorkPackage.loading.header')}
-                message={t('unavailableWorkPackage.loading.message')}
+                headerKey="unavailableWorkPackage.loading.header"
+                messageKey="unavailableWorkPackage.loading.message"
               />
             )}
             {!workPackageResult.loading && (workPackageResult.error ?? workPackageResult.unauthorized) && (
@@ -191,14 +194,16 @@ export const BlockWorkPackageComponent = ({
                 {workPackageResult.error ? (
                   <UnavailableCard
                     icon={<AlertIcon size={16} />}
-                    header={t('unavailableWorkPackage.error.header')}
-                    message={t('unavailableWorkPackage.error.message')}
+                    headerKey="unavailableWorkPackage.error.header"
+                    messageKey="unavailableWorkPackage.error.message"
+                    displayId={displayId}
                   />
                 ) : (
                   <UnavailableCard
                     icon={<EyeClosedIcon size={16} />}
-                    header={t('unavailableWorkPackage.unauthorized.header')}
-                    message={t('unavailableWorkPackage.unauthorized.message')}
+                    headerKey="unavailableWorkPackage.unauthorized.header"
+                    messageKey="unavailableWorkPackage.unauthorized.message"
+                    displayId={displayId}
                   />
                 )}
                 {isOptionsOpen && optionsPopover}

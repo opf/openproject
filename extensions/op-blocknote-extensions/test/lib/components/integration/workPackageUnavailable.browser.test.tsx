@@ -49,9 +49,13 @@ describe('Inline chip - unavailable work package', () => {
     );
 
     await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    expect(
-      page.getByText('Unavailable: No permission').element().closest('.op-bn-inline-wp')?.querySelector('.octicon-eye-closed')
-    ).not.toBeNull();
+    const chip = page.getByText('Unavailable: No permission').element().closest('.op-bn-inline-wp');
+    expect(chip?.querySelector('.octicon-eye-closed')).not.toBeNull();
+
+    expect(chip?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#999');
+    const link = chip?.querySelector('a');
+    expect(link?.textContent).toBe('Unavailable');
+    expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/999');
   });
 
   it('shows alert icon and "Unavailable: error" on server error', async () => {
@@ -122,7 +126,13 @@ describe('Inline chip - unavailable work package', () => {
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
     await expect.element(page.getByText('You do not have permission to see this')).toBeVisible();
     // The known-format card icon is reused from the block card.
-    expect(document.querySelector('.op-bn-unavailable-message--header .octicon-eye-closed')).not.toBeNull();
+    const header = document.querySelector('.op-bn-unavailable-message--header');
+    expect(header?.querySelector('.octicon-eye-closed')).not.toBeNull();
+
+    expect(header?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#999');
+    const link = header?.querySelector('a');
+    expect(link?.textContent).toBe('work package');
+    expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/999');
   });
 
   it('gets the selection outline on click and can be copied and pasted', async () => {
@@ -136,7 +146,8 @@ describe('Inline chip - unavailable work package', () => {
     await insertUnavailableInlineWorkPackage();
 
     await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    await userEvent.click(page.getByText('Unavailable: No permission'));
+    // click the identifier, not the label — its "Unavailable" word is a link
+    await userEvent.click(page.getByText('#123'));
 
     await expect.poll(() => {
       const base = document.querySelector('.op-bn-inline-wp .op-bn-inline-wp-base');
@@ -180,7 +191,8 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
     render(<UnavailableChipWrapper initialSize="s" />);
 
     await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    await userEvent.click(page.getByText('Unavailable: No permission'));
+    // click the identifier, not the label — its "Unavailable" word is a link
+    await userEvent.click(page.getByText('#999'));
 
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
@@ -206,7 +218,8 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
     await insertUnavailableInlineWorkPackage();
 
     await expect.element(page.getByText('Unavailable: No permission')).toBeVisible();
-    await userEvent.click(page.getByText('Unavailable: No permission'));
+    // click the identifier, not the label — its "Unavailable" word is a link
+    await userEvent.click(page.getByText('#123'));
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
 
     await userEvent.click(page.getByTitle('Remove'));
@@ -225,7 +238,8 @@ describe('Unavailable work package - options popover (BNE-112)', () => {
     await insertBlockWorkPackageViaSlashMenu();
 
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
-    await userEvent.click(page.getByText('Linked work package unavailable'));
+    // click the message, not the header — its "work package" words are a link
+    await userEvent.click(page.getByText('You do not have permission to see this'));
 
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await expect.element(page.getByTitle('Open in new tab')).not.toBeInTheDocument();
@@ -249,7 +263,13 @@ describe('Block card - unavailable work package', () => {
 
     await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
     await expect.element(page.getByText('You do not have permission to see this')).toBeVisible();
-    expect(document.querySelector('.op-bn-unavailable-message--header .octicon-eye-closed')).not.toBeNull();
+    const header = document.querySelector('.op-bn-unavailable-message--header');
+    expect(header?.querySelector('.octicon-eye-closed')).not.toBeNull();
+
+    expect(header?.querySelector('.op-bn-work-package--id')?.textContent).toBe('#123');
+    const link = header?.querySelector('a');
+    expect(link?.textContent).toBe('work package');
+    expect(link?.getAttribute('href')).toBe('http://localhost:3000/wp/123');
   });
 
   it('shows alert icon and "Error" on server error', async () => {
