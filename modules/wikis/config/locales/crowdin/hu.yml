@@ -154,8 +154,8 @@ hu:
         xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
         xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Meglevő wiki lap hozzáadás
+      title_create: Wiki lap létrehozás
     instructions:
       xwiki:
         integration: XWiki Administration
