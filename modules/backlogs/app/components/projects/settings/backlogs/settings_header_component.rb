@@ -59,11 +59,13 @@ module Projects
                  label: t("backlogs.sharing")
                }
              end),
-            {
-              key: :multiple_active_sprints,
-              href: project_settings_backlog_multiple_active_sprints_path(project),
-              label: t("backlogs.multiple_active_sprints")
-            }
+            (if User.current.allowed_in_project?(:share_sprint, project)
+               {
+                 key: :multiple_active_sprints,
+                 href: project_settings_backlog_multiple_active_sprints_path(project),
+                 label: t("backlogs.multiple_active_sprints")
+               }
+             end)
           ].compact
         end
 
