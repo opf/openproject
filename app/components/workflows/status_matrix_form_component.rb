@@ -49,6 +49,8 @@ module Workflows
 
     def form_id = FORM_ID
 
+    def read_only? = helpers.workflow_linked?(@type)
+
     def data_attributes
       {
         controller: "admin--workflow-role-select",

@@ -1532,6 +1532,7 @@ en:
     workflows:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
+        linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
