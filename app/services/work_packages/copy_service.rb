@@ -101,16 +101,10 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     instantiate_contract(work_package, user).writable_attributes
   end
 
-  # The version associations are not part of #attributes, and copying the
-  # mirrored version_id column only recreates the first target version. Carry
-  # all target/observed_in references over explicitly (overrides still win,
-  # e.g. the project copy remaps them to the copied project's versions).
-  # Empty sets are omitted: an empty replacement would count as a
-  # user-requested clearing, needing the assign_versions permission.
   def version_reference_attributes(work_package)
     {
-      "target_version_ids" => work_package.work_package_versions.where(kind: "target").pluck(:version_id).presence,
-      "observed_in_version_ids" => work_package.work_package_versions.where(kind: "observed_in").pluck(:version_id).presence
+      "target_version_ids" => work_package.target_versions.pluck(:version_id).presence,
+      "observed_in_version_ids" => work_package.observed_in_versions.pluck(:version_id).presence
     }.compact
   end
 
