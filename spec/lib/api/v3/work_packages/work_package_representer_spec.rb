@@ -744,6 +744,32 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .at_path("_embedded/targetVersions/0/name")
         end
       end
+
+      context "when versions are assigned but not yet persisted" do
+        let!(:version) { create(:version, project: workspace) }
+        let!(:other_version) { create(:version, project: workspace) }
+
+        before do
+          work_package.target_version_ids_replacements = [other_version.id, version.id]
+        end
+
+        it "renders the pending versions in their requested order" do
+          expect(subject).to have_json_size(2).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(other_version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/1/href")
+        end
+
+        it "embeds the pending versions" do
+          expect(subject).to have_json_size(2).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql(other_version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
+        end
+      end
     end
 
     describe "project" do

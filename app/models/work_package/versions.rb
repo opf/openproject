@@ -141,6 +141,15 @@ module WorkPackage::Versions
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 
+  # returns pending replacements if they are present, or the association itself otherwise
+  def effective_target_versions
+    effective_versions(target_versions, target_version_ids_replacements)
+  end
+
+  def effective_observed_in_versions
+    effective_versions(observed_in_versions, observed_in_version_ids_replacements)
+  end
+
   # An override can also originate from the system, e.g. when versions that are
   # not shared with the (new) project are cleared on a project change. Such
   # overrides are marked here so that contracts don't attribute them to the
@@ -154,6 +163,13 @@ module WorkPackage::Versions
   end
 
   private
+
+  def effective_versions(association, replacement_ids)
+    return association if replacement_ids.nil?
+
+    versions_by_id = Version.where(id: replacement_ids).index_by(&:id)
+    replacement_ids.filter_map { |id| versions_by_id[id] }
+  end
 
   def system_version_overrides
     @system_version_overrides ||= Set.new
