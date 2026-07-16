@@ -6018,7 +6018,6 @@ en:
 
   types:
     creation_wizard:
-      configuration_link_error: "The reuse mode could not be saved. Please select a source type."
       create_subtype: "Create sub-type"
       fields:
         inherited_from_parent_html: "Inherited from parent type <b>%{parent}</b>."
@@ -6036,17 +6035,6 @@ en:
       workflows:
         copy_caption: "Copy the workflow configuration from an existing type as a starting point."
     edit:
-      configuration_link:
-        independent:
-          caption: "These settings belong to this type and are edited here. They are not linked to any other type."
-          label: "Independent"
-          warning: "Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution."
-        linked:
-          caption: "These settings are reused from a source type and stay in sync with it. To change them, edit the source type."
-          label: "Linked"
-          warning: "Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution."
-        source:
-          label: "Source type"
       export_configuration:
         artefact_export:
           attachment:
@@ -6117,6 +6105,18 @@ en:
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projects
+      reuse_mode:
+        independent:
+          copy_from_type: "Copy from type"
+          description: "No settings are inherited. If desired you can still one-time copy settings from another type."
+          switch_to_linked: "Switch to linked mode"
+          title: "Independent mode"
+        linked:
+          change_source: "Change source type"
+          description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
+          parent_suffix: " (parent)"
+          switch_to_independent: "Switch to independent mode"
+          title: "Linked mode"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: "Settings"

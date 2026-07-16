@@ -43,11 +43,12 @@ RSpec.describe "Work package type configuration source",
   before { login_as admin }
 
   context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
-    it "renders the tab's own editor without the reuse mode toggle" do
+    it "renders the tab's own editor without the reuse mode banner" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("These settings belong to this type")
+      expect(response.body).not_to include("Independent mode")
+      expect(response.body).not_to include("Linked mode")
     end
 
     it "blocks the update endpoint" do
@@ -60,18 +61,18 @@ RSpec.describe "Work package type configuration source",
   end
 
   describe "rendering the tabs" do
-    it "renders the PDF tab with the mode toggle" do
+    it "renders the PDF tab with the reuse mode banner in independent mode" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent")
+      expect(response.body).to include("Independent mode")
     end
 
-    it "renders the subject tab with the mode toggle" do
+    it "renders the subject tab with the reuse mode banner in independent mode" do
       get edit_type_subject_configuration_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent")
+      expect(response.body).to include("Independent mode")
     end
 
     it "shows the type's own editor when Independent" do
@@ -80,27 +81,21 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("PDF Export templates")
     end
 
-    it "includes the irreversibility warning for switching an Independent type to Linked" do
-      get edit_type_pdf_export_template_index_path(type_id: type.id)
-
-      expect(response.body).to include("The current settings are discarded and work packages of this type may be affected.")
-    end
-
-    it "hides the editor and shows the source picker when Linked" do
+    it "shows the linked banner and links to the source type when Linked" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("Source type")
-      expect(response.body).not_to include("PDF Export templates")
+      expect(response.body).to include("Linked mode")
+      expect(response.body).to include(source.name)
     end
 
-    it "explains the copy-on-adopt when a Linked type may switch to Independent" do
+    it "keeps the editor visible when Linked" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
-      expect(response.body).to include("then removes the link. You can edit them freely afterwards.")
+      expect(response.body).to include("PDF Export templates")
     end
   end
 

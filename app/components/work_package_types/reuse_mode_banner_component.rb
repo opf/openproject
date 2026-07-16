@@ -29,35 +29,45 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    # Embeds the existing form configuration editor, which self-persists through
-    # its own turbo endpoints; the wizard only navigates between steps.
-    class FormConfigurationStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  # Banner above a type's configuration tab stating whether the aspect is
+  # configured Independently or Linked to a source type. The switch actions are
+  # buttons that will open the mode-switching modal (wired up separately); they
+  # are no-ops for now.
+  class ReuseModeBannerComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
 
-      def initialize(type:)
-        super(type)
-      end
+    def initialize(type:, aspect:)
+      @aspect = aspect
+      super(type)
+    end
 
-      def call
-        render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                 type: model,
-                 aspect: Type::ConfigurationLink::FORM_CONFIGURATION
-               )) +
-          render(WorkPackageTypes::FormConfigurationComponent.new(
-                   type: model,
-                   form_attributes: helpers.form_configuration_groups(model),
-                   no_filter_query:
-                 ))
-      end
+    def render? = OpenProject::FeatureDecisions.subtypes_active?
 
-      private
+    private
 
-      def no_filter_query
-        ::API::V3::Queries::QueryParamsRepresenter
-          .new(Query.new_default.tap { |query| query.filters = [] })
-          .to_json
-      end
+    attr_reader :aspect
+
+    def type = model
+
+    def linked? = type.linked?(aspect)
+
+    def source = type.source_for(aspect)
+
+    def source_is_parent? = source.present? && source == type.parent
+
+    def source_path = edit_type_settings_path(type_id: source.id)
+
+    def linked_description
+      helpers.link_translate(
+        "types.edit.reuse_mode.linked.description",
+        i18n_args: { source_name: source.name, source_suffix: parent_suffix },
+        links: { source_url: source_path },
+        external: false
+      )
+    end
+
+    def parent_suffix
+      source_is_parent? ? I18n.t("types.edit.reuse_mode.linked.parent_suffix") : ""
     end
   end
 end

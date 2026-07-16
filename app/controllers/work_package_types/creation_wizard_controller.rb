@@ -64,8 +64,6 @@ module WorkPackageTypes
     end
 
     def update
-      return render_step_errors if persist_configuration_link&.failure?
-
       case @current_step
       when :details
         update_details
@@ -91,6 +89,7 @@ module WorkPackageTypes
       end
     end
 
+<<<<<<< HEAD
     # Each step chooses a reuse mode for its own aspect. Details has none, so it
     # returns nil, leaving nothing to persist.
     def persist_configuration_link
@@ -112,6 +111,26 @@ module WorkPackageTypes
       render :show, status: :unprocessable_entity
     end
 
+||||||| parent of cb3c6ab6e6f (Remove ConfigurationLinkComponent and replace it with ReuseModeBannerComponent)
+    # Each step chooses a reuse mode for its own aspect. Details has none, so it
+    # returns nil, leaving nothing to persist.
+    def persist_configuration_link
+      aspect = Wizard::Steps.aspect_for(@current_step)
+      mode = params.dig(:type, :mode)
+      return if aspect.nil? || mode.blank?
+
+      SetConfigurationLinkService
+        .new(type: @type, aspect:)
+        .call(mode:, source_id: params.dig(:type, :source_id))
+    end
+
+    def render_step_errors
+      flash.now[:error] = t("types.creation_wizard.configuration_link_error")
+      render :show, status: :unprocessable_entity
+    end
+
+=======
+>>>>>>> cb3c6ab6e6f (Remove ConfigurationLinkComponent and replace it with ReuseModeBannerComponent)
     # The copy source is only offered in Independent mode; a Linked aspect inherits
     # its workflows from the source instead.
     def copy_workflows

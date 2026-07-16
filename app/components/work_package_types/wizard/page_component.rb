@@ -58,12 +58,14 @@ module WorkPackageTypes
 
       def step_title = Steps.title(current_step)
 
-      def step_aspect = Steps.aspect_for(current_step)
+      # The details step's editor renders the wizard form itself; every other
+      # step gets a wizard form supplied by the page template.
+      def step_provides_form? = current_step == :details
 
       def step_url = type_creation_wizard_path(type, step: current_step)
 
       # Editors whose fields belong to the wizard form itself, so that "Continue"
-      # persists them along with the step's reuse mode.
+      # persists them when advancing to the next step.
       def step_editor_form
         WorkflowsForm if current_step == :workflows
       end
