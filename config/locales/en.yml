@@ -6106,6 +6106,8 @@ en:
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projects
       reuse_mode:
+        copy:
+          invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
         independent:
           copy_from_type: "Copy from type"
           description: "No settings are inherited. If desired you can still one-time copy settings from another type."
