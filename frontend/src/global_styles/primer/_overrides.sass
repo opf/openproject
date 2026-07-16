@@ -211,7 +211,7 @@ ul.SegmentedControl,
         margin: var(--base-size-8) 0 0 var(--base-size-8)
 
 // Bug in @openproject/primer-view-components: .FormControl-checkbox:indeterminate
-// has no background rule, and :indeterminate:before doesn't cancel checkmarkOut.
+// has no background rule, and :indeterminate:before doesn't cancel checkmarkOut
 .FormControl-checkbox:indeterminate
   background: var(--control-checked-bgColor-rest, var(--color-accent-fg))
   border-color: var(--control-checked-borderColor-rest, var(--color-accent-fg))
@@ -219,6 +219,13 @@ ul.SegmentedControl,
   &:before
     animation: none
     clip-path: inset(0)
+
+  // Mirror Primer's :checked:disabled so a disabled indeterminate box reads as
+  // inactive instead of keeping the accent background from the rule above
+  &:disabled
+    background: var(--control-fgColor-disabled)
+    border-color: var(--control-fgColor-disabled)
+    cursor: not-allowed
 
 // At some point in time, this needs to be extracted into a proper component,
 // something like `FilterableTreeViewSelectPanel`
