@@ -46,6 +46,17 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
     )
   end
 
+  context "without share_sprint permission" do
+    let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
+
+    it "does not show the multiple active sprints tab in the navigation" do
+      visit project_settings_backlogs_path(project)
+
+      expect(page).to have_link("Types and statuses")
+      expect(page).to have_no_link("Multiple active sprints")
+    end
+  end
+
   context "without an enterprise token for multiple_active_sprints" do
     it "renders an enterprise banner instead of the toggle" do
       visit project_settings_backlog_multiple_active_sprints_path(project)
