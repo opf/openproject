@@ -44,7 +44,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: 
   end
 
   subject(:rendered_component) do
-    render_inline(described_class.new(work_package:, menu_src:))
+    render_inline(described_class.new(work_package:, project:, menu_src:))
   end
 
   it "renders the common work package card" do
@@ -69,7 +69,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: 
   end
 
   it "supports caller-provided metric content" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }
     end
 
@@ -83,13 +83,21 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: 
   end
 
   it "forwards extra system arguments to the common card root" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:, data: { test_extra: "yes" }))
 
-    expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
+    expect(rendered).to have_css("article[data-test-extra='yes']")
+  end
+
+  it "wires the interactive backlogs--work-package controller and split url onto the card" do
+    expect(rendered_component).to have_css(
+      "article[data-controller~='backlogs--work-package']" \
+      "[data-backlogs--work-package-split-url-value]" \
+      "[tabindex='0']"
+    )
   end
 
   it "supports inline menu items through the menu slot" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|
         menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
       end

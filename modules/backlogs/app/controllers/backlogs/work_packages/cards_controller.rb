@@ -47,7 +47,9 @@ module Backlogs
 
         render(Backlogs::WorkPackageCardComponent.new(
                  work_package: @work_package,
-                 menu_src: menu_project_backlogs_work_package_path(@project, @work_package)
+                 project: @project,
+                 menu_src: menu_project_backlogs_work_package_path(@project, @work_package),
+                 current_user:
                ),
                layout: false)
       end

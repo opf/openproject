@@ -30,12 +30,16 @@
 
 module Backlogs
   class WorkPackageCardComponent < ApplicationComponent
+    include CommonHelper
+    include Primer::ClassNameHelper
+    include Primer::AttributesHelper
+
     # Prefix added to a work package's dom_id to build its card turbo-frame
     # id. Shared with WorkPackageCardListItemLoadingComponent so the lazily
     # loaded placeholder and the rendered card target the same frame.
     FRAME_ID_PREFIX = "card"
 
-    attr_reader :work_package, :menu_src
+    attr_reader :work_package, :project, :menu_src, :current_user
 
     delegate :with_menu, :with_metric, to: :card
 
@@ -45,11 +49,13 @@ module Backlogs
       ActionView::RecordIdentifier.dom_id(work_package, FRAME_ID_PREFIX)
     end
 
-    def initialize(work_package:, menu_src: nil, **system_arguments)
+    def initialize(work_package:, project:, menu_src: nil, current_user: User.current, **system_arguments)
       super()
 
       @work_package = work_package
+      @project = project
       @menu_src = menu_src
+      @current_user = current_user
       @system_arguments = system_arguments
     end
 
@@ -84,8 +90,68 @@ module Backlogs
         show_priority: true,
         show_parent: true,
         status_scheme: :secondary,
-        **@system_arguments
+        **interactive_arguments
       )
+    end
+
+    # Interactive wiring applied to the card so it behaves identically whether it
+    # is rendered inline by WorkPackageCardListItemComponent or lazily by
+    # Backlogs::WorkPackages::CardsController. Previously this lived in the list
+    # item, which meant the lazily loaded card lost it (no split view, keyboard
+    # activation, selection or drag preview/handle).
+    def interactive_arguments
+      arguments = @system_arguments.deep_dup
+      arguments[:classes] = class_names(arguments[:classes], card_classes)
+      arguments[:tabindex] = arguments.fetch(:tabindex, 0)
+      arguments[:data] = merge_data(arguments, { data: card_data })
+      arguments[:aria] = merge_aria(arguments, { aria: card_aria })
+      arguments
+    end
+
+    def card_classes
+      class_names(
+        "Box-card",
+        "Box-card--clickable",
+        "Box-card--draggable" => draggable?
+      )
+    end
+
+    def card_data
+      data = {
+        story: true,
+        controller: "backlogs--work-package",
+        backlogs__work_package_id_value: work_package.id,
+        backlogs__work_package_display_id_value: work_package.display_id,
+        backlogs__work_package_split_url_value: split_url,
+        backlogs__work_package_full_url_value: full_url
+      }
+
+      return data unless draggable?
+
+      data.merge(sortable_lists__item_target: "preview handle")
+    end
+
+    def card_aria
+      {
+        keyshortcuts: "Enter",
+        label: work_package.to_fs(:caption)
+      }
+    end
+
+    def split_url
+      # NOTE: the backlog filter params (e.g. all=true for the expanded inbox) are
+      # intentionally omitted. They will be re-added later, sourced from the
+      # browser's href — likely by extending the backlogs--work-package controller
+      # — rather than baked into the (cached) card here.
+      url_helpers.project_backlogs_backlog_details_path(project, work_package)
+    end
+
+    def full_url
+      url_helpers.work_package_path(work_package)
+    end
+
+    def draggable?
+      user_allowed?(:manage_sprint_items)
     end
 
     def before_render
