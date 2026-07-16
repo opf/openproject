@@ -97,8 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @issues.present? %>
     <% grid.with_widget(Projects::Settings::Versions::RelatedIssuesWidgetComponent, version: @version, issues: @issues) %>
   <% end %>
-  <%# The graph queries work packages by the version filter, which matches on
-      target versions, so it is only shown when that finds any. %>
+  <%# The graph queries work packages by the version filter, which matches on target versions, so it is only shown when that finds any. %>
   <% if @version.targeted_work_packages.any? %>
     <% grid.with_widget(Projects::Settings::Versions::WorkPackagesGraphWidgetComponent, version: @version) %>
   <% end %>
