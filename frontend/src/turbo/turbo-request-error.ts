@@ -27,14 +27,14 @@
 //++
 
 // Error thrown for non-ok responses of requests issued via TurboRequestsService.
-// Carries the HTTP status so callers can react to it; the message keeps the
-// response's status text, which is empty under HTTP/2.
+// Carries the HTTP status so callers can react to it. The message always names
+// the status, since the response's status text is empty under HTTP/2.
 export class TurboRequestError extends Error {
   constructor(
     public readonly status:number,
     statusText:string,
   ) {
-    super(statusText);
+    super(`${status} ${statusText}`.trimEnd());
     this.name = 'TurboRequestError';
   }
 }
