@@ -29,40 +29,53 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    # Embeds the existing form configuration editor, which self-persists through
-    # its own turbo endpoints; the wizard only navigates between steps.
-    class FormConfigurationStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-
+  module ConfigurationCopies
+    class SourceForm < ApplicationForm
       def initialize(type:)
-        super(type)
+        super()
+
+        @type = type
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     type: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
+      form do |source_form|
+        source_form.autocompleter(
+          name: :source_id,
+          label: I18n.t("types.edit.reuse_mode.copy.dialog.source_label"),
+          required: true,
+          autocomplete_options: {
+            placeholder: I18n.t("types.edit.reuse_mode.copy.dialog.source_placeholder"),
+            decorated: true,
+            multiple: false,
+            focusDirectly: false,
+            append_to: "##{DialogComponent::DIALOG_ID}",
+            data: { test_selector: "configuration-copy-source" }
+          }
+        ) do |list|
+          source_options.each do |source|
+            list.option(value: source.id, label: label_for(source))
+          end
         end
       end
 
       private
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :form_configuration)
+      attr_reader :type
+
+      # The parent leads the list as the most likely copy source.
+      def source_options
+        parents, others = Type.global.where.not(id: type.id).order(:name).partition { |source| parent?(source) }
+
+        parents + others
       end
 
-      def no_filter_query
-        ::API::V3::Queries::QueryParamsRepresenter
-          .new(Query.new_default.tap { |query| query.filters = [] })
-          .to_json
+      def label_for(source)
+        return source.name unless parent?(source)
+
+        "#{source.name}#{I18n.t('types.edit.reuse_mode.parent_suffix')}"
+      end
+
+      def parent?(source)
+        source == type.parent
       end
     end
   end

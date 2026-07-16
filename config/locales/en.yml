@@ -6107,7 +6107,18 @@ en:
         tab: Projects
       reuse_mode:
         copy:
+          confirm_dialog:
+            check_box: "I understand that this will override the current settings"
+            description_html: "By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
+            title: "Copy configuration?"
+          dialog:
+            description: "Copy the configuration from a source type and use it as a base. This is not linking the two types."
+            source_label: "Copy source"
+            source_placeholder: "Select a type or sub-type"
+            submit: "Save and copy"
+            title: "Copy configuration"
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
+          success: "The configuration was copied."
         independent:
           copy_from_type: "Copy from type"
           description: "No settings are inherited. If desired you can still one-time copy settings from another type."
@@ -6116,9 +6127,9 @@ en:
         linked:
           change_source: "Change source type"
           description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
-          parent_suffix: " (parent)"
           switch_to_independent: "Switch to independent mode"
           title: "Linked mode"
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: "Settings"
