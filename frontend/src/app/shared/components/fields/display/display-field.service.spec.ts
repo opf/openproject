@@ -14,6 +14,9 @@ import {
 import {
   MultipleLinesHierarchyItemDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/multiple-lines-hierarchy-item-display-field.module';
+import {
+  SingleLineUserDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/single-line-user-display-field.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 type DisplayFieldClass = new (name:string, context:DisplayFieldContext) => DisplayField;
@@ -41,19 +44,20 @@ describe('DisplayFieldService', () => {
     return service.getField({} as HalResource, 'multiValueAttribute', { type } as IFieldSchema, context);
   }
 
-  // Every type the singleline layout applies to, paired with the multi-line
-  // field it otherwise renders as in the single view
-  const multiValueTypes:[string, DisplayFieldClass][] = [
-    ['[]Version', MultipleLinesCustomOptionsDisplayField],
-    ['[]CustomOption', MultipleLinesCustomOptionsDisplayField],
-    ['[]User', MultipleLinesUserFieldModule],
-    ['[]CustomField::Hierarchy::Item', MultipleLinesHierarchyItemDisplayField],
+  // Every type the singleline layout applies to, paired with the fields it
+  // renders as in the single view for each layout. Users keep their avatar
+  // rendering in the singleline layout via a dedicated field.
+  const multiValueTypes:[string, DisplayFieldClass, DisplayFieldClass][] = [
+    ['[]Version', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
+    ['[]CustomOption', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
+    ['[]User', SingleLineUserDisplayField, MultipleLinesUserFieldModule],
+    ['[]CustomField::Hierarchy::Item', SingleLineResourcesDisplayField, MultipleLinesHierarchyItemDisplayField],
   ];
 
-  multiValueTypes.forEach(([type, multilineClass]) => {
+  multiValueTypes.forEach(([type, singlelineClass, multilineClass]) => {
     describe(`for schema type ${type}`, () => {
-      it('routes the singleline layout to SingleLineResourcesDisplayField', () => {
-        expect(fieldFor(type, 'singleline')).toBeInstanceOf(SingleLineResourcesDisplayField);
+      it(`routes the singleline layout to ${singlelineClass.name}`, () => {
+        expect(fieldFor(type, 'singleline')).toBeInstanceOf(singlelineClass);
       });
 
       it(`routes the multiline layout to ${multilineClass.name}`, () => {
