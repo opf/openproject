@@ -193,7 +193,7 @@ Rails.application.routes.draw do
 
     resources :pdf_export_template, only: %i[],
                                     controller: "pdf_export_template",
-                                    path: "pdf_export_template" do
+                                    path: "pdf_export" do
       member do
         post :toggle
         put :drop
@@ -202,6 +202,7 @@ Rails.application.routes.draw do
         get :edit
         put :enable_all
         put :disable_all
+        put :update_artefact_export
       end
     end
 

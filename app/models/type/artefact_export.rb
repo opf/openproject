@@ -23,23 +23,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class ExportConfigurationComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+module Type::ArtefactExport
+  # No automatic export (default; existing types are unaffected).
+  OFF = "off"
+  # Save the generated PDF as a work package file attachment.
+  ATTACHMENT = "attachment"
+  # Upload the generated PDF to the project's Nextcloud storage and add a file link.
+  FILE_LINK = "file_link"
 
-    def artefact_export_form_options
-      {
-        model:,
-        url: update_artefact_export_type_pdf_export_template_index_path(type_id: model.id),
-        method: :put,
-        data: { controller: "auto-submit", action: "change->auto-submit#submit" }
-      }
-    end
-  end
+  MODES = [OFF, ATTACHMENT, FILE_LINK].freeze
+  DEFAULT = OFF
 end
