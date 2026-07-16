@@ -118,7 +118,8 @@ module Accounts::Registration
       flash[:notice] = call.message.presence
       login_user_if_active(call.result, just_registered: true)
     else
-      flash[:error] = error = call.message
+      @registration_error = call.message.presence
+      error = call.message
       Rails.logger.error "Registration of user #{user.login} failed: #{error}"
       onthefly_creation_failed(user)
     end

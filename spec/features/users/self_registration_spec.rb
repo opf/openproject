@@ -107,8 +107,12 @@ RSpec.describe "user self registration", :js do
         click_button "Create"
       end
 
-      expect(page)
-        .to have_content("Password confirmation does not match password.")
+      within ".registration-modal" do
+        expect(page).to have_css("[data-test-selector='op-primer-flash-message']")
+        expect(page).to have_text("The account could not be activated.")
+        expect(page)
+          .to have_text("Password confirmation does not match password.")
+      end
 
       # correcting password
       within ".registration-modal" do
