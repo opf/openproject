@@ -128,11 +128,19 @@ module EnterpriseEdition
 
       case @variant
       when :medium
-        raise ArgumentError, "The 'video' parameter is not used for variant :medium" if @video
+        check_medium_media_arguments!
       when :large
-        raise ArgumentError, "Either 'image' or 'video' parameter is required for variant :large" if !@image && !@video
-        raise ArgumentError, "Only one of 'image' and 'video' parameters can be specified for variant :large" if @image && @video
+        check_large_media_arguments!
       end
+    end
+
+    def check_medium_media_arguments!
+      raise ArgumentError, "The 'video' parameter is not used for variant :medium" if @video
+    end
+
+    def check_large_media_arguments!
+      raise ArgumentError, "Either 'image' or 'video' parameter is required for variant :large" if !@image && !@video
+      raise ArgumentError, "Only one of 'image' and 'video' parameters can be specified for variant :large" if @image && @video
     end
 
     def set_system_arguments(system_arguments, feature_key)
