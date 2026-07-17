@@ -3056,7 +3056,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_any_name_attribute: 名稱屬性
   label_filter_by: 篩選條件：
-  label_filter_plural: 篩選器
+  label_filter_plural: 篩選條件
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -3079,9 +3079,9 @@ zh-TW:
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
-  label_greater_or_equal: ">="
+  label_greater_or_equal: 之前
   label_group: 群組
-  label_group_by: 分組依據
+  label_group_by: 分類
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
   label_group_plural: 群組
@@ -3149,7 +3149,7 @@ zh-TW:
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: "<="
+  label_less_or_equal: 之後
   label_less_than_ago: 幾天內
   label_life_cycle_step_plural: 專案生命週期
   label_link_url: 連結(URL)
@@ -3433,7 +3433,7 @@ zh-TW:
   label_storage_used_space: 已用磁碟空間
   label_string: 文字
   label_subitems: 子項目
-  label_subject_or_id: 主旨或 id
+  label_subject_or_id: 名稱或 id
   label_subproject: 子專案
   label_subproject_new: 新增子專案
   label_subproject_plural: 子專案
@@ -5760,6 +5760,21 @@ zh-TW:
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: 從可用的範本中選擇您想要為此類型啟用的範本。範本決定了使用此類工作套件匯出的 PDF 中顯示的設計和屬性。預設為選定清單中的第一個模板。
         pdf_export_templates:
           actions:
@@ -5767,6 +5782,8 @@ zh-TW:
             label_enable_all: 全部啟用
           label: PDF匯出範本
         tab: 產生PDF檔案
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

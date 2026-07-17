@@ -261,7 +261,7 @@ de:
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
-  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
+  setting_enforce_without_allow: Start- und Endzeiten können nicht verpflichtend erfasst werden, ohne die Erfassung zu erlauben
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries: Gebuchte Aufwände löschen

@@ -3117,7 +3117,7 @@ ro:
   label_duplicate: duplicat
   label_duplicated_by: dublat de
   label_duplicates: dublează
-  label_edit: Editare
+  label_edit: Editează
   label_edit_x: 'Editare: %{x}'
   label_empty_element: "(gol)"
   label_enable_multi_select: Comutare selecție multiplă
@@ -3183,7 +3183,7 @@ ro:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grup
-  label_group_by: Grupare după
+  label_group_by: Grupează după
   label_group_named: Grup %{name}
   label_group_new: Grupare nouă
   label_group_plural: Grupuri
@@ -5887,6 +5887,21 @@ ro:
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -5894,6 +5909,8 @@ ro:
             label_enable_all: Activează tot
           label: PDF Export templates
         tab: Generează PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

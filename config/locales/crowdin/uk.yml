@@ -3276,7 +3276,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції зі встановлення
+  label_installation_guides: Інструкції із встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -5961,6 +5961,21 @@ uk:
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Виберіть, які шаблони з доступних вам ви хочете ввімкнути для цього типу. Шаблон визначає дизайн і атрибути, що відображаються в експортованому PDF-файлі пакета робіт за допомогою цього типу. Перший шаблон у списку вибирається за замовчуванням.
         pdf_export_templates:
           actions:
@@ -5968,6 +5983,8 @@ uk:
             label_enable_all: Увімкнути все
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Розділ
         add_query_group: Таблиця пов’язаних робочих пакетів

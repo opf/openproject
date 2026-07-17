@@ -24,7 +24,7 @@ fr:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Autoriser plusieurs sprints actifs
         backlog_excluded_types: Types de lots de travaux exclus
         sprint_sharing: Partage de sprint
         statuses_considered_closed: Statuts considérés comme fermés
@@ -57,10 +57,10 @@ fr:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: ne peut pas être modifié tant que plusieurs sprints sont en cours.
+              requires_no_sharing: ne peut être activé que lorsque le partage de sprint est réglé sur "Ne pas partager".
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: ne peut pas être modifié tant que plusieurs sprints actifs sont activés.
               share_all_projects_already_taken: ne peut pas être défini car le projet "%{name}" est déjà partagé avec tous les projets.
               share_all_projects_already_taken_anonymous: ne peut pas être défini parce qu'un autre projet est déjà partagé avec tous les projets.
           receiving_sprints: reçoit des sprints partagés. Il n'est pas possible de créer ses propres sprints.
@@ -116,9 +116,9 @@ fr:
         add_new_work_package: Ajouter un lot de travaux
         delete_backlog_bucket: Supprimer un bucket de backlog
         edit_backlog_bucket: Modifier le backlog en attente
-      blankslate_description: Drag items here to add them
+      blankslate_description: Faites glisser les éléments ici pour les ajouter
       blankslate_title: Le backlog est vide
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Faites-y glisser cet article pour l'ajouter
       label_actions: Actions de la corbeille du backlog
     bucket_destroy_modal_component:
       details: Le bucket de backlog « %{name} » sera supprimé et tous les lots de travaux seront déplacés vers la boîte de réception des backlogs. Aucun lot de travaux ne sera supprimé.
@@ -144,9 +144,9 @@ fr:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
         add_new_work_package: Ajouter un nouveau lot de travaux
-      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+      blankslate_description: Les tâches en cours qui ne font pas partie d'un sprint ou d'un compartiment du backlog apparaissent automatiquement ici
       blankslate_title: La boîte de réception de backlog est vide
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Faites-y glisser cet article pour l'ajouter
       label_actions: Inbox actions
       show_more:
         one: Afficher un article supplémentaire
@@ -169,7 +169,7 @@ fr:
     rebuild: Reconstruire
     rebuild_positions: Reconstruire les positions
     remaining_hours: Travail restant
-    sharing: Sprint sharing
+    sharing: Partage de sprint
     show_burndown_chart: Graphique burndown
     sprint_component:
       action_menu:

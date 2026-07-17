@@ -227,7 +227,7 @@ cs:
         enabled_modules: Povolené moduly
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
-        parent: Podprojekt
+        parent: Nadřazený projekt
         portfolio: Portfolio
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
@@ -668,7 +668,7 @@ cs:
               format: "%{message}"
               taken: Nepracovní den již existuje pro %{value}.
         notifications:
-          at_least_one_channel: Alespoň jeden kanál pro odesílání oznámení musí být specifikován.
+          at_least_one_channel: Pro odesílání notifikací musí být specifikován alespoň jeden kanál
           attributes:
             mail_reminder_sent:
               set_on_creation: 'nelze nastavit na prevdivé při vytváření oznámení '
@@ -990,11 +990,11 @@ cs:
       message: Zpráva
       news: Novinky
       notification:
-        one: Oznámení
-        few: Oznámení
-        many: Oznámení
-        other: Oznámení
-      placeholder_user: placeholder uživatel
+        one: Notifikace
+        few: Notifikací
+        many: Notifikací
+        other: Notifikace
+      placeholder_user: Placeholder uživatel
       project:
         one: Projekt
         few: Projekty
@@ -3443,9 +3443,9 @@ cs:
   label_permissions: Práva
   label_permissions_report: Přehled oprávnění
   label_personalize_page: Přizpůsobit tuto stránku
-  label_placeholder_user: placeholder uživatel
+  label_placeholder_user: Placeholder uživatel
   label_placeholder_user_new: ''
-  label_placeholder_user_plural: placeholder uživatelé
+  label_placeholder_user_plural: Placeholder uživatelé
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
@@ -3473,7 +3473,7 @@ cs:
   label_project_attribute_plural: Atributy projektu
   label_project_attributes_plural: Atributy projektu
   label_project_attributes_settings: ''
-  label_project_copy_notifications: Během kopie projektu odeslat oznámení e-mailem
+  label_project_copy_notifications: Během kopírování projektu odeslat notifikace e-mailem
   label_project_count: Celkový počet projektů
   label_project_custom_field_plural: Atributy projektu
   label_project_default_type: Povolit prázdný typ
@@ -3651,7 +3651,7 @@ cs:
   label_version_edit: Upravit verzi
   label_version_new: Nová verze
   label_version_plural: Verze
-  label_version_sharing_descendants: S Podprojekty
+  label_version_sharing_descendants: S podprojekty
   label_version_sharing_hierarchy: S hierarchií projektu
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
@@ -3861,14 +3861,14 @@ cs:
     digests:
       including_mention_plural: včetně %{number_mentioned} zmínění
       including_mention_singular: včetně zmínky
-      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
-      unread_notification_singular: 1 nepřečtené oznámení
+      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
+      unread_notification_singular: 1 nepřečtená notifikace
       you_have: Máte
     logo_alt_text: Logo
     mention:
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
-      center: Centrum oznámení
+      center: Centrum notifikací
       see_in_center: Zobrazit komentář v oznamovacím centru
       settings: Změnit nastavení e-mailu
     reminder_notifications:
@@ -3918,21 +3918,21 @@ cs:
             text: Pro více informací zkontrolujte úložiště souborů
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
-      login_to_see_all: Přihlaste se pro zobrazení všech oznámení.
+      login_to_see_all: Přihlaste se pro zobrazení všech notifikací.
       mentioned: Byli jste <b>zmíněni v komentáři</b>
       mentioned_by: "%{user} vás zmínil v komentáři OpenProject"
       more_to_see:
-        one: Máte ještě 1 pracovní balíček s notifikací.
-        few: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
-        many: Máte ještě  %{count}  pracovních balíčků s notifikacemi.
-        other: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
+        one: Existuje ještě 1 pracovní balíček s notifikací.
+        few: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        many: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        other: Existuje ještě %{count} pracovních balíčků s notifikacema.
       open_in_browser: Otevřít v prohlížeči
       reason:
         assigned: Přiřazen
         date_alert_due_date: Upozornění na datum
         date_alert_start_date: Upozornění na datum
         mentioned: Zmíněné
-        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
         reminder: Připomínka
         responsible: Odpovědný
         shared: Sdílené
@@ -4091,7 +4091,7 @@ cs:
       aggregation: Agregace
       ai: Umělá Inteligence (AI)
       api_and_webhooks: API & Webhooky
-      mail_notification: E-mailová upozornění
+      mail_notification: E-mailové notifikace
       mails_and_notifications: E-maily a oznámení
       mcp_configurations: Protokol MCP (Model Context Protocol)
     quick_add:
@@ -4372,7 +4372,7 @@ cs:
       responsible: Odpovědný
       shared: Sdíleno
       watched: Sledující
-    send_notifications: Odeslat oznámení pro tuto akci
+    send_notifications: Pro tuto akci odeslat notifikaci
     work_packages:
       subject:
         assigned: Byli jste přiřazeni k %{work_package}
@@ -4710,7 +4710,7 @@ cs:
     '
   permission_move_work_packages: Přesun pracovních balíčků
   permission_save_bcf_queries: Uložit dotazy BCF
-  permission_save_queries: Uložit pohled
+  permission_save_queries: Uložit zobrazení
   permission_search_project: Hledat projekt
   permission_select_custom_fields: Vybrat vlastní pole
   permission_select_project_custom_fields: Vyberte atributy projektu
@@ -5482,7 +5482,7 @@ cs:
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
       delay_minutes_explanation: Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení.
-      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.
+      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.
     other: Ostatní
     passwords: Hesla
     project_attributes:
@@ -5795,7 +5795,7 @@ cs:
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
   text_email_delivery_not_configured: |-
-    Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.
+    Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.
     Nakonfigurujte váš SMTP server pro jejich povolení.
   text_enumeration_category_reassign_to: 'Přiřadit je k této hodnotě:'
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
@@ -5963,6 +5963,21 @@ cs:
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -5970,6 +5985,8 @@ cs:
             label_enable_all: Povolit vše
           label: Šablony pro export do PDF
         tab: Vytvořit PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

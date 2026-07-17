@@ -25,7 +25,7 @@ fr:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
+        attachment: Un lien dynamique vers une pièce jointe insérée à l'aide d'une macro.
         commit: A dynamic link to a commit placed using a macro.
         document: A dynamic link to a document placed using a macro.
         export: A dynamic link to a source file export placed using a macro.
@@ -226,8 +226,8 @@ fr:
         identifier: Identifiant
         latest_activity_at: Dernière activité à
         parent: Sous-projet de
-        portfolio: Portfolio
-        program: Program
+        portfolio: Portefeuille
+        program: Programme
         project_creation_wizard_assignee_custom_field: Responsable au moment de l'envoi
         project_creation_wizard_enabled: Demande de lancement du projet
         project_creation_wizard_notification_text: Texte de la notification
@@ -344,7 +344,7 @@ fr:
         attribute_groups: Configuration du formulaire
         children: Sous-types
         color: Couleur
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
         is_default: Activé par défaut pour les nouveaux projets
         is_in_roadmap: Affiché par défaut dans la feuille de route
@@ -352,7 +352,7 @@ fr:
         parent: Type de parent
         patterns: Modèles
       type/configuration_link:
-        source: Source type
+        source: Type de source
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -2930,8 +2930,8 @@ fr:
   label_blog: Blog
   label_board_plural: Tableaux
   label_boolean: Booléen
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: n'est pas
+  label_boolean_true: est oui
   label_branch: Branche
   label_browse: Parcourir
   label_builtin: Intégré
@@ -2978,7 +2978,7 @@ fr:
   label_configuration: configuration
   label_confirmation: Confirmation
   label_consent_settings: Accord de l'utilisateur
-  label_constant_plural: Constants
+  label_constant_plural: Constantes
   label_contains: contenus
   label_content: Contenu
   label_continued_from_previous_year: suite de l'année précédente
@@ -3116,7 +3116,7 @@ fr:
   label_forum_plural: Forums
   label_forum_sticky: Épinglé
   label_forums_locked: Verrouillé
-  label_function_plural: Functions
+  label_function_plural: Fonctions
   label_gantt_chart: Diagramme de Gantt
   label_gantt_chart_plural: Diagrammes de Gantt
   label_general: Général
@@ -3306,7 +3306,7 @@ fr:
   label_operator_equals_all: est (ET)
   label_operator_equals_or: est (OU)
   label_operator_none: est vide
-  label_operator_plural: Operators
+  label_operator_plural: Opérateurs
   label_operator_shared_with_user_any: tous
   label_optional_description: Description
   label_options: Options
@@ -3387,7 +3387,7 @@ fr:
   label_projects_disk_usage_information: "%{count} projets utilisant %{used_disk_space} d'espace disque"
   label_projects_menu: Projets
   label_public_projects: Projets publics
-  label_punctuation: Punctuation
+  label_punctuation: Ponctuation
   label_query_new: Nouvelle requête
   label_query_plural: Requêtes personnalisées
   label_read: Lire...
@@ -4478,13 +4478,13 @@ fr:
         label: Modèle
         none_enabled: Aucun modèle n'a été activé pour ce type de lot de travaux
       toc:
-        caption: Add a table of contents page indexing the section headers.
-        label: Table of contents
+        caption: Ajoutez une table des matières répertoriant les titres des sections.
+        label: Table des matières
       title: Générer un fichier PDF
     page_nr_footer: Page %{page} sur %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Détails du lot de travail présentés sous la forme d'un artefact PMflex.
+      label: Artefact PMflex
     template_attributes:
       caption: Tous les attributs présents dans la configuration actuelle du formulaire en utilisant le modèle par défaut.
       label: Attributs et description
@@ -4771,11 +4771,11 @@ fr:
           no_status_when_submitted: Échec de l'activation de la demande d'initiation de projet, car le type de lot de travaux %{type} doit être associé à au moins un statut. Veuillez activer au moins un flux de travail de statut pour ce type de lot de travaux.
           no_work_package_type: La demande d'initiation de projet n'a pas pu être activée, car elle nécessite au moins un type de lot de travaux actif et ce projet n'en a pas. Veuillez ajouter au moins un type de lot de travaux à ce projet.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: L'artefact généré sera enregistré en tant que pièce jointe au format PDF dans le lot de travaux de l'artefact.
+          description_file_link_export: Le lot de travaux de l'artefact contient un lien vers un fichier PDF stocké dans un espace de stockage de fichiers externe. Nécessite un stockage de fichiers de travail avec des dossiers de projet gérés automatiquement pour ce projet. Pour le moment, seuls les espaces de stockage de fichiers Nextcloud sont pris en charge.
           description_file_storage_selection: Sélectionnez les espaces de stockage de fichiers externes configurés qui doivent être utilisés.
           external_file_storage: Espace de stockage de fichiers externe
-          label_artifact_export: Artefact export
+          label_artifact_export: Exportation d'artefacts
           label_attachment_export: Enregistrer en tant que pièce jointe au lot de travaux
           label_file_link_export: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
           pdf_file_storage: Stockage de fichiers PDF
@@ -4866,13 +4866,13 @@ fr:
     status:
       button_edit: Modifier le statut
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Échec de l'enregistrement de l'artefact dans l'espace de stockage de fichiers
+      create_artifact_work_package_error: Échec de la création d'un lot de travaux d'artefact
       no_help_text: Cet attribut n'a pas de texte d'aide défini.
       progress_label: "%{current} sur %{total}"
       sections: Sections
       sidebar_content_title: Contenu
-      success: Project attributes saved and artefact work package created successfully.
+      success: Les attributs du projet ont été enregistrés et le lot de travaux de l'artefact a été créé avec succès.
       title: Demande de lancement du projet
   queries:
     apply_filter: Appliquer le filtre préconfiguré
@@ -5243,7 +5243,7 @@ fr:
   setting_total_percent_complete_mode_work_weighted_average: Pondéré par le travail
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Le <i>% d'achèvement total</i> sera pondéré en fonction du <i>travail</i> de chaque lot de travaux repris dans la hiérarchie. Les lots de travaux sans <i>travail</i> seront ignorés.
   setting_use_wysiwyg_description: Sélectionnez cette option pour activer l'éditeur CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités limitées pour GFM Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Les utilisateurs sont autorisés à modifier leur adresse e-mail
   setting_user_default_timezone: Fuseau horaire par défaut des utilisateurs
   setting_user_format: Format du nom d'utilisateur
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
@@ -5380,12 +5380,12 @@ fr:
         confirmation_message: L'assistant de demande de lancement ne sera plus disponible pour les nouveaux projets basés sur ce modèle. Les chefs de projet et les propriétaires de projet devront configurer et remplir manuellement les informations pertinentes dans la vue d'ensemble du projet.
         heading: Désactiver cette demande de lancement de projet ?
         title: Désactiver la demande de lancement de projet
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject peut générer un assistant étape par étape pour aider les chefs de projet à remplir une demande de lancement de projet. Vous pouvez choisir les attributs du projet à inclure et créer un artefact PDF.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Nom de l'artefact
+        artifact_name_caption: Choisissez le nom de cet artefact recommandé par votre cadre de gestion de projet.
         options:
           project_creation_wizard: Assistant de création de projet
           project_initiation_request: Demande de lancement du projet
@@ -5444,7 +5444,7 @@ fr:
       section_project_overview: Paramètres pour les listes de projets
     session: Session
     user:
-      account: Account
+      account: Compte
       default_preferences: Préférences par défaut
       deletion: Suppression
       display_format: Format d'affichage
@@ -5698,7 +5698,7 @@ fr:
   text_own_membership_delete_confirmation: |-
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
   text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
@@ -5788,36 +5788,51 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type de source.
+      create_subtype: Créer un sous-type
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
+      finish: Terminer
+      placeholder_description: Cette étape sera bientôt disponible.
+      progress_label: Étape %{number} sur %{total}
       steps:
-        automations: Automations
-        details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        projects: Projects
-        workflows: Workflows
-      success: Sub-type created successfully.
+        automations: Automatisations
+        details: Détails
+        form_configuration: Configuration du formulaire
+        pdf: Génération de PDF
+        projects: Projets
+        workflows: Flux de travail
+      success: Le sous-type a été créé avec succès.
       workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+        copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
     edit:
       configuration_link:
         independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
+          caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
+          label: Indépendant
           warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
         linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
+          caption: Ces paramètres sont repris d'un type de source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type de source.
+          label: Relié
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
         source:
-          label: Source type
+          label: Type de source
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
           actions:
@@ -5825,6 +5840,8 @@ fr:
             label_enable_all: Activer tout
           label: Modèles d'exportation PDF
         tab: Générer un fichier PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Tableau des lots de travaux associés
@@ -5894,7 +5911,7 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
     index:
-      add_subtype: Add sub-type to %{name}
+      add_subtype: Ajouter un sous-type à %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
 
         '

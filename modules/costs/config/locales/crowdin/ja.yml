@@ -256,7 +256,7 @@ ja:
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: 開始/終了時間を必須とする
-  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力が必須となる。
+  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力を必須にします。
   setting_enforce_without_allow: 開始時間と終了時間を要求することは許可されていないとできません
   text_assign_time_and_cost_entries_to_project: 報告された時間とコストをプロジェクトに割り当てる
   text_destroy_cost_entries_question: 削除しようとしているワークパッケージが%{cost_entries} 件報告されました。どうしますか？
