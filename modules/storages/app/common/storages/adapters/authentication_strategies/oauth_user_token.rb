@@ -72,7 +72,7 @@ module Storages
 
         def update_token(session, token)
           oauth_session = session.send(:oauth_session)
-          token.update!(access_token: oauth_session.access_token, refresh_token: oauth_session.refresh_token)
+          token.update!(access_token: oauth_session.access_token, refresh_token: oauth_session.send(:refresh_token))
         end
 
         def httpx_oauth_session(oauth_config, token, http_options)
