@@ -38,12 +38,7 @@ module WorkPackageTypes
     # type's old embedded queries are destroyed by the attribute-groups cleanup
     # on save, and its active custom fields are re-derived from the copied
     # groups.
-    class FormConfigurationService
-      def initialize(type:, user:)
-        @type = type
-        @user = user
-      end
-
+    class FormConfigurationService < BaseService
       def call(source:)
         return invalid_source_result unless valid_source?(source)
 
@@ -54,18 +49,6 @@ module WorkPackageTypes
       end
 
       private
-
-      attr_reader :type, :user
-
-      def valid_source?(source)
-        source.present? && source != type
-      end
-
-      def invalid_source_result
-        type.errors.add(:base, I18n.t("types.edit.reuse_mode.copy.invalid_source"))
-
-        ServiceResult.failure(result: type, errors: type.errors)
-      end
 
       # A Linked source presents its inherited configuration, so the copy takes
       # the groups from the type that actually owns them.

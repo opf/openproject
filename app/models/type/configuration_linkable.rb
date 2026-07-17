@@ -93,19 +93,6 @@ class Type
       effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
     end
 
-    # One-time adoption: copy the source's resolved configuration for one aspect
-    # onto this type. Used when switching to Independent from a chosen source.
-    # deep_dup keeps the copy from aliasing the source's stored value.
-    def copy_configuration_from(source, aspect)
-      owner = source.effective_source_for(aspect)
-      case aspect
-      when Type::ConfigurationLink::PATTERNS
-        update!(patterns: owner.patterns.deep_dup)
-      when Type::ConfigurationLink::PDF_EXPORT
-        update!(pdf_export_templates_config: owner.pdf_export_templates_config.deep_dup)
-      end
-    end
-
     private
 
     def link_default_aspects_to_parent
