@@ -63,13 +63,16 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       )
     end
 
-    it "renders the switch action" do
-      expect(page).to have_button("Switch to linked mode")
+    it "links the switch action to the linked mode dialog" do
+      expect(page).to have_css(
+        "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(type_id: type.id, aspect:)}']",
+        text: "Switch to linked mode"
+      )
     end
   end
 
   context "when the aspect has no copy service" do
-    let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
+    let(:aspect) { Type::ConfigurationLink::WORKFLOWS }
 
     it "does not render the copy action" do
       render_inline(component)
@@ -91,9 +94,15 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       expect(page).to have_no_text("(parent)")
     end
 
-    it "renders the switch and source actions" do
-      expect(page).to have_button("Change source type")
-      expect(page).to have_button("Switch to independent mode")
+    it "links the change-source and switch-to-independent actions" do
+      expect(page).to have_css(
+        "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(type_id: type.id, aspect:)}']",
+        text: "Change source type"
+      )
+      expect(page).to have_css(
+        "a[data-turbo-method='delete']",
+        text: "Switch to independent mode"
+      )
     end
   end
 
