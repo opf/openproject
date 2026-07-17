@@ -270,9 +270,9 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
           within_modal "Move to sprint" do
             # Expect to have all sprints listed
-            expect(page).to have_select("target_id", with_options: ["Sprint 1", "Sprint 2"])
+            expect(page).to have_select("list_id", with_options: ["Sprint 1", "Sprint 2"])
 
-            select sprint.name, from: "target_id"
+            select sprint.name, from: "list_id"
             click_button "Move"
           end
 
@@ -286,8 +286,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
             planning_page.click_in_work_package_menu(inbox_wp1, "Move to sprint", wait: false)
 
             within_modal "Move to sprint" do
-              expect(page).to have_select("target_id", with_options: ["Sprint 1", "Sprint 2"])
-              select sprint.name, from: "target_id"
+              expect(page).to have_select("list_id", with_options: ["Sprint 1", "Sprint 2"])
+              select sprint.name, from: "list_id"
 
               # Before saving the selection, simulate that another user completed the sprint
               sprint.completed!
@@ -470,7 +470,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         # Move an inbox item to the sprint via the dialog
         planning_page.click_in_work_package_menu(inbox_items.last, "Move to sprint", wait: false)
         within_modal "Move to sprint" do
-          select sprint.name, from: "target_id"
+          select sprint.name, from: "list_id"
           click_button "Move"
         end
         planning_page.expect_no_inbox_show_more
