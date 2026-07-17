@@ -6128,6 +6128,8 @@ en:
         linked:
           change_source: "Change source type"
           description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
+          invalid_source: "The configuration cannot be linked to the selected type. Please select a different source type."
+          success: "The configuration mode was switched."
           switch_to_independent: "Switch to independent mode"
           title: "Linked mode"
         parent_suffix: " (parent)"

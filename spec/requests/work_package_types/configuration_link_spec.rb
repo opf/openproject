@@ -51,9 +51,9 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).not_to include("Linked mode")
     end
 
-    it "blocks the update endpoint" do
-      patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: source.id } }
+    it "blocks the switch endpoint" do
+      post type_configuration_link_switch_path(type_id: type.id, aspect:),
+           params: { source_id: source.id }
 
       expect(response).to have_http_status(:not_found)
       expect(type).not_to be_linked(aspect)
@@ -115,54 +115,17 @@ RSpec.describe "Work package type configuration source",
     end
   end
 
-  describe "PATCH update (link)" do
-    it "links the aspect to the chosen source" do
-      patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: source.id } }
-
-      expect(response).to be_redirect
-      expect(type.source_for(aspect)).to eq(source)
-    end
-
-    it "does not persist a cyclic link" do
-      # The source already borrows from the type, so linking back would close a loop.
-      create(:type_configuration_link, type: source, source: type, aspect:)
-
-      patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: source.id } }
-
-      expect(response).to be_redirect
-      expect(flash[:alert]).to include("would link these configurations in a loop")
-      expect(type.reload).not_to be_linked(aspect)
-    end
-
-    it "does not link when no source was picked" do
-      patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: "" } }
-
-      expect(response).to be_redirect
-      expect(type).not_to be_linked(aspect)
-    end
-
-    it "requires admin" do
-      login_as create(:user)
-
-      patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: source.id } }
-
-      expect(response).not_to be_successful
-      expect(type).not_to be_linked(aspect)
-    end
-  end
-
-  describe "DELETE destroy (make independent)" do
-    it "switches the aspect back to independent" do
+  describe "DELETE independent (make independent)" do
+    it "switches the aspect back to independent and reloads the frame" do
       type.link!(aspect, source:)
 
-      delete type_aspect_configuration_link_path(type, aspect)
+      delete type_configuration_link_independent_path(type_id: type.id, aspect:), as: :turbo_stream
 
-      expect(response).to be_redirect
+      expect(response).to have_http_status(:ok)
       expect(type.reload).not_to be_linked(aspect)
+      expect(response.body).to include("dispatchEvent")
+      expect(response.body)
+        .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
     end
 
     it "adopts a source's config while switching to independent" do
@@ -170,11 +133,21 @@ RSpec.describe "Work package type configuration source",
       configured.pdf_export_templates.disable_all
       configured.save!
 
-      delete type_aspect_configuration_link_path(type, aspect),
-             params: { type_configuration_link: { source_id: configured.id } }
+      delete type_configuration_link_independent_path(type_id: type.id, aspect:),
+             params: { source_id: configured.id }, as: :turbo_stream
 
       expect(type.reload).not_to be_linked(aspect)
       expect(type.export_templates_disabled).to eq(configured.export_templates_disabled)
+    end
+
+    it "requires admin" do
+      login_as create(:user)
+      type.link!(aspect, source:)
+
+      delete type_configuration_link_independent_path(type_id: type.id, aspect:), as: :turbo_stream
+
+      expect(response).not_to be_successful
+      expect(type.reload).to be_linked(aspect)
     end
   end
 end
