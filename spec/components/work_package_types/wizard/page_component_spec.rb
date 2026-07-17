@@ -39,9 +39,10 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     type.link!(Type::ConfigurationLink::PDF_EXPORT, source: parent)
   end
 
-  it "shows the read-only PDF preview on the pdf step" do
+  it "shows the linked PDF banner on the pdf step" do
     render_inline(described_class.new(type:, current_step: :pdf))
 
-    expect(page).to have_text("Configuration reused from Phase")
+    expect(page).to have_text("Linked mode")
+    expect(page).to have_text("Phase")
   end
 end

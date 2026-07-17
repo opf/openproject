@@ -81,16 +81,6 @@ module WorkPackageTypes
         end
       end
 
-      # Only PDF has linked-to-parent behaviour among the wizard steps today; the others
-      # start Independent, so no other step has a source to preview.
-      def step_readonly_preview
-        return unless current_step == :pdf
-        return unless type.linked?(Type::ConfigurationLink::PDF_EXPORT)
-
-        source = type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT)
-        WorkPackageTypes::ExportConfigurationComponent.new(source, readonly: true)
-      end
-
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
@@ -99,7 +89,7 @@ module WorkPackageTypes
         when :projects
           WorkPackageTypes::ProjectsComponent.new(type, projects: Project.all)
         when :pdf
-          WorkPackageTypes::ExportConfigurationComponent.new(type)
+          PdfStepComponent.new(type:)
         else
           PlaceholderComponent.new(step: current_step)
         end
