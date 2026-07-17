@@ -140,9 +140,9 @@ module Backlogs
 
     def split_url
       # NOTE: the backlog filter params (e.g. all=true for the expanded inbox) are
-      # intentionally omitted. They will be re-added later, sourced from the
-      # browser's href — likely by extending the backlogs--work-package controller
-      # — rather than baked into the (cached) card here.
+      # intentionally omitted here so the card stays cache-independent of the
+      # current filter. They are merged back in at navigation time from the
+      # browser's href by the backlogs--work-package Stimulus controller.
       url_helpers.project_backlogs_backlog_details_path(project, work_package)
     end
 
