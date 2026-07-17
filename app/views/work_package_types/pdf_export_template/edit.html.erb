@@ -31,4 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
 <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) %>
-<%= render WorkPackageTypes::ExportConfigurationComponent.new(@type) %>
+
+<%= render WorkPackageTypes::ExportConfigurationComponent.new(
+      @type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
+      readonly: @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
+    ) %>

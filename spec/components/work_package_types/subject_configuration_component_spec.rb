@@ -128,6 +128,26 @@ RSpec.describe WorkPackageTypes::SubjectConfigurationComponent, type: :component
     end
   end
 
+  context "when readonly", with_ee: %i[work_package_subject_generation] do
+    subject(:render_readonly) { render_inline(described_class.new(type, readonly: true)) }
+
+    let(:type) { create(:type, patterns: { subject: { blueprint: "Created by {{assignee}}", enabled: true } }) }
+
+    it "disables the mode selectors and hides the save button", :aggregate_failures do
+      render_readonly
+
+      expect(page.find("input[type=radio][value=generated]")).to be_disabled
+      expect(page.find("input[type=radio][value=manual]")).to be_disabled
+      expect(page).to have_no_button("Save")
+    end
+
+    it "shows no enterprise banner" do
+      render_readonly
+
+      expect(page).not_to have_enterprise_banner
+    end
+  end
+
   private
 
   def hidden_input_field_selector

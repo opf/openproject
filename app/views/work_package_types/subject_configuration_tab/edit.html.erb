@@ -31,5 +31,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
 <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PATTERNS)) %>
-<%= render WorkPackageTypes::SubjectConfigurationComponent
-             .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>
+<% if @type.linked?(Type::ConfigurationLink::PATTERNS) %>
+  <%= render WorkPackageTypes::SubjectConfigurationComponent
+               .new(@type.effective_source_for(Type::ConfigurationLink::PATTERNS), readonly: true) %>
+<% else %>
+  <%= render WorkPackageTypes::SubjectConfigurationComponent
+               .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>
+<% end %>

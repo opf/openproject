@@ -37,6 +37,7 @@ module WorkPackageTypes
         group.radio_button(
           value: :manual,
           checked: subject_configuration_manual?,
+          disabled: readonly?,
           label: I18n.t("types.edit.subject_configuration.manually_editable_subjects.label"),
           caption: I18n.t("types.edit.subject_configuration.manually_editable_subjects.caption"),
           data: { action: "admin--subject-configuration#hidePatternInput" }
@@ -46,7 +47,7 @@ module WorkPackageTypes
           checked: !subject_configuration_manual?,
           label: I18n.t("types.edit.subject_configuration.automatically_generated_subjects.label"),
           caption: I18n.t("types.edit.subject_configuration.automatically_generated_subjects.caption"),
-          disabled: !enterprise?,
+          disabled: readonly? || !enterprise?,
           data: { action: "admin--subject-configuration#showPatternInput" }
         )
       end
@@ -55,7 +56,7 @@ module WorkPackageTypes
         toggleable_group.pattern_input(
           name: :pattern,
           value: model.pattern,
-          disabled: !enterprise?,
+          disabled: readonly? || !enterprise?,
           suggestions: model.suggestions,
           label: I18n.t("types.edit.subject_configuration.pattern.label"),
           caption: pattern_input_caption,
@@ -64,14 +65,18 @@ module WorkPackageTypes
         )
       end
 
-      subject_form.submit(
-        name: :submit,
-        label: I18n.t(:button_save),
-        scheme: :primary
-      )
+      unless readonly?
+        subject_form.submit(
+          name: :submit,
+          label: I18n.t(:button_save),
+          scheme: :primary
+        )
+      end
     end
 
     private
+
+    def readonly? = @builder.options[:readonly] == true
 
     def subject_configuration_manual?
       model.subject_configuration == :manual

@@ -27,7 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if show_upsale_page? %>
+<% if readonly? %>
+  <%= settings_primer_form_with(**form_options) do |f| %>
+    <%= render(WorkPackageTypes::SubjectConfigurationForm.new(f)) %>
+  <% end %>
+<% elsif show_upsale_page? %>
   <%= render(
         EnterpriseEdition::BannerComponent.new(
           :work_package_subject_generation,

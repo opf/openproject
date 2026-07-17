@@ -90,12 +90,28 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include(source.name)
     end
 
-    it "keeps the editor visible when Linked" do
+    it "shows a read-only preview instead of the editable editor when Linked" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
 
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
+      # the preview lists the templates but drops the editable enable/disable actions
       expect(response.body).to include("PDF Export templates")
+      expect(response.body).not_to include("enable-all-pdf-export-templates")
+    end
+  end
+
+  describe "read-only preview of a Linked aspect" do
+    it "shows the inherited subject pattern and links to the source" do
+      source.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
+      type.link!(Type::ConfigurationLink::PATTERNS, source:)
+
+      get edit_type_subject_configuration_path(type_id: type.id)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Linked mode")
+      expect(response.body).to include("PR-{{id}}")
+      expect(response.body).to include(edit_type_settings_path(type_id: source.id))
     end
   end
 
@@ -108,28 +124,24 @@ RSpec.describe "Work package type configuration source",
       expect(type.source_for(aspect)).to eq(source)
     end
 
-    it "re-renders the picker with an inline error instead of persisting a cyclic link" do
+    it "does not persist a cyclic link" do
       # The source already borrows from the type, so linking back would close a loop.
       create(:type_configuration_link, type: source, source: type, aspect:)
 
       patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: source.id } },
-            as: :turbo_stream
+            params: { type_configuration_link: { source_id: source.id } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("would link these configurations in a loop")
+      expect(response).to be_redirect
+      expect(flash[:alert]).to include("would link these configurations in a loop")
       expect(type.reload).not_to be_linked(aspect)
-      expect(flash[:alert]).to be_blank
     end
 
     it "does not link when no source was picked" do
       patch type_aspect_configuration_link_path(type, aspect),
-            params: { type_configuration_link: { source_id: "" } },
-            as: :turbo_stream
+            params: { type_configuration_link: { source_id: "" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to be_redirect
       expect(type).not_to be_linked(aspect)
-      expect(flash[:alert]).to be_blank
     end
 
     it "requires admin" do

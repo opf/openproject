@@ -29,9 +29,9 @@
 #++
 
 module WorkPackageTypes
+  # TODO: This controller will be heavily refactored in the following PRs as we are switching to a modal approach
   class ConfigurationLinksController < BaseTabController
     include SubtypesFeature
-    include OpTurbo::ComponentStream
 
     before_action :require_subtypes_feature
 
@@ -46,7 +46,7 @@ module WorkPackageTypes
       if result.success?
         redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
       else
-        render_rejected_link(result.result)
+        redirect_to tab_path_for(params[:aspect_id]), alert: result.message
       end
     end
 
@@ -64,13 +64,6 @@ module WorkPackageTypes
 
     def source_id_param
       params.dig(:type_configuration_link, :source_id)
-    end
-
-    def render_rejected_link(link)
-      replace_via_turbo_stream(
-        component: ConfigurationLinkComponent.new(type: @type, aspect: params[:aspect_id], link:)
-      )
-      respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
     def tab_path_for(aspect)

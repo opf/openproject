@@ -112,7 +112,7 @@ RSpec.describe Query::SortCriteria do
     end
 
     context "with multiple sort_criteria with order handling and misc order statement" do
-      let(:sort_criteria) { [%w[version desc], %w[start_date asc]] }
+      let(:sort_criteria) { [%w[category desc], %w[start_date asc]] }
 
       it "adds the order handling (and the default order by id)" do
         expect(subject)

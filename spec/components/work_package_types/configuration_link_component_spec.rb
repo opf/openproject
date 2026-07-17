@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateListComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "rails_helper"
 
-    def initialize(type:, readonly: false)
-      super
+RSpec.describe WorkPackageTypes::ConfigurationLinkComponent, type: :component do
+  let(:source) { create(:type, name: "Phase") }
+  let(:type) { create(:type) }
 
-      @type = type
-      @readonly = readonly
+  before do
+    allow(OpenProject::FeatureDecisions).to receive(:subtypes_active?).and_return(true)
+    login_as(create(:admin))
+  end
+
+  context "when the aspect is linked" do
+    before { type.link!(Type::ConfigurationLink::PATTERNS, source:) }
+
+    it "renders the source reference and the readonly preview slot", :aggregate_failures do
+      render_inline(described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS)) do |c|
+        c.with_readonly_preview { "PREVIEW_MARKER" }
+      end
+
+      expect(page).to have_text("Configuration reused from Phase")
+      expect(page).to have_text("PREVIEW_MARKER")
     end
+  end
 
-    def readonly? = @readonly
+  context "when the aspect is independent" do
+    it "does not render the readonly preview" do
+      render_inline(described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS)) do |c|
+        c.with_readonly_preview { "PREVIEW_MARKER" }
+      end
 
-    def wrapper_data_attributes
-      return {} if @readonly
-
-      {
-        controller: "generic-drag-and-drop"
-      }
-    end
-
-    def drag_and_drop_target_config
-      {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
-        test_selector: "pdf-export-template-rows"
-      }
-    end
-
-    def draggable_item_config(template)
-      {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
-        test_selector: "pdf-export-template-row-#{template.id}"
-      }
+      expect(page).to have_no_text("PREVIEW_MARKER")
     end
   end
 end
