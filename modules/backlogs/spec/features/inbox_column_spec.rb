@@ -452,10 +452,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
         # Expand inbox — URL advances to ?all=true
         planning_page.click_inbox_show_more
-        # click_inbox_show_more triggers a Turbo advance frame navigation, so the
-        # URL updates asynchronously; use the waiting matcher rather than reading
-        # page.current_url (which does not retry).
-        expect(page).to have_current_path(/all=true/)
+        expect(page).to have_current_path(project_backlogs_backlog_path(project, all: true))
         planning_page.expect_no_inbox_show_more
 
         # Drag an inbox item to the sprint
@@ -480,6 +477,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
         # Open a sprint story details view, edit the subject, and close
         details_view = planning_page.open_work_package_details(sprint_wp1)
+        expect(page).to have_current_path(project_backlogs_backlog_details_path(project, sprint_wp1, all: true))
         details_view.edit_field("subject").update("Updated subject")
         details_view.expect_and_dismiss_toaster message: "Successful update."
         details_view.close
