@@ -49,7 +49,6 @@ module WorkPackageTypes
       respond_with_dialog ConfigurationLinks::DialogComponent.new(type: @type, aspect:)
     end
 
-    # The source picker's submit: swaps the picker for the danger confirmation.
     def confirm
       if source.nil?
         render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))

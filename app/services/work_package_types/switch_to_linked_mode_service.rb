@@ -47,7 +47,6 @@ module WorkPackageTypes
       if link.save
         ServiceResult.success(result: @type)
       else
-        # Return the rejected link so the caller can re-render the picker with its errors.
         ServiceResult.failure(result: link, errors: link.errors)
       end
     end

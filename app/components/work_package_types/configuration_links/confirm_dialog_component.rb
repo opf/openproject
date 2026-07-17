@@ -51,7 +51,6 @@ module WorkPackageTypes
 
       attr_reader :type, :aspect, :source
 
-      # A link already exists, so this switch re-points it to a different source.
       def changing_source?
         type.linked?(aspect)
       end
