@@ -305,5 +305,62 @@ describe('ProjectTimelineGraphComponent', () => {
         expect(result.querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
       });
     });
+
+    describe('for a clustered gate item', () => {
+      const octoberGate:ProjectTimelineItem = {
+        id: 'gate-oct',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-10-01'),
+        content: document.createElement('i'),
+        title: 'October Gate',
+        className: 'op-timeline-gate',
+      };
+      const novemberGate:ProjectTimelineItem = {
+        id: 'gate-nov',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-11-01'),
+        content: document.createElement('i'),
+        title: 'November Gate',
+        className: 'op-timeline-gate',
+      };
+
+      const makeCluster = (items:ProjectTimelineItem[]):HTMLElement => tooltipTemplate({
+        id: 'cluster-1',
+        group: 'gates',
+        type: 'point',
+        start: new Date('2024-10-01'),
+        content: document.createElement('i'),
+        title: '',
+        className: 'op-timeline-gate',
+        isCluster: true,
+        items,
+      }) as HTMLElement;
+
+      it('shows "Gate" as the type label', () => {
+        const meta = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--meta-row');
+        expect(meta?.textContent).toContain('Gate');
+      });
+
+      it('lists all gate names', () => {
+        const name = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--name');
+        expect(name?.textContent).toBe('October Gate, November Gate');
+      });
+
+      it('sorts dates chronologically even when items arrive in reverse order', () => {
+        const formattedDates:Date[] = [];
+        vi.spyOn(timezoneStub, 'formattedDate').mockImplementation((d:unknown) => {
+          formattedDates.push(d as Date);
+          return String(d);
+        });
+
+        // Items intentionally in reverse order (November before October)
+        makeCluster([novemberGate, octoberGate]);
+
+        expect(formattedDates.length).toBe(2);
+        expect(formattedDates[0].getTime()).toBeLessThan(formattedDates[1].getTime());
+      });
+    });
   });
 });
