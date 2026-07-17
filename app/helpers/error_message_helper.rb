@@ -31,38 +31,15 @@
 module ErrorMessageHelper
   include ActionView::Helpers::OutputSafetyHelper
 
-  def error_messages_for(object, inline: false)
+  def error_messages_for(object)
     object = instance_variable_get(:"@#{object}") unless object.respond_to?(:to_model)
     object = convert_to_model(object)
     return unless object
-
-    return render_inline_errors(object.errors, object) if inline
 
     assign_flash_error(object.errors, object)
 
     # Don't output anything for compability
     nil
-  end
-
-  def render_inline_errors(errors, object)
-    return if errors.empty?
-
-    base_error_messages = errors.full_messages_for(:base)
-    fields_error_messages = errors.full_messages - base_error_messages
-
-    OpPrimer::FlashComponent
-      .new(
-        scheme: :danger,
-        icon: :stop,
-        mb: 3,
-        description: error_flash_description(object, base_error_messages, fields_error_messages)
-      )
-      .tap do |component|
-        component.with_content(
-          error_message_header(object.class.model_name.human, base_error_messages.count + fields_error_messages.count)
-        )
-      end
-      .render_in(self)
   end
 
   def assign_flash_error(errors, object)

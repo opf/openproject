@@ -157,18 +157,5 @@ RSpec.describe ErrorMessageHelper do
     end
 
     include_examples "error messages rendering"
-
-    context "when rendered inline" do
-      it "returns an error banner without assigning a global flash" do
-        errors.add(:title, :blank)
-
-        rendered_errors = helper.error_messages_for("wiki_page", inline: true)
-
-        rendered_fragment = Capybara.string(rendered_errors)
-
-        expect(rendered_fragment).to have_css("[data-test-selector='op-primer-flash-message']")
-        expect(rendered_fragment).to have_text("Title can't be blank")
-      end
-    end
   end
 end
