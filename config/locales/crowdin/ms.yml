@@ -1527,7 +1527,13 @@ ms:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -3556,7 +3562,7 @@ ms:
   label_workflow: Aliran kerja
   label_workflow_copy: Salin aliran kerja
   label_workflow_plural: Aliran kerja
-  label_workflow_summary: Ringkasan
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Hari dan jam bekerja
   label_working_hours: Work schedule
@@ -5840,6 +5846,8 @@ ms:
             project: Projek
             work_package: Pakej kerja
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

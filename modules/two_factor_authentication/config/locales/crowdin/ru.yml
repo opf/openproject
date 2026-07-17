@@ -126,7 +126,7 @@ ru:
     error_no_device: Для пользователя не найдено зарегистрированного устройства 2ФА, что требуется для этого экземпляра.
     error_no_matching_strategy: Для этого пользователя нет подходящей стратегии 2ФА. Обратитесь к администратору.
     forced_registration:
-      required_to_add_device: Активная политика безопасности требует использования двухфакторной аутентификации. Зарегистрируйте устройство с помощью следующей формы.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Двухфакторная аутентификация неактивна
     label_2fa_enabled: Двухфакторная аутентификация активна
     label_default_device: Устройство 2ФА по умолчанию

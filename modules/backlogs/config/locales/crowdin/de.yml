@@ -24,7 +24,7 @@ de:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
@@ -43,7 +43,7 @@ de:
         text: Sprint-Ziel
       work_package:
         backlog_bucket: Backlog Bucket
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Backlog Posteingang
         backlogs_work_package_type: Backlog Typ
         position: Position
         sprint: Sprint
@@ -142,8 +142,8 @@ de:
       title: Der Sprint enthält nicht abgeschlossene Arbeitspakete
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
+        add_new_work_package: Neues Arbeitspaket hinzufügen
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Eingangs-Backlog ist leer
       drop_zone_label: Drop here to add this item
@@ -169,12 +169,12 @@ de:
     rebuild: Neu berechnen
     rebuild_positions: Positionen neu berechnen
     remaining_hours: Verbleibender Aufwand
-    sharing: Sprint sharing
+    sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
+        add_new_work_package: Neues Arbeitspaket hinzufügen
         edit_sprint: Sprint bearbeiten
       blankslate_description: Noch keine Arbeitspakete geplant. Ziehen Sie Arbeitspakete hierher, um sie hinzuzufügen.
       blankslate_title: "%{name} ist leer"
@@ -303,7 +303,7 @@ de:
       backlogs:
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          heading: Anzahl der aktiven Sprints
         multiple_active_sprints_component:
           cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
           not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
@@ -312,5 +312,5 @@ de:
           sharing_description: Dieses Projekt kann entweder eigene Sprints teilen, geteilte Sprints empfangen oder Sprints eigenständig bearbeiten (ohne Teilen).
           sharing_fallback_description: Ohne einen Enterprise-Plan sind die Optionen für die gemeinsame Nutzung auf die eigenen Sprints des Projekts beschränkt. Die derzeit aktive Einstellung bleibt bestehen.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Backlog Posteingang
   remaining_hours: verbleibender Aufwand

@@ -1523,7 +1523,13 @@ vi:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Chuyển tiếp mặc định
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: Người dùng là người được chuyển nhượng
         user_author: Người dùng là tác giả
   announcements:
@@ -3542,7 +3548,7 @@ vi:
   label_workflow: Quy trình làm việc
   label_workflow_copy: Sao chép quy trình làm việc
   label_workflow_plural: Quy trình làm việc
-  label_workflow_summary: Tóm tắt
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Ngày và giờ làm việc
   label_working_hours: Work schedule
@@ -5840,6 +5846,8 @@ vi:
             project: dự án
             work_package: Gói công việc
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

@@ -126,7 +126,7 @@ pt-BR:
     error_no_device: Nenhum dispositivo 2FA registrado foi encontrado para este usuário, apesar de ser necessário para esta instância.
     error_no_matching_strategy: Nenhuma estratégia de 2FA disponível para este usuário. Entre em contato com o administrador.
     forced_registration:
-      required_to_add_device: Uma política de segurança ativa requer que você habilite a autenticação de dois fatores. Por favor, use o seguinte formulário para registrar o dispositivo.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Autenticação de dois fatores não ativa
     label_2fa_enabled: Autenticação de dois fatores está ativa
     label_default_device: Dispositivo 2FA padrão

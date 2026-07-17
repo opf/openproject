@@ -1551,7 +1551,13 @@ es:
           other: "¿Eliminar %{count} estados?"
         title: Eliminar estados
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Transiciones predeterminadas
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: Usuario es asignado
         user_author: Usuario es autor
   announcements:
@@ -3589,7 +3595,7 @@ es:
   label_workflow: Flujo de trabajo
   label_workflow_copy: Copiar flujo de trabajo
   label_workflow_plural: Flujos de trabajo
-  label_workflow_summary: Resumen
+  label_workflow_summary: Workflow summary
   label_working_days: Días laborables
   label_working_days_and_hours: Días y horas de trabajo
   label_working_hours: Horario de trabajo
@@ -5883,6 +5889,8 @@ es:
             project: Proyecto
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
