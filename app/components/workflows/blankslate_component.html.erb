@@ -30,14 +30,16 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::Beta::Blankslate.new(border: true)) do |blankslate|
     blankslate.with_heading(tag: :h2).with_content(t("admin.workflows.blankslate.title"))
-    blankslate.with_description_content(t("admin.workflows.blankslate.description"))
-    blankslate.with_primary_action(
-      href: helpers.status_dialog_type_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id)),
-      scheme: :secondary,
-      data: { controller: "async-dialog" }
-    ) do |button|
-      button.with_leading_visual_icon(icon: :plus)
-      t("admin.workflows.status_button")
+    blankslate.with_description_content(t(description_key))
+    unless read_only?
+      blankslate.with_primary_action(
+        href: helpers.status_dialog_type_workflow_tab_path(@type, @tab, role_ids: @roles.map(&:id)),
+        scheme: :secondary,
+        data: { controller: "async-dialog" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("admin.workflows.status_button")
+      end
     end
   end
 %>

@@ -723,4 +723,32 @@ RSpec.describe "Workflow edit", :js do
       end
     end
   end
+
+  describe "when the workflow is linked from a source" do
+    let(:source_type) { create(:type) }
+    let!(:source_workflow) do
+      create(:workflow, role_id: role.id,
+                        type_id: source_type.id,
+                        old_status_id: statuses[0].id,
+                        new_status_id: statuses[1].id,
+                        author: false,
+                        assignee: false)
+    end
+
+    before do
+      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      visit_workflow_edit(roles: [role])
+    end
+
+    it "shows the source's transitions read-only without editing actions" do
+      expect(page).to have_field(workflow_checkbox(0, 1), checked: true, disabled: true)
+      expect(page).to have_field(workflow_checkbox(1, 0), disabled: true)
+      expect(page).to have_no_button "Save"
+
+      within "#workflow-table" do
+        expect(page).to have_no_link "Status"
+        expect(page).to have_no_link "Copy"
+      end
+    end
+  end
 end
