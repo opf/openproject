@@ -369,13 +369,8 @@ module Pages
     # the turbo-stream response instead, which still fires either way.
     def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: false)
       within_work_package_move_submenu(work_package) do |submenu|
-        # Moving reloads the backlogs_container frame, whose morph in turn
-        # reloads the affected card frames. Wait for that frame reload (not just
-        # the turbo stream) so a following interaction does not race the swap.
-        wait_for_turbo_frame(wait:) do
-          wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
-            submenu.find(:menuitem, text: item_name, visible: :all).click
-          end
+        wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
+          submenu.find(:menuitem, text: item_name, visible: :all).click
         end
       end
     end
