@@ -237,7 +237,7 @@ module CustomFields
     end
 
     def show_default_text_field?
-      %w[list bool date text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime text user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_default_rich_text_field?
@@ -253,11 +253,11 @@ module CustomFields
     end
 
     def show_min_max_field?
-      %w[list bool date user version link hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime user version link hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_regex_field?
-      %w[list bool date user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+      %w[list bool date datetime user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_right_to_left_field?
@@ -282,7 +282,7 @@ module CustomFields
 
     def show_is_searchable_field?
       (model.is_a?(WorkPackageCustomField) || model.is_a?(ProjectCustomField)) &&
-        %w[bool date float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
+        %w[bool date datetime float int user version hierarchy weighted_item_list calculated_value].exclude?(model.field_format)
     end
 
     def show_non_open_versions_field?

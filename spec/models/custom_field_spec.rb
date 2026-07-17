@@ -711,6 +711,15 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "#check_searchability" do
+    it "resets searchable for datetime fields" do
+      field = build(:custom_field, field_format: "datetime", searchable: true)
+      field.validate
+
+      expect(field.searchable).to be false
+    end
+  end
+
   describe "#cast_value" do
     describe "handling all registered formats" do
       before do
@@ -723,7 +732,11 @@ RSpec.describe CustomField do
         it "handles custom field with format #{field_format}" do
           field = build(:custom_field, field_format:)
 
-          input = field_format == "date" ? "2025.10.27" : "1"
+          input = case field_format
+                  when "date" then "2025.10.27"
+                  when "datetime" then "2025-10-27 10:00:00"
+                  else "1"
+                  end
 
           if field_format == "empty"
             expect(field.cast_value(input)).to be_nil

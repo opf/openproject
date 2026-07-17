@@ -40,6 +40,7 @@ module API
           "int" => "Integer",
           "float" => "Float",
           "date" => "Date",
+          "datetime" => "DateTime",
           "bool" => "Boolean",
           "user" => "User",
           "version" => "Version",
@@ -317,8 +318,11 @@ module API
 
             value = send(custom_field.attribute_getter)
 
-            if custom_field.field_format == "text"
+            case custom_field.field_format
+            when "text"
               ::API::Decorators::Formattable.new(value, object: self)
+            when "datetime"
+              ::API::V3::Utilities::DateTimeFormatter.format_datetime(value, allow_nil: true)
             else
               value
             end

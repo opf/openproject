@@ -96,6 +96,8 @@ module Queries::Filters::Shared
           :text
         when "date"
           :date
+        when "datetime"
+          :datetime
         when "hierarchy", "weighted_item_list"
           :hierarchy
         else

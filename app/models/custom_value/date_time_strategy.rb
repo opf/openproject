@@ -28,28 +28,62 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime: Queries::Filters::Strategies::DateTime,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue,
-    hierarchy: Queries::Filters::Strategies::Hierarchy
-  }.freeze
+class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
+  CANONICAL_FORMAT = "%Y-%m-%d %H:%M:%S"
+  CANONICAL_REGEX = /\A\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\z/
 
-  class MissingError < StandardError; end
+  def typed_value
+    return if value.blank?
+
+    DateTime.strptime(value, CANONICAL_FORMAT)
+  rescue Date::Error
+    nil
+  end
+
+  def formatted_value
+    format_time(typed_value) || value.to_s
+  end
+
+  def parse_value(val)
+    super(normalize_to_utc(val) || val)
+  end
+
+  def validate_type_of_value
+    return nil if value.is_a?(Time) || value.is_a?(Date)
+
+    begin
+      DateTime.strptime(value, CANONICAL_FORMAT)
+      nil
+    rescue StandardError
+      :not_a_datetime
+    end
+  end
+
+  private
+
+  def normalize_to_utc(val)
+    time =
+      case val
+      when Time, DateTime
+        val.to_time
+      when String
+        parse_time_string(val)
+      end
+
+    time&.utc&.strftime(CANONICAL_FORMAT)
+  end
+
+  def parse_time_string(val)
+    if CANONICAL_REGEX.match?(val)
+      DateTime.strptime(val, CANONICAL_FORMAT).to_time
+    elsif /(Z|[+-]\d{2}:?\d{2})\z/.match?(val)
+      Time.iso8601(val)
+    else
+      User.current.time_zone.parse(val)
+    end
+  rescue ArgumentError
+    nil
+  end
 end

@@ -1,0 +1,40 @@
+@if (!mobile) {
+  <input
+    #input
+    type="text"
+    autocomplete="off"
+    class="spot-input"
+    [ngClass]="inputClassNames"
+    [ngModel]="displayValue"
+    [attr.data-value]="value"
+    [attr.data-action]="dataAction"
+    [id]="id"
+    [name]="name"
+    [attr.name]="name"
+    [required]="required"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    (input)="changeValueFromInput($event.target.value)"
+    (focus)="showDatePicker()"
+    (click)="sentCalendarToTopLayer()"
+    [attr.data-remote-field-key]="remoteFieldKey"
+    />
+}
+
+@if (mobile) {
+  <input
+    type="datetime-local"
+    class="spot-input"
+    [ngClass]="inputClassNames"
+    [attr.data-value]="value"
+    [attr.data-action]="dataAction"
+    [id]="id"
+    [name]="name"
+    [attr.name]="name"
+    [required]="required"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    [ngModel]="mobileValue"
+    (ngModelChange)="changeValueFromInput($event)"
+    />
+}

@@ -28,28 +28,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime: Queries::Filters::Strategies::DateTime,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue,
-    hierarchy: Queries::Filters::Strategies::Hierarchy
-  }.freeze
+module CustomActions::Actions::Strategies::DateTime
+  CURRENT_FLAG = "%CURRENT_DATETIME%"
+  # Followed by an offset in seconds, e.g. "%RELATIVE_DATETIME%3600".
+  RELATIVE_FLAG = "%RELATIVE_DATETIME%"
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
+  def values=(values)
+    super(Array(values).map { |v| to_datetime_or_nil(v) }.uniq)
+  end
 
-  class MissingError < StandardError; end
+  def type
+    :datetime_property
+  end
+
+  def apply(work_package)
+    accessor = :"#{self.class.key}="
+    if work_package.respond_to? accessor
+      work_package.send(accessor, datetime_to_apply)
+    end
+  end
+
+  private
+
+  def datetime_to_apply
+    value = values.first
+
+    if value == CURRENT_FLAG
+      ::DateTime.current
+    elsif relative?(value)
+      ::DateTime.current + relative_offset(value).seconds
+    else
+      value
+    end
+  end
+
+  def relative?(value)
+    value.to_s.start_with?(RELATIVE_FLAG)
+  end
+
+  def relative_offset(value)
+    value.to_s[RELATIVE_FLAG.size..].to_i
+  end
+
+  def to_datetime_or_nil(value)
+    return value if value.nil? || value == CURRENT_FLAG || relative?(value)
+
+    value.to_datetime
+  rescue TypeError, ArgumentError
+    nil
+  end
 end

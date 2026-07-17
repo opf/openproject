@@ -85,44 +85,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def date_picker(field, options = {}) # rubocop:disable Metrics/AbcSize
-    options[:class] = Array(options[:class])
-    options[:container_class] ||= "-xslim"
-    merge_required_attributes(options[:required], options)
-    options[:visible_overflow] = true
+  def date_picker(field, options = {})
+    picker_field(field, "opce-basic-single-date-picker", options)
+  end
 
-    input_options, label_options = extract_from options
-
-    if field_has_errors?(field)
-      add_error_class(input_options)
-    end
-
-    @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
-
-    inputs = {
-      value: @object.public_send(field),
-      id: field_id(field, index: options[:index]),
-      name: options[:name] || field_name(field, index: options[:index])
-    }
-
-    if options.dig(:data, :"remote-field-key")
-      inputs["remote-field-key"] = options.dig(:data, :"remote-field-key")
-      inputs[:inputClassNames] = "remote-field--input"
-    end
-
-    if !options[:show_ignore_non_working_days].nil?
-      inputs["show-ignore-non-working-days"] = options[:show_ignore_non_working_days]
-    end
-
-    if options[:required]
-      inputs[:required] = options[:required]
-    end
-
-    label = label_for_field(field, label_options)
-    input = angular_component_tag("opce-basic-single-date-picker",
-                                  class: options[:class],
-                                  inputs:)
-    (label + container_wrap_field(input, :date_picker, options))
+  def datetime_picker(field, options = {})
+    picker_field(field, "opce-basic-single-datetime-picker", options)
   end
 
   def radio_button(field, value, options = {}, *)
@@ -195,6 +163,46 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   TEXT_LIKE_FIELDS = %i(
     number_field password_field url_field telephone_field email_field
   ).freeze
+
+  def picker_field(field, component, options) # rubocop:disable Metrics/AbcSize
+    options[:class] = Array(options[:class])
+    options[:container_class] ||= "-xslim"
+    merge_required_attributes(options[:required], options)
+    options[:visible_overflow] = true
+
+    input_options, label_options = extract_from options
+
+    if field_has_errors?(field)
+      add_error_class(input_options)
+    end
+
+    @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
+
+    inputs = {
+      value: @object.public_send(field),
+      id: field_id(field, index: options[:index]),
+      name: options[:name] || field_name(field, index: options[:index])
+    }
+
+    if options.dig(:data, :"remote-field-key")
+      inputs["remote-field-key"] = options.dig(:data, :"remote-field-key")
+      inputs[:inputClassNames] = "remote-field--input"
+    end
+
+    if !options[:show_ignore_non_working_days].nil?
+      inputs["show-ignore-non-working-days"] = options[:show_ignore_non_working_days]
+    end
+
+    if options[:required]
+      inputs[:required] = options[:required]
+    end
+
+    label = label_for_field(field, label_options)
+    input = angular_component_tag(component,
+                                  class: options[:class],
+                                  inputs:)
+    (label + container_wrap_field(input, :date_picker, options))
+  end
 
   def container_wrap_field(field_html, selector, options = {})
     ret = if options.delete(:no_field_container)

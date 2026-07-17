@@ -27,29 +27,40 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
+require "spec_helper"
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime: Queries::Filters::Strategies::DateTime,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue,
-    hierarchy: Queries::Filters::Strategies::Hierarchy
-  }.freeze
+RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
+  include_context "with rendered custom field input form"
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
+  let(:custom_field) { create(:datetime_project_custom_field, name: "Datetime field") }
 
-  class MissingError < StandardError; end
+  it_behaves_like "rendering label with help text", "Datetime field"
+
+  context "without a value" do
+    it "renders field" do
+      expect(rendered_form).to have_field "Datetime field", type: :"datetime-local", with: ""
+    end
+  end
+
+  context "when value is invalid" do
+    let(:value) { "NOT A DATETIME" }
+
+    it "renders invalid field" do
+      expect(rendered_form).to have_field "Datetime field", type: :"datetime-local", with: "NOT A DATETIME",
+                                                            aria: { invalid: true }
+    end
+
+    it "renders error message" do
+      expect(rendered_form).to have_css ".FormControl-inlineValidation", text: "Value is not a valid date time."
+    end
+  end
+
+  context "when value is valid" do
+    let(:value) { "2024-03-20T14:30:00Z" }
+
+    it "renders the field with the value in the user's local time" do
+      expect(rendered_form).to have_field "Datetime field", type: :"datetime-local", with: "2024-03-20T14:30"
+    end
+  end
 end
