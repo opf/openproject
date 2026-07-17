@@ -51,12 +51,19 @@ RSpec.describe "Work package type configuration copies",
       expect(response.body).to include("Save and copy")
     end
 
-    it "annotates and leads with the parent type for sub-types" do
+    it "annotates the parent and orders sub-types under their root with the composite name" do
       subtype = create(:type, parent: source)
+      root = create(:type, name: "Bug")
+      create(:type, name: "Mobile", parent: root)
 
       get type_configuration_copy_dialog_path(type_id: subtype.id, aspect:), as: :turbo_stream
 
+      # the current type's own parent is flagged as the likely source
       expect(response.body).to include("Feature (parent)")
+      # sub-types carry their parent via the composite name
+      expect(response.body).to include("Bug: Mobile")
+      # a root is listed before its sub-type
+      expect(response.body.index("Bug")).to be < response.body.index("Bug: Mobile")
     end
 
     it "is not found for aspects without a copy service" do
