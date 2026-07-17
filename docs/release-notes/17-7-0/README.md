@@ -3,23 +3,177 @@ title: OpenProject 17.7.0
 sidebar_navigation:
     title: 17.7.0
 release_version: 17.7.0
-release_date: 2026-07-16
+release_date: 2026-08-05
 ---
 
 # OpenProject 17.7.0
 
-Release date: 2026-07-16
+Release date: 2026-08-05
 
 We released [OpenProject 17.7.0](https://community.openproject.org/versions/2304).
 The release contains several bug fixes and we recommend updating to the newest version.
 In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
+
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+OpenProject 17.7 introduces new resource management capabilities to help teams plan capacity and staffing more effectively. The release also brings major improvements to agile project management, wiki collaboration, and new features for project management with PM² or PMflex.
 
-## Important updates and breaking changes
+Take a look at our release video showing the most important features introduced in OpenProject 17.7:
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+![Release video of OpenProject 17.7](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_7_release.mp4)
+
+### Organizational management
+
+OpenProject 17.7 introduces new organizational management capabilities that provide the foundation for the new [Resource management module](#resource-management-module-enterprise-add-on). Departments, work-related user attributes, and individual working hours help organizations represent their workforce more accurately and enable realistic capacity planning and staffing.
+
+These features are also available independently of the Resource management module, allowing organizations on other OpenProject plans to better structure user information and organizational data. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](/blog/resource-management-capacity-planning).
+
+**Departments**
+
+OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a hierarchical organizational structure with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
+
+![OpenProject's Organization page shows a hierarchical department structure that can be used to organize teams across the organization.](openproject-resource-management-departments.png)
+
+**Work-related user attributes**
+
+Under *Administration → Users and permissions → Users*, you can now set organization-specific user attributes such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
+
+![OpenProject's user profile shows user attributes such as department, job title, spoken languages, and key skills.](openproject-resource-management-user-attributes.png)
+
+**Working hours**
+
+Under *Administration → Users and permissions → Users*, you can now configure individual work schedules for every user, including working days, working hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
+
+![OpenProject's Work schedule page shows a user's work hours, availability factor, effective work hours, and future schedule changes used for resource planning.](openproject-resource-management-user-work-schedule.png)
+
+### Resource management module (Enterprise add-on)
+
+[feature: resource_management ]
+
+The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization.
+
+**Resource planner**
+
+The Resource planner provides a centralized overview of your workforce, allowing you to search, filter, and compare users based on departments, work-related attributes, availability, and current workload. Interactive timeline views help identify available capacity, overallocations, and bottlenecks before work is assigned.
+
+![OpenProject's Resource planner displays users as cards with their departments, work-related attributes, availability, and utilization, making it easy to compare capacity across the organization.](openproject-resource-management-users-card-list.png)
+
+The timeline view visualizes each user's workload over time, helping project managers understand resource utilization, identify conflicts early, and make informed planning decisions.
+
+![OpenProject's Resource planner timeline visualizes allocated work and remaining capacity for each user over time, helping identify overallocations and available resources.](openproject-resource-management-timeline-allocated.png)
+
+**Staffing**
+
+The Staffing view allows project managers to assign work while taking each team member's availability and existing workload into account. Resource requests can be matched with suitable team members, helping organizations distribute work more effectively and avoid overallocations.
+
+![OpenProject's Staffing view shows an open resource request for Laboratory testing together with a matching project member who can be assigned to the work.](openproject-resource-management-staffing-overlay.png)
+
+### Multiple active sprints without sharing (Enterprise add-on)
+
+[feature: multiple_active_sprints]
+
+OpenProject 17.7 introduces support for multiple active sprints without requiring work packages to be shared between projects. Teams can now run multiple active sprints independently while keeping work packages within their respective projects. This provides greater flexibility for organizations managing multiple Scrum teams or parallel development efforts.
+
+### Community improvements for Backlog and Sprints
+
+OpenProject 17.7 also includes several community-contributed improvements for Backlog and Sprints that make sprint planning and backlog management more efficient.
+
+**Add existing work packages to a sprint**
+
+You can now add existing work packages to a sprint directly from the Backlog view. This makes it easier to move planned work into a sprint without changing the work package hierarchy or creating duplicate work packages.
+
+**Multi-select filters**
+
+Backlog and Sprint filters now support selecting multiple values for the same filter criterion. This makes it easier to filter work packages by multiple assignees, priorities, statuses, versions, or other attributes.
+
+**Improved drag and drop**
+
+Drag-and-drop interactions in the Backlog and Sprint views have been improved to provide a smoother planning experience. Moving work packages between the backlog and sprints, changing their order, or reorganizing the hierarchy is now more intuitive and reliable.
+
+### Improvements for PM² and PMflex management
+
+OpenProject 17.7 introduces several improvements for organizations using the PM² and PMflex project management methodologies, making it easier to manage project information and monitor project progress.
+
+**Show project attributes as separate tab in a work package**
+
+Project attributes can now be displayed in a dedicated **Project** tab within work packages. This provides quicker access to project-specific information while keeping work package details and project metadata clearly separated.
+
+![OpenProject displays project attributes in a dedicated Project tab within a work package.](openproject-project-tab-work-package.png)
+
+**Artifact export**
+
+Project artifacts can now be included when exporting projects. This makes it easier to share project documentation, archive project information, or exchange projects while preserving associated artifacts.
+
+**Project phases and gates widget**
+
+A new Project phases and gates widget is available for project overviews. It provides a visual representation of the project's current phase and gate status, helping project managers and stakeholders quickly understand project progress at a glance.
+
+![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
+
+### Work package previews from URLs in Documents (BlockNote editor)
+
+When working with the BlockNote editor in Documents, links to work packages now display rich previews instead of plain URLs. This makes it easier to identify referenced work packages and understand their context without leaving the document.
+
+### Semantic identifiers now support BCF import and export
+
+Semantic identifiers are now included when importing and exporting BIM Collaboration Format (BCF) files. This ensures identifiers remain consistent across OpenProject and other BIM tools, improving interoperability in BIM workflows.
+
+### Filter projects by portfolio and program (Enterprise add-on)
+
+[feature: portfolio_management]
+
+Project lists now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
+
+### Additional calculation operators for calculated fields
+
+Calculated custom fields now support additional calculation operators, allowing you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
+
+### Wiki improvements
+
+OpenProject 17.7 further enhances the internal wiki and XWiki integration with several usability improvements.
+
+**Global wiki page index**
+
+Get a centralized overview of all wiki pages across your projects with filtering and search capabilities.
+
+**Create an internal wiki directly from a project**
+
+Project administrators can now create and configure an internal wiki directly from the project settings.
+
+**Improved wiki navigation**
+
+Wiki search results now display the page hierarchy, making it easier to understand the context of matching pages.
+
+**Permanent links between work packages and wiki pages**
+
+Promote referenced wiki pages to related pages to create permanent links between work packages and documentation.
+
+### Administration improvements
+
+**Disable users editing their own email address**
+
+Administrators can now prevent users from changing their own email address. This gives organizations greater control over user account management and supports environments where email addresses are managed centrally.
+
+**Improved status filtering for user administration**
+
+The user administration page now provides improved status filters, making it easier to find active, locked, invited, or registered users.
+
+**SCIM configuration via environment variables**
+
+SCIM configuration options can now be provided through environment variables, making automated deployments and infrastructure management easier.
+
+### Important technical changes
+
+**Agenda API: Fetch agenda items by work package ID**
+
+The Agenda API now supports retrieving agenda items by work package ID, making it easier to integrate meeting agendas with work package-based workflows.
+
+## Important technical changes
+
+### Agenda API: Fetch agenda items by work package ID
+
+text
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 
