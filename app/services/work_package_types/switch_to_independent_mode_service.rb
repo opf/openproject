@@ -29,21 +29,29 @@
 #++
 
 module WorkPackageTypes
-  # Switches one configuration aspect of a type to Independent by severing its
-  # link. When a source is given, its resolved configuration is adopted onto the
-  # type once before the link is removed, so the type keeps what it was showing.
-  #
-  # Adoption reuses the aspect's CopyConfiguration service and the result is
-  # aggregated with the severing, so a failed copy leaves the link untouched.
+  # Switches one configuration aspect of a type to Independent by seeding its
+  # configuration from the chosen IndependentMode and then severing the link.
+  # COPY and DEFAULT reuse the aspect's CopyConfiguration service (from the
+  # linked source, resp. a fresh type); EMPTY writes a blank configuration. The
+  # seeding result is aggregated with the severing, so a failed seed leaves the
+  # link untouched.
   class SwitchToIndependentModeService
+    # The blank configuration written for the EMPTY mode, per aspect.
+    EMPTY_CONFIGURATION = {
+      Type::ConfigurationLink::PATTERNS => { patterns: {} },
+      Type::ConfigurationLink::PDF_EXPORT => { pdf_export_templates_config: {} }
+    }.freeze
+
     def initialize(type:, aspect:, user:)
       @type = type
       @aspect = aspect
       @user = user
     end
 
-    def call(source: nil)
-      result = adopt_configuration_from(source)
+    def call(mode:)
+      return invalid_mode_result unless IndependentMode.available?(aspect, mode)
+
+      result = seed_configuration(mode)
       result.merge!(sever_link) if result.success?
 
       result
@@ -53,19 +61,39 @@ module WorkPackageTypes
 
     attr_reader :type, :aspect, :user
 
-    def adopt_configuration_from(source)
-      return ServiceResult.success(result: type) unless adopt?(source)
+    def seed_configuration(mode)
+      case mode.to_s
+      when IndependentMode::COPY
+        copy_configuration_from(type.source_for(aspect))
+      when IndependentMode::DEFAULT
+        copy_configuration_from(Type.new)
+      when IndependentMode::EMPTY
+        empty_configuration
+      end
+    end
 
+    def copy_configuration_from(source)
       CopyConfiguration.service_for(aspect).new(type:, user:).call(source:)
     end
 
-    def adopt?(source)
-      source.present? && source != type && CopyConfiguration.supported?(aspect)
+    def empty_configuration
+      type.update!(EMPTY_CONFIGURATION.fetch(aspect))
+
+      ServiceResult.success(result: type)
+    rescue ActiveRecord::RecordInvalid
+      ServiceResult.failure(result: type, errors: type.errors)
     end
 
     def sever_link
       type.configuration_links.where(aspect:).destroy_all
+
       ServiceResult.success(result: type)
+    end
+
+    def invalid_mode_result
+      type.errors.add(:base, I18n.t("types.edit.reuse_mode.independent.invalid_mode"))
+
+      ServiceResult.failure(result: type, errors: type.errors)
     end
   end
 end
