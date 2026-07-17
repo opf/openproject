@@ -35,7 +35,7 @@ RSpec.describe "Work package canonical URL rewrite",
                :with_cuprite,
                with_settings: { work_packages_identifier: "semantic" } do
   shared_let(:admin) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[work_package_tracking wiki]) }
+  let(:project) { create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking]).reload }
   let(:work_package) { create(:work_package, project:, subject: "Canonical URL test WP") }
 
   let(:full_screen) { Pages::FullWorkPackage.new(work_package, project) }
