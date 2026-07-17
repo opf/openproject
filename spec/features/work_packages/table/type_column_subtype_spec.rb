@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,48 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Types
-      class TypeRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include ::API::Caching::CachedRepresenter
+require "spec_helper"
 
-        cached_representer key_parts: %i[parent]
+RSpec.describe "Sub-type shown as its root in the work package table type column", :js,
+               with_flag: { subtypes: true } do
+  let(:user) { create(:admin) }
 
-        self_link
+  let(:root_type) { create(:type, name: "Task") }
+  let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
 
-        property :id
+  let(:project) { create(:project, types: [sub_type]) }
+  let(:work_package) do
+    create(:work_package, subject: "A sub-typed work package", type: sub_type, project:)
+  end
 
-        property :name
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:query) do
+    query = build(:query, user:, project:)
+    query.column_names = %w[id subject type]
+    query.save!
+    query
+  end
 
-        property :own_name,
-                 as: :ownName,
-                 getter: ->(*) { own_name }
+  before do
+    login_as(user)
+    query
+    work_package
 
-        property :color,
-                 getter: ->(*) { color&.hexcode },
-                 render_nil: true
-        property :position
-        property :is_default
-        property :is_milestone
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(work_package)
+  end
 
-        link :parent do
-          next if represented.parent.nil?
+  it "renders the root type's name in the type column, not the sub-type's" do
+    type_field = wp_table.edit_field(work_package, :type)
 
-          {
-            href: api_v3_paths.type(represented.parent_id),
-            title: represented.parent.name
-          }
-        end
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        def _type
-          "Type"
-        end
-      end
-    end
+    type_field.expect_state_text(root_type.name.upcase)
+    expect(type_field.display_element.text).not_to include(sub_type.own_name.upcase)
   end
 end

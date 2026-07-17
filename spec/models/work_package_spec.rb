@@ -994,6 +994,22 @@ RSpec.describe WorkPackage do
       end
     end
 
+    describe "for a sub-type" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+      let(:sub_work_package) { create(:work_package, project:, type: sub_type, subject: "Hello world") }
+
+      it "renders the root type's name in the :heading style" do
+        expect(sub_work_package.to_fs(:heading)).to include("Task")
+        expect(sub_work_package.to_fs(:heading)).not_to include("Bug")
+      end
+
+      it "renders the root type's name in the :caption style" do
+        expect(sub_work_package.to_fs(:caption)).to start_with("Task:")
+        expect(sub_work_package.to_fs(:caption)).not_to include("Bug")
+      end
+    end
+
     describe "without a type (only possible while unpersisted)",
              with_settings: { work_packages_identifier: "classic" } do
       let(:untyped_work_package) { build_stubbed(:work_package, project:, type: nil, subject: "Hello world") }

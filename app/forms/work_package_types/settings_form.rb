@@ -33,6 +33,7 @@ module WorkPackageTypes
     form do |settings_form|
       settings_form.text_field(
         name: :name,
+        value: model.own_name,
         label: label(:name),
         placeholder: I18n.t(:label_name),
         required: true,
