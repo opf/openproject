@@ -226,6 +226,8 @@ th:
         identifier: รหัส
         latest_activity_at: Latest activity at
         parent: โครงการย่อยของ
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Project initiation request
         project_creation_wizard_notification_text: Notification text
@@ -589,7 +591,7 @@ th:
               blank: Formula can't be blank.
               format: "%{message}"
               invalid: Formula is invalid.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: cannot be set to true.
@@ -1521,7 +1523,13 @@ th:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -2006,7 +2014,7 @@ th:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute or a mathematical operator.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2875,6 +2883,8 @@ th:
   label_blog: Blog
   label_board_plural: Boards
   label_boolean: ถูกหรือผิด
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: สาขา
   label_browse: เรียกดู
   label_builtin: Built-in
@@ -2921,6 +2931,7 @@ th:
   label_configuration: การกำหนดค่า
   label_confirmation: ยืนยันรหัสผ่าน
   label_consent_settings: User Consent
+  label_constant_plural: Constants
   label_contains: ประกอบด้วย
   label_content: เนื้อหา
   label_continued_from_previous_year: continued from previous year
@@ -3058,6 +3069,7 @@ th:
   label_forum_plural: กระทู้
   label_forum_sticky: ปักหมุด
   label_forums_locked: ล็อค
+  label_function_plural: Functions
   label_gantt_chart: Gantt chart
   label_gantt_chart_plural: Gantt charts
   label_general: ทั่วไป
@@ -3157,7 +3169,6 @@ th:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Managed %{vendor} repositories
   label_mapping_for: 'Mapping for: %{attribute}'
-  label_mathematical_operators: Mathematical operators
   label_max_size: ความยาวสูงสุด
   label_me: ฉัน
   label_member_all_admin: "(All roles due to admin status)"
@@ -3248,6 +3259,7 @@ th:
   label_operator_equals_all: is (AND)
   label_operator_equals_or: is (OR)
   label_operator_none: is empty
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: ทั้งหมด
   label_optional_description: คำอธิบาย
   label_options: ตัวเลือก
@@ -3328,6 +3340,7 @@ th:
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_projects_menu: โครงการ
   label_public_projects: โครงการสาธารณะ
+  label_punctuation: Punctuation
   label_query_new: แบบสอบถามใหม่
   label_query_plural: แบบสอบถามแบบกำหนดเอง
   label_read: อ่าน...
@@ -3535,7 +3548,7 @@ th:
   label_workflow: กระบวนการทำงาน
   label_workflow_copy: Copy workflow
   label_workflow_plural: กระบวนการทำงาน
-  label_workflow_summary: สรุป
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
@@ -4404,8 +4417,14 @@ th:
       templates:
         label: Template
         none_enabled: No template has been enabled for this work package type
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Generate PDF
     page_nr_footer: Page %{page} of %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: Attributes and description
@@ -4691,11 +4710,11 @@ th:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -4786,13 +4805,13 @@ th:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Project initiation request
   queries:
     apply_filter: ใช้ตัวกรองที่กำหนดไว้ล่วงหน้า
@@ -5301,12 +5320,12 @@ th:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -5326,8 +5345,8 @@ th:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5335,7 +5354,7 @@ th:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -5624,8 +5643,8 @@ th:
   text_own_membership_delete_confirmation: |-
     You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
     Are you sure you want to continue?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: สามารถบันทึก ไดเรคทอรี่ของ Plugin asset ได้
   text_powered_by: ดำเนินการโดย %{link}
   text_project_custom_field_html: 'The Enterprise edition will add these additional add-ons for projects'' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
@@ -5717,8 +5736,7 @@ th:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5820,6 +5838,8 @@ th:
             project: โครงการ
             work_package: ชุดภารกิจ
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

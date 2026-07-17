@@ -116,7 +116,7 @@ module Backlogs
       )
     end
 
-    def drag_and_drop_data
+    def drag_and_drop_data # rubocop:disable Metrics/AbcSize
       data = {
         controller: "sortable-lists--list",
         sortable_lists__list_type_value: drag_and_drop.fetch(:list_type),
@@ -127,6 +127,9 @@ module Backlogs
       end
       if drag_and_drop[:drop_position].present?
         data[:sortable_lists__list_drop_position_value] = drag_and_drop[:drop_position]
+      end
+      if drag_and_drop[:name].present?
+        data[:sortable_lists__list_name_value] = drag_and_drop[:name]
       end
       data
     end

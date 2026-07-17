@@ -40,6 +40,7 @@ module Projects::SprintSharing
 
   included do
     store_attribute :settings, :sprint_sharing, :string
+    store_attribute :settings, :allow_multiple_active_sprints, :boolean
 
     scopes :share_sprints_with_all_projects,
            :share_sprints_with_subprojects,
@@ -123,6 +124,10 @@ module Projects::SprintSharing
   # see config/initializers/store_attribute.rb for more details.
   def sprint_sharing
     super || NO_SHARING
+  end
+
+  def allow_multiple_active_sprints
+    super || false
   end
 
   def share_sprints_with_all_projects?

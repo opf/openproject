@@ -42,7 +42,7 @@ class Workflows::TabsController < ApplicationController
 
   def edit
     unless turbo_frame_request?
-      redirect_to edit_workflow_path(@type, role_ids: params[:role_ids], tab: @tab)
+      redirect_to edit_type_workflow_path(@type, role_ids: params[:role_ids], tab: @tab)
       return
     end
 
@@ -149,7 +149,11 @@ class Workflows::TabsController < ApplicationController
   private
 
   def set_type
-    @type = ::Type.find(params[:workflow_type_id])
+    @type = ::Type.find(params.expect(:type_id))
+  end
+
+  def workflow_source_type
+    @workflow_source_type ||= @type.effective_source_for(Type::ConfigurationLink::WORKFLOWS)
   end
 
   def set_tab
@@ -173,7 +177,7 @@ class Workflows::TabsController < ApplicationController
                 elsif @type && @roles.any?
                   statuses_for_roles_and_type
                 elsif @type
-                  @type.statuses
+                  workflow_source_type.statuses
                 else
                   Status.all
                 end
@@ -188,12 +192,12 @@ class Workflows::TabsController < ApplicationController
   end
 
   def statuses_for_roles_and_type
-    status_ids = @roles.map { |role| @type.statuses(role:, tab: @tab).pluck(:id) }.flatten.uniq
+    status_ids = @roles.map { |role| workflow_source_type.statuses(role:, tab: @tab).pluck(:id) }.flatten.uniq
     Status.where(id: status_ids)
   end
 
   def workflows_for_form
-    workflows = Workflow.where(role_id: @roles.map(&:id), type_id: @type.id)
+    workflows = Workflow.where(role_id: @roles.map(&:id), type_id: workflow_source_type.id)
     @workflows = {}
     @workflows["always"] = workflows.select { |w| !w.author && !w.assignee }
     @workflows["author"] = workflows.select(&:author)

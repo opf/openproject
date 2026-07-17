@@ -40,8 +40,9 @@ RSpec.describe(
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) do
     create(:project,
+           :with_internal_wiki,
            name: "Source Project Name",
-           enabled_module_names: %i[wiki work_package_tracking storages])
+           enabled_module_names: %i[work_package_tracking storages])
   end
   shared_let(:source_wp) { create(:work_package, project: source, subject: "source wp") }
   shared_let(:source_wp_locked) do
@@ -1297,9 +1298,7 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_present
-        expect(project_copy.wiki.pages.count).to eq 0
-        expect(project_copy.wiki.wiki_menu_items.count).to eq 1
+        expect(project_copy.wiki).to be_nil
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0

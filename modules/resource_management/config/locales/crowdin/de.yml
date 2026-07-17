@@ -5,6 +5,7 @@ de:
       resource_allocation:
         allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
+        date_range: Dates
         end_date: Endtermin
         entity: Entität
         filter_name: Name des Ressourcenfilters
@@ -13,6 +14,7 @@ de:
         state: Status
         user_filter: Benutzerfilter
       resource_planner:
+        date_range: Dates
         default_view_class_name: Standardansicht
         end_date: Endtermin
         favorite: Favorit
@@ -29,6 +31,9 @@ de:
           attributes:
             end_date:
               greater_than_start_date: muss nach dem Anfangstermin liegen.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -149,9 +154,7 @@ de:
       title: Ressourcenzuweisung
     sub_views: Ansichten in dieser Ressourcenplanung
     timeframe:
-      end_only: Bis %{end}
       full: von %{start} bis %{end}
-      start_only: Ab %{start}
     timeline:
       granularity:
         day: Tag

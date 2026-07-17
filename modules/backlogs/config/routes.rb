@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :backlog_sharing, only: %i[show update]
+      resource :backlog_multiple_active_sprints, only: %i[show] do
+        post :toggle_multiple_active_sprints
+      end
     end
   end
 

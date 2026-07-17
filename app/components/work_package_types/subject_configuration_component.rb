@@ -34,22 +34,21 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(model, subject_configuration_form_data: nil, **)
+    def initialize(model, subject_configuration_form_data: nil, readonly: false, **)
       @subject_configuration_form_data = subject_configuration_form_data
+      @readonly = readonly
       super(model, **)
     end
 
-    def form_options
-      form_model = subject_form_object
+    def readonly? = @readonly
 
+    def form_options
       {
         url: type_subject_configuration_path(type_id: model.id),
         method: :put,
-        model: form_model,
-        data: {
-          controller: "admin--subject-configuration",
-          admin__subject_configuration_hide_pattern_input_value: form_model.subject_configuration == :manual
-        }
+        model: subject_form_object,
+        readonly: @readonly,
+        data: form_data
       }
     end
 
@@ -58,6 +57,15 @@ module WorkPackageTypes
     end
 
     private
+
+    def form_data
+      return {} if @readonly
+
+      {
+        controller: "admin--subject-configuration",
+        admin__subject_configuration_hide_pattern_input_value: subject_form_object.subject_configuration == :manual
+      }
+    end
 
     def enterprise?
       EnterpriseToken.allows_to?(:work_package_subject_generation)

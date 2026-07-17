@@ -101,5 +101,55 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(wp_type.export_templates_disabled.length).to eq(wp_type.pdf_export_templates.list.length)
       end
     end
+
+    describe "#edit" do
+      render_views
+
+      it "renders the export configuration page including the artefact export form" do
+        get :edit, params: { type_id: wp_type.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(I18n.t("types.edit.export_configuration.artefact_export.section_title"))
+      end
+
+      context "when no automatically-managed Nextcloud storage is configured" do
+        it "marks the file link option as unavailable" do
+          get :edit, params: { type_id: wp_type.id }
+
+          expect(response.body).to include(I18n.t("types.edit.export_configuration.artefact_export.unavailable"))
+        end
+      end
+
+      context "when an automatically-managed Nextcloud storage is configured" do
+        before { create(:nextcloud_storage, :as_automatically_managed) }
+
+        it "offers the file link option without the unavailable hint" do
+          get :edit, params: { type_id: wp_type.id }
+
+          expect(response.body).not_to include(I18n.t("types.edit.export_configuration.artefact_export.unavailable"))
+        end
+      end
+    end
+
+    describe "#update_artefact_export" do
+      it "stores a valid artefact export mode and responds with a turbo stream" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
+      end
+
+      it "rejects an invalid mode" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: "bogus" } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+      end
+    end
   end
 end

@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Query::Results, "Grouping and sorting for version" do
   let(:query_results) do
-    Query::Results.new query
+    described_class.new query
   end
   let(:project) { create(:project) }
   let(:user) do
@@ -141,6 +141,38 @@ RSpec.describe Query::Results, "Grouping and sorting for version" do
     it "returns the correctly sorted result" do
       expect(query_results.work_packages.pluck(:id))
         .to match work_packages_desc.map(&:id)
+    end
+  end
+
+  context "with a work package having multiple target versions (transitional data)" do
+    let!(:multi_version_wp) do
+      create(:work_package,
+             subject: "Multi version wp",
+             version: new_version,
+             project:).tap do |wp|
+        create(:work_package_version, work_package: wp, version: old_version)
+      end
+    end
+
+    describe "sorting ASC by version" do
+      it "sorts the work package by its first target version by name" do
+        # multi_version_wp sorts by old_version ("4. Old version"), tied with
+        # old_version_wp; the tie is broken by the default id DESC criterion.
+        expect(query_results.work_packages.pluck(:id))
+          .to eq [multi_version_wp, old_version_wp, no_date_version_wp, new_version_wp, no_version_wp].map(&:id)
+      end
+    end
+
+    describe "grouping by version" do
+      let(:group_by) { "version" }
+
+      it "counts the work package under its first target version by name" do
+        expect(query_results.work_package_count_by_group)
+          .to eql(old_version => 2, no_date_version => 1, new_version => 1, nil => 1)
+
+        expect(query_results.work_package_count_by_group.keys)
+          .to eql [old_version, no_date_version, new_version, nil]
+      end
     end
   end
 end

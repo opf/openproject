@@ -5,6 +5,7 @@ ko:
       resource_allocation:
         allocated_hours: 시간
         allocated_time: 할당된 시간
+        date_range: Dates
         end_date: 완료 날짜
         entity: 엔티티
         filter_name: 리소스 필터 이름
@@ -13,6 +14,7 @@ ko:
         state: 상태
         user_filter: 사용자 필터
       resource_planner:
+        date_range: Dates
         default_view_class_name: 기본 보기
         end_date: 완료 날짜
         favorite: 즐겨찾기
@@ -29,6 +31,9 @@ ko:
           attributes:
             end_date:
               greater_than_start_date: "- 시작 날짜 후여야 합니다."
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -149,9 +154,7 @@ ko:
       title: Staffing
     sub_views: 이 리소스 플래너의 보기
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day

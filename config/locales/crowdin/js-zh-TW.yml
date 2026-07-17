@@ -120,6 +120,7 @@ zh-TW:
     button_cancel: 取消
     button_change_project: 移動到其它專案
     button_check_all: 勾選全部
+    button_clear: Clear
     button_close: 關閉
     button_close_details: 關閉詳細檢視
     button_collapse_all: 全部收合
@@ -802,6 +803,14 @@ zh-TW:
       sorted_dsc: '已套用降冪排序， '
       sorted_no: '不需排序, '
       sorting_disabled: 已停用排序
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: 關閉模式

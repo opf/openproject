@@ -33,8 +33,47 @@
 module CustomField::CalculatedValue
   extend ActiveSupport::Concern
 
-  # Mathematical operators that are allowed in the formula.
-  MATH_OPERATORS_FOR_FORMULA = %w[+ - * / % ( )].freeze
+  # Math, comparison and logical operators allowed in a formula.
+  # AND and OR can be used both as operators and functions.
+  FORMULA_OPERATORS = %w[
+    + - * / % ^
+    < > <= >= <> != =
+    AND OR
+  ].freeze
+
+  # Symbols for grouping and calling functions.
+  FORMULA_PUNCTUATION = %w[
+    ( ) ,
+  ].freeze
+
+  # Functions allowed in a formula.
+  # AND and OR can be used both as operators and functions.
+  FORMULA_FUNCTIONS = %w[
+    IF AND OR XOR NOT SWITCH
+    MIN MAX SUM AVG COUNT ROUND ROUNDDOWN ROUNDUP ABS
+  ].freeze
+
+  # Keywords allowed in a formula.
+  FORMULA_KEYWORDS = %w[
+    CASE WHEN THEN ELSE END
+  ].freeze
+
+  # Boolean literals allowed in a formula.
+  FORMULA_CONSTANTS = %w[
+    TRUE FALSE
+  ].freeze
+
+  # Longer alternatives must come first, otherwise matching ROUND breaks matching ROUNDUP.
+  FORMULA_SPLITTER = Regexp.union([
+    " ",
+    *FORMULA_OPERATORS,
+    *FORMULA_PUNCTUATION,
+    *FORMULA_FUNCTIONS,
+    *FORMULA_KEYWORDS,
+    *FORMULA_CONSTANTS
+  ].uniq.sort_by { -it.length })
+  FORMULA_TOKENS = /\A(\{\{cf_\d+}}|[\d.]+|)\z/
+  private_constant :FORMULA_SPLITTER, :FORMULA_TOKENS
 
   # Field formats that can be used within a formula.
   FIELD_FORMATS_FOR_FORMULA = %w[int float calculated_value weighted_item_list].freeze
@@ -81,8 +120,8 @@ module CustomField::CalculatedValue
     def validate_formula
       if formula_string.blank?
         errors.add(:formula, :blank)
-      elsif !formula_contains_only_allowed_characters?
-        errors.add(:formula, :invalid_characters)
+      elsif !formula_contains_only_allowed_tokens?
+        errors.add(:formula, :invalid_tokens)
       elsif !valid_formula_syntax?
         errors.add(:formula, :invalid)
       else
@@ -168,21 +207,15 @@ module CustomField::CalculatedValue
       false
     end
 
-    def formula_contains_only_allowed_characters?
+    def formula_contains_only_allowed_tokens?
       # List of allowed characters in a formula. This only performs a very basic validation.
-      # The allowed characters are:
-      # Our mathematical operators, whitespace, digits and decimal points
+      # The allowed tokens are:
+      # Operators, parentheses, comma, function names, whitespace, digits and decimal points.
       # Additionally, the formula may contain references to custom fields in the form of `{{cf_123}}`
       # where 123 is the ID of the custom field.
       # Once this basic validation passes, the formula will be parsed and validated by Dentaku, which builds an AST
-      # and ensures that the formula is really valid. A welcome side effect of the basic validation done here is that
-      # it prevents built-in functions from being used in the formula, which we do not want to allow.
-      allowed_chars = MATH_OPERATORS_FOR_FORMULA + [" "]
-      allowed_tokens = /\A(\{\{cf_\d+}}|[\d.]+)\z/
-
-      formula_string.split(Regexp.union(allowed_chars)).all? do |token|
-        token.empty? || token.match?(allowed_tokens)
-      end
+      # and ensures that the formula is really valid.
+      formula_string.split(FORMULA_SPLITTER).all?(FORMULA_TOKENS)
     end
 
     # Returns a list of custom field IDs used in the formula.

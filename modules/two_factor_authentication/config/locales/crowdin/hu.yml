@@ -138,7 +138,7 @@ hu:
 
       '
     forced_registration:
-      required_to_add_device: Az aktív biztonsági házirend megköveteli a kétfaktoros hitelesítés engedélyezését. Kérjük, használja az alábbi űrlapot egy eszköz regisztrálásához.
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: Kétlépcsős azonosítás kikapcsolva
     label_2fa_enabled: Kétlépcsős azonosítás aktív
     label_default_device: Alapértelmezett 2FA eszköz

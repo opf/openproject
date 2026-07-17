@@ -34,7 +34,8 @@
                   editor_form: step_editor_form,
                   heading: step_title
                 )
-              ) do %>
+              ) do |c| %>
+            <% c.with_readonly_preview { render(step_readonly_preview) } if step_readonly_preview %>
             <%= render(step_body) %>
           <% end %>
         <% else %>

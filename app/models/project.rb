@@ -169,7 +169,7 @@ class Project < ApplicationRecord
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
 
-  validates_associated :repository, :wiki
+  validates_associated :repository
 
   scopes :activated_in_storage,
          :allowed_to,

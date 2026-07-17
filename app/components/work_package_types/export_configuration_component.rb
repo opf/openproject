@@ -30,5 +30,33 @@
 
 module WorkPackageTypes
   class ExportConfigurationComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+
+    def initialize(model, readonly: false, **)
+      @readonly = readonly
+      super(model, **)
+    end
+
+    def readonly? = @readonly
+
+    def artefact_export_form_options
+      {
+        model:,
+        url: update_artefact_export_type_pdf_export_template_index_path(type_id: model.id),
+        method: :put,
+        readonly: @readonly,
+        data: artefact_export_form_data
+      }
+    end
+
+    private
+
+    # A read-only form has disabled inputs, so it never auto-submits; drop the controller.
+    def artefact_export_form_data
+      return {} if @readonly
+
+      { controller: "auto-submit", action: "change->auto-submit#submit" }
+    end
   end
 end

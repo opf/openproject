@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% if feature_active? %>
-  <div data-controller="show-when-value-selected">
+  <%= component_wrapper(data: { controller: "show-when-value-selected" }) do %>
     <%= settings_primer_form_with(**form_options) do |f| %>
       <%= render(WorkPackageTypes::ConfigurationLinkForm.new(f)) %>
 
@@ -39,16 +39,33 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(editor_form.new(f)) %>
         <% end %>
       <% end %>
-    <% end %>
 
-    <% if editor_form.nil? && !linked? %>
-      <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
-      <%= content_tag(:div, data: independent_data) do %>
-        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
-        <%= content %>
+      <% if standalone? %>
+        <%# Aspect tab: one _method field per mode; only the selected mode's verb submits. %>
+        <%= method_field("patch", "linked") %>
+        <%= method_field("delete", "independent") %>
       <% end %>
     <% end %>
-  </div>
+
+    <% if editor_form.nil? %>
+      <% if linked? %>
+        <% if readonly_preview? %>
+          <%# Linked: the inherited configuration, shown read-only while "Linked" is selected. %>
+          <%= content_tag(:div, data: linked_data) do %>
+            <%= render(WorkPackageTypes::LinkedSourceReferenceComponent.new(source: effective_source, link_path: source_edit_path)) %>
+            <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
+            <%= readonly_preview %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
+        <%= content_tag(:div, data: independent_data) do %>
+          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
+          <%= content %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <%# Reuse feature off: the tab manages its own configuration directly. %>
   <%= content %>

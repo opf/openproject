@@ -36,19 +36,20 @@ module WorkPackageTypes
   class ConfigurationLinkComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include OpPrimer::FormHelpers
+    include OpTurbo::Streamable
 
-    # +url+/+method+/+form_id+ let a host (the creation wizard) point the mode form at
-    # its own endpoint instead of the aspect's update endpoint.
-    #
-    # +editor_form+ is an ApplicationForm whose fields belong to that same form, so the
-    # host's submit persists mode and editor together. Editors that self-persist through
-    # their own turbo endpoints are passed as the block content instead.
-    # +form_model+ binds the form to the type, nesting its fields under +type[...]+ and
-    # giving an +editor_form+ a model to work with. The aspect tabs post the mode on its
-    # own, unscoped, so they leave it unbound.
-    def initialize(type:, aspect:, url: nil, method: :put, form_id: nil, form_model: nil,
-                   with_submit: true, editor_form: nil, heading: nil)
+    renders_one :readonly_preview
+
+    # +url+/+method+/+form_id+/+form_model+ let a host (the creation wizard) point the mode
+    # form at its own endpoint, binding its fields under that model. +editor_form+ is an
+    # ApplicationForm rendered inside the same form so the host's submit persists mode and
+    # editor together; editors that self-persist via their own turbo endpoint come as the
+    # block content instead. +link+ carries a rejected link so a failed aspect save can
+    # re-render the picker inline with its errors.
+    def initialize(type:, aspect:, link: nil, url: nil, method: nil, form_id: nil,
+                   form_model: nil, with_submit: true, editor_form: nil, heading: nil)
       @aspect = aspect
+      @link = link || type.configuration_links.find_or_initialize_by(aspect:)
       @url = url
       @method = method
       @form_id = form_id
@@ -63,25 +64,41 @@ module WorkPackageTypes
 
     def feature_active? = OpenProject::FeatureDecisions.subtypes_active?
 
-    def linked? = type.linked?(@aspect)
+    def linked? = @link.source_id.present?
 
-    # Not linked yet (any Independent aspect, and every aspect of a fresh sub-type in
-    # the wizard): preselect the parent, the source a sub-type would normally reuse.
-    def current_source = type.source_for(@aspect) || type.parent
+    # The attempted/persisted source, or — when none yet (a fresh sub-type in the wizard,
+    # any Independent aspect) — the parent a sub-type would normally reuse.
+    def current_source = @link.source || type.parent
 
+    # Aspect tab: a plain POST whose Independent/Linked toggle enables one of two `_method`
+    # fields (patch/delete), so one model-bound form targets both verbs on the link's URL.
+    # A host (wizard) supplies its own url/method and binds the fields to its own model.
     def form_options
       {
-        url: @url || type_configuration_link_path(type_id: type.id, aspect: @aspect),
-        method: @method,
+        url: @url || type_aspect_configuration_link_path(type, @aspect),
+        method: @method || :post,
         linked: linked?,
         current_source_id: current_source&.id,
         source_options:,
         with_submit: @with_submit
       }.tap do |options|
         options[:html] = { id: @form_id } if @form_id
-        options[:model] = @form_model if @form_model
+        options[:model] = @form_model || @link
       end
     end
+
+    # A `_method` field per mode; show-when-value-selected disables the one whose mode
+    # isn't selected, leaving only the active verb (PATCH link / DELETE independent).
+    def method_field(verb, mode)
+      helpers.tag.input(
+        type: "hidden", name: "_method", value: verb,
+        disabled: mode != current_mode,
+        data: ConfigurationLinkForm.effect_data(mode)
+      )
+    end
+
+    # The `_method` toggle only applies when we own the form; a host drives its own verb.
+    def standalone? = @url.nil?
 
     def editor_form = @editor_form
 
@@ -89,7 +106,26 @@ module WorkPackageTypes
 
     def independent_data = WorkPackageTypes::ConfigurationLinkForm.effect_data("independent")
 
+    def linked_data = WorkPackageTypes::ConfigurationLinkForm.effect_data("linked")
+
+    def effective_source = type.effective_source_for(@aspect)
+
+    # Aspect → the source type's own configuration tab. Only the two implemented aspects
+    # resolve; anything else has no destination yet.
+    def source_edit_path
+      case @aspect
+      when Type::ConfigurationLink::PATTERNS
+        edit_type_subject_configuration_path(effective_source)
+      when Type::ConfigurationLink::PDF_EXPORT
+        edit_type_pdf_export_template_index_path(type_id: effective_source.id)
+      end
+    end
+
     private
+
+    def current_mode = linked? ? "linked" : "independent"
+
+    def wrapper_uniq_by = @aspect
 
     def source_options
       Type.global.where.not(id: type.id).order(:name)

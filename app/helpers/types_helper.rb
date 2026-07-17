@@ -45,6 +45,11 @@ module ::TypesHelper
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
+        name: "workflow",
+        path: edit_type_workflow_path(@type),
+        label: I18n.t("types.edit.workflow.tab")
+      },
+      {
         name: "project_attributes",
         path: edit_type_project_attributes_path(@type),
         label: I18n.t("types.edit.project_attributes.tab")
@@ -68,7 +73,6 @@ module ::TypesHelper
       }
     ]
   end
-
   # rubocop:enable Rails/HelperInstanceVariable
 
   def icon_for_type(type)

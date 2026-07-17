@@ -25,7 +25,7 @@ fr:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
+        attachment: Un lien dynamique vers une pièce jointe insérée à l'aide d'une macro.
         commit: A dynamic link to a commit placed using a macro.
         document: A dynamic link to a document placed using a macro.
         export: A dynamic link to a source file export placed using a macro.
@@ -226,6 +226,8 @@ fr:
         identifier: Identifiant
         latest_activity_at: Dernière activité à
         parent: Sous-projet de
+        portfolio: Portefeuille
+        program: Programme
         project_creation_wizard_assignee_custom_field: Responsable au moment de l'envoi
         project_creation_wizard_enabled: Demande de lancement du projet
         project_creation_wizard_notification_text: Texte de la notification
@@ -342,7 +344,7 @@ fr:
         attribute_groups: Configuration du formulaire
         children: Sous-types
         color: Couleur
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Types liés
         description: Texte par défaut pour la description
         is_default: Activé par défaut pour les nouveaux projets
         is_in_roadmap: Affiché par défaut dans la feuille de route
@@ -350,7 +352,7 @@ fr:
         parent: Type de parent
         patterns: Modèles
       type/configuration_link:
-        source: Source type
+        source: Type de source
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -589,7 +591,7 @@ fr:
               blank: La formule ne peut pas être vide.
               format: "%{message}"
               invalid: La formule n'est pas valide.
-              invalid_characters: Seules les valeurs numériques, les opérateurs mathématiques et les attributs de projet de type entier, flottant, valeur calculée et liste pondérée sont autorisés.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: L'attribut %{custom_fields} ne peut pas être utilisé, car il conduit à une référence circulaire ; un attribut dépend de l'autre.
             required:
               cannot_be_true: ne peut pas être défini comme vrai.
@@ -1549,7 +1551,13 @@ fr:
           other: Supprimer %{count} statuts ?
         title: Supprimer des statuts
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Transitions par défaut
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: L'utilisateur est la personne assignée
         user_author: L'utilisateur est l'auteur
   announcements:
@@ -2034,7 +2042,7 @@ fr:
       editable:
         all: Permettre aux utilisateurs de modifier eux-mêmes le champ.
       formula:
-        project: Ajoutez des valeurs numériques ou saisissez / pour rechercher un attribut ou un opérateur mathématique.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
       is_filter:
@@ -2928,6 +2936,8 @@ fr:
   label_blog: Blog
   label_board_plural: Tableaux
   label_boolean: Booléen
+  label_boolean_false: n'est pas
+  label_boolean_true: est oui
   label_branch: Branche
   label_browse: Parcourir
   label_builtin: Intégré
@@ -2974,6 +2984,7 @@ fr:
   label_configuration: configuration
   label_confirmation: Confirmation
   label_consent_settings: Accord de l'utilisateur
+  label_constant_plural: Constantes
   label_contains: contenus
   label_content: Contenu
   label_continued_from_previous_year: suite de l'année précédente
@@ -3111,6 +3122,7 @@ fr:
   label_forum_plural: Forums
   label_forum_sticky: Épinglé
   label_forums_locked: Verrouillé
+  label_function_plural: Fonctions
   label_gantt_chart: Diagramme de Gantt
   label_gantt_chart_plural: Diagrammes de Gantt
   label_general: Général
@@ -3210,7 +3222,6 @@ fr:
   label_managed_by_ldap: Géré par synchronisation LDAP
   label_managed_repositories_vendor: Référentiels %{vendor} gérés
   label_mapping_for: 'Mapping pour : %{attribute}'
-  label_mathematical_operators: Opérateurs mathématiques
   label_max_size: Taille maximale
   label_me: moi
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
@@ -3301,6 +3312,7 @@ fr:
   label_operator_equals_all: est (ET)
   label_operator_equals_or: est (OU)
   label_operator_none: est vide
+  label_operator_plural: Opérateurs
   label_operator_shared_with_user_any: tous
   label_optional_description: Description
   label_options: Options
@@ -3381,6 +3393,7 @@ fr:
   label_projects_disk_usage_information: "%{count} projets utilisant %{used_disk_space} d'espace disque"
   label_projects_menu: Projets
   label_public_projects: Projets publics
+  label_punctuation: Ponctuation
   label_query_new: Nouvelle requête
   label_query_plural: Requêtes personnalisées
   label_read: Lire...
@@ -3588,7 +3601,7 @@ fr:
   label_workflow: Flux de travail
   label_workflow_copy: Copier le flux de travail
   label_workflow_plural: Flux de travail
-  label_workflow_summary: Résumé
+  label_workflow_summary: Workflow summary
   label_working_days: Journées de travail
   label_working_days_and_hours: Jours et heures travaillés
   label_working_hours: Horaires de travail
@@ -4470,8 +4483,14 @@ fr:
       templates:
         label: Modèle
         none_enabled: Aucun modèle n'a été activé pour ce type de lot de travaux
+      toc:
+        caption: Ajoutez une table des matières répertoriant les titres des sections.
+        label: Table des matières
       title: Générer un fichier PDF
     page_nr_footer: Page %{page} sur %{total}
+    template_artefact:
+      caption: Détails du lot de travail présentés sous la forme d'un artefact PMflex.
+      label: Artefact PMflex
     template_attributes:
       caption: Tous les attributs présents dans la configuration actuelle du formulaire en utilisant le modèle par défaut.
       label: Attributs et description
@@ -4762,7 +4781,7 @@ fr:
           description_file_link_export: Le lot de travaux de l'artefact contient un lien vers un fichier PDF stocké dans un espace de stockage de fichiers externe. Nécessite un stockage de fichiers de travail avec des dossiers de projet gérés automatiquement pour ce projet. Pour le moment, seuls les espaces de stockage de fichiers Nextcloud sont pris en charge.
           description_file_storage_selection: Sélectionnez les espaces de stockage de fichiers externes configurés qui doivent être utilisés.
           external_file_storage: Espace de stockage de fichiers externe
-          label_artifact_export: Exportation d'artefact
+          label_artifact_export: Exportation d'artefacts
           label_attachment_export: Enregistrer en tant que pièce jointe au lot de travaux
           label_file_link_export: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
           pdf_file_storage: Stockage de fichiers PDF
@@ -5230,7 +5249,7 @@ fr:
   setting_total_percent_complete_mode_work_weighted_average: Pondéré par le travail
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Le <i>% d'achèvement total</i> sera pondéré en fonction du <i>travail</i> de chaque lot de travaux repris dans la hiérarchie. Les lots de travaux sans <i>travail</i> seront ignorés.
   setting_use_wysiwyg_description: Sélectionnez cette option pour activer l'éditeur CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités limitées pour GFM Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Les utilisateurs sont autorisés à modifier leur adresse e-mail
   setting_user_default_timezone: Fuseau horaire par défaut des utilisateurs
   setting_user_format: Format du nom d'utilisateur
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
@@ -5392,8 +5411,8 @@ fr:
           Vous avez envoyé une demande de lancement de projet pour **%{project_name}**. Elle est actuellement en attente d'examen.
           Cliquez sur le lien ci-dessous pour accéder au lot de travaux contenant votre demande.
         confirmation_email_text: Texte de l'e-mail de confirmation
-        description: Lorsqu'un utilisateur envoie une demande de lancement de projet, un nouveau lot de travaux est créé avec l'artefact de la demande en pièce jointe au format PDF. Les paramètres ci-dessous définissent le type, le statut et le destinataire de ce nouveau lot de travaux.
-        description_template: "**Ce dossier de travail a été créé automatiquement à l'issue du flux de travail %{wizard_name}.** Un artefact PDF contenant toutes les informations soumises a été généré et joint à ce dossier de travail à des fins de référence et d'audit. Si vous avez besoin de mettre à jour ou de réexécuter les étapes d'initiation, vous pouvez rouvrir l'assistant à tout moment en utilisant le lien ci-dessous :\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Envoyer un e-mail de confirmation à l'utilisateur qui a soumis la demande de lancement du projet
         status_when_submitted: Statut lors de l'envoi
         status_when_submitted_caption: Le statut que le lot de travaux généré prendra une fois la demande envoyée.
@@ -5401,7 +5420,7 @@ fr:
         work_package_comment_caption: Le responsable sélectionné ci-dessus sera automatiquement @mentionné dans le commentaire.
         work_package_comment_default: Une demande de lancement de projet pour **%{project_name}** a été envoyée et est en attente d'examen.
         work_package_type: Type de lot de travaux
-        work_package_type_caption: Le type de lot de travaux qui doit être utilisé pour stocker l'artefact terminé.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Ouvrir l'assistant de création de projet
         project_initiation_request: Ouvrir la demande de lancement du projet
@@ -5431,7 +5450,7 @@ fr:
       section_project_overview: Paramètres pour les listes de projets
     session: Session
     user:
-      account: Account
+      account: Compte
       default_preferences: Préférences par défaut
       deletion: Suppression
       display_format: Format d'affichage
@@ -5685,8 +5704,8 @@ fr:
   text_own_membership_delete_confirmation: |-
     Vous êtes sur le point de retirer tout ou partie de vos permissions et ne pourrez peut-être plus modifier le projet par la suite.
     Voulez-vous vraiment continuer?
-  text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée
-  text_permanent_remove_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée
+  text_permanent_delete_confirmation_checkbox_label: Je comprends que cette suppression ne peut pas être annulée.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Répertoire des « plugin assets » est accessible en écriture
   text_powered_by: Propulsé par %{link}
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
@@ -5775,36 +5794,35 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type de source.
+      create_subtype: Créer un sous-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
+      finish: Terminer
+      placeholder_description: Cette étape sera bientôt disponible.
+      progress_label: Étape %{number} sur %{total}
       steps:
-        automations: Automations
-        details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        projects: Projects
-        workflows: Workflows
-      success: Sub-type created successfully.
+        automations: Automatisations
+        details: Détails
+        form_configuration: Configuration du formulaire
+        pdf: Génération de PDF
+        projects: Projets
+        workflows: Flux de travail
+      success: Le sous-type a été créé avec succès.
       workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+        copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
     edit:
       configuration_link:
         independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
+          caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
+          label: Indépendant
           warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
         linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
+          caption: Ces paramètres sont repris d'un type de source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type de source.
+          label: Relié
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
         source:
-          label: Source type
+          label: Type de source
       export_configuration:
         intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
@@ -5881,8 +5899,10 @@ fr:
             project: Projet
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
+      add_subtype: Ajouter un sous-type à %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
 
         '

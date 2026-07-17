@@ -34,7 +34,7 @@ RSpec.describe WikiMenuItemsController do
   let(:current_user) { create(:admin) }
 
   # create project with wiki
-  let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki) { project.wiki }
 
   let(:wiki_page) { create(:wiki_page, wiki:) } # first wiki page without child pages

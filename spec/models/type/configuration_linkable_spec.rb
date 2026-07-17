@@ -148,9 +148,11 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "terminates on a cycle instead of looping forever" do
+      # A cycle can no longer be created through validated writes, so bypass validation
+      # to reproduce a cyclic row that predates write-time prevention (FND-133).
       other = create(:type)
       type.link!(aspect, source: other)
-      other.link!(aspect, source: type)
+      build(:type_configuration_link, type: other, source: type, aspect:).save!(validate: false)
 
       expect { type.effective_source_for(aspect) }.not_to raise_error
     end

@@ -60,6 +60,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     id: String,
     type: String,
     hideUnavailable: { type: Boolean, default: true },
+    label: String,
   };
 
   declare readonly idValue:string;
@@ -67,6 +68,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
   declare readonly hideUnavailableValue:boolean;
+  declare readonly labelValue:string;
+  declare readonly hasLabelValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;

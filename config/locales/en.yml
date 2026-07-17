@@ -237,6 +237,8 @@ en:
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
+        portfolio: "Portfolio"
+        program: "Program"
         project_creation_wizard_assignee_custom_field: "Assignee when submitted"
         project_creation_wizard_enabled: "Project initiation request"
         project_creation_wizard_notification_text: "Notification text"
@@ -599,7 +601,7 @@ en:
               blank: "Formula can't be blank."
               format: "%{message}"
               invalid: "Formula is invalid."
-              invalid_characters: "Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed."
+              invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             required:
               cannot_be_true: "cannot be set to true."
@@ -828,8 +830,8 @@ en:
               invalid_tokens: "One or more attributes inside the field are not valid. Please, fix the attributes before saving."
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: "can't be the type itself."
+            source_id:
+              would_create_cycle: "would link these configurations in a loop."
         user:
           attributes:
             base:
@@ -1553,6 +1555,7 @@ en:
     workflows:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
+        linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
@@ -1579,7 +1582,13 @@ en:
           other: "Remove %{count} statuses?"
         title: "Remove statuses"
       tabs:
+        aria_label: "Workflow transitions"
         default_transitions: "Default transitions"
+        descriptions:
+          default_transitions: "Transitions available to the selected role(s) in all cases."
+          user_assignee: "Additional transitions available to the work package's assignee."
+          user_author: "Additional transitions available to the work package's author."
+        menu_label: "Transitions shown"
         user_assignee: "User is assignee"
         user_author: "User is author"
   announcements:
@@ -2089,7 +2098,7 @@ en:
       editable:
         all: "Allow the field to be editable by users themselves."
       formula:
-        project: "Add numeric values or type / to search for an attribute or a mathematical operator."
+        project: "Add numeric values or type / to search for an attribute, operator, function or other token."
       has_comment:
         project: "Allows the user to add a comment related to the project attribute when selecting the value in the project overview."
       is_filter:
@@ -3029,6 +3038,8 @@ en:
   label_blog: "Blog"
   label_board_plural: "Boards"
   label_boolean: "Boolean"
+  label_boolean_false: "is no"
+  label_boolean_true: "is yes"
   label_branch: "Branch"
   label_browse: "Browse"
   label_builtin: "Built-in"
@@ -3075,6 +3086,7 @@ en:
   label_configuration: configuration
   label_confirmation: "Confirmation"
   label_consent_settings: "User Consent"
+  label_constant_plural: "Constants"
   label_contains: "contains"
   label_content: "Content"
   label_continued_from_previous_year: "continued from previous year"
@@ -3212,6 +3224,7 @@ en:
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
   label_forums_locked: "Locked"
+  label_function_plural: "Functions"
   label_gantt_chart: "Gantt chart"
   label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
@@ -3312,7 +3325,6 @@ en:
   label_managed_by_ldap: "Managed by LDAP synchronization"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_mapping_for: "Mapping for: %{attribute}"
-  label_mathematical_operators: "Mathematical operators"
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
@@ -3403,6 +3415,7 @@ en:
   label_operator_equals_all: "is (AND)"
   label_operator_equals_or: "is (OR)"
   label_operator_none: "is empty"
+  label_operator_plural: "Operators"
   label_operator_shared_with_user_any: "any"
   label_optional_description: "Description"
   label_options: "Options"
@@ -3483,6 +3496,7 @@ en:
   label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
   label_projects_menu: "Projects"
   label_public_projects: "Public projects"
+  label_punctuation: "Punctuation"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
   label_read: "Read..."
@@ -3690,7 +3704,7 @@ en:
   label_workflow: "Workflow"
   label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
-  label_workflow_summary: "Summary"
+  label_workflow_summary: "Workflow summary"
   label_working_days: "Working days"
   label_working_days_and_hours: "Working days and hours"
   label_working_hours: "Work schedule"
@@ -5903,8 +5917,8 @@ en:
     For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
   text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
-  text_permanent_delete_confirmation_checkbox_label: "I understand that this deletion cannot be reversed"
-  text_permanent_remove_confirmation_checkbox_label: "I understand that this removal cannot be reversed"
+  text_permanent_delete_confirmation_checkbox_label: "I understand that this deletion cannot be reversed."
+  text_permanent_remove_confirmation_checkbox_label: "I understand that this removal cannot be reversed."
   text_plugin_assets_writable: "Plugin assets directory writable"
   text_powered_by: "Powered by %{link}"
   text_project_custom_field_html: >
@@ -6008,8 +6022,7 @@ en:
       configuration_link_error: "The reuse mode could not be saved. Please select a source type."
       create_subtype: "Create sub-type"
       fields:
-        parent: "Choose parent type"
-        variant_label: "Variant label"
+        inherited_from_parent_html: "Inherited from parent type <b>%{parent}</b>."
       finish: "Finish"
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
@@ -6033,9 +6046,27 @@ en:
           caption: "These settings are reused from a source type and stay in sync with it. To change them, edit the source type."
           label: "Linked"
           warning: "Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution."
+        reference:
+          edit_at_source: "Edit at source"
+          reusing: "Configuration reused from %{source}."
         source:
           label: "Source type"
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: "The generated PDF is saved as a file attachment on the work package."
+            label: "Save as work package file attachment"
+          file_link:
+            caption: "The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped."
+            label: "Upload file to external file storage and add file link to work package"
+          intro: "Automatically generate a PDF artefact of a work package of this type whenever its status changes."
+          invalid_mode: "Invalid artefact export mode."
+          label: "Automatic artefact export"
+          off_mode:
+            caption: "No PDF is generated automatically."
+            label: "Off"
+          section_title: "Automatic artefact export"
+          unavailable: "unavailable, no automatically-managed Nextcloud storage is configured"
         intro: "Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default."
         pdf_export_templates:
           actions:
@@ -6043,6 +6074,8 @@ en:
             label_enable_all: "Enable all"
           label: "PDF Export templates"
         tab: "Generate PDF"
+        templates:
+          section_title: "PDF export templates"
       form_configuration:
         add_attribute_group: "Section"
         add_query_group: "Related work packages table"
@@ -6110,6 +6143,8 @@ en:
             project: "Project"
             work_package: "Work package"
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: "Workflows"
     index:
       add_subtype: "Add sub-type to %{name}"
       description: >

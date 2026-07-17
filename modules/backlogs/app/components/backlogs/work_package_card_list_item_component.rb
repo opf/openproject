@@ -69,6 +69,7 @@ module Backlogs
       {
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_label_value: work_package.to_fs(:caption),
         sortable_lists__item_type_value: "work_package"
       }
     end

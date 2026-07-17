@@ -5,6 +5,7 @@ fr:
       resource_allocation:
         allocated_hours: Heures
         allocated_time: Temps alloué
+        date_range: Dates
         end_date: Date de fin
         entity: Entité
         filter_name: Nom du filtre de ressources
@@ -13,6 +14,7 @@ fr:
         state: État
         user_filter: Filtre utilisateur
       resource_planner:
+        date_range: Dates
         default_view_class_name: Vue par défaut
         end_date: Date de fin
         favorite: Favori
@@ -29,6 +31,9 @@ fr:
           attributes:
             end_date:
               greater_than_start_date: doit être postérieure à la date de début.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -151,9 +156,7 @@ fr:
       title: Equipe
     sub_views: Vues de ce planificateur de ressources
     timeframe:
-      end_only: Jusqu'à %{end}
       full: De %{start} à %{end}
-      start_only: De %{start}
     timeline:
       granularity:
         day: Jour

@@ -24,6 +24,7 @@ pt-PT:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Allow multiple active sprints
         backlog_excluded_types: Tipos de pacotes de trabalho excluídos
         sprint_sharing: Partilha de sprint
         statuses_considered_closed: Estados considerados encerrados
@@ -55,7 +56,11 @@ pt-PT:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: não pode ser definido porque o projeto "%{name}" já está a partilhar com todos os projetos.
               share_all_projects_already_taken_anonymous: não pode ser definido porque outro projeto já está a partilhar com todos os projetos.
           receiving_sprints: está a receber sprints partilhados. Não pode criar sprints próprios.
@@ -155,6 +160,7 @@ pt-PT:
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Mover para sprint
+    multiple_active_sprints: Multiple active sprints
     points_label:
       one: ponto
       other: pontos
@@ -163,7 +169,7 @@ pt-PT:
     rebuild: Reconstruir
     rebuild_positions: Reconstruir as posições
     remaining_hours: Trabalho restante
-    sharing: Partilha
+    sharing: Sprint sharing
     show_burndown_chart: Gráfico de burndown
     sprint_component:
       action_menu:
@@ -178,6 +184,7 @@ pt-PT:
       label_start_sprint: Iniciar sprint
       start_sprint_disabled_reason_active_sprint: Outro sprint já está ativo.
       start_sprint_disabled_reason_missing_dates: As datas de início e de fim são necessárias para iniciar o sprint.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: O objetivo do sprint é específico deste projeto, e não é partilhado com outros projetos que também utilizem este sprint.
       goal_for_this_project_label: "%{attribute} (para este projeto)"
@@ -219,6 +226,8 @@ pt-PT:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
@@ -227,8 +236,11 @@ pt-PT:
     story_points_ideal: Pontos de história (ideal)
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: Partilha de sprint
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: Partilhe sprints entre projetos para alinhar as equipas e coordenar o trabalho em estruturas Agile escaláveis (SAFe).
   label_all_sprints: Todos os sprints
@@ -289,7 +301,14 @@ pt-PT:
             label: Subprojetos
         sprint_sharing: Partilhar sprints
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Number of active sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: Este projeto pode partilhar os seus próprios sprints, receber sprints partilhados ou gerir sprints de forma independente (sem partilha).
           sharing_fallback_description: Na ausência de um plano empresarial corporativo, as opções de partilha estão limitadas aos sprints do próprio projeto. A definição atualmente ativa permanece ativa.
   query_fields:

@@ -118,6 +118,7 @@ es:
     button_cancel: Cancelar
     button_change_project: Mover a otro proyecto
     button_check_all: Seleccionar todos
+    button_clear: Clear
     button_close: Cerrar
     button_close_details: Cerrar vista detallada
     button_collapse_all: Colapsar todo
@@ -801,6 +802,14 @@ es:
       sorted_dsc: 'Orden descendiente aplicado, '
       sorted_no: 'Ningún tipo de orden aplicado, '
       sorting_disabled: ordenación deshabilitada
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Cerrar ventana modal

@@ -5,6 +5,7 @@ pl:
       resource_allocation:
         allocated_hours: Godziny
         allocated_time: Przydzielony czas
+        date_range: Dates
         end_date: Data zakończenia
         entity: Pole
         filter_name: Nazwa filtra zasobów
@@ -13,6 +14,7 @@ pl:
         state: Stan
         user_filter: Filtr użytkownika
       resource_planner:
+        date_range: Dates
         default_view_class_name: Widok domyślny
         end_date: Data zakończenia
         favorite: Ulubione
@@ -29,6 +31,9 @@ pl:
           attributes:
             end_date:
               greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -149,9 +154,7 @@ pl:
       title: Staffing
     sub_views: Widoki w tym planiście zasobów
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day

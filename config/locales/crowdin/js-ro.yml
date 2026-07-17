@@ -120,6 +120,7 @@ ro:
     button_cancel: Anulează
     button_change_project: Mută în alt proiect
     button_check_all: Selectează tot
+    button_clear: Clear
     button_close: Închide
     button_close_details: Închide vizualizare detalii
     button_collapse_all: Restrângere totală
@@ -804,6 +805,14 @@ ro:
       sorted_dsc: 'Ordonare descendentă aplicată, '
       sorted_no: 'Nu a fost selectată nicio sortare '
       sorting_disabled: sortarea este dezactivată
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

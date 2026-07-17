@@ -83,11 +83,46 @@ RSpec.describe Type::ConfigurationLink do
 
       expect(link).not_to be_valid
     end
+  end
 
-    it "rejects a link whose source is the type itself" do
-      link = build(:type_configuration_link, type:, source: type, aspect: described_class::PATTERNS)
+  describe "cycle detection" do
+    let(:aspect) { described_class::PATTERNS }
+    let(:a) { create(:type) }
+    let(:b) { create(:type) }
+    let(:c) { create(:type) }
 
-      expect(link).not_to be_valid
+    def link(type, source, on_aspect: aspect)
+      create(:type_configuration_link, type:, source:, aspect: on_aspect)
+    end
+
+    it "rejects a self-link (the degenerate 1-cycle)" do
+      expect(build(:type_configuration_link, type: a, source: a, aspect:)).not_to be_valid
+    end
+
+    it "rejects a direct 2-cycle (A->B then B->A)" do
+      link(a, b)
+
+      expect(build(:type_configuration_link, type: b, source: a, aspect:)).not_to be_valid
+    end
+
+    it "rejects a longer cycle (A->B->C then C->A)" do
+      link(a, b)
+      link(b, c)
+
+      expect(build(:type_configuration_link, type: c, source: a, aspect:)).not_to be_valid
+    end
+
+    it "allows a diamond (A->C and B->C share a source without looping)" do
+      link(a, c)
+
+      expect(build(:type_configuration_link, type: b, source: c, aspect:)).to be_valid
+    end
+
+    it "keeps aspects isolated (A->B on patterns, B->A on pdf_export)" do
+      link(a, b, on_aspect: described_class::PATTERNS)
+
+      expect(build(:type_configuration_link, type: b, source: a, aspect: described_class::PDF_EXPORT))
+        .to be_valid
     end
   end
 

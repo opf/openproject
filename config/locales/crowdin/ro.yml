@@ -226,6 +226,8 @@ ro:
         identifier: Identificator
         latest_activity_at: Ultima activitate la
         parent: Subproiect în
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Cerere de inițiere a proiectului
         project_creation_wizard_notification_text: Notification text
@@ -589,7 +591,7 @@ ro:
               blank: Formula can't be blank.
               format: "%{message}"
               invalid: Formula is invalid.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: cannot be set to true.
@@ -1577,7 +1579,13 @@ ro:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -2062,7 +2070,7 @@ ro:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute or a mathematical operator.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2981,6 +2989,8 @@ ro:
   label_blog: Blog
   label_board_plural: Panouri
   label_boolean: Valoare logică
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Ramură
   label_browse: Răsfoire
   label_builtin: Built-in
@@ -3027,6 +3037,7 @@ ro:
   label_configuration: configurație
   label_confirmation: Confirmare
   label_consent_settings: Consimțământ utilizator
+  label_constant_plural: Constants
   label_contains: conţine
   label_content: Conținut
   label_continued_from_previous_year: continued from previous year
@@ -3164,6 +3175,7 @@ ro:
   label_forum_plural: Forumuri
   label_forum_sticky: Lipicios
   label_forums_locked: Blocat
+  label_function_plural: Functions
   label_gantt_chart: Grafic Gantt
   label_gantt_chart_plural: Diagrame Gantt
   label_general: General
@@ -3263,7 +3275,6 @@ ro:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Gestionare arhive %{vendor}
   label_mapping_for: 'Mapping for: %{attribute}'
-  label_mathematical_operators: Mathematical operators
   label_max_size: Dimensiunea maximă
   label_me: eu
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
@@ -3354,6 +3365,7 @@ ro:
   label_operator_equals_all: este (ȘI)
   label_operator_equals_or: este (SAU)
   label_operator_none: este gol
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: oricare
   label_optional_description: Descriere
   label_options: Opțiuni
@@ -3434,6 +3446,7 @@ ro:
   label_projects_disk_usage_information: "%{count} proiecte care utilizează %{used_disk_space} spațiu pe disc"
   label_projects_menu: Proiecte
   label_public_projects: Proiecte publice
+  label_punctuation: Punctuation
   label_query_new: Interogare nouă
   label_query_plural: Interogări personalizate
   label_read: Citeşte...
@@ -3641,7 +3654,7 @@ ro:
   label_workflow: Flux de lucru
   label_workflow_copy: Copiază fluxul de lucru
   label_workflow_plural: Fluxuri de lucru
-  label_workflow_summary: Rezumat
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
@@ -4536,8 +4549,14 @@ ro:
       templates:
         label: Șablon
         none_enabled: No template has been enabled for this work package type
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Generează PDF
     page_nr_footer: Page %{page} of %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: Attributes and description
@@ -4825,11 +4844,11 @@ ro:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -4920,13 +4939,13 @@ ro:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Cerere de inițiere a proiectului
   queries:
     apply_filter: Aplicare filtru preconfigurat
@@ -5433,12 +5452,12 @@ ro:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Dezactivează solicitarea de inițiere a proiectului
-      header_description: 'OpenProject poate genera un asistent pas cu pas pentru a ajuta managerii de proiect să completeze o cerere de inițiere a proiectului. Poți alege ce atribute ale proiectului ar trebui sa fie incluse si sa creezi un artefact PDF ca rezultat.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Nume artefact
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Asistent pentru crearea de proiecte
           project_initiation_request: Cerere de inițiere a proiectului
@@ -5458,8 +5477,8 @@ ro:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Textul e-mailului de confirmare
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Statusul când este trimis
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5467,7 +5486,7 @@ ro:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Deschide expertul de creare a proiectului
         project_initiation_request: Deschide cererea de inițiere a proiectului
@@ -5754,8 +5773,8 @@ ro:
     '
   text_notice_too_many_values_are_inperformant: 'Atenție: Afişarea unui număr mai mare de 100 de articole pe pagină poate creşte durata de încărcare.'
   text_own_membership_delete_confirmation: "Sunteţi cale de a elimina unele sau toate permisiunile şi e posibil să nu mai puteți edita acest proiect după aceea. \nSunteţi sigur că doriţi să continuaţi?"
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Se poate scrie în directorul de resurse pentru module
   text_powered_by: Propulsat de %{link}
   text_project_custom_field_html: 'Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale proiectelor: <br> <ul> <li><b>Adăugă câmpuri personalizate pentru proiecte la lista de proiecte pentru a crea o vizualizare a portofoliului de proiecte</b></li> </ul>
@@ -5847,8 +5866,7 @@ ro:
       configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5950,6 +5968,8 @@ ro:
             project: Proiect
             work_package: Pachet de lucru
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

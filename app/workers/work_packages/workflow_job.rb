@@ -32,13 +32,22 @@ module WorkPackages
   class WorkflowJob < ApplicationJob
     def perform(journal, changes)
       work_package = journal.journable
-      process_artifact_changes(work_package, changes) unless journal.initial?
+      return if journal.initial?
+
+      process_artifact_changes(work_package, changes)
+      process_type_artefact_export(work_package, changes)
     end
 
     private
 
     def process_artifact_changes(work_package, changes)
       Projects::CreationWizard::ReuploadArtifactOnStatusChangesService
+        .new(current_user: User.current, work_package:)
+        .call!(changes:)
+    end
+
+    def process_type_artefact_export(work_package, changes)
+      WorkPackages::TypeArtefactExport::ExportOnStatusChangeService
         .new(current_user: User.current, work_package:)
         .call!(changes:)
     end

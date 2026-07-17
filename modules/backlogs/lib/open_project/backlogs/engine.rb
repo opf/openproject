@@ -91,7 +91,8 @@ module OpenProject::Backlogs
                    dependencies: %i[view_sprints edit_work_packages]
 
         permission :share_sprint,
-                   { "projects/settings/backlog_sharings": %i[show update] },
+                   { "projects/settings/backlog_sharings": %i[show update],
+                     "projects/settings/backlog_multiple_active_sprints": %i[show toggle_multiple_active_sprints] },
                    permissible_on: :project,
                    require: :member,
                    dependencies: :create_sprints

@@ -55,10 +55,11 @@ RSpec.describe "boards onboarding tour",
 
   let(:demo_project) do
     create(:project,
+           :with_internal_wiki,
            name: "Demo project",
            identifier: "demo-project",
            public: true,
-           enabled_module_names: %w[work_package_tracking gantt wiki board_view])
+           enabled_module_names: %w[work_package_tracking gantt board_view]).reload
   end
   let!(:wp1) { create(:work_package, project: demo_project) }
 
