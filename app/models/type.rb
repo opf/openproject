@@ -162,11 +162,11 @@ class Type < ApplicationRecord
   end
 
   def name
-    root.own_name
+    inherited_core_setting(:name)
   end
 
   def own_name
-    self[:name]
+    read_attribute(:name)
   end
 
   def composite_name
