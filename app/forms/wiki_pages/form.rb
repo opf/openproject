@@ -71,7 +71,7 @@ module WikiPages
         inset: true,
         autocomplete: :off,
         input_width: :large,
-        placeholder: I18n.t(:text_what_did_you_change_click_to_add_comment)
+        placeholder: I18n.t(:text_wiki_page_comment_placeholder)
       )
 
       f.group(layout: :horizontal) do |button_group|
