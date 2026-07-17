@@ -63,13 +63,6 @@ class Type
       configuration_links.find_or_initialize_by(aspect:).update!(source:)
     end
 
-    # Switch an aspect to Independent. When a source is given, its resolved
-    # configuration is copied onto this type once (adopt) before the link is severed.
-    def make_independent!(aspect, source: nil)
-      copy_configuration_from(source, aspect) if source && source != self
-      configuration_links.where(aspect:).destroy_all
-    end
-
     # Walks the link chain to the type that actually owns the aspect (Independent).
     # The visited-set guard tolerates cyclic rows created before write-time cycle
     # prevention (FND-133) existed, keeping resolution terminating.

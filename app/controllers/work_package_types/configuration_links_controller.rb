@@ -41,7 +41,7 @@ module WorkPackageTypes
 
     # Linked: create/update the link to the chosen source.
     def update
-      result = service.link(source_id: source_id_param)
+      result = SwitchToLinkedModeService.new(type: @type, aspect: params[:aspect_id]).call(source:)
 
       if result.success?
         redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
@@ -52,14 +52,14 @@ module WorkPackageTypes
 
     # Independent: remove the link, adopting the picked source's config first.
     def destroy
-      service.make_independent(source_id: source_id_param)
+      SwitchToIndependentModeService.new(type: @type, aspect: params[:aspect_id], user: current_user).call(source:)
       redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
     end
 
     private
 
-    def service
-      SetConfigurationLinkService.new(type: @type, aspect: params[:aspect_id])
+    def source
+      Type.global.find_by(id: source_id_param)
     end
 
     def source_id_param

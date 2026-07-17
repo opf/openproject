@@ -29,31 +29,43 @@
 #++
 
 module WorkPackageTypes
-  # Sets one configuration aspect of a type to Linked (a chosen global source) or
-  # Independent. The source-graph invariants (present, global, not-self) are the
-  # link record's own validations; the two intents map onto the link resource's
-  # PATCH (link) and DELETE (make independent).
-  class SetConfigurationLinkService
-    def initialize(type:, aspect:)
+  # Switches one configuration aspect of a type to Independent by severing its
+  # link. When a source is given, its resolved configuration is adopted onto the
+  # type once before the link is removed, so the type keeps what it was showing.
+  #
+  # Adoption reuses the aspect's CopyConfiguration service and the result is
+  # aggregated with the severing, so a failed copy leaves the link untouched.
+  class SwitchToIndependentModeService
+    def initialize(type:, aspect:, user:)
       @type = type
       @aspect = aspect
+      @user = user
     end
 
-    def link(source_id:)
-      link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
-      link.source = Type.global.find_by(id: source_id)
+    def call(source: nil)
+      result = adopt_configuration_from(source)
+      result.merge!(sever_link) if result.success?
 
-      if link.save
-        ServiceResult.success(result: @type)
-      else
-        # Return the rejected link so the controller can re-render the picker with its errors.
-        ServiceResult.failure(result: link, errors: link.errors)
-      end
+      result
     end
 
-    def make_independent(source_id: nil)
-      @type.make_independent!(@aspect, source: Type.global.find_by(id: source_id))
-      ServiceResult.success(result: @type)
+    private
+
+    attr_reader :type, :aspect, :user
+
+    def adopt_configuration_from(source)
+      return ServiceResult.success(result: type) unless adopt?(source)
+
+      CopyConfiguration.service_for(aspect).new(type:, user:).call(source:)
+    end
+
+    def adopt?(source)
+      source.present? && source != type && CopyConfiguration.supported?(aspect)
+    end
+
+    def sever_link
+      type.configuration_links.where(aspect:).destroy_all
+      ServiceResult.success(result: type)
     end
   end
 end
