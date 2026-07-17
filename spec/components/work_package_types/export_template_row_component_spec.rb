@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateListComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "rails_helper"
 
-    def initialize(type:, readonly: false)
-      super
+RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
+  let(:type) { create(:type) }
+  let(:template) { Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true) }
 
-      @type = type
-      @readonly = readonly
+  context "when readonly" do
+    it "renders the toggle as a disabled, non-interactive switch", :aggregate_failures do
+      render_inline(described_class.new(type:, template:, readonly: true))
+
+      expect(page).to have_css("[data-test-selector='toggle-pdf-export-template-row-1']")
+      expect(page).to have_css(".ToggleSwitch--disabled")
+      expect(page).to have_no_css("[data-turbo-method]")
     end
+  end
 
-    def readonly? = @readonly
+  context "when editable (default)" do
+    it "renders an interactive toggle switch", :aggregate_failures do
+      render_inline(described_class.new(type:, template:))
 
-    def wrapper_data_attributes
-      return {} if @readonly
-
-      {
-        controller: "generic-drag-and-drop"
-      }
-    end
-
-    def drag_and_drop_target_config
-      {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
-        test_selector: "pdf-export-template-rows"
-      }
-    end
-
-    def draggable_item_config(template)
-      {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
-        test_selector: "pdf-export-template-row-#{template.id}"
-      }
+      expect(page).to have_css("[data-test-selector='toggle-pdf-export-template-row-1']")
+      expect(page).to have_no_css(".ToggleSwitch--disabled")
     end
   end
 end

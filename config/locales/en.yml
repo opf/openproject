@@ -6045,6 +6045,9 @@ en:
           caption: "These settings are reused from a source type and stay in sync with it. To change them, edit the source type."
           label: "Linked"
           warning: "Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution."
+        reference:
+          edit_at_source: "Edit at source"
+          reusing: "Configuration reused from %{source}."
         source:
           label: "Source type"
       export_configuration:

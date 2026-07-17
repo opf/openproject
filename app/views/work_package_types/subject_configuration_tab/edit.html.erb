@@ -30,7 +30,13 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-<%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type: @type, aspect: Type::ConfigurationLink::PATTERNS)) do %>
+<%= render(WorkPackageTypes::ConfigurationLinkComponent.new(type: @type, aspect: Type::ConfigurationLink::PATTERNS)) do |c| %>
+  <% if @type.linked?(Type::ConfigurationLink::PATTERNS) %>
+    <% c.with_readonly_preview do %>
+      <%= render WorkPackageTypes::SubjectConfigurationComponent
+                   .new(@type.effective_source_for(Type::ConfigurationLink::PATTERNS), readonly: true) %>
+    <% end %>
+  <% end %>
   <%= render WorkPackageTypes::SubjectConfigurationComponent
                .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>
 <% end %>

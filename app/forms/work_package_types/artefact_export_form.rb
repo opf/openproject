@@ -38,12 +38,14 @@ module WorkPackageTypes
         group.radio_button(
           value: Type::ArtefactExport::OFF,
           checked: checked?(Type::ArtefactExport::OFF),
+          disabled: readonly?,
           label: I18n.t("types.edit.export_configuration.artefact_export.off_mode.label"),
           caption: I18n.t("types.edit.export_configuration.artefact_export.off_mode.caption")
         )
         group.radio_button(
           value: Type::ArtefactExport::ATTACHMENT,
           checked: checked?(Type::ArtefactExport::ATTACHMENT),
+          disabled: readonly?,
           label: I18n.t("types.edit.export_configuration.artefact_export.attachment.label"),
           caption: I18n.t("types.edit.export_configuration.artefact_export.attachment.caption")
         )
@@ -52,12 +54,14 @@ module WorkPackageTypes
           checked: checked?(Type::ArtefactExport::FILE_LINK),
           label: file_link_label,
           caption: I18n.t("types.edit.export_configuration.artefact_export.file_link.caption"),
-          disabled: !file_link_available?
+          disabled: readonly? || !file_link_available?
         )
       end
     end
 
     private
+
+    def readonly? = @builder.options[:readonly] == true
 
     def checked?(value)
       value == (model.artefact_export_mode.presence || Type::ArtefactExport::DEFAULT)

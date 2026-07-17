@@ -29,44 +29,23 @@
 #++
 
 module WorkPackageTypes
-  class ExportTemplateListComponent < ApplicationComponent
-    include ApplicationHelper
+  # The "reused from <source>" note shown for a Linked aspect, with an optional link
+  # to the source's own configuration tab. The link is guarded: type configuration is
+  # admin-only today, and a project admin must not be pointed at a type they cannot open.
+  class LinkedSourceReferenceComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
 
-    def initialize(type:, readonly: false)
-      super
+    def initialize(source:, link_path: nil)
+      super(source)
 
-      @type = type
-      @readonly = readonly
+      @source = source
+      @link_path = link_path
     end
 
-    def readonly? = @readonly
+    def source = @source
 
-    def wrapper_data_attributes
-      return {} if @readonly
+    def link_path = @link_path
 
-      {
-        controller: "generic-drag-and-drop"
-      }
-    end
-
-    def drag_and_drop_target_config
-      {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
-        test_selector: "pdf-export-template-rows"
-      }
-    end
-
-    def draggable_item_config(template)
-      {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
-        test_selector: "pdf-export-template-row-#{template.id}"
-      }
-    end
+    def show_link? = @link_path.present? && User.current.admin?
   end
 end

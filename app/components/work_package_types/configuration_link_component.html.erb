@@ -47,11 +47,22 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
 
-    <% if editor_form.nil? && !linked? %>
-      <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
-      <%= content_tag(:div, data: independent_data) do %>
-        <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
-        <%= content %>
+    <% if editor_form.nil? %>
+      <% if linked? %>
+        <% if readonly_preview? %>
+          <%# Linked: the inherited configuration, shown read-only while "Linked" is selected. %>
+          <%= content_tag(:div, data: linked_data) do %>
+            <%= render(WorkPackageTypes::LinkedSourceReferenceComponent.new(source: effective_source, link_path: source_edit_path)) %>
+            <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
+            <%= readonly_preview %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%# Independent: the tab's own editor, shown while "Independent" is selected. %>
+        <%= content_tag(:div, data: independent_data) do %>
+          <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { heading } if heading %>
+          <%= content %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

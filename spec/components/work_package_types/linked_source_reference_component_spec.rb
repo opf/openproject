@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,47 +26,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackageTypes
-  class ExportTemplateListComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "rails_helper"
 
-    def initialize(type:, readonly: false)
-      super
+RSpec.describe WorkPackageTypes::LinkedSourceReferenceComponent, type: :component do
+  let(:source) { build_stubbed(:type, name: "Phase") }
+  let(:link_path) { "/types/1/subject_configuration/edit" }
 
-      @type = type
-      @readonly = readonly
-    end
+  it "names the source and links to it for an admin", :aggregate_failures do
+    login_as(build_stubbed(:admin))
+    render_inline(described_class.new(source:, link_path:))
 
-    def readonly? = @readonly
+    expect(page).to have_text("Configuration reused from Phase")
+    expect(page).to have_link("Edit at source", href: link_path)
+  end
 
-    def wrapper_data_attributes
-      return {} if @readonly
+  it "omits the link when the user is not an admin" do
+    login_as(build_stubbed(:user))
+    render_inline(described_class.new(source:, link_path:))
 
-      {
-        controller: "generic-drag-and-drop"
-      }
-    end
+    expect(page).to have_no_link("Edit at source")
+  end
 
-    def drag_and_drop_target_config
-      {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "template",
-        test_selector: "pdf-export-template-rows"
-      }
-    end
+  it "omits the link when no path is given" do
+    login_as(build_stubbed(:admin))
+    render_inline(described_class.new(source:))
 
-    def draggable_item_config(template)
-      {
-        "draggable-id": template.id,
-        "draggable-type": "template",
-        "drop-url": drop_type_pdf_export_template_path(type_id: @type.id, id: template.id),
-        test_selector: "pdf-export-template-row-#{template.id}"
-      }
-    end
+    expect(page).to have_no_link("Edit at source")
   end
 end

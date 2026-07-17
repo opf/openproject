@@ -27,18 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Subhead.new) do |subhead| %>
-  <% subhead.with_heading(tag: :h3) { I18n.t("types.edit.export_configuration.templates.section_title") } %>
+<%= render(Primer::Beta::Flash.new(scheme: :default, mt: 3, mb: 3)) do %>
+  <%= t("types.edit.configuration_link.reference.reusing", source: source.name) %>
+  <% if show_link? %>
+    <%= render(Primer::Beta::Link.new(href: link_path)) { t("types.edit.configuration_link.reference.edit_at_source") } %>
+  <% end %>
 <% end %>
-<p><%= I18n.t("types.edit.export_configuration.intro") %></p>
-<%= render(WorkPackageTypes::ExportTemplateListComponent.new(type: model, readonly: readonly?)) %>
-
-<%= render(Primer::Beta::Subhead.new) do |subhead| %>
-  <% subhead.with_heading(tag: :h3) { I18n.t("types.edit.export_configuration.artefact_export.section_title") } %>
-<% end %>
-<p><%= I18n.t("types.edit.export_configuration.artefact_export.intro") %></p>
-<%=
-  settings_primer_form_with(**artefact_export_form_options) do |f|
-    render(WorkPackageTypes::ArtefactExportForm.new(f))
-  end
-%>
