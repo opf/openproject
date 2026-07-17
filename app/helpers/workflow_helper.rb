@@ -29,6 +29,10 @@
 #++
 
 module WorkflowHelper
+  def workflow_linked?(type)
+    type&.linked?(Type::ConfigurationLink::WORKFLOWS)
+  end
+
   def workflow_tabs(type)
     [
       { name: "always",
