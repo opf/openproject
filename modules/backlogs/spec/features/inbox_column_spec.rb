@@ -90,7 +90,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
           planning_page.expect_inbox_blankslate
           planning_page.expect_sprints_blankslate
           planning_page.expect_sprints_blankslate_description(
-            "To start planning your sprint, create one here or go to the project settings to receive sprints from a different project."
+            "To start planning your sprint, create one here or go to the project settings " \
+            "to receive sprints from a different project."
           )
           planning_page.expect_backlog_settings_link
           planning_page.expect_new_sprint_button
