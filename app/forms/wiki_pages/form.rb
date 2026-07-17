@@ -99,7 +99,9 @@ module WikiPages
       return unless model
 
       API::V3::WikiPages::WikiPageRepresenter.new(
-        model, current_user: User.current, embed_links: true
+        model,
+        current_user: User.current,
+        embed_links: true
       )
     end
 
