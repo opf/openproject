@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
+import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -94,6 +95,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     useWorkPackagePreview({ enabled: size === 'xxs', suppressed: isSelected });
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
+
+  useSuppressFormattingToolbar(editor, isSelected);
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;

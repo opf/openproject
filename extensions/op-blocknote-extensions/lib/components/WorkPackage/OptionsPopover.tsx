@@ -12,6 +12,7 @@ import {
   ChevronDownIcon,
 } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
+import { supportsHover } from '../../utils/device';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -166,6 +167,7 @@ export const WpOptionsPopover = ({
     popoverRef,
     placement: 'above',
     onClose,
+    closeOnScroll: supportsHover(),
   });
 
   const isBlock = currentSize === undefined;
@@ -179,7 +181,9 @@ export const WpOptionsPopover = ({
   };
 
   const content = (
-    // Prevent editor/parent handlers from stealing focus or closing the popover
+    // stopPropagation stops the outside-tap handlers from closing the popover.
+    // Do NOT add preventDefault: on iOS it suppresses the first tap's click, so
+    // every button then needs a priming tap.
     <Popover ref={popoverRef} onMouseDown={(e) => e.stopPropagation()}>
       {wp && (
         <>
@@ -212,7 +216,7 @@ export const WpOptionsPopover = ({
         </PopBtn>
 
         {showSizes && (
-          <SizeMenu onMouseDown={(e) => e.stopPropagation()}>
+          <SizeMenu>
             <SizeMenuLabel>{t('options.inlineSizeLabel')}</SizeMenuLabel>
             {INLINE_SIZE_OPTIONS.map((size) => {
               return (

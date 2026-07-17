@@ -19,11 +19,13 @@ import { defaultWpVariables } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
+import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
-  user-select: all;
+  user-select: none;
+  -webkit-touch-callout: none;
   border-radius: var(--bn-border-radius);
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
@@ -67,6 +69,8 @@ export const BlockWorkPackageComponent = ({
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+
+  useSuppressFormattingToolbar(editor, isOptionsOpen);
 
   const workPackageResult = useWorkPackage(block.props.wpid);
   const selectedWorkPackage = workPackageResult.workPackage;
@@ -178,6 +182,7 @@ export const BlockWorkPackageComponent = ({
             {!workPackageResult.loading && (workPackageResult.error ?? workPackageResult.unauthorized) && (
               <UnavailableCardWrapper
                 ref={cardRef}
+                role="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsOptionsOpen((prev) => !prev);

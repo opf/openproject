@@ -125,3 +125,25 @@ describe('Block card - remove', () => {
     await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
   });
 });
+
+describe('Block card - selection', () => {
+  it('the card wrapper is not text-selectable', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await convertToCompactCard();
+
+    const wrapper = document.querySelector('[data-testid="block-wp-wrapper"]')!;
+    // user-select: all made a single click highlight the whole card's text.
+    expect(getComputedStyle(wrapper).userSelect).toBe('none');
+  });
+
+  // role=button is what makes iOS fire the click on the first tap (a plain div
+  // in the contenteditable needs two); see BlockCards.
+  it('the clickable card exposes role=button', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+    await convertToCompactCard();
+
+    expect(page.getByTestId('block-card').element().getAttribute('role')).toBe('button');
+  });
+});

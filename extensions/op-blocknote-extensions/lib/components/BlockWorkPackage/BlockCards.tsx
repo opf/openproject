@@ -103,6 +103,10 @@ export const BlockCardM = ({
     className="op-bn-work-package op-bn-work-package--m"
     $inDropdown={inDropdown}
     onClick={onClick}
+    // role=button so iOS treats the card as interactive and fires the click on
+    // the first tap (a plain div inside the contenteditable needs two). Interim:
+    // mirrors the inline chip;
+    role={onClick ? 'button' : undefined}
     data-testid="block-card"
     style={onClick ? { cursor: 'pointer' } : undefined}
   >
@@ -138,6 +142,7 @@ export const BlockCardL = ({
     className="op-bn-work-package op-bn-work-package--l"
     $inDropdown={inDropdown}
     onClick={onClick}
+    role={onClick ? 'button' : undefined}
     data-testid="block-card"
     style={onClick ? { cursor: 'pointer' } : undefined}
   >
@@ -187,6 +192,7 @@ export const BlockCardXL = ({
       className="op-bn-work-package op-bn-work-package--xl"
       $inDropdown={inDropdown}
       onClick={onClick}
+      role={onClick ? 'button' : undefined}
       data-testid="block-card"
       style={onClick ? { cursor: 'pointer' } : undefined}
     >
