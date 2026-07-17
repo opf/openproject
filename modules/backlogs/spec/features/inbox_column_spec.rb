@@ -446,13 +446,16 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.visit!
       end
 
-      it "retains the expanded inbox across all update actions", :aggregate_failures, :selenium do
+      it "retains the expanded inbox across all update actions", :selenium do
         # Initial load shows pagination
         planning_page.expect_inbox_show_more
 
         # Expand inbox — URL advances to ?all=true
         planning_page.click_inbox_show_more
-        expect(page.current_url).to include("all=true")
+        # click_inbox_show_more triggers a Turbo advance frame navigation, so the
+        # URL updates asynchronously; use the waiting matcher rather than reading
+        # page.current_url (which does not retry).
+        expect(page).to have_current_path(/all=true/)
         planning_page.expect_no_inbox_show_more
 
         # Drag an inbox item to the sprint
