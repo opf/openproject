@@ -37,6 +37,19 @@ module WikiPages
         required: true
       )
 
+      f.select_list(
+        name: :parent_id,
+        label: WikiPage.human_attribute_name(:parent_title)
+      ) do |list|
+        helpers.wiki_page_options_for_select(model.wiki.pages).each do |label, value|
+          list.option(
+            label:,
+            value:,
+            selected: model.parent_id == value
+          )
+        end
+      end
+
       f.rich_text_area(
         name: :text,
         label: WikiPage.human_attribute_name(:text),
@@ -51,45 +64,32 @@ module WikiPages
         }
       )
 
-      f.select_list(
-        name: :parent_id,
-        label: WikiPage.human_attribute_name(:parent_title),
-        input_width: :xlarge
-      ) do |list|
-        helpers.wiki_page_options_for_select(model.wiki.pages).each do |label, value|
-          list.option(
-            label:,
-            value:,
-            selected: model.parent_id == value
-          )
-        end
-      end
-
       f.text_field(
         name: :journal_notes,
         label: I18n.t(:"attributes.comment"),
-        visually_hide_label: true,
+        caption: I18n.t(:text_wiki_page_comment_caption),
+        inset: true,
         autocomplete: :off,
-        input_width: :xlarge,
+        input_width: :large,
         placeholder: I18n.t(:text_what_did_you_change_click_to_add_comment)
       )
 
       f.group(layout: :horizontal) do |button_group|
         button_group.submit(
           name: :save,
-          label: I18n.t(:button_save),
+          label: submit_label,
           scheme: :primary
-        ) do |button|
-          button.with_leading_visual_icon(icon: :check)
-        end
-
-        button_group.button(
-          name: :cancel,
-          label: I18n.t(:button_cancel),
-          tag: :a,
-          href: cancel_href,
-          data: { turbo_confirm: I18n.t(:text_are_you_sure) }
         )
+
+        unless model.new_record?
+          button_group.button(
+            name: :cancel,
+            label: I18n.t(:button_cancel),
+            tag: :a,
+            href: cancel_href,
+            data: { turbo_confirm: I18n.t(:text_are_you_sure) }
+          )
+        end
       end
     end
 
@@ -101,6 +101,14 @@ module WikiPages
       API::V3::WikiPages::WikiPageRepresenter.new(
         model, current_user: User.current, embed_links: true
       )
+    end
+
+    def submit_label
+      if model.new_record?
+        I18n.t(:button_create)
+      else
+        I18n.t(:button_save)
+      end
     end
 
     def preview_context
