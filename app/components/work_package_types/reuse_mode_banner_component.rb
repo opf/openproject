@@ -60,6 +60,8 @@ module WorkPackageTypes
 
     def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
 
+    def link_dialog_path = type_configuration_link_dialog_path(type_id: type.id, aspect:)
+
     def switch_to_independent_path = type_configuration_link_independent_path(type_id: type.id, aspect:, source_id: source&.id)
 
     def linked_description

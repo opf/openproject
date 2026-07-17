@@ -4612,10 +4612,10 @@ en:
       templates:
         label: "Template"
         none_enabled: "No template has been enabled for this work package type"
+      title: Generate PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Generate PDF
     page_nr_footer: "Page %{page} of %{total}"
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -6127,7 +6127,21 @@ en:
           title: "Independent mode"
         linked:
           change_source: "Change source type"
+          confirm_dialog:
+            change_source:
+              description_html: "By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
+              title: "Change source type?"
+            check_box: "I understand that this will override the current settings"
+            from_independent:
+              description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
+              title: "Switch configuration mode?"
           description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
+          dialog:
+            description: "Copy and inherit this settings from a source. Any new configuration added to the source will also added here."
+            source_label: "Linked source"
+            source_placeholder: "Select a type or sub-type"
+            submit: "Switch"
+            title: "Linked mode"
           invalid_source: "The configuration cannot be linked to the selected type. Please select a different source type."
           success: "The configuration mode was switched."
           switch_to_independent: "Switch to independent mode"
