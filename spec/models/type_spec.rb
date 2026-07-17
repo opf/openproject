@@ -453,4 +453,28 @@ RSpec.describe Type do
       end
     end
   end
+
+  describe "#artefact_export_mode" do
+    it "defaults to 'off'" do
+      expect(build(:type).artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+    end
+
+    it "persists the value into the pdf_export_templates_config jsonb column" do
+      persisted = create(:type)
+      persisted.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+
+      expect(persisted.reload.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
+      expect(persisted.pdf_export_templates_config).to include("artefact_export_mode" => "attachment")
+    end
+  end
+
+  describe "#artefact_export_enabled?" do
+    it "is false when off" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "off" })).not_to be_artefact_export_enabled
+    end
+
+    it "is true when a storing mode is set" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
+    end
+  end
 end
