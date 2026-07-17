@@ -112,6 +112,14 @@ class AccountController < ApplicationController
       render template: "account/password_recovery"
     elsif request.post?
       mail = params[:mail]
+
+      if mail.blank?
+        @user = User.new(mail:)
+        @user.errors.add(:mail, :blank)
+        render template: "account/lost_password", status: :unprocessable_entity
+        return
+      end
+
       user = User.find_by_mail(mail) if mail.present?
 
       # Ensure the same request is sent regardless of which email is entered
