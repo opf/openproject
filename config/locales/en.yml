@@ -6113,7 +6113,7 @@ en:
             description_html: "By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type."
             title: "Copy configuration?"
           dialog:
-            description: "Copy the configuration from a source type and use it as a base. This is not linking the two types."
+            description: "Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently."
             source_label: "Copy source"
             source_placeholder: "Select a type or sub-type"
             submit: "Save and copy"
