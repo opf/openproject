@@ -28,18 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "open_project/server_side_request_forgery_error"
+# defines HTTPX::ServerSideRequestForgeryError, which httpx only loads on first plugin use
+require "httpx/plugins/ssrf_filter"
 
 module OpenProject
-  module HttpxSsrfCustomErrorMessage
-    module ConnectionMethods
-      def addresses=(addrs)
-        super
-      rescue HTTPX::ServerSideRequestForgeryError
-        raise OpenProject::ServerSideRequestForgeryError,
-              "#{origin.host} resolves only to private IP addresses, blocked to prevent SSRF. " \
-              "To allow this host, add its IP addresses to OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST."
-      end
-    end
-  end
+  class ServerSideRequestForgeryError < HTTPX::ServerSideRequestForgeryError; end
 end

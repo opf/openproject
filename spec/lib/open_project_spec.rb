@@ -50,6 +50,7 @@ RSpec.describe OpenProject do
     describe "SSRF filtering" do
       it "includes SSRF filtering for private IP addresses" do
         result = httpx.get(private_endpoint)
+        expect(result.error).to be_a(OpenProject::ServerSideRequestForgeryError)
         expect(result.error).to be_a(HTTPX::ServerSideRequestForgeryError)
         expect(result.error.message)
           .to eq("localhost resolves only to private IP addresses, blocked to prevent SSRF. " \
