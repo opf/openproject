@@ -6121,8 +6121,27 @@ en:
           invalid_source: "The configuration cannot be copied from the selected type. Please select a different source type."
           success: "The configuration was copied."
         independent:
+          confirm_dialog:
+            check_box: "I understand that this will override the current settings"
+            description: "All the current selected settings will be overridden and might affect existing information on the work packages of this type."
+            title: "Switch configuration mode?"
           copy_from_type: "Copy from type"
           description: "No settings are inherited. If desired you can still one-time copy settings from another type."
+          dialog:
+            submit: "Switch"
+            title: "Independent mode"
+          invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
+          modes:
+            copy:
+              caption: "Start with a one-time copy of the current settings set in the linked mode."
+              label: "Copy from linked"
+            default:
+              caption: "Use the settings marked as default for new types by the administrator."
+              label: "Default settings"
+            empty:
+              caption: "Configure the settings from scratch starting from a completely empty setting."
+              label: "Empty"
+          success: "The configuration mode was switched."
           switch_to_linked: "Switch to linked mode"
           title: "Independent mode"
         linked:

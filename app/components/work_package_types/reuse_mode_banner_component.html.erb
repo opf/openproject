@@ -46,13 +46,12 @@ See COPYRIGHT and LICENSE files for more details.
               data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
             )
           ) { t("types.edit.reuse_mode.linked.change_source") } %>
-      <%# TODO: temporary direct switch. Replace with a modal danger-confirmation flow, like switch-to-linked. %>
       <%= render(
             Primer::Beta::Button.new(
               tag: :a,
-              href: switch_to_independent_path,
               ml: 2,
-              data: { turbo_method: :delete, test_selector: "reuse-mode-switch-to-independent" }
+              href: independent_dialog_path,
+              data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-independent" }
             )
           ) { t("types.edit.reuse_mode.linked.switch_to_independent") } %>
     <% end %>

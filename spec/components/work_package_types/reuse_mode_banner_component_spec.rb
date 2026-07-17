@@ -94,13 +94,13 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
       expect(page).to have_no_text("(parent)")
     end
 
-    it "links the change-source and switch-to-independent actions" do
+    it "links the change-source and switch-to-independent actions to their dialogs" do
       expect(page).to have_css(
         "a[data-controller='async-dialog'][href='#{type_configuration_link_dialog_path(type_id: type.id, aspect:)}']",
         text: "Change source type"
       )
       expect(page).to have_css(
-        "a[data-turbo-method='delete']",
+        "a[data-controller='async-dialog'][href='#{type_configuration_independence_dialog_path(type_id: type.id, aspect:)}']",
         text: "Switch to independent mode"
       )
     end

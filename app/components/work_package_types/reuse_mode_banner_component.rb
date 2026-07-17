@@ -62,7 +62,7 @@ module WorkPackageTypes
 
     def link_dialog_path = type_configuration_link_dialog_path(type_id: type.id, aspect:)
 
-    def switch_to_independent_path = type_configuration_link_independent_path(type_id: type.id, aspect:, source_id: source&.id)
+    def independent_dialog_path = type_configuration_independence_dialog_path(type_id: type.id, aspect:)
 
     def linked_description
       helpers.link_translate(
