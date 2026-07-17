@@ -31,7 +31,7 @@
 require "spec_helper"
 require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
-RSpec.describe "User card view", :js do
+RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user, firstname: "Adam", lastname: "Admin",

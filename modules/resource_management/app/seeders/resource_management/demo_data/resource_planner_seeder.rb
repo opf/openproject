@@ -67,12 +67,12 @@ module ResourceManagement
       end
 
       def applicable?
-        OpenProject::FeatureDecisions.resource_management_active? && planner_config.present?
+        planner_config.present?
       end
 
       def not_applicable_message
         "Skipping resource planner for #{project.identifier}: " \
-          "resource_management is inactive or the project has no resource_planner seed data."
+          "the project has no resource_planner seed data."
       end
 
       private
