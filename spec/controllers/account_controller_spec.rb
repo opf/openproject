@@ -1259,7 +1259,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(session[:auth_source_sso_failure]).not_to be_present
 
         expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email has already been taken."
+        expect(response.body).to have_text "Email has already been taken."
       end
     end
 
@@ -1280,7 +1280,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(session[:auth_source_sso_failure]).not_to be_present
 
         expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email can't be blank."
+        expect(response.body).to have_text "Email can't be blank."
       end
     end
   end
