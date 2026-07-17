@@ -97,7 +97,7 @@ OpenProject 17.7 introduces several improvements for organizations using the PMÂ
 
 **Show project attributes as separate tab in a work package**
 
-Project attributes can now be displayed in a dedicated **Project** tab within work packages. This provides quicker access to project-specific information while keeping work package details and project metadata clearly separated.
+Project attributes can now be displayed in a dedicated **Project attributes** tab within work packages. This provides quicker access to project-specific information while keeping work package details and project metadata clearly separated.
 
 ![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
 
@@ -168,12 +168,6 @@ SCIM configuration options can now be provided through environment variables, ma
 **Agenda API: Fetch agenda items by work package ID**
 
 The Agenda API now supports retrieving agenda items by work package ID, making it easier to integrate meeting agendas with work package-based workflows.
-
-## Important technical changes
-
-### Agenda API: Fetch agenda items by work package ID
-
-text
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 
