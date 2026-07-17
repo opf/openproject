@@ -33,10 +33,15 @@ module WorkPackageTypes
     class GroupQueryRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, ee_available:)
+      def initialize(group:, ee_available:, readonly: false)
         super
         @group = group
         @ee_available = ee_available
+        @readonly = readonly
+      end
+
+      def readonly?
+        @readonly
       end
 
       private

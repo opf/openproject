@@ -33,19 +33,41 @@ module WorkPackageTypes
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
+    ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
+
     def initialize(type:, form_attributes:, no_filter_query:)
       super(type)
       @type = type
-      @groups = form_attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
-      @inactive_attributes = form_attributes[:inactives]
+      @form_attributes = form_attributes
       @no_filter_query = no_filter_query
+    end
+
+    def readonly?
+      OpenProject::FeatureDecisions.subtypes_active? && @type.linked?(ASPECT)
+    end
+
+    def source
+      @type.effective_source_for(ASPECT)
     end
 
     def ee_available?
       EnterpriseToken.allows_to?(:edit_attribute_groups)
     end
 
+    def inactive_attributes
+      @form_attributes[:inactives]
+    end
+
+    # In read-only mode the visible configuration is the linked source's, resolved at
+    # render time; independent types show their own stored configuration.
+    def active_groups
+      attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
+      attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
+    end
+
     def wrapper_data
+      return {} if readonly?
+
       {
         controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
@@ -56,6 +78,8 @@ module WorkPackageTypes
     end
 
     def active_list_data
+      return {} if readonly?
+
       {
         controller: "admin--type-form-configuration--drag-and-drop",
         "admin--type-form-configuration--drag-and-drop-handle-selector-value": ".group-handle",
@@ -64,16 +88,26 @@ module WorkPackageTypes
       }
     end
 
-    def group_components
-      @groups.map.with_index do |group, i|
+    def main_content_component
+      groups_type = readonly? ? source : @type
+      groups = active_groups
+      group_components = groups.map.with_index do |group, i|
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          type: @type,
+          type: groups_type,
           ee_available: ee_available?,
           first: i == 0,
-          last: i == @groups.length - 1
+          last: i == groups.length - 1,
+          readonly: readonly?
         )
       end
+
+      WorkPackageTypes::FormConfiguration::MainContentComponent.new(
+        type: @type,
+        group_components:,
+        ee_available: ee_available?,
+        readonly: readonly?
+      )
     end
   end
 end
