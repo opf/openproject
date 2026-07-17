@@ -99,7 +99,7 @@ OpenProject 17.7 introduces several improvements for organizations using the PMÂ
 
 Project attributes can now be displayed in a dedicated **Project** tab within work packages. This provides quicker access to project-specific information while keeping work package details and project metadata clearly separated.
 
-![OpenProject displays project attributes in a dedicated Project tab within a work package.](openproject-project-tab-work-package.png)
+![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
 
 **Artifact export**
 
