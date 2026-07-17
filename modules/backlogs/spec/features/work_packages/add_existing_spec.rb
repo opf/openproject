@@ -220,6 +220,26 @@ RSpec.describe "Add existing work package", :js do
     end
   end
 
+  context "when existing work package is in a subproject" do
+    let!(:subproject) { create(:project, parent: project) }
+    let!(:work_package) { create(:work_package, project: subproject) }
+
+    before do
+      create(:member, project: subproject, user:, roles: [create(:project_role, permissions: %i[view_work_packages])])
+    end
+
+    it "cannot be added to a sprint or bucket, as it is not offered in the autocompleter" do
+      backlogs_page.visit!
+      backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
+
+      within_modal "Add existing work package to #{sprint_a.name}" do
+        autocomplete.search work_package.subject
+        wait_for_autocompleter_options_to_be_loaded
+        autocomplete.expect_no_option(work_package.subject)
+      end
+    end
+  end
+
   context "when not having enough permissions" do
     let(:permissions) { super() - %i[manage_sprint_items] }
 
