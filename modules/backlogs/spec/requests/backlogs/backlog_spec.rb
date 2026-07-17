@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
+RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request, with_flag: { backlogs_lazy_cards: true } do
   include Turbo::TestAssertions
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -74,7 +74,13 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       get "/projects/#{project.identifier}/backlogs/backlog"
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
+      expect(response.body).to have_css(".op-backlogs-page") do |frame|
+        %w{backlogs--list-refresh backlogs--split-view-sync sortable-lists reload-frames-on-morph}.each do |controller|
+          expect(frame["data-controller"])
+            .to include(controller)
+        end
+      end
+
       expect(response.body).to include(
         %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
       )

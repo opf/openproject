@@ -113,32 +113,14 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
       ]
     end
 
-    it "renders items through Backlogs::WorkPackageCardListItemComponent" do
-      work_package = work_packages.first
-
-      expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id}[data-controller='sortable-lists--item'] " \
-        ".op-work-package-card[data-controller='backlogs--work-package']"
-      )
-    end
-
-    it "renders Backlogs-specific row and card data attributes" do
+    it "renders Backlogs-specific row and a lazy loaded turbo frame for the work package card" do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
+        expect(row["data-controller"]).to eq("sortable-lists--item")
         expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
         expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
       end
-
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
-        expect(card["data-story"]).to be_present
-        expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
-        expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
-      end
-    end
-
-    it "lazily loads the Backlogs work-package card through a turbo-frame" do
-      work_package = work_packages.first
 
       expect(rendered_component).to have_css(
         ".Box-row#work_package_#{work_package.id} " \
@@ -148,13 +130,22 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component, with_fl
     end
 
     context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
-      it "renders the card inline without a turbo-frame" do
+      it "renders Backlogs-specific row and card data attributes",
+         with_flag: { backlogs_lazy_cards: false } do
         work_package = work_packages.first
 
-        expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
-        expect(rendered_component).to have_css(
-          ".Box-row#work_package_#{work_package.id} .sr-only", text: "3 story points"
-        )
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
+          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+        end
+
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
+          expect(card["data-controller"]).to eq("backlogs--work-package")
+          expect(card["data-story"]).to be_present
+          expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+        end
       end
     end
   end

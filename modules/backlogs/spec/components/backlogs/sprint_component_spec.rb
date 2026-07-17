@@ -106,6 +106,21 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
           expect(rendered_component).to have_css(".sr-only", text: "5 story points")
           expect(rendered_component).to have_css(".sr-only", text: "3 story points")
         end
+
+        it "wires draggable data on work package rows" do
+          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
+            expect(row["data-controller"]).to eq("sortable-lists--item")
+            expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
+            expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+            expect(row["draggable"]).to eq("true")
+          end
+
+          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
+            expect(card["data-controller"]).to eq("backlogs--work-package")
+            expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+            expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
+          end
+        end
       end
 
       it "renders one Box-row per work package" do
@@ -126,21 +141,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component, with_flag: { backlog
 
       it "passes an explicit sprint test selector to the shared box" do
         expect(rendered_component).to have_css(".Box[data-test-selector='sprint-#{sprint.id}']")
-      end
-
-      it "wires draggable data on work package rows" do
-        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-          expect(row["data-controller"]).to eq("sortable-lists--item")
-          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
-          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
-          expect(row["draggable"]).to eq("true")
-        end
-
-        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--work-package")
-          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
-          expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
-        end
       end
 
       it "renders the sprint kebab menu in the header" do
