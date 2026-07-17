@@ -87,6 +87,25 @@ RSpec.describe "Custom text widget on my page",
       expect(page)
         .to have_css(".inline-edit--display-field", text: "My own little text")
 
+      # Regression test for https://community.openproject.org/wp/17673
+      # Pagination replaces its clicked button with an active-page span before
+      # the event bubbles up to the custom text widget.
+      page.execute_script <<~JS
+        const paginationButton = document.createElement("button");
+        paginationButton.type = "button";
+        paginationButton.className = "op-pagination--item-link";
+        paginationButton.textContent = "2";
+        paginationButton.addEventListener("click", () => {
+          const activePage = document.createElement("span");
+          activePage.textContent = "2";
+          paginationButton.replaceWith(activePage);
+        });
+        document.querySelector(".inline-edit--formattable-display-text").append(paginationButton);
+      JS
+
+      find(".op-pagination--item-link", text: "2").click
+      expect(page).to have_no_css(".op-uc-container_editing")
+
       find(".inplace-editing--container").click
 
       field.set_value("My new text")

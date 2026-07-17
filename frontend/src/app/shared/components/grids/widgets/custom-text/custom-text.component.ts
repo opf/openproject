@@ -63,7 +63,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public activate(event:MouseEvent) {
-    // Let controls rendered by macros handle the click themselves.
+    // Let interactive elements within the formatted text handle the click themselves.
     if (this.clickedElementIsInteractiveWithinDisplayContainer(event)) {
       return;
     }
@@ -130,6 +130,10 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   private clickedElementIsInteractiveWithinDisplayContainer(event:MouseEvent) {
     const displayContainer = this.displayContainer.nativeElement;
+
+    // Pagination replaces the clicked button with the active-page span before
+    // this handler runs. The composed path retains the original button even
+    // after it has been detached from the DOM, unlike event.target.closest().
     const eventPath = event.composedPath();
     const displayContainerIndex = eventPath.indexOf(displayContainer);
 
@@ -141,7 +145,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
     return eventPathWithinDisplayContainer.some(
       (target) => target instanceof Element
-        && target.matches('a, button, input, select, textarea, [role="button"], macro'),
+        && target.matches('a, button, input, select, textarea, [role="button"], [role="link"]'),
     );
   }
 }
