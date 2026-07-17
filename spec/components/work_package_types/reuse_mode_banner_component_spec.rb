@@ -71,11 +71,10 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
   context "when the aspect has no copy service" do
     let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 
-    it "keeps the copy action a no-op button" do
+    it "does not render the copy action" do
       render_inline(component)
 
-      expect(page).to have_button("Copy from type")
-      expect(page).to have_no_link("Copy from type")
+      expect(page).to have_no_text("Copy from type")
     end
   end
 

@@ -63,8 +63,6 @@ See COPYRIGHT and LICENSE files for more details.
                 data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-type" }
               )
             ) { t("types.edit.reuse_mode.independent.copy_from_type") } %>
-      <% else %>
-        <%= render(Primer::Beta::Button.new(type: :button, scheme: :invisible)) { t("types.edit.reuse_mode.independent.copy_from_type") } %>
       <% end %>
       <%= render(Primer::Beta::Button.new(type: :button, ml: 2)) { t("types.edit.reuse_mode.independent.switch_to_linked") } %>
     <% end %>
