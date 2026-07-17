@@ -46,7 +46,7 @@ module WorkPackagesHelper
                    title: work_package.subject,
                    class: link_to_work_package_css_classes(work_package)) do
       link_parts = []
-      link_parts << work_package.type.displayed_name if work_package.type_id
+      link_parts << work_package.type.to_s if work_package.type_id
       link_parts << "#{work_package.formatted_id}:"
       link_parts << content_tag(:span, I18n.t(:label_closed_work_packages), class: "sr-only") if work_package.closed?
       link_parts << work_package.subject if link_subject

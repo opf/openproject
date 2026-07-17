@@ -136,10 +136,7 @@ module Calendar
     end
 
     def translated_attribute_name_and_value(work_package, attribute)
-      value = work_package.public_send(attribute)
-      # A subtype shows its root's name via displayed_name
-      name = value.respond_to?(:displayed_name) ? value.displayed_name : value&.name
-      "#{WorkPackage.human_attribute_name(attribute)}: #{name}"
+      "#{WorkPackage.human_attribute_name(attribute)}: #{work_package.public_send(attribute)&.name}"
     end
 
     def truncated_work_package_description_value(work_package)

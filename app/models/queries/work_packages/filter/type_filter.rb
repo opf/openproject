@@ -31,7 +31,7 @@
 class Queries::WorkPackages::Filter::TypeFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= types.map { |s| [s.displayed_name, s.id.to_s] }
+    @allowed_values ||= types.map { |s| [s.name, s.id.to_s] }
   end
 
   def available?

@@ -413,14 +413,19 @@ RSpec.describe Type do
     end
 
     describe "display helpers" do
-      it "#displayed_name returns the root name" do
-        expect(child.displayed_name).to eq("Task")
-        expect(parent.displayed_name).to eq("Task")
+      it "#name returns the root name" do
+        expect(child.name).to eq("Task")
+        expect(parent.name).to eq("Task")
       end
 
-      it "#displayed_color returns the root color" do
-        expect(child.displayed_color).to eq(color)
-        expect(parent.displayed_color).to eq(color)
+      it "#own_name returns the type's own stored label" do
+        expect(child.own_name).to eq("Bug")
+        expect(parent.own_name).to eq("Task")
+      end
+
+      it "#color returns the root color" do
+        expect(child.color).to eq(color)
+        expect(parent.color).to eq(color)
       end
 
       it "#composite_name prefixes the parent name for a sub-type" do
@@ -442,7 +447,7 @@ RSpec.describe Type do
       end
 
       it "keeps the sub-type's own name as the variant label" do
-        expect(child.name).to eq("Bug")
+        expect(child.own_name).to eq("Bug")
       end
 
       it "leaves a root's own settings untouched" do

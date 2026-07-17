@@ -37,7 +37,7 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
 
   def caption
     I18n.t(:"activerecord.attributes.query.relations_to_type_column",
-           type: type.displayed_name)
+           type: type.name)
   end
 
   def self.instances(context = nil)

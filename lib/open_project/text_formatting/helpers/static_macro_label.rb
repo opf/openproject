@@ -37,7 +37,7 @@ module OpenProject::TextFormatting
       def self.call(work_package, label:, detailed:)
         parts = []
         parts << work_package.status&.name if detailed
-        parts << work_package.type&.displayed_name
+        parts << work_package.type&.name
         parts << label
         "#{parts.compact.join(' ')}: #{work_package.subject}"
       end

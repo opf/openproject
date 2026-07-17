@@ -161,18 +161,21 @@ class Type < ApplicationRecord
     [root, *root.children]
   end
 
-  # A sub-type presents its parent's name and color. Its own name is only the
-  # variant label, exposed through +composite_name+.
-  def displayed_name
-    root.name
+  def name
+    root.own_name
   end
 
-  def displayed_color
-    root.color
+  def own_name
+    self[:name]
   end
 
   def composite_name
-    subtype? ? "#{parent.name}: #{name}" : name
+    subtype? ? "#{name}: #{own_name}" : name
+  end
+
+  # Validate the type's own name, not the root's name as would happen without this for sub-types
+  def read_attribute_for_validation(key)
+    key.to_sym == :name ? own_name : super
   end
 
   # Core settings are inherited from the parent for sub-types. The sub-type's

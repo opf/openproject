@@ -39,15 +39,14 @@ module API
 
         property :id
 
-        property :name,
-                 getter: ->(*) { displayed_name }
+        property :name
 
         property :canonical_name,
                  as: :canonicalName,
                  getter: ->(*) { composite_name }
 
         property :color,
-                 getter: ->(*) { displayed_color&.hexcode },
+                 getter: ->(*) { color&.hexcode },
                  render_nil: true
         property :position
         property :is_default

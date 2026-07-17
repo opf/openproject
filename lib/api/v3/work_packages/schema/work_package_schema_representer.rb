@@ -121,7 +121,7 @@ module API
                  },
                  placeholder: -> {
                    if represented.type&.replacement_pattern_defined_for?(:subject)
-                     I18n.t("placeholders.templated_hint", type: represented.type.displayed_name)
+                     I18n.t("placeholders.templated_hint", type: represented.type.name)
                    end
                  }
 
@@ -277,7 +277,7 @@ module API
                                          link_factory: ->(type) {
                                            {
                                              href: api_v3_paths.type(type.id),
-                                             title: type.displayed_name
+                                             title: type.name
                                            }
                                          },
                                          has_default: false

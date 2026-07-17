@@ -82,7 +82,7 @@ class WorkPackage::PDFExport::DocumentGenerator < Exports::Exporter
 
   def title
     # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
-    build_pdf_filename([work_package.project, work_package.type.displayed_name,
+    build_pdf_filename([work_package.project, work_package.type,
                         work_package.display_id, work_package.subject].join("_"))
   end
 

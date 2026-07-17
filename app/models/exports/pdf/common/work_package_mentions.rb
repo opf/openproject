@@ -36,7 +36,7 @@ module Exports::PDF::Common::WorkPackageMentions
     return work_package.formatted_id if detail_level == 1
 
     # ##: {Type} {formatted_id}: {Subject}
-    content = "#{work_package.type.displayed_name} #{work_package.formatted_id}: #{work_package.subject}"
+    content = "#{work_package.type} #{work_package.formatted_id}: #{work_package.subject}"
     return content if detail_level == 2
 
     # ###: {Status} {Type} {formatted_id}: {Subject} ({Start Date} - {End Date})

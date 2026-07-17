@@ -100,7 +100,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
         it "returns an array of type options" do
           expect(instance.allowed_values)
-            .to contain_exactly([root.displayed_name, root.id.to_s])
+            .to contain_exactly([root.name, root.id.to_s])
         end
       end
     end

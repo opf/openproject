@@ -34,7 +34,7 @@ module API
           link :type do
             {
               href: api_v3_paths.type(represented.type.id),
-              title: represented.type.displayed_name
+              title: represented.type.name
             }
           end
 

@@ -193,7 +193,7 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.expect_visible
       quick_add.toggle
       quick_add.expect_work_package_type root_type.name
-      quick_add.expect_work_package_type sub_type.name, present: false
+      quick_add.expect_work_package_type sub_type.own_name, present: false
     end
   end
 end

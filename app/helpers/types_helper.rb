@@ -80,8 +80,8 @@ module ::TypesHelper
                   "color--phase-icon"
                 end
 
-    color = if type.displayed_color.present?
-              type.displayed_color.hexcode
+    color = if type.color.present?
+              type.color.hexcode
             else
               "#CCC"
             end

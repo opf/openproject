@@ -63,6 +63,6 @@ RSpec.describe "Sub-type shown as its root in the work package table type column
     type_field = wp_table.edit_field(work_package, :type)
 
     type_field.expect_state_text(root_type.name.upcase)
-    expect(type_field.display_element.text).not_to include(sub_type.name.upcase)
+    expect(type_field.display_element.text).not_to include(sub_type.own_name.upcase)
   end
 end

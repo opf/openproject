@@ -68,7 +68,7 @@ module Meetings::PDF::Common::Agenda
   end
 
   def work_package_title_text(work_package)
-    "#{work_package.type.displayed_name} #{work_package.formatted_id} #{work_package.subject}"
+    "#{work_package.type.name} #{work_package.formatted_id} #{work_package.subject}"
   end
 
   def agenda_wp_title_row(agenda_item)
