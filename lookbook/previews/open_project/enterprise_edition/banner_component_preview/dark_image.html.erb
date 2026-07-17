@@ -1,0 +1,23 @@
+<p>
+  <strong>Without a </strong><code>dark_image</code>: the light image is inverted in dark mode.<br>
+  <%= render(
+        ::EnterpriseEdition::BannerComponent.new(
+          :resource_management,
+          variant: :medium,
+          image: "enterprise/resource-management.jpg",
+          show_always: true
+        )
+      ) %>
+</p>
+<p>
+  <strong>With</strong> dedicated <code>dark_image</code>: shown as-is in dark mode, no invert filter.<br>
+  <%= render(
+        ::EnterpriseEdition::BannerComponent.new(
+          :resource_management,
+          variant: :medium,
+          image: "enterprise/resource-management.jpg",
+          dark_image: "enterprise/resource-management-dark.png",
+          show_always: true
+        )
+      ) %>
+</p>

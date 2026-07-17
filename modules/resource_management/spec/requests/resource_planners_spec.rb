@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourcePlanners requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners] })
@@ -41,6 +40,22 @@ RSpec.describe "ResourcePlanners requests",
   let(:resource_planner) { create(:resource_planner, project:, principal: user, name: "Original") }
 
   before { login_as user }
+
+  describe "without the resource_management enterprise feature", with_ee: false do
+    it "renders the index with an upsell banner instead of the planners" do
+      get project_resource_planners_path(project)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("op-enterprise-banner")
+    end
+
+    it "still guards the other actions with 403" do
+      get new_project_resource_planner_path(project),
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
 
   describe "GET edit" do
     it "responds with the edit dialog turbo stream" do
