@@ -29,12 +29,11 @@
 #++
 
 module WorkPackageTypes
-  # "Switch to linked mode" / "Change source type" on a type's configuration
-  # tabs: the source-picker dialog, the danger confirmation (whose wording
-  # depends on whether the type is currently Independent or Linked), and the
-  # switch itself. Built to mirror ConfigurationCopiesController; the reverse
-  # switch back to Independent lives in ConfigurationIndependenceController.
-  class ConfigurationLinksController < BaseTabController
+  # "Switch to independent mode" on a type's configuration tabs: the mode-picker
+  # dialog, the danger confirmation, and the switch itself, which seeds the
+  # configuration from the chosen IndependentMode and severs the link. Built to
+  # mirror ConfigurationLinksController.
+  class ConfigurationIndependenceController < BaseTabController
     include SubtypesFeature
     include OpTurbo::ComponentStream
 
@@ -46,24 +45,25 @@ module WorkPackageTypes
     end
 
     def dialog
-      respond_with_dialog ConfigurationLinks::DialogComponent.new(type: @type, aspect:)
+      respond_with_dialog ConfigurationIndependence::DialogComponent.new(type: @type, aspect:)
     end
 
+    # The mode picker's submit: swaps the picker for the danger confirmation.
     def confirm
-      if source.nil?
-        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
+      if IndependentMode.available?(aspect, mode)
+        close_dialog_via_turbo_stream("##{ConfigurationIndependence::DialogComponent::DIALOG_ID}")
+        dialog_via_turbo_stream(component: ConfigurationIndependence::ConfirmDialogComponent.new(type: @type, aspect:, mode:))
       else
-        close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
-        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(type: @type, aspect:, source:))
+        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.independent.invalid_mode"))
       end
 
       respond_with_turbo_streams
     end
 
     def switch
-      result = SwitchToLinkedModeService.new(type: @type, aspect:).call(source:)
+      result = SwitchToIndependentModeService.new(type: @type, aspect:, user: current_user).call(mode:)
 
-      close_dialog_via_turbo_stream("##{ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream("##{ConfigurationIndependence::ConfirmDialogComponent::DIALOG_ID}")
 
       respond_to_switch(result)
 
@@ -74,15 +74,11 @@ module WorkPackageTypes
 
     def aspect = params[:aspect]
 
-    def source
-      return @source if defined?(@source)
-
-      @source = Type.global.find_by(id: params[:source_id])
-    end
+    def mode = params[:mode].presence || IndependentMode::COPY
 
     def respond_to_switch(result)
       if result.success?
-        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.success"))
+        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.independent.success"))
         dispatch_event_via_turbo_stream(
           ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
           detail: { type_id: @type.id, aspect: }
