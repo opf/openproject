@@ -254,7 +254,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.7.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.7.5"
+gem "httpx", "~> 1.8.0"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"

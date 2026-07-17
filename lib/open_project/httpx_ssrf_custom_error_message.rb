@@ -29,38 +29,14 @@
 #++
 
 module OpenProject
-  # An SSRF filter for HTTPX based on the original plugin.
-  # See https://gitlab.com/os85/httpx/-/blob/master/lib/httpx/plugins/ssrf_filter.rb
-  #
-  # The main difference is that we use our own subclass of `SsrfFilter` to perform the matching of unsafe IP addresses.
-  # We are thus consulting our own allow list of IP addresses before blocking an IP address.
-  module HttpxSsrfFilter
-    class ServerSideRequestForgeryError < HTTPX::Error; end
-
+  module HttpxSsrfCustomErrorMessage
     module ConnectionMethods
-      def initialize(*)
-        super
-      rescue ServerSideRequestForgeryError => e
-        # may raise when IPs are passed as options via :addresses
-        throw(:resolve_error, e)
-      end
-
       def addresses=(addrs)
-        addrs.reject! do |addr|
-          # working around an error in IPAddr that fails to check address inclusion if the passed address is not an
-          # IPAddr, but a SimpleDelegator to an IPAddr (like HTTPX::Resolver::Entry).
-          addr = addr.address if addr.respond_to?(:address)
-
-          SsrfProtection.send(:unsafe_ip_address?, addr)
-        end
-
-        if addrs.empty?
-          raise ServerSideRequestForgeryError,
-                "#{@origin.host} resolves only to private IP addresses, blocked to prevent SSRF. " \
-                "To allow this host, add its IP addresses to OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST."
-        end
-
         super
+      rescue HTTPX::ServerSideRequestForgeryError
+        raise HTTPX::ServerSideRequestForgeryError,
+              "#{origin.host} resolves only to private IP addresses, blocked to prevent SSRF. " \
+              "To allow this host, add its IP addresses to OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST."
       end
     end
   end
