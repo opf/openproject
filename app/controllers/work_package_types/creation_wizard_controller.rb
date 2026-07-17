@@ -98,9 +98,13 @@ module WorkPackageTypes
       mode = params.dig(:type, :mode)
       return if aspect.nil? || mode.blank?
 
-      SetConfigurationLinkService
-        .new(type: @type, aspect:)
-        .call(mode:, source_id: params.dig(:type, :source_id))
+      service = SetConfigurationLinkService.new(type: @type, aspect:)
+      source_id = params.dig(:type, :source_id)
+
+      case mode
+      when "linked" then service.link(source_id:)
+      when "independent" then service.make_independent(source_id:)
+      end
     end
 
     def render_step_errors

@@ -51,8 +51,8 @@ RSpec.describe "Work package type configuration source",
     end
 
     it "blocks the update endpoint" do
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "linked", source_id: source.id }
+      patch type_aspect_configuration_link_path(type, aspect),
+            params: { type_configuration_link: { source_id: source.id } }
 
       expect(response).to have_http_status(:not_found)
       expect(type).not_to be_linked(aspect)
@@ -104,63 +104,70 @@ RSpec.describe "Work package type configuration source",
     end
   end
 
-  describe "PUT update" do
+  describe "PATCH update (link)" do
     it "links the aspect to the chosen source" do
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "linked", source_id: source.id }
+      patch type_aspect_configuration_link_path(type, aspect),
+            params: { type_configuration_link: { source_id: source.id } }
 
       expect(response).to be_redirect
       expect(type.source_for(aspect)).to eq(source)
     end
 
-    it "switches the aspect back to independent" do
-      type.link!(aspect, source:)
+    it "re-renders the picker with an inline error instead of persisting a cyclic link" do
+      # The source already borrows from the type, so linking back would close a loop.
+      create(:type_configuration_link, type: source, source: type, aspect:)
 
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "independent" }
+      patch type_aspect_configuration_link_path(type, aspect),
+            params: { type_configuration_link: { source_id: source.id } },
+            as: :turbo_stream
 
-      expect(response).to be_redirect
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include("would link these configurations in a loop")
       expect(type.reload).not_to be_linked(aspect)
-    end
-
-    it "adopts a source's config when switching to independent with a source" do
-      configured = create(:type)
-      configured.pdf_export_templates.disable_all
-      configured.save!
-
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "independent", source_id: configured.id }
-
-      expect(type.reload).not_to be_linked(aspect)
-      expect(type.export_templates_disabled).to eq(configured.export_templates_disabled)
-    end
-
-    it "does not persist an invalid (self) source and flashes an alert" do
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "linked", source_id: type.id }
-
-      expect(type).not_to be_linked(aspect)
-      expect(flash[:alert]).to be_present
-      expect(flash[:notice]).to be_blank
+      expect(flash[:alert]).to be_blank
     end
 
     it "does not link when no source was picked" do
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "linked", source_id: "" }
+      patch type_aspect_configuration_link_path(type, aspect),
+            params: { type_configuration_link: { source_id: "" } },
+            as: :turbo_stream
 
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(type).not_to be_linked(aspect)
-      expect(flash[:alert]).to be_present
-      expect(flash[:notice]).to be_blank
+      expect(flash[:alert]).to be_blank
     end
 
     it "requires admin" do
       login_as create(:user)
 
-      put type_configuration_link_path(type_id: type.id, aspect:),
-          params: { mode: "linked", source_id: source.id }
+      patch type_aspect_configuration_link_path(type, aspect),
+            params: { type_configuration_link: { source_id: source.id } }
 
       expect(response).not_to be_successful
       expect(type).not_to be_linked(aspect)
+    end
+  end
+
+  describe "DELETE destroy (make independent)" do
+    it "switches the aspect back to independent" do
+      type.link!(aspect, source:)
+
+      delete type_aspect_configuration_link_path(type, aspect)
+
+      expect(response).to be_redirect
+      expect(type.reload).not_to be_linked(aspect)
+    end
+
+    it "adopts a source's config while switching to independent" do
+      configured = create(:type)
+      configured.pdf_export_templates.disable_all
+      configured.save!
+
+      delete type_aspect_configuration_link_path(type, aspect),
+             params: { type_configuration_link: { source_id: configured.id } }
+
+      expect(type.reload).not_to be_linked(aspect)
+      expect(type.export_templates_disabled).to eq(configured.export_templates_disabled)
     end
   end
 end

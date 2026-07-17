@@ -31,6 +31,7 @@
 module WorkPackageTypes
   class ConfigurationLinksController < BaseTabController
     include SubtypesFeature
+    include OpTurbo::ComponentStream
 
     before_action :require_subtypes_feature
 
@@ -38,16 +39,39 @@ module WorkPackageTypes
       :types
     end
 
+    # Linked: create/update the link to the chosen source.
     def update
-      result = SetConfigurationLinkService
-                 .new(type: @type, aspect: params[:aspect])
-                 .call(mode: params[:mode], source_id: params[:source_id])
+      result = service.link(source_id: source_id_param)
 
-      message = result.success? ? { notice: I18n.t(:notice_successful_update) } : { alert: result.message }
-      redirect_to tab_path_for(params[:aspect]), **message
+      if result.success?
+        redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
+      else
+        render_rejected_link(result.result)
+      end
+    end
+
+    # Independent: remove the link, adopting the picked source's config first.
+    def destroy
+      service.make_independent(source_id: source_id_param)
+      redirect_to tab_path_for(params[:aspect_id]), notice: I18n.t(:notice_successful_update)
     end
 
     private
+
+    def service
+      SetConfigurationLinkService.new(type: @type, aspect: params[:aspect_id])
+    end
+
+    def source_id_param
+      params.dig(:type_configuration_link, :source_id)
+    end
+
+    def render_rejected_link(link)
+      replace_via_turbo_stream(
+        component: ConfigurationLinkComponent.new(type: @type, aspect: params[:aspect_id], link:)
+      )
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
 
     def tab_path_for(aspect)
       case aspect
