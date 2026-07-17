@@ -41,9 +41,9 @@ module API
 
         property :name
 
-        property :canonical_name,
-                 as: :canonicalName,
-                 getter: ->(*) { composite_name }
+        property :own_name,
+                 as: :ownName,
+                 getter: ->(*) { own_name }
 
         property :color,
                  getter: ->(*) { color&.hexcode },

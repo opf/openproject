@@ -4,7 +4,7 @@ type: object
 required:
 - id
 - name
-- canonicalName
+- ownName
 - color
 - position
 - isDefault
@@ -21,9 +21,9 @@ properties:
     type: string
     description: The name shown to users. For a sub-type this is its root type's name
     readOnly: true
-  canonicalName:
+  ownName:
     type: string
-    description: 'The disambiguated name. For a sub-type this is "Parent: Child"'
+    description: The type's own name
     readOnly: true
   color:
     type:
@@ -80,7 +80,7 @@ example:
   _type: Type
   id: 1
   name: Bug
-  canonicalName: Bug
+  ownName: Bug
   color: "#ff0000"
   position: 1
   isDefault: true

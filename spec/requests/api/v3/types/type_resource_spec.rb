@@ -102,8 +102,8 @@ RSpec.describe "API v3 Type resource" do
             expect(response.body).to be_json_eql("Task".to_json).at_path("name")
           end
 
-          it "exposes the disambiguated canonical name" do
-            expect(response.body).to be_json_eql("Task: Bug".to_json).at_path("canonicalName")
+          it "exposes its own name" do
+            expect(response.body).to be_json_eql("Bug".to_json).at_path("ownName")
           end
 
           it "links to its parent" do

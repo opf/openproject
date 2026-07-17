@@ -63,8 +63,8 @@ RSpec.describe API::V3::Types::TypeRepresenter do
       expect(subject).to be_json_eql(type.name.to_json).at_path("name")
     end
 
-    it "indicates its canonical name" do
-      expect(subject).to be_json_eql(type.composite_name.to_json).at_path("canonicalName")
+    it "indicates its own name" do
+      expect(subject).to be_json_eql(type.own_name.to_json).at_path("ownName")
     end
 
     it "indicates its color" do
@@ -159,8 +159,8 @@ RSpec.describe API::V3::Types::TypeRepresenter do
         expect(subject).to be_json_eql("Task".to_json).at_path("name")
       end
 
-      it "shows the parent: child label as its canonical name" do
-        expect(subject).to be_json_eql("Task: Bug".to_json).at_path("canonicalName")
+      it "shows its own name, not the root name" do
+        expect(subject).to be_json_eql("Bug".to_json).at_path("ownName")
       end
 
       it "shows the root color" do
