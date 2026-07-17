@@ -33,14 +33,12 @@ See COPYRIGHT and LICENSE files for more details.
 <p><%= I18n.t("types.edit.export_configuration.intro") %></p>
 <%= render(WorkPackageTypes::ExportTemplateListComponent.new(type: model, readonly: readonly?)) %>
 
-<% unless readonly? %>
-  <%= render(Primer::Beta::Subhead.new) do |subhead| %>
-    <% subhead.with_heading(tag: :h3) { I18n.t("types.edit.export_configuration.artefact_export.section_title") } %>
-  <% end %>
-  <p><%= I18n.t("types.edit.export_configuration.artefact_export.intro") %></p>
-  <%=
-    settings_primer_form_with(**artefact_export_form_options) do |f|
-      render(WorkPackageTypes::ArtefactExportForm.new(f))
-    end
-  %>
+<%= render(Primer::Beta::Subhead.new) do |subhead| %>
+  <% subhead.with_heading(tag: :h3) { I18n.t("types.edit.export_configuration.artefact_export.section_title") } %>
 <% end %>
+<p><%= I18n.t("types.edit.export_configuration.artefact_export.intro") %></p>
+<%=
+  settings_primer_form_with(**artefact_export_form_options) do |f|
+    render(WorkPackageTypes::ArtefactExportForm.new(f))
+  end
+%>

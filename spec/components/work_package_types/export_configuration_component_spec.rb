@@ -40,6 +40,12 @@ RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component 
       expect(page).to have_no_css("[data-test-selector='enable-all-pdf-export-templates']")
       expect(page).to have_no_css("[data-test-selector='disable-all-pdf-export-templates']")
     end
+
+    it "renders the inherited artefact export mode as disabled radios" do
+      render_inline(described_class.new(type, readonly: true))
+
+      expect(page.find("input[type=radio][value='#{Type::ArtefactExport::OFF}']")).to be_disabled
+    end
   end
 
   context "when editable (default)" do
@@ -47,6 +53,12 @@ RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component 
       render_inline(described_class.new(type))
 
       expect(page).to have_css("[data-test-selector='enable-all-pdf-export-templates']")
+    end
+
+    it "renders the artefact export mode as editable radios" do
+      render_inline(described_class.new(type))
+
+      expect(page.find("input[type=radio][value='#{Type::ArtefactExport::OFF}']")).not_to be_disabled
     end
   end
 end
