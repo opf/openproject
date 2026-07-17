@@ -23,14 +23,11 @@
       <% page.with_area("main") do %>
         <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
 
-        <% if step_provides_form? %>
-          <%# The step's editor renders the wizard form itself (see FORM_IDENTIFIER). %>
-          <%= render(step_body) %>
-        <% elsif step_editor_form %>
+        <% if step_editor_form %>
           <%= primer_form_with(
                 model: type,
-                url: step_url,
-                method: :patch,
+                url: step_form_url,
+                method: step_form_method,
                 html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
               ) do |f| %>
             <%= render(step_editor_form.new(f)) %>

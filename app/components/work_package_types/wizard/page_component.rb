@@ -58,23 +58,32 @@ module WorkPackageTypes
 
       def step_title = Steps.title(current_step)
 
-      # The details step's editor renders the wizard form itself; every other
-      # step gets a wizard form supplied by the page template.
-      def step_provides_form? = current_step == :details
-
       def step_url = type_creation_wizard_path(type, step: current_step)
+
+      # A brand-new sub-type is created on the first step's submit; every later
+      # submit patches the existing record for its step.
+      def step_form_url
+        type.new_record? ? creation_wizard_types_path : step_url
+      end
+
+      def step_form_method
+        type.new_record? ? :post : :patch
+      end
 
       # Editors whose fields belong to the wizard form itself, so that "Continue"
       # persists them when advancing to the next step.
       def step_editor_form
-        WorkflowsForm if current_step == :workflows
+        case current_step
+        when :details
+          DetailsForm
+        when :workflows
+          WorkflowsForm
+        end
       end
 
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
-        when :details
-          DetailsComponent.new(type:)
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
         when :projects
