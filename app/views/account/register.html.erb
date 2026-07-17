@@ -27,9 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<section data-augmented-model-wrapper
-         data-modal-initialize-now="true"
-         data-modal-class-name="registration-modal -primary">
-  <% @user ||= User.new %>
-  <%= render partial: "/account/register" %>
-</section>
+<% html_title t(:label_register) %>
+<% @user ||= User.new %>
+
+<%= render(Primer::BaseComponent.new(tag: :div, classes: "op-account-registration")) do %>
+  <% if CustomStyle.current&.logo_mobile.present? || !custom_logo? %>
+    <div class="op-logo--icon op-account-registration--logo" aria-hidden="true"></div>
+  <% end %>
+  <%= render(Primer::Beta::Text.new(tag: :p, classes: "op-account-registration--subtitle")) do %>
+    <%= t("account.signup_title", app_title: Setting.app_title) %>
+  <% end %>
+
+  <%= error_messages_for :user %>
+
+  <%= primer_form_with(
+        model: @user,
+        url: account_register_path,
+        data: { turbo: false, test_selector: "registration-form" }
+      ) do |form| %>
+    <%= back_url_hidden_field_tag use_referer: false %>
+    <%= render(RegistrationForm.new(form)) %>
+  <% end %>
+
+  <div class="op-account-registration--signin">
+    <%= link_to t(:button_login), signin_path %>
+  </div>
+<% end %>
