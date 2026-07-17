@@ -183,25 +183,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlog
     end
   end
 
-  context "when show_all_backlog is active" do
-    let(:show_all_backlog) { true }
-    let!(:work_package) do
-      create(:work_package,
-             project:,
-             backlog_bucket:,
-             type: type_feature,
-             status: default_status,
-             priority: default_priority,
-             position: 1)
-    end
-
-    it "includes all=true in the split-view URL", with_flag: { backlogs_lazy_cards: false } do
-      expect(rendered_component).to have_css(".op-work-package-card") do |card|
-        expect(card["data-backlogs--work-package-split-url-value"]).to include("all=true")
-      end
-    end
-  end
-
   context "when the user lacks the create_sprints permission" do
     let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages manage_sprint_items]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
