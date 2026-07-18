@@ -1,8 +1,25 @@
 .op-draggable-autocomplete
   &--selected
+    position: relative
     display: flex
     flex-wrap: wrap
     padding-bottom: 1rem
+    padding-inline-end: 6px
+
+    // Container-append cue: an accent line in the list's inline-end padding
+    // while the sortable-lists engine flags this root as the active drop
+    // container (data-drop-container="active"), meaning the drag would
+    // append at the end of the list rather than land next to a chip.
+    &[data-drop-container]::after
+      content: ''
+      position: absolute
+      top: 0
+      bottom: 1rem
+      inset-inline-end: 0
+      width: 2px
+      background: var(--fgColor-accent)
+      pointer-events: none
+      z-index: 1
 
   &--item
     position: relative

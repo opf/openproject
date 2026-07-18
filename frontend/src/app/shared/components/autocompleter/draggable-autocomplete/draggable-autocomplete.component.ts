@@ -123,6 +123,13 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
     if (reordered !== this.selectedOptions) {
       this.selectedOptions = reordered;
     }
+
+    // Completion is synchronous: there is no server round-trip here, the
+    // reordered chips simply persist on the next form submit. Completing
+    // unconditionally (even for a no-op) is essential — the engine keeps its
+    // transaction "busy" until `complete` runs, which blocks the *next*
+    // drag from starting if this call is skipped.
+    event.complete(true);
   }
 
   select(item:DraggableOption|undefined) {
