@@ -33,36 +33,17 @@ import {
   OnInit,
   inject,
   input,
-  signal,
 } from '@angular/core';
-import {
-  draggable,
-  dropTargetForElements,
-} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
-import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
-import {
-  type Edge,
-  attachClosestEdge,
-  extractClosestEdge,
-} from 'core-common/drag-and-drop/reorder';
-import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import { OpSortableListsDirective } from './sortable-lists.directive';
+import { OpSortableListsListDirective } from './sortable-lists-list.directive';
 
-type CleanupFn = () => void;
-
-// One sortable item inside an `opSortableLists` list. Mirrors the Stimulus
-// `sortable-lists--item` controller: it registers its host element with
-// Pragmatic exactly once per directive instance, so Angular's view lifecycle
-// (`@for` track) owns creation and destruction of the registration. Drag and
-// drop-position state is exposed through `data-dragging` and
-// `data-drop-position` host attributes for the consumer's stylesheet.
+// One sortable item inside an `opSortableLists` root. Registers its host
+// element with the shared engine once per directive instance in `ngOnInit`
+// and cleans up via `DestroyRef`, so a re-rendered item (`@for` track) is a
+// fresh registration, not a stale one reused out of order. All drag/
+// drop-position visual state is written directly to the host by the engine.
 @Directive({
   selector: '[opSortableListsItem]',
-  host: {
-    '[attr.data-dragging]': 'dragging() ? "true" : null',
-    '[attr.data-drop-position]': 'dropPosition()',
-  },
 })
 export class OpSortableListsItemDirective implements OnInit {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -71,13 +52,15 @@ export class OpSortableListsItemDirective implements OnInit {
 
   // Fails Angular injection loudly when the item is not placed inside an
   // `opSortableLists` ancestor, instead of silently becoming inert.
-  private readonly list = inject(OpSortableListsDirective);
+  private readonly root = inject(OpSortableListsDirective);
+
+  // The nearest explicit list, if any; falls back to the root's own
+  // implicit list when the item sits directly under a collapsed root.
+  private readonly list = inject(OpSortableListsListDirective, { optional: true });
 
   itemId = input.required<string>({ alias: 'opSortableListsItem' });
 
-  readonly dragging = signal(false);
-
-  readonly dropPosition = signal<Edge|null>(null);
+  canDrag = input<boolean>(true, { alias: 'opSortableListsItemCanDrag' });
 
   ngOnInit():void {
     if (!this.itemId()) {
@@ -88,88 +71,22 @@ export class OpSortableListsItemDirective implements OnInit {
       return;
     }
 
-    const cleanup = combine(
-      this.registerDraggable(),
-      this.registerDropTarget(),
-    );
+    // DI's nearest-list lookup does not stop at an intervening
+    // `opSortableLists` root: an item under a collapsed root nested inside an
+    // outer root's explicit list would otherwise resolve to the OUTER list,
+    // while `this.root` resolves to the INNER root — pairing the inner engine
+    // with a list id it never registered. Only honor the injected list when
+    // it belongs to this item's own nearest root; else fall back to that
+    // root's implicit list.
+    const ownList = this.list?.root === this.root ? this.list : null;
 
-    this.destroyRef.onDestroy(() => {
-      this.dragging.set(false);
-      this.dropPosition.set(null);
-      cleanup();
+    const cleanup = this.root.registerItem({
+      element: this.elementRef.nativeElement,
+      itemId: this.itemId(),
+      listId: ownList?.listId() ?? this.root.implicitListId,
+      canDrag: () => this.canDrag(),
     });
-  }
 
-  private registerDraggable():CleanupFn {
-    const element = this.elementRef.nativeElement;
-
-    return draggable({
-      element,
-      canDrag: ({ input: pointer }) => this.canDragFromPoint(pointer.clientX, pointer.clientY),
-      getInitialData: () => this.list.payloadScope.itemData(this.itemId()),
-      onDragStart: () => {
-        preventUnhandled.start();
-        this.dragging.set(true);
-      },
-      onDrop: () => {
-        preventUnhandled.stop();
-        this.dragging.set(false);
-      },
-    });
-  }
-
-  private registerDropTarget():CleanupFn {
-    const element = this.elementRef.nativeElement;
-    const { payloadScope } = this.list;
-
-    return dropTargetForElements({
-      element,
-      canDrop: ({ source }) => payloadScope.isItemData(source.data)
-        && source.data.itemId !== this.itemId(),
-      getData: ({ input: pointer }) => attachClosestEdge(payloadScope.itemData(this.itemId()), {
-        element,
-        input: pointer,
-        allowedEdges: this.list.allowedEdges(),
-      }),
-      getIsSticky: ({ input: pointer }) => this.list.containsPoint(pointer),
-      onDragEnter: ({ self }) => this.dropPosition.set(extractClosestEdge(self.data)),
-      onDrag: ({ self }) => this.dropPosition.set(extractClosestEdge(self.data)),
-      onDragLeave: () => this.dropPosition.set(null),
-      onDrop: ({ source, self }) => {
-        this.dropPosition.set(null);
-        this.emitDropIntent(source.data, self.data);
-      },
-    });
-  }
-
-  // The active item target resolves the drop itself, so no global monitor is
-  // needed: a drop onto self or from a foreign list never passes canDrop, and
-  // a drop outside the list reaches no item target at all.
-  private emitDropIntent(
-    sourceData:Record<string|symbol, unknown>,
-    selfData:Record<string|symbol, unknown>,
-  ):void {
-    if (!this.list.payloadScope.isItemData(sourceData)) {
-      return;
-    }
-
-    this.list.emitDrop({
-      sourceId: sourceData.itemId,
-      targetId: this.itemId(),
-      edge: extractClosestEdge(selfData),
-    });
-  }
-
-  // A drag may not start from an interactive descendant (e.g. the remove
-  // button inside a chip), matching the Stimulus sortable-item behavior.
-  private canDragFromPoint(clientX:number, clientY:number):boolean {
-    const element = this.elementRef.nativeElement;
-    const target = element.ownerDocument.elementFromPoint(clientX, clientY);
-
-    if (!(target instanceof Element) || !element.contains(target)) {
-      return true;
-    }
-
-    return closestInteractiveElement(target, element) == null;
+    this.destroyRef.onDestroy(cleanup);
   }
 }
