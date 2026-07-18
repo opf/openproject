@@ -826,8 +826,8 @@ uk:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1581,6 +1581,7 @@ uk:
     workflows:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: Переходи статусів не налаштовано
       leave_confirmation:
         description: Ви збираєтеся покинути цю сторінку, однак деякі зміни не збережено. Бажаєте зберегти їх, перш ніж продовжити?
@@ -5964,9 +5965,27 @@ uk:
           caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
           label: Linked
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        reference:
+          edit_at_source: Edit at source
+          reusing: Configuration reused from %{source}.
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Виберіть, які шаблони з доступних вам ви хочете ввімкнути для цього типу. Шаблон визначає дизайн і атрибути, що відображаються в експортованому PDF-файлі пакета робіт за допомогою цього типу. Перший шаблон у списку вибирається за замовчуванням.
         pdf_export_templates:
           actions:
@@ -5974,6 +5993,8 @@ uk:
             label_enable_all: Увімкнути все
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Розділ
         add_query_group: Таблиця пов’язаних робочих пакетів

@@ -31,9 +31,9 @@ fr:
           attributes:
             end_date:
               greater_than_start_date: doit être postérieure à la date de début.
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: doit être défini quand une date de début est définie.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: doit être défini quand une date de fin est définie.
         resource_work_package_list:
           attributes:
             query:
@@ -43,6 +43,13 @@ fr:
       resource_planner: Planificateur de ressources
       resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Suivant
   label_resource_management: Gestion des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs

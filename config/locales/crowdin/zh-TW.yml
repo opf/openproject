@@ -819,8 +819,8 @@ zh-TW:
               invalid_tokens: 欄位內的一個或多個屬性不正確。請在儲存前修正屬性。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1499,6 +1499,7 @@ zh-TW:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -5763,9 +5764,27 @@ zh-TW:
           caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
           label: Linked
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        reference:
+          edit_at_source: Edit at source
+          reusing: Configuration reused from %{source}.
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: 從可用的範本中選擇您想要為此類型啟用的範本。範本決定了使用此類工作套件匯出的 PDF 中顯示的設計和屬性。預設為選定清單中的第一個模板。
         pdf_export_templates:
           actions:
@@ -5773,6 +5792,8 @@ zh-TW:
             label_enable_all: 全部啟用
           label: PDF匯出範本
         tab: 產生PDF檔案
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table

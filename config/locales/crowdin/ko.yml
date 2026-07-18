@@ -819,8 +819,8 @@ ko:
               invalid_tokens: 필드 내의 특성이 하나 이상의 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1497,6 +1497,7 @@ ko:
     workflows:
       blankslate:
         description: 상태를 추가하여 이 역할에 대한 워크플로 구성을 시작합니다
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: 구성된 상태 전환 없음
       leave_confirmation:
         description: 이 페이지를 나가려고 하는데, 저장되지 않은 변경 사항이 있습니다. 저장한 후에 계속하시겠습니까?
@@ -5767,9 +5768,27 @@ ko:
           caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
           label: Linked
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        reference:
+          edit_at_source: Edit at source
+          reusing: Configuration reused from %{source}.
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: 사용 가능한 템플릿 중에서 이 유형에 대해 활성화하려는 템플릿을 선택하세요. 템플릿은 이 유형을 사용하여 작업 패키지의 내보낸 PDF에서 표시되는 디자인과 특성을 결정합니다. 목록의 첫 번째 템플릿이 기본적으로 선택됩니다.
         pdf_export_templates:
           actions:
@@ -5777,6 +5796,8 @@ ko:
             label_enable_all: 모두 활성화
           label: PDF 내보내기 템플릿
         tab: PDF 생성
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: 섹션
         add_query_group: 관련 작업 패키지 테이블

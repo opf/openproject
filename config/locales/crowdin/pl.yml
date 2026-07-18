@@ -822,8 +822,8 @@ pl:
               invalid_tokens: Co najmniej jeden atrybut wewnątrz pola jest nieprawidłowy. Popraw atrybuty przed zapisaniem.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1577,6 +1577,7 @@ pl:
     workflows:
       blankslate:
         description: Dodaj statusy, aby rozpocząć konfigurowanie przepływów pracy dla tej roli
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: Nie skonfigurowano przejść statusów
       leave_confirmation:
         description: W ten sposób opuścisz tę stronę, ale masz niezapisane zmiany. Czy chcesz je zapisać przed kontynuowaniem?
@@ -5949,9 +5950,27 @@ pl:
           caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
           label: Linked
           warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+        reference:
+          edit_at_source: Edit at source
+          reusing: Configuration reused from %{source}.
         source:
           label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Wybierz spośród dostępnych szablony, które chcesz włączyć dla tego typu. Szablon określa wygląd i atrybuty widoczne w wyeksportowanym pliku PDF pakietu roboczego używającego tego typu. Domyślnie wybrany jest pierwszy szablon z listy.
         pdf_export_templates:
           actions:
@@ -5959,6 +5978,8 @@ pl:
             label_enable_all: Włącz wszystkie
           label: Szablony eksportu PDF
         tab: Wygeneruj PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Sekcja
         add_query_group: Tabela powiązanych pakietów roboczych
