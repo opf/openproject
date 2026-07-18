@@ -3129,12 +3129,6 @@
   border-right: 5px solid #ccc;
 }
 
-/* @ckeditor/ckeditor5-undo */
-/**
- * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-licensing-options
- */
-
 /* @ckeditor/ckeditor5-widget */
 /**
  * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.
@@ -3686,6 +3680,103 @@
 .ck.ck-editor__editable.ck-restricted-editing_mode_restricted div.restricted-editing-exception .ck-widget__type-around {
   display: initial;
 }
+
+/* @ckeditor/ckeditor5-clipboard */
+/**
+ * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-licensing-options
+ */
+:root {
+  --ck-clipboard-drop-target-dot-width: 12px;
+  --ck-clipboard-drop-target-dot-height: 8px;
+  --ck-clipboard-drop-target-color: var(--ck-color-focus-border);
+}
+
+.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span {
+  bottom: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
+  top: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
+  border: 1px solid var(--ck-clipboard-drop-target-color);
+  background: var(--ck-clipboard-drop-target-color);
+  margin-left: -1px;
+  position: absolute;
+}
+
+.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span:after {
+  content: "";
+  width: 0;
+  height: 0;
+  left: 50%;
+  top: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));
+  border-color: var(--ck-clipboard-drop-target-color) transparent transparent transparent;
+  border-width: calc(var(--ck-clipboard-drop-target-dot-height)) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width));
+  border-style: solid;
+  display: block;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span {
+  width: 0;
+}
+
+.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position {
+  pointer-events: none;
+  display: inline;
+  position: relative;
+}
+
+.ck.ck-editor__editable .ck-widget.ck-clipboard-drop-target-range {
+  outline: var(--ck-widget-outline-thickness) solid var(--ck-clipboard-drop-target-color) !important;
+}
+
+.ck.ck-editor__editable .ck-widget:-webkit-drag {
+  zoom: .6;
+  outline: none !important;
+}
+
+.ck.ck-editor__editable .ck-widget:-webkit-drag > .ck-widget__selection-handle, .ck.ck-editor__editable .ck-widget:-webkit-drag > .ck-widget__type-around {
+  display: none;
+}
+
+.ck.ck-clipboard-drop-target-line {
+  border: 1px solid var(--ck-clipboard-drop-target-color);
+  background: var(--ck-clipboard-drop-target-color);
+  height: 0;
+  z-index: var(--ck-z-default);
+  margin-top: -1px;
+  position: absolute;
+}
+
+.ck.ck-clipboard-drop-target-line:before {
+  content: "";
+  top: calc(-.5 * var(--ck-clipboard-drop-target-dot-width));
+  border-style: solid;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.ck.ck-clipboard-drop-target-line {
+  pointer-events: none;
+}
+
+[dir="ltr"] .ck.ck-clipboard-drop-target-line:before {
+  border-width: calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width)) var(--ck-clipboard-drop-target-dot-height);
+  border-color: transparent transparent transparent var(--ck-clipboard-drop-target-color);
+  left: -1px;
+}
+
+[dir="rtl"] .ck.ck-clipboard-drop-target-line:before {
+  border-width: calc(.5 * var(--ck-clipboard-drop-target-dot-width)) var(--ck-clipboard-drop-target-dot-height) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0;
+  border-color: transparent var(--ck-clipboard-drop-target-color) transparent transparent;
+  right: -1px;
+}
+
+/* @ckeditor/ckeditor5-undo */
+/**
+ * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-licensing-options
+ */
 
 /* @ckeditor/ckeditor5-image */
 /**

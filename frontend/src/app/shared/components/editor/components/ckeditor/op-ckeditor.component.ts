@@ -239,6 +239,12 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         editor.on('op:source-code-enabled', () => this.enableManualMode());
         editor.on('op:source-code-disabled', () => this.disableManualMode());
 
+        // Notify the user when a paste could not be converted and was
+        // handled gracefully (inserted as plain text) instead of crashing.
+        editor.on('op:clipboard-paste-error', () => {
+          this.Notifications.addError(this.I18n.t('js.editor.error_paste_failed'));
+        });
+
         // Capture CTRL+ENTER commands
         this.interceptModifiedEnterKeystrokes(editor);
 
@@ -365,6 +371,11 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
     watchdog.on('error', (_, { error }) => {
       this.error = error.message;
+
+      // Surface the failure to the user instead of failing silently. The
+      // watchdog restarts the editor on a crash, so without this the user
+      // would only notice through lost content.
+      this.Notifications.addError(this.I18n.t('js.editor.ckeditor_error'));
     });
   }
 }
