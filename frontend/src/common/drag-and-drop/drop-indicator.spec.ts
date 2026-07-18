@@ -26,39 +26,32 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// The Pragmatic DnD payload exchanged within one sortable list. Each root
-// creates its own Symbol-keyed scope, so items from one root are never
-// recognized by another root's targets/monitors/autoscrollers, even with
-// equal ids. The scope is shared across sibling lists of the same root, so
-// they interoperate for cross-list drags.
-export interface SortableItemData extends Record<string|symbol, unknown> {
-  itemId:string;
-  listId:string;
-}
+import {
+  clearDropIndicator,
+  dropPositionAttribute,
+  dropPositionOwnerAttribute,
+  renderDropIndicator,
+} from './drop-indicator';
 
-export interface SortableItemPayloadScope {
-  itemData(itemId:string, listId:string):SortableItemData;
-  isItemData(data:Record<string|symbol, unknown>):data is SortableItemData;
-}
+describe('drop indicator owner tracking', () => {
+  it('records the owner when rendering', () => {
+    const el = document.createElement('div');
+    renderDropIndicator(el, 'top', 'item-1');
 
-export function createSortableItemPayloadScope():SortableItemPayloadScope {
-  const scopeKey = Symbol('op-sortable-item');
+    expect(el.getAttribute(dropPositionAttribute)).toBe('top');
+    expect(el.getAttribute(dropPositionOwnerAttribute)).toBe('item-1');
+  });
 
-  return {
-    itemData(itemId:string, listId:string):SortableItemData {
-      return {
-        [scopeKey]: true,
-        itemId,
-        listId,
-      };
-    },
+  it('does not clear an indicator another owner rendered since', () => {
+    const el = document.createElement('div');
+    renderDropIndicator(el, 'top', 'item-1');
+    renderDropIndicator(el, 'bottom', 'item-2');
+    clearDropIndicator(el, 'item-1');
 
-    isItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
-      return data[scopeKey] === true
-        && typeof data.itemId === 'string'
-        && data.itemId.length > 0
-        && typeof data.listId === 'string'
-        && data.listId.length > 0;
-    },
-  };
-}
+    expect(el.getAttribute(dropPositionAttribute)).toBe('bottom');
+
+    clearDropIndicator(el, 'item-2');
+    expect(el.hasAttribute(dropPositionAttribute)).toBe(false);
+    expect(el.hasAttribute(dropPositionOwnerAttribute)).toBe(false);
+  });
+});

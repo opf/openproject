@@ -83,4 +83,22 @@ describe('reorderById', () => {
 
     expect(reorder(list, 'b', 'a', 'right')).toBe(list);
   });
+
+  it('appends the source on a null target', () => {
+    const list = ['a', 'b', 'c'];
+    const result = reorderById({
+      list, getId: (x) => x, sourceId: 'a', targetId: null, closestEdge: null, axis: 'vertical',
+    });
+
+    expect(result).toEqual(['b', 'c', 'a']);
+  });
+
+  it('returns the same reference when appending the already-last item', () => {
+    const list = ['a', 'b', 'c'];
+    const result = reorderById({
+      list, getId: (x) => x, sourceId: 'c', targetId: null, closestEdge: null, axis: 'vertical',
+    });
+
+    expect(result).toBe(list);
+  });
 });

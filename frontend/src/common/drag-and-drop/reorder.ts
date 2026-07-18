@@ -38,11 +38,10 @@ export type { Edge };
 
 export type SortableAxis = 'vertical'|'horizontal';
 
-// Reorder a list by item identity using the closest edge of the drop target.
-// Indices are resolved from the current list (not carried in the payload) so a
-// stale index can never reorder the wrong element. Returns the original list
-// (same reference) when either id cannot be found or the move is a no-op, so
-// callers can suppress false change events via reference equality.
+// Reorders by item identity and the target's closest edge; indices are
+// resolved fresh from `list`, never carried in the payload. Returns the
+// original reference for an unknown id or a no-op, so callers can detect
+// no-change via `===`.
 export function reorderById<T>({
   list,
   getId,
@@ -54,10 +53,21 @@ export function reorderById<T>({
   list:T[];
   getId:(item:T) => string;
   sourceId:string;
-  targetId:string;
+  targetId:string|null;
   closestEdge:Edge|null;
   axis:SortableAxis;
 }):T[] {
+  if (targetId === null) {
+    const startIndex = list.findIndex((item) => getId(item) === sourceId);
+    if (startIndex === -1 || startIndex === list.length - 1) {
+      return list;
+    }
+    const appended = [...list];
+    const [moved] = appended.splice(startIndex, 1);
+    appended.push(moved);
+    return appended;
+  }
+
   const startIndex = list.findIndex((item) => getId(item) === sourceId);
   const indexOfTarget = list.findIndex((item) => getId(item) === targetId);
 

@@ -31,7 +31,7 @@ import { createSortableItemPayloadScope } from './payload';
 describe('createSortableItemPayloadScope', () => {
   it('recognizes data created by the same scope', () => {
     const scope = createSortableItemPayloadScope();
-    const data = scope.itemData('42');
+    const data = scope.itemData('42', 'list');
 
     expect(scope.isItemData(data)).toBe(true);
     expect(data.itemId).toBe('42');
@@ -41,8 +41,8 @@ describe('createSortableItemPayloadScope', () => {
     const scope = createSortableItemPayloadScope();
     const otherScope = createSortableItemPayloadScope();
 
-    expect(scope.isItemData(otherScope.itemData('42'))).toBe(false);
-    expect(otherScope.isItemData(scope.itemData('42'))).toBe(false);
+    expect(scope.isItemData(otherScope.itemData('42', 'list'))).toBe(false);
+    expect(otherScope.isItemData(scope.itemData('42', 'list'))).toBe(false);
   });
 
   it('rejects foreign and empty payloads', () => {
@@ -55,6 +55,21 @@ describe('createSortableItemPayloadScope', () => {
   it('rejects data with an empty item id', () => {
     const scope = createSortableItemPayloadScope();
 
-    expect(scope.isItemData(scope.itemData(''))).toBe(false);
+    expect(scope.isItemData(scope.itemData('', 'list'))).toBe(false);
+  });
+
+  it('carries the list id in the payload', () => {
+    const scope = createSortableItemPayloadScope();
+    const data = scope.itemData('item-1', 'list-a');
+
+    expect(data.itemId).toBe('item-1');
+    expect(data.listId).toBe('list-a');
+    expect(scope.isItemData(data)).toBe(true);
+  });
+
+  it('rejects payloads without a list id', () => {
+    const scope = createSortableItemPayloadScope();
+
+    expect(scope.isItemData({ itemId: 'item-1' })).toBe(false);
   });
 });
