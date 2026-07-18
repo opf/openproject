@@ -43,6 +43,13 @@ pt-PT:
       resource_planner: Planeador de recursos
       resource_user_card: Cartões de utilizador
       resource_work_package_list: Lista de pacotes de trabalho
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Seguinte
   label_resource_management: Resource management
   permission_allocate_user_resources: Alocar recursos do utilizador
