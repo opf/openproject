@@ -37,10 +37,9 @@ module OpenProject
         end
 
         def initialize(form:, attribute:, model:, **system_arguments)
-          system_arguments ||= {}
-          system_arguments[:readonly] = true
+          super(form:, attribute:, model:, show_action_buttons: false, readonly: true, **system_arguments)
 
-          super(form:, attribute:, model:, show_action_buttons: false, **system_arguments)
+          @system_arguments[:value] = model.formatted_custom_value_for(custom_field) if custom_field?
         end
       end
     end
