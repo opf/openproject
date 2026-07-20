@@ -30,6 +30,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
 
-<% if @type && @roles.any? %>
-  <%= turbo_frame_tag "workflow-table", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_workflow_path(type_id: @type.id)
+      )
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
+
+  <% if @type && @roles.any? %>
+    <%= turbo_frame_tag "workflow-table", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+  <% end %>
 <% end %>
