@@ -33,7 +33,8 @@ require "spec_helper"
 RSpec.describe WorkPackages::WorkflowJob do
   let(:work_package) { build_stubbed(:work_package) }
   let(:changes) { { "status_id" => [1, 2] } }
-  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial) }
+  let(:journal_user) { build_stubbed(:user) }
+  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial, user: journal_user) }
   let(:initial) { false }
 
   let(:reupload_service) do
@@ -58,6 +59,15 @@ RSpec.describe WorkPackages::WorkflowJob do
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
+    end
+
+    it "acts as the journal's user so generated artefacts are attributed to them" do
+      current_user_during_call = nil
+      allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
+
+      perform
+
+      expect(current_user_during_call).to eq(journal_user)
     end
   end
 

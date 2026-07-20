@@ -34,8 +34,13 @@ module WorkPackages
       work_package = journal.journable
       return if journal.initial?
 
-      process_artifact_changes(work_package, changes)
-      process_type_artefact_export(work_package, changes)
+      # The job runs with a clean request store, so User.current would be
+      # Anonymous here. Act as the user who caused the journalized change so the
+      # generated artefacts (attachment and its journal entry) are attributed to them.
+      User.execute_as(journal.user) do
+        process_artifact_changes(work_package, changes)
+        process_type_artefact_export(work_package, changes)
+      end
     end
 
     private
