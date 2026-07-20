@@ -72,19 +72,33 @@ module WorkPackages
       end
 
       def store_as_attachment(export)
-        file = OpenProject::Files.create_uploaded_file(
+        attachment = work_package.attachments.create(author: current_user, file: uploaded_file(export))
+        if attachment.persisted?
+          journalize_attachment(attachment.author)
+        else
+          Rails.logger.error(
+            "Failed to attach artefact to work package ##{work_package.id}: " \
+            "#{attachment.errors.full_messages.join(', ')}"
+          )
+        end
+      end
+
+      def uploaded_file(export)
+        OpenProject::Files.create_uploaded_file(
           name: export.title,
           content_type: export.mime_type,
           content: export.content,
           binary: true
         )
+      end
 
-        attachment = work_package.attachments.create(author: current_user, file:)
-        unless attachment.persisted?
-          Rails.logger.error(
-            "Failed to attach artefact to work package ##{work_package.id}: " \
-            "#{attachment.errors.full_messages.join(', ')}"
-          )
+      # Creating the attachment through the association does not create a work package
+      # journal on its own, so the artefact would only surface in the Activity tab after
+      # the next unrelated change. Create the journal explicitly so it shows up right away.
+      def journalize_attachment(author)
+        OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
+          work_package.add_journal(user: author)
+          work_package.touch_and_save_journals
         end
       end
 
