@@ -2860,7 +2860,7 @@ en:
           new_features_list:
             line_0: "New Resource management module for capacity planning and staffing (Premium plan)."
             line_1: "Better organizational management with Departments, user attributes such as job titles, and working hours."
-            line_2: "Multiple active sprints without sharing (Basic plan)"
+            line_2: "Multiple active sprints without sharing (Basic plan)."
             line_3: "Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages."
             line_4: "PM²/PMflex artifact export and a new widget for project phases and gates overview."
             line_5: "Global wiki page index and easier navigation between related pages."
