@@ -5795,7 +5795,6 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      configuration_link_error: Le mode de réutilisation n'a pas pu être enregistré. Veuillez sélectionner un type de source.
       create_subtype: Créer un sous-type
       fields:
         inherited_from_parent_html: Hérité du type parent <b>%{parent}</b>.
@@ -5813,20 +5812,6 @@ fr:
       workflows:
         copy_caption: Copiez la configuration du workflow à partir d'un type existant pour vous en servir de point de départ.
     edit:
-      configuration_link:
-        independent:
-          caption: Ces paramètres appartiennent à ce type et sont modifiés ici. Ils ne sont liés à aucun autre type.
-          label: Indépendant
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: Ces paramètres sont repris d'un type de source et restent synchronisés avec celui-ci. Pour les modifier, modifiez le type de source.
-          label: Relié
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        reference:
-          edit_at_source: Edit at source
-          reusing: Configuration reused from %{source}.
-        source:
-          label: Type de source
       export_configuration:
         artefact_export:
           attachment:
@@ -5898,6 +5883,31 @@ fr:
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         tab: Projets
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Vous pouvez, si vous le souhaitez, imbriquer ce type en tant que sous-type en sélectionnant un type parent.
         tab: Paramètres

@@ -57,10 +57,10 @@ de:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints laufen.
+              requires_no_sharing: kann nur aktiviert werden, wenn die Sprint-Freigabe auf „Nicht teilen“ eingestellt ist.
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints möglich sind.
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
           receiving_sprints: erhält geteilte Sprints. Eigene Sprints können nicht erstellt werden.
