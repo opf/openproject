@@ -64,8 +64,6 @@ module WorkPackageTypes
     end
 
     def update
-      return render_step_errors if persist_configuration_link&.failure?
-
       case @current_step
       when :details
         update_details
@@ -89,23 +87,6 @@ module WorkPackageTypes
       else
         render :show, status: :unprocessable_entity
       end
-    end
-
-    # Each step chooses a reuse mode for its own aspect. Details has none, so it
-    # returns nil, leaving nothing to persist.
-    def persist_configuration_link
-      aspect = Wizard::Steps.aspect_for(@current_step)
-      mode = params.dig(:type, :mode)
-      return if aspect.nil? || mode.blank?
-
-      SetConfigurationLinkService
-        .new(type: @type, aspect:)
-        .call(mode:, source_id: params.dig(:type, :source_id))
-    end
-
-    def render_step_errors
-      flash.now[:error] = t("types.creation_wizard.configuration_link_error")
-      render :show, status: :unprocessable_entity
     end
 
     # The copy source is only offered in Independent mode; a Linked aspect inherits

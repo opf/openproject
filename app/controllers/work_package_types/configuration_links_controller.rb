@@ -29,33 +29,71 @@
 #++
 
 module WorkPackageTypes
+  # "Switch to linked mode" / "Change source type" on a type's configuration
+  # tabs: the source-picker dialog, the danger confirmation (whose wording
+  # depends on whether the type is currently Independent or Linked), and the
+  # switch itself. Built to mirror ConfigurationCopiesController; the reverse
+  # switch back to Independent lives in ConfigurationIndependenceController.
   class ConfigurationLinksController < BaseTabController
     include SubtypesFeature
+    include OpTurbo::ComponentStream
 
     before_action :require_subtypes_feature
+    before_action :require_valid_aspect
 
     current_menu_item do
       :types
     end
 
-    def update
-      result = SetConfigurationLinkService
-                 .new(type: @type, aspect: params[:aspect])
-                 .call(mode: params[:mode], source_id: params[:source_id])
+    def dialog
+      respond_with_dialog ConfigurationLinks::DialogComponent.new(type: @type, aspect:)
+    end
 
-      message = result.success? ? { notice: I18n.t(:notice_successful_update) } : { alert: result.message }
-      redirect_to tab_path_for(params[:aspect]), **message
+    def confirm
+      if source.nil?
+        render_error_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.invalid_source"))
+      else
+        close_dialog_via_turbo_stream("##{ConfigurationLinks::DialogComponent::DIALOG_ID}")
+        dialog_via_turbo_stream(component: ConfigurationLinks::ConfirmDialogComponent.new(type: @type, aspect:, source:))
+      end
+
+      respond_with_turbo_streams
+    end
+
+    def switch
+      result = SwitchToLinkedModeService.new(type: @type, aspect:).call(source:)
+
+      close_dialog_via_turbo_stream("##{ConfigurationLinks::ConfirmDialogComponent::DIALOG_ID}")
+
+      respond_to_switch(result)
+
+      respond_with_turbo_streams
     end
 
     private
 
-    def tab_path_for(aspect)
-      case aspect
-      when Type::ConfigurationLink::PATTERNS
-        edit_type_subject_configuration_path(type_id: @type.id)
+    def aspect = params[:aspect]
+
+    def source
+      return @source if defined?(@source)
+
+      @source = Type.global.find_by(id: params[:source_id])
+    end
+
+    def respond_to_switch(result)
+      if result.success?
+        render_success_flash_message_via_turbo_stream(message: t("types.edit.reuse_mode.linked.success"))
+        dispatch_event_via_turbo_stream(
+          ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
+          detail: { type_id: @type.id, aspect: }
+        )
       else
-        edit_type_pdf_export_template_index_path(type_id: @type.id)
+        render_error_flash_message_via_turbo_stream(message: result.errors.full_messages.to_sentence)
       end
+    end
+
+    def require_valid_aspect
+      render_404 unless Type::ConfigurationLink::ASPECTS.include?(aspect)
     end
   end
 end

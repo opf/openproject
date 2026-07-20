@@ -120,6 +120,7 @@ sv:
     button_cancel: Avbryt
     button_change_project: Flytta till ett annat projekt
     button_check_all: Markera alla
+    button_clear: Clear
     button_close: Stäng
     button_close_details: Stäng detaljvyn
     button_collapse_all: Fäll ihop alla
@@ -803,6 +804,14 @@ sv:
       sorted_dsc: 'Fallande sortering används, '
       sorted_no: 'Ingen sortering används, '
       sorting_disabled: sortering är inaktiverad
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Stäng modal

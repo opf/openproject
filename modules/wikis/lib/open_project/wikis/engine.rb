@@ -89,6 +89,33 @@ module OpenProject::Wikis
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
     register "openproject-wikis", author_url: "https://openproject.org" do
+      project_module nil do
+        permission :view_wiki_pages,
+                   { wiki: %i[index show special menu export] },
+                   permissible_on: :project
+
+        permission :view_wiki_edits,
+                   { wiki: %i[history diff annotate] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :edit_wiki_pages,
+                   { wiki: %i[edit update preview add_attachment new new_child create rename] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :manage_wiki,
+                   {
+                     wiki: %i[destroy protect edit_parent_page update_parent_page],
+                     wikis: %i[edit destroy],
+                     wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item],
+                     "wikis/project_settings/wiki": %i[show create]
+                   },
+                   dependencies: :edit_wiki_pages,
+                   permissible_on: :project,
+                   require: :member
+      end
+
       project_module :work_package_tracking do
         permission :manage_wiki_page_links,
                    {
@@ -162,6 +189,14 @@ module OpenProject::Wikis
            parent: :wiki_providers,
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
            caption: :"menus.admin.external_wiki_providers"
+
+      menu :project_menu,
+           :settings_project_wiki,
+           { controller: "/wikis/project_settings/wiki", action: :show },
+           parent: :settings,
+           if: ->(_) { Wikis::InternalProvider.enabled? }, # What to do on projects that have a wiki but later disabled it?
+           after: :settings_backlogs,
+           caption: :project_module_wiki_internal
     end
 
     patch_with_namespace :WikiPages, :CreateService

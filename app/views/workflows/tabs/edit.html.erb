@@ -29,7 +29,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= turbo_frame_tag "workflow-table", data: { turbo_cache: false } do %>
   <%= render Workflows::StatusMatrixFormComponent.new(tab: @tab, roles: @roles, type: @type, available_roles: @eligible_roles, statuses: @statuses, has_status_changes: @has_status_changes) %>
-  <%= turbo_stream.replace(Workflows::PageHeaders::EditComponent.wrapper_key) do %>
-    <%= render Workflows::PageHeaders::EditComponent.new(@type, roles: @roles, tabs: workflow_tabs(@type)) %>
-  <% end %>
 <% end %>

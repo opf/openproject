@@ -36,7 +36,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     create(:user,
            member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
   end
-  let(:project) { create(:project) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new }

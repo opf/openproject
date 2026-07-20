@@ -11,4 +11,4 @@ export interface IOPAutocompleterOption {
   name:string;
 }
 
-export type TOpAutocompleterResource = 'work_packages' | 'users' | 'principals' | 'projects';
+export type TOpAutocompleterResource = 'work_packages' | 'users' | 'principals' | 'projects' | 'portfolios' | 'programs';

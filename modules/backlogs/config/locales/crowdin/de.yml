@@ -24,6 +24,7 @@ de:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
@@ -42,7 +43,7 @@ de:
         text: Sprint-Ziel
       work_package:
         backlog_bucket: Backlog Bucket
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Backlog Posteingang
         backlogs_work_package_type: Backlog Typ
         position: Position
         sprint: Sprint
@@ -55,7 +56,11 @@ de:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints laufen.
+              requires_no_sharing: kann nur aktiviert werden, wenn die Sprint-Freigabe auf „Nicht teilen“ eingestellt ist.
             sprint_sharing:
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints möglich sind.
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
           receiving_sprints: erhält geteilte Sprints. Eigene Sprints können nicht erstellt werden.
@@ -137,8 +142,8 @@ de:
       title: Der Sprint enthält nicht abgeschlossene Arbeitspakete
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
+        add_new_work_package: Neues Arbeitspaket hinzufügen
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Eingangs-Backlog ist leer
       drop_zone_label: Drop here to add this item
@@ -155,6 +160,7 @@ de:
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Zum Sprint verschieben
+    multiple_active_sprints: Multiple active sprints
     points_label:
       one: Punkt
       other: Punkte
@@ -163,12 +169,12 @@ de:
     rebuild: Neu berechnen
     rebuild_positions: Positionen neu berechnen
     remaining_hours: Verbleibender Aufwand
-    sharing: Teilen
+    sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
+        add_new_work_package: Neues Arbeitspaket hinzufügen
         edit_sprint: Sprint bearbeiten
       blankslate_description: Noch keine Arbeitspakete geplant. Ziehen Sie Arbeitspakete hierher, um sie hinzuzufügen.
       blankslate_title: "%{name} ist leer"
@@ -178,6 +184,7 @@ de:
       label_start_sprint: Sprint starten
       start_sprint_disabled_reason_active_sprint: Ein anderer Sprint ist bereits aktiv.
       start_sprint_disabled_reason_missing_dates: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
+      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: Das Sprintziel gilt ausschließlich für dieses Projekt und wird nicht mit anderen Projekten geteilt, die denselben Sprint nutzen.
       goal_for_this_project_label: "%{attribute} (für dieses Projekt)"
@@ -219,6 +226,8 @@ de:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
@@ -227,8 +236,11 @@ de:
     story_points_ideal: Story-Points (ideal)
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: Sprints teilen
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints
@@ -289,9 +301,16 @@ de:
             label: Unterprojekte
         sprint_sharing: Sprints teilen
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Anzahl der aktiven Sprints
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: Dieses Projekt kann entweder eigene Sprints teilen, geteilte Sprints empfangen oder Sprints eigenständig bearbeiten (ohne Teilen).
           sharing_fallback_description: Ohne einen Enterprise-Plan sind die Optionen für die gemeinsame Nutzung auf die eigenen Sprints des Projekts beschränkt. Die derzeit aktive Einstellung bleibt bestehen.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Backlog Posteingang
   remaining_hours: verbleibender Aufwand

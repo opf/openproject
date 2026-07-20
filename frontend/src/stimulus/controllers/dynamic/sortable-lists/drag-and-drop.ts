@@ -59,6 +59,8 @@ export interface SortableListData extends Record<string|symbol, unknown> {
   [sortableListDataKey]:true;
   type:string;
   listId:string|null;
+  // Human-readable list name for announcements; null when the list is unnamed.
+  name:string|null;
   // Where a list-only drop (header or empty space, not over an item) lands.
   dropPosition:SortableListDropPosition;
   // The element whose direct children are the list's rows, resolved by the list
@@ -125,11 +127,13 @@ export function sortableListData({
   listId,
   dropPosition = 'end',
   rowsContainer = null,
+  name = null,
 }:{
   type:string;
   listId:string|null;
   dropPosition?:SortableListDropPosition;
   rowsContainer?:HTMLElement|null;
+  name?:string|null;
 }):SortableListData {
   return {
     [sortableListDataKey]: true,
@@ -137,6 +141,7 @@ export function sortableListData({
     listId,
     dropPosition,
     rowsContainer,
+    name,
   };
 }
 

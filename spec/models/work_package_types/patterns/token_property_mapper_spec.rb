@@ -186,6 +186,21 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         expect(token.call(work_package)).to eq("03.10.2025")
       end
     end
+
+    context "for a sub-type" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+      let(:sub_work_package) { build_stubbed(:work_package, type: sub_type) }
+
+      subject { described_class.new.partitioned_tokens_for_type(sub_type) }
+
+      it "resolves the type token to the root type's name" do
+        enabled, = subject
+        token = detect(enabled, :type)
+
+        expect(token.call(sub_work_package)).to eq("Task")
+      end
+    end
   end
 
   private

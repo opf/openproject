@@ -24,12 +24,13 @@ cs:
   activerecord:
     attributes:
       project:
+        allow_multiple_active_sprints: Povolit více aktivních sprintů
         backlog_excluded_types: Vyloučené typy pracovních balíčků
         sprint_sharing: Sdílení sprintu
         statuses_considered_closed: Stavy považované za uzavřené
       sprint:
         duration: Doba trvání
-        finish_date: Datum ukončení
+        finish_date: Datum dokončení
         goal: Cíl sprintu
         name: Název sprintu
         sharing: Sdílení
@@ -42,7 +43,7 @@ cs:
         text: Cíl sprintu
       work_package:
         backlog_bucket: Sekce backlogu
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Nevyřízené položky backlogu
         backlogs_work_package_type: Typ backlogu
         position: Pozice
         sprint: Sprint
@@ -55,7 +56,11 @@ cs:
       models:
         project:
           attributes:
+            allow_multiple_active_sprints:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
+              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
             sprint_sharing:
+              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
           receiving_sprints: dostává sdílené sprinty. Vlastní sprinty nelze vytvářet.
@@ -111,11 +116,11 @@ cs:
       select_panel_title: Vybrat položky
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Přidat existující pracovní balíček
+        add_new_work_package: Přidat nový pracovní balíček
         delete_backlog_bucket: Smazat sekci backlogu
         edit_backlog_bucket: Upravit sekci backlogu
-      blankslate_description: Drag items here to add them
+      blankslate_description: Přetažením položek sem je přidáte
       blankslate_title: Sekce backlogu je prázdná
       drop_zone_label: Drop here to add this item
       label_actions: Operace sekce backlogu
@@ -142,7 +147,7 @@ cs:
     inbox_component:
       action_menu:
         add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_new_work_package: Přidat nový pracovní balíček
       blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
       blankslate_title: Žádné nevyřízené položky
       drop_zone_label: Drop here to add this item
@@ -161,6 +166,7 @@ cs:
     move_to_sprint_dialog_component:
       label_sprint: Sprint
       title: Přesunout do sprintu
+    multiple_active_sprints: Více aktivních sprintů
     points_label:
       one: bod
       few: body
@@ -171,21 +177,22 @@ cs:
     rebuild: Znovu vytvořit
     rebuild_positions: Znovu sestavit pozice
     remaining_hours: Zbývající práce
-    sharing: Sdílení
+    sharing: Sdílení sprintu
     show_burndown_chart: Graf Burndown
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Přidat existující pracovní balíček
+        add_new_work_package: Přidat nový pracovní balíček
         edit_sprint: Upravit sprint
       blankslate_description: Zatím nejsou naplánovány žádné položky. Přetažením položek sem je přidáte.
       blankslate_title: "%{name} je prázdný"
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: Přetáhněte sem pro přidání této položky
       label_actions: Operace sprintu
       label_complete_sprint: Dokončit sprint
       label_start_sprint: Zahájit sprint
       start_sprint_disabled_reason_active_sprint: Jiný sprint je již aktivní.
       start_sprint_disabled_reason_missing_dates: Pro zahájení sprintu je nutné datum zahájení a ukončení.
+      start_sprint_disabled_reason_shared_sprint: Tento sprint pochází z jiného projektu, který nepodporuje více aktivních sprintů.
     sprint_form:
       goal_caption: Cíl sprintu je specifický pro tento projekt a nesdílí jej žádné jiné projekty, které rovněž využívají tento sprint.
       goal_for_this_project_label: "%{attribute} (pro tento projekt)"
@@ -227,8 +234,10 @@ cs:
     work_package_is_closed: Pracovní balíček je hotov, když
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
+        invalid_target: Cíl, do kterého se pokoušíte přidat, je neplatný.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      move:
+        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
@@ -237,8 +246,11 @@ cs:
     story_points_ideal: Story pointy (ideální)
   ee:
     features:
+      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing: Sdílení sprintu
     upsell:
+      multiple_active_sprints:
+        description: " "
       sprint_sharing:
         description: Sdílení sprintů napříč projekty za účelem sladění týmů a koordinace práce v rámci škálovaných agilních prostředí (SAFe).
   label_all_sprints: Všechny sprinty
@@ -299,9 +311,16 @@ cs:
             label: Podprojekty
         sprint_sharing: Sdílet sprinty
       backlogs:
+        multiple_active_sprints:
+          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
+          heading: Počet aktivních sprintů
+        multiple_active_sprints_component:
+          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
+          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
         sharing_form_component:
+          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
           sharing_description: Tento projekt může buď sdílet vlastní sprinty, přijímat sdílené sprinty, nebo sprinty zpracovávat samostatně (bez sdílení).
           sharing_fallback_description: Vzhledem k tomu, že chybí podnikový plán, jsou možnosti sdílení omezeny na vlastní sprinty projektu. Aktuálně aktivní nastavení zůstává aktivní.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: Nevyřízené položky backlogu
   remaining_hours: Zbývající práce

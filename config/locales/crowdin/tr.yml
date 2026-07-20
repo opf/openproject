@@ -226,6 +226,8 @@ tr:
         identifier: Tanımlayıcı
         latest_activity_at: Son etkinlik zamanı
         parent: Alt Proje
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Teslim edildiğinde atanan kişi
         project_creation_wizard_enabled: Proje başlatma talebi
         project_creation_wizard_notification_text: Bildirim metni
@@ -593,7 +595,7 @@ tr:
               blank: Formül boş olamaz.
               format: "%{message}"
               invalid: Formül geçersiz.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: aktif olarak ayarlanamaz.
@@ -822,8 +824,8 @@ tr:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1527,6 +1529,7 @@ tr:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1553,7 +1556,13 @@ tr:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -2040,7 +2049,7 @@ tr:
       editable:
         all: Alanın kullanıcılar tarafından düzenlenebilir olmasına izin verin.
       formula:
-        project: Sayısal değerler ekleyin veya bir niteliği ya da matematiksel bir operatörü aramak için / yazın.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Kullanıcının, projeye genel bakışta değeri seçerken proje niteliğiyle ilgili bir yorum eklemesine olanak tanır.
       is_filter:
@@ -2934,6 +2943,8 @@ tr:
   label_blog: Blog
   label_board_plural: Panolar
   label_boolean: Mantıksal
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Dal
   label_browse: Gözat
   label_builtin: Yerleşik
@@ -2980,6 +2991,7 @@ tr:
   label_configuration: konfigürasyon
   label_confirmation: Onay
   label_consent_settings: Kullanıcı Rızası
+  label_constant_plural: Constants
   label_contains: içerir
   label_content: İçerik
   label_continued_from_previous_year: continued from previous year
@@ -3117,6 +3129,7 @@ tr:
   label_forum_plural: Forumlar
   label_forum_sticky: Sabit
   label_forums_locked: Kilitlendi
+  label_function_plural: Functions
   label_gantt_chart: Gantt görünümü
   label_gantt_chart_plural: Gantt grafikleri
   label_general: Genel
@@ -3216,7 +3229,6 @@ tr:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Yönetilen% {satıcı} depoları %{vendor}
   label_mapping_for: "%{attribute} için eşleme"
-  label_mathematical_operators: Matematiksel operatörler
   label_max_size: Maksimum boyut
   label_me: ben
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
@@ -3307,6 +3319,7 @@ tr:
   label_operator_equals_all: "(VE) dir"
   label_operator_equals_or: "(YA DA)"
   label_operator_none: boş
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: herhangi bir
   label_optional_description: Açıklama
   label_options: Ayarlar
@@ -3387,6 +3400,7 @@ tr:
   label_projects_disk_usage_information: "%{count} proje %{used_disk_space} disk alanı kullanıyor"
   label_projects_menu: Projeler
   label_public_projects: Genel Projeler
+  label_punctuation: Punctuation
   label_query_new: Yeni Sorgu
   label_query_plural: Özel Sorgular
   label_read: Oku...
@@ -3594,7 +3608,7 @@ tr:
   label_workflow: İş akışı
   label_workflow_copy: İş akışını kopyala
   label_workflow_plural: İş Akışları
-  label_workflow_summary: Özet
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Çalışma günleri ve saatleri
   label_working_hours: Work schedule
@@ -4476,8 +4490,14 @@ tr:
       templates:
         label: Şablon
         none_enabled: Bu iş paketi türü için hiçbir şablon etkinleştirilmedi
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: PDF oluştur
     page_nr_footer: Sayfa %{page} / %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: All the attributes present in the current form configuration using the default template.
       label: Nitelikler ve açıklama
@@ -4764,11 +4784,11 @@ tr:
           no_status_when_submitted: "%{type} iş paketi türü kendisiyle ilişkilendirilmiş en az bir durum gerektirdiğinden proje başlatma talebi etkinleştirilemedi. Lütfen bu iş paketi türü için en az bir durum iş akışını etkinleştirin."
           no_work_package_type: Proje başlatma isteği etkinleştirilemedi, en az bir iş paketi türü gerekiyor. Lütfen bu projeye en az bir iş paketi türü ekleyin.
         export:
-          description_attachment_export: Oluşturulan eser, eser iş paketine PDF olarak kaydedilecektir.
-          description_file_link_export: Eser iş paketi, harici bir dosya deposunda depolanan bir PDF'ye dosya bağlantısına sahip olacaktır. Bu proje için otomatik olarak yönetilen proje klasörlerine sahip çalışan bir dosya depolama alanı gerektirir. Şu anda yalnızca Nextcloud dosya depoları desteklenmektedir.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Yapılandırılmış harici dosya depolarından hangisinin kullanılacağını seçin.
           external_file_storage: Harici dosya depolama
-          label_artifact_export: Eser dışa aktarımı
+          label_artifact_export: Artefact export
           label_attachment_export: İş paketi dosyası eki olarak kaydet
           label_file_link_export: Dosyayı harici dosya depolama alanına yükleyin ve dosya bağlantısını iş paketine ekleyin
           pdf_file_storage: PDF dosya depolama
@@ -4859,13 +4879,13 @@ tr:
     status:
       button_edit: Durumu düzenle
     wizard:
-      create_artifact_storage_error: Dosya depolama alanında eser depolanamadı
-      create_artifact_work_package_error: Eser iş paketi oluşturulamadı
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Bu özniteliğin tanımlanmış bir yardım metni yoktur.
       progress_label: "%{current} / %{total}"
       sections: Bölümler
       sidebar_content_title: İçerik
-      success: Proje öznitelikleri kaydedildi ve eser iş paketi başarıyla oluşturuldu.
+      success: Project attributes saved and artefact work package created successfully.
       title: Proje başlatma talebi
   queries:
     apply_filter: Önceden yapılandırılmış filtre uygula
@@ -5373,12 +5393,12 @@ tr:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Eser adı
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Proje oluşturma sihirbazı
           project_initiation_request: Proje başlatma talebi
@@ -5398,8 +5418,8 @@ tr:
           **%{project_name}** için bir proje başlatma talebi gönderdiniz. Şu anda incelenmeyi bekliyor.
           Talebinizi içeren iş paketine erişmek için aşağıdaki bağlantıya tıklayın.
         confirmation_email_text: Onay e-posta metni
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Teslim edildiğinde durum
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5407,7 +5427,7 @@ tr:
         work_package_comment_caption: Yukarıda seçilen atanan kişi yorumda otomatik olarak @bahsedilecektir.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -5692,8 +5712,8 @@ tr:
     '
   text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe gösterildiğinde, sayfa yükleme süresi artabilir.'
   text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine emin misin?
-  text_permanent_delete_confirmation_checkbox_label: Bu silme işleminin geri alınamayacağını anlıyorum
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Plugin assets dizini yazılabilir
   text_powered_by: "%{link} tarafından destekleniyor"
   text_project_custom_field_html: 'Enterprise sürümü, projelerin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Bir proje portföy görünümü oluşturmak için Projeler için özel alanları Proje listenize ekleyin</b></li > </ul>
@@ -5780,11 +5800,9 @@ tr:
   total_progress: Toplam ilerleme
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5799,18 +5817,22 @@ tr:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -5818,6 +5840,8 @@ tr:
             label_enable_all: Tümünü etkinleştir
           label: PDF Dışa Aktarma şablonları
         tab: PDF oluşturma
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -5864,6 +5888,31 @@ tr:
         select_projects: Projeleri seçin
         select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
         tab: Projeler
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Ayarlar
@@ -5886,6 +5935,8 @@ tr:
             project: Proje
             work_package: İş paketi
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

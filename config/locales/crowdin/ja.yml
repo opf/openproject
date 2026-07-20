@@ -226,6 +226,8 @@ ja:
         identifier: 識別子
         latest_activity_at: 最新の活動
         parent: 親プロジェクト
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Project initiation request
         project_creation_wizard_notification_text: Notification text
@@ -591,7 +593,7 @@ ja:
               blank: Formula can't be blank.
               format: "%{message}"
               invalid: Formula is invalid.
-              invalid_characters: Only numeric values, mathematical operators and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             required:
               cannot_be_true: cannot be set to true.
@@ -819,8 +821,8 @@ ja:
               invalid_tokens: フィールド内の1つ以上の属性が無効です。保存する前に属性を修正してください。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1499,6 +1501,7 @@ ja:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1523,7 +1526,13 @@ ja:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -2008,7 +2017,7 @@ ja:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute or a mathematical operator.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -2877,6 +2886,8 @@ ja:
   label_blog: ブログ
   label_board_plural: ボード
   label_boolean: ブール型
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: 分岐
   label_browse: 閲覧
   label_builtin: Built-in
@@ -2923,6 +2934,7 @@ ja:
   label_configuration: 設定
   label_confirmation: 確認のため再入力
   label_consent_settings: ユーザーの同意
+  label_constant_plural: Constants
   label_contains: 含む
   label_content: 内容
   label_continued_from_previous_year: continued from previous year
@@ -3060,6 +3072,7 @@ ja:
   label_forum_plural: フォーラム
   label_forum_sticky: 固定する
   label_forums_locked: ロックされている
+  label_function_plural: Functions
   label_gantt_chart: ガントチャート
   label_gantt_chart_plural: ガントチャート
   label_general: 概要
@@ -3159,7 +3172,6 @@ ja:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 管理された %{vendor} リポジトリ
   label_mapping_for: 'マッピング: %{attribute}'
-  label_mathematical_operators: 数学演算子
   label_max_size: 最大サイズ
   label_me: 自分
   label_member_all_admin: "(管理ステータスのすべての役割)"
@@ -3250,6 +3262,7 @@ ja:
   label_operator_equals_all: は (AND)
   label_operator_equals_or: は (OR)
   label_operator_none: が空です
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: 全て
   label_optional_description: 説明
   label_options: オプション
@@ -3330,6 +3343,7 @@ ja:
   label_projects_disk_usage_information: "%{count} プロジェクトが %{used_disk_space} のディスク領域を使用しています"
   label_projects_menu: プロジェクト
   label_public_projects: 公開プロジェクト
+  label_punctuation: Punctuation
   label_query_new: 新しいクエリ
   label_query_plural: カスタムクエリ
   label_read: 続いて読む...
@@ -3537,7 +3551,7 @@ ja:
   label_workflow: ワークフロー
   label_workflow_copy: ワークフローをコピー
   label_workflow_plural: ワークフロー
-  label_workflow_summary: サマリー(概要)
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: 稼働日・時間
   label_working_hours: Work schedule
@@ -4404,8 +4418,14 @@ ja:
       templates:
         label: テンプレート
         none_enabled: このワークパッケージタイプで有効になっているテンプレートはありません
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: PDFを生成
     page_nr_footer: ページ %{page} / %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: デフォルトテンプレートを使用して、現在のフォーム構成に存在するすべての属性。
       label: 属性と説明
@@ -4691,11 +4711,11 @@ ja:
           no_status_when_submitted: Failed to enable project initiation request because work package type %{type} requires at least one status associated with it. Please enable at least one status workflow for this work package type.
           no_work_package_type: Failed to enable project initiation request because it requires at least one active work package type and this project has none. Please add at least one work package type to this project.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Select which of the configured external file storages should be used.
           external_file_storage: External file storage
-          label_artifact_export: Artifact export
+          label_artifact_export: Artefact export
           label_attachment_export: Save as work package file attachment
           label_file_link_export: Upload file to external file storage and add file link to work package
           pdf_file_storage: PDF file storage
@@ -4786,13 +4806,13 @@ ja:
     status:
       button_edit: Edit status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
       sidebar_content_title: Content
-      success: Project attributes saved and artifact work package created successfully.
+      success: Project attributes saved and artefact work package created successfully.
       title: Project initiation request
   queries:
     apply_filter: 構成済みのフィルタを適用する
@@ -5297,12 +5317,12 @@ ja:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Project creation wizard
           project_initiation_request: Project initiation request
@@ -5322,8 +5342,8 @@ ja:
           You submitted a project initiation request for **%{project_name}**. It is now awaiting review.
           Click the link below to access the work package with your request.
         confirmation_email_text: Confirmation email text
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Status when submitted
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -5331,7 +5351,7 @@ ja:
         work_package_comment_caption: The assignee selected above will automatically be @mentioned in the comment.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -5621,8 +5641,8 @@ ja:
   text_own_membership_delete_confirmation: |-
     一部またはすべての権限を自分自身から剥奪しようとしているため、このプロジェクトを編集できなくなる可能性があります。
     本当に続けますか？
-  text_permanent_delete_confirmation_checkbox_label: 私は、この削除は取り消すことができないことを理解しています。
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: プラグインの「assets」ディレクトリが書き込み可能
   text_powered_by: Powered by %{link}
   text_project_custom_field_html: 'Enterpriseエディションでは、プロジェクトのカスタムフィールド用に以下のアドオンが追加されます:<br> <ul> <li><b>プロジェクトのカスタムフィールドをプロジェクトリストに追加して、プロジェクトポートフォリオビューを作成します。</b></li> </ul>
@@ -5711,11 +5731,9 @@ ja:
   total_progress: 全体の進行状況
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5730,18 +5748,22 @@ ja:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: このタイプで有効にするテンプレートを選択します。 テンプレートは、このタイプを使用してワークパッケージのエクスポートされた PDF に表示されるデザインと属性を決定します。 リストの最初のテンプレートがデフォルトで選択されています。
         pdf_export_templates:
           actions:
@@ -5749,6 +5771,8 @@ ja:
             label_enable_all: すべて有効
           label: PDF エクスポート テンプレート
         tab: PDFを生成
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -5795,6 +5819,31 @@ ja:
         select_projects: プロジェクトを選択
         select_projects_description: このタイプを使用するプロジェクトを選択。
         tab: プロジェクト
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 設定
@@ -5817,6 +5866,8 @@ ja:
             project: プロジェクト
             work_package: ワーク パッケージ
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

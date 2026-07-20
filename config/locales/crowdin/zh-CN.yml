@@ -226,6 +226,8 @@ zh-CN:
         identifier: 标识符
         latest_activity_at: 最近一次活动
         parent: 父项目
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: 提交时的受理人
         project_creation_wizard_enabled: 项目启动请求
         project_creation_wizard_notification_text: 通知文本
@@ -589,7 +591,7 @@ zh-CN:
               blank: 公式不能为空。
               format: "%{message}"
               invalid: 公式无效。
-              invalid_characters: 仅允许使用数值、数学运算符以及整数、浮点数、计算值和加权列表类型的项目属性。
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: 属性 %{custom_fields} 无法使用，因为存在循环引用：一个属性依赖于另一个属性。
             required:
               cannot_be_true: 无法设置为 true。
@@ -817,8 +819,8 @@ zh-CN:
               invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1495,6 +1497,7 @@ zh-CN:
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: 未配置状态过渡
       leave_confirmation:
         description: 您即将离开本页面，但您有未保存的更改。是否要保存更改后再继续？
@@ -1523,7 +1526,13 @@ zh-CN:
           other: 是否移除 %{count} 种状态？
         title: 移除状态
       tabs:
+        aria_label: Workflow transitions
         default_transitions: 默认转换
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: 用户是指派人
         user_author: 用户是作者
   announcements:
@@ -2008,7 +2017,7 @@ zh-CN:
       editable:
         all: 允许用户自行编辑该字段。
       formula:
-        project: 添加数值或输入 / 以搜索特性或数学运算符。
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
       is_filter:
@@ -2877,6 +2886,8 @@ zh-CN:
   label_blog: 博客
   label_board_plural: 面板
   label_boolean: 布尔值
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: 分支
   label_browse: 浏览
   label_builtin: 内置
@@ -2923,6 +2934,7 @@ zh-CN:
   label_configuration: 配置
   label_confirmation: 确认
   label_consent_settings: 用户同意
+  label_constant_plural: Constants
   label_contains: 包含
   label_content: 内容
   label_continued_from_previous_year: 延续自去年
@@ -3060,6 +3072,7 @@ zh-CN:
   label_forum_plural: 论坛
   label_forum_sticky: 置顶
   label_forums_locked: 锁定
+  label_function_plural: Functions
   label_gantt_chart: 甘特图
   label_gantt_chart_plural: 甘特图
   label_general: 通用
@@ -3159,7 +3172,6 @@ zh-CN:
   label_managed_by_ldap: 通过 LDAP 同步进行管理
   label_managed_repositories_vendor: 托管的 %{vendor} 存储库
   label_mapping_for: 映射： %{attribute}
-  label_mathematical_operators: 数学运算符
   label_max_size: 最大
   label_me: 我
   label_member_all_admin: "（所有角色都由管理员状态决定）"
@@ -3250,6 +3262,7 @@ zh-CN:
   label_operator_equals_all: 是 (AND)
   label_operator_equals_or: 是 (OR)
   label_operator_none: 为空
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: 任一
   label_optional_description: 描述
   label_options: 选项
@@ -3330,6 +3343,7 @@ zh-CN:
   label_projects_disk_usage_information: "%{count} 个项目正在使用 %{used_disk_space} 磁盘空间"
   label_projects_menu: 项目
   label_public_projects: 公开项目
+  label_punctuation: Punctuation
   label_query_new: 新的查询
   label_query_plural: 自定义查询
   label_read: 阅读...
@@ -3537,7 +3551,7 @@ zh-CN:
   label_workflow: 工作流
   label_workflow_copy: 复制工作流
   label_workflow_plural: 工作流
-  label_workflow_summary: 摘要
+  label_workflow_summary: Workflow summary
   label_working_days: 工作日
   label_working_days_and_hours: 工作日和工作小时
   label_working_hours: 工作时间表
@@ -4406,8 +4420,14 @@ zh-CN:
       templates:
         label: 模板
         none_enabled: 此工作包类型没有启用模板
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: 生成 PDF
     page_nr_footer: 第 %{page} 页，共%{total} 页
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: 目前表单配置中的所有属性均默认模板。
       label: 属性和描述
@@ -4693,11 +4713,11 @@ zh-CN:
           no_status_when_submitted: 无法启用项目启动请求，因为工作包类型 %{type} 至少需要一个与之相关的状态。请为此工作包类型至少启用一个状态工作流。
           no_work_package_type: 无法启用项目启动请求，因为它至少需要一个有效工作包类型，但此项目没有。请为此项目至少添加一种工作包类型。
         export:
-          description_attachment_export: 生成的工件将作为 PDF 附件保存到工件工作包中。
-          description_file_link_export: 工件工作包将有一个文件链接，指向存储在外部文件存储空间的 PDF 文件。此项目需要一个有效文件存储空间，其中包含自动管理的项目文件夹。目前仅支持 Nextcloud 文件存储空间。
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 选择应使用哪个配置的外部文件存储空间。
           external_file_storage: 外部文件存储空间
-          label_artifact_export: 工件导出
+          label_artifact_export: Artefact export
           label_attachment_export: 保存为工作包文件附件
           label_file_link_export: 将文件上传到外部文件存储空间，并将文件链接添加到工作包
           pdf_file_storage: PDF 文件存储空间
@@ -4788,13 +4808,13 @@ zh-CN:
     status:
       button_edit: 编辑状态
     wizard:
-      create_artifact_storage_error: 无法在文件存储空间中存储工件
-      create_artifact_work_package_error: 无法创建工件工作包
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: 此特性未定义帮助文本。
       progress_label: "%{current}/%{total}"
       sections: 分区
       sidebar_content_title: 目录
-      success: 项目特性已保存，工件工作包已成功创建。
+      success: Project attributes saved and artefact work package created successfully.
       title: 项目启动请求
   queries:
     apply_filter: 应用预配置筛选器
@@ -5293,12 +5313,12 @@ zh-CN:
         confirmation_message: 基于此模板的新项目将无法再使用启动请求向导。项目经理和项目所有者需要在项目概览中手动配置和填写相关信息。
         heading: 是否禁用此项目启动请求？
         title: 禁用项目启动请求
-      header_description: 'OpenProject 可以生成一个分步向导，帮助项目经理填写项目启动请求。您可以选择应包含哪些项目特性，并由此创建一个 PDF 工件。
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: 工件名称
-        artifact_name_caption: 为此工件选择项目管理框架推荐的名称。
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: 项目创建向导
           project_initiation_request: 项目启动请求
@@ -5318,8 +5338,8 @@ zh-CN:
           您提交了 **%{project_name}** 的项目启动请求。目前正在等待审查。
           请点击下方链接访问工作包以及您的请求。
         confirmation_email_text: 确认电子邮件文本
-        description: 当用户提交项目启动请求时，将创建一个新的工作包，并以 PDF 文件形式附上请求工件。以下设置定义了新工作包的类型、状态和受理人。
-        description_template: "**此工作包是在 %{wizard_name} 工作流完成后自动创建的**。 包含所有已提交信息的 PDF 工件已生成并附加到此工作包，以供参考和审核。 如果需要更新或重新运行启动步骤，您可以随时使用下方链接重新打开向导：\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 向提交项目启动请求的用户发送确认电子邮件
         status_when_submitted: 提交时的状态
         status_when_submitted_caption: 提交请求后，生成的工作包将转入的状态。
@@ -5327,7 +5347,7 @@ zh-CN:
         work_package_comment_caption: 在上方选择的受理人将在备注中被自动提及。
         work_package_comment_default: "**%{project_name}** 的项目启动请求已提交，正在等待审查。"
         work_package_type: 工作包类型
-        work_package_type_caption: 应当用于存储已完成工件的工作包类型。
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: 打开项目创建向导
         project_initiation_request: 打开项目启动请求
@@ -5615,8 +5635,8 @@ zh-CN:
   text_own_membership_delete_confirmation: |-
     您要移除部分或全部权限，并且可能无法在此后编辑这个项目。
     您确定要继续吗？
-  text_permanent_delete_confirmation_checkbox_label: 我理解这种删除不可逆转
-  text_permanent_remove_confirmation_checkbox_label: 我明白此移除无法撤消
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: 插件资产目录可写
   text_powered_by: Powered by %{link}
   text_project_custom_field_html: '企业版将为项目的自定义字段添加以下其他附加组件：<br> <ul> <li><b>在项目列表中添加项目自定义字段，以创建项目组合视图</b></li> </ul>
@@ -5705,11 +5725,9 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5724,18 +5742,22 @@ zh-CN:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: 为此类型选择模板。模板决定此类型工作包导出的PDF的设计和可见属性。默认选择列表上的第一个模板。
         pdf_export_templates:
           actions:
@@ -5743,6 +5765,8 @@ zh-CN:
             label_enable_all: 全部启用
           label: PDF 导出模板
         tab: 生成 PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: 小节
         add_query_group: 相关的工作包表
@@ -5789,6 +5813,31 @@ zh-CN:
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
         tab: 项目
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 设置
@@ -5811,6 +5860,8 @@ zh-CN:
             project: 项目
             work_package: 工作包
           label_with_context: "%{attribute_context}：%{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

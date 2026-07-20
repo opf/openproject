@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg child pages spec", :js do
   let(:project) do
-    create(:project,
-           enabled_module_names: %w[wiki])
+    create(:project, :with_internal_wiki)
   end
   let(:editor) { Components::WysiwygEditor.new }
   let(:role) { create(:project_role, permissions: %i[view_wiki_pages edit_wiki_pages]) }

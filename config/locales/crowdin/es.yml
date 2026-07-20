@@ -226,6 +226,8 @@ es:
         identifier: Identificador
         latest_activity_at: Última actividad en
         parent: Subproyecto de
+        portfolio: Portfolio
+        program: Program
         project_creation_wizard_assignee_custom_field: Asignado cuando se envía
         project_creation_wizard_enabled: Solicitud de inicio de proyecto
         project_creation_wizard_notification_text: Texto de la notificación
@@ -589,7 +591,7 @@ es:
               blank: La fórmula no puede estar en blanco.
               format: "%{message}"
               invalid: La fórmula no es válida.
-              invalid_characters: Solo se permiten valores numéricos, operadores matemáticos y atributos de proyecto de tipo entero, flotante, valor calculado y lista ponderada.
+              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: El atributo %{custom_fields} no se puede usar porque conduce a una referencia circular; un atributo depende del otro.
             required:
               cannot_be_true: no se puede establecer como verdadero.
@@ -818,8 +820,8 @@ es:
               invalid_tokens: Uno o más atributos dentro del campo no son válidos. Corrija los atributos antes de guardar.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1523,6 +1525,7 @@ es:
     workflows:
       blankslate:
         description: Añade estados para empezar a configurar los flujos de trabajo de este rol
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No hay transiciones de estado configuradas
       leave_confirmation:
         description: Estás a punto de salir de esta página, pero tienes cambios sin guardar. ¿Quieres guardarlos antes de continuar?
@@ -1549,7 +1552,13 @@ es:
           other: "¿Eliminar %{count} estados?"
         title: Eliminar estados
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Transiciones predeterminadas
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: Usuario es asignado
         user_author: Usuario es autor
   announcements:
@@ -2032,7 +2041,7 @@ es:
       editable:
         all: Permitir que el campo sea editable por los propios usuarios.
       formula:
-        project: Añada valores numéricos o escriba/para buscar un atributo o un operador matemático.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token.
       has_comment:
         project: Permite al usuario añadir un comentario relacionado con el atributo del proyecto al seleccionar el valor en la descripción general del proyecto.
       is_filter:
@@ -2922,6 +2931,8 @@ es:
   label_blog: Blog
   label_board_plural: Tableros
   label_boolean: Booleano
+  label_boolean_false: is no
+  label_boolean_true: is yes
   label_branch: Sucursal
   label_browse: Explorar
   label_builtin: Integrado
@@ -2968,6 +2979,7 @@ es:
   label_configuration: configuracion
   label_confirmation: Confirmación
   label_consent_settings: Consentimiento del usuario
+  label_constant_plural: Constants
   label_contains: contiene
   label_content: Contenido
   label_continued_from_previous_year: continuación del año anterior
@@ -3105,6 +3117,7 @@ es:
   label_forum_plural: Foros
   label_forum_sticky: Fijo
   label_forums_locked: Bloqueado
+  label_function_plural: Functions
   label_gantt_chart: Diagrama de Gantt
   label_gantt_chart_plural: Diagramas de Gantt
   label_general: General
@@ -3204,7 +3217,6 @@ es:
   label_managed_by_ldap: Gestionado mediante sincronización LDAP
   label_managed_repositories_vendor: Repositorios de %{vendor} administrados
   label_mapping_for: 'Asignación para: %{attribute}'
-  label_mathematical_operators: Operadores aritméticos
   label_max_size: Tamaño máximo
   label_me: mi
   label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
@@ -3295,6 +3307,7 @@ es:
   label_operator_equals_all: es (AND)
   label_operator_equals_or: es (OR)
   label_operator_none: está vacío
+  label_operator_plural: Operators
   label_operator_shared_with_user_any: cualquiera
   label_optional_description: Descripción
   label_options: Opciones
@@ -3375,6 +3388,7 @@ es:
   label_projects_disk_usage_information: "%{count} proyectos utilizando %{used_disk_space} espacio de disco"
   label_projects_menu: Proyectos
   label_public_projects: Proyectos públicos
+  label_punctuation: Punctuation
   label_query_new: Nueva consulta
   label_query_plural: Consultas personalizadas
   label_read: Leer...
@@ -3582,7 +3596,7 @@ es:
   label_workflow: Flujo de trabajo
   label_workflow_copy: Copiar flujo de trabajo
   label_workflow_plural: Flujos de trabajo
-  label_workflow_summary: Resumen
+  label_workflow_summary: Workflow summary
   label_working_days: Días laborables
   label_working_days_and_hours: Días y horas de trabajo
   label_working_hours: Horario de trabajo
@@ -4463,8 +4477,14 @@ es:
       templates:
         label: Plantilla
         none_enabled: No se ha habilitado ninguna plantilla para este tipo de paquete de trabajo
+      toc:
+        caption: Add a table of contents page indexing the section headers.
+        label: Table of contents
       title: Generar PDF
     page_nr_footer: Página %{page} de %{total}
+    template_artefact:
+      caption: Work package details rendered as a PMflex Artefact.
+      label: PMflex Artefact
     template_attributes:
       caption: Todos los atributos presentes en la configuración actual del formulario utilizando la plantilla por defecto.
       label: Atributos y descripción
@@ -4751,11 +4771,11 @@ es:
           no_status_when_submitted: No se ha podido habilitar la solicitud de inicio del proyecto porque el tipo de paquete de trabajo %{type} requiere al menos un estado asociado. Habilite al menos un flujo de trabajo de estado para este tipo de paquete de trabajo.
           no_work_package_type: No se ha podido habilitar la solicitud de inicio del proyecto porque requiere al menos un tipo de paquete de trabajo activo y este proyecto no tiene ninguno. Añada al menos un tipo de paquete de trabajo a este proyecto.
         export:
-          description_attachment_export: El artefacto generado se guardará como PDF adjunto al paquete de trabajo del artefacto.
-          description_file_link_export: El paquete de trabajo de artefactos tendrá un enlace de archivo a un PDF almacenado en un almacenamiento de archivos externo. Requiere un almacenamiento de archivos de trabajo con carpetas de proyecto gestionadas automáticamente para este proyecto. Por el momento sólo son compatibles los almacenamientos de archivos Nextcloud.
+          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
+          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Selecciona cuál de los almacenamientos de archivos externos configurados se debe utilizar.
           external_file_storage: Almacenamiento de archivos externo
-          label_artifact_export: Exportación de artefactos
+          label_artifact_export: Artefact export
           label_attachment_export: Guardar como archivo adjunto del paquete de trabajo
           label_file_link_export: Sube el archivo a un almacenamiento externo y añade el enlace al paquete de trabajo
           pdf_file_storage: Almacenamiento de archivos PDF
@@ -4846,13 +4866,13 @@ es:
     status:
       button_edit: Editar estado
     wizard:
-      create_artifact_storage_error: No se ha podido almacenar el artefacto en el almacenamiento de archivos
-      create_artifact_work_package_error: No se ha podido crear el paquete de trabajo de artefactos
+      create_artifact_storage_error: Failed to store artefact in file storage
+      create_artifact_work_package_error: Failed to create artefact work package
       no_help_text: Este atributo no tiene texto de ayuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secciones
       sidebar_content_title: Contenido
-      success: Atributos del proyecto guardados y paquete de trabajo de artefactos creado correctamente.
+      success: Project attributes saved and artefact work package created successfully.
       title: Solicitud de inicio de proyecto
   queries:
     apply_filter: Aplicar filtro preconfigurado
@@ -5356,12 +5376,12 @@ es:
         confirmation_message: El asistente de solicitud de inicio ya no estará disponible para los nuevos proyectos basados en esta plantilla. Los gestores y propietarios de proyectos tendrán que configurar y rellenar manualmente la información relevante en la descripción general del proyecto.
         heading: "¿Desactivar la solicitud de inicio de proyecto?"
         title: Desactivar solicitud de inicio de proyecto
-      header_description: 'OpenProject puede generar un asistente paso a paso para ayudar a los gestores de proyectos a completar una solicitud de inicio de proyecto. Puedes elegir qué atributos del proyecto deben incluirse y crear un archivo PDF como resultado.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
 
         '
       name:
-        artifact_name: Nombre del artefacto
-        artifact_name_caption: Elige el nombre para este artefacto que recomiende tu marco de gestión de proyectos.
+        artifact_name: Artefact name
+        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
         options:
           project_creation_wizard: Asistente de creación de proyectos
           project_initiation_request: Solicitud de inicio de proyecto
@@ -5381,8 +5401,8 @@ es:
           Has enviado una solicitud de inicio de proyecto para **%{project_name}**. Ahora está pendiente de revisión.
           Haz clic en el enlace siguiente para acceder al paquete de trabajo con tu solicitud.
         confirmation_email_text: Texto del correo electrónico de confirmación
-        description: Cuando un usuario envía una solicitud de inicio de proyecto, se creará un nuevo paquete de trabajo con el artefacto de solicitud adjunto como archivo PDF. La configuración siguiente define el tipo, el estado y el asignado de este nuevo paquete de trabajo.
-        description_template: "**Este paquete de trabajo se ha creado automáticamente al completar el flujo de trabajo %{wizard_name}.** Se ha generado un artefacto en formato PDF con toda la información enviada y se ha adjuntado a este paquete de trabajo para fines de referencia y auditoría. Si necesitas actualizar o volver a ejecutar los pasos de inicio, puedes volver a abrir el asistente en cualquier momento utilizando el siguiente enlace:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Enviar un correo electrónico de confirmación al usuario que envió la solicitud de inicio del proyecto
         status_when_submitted: Estado al enviar
         status_when_submitted_caption: El estado al que pasará el paquete de trabajo generado una vez enviada la solicitud.
@@ -5390,7 +5410,7 @@ es:
         work_package_comment_caption: La persona asignada seleccionada anteriormente será @mencionada automáticamente en el comentario.
         work_package_comment_default: Se ha enviado una solicitud de inicio de proyecto para **%{project_name}** y está pendiente de revisión.
         work_package_type: Tipo de paquete de trabajo
-        work_package_type_caption: El tipo de paquete de trabajo que debe utilizarse para almacenar el artefacto completado.
+        work_package_type_caption: The work package type that should be used to store the completed artefact.
       wizard_status_button:
         project_creation_wizard: Abrir el asistente de creación de proyectos
         project_initiation_request: Abrir solicitud de inicio de proyecto
@@ -5677,8 +5697,8 @@ es:
   text_own_membership_delete_confirmation: |-
     Estás a punto de eliminar algunos o todos tus permisos, y podrías no poder volver a editar este proyecto.
     ¿Estás seguro/a de que quieres continuar?
-  text_permanent_delete_confirmation_checkbox_label: Entiendo que esta eliminación no se puede revertir
-  text_permanent_remove_confirmation_checkbox_label: Entiendo que esta eliminación no se puede revertir
+  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
+  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
   text_plugin_assets_writable: Directorio de extensiones activos escribible
   text_powered_by: Con tecnología de %{link}
   text_project_custom_field_html: 'Enterprise añadirá estas extensiones para los campos personalizados de los proyectos: <br> <ul> <li><b>Añadir campos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
@@ -5765,11 +5785,9 @@ es:
   total_progress: Progreso total
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
-        parent: Choose parent type
-        variant_label: Variant label
+        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
@@ -5784,18 +5802,22 @@ es:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Seleccione qué plantillas de las disponibles desea habilitar para este tipo. La plantilla determina el diseño y los atributos visibles en el PDF exportado de un paquete de trabajo que utilice este tipo. La primera plantilla de la lista se selecciona por defecto.
         pdf_export_templates:
           actions:
@@ -5803,6 +5825,8 @@ es:
             label_enable_all: Activar todo
           label: Plantillas de exportación PDF
         tab: Generar PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Sección
         add_query_group: Tabla de paquetes de trabajo relacionados
@@ -5849,6 +5873,31 @@ es:
         select_projects: Seleccionar proyectos
         select_projects_description: Seleccione los proyectos en los que desea utilizar este tipo.
         tab: Proyectos
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Ajustes
@@ -5871,6 +5920,8 @@ es:
             project: Proyecto
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

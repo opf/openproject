@@ -37,12 +37,12 @@ RSpec.describe Queries::Wikis::WikiPages::WikiPageQuery do
 
   describe "#results" do
     let(:role) { create(:project_role, permissions: [:view_wiki_pages]) }
-    let(:project) { create(:project, members: { user => role }) }
+    let(:project) { create(:project, :with_internal_wiki, members: { user => role }) }
     let(:wiki) { project.wiki }
     let!(:older_main_page) { create(:wiki_page, wiki:) }
     let!(:newer_main_page) { create(:wiki_page, wiki:) }
     let!(:sub_page) { create(:wiki_page, wiki:, parent: older_main_page) }
-    let!(:invisible_page) { create(:wiki_page, wiki: create(:project).wiki) }
+    let!(:invisible_page) { create(:wiki_page, wiki: create(:project, :with_internal_wiki).wiki) }
 
     before do
       older_main_page.update_column(:updated_at, 2.days.ago)

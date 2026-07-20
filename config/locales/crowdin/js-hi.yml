@@ -120,6 +120,7 @@ hi:
     button_cancel: निरस्त करें
     button_change_project: Move to another project
     button_check_all: Check all
+    button_clear: Clear
     button_close: बंद करें
     button_close_details: Close details view
     button_collapse_all: सभी को समेटें
@@ -803,6 +804,14 @@ hi:
       sorted_dsc: 'Descending sort applied, '
       sorted_no: 'No sort applied, '
       sorting_disabled: sorting is disabled
+    sortable_lists:
+      announcements:
+        fallback_item_label: Item
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
     spot:
       drop_modal:
         close: Close modal

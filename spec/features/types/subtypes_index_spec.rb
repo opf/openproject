@@ -48,7 +48,7 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
     expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
     expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
 
-    subtype_row = page.find(".Box-row", text: alfa_subtype.name, visible: :all)
+    subtype_row = page.find(".Box-row", text: alfa_subtype.own_name, visible: :all)
     expect(subtype_row).to have_no_css(".DragHandle", visible: :all)
   end
 
@@ -67,7 +67,7 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
       expect(page).to have_button(I18n.t(:button_delete), visible: :all)
     end
 
-    within(".Box-row", text: alfa_subtype.name, visible: :all) do
+    within(".Box-row", text: alfa_subtype.own_name, visible: :all) do
       expect(page).to have_link(I18n.t(:button_configure), visible: :all)
       expect(page).to have_button(I18n.t(:button_delete), visible: :all)
       expect(page).to have_no_button(I18n.t(:button_move), visible: :all)
@@ -77,9 +77,9 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
   it "lists a group's sub-types alphabetically" do
     visit types_path
 
-    expect(page).to have_link(alfa_subtype.name, visible: :all)
-    expect(page).to have_link(zeta_subtype.name, visible: :all)
-    expect(page.body.index(alfa_subtype.name)).to be < page.body.index(zeta_subtype.name)
+    expect(page).to have_link(alfa_subtype.own_name, visible: :all)
+    expect(page).to have_link(zeta_subtype.own_name, visible: :all)
+    expect(page.body.index(alfa_subtype.own_name)).to be < page.body.index(zeta_subtype.own_name)
   end
 
   it "reorders root types via drag and drop", :selenium do

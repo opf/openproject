@@ -413,14 +413,19 @@ RSpec.describe Type do
     end
 
     describe "display helpers" do
-      it "#displayed_name returns the root name" do
-        expect(child.displayed_name).to eq("Task")
-        expect(parent.displayed_name).to eq("Task")
+      it "#name returns the root name" do
+        expect(child.name).to eq("Task")
+        expect(parent.name).to eq("Task")
       end
 
-      it "#displayed_color returns the root color" do
-        expect(child.displayed_color).to eq(color)
-        expect(parent.displayed_color).to eq(color)
+      it "#own_name returns the type's own stored label" do
+        expect(child.own_name).to eq("Bug")
+        expect(parent.own_name).to eq("Task")
+      end
+
+      it "#color returns the root color" do
+        expect(child.color).to eq(color)
+        expect(parent.color).to eq(color)
       end
 
       it "#composite_name prefixes the parent name for a sub-type" do
@@ -442,7 +447,7 @@ RSpec.describe Type do
       end
 
       it "keeps the sub-type's own name as the variant label" do
-        expect(child.name).to eq("Bug")
+        expect(child.own_name).to eq("Bug")
       end
 
       it "leaves a root's own settings untouched" do
@@ -451,6 +456,30 @@ RSpec.describe Type do
         expect(parent.is_in_roadmap?).to be(false)
         expect(parent.is_default?).to be(true)
       end
+    end
+  end
+
+  describe "#artefact_export_mode" do
+    it "defaults to 'off'" do
+      expect(build(:type).artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+    end
+
+    it "persists the value into the pdf_export_templates_config jsonb column" do
+      persisted = create(:type)
+      persisted.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+
+      expect(persisted.reload.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
+      expect(persisted.pdf_export_templates_config).to include("artefact_export_mode" => "attachment")
+    end
+  end
+
+  describe "#artefact_export_enabled?" do
+    it "is false when off" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "off" })).not_to be_artefact_export_enabled
+    end
+
+    it "is true when a storing mode is set" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
     end
   end
 end

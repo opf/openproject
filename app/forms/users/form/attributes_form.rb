@@ -72,9 +72,18 @@ module Users
       # The current status (e.g. active, locked) as a read-only line rather than
       # folded into the section title.
       def account_status(group)
-        status = "#{User.human_attribute_name(:status)}: #{helpers.full_user_status(@user, true)}"
+        status = helpers.full_user_status(@user, true)
+        scheme = if @user.active?
+                   :success
+                 elsif @user.invited?
+                   :accent
+                 elsif @user.locked? || @user.deleted?
+                   :attention
+                 else
+                   :secondary
+                 end
         group.html_content do
-          render(Primer::Beta::Text.new(tag: :p)) { status }
+          render(Primer::Beta::Label.new(scheme:, align_self: :start)) { status }
         end
       end
 
