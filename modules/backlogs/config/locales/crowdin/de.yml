@@ -57,10 +57,10 @@ de:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints laufen.
+              requires_no_sharing: kann nur aktiviert werden, wenn die Sprint-Freigabe auf „Nicht teilen“ eingestellt ist.
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints möglich sind.
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
           receiving_sprints: erhält geteilte Sprints. Eigene Sprints können nicht erstellt werden.
@@ -94,7 +94,7 @@ de:
         other: Sprints
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title: Bestehendes Arbeitspaket zu %{name} hinzufügen
     administration_blankslate:
       text: Wir gestalten gerade das Backlogs-Modul neu. Die Einstellungen für Sprints und Backlogs werden in naher Zukunft hier sichtbar sein. Einstellungen auf Projektebene bleiben weiterhin verfügbar.
       title: Die Einstellungen des Backlogs-Moduls sind derzeit in der Entwicklung
@@ -112,11 +112,11 @@ de:
       select_panel_title: Elemente auswählen
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
+        add_new_work_package: Neues Arbeitspaket hinzufügen
         delete_backlog_bucket: Backlog Bucket löschen
         edit_backlog_bucket: Backlog Bucket bearbeiten
-      blankslate_description: Drag items here to add them
+      blankslate_description: Ziehen Sie Arbeitspakete hierher, um sie hinzuzufügen
       blankslate_title: Backlog Bucket ist leer
       drop_zone_label: Drop here to add this item
       label_actions: Backlog Bucket Aktionen
