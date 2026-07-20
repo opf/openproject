@@ -52,10 +52,6 @@ module WorkPackageTypes
       }
     end
 
-    # The banner sits above the subject radios rather than replacing the form, so the
-    # Community-only default description on this page stays reachable without a token.
-    def show_enterprise_banner? = !enterprise?
-
     private
 
     def form_data

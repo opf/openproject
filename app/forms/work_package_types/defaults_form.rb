@@ -41,6 +41,18 @@ module WorkPackageTypes
         rich_text_options: { showAttachments: false }
       )
 
+      if show_enterprise_banner?
+        subject_form.html_content do
+          render(
+            EnterpriseEdition::BannerComponent.new(
+              :work_package_subject_generation,
+              variant: :medium,
+              image: "enterprise/automatically-generated-subjects.png"
+            )
+          )
+        end
+      end
+
       subject_form.radio_button_group(name: :subject_configuration) do |group|
         group.radio_button(
           value: :manual,
@@ -105,6 +117,8 @@ module WorkPackageTypes
     def enterprise?
       EnterpriseToken.allows_to?(:work_package_subject_generation)
     end
+
+    def show_enterprise_banner? = !enterprise?
 
     def validation_message_for(attribute)
       model.validation_errors.messages_for(attribute).to_sentence.presence

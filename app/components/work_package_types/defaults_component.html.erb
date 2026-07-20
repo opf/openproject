@@ -27,16 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if show_enterprise_banner? %>
-  <%= render(
-        EnterpriseEdition::BannerComponent.new(
-          :work_package_subject_generation,
-          variant: :medium,
-          image: "enterprise/automatically-generated-subjects.png"
-        )
-      ) %>
-<% end %>
-
 <%= settings_primer_form_with(**form_options) do |f| %>
   <%= render(WorkPackageTypes::DefaultsForm.new(f)) %>
 <% end %>
