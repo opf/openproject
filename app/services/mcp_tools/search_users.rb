@@ -51,17 +51,6 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("user_model")
-        }
-      }
-    )
-
     def call(page: nil, **filters)
       users = apply_filters(User.visible.not_builtin, filters)
       users = apply_pagination(users, page)

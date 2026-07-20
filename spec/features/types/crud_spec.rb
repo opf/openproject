@@ -67,19 +67,13 @@ RSpec.describe "Types", :js do
 
     expect(page).to have_content I18n.t(:notice_successful_create)
 
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :index, only_path: true))
-    within "li", text: "A new type" do
-      click_link "A new type"
-    end
-
-    from_id = existing_workflow.old_status_id
-    to_id = existing_workflow.new_status_id
-
-    checkbox = page.find("input[data-old-status=\"#{from_id}\"][data-new-status=\"#{to_id}\"][value=always]")
-
-    expect(checkbox).to be_checked
+    # Workflow should be copied over from the source type.
+    new_type = Type.find_by!(name: "A new type")
+    expect(
+      Workflow.exists?(type_id: new_type.id,
+                       old_status_id: existing_workflow.old_status_id,
+                       new_status_id: existing_workflow.new_status_id)
+    ).to be true
 
     index_page.visit!
 

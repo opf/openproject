@@ -100,7 +100,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
         it "updates and advances to the next step" do
           patch :update, params: { type_id: subtype.id, step: :details, type: { name: "Blocker" } }
 
-          expect(subtype.reload.name).to eq("Blocker")
+          expect(subtype.reload.own_name).to eq("Blocker")
           expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
         end
       end

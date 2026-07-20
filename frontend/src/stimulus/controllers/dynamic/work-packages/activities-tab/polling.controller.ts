@@ -31,6 +31,7 @@
 import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { TurboRequestError } from 'core-turbo/turbo-request-error';
 import type AutoScrollingController from './auto-scrolling.controller';
 import BaseController from './base.controller';
 
@@ -61,7 +62,13 @@ export default class PollingController extends BaseController {
   declare apiV3Service:ApiV3Service;
   declare services:Promise<PickedServices<'turboRequests'|'apiV3Service'>>;
 
+  // A poll failing with one of these statuses can only repeat the same failure
+  // (the session or the work package's visibility is gone), so polling halts
+  // until the next page load instead of retrying forever.
+  private static readonly permanentFailureStatuses = [401, 403, 404];
+
   private updateInProgress = false;
+  private pollingHalted = false;
   private intervallId:number;
   private abortController = new AbortController();
 
@@ -89,7 +96,7 @@ export default class PollingController extends BaseController {
   }
 
   async updateActivitiesList() {
-    if (this.updateInProgress) return;
+    if (this.updateInProgress || this.pollingHalted) return;
 
     this.updateInProgress = true;
     const editingJournals = this.captureEditingJournals();
@@ -104,7 +111,11 @@ export default class PollingController extends BaseController {
       .then(({ html, headers }) => {
         this.handleUpdateStreamsResponse(html, headers, journalsContainerAtBottom);
       }).catch((error) => {
-        console.error('Error updating activities list:', error);
+        if (this.isPermanentPollingFailure(error)) {
+          this.haltPolling();
+        } else {
+          console.error('Error updating activities list:', error);
+        }
       }).finally(() => {
         this.updateInProgress = false;
       });
@@ -117,6 +128,8 @@ export default class PollingController extends BaseController {
   }
 
   private startPolling() {
+    if (this.pollingHalted) return;
+
     if (this.intervallId) {
       this.stopPolling();
     }
@@ -126,6 +139,16 @@ export default class PollingController extends BaseController {
 
   private stopPolling() {
     window.clearInterval(this.intervallId);
+  }
+
+  private isPermanentPollingFailure(error:unknown):boolean {
+    return error instanceof TurboRequestError
+      && PollingController.permanentFailureStatuses.includes(error.status);
+  }
+
+  private haltPolling() {
+    this.pollingHalted = true;
+    this.stopPolling();
   }
 
   private setLatestKnownChangesetUpdatedAt() {

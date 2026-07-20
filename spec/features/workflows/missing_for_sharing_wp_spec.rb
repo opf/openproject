@@ -65,13 +65,13 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
       click_link "Configure the workflows in the administration."
     end
 
-    # On the copy workflow form, select the already existing workflow for copying
-    within "li", text: type.name do
-      find("button[aria-haspopup=true]").click
-      click_link "Copy"
-    end
-    choose "Copy to other roles"
-    select role.name, from: "source_role_id"
+    # The warning links to the types administration; open the type's workflow tab from there.
+    expect(page).to have_current_path(types_path)
+    visit edit_type_workflow_path(type)
+
+    # On the copy workflow form, the source role is pre-selected from the tab;
+    # copy its workflow to the work package edit role.
+    click_link "Copy"
     target_roles_autocompleter.select_option work_package_role.name
     target_roles_autocompleter.close_autocompleter
 

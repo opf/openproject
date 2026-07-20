@@ -126,7 +126,7 @@ ja:
     error_no_device: このサイトに必要であるにもかかわらず、このユーザーに登録された2FAデバイスが見つかりませんでした。
     error_no_matching_strategy: このユーザーに対応する2FA方法はありません。管理者に連絡してください。
     forced_registration:
-      required_to_add_device: アクティブなセキュリティポリシーでは2要素認証を有効にする必要があります。デバイスを登録するには、次のフォームを使用してください。
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: 2要素認証が有効ではありません
     label_2fa_enabled: 2要素認証が有効です
     label_default_device: デフォルトの2FAデバイス

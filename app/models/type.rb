@@ -41,6 +41,7 @@ class Type < ApplicationRecord
 
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
+  store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
 
   before_destroy :check_integrity
 
@@ -161,18 +162,21 @@ class Type < ApplicationRecord
     [root, *root.children]
   end
 
-  # A sub-type presents its parent's name and color. Its own name is only the
-  # variant label, exposed through +composite_name+.
-  def displayed_name
-    root.name
+  def name
+    inherited_core_setting(:name)
   end
 
-  def displayed_color
-    root.color
+  def own_name
+    read_attribute(:name)
   end
 
   def composite_name
-    subtype? ? "#{parent.name}: #{name}" : name
+    subtype? ? "#{name}: #{own_name}" : name
+  end
+
+  # Validate the type's own name, not the root's name as would happen without this for sub-types
+  def read_attribute_for_validation(key)
+    key.to_sym == :name ? own_name : super
   end
 
   # Core settings are inherited from the parent for sub-types. The sub-type's
@@ -214,6 +218,23 @@ class Type < ApplicationRecord
 
   def pdf_export_templates
     @pdf_export_templates ||= ::Type::PdfExportTemplates.new(self)
+  end
+
+  # The store_attribute :default is not returned when the JSON key is present
+  # but nil, so mirror the getter-override pattern used elsewhere (see
+  # Projects::CreationWizard) to guarantee a value.
+  def artefact_export_mode
+    super.presence || Type::ArtefactExport::DEFAULT
+  end
+
+  def artefact_export_enabled?
+    effective_artefact_export_mode != Type::ArtefactExport::OFF
+  end
+
+  # Sub-types inherit the artefact export configuration from their linked source
+  # for the PDF_EXPORT aspect, consistent with the export templates.
+  def effective_artefact_export_mode
+    effective_source_for(Type::ConfigurationLink::PDF_EXPORT).artefact_export_mode
   end
 
   private

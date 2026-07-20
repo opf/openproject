@@ -181,24 +181,29 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
-    describe "filtering by version_id" do
-      context "when searching for work packages with a specific version" do
-        let(:call_args) { { version_id: version.id } }
+    # Both params dispatch to the `with_target_version` / `without_target_version`
+    # scopes; the query semantics (incl. observed_in divergence) are covered in
+    # spec/models/work_package_spec.rb. Here we only assert the wiring: each param
+    # reaches the right scope. `version_id` is the deprecated alias for the new
+    # `target_version_id`, so both behave identically.
+    %i[version_id target_version_id].each do |filter_name|
+      describe "filtering by #{filter_name}" do
+        context "with a version id" do
+          let(:call_args) { { filter_name => version.id } }
 
-        it "finds only work packages with the specified version" do
-          subject
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
+          it "returns work packages targeting that version" do
+            subject
+            expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
+          end
         end
-      end
 
-      context "when searching for work packages without a version" do
-        let(:call_args) { { version_id: nil } }
+        context "with null" do
+          let(:call_args) { { filter_name => nil } }
 
-        it "finds only work packages without a version" do
-          subject
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_b.id)
+          it "returns work packages without a target version" do
+            subject
+            expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
+          end
         end
       end
     end

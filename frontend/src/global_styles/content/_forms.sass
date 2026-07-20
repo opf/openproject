@@ -558,6 +558,12 @@ input[readonly].-clickable
   cursor: pointer
   background: var(--body-background)
 
+.form--text-field
+  &[readonly]:not(.-clickable)
+    background-color: var(--control-bgColor-disabled)
+    color: var(--control-fgColor-disabled);
+    cursor: not-allowed
+
 .form--select
   @extend %input-style
   line-height: normal

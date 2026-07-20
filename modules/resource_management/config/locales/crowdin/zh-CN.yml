@@ -43,6 +43,13 @@ zh-CN:
       resource_planner: 资源规划工具
       resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: 下一步
   label_resource_management: Resource management
   permission_allocate_user_resources: 分配用户资源

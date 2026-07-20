@@ -819,8 +819,8 @@ zh-CN:
               invalid_tokens: 字段内的一个或多个属性无效。请在保存前修正。
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1497,6 +1497,7 @@ zh-CN:
     workflows:
       blankslate:
         description: 添加状态，以开始为此角色配置工作流
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: 未配置状态过渡
       leave_confirmation:
         description: 您即将离开本页面，但您有未保存的更改。是否要保存更改后再继续？
@@ -1525,7 +1526,13 @@ zh-CN:
           other: 是否移除 %{count} 种状态？
         title: 移除状态
       tabs:
+        aria_label: Workflow transitions
         default_transitions: 默认转换
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: 用户是指派人
         user_author: 用户是作者
   announcements:
@@ -3544,7 +3551,7 @@ zh-CN:
   label_workflow: 工作流
   label_workflow_copy: 复制工作流
   label_workflow_plural: 工作流
-  label_workflow_summary: 摘要
+  label_workflow_summary: Workflow summary
   label_working_days: 工作日
   label_working_days_and_hours: 工作日和工作小时
   label_working_hours: 工作时间表
@@ -5718,7 +5725,6 @@ zh-CN:
   total_progress: 总进度
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
@@ -5736,18 +5742,22 @@ zh-CN:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: 为此类型选择模板。模板决定此类型工作包导出的PDF的设计和可见属性。默认选择列表上的第一个模板。
         pdf_export_templates:
           actions:
@@ -5755,6 +5765,8 @@ zh-CN:
             label_enable_all: 全部启用
           label: PDF 导出模板
         tab: 生成 PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: 小节
         add_query_group: 相关的工作包表
@@ -5801,6 +5813,31 @@ zh-CN:
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
         tab: 项目
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: 设置
@@ -5823,6 +5860,8 @@ zh-CN:
             project: 项目
             work_package: 工作包
           label_with_context: "%{attribute_context}：%{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

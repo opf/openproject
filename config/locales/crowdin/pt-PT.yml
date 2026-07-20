@@ -820,8 +820,8 @@ pt-PT:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1525,6 +1525,7 @@ pt-PT:
     workflows:
       blankslate:
         description: Adicione estados para começar a configurar fluxos de trabalho para esta função
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: Não há transições de estado configuradas
       leave_confirmation:
         description: Está prestes a sair desta página, mas tem alterações por guardar. Gostaria de as guardar antes de continuar?
@@ -1551,7 +1552,13 @@ pt-PT:
           other: Remover %{count} estados?
         title: Remover estados
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Transições padrão
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: O utilizador é encarregado
         user_author: O utilizador é o autor
   announcements:
@@ -3595,7 +3602,7 @@ pt-PT:
   label_workflow: Fluxo de trabalho
   label_workflow_copy: Copiar fluxo de trabalho
   label_workflow_plural: Fluxos de Trabalho
-  label_workflow_summary: Resumo
+  label_workflow_summary: Workflow summary
   label_working_days: Dias úteis
   label_working_days_and_hours: Dias e horas de trabalho
   label_working_hours: Horários de trabalho
@@ -5778,7 +5785,6 @@ pt-PT:
   total_progress: Progresso total
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
@@ -5796,18 +5802,22 @@ pt-PT:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Selecione os modelos disponíveis que pretende ativar para este tipo. O modelo determina o design e os atributos visíveis no PDF exportado de um pacote de trabalho que utiliza este tipo. O primeiro modelo da lista é selecionado por predefinição.
         pdf_export_templates:
           actions:
@@ -5815,6 +5825,8 @@ pt-PT:
             label_enable_all: Ativar todos
           label: Modelos de Exportação PDF
         tab: Gerar PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -5861,6 +5873,31 @@ pt-PT:
         select_projects: Selecionar projetos
         select_projects_description: Selecione os projetos em que pretende utilizar este tipo.
         tab: Projetos
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Definições
@@ -5883,6 +5920,8 @@ pt-PT:
             project: Projecto
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

@@ -29,5 +29,5 @@ hu:
     title: Háttér művelet állapota
   label_job_status_plural: Feladat státuszok
   plugin_openproject_job_status:
-    description: Listing and status of background jobs.
-    name: OpenProject Job status
+    description: A háttérfeladatok listája és állapota.
+    name: OpenProject feladatállapot

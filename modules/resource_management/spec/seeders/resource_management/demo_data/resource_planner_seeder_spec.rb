@@ -66,8 +66,6 @@ RSpec.describe ResourceManagement::DemoData::ResourcePlannerSeeder do
   let(:seeder) { described_class.new(project, seed_data) }
 
   before do
-    allow(OpenProject::FeatureDecisions).to receive(:resource_management_active?).and_return(true)
-
     # Working hours are required for Wanda so the overbooking can be computed.
     UserWorkingHours.create!(
       user: wanda, valid_from: Date.new(2026, 1, 1),

@@ -824,8 +824,8 @@ sl:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1585,6 +1585,7 @@ sl:
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -1615,7 +1616,13 @@ sl:
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
+        aria_label: Workflow transitions
         default_transitions: Default transitions
+        descriptions:
+          default_transitions: Transitions available to the selected role(s) in all cases.
+          user_assignee: Additional transitions available to the work package's assignee.
+          user_author: Additional transitions available to the work package's author.
+        menu_label: Transitions shown
         user_assignee: User is assignee
         user_author: User is author
   announcements:
@@ -3719,7 +3726,7 @@ sl:
   label_workflow: Potek dela
   label_workflow_copy: Copy workflow
   label_workflow_plural: Potek dela
-  label_workflow_summary: Povzetek
+  label_workflow_summary: Workflow summary
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
@@ -5968,7 +5975,6 @@ sl:
   total_progress: Skupni napredek
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
@@ -5986,18 +5992,22 @@ sl:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
@@ -6005,6 +6015,8 @@ sl:
             label_enable_all: Enable all
           label: PDF Export templates
         tab: Generate PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6051,6 +6063,31 @@ sl:
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projekti
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       settings:
         parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
         tab: Nastavitve
@@ -6073,6 +6110,8 @@ sl:
             project: Projekt
             work_package: Delovni paket
           label_with_context: "%{attribute_context}: %{attribute_label}"
+      workflow:
+        tab: Workflows
     index:
       add_subtype: Add sub-type to %{name}
       description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.

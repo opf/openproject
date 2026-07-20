@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
                         href: edit_type_settings_path(type_id: child.id),
                         font_weight: :bold
                       )
-                    ) { child.name } %>
+                    ) { child.own_name } %>
                 <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.subtype_label") } %>
               <% end %>
             <% end %>

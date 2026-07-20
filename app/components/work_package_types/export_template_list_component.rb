@@ -34,13 +34,18 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(type:)
+    def initialize(type:, readonly: false)
       super
 
       @type = type
+      @readonly = readonly
     end
 
+    def readonly? = @readonly
+
     def wrapper_data_attributes
+      return {} if @readonly
+
       {
         controller: "generic-drag-and-drop"
       }

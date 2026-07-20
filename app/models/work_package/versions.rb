@@ -50,6 +50,17 @@ module WorkPackage::Versions
       where(version_id: nil)
     }
 
+    scope :with_target_version, ->(version_id) {
+      where(id: WorkPackageVersion.where(kind: "target", version_id:).select(:work_package_id))
+    }
+
+    # Work packages with no target version.
+    # Filtering on the `target` rows directly (rather than the `target_versions` join) means an `observed_in`
+    # row on the same work package can never be mistaken for a missing target.
+    scope :without_target_version, -> {
+      where.not(id: WorkPackageVersion.where(kind: "target").select(:work_package_id))
+    }
+
     # Must be registered before `save_journals` (WorkPackage::Journalized) so
     # that the journal snapshot sees the current version sets in the database.
     after_save :persist_version_associations
