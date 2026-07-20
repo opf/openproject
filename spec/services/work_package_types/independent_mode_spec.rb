@@ -37,11 +37,14 @@ RSpec.describe WorkPackageTypes::IndependentMode do
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
-    it "offers copy and empty for patterns and PDF export" do
+    it "offers copy and empty for patterns" do
       expect(described_class.available_for(Type::ConfigurationLink::PATTERNS))
         .to eq([described_class::COPY, described_class::EMPTY])
+    end
+
+    it "offers copy and default for PDF export" do
       expect(described_class.available_for(Type::ConfigurationLink::PDF_EXPORT))
-        .to eq([described_class::COPY, described_class::EMPTY])
+        .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
     it "returns no modes for an aspect without a switch flow" do

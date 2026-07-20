@@ -86,19 +86,20 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the empty mode (pdf export)" do
+    context "with the default mode (pdf export)" do
       let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 
-      it "clears the configuration and severs the link" do
+      it "resets to the administrator defaults and severs the link" do
         type.pdf_export_templates.disable_all
         type.save!
         type.link!(aspect, source: create(:type))
 
-        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
+        result = service.call(mode: WorkPackageTypes::IndependentMode::DEFAULT)
 
         expect(result).to be_success
         expect(type.reload).not_to be_linked(aspect)
-        expect(type.read_attribute(:pdf_export_templates_config)).to be_blank
+        expect(type.pdf_export_templates_config).to eq(Type.new.pdf_export_templates_config)
+        expect(type.pdf_export_templates.list).to all(have_attributes(enabled: true))
       end
     end
 
@@ -108,7 +109,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       it "fails and leaves the link untouched" do
         type.link!(aspect, source: create(:type))
 
-        result = service.call(mode: WorkPackageTypes::IndependentMode::DEFAULT)
+        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
 
         expect(result).not_to be_success
         expect(type.reload).to be_linked(aspect)

@@ -38,8 +38,7 @@ module WorkPackageTypes
   class SwitchToIndependentModeService
     # The blank configuration written for the EMPTY mode, per aspect.
     EMPTY_CONFIGURATION = {
-      Type::ConfigurationLink::PATTERNS => { patterns: {} },
-      Type::ConfigurationLink::PDF_EXPORT => { pdf_export_templates_config: {} }
+      Type::ConfigurationLink::PATTERNS => { patterns: {} }
     }.freeze
 
     def initialize(type:, aspect:, user:)

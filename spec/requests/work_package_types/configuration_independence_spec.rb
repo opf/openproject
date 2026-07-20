@@ -61,6 +61,15 @@ RSpec.describe "Work package type configuration independence",
       expect(response.body).not_to include("Default settings")
     end
 
+    it "offers copy and default for PDF export" do
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: Type::ConfigurationLink::PDF_EXPORT),
+          as: :turbo_stream
+
+      expect(response.body).to include("Copy from linked")
+      expect(response.body).to include("Default settings")
+      expect(response.body).not_to include("Empty")
+    end
+
     it "is not found for an unknown aspect" do
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
 
