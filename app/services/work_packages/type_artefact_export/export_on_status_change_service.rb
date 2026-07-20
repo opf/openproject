@@ -40,12 +40,21 @@ module WorkPackages
         @work_package = work_package
       end
 
-      def call!(changes:)
-        return if changes["status_id"].blank?
-        return unless type.artefact_export_enabled?
+      def self.applicable?(work_package:, changes:)
+        return false if changes["status_id"].blank?
+        return false unless work_package.type.artefact_export_enabled?
+
         # The creation wizard runs its own export for its artifact work package;
         # skip it here to avoid generating the PDF twice.
-        return if creation_wizard_artifact_work_package?
+        !creation_wizard_artifact_work_package?(work_package)
+      end
+
+      def self.creation_wizard_artifact_work_package?(work_package)
+        work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+      end
+
+      def call!(changes:)
+        return unless self.class.applicable?(work_package:, changes:)
 
         User.execute_as_admin(current_user) do
           export_and_store!
@@ -55,10 +64,6 @@ module WorkPackages
       end
 
       private
-
-      def creation_wizard_artifact_work_package?
-        project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
-      end
 
       def export_and_store!
         export = WorkPackage::PDFExport::Artefact.new(work_package).export!
