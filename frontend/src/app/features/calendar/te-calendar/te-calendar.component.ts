@@ -642,26 +642,26 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private popoverContentHtml(entry:TimeEntryResource, schema:TimeEntrySchema) {
     return html`
-        <div class="Popover">
+        <div class="Popover te-calendar--popover">
           <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
             <ul class="list-style-none ml-0">
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.project.name}:</span>
                 <span>${this.sanitizedValue(entry.project.name)}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.entity.name}:</span>
                 <span>${entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default')}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.activity.name}:</span>
                 <span>${this.sanitizedValue(entry.activity?.name ?? '')}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.hours.name}:</span>
                 <span>${this.timezone.formattedDuration(entry.hours as string)}</span>
               </li>
-              <li>
+              <li class="te-calendar--popover-entry">
                 <span class="text-bold">${schema.comment.name}:</span>
                 <span>${this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default'))}</span>
               </li>
