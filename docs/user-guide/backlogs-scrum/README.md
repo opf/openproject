@@ -89,6 +89,12 @@ When deleting a backlog bucket, all contained work packages are automatically mo
 
 Work packages can also be moved directly into a backlog bucket from the work packages More menu. If multiple backlog buckets exist, OpenProject lets you choose the target bucket. The work package is placed at the bottom of the selected bucket.
 
+#### All backlog buckets
+
+The all backlog buckets button is a multi-select dropdown that allows you filter for buckets within your backlog. Click on **All backlog buckets**. Select the specific backlog bucket(s) you want displayed or type a keyword into the search panel. Click **Apply** to save your changes. 
+
+![All backlog buckets in Backlogs](openproject_user_guide_all_backlog_bucket_filter.png)
+
 ### Inbox backlog
 
 The Inbox backlog is automatically populated with all work packages in a project that are not assigned to a sprint or backlog bucket and are not excluded by the project's backlog settings. When a work package is added to a sprint or bucket, or closed, it is removed from the Inbox.
@@ -125,10 +131,9 @@ You can prioritize work packages within the Inbox backlog, a backlog bucket, or 
 
 Depending on the current location of the work package, you can move it:
 
-- within the current backlog bucket or sprint,
+- into the Inbox backlog,
 - into another backlog bucket,
-- into another sprint,
-- back to the Inbox backlog.
+- into another sprint.
 
 ![Move options menu for a backlog item showing reorder and sprint assignment options](openproject_user_guide_backlog_move_options.png)
 
@@ -199,7 +204,8 @@ If you choose to move work packages to another sprint, you will need to select t
 Additional sprint actions are available through the **Sprint menu**, including:
 
 - Edit sprint
-- Add work package
+- Add new work package
+- Add existing work package
 - Sprint board
 - Burndown chart
 
@@ -207,13 +213,29 @@ Sprint details, including the sprint goal, can also be edited through the **Edit
 
 ![Sprint menu with options like edit sprint and add work package](openproject_user_guide_backlog_sprint_menu_item.png)
 
-### Add a work package
+#### All sprints filter
 
-In order to create a new work package in the Backlogs module, click on the More (three dots) icon in the top right corner of a Sprint and choose **+ Add work package** from the drop-down menu. A form dialog will appear to create a new work package. Here, you directly specify the work package type, subject, and description. Click **Create** to proceed.
+The all sprints button is a multi-select dropdown that allows you filter for sprints. Click on **All sprints**. Select the specific sprint container(s) you want displayed or type a keyword into the search panel. Click **Apply** to save your changes. 
+
+![](openproject_user_guide_all_sprints_filter.png)
+
+### Add a new work package
+
+In order to create a new work package in the Backlogs module, click on the More (three dots) icon in the top right corner of a Sprint and choose **+ Add new work package** from the drop-down menu. A form dialog will appear to create a new work package. Here, you directly specify the work package type, subject, and description. Click **Create** to proceed.
 
 ![A new work package added to a sprint directly in OpenProject Backlogs module](openproject_user_guide_backlogs_new_wp_form.png)
 
 A new item will be added to the backlog to display the newly created story.
+
+### Add existing work package
+
+In order to add an existing work package in the Backlogs module, click on the More (three dots) icon in the top right corner of a Sprint and choose **Add existing work package** from the drop-down menu. A form dialog will appear to add work packages already in the backlog. 
+
+![](openproject_user_guide_backlogs_add_existing_wp_form.png)
+
+In the search panel, enter the work package type, subject or ID. Select the displayed work package and click **Add** to proceed. The items in the Sprint  becomes updated.
+
+![](openproject_user_guide_backlogs_select_existing_wp.png)
 
 ### Prioritize stories
 
@@ -290,6 +312,6 @@ The table displays the sprint name, status, start date, finish date, and number 
 
 Selecting a sprint opens the appropriate destination depending on its status:
 
-- **Planning** sprints open the sprint planning view.
 - **Active** sprints open the sprint board.
+- **Planning** sprints open the sprint planning view.
 - **Completed** sprints open a work package table filtered to that sprint.
