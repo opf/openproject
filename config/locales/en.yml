@@ -6139,7 +6139,7 @@ en:
               caption: "Use the settings marked as default for new types by the administrator."
               label: "Default settings"
             empty:
-              caption: "Configure the settings from scratch starting from a completely empty setting."
+              caption: "Set everything up from scratch, beginning from a blank configuration."
               label: "Empty"
           success: "The configuration mode was switched."
           switch_to_linked: "Switch to linked mode"
