@@ -6137,7 +6137,7 @@ en:
               title: "Switch configuration mode?"
           description: "This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}."
           dialog:
-            description: "Copy and inherit this settings from a source. Any new configuration added to the source will also added here."
+            description: "Copy and inherit this settings from a source. Any new configuration added to the source will also be added here."
             source_label: "Linked source"
             source_placeholder: "Select a type or sub-type"
             submit: "Switch"
