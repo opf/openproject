@@ -103,11 +103,11 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 ![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
 
-**PMflex Artifact PDF export**
+**PMflex Artefact PDF export**
 
-Work packages can now be exported using a dedicated **PMflex Artifact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+Work packages can now be exported using a dedicated **PMflex Artefact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
 
-Administrators can also configure PMflex artifacts to be generated automatically and uploaded to the project's connected Nextcloud folder whenever a work package reaches a defined status.
+Administrators can configure PMflex artefacts to be generated automatically when a work package reaches a defined status. Generated artefacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
 
 **Project phases and gates widget**
 
