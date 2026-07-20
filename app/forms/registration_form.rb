@@ -44,12 +44,16 @@ class RegistrationForm < ApplicationForm
     form.text_field(name: :mail,
                     label: attribute_name(:mail),
                     required: true,
-                    readonly: !helpers.registration_mail_editable?,
+                    readonly: !registration_mail_editable?,
                     input_width:)
   end
 
   def show_email?
     !Setting.email_login? || model.ldap_auth_source_id.present?
+  end
+
+  def registration_mail_editable?
+    Setting.user_can_change_email? || model.nil? || model.new_record?
   end
 
   def password_fields(form)

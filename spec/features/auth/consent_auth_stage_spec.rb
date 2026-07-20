@@ -219,13 +219,15 @@ RSpec.describe "Authentication Stages" do
       token = Token::Invitation.last.value
       visit "/account/activate?token=#{token}"
 
-      expect(page).to have_css("h1", text: "Consent header")
+      expect(page).to have_test_selector("registration-form")
+      expect(page).to have_text("Consent header")
       # Cannot create without accepting
       fill_in "user_password", with: user_password
       fill_in "user_password_confirmation", with: user_password
       click_on I18n.t(:button_create)
 
-      expect(page).to have_css("h1", text: "Consent header")
+      expect(page).to have_test_selector("registration-form")
+      expect(page).to have_text("Consent header")
       check "consent_check"
       click_on I18n.t(:button_create)
 

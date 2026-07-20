@@ -112,6 +112,8 @@ module Accounts::Registration
   end
 
   def respond_for_registered_user(user)
+    return unless consent_given_for_registration?(user)
+
     call = ::Users::RegisterUserService.new(user).call
 
     if call.success?
