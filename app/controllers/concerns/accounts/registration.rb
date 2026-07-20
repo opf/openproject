@@ -114,8 +114,10 @@ module Accounts::Registration
   def respond_for_registered_user(user)
     return unless consent_given_for_registration?(user)
 
-    call = ::Users::RegisterUserService.new(user).call
+    respond_to_registration_result(::Users::RegisterUserService.new(user).call, user)
+  end
 
+  def respond_to_registration_result(call, user)
     if call.success?
       flash[:notice] = call.message.presence
       login_user_if_active(call.result, just_registered: true)
