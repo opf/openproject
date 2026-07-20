@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,38 +23,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class ParseParamsService < API::V3::ParseResourceParamsService
-        # Be compatible to super
-        def initialize(user, **_args)
-          super(user, model: WorkPackage, representer: ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
-        end
+module McpTools
+  class CreateWorkPackage < Base
+    default_title "Create work package"
+    default_description "Create a new work package."
 
-        private
+    name "create_work_package"
+    annotations read_only: false, idempotent: false, destructive: false
 
-        def parse_attributes(request_body)
-          attributes = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
-            .create(struct, current_user:)
-            .from_hash(Hash(request_body))
-            .to_h
-            .reverse_merge(lock_version: nil)
+    input_schema(
+      properties: {
+        data: {
+          type: %w[object],
+          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3."
+        }
+      }
+    )
 
-          meta = attributes.delete(:meta) || {}
-          attributes[:validate_custom_fields] = meta[:validate_custom_fields] if meta[:validate_custom_fields]
+    def call(data:)
+      attributes = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
+        .create(::API::V3::WorkPackages::ParsingStruct.new, current_user:)
+        .from_hash(data.deep_stringify_keys)
+        .to_h
+        .reverse_merge(lock_version: nil)
 
-          attributes
-        end
+      result = WorkPackages::CreateService.new(user: current_user).call(**attributes)
 
-        def struct
-          ParsingStruct.new
-        end
+      if result.success?
+        API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)
+      else
+        { error: result.message }
       end
     end
   end

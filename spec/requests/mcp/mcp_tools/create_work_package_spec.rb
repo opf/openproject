@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::ListTypes do
+RSpec.describe McpTools::CreateWorkPackage do
   subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
@@ -38,59 +38,94 @@ RSpec.describe McpTools::ListTypes do
   end
 
   let(:access_token) { create(:oauth_access_token, scopes: "mcp", resource_owner: user) }
-  let(:user) { create(:user) }
-  let(:permissions) { %i[view_work_packages] }
+  let(:user) { create(:admin) }
   let(:request_body) do
     {
       jsonrpc: "2.0",
       id: "Test-Request",
       method: "tools/call",
       params: {
-        name: "list_types",
+        name: "create_work_package",
         arguments: call_args
       }
     }
   end
-  let(:call_args) { {} }
+  let(:call_args) do
+    {
+      data: {
+        subject: "My subject",
+        _links: {
+          status: { href: "/api/v3/statuses/#{status.id}" },
+          type: { href: "/api/v3/types/#{type.id}" },
+          project: { href: "/api/v3/projects/#{project.id}" }
+        }
+      }
+    }
+  end
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
+  let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let!(:type_a) { create(:type) }
-  let!(:type_b) { create(:type) }
+  let(:project) { create(:project).tap { |p| p.types << type } }
+  let(:type) { create(:type) }
+  let(:status) { create(:status) }
+  let!(:priority) { create(:default_priority) }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
 
   before do
-    create(:member, project: create(:project, no_types: true), user:, roles: [create(:project_role, permissions: permissions)])
     server_config.save!
     tool_config.save!
   end
 
   context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP embedded resource tool"
+    it_behaves_like "MCP text tool"
 
-    it "finds all types" do
-      mcp_request
-      expect(parsed_results.dig("structuredContent", "count")).to eq(2)
+    it "creates a new work package" do
+      expect { mcp_request }.to change(WorkPackage, :count).from(0).to(1)
+
+      wp = WorkPackage.first
+      expect(wp.subject).to eq("My subject")
+      expect(wp.status).to eq(status)
+      expect(wp.type).to eq(type)
+      expect(wp.project).to eq(project)
     end
 
-    it "responds with properly formatted types" do
+    it "responds with a properly formatted work package" do
       mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("types_model")
+
+      expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
     end
 
-    context "when lacking permission to see types" do
-      let(:permissions) { [] }
+    context "when setting an unexpected type" do
+      let(:wrong_type) { create(:type) }
 
-      it "finds no types" do
+      let(:call_args) do
+        {
+          data: {
+            subject: "My subject",
+            _links: {
+              status: { href: "/api/v3/statuses/#{status.id}" },
+              type: { href: "/api/v3/types/#{wrong_type.id}" },
+              project: { href: "/api/v3/projects/#{project.id}" }
+            }
+          }
+        }
+      end
+
+      it "responds with an error" do
         mcp_request
-        expect(parsed_results.dig("structuredContent", "count")).to eq(0)
+        expect(result_item.fetch("error")).to eq("Type is not set to one of the allowed values.")
+      end
+
+      it "does not create a work package" do
+        expect { mcp_request }.not_to change(WorkPackage, :count)
       end
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+    it "responds with a 404" do
       mcp_request
       expect(last_response).to have_http_status(404)
     end
