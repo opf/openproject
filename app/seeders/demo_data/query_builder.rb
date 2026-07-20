@@ -139,8 +139,7 @@ module DemoData
     def set_version_filter!(filters)
       version = seed_data.find_reference(config[:version])
       if version
-        # The stored filter key remains "version_id" (it matches on target_versions via
-        # FilterOnTargetVersionsMixin) until saved query filters are migrated to the new key.
+        # TODO(COMMS-863): use version_id filter until we migrate to target_versions
         filters[:version_id] = {
           operator: "=",
           values: [version.id]
