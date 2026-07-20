@@ -63,6 +63,15 @@ module OpenProject
                          rows: 5)
         end
 
+        def reset_url
+          inplace_edit_field_reset_path(
+            model: model.class.name,
+            id: model.id,
+            attribute:,
+            system_arguments_json: @system_arguments.to_json
+          )
+        end
+
         def show_comment_field?
           custom_field? && custom_field&.has_comment?
         end

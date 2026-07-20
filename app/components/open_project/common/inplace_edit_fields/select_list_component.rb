@@ -67,12 +67,12 @@ module OpenProject
 
         def render_action_buttons
           form.group(layout: :horizontal, justify_content: :flex_end) do |button_group|
-            button_group.submit(name: :reset,
-                                type: :submit,
+            button_group.button(name: :reset,
                                 label: I18n.t(:button_cancel),
+                                tag: :a,
+                                href: reset_url,
                                 scheme: :default,
-                                formaction: inplace_edit_field_reset_path(model: model.class.name, id: model.id, attribute:),
-                                formmethod: :get)
+                                data: { turbo_stream: true })
             button_group.submit(name: :submit,
                                 label: I18n.t(:button_save),
                                 scheme: :primary)
