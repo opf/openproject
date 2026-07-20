@@ -33,6 +33,8 @@ These features are also available independently of the Resource management modul
 
 OpenProject now introduces Departments as a new way to organize users. Under *Administration → Users and permissions → Organization*, administrators can create and manage a hierarchical organizational structure with departments and sub-departments. Departments are also available as a user attribute and help structure users consistently across OpenProject.
 
+Organizations using LDAP (Enterprise add-on) can automatically synchronize departments with their directory service, reducing administrative effort.
+
 ![OpenProject's Organization page shows a hierarchical department structure that can be used to organize teams across the organization.](openproject-resource-management-departments.png)
 
 **Work-related user attributes**
@@ -55,11 +57,11 @@ The new Resource management module helps organizations plan capacity, allocate w
 
 **Resource planner**
 
-The Resource planner provides a centralized overview of your workforce, allowing you to search, filter, and compare users based on departments, work-related attributes, availability, and current workload. Interactive timeline views help identify available capacity, overallocations, and bottlenecks before work is assigned.
+The Resource planner provides a centralized overview of your workforce, allowing you to search, filter, and compare users based on departments, work-related attributes, availability, and current workload
 
 ![OpenProject's Resource planner displays users as cards with their departments, work-related attributes, availability, and utilization, making it easy to compare capacity across the organization.](openproject-resource-management-users-card-list.png)
 
-The timeline view visualizes each user's workload over time, helping project managers understand resource utilization, identify conflicts early, and make informed planning decisions.
+The timeline view visualizes each user's workload over time, helping project managers understand resource utilization, identify conflicts early, and make informed planning decisions. Project managers can **allocate resources directly from the timeline**, streamlining resource planning and staffing.
 
 ![OpenProject's Resource planner timeline visualizes allocated work and remaining capacity for each user over time, helping identify overallocations and available resources.](openproject-resource-management-timeline-allocated.png)
 
@@ -101,9 +103,11 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 ![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
 
-**Artifact export**
+**PMflex Artifact PDF export**
 
-Project artifacts can now be included when exporting projects. This makes it easier to share project documentation, archive project information, or exchange projects while preserving associated artifacts.
+Work packages can now be exported using a dedicated **PMflex Artifact** PDF template. The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+
+Administrators can also configure PMflex artifacts to be generated automatically and uploaded to the project's connected Nextcloud folder whenever a work package reaches a defined status.
 
 **Project phases and gates widget**
 
@@ -117,7 +121,7 @@ When working with the BlockNote editor in Documents, links to work packages now 
 
 ### Semantic identifiers now support BCF import and export
 
-Semantic identifiers are now included when importing and exporting BIM Collaboration Format (BCF) files. This ensures identifiers remain consistent across OpenProject and other BIM tools, improving interoperability in BIM workflows.
+Semantic identifiers are now considered production-ready and are no longer marked as Beta. OpenProject 17.7 also adds support for importing and exporting semantic identifiers in BCF files.
 
 ### Filter projects by portfolio and program (Enterprise add-on)
 
