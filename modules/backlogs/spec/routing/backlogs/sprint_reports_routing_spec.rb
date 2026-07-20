@@ -49,10 +49,7 @@ RSpec.describe "Sprint report routing" do
 
   context "without sprint_reports feature flag" do
     it "does not route GET report" do
-      expect(get("/projects/project_42/backlogs/sprints/21/report")).not_to route_to(
-        controller: "backlogs/sprint_reports",
-        action: "show"
-      )
+      expect(get("/projects/project_42/backlogs/sprints/21/report")).not_to be_routable
     end
   end
 end
