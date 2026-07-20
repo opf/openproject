@@ -130,10 +130,16 @@ module Queries::Filters::Shared
       protected
 
       def condition
-        [
+        base_condition = [
           custom_field_context.where_subselect_conditions,
           operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
         ].compact.join(" AND ")
+
+        if custom_field.field_format == "datetime" && operator_strategy != Queries::Operators::None
+          "#{CustomValue.table_name}.value <> '' AND #{base_condition}"
+        else
+          base_condition
+        end
       end
 
       def type_strategy_class

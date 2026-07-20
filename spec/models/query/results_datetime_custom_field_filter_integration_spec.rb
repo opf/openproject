@@ -52,6 +52,7 @@ RSpec.describe Query::Results, "Filtering datetime custom fields" do
   shared_let(:wp_in_an_hour) { wp_with_value("in an hour", "2024-05-15T11:00:00Z") }
   shared_let(:wp_next_week) { wp_with_value("next week", "2024-05-23T10:00:00Z") }
   shared_let(:wp_without_value) { create(:work_package, subject: "empty", type:, project:) }
+  shared_let(:wp_blank_value) { wp_with_value("blank", "") }
 
   let(:values) { [] }
   let(:query) do
@@ -97,6 +98,15 @@ RSpec.describe Query::Results, "Filtering datetime custom fields" do
 
     it_behaves_like "filtered work packages" do
       let(:expected) { [wp_past] }
+    end
+  end
+
+  describe "filter between datetimes with an open lower bound (<>d)" do
+    let(:operator) { "<>d" }
+    let(:values) { ["", "2015-01-04T00:00:00Z"] }
+
+    it "excludes work packages with a blank (not nil) custom value" do
+      expect(query_results).to match_array [wp_past, wp_past_same_day].map(&:id)
     end
   end
 
@@ -148,7 +158,8 @@ RSpec.describe Query::Results, "Filtering datetime custom fields" do
 
     it "orders chronologically (nulls first for ascending order)" do
       expect(query_results)
-        .to eq [wp_without_value, wp_past, wp_past_same_day, wp_yesterday, wp_in_an_hour, wp_next_week].map(&:id)
+        .to eq [wp_blank_value, wp_without_value, wp_past, wp_past_same_day, wp_yesterday, wp_in_an_hour,
+                wp_next_week].map(&:id)
     end
   end
 end
