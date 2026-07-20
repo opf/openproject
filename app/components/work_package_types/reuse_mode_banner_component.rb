@@ -29,23 +29,49 @@
 #++
 
 module WorkPackageTypes
-  # The "reused from <source>" note shown for a Linked aspect, with an optional link
-  # to the source's own configuration tab. The link is guarded: type configuration is
-  # admin-only today, and a project admin must not be pointed at a type they cannot open.
-  class LinkedSourceReferenceComponent < ApplicationComponent
+  # Banner above a type's configuration tab stating whether the aspect is
+  # configured Independently or Linked to a source type. The switch actions are
+  # buttons that will open the mode-switching modal (wired up separately); they
+  # are no-ops for now.
+  class ReuseModeBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(source:, link_path: nil)
-      super(source)
-
-      @source = source
-      @link_path = link_path
+    def initialize(type:, aspect:)
+      @aspect = aspect
+      super(type)
     end
 
-    def source = @source
+    def render? = OpenProject::FeatureDecisions.subtypes_active?
 
-    def link_path = @link_path
+    private
 
-    def show_link? = @link_path.present? && User.current.admin?
+    attr_reader :aspect
+
+    def type = model
+
+    def linked? = type.linked?(aspect)
+
+    def source = type.source_for(aspect)
+
+    def source_is_parent? = source.present? && source == type.parent
+
+    def source_path = edit_type_settings_path(type_id: source.id)
+
+    def copy_supported? = CopyConfiguration.supported?(aspect)
+
+    def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
+
+    def linked_description
+      helpers.link_translate(
+        "types.edit.reuse_mode.linked.description",
+        i18n_args: { source_name: source.name, source_suffix: parent_suffix },
+        links: { source_url: source_path },
+        external: false
+      )
+    end
+
+    def parent_suffix
+      source_is_parent? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
+    end
   end
 end

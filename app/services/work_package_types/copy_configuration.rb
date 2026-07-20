@@ -29,29 +29,20 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class DetailsComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  # One-time copies of a configuration aspect from a source type ("Copy from
+  # type"), one service per aspect. Aspects not listed here don't support
+  # copying (yet).
+  module CopyConfiguration
+    SERVICES = {
+      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService
+    }.freeze
 
-      def initialize(type:)
-        super(type)
-      end
+    def self.service_for(aspect)
+      SERVICES[aspect.to_s]
+    end
 
-      private
-
-      def type = model
-
-      def form_url
-        if type.new_record?
-          creation_wizard_types_path
-        else
-          type_creation_wizard_path(type, step: :details)
-        end
-      end
-
-      def form_method
-        type.new_record? ? :post : :patch
-      end
+    def self.supported?(aspect)
+      SERVICES.key?(aspect.to_s)
     end
   end
 end

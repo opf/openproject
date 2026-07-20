@@ -27,12 +27,32 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        test_selector: DIALOG_ID,
+        title: t("types.edit.reuse_mode.copy.confirm_dialog.title"),
+        confirm_button_text: t(:button_confirm),
+        cancel_button_text: t(:button_close),
+        form_arguments: {
+          action: copy_path,
+          method: :post,
+          data: { turbo_stream: true }
+        }
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { t("types.edit.reuse_mode.copy.confirm_dialog.title") } %>
+    <% message.with_description_content(
+         t("types.edit.reuse_mode.copy.confirm_dialog.description_html", source_name: tag.strong(source.name))
+       ) %>
+  <% end %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-<%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) %>
+  <% dialog.with_confirmation_check_box do %>
+    <%= t("types.edit.reuse_mode.copy.confirm_dialog.check_box") %>
+  <% end %>
 
-<%= render WorkPackageTypes::ExportConfigurationComponent.new(
-      @type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
-      readonly: @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
-    ) %>
+  <% dialog.with_additional_details do %>
+    <%= hidden_field_tag :source_id, source.id %>
+  <% end %>
+<% end %>

@@ -28,42 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module Wizard
-    # Embeds the existing form configuration editor, which self-persists through
-    # its own turbo endpoints; the wizard only navigates between steps.
-    class FormConfigurationStepComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+require "rails_helper"
 
-      def initialize(type:)
-        super(type)
-      end
+RSpec.describe WorkPackageTypes::ReloadableConfigurationFrameComponent, type: :component do
+  it "wraps the content in a turbo frame reloading on the configuration-changed event" do
+    render_inline(described_class.new(reload_url: "/reload/here")) { "The wrapped editor" }
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     type: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
-        end
-      end
+    frame = page.find("turbo-frame##{described_class::FRAME_ID}")
 
-      private
+    expect(frame.text).to include("The wrapped editor")
+    expect(frame[:class]).to include("op-reloadable-configuration-frame")
+    expect(frame["data-controller"]).to eq("reload-frame-on-event")
+    expect(frame["data-reload-frame-on-event-event-name-value"]).to eq(described_class::RELOAD_EVENT_NAME)
+    expect(frame["data-reload-frame-on-event-url-value"]).to eq("/reload/here")
+  end
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :form_configuration)
-      end
+  it "has no src, so it is not fetched on page load" do
+    render_inline(described_class.new(reload_url: "/reload/here")) { "The wrapped editor" }
 
-      def no_filter_query
-        ::API::V3::Queries::QueryParamsRepresenter
-          .new(Query.new_default.tap { |query| query.filters = [] })
-          .to_json
-      end
-    end
+    expect(page.find("turbo-frame##{described_class::FRAME_ID}")[:src]).to be_nil
   end
 end

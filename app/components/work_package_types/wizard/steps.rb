@@ -35,19 +35,7 @@ module WorkPackageTypes
     module Steps
       ALL = %i[details form_configuration workflows automations projects pdf].freeze
 
-      # The configuration aspect each step chooses a reuse mode for. Details has none:
-      # it names the type, so there is nothing to reuse from a source.
-      STEP_ASPECTS = {
-        form_configuration: Type::ConfigurationLink::FORM_CONFIGURATION,
-        workflows: Type::ConfigurationLink::WORKFLOWS,
-        automations: Type::ConfigurationLink::AUTOMATIONS,
-        projects: Type::ConfigurationLink::PROJECTS,
-        pdf: Type::ConfigurationLink::PDF_EXPORT
-      }.freeze
-
       module_function
-
-      def aspect_for(step) = STEP_ASPECTS[step]
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
 

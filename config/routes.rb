@@ -194,6 +194,14 @@ Rails.application.routes.draw do
       resource :configuration_link, only: %i[update destroy]
     end
 
+    nested do
+      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+        get :dialog
+        post :confirm
+        post :copy
+      end
+    end
+
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
       resources :tabs, only: %i[edit update], param: :tab, controller: "/workflows/tabs" do

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,39 +26,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require "rails_helper"
+module WorkPackageTypes
+  # Wraps a configuration editor in a turbo frame that reloads whenever the
+  # type's configuration changes out-of-band — a copy from another type, a
+  # reuse-mode switch. The frame has no `src`, so it is not fetched on load —
+  # it just holds the server-rendered content until the change event points it
+  # at +reload_url+, which must render the frame again (the tab's edit page or
+  # the wizard step).
+  class ReloadableConfigurationFrameComponent < ApplicationComponent
+    FRAME_ID = "type-configuration-frame"
+    RELOAD_EVENT_NAME = "op-dispatched:types:configuration-changed"
 
-RSpec.describe WorkPackageTypes::ConfigurationLinkComponent, type: :component do
-  let(:source) { create(:type, name: "Phase") }
-  let(:type) { create(:type) }
+    def initialize(reload_url:)
+      super()
 
-  before do
-    allow(OpenProject::FeatureDecisions).to receive(:subtypes_active?).and_return(true)
-    login_as(create(:admin))
-  end
-
-  context "when the aspect is linked" do
-    before { type.link!(Type::ConfigurationLink::PATTERNS, source:) }
-
-    it "renders the source reference and the readonly preview slot", :aggregate_failures do
-      render_inline(described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS)) do |c|
-        c.with_readonly_preview { "PREVIEW_MARKER" }
-      end
-
-      expect(page).to have_text("Configuration reused from Phase")
-      expect(page).to have_text("PREVIEW_MARKER")
+      @reload_url = reload_url
     end
-  end
 
-  context "when the aspect is independent" do
-    it "does not render the readonly preview" do
-      render_inline(described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS)) do |c|
-        c.with_readonly_preview { "PREVIEW_MARKER" }
-      end
+    def call
+      helpers.turbo_frame_tag(FRAME_ID, class: "op-reloadable-configuration-frame", data: frame_data) { content }
+    end
 
-      expect(page).to have_no_text("PREVIEW_MARKER")
+    private
+
+    def frame_data
+      {
+        controller: "reload-frame-on-event",
+        "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
+        "reload-frame-on-event-url-value": @reload_url
+      }
     end
   end
 end

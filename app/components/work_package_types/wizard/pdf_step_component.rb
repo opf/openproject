@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require "rails_helper"
+module WorkPackageTypes
+  module Wizard
+    # The PDF export wizard step: the reuse-mode banner over the export
+    # configuration, shown read-only while the aspect is Linked. Mirrors the PDF
+    # export tab and FormConfigurationStepComponent.
+    class PdfStepComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-RSpec.describe WorkPackageTypes::LinkedSourceReferenceComponent, type: :component do
-  let(:source) { build_stubbed(:type, name: "Phase") }
-  let(:link_path) { "/types/1/subject_configuration/edit" }
+      def initialize(type:)
+        super(type)
+      end
 
-  it "names the source and links to it for an admin", :aggregate_failures do
-    login_as(build_stubbed(:admin))
-    render_inline(described_class.new(source:, link_path:))
+      def call
+        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
+          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+                   type: model,
+                   aspect: Type::ConfigurationLink::PDF_EXPORT
+                 )) +
+            render(WorkPackageTypes::ExportConfigurationComponent.new(
+                     model.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
+                     readonly: model.linked?(Type::ConfigurationLink::PDF_EXPORT)
+                   ))
+        end
+      end
 
-    expect(page).to have_text("Configuration reused from Phase")
-    expect(page).to have_link("Edit at source", href: link_path)
-  end
+      private
 
-  it "omits the link when the user is not an admin" do
-    login_as(build_stubbed(:user))
-    render_inline(described_class.new(source:, link_path:))
-
-    expect(page).to have_no_link("Edit at source")
-  end
-
-  it "omits the link when no path is given" do
-    login_as(build_stubbed(:admin))
-    render_inline(described_class.new(source:))
-
-    expect(page).to have_no_link("Edit at source")
+      def reload_url
+        helpers.type_creation_wizard_path(model, step: :pdf)
+      end
+    end
   end
 end

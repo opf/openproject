@@ -29,40 +29,28 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    # Embeds the existing form configuration editor, which self-persists through
-    # its own turbo endpoints; the wizard only navigates between steps.
-    class FormConfigurationStepComponent < ApplicationComponent
+  module ConfigurationCopies
+    # The "Copy configuration" dialog: pick the source type to copy an aspect's
+    # configuration from. Submitting swaps it for the danger confirmation.
+    class DialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-      def initialize(type:)
-        super(type)
-      end
+      DIALOG_ID = "configuration-copy-dialog"
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   type: model,
-                   aspect: Type::ConfigurationLink::FORM_CONFIGURATION
-                 )) +
-            render(WorkPackageTypes::FormConfigurationComponent.new(
-                     type: model,
-                     form_attributes: helpers.form_configuration_groups(model),
-                     no_filter_query:
-                   ))
-        end
+      def initialize(type:, aspect:)
+        super()
+
+        @type = type
+        @aspect = aspect
       end
 
       private
 
-      def reload_url
-        helpers.type_creation_wizard_path(model, step: :form_configuration)
-      end
+      attr_reader :type, :aspect
 
-      def no_filter_query
-        ::API::V3::Queries::QueryParamsRepresenter
-          .new(Query.new_default.tap { |query| query.filters = [] })
-          .to_json
+      def confirm_path
+        type_configuration_copy_confirm_path(type_id: type.id, aspect:)
       end
     end
   end
