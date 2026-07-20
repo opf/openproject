@@ -33,7 +33,7 @@ module WorkPackageTypes
     # The steps of the sub-type creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[details form_configuration workflows automations projects pdf].freeze
+      ALL = %i[details defaults form_configuration workflows automations projects pdf].freeze
 
       module_function
 

@@ -29,51 +29,41 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class SidebarComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+  class UpdateDefaultsContract < BaseContract
+    attribute :patterns
+    attribute :description
 
-      def initialize(type:, current_step:)
-        super(type)
+    validate :enterprise_edition
+    validate :validate_subject_generation_pattern
 
-        @current_step = current_step
+    private
+
+    def enterprise_edition
+      action = :work_package_subject_generation
+      if model.patterns.subject&.enabled && !EnterpriseToken.allows_to?(action)
+        errors.add(:patterns, :error_enterprise_only, action: action.to_s.titleize)
+      end
+    end
+
+    def validate_subject_generation_pattern
+      blueprint = model.patterns.subject&.blueprint
+      return if blueprint.nil?
+
+      valid_tokens = flat_valid_token_list
+      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
+                                .reduce([]) do |acc, match|
+        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
+        valid_tokens.include?(token) ? acc : acc << token
       end
 
-      LEADING_ICONS = {
-        details: :info,
-        defaults: :"file-diff",
-        form_configuration: :"list-unordered",
-        workflows: :"git-branch",
-        automations: :zap,
-        projects: :table,
-        pdf: :file
-      }.freeze
-
-      private
-
-      attr_reader :current_step
-
-      def type = model
-
-      def steps = Steps.all
-
-      def leading_icon(step) = LEADING_ICONS.fetch(step)
-
-      def title(step) = Steps.title(step)
-
-      def current?(step) = step == current_step
-
-      # Steps ordered before the current one are considered done. Until the
-      # record is created (step 1) nothing is navigable or completed yet.
-      def completed?(step)
-        type.persisted? && Steps.index(step) < Steps.index(current_step)
+      if invalid_tokens.any?
+        errors.add(:patterns, :invalid_tokens)
       end
+    end
 
-      # Only visited/creatable steps are navigable: before the record exists we
-      # cannot address a step by its type id.
-      def href_for(step)
-        type_creation_wizard_path(type, step:) if type.persisted?
-      end
+    def flat_valid_token_list
+      enabled, _disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
+      enabled.map(&:key)
     end
   end
 end

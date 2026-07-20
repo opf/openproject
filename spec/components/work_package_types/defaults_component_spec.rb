@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::SubjectConfigurationComponent, type: :component do
+RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
   let(:type) { create(:type) }
   let(:subject_configuration_form_data) { nil }
 
@@ -104,10 +104,16 @@ RSpec.describe WorkPackageTypes::SubjectConfigurationComponent, type: :component
   end
 
   context "when enterprise edition is not activated", with_ee: %i[] do
-    it "shows the large enterprise banner" do
+    it "shows the medium enterprise banner above the form" do
       render_component
 
-      expect(page).to have_enterprise_banner(:professional, class: "op-enterprise-banner_large")
+      expect(page).to have_enterprise_banner(:professional, class: "op-enterprise-banner_medium")
+    end
+
+    it "keeps the Community-only default description reachable" do
+      render_component
+
+      expect(page).to have_css("[name='work_package_types_forms_defaults_form_model[description]']", visible: :all)
     end
 
     context "and when the subject is already automatically generated" do
@@ -151,6 +157,6 @@ RSpec.describe WorkPackageTypes::SubjectConfigurationComponent, type: :component
   private
 
   def hidden_input_field_selector
-    "input[type=hidden][id=work_package_types_forms_subject_configuration_form_model_pattern]"
+    "input[type=hidden][id=work_package_types_forms_defaults_form_model_pattern]"
   end
 end

@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  class SubjectConfigurationForm < ApplicationForm
+  class DefaultsForm < ApplicationForm
     include Redmine::I18n
 
     form do |subject_form|
@@ -38,15 +38,15 @@ module WorkPackageTypes
           value: :manual,
           checked: subject_configuration_manual?,
           disabled: readonly?,
-          label: I18n.t("types.edit.subject_configuration.manually_editable_subjects.label"),
-          caption: I18n.t("types.edit.subject_configuration.manually_editable_subjects.caption"),
+          label: I18n.t("types.edit.defaults.manually_editable_subjects.label"),
+          caption: I18n.t("types.edit.defaults.manually_editable_subjects.caption"),
           data: { action: "admin--subject-configuration#hidePatternInput" }
         )
         group.radio_button(
           value: :generated,
           checked: !subject_configuration_manual?,
-          label: I18n.t("types.edit.subject_configuration.automatically_generated_subjects.label"),
-          caption: I18n.t("types.edit.subject_configuration.automatically_generated_subjects.caption"),
+          label: I18n.t("types.edit.defaults.automatically_generated_subjects.label"),
+          caption: I18n.t("types.edit.defaults.automatically_generated_subjects.caption"),
           disabled: readonly? || !enterprise?,
           data: { action: "admin--subject-configuration#showPatternInput" }
         )
@@ -58,12 +58,20 @@ module WorkPackageTypes
           value: model.pattern,
           disabled: readonly? || !enterprise?,
           suggestions: model.suggestions,
-          label: I18n.t("types.edit.subject_configuration.pattern.label"),
+          label: I18n.t("types.edit.defaults.pattern.label"),
           caption: pattern_input_caption,
           required: true,
           validation_message: validation_message_for(:patterns)
         )
       end
+
+      subject_form.rich_text_area(
+        name: :description,
+        label: I18n.t("types.edit.defaults.description.label"),
+        caption: I18n.t("types.edit.defaults.description.caption"),
+        disabled: readonly?,
+        rich_text_options: { showAttachments: false }
+      )
 
       unless readonly?
         subject_form.submit(
@@ -91,7 +99,7 @@ module WorkPackageTypes
     end
 
     def pattern_input_caption
-      link_translate("types.edit.subject_configuration.pattern.caption", links: {
+      link_translate("types.edit.defaults.pattern.caption", links: {
                        attributes_url: %i[enterprise_features work_package_subject_generation]
                      })
     end

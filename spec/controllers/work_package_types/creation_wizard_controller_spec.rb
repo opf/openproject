@@ -59,7 +59,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
 
         subtype = Type.find_by!(name: "Critical")
         expect(subtype.parent).to eq(parent_type)
-        expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
+        expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :defaults))
       end
 
       context "with invalid params" do
@@ -101,7 +101,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { subtypes
           patch :update, params: { type_id: subtype.id, step: :details, type: { name: "Blocker" } }
 
           expect(subtype.reload.own_name).to eq("Blocker")
-          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :form_configuration))
+          expect(response).to redirect_to(type_creation_wizard_path(subtype, step: :defaults))
         end
       end
 

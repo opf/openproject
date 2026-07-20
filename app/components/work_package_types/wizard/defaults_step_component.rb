@@ -29,42 +29,34 @@
 #++
 
 module WorkPackageTypes
-  class SubjectConfigurationTabController < BaseTabController
-    current_menu_item [:edit, :update] do
-      :types
-    end
+  module Wizard
+    # The defaults wizard step: the reuse-mode banner over the subject patterns and
+    # default description, shown read-only while the aspect is Linked. Mirrors the
+    # defaults tab and PdfStepComponent.
+    class DefaultsStepComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    def edit; end
-
-    def update
-      permitted = params.expect(work_package_types_forms_subject_configuration_form_model: %i[subject_configuration pattern]).to_h
-
-      result = UpdateService.new(model: @type, user: current_user, contract_class: UpdateSubjectPatternContract)
-                            .call(patterns: build_patterns(permitted))
-
-      if result.success?
-        redirect_to edit_type_subject_configuration_path(@type), notice: I18n.t(:notice_successful_update)
-      else
-        render :edit, status: :unprocessable_entity
+      def initialize(type:)
+        super(type)
       end
-    end
 
-    private
-
-    def build_patterns(form_params)
-      case form_params
-      in { subject_configuration: "generated", pattern: String => blueprint }
-        { subject: { blueprint:, enabled: true } }
-      in { subject_configuration: "manual", pattern: String => blueprint }
-        if blueprint.empty?
-          # Submitting the form with an empty blueprint and manual subject configuration will
-          # remove the subject pattern from the collection
-          nil
-        else
-          { subject: { blueprint:, enabled: false } }
+      def call
+        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
+          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+                   type: model,
+                   aspect: Type::ConfigurationLink::DEFAULTS
+                 )) +
+            render(WorkPackageTypes::DefaultsComponent.new(
+                     model.effective_source_for(Type::ConfigurationLink::DEFAULTS),
+                     readonly: model.linked?(Type::ConfigurationLink::DEFAULTS)
+                   ))
         end
-      else
-        nil
+      end
+
+      private
+
+      def reload_url
+        helpers.type_creation_wizard_path(model, step: :defaults)
       end
     end
   end

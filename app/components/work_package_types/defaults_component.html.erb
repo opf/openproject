@@ -27,21 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<% if show_enterprise_banner? %>
+  <%= render(
+        EnterpriseEdition::BannerComponent.new(
+          :work_package_subject_generation,
+          variant: :medium,
+          image: "enterprise/automatically-generated-subjects.png"
+        )
+      ) %>
+<% end %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-
-<%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_subject_configuration_path(type_id: @type.id)
-      )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS)) %>
-  <% if @type.linked?(Type::ConfigurationLink::DEFAULTS) %>
-    <%= render WorkPackageTypes::SubjectConfigurationComponent
-                 .new(@type.effective_source_for(Type::ConfigurationLink::DEFAULTS), readonly: true) %>
-  <% else %>
-    <%= render WorkPackageTypes::SubjectConfigurationComponent
-                 .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>
-  <% end %>
+<%= settings_primer_form_with(**form_options) do |f| %>
+  <%= render(WorkPackageTypes::DefaultsForm.new(f)) %>
 <% end %>

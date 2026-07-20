@@ -84,6 +84,8 @@ module WorkPackageTypes
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
+        when :defaults
+          DefaultsStepComponent.new(type:)
         when :form_configuration
           FormConfigurationStepComponent.new(type:)
         when :projects

@@ -29,40 +29,19 @@
 #++
 
 module WorkPackageTypes
-  class UpdateSubjectPatternContract < BaseContract
-    attribute :patterns
+  module Forms
+    class DefaultsFormModel
+      extend ActiveModel::Naming
 
-    validate :enterprise_edition
-    validate :validate_subject_generation_pattern
+      attr_reader :subject_configuration, :pattern, :description, :suggestions, :validation_errors
 
-    private
-
-    def enterprise_edition
-      action = :work_package_subject_generation
-      if model.patterns.subject&.enabled && !EnterpriseToken.allows_to?(action)
-        errors.add(:patterns, :error_enterprise_only, action: action.to_s.titleize)
+      def initialize(subject_configuration:, pattern:, suggestions:, description: nil, validation_errors: {})
+        @subject_configuration = subject_configuration
+        @pattern = pattern
+        @description = description
+        @suggestions = suggestions
+        @validation_errors = validation_errors
       end
-    end
-
-    def validate_subject_generation_pattern
-      blueprint = model.patterns.subject&.blueprint
-      return if blueprint.nil?
-
-      valid_tokens = flat_valid_token_list
-      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
-                                .reduce([]) do |acc, match|
-        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
-        valid_tokens.include?(token) ? acc : acc << token
-      end
-
-      if invalid_tokens.any?
-        errors.add(:patterns, :invalid_tokens)
-      end
-    end
-
-    def flat_valid_token_list
-      enabled, _disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
-      enabled.map(&:key)
     end
   end
 end

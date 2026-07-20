@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  class SubjectConfigurationComponent < ApplicationComponent
+  class DefaultsComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
@@ -44,7 +44,7 @@ module WorkPackageTypes
 
     def form_options
       {
-        url: type_subject_configuration_path(type_id: model.id),
+        url: type_defaults_path(type_id: model.id),
         method: :put,
         model: subject_form_object,
         readonly: @readonly,
@@ -52,9 +52,9 @@ module WorkPackageTypes
       }
     end
 
-    def show_upsale_page?
-      !enterprise? && subject_form_object.subject_configuration == :manual
-    end
+    # The banner sits above the subject radios rather than replacing the form, so the
+    # Community-only default description on this page stays reachable without a token.
+    def show_enterprise_banner? = !enterprise?
 
     private
 
@@ -74,9 +74,10 @@ module WorkPackageTypes
     def subject_form_object
       values = subject_configuration_form_values
 
-      Forms::SubjectConfigurationFormModel.new(
+      Forms::DefaultsFormModel.new(
         subject_configuration: values[:subject_configuration],
         pattern: values[:pattern],
+        description: model.description,
         suggestions: sort_attributes(supported_attributes),
         validation_errors: model.errors
       )
@@ -87,15 +88,15 @@ module WorkPackageTypes
 
       result = {
         work_package: {
-          title: I18n.t("types.edit.subject_configuration.token.context.work_package"),
+          title: I18n.t("types.edit.defaults.token.context.work_package"),
           tokens: []
         },
         parent: {
-          title: I18n.t("types.edit.subject_configuration.token.context.parent"),
+          title: I18n.t("types.edit.defaults.token.context.parent"),
           tokens: []
         },
         project: {
-          title: I18n.t("types.edit.subject_configuration.token.context.project"),
+          title: I18n.t("types.edit.defaults.token.context.project"),
           tokens: []
         }
       }

@@ -27,30 +27,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if readonly? %>
-  <%= settings_primer_form_with(**form_options) do |f| %>
-    <%= render(WorkPackageTypes::SubjectConfigurationForm.new(f)) %>
-  <% end %>
-<% elsif show_upsale_page? %>
-  <%= render(
-        EnterpriseEdition::BannerComponent.new(
-          :work_package_subject_generation,
-          variant: :large,
-          video: "enterprise/automatically_generated_subjects.mp4"
-        )
-      ) %>
-<% else %>
-  <%= render(
-        EnterpriseEdition::BannerComponent.new(
-          :work_package_subject_generation,
-          variant: :medium,
-          image: "enterprise/automatically-generated-subjects.png"
-        )
-      ) %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
 
-  <%=
-    settings_primer_form_with(**form_options) do |f|
-      render(WorkPackageTypes::SubjectConfigurationForm.new(f))
-    end
-  %>
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+
+<%= render(
+      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
+        reload_url: edit_type_defaults_path(type_id: @type.id)
+      )
+    ) do %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS)) %>
+  <% if @type.linked?(Type::ConfigurationLink::DEFAULTS) %>
+    <%= render WorkPackageTypes::DefaultsComponent
+                 .new(@type.effective_source_for(Type::ConfigurationLink::DEFAULTS), readonly: true) %>
+  <% else %>
+    <%= render WorkPackageTypes::DefaultsComponent
+                 .new(@type, subject_configuration_form_data: params[:work_package_types_forms_defaults_form_model]) %>
+  <% end %>
 <% end %>
