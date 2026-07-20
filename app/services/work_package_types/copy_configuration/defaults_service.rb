@@ -30,14 +30,14 @@
 
 module WorkPackageTypes
   module CopyConfiguration
-    class PatternsService < BaseService
+    class DefaultsService < BaseService
       private
 
-      def aspect = Type::ConfigurationLink::PATTERNS
+      def aspect = Type::ConfigurationLink::DEFAULTS
 
       def copy_from(source)
         # deep_dup keeps the copy from aliasing the source's stored value.
-        type.update!(patterns: source.patterns.deep_dup)
+        type.update!(patterns: source.patterns.deep_dup, description: source.description)
       end
     end
   end

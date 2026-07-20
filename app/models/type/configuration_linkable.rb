@@ -79,7 +79,11 @@ class Type
     end
 
     def effective_patterns
-      effective_source_for(Type::ConfigurationLink::PATTERNS).patterns
+      effective_source_for(Type::ConfigurationLink::DEFAULTS).patterns
+    end
+
+    def effective_description
+      effective_source_for(Type::ConfigurationLink::DEFAULTS).description
     end
 
     def effective_pdf_export_templates

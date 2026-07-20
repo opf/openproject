@@ -28,23 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
-  module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::DEFAULTS => DefaultsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
+class RenamePatternsAspectToDefaults < ActiveRecord::Migration[8.1]
+  def up
+    execute <<~SQL.squish
+      UPDATE type_configuration_links SET aspect = 'defaults' WHERE aspect = 'patterns'
+    SQL
+  end
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
-    end
-
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
-    end
+  def down
+    execute <<~SQL.squish
+      UPDATE type_configuration_links SET aspect = 'patterns' WHERE aspect = 'defaults'
+    SQL
   end
 end

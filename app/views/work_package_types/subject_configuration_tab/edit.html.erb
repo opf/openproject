@@ -36,10 +36,10 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_type_subject_configuration_path(type_id: @type.id)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PATTERNS)) %>
-  <% if @type.linked?(Type::ConfigurationLink::PATTERNS) %>
+  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS)) %>
+  <% if @type.linked?(Type::ConfigurationLink::DEFAULTS) %>
     <%= render WorkPackageTypes::SubjectConfigurationComponent
-                 .new(@type.effective_source_for(Type::ConfigurationLink::PATTERNS), readonly: true) %>
+                 .new(@type.effective_source_for(Type::ConfigurationLink::DEFAULTS), readonly: true) %>
   <% else %>
     <%= render WorkPackageTypes::SubjectConfigurationComponent
                  .new(@type, subject_configuration_form_data: params[:work_package_types_forms_subject_configuration_form_model]) %>

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CopyConfiguration::PatternsService do
+RSpec.describe WorkPackageTypes::CopyConfiguration::DefaultsService do
   shared_let(:admin) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -39,11 +39,20 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::PatternsService do
 
   describe "#call" do
     context "with a source" do
-      let(:source) { create(:type, patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } }) }
+      let(:source) do
+        create(:type,
+               patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } },
+               description: "Copied default description")
+      end
 
       it "copies the source's subject patterns onto the type" do
         expect(service_call).to be_success
         expect(type.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
+      end
+
+      it "copies the source's default description onto the type" do
+        expect(service_call).to be_success
+        expect(type.reload.description).to eq("Copied default description")
       end
     end
 
@@ -51,7 +60,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::PatternsService do
       let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }) }
       let(:source) { create(:type) }
 
-      before { source.link!(Type::ConfigurationLink::PATTERNS, source: owner) }
+      before { source.link!(Type::ConfigurationLink::DEFAULTS, source: owner) }
 
       it "adopts the resolved owner's patterns" do
         expect(service_call).to be_success

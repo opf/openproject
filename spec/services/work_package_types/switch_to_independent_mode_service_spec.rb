@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
     end
 
     context "with the empty mode (patterns)" do
-      let(:aspect) { Type::ConfigurationLink::PATTERNS }
+      let(:aspect) { Type::ConfigurationLink::DEFAULTS }
 
       it "clears the configuration and severs the link" do
         source = create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } })
@@ -117,10 +117,10 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
     end
 
     context "when the seed fails" do
-      let(:aspect) { Type::ConfigurationLink::PATTERNS }
+      let(:aspect) { Type::ConfigurationLink::DEFAULTS }
 
       it "leaves the link untouched" do
-        allow_any_instance_of(WorkPackageTypes::CopyConfiguration::PatternsService) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(WorkPackageTypes::CopyConfiguration::DefaultsService) # rubocop:disable RSpec/AnyInstance
           .to receive(:call).and_return(ServiceResult.failure(result: type))
         type.link!(aspect, source: create(:type))
 

@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe Type::ConfigurationLinkable do
   let(:type) { create(:type) }
   let(:source) { create(:type) }
-  let(:aspect) { Type::ConfigurationLink::PATTERNS }
+  let(:aspect) { Type::ConfigurationLink::DEFAULTS }
 
   describe "#linked? and #source_for" do
     it "reports Independent (no link) by default" do
@@ -49,9 +49,9 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     it "tracks each aspect independently" do
-      type.link!(Type::ConfigurationLink::PATTERNS, source:)
+      type.link!(Type::ConfigurationLink::DEFAULTS, source:)
 
-      expect(type).to be_linked(Type::ConfigurationLink::PATTERNS)
+      expect(type).to be_linked(Type::ConfigurationLink::DEFAULTS)
       expect(type).not_to be_linked(Type::ConfigurationLink::PDF_EXPORT)
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe Type::ConfigurationLinkable do
       child = create(:type, parent:)
 
       expect(child.source_for(Type::ConfigurationLink::PDF_EXPORT)).to eq(parent)
-      expect(child.source_for(Type::ConfigurationLink::PATTERNS)).to eq(parent)
+      expect(child.source_for(Type::ConfigurationLink::DEFAULTS)).to eq(parent)
     end
 
     it "leaves the not-yet-implemented aspects Independent" do
@@ -140,7 +140,7 @@ RSpec.describe Type::ConfigurationLinkable do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
     it "resolves patterns from the linked owner" do
-      type.link!(Type::ConfigurationLink::PATTERNS, source: owner)
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
 
       expect(type.effective_patterns.subject.blueprint).to eq("X {{id}}")
     end
@@ -154,7 +154,7 @@ RSpec.describe Type::ConfigurationLinkable do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
     it "resolves the subject pattern from the linked owner" do
-      type.link!(Type::ConfigurationLink::PATTERNS, source: owner)
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
 
       expect(type.enabled_patterns.keys).to include(:subject)
       expect(type).to be_replacement_pattern_defined_for(:subject)
@@ -168,10 +168,10 @@ RSpec.describe Type::ConfigurationLinkable do
   describe "feature flag gating", with_flag: { subtypes: false } do
     let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
 
-    before { type.link!(Type::ConfigurationLink::PATTERNS, source: owner) }
+    before { type.link!(Type::ConfigurationLink::DEFAULTS, source: owner) }
 
     it "ignores links and resolves to the type's own configuration" do
-      expect(type.effective_source_for(Type::ConfigurationLink::PATTERNS)).to eq(type)
+      expect(type.effective_source_for(Type::ConfigurationLink::DEFAULTS)).to eq(type)
       expect(type.effective_patterns).to eq(type.patterns)
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
     end
