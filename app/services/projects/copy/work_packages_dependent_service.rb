@@ -141,8 +141,8 @@ module Projects::Copy
       {
         project: target,
         parent_id:,
-        # The legacy version_id has to agree with the first target version
-        # (contract validation) until the column is dropped.
+        # TODO(COMMS-863): The legacy version_id has to agree with the first target
+        # version (contract validation) until the column is dropped.
         version_id: target_version_ids&.first,
         target_version_ids:,
         observed_in_version_ids: work_package_observed_in_version_ids(source_work_package),

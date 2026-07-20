@@ -587,12 +587,12 @@ module API
                              getter: ->(*) {
                                next unless embed_link?(:target_versions)
 
-                               represented.effective_target_versions.map do |version|
+                               effective_target_versions.map do |version|
                                  ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
                                end
                              },
                              link: ->(*) {
-                               represented.effective_target_versions.map do |version|
+                               effective_target_versions.map do |version|
                                  ::API::Decorators::LinkObject
                                    .new(version,
                                         property_name: :itself,
@@ -784,6 +784,15 @@ module API
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
+        end
+
+        # returns pending replacements if they are present, or the association itself otherwise
+        def effective_target_versions
+          replacement_ids = represented.target_version_ids_replacements
+          return represented.target_versions if replacement_ids.nil?
+
+          versions_by_id = Version.where(id: replacement_ids).index_by(&:id)
+          replacement_ids.filter_map { |id| versions_by_id[id] }
         end
 
         delegate :schedule_manually=, to: :represented
