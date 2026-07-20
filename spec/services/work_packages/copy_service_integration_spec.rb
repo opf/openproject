@@ -146,6 +146,19 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
           expect(copy.observed_in_versions).to contain_exactly(observed_version)
           expect(copy.version_id).to eq(version_one.id)
         end
+
+        context "when the copying user lacks the assign_versions permission" do
+          let(:instance) { described_class.new(work_package:, user:) }
+
+          current_user { user }
+
+          it "copies the work package without any versions instead of failing" do
+            expect(service_result).to be_success
+            expect(copy.target_versions).to be_empty
+            expect(copy.observed_in_versions).to be_empty
+            expect(copy.version_id).to be_nil
+          end
+        end
       end
     end
 
