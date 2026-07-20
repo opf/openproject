@@ -8,8 +8,8 @@ hu:
       xls_with_relations: XLS kapcsolatokkal
   export_to_excel: Exportálás XLS fáljba
   plugin_openproject_xls_export:
-    description: Export issue lists as Excel spreadsheets (.xls).
-    name: OpenProject XLS Export
+    description: A hibajegyzékek Excel-táblázatként (.xls) történő exportálása.
+    name: OpenProject XLS-export
   print_with_description: Nyomtatási előnézet leírással
   sentence_separator_or: vagy
   xls_export:

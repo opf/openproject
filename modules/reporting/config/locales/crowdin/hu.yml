@@ -93,8 +93,8 @@ hu:
   permission_save_cost_reports: Nyilvános költség jelentés mentése
   permission_save_private_cost_reports: Privát költség jelentés mentése
   plugin_openproject_reporting:
-    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
-    name: OpenProject Reporting
+    description: Ez a bővítmény lehetővé teszi az OpenProjekt „Idő és költségek” bővítmény által létrehozott, szűréssel és csoportosítással ellátott egyedi költségjelentések készítését.
+    name: OpenProjekt jelentések
   project_module_reporting_module: Költség jelentések
   reporting:
     group_by:

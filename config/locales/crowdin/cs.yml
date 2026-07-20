@@ -376,7 +376,7 @@ cs:
         custom_field_section: Section
       user_non_working_time:
         end_date: End date
-        start_date: Start date
+        start_date: Datum zahájení
       user_preference:
         auto_hide_popups: Automaticky skrýt oznámení úspěchu
         auto_hide_popups_caption: Pokud je tato funkce povolena, zelená oznámení úspěchu po 5 sekundách automaticky zmizí.
@@ -397,7 +397,7 @@ cs:
         increase_contrast: Zvýšit kontrast
         increase_contrast_caption: Aktivuje režim vysokého kontrastu pro vybraný barevný režim.
         increase_theme_contrast: Zvýšit kontrast motivu
-        mode_guideline: Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support.
+        mode_guideline: Některé režimy přepíšou barvy vlastního motivu z důvodu lepší přístupnosti a čitelnosti. Chcete-li plně využít možnosti vlastního motivu, vyberte prosím režim „Světlý“.
         theme: Barevný režim
         time_zone: Časové pásmo
         warn_on_leaving_unsaved: Upozornit mě při opuštění pracovního balíčku s neuloženými změnami
@@ -469,7 +469,7 @@ cs:
         spent_time: Strávený čas
         subproject: Podprojekt
         target_versions: Target versions
-        time_entries: Čas protokolu
+        time_entries: Vykázat čas
         type: Typ
         version: Verze
         watcher: Sledující
@@ -1060,7 +1060,7 @@ cs:
         label_activity_show_only_changes: Zobrazit pouze změny
         label_activity_show_only_comments: Zobrazit pouze komentáře
         label_dismiss_comment: Dismiss
-        label_sort_asc: Nejnovější v dolní části
+        label_sort_asc: Nejnovější dole
         label_sort_desc: Nejnovější nahoře
         label_submit_comment: Odeslat komentář
         label_type_to_comment: Přidejte komentář. Zadejte @ pro označení lidí.
@@ -1859,7 +1859,7 @@ cs:
   button_add_non_working_time: Volno
   button_add_sub_item: Přidat podpoložku
   button_add_watcher: Přidat sledující
-  button_all_filters: All filters
+  button_all_filters: Všechny filtry
   button_annotate: Komentovat
   button_apply: Použít
   button_apply_changes: Použít změny
@@ -2415,7 +2415,7 @@ cs:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchie
       customize_life_cycle: Přizpůsobit životní cyklus
-      date_alerts: Date Alerts
+      date_alerts: Upozornění na data
       define_custom_style: Vlastní motiv a logo
       edit_attribute_groups: Upravit skupiny atributů
       gantt_pdf_export: Gantt PDF export
@@ -2811,9 +2811,9 @@ cs:
       wiki_pages: Wiki
     placeholder: Hledat v %{app_title}
     title:
-      all_projects: Search for "%{search_term}" in all projects
-      current_project: Search for "%{search_term}" in %{project_name}
-      project_and_subprojects: Search for "%{search_term}" in %{project_name} and all subprojects
+      all_projects: Vyhledat „%{search_term}“ ve všech projektech
+      current_project: Vyhledání "%{search_term}" v %{project_name}
+      project_and_subprojects: Vyhledání "%{search_term}" v %{project_name} a všech podprojektech
   groups:
     edit:
       synchronized_groups: Synchronizované skupiny
@@ -2837,8 +2837,8 @@ cs:
   gui_validation_error_plural: "%{count} chyb"
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
+      all_projects: Všechny projekty
+      favorites: Oblíbené
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
@@ -3059,7 +3059,7 @@ cs:
   label_calendars_and_dates: Kalendáře a data
   label_category: Kategorie
   label_change_parent: Změnit nadřazený
-  label_change_password: Change password
+  label_change_password: Změnit heslo
   label_change_plural: Změny
   label_change_properties: Změnit vlastnosti
   label_change_status: Změnit stav
@@ -3373,7 +3373,7 @@ cs:
   label_my_activity: Moje aktivita
   label_my_avatar: Můj avatar
   label_my_queries: Moje vlastní dotazy
-  label_my_security: Security
+  label_my_security: Zabezpečení
   label_name: Název
   label_never: Nikdy
   label_new: Nový
@@ -3435,9 +3435,9 @@ cs:
   label_part_of: část
   label_password_lost: Zapomněli jste heslo?
   label_password_requirement_lowercase: Musí obsahovat alespoň jeden malý znak.
-  label_password_requirement_numeric: Must contain at least one numeric character.
-  label_password_requirement_special: Must contain at least one special character.
-  label_password_requirement_uppercase: Must contain at least one uppercase character.
+  label_password_requirement_numeric: Musí obsahovat alespoň jednu číslici.
+  label_password_requirement_special: Musí obsahovat alespoň jeden speciální znak.
+  label_password_requirement_uppercase: Musí obsahovat alespoň jedno velké písmeno.
   label_password_rule_lowercase: Malá písmena
   label_password_rule_numeric: Numerické znaky
   label_password_rule_special: Speciální znaky
@@ -3634,7 +3634,7 @@ cs:
   label_type_new: Nový typ
   label_type_plural: Typy
   label_ui: Uživatelské rozhraní
-  label_upcoming: Upcoming
+  label_upcoming: Nadcházející
   label_updated_time: Aktualizováno před %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Aktualizováno uživatelem %{author} před %{age}
@@ -4155,7 +4155,7 @@ cs:
         blank_title: Žádný token OAuth aplikace
         last_refreshed_at: Naposledy obnoven
         table_title: Tokeny aplikací OAuth
-        text_hint: OAuth application tokens allow third-party applications to connect with this OpenProject instance.
+        text_hint: OAuth tokeny umožňují aplikacím třetích stran spojení s touto instancí OpenProjekt.
         title: OAuth
       oauth_client:
         blank_description: Zatím neexistují žádné tokeny OAuth.
@@ -4210,7 +4210,7 @@ cs:
         membership_updated: Členství bylo aktualizováno
         news_added: News added
         news_commented: Comment on a news item
-        submit_button: Update alerts
+        submit_button: Upravit upozornění
         title: Email alerts for other items that are not work packages
         wiki_page_added: Přidána wiki stránka
         wiki_page_updated: Wiki stránka aktualizována
@@ -4227,11 +4227,11 @@ cs:
         title: Receive email reminders on these days
     notifications:
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
-        due_date: Finish date
-        overdue: Overdue
-        start_date: Start date
-        submit_button: Update date alerts
+        description: U pracovních balíčků, u nichž jste přiděleným pracovníkem, odpovědnou osobou a/nebo sledujícím, si můžete nastavit upozornění na termíny tak, abyste byli automaticky informováni několik dní před blížícím se nebo již uplynulým termínem.
+        due_date: Datum dokončení
+        overdue: Po termínu
+        start_date: Datum zahájení
+        submit_button: Upravit upozornění na data
         times:
           one_day_after: 1 den po
           one_day_before: 1 den předem
@@ -4240,16 +4240,16 @@ cs:
           seven_days_before: 7 dní předem
           three_days_after: 3 dny po
           three_days_before: 3 dny předem
-        title: Date alerts
+        title: Upozornění na data
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
-        submit_button: Update preferences
+        description: Navíc si můžete zvolit, zda chcete být informováni o kterékoli z následujících aktivit u všech projektů.
+        submit_button: Upravit preference
         title: Neúčastnící se
-        work_package_commented: All new comments
-        work_package_created: New work packages
-        work_package_prioritized: All priority changes
-        work_package_processed: All status changes
-        work_package_scheduled: All date changes
+        work_package_commented: Všechny nové komentáře
+        work_package_created: Nové pracovní balíčky
+        work_package_prioritized: Všechny změny priorit
+        work_package_processed: Všechny změny stavu
+        work_package_scheduled: Všechny změny data
       participating:
         assignee: Přiřazen(a)
         description: Vždy dostanete oznámení, pokud vás někdo zmíní, a při změnách pracovních balíčků, které sledujete. Tato oznámení nelze vypnout. Můžete si však zapnout nebo vypnout oznámení o změnách pracovních balíčků, které se vás týkají (kde jste zodpovědnou osobou, přiřazenou osobou nebo se s vámi balíček sdílí).
@@ -4343,7 +4343,7 @@ cs:
   notice_smtp_address_unsafe_env_hint: SMTP address %{address} is not safe. Please add it to the whitelist using the %{env_name} environment variable.
   notice_successful_cancel: Úspěšné zrušení.
   notice_successful_connection: Úspěšné připojení.
-  notice_successful_create: Úspěšné vytvoření.
+  notice_successful_create: Úspěšně vytvořeno.
   notice_successful_delete: Úspěšné odstranění.
   notice_successful_update: Úspěšná aktualizace.
   notice_successful_update_custom_fields_added_to_project: |
@@ -4368,7 +4368,7 @@ cs:
     menu:
       by_project: Nepřečteno dle projektu
       by_reason: Důvod
-      inbox: Doručená pošta
+      inbox: Doručené
     query:
       invalid_filter: Neplatný filtr oznámení
     reasons:
@@ -6132,7 +6132,7 @@ cs:
   users:
     autologins:
       prompt: Zůstaňte přihlášeni po %{num_days}
-    force_password_change_hint: The user must set a new password on their next login. Automatically enabled when sending credentials via email.
+    force_password_change_hint: Uživatel si musí při příštím přihlášení nastavit nové heslo. Tato funkce se automaticky aktivuje při zasílání přihlašovacích údajů e-mailem.
     groups:
       member_in_these_groups: 'Tento uživatel je v současné době členem následujících skupin:'
       more: "%{count} dalších"
@@ -6194,7 +6194,7 @@ cs:
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
     open_profile: Otevřít profil
-    send_information_hint: Emails the password in plain text. When checked, the user will be required to change their password on first login.
+    send_information_hint: Heslo se zasílá e-mailem v nešifrované podobě. Je-li tato možnost zaškrtnuta, bude uživatel při prvním přihlášení vyzván ke změně hesla.
     sessions:
       browser: Prohlížeč
       browser_session: "(relace prohlížeče)"

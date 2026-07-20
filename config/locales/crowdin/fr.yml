@@ -5929,9 +5929,9 @@ fr:
         '
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
-      subtype_label: Sub-type
+      subtype_label: Sous-type
       subtypes_count:
-        one: 1 sub-type
+        one: 1 sous-type
         other: "%{count} sub-types"
       type_label: Type
   unsupported_browser:

@@ -68,10 +68,10 @@ cs:
     action:
       delete: Delete
       edit: Edit
-      favorite: Add to favorites
+      favorite: Přidat k oblíbeným
       make_private: Make private
       make_public: Make public
-      unfavorite: Remove from favorites
+      unfavorite: Odstranit z oblíbených
     allocate_resource_dialog:
       kind:
         filter:
@@ -80,7 +80,7 @@ cs:
         label: Allocation type
         principal:
           caption: Allocate hours for a specific user.
-          label: User
+          label: Uživatel
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:

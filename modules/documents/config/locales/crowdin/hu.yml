@@ -43,8 +43,8 @@ hu:
   documents:
     active_editors: Aktív szerkesztők
     active_editors_count:
-      one: 1 active editor
-      other: "%{count} active editors"
+      one: 1 aktív szerkesztő
+      other: "%{count} aktív szerkesztők"
     admin:
       collaboration_settings:
         banner:
@@ -116,7 +116,7 @@ hu:
       currently_offline: Jelenleg offline vagy.
     label_attachment_author: Melléklet szerzője
     label_categories: Kategóriák
-    last_updated_at: Last saved %{time}.
+    last_updated_at: 'Utolsó mentés: %{time}.'
     menu:
       all: Összes dokumentum
       collaboration_settings: Valós idejű együttműködés
