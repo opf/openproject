@@ -6136,7 +6136,7 @@ en:
               caption: "Start with a one-time copy of the current settings set in the linked mode."
               label: "Copy from linked"
             default:
-              caption: "Use the settings marked as default for new types by the administrator."
+              caption: "Use the default settings for new types."
               label: "Default settings"
             empty:
               caption: "Set everything up from scratch, beginning from a blank configuration."
