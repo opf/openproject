@@ -56,9 +56,7 @@ module WorkPackages
       def call!(changes:)
         return unless self.class.applicable?(work_package:, changes:)
 
-        User.execute_as_admin(current_user) do
-          export_and_store!
-        end
+        export_and_store!
       rescue ::Exports::ExportError => e
         Rails.logger.error("Artefact export failed for work package ##{work_package.id}: #{e.message}")
       end
@@ -72,7 +70,9 @@ module WorkPackages
         when Type::ArtefactExport::ATTACHMENT
           store_as_attachment(export)
         when Type::ArtefactExport::FILE_LINK
-          upload_to_storage(export)
+          User.execute_as_admin(current_user) do
+            upload_to_storage(export)
+          end
         end
       end
 
@@ -83,7 +83,7 @@ module WorkPackages
         else
           Rails.logger.error(
             "Failed to attach artefact to work package ##{work_package.id}: " \
-            "#{attachment.errors.full_messages.join(', ')}"
+              "#{attachment.errors.full_messages.join(', ')}"
           )
         end
       end
@@ -133,7 +133,7 @@ module WorkPackages
       def log_missing_storage
         Rails.logger.info(
           "No automatically-managed Nextcloud storage for project ##{project.id}; " \
-          "skipping artefact upload for work package ##{work_package.id}"
+            "skipping artefact upload for work package ##{work_package.id}"
         )
       end
 
