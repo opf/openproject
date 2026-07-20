@@ -95,13 +95,13 @@ module WorkPackageTypes
       # Only a step with a reuse mode needs the frame, and only those steps are reached
       # with a persisted type — step_url has no route while the record is still new.
       def within_step_frame(&)
-        return capture(&) unless step_editor.aspect
+        return capture(&) unless step_editor.linkable_aspect?
 
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
       end
 
       def step_banner
-        return unless step_editor.aspect
+        return unless step_editor.linkable_aspect?
 
         render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
       end

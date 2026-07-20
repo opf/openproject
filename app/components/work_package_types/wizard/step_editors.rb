@@ -50,16 +50,16 @@ module WorkPackageTypes
 
         attr_reader :type
 
-        # The configuration aspect this step reuses, if any. Steps with one render a
-        # reuse-mode banner and turn read-only while linked.
         def aspect = nil
+
+        def linkable_aspect? = aspect.present?
 
         def model = type
 
         # Data attributes for the form element, e.g. Stimulus wiring.
         def form_data = {}
 
-        def readonly? = aspect.present? && type.linked?(aspect)
+        def readonly? = linkable_aspect? && type.linked?(aspect)
       end
 
       class Details < Base
