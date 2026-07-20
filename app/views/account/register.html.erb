@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= primer_form_with(
         model: @user,
         url: account_register_path,
+        id: "new_user",
         data: { turbo: false, test_selector: "registration-form" }
       ) do |form| %>
     <%= back_url_hidden_field_tag use_referer: false %>

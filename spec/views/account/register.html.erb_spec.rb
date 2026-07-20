@@ -38,7 +38,7 @@ RSpec.describe "account/register" do
 
     render
 
-    expect(rendered).to have_css("[data-test-selector='registration-form']")
+    expect(Capybara.string(rendered)).to have_test_selector("registration-form")
     expect(rendered).to have_no_css("[data-augmented-model-wrapper]")
     expect(rendered).to include("Create an account in")
   end

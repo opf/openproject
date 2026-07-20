@@ -85,7 +85,7 @@ RSpec.describe "create users" do
       end
 
       it "shows the registration form" do
-        expect(page).to have_text "Create a new account"
+        expect(page).to have_test_selector("registration-form")
       end
 
       it "registers the user upon submission" do
@@ -203,7 +203,7 @@ RSpec.describe "create users" do
         end
 
         it "shows the registration form" do
-          expect(page).to have_text "Create a new account"
+          expect(page).to have_test_selector("registration-form")
         end
 
         it "registers the user upon submission" do
@@ -235,7 +235,7 @@ RSpec.describe "create users" do
             click_button "Create"
 
             # Should stay on the form and show validation error
-            expect(page).to have_text "Create a new account"
+            expect(page).to have_test_selector("registration-form")
             expect(page).to have_css(".Banner--error", text: /Department can't be blank/)
 
             # Now fill the required custom field

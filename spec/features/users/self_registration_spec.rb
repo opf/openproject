@@ -43,7 +43,7 @@ RSpec.describe "user self registration", :js do
 
       click_link "Create a new account"
       # deliberately inserting a wrong password confirmation
-      within "[data-test-selector='registration-form']" do
+      within_test_selector("registration-form") do
         fill_in "Username", with: "heidi"
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
@@ -66,7 +66,7 @@ RSpec.describe "user self registration", :js do
 
         click_link "Create a new account"
 
-        within "[data-test-selector='registration-form']" do
+        within_test_selector("registration-form") do
           expect(page).to have_field("Email", readonly: false)
 
           fill_in "Username", with: "heidi"
@@ -91,10 +91,12 @@ RSpec.describe "user self registration", :js do
       user_menu.open
 
       # registration as an anonymous user
-      click_link "Create a new account"
+      within "#nav-login-content" do
+        click_link "Create a new account"
+      end
 
       # deliberately inserting a wrong password confirmation
-      within "[data-test-selector='registration-form']" do
+      within_test_selector("registration-form") do
         fill_in "Username", with: "heidi"
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
@@ -105,11 +107,11 @@ RSpec.describe "user self registration", :js do
         click_button "Create"
       end
 
-      expect(page).to have_css("[data-test-selector='op-primer-flash-message']")
+      expect(page).to have_test_selector("op-primer-flash-message")
       expect(page).to have_text("Password confirmation does not match password.")
 
       # correcting password
-      within "[data-test-selector='registration-form']" do
+      within_test_selector("registration-form") do
         # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
         # and contains the string 'Password' as well
         fill_in "user_password", with: "test123=321test"
