@@ -33,50 +33,101 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
   let(:user) { create(:admin) }
   let(:type) { create(:type) }
-  let(:source) { create(:type) }
-  let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 
   subject(:service) { described_class.new(type:, aspect:, user:) }
 
   describe "#call" do
-    it "removes an existing link" do
-      create(:type_configuration_link, type:, source:, aspect:)
+    context "with the copy mode" do
+      let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
 
-      result = service.call
+      it "copies the linked source's configuration and severs the link" do
+        source = create(:type)
+        source.pdf_export_templates.disable_all
+        source.save!
+        type.link!(aspect, source:)
 
-      expect(result).to be_success
-      expect(type.reload).not_to be_linked(aspect)
-    end
-
-    it "is a no-op when already independent" do
-      result = service.call
-
-      expect(result).to be_success
-      expect(type).not_to be_linked(aspect)
-    end
-
-    context "when adopting a source" do
-      subject(:service) { described_class.new(type:, aspect: Type::ConfigurationLink::PATTERNS, user:) }
-
-      it "copies the source's config onto the type once and creates no link" do
-        configured = create(:type, patterns: { subject: { blueprint: "Adopt {{id}}", enabled: true } })
-
-        result = service.call(source: configured)
+        result = service.call(mode: WorkPackageTypes::IndependentMode::COPY)
 
         expect(result).to be_success
-        expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
-        expect(type.reload.patterns.subject.blueprint).to eq("Adopt {{id}}")
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.export_templates_disabled).to eq(source.export_templates_disabled)
       end
+    end
 
-      it "leaves the link when the adoption copy fails" do
-        allow_any_instance_of(WorkPackageTypes::CopyConfiguration::PatternsService) # rubocop:disable RSpec/AnyInstance
-          .to receive(:call).and_return(ServiceResult.failure(result: type))
-        create(:type_configuration_link, type:, source:, aspect: Type::ConfigurationLink::PATTERNS)
+    context "with the default mode (form configuration)" do
+      let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
 
-        result = service.call(source:)
+      it "resets to the administrator default groups and severs the link" do
+        source = create(:type)
+        source.attribute_groups = [["custom group", %w[assignee]]]
+        source.save!
+        type.link!(aspect, source:)
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::DEFAULT)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.attribute_groups.map(&:key)).to eq(Type.new.attribute_groups.map(&:key))
+      end
+    end
+
+    context "with the empty mode (patterns)" do
+      let(:aspect) { Type::ConfigurationLink::PATTERNS }
+
+      it "clears the configuration and severs the link" do
+        source = create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } })
+        type.link!(aspect, source:)
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.patterns.to_h).to be_empty
+      end
+    end
+
+    context "with the default mode (pdf export)" do
+      let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
+
+      it "resets to the administrator defaults and severs the link" do
+        type.pdf_export_templates.disable_all
+        type.save!
+        type.link!(aspect, source: create(:type))
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::DEFAULT)
+
+        expect(result).to be_success
+        expect(type.reload).not_to be_linked(aspect)
+        expect(type.pdf_export_templates_config).to eq(Type.new.pdf_export_templates_config)
+        expect(type.pdf_export_templates.list).to all(have_attributes(enabled: true))
+      end
+    end
+
+    context "with a mode not available for the aspect" do
+      let(:aspect) { Type::ConfigurationLink::PDF_EXPORT }
+
+      it "fails and leaves the link untouched" do
+        type.link!(aspect, source: create(:type))
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
 
         expect(result).not_to be_success
-        expect(type.reload).to be_linked(Type::ConfigurationLink::PATTERNS)
+        expect(type.reload).to be_linked(aspect)
+      end
+    end
+
+    context "when the seed fails" do
+      let(:aspect) { Type::ConfigurationLink::PATTERNS }
+
+      it "leaves the link untouched" do
+        allow_any_instance_of(WorkPackageTypes::CopyConfiguration::PatternsService) # rubocop:disable RSpec/AnyInstance
+          .to receive(:call).and_return(ServiceResult.failure(result: type))
+        type.link!(aspect, source: create(:type))
+
+        result = service.call(mode: WorkPackageTypes::IndependentMode::COPY)
+
+        expect(result).not_to be_success
+        expect(type.reload).to be_linked(aspect)
       end
     end
   end

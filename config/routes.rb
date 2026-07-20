@@ -192,11 +192,14 @@ Rails.application.routes.draw do
         get :dialog
         post :confirm
         post :switch
-        delete :independent
       end
-    end
 
-    nested do
+      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
       scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
         get :dialog
         post :confirm

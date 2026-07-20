@@ -217,40 +217,4 @@ RSpec.describe "Work package type configuration source",
       expect(type.reload).not_to be_linked(aspect)
     end
   end
-
-  describe "DELETE independent (make independent)" do
-    it "switches the aspect back to independent and reloads the frame" do
-      type.link!(aspect, source:)
-
-      delete type_configuration_link_independent_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(type.reload).not_to be_linked(aspect)
-      expect(response.body).to include("dispatchEvent")
-      expect(response.body)
-        .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
-    end
-
-    it "adopts a source's config while switching to independent" do
-      configured = create(:type)
-      configured.pdf_export_templates.disable_all
-      configured.save!
-
-      delete type_configuration_link_independent_path(type_id: type.id, aspect:),
-             params: { source_id: configured.id }, as: :turbo_stream
-
-      expect(type.reload).not_to be_linked(aspect)
-      expect(type.export_templates_disabled).to eq(configured.export_templates_disabled)
-    end
-
-    it "requires admin" do
-      login_as create(:user)
-      type.link!(aspect, source:)
-
-      delete type_configuration_link_independent_path(type_id: type.id, aspect:), as: :turbo_stream
-
-      expect(response).not_to be_successful
-      expect(type.reload).to be_linked(aspect)
-    end
-  end
 end
