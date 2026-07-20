@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |f| %>
   <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
     <% layout.with_main do %>
-      <%= render WikiPages::Form.new(f) %>
+      <%= render WikiPages::Form.new(f, create: true) %>
     <% end %>
     <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
       <%= render WikiPages::AttachmentsSidePanelComponent.new(@page) %>

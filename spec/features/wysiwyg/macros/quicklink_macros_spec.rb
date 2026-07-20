@@ -171,7 +171,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
       ####{wp_milestone_without_date.id}
     MD
 
-    wait_for_turbo { click_on "Create" }
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
 

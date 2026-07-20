@@ -50,7 +50,7 @@ module WikiPages
         end
       end
 
-      if model.persisted?
+      unless create?
         f.hidden(name: :lock_version)
       end
 
@@ -85,7 +85,7 @@ module WikiPages
           scheme: :primary
         )
 
-        unless model.new_record?
+        unless create?
           button_group.button(
             name: :cancel,
             label: I18n.t(:button_cancel),
@@ -97,7 +97,15 @@ module WikiPages
       end
     end
 
+    def initialize(create:)
+      super()
+      @create = create
+    end
+
     private
+
+    attr_reader :create
+    alias_method :create?, :create
 
     def resource
       return unless model
@@ -110,7 +118,7 @@ module WikiPages
     end
 
     def submit_label
-      if model.new_record?
+      if create?
         I18n.t(:button_create)
       else
         I18n.t(:button_save)
