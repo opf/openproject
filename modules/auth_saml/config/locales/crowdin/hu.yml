@@ -164,7 +164,7 @@ hu:
       metadata:
         dialog: 'This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:'
       no_results_table: No SAML identity providers have been defined yet.
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: Egy új SAML-azonosító szolgáltató létrehozása sikeresen megtörtént.
       plural: SAML identity providers
       request_attributes:
         format: Attribute format

@@ -145,14 +145,14 @@ cs:
     no_valid_phone_number: Neexistuje žádné platné telefonní číslo.
     notice_not_writable: Nastavení 2FA byla poskytnuta prostřednictvím proměnných prostředí a nelze je přepsat.
     remember:
-      active_session_notice: 'Váš účet má aktivní paměť cookie platná do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do té doby.
+      active_session_notice: 'Váš účet má aktivní cookie platnou do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do tohoto data.
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Odstranit všechny zapamatované 2FA relace.
       cookie_removed: Všechny zapamatované 2FA relace byly odstraněny.
       dont_ask_again: Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní.
       label: Zapamatovat
-      other_active_session_notice: Váš účet má aktivní paměť cookie v jiné relaci.
+      other_active_session_notice: Váš účet má aktivní cookie v jiné relaci.
     settings:
       current_configuration: Aktuální konfigurace
       failed_to_save_settings: 'Nepodařilo se aktualizovat nastavení 2FA: %{message}'
