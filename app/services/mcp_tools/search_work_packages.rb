@@ -33,8 +33,9 @@ module McpTools
     default_title "Search work packages"
     default_description "Search work packages matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
-                        "of #{page_size} work packages. To get the rest of the results, call the tool again with a" \
-                        "page number of 2 or higher."
+                        "of #{page_size} work packages. To get the rest of the results, call the tool again with a " \
+                        "page number of 2 or higher. Names of custom fields should be resolved through the corresponding tool " \
+                        "before showing them to the user. They should not be rendered as 'customFieldN'."
 
     name "search_work_packages"
     annotations read_only: true, idempotent: true, destructive: false

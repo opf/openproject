@@ -23,42 +23,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require "rack/test"
+module McpResources
+  class CustomField < Base
+    name "custom_field"
+    uri_template "/api/v3/custom_fields/{id}"
 
-RSpec.describe "API v3 Custom field resource" do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
+    default_title "Custom Field"
+    default_description "Access custom fields of this OpenProject instance."
 
-  current_user { create(:user) }
+    def read(id:)
+      custom_field = ::CustomField.visible(current_user).find_by(id:)
+      return nil if custom_field.nil?
 
-  describe "custom_fields/:id" do
-    describe "#get" do
-      let!(:custom_field) { create(:user_custom_field) }
-      let(:get_path) { api_v3_paths.custom_field custom_field.id }
-
-      subject(:response) { last_response }
-
-      before do
-        allow(User).to receive(:current).and_return(current_user)
-
-        get get_path
-      end
-
-      context "with valid custom field id" do
-        it { expect(response).to have_http_status(:ok) }
-      end
-
-      context "with invalid custom field id" do
-        let(:get_path) { api_v3_paths.custom_field "bogus" }
-
-        it_behaves_like "not found"
-      end
+      API::V3::CustomFields::CustomFieldRepresenter.new(custom_field, current_user:)
     end
   end
 end

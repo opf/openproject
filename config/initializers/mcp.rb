@@ -49,6 +49,7 @@ Rails.application.config.after_initialize do
                     McpTools::CurrentUser,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
+                    McpTools::SearchCustomFields,
                     McpTools::SearchPortfolios,
                     McpTools::SearchPrograms,
                     McpTools::SearchProjects,
@@ -58,6 +59,7 @@ Rails.application.config.after_initialize do
                     McpTools::UpdateWorkPackage
 
   McpResources.register McpResources::CurrentUser,
+                        McpResources::CustomField,
                         McpResources::Project,
                         McpResources::Status,
                         McpResources::StatusList,
