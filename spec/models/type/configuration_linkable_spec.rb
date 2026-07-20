@@ -67,28 +67,6 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "#make_independent!" do
-    it "removes the link for that aspect only" do
-      type.link!(Type::ConfigurationLink::PATTERNS, source:)
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
-
-      type.make_independent!(Type::ConfigurationLink::PATTERNS)
-
-      expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
-      expect(type).to be_linked(Type::ConfigurationLink::PDF_EXPORT)
-    end
-
-    it "adopts the source's configuration before severing when given a source" do
-      configured = create(:type, patterns: { subject: { blueprint: "Adopted {{id}}", enabled: true } })
-      type.link!(Type::ConfigurationLink::PATTERNS, source:)
-
-      type.make_independent!(Type::ConfigurationLink::PATTERNS, source: configured)
-
-      expect(type).not_to be_linked(Type::ConfigurationLink::PATTERNS)
-      expect(type.reload.patterns.subject.blueprint).to eq("Adopted {{id}}")
-    end
-  end
-
   describe "sub-type default parent links" do
     it "links the default aspects to the parent when a sub-type is created" do
       parent = create(:type)
@@ -196,26 +174,6 @@ RSpec.describe Type::ConfigurationLinkable do
       expect(type.effective_source_for(Type::ConfigurationLink::PATTERNS)).to eq(type)
       expect(type.effective_patterns).to eq(type.patterns)
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
-    end
-  end
-
-  describe "#copy_configuration_from" do
-    it "copies the source's subject patterns onto the type" do
-      source = create(:type, patterns: { subject: { blueprint: "Copied {{id}}", enabled: true } })
-
-      type.copy_configuration_from(source, Type::ConfigurationLink::PATTERNS)
-
-      expect(type.reload.patterns.subject.blueprint).to eq("Copied {{id}}")
-    end
-
-    it "copies the source's PDF export config onto the type" do
-      source = create(:type)
-      source.pdf_export_templates.disable_all
-      source.save!
-
-      type.copy_configuration_from(source, Type::ConfigurationLink::PDF_EXPORT)
-
-      expect(type.reload.export_templates_disabled).to eq(source.export_templates_disabled)
     end
   end
 end

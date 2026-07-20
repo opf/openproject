@@ -28,23 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
-  module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
+require "spec_helper"
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
+RSpec.describe WorkPackageTypes::CopyConfiguration::PdfExportService do
+  shared_let(:admin) { create(:admin) }
+
+  let(:type) { create(:type) }
+
+  subject(:service_call) { described_class.new(type:, user: admin).call(source:) }
+
+  describe "#call" do
+    context "with a source" do
+      let(:source) do
+        create(:type).tap do |t|
+          t.pdf_export_templates.disable_all
+          t.save!
+        end
+      end
+
+      it "copies the source's PDF export config onto the type" do
+        expect(service_call).to be_success
+        expect(type.reload.export_templates_disabled).to eq(source.export_templates_disabled)
+      end
     end
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+    context "with an invalid source" do
+      let(:source) { nil }
+
+      it "fails without changing the type" do
+        expect(service_call).not_to be_success
+      end
+    end
+
+    context "when the source is the type itself" do
+      let(:source) { type }
+
+      it "fails" do
+        expect(service_call).not_to be_success
+      end
     end
   end
 end

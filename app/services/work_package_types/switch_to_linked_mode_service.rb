@@ -29,22 +29,30 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
-  module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
-
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
+  # Switches one configuration aspect of a type to Linked. Serves both the
+  # Independent -> Linked switch and re-pointing an existing link to a different
+  # source ("change source"); both are the same write. The source-graph
+  # invariants (present, global, not-self, acyclic) are the link record's own
+  # validations.
+  class SwitchToLinkedModeService
+    def initialize(type:, aspect:)
+      @type = type
+      @aspect = aspect
     end
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+    def call(source:)
+      link = @type.configuration_links.find_or_initialize_by(aspect: @aspect)
+      link.source = source
+
+      if link.save
+        ServiceResult.success(result: @type)
+      else
+        ServiceResult.failure(result: link, errors: link.errors)
+      end
     end
+
+    private
+
+    attr_reader :type, :aspect
   end
 end

@@ -30,9 +30,8 @@
 
 module WorkPackageTypes
   # Banner above a type's configuration tab stating whether the aspect is
-  # configured Independently or Linked to a source type. The switch actions are
-  # buttons that will open the mode-switching modal (wired up separately); they
-  # are no-ops for now.
+  # configured Independently or Linked to a source type, with the actions to
+  # switch between the two modes.
   class ReuseModeBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
@@ -60,6 +59,10 @@ module WorkPackageTypes
     def copy_supported? = CopyConfiguration.supported?(aspect)
 
     def copy_dialog_path = type_configuration_copy_dialog_path(type_id: type.id, aspect:)
+
+    def link_dialog_path = type_configuration_link_dialog_path(type_id: type.id, aspect:)
+
+    def switch_to_independent_path = type_configuration_link_independent_path(type_id: type.id, aspect:, source_id: source&.id)
 
     def linked_description
       helpers.link_translate(

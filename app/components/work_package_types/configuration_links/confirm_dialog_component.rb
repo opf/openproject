@@ -29,22 +29,43 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
-  module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
+  module ConfigurationLinks
+    # Danger confirmation before switching an aspect to Linked overwrites the
+    # type's current settings. The wording differs depending on the previous
+    # state: switching in from Independent vs. changing an existing source.
+    # Confirming performs the switch.
+    class ConfirmDialogComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
-    end
+      DIALOG_ID = "configuration-link-confirm-dialog"
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+      def initialize(type:, aspect:, source:)
+        super()
+
+        @type = type
+        @aspect = aspect
+        @source = source
+      end
+
+      private
+
+      attr_reader :type, :aspect, :source
+
+      def changing_source?
+        type.linked?(aspect)
+      end
+
+      def title
+        if changing_source?
+          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.title")
+        else
+          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.title")
+        end
+      end
+
+      def switch_path
+        type_configuration_link_switch_path(type_id: type.id, aspect:)
+      end
     end
   end
 end

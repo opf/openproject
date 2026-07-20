@@ -29,22 +29,16 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
   module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
+    class PatternsService < BaseService
+      private
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
-    end
+      def aspect = Type::ConfigurationLink::PATTERNS
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+      def copy_from(source)
+        # deep_dup keeps the copy from aliasing the source's stored value.
+        type.update!(patterns: source.patterns.deep_dup)
+      end
     end
   end
 end

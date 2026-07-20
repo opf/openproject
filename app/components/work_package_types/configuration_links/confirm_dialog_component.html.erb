@@ -27,19 +27,41 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
-
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
-
 <%= render(
-      WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_pdf_export_template_index_path(type_id: @type.id)
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        test_selector: DIALOG_ID,
+        title:,
+        confirm_button_text: t(:button_confirm),
+        cancel_button_text: t(:button_close),
+        form_arguments: {
+          action: switch_path,
+          method: :post,
+          data: { turbo_stream: true }
+        }
       )
-    ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::PDF_EXPORT)) %>
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { title } %>
+    <% if changing_source? %>
+      <% message.with_description_content(
+           t(
+             "types.edit.reuse_mode.linked.confirm_dialog.change_source.description_html",
+             source_name: tag.strong(source.name)
+           )
+         ) %>
+    <% else %>
+      <% message.with_description_content(
+           t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.description")
+         ) %>
+    <% end %>
+  <% end %>
 
-  <%= render WorkPackageTypes::ExportConfigurationComponent.new(
-        @type.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
-        readonly: @type.linked?(Type::ConfigurationLink::PDF_EXPORT)
-      ) %>
+  <% dialog.with_confirmation_check_box do %>
+    <%= t("types.edit.reuse_mode.linked.confirm_dialog.check_box") %>
+  <% end %>
+
+  <% dialog.with_additional_details do %>
+    <%= hidden_field_tag :source_id, source.id %>
+  <% end %>
 <% end %>

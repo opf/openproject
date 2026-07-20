@@ -29,22 +29,30 @@
 #++
 
 module WorkPackageTypes
-  # One-time copies of a configuration aspect from a source type ("Copy from
-  # type"), one service per aspect. Aspects not listed here don't support
-  # copying (yet).
-  module CopyConfiguration
-    SERVICES = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
-    }.freeze
+  module ConfigurationLinks
+    # The "Linked mode" dialog: pick the source type to link an aspect's
+    # configuration to. Serves both the switch from Independent and re-pointing
+    # an existing link. Submitting swaps it for the danger confirmation.
+    class DialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-    def self.service_for(aspect)
-      SERVICES[aspect.to_s]
-    end
+      DIALOG_ID = "configuration-link-dialog"
 
-    def self.supported?(aspect)
-      SERVICES.key?(aspect.to_s)
+      def initialize(type:, aspect:)
+        super()
+
+        @type = type
+        @aspect = aspect
+      end
+
+      private
+
+      attr_reader :type, :aspect
+
+      def confirm_path
+        type_configuration_link_confirm_path(type_id: type.id, aspect:)
+      end
     end
   end
 end
