@@ -61,10 +61,7 @@ module WorkPackageTypes
     def form_data
       return {} if @readonly
 
-      {
-        controller: "admin--subject-configuration",
-        admin__subject_configuration_hide_pattern_input_value: subject_form_object.subject_configuration == :manual
-      }
+      subject_form_object.stimulus_data
     end
 
     def enterprise?
@@ -72,65 +69,7 @@ module WorkPackageTypes
     end
 
     def subject_form_object
-      values = subject_configuration_form_values
-
-      Forms::DefaultsFormModel.new(
-        subject_configuration: values[:subject_configuration],
-        pattern: values[:pattern],
-        description: model.description,
-        suggestions: sort_attributes(supported_attributes),
-        validation_errors: model.errors
-      )
-    end
-
-    def supported_attributes
-      enabled, disabled = Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
-
-      result = {
-        work_package: {
-          title: I18n.t("types.edit.defaults.token.context.work_package"),
-          tokens: []
-        },
-        parent: {
-          title: I18n.t("types.edit.defaults.token.context.parent"),
-          tokens: []
-        },
-        project: {
-          title: I18n.t("types.edit.defaults.token.context.project"),
-          tokens: []
-        }
-      }
-
-      enabled.each { |token| result.dig(token.context, :tokens) << token_to_hash(token, enabled: true) }
-      disabled.each { |token| result.dig(token.context, :tokens) << token_to_hash(token, enabled: false) }
-
-      result
-    end
-
-    def token_to_hash(token, enabled:)
-      {
-        key: token.key,
-        label: token.label,
-        label_with_context: token.label_with_context,
-        enabled:
-      }
-    end
-
-    def sort_attributes(attributes)
-      attributes.each_value { |group| group[:tokens] = group[:tokens].sort_by { |a| a[:label] } }
-      attributes
-    end
-
-    def subject_configuration_form_values
-      if @subject_configuration_form_data.present?
-        @subject_configuration_form_data
-      else
-        persisted_subject_pattern = model.patterns.subject || Pattern.new(blueprint: "", enabled: false)
-        subject_configuration = persisted_subject_pattern.enabled ? :generated : :manual
-        pattern = persisted_subject_pattern.blueprint
-
-        { subject_configuration:, pattern: }
-      end
+      Forms::DefaultsFormModel.build(model, form_data: @subject_configuration_form_data)
     end
   end
 end

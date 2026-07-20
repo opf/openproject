@@ -67,6 +67,8 @@ module WorkPackageTypes
       case @current_step
       when :details
         update_details
+      when :defaults
+        update_defaults
       when :workflows
         copy_workflows
         advance
@@ -81,6 +83,23 @@ module WorkPackageTypes
       service_call = WorkPackageTypes::UpdateService
                        .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateSettingsContract)
                        .call(details_params)
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
+    end
+
+    # A Linked aspect renders read-only and submits nothing, so there is nothing to
+    # persist and the values on screen belong to the source type.
+    def update_defaults
+      return advance if @type.linked?(Type::ConfigurationLink::DEFAULTS)
+
+      service_call = WorkPackageTypes::UpdateService
+                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDefaultsContract)
+                       .call(patterns: Forms::DefaultsFormModel.to_patterns(defaults_params),
+                             description: defaults_params[:description])
 
       if service_call.success?
         advance
@@ -120,6 +139,12 @@ module WorkPackageTypes
 
     def details_params
       params.expect(type: %i[name parent_id])
+    end
+
+    def defaults_params
+      @defaults_params ||= params.expect(
+        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern description]
+      ).to_h
     end
 
     def require_subtypes_feature

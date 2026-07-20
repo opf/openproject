@@ -33,6 +33,14 @@ module WorkPackageTypes
     include Redmine::I18n
 
     form do |subject_form|
+      subject_form.rich_text_area(
+        name: :description,
+        label: I18n.t("types.edit.defaults.description.label"),
+        caption: I18n.t("types.edit.defaults.description.caption"),
+        disabled: readonly?,
+        rich_text_options: { showAttachments: false }
+      )
+
       subject_form.radio_button_group(name: :subject_configuration) do |group|
         group.radio_button(
           value: :manual,
@@ -69,15 +77,7 @@ module WorkPackageTypes
         end
       end
 
-      subject_form.rich_text_area(
-        name: :description,
-        label: I18n.t("types.edit.defaults.description.label"),
-        caption: I18n.t("types.edit.defaults.description.caption"),
-        disabled: readonly?,
-        rich_text_options: { showAttachments: false }
-      )
-
-      unless readonly?
+      if submittable?
         subject_form.submit(
           name: :submit,
           label: I18n.t(:button_save),
@@ -89,6 +89,10 @@ module WorkPackageTypes
     private
 
     def readonly? = @builder.options[:readonly] == true
+
+    # The creation wizard submits through its footer, so it opts out of the Save button
+    # this form carries on the edit tab.
+    def submittable? = !readonly? && @builder.options[:submit] != false
 
     def subject_configuration_manual?
       model.subject_configuration == :manual

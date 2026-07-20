@@ -42,31 +42,13 @@ module WorkPackageTypes
       ).to_h
 
       result = UpdateService.new(model: @type, user: current_user, contract_class: UpdateDefaultsContract)
-                            .call(patterns: build_patterns(permitted), description: permitted[:description])
+                            .call(patterns: Forms::DefaultsFormModel.to_patterns(permitted),
+                                  description: permitted[:description])
 
       if result.success?
         redirect_to edit_type_defaults_path(@type), notice: I18n.t(:notice_successful_update)
       else
         render :edit, status: :unprocessable_entity
-      end
-    end
-
-    private
-
-    def build_patterns(form_params)
-      case form_params
-      in { subject_configuration: "generated", pattern: String => blueprint }
-        { subject: { blueprint:, enabled: true } }
-      in { subject_configuration: "manual", pattern: String => blueprint }
-        if blueprint.empty?
-          # Submitting the form with an empty blueprint and manual subject configuration will
-          # remove the subject pattern from the collection
-          nil
-        else
-          { subject: { blueprint:, enabled: false } }
-        end
-      else
-        nil
       end
     end
   end
