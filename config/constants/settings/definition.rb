@@ -1367,6 +1367,7 @@ module Settings
       work_packages_activities_tab_polling_interval_in_ms: {
         description: "Interval in milliseconds at which the work package activities tab polls for updates.",
         format: :integer,
+        # Default preserves the previously hardcoded polling interval.
         default: 10_000
       },
       work_packages_projects_export_limit: {
