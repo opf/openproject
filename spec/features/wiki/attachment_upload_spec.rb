@@ -59,7 +59,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     side_panel_attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_on "Save"
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation")
     expect(page).to have_css("#content img", count: 1)
@@ -114,7 +114,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     side_panel_attachments_list.expect_attached("image.png")
     editor.wait_until_upload_progress_toaster_cleared
 
-    click_on "Save"
+    click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation")
     attachments_list.expect_attached("image.png")

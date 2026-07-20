@@ -49,7 +49,7 @@ RSpec.describe "Wysiwyg linking", :js do
       editor.insert_link "http://example.org/link with spaces"
 
       # Save wiki page
-      click_on "Save"
+      click_on "Create"
 
       expect_flash(message: "Successful creation.")
 

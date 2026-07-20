@@ -42,7 +42,6 @@ See COPYRIGHT and LICENSE files for more details.
       method: :put,
       data: { turbo: false }
     ) do |f| %>
-  <%= f.hidden_field :lock_version %>
   <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
     <% layout.with_main do %>
       <%= render WikiPages::Form.new(f) %>

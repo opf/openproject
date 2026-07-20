@@ -50,6 +50,10 @@ module WikiPages
         end
       end
 
+      if model.persisted?
+        f.hidden(name: :lock_version)
+      end
+
       f.rich_text_area(
         name: :text,
         label: WikiPage.human_attribute_name(:text),
