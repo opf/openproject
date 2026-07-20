@@ -52,17 +52,21 @@ module WorkPackageTypes
         )
       end
 
-      subject_form.group(data: { "admin--subject-configuration-target": "patternInput" }) do |toggleable_group|
-        toggleable_group.pattern_input(
-          name: :pattern,
-          value: model.pattern,
-          disabled: readonly? || !enterprise?,
-          suggestions: model.suggestions,
-          label: I18n.t("types.edit.defaults.pattern.label"),
-          caption: pattern_input_caption,
-          required: true,
-          validation_message: validation_message_for(:patterns)
-        )
+      # Readonly renders without the Stimulus controller that toggles this group, so the
+      # manual/generated choice has to be resolved here instead of in the browser.
+      if show_pattern_input?
+        subject_form.group(data: { "admin--subject-configuration-target": "patternInput" }) do |toggleable_group|
+          toggleable_group.pattern_input(
+            name: :pattern,
+            value: model.pattern,
+            disabled: readonly? || !enterprise?,
+            suggestions: model.suggestions,
+            label: I18n.t("types.edit.defaults.pattern.label"),
+            caption: pattern_input_caption,
+            required: true,
+            validation_message: validation_message_for(:patterns)
+          )
+        end
       end
 
       subject_form.rich_text_area(
@@ -88,6 +92,10 @@ module WorkPackageTypes
 
     def subject_configuration_manual?
       model.subject_configuration == :manual
+    end
+
+    def show_pattern_input?
+      !readonly? || !subject_configuration_manual?
     end
 
     def enterprise?
