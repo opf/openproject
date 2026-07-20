@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::CreateWorkPackage do
-  subject do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -82,7 +82,7 @@ RSpec.describe McpTools::CreateWorkPackage do
     it_behaves_like "MCP text tool"
 
     it "creates a new work package" do
-      expect { subject }.to change(WorkPackage, :count).from(0).to(1)
+      expect { mcp_request }.to change(WorkPackage, :count).from(0).to(1)
 
       wp = WorkPackage.first
       expect(wp.subject).to eq("My subject")
@@ -92,7 +92,7 @@ RSpec.describe McpTools::CreateWorkPackage do
     end
 
     it "responds with a properly formatted work package" do
-      subject
+      mcp_request
 
       expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
     end
@@ -114,19 +114,19 @@ RSpec.describe McpTools::CreateWorkPackage do
       end
 
       it "responds with an error" do
-        subject
+        mcp_request
         expect(result_item.fetch("error")).to eq("Type is not set to one of the allowed values.")
       end
 
       it "does not create a work package" do
-        expect { subject }.not_to change(WorkPackage, :count)
+        expect { mcp_request }.not_to change(WorkPackage, :count)
       end
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds with a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end
