@@ -54,16 +54,19 @@ module API
 
             protected
 
-            # The versions associated via work_package_versions are a has_many,
-            # which the left_joins/pluck design above cannot express (it would
-            # multiply rows), so they enter the checksum as an aggregated
-            # correlated subquery. This also covers versions beyond the first,
-            # which the deprecated version association could not see.
+            # The target versions associated via work_package_versions are a
+            # has_many, which the left_joins/pluck design above cannot express
+            # (it would multiply rows), so they enter the checksum as an
+            # aggregated correlated subquery. This also covers versions beyond
+            # the first, which the deprecated version association could not see.
+            # Only "target" rows are folded in: they are what the representer
+            # renders (as `version` and `targetVersions`); observed_in versions
+            # do not appear in the representation and must not bust its cache.
             VERSIONS_CHECKSUM_SQL = <<~SQL.squish
               (SELECT COALESCE(STRING_AGG(CONCAT(v.id, v.updated_at), ',' ORDER BY v.id), '')
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
-                WHERE wpv.work_package_id = work_packages.id)
+                WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
             SQL
 
             def md5_concat
@@ -73,9 +76,6 @@ module API
                 %W[#{table_name}.id #{table_name}.updated_at]
               end
               md5_parts << VERSIONS_CHECKSUM_SQL
-              # The deprecated version link still renders from version_id;
-              # remove together with the column.
-              md5_parts << "work_packages.version_id"
 
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))
