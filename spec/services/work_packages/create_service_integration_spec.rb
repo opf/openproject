@@ -391,10 +391,11 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         { subject: "test wp", project:, target_version_ids: [other_version.id] }
       end
 
-      it "rejects the creation" do
-        expect(service_result).to be_failure
+      it { expect(service_result).to be_success }
 
-        expect(service_result.errors.symbols_for(:target_versions)).to include(:inclusion)
+      it "drops the unnassignable version" do
+        expect(new_work_package.target_versions).to be_empty
+        expect(new_work_package.version).to be_nil
       end
     end
   end
