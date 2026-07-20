@@ -152,6 +152,24 @@ RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
 
       expect(page).not_to have_enterprise_banner
     end
+
+    it "shows the subject pattern of the linked source" do
+      render_readonly
+
+      expect(page.find(hidden_input_field_selector, visible: false).value).to eq("Created by {{assignee}}")
+    end
+
+    context "and when subjects are manually editable" do
+      let(:type) { create(:type, patterns: {}) }
+
+      # Readonly renders without the Stimulus controller that would otherwise hide this
+      # group, so it has to be omitted server-side.
+      it "hides the subject pattern input" do
+        render_readonly
+
+        expect(page).to have_no_css(hidden_input_field_selector, visible: :all)
+      end
+    end
   end
 
   private
