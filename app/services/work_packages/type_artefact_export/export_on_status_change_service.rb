@@ -83,7 +83,7 @@ module WorkPackages
         else
           Rails.logger.error(
             "Failed to attach artefact to work package ##{work_package.id}: " \
-              "#{attachment.errors.full_messages.join(', ')}"
+            "#{attachment.errors.full_messages.join(', ')}"
           )
         end
       end
@@ -133,7 +133,7 @@ module WorkPackages
       def log_missing_storage
         Rails.logger.info(
           "No automatically-managed Nextcloud storage for project ##{project.id}; " \
-            "skipping artefact upload for work package ##{work_package.id}"
+          "skipping artefact upload for work package ##{work_package.id}"
         )
       end
 
