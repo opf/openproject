@@ -69,22 +69,6 @@ module WorkPackageTypes
                              disabled: inherited?,
                              caption: inherited_caption)
 
-      if show_workflow_copy?
-        details_form.select_list(
-          name: :copy_workflow_from,
-          input_width: :large,
-          label: I18n.t(:label_copy_workflow_from),
-          include_blank: true,
-          validation_message: validation_message_for(:copy_workflow_from)
-        ) do |other_types|
-          Type.find_each do |other_type|
-            other_types.option(value: other_type.id,
-                               label: other_type.name,
-                               selected: other_type.id == prefilled_copy_workflow_from)
-          end
-        end
-      end
-
       if submittable?
         details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
       end
@@ -98,9 +82,6 @@ module WorkPackageTypes
     # Only the wizard reaches this form with a parent already chosen, and it has to
     # carry it into the request that creates the sub-type.
     def carries_parent? = model.new_record? && model.parent_id.present?
-
-    # The wizard has a Workflows step of its own, so only the create page offers this.
-    def show_workflow_copy? = @builder.options[:workflow_copy] == true
 
     def inherited? = model.subtype?
 
@@ -119,7 +100,5 @@ module WorkPackageTypes
     def validation_message_for(attribute)
       model.errors.messages_for(attribute).to_sentence.presence
     end
-
-    def prefilled_copy_workflow_from = @builder.options[:copy_workflow_from]
   end
 end

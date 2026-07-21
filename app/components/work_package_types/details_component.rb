@@ -34,28 +34,7 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
-    def initialize(model, copy_workflow_from: nil, **)
-      @copy_workflow_from = copy_workflow_from
-      super(model, **)
-    end
-
     def form_options
-      if model.new_record?
-        create_form_options
-      else
-        update_form_options
-      end
-    end
-
-    private
-
-    attr_reader :copy_workflow_from
-
-    def create_form_options
-      { url: types_path, method: :post, model:, workflow_copy: true, copy_workflow_from: }
-    end
-
-    def update_form_options
       { url: type_details_path(type_id: model.id), method: :patch, model: }
     end
   end
