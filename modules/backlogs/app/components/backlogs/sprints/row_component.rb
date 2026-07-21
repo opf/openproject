@@ -78,6 +78,7 @@ module Backlogs
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(icon: "kebab-horizontal",
                                 "aria-label": t(:label_more),
+                                test_selector: "sprints--more",
                                 scheme: :invisible)
 
           with_item_group(menu) do
