@@ -1050,16 +1050,16 @@ RSpec.describe(
           let(:only_args) { %w[versions work_packages] }
 
           before do
-            work_package.update_column(:version_id, version.id)
-            work_package2.update_column(:version_id, version2.id)
+            work_package.update!(version:)
+            work_package2.update!(version: version2)
             work_package3
           end
 
           it "assigns the work packages to copies of the versions" do
             expect(subject).to be_success
-            expect(copy_of(work_package).version.name).to eq version.name
-            expect(copy_of(work_package2).version.name).to eq version2.name
-            expect(copy_of(work_package3).version).to be_nil
+            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
+            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
+            expect(copy_of(work_package3).target_versions).to be_empty
           end
         end
 

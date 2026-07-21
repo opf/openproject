@@ -28,32 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  class WorkflowJob < ApplicationJob
-    def perform(journal, changes)
-      work_package = journal.journable
-      return if journal.initial?
+module WorkPackageTypes
+  module CopyConfiguration
+    class WorkflowsService < BaseService
+      private
 
-      services = applicable_services(work_package, changes)
-      return if services.empty?
+      def aspect = Type::ConfigurationLink::WORKFLOWS
 
-      # The job runs with a clean request store, so User.current would be
-      # Anonymous here. Act as the user who caused the journalized change so the
-      # generated artefacts (attachment and its journal entry) are attributed to them.
-      User.execute_as(journal.user) do
-        services.each do |service|
-          service.new(current_user: journal.user, work_package:).call!(changes:)
-        end
+      def copy_from(source)
+        type.workflows.copy_from_type(source)
       end
-    end
-
-    private
-
-    def applicable_services(work_package, changes)
-      [
-        Projects::CreationWizard::ReuploadArtifactOnStatusChangesService,
-        WorkPackages::TypeArtefactExport::ExportOnStatusChangeService
-      ].select { |service| service.applicable?(work_package:, changes:) }
     end
   end
 end

@@ -69,9 +69,20 @@ module Projects::CreationWizard
       )
 
       if attachment.persisted?
+        journalize_attachment(attachment.author)
         ServiceResult.success(result: attachment)
       else
         ServiceResult.failure(result: attachment, errors: attachment.errors)
+      end
+    end
+
+    # Creating the attachment does not create a work package
+    # journal on its own, so the artefact would only surface in the Activity tab after
+    # the next unrelated change. Create the journal explicitly so it shows up right away.
+    def journalize_attachment(author)
+      OpenProject::Mutex.with_advisory_lock_transaction(artifact_work_package) do
+        artifact_work_package.add_journal(user: author)
+        artifact_work_package.touch_and_save_journals
       end
     end
   end
