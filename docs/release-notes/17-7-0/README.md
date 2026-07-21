@@ -115,9 +115,9 @@ A new Project phases and gates widget is available for project overviews. It pro
 
 ![OpenProject's Project phases and gates widget visualizes the current project phase and gate status on the project overview page.](openproject-17-7-phases-gates-widget.png)
 
-### Work package previews from URLs in Documents
+### Work package links and previews in Documents
 
-When working with the BlockNote editor in Documents, links to work packages now display rich previews instead of plain URLs. This makes it easier to identify referenced work packages and understand their context without leaving the document.
+When using the BlockNote editor in Documents, pasting a work package URL now automatically creates a rendered work package link. In addition, tiny work package links display a preview on hover, revealing key information such as the work package type and subject. Together, these improvements make it easier to reference and identify work packages without leaving the document.
 
 ### The BCF import and export now support the semantic identifier (ABC-123)
 
