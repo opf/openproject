@@ -43,7 +43,7 @@ Under *Administration → Users and permissions → Users*, you can now set orga
 
 ![OpenProject's user profile shows user attributes such as department, job title, spoken languages, and key skills.](openproject-resource-management-user-attributes.png)
 
-**Working hours**
+**Work schedule**
 
 Under *Administration → Users and permissions → Users*, you can now configure individual work schedules for every user, including working days, working hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
 
@@ -67,7 +67,7 @@ The timeline view visualizes each user's workload over time, helping project man
 
 **Staffing**
 
-The Staffing view allows project managers to assign work while taking each team member's availability and existing workload into account. Resource requests can be matched with suitable team members, helping organizations distribute work more effectively and avoid overallocations.
+The Staffing view allows project managers to assign work while taking each team member's availability and existing workload into account. Resource requests can be allocated to suitable team members, helping organizations distribute work more effectively and avoid overallocations.
 
 ![OpenProject's Staffing view shows an open resource request for Laboratory testing together with a matching project member who can be assigned to the work.](openproject-resource-management-staffing-overlay.png)
 
