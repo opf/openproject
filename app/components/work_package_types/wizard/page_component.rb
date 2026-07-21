@@ -52,8 +52,17 @@ module WorkPackageTypes
           { href: admin_index_path, text: I18n.t("label_administration") },
           { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
           { href: types_path, text: I18n.t(:label_type_plural) },
+          *parent_breadcrumb_item,
           title
         ]
+      end
+
+      # The wizard is always entered from a parent type, but the crumb is skipped
+      # rather than rendered blank if it ever is not.
+      def parent_breadcrumb_item
+        return [] if type.parent.nil?
+
+        [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
       end
 
       def step_title = Steps.title(current_step)
