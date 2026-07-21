@@ -40,8 +40,6 @@ module WorkPackageTypes
       super(model, **)
     end
 
-    def readonly? = @readonly
-
     def form_options
       {
         url: type_defaults_path(type_id: model.id),
@@ -58,10 +56,6 @@ module WorkPackageTypes
       return {} if @readonly
 
       subject_form_object.stimulus_data
-    end
-
-    def enterprise?
-      EnterpriseToken.allows_to?(:work_package_subject_generation)
     end
 
     def subject_form_object
