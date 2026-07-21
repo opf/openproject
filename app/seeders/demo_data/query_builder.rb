@@ -139,8 +139,7 @@ module DemoData
     def set_version_filter!(filters)
       version = seed_data.find_reference(config[:version])
       if version
-        # TODO(COMMS-863): use version_id filter until we migrate to target_versions
-        filters[:version_id] = {
+        filters[:target_version_id] = {
           operator: "=",
           values: [version.id]
         }

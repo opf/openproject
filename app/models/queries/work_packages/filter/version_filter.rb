@@ -34,6 +34,11 @@ class Queries::WorkPackages::Filter::VersionFilter <
   # the legacy `work_packages.version_id` column.
   include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
 
+  # this is now a deprecated read-alias to `TargetVersionsFilter`
+  def available?
+    false
+  end
+
   def human_name
     WorkPackage.human_attribute_name("version")
   end

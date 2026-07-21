@@ -47,11 +47,9 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
       end
     end
 
-    describe "version and target_versions columns" do
-      context "with the feature flag and the setting enabled",
-              with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: true } do
-        it "replaces the version column with the target_versions column" do
+    describe "target_versions column" do
+      shared_examples "the single, canonical version column" do
+        it "offers only the target_versions column, never the legacy version column" do
           names = described_class.instances.map(&:name)
 
           expect(names).to include :target_versions
@@ -75,45 +73,16 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         end
       end
 
-      context "with the feature flag disabled",
-              with_flag: { work_package_multiple_versions: false },
-              with_settings: { work_package_multiple_versions: true } do
-        it "keeps the version column" do
-          names = described_class.instances.map(&:name)
-
-          expect(names).to include :version
-          expect(names).not_to include :target_versions
-        end
-
-        it "sorts and groups the version column via the work_package_versions join rows" do
-          column = described_class.instances.find { it.name == :version }
-
-          expect(column.sortable).to include("work_package_versions")
-          expect(column.groupable).to include("work_package_versions")
-          expect(column.groupable).not_to include("#{WorkPackage.table_name}.version_id")
-        end
-      end
-
-      context "with the setting disabled",
+      context "with the feature flag and the setting enabled",
               with_flag: { work_package_multiple_versions: true },
-              with_settings: { work_package_multiple_versions: false } do
-        it "keeps the version column" do
-          names = described_class.instances.map(&:name)
-
-          expect(names).to include :version
-          expect(names).not_to include :target_versions
-        end
+              with_settings: { work_package_multiple_versions: true } do
+        it_behaves_like "the single, canonical version column"
       end
 
       context "with the feature flag and the setting disabled",
               with_flag: { work_package_multiple_versions: false },
               with_settings: { work_package_multiple_versions: false } do
-        it "keeps the version column" do
-          names = described_class.instances.map(&:name)
-
-          expect(names).to include :version
-          expect(names).not_to include :target_versions
-        end
+        it_behaves_like "the single, canonical version column"
       end
     end
   end

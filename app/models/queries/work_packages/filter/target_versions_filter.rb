@@ -34,8 +34,4 @@ class Queries::WorkPackages::Filter::TargetVersionsFilter <
 
   def self.key = :target_version_id
   def human_name = WorkPackage.human_attribute_name("target_versions")
-
-  def available?
-    Setting::WorkPackageMultipleVersions.active?
-  end
 end

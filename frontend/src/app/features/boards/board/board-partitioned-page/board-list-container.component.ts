@@ -237,7 +237,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .map((widget) => {
         const service = this.boardActionRegistry.get(board.actionAttribute!);
         const { filterName } = service;
-        const idFilterName = `${filterName}_id`;
+        // Backend-created widgets store the snake_cased foreign-key form
+        // (e.g. `target_version_id`); frontend-added lists store the camelCase
+        // API form (e.g. `targetVersion`). Match both.
+        const idFilterName = `${filterName.replace(/([A-Z])/g, (char) => `_${char.toLowerCase()}`)}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
         const instance = options.filters.find((f) => !!f[filterName] || !!f[idFilterName]);
 

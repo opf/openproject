@@ -100,27 +100,11 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
-    version: {
-      if: -> { !Setting::WorkPackageMultipleVersions.active? },
-      sortable: <<~SQL.squish,
-        (SELECT LOWER(v.name)
-           FROM work_package_versions wpv
-           INNER JOIN versions v ON v.id = wpv.version_id
-          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
-          LIMIT 1)
-      SQL
-      groupable: <<~SQL.squish
-        (SELECT wpv.version_id
-           FROM work_package_versions wpv
-           INNER JOIN versions v ON v.id = wpv.version_id
-          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
-          ORDER BY LOWER(v.name), wpv.version_id
-          LIMIT 1)
-      SQL
-    },
+    # `target_versions` is the single, canonical version column. The legacy
+    # `version` column has been removed; existing saved queries are rewritten to
+    # `target_versions` by a data migration. Available regardless of the
+    # multiple-versions setting (single-vs-multiple is enforced when writing).
     target_versions: {
-      if: -> { Setting::WorkPackageMultipleVersions.active? },
       sortable: [
         <<~SQL.squish,
           (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name), wpv.version_id)

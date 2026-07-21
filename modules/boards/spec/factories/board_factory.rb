@@ -118,7 +118,7 @@ FactoryBot.define do
           q.save!
         end
 
-        filters = [{ "version_id" => { "operator" => "=", "values" => [version.id.to_s] } }]
+        filters = [{ "target_version_id" => { "operator" => "=", "values" => [version.id.to_s] } }]
 
         board.widgets << create(:grid_widget,
                                 identifier: "work_package_query",

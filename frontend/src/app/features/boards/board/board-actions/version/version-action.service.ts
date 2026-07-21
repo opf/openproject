@@ -11,6 +11,9 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   firstValueFrom,
   Observable,
@@ -22,18 +25,21 @@ import { map } from 'rxjs/operators';
 export class BoardVersionActionService extends CachedBoardActionService {
   readonly halNotification = inject(HalResourceNotificationService);
 
-  filterName = 'version';
+  filterName = 'targetVersion';
 
   /**
-   * The work package show view writes the version via the targetVersions
-   * attribute, while dragging a card between lists still writes the
-   * deprecated version attribute. Watch both so either change moves the card.
-   *
-   * TODO: Reduce to targetVersions once boards write it as well
-   * (BoardActionService#assignToWorkPackage in the boards follow-up of COMMS-877).
+   * The `targetVersion` filter partitions the board, but a card is assigned to a
+   * list by writing the multi-valued `targetVersions` work package attribute —
+   * so the watched attribute and the move check both target `targetVersions`,
+   * not the filter id.
    */
   get watchedAttributes():string[] {
-    return [this.filterName, 'targetVersions'];
+    return ['targetVersions'];
+  }
+
+  public canMove(workPackage:WorkPackageResource):boolean {
+    const fieldSchema = this.schemaCache.of(workPackage).targetVersions as IFieldSchema;
+    return fieldSchema?.writable;
   }
 
   resourceName = 'version';
@@ -61,10 +67,27 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
     if (!this.writable$) {
       this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+        .then((form:FormResource) => form.schema.targetVersions.writable);
     }
 
     return this.writable$;
+  }
+
+  /**
+   * Assign the dragged work package to the list's version by writing the
+   * multi-valued `targetVersions` attribute. The value must be an array of
+   * link objects; an empty array clears it.
+   */
+  public assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
+    if (!changeset.isWritable('targetVersions')) {
+      throw new Error(this.I18n.t(
+        'js.boards.error_attribute_not_writable',
+        { attribute: changeset.humanName('targetVersions') },
+      ));
+    }
+
+    const href = this.getActionValueId(query, true);
+    changeset.setValue('targetVersions', href ? [{ href }] : []);
   }
 
   /**
