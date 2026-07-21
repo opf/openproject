@@ -66,13 +66,7 @@ module WorkPackageTypes
     end
 
     def create
-      additional_params = {}
-      value = params.dig(:type, :copy_workflow_from)
-      additional_params[:copy_workflow_from] = value if value.present?
-
-      service_call = WorkPackageTypes::CreateService
-                      .new(user: current_user)
-                      .call(permitted_type_params.merge(additional_params))
+      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(create_params)
 
       @type = service_call.result
       if service_call.success?
@@ -133,6 +127,15 @@ module WorkPackageTypes
       return {} if params[:type].blank?
 
       permitted_type_params
+    end
+
+    # copy_workflow_from is a creation-time instruction rather than a type attribute,
+    # so it is read straight off the request and only passed on when one was chosen.
+    def create_params
+      copy_workflow_from = params.dig(:type, :copy_workflow_from)
+      return permitted_type_params if copy_workflow_from.blank?
+
+      permitted_type_params.merge(copy_workflow_from:)
     end
 
     def permitted_type_params
