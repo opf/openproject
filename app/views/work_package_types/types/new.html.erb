@@ -43,5 +43,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   copy_workflow_from = maybe_integer(params.dig(:type, :copy_workflow_from)).value_or(nil)
-  render WorkPackageTypes::SettingsComponent.new(@type, copy_workflow_from:)
+  render WorkPackageTypes::DetailsComponent.new(@type, copy_workflow_from:)
 %>

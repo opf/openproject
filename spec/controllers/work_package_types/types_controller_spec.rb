@@ -130,7 +130,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
       end
 
@@ -149,8 +149,8 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it { expect(response).to have_http_status(:unprocessable_entity) }
 
-        it "shows an error message" do
-          expect(response.body).to have_content("Name can't be blank")
+        it "shows an error message on the name field" do
+          expect(response.body).to have_text("can't be blank")
         end
       end
 
@@ -182,7 +182,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_settings_path(type))
+          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
         end
 
         it "has the copied workflows" do

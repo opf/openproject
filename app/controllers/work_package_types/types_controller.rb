@@ -76,7 +76,7 @@ module WorkPackageTypes
 
       @type = service_call.result
       if service_call.success?
-        redirect_to edit_type_settings_path(@type), notice: t(:notice_successful_create), status: :see_other
+        redirect_to edit_type_details_path(type_id: @type.id), notice: t(:notice_successful_create), status: :see_other
       else
         render action: :new, status: :unprocessable_entity
       end

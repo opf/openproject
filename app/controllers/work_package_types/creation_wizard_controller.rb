@@ -81,7 +81,7 @@ module WorkPackageTypes
 
     def update_details
       service_call = WorkPackageTypes::UpdateService
-                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateSettingsContract)
+                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDetailsContract)
                        .call(details_params)
 
       if service_call.success?

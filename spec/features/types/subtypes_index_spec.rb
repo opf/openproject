@@ -55,7 +55,7 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
   it "links a root type's header to its settings page" do
     visit types_path
 
-    expect(page).to have_link(bug_type.name, href: edit_type_settings_path(type_id: bug_type.id))
+    expect(page).to have_link(bug_type.name, href: edit_type_details_path(type_id: bug_type.id))
   end
 
   it "offers 'Move' only on roots, while both roots and sub-types can be configured and deleted" do

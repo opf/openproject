@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  class SettingsComponent < ApplicationComponent
+  class DetailsComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
@@ -52,18 +52,11 @@ module WorkPackageTypes
     attr_reader :copy_workflow_from
 
     def create_form_options
-      { url: types_path, method: :post, model:, copy_workflow_from:, data: core_settings_toggle_data }
+      { url: types_path, method: :post, model:, workflow_copy: true, copy_workflow_from: }
     end
 
     def update_form_options
-      { url: type_settings_path(type_id: model.id), method: :patch, model:, data: core_settings_toggle_data }
-    end
-
-    def core_settings_toggle_data
-      {
-        controller: "admin--work-package-type-settings",
-        "admin--work-package-type-settings-inherited-value": model.subtype?
-      }
+      { url: type_details_path(type_id: model.id), method: :patch, model: }
     end
   end
 end

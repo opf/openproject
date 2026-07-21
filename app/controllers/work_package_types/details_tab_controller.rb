@@ -29,5 +29,31 @@
 #++
 
 module WorkPackageTypes
-  UpdateSettingsContract = CreateContract
+  class DetailsTabController < BaseTabController
+    layout "admin"
+
+    current_menu_item %i[edit update] do
+      :types
+    end
+
+    def edit; end
+
+    def update
+      result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateDetailsContract)
+                            .call(permitted_details_params)
+
+      if result.success?
+        redirect_to edit_type_details_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
+    private
+
+    # The parent can only be chosen while creating a type, so it is not accepted here.
+    def permitted_details_params
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
+    end
+  end
 end

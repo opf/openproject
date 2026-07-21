@@ -63,7 +63,7 @@ module WorkPackageTypes
       end
 
       class Details < Base
-        def form_class = DetailsForm
+        def form_class = WorkPackageTypes::DetailsForm
       end
 
       class Workflows < Base

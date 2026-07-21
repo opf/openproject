@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::SettingsTabController do
+RSpec.describe WorkPackageTypes::DetailsTabController do
   let(:type) { create(:type_bug) }
 
   before do
@@ -69,10 +69,8 @@ RSpec.describe WorkPackageTypes::SettingsTabController do
           "type" => {
             "name" => "Galactic Order",
             "color_id" => lightsaber_red.id.to_s,
-            "description" => "This is how the emperor governs you ... yes you!",
             "is_milestone" => "0",
-            "is_in_roadmap" => "1",
-            "is_default" => "0"
+            "is_in_roadmap" => "1"
           }
         }
       end
@@ -81,7 +79,25 @@ RSpec.describe WorkPackageTypes::SettingsTabController do
         put :update, params:
       end
 
-      it { expect(response).to redirect_to(edit_type_settings_path(type_id: type.id)) }
+      it { expect(response).to redirect_to(edit_type_details_path(type_id: type.id)) }
+
+      it "updates the core settings" do
+        expect(type.reload).to have_attributes(own_name: "Galactic Order",
+                                               color_id: lightsaber_red.id,
+                                               is_milestone: false,
+                                               is_in_roadmap: true)
+      end
+
+      context "when the parent is submitted anyway" do
+        let(:other_root) { create(:type_feature) }
+        let(:params) do
+          { "type_id" => type.id, "type" => { "name" => type.own_name, "parent_id" => other_root.id.to_s } }
+        end
+
+        it "ignores it, since the parent is only chosen while creating a type" do
+          expect(type.reload.parent_id).to be_nil
+        end
+      end
 
       context "if the the params are invalid" do
         let(:another_type) { create(:type_feature) }
