@@ -85,21 +85,21 @@ class Type
     #
     # Writers stay untouched: assigning always writes this type's own row.
     def patterns
-      source = inherited_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      source = linked_configuration_source(Type::ConfigurationLink::DEFAULTS)
       return super if source.nil?
 
       source.patterns
     end
 
     def description
-      source = inherited_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      source = linked_configuration_source(Type::ConfigurationLink::DEFAULTS)
       return super if source.nil?
 
       source.description
     end
 
     def artefact_export_mode
-      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
       return super if source.nil?
 
       source.artefact_export_mode
@@ -109,14 +109,14 @@ class Type
     # always wraps the receiving type: it is a mutator as much as a reader, and
     # returning the source's would let a linked sub-type write the source's config.
     def export_templates_disabled
-      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
       return super if source.nil?
 
       source.export_templates_disabled
     end
 
     def export_templates_order
-      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
       return super if source.nil?
 
       source.export_templates_order
@@ -124,10 +124,10 @@ class Type
 
     private
 
-    # The type an aspect is inherited from, or nil when this type owns it. The nil is
+    # The type an aspect is linked to, or nil when this type owns it. The nil is
     # what keeps the readers above from recursing: effective_source_for returns self
     # both for an unlinked aspect and while the subtypes flag is off.
-    def inherited_configuration_source(aspect)
+    def linked_configuration_source(aspect)
       source = effective_source_for(aspect)
 
       source unless source == self
