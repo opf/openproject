@@ -2766,16 +2766,15 @@ pt-BR:
     blocks:
       community: Comunidade do OpenProject
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: Integração com XWiki (plano Corporativo).
-            line_1: Objetivos da sprint.
-            line_2: Página de visão geral de "Todas as sprints.
-            line_3: Exibir os itens do backlog em pacotes de trabalho e nas tabelas de pacotes de trabalho.
-            line_4: Suporte aprimorado para identificadores com base em projeto (semânticos).
-            line_5: Converter itens da agenda da reunião em pacotes de trabalho.
-            line_6: Configurar tipos de custo por projeto.
-          new_features_title: 'A versão contém vários novos recursos e melhorias, como:
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novos recursos e atualizações do produto.
