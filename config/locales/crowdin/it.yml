@@ -1152,7 +1152,6 @@ it:
 
           '
         description: Questo migratore Jira è attualmente in versione beta. Al momento supportiamo solo Jira Server/Data Center versioni 10.x e 11.x. Le istanze Cloud non sono attualmente supportate.
-        supported_versions: ''
         title: Beta - Provalo!
       blank:
         description: Configura un host Jira per iniziare a importare elementi da Jira a questa istanza di OpenProject.

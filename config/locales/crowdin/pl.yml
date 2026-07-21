@@ -1184,7 +1184,6 @@ pl:
 
           '
         description: Migrator Jira jest obecnie w fazie beta. Obecnie obsługujemy jedynie wersje Jira Server / Data Center 10.x i 11.x. Wystąpienia w chmurze są obecnie nieobsługiwane.
-        supported_versions: ''
         title: Wersja beta — wypróbuj!
       blank:
         description: Skonfiguruj host usługi Jira, aby rozpocząć importowanie elementów z Jira do tego wystąpienia OpenProject.

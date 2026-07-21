@@ -1148,7 +1148,6 @@ eu:
 
           '
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
-        supported_versions: ''
         title: Beta - Try it out!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.

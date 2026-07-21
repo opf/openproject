@@ -1186,7 +1186,6 @@ cs:
 
           '
         description: Tento Jira Migrátor je v současné době v beta verzi. Momentálně podporujeme pouze Jira Server/Data Center verze 10. a 11.x. Cloudové instance nejsou v tuto chvíli podporovány.
-        supported_versions: ''
         title: Beta verze - Vyzkoušejte si ji!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -2249,12 +2248,12 @@ cs:
         other: "%{count} hodin"
       x_minutes:
         one: 1 minuta
-        few: "%{count} minut"
+        few: "%{count} minuty"
         many: "%{count} minut"
         other: "%{count} minut"
       x_minutes_abbreviated:
         one: 1 minuta
-        few: "%{count} minut"
+        few: "%{count} minuty"
         many: "%{count} minut"
         other: "%{count} minut"
       x_months:
