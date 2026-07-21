@@ -126,13 +126,13 @@ module Pages
 
     def expect_no_more_menu(sprint)
       within_sprint_row(sprint) do
-        expect(page).to have_no_css(:button, text: "More")
+        expect(page).to have_no_test_selector("sprints--more")
       end
     end
 
     def open_more_menu(sprint)
       within_sprint_row(sprint) do
-        find(:button, "More").click
+        find_test_selector("sprints--more").click
       end
     end
 

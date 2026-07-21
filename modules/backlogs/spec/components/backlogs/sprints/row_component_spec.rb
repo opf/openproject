@@ -155,7 +155,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
     context "when no actions are available to the user" do
       it "does not render the more button" do
-        expect(rendered_component).to have_no_selector(:button, "More")
+        expect(rendered_component).to have_no_test_selector("sprints--more")
       end
     end
 
@@ -168,6 +168,10 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
             :menuitem,
             text: "Sprint report"
           )
+        end
+
+        it "renders the more button" do
+          expect(rendered_component).to have_test_selector("sprints--more")
         end
       end
 
