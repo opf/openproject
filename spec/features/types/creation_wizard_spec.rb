@@ -84,6 +84,21 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     expect(subtype.reload.parent).to eq(bug_type)
   end
 
+  it "creates a root type with the core settings editable" do
+    visit types_path
+    click_on I18n.t("activerecord.attributes.work_package.type")
+
+    expect(page).to have_text(I18n.t("types.creation_wizard.create_type"))
+    expect(page).to have_no_text(inherited_caption)
+    expect(page).to have_field(Type.human_attribute_name(:is_milestone), disabled: false)
+
+    fill_in Type.human_attribute_name(:name), with: "Incident"
+    check Type.human_attribute_name(:is_milestone)
+    click_on I18n.t(:button_continue)
+
+    expect(Type.find_by(name: "Incident")).to have_attributes(parent: nil, is_milestone: true)
+  end
+
   it "persists the defaults step through the wizard footer once the aspect is independent" do
     start_wizard
     subtype = complete_details_step("Critical")

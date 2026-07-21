@@ -54,7 +54,7 @@ module WorkPackageTypes
 
     def source_is_parent? = source.present? && source == type.parent
 
-    def source_path = edit_type_settings_path(type_id: source.id)
+    def source_path = edit_type_details_path(type_id: source.id)
 
     def copy_supported? = CopyConfiguration.supported?(aspect)
 

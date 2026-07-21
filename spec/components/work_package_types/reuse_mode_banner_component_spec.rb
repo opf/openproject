@@ -90,7 +90,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
 
     it "shows the linked state with a link to the source type" do
       expect(page).to have_text("Linked mode")
-      expect(page).to have_link("Feature", href: edit_type_settings_path(type_id: source.id))
+      expect(page).to have_link("Feature", href: edit_type_details_path(type_id: source.id))
       expect(page).to have_no_text("(parent)")
     end
 
@@ -118,7 +118,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
     end
 
     it "annotates the source as the parent" do
-      expect(page).to have_link("Feature", href: edit_type_settings_path(type_id: source.id))
+      expect(page).to have_link("Feature", href: edit_type_details_path(type_id: source.id))
       expect(page).to have_text("(parent)")
     end
   end

@@ -57,7 +57,7 @@ module WorkPackageTypes
       expect(model.changes).to be_empty
     end
 
-    it "defaults to the UpdateSettingsContract" do
+    it "defaults to the UpdateDetailsContract" do
       params = { patterns: { subject: { blueprint: "{{author}}", enabled: true } } }
 
       result = service.call(params)

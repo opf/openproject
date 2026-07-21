@@ -111,7 +111,7 @@ RSpec.describe "Work package type configuration source",
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Linked mode")
       expect(response.body).to include("PR-{{id}}")
-      expect(response.body).to include(edit_type_settings_path(type_id: source.id))
+      expect(response.body).to include(edit_type_details_path(type_id: source.id))
     end
   end
 

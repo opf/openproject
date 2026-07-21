@@ -55,6 +55,9 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
 %>
+<%# The wizard replaces the single-page creation form; the latter stays for as long
+    as the subtypes feature flag can be off. %>
+<% type_creation_path = OpenProject::FeatureDecisions.subtypes_active? ? new_creation_wizard_types_path : new_type_path %>
 <%=
   render(Primer::OpenProject::SubHeader.new) do |subheader|
     subheader.with_action_button(
@@ -63,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
       label: t(:label_type_new),
       test_selector: "op-admin-types--button-new",
       tag: :a,
-      href: new_type_path
+      href: type_creation_path
     ) do
       t("activerecord.attributes.work_package.type")
     end
@@ -79,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% else %>
   <%=
     no_results_box(
-      action_url: new_type_path,
+      action_url: type_creation_path,
       display_action: true,
       custom_action_text: t("types.index.no_results_content_text")
     )

@@ -29,7 +29,7 @@
 #++
 
 module WorkPackageTypes
-  class SettingsTabController < BaseTabController
+  class DetailsTabController < BaseTabController
     layout "admin"
 
     current_menu_item %i[edit update] do
@@ -39,11 +39,11 @@ module WorkPackageTypes
     def edit; end
 
     def update
-      result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateSettingsContract)
-                            .call(permitted_settings_params)
+      result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateDetailsContract)
+                            .call(permitted_details_params)
 
       if result.success?
-        redirect_to edit_type_settings_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_type_details_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
       else
         render :edit, status: :unprocessable_entity
       end
@@ -51,10 +51,8 @@ module WorkPackageTypes
 
     private
 
-    def permitted_settings_params
-      permitted = params.expect(type: %i[name parent_id color_id description is_milestone is_in_roadmap is_default])
-      permitted = permitted.except(:parent_id) unless OpenProject::FeatureDecisions.subtypes_active?
-      permitted
+    def permitted_details_params
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
     end
   end
 end

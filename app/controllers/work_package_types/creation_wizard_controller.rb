@@ -81,7 +81,7 @@ module WorkPackageTypes
 
     def update_details
       service_call = WorkPackageTypes::UpdateService
-                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateSettingsContract)
+                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDetailsContract)
                        .call(details_params)
 
       if service_call.success?
@@ -137,8 +137,10 @@ module WorkPackageTypes
       @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
     end
 
+    # The core settings are only editable while creating a root type; a sub-type
+    # renders them disabled, so the browser never submits them.
     def details_params
-      params.expect(type: %i[name parent_id])
+      params.expect(type: %i[name parent_id color_id is_milestone is_in_roadmap])
     end
 
     def defaults_params

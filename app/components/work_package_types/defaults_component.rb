@@ -40,6 +40,8 @@ module WorkPackageTypes
       super(model, **)
     end
 
+    def readonly? = @readonly
+
     def form_options
       {
         url: type_defaults_path(type_id: model.id),

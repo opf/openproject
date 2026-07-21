@@ -31,7 +31,7 @@
 require "spec_helper"
 
 module WorkPackageTypes
-  RSpec.describe UpdateSettingsContract do
+  RSpec.describe UpdateDetailsContract do
     let(:user) { create(:admin) }
     let(:model) { create(:type, name: "O-Negative") }
     let(:updated_attributes) { {} }
