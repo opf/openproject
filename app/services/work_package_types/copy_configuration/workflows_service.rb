@@ -29,34 +29,15 @@
 #++
 
 module WorkPackageTypes
-  # The starting points offered when switching a configuration aspect to
-  # Independent, and which of them each aspect offers. COPY starts from the
-  # currently linked source; DEFAULT starts from a fresh type (the
-  # administrator's defaults for new types); EMPTY starts from a blank
-  # configuration. Each aspect only lists the modes meaningful for it: form
-  # configuration cannot represent an empty form, and PDF export stores its
-  # templates as a disabled-list, so a blank configuration would present as
-  # every template enabled rather than as an empty one.
-  module IndependentMode
-    COPY = "copy"
-    DEFAULT = "default"
-    EMPTY = "empty"
+  module CopyConfiguration
+    class WorkflowsService < BaseService
+      private
 
-    AVAILABLE = {
-      Type::ConfigurationLink::FORM_CONFIGURATION => [COPY, DEFAULT],
-      Type::ConfigurationLink::PATTERNS => [COPY, EMPTY],
-      Type::ConfigurationLink::PDF_EXPORT => [COPY, DEFAULT],
-      Type::ConfigurationLink::WORKFLOWS => [COPY]
-    }.freeze
+      def aspect = Type::ConfigurationLink::WORKFLOWS
 
-    module_function
-
-    def available_for(aspect)
-      AVAILABLE.fetch(aspect.to_s, [])
-    end
-
-    def available?(aspect, mode)
-      available_for(aspect).include?(mode.to_s)
+      def copy_from(source)
+        type.workflows.copy_from_type(source)
+      end
     end
   end
 end

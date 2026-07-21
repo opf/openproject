@@ -47,8 +47,13 @@ RSpec.describe WorkPackageTypes::IndependentMode do
         .to eq([described_class::COPY, described_class::DEFAULT])
     end
 
+    it "offers only copy for workflows" do
+      expect(described_class.available_for(Type::ConfigurationLink::WORKFLOWS))
+        .to eq([described_class::COPY])
+    end
+
     it "returns no modes for an aspect without a switch flow" do
-      expect(described_class.available_for(Type::ConfigurationLink::WORKFLOWS)).to eq([])
+      expect(described_class.available_for(Type::ConfigurationLink::AUTOMATIONS)).to eq([])
     end
   end
 
