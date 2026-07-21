@@ -38,8 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do %>
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::DEFAULTS)) %>
   <% if @type.linked?(Type::ConfigurationLink::DEFAULTS) %>
-    <%= render WorkPackageTypes::DefaultsComponent
-                 .new(@type.effective_source_for(Type::ConfigurationLink::DEFAULTS), readonly: true) %>
+    <%= render WorkPackageTypes::DefaultsComponent.new(@type, readonly: true) %>
   <% else %>
     <%= render WorkPackageTypes::DefaultsComponent
                  .new(@type, subject_configuration_form_data: params[:work_package_types_forms_defaults_form_model]) %>

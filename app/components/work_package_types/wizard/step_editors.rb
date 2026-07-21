@@ -75,9 +75,8 @@ module WorkPackageTypes
 
         def aspect = Type::ConfigurationLink::DEFAULTS
 
-        # While linked, the fields show the source type's values rather than this type's.
         def model
-          @model ||= Forms::DefaultsFormModel.build(type.effective_source_for(aspect))
+          @model ||= Forms::DefaultsFormModel.build(type)
         end
 
         # Without this the pattern input cannot be toggled as the subject mode changes.

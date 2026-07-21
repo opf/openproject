@@ -78,12 +78,24 @@ class Type
       node
     end
 
-    def effective_patterns
-      effective_source_for(Type::ConfigurationLink::DEFAULTS).patterns
+    # Readers of linked aspects resolve through the link, so plain `type.patterns`
+    # is always the configuration in force. Separate `effective_*` readers only stay
+    # correct while every caller remembers they exist, and a root type behaves the
+    # same either way — so a missed call site still passes its tests.
+    #
+    # Writers stay untouched: assigning always writes this type's own row.
+    def patterns
+      source = inherited_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      return super if source.nil?
+
+      source.patterns
     end
 
-    def effective_description
-      effective_source_for(Type::ConfigurationLink::DEFAULTS).description
+    def description
+      source = inherited_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      return super if source.nil?
+
+      source.description
     end
 
     def effective_pdf_export_templates
@@ -91,6 +103,15 @@ class Type
     end
 
     private
+
+    # The type an aspect is inherited from, or nil when this type owns it. The nil is
+    # what keeps the readers above from recursing: effective_source_for returns self
+    # both for an unlinked aspect and while the subtypes flag is off.
+    def inherited_configuration_source(aspect)
+      source = effective_source_for(aspect)
+
+      source unless source == self
+    end
 
     def link_default_aspects_to_parent
       Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each { |aspect| link!(aspect, source: parent) }

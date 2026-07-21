@@ -240,7 +240,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.type&.effective_description
+    work_package.description = work_package.type&.description
   end
 
   def default_description?

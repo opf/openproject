@@ -136,17 +136,34 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "effective configuration", with_flag: { subtypes: true } do
-    let(:owner) { create(:type, patterns: { subject: { blueprint: "X {{id}}", enabled: true } }) }
-
-    it "resolves patterns from the linked owner" do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
-
-      expect(type.effective_patterns.subject.blueprint).to eq("X {{id}}")
+  describe "#patterns and #description", with_flag: { subtypes: true } do
+    let(:owner) do
+      create(:type,
+             patterns: { subject: { blueprint: "X {{id}}", enabled: true } },
+             description: "Owner default")
     end
 
-    it "resolves its own patterns when Independent" do
-      expect(type.effective_patterns).to eq(type.patterns)
+    it "reads from the linked owner" do
+      type.update!(patterns: { subject: { blueprint: "Own {{id}}", enabled: true } }, description: "Own default")
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
+
+      expect(type.patterns.subject.blueprint).to eq("X {{id}}")
+      expect(type.description).to eq("Owner default")
+    end
+
+    it "reads its own values when Independent" do
+      type.update!(patterns: { subject: { blueprint: "Own {{id}}", enabled: true } }, description: "Own default")
+
+      expect(type.patterns.subject.blueprint).to eq("Own {{id}}")
+      expect(type.description).to eq("Own default")
+    end
+
+    it "still writes to its own record while linked" do
+      type.link!(Type::ConfigurationLink::DEFAULTS, source: owner)
+      type.update!(description: "Own default")
+
+      expect(type.read_attribute(:description)).to eq("Own default")
+      expect(owner.reload.description).to eq("Owner default")
     end
   end
 
@@ -172,7 +189,7 @@ RSpec.describe Type::ConfigurationLinkable do
 
     it "ignores links and resolves to the type's own configuration" do
       expect(type.effective_source_for(Type::ConfigurationLink::DEFAULTS)).to eq(type)
-      expect(type.effective_patterns).to eq(type.patterns)
+      expect(type.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
     end
   end
