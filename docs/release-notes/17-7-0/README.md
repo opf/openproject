@@ -121,7 +121,7 @@ When working with the BlockNote editor in Documents, links to work packages now 
 
 ### The BCF import and export now support the semantic identifier (ABC-123)
 
-Semantic identifiers are now considered production-ready and are no longer marked as Beta. OpenProject 17.7 also adds support for importing and exporting semantic identifiers in BCF files.
+Semantic identifiers are now considered production-ready and are no longer marked as Beta. OpenProject 17.7 also adds support for importing and exporting BCF files having semantic identifiers.
 
 ### Filter projects by portfolio and program (Enterprise add-on)
 
