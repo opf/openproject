@@ -100,7 +100,7 @@ module WorkPackageTypes
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
       end
 
-      def step_banner
+      def reuse_mode_banner
         return unless step_editor.linkable_aspect?
 
         render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
