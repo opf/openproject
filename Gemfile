@@ -251,7 +251,7 @@ gem "factory_bot", "~> 6.6.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.5.0", require: false
 
-gem "turbo_power", "~> 0.7.0"
+gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.0"
