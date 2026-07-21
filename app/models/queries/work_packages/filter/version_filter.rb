@@ -38,6 +38,13 @@ class Queries::WorkPackages::Filter::VersionFilter <
     WorkPackage.human_attribute_name("version")
   end
 
+  def joins
+    case operator
+    when "o", "c", "l"
+      :version
+    end
+  end
+
   def self.key
     :version_id
   end
