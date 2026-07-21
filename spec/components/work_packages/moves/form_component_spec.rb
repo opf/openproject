@@ -71,6 +71,10 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     expect(rendered_component).to have_field(:notes, with: "Move notes")
   end
 
+  it "defaults the version select to '(no change)' when nothing is selected" do
+    expect(rendered_component).to have_select("target_version_ids[]", selected: I18n.t(:label_no_change_option))
+  end
+
   it "wires the refresh-on-form-changes controller" do
     expect(rendered_component).to have_css(
       "form[data-controller='refresh-on-form-changes']" \
