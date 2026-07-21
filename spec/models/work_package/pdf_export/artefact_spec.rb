@@ -281,7 +281,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
 
     it "renders the source type's groups for the linked type's work package" do
       joined = pdf_strings.join(" ")
-      expect(joined).to include(source_type.effective_attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
+      expect(joined).to include(source_type.attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
     end
   end
 end

@@ -307,23 +307,26 @@ RSpec.describe Type::ConfigurationLinkable do
 
     before { type.update!(attribute_groups: [["own_group", %w(assignee)]]) }
 
-    it "resolves the form source to the linked owner" do
+    it "reads attribute_groups from the linked owner" do
       type.link!(form_aspect, source:)
 
-      expect(type.effective_form_source).to eq(source)
-    end
-
-    it "reads attribute_groups from the linked owner via effective_attribute_groups" do
-      type.link!(form_aspect, source:)
-
-      keys = type.effective_attribute_groups.map(&:key)
+      keys = type.attribute_groups.map(&:key)
       expect(keys).to include("source_only_group")
       expect(keys).not_to include("own_group")
     end
 
     it "reads its own attribute_groups when Independent" do
-      keys = type.effective_attribute_groups.map(&:key)
+      keys = type.attribute_groups.map(&:key)
       expect(keys).to include("own_group")
+      expect(keys).not_to include("source_only_group")
+    end
+
+    it "reads its own attribute_groups while an assignment is pending, even when linked" do
+      type.link!(form_aspect, source:)
+      type.attribute_groups = [["pending_group", %w(assignee)]]
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("pending_group")
       expect(keys).not_to include("source_only_group")
     end
 
@@ -352,7 +355,7 @@ RSpec.describe Type::ConfigurationLinkable do
       type.update!(attribute_groups: [["own_group", %w(assignee)]])
       type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
 
-      keys = type.effective_attribute_groups.map(&:key)
+      keys = type.attribute_groups.map(&:key)
       expect(keys).to include("own_group")
       expect(keys).not_to include("source_only_group")
     end
