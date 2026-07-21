@@ -185,7 +185,7 @@ Rails.application.routes.draw do
       put :disable_all_of_section
     end
     resource :settings, controller: "settings_tab", only: %i[update edit]
-    resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
+    resource :defaults, controller: "defaults_tab", only: %i[update edit]
 
     nested do
       scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do

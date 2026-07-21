@@ -31,7 +31,7 @@
 require "spec_helper"
 
 module WorkPackageTypes
-  RSpec.describe UpdateSubjectPatternContract, with_ee: [:work_package_subject_generation] do
+  RSpec.describe UpdateDefaultsContract, with_ee: [:work_package_subject_generation] do
     let(:model) { create(:type, :with_subject_pattern) }
     let(:user) { create(:admin) }
 

@@ -36,7 +36,7 @@ module WorkPackageTypes
     let(:model) { create(:type, :with_subject_pattern) }
     let(:params) { Hash.new }
 
-    subject(:service) { described_class.new(user:, model:, contract_class: UpdateSubjectPatternContract) }
+    subject(:service) { described_class.new(user:, model:, contract_class: UpdateDefaultsContract) }
 
     context "when the pattern is malformed rubbish" do
       let(:params) { { patterns: "vader_s_rubber_duck" } }

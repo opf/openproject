@@ -115,8 +115,8 @@ module WorkPackageTypes
       end
 
       def prefixed_label(context, attribute_label)
-        attribute_context = I18n.t("types.edit.subject_configuration.token.context.#{context}")
-        I18n.t("types.edit.subject_configuration.token.label_with_context", attribute_context:, attribute_label:)
+        attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
+        I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label:)
       end
 
       def tokenize(custom_field_scope, prefix = nil)

@@ -35,8 +35,9 @@ module WorkPackageTypes
   module CopyConfiguration
     SERVICES = {
       Type::ConfigurationLink::FORM_CONFIGURATION => FormConfigurationService,
-      Type::ConfigurationLink::PATTERNS => PatternsService,
-      Type::ConfigurationLink::PDF_EXPORT => PdfExportService
+      Type::ConfigurationLink::DEFAULTS => DefaultsService,
+      Type::ConfigurationLink::PDF_EXPORT => PdfExportService,
+      Type::ConfigurationLink::WORKFLOWS => WorkflowsService
     }.freeze
 
     def self.service_for(aspect)

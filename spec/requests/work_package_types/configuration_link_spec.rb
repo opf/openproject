@@ -69,7 +69,7 @@ RSpec.describe "Work package type configuration source",
     end
 
     it "renders the subject tab with the reuse mode banner in independent mode" do
-      get edit_type_subject_configuration_path(type_id: type.id)
+      get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Independent mode")
@@ -104,9 +104,9 @@ RSpec.describe "Work package type configuration source",
   describe "read-only preview of a Linked aspect" do
     it "shows the inherited subject pattern and links to the source" do
       source.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
-      type.link!(Type::ConfigurationLink::PATTERNS, source:)
+      type.link!(Type::ConfigurationLink::DEFAULTS, source:)
 
-      get edit_type_subject_configuration_path(type_id: type.id)
+      get edit_type_defaults_path(type_id: type.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Linked mode")

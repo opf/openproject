@@ -38,11 +38,7 @@ module WorkPackageTypes
       end
 
       form do |mode_form|
-        mode_form.radio_button_group(
-          name: :mode,
-          label: I18n.t("types.edit.reuse_mode.independent.dialog.title"),
-          visually_hide_label: true
-        ) do |group|
+        mode_form.advanced_radio_button_group(name: :mode) do |group|
           available_modes.each_with_index do |mode, index|
             group.radio_button(
               value: mode,

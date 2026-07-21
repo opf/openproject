@@ -32,7 +32,7 @@
 require "spec_helper"
 
 module WorkPackageTypes
-  RSpec.describe SubjectConfigurationTabController, with_ee: [:work_package_subject_generation] do
+  RSpec.describe DefaultsTabController, with_ee: [:work_package_subject_generation] do
     let(:user) { create(:admin) }
     let(:wp_type) { create(:type) }
 
@@ -43,7 +43,7 @@ module WorkPackageTypes
 
       it "requires login" do
         get :edit, params: { type_id: wp_type.id }
-        expect(response.status).to redirect_to signin_url(back_url: edit_type_subject_configuration_url(wp_type))
+        expect(response.status).to redirect_to signin_url(back_url: edit_type_defaults_url(wp_type))
       end
     end
 
@@ -60,7 +60,7 @@ module WorkPackageTypes
       before do
         put :update, params: {
           type_id: wp_type.id,
-          work_package_types_forms_subject_configuration_form_model: form_data
+          work_package_types_forms_defaults_form_model: form_data
         }
       end
 
@@ -71,7 +71,7 @@ module WorkPackageTypes
 
         it "renders the edit template" do
           expect(response).to have_http_status :unprocessable_entity
-          expect(response).to render_template "work_package_types/subject_configuration_tab/edit"
+          expect(response).to render_template "work_package_types/defaults_tab/edit"
         end
       end
 
@@ -82,7 +82,7 @@ module WorkPackageTypes
           let(:service_result) { ServiceResult.success }
 
           it "redirects to the current tab path" do
-            expect(response).to redirect_to edit_type_subject_configuration_path(type_id: wp_type.id)
+            expect(response).to redirect_to edit_type_defaults_path(type_id: wp_type.id)
           end
         end
 
@@ -92,7 +92,7 @@ module WorkPackageTypes
           let(:service_result) { ServiceResult.success }
 
           it "redirects to the current tab path" do
-            expect(response).to redirect_to edit_type_subject_configuration_path(type_id: wp_type.id)
+            expect(response).to redirect_to edit_type_defaults_path(type_id: wp_type.id)
           end
         end
 
@@ -102,7 +102,7 @@ module WorkPackageTypes
           let(:service_result) { ServiceResult.success }
 
           it "redirects to the current tab path" do
-            expect(response).to redirect_to edit_type_subject_configuration_path(type_id: wp_type.id)
+            expect(response).to redirect_to edit_type_defaults_path(type_id: wp_type.id)
           end
         end
       end

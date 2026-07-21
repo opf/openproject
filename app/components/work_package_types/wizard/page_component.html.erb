@@ -23,14 +23,12 @@
       <% page.with_area("main") do %>
         <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
 
-        <% if step_editor_form %>
-          <%= primer_form_with(
-                model: type,
-                url: step_form_url,
-                method: step_form_method,
-                html: { id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER }
-              ) do |f| %>
-            <%= render(step_editor_form.new(f)) %>
+        <% if step_editor %>
+          <%= within_step_frame do %>
+            <%= reuse_mode_banner %>
+            <%= primer_form_with(**step_form_options) do |f| %>
+              <%= render(step_editor.form_class.new(f)) %>
+            <% end %>
           <% end %>
         <% else %>
           <%# Self-persisting editor: this form only advances to the next step on submit. %>

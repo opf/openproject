@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::ReuseModeBannerComponent, type: :component, wit
   end
 
   context "when the aspect has no copy service" do
-    let(:aspect) { Type::ConfigurationLink::WORKFLOWS }
+    let(:aspect) { Type::ConfigurationLink::AUTOMATIONS }
 
     it "does not render the copy action" do
       render_inline(component)

@@ -38,7 +38,7 @@ module WorkPackageTypes
   class SwitchToIndependentModeService
     # The blank configuration written for the EMPTY mode, per aspect.
     EMPTY_CONFIGURATION = {
-      Type::ConfigurationLink::PATTERNS => { patterns: {} }
+      Type::ConfigurationLink::DEFAULTS => { patterns: {}, description: nil }
     }.freeze
 
     def initialize(type:, aspect:, user:)

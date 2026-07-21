@@ -29,17 +29,15 @@
 #++
 
 module WorkPackageTypes
-  module Forms
-    class SubjectConfigurationFormModel
-      extend ActiveModel::Naming
+  module CopyConfiguration
+    class DefaultsService < BaseService
+      private
 
-      attr_reader :subject_configuration, :pattern, :suggestions, :validation_errors
+      def aspect = Type::ConfigurationLink::DEFAULTS
 
-      def initialize(subject_configuration:, pattern:, suggestions:, validation_errors: {})
-        @subject_configuration = subject_configuration
-        @pattern = pattern
-        @suggestions = suggestions
-        @validation_errors = validation_errors
+      def copy_from(source)
+        # deep_dup keeps the copy from aliasing the source's stored value.
+        type.update!(patterns: source.patterns.deep_dup, description: source.description)
       end
     end
   end
