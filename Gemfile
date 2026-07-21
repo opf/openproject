@@ -144,7 +144,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.19.1"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.14.0"
+gem "lograge", "~> 0.15.0"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
