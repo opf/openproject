@@ -91,9 +91,9 @@ Work packages can also be moved directly into a backlog bucket from the work pac
 
 #### All backlog buckets
 
-The all backlog buckets button is a multi-select dropdown that allows you filter for buckets within your backlog. Click on **All backlog buckets**. Select the specific backlog bucket(s) you want displayed or type a keyword into the search panel. Click **Apply** to save your changes. 
+The all backlog buckets button is a multi-select dropdown that allows you filter for buckets within your backlog. Click on **All backlog buckets**. Select the specific backlog bucket(s) you want displayed or type in the search box to filter the list. Click **Apply** to save your changes. 
 
-![All backlog buckets in Backlogs](openproject_user_guide_all_backlog_bucket_filter.png)
+![Filter for all backlog buckets in Backlog and sprints](openproject_user_guide_all_backlog_bucket_filter.png)
 
 ### Inbox backlog
 
@@ -211,13 +211,13 @@ Additional sprint actions are available through the **Sprint menu**, including:
 
 Sprint details, including the sprint goal, can also be edited through the **Edit sprint** dialog.
 
-![Sprint menu with options like edit sprint and add work package](openproject_user_guide_backlog_sprint_menu_item.png)
+![Sprint menu with options like edit sprint and add new work package](openproject_user_guide_backlog_sprint_menu_item.png)
 
 #### All sprints filter
 
-The all sprints button is a multi-select dropdown that allows you filter for sprints. Click on **All sprints**. Select the specific sprint container(s) you want displayed or type a keyword into the search panel. Click **Apply** to save your changes. 
+The all sprints button is a multi-select dropdown that allows you filter for sprints. Click on **All sprints**. Select the specific sprint container(s) you want displayed or type in the search box to filter the list. Click **Apply** to save your changes. 
 
-![](openproject_user_guide_all_sprints_filter.png)
+![Filter for all sprints in backlog and sprints](openproject_user_guide_all_sprints_filter.png)
 
 ### Add a new work package
 
@@ -231,11 +231,11 @@ A new item will be added to the backlog to display the newly created story.
 
 In order to add an existing work package in the Backlogs module, click on the More (three dots) icon in the top right corner of a Sprint and choose **Add existing work package** from the drop-down menu. A form dialog will appear to add work packages already in the backlog. 
 
-![](openproject_user_guide_backlogs_add_existing_wp_form.png)
+![Form dialog to add an existing work package to a sprint directly in OpenProject Backlogs module](openproject_user_guide_backlogs_add_existing_wp_form.png)
 
 In the search panel, enter the work package type, subject or ID. Select the displayed work package and click **Add** to proceed. The items in the Sprint  becomes updated.
 
-![](openproject_user_guide_backlogs_select_existing_wp.png)
+![An existing work package selected and added to a sprint directly in OpenProject Backlogs module](openproject_user_guide_backlogs_select_existing_wp.png)
 
 ### Prioritize stories
 
