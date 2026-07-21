@@ -473,7 +473,7 @@ module Settings
         env_alias: "EMAIL_DELIVERY_METHOD"
       },
       emails_salutation: {
-        allowed: %w[firstname name],
+        allowed: %i[firstname name],
         default: :firstname
       },
       emails_footer: {
@@ -1015,6 +1015,12 @@ module Settings
       repository_truncate_at: {
         default: 500
       },
+      scim_clients: {
+        description: "Configure SCIM clients through environment variables",
+        writable: false,
+        default: [],
+        format: :array
+      },
       scm: {
         format: :hash,
         default: {},
@@ -1306,6 +1312,11 @@ module Settings
       },
       users_deletable_by_admins: {
         default: false
+      },
+      user_can_change_email: {
+        description: "Whether users can change their own email addresses",
+        default: true,
+        format: :boolean
       },
       user_default_theme: {
         default: "light",

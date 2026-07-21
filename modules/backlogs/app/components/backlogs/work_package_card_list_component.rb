@@ -78,6 +78,7 @@ module Backlogs
       title:,
       count: work_packages.size,
       count_label: default_count_label(count),
+      count_arguments: { scheme: :secondary },
       **system_arguments,
       &
     )
@@ -88,6 +89,7 @@ module Backlogs
         title:,
         count:,
         count_label:,
+        count_arguments:,
         **system_arguments,
         &
       )
@@ -114,13 +116,22 @@ module Backlogs
       )
     end
 
-    def drag_and_drop_data
-      {
-        generic_drag_and_drop_target: "container",
-        target_container_accessor: ":scope > ul",
-        target_id: drag_and_drop.fetch(:target_id),
-        target_allowed_drag_type: drag_and_drop.fetch(:allowed_drag_type)
+    def drag_and_drop_data # rubocop:disable Metrics/AbcSize
+      data = {
+        controller: "sortable-lists--list",
+        sortable_lists__list_type_value: drag_and_drop.fetch(:list_type),
+        sortable_lists__list_accepted_type_value: drag_and_drop.fetch(:accepted_type)
       }
+      if drag_and_drop[:list_id].present?
+        data[:sortable_lists__list_id_value] = drag_and_drop[:list_id]
+      end
+      if drag_and_drop[:drop_position].present?
+        data[:sortable_lists__list_drop_position_value] = drag_and_drop[:drop_position]
+      end
+      if drag_and_drop[:name].present?
+        data[:sortable_lists__list_name_value] = drag_and_drop[:name]
+      end
+      data
     end
 
     def default_count_label(count)

@@ -51,7 +51,7 @@ enterprise_features:
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
   custom_field_projects:
-    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/
+    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects
   customize_life_cycle:
     href: https://www.openproject.org/docs/system-admin-guide/projects/project-life-cycle/
   default:

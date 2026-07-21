@@ -38,15 +38,11 @@ class Type::PdfExportTemplates
   end
 
   def list
-    disabled = @type.export_templates_disabled || []
-    templates = built_in_templates.map do |built_in_template|
-      Template.new(**built_in_template, enabled: disabled.exclude?(built_in_template[:id]))
-    end
+    templates = build_templates
     order = @type.export_templates_order || []
     return templates if order.empty?
 
-    indexes = order.each_with_index.to_a.to_h
-    templates.sort_by { |template| indexes[template.id] }
+    sort_by_order(templates, order)
   end
 
   def list_enabled
@@ -55,10 +51,7 @@ class Type::PdfExportTemplates
 
   def find(template_id)
     built_in_template = built_in_templates.find { |t| t[:id] == template_id }
-    if built_in_template
-      disabled = @type.export_templates_disabled || []
-      Template.new(**built_in_template, enabled: disabled.exclude?(built_in_template[:id]))
-    end
+    to_template(built_in_template, @type.export_templates_disabled || []) if built_in_template
   end
 
   def enable_all
@@ -85,5 +78,21 @@ class Type::PdfExportTemplates
     ordered_template_ids.delete_at(prev_index) unless prev_index.nil?
     ordered_template_ids.insert(position, template_id)
     @type.export_templates_order = ordered_template_ids
+  end
+
+  private
+
+  def build_templates
+    disabled = @type.export_templates_disabled || []
+    built_in_templates.map { |built_in_template| to_template(built_in_template, disabled) }
+  end
+
+  def to_template(built_in_template, disabled)
+    Template.new(**built_in_template, enabled: disabled.exclude?(built_in_template[:id]))
+  end
+
+  def sort_by_order(templates, order)
+    indexes = order.each_with_index.to_a.to_h
+    templates.sort_by { |template| indexes[template.id] || templates.length }
   end
 end

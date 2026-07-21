@@ -1,35 +1,40 @@
 ---
 ms:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Bilangan kolum
+        page: Halaman
+        row_count: Bilangan baris
+        scope: Skop
+        widgets: Widget
+    errors:
+      models:
+        grids/grid:
+          end_before_start: nilai akhir perlu lebih besar daripada nilai mula.
+          outside: luar daripada grid.
+          overlaps: bertindih.
   grids:
     label_widget_in_grid: Widget yang terdapat dalam Grid %{grid_name}
     widgets:
       empty: This widget is currently empty.
-      not_available: This widget is not available.
-      subitems:
-        title: Subitems
-        no_results: There are no visible children.
-        view_all_subitems: View all subitems
-        button_text: Subitem
       members:
-        title: Members
         no_results: Tiada ahli dipapar.
-        view_all_members: Lihat semua ahli
         show_members_count: Show all %{count} members
+        title: Members
+        view_all_members: Lihat semua ahli
         x_more:
           other: and %{count} more members.
       news:
         no_results: Tiada perkara baharu untuk dilaporkan.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Halaman
-        row_count: Bilangan baris
-        column_count: Bilangan kolum
-        widgets: Widget
-        scope: Skop
-    errors:
-      models:
-        grids/grid:
-          overlaps: bertindih.
-          outside: luar daripada grid.
-          end_before_start: nilai akhir perlu lebih besar daripada nilai mula.
+      not_available: This widget is not available.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Subitem
+        no_results: There are no visible children.
+        title: Subitems
+        view_all_subitems: View all subitems

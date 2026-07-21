@@ -35,8 +35,11 @@ See COPYRIGHT and LICENSE files for more details.
         project:,
         container: sprint,
         drag_and_drop: {
-          target_id: Backlogs::Target.for(sprint).to_s, # explicit to_s, as otherwise to_json is used
-          allowed_drag_type: "story"
+          list_type:,
+          list_id: sprint.id,
+          name: sprint.name,
+          accepted_type: "work_package",
+          drop_position: "start"
         },
         params: backlog_filter_params,
         current_user:,
@@ -104,18 +107,7 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
 
-          with_item_group(menu) do
-            if user_allowed?(:manage_sprint_items)
-              menu.with_item(
-                id: dom_target(sprint, :menu, :new_story),
-                label: t(".action_menu.add_work_package"),
-                href: new_project_work_packages_dialog_path(project, sprint_id: sprint.id),
-                content_arguments: { data: { turbo_stream: true } }
-              ) do |item|
-                item.with_leading_visual_icon(icon: :plus)
-              end
-            end
-          end
+          with_add_work_package_menu_group(menu, sprint)
 
           with_item_group(menu) do
             if show_task_board_link?
@@ -146,7 +138,8 @@ See COPYRIGHT and LICENSE files for more details.
     <%
       list.with_empty_state(
         title: t(".blankslate_title", name: sprint.name),
-        description: t(".blankslate_description")
+        description: t(".blankslate_description"),
+        drop_target_label: t(".drop_zone_label")
       )
     %>
   <% end %>

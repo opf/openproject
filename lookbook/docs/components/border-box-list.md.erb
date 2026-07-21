@@ -56,7 +56,7 @@ comparable lists should use headers.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `title` | `String` | required | Header title |
+| `title` | `String`, `nil` | `nil` | Header title |
 | `title_tag` | `Symbol` | `:h4` | HTML tag for the title heading |
 | `title_arguments` | `Hash` | `{}` | Forwarded to the title heading element |
 | `count` | `Integer`, `Boolean`, `nil` | `nil` | Pass `true` to infer the rendered item count, an integer for an explicit value, or `nil`/`false` to hide it |
@@ -67,6 +67,7 @@ comparable lists should use headers.
 
 | Slot | Description |
 |---|---|
+| `with_title` | Block-based alternative to `title:`, for titles that need more than plain text. Takes precedence over `title:` |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_action_button` | Button rendered in the header actions area |
 | `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |

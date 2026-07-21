@@ -26,12 +26,6 @@ AllCops:
   Exclude:
     - "**/node_modules/**/*"
 
-# Disable it as it is deprecated
-# From https://docs.rubocop.org/rubocop-capybara/cops_capybara.html#capybaraclicklinkorbuttonstyle
-# "This cop is deprecated. We plan to remove this in the next major version update to 3.0."
-Capybara/ClickLinkOrButtonStyle:
-  Enabled: false
-
 FactoryBot/ConsistentParenthesesStyle:
   Enabled: false
 

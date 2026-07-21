@@ -88,14 +88,12 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
-      # TODO(COMMS-863): remove once the version_id column is dropped in favor of target_versions.
-      set_version! wp_attr, attributes
+      set_target_versions! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
       work_package = WorkPackage.create! wp_attr
 
-      set_target_versions! work_package, attributes
       create_children! work_package, attributes
       create_attachments! work_package, attributes
       update_description! work_package
@@ -172,21 +170,14 @@ module DemoData
       end
     end
 
-    def set_version!(wp_attr, attributes)
-      reference = Array(attributes["target_versions"]).first
-      version = seed_data.find_reference(reference)
-      if version
-        wp_attr[:version] = version
+    # The legacy version_id column is kept in sync from the replacements on
+    # save (WorkPackage::Versions#update_legacy_version_field).
+    def set_target_versions!(wp_attr, attributes)
+      version_ids = Array(attributes["target_versions"]).filter_map do |reference|
+        seed_data.find_reference(reference)&.id
       end
-    end
 
-    def set_target_versions!(work_package, attributes)
-      Array(attributes["target_versions"]).each do |reference|
-        version = seed_data.find_reference(reference)
-        next unless version
-
-        work_package.work_package_versions.create!(version_id: version.id, kind: "target")
-      end
+      wp_attr[:target_version_ids_replacements] = version_ids if version_ids.any?
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)

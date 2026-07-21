@@ -62,6 +62,12 @@ module Wikis
 
     private
 
+    def menu_actions_for(page_link)
+      return [] unless can_manage_links?
+
+      [PageLinkComponent::RemoveAction.new(page_link:)]
+    end
+
     def page_link_service
       @page_link_service ||= PageLinkService.new
     end

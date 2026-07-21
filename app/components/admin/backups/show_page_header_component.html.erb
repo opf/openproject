@@ -40,7 +40,8 @@ See COPYRIGHT and LICENSE files for more details.
       mobile_label: button_title,
       mobile_icon: button_icon,
       size: :medium,
-      href: reset_token_admin_backups_path,
+      href: reset_token_dialog_admin_backups_path,
+      data: { controller: "async-dialog" },
       aria: { label: button_title },
       title: button_title
     ) do |button|

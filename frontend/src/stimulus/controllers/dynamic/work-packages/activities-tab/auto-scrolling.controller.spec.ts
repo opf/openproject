@@ -26,12 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi, type Mock } from 'vitest';
+import { vi, type Mock, type MockInstance } from 'vitest';
 import { Controller } from '@hotwired/stimulus';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type AutoScrollingControllerType from './auto-scrolling.controller';
 import { ViewPortServiceInterface } from './services/view-port-service';
+import SettleWindow from './services/settle-window';
 
 const HIGHLIGHTED_CLASS = '--anchor-highlighted';
 
@@ -39,7 +40,13 @@ const HIGHLIGHTED_CLASS = '--anchor-highlighted';
 // through the index controller's viewport service. A real index controller pulls
 // in the whole activities tab, so this stub exposes only what the scroll paths read.
 class StubIndexController extends Controller {
-  sortingAscending = false;
+  // Mirror the real controller: both flags derive from one sort value, so a test
+  // can never leave them in the impossible both-true / both-false state.
+  sortingValue = 'desc';
+
+  get sortingAscending():boolean { return this.sortingValue === 'asc'; }
+
+  get sortingDescending():boolean { return this.sortingValue === 'desc'; }
 
   viewPortService:ViewPortServiceInterface = {
     scrollableContainer: null,
@@ -254,6 +261,117 @@ describe('Activities tab auto-scrolling controller', () => {
     // The listener was bound to the controller's AbortController, so it no longer
     // mutates the URL after disconnect.
     expect(window.location.hash).toBe('#comment-139');
+  });
+
+  describe('streamed updates in an ascending list', () => {
+    function autoScrollingController() {
+      const el = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
+      return ctx.getController<AutoScrollingControllerType>('work-packages--activities-tab--auto-scrolling', el);
+    }
+
+    // Marks the input as the mobile scroll target and returns its scrollIntoView spy.
+    function stubMobileInput(index:StubIndexController) {
+      index.viewPortService.isMobile = () => true;
+
+      const input = document.createElement('div');
+      input.className = 'work-packages-activities-tab-journals-new-component';
+      const scrollIntoView = vi.fn();
+      input.scrollIntoView = scrollIntoView;
+      ctx.container
+        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
+        .appendChild(input);
+
+      return scrollIntoView;
+    }
+
+    let followSpy:MockInstance<(onSettle:() => void, options?:{ delay?:number }) => void>;
+    let stopSpy:MockInstance<() => void>;
+
+    beforeEach(() => {
+      followSpy = vi.spyOn(SettleWindow.prototype, 'follow').mockImplementation(() => undefined);
+      stopSpy = vi.spyOn(SettleWindow.prototype, 'stop').mockImplementation(() => undefined);
+    });
+
+    it('follows the container to its bottom when a new entry lands at the bottom', async () => {
+      const { index, scroller } = await renderActivities();
+      index.sortingValue = 'asc';
+      Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+      expect(followSpy).toHaveBeenCalledTimes(1);
+
+      // The callback handed to the settle window scrolls the container to the bottom.
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
+    });
+
+    it('does not follow when the list was not already at the bottom', async () => {
+      const { index } = await renderActivities();
+      index.sortingValue = 'asc';
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(false);
+
+      expect(followSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not follow a descending list, where new entries land at the top', async () => {
+      await renderActivities();
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+      expect(followSpy).not.toHaveBeenCalled();
+    });
+
+    it('stops the settle window when the controller disconnects', async () => {
+      const { index } = await renderActivities();
+      index.sortingValue = 'asc';
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+      const root = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
+      root.remove();
+      await ctx.nextFrame();
+
+      expect(stopSpy).toHaveBeenCalled();
+    });
+
+    // On mobile the comment input, not the container, is the scroll target, and the
+    // settle window waits for the on-screen keyboard to settle before it opens. The
+    // delay is handed to the window rather than timed here, so disconnecting while
+    // it is still pending tears it down with everything else.
+    it('follows the input into view once the keyboard settles on mobile', async () => {
+      const { index } = await renderActivities();
+      index.sortingValue = 'asc';
+      const scrollIntoView = stubMobileInput(index);
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+      expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledWith(expect.any(Function), { delay: 300 });
+
+      // The callback scrolls the input, not the container, into view.
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollIntoView).toHaveBeenCalled();
+    });
+
+    // Submitting your own comment streams in an entry the same way, after the longer
+    // wait for the keyboard to dismiss.
+    it('follows the input into view after submitting on mobile', async () => {
+      const { index } = await renderActivities();
+      index.sortingValue = 'asc';
+      const scrollIntoView = stubMobileInput(index);
+
+      autoScrollingController().performAutoScrollingOnFormSubmit();
+
+      expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledWith(expect.any(Function), { delay: 800 });
+
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollIntoView).toHaveBeenCalled();
+    });
   });
 
   // The controller sets the hash only when it decides to handle a link, so the

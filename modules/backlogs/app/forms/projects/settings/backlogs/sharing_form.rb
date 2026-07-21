@@ -88,13 +88,15 @@ module Projects
         def group_radio_button(group,
                                sharing:,
                                disabled: only_fallback_allowed,
-                               caption: sharing_option_caption(sharing))
+                               caption: sharing_option_caption(sharing),
+                               &)
           group.radio_button(
             label: sharing_option_label(sharing),
             value: sharing,
             caption:,
             disabled:,
-            data: { "show-when-value-selected-target": "cause" }
+            data: { "show-when-value-selected-target": "cause" },
+            &
           )
         end
 

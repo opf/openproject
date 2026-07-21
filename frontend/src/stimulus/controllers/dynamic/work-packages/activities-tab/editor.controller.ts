@@ -37,6 +37,11 @@ import BaseController from './base.controller';
 import type PollingController from './polling.controller';
 import type { TurboSubmitEndEvent, TurboSubmitStartEvent } from '@hotwired/turbo';
 
+// Mobile on-screen keyboard timings, tuned on device: wait for the keyboard
+// transition to finish before scrolling the input into view.
+const KEYBOARD_DISMISS_MS = 500; // editor hidden, keyboard sliding down
+const KEYBOARD_FOCUS_MS = 200; // editor focused, keyboard sliding up
+
 export default class EditorController extends BaseController {
   static outlets = [
     'work-packages--activities-tab--auto-scrolling',
@@ -124,9 +129,7 @@ export default class EditorController extends BaseController {
     this.indexOutlet.hideJournalsContainerInput();
 
     if (this.isMobile()) {
-      // wait for the keyboard to be fully down before scrolling further
-      // timeout amount tested on mobile devices for best possible user experience
-      this.autoScrollingOutlet.scrollInputContainerIntoView(500);
+      this.autoScrollingOutlet.scrollInputContainerIntoView(KEYBOARD_DISMISS_MS);
     }
   }
 
@@ -189,7 +192,7 @@ export default class EditorController extends BaseController {
       onBlurEditor: () => { void this.onBlurEditor(); },
       onFocusEditor: () => {
         void this.onFocusEditor();
-        if (this.isMobile()) { void this.autoScrollingOutlet.scrollInputContainerIntoView(200); }
+        if (this.isMobile()) { void this.autoScrollingOutlet.scrollInputContainerIntoView(KEYBOARD_FOCUS_MS); }
       },
     };
 

@@ -37,8 +37,9 @@ See COPYRIGHT and LICENSE files for more details.
         ) %>
   <% else %>
     <%= render(Primer::Beta::Blankslate.new(test_selector: "project-timeline-widget-empty")) do |blankslate| %>
-      <% blankslate.with_visual_icon(icon: :workflow) %>
+      <% blankslate.with_visual_icon(icon: :"op-view-timeline") %>
       <% blankslate.with_heading(tag: :h3) { t("grids.widgets.project_timeline.no_results_title") } %>
+      <% blankslate.with_description { I18n.t("grids.widgets.empty") } %>
     <% end %>
   <% end %>
   <% if view_work_packages_allowed? && (link = gantt_link) %>

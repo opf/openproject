@@ -38,10 +38,14 @@ import {
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
@@ -82,6 +86,8 @@ export interface ProjectTimelineItem {
   definitionId?:number;
   typeId?:number;
   workPackageId?:number;
+  isCluster?:boolean;
+  items?:ProjectTimelineItem[];
 }
 
 const GROUP_GATES = 'gates';
@@ -94,6 +100,7 @@ const GROUP_MILESTONES = 'milestones';
   styleUrls: ['./project-timeline-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [OpenprojectContentLoaderModule],
 })
 export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
@@ -116,6 +123,11 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
 
+  protected readonly ready = signal(false);
+  private destroyed = false;
+  private readyHandler:(() => void) | null = null;
+  private readonly destroyed$ = new Subject<void>();
+
   constructor() {
     effect(() => {
       const phases = this.phases();
@@ -127,10 +139,19 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit():void {
-    this.initTimeline(this.phases(), this.milestones());
+    requestAnimationFrame(() => {
+      if (!this.destroyed) {
+        this.initTimeline(this.phases(), this.milestones());
+      }
+    });
   }
 
   ngOnDestroy():void {
+    this.destroyed = true;
+    this.destroyed$.next();
+    this.destroyed$.complete();
+
+    if (this.readyHandler) this.timeline?.off('changed', this.readyHandler);
     this.timeline?.destroy();
     this.timeline = null;
   }
@@ -183,8 +204,8 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
+        showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
@@ -197,12 +218,37 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
       }
     });
+
+    this.revealWhenReady();
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
-    const { items, groups } = this.buildData(phases, milestones);
+    const {items, groups} = this.buildData(phases, milestones);
     this.itemsDataset = new DataSet(items);
-    this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
+    this.timeline!.setData({items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups)});
+  }
+
+  // Hides the skeleton once vis-timeline has stopped firing 'changed' events.
+  // Multiple render passes occur on an initial load, so we debounce
+  private revealWhenReady():void {
+    const changed$ = new Subject<void>();
+
+    this.readyHandler = () => changed$.next();
+    this.timeline!.on('changed', this.readyHandler);
+
+    changed$.pipe(
+      debounceTime(1000),
+      take(1),
+      takeUntil(this.destroyed$),
+    ).subscribe(() => {
+      this.timeline!.off('changed', this.readyHandler!);
+      this.readyHandler = null;
+      this.timeline!.setOptions({
+        showCurrentTime: true,
+        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
+      });
+      this.ready.set(true);
+    });
   }
 
   private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
@@ -210,12 +256,32 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     const name = document.createElement('div');
     name.className = 'op-timeline-tooltip--name';
-    name.textContent = item.title;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'op-timeline-tooltip';
-    wrapper.append(this.buildTooltipMetaRow(item), name);
+
+    if (item.isCluster === true && item.items?.length) {
+      const { dateStr, titleText } = this.tooltipClusterData(item.items);
+      name.textContent = titleText;
+      wrapper.append(this.buildClusterMetaRow(dateStr), name);
+    } else {
+      name.textContent = item.title;
+      wrapper.append(this.buildTooltipMetaRow(item), name);
+    }
+
     return wrapper;
+  }
+
+  // Clusters are always gates — build the meta row directly with gate icon and label.
+  private buildClusterMetaRow(dateStr:string):HTMLElement {
+    const typeSpan = document.createElement('span');
+    typeSpan.className = 'op-timeline-tooltip--type';
+    typeSpan.append(this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate'));
+
+    const metaRow = document.createElement('div');
+    metaRow.className = 'op-timeline-tooltip--meta-row';
+    metaRow.append(`${dateStr} `, octiconElement(opGateIconData, 'small', 'octicon'), typeSpan);
+    return metaRow;
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {
@@ -258,6 +324,18 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     const iconData = item.itemType === 'gate' ? opGateIconData : opPhaseIconData;
     return octiconElement(iconData, 'small', `octicon __hl_inline_project_phase_definition_${item.definitionId!}`);
   }
+
+  private tooltipClusterData(items:ProjectTimelineItem[]):{dateStr:string; titleText:string} {
+    const sorted = items.slice().sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    const minDate = sorted[0].start;
+    const maxDate = sorted[sorted.length - 1].start;
+    const dateStr = minDate === maxDate
+      ? this.timezone.formattedDate(minDate as string)
+      : `${this.timezone.formattedDate(minDate as string)} – ${this.timezone.formattedDate(maxDate as string)}`;
+
+    return { dateStr, titleText: items.map((i) => i.title).join(', ') };
+  }
+
 
   private buildPhaseItem(phase:ProjectPhaseData):ProjectTimelineItem {
     const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;

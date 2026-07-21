@@ -5,6 +5,7 @@ es:
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tiempo asignado
+        date_range: Dates
         end_date: Fecha de finalización
         entity: Entidad
         filter_name: Nombre del filtro de recursos
@@ -13,6 +14,7 @@ es:
         state: Estado
         user_filter: Filtro de usuarios
       resource_planner:
+        date_range: Dates
         default_view_class_name: Vista por defecto
         end_date: Fecha de finalización
         favorite: Favorito
@@ -29,6 +31,9 @@ es:
           attributes:
             end_date:
               greater_than_start_date: debe ser posterior a la fecha de inicio.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ es:
       resource_planner: Planificador de recursos
       resource_user_card: Tarjetas de usuario
       resource_work_package_list: Lista de paquetes de trabajo
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Siguiente
   label_resource_management: Administración de recursos
   permission_allocate_user_resources: Asignar recursos de usuario
@@ -60,10 +72,6 @@ es:
       make_private: Marcar como privado
       make_public: Marcar como público
       unfavorite: Eliminar de favoritos
-    allocation:
-      hours: "%{value} h"
-      no_work: Sin trabajo planeado en este paquete de trabajo
-      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ es:
       submit: Asignar
       success_message: Recurso asignado.
       title: Asignar recurso
+    allocation:
+      hours: "%{value} h"
+      no_work: Sin trabajo planeado en este paquete de trabajo
+      summary: "%{allocated}/%{scheduled}"
     assignment_dialog:
       available: "%{hours} disponibles"
       confirm_overtime: Asignar de todos modos
@@ -149,9 +161,7 @@ es:
       title: Dotación de personal
     sub_views: Vistas en este planificador de recursos
     timeframe:
-      end_only: Hasta %{end}
       full: Desde %{start} hasta %{end}
-      start_only: Desde %{start}
     timeline:
       granularity:
         day: Día
@@ -184,11 +194,11 @@ es:
         remove: Eliminar usuario
         remove_confirmation: "¿Eliminar este usuario de la vista?"
       fields:
-        working_times: Horario de trabajo
-        input_label: Campos
-        input_caption: Selecciona los campos que se mostrarán en la ficha de usuario para esta vista
-        input_placeholder: Añadir un campo
         drag_area_label: Campos mostrados
+        input_caption: Selecciona los campos que se mostrarán en la ficha de usuario para esta vista
+        input_label: Campos
+        input_placeholder: Añadir un campo
+        working_times: Horario de trabajo
       subheader:
         resource: Recurso
         settings: Configurar vista

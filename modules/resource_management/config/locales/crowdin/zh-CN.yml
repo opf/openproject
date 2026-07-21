@@ -5,6 +5,7 @@ zh-CN:
       resource_allocation:
         allocated_hours: 小时
         allocated_time: 分配时间
+        date_range: Dates
         end_date: 结束日期
         entity: 实体
         filter_name: 资源筛选器名称
@@ -13,6 +14,7 @@ zh-CN:
         state: 地区
         user_filter: 用户筛选器
       resource_planner:
+        date_range: Dates
         default_view_class_name: 默认视图
         end_date: 结束日期
         favorite: 收藏夹
@@ -29,6 +31,9 @@ zh-CN:
           attributes:
             end_date:
               greater_than_start_date: 必须在开始日期之后。
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ zh-CN:
       resource_planner: 资源规划工具
       resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: 下一步
   label_resource_management: Resource management
   permission_allocate_user_resources: 分配用户资源
@@ -60,10 +72,6 @@ zh-CN:
       make_private: 设为私有
       make_public: 设为公开
       unfavorite: 取消收藏
-    allocation:
-      hours: "%{value} 小时"
-      no_work: 此工作包没有计划的工作
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ zh-CN:
       submit: 分配
       success_message: 资源已分配。
       title: 分配资源
+    allocation:
+      hours: "%{value} 小时"
+      no_work: 此工作包没有计划的工作
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ zh-CN:
       title: Staffing
     sub_views: 此资源规划工具中的视图
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -183,11 +193,11 @@ zh-CN:
         remove: 移除用户
         remove_confirmation: 是否将此用户从视图中移除？
       fields:
-        working_times: 工作时间
-        input_label: 字段
-        input_caption: 选择将在此视图的用户卡中显示的字段
-        input_placeholder: 添加字段
         drag_area_label: 显示的字段
+        input_caption: 选择将在此视图的用户卡中显示的字段
+        input_label: 字段
+        input_placeholder: 添加字段
+        working_times: 工作时间
       subheader:
         resource: 资源
         settings: 配置视图

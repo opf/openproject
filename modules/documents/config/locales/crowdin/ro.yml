@@ -21,12 +21,11 @@
 #++
 ---
 ro:
-  plugin_openproject_documents:
-    name: Documente OpenProject
-    description: Un plugin OpenProject pentru a permite crearea de documente în proiecte.
-  attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
+    attributes:
+      document:
+        content_binary: Conținut binar
+        title: Titlu
     errors:
       models:
         document_type:
@@ -34,129 +33,130 @@ ro:
     models:
       document: Document
       documents: Documente
-    attributes:
-      document:
-        content_binary: Conținut binar
-        title: Titlu
   activity:
     filter:
       document: Documente
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
   default_doc_category_tech: Documentație tehnică
   default_doc_category_user: Documentația utilizatorului
-  enumeration_doc_categories: Document nou
   documents:
-    button_add_type: Type
-    page_header:
-      heading: Toate documentele
-      action_menu:
-        document_actions: Acțiuni document
-        edit_title: Editează titlu
-    subheader:
-      filter:
-        label: Filtru nume document
-        placeholder: Scrie aici pentru a căuta numele documentului
-    documents_list_blank_slate:
-      heading: Nu există încă documente
-      description: Nu există documente în această vizualizare. Poți da clic pe butonul de mai jos pentru a adăuga unul.
-    document_categories_deprecation_notice:
-      heading: Categoriile de fișiere se numesc acum 'Tipuri de documente'
-      description: |-
-        Categoriile existente de fișiere au fost convertite în tipuri de documente cu introducerea noului modul Documente.
-        Toate documentele existente au fost de asemenea migrate la aceste tipuri noi.
-      primary_action: Configure document types
-      secondary_action: Learn more about the Documents module
-    document_type_actions: Document type actions
-    text_collaboration_disabled_notice:
-      description: |-
-        Unable to open document because real-time text collaboration is disabled.
-        Please contact your administrator to enable real-time text collaboration if you want to access this document.
-    show_edit_view:
-      connection_error_notice:
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-        action: Încearcă din nou
-      tabs: Document tabs
-    index_page:
-      name: Nume
-      type: Tip
-      updated_at: Ultima editare
-      label_legacy: Legacy
-    menu:
-      all: Toate documentele
-      types: Tipuri
-      collaboration_settings: Colaborarea în timp real
-    last_updated_at: Last saved %{time}.
-    info_line:
-      currently_offline: You are currently offline.
-      connection_restored: You are now back online.
     active_editors: Editori activi
     active_editors_count:
       one: 1 active editor
       few: "%{count} active editors"
       other: "%{count} active editors"
-    label_attachment_author: Autorul anexei
-    label_categories: Categorii
-    new_category: Categorie nouă
-    new_type: Tip nou
-    delete_dialog:
-      title: Șterge document
-      heading: Ștergi acest document?
-      confirmation_message_html: Acesta va șterge definitiv acest document și toate fișierele atașate. Ești sigur că vrei să faci asta?
-    delete_document_type_dialog:
-      title: Șterge tip de document
-      heading: Ștergeți acest tip de document?
-      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
-      select_reassign_to_label: Reassign documents to
-      reassign_message:
-        one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
-        few: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-      at_least_one_type_required:
-        title: Cannot delete document type
-        heading: Cannot delete the last document type
-        message: Trebuie să existe întotdeauna cel puțin un tip de document configurat. Creează un altul mai întâi dacă vrei să îl ștergi pe acesta.
     admin:
       collaboration_settings:
+        banner:
+          none_writable: These values are configured via environment variables and cannot be edited here.
+          some_unwritable: Some values are configured via environment variables and cannot be edited here.
+        hocuspocus_server: Hocuspocus server
+        hocuspocus_server_secret:
+          caption: Paste the secret provided by the Hocuspocus server.
+          label: Secret Client
+        hocuspocus_server_url:
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          label: Hocuspocus server URL
         page_header:
           description: |-
             Când este activată, colaborarea în timp real permite mai multor utilizatori să editeze un document în același timp.
             Are nevoie de un %{hocuspocus_server_link} care să funcționeze.
-        banner:
-          none_writable: These values are configured via environment variables and cannot be edited here.
-          some_unwritable: Some values are configured via environment variables and cannot be edited here.
-        hocuspocus_server_url:
-          label: Hocuspocus server URL
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
-        hocuspocus_server_secret:
-          label: Secret Client
-          caption: Paste the secret provided by the Hocuspocus server.
-        hocuspocus_server: Hocuspocus server
+      disable_text_collaboration_dialog:
+        confirmation_checkbox_message: I understand that I might permanently lose data
+        confirmation_message: |-
+          Toate documentele existente pot deveni inaccesibile. Te rugăm să faci asta doar dacă ești sigur că vrei să dezactivezi
+          colaborare în timp real și editorul BlockNote în acest caz.
+        heading: Dezactivează colaborarea în timp real?
+        success: Colaborarea în timp real a fost dezactivată.
+        title: Disable real-time collaboration
       enable_text_collaboration:
-        heading: Real-time collaboration is not enabled
         description: |-
           Odată activat, mai mulți utilizatori vor putea lucra împreună pe un document în același timp.
           Toate documentele noi se vor baza pe un editor nou (BlockNote) și va necesita o conexiune de lucru la un server
           Hocuspocus.
+        heading: Real-time collaboration is not enabled
         primary_action: Enable real-time collaboration
         success: Real-time collaboration has been enabled.
-      disable_text_collaboration_dialog:
-        title: Disable real-time collaboration
-        heading: Dezactivează colaborarea în timp real?
-        confirmation_message: |-
-          Toate documentele existente pot deveni inaccesibile. Te rugăm să faci asta doar dacă ești sigur că vrei să dezactivezi
-          colaborare în timp real și editorul BlockNote în acest caz.
-        confirmation_checkbox_message: I understand that I might permanently lose data
-        success: Colaborarea în timp real a fost dezactivată.
+    button_add_type: Type
+    delete_dialog:
+      confirmation_message_html: Acesta va șterge definitiv acest document și toate fișierele atașate. Ești sigur că vrei să faci asta?
+      heading: Ștergi acest document?
+      title: Șterge document
+    delete_document_type_dialog:
+      at_least_one_type_required:
+        heading: Cannot delete the last document type
+        message: Trebuie să existe întotdeauna cel puțin un tip de document configurat. Creează un altul mai întâi dacă vrei să îl ștergi pe acesta.
+        title: Cannot delete document type
+      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
+      heading: Ștergeți acest tip de document?
+      reassign_message:
+        one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
+        few: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
+        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
+      select_reassign_to_label: Reassign documents to
+      title: Șterge tip de document
+    document_categories_deprecation_notice:
+      description: |-
+        Categoriile existente de fișiere au fost convertite în tipuri de documente cu introducerea noului modul Documente.
+        Toate documentele existente au fost de asemenea migrate la aceste tipuri noi.
+      heading: Categoriile de fișiere se numesc acum 'Tipuri de documente'
+      primary_action: Configure document types
+      secondary_action: Learn more about the Documents module
+    document_type_actions: Document type actions
+    documents_list_blank_slate:
+      description: Nu există documente în această vizualizare. Poți da clic pe butonul de mai jos pentru a adăuga unul.
+      heading: Nu există încă documente
+    index_page:
+      label_legacy: Legacy
+      name: Nume
+      type: Tip
+      updated_at: Ultima editare
+    info_line:
+      connection_restored: You are now back online.
+      currently_offline: You are currently offline.
+    label_attachment_author: Autorul anexei
+    label_categories: Categorii
+    last_updated_at: Last saved %{time}.
+    menu:
+      all: Toate documentele
+      collaboration_settings: Colaborarea în timp real
+      types: Tipuri
+    new_category: Categorie nouă
+    new_type: Tip nou
+    page_header:
+      action_menu:
+        document_actions: Acțiuni document
+        edit_title: Editează titlu
+      heading: Toate documentele
+    show_edit_view:
+      connection_error_notice:
+        action: Încearcă din nou
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+      tabs: Document tabs
+    subheader:
+      filter:
+        label: Filtru nume document
+        placeholder: Scrie aici pentru a căuta numele documentului
+    text_collaboration_disabled_notice:
+      description: |-
+        Unable to open document because real-time text collaboration is disabled.
+        Please contact your administrator to enable real-time text collaboration if you want to access this document.
+  enumeration_doc_categories: Document nou
   label_document_added: Document adăugat
+  label_document_category: Categorie
+  label_document_description: Descriere
   label_document_new: Document nou
   label_document_plural: Documente
-  label_documents: Documente
   label_document_title: Titlu
-  label_document_description: Descriere
-  label_document_category: Categorie
   label_document_type: Tip
+  label_documents: Documente
   permission_manage_documents: Administrează documentele
   permission_view_documents: Vezi documente
+  plugin_openproject_documents:
+    description: Un plugin OpenProject pentru a permite crearea de documente în proiecte.
+    name: Documente OpenProject
   project_module_documents: Documente

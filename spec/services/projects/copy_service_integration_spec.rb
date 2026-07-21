@@ -40,8 +40,9 @@ RSpec.describe(
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) do
     create(:project,
+           :with_internal_wiki,
            name: "Source Project Name",
-           enabled_module_names: %i[wiki work_package_tracking storages])
+           enabled_module_names: %i[work_package_tracking storages])
   end
   shared_let(:source_wp) { create(:work_package, project: source, subject: "source wp") }
   shared_let(:source_wp_locked) do
@@ -787,8 +788,8 @@ RSpec.describe(
 
           before do
             source_wp.work_package_versions.delete_all
+            # Saving the version also creates the target association
             source_wp.update!(version: assigned_version)
-            source_wp.work_package_versions.create!(version_id: assigned_version.id, kind: "target")
             source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
           end
 
@@ -1049,16 +1050,16 @@ RSpec.describe(
           let(:only_args) { %w[versions work_packages] }
 
           before do
-            work_package.update_column(:version_id, version.id)
-            work_package2.update_column(:version_id, version2.id)
+            work_package.update!(version:)
+            work_package2.update!(version: version2)
             work_package3
           end
 
           it "assigns the work packages to copies of the versions" do
             expect(subject).to be_success
-            expect(copy_of(work_package).version.name).to eq version.name
-            expect(copy_of(work_package2).version.name).to eq version2.name
-            expect(copy_of(work_package3).version).to be_nil
+            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
+            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
+            expect(copy_of(work_package3).target_versions).to be_empty
           end
         end
 
@@ -1297,9 +1298,7 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_present
-        expect(project_copy.wiki.pages.count).to eq 0
-        expect(project_copy.wiki.wiki_menu_items.count).to eq 1
+        expect(project_copy.wiki).to be_nil
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0

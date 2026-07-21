@@ -50,8 +50,11 @@ uk:
       external_wiki_providers: Джерела вікі
       internal_wiki_provider: Внутрішня система вікі
       wikis: Вікі
-  permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
+  permission_manage_wiki_page_links: Manage wiki page links
+  project_module_wiki_internal: Project wiki
   project_module_wiki_platforms: Постачальники Wiki
+  projects_settings_wiki:
+    title: Project wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -148,7 +151,7 @@ uk:
       invalid_response: Джерело вікі повернуло непередбачувану відповідь.
       missing_token: Обліковий запис користувача ще не підключено до джерела вікі.
       request_failed: Джерело вікі повернуло неочікувану помилку.
-      unauthorized: Сталася помилка авторизації.
+      unauthorized: An authorization error occurred.
     health_checks:
       authentication:
         existing_token: Маркер користувача
@@ -157,14 +160,36 @@ uk:
       base_configuration:
         header: Конфігурація
         provider_configured: Конфігурацію налаштовано
+        universal_id_known: Provider recognized
       errors:
+        connection_error: OpenProject could not connect to the wiki provider.
         not_configured: Не вдалося перевірити підключення. Спочатку налаштуйте конфігурацію.
+        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
         xwiki_oauth_connection_error: OpenProject не вдалося під’єднатися до налаштованого екземпляра XWiki.
-        xwiki_oauth_request_error: Під час спроби зв’язатися з екземпляром XWiki сталася несподівана помилка.
+        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
         xwiki_oauth_token_missing: OpenProject не може перевірити з’єднання на рівні користувача з XWiki, оскільки користувач досі не підключив свій обліковий запис XWiki.
         xwiki_oauth_unauthorized: Платформа XWiki не розпізнала маркер користувача.
-    inline_existing_wiki_page_dialog:
-      title: Додати наявну сторінку вікі
+    index:
+      column_last_edited: Last edited
+      column_name: Wiki page
+      column_project: Project
+      column_sub_pages: Sub-pages
+      filter_by_name: Filter by page name
+      filter_placeholder: Search by name
+      menu_title: Wiki
+      no_results_description: No wiki pages are available.
+      no_results_title: No wiki pages yet
+      queries:
+        all: All wiki pages
+        main: Main wiki pages
+      sub_pages_count:
+        one: 1 sub-page
+        few: "%{count} sub-pages"
+        many: "%{count} sub-pages"
+        other: "%{count} sub-pages"
+    inline_wiki_page_dialog:
+      title_add: Add existing wiki page
+      title_create: Create new wiki page
     instructions:
       xwiki:
         integration: Адміністрування XWiki
@@ -176,6 +201,7 @@ uk:
       description: Увійдіть у сервіс %{provider}, щоб переглядати пов’язані сторінки Wiki й керувати ними із цього екземпляра OpenProject.
       heading: Немає підключення до сервісу %{provider}
     page_link_component:
+      add_to_related_pages: Add to related pages
       remove: Видалити посилання на сторінку
     page_link_forms:
       labels:
@@ -186,12 +212,17 @@ uk:
         no_results: Сторінок вікі не знайдено
         placeholder: Виконайте пошук сторінки вікі (або введіть її URL-адресу)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
         page_access_forbidden: У вас немає дозволу на доступ до цієї сторінки Wiki
         page_not_found: Зв’язана сторінка Wiki більше не доступна
         unexpected: Сталася неочікувана помилка
       source:
         parent: As parent
+    project_settings:
+      project_internal_wiki_component:
+        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
+        enable: Enable the internal wiki for this project
     provider_types:
       xwiki:
         name: XWiki

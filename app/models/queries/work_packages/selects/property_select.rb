@@ -101,14 +101,47 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       groupable: "#{WorkPackage.table_name}.category_id"
     },
     version: {
-      association: "version",
-      sortable: "name",
-      groupable: "#{WorkPackage.table_name}.version_id"
+      if: -> { !Setting::WorkPackageMultipleVersions.active? },
+      sortable: <<~SQL.squish,
+        (SELECT LOWER(v.name)
+           FROM work_package_versions wpv
+           INNER JOIN versions v ON v.id = wpv.version_id
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
+          ORDER BY LOWER(v.name), wpv.version_id
+          LIMIT 1)
+      SQL
+      groupable: <<~SQL.squish
+        (SELECT wpv.version_id
+           FROM work_package_versions wpv
+           INNER JOIN versions v ON v.id = wpv.version_id
+          WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'
+          ORDER BY LOWER(v.name), wpv.version_id
+          LIMIT 1)
+      SQL
     },
     target_versions: {
-      # version will be replaced by target_versions but during the transition
-      # we exclude target_versions from user-facing work package selects
-      if: -> { false }
+      if: -> { Setting::WorkPackageMultipleVersions.active? },
+      sortable: [
+        <<~SQL.squish,
+          (SELECT STRING_AGG(LOWER(v.name), ' ' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
+      ],
+      groupable:
+        <<~SQL.squish
+          (SELECT STRING_AGG(wpv.version_id::text, '.' ORDER BY LOWER(v.name), wpv.version_id)
+             FROM work_package_versions wpv
+             INNER JOIN versions v ON v.id = wpv.version_id
+            WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target')
+        SQL
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"

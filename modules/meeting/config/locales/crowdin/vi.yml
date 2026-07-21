@@ -19,93 +19,89 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
-#English strings go here for Rails i18n
 ---
 vi:
-  plugin_openproject_meeting:
-    name: Cuộc họp dự án mở
-    description: Mô-đun này bổ sung thêm các chức năng hỗ trợ các cuộc họp dự án cho OpenProject. Các cuộc họp có thể được lên lịch bằng cách chọn những người được mời từ cùng một dự án để tham gia cuộc họp. Một chương trình nghị sự có thể được tạo và gửi cho những người được mời. Sau cuộc họp, người tham dự có thể được chọn và biên bản có thể được tạo dựa trên chương trình nghị sự. Cuối cùng, biên bản có thể được gửi đến tất cả những người tham dự và những người được mời.
   activerecord:
     attributes:
       meeting:
-        type: Loại cuộc họp
-        location: Địa điểm
         duration: thời lượng
+        end_time: End time
+        location: Địa điểm
         notes: Ghi chú
-        recurrence_start_time: Scheduled start time
-        participants: Người tham gia
+        notify: Send notifications
         participant:
           other: "%{count} Người tham gia"
+        participants: Người tham gia
+        participants_added: 'Participants added:'
         participants_attended: Người dự khán
         participants_invited: Khách mời
-        participants_added: 'Participants added:'
         participants_removed: 'Participants removed:'
         project: dự án
+        recurrence_start_time: Scheduled start time
+        sharing: Chia sẻ
         start_date: ngày
         start_time: Thời gian bắt đầu
         start_time_hour: Thời gian bắt đầu
-        end_time: End time
         template: Template
-        notify: Send notifications
-        sharing: Chia sẻ
+        type: Loại cuộc họp
       meeting_agenda_item:
-        title: tiêu đề
         author: tác giả
-        duration_in_minutes: thời lượng
         description: Ghi chú
-        presenter: Người trình bày
+        duration_in_minutes: thời lượng
         item_type: Type
-        position: Position
         lock_version: Lock version
         notes: Notes
-      meeting_section:
-        title: tiêu đề
         position: Position
+        presenter: Người trình bày
+        title: tiêu đề
+      meeting_participant:
+        attended: đã tham dự
+        invited: Đã mời
+        participation_status: Trạng thái tham gia
+      meeting_section:
+        position: Position
+        title: tiêu đề
       recurring_meeting:
-        title: Title
+        duration: Thời lượng
+        end_after: Chuỗi cuộc họp kết thúc
+        end_date: Ngày kết thúc
         frequency: tần số
         interval: khoảng thời gian
+        iterations: lần xuất hiện
+        location: Location
         monthly_day: Day of month
         monthly_ordinal: Position
         monthly_weekday: Weekday
+        notify: Send notifications
         start_date: Bắt đầu vào
         start_time: Thời gian bắt đầu
         start_time_hour: Thời gian bắt đầu
-        end_after: Chuỗi cuộc họp kết thúc
-        end_date: Ngày kết thúc
-        iterations: lần xuất hiện
         time_zone: Time zone
-        location: Location
-        duration: Thời lượng
-        notify: Send notifications
+        title: Title
       recurring_meeting_interim_response:
         start_time: Start time
-      meeting_participant:
-        invited: Đã mời
-        attended: đã tham dự
-        participation_status: Trạng thái tham gia
     errors:
+      messages:
+        invalid_time_format: 'không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM'
       models:
-        meeting_participant:
-          user_invalid: is not a valid participant.
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
-        recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+        meeting_participant:
+          user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
+            format: "%{message}"
             one: Có một cuộc họp mở trong chuỗi không có trong lịch trình mới. Điều chỉnh lịch trình để bao gồm tất cả các cuộc họp hiện có.
             other: Có %{count} cuộc họp mở trong chuỗi không nằm trong lịch trình mới. Điều chỉnh lịch trình để bao gồm tất cả các cuộc họp hiện có.
-            format: "%{message}"
-      messages:
-        invalid_time_format: 'không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM'
+        recurring_meeting_interim_response:
+          not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      recurring_meeting: Cuộc họp định kỳ
       meeting: Cuộc gặp gỡ một lần
-      meeting_agenda_item: Mục chương trình nghị sự
       meeting_agenda: Các ý chính
+      meeting_agenda_item: Mục chương trình nghị sự
       meeting_section: phần
+      recurring_meeting: Cuộc họp định kỳ
       token/ical_meeting:
         other: Đăng ký cuộc họp iCal
   activity:
@@ -124,7 +120,11 @@ vi:
         work_package:
           updated: đã thay đổi từ %{old_value} thành %{value}
           updated_html: đã thay đổi từ <i>%{old_value}_</i> thành <i>%{value}_</i>
+  caption_meeting_template_select: Select a template to automatically copy its agenda items
+  caption_template_project_select: Please select the project in which to create this meeting template
   description_attended: Đã tham dự
+  error_notification: Không thể gửi thông báo.
+  error_notification_with_errors: 'Không thể gửi thông báo. Những người không thể nhận được thông báo: %{recipients}'
   events:
     meeting: Đã chỉnh sửa cuộc họp
     meeting_agenda: Chương trình họp đã được chỉnh sửa
@@ -132,299 +132,475 @@ vi:
     meeting_agenda_opened: Đã mở chương trình họp
     meeting_minutes: Biên bản họp đã được chỉnh sửa
     meeting_minutes_created: Đã tạo biên bản cuộc họp
-  error_notification: Không thể gửi thông báo.
-  error_notification_with_errors: 'Không thể gửi thông báo. Những người không thể nhận được thông báo: %{recipients}'
+  label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
+  label_add_work_package_to_meeting_dialog_title: Chọn cuộc họp
+  label_add_work_package_to_meeting_section_label: phần
+  label_added_as_outcome: Đã thêm dưới dạng kết quả
+  label_agenda_backlog: Backlog chương trình họp
+  label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
+  label_agenda_item_actions: Hành động của mục chương trình nghị sự
+  label_agenda_item_add: Thêm mục chương trình nghị sự
+  label_agenda_item_add_notes: Thêm ghi chú
+  label_agenda_item_add_outcome: Thêm kết quả
+  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_deleted_wp: Đã xóa tham chiếu gói công việc
+  label_agenda_item_duplicate: trùng lặp
+  label_agenda_item_duplicate_in_next: Lặp lại trong cuộc họp tiếp theo
+  label_agenda_item_duplicate_in_next_title: Có lặp lại trong cuộc họp tiếp theo không?
+  label_agenda_item_move: Di chuyển
+  label_agenda_item_move_down: Dịch xuống
+  label_agenda_item_move_to_backlog: Chuyển sang Backlog
+  label_agenda_item_move_to_bottom: Di chuyển xuống dưới cùng
+  label_agenda_item_move_to_current_meeting: Di chuyển đến cuộc họp hiện tại
+  label_agenda_item_move_to_next: Chuyển sang cuộc họp tiếp theo
+  label_agenda_item_move_to_next_title: Chuyển sang cuộc họp tiếp theo?
+  label_agenda_item_move_to_section: Di chuyển đến phần
+  label_agenda_item_move_to_top: Di chuyển lên trên cùng
+  label_agenda_item_move_up: Di chuyển lên
+  label_agenda_item_remove_from_agenda: Xóa khỏi chương trình nghị sự
+  label_agenda_item_remove_from_backlog: Xóa khỏi Backlog
+  label_agenda_item_undisclosed_wp: 'Gói công việc #%{id} không hiển thị'
+  label_agenda_item_work_package: Gói công việc mục chương trình nghị sự
+  label_agenda_item_work_package_add: Thêm gói công việc
+  label_agenda_items: Mục chương trình nghị sự
+  label_agenda_items_reordered: sắp xếp lại
+  label_agenda_new_outcome: Kết quả mới
+  label_agenda_outcome: kết quả
+  label_agenda_outcome_actions: Hành động kết quả chương trình nghị sự
+  label_agenda_outcome_delete: Xóa kết quả
+  label_agenda_outcome_edit: Chỉnh sửa kết quả
+  label_all_meetings: Tất cả các cuộc họp
+  label_attended: đã tham dự
+  label_attended_user: Người dùng đã tham dự
+  label_backlog_clear: Xóa Backlog
+  label_backlog_clear_button: Xóa tất cả
+  label_created_by_me: Được tạo bởi tôi
+  label_existing_work_package: Gói công việc hiện có
+  label_icalendar: Gửi iCalendar
+  label_icalendar_download: Tải xuống sự kiện iCalendar
+  label_initial_meeting_details: Cuộc họp
+  label_invitations: Lời mời
+  label_invited_user: Người dùng được mời
+  label_involvement: Sự tham gia
   label_meeting: Cuộc họp
-  label_meeting_plural: Những cuộc họp
-  label_meeting_templates: Templates
-  label_meeting_template: Template
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_actions: Hành động cuộc họp
+  label_meeting_agenda: chương trình họp
+  label_meeting_agenda_close: Đóng chương trình làm việc để bắt đầu Biên bản
+  label_meeting_close: Đóng
+  label_meeting_close_action: Kết thúc cuộc họp
+  label_meeting_create: Tạo cuộc họp
   label_meeting_create_from_template: Create meeting from template
+  label_meeting_created_by: Tạo bởi
+  label_meeting_date_and_time: Ngày và giờ
+  label_meeting_date_time: Ngày/Giờ
+  label_meeting_delete: Xóa cuộc họp
+  label_meeting_details: Chi tiết cuộc họp
+  label_meeting_details_edit: Chỉnh sửa chi tiết cuộc họp
+  label_meeting_diff: khác biệt
+  label_meeting_duplicate: Cuộc họp trùng lặp
+  label_meeting_edit: Chỉnh sửa cuộc họp
+  label_meeting_edit_title: Chỉnh sửa tiêu đề cuộc họp
+  label_meeting_empty_action: Thêm mục chương trình nghị sự
+  label_meeting_in_progress_action: Bắt đầu cuộc họp
+  label_meeting_index_delete: xóa
+  label_meeting_index_later: Tuần sau và sau đó
+  label_meeting_index_this_week: Cuối tuần này
+  label_meeting_index_today: hôm nay
+  label_meeting_index_tomorrow: Ngày mai
+  label_meeting_last_updated: Cập nhật lần cuối
+  label_meeting_minutes: phút
+  label_meeting_more:
+    other: Còn %{count} cuộc họp nữa.
   label_meeting_new: Cuộc họp mới
   label_meeting_new_dynamic: Cuộc họp một lần mới
   label_meeting_new_recurring: Cuộc họp định kỳ mới
-  label_meeting_create: Tạo cuộc họp
-  label_meeting_duplicate: Cuộc họp trùng lặp
-  label_meeting_edit: Chỉnh sửa cuộc họp
-  label_meeting_agenda: chương trình họp
-  label_meeting_minutes: phút
-  label_meeting_close: Đóng
   label_meeting_open: Mở
-  label_meeting_index_delete: xóa
+  label_meeting_open_action: Cuộc họp mở
   label_meeting_open_this_meeting: Mở cuộc họp này
-  label_meeting_agenda_close: Đóng chương trình làm việc để bắt đầu Biên bản
-  label_meeting_date_time: Ngày/Giờ
-  label_meeting_date_and_time: Ngày và giờ
-  label_meeting_diff: khác biệt
+  label_meeting_plural: Những cuộc họp
+  label_meeting_reload: tải lại
+  label_meeting_reopen_action: Mở lại cuộc họp
+  label_meeting_selection_caption: Chỉ có thể thêm gói công việc này vào cuộc họp sắp tới hoặc đang diễn ra.
   label_meeting_send_updates: Gửi lời mời và cập nhật lịch qua email
   label_meeting_send_updates_caption: Gửi lời mời qua email tới tất cả những người tham gia cuộc họp này
+  label_meeting_series: Chuỗi cuộc họp
+  label_meeting_series_details: Chi tiết chuỗi cuộc họp
+  label_meeting_state: Trạng thái cuộc họp
+  label_meeting_state_agenda_created: Đã tạo chương trình làm việc
+  label_meeting_state_cancelled: Đã hủy
+  label_meeting_state_closed: đóng cửa
+  label_meeting_state_draft: dự thảo
+  label_meeting_state_in_progress: Đang tiến hành
+  label_meeting_state_open: mở
+  label_meeting_state_planned: Đã lên kế hoạch
+  label_meeting_state_skipped: bỏ qua
+  label_meeting_template: Template
+  label_meeting_template_create: Create template
+  label_meeting_template_delete: Delete template
+  label_meeting_template_edit: Edit template
+  label_meeting_template_new: New template
+  label_meeting_template_sharing: Chia sẻ
+  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_system: With all projects
+  label_meeting_templates: Templates
+  label_my_meetings: Cuộc họp của tôi
+  label_notify: Gửi để xem xét
+  label_past_invitations: Lời mời trước đây
+  label_past_meetings: Các cuộc họp trước đây
+  label_past_meetings_short: quá khứ
+  label_recurring_filter: Recurring filter
   label_recurring_meeting: Cuộc họp định kỳ
-  label_recurring_meeting_part_of: Một phần của chuỗi cuộc họp
-  label_recurring_meeting_new: Cuộc họp định kỳ mới
-  label_recurring_meeting_plural: Cuộc họp định kỳ
-  label_template: mẫu
-  label_recurring_meeting_view: Xem chuỗi cuộc họp
-  label_recurring_meeting_create: mở
-  label_recurring_meeting_duplicate: Nhân bản dưới dạng cuộc họp một lần
   label_recurring_meeting_cancel: Hủy lần xuất hiện này
+  label_recurring_meeting_create: mở
   label_recurring_meeting_delete: Xóa lần xuất hiện
-  label_recurring_meeting_restore: Khôi phục sự cố này
-  label_recurring_meeting_schedule: lịch trình
-  label_recurring_meeting_next_occurrence: Lần xuất hiện tiếp theo
-  label_recurring_meeting_no_end_date: Có nhiều cuộc họp theo lịch trình hơn (%{schedule}).
+  label_recurring_meeting_duplicate: Nhân bản dưới dạng cuộc họp một lần
   label_recurring_meeting_more:
     other: Có thêm %{count} cuộc họp đã lên lịch (%{schedule}).
   label_recurring_meeting_more_past:
     other: Có thêm %{count} cuộc họp trước đây.
-  label_recurring_meeting_show_more: Hiển thị thêm
+  label_recurring_meeting_new: Cuộc họp định kỳ mới
+  label_recurring_meeting_next_occurrence: Lần xuất hiện tiếp theo
+  label_recurring_meeting_no_end_date: Có nhiều cuộc họp theo lịch trình hơn (%{schedule}).
+  label_recurring_meeting_part_of: Một phần của chuỗi cuộc họp
+  label_recurring_meeting_plural: Cuộc họp định kỳ
+  label_recurring_meeting_restore: Khôi phục sự cố này
+  label_recurring_meeting_schedule: lịch trình
   label_recurring_meeting_series_create: Tạo chuỗi cuộc họp
-  label_recurring_meeting_series_edit: Chỉnh sửa chuỗi cuộc họp
   label_recurring_meeting_series_delete: Xóa chuỗi cuộc họp
+  label_recurring_meeting_series_edit: Chỉnh sửa chuỗi cuộc họp
   label_recurring_meeting_series_end: Kết thúc chuỗi cuộc họp
   label_recurring_meeting_series_end_now: Kết thúc loạt bài ngay bây giờ
-  label_meeting_more:
-    other: Còn %{count} cuộc họp nữa.
-  label_my_meetings: Cuộc họp của tôi
-  label_all_meetings: Tất cả các cuộc họp
-  label_upcoming_meetings: Cuộc họp sắp tới
-  label_past_meetings: Các cuộc họp trước đây
-  label_upcoming_meetings_short: Sắp tới
-  label_past_meetings_short: quá khứ
-  label_involvement: Sự tham gia
-  label_invitations: Lời mời
-  label_invited_user: Người dùng được mời
-  label_past_invitations: Lời mời trước đây
-  label_attended: đã tham dự
-  label_attended_user: Người dùng đã tham dự
-  label_created_by_me: Được tạo bởi tôi
-  label_notify: Gửi để xem xét
-  label_icalendar: Gửi iCalendar
-  label_icalendar_download: Tải xuống sự kiện iCalendar
-  label_view_meeting: View meeting
-  label_view_meeting_series: Xem chuỗi cuộc họp
-  label_meeting_series: Chuỗi cuộc họp
-  label_version: '0886055830 '
-  label_time_zone: Múi giờ
+  label_recurring_meeting_show_more: Hiển thị thêm
+  label_recurring_meeting_view: Xem chuỗi cuộc họp
+  label_section_rename: Đổi tên phần
+  label_section_selection_caption: Chọn một phần cụ thể của chương trình nghị sự hoặc thêm nó vào Backlog.
+  label_series_backlog: Backlog của chuỗi cuộc họp
+  label_series_backlog_clear_title: Xóa Backlog của chuỗi cuộc họp?
   label_start_date: Ngày bắt đầu
   label_subscribe_icalendar: Đăng ký lịch
-  label_recurring_filter: Recurring filter
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  label_template: mẫu
+  label_time_zone: Múi giờ
+  label_upcoming_meetings: Cuộc họp sắp tới
+  label_upcoming_meetings_short: Sắp tới
+  label_version: '0886055830 '
+  label_view_meeting: View meeting
+  label_view_meeting_series: Xem chuỗi cuộc họp
+  label_write_outcome: Viết kết quả
   meeting:
-    participants:
-      label:
-        participants: người tham gia
-        attended: đã tham dự
-        mark_as_attended: Đánh dấu là đã tham dự
-        mark_all_as_attended: Đánh dấu tất cả là đã tham dự
-        remove_participant: Xóa người tham gia
-        manage_participants: Quản lý người tham gia
-        no_participants: Không có người tham gia
-        show_all: Hiển thị tất cả
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
-      text:
-        template: Những người tham gia này sẽ tự động được mời tham gia tất cả các cuộc họp trong tương lai khi chúng được tạo.
-        manage_participants: Tìm kiếm và thêm thành viên dự án làm người tham gia cuộc họp này.
-        search_for_members: Tìm kiếm thành viên dự án
-      blankslate:
-        heading: Không có người tham gia
-        description: Chưa có người tham gia.
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
       text: Các tệp đính kèm có sẵn cho tất cả những người tham gia cuộc họp. Bạn cũng có thể kéo và thả chúng vào ghi chú mục chương trình nghị sự.
+    blankslate:
+      desc: Bạn có thể tạo cuộc họp mới hoặc thay đổi tiêu chí lọc
+      title: Không có cuộc họp nào để hiển thị
+    copied: 'Sao chép từ Cuộc họp #%{id}'
     copy:
-      title: 'Sao chép cuộc họp: %{title}'
-      attachments: Sao chép tệp đính kèm
-      attachments_text: Sao chép tất cả các tập tin đính kèm vào cuộc họp mới
       agenda: Sao chép chương trình làm việc
       agenda_items: Sao chép các mục chương trình nghị sự
       agenda_text: Sao chép chương trình nghị sự của cuộc họp cũ
+      attachments: Sao chép tệp đính kèm
+      attachments_text: Sao chép tất cả các tập tin đính kèm vào cuộc họp mới
       participants: Sao chép danh sách người tham gia
+      title: 'Sao chép cuộc họp: %{title}'
       to_clipboard: Sao chép liên kết vào clipboard
+    delete_dialog:
+      occurrence:
+        confirm_button: Hủy lần xuất hiện
+        confirmation_message_html: 'Mọi thông tin cuộc họp không có trong mẫu sẽ bị mất. Bạn có muốn tiếp tục không?
+
+          '
+        heading: Hủy cuộc họp này diễn ra?
+        title: Hủy cuộc họp diễn ra
+      occurrence_past:
+        confirm_button: Delete occurrence
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        heading: Delete this occurrence?
+        title: Delete occurrence
+      one_time:
+        confirmation_message_html: 'Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
+
+          '
+        heading: Xóa cuộc họp này?
+        template:
+          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+
+            '
+          heading: Delete this template?
+          title: Delete template
+        title: Xóa cuộc họp
     email:
+      cancelled:
+        date_time: Ngày/giờ dự kiến
+        header: 'Đã hủy: Cuộc họp ''%{title}'''
+        header_occurrence: 'Đã hủy: Cuộc họp diễn ra ''%{title}'''
+        header_series: 'Đã hủy: Chuỗi cuộc họp ''%{title}'''
+        summary: "'%{title}' đã bị hủy bởi ' %{actor}' hoặc bạn đã bị loại khỏi danh sách người tham gia"
+        summary_occurrence: Sự kiện '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
+        summary_series: Chuỗi cuộc họp '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
+      ended:
+        header_series: 'Đã kết thúc: Chuỗi cuộc họp ''%{title}'''
+        summary_series: Chuỗi hội thảo '%{title}' đã kết thúc bởi %{actor}
+      invited:
+        summary: "%{actor} đã gửi cho bạn lời mời họp '%{title}'"
+      open_meeting_link: Cuộc họp mở
+      open_my_meetings_link: Đi tới cuộc họp của tôi
       send_emails: Người tham gia email
       send_invitation_emails: 'Gửi lời mời email ngay lập tức đến những người tham gia được chọn ở trên. Bạn cũng có thể thực hiện việc này một cách thủ công bất kỳ lúc nào sau đó.
 
         '
       send_invitation_emails_structured: Gửi lời mời qua email ngay lập tức tới tất cả người tham gia. Bạn cũng có thể thực hiện việc này một cách thủ công bất kỳ lúc nào sau đó.
-      open_meeting_link: Cuộc họp mở
-      open_my_meetings_link: Đi tới cuộc họp của tôi
       series:
-        title: "[%{project_name}] Chuỗi hội thảo '%{title}'"
         summary: "%{actor} đã mời bạn tham gia chuỗi cuộc họp mới '%{title}'"
+        title: "[%{project_name}] Chuỗi hội thảo '%{title}'"
       series_updated:
-        title: "[%{project_name}] Chuỗi sự kiện '%{title}' đã được cập nhật"
-        summary: Chuỗi cuộc họp '%{title}' đã được cập nhật bởi %{actor}
-        old_schedule: Lịch trình cũ
         new_schedule: Lịch trình mới
-      invited:
-        summary: "%{actor} đã gửi cho bạn lời mời họp '%{title}'"
-      cancelled:
-        header: 'Đã hủy: Cuộc họp ''%{title}'''
-        header_occurrence: 'Đã hủy: Cuộc họp diễn ra ''%{title}'''
-        header_series: 'Đã hủy: Chuỗi cuộc họp ''%{title}'''
-        summary_occurrence: Sự kiện '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
-        summary_series: Chuỗi cuộc họp '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
-        summary: "'%{title}' đã bị hủy bởi ' %{actor}' hoặc bạn đã bị loại khỏi danh sách người tham gia"
-        date_time: Ngày/giờ dự kiến
-      ended:
-        header_series: 'Đã kết thúc: Chuỗi cuộc họp ''%{title}'''
-        summary_series: Chuỗi hội thảo '%{title}' đã kết thúc bởi %{actor}
+        old_schedule: Lịch trình cũ
+        summary: Chuỗi cuộc họp '%{title}' đã được cập nhật bởi %{actor}
+        title: "[%{project_name}] Chuỗi sự kiện '%{title}' đã được cập nhật"
       updated:
-        header: Cuộc họp '%{title}' đã được cập nhật
-        summary: Cuộc họp '%{title}' đã được cập nhật bởi %{actor}
+        added_participants: Added
         body: Cuộc họp '%{title}' đã được cập nhật bởi %{actor}.
-        old_title: Tiêu đề cũ
+        header: Cuộc họp '%{title}' đã được cập nhật
+        new_date_time: Ngày/giờ mới
+        new_location: Vị trí mới
         new_title: Tiêu đề mới
         old_date_time: Ngày/giờ cũ
-        new_date_time: Ngày/giờ mới
         old_location: Vị trí cũ
-        new_location: Vị trí mới
-        added_participants: Added
+        old_title: Tiêu đề cũ
         removed_participants: Removed
+        summary: Cuộc họp '%{title}' đã được cập nhật bởi %{actor}
+    export:
+      minutes:
+        author: tác giả
+        date: ngày
+        footer_page_numbers: P. %{current_page} của %{total_pages}
+        location: vị trí
+        time: thời gian
+        title: phút
+      your_meeting_export: Cuộc họp đang được xuất
+    export_pdf_dialog:
+      author:
+        caption: Tác giả của biên bản sẽ được hiển thị trong phụ đề.
+        label: tác giả
+      description: Tạo tệp PDF có thể in được của cuộc họp này ở trạng thái hiện tại.
+      first_page_header_left:
+        caption: Văn bản này sẽ xuất hiện trên trang đầu tiên ở bên trái của tiêu đề.
+        label: Tiêu đề trang đầu tiên bên trái
+      footer_text:
+        caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
+        label: Văn bản chân trang
+      include_attachments:
+        caption: Một danh sách chứa tên tệp đính kèm sẽ được thêm vào cuối.
+        label: Bao gồm danh sách các tệp đính kèm
+      include_backlog:
+        caption: Các các hạng mục Backlog thường không được coi là một phần của cuộc họp nhưng bạn có thể chọn đưa chúng vào.
+        label: Bao gồm Backlog
+      include_outcomes:
+        caption: Nếu kết quả chương trình nghị sự của bạn chứa thông tin bí mật, bạn có thể chọn không đưa chúng vào khi xuất.
+        label: Bao gồm các kết quả chương trình nghị sự
+      include_participants:
+        caption: Một danh sách những người tham gia sẽ được cài sẵn phía trên chương trình họp.
+        label: Bao gồm danh sách những người tham gia
+      submit_button: tải về
+      templates:
+        default:
+          caption: Mẫu mặc định phù hợp với hầu hết các cuộc họp và thể hiện trạng thái hiện tại.
+          label: mặc định
+        minutes:
+          caption: Mẫu biên bản phù hợp cho các cuộc họp kín và lưu trữ.
+          label: phút
+      title: Xuất PDF
+    ical_response:
+      meeting_not_found: Không tìm thấy cuộc họp cho UID đã cho.
+      update_failed: Không thể cập nhật trạng thái tham gia.
+    label_export_pdf: Xuất PDF
     label_mail_all_participants: Gửi email mời đến người tham gia
+    notifications:
+      dialog:
+        confirm_label:
+          disable: Vô hiệu hóa cập nhật email
+          enable: Kích hoạt cập nhật email
+        message:
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Once enabled, an email will be sent out immediately to all participants.
+        title:
+          disable: Tắt cập nhật lịch email?
+          enable: Bật cập nhật lịch email?
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      sidepanel:
+        description:
+          change_via_template: Để thay đổi điều này, hãy chỉnh sửa mẫu chuỗi.
+        title: Cập nhật lịch qua email
+    participants:
+      blankslate:
+        description: Chưa có người tham gia.
+        heading: Không có người tham gia
+      label:
+        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        attended: đã tham dự
+        manage_participants: Quản lý người tham gia
+        mark_all_as_attended: Đánh dấu tất cả là đã tham dự
+        mark_as_attended: Đánh dấu là đã tham dự
+        no_participants: Không có người tham gia
+        participants: người tham gia
+        remove_participant: Xóa người tham gia
+        show_all: Hiển thị tất cả
+      text:
+        manage_participants: Tìm kiếm và thêm thành viên dự án làm người tham gia cuộc họp này.
+        search_for_members: Tìm kiếm thành viên dự án
+        template: Những người tham gia này sẽ tự động được mời tham gia tất cả các cuộc họp trong tương lai khi chúng được tạo.
+    presentation_mode:
+      button_present: hiện tại
+      current_item: Mục hiện tại
+      exit: Thoát khỏi bài thuyết trình
+      next: Tiếp theo
+      no_items: Không có mục chương trình nghị sự
+      no_items_flash: Không có mục chương trình nghị sự để trình bày.
+      previous: trước đó
+      title: Chế độ trình bày
+      total_items: "%{current} trong số %{total}"
     types:
       one_time: Một lần
       recurring: Định kỳ
       recurring_text: Tạo chuỗi cuộc họp với mẫu động cho mỗi lần diễn ra.
       structured_text: Tổ chức cuộc họp của bạn dưới dạng danh sách động gồm các mục trong chương trình nghị sự, có thể tùy ý liên kết chúng với một gói công việc.
       structured_text_copy: Sao chép cuộc họp hiện sẽ không sao chép các mục trong chương trình cuộc họp liên quan mà chỉ sao chép chi tiết
-    copied: 'Sao chép từ Cuộc họp #%{id}'
-    delete_dialog:
-      one_time:
-        title: Xóa cuộc họp
-        heading: Xóa cuộc họp này?
-        confirmation_message_html: 'Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
-
-          '
-        template:
-          title: Delete template
-          heading: Delete this template?
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
-
-            '
-      occurrence:
-        title: Hủy cuộc họp diễn ra
-        heading: Hủy cuộc họp này diễn ra?
-        confirmation_message_html: 'Mọi thông tin cuộc họp không có trong mẫu sẽ bị mất. Bạn có muốn tiếp tục không?
-
-          '
-        confirm_button: Hủy lần xuất hiện
-      occurrence_past:
-        title: Delete occurrence
-        heading: Delete this occurrence?
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
-
-          '
-        confirm_button: Delete occurrence
-    blankslate:
-      title: Không có cuộc họp nào để hiển thị
-      desc: Bạn có thể tạo cuộc họp mới hoặc thay đổi tiêu chí lọc
-    label_export_pdf: Xuất PDF
-    export:
-      your_meeting_export: Cuộc họp đang được xuất
-      minutes:
-        footer_page_numbers: P. %{current_page} của %{total_pages}
-        author: tác giả
-        date: ngày
-        time: thời gian
-        location: vị trí
-        title: phút
-    export_pdf_dialog:
-      title: Xuất PDF
-      description: Tạo tệp PDF có thể in được của cuộc họp này ở trạng thái hiện tại.
-      templates:
-        default:
-          label: mặc định
-          caption: Mẫu mặc định phù hợp với hầu hết các cuộc họp và thể hiện trạng thái hiện tại.
-        minutes:
-          label: phút
-          caption: Mẫu biên bản phù hợp cho các cuộc họp kín và lưu trữ.
-      first_page_header_left:
-        label: Tiêu đề trang đầu tiên bên trái
-        caption: Văn bản này sẽ xuất hiện trên trang đầu tiên ở bên trái của tiêu đề.
-      author:
-        label: tác giả
-        caption: Tác giả của biên bản sẽ được hiển thị trong phụ đề.
-      include_participants:
-        label: Bao gồm danh sách những người tham gia
-        caption: Một danh sách những người tham gia sẽ được cài sẵn phía trên chương trình họp.
-      include_attachments:
-        label: Bao gồm danh sách các tệp đính kèm
-        caption: Một danh sách chứa tên tệp đính kèm sẽ được thêm vào cuối.
-      include_backlog:
-        label: Bao gồm Backlog
-        caption: Các các hạng mục Backlog thường không được coi là một phần của cuộc họp nhưng bạn có thể chọn đưa chúng vào.
-      include_outcomes:
-        label: Bao gồm các kết quả chương trình nghị sự
-        caption: Nếu kết quả chương trình nghị sự của bạn chứa thông tin bí mật, bạn có thể chọn không đưa chúng vào khi xuất.
-      footer_text:
-        label: Văn bản chân trang
-        caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
-      submit_button: tải về
-    notifications:
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
-      sidepanel:
-        title: Cập nhật lịch qua email
-        description:
-          change_via_template: Để thay đổi điều này, hãy chỉnh sửa mẫu chuỗi.
-      dialog:
-        title:
-          enable: Bật cập nhật lịch email?
-          disable: Tắt cập nhật lịch email?
-        message:
-          enable: Once enabled, an email will be sent out immediately to all participants.
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
-        confirm_label:
-          enable: Kích hoạt cập nhật email
-          disable: Vô hiệu hóa cập nhật email
-    presentation_mode:
-      title: Chế độ trình bày
-      button_present: hiện tại
-      exit: Thoát khỏi bài thuyết trình
-      current_item: Mục hiện tại
-      total_items: "%{current} trong số %{total}"
-      previous: trước đó
-      next: Tiếp theo
-      no_items: Không có mục chương trình nghị sự
-      no_items_flash: Không có mục chương trình nghị sự để trình bày.
-    ical_response:
-      update_failed: Không thể cập nhật trạng thái tham gia.
-      meeting_not_found: Không tìm thấy cuộc họp cho UID đã cho.
     widgets:
       blankslate:
-        heading: No upcoming meetings
         description: Upcoming meetings you are participating in will appear here.
+        heading: No upcoming meetings
       view_details: View all meetings
-  meeting_section:
-    untitled_title: Phần không có tiêu đề
-    delete_confirmation: Xóa phần này cũng sẽ xóa tất cả các mục trong chương trình làm việc của phần đó. Bạn có chắc chắn muốn làm điều này?
-    placeholder_title: Phần mới
-    empty_text: Kéo các mục vào đây hoặc tạo một mục mới
   meeting_participant:
     participation_status:
-      needs_action: Không có phản hồi
       accepted: được chấp nhận
       declined: từ chối
+      needs_action: Không có phản hồi
       tentative: Có lẽ
       unknown: không rõ
+  meeting_section:
+    delete_confirmation: Xóa phần này cũng sẽ xóa tất cả các mục trong chương trình làm việc của phần đó. Bạn có chắc chắn muốn làm điều này?
+    empty_text: Kéo các mục vào đây hoặc tạo một mục mới
+    placeholder_title: Phần mới
+    untitled_title: Phần không có tiêu đề
+  my:
+    access_token:
+      created_dialog:
+        token/ical_meeting:
+          body: Hãy coi URL sau đây như một mật khẩu. Bất cứ ai có quyền truy cập vào nó đều có thể xem tất cả các cuộc họp của bạn.
+          title: Mã thông báo đăng ký cuộc họp iCal đã được tạo
+      dialog:
+        token/ical_meeting:
+          create_button: Tạo đăng ký
+          dialog_body: Mã thông báo này sẽ tạo URL đăng ký iCal cho phép bạn xem tất cả các cuộc họp của mình trong ứng dụng lịch bên ngoài.
+          dialog_title: Mã thông báo đăng ký iCal mới cho cuộc họp
+          name_caption: Bạn có thể đặt tên cho nó theo nơi bạn sẽ sử dụng, chẳng hạn như "Điện thoại của tôi" hoặc "Máy tính ở cơ quan".
+          name_label: Tên mã thông báo
+      revocation:
+        token/ical_meeting:
+          notice_failure: 'Không thể thu hồi đăng ký cuộc họp iCalendar: %{error}'
+          notice_success: Đăng ký cuộc họp iCalendar đã được thu hồi thành công.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        add_button: Đăng ký lịch
+        blank_description: Bạn có thể tạo một cái bằng cách sử dụng nút bên dưới.
+        blank_title: Không có mã thông báo cuộc họp iCalendar
+        disabled_text: Quản trị viên không kích hoạt đăng ký cuộc họp iCalendar. Vui lòng liên hệ với quản trị viên của bạn để sử dụng tính năng này.
+        table_title: Mã thông báo cuộc họp iCalendar
+        text_hint: Mã thông báo cuộc họp iCalendar cho phép người dùng đăng ký tất cả các cuộc họp của họ và xem thông tin cuộc họp cập nhật trong các ứng dụng khách bên ngoài.
+        title: iCalendar cho cuộc họp
+  notice_meeting_template_created: Template successfully created
+  notice_meeting_updated: Trang này đã được cập nhật bởi người khác. Tải lại để xem các thay đổi.
+  notice_successful_notification: Cập nhật lịch qua email được gửi tới tất cả người tham gia
+  notice_timezone_missing: Chưa đặt múi giờ và %{zone} đã được chọn. Để chọn múi giowf của bạn, nhấn vào đây.
+  permission_create_meetings: Tạo cuộc họp
+  permission_delete_meetings: Xóa cuộc họp
+  permission_edit_meetings: Chỉnh sửa cuộc họp
+  permission_manage_agendas: Quản lý chương trình nghị sự
+  permission_manage_agendas_explanation: Cho phép tạo, chỉnh sửa và xóa các mục chương trình nghị sự
+  permission_manage_outcomes: Quản lý kết quả
+  permission_send_meeting_invites_and_outcomes: Gửi lời mời họp và kết quả cho người tham gia
+  permission_view_meetings: Xem cuộc họp
+  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_section_select_meeting_first: Lựa chọn cuộc họp là bắt buộc trước tiên
+  plugin_openproject_meeting:
+    description: Mô-đun này bổ sung thêm các chức năng hỗ trợ các cuộc họp dự án cho OpenProject. Các cuộc họp có thể được lên lịch bằng cách chọn những người được mời từ cùng một dự án để tham gia cuộc họp. Một chương trình nghị sự có thể được tạo và gửi cho những người được mời. Sau cuộc họp, người tham dự có thể được chọn và biên bản có thể được tạo dựa trên chương trình nghị sự. Cuối cùng, biên bản có thể được gửi đến tất cả những người tham dự và những người được mời.
+    name: Cuộc họp dự án mở
+  project_module_meetings: các cuộc họp
   recurring_meeting:
-    time_zone_difference_banner:
-      title: Chênh lệch múi giờ
-      description: 'Những ngày bên dưới đang tham chiếu múi giờ của chuỗi cuộc họp (%{actual_zone}), không phải múi giờ địa phương của bạn (%{user_zone}).
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    caption:
+      ends_on: This results in a series ending on %{date}
+      occurrences:
+        other: This results in %{count} upcoming occurrences
+      occurrences_capped: This results in more than %{count} upcoming occurrences
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+    delete_dialog:
+      confirmation_message_html:
+        one: 'Xóa <strong>%{title}</strong> cũng sẽ xóa một lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
 
-        '
+          '
+        other: 'Xóa <strong>%{title}</strong> sẽ xóa tất cả %{count} lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
+
+          '
+        zero: 'Chuỗi cuộc họp <strong>%{title}</strong> không có bất kỳ cuộc họp nào diễn ra. Bộ truyện sẽ bị xóa đối với tất cả mọi người. Hãy tiến hành thận trọng.
+
+          '
+      heading: Xóa vĩnh viễn chuỗi cuộc họp này?
+      title: Xóa chuỗi cuộc họp
+    end_after:
+      iterations: After a number of occurrences
+      never: Never
+      specific_date: After a specific date
+    end_series_dialog:
+      title: Kết thúc chuỗi cuộc họp
     ended_blankslate:
-      title: Chuỗi cuộc họp đã kết thúc
-      message: Chuỗi cuộc họp này đã kết thúc. Không có cuộc họp sắp tới.
       action: Bạn vẫn có thể xem các lần diễn ra trước đây hoặc chỉnh sửa chuỗi cuộc họp để mở rộng.
+      message: Chuỗi cuộc họp này đã kết thúc. Không có cuộc họp sắp tới.
+      title: Chuỗi cuộc họp đã kết thúc
+    frequency:
+      every_weekday: Mọi %{day_of_the_week}
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
+      working_days: Mỗi ngày làm việc
+      x_daily:
+        other: Cứ %{count} ngày
+      x_monthly:
+        other: Every %{count} months
+      x_weekly:
+        other: Mỗi %{count} tuần
+    in_words:
+      daily_interval: Cứ %{interval} ngày
+      frequency: "%{base} tại %{time}"
+      full: "%{base} lúc %{time}, kết thúc vào %{end_date}"
+      full_past: "%{base} lúc %{time}, đã kết thúc vào %{end_date}"
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      never_ending: "%{base} tại %{time}"
+      weekly: Hàng tuần vào %{weekday}
+      weekly_interval: Cứ %{interval} tuần vào %{weekday}
+      working_days: Mỗi ngày làm việc
+    monthly:
+      inflected_ordinal:
+        first: first
+        fourth: fourth
+        last: last
+        second: second
+        third: third
+      ordinal_options:
+        first: First
+        fourth: Fourth
+        last: Last
+        second: Second
+        third: Third
     occurrence:
       error_no_next: Không có sự xuất hiện tiếp theo cho cuộc họp này.
       error_template_draft: The meeting series template is still in draft mode.
@@ -433,297 +609,120 @@ vi:
 
         '
       infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.
-    template:
-      button_finalize: Mở cuộc họp đầu tiên
-      blank_title: Mẫu chuỗi cuộc họp của bạn trống
-      description: 'Mẫu này sẽ được sử dụng bất cứ khi nào các cuộc họp mới trong chuỗi được tạo. Bạn có thể thêm các mục chương trình nghị sự, người tham gia và tệp đính kèm vào mẫu này.
+    open:
+      blankslate:
+        desc: Bạn có thể mở cuộc họp đã lên kế hoạch theo cách thủ công bằng cách nhấp vào nút 'Mở' bên dưới
+        title: Hiện tại không có cuộc họp mở nào
+      subtitle: 'Các cuộc họp mở có các chương trình nghị sự có thể được chỉnh sửa và hiển thị trong phần ''Cuộc họp của tôi'' của người dùng cá nhân. Những thay đổi đối với mẫu chuỗi cuộc họp không ảnh hưởng đến các lần diễn ra cuộc họp đã mở.
 
         '
-      label_view_template: Xem mẫu
-      label_edit_template: Chỉnh sửa mẫu
+      title: Đã mở chương trình làm việc
+    planned:
+      blankslate:
+        desc: 'Không có cuộc họp bổ sung nào được lên kế hoạch trong loạt bài này. Để lên lịch các cuộc họp bổ sung hoặc mở rộng chuỗi cuộc họp, hãy chuyển đến mẫu và chỉnh sửa chi tiết cuộc họp để thay đổi ngày, tần suất hoặc khoảng thời gian kết thúc.
+
+          '
+        title: Không còn cuộc họp theo kế hoạch
+      subtitle: 'Các cuộc họp sau đây được lên kế hoạch trong lịch họp định kỳ nhưng vẫn chưa mở. Mỗi khi cuộc họp theo kế hoạch bắt đầu, cuộc họp tiếp theo sẽ tự động được mở cho bạn. Bạn cũng có thể mở các cuộc họp đã lên kế hoạch theo cách thủ công để nhập mẫu và bắt đầu chỉnh sửa chương trình nghị sự.
+
+        '
+      title: Đã lên kế hoạch
+    scheduled_delete_dialog:
+      confirm_button: Hủy lần xuất hiện
+      confirmation_message_html: 'Mọi thông tin cuộc họp không có trong mẫu sẽ bị mất. Bạn có muốn tiếp tục không?
+
+        '
+      heading: Hủy cuộc họp này diễn ra?
+      title: Hủy cuộc họp diễn ra
+    starts: bắt đầu
+    template:
       banner_html: 'Bạn hiện đang chỉnh sửa mẫu chuỗi cuộc họp: %{link}. Mọi cuộc họp mới diễn ra trong chuỗi cuộc họp sẽ sử dụng mẫu này. Những thay đổi sẽ không ảnh hưởng đến các cuộc họp trong quá khứ hoặc đã được tạo.
+
+        '
+      blank_title: Mẫu chuỗi cuộc họp của bạn trống
+      button_finalize: Mở cuộc họp đầu tiên
+      description: 'Mẫu này sẽ được sử dụng bất cứ khi nào các cuộc họp mới trong chuỗi được tạo. Bạn có thể thêm các mục chương trình nghị sự, người tham gia và tệp đính kèm vào mẫu này.
 
         '
       draft_banner_html: 'Bạn hiện đang chỉnh sửa mẫu chuỗi cuộc họp: %{link}. Mọi cuộc họp mới diễn ra trong chuỗi cuộc họp sẽ sử dụng mẫu này. Những thay đổi sẽ không ảnh hưởng đến các cuộc họp trong quá khứ hoặc đã được tạo. Sẽ không có lời mời qua email nào được gửi ở chế độ nháp hiện tại này cho đến khi bạn mở cuộc họp đầu tiên.
 
         '
-    frequency:
-      x_daily:
-        other: Cứ %{count} ngày
-      x_weekly:
-        other: Mỗi %{count} tuần
-      x_monthly:
-        other: Every %{count} months
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
-      every_weekday: Mọi %{day_of_the_week}
-      working_days: Mỗi ngày làm việc
-    monthly:
-      inflected_ordinal:
-        first: first
-        second: second
-        third: third
-        fourth: fourth
-        last: last
-      ordinal_options:
-        first: First
-        second: Second
-        third: Third
-        fourth: Fourth
-        last: Last
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
-    caption:
-      ends_on: This results in a series ending on %{date}
-      occurrences:
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
-    end_after:
-      never: Never
-      specific_date: After a specific date
-      iterations: After a number of occurrences
-    starts: bắt đầu
-    in_words:
-      daily_interval: Cứ %{interval} ngày
-      working_days: Mỗi ngày làm việc
-      weekly: Hàng tuần vào %{weekday}
-      weekly_interval: Cứ %{interval} tuần vào %{weekday}
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
-      frequency: "%{base} tại %{time}"
-      full: "%{base} lúc %{time}, kết thúc vào %{end_date}"
-      full_past: "%{base} lúc %{time}, đã kết thúc vào %{end_date}"
-      never_ending: "%{base} tại %{time}"
-    open:
-      title: Đã mở chương trình làm việc
-      subtitle: 'Các cuộc họp mở có các chương trình nghị sự có thể được chỉnh sửa và hiển thị trong phần ''Cuộc họp của tôi'' của người dùng cá nhân. Những thay đổi đối với mẫu chuỗi cuộc họp không ảnh hưởng đến các lần diễn ra cuộc họp đã mở.
+      label_edit_template: Chỉnh sửa mẫu
+      label_view_template: Xem mẫu
+    time_zone_difference_banner:
+      description: 'Những ngày bên dưới đang tham chiếu múi giờ của chuỗi cuộc họp (%{actual_zone}), không phải múi giờ địa phương của bạn (%{user_zone}).
 
         '
-      blankslate:
-        title: Hiện tại không có cuộc họp mở nào
-        desc: Bạn có thể mở cuộc họp đã lên kế hoạch theo cách thủ công bằng cách nhấp vào nút 'Mở' bên dưới
-    planned:
-      title: Đã lên kế hoạch
-      subtitle: 'Các cuộc họp sau đây được lên kế hoạch trong lịch họp định kỳ nhưng vẫn chưa mở. Mỗi khi cuộc họp theo kế hoạch bắt đầu, cuộc họp tiếp theo sẽ tự động được mở cho bạn. Bạn cũng có thể mở các cuộc họp đã lên kế hoạch theo cách thủ công để nhập mẫu và bắt đầu chỉnh sửa chương trình nghị sự.
-
-        '
-      blankslate:
-        title: Không còn cuộc họp theo kế hoạch
-        desc: 'Không có cuộc họp bổ sung nào được lên kế hoạch trong loạt bài này. Để lên lịch các cuộc họp bổ sung hoặc mở rộng chuỗi cuộc họp, hãy chuyển đến mẫu và chỉnh sửa chi tiết cuộc họp để thay đổi ngày, tần suất hoặc khoảng thời gian kết thúc.
-
-          '
-    delete_dialog:
-      title: Xóa chuỗi cuộc họp
-      heading: Xóa vĩnh viễn chuỗi cuộc họp này?
-      confirmation_message_html:
-        zero: 'Chuỗi cuộc họp <strong>%{title}</strong> không có bất kỳ cuộc họp nào diễn ra. Bộ truyện sẽ bị xóa đối với tất cả mọi người. Hãy tiến hành thận trọng.
-
-          '
-        one: 'Xóa <strong>%{title}</strong> cũng sẽ xóa một lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
-
-          '
-        other: 'Xóa <strong>%{title}</strong> sẽ xóa tất cả %{count} lần xuất hiện trong chuỗi này. Hành động này không thể đảo ngược. Hãy tiến hành thận trọng.
-
-          '
-    scheduled_delete_dialog:
-      title: Hủy cuộc họp diễn ra
-      heading: Hủy cuộc họp này diễn ra?
-      confirmation_message_html: 'Mọi thông tin cuộc họp không có trong mẫu sẽ bị mất. Bạn có muốn tiếp tục không?
-
-        '
-      confirm_button: Hủy lần xuất hiện
-    end_series_dialog:
-      title: Kết thúc chuỗi cuộc họp
-  notice_successful_notification: Cập nhật lịch qua email được gửi tới tất cả người tham gia
-  notice_meeting_template_created: Template successfully created
-  notice_timezone_missing: Chưa đặt múi giờ và %{zone} đã được chọn. Để chọn múi giowf của bạn, nhấn vào đây.
-  notice_meeting_updated: Trang này đã được cập nhật bởi người khác. Tải lại để xem các thay đổi.
-  permission_create_meetings: Tạo cuộc họp
-  permission_edit_meetings: Chỉnh sửa cuộc họp
-  permission_delete_meetings: Xóa cuộc họp
-  permission_view_meetings: Xem cuộc họp
-  permission_manage_agendas: Quản lý chương trình nghị sự
-  permission_manage_agendas_explanation: Cho phép tạo, chỉnh sửa và xóa các mục chương trình nghị sự
-  permission_manage_outcomes: Quản lý kết quả
-  permission_send_meeting_invites_and_outcomes: Gửi lời mời họp và kết quả cho người tham gia
-  project_module_meetings: các cuộc họp
-  text_duration_in_hours: Thời lượng tính bằng giờ
-  text_in_hours: bằng giờ
-  text_meeting_agenda_for_meeting: Các ý chính cho cuộc họp "%{meeting}"
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_series_end_early_heading: Xóa các lần xuất hiện trong tương lai?
-  text_meeting_series_end_early: Việc kết thúc chuỗi sẽ xóa mọi cuộc họp mở hoặc đã lên lịch trong tương lai
-  text_meeting_closing_are_you_sure: Bạn có chắc chắn muốn đóng chương trình cuộc họp không?
-  text_meeting_agenda_open_are_you_sure: Điều này sẽ ghi đè lên tất cả các thay đổi trong vài phút! Bạn có muốn tiếp tục không?
-  text_meeting_minutes_for_meeting: biên bản cuộc họp "%{meeting}"
-  text_notificiation_invited: 'Thư này chứa mục nhập ics cho cuộc họp bên dưới:'
-  text_meeting_ics_description: 'Link cuộc họp: %{url}'
-  text_meeting_ics_meeting_series_description: 'Link chuỗi cuộc họp: %{url}'
-  text_meeting_occurrence_ics_description: 'Link diễn ra cuộc họp: %{url} Link chuỗi cuộc họp: %{series_url}'
-  text_meeting_empty_heading: Cuộc họp của bạn trống
-  text_meeting_empty_description1: Bắt đầu bằng cách thêm các mục chương trình nghị sự bên dưới. Mỗi mục có thể đơn giản chỉ là tiêu đề nhưng bạn cũng có thể thêm các chi tiết bổ sung như thời lượng và ghi chú.
-  text_meeting_empty_description2: Bạn cũng có thể thêm tài liệu tham khảo vào các gói công việc hiện có. Khi bạn làm như vậy, các ghi chú liên quan sẽ tự động hiển thị trong tab "Cuộc họp" của gói công việc.
-  label_meeting_empty_action: Thêm mục chương trình nghị sự
-  label_meeting_actions: Hành động cuộc họp
-  label_meeting_edit_title: Chỉnh sửa tiêu đề cuộc họp
-  label_meeting_delete: Xóa cuộc họp
-  label_meeting_created_by: Tạo bởi
-  label_meeting_last_updated: Cập nhật lần cuối
-  label_meeting_reload: tải lại
-  label_meeting_index_today: hôm nay
-  label_meeting_index_tomorrow: Ngày mai
-  label_meeting_index_this_week: Cuối tuần này
-  label_meeting_index_later: Tuần sau và sau đó
-  label_agenda_items: Mục chương trình nghị sự
-  label_agenda_items_reordered: sắp xếp lại
-  label_agenda_item_add: Thêm mục chương trình nghị sự
-  label_agenda_item_remove_from_agenda: Xóa khỏi chương trình nghị sự
-  label_agenda_item_remove_from_backlog: Xóa khỏi Backlog
-  label_agenda_item_undisclosed_wp: 'Gói công việc #%{id} không hiển thị'
-  label_agenda_item_deleted_wp: Đã xóa tham chiếu gói công việc
-  label_agenda_item_actions: Hành động của mục chương trình nghị sự
-  label_agenda_item_move_to_next_title: Chuyển sang cuộc họp tiếp theo?
-  label_agenda_item_move: Di chuyển
-  label_agenda_item_move_to_next: Chuyển sang cuộc họp tiếp theo
-  label_agenda_item_move_to_backlog: Chuyển sang Backlog
-  label_agenda_item_move_to_current_meeting: Di chuyển đến cuộc họp hiện tại
-  label_agenda_item_move_to_section: Di chuyển đến phần
-  label_agenda_item_move_to_top: Di chuyển lên trên cùng
-  label_agenda_item_move_to_bottom: Di chuyển xuống dưới cùng
-  label_agenda_item_move_up: Di chuyển lên
-  label_agenda_item_move_down: Dịch xuống
-  label_agenda_item_duplicate: trùng lặp
-  label_agenda_item_duplicate_in_next: Lặp lại trong cuộc họp tiếp theo
-  label_agenda_item_duplicate_in_next_title: Có lặp lại trong cuộc họp tiếp theo không?
-  label_agenda_item_add_notes: Thêm ghi chú
-  label_agenda_item_add_outcome: Thêm kết quả
-  label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_work_package_add: Thêm gói công việc
-  label_agenda_item_work_package: Gói công việc mục chương trình nghị sự
-  label_section_rename: Đổi tên phần
-  label_agenda_outcome: kết quả
-  label_agenda_new_outcome: Kết quả mới
-  label_agenda_outcome_actions: Hành động kết quả chương trình nghị sự
-  label_agenda_outcome_edit: Chỉnh sửa kết quả
-  label_agenda_outcome_delete: Xóa kết quả
-  label_added_as_outcome: Đã thêm dưới dạng kết quả
-  label_write_outcome: Viết kết quả
-  label_existing_work_package: Gói công việc hiện có
-  text_outcome_not_editable_anymore: Kết quả này không thể chỉnh sửa được nữa.
-  text_outcome_cannot_be_added: Một kết quả không còn có thể được thêm vào.
-  label_backlog_clear: Xóa Backlog
-  label_backlog_clear_button: Xóa tất cả
-  text_backlog_clear_error: Đã xảy ra một hoặc nhiều lỗi khi cố gắng xóa Backlog.
-  label_agenda_backlog: Backlog chương trình họp
+      title: Chênh lệch múi giờ
+  text_add_work_package_to_meeting_description: Một gói công việc có thể được thêm vào một hoặc nhiều cuộc họp để thảo luận. Bất kỳ ghi chú nào liên quan đến nó cũng có thể nhìn thấy ở đây.
+  text_add_work_package_to_meeting_form: Gói công việc sẽ được thêm vào cuộc họp đã chọn hoặc Backlog dưới dạng mục chương trình nghị sự.
   text_agenda_backlog: 'Backlog này là duy nhất cho cuộc họp một lần này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi chương trình cuộc họp.
 
     '
-  label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
   text_agenda_backlog_clear_description: 'Bạn có chắc chắn muốn xóa tất cả các mục hiện có trong Backlog cuộc họp không? Hành động này không thể đảo ngược.
 
     '
-  label_series_backlog: Backlog của chuỗi cuộc họp
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
+  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_duplicate_in_next_meeting: Bạn có chắc chắn muốn thêm bản sao của mục chương trình này vào cuộc họp tiếp theo, vào %{date} lúc %{time} không? Kết quả sẽ không bị trùng lặp.
+  text_agenda_item_duplicated_in_next_meeting: Mục chương trình nghị sự được sao chép trong cuộc họp tiếp theo, vào ngày %{date}
+  text_agenda_item_move_next_meeting: Mục này sẽ được chuyển sang cuộc họp tiếp theo vào %{date} lúc %{time}.
+  text_agenda_item_moved_to_next_meeting: Mục chương trình nghị sự đã được chuyển sang cuộc họp tiếp theo, vào %{date}
+  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_notes: Không có ghi chú nào được cung cấp
+  text_agenda_item_not_editable_anymore: Mục chương trình nghị sự này không thể chỉnh sửa được nữa.
+  text_agenda_item_title: Mục chương trình nghị sự "%{title}"
+  text_agenda_work_package_deleted: Mục chương trình nghị sự cho gói công việc đã xóa
+  text_backlog_clear_error: Đã xảy ra một hoặc nhiều lỗi khi cố gắng xóa Backlog.
+  text_deleted_agenda_item: Đã xóa mục chương trình nghị sự
+  text_duration_in_hours: Thời lượng tính bằng giờ
+  text_email_updates_enabled: Cập nhật lịch email được kích hoạt. Tất cả người tham gia sẽ nhận được lời mời cập nhật qua email khi bạn thực hiện thay đổi.
+  text_email_updates_muted: Cập nhật lịch email bị tắt tiếng. Người tham gia sẽ không nhận được lời mời cập nhật qua email khi bạn thực hiện thay đổi.
+  text_exit_draft_mode_dialog_subtitle: Bạn không thể quay lại chế độ nháp sau khi lên lịch cuộc họp.
+  text_exit_draft_mode_dialog_template_subtitle: Bạn không thể quay lại chế độ nháp sau này.
+  text_exit_draft_mode_dialog_template_title: Mở lần xuất hiện đầu tiên của chuỗi cuộc họp này?
+  text_exit_draft_mode_dialog_title: Mở cuộc họp này và gửi lời mời?
+  text_in_hours: bằng giờ
+  text_meeting_agenda_for_meeting: Các ý chính cho cuộc họp "%{meeting}"
+  text_meeting_agenda_open_are_you_sure: Điều này sẽ ghi đè lên tất cả các thay đổi trong vài phút! Bạn có muốn tiếp tục không?
+  text_meeting_closed_description: Cuộc họp này đã kết thúc. Bạn không thể thêm/xóa các mục trong chương trình nghị sự nữa.
+  text_meeting_closed_dropdown_description: Cuộc họp này đã kết thúc. Bạn không thể sửa đổi các mục hoặc kết quả của chương trình nghị sự nữa.
+  text_meeting_closing_are_you_sure: Bạn có chắc chắn muốn đóng chương trình cuộc họp không?
+  text_meeting_draft_banner: Bạn hiện đang ở chế độ nháp. Cuộc họp này sẽ không gửi bất kỳ cập nhật lịch hoặc lời mời nào, ngay cả khi bạn thay đổi chi tiết cuộc họp hoặc thêm/xóa người tham gia.
+  text_meeting_draft_description: Chuẩn bị chương trình nghị sự của bạn ở chế độ dự thảo. Cuộc họp này sẽ không gửi bất kỳ cập nhật lịch hoặc lời mời nào, ngay cả khi bạn thay đổi chi tiết cuộc họp hoặc thêm/xóa người tham gia.
+  text_meeting_empty_description1: Bắt đầu bằng cách thêm các mục chương trình nghị sự bên dưới. Mỗi mục có thể đơn giản chỉ là tiêu đề nhưng bạn cũng có thể thêm các chi tiết bổ sung như thời lượng và ghi chú.
+  text_meeting_empty_description2: Bạn cũng có thể thêm tài liệu tham khảo vào các gói công việc hiện có. Khi bạn làm như vậy, các ghi chú liên quan sẽ tự động hiển thị trong tab "Cuộc họp" của gói công việc.
+  text_meeting_empty_heading: Cuộc họp của bạn trống
+  text_meeting_ics_description: 'Link cuộc họp: %{url}'
+  text_meeting_ics_meeting_series_description: 'Link chuỗi cuộc họp: %{url}'
+  text_meeting_in_progress_description: Bạn có thể sửa đổi chương trình nghị sự, ghi lại kết quả cho từng mục và theo dõi sự tham dự của người tham gia. Sau khi cuộc họp kết thúc, bạn có thể đánh dấu cuộc họp là đã đóng để khóa cuộc họp.
+  text_meeting_in_progress_dropdown_description: Ghi lại các kết quả như nhu cầu thông tin hoặc các quyết định được đưa ra trong cuộc họp.
+  text_meeting_minutes_for_meeting: biên bản cuộc họp "%{meeting}"
+  text_meeting_not_editable_anymore: Cuộc họp này không thể chỉnh sửa được nữa.
+  text_meeting_not_present_anymore: Cuộc họp này đã bị xóa. Vui lòng chọn một cuộc họp khác.
+  text_meeting_occurrence_ics_description: 'Link diễn ra cuộc họp: %{url} Link chuỗi cuộc họp: %{series_url}'
+  text_meeting_open_description: Bạn có thể thêm/xóa các mục chương trình nghị sự và người tham gia. Khi chương trình nghị sự đã sẵn sàng, hãy đánh dấu nó là đang tiến hành để ghi lại kết quả.
+  text_meeting_open_dropdown_description: Mọi kết quả hiện có sẽ vẫn giữ nguyên nhưng người dùng sẽ không thể thêm kết quả mới.
+  text_meeting_series_end_early: Việc kết thúc chuỗi sẽ xóa mọi cuộc họp mở hoặc đã lên lịch trong tương lai
+  text_meeting_series_end_early_heading: Xóa các lần xuất hiện trong tương lai?
+  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_meeting_template_blank_slate_heading: There are no templates to display
+  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_notificiation_invited: 'Thư này chứa mục nhập ics cho cuộc họp bên dưới:'
+  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
+  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
+  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_outcome_cannot_be_added: Một kết quả không còn có thể được thêm vào.
+  text_outcome_not_editable_anymore: Kết quả này không thể chỉnh sửa được nữa.
   text_series_backlog: 'Backlog được chia sẻ với tất cả các lần xuất hiện của loạt bài này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi một cuộc họp cụ thể.
 
     '
-  label_series_backlog_clear_title: Xóa Backlog của chuỗi cuộc họp?
   text_series_backlog_clear_description: 'Thao tác này sẽ xóa tất cả các mục trong Backlog của chuỗi cuộc họp, được chia sẻ với tất cả các cuộc họp trong chuỗi. Bạn có chắc chắn muốn tiếp tục không? Hành động này không thể đảo ngược.
 
     '
-  text_agenda_item_title: Mục chương trình nghị sự "%{title}"
-  text_agenda_work_package_deleted: Mục chương trình nghị sự cho gói công việc đã xóa
-  text_deleted_agenda_item: Đã xóa mục chương trình nghị sự
-  label_initial_meeting_details: Cuộc họp
-  label_meeting_details: Chi tiết cuộc họp
-  label_meeting_series_details: Chi tiết chuỗi cuộc họp
-  label_meeting_details_edit: Chỉnh sửa chi tiết cuộc họp
-  label_meeting_state: Trạng thái cuộc họp
-  label_meeting_state_draft: dự thảo
-  label_meeting_state_open: mở
-  label_meeting_state_closed: đóng cửa
-  label_meeting_state_agenda_created: Đã tạo chương trình làm việc
-  label_meeting_state_planned: Đã lên kế hoạch
-  label_meeting_state_cancelled: Đã hủy
-  label_meeting_state_skipped: bỏ qua
-  label_meeting_state_in_progress: Đang tiến hành
-  label_meeting_reopen_action: Mở lại cuộc họp
-  label_meeting_close_action: Kết thúc cuộc họp
-  label_meeting_in_progress_action: Bắt đầu cuộc họp
-  label_meeting_open_action: Cuộc họp mở
-  text_meeting_draft_description: Chuẩn bị chương trình nghị sự của bạn ở chế độ dự thảo. Cuộc họp này sẽ không gửi bất kỳ cập nhật lịch hoặc lời mời nào, ngay cả khi bạn thay đổi chi tiết cuộc họp hoặc thêm/xóa người tham gia.
-  text_meeting_open_description: Bạn có thể thêm/xóa các mục chương trình nghị sự và người tham gia. Khi chương trình nghị sự đã sẵn sàng, hãy đánh dấu nó là đang tiến hành để ghi lại kết quả.
-  text_meeting_closed_description: Cuộc họp này đã kết thúc. Bạn không thể thêm/xóa các mục trong chương trình nghị sự nữa.
-  text_meeting_in_progress_description: Bạn có thể sửa đổi chương trình nghị sự, ghi lại kết quả cho từng mục và theo dõi sự tham dự của người tham gia. Sau khi cuộc họp kết thúc, bạn có thể đánh dấu cuộc họp là đã đóng để khóa cuộc họp.
-  text_meeting_open_dropdown_description: Mọi kết quả hiện có sẽ vẫn giữ nguyên nhưng người dùng sẽ không thể thêm kết quả mới.
-  text_meeting_in_progress_dropdown_description: Ghi lại các kết quả như nhu cầu thông tin hoặc các quyết định được đưa ra trong cuộc họp.
-  text_meeting_closed_dropdown_description: Cuộc họp này đã kết thúc. Bạn không thể sửa đổi các mục hoặc kết quả của chương trình nghị sự nữa.
-  text_meeting_draft_banner: Bạn hiện đang ở chế độ nháp. Cuộc họp này sẽ không gửi bất kỳ cập nhật lịch hoặc lời mời nào, ngay cả khi bạn thay đổi chi tiết cuộc họp hoặc thêm/xóa người tham gia.
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_exit_draft_mode_dialog_title: Mở cuộc họp này và gửi lời mời?
-  text_exit_draft_mode_dialog_subtitle: Bạn không thể quay lại chế độ nháp sau khi lên lịch cuộc họp.
-  text_exit_draft_mode_dialog_template_title: Mở lần xuất hiện đầu tiên của chuỗi cuộc họp này?
-  text_exit_draft_mode_dialog_template_subtitle: Bạn không thể quay lại chế độ nháp sau này.
-  label_meeting_template_sharing: Chia sẻ
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
-  text_meeting_not_editable_anymore: Cuộc họp này không thể chỉnh sửa được nữa.
-  text_meeting_not_present_anymore: Cuộc họp này đã bị xóa. Vui lòng chọn một cuộc họp khác.
-  label_add_work_package_to_meeting_dialog_title: Chọn cuộc họp
-  label_add_work_package_to_meeting_section_label: phần
-  label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
-  label_meeting_selection_caption: Chỉ có thể thêm gói công việc này vào cuộc họp sắp tới hoặc đang diễn ra.
-  label_section_selection_caption: Chọn một phần cụ thể của chương trình nghị sự hoặc thêm nó vào Backlog.
-  placeholder_section_select_meeting_first: Lựa chọn cuộc họp là bắt buộc trước tiên
-  text_add_work_package_to_meeting_form: Gói công việc sẽ được thêm vào cuộc họp đã chọn hoặc Backlog dưới dạng mục chương trình nghị sự.
-  text_add_work_package_to_meeting_description: Một gói công việc có thể được thêm vào một hoặc nhiều cuộc họp để thảo luận. Bất kỳ ghi chú nào liên quan đến nó cũng có thể nhìn thấy ở đây.
-  text_agenda_item_no_notes: Không có ghi chú nào được cung cấp
-  text_agenda_item_not_editable_anymore: Mục chương trình nghị sự này không thể chỉnh sửa được nữa.
-  text_agenda_item_move_next_meeting: Mục này sẽ được chuyển sang cuộc họp tiếp theo vào %{date} lúc %{time}.
-  text_agenda_item_moved_to_next_meeting: Mục chương trình nghị sự đã được chuyển sang cuộc họp tiếp theo, vào %{date}
-  text_agenda_item_duplicate_in_next_meeting: Bạn có chắc chắn muốn thêm bản sao của mục chương trình này vào cuộc họp tiếp theo, vào %{date} lúc %{time} không? Kết quả sẽ không bị trùng lặp.
-  text_agenda_item_duplicated_in_next_meeting: Mục chương trình nghị sự được sao chép trong cuộc họp tiếp theo, vào ngày %{date}
-  text_work_package_has_no_upcoming_meeting_agenda_items: Gói công việc này chưa được lên lịch trong chương trình họp sắp tới.
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_work_package_add_to_meeting_hint: Sử dụng nút "Thêm vào cuộc họp" để thêm gói công việc này vào cuộc họp sắp tới.
   text_work_package_has_no_past_meeting_agenda_items: Gói công việc này chưa được thêm vào làm mục chương trình nghị sự trong cuộc họp trước đây.
-  text_email_updates_muted: Cập nhật lịch email bị tắt tiếng. Người tham gia sẽ không nhận được lời mời cập nhật qua email khi bạn thực hiện thay đổi.
-  text_email_updates_enabled: Cập nhật lịch email được kích hoạt. Tất cả người tham gia sẽ nhận được lời mời cập nhật qua email khi bạn thực hiện thay đổi.
-  my_account:
-    access_tokens:
-      token/ical_meeting:
-        blank_description: Bạn có thể tạo một cái bằng cách sử dụng nút bên dưới.
-        blank_title: Không có mã thông báo cuộc họp iCalendar
-        title: iCalendar cho cuộc họp
-        table_title: Mã thông báo cuộc họp iCalendar
-        text_hint: Mã thông báo cuộc họp iCalendar cho phép người dùng đăng ký tất cả các cuộc họp của họ và xem thông tin cuộc họp cập nhật trong các ứng dụng khách bên ngoài.
-        disabled_text: Quản trị viên không kích hoạt đăng ký cuộc họp iCalendar. Vui lòng liên hệ với quản trị viên của bạn để sử dụng tính năng này.
-        add_button: Đăng ký lịch
-  my:
-    access_token:
-      dialog:
-        token/ical_meeting:
-          dialog_title: Mã thông báo đăng ký iCal mới cho cuộc họp
-          dialog_body: Mã thông báo này sẽ tạo URL đăng ký iCal cho phép bạn xem tất cả các cuộc họp của mình trong ứng dụng lịch bên ngoài.
-          create_button: Tạo đăng ký
-          name_label: Tên mã thông báo
-          name_caption: Bạn có thể đặt tên cho nó theo nơi bạn sẽ sử dụng, chẳng hạn như "Điện thoại của tôi" hoặc "Máy tính ở cơ quan".
-      created_dialog:
-        token/ical_meeting:
-          title: Mã thông báo đăng ký cuộc họp iCal đã được tạo
-          body: Hãy coi URL sau đây như một mật khẩu. Bất cứ ai có quyền truy cập vào nó đều có thể xem tất cả các cuộc họp của bạn.
-      revocation:
-        token/ical_meeting:
-          notice_success: Đăng ký cuộc họp iCalendar đã được thu hồi thành công.
-          notice_failure: 'Không thể thu hồi đăng ký cuộc họp iCalendar: %{error}'
+  text_work_package_has_no_upcoming_meeting_agenda_items: Gói công việc này chưa được lên lịch trong chương trình họp sắp tới.

@@ -29,6 +29,8 @@
 #++
 
 class ResourceAllocation < ApplicationRecord
+  include ResourceManagement::DateRangeAttribute
+
   ALLOWED_ENTITY_TYPES = %w[WorkPackage].freeze
 
   # How to reach a project from each polymorphic entity type. Must have one entry for each ALLOWED_ENTITY_TYPES

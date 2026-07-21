@@ -578,12 +578,6 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "sprint_id" do
-      let(:hash) { { "sprint_id" => "1" } }
-
-      it_behaves_like "allows params"
-    end
-
     describe "notes" do
       let(:hash) { { "journal_notes" => "blubs" } }
 
@@ -1176,6 +1170,30 @@ RSpec.describe PermittedParams do
       let(:hash) { { "redirect_existing_links" => "1" } }
 
       it_behaves_like "allows params"
+    end
+
+    describe "lock_version" do
+      let(:hash) { { "lock_version" => "1" } }
+
+      it_behaves_like "allows params"
+    end
+
+    describe "text" do
+      let(:hash) { { "text" => "blubs" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "parent_id" do
+      let(:hash) { { "parent_id" => "1" } }
+
+      it_behaves_like "forbids params"
+    end
+
+    describe "journal_notes" do
+      let(:hash) { { "journal_notes" => "blubs" } }
+
+      it_behaves_like "forbids params"
     end
   end
 

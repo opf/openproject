@@ -1,15 +1,11 @@
-#English strings go here for Rails i18n
 ---
 tr:
-  plugin_openproject_two_factor_authentication:
-    name: OpenProject İki faktörlü kimlik doğrulama
-    description: Bu OpenProject eklentisi, TOTP standardı (Google Authenticator) kullanılarak tek kullanımlık parola aracılığıyla veya SMS veya sesli arama yoluyla kullanıcının cep telefonuna gönderilen iki faktörlü kimlik doğrulama kullanarak kullanıcılarınızın kimliğini doğrular.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Tanıtıcı
-        default: Varsayılan olarak kullan
         channel: Kanal
+        default: Varsayılan olarak kullan
+        identifier: Tanıtıcı
       two_factor_authentication/device/sms:
         phone_number: Telefon numarası
       two_factor_authentication/device/webauthn:
@@ -28,32 +24,138 @@ tr:
       two_factor_authentication/device/sms: Cep telefonu
       two_factor_authentication/device/totp: Kimlik doğrulayıcı uygulama
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Devam et
+  button_make_active: Activate
+  button_make_default: Varsayılan olarak işaretleyin
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Sesli arama
+  button_resend_otp_form: Tekrar gönder
+  field_otp: Tek kullanımlık parola
+  label_confirmed: Onaylandı
+  label_otp_channel: Dağıtım kanalı
+  notice_account_has_no_phone: Hesabınızla ilişkili cep telefonu numarası yok.
+  notice_account_otp_expired: Girdiğiniz tek kullanımlık parolanın süresi doldu.
+  notice_account_otp_invalid: Geçersiz tek kullanımlık parola.
+  notice_account_otp_send_failed: Tek kullanımlık parolanız gönderilemedi.
+  notice_developer_strategy_otp: 'Geliştirici stratejisi aşağıdaki tek seferlik parola oluşturdu: %{token} (Kanal: %{channel})'
+  notice_phone_number_format: 'Lütfen numaranızı yandaki formatta giriniz: +XX XXXXXXXX.'
+  plugin_openproject_two_factor_authentication:
+    description: Bu OpenProject eklentisi, TOTP standardı (Google Authenticator) kullanılarak tek kullanımlık parola aracılığıyla veya SMS veya sesli arama yoluyla kullanıcının cep telefonuna gönderilen iki faktörlü kimlik doğrulama kullanarak kullanıcılarınızın kimliğini doğrular.
+    name: OpenProject İki faktörlü kimlik doğrulama
+  text_otp_not_receive: Diğer doğrulama yöntemleri
+  text_send_otp_again: 'Tek kullanımlık parolayı yeniden gönder:'
   two_factor_authentication:
+    admin:
+      all_devices_deleted: Bu kullanıcının tüm 2FA cihazları silindi
+      button_delete_all_devices: Kayıtlı 2FA cihazlarını sil
+      button_register_mobile_phone_for_user: Cep telefonunu kaydet
+      delete_all_are_you_sure: Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinize emin misiniz?
+      no_devices_for_user: Bu kullanıcı için 2FA cihazı kayıtlı değil.
+      only_sms_allowed: Diğer kullanıcılar için yalnızca SMS gönderimi ayarlanabilir.
+      self_edit_forbidden: Bu yolda kendi 2FA cihazlarınızı düzenleyemezsiniz. Hesabım> İki faktörlü kimlik doğrulama yerine gidin.
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: Kullanıcı 'Hesabım sayfası' üzerinden bir 2FA cihazı ayarlamadı
+      text_2fa_enabled: Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP belirtecini girmesi istenir.
+    backup_codes:
+      generate:
+        keep_safe_as_password: Önemli! Bu kodları parola olarak kabul edin.
+        keep_safe_warning: Bunları parola yöneticinize kaydedin ya da bu sayfayı yazdırıp güvenli bir yere koyun.
+        regenerate_warning: 'Uyarı: Daha önce yedekleme kodları oluşturduysanız, geçersiz sayılacaklar ve artık çalışmayacaklar.'
+        title: Yedek kodları üret
+      overview_description: |
+        İki faktörlü cihazlarınıza erişemiyorsanız, hesabınıza tekrar erişim sağlamak için bir yedekleme kodu kullanabilirsiniz.
+        Yeni bir yedekleme kodu kümesi oluşturmak için aşağıdaki düğmeyi kullanın.
+      plural: Yedek kodlar
+      singular: Yedek kod
+    channel_unavailable: "%{channel} yayın kanalı kullanılamıyor."
+    devices:
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Yeni 2FA cihazı ekle
+      button_complete_registration: 2FA kaydını tamamla
+      cannot_delete_default: Varsayılan cihaz silinemiyor
+      confirm_default: Varsayılan cihazı değiştirmeyi onayla
+      confirm_device: Cihazı onayla
+      confirm_now: Onaylanmadı, etkinleştirmek için buraya tıklayın
+      confirm_send_failed: 2FA cihazınızın onayı başarısız oldu.
+      deletion_are_you_sure: Bu 2FA cihazını silmek istediğinize emin misiniz?
+      failed_to_delete: 2FA cihazı silinemedi.
+      is_default_cannot_delete: Cihaz varsayılan olarak işaretlenmiştir ve aktif bir güvenlik politikası nedeniyle silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.
+      make_default_are_you_sure: Bu 2FA cihazını varsayılan yapmak istediğinize emin misiniz?
+      make_default_failed: Varsayılan 2FA cihazı güncellenemedi.
+      not_existing: Hesabınız için 2FA cihazı kayıtlı değil.
+      register: Kayıt cihazı
+      registration_complete: 2FA cihaz kaydı tamamlandı!
+      registration_failed_token_invalid: 2FA cihaz kaydı başarısız oldu; belirteç geçersizdi.
+      registration_failed_update: 2FA cihaz kaydı başarısız oldu; belirteç geçerliydi, ancak cihaz güncellenemedi.
+      sms:
+        description: 'Her oturum açtığınızda telefonunuza kısa mesaj yoluyla 2FA kodu alın.
+
+          '
+        redacted_identifier: Mobil cihaz (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, size %{delivery_channel} üzerinden bir kimlik doğrulama kodu gönderdik "
+        title: Mobil cihaz
+      text_confirm_to_change_default_html: Lütfen varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirdiğinizi, mevcut varsayılan cihazınızdan tek seferlik bir şifre girerek onaylayın.
+      text_confirm_to_complete_html: Lütfen varsayılan cihazınızdan tek kullanımlık parola girerek <strong>%{identifier}</strong> cihazınızın kaydını tamamlayın.
+      text_identifier: Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.
+      totp:
+        account: Hesap adı / İhraççı
+        description: 'Authy veya Google Authenticator gibi bir kimlik doğrulayıcı tarafından oluşturulan tek seferlik bir kod kullanın.
+
+          '
+        provisioning_uri: URI sağlama
+        question_cannot_scan: 'Uygulamanızı kullanarak kodu tarayamıyor musunuz?
+
+          '
+        secret_key: Gizli anahtar
+        setup: |
+          Google Authenticator ile iki faktörlü kimlik doğrulaması ayarlamak için uygulamayı Apple App Store'dan veya Google Play Store'dan indirin.
+          Uygulamayı açtıktan sonra, cihazı kaydetmek için aşağıdaki QR kodunu tarayabilirsiniz.
+        text_cannot_scan: 'Kodu tarayamıyorsanız, aşağıdaki ayrıntıları kullanarak girişi el ile girebilirsiniz:
+
+          '
+        time_based: Zaman bazlı
+        title: Uygulama tabanlı kimlik doğrulayıcı
+      webauthn:
+        description: Bir FIDO2 cihazı (YubiKey gibi) ya da mobil cihazınızın güvenli donanım alanını (secure enclave) kaydedin.
+        further_steps: Bir isim seçtikten sonra Devam düğmesine tıklayabilirsiniz. Tarayıcınız sizden WebAuthn cihazınızı göstermenizi isteyecektir. Bunu yaptığınızda, cihazın kaydını tamamlamış olursunuz.
+        title: WebAuthn
     error_2fa_disabled: 2FA teslimi devre dışı bırakıldı.
-    notice_not_writable: 2FA Ayarları ortam değişkenleri aracılığıyla sağlanmıştır ve üzerine yazılamaz.
+    error_invalid_backup_code: Geçersiz 2FA yedekleme kodu
+    error_is_enforced_not_active: 'Yapılandırma hatası: İki faktörlü kimlik doğrulama zorlandı, ancak etkin stratejiler mevcut değil.'
     error_no_device: Bu örnek için gerekli olmasına rağmen, bu kullanıcı için kayıtlı 2FA cihazı bulunamadı.
     error_no_matching_strategy: Bu kullanıcı için eşleşen 2FA stratejisi yok. Lütfen yöneticinize başvurun.
-    error_is_enforced_not_active: 'Yapılandırma hatası: İki faktörlü kimlik doğrulama zorlandı, ancak etkin stratejiler mevcut değil.'
-    error_invalid_backup_code: Geçersiz 2FA yedekleme kodu
-    channel_unavailable: "%{channel} yayın kanalı kullanılamıyor."
-    no_valid_phone_number: Geçerli bir telefon numarası yok.
-    label_device_type: Cihaz tipi
+    forced_registration:
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: İki faktörlü kimlik doğrulama etkin değil
+    label_2fa_enabled: İki faktörlü kimlik doğrulama etkin
     label_default_device: Varsayılan 2FA cihazı
     label_device: 2FA cihazı
+    label_device_type: Cihaz tipi
     label_devices: 2FA cihazları
-    label_2fa_enabled: İki faktörlü kimlik doğrulama etkin
-    label_2fa_disabled: İki faktörlü kimlik doğrulama etkin değil
-    text_otp_delivery_message_sms: "%{app_title} tek kullanımlık parolanız %{token}"
-    text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız: %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause}   %{token} "
-    text_2fa_enabled: Her giriş yaptığınızda, varsayılan 2FA cihazınızdan bir OTP belirteci girmeniz istenir.
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    label_two_factor_authentication: İki faktörlü kimlik doğrulama
     login:
-      enter_backup_code_title: Yedek kodunu girin
       enter_backup_code_text: Kayıtlı 2FA cihazlarınıza artık erişememeniz durumunda lütfen kod listenizden geçerli bir yedekleme kodu girin.
+      enter_backup_code_title: Yedek kodunu girin
       other_device: Başka bir cihaz veya yedekleme kodu kullanın
+    message_bird:
+      sms_delivery_failed: MessageBird SMS gönderimi başarısız oldu.
+      voice_delivery_failed: MessageBird sesli arama başarısız oldu.
+    mobile_transmit_notification: Tek kullanımlık parola cep telefonunuza gönderildi.
+    no_valid_phone_number: Geçerli bir telefon numarası yok.
+    notice_not_writable: 2FA Ayarları ortam değişkenleri aracılığıyla sağlanmıştır ve üzerine yazılamaz.
+    remember:
+      active_session_notice: 'Hesabınız %{expires_on}''e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Tüm hatırlanan 2FA oturumları kaldırıldı.
+      dont_ask_again: Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur.
+      label: Hatırla
+      other_active_session_notice: Hesabınızda başka bir oturumda etkin bir hatırlama çerezi var.
     settings:
-      title: 2FA ayarları
       current_configuration: Geçerli yapılandırma
+      failed_to_save_settings: '2FA ayarları güncellenemedi: %{message}'
       label_active_strategies: Aktif 2FA stratejileri
       label_enforced: 2FA'yı uygula
       label_remember: 2FA girişini hatırla
@@ -65,118 +167,15 @@ tr:
       text_remember: |
         Kullanıcıların verilen 2 gün için 2FA onaylarını hatırlamalarını sağlamak için bunu sıfırdan büyük olarak ayarlayın.
         Bu süre içinde tekrar girmeleri istenmeyecektir. Sadece yapılandırma tarafından zorlanmadığında ayarlanabilir.
-      failed_to_save_settings: '2FA ayarları güncellenemedi: %{message}'
-    admin:
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      self_edit_forbidden: Bu yolda kendi 2FA cihazlarınızı düzenleyemezsiniz. Hesabım> İki faktörlü kimlik doğrulama yerine gidin.
-      no_devices_for_user: Bu kullanıcı için 2FA cihazı kayıtlı değil.
-      all_devices_deleted: Bu kullanıcının tüm 2FA cihazları silindi
-      delete_all_are_you_sure: Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinize emin misiniz?
-      button_delete_all_devices: Kayıtlı 2FA cihazlarını sil
-      button_register_mobile_phone_for_user: Cep telefonunu kaydet
-      text_2fa_enabled: Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP belirtecini girmesi istenir.
-      text_2fa_disabled: Kullanıcı 'Hesabım sayfası' üzerinden bir 2FA cihazı ayarlamadı
-      only_sms_allowed: Diğer kullanıcılar için yalnızca SMS gönderimi ayarlanabilir.
-    backup_codes:
-      singular: Yedek kod
-      plural: Yedek kodlar
-      overview_description: |
-        İki faktörlü cihazlarınıza erişemiyorsanız, hesabınıza tekrar erişim sağlamak için bir yedekleme kodu kullanabilirsiniz.
-        Yeni bir yedekleme kodu kümesi oluşturmak için aşağıdaki düğmeyi kullanın.
-      generate:
-        title: Yedek kodları üret
-        keep_safe_as_password: Önemli! Bu kodları parola olarak kabul edin.
-        keep_safe_warning: Bunları parola yöneticinize kaydedin ya da bu sayfayı yazdırıp güvenli bir yere koyun.
-        regenerate_warning: 'Uyarı: Daha önce yedekleme kodları oluşturduysanız, geçersiz sayılacaklar ve artık çalışmayacaklar.'
-    devices:
-      add_new: Yeni 2FA cihazı ekle
-      register: Kayıt cihazı
-      confirm_default: Varsayılan cihazı değiştirmeyi onayla
-      confirm_device: Cihazı onayla
-      confirm_now: Onaylanmadı, etkinleştirmek için buraya tıklayın
-      cannot_delete_default: Varsayılan cihaz silinemiyor
-      make_default_are_you_sure: Bu 2FA cihazını varsayılan yapmak istediğinize emin misiniz?
-      make_default_failed: Varsayılan 2FA cihazı güncellenemedi.
-      deletion_are_you_sure: Bu 2FA cihazını silmek istediğinize emin misiniz?
-      registration_complete: 2FA cihaz kaydı tamamlandı!
-      registration_failed_token_invalid: 2FA cihaz kaydı başarısız oldu; belirteç geçersizdi.
-      registration_failed_update: 2FA cihaz kaydı başarısız oldu; belirteç geçerliydi, ancak cihaz güncellenemedi.
-      confirm_send_failed: 2FA cihazınızın onayı başarısız oldu.
-      button_complete_registration: 2FA kaydını tamamla
-      text_confirm_to_complete_html: Lütfen varsayılan cihazınızdan tek kullanımlık parola girerek <strong>%{identifier}</strong> cihazınızın kaydını tamamlayın.
-      text_confirm_to_change_default_html: Lütfen varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirdiğinizi, mevcut varsayılan cihazınızdan tek seferlik bir şifre girerek onaylayın.
-      text_identifier: Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.
-      failed_to_delete: 2FA cihazı silinemedi.
-      is_default_cannot_delete: Cihaz varsayılan olarak işaretlenmiştir ve aktif bir güvenlik politikası nedeniyle silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.
-      not_existing: Hesabınız için 2FA cihazı kayıtlı değil.
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      webauthn:
-        title: WebAuthn
-        description: Bir FIDO2 cihazı (YubiKey gibi) ya da mobil cihazınızın güvenli donanım alanını (secure enclave) kaydedin.
-        further_steps: Bir isim seçtikten sonra Devam düğmesine tıklayabilirsiniz. Tarayıcınız sizden WebAuthn cihazınızı göstermenizi isteyecektir. Bunu yaptığınızda, cihazın kaydını tamamlamış olursunuz.
-      totp:
-        title: Uygulama tabanlı kimlik doğrulayıcı
-        provisioning_uri: URI sağlama
-        secret_key: Gizli anahtar
-        time_based: Zaman bazlı
-        account: Hesap adı / İhraççı
-        setup: |
-          Google Authenticator ile iki faktörlü kimlik doğrulaması ayarlamak için uygulamayı Apple App Store'dan veya Google Play Store'dan indirin.
-          Uygulamayı açtıktan sonra, cihazı kaydetmek için aşağıdaki QR kodunu tarayabilirsiniz.
-        question_cannot_scan: 'Uygulamanızı kullanarak kodu tarayamıyor musunuz?
-
-          '
-        text_cannot_scan: 'Kodu tarayamıyorsanız, aşağıdaki ayrıntıları kullanarak girişi el ile girebilirsiniz:
-
-          '
-        description: 'Authy veya Google Authenticator gibi bir kimlik doğrulayıcı tarafından oluşturulan tek seferlik bir kod kullanın.
-
-          '
-      sms:
-        title: Mobil cihaz
-        redacted_identifier: Mobil cihaz (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, size %{delivery_channel} üzerinden bir kimlik doğrulama kodu gönderdik "
-        description: 'Her oturum açtığınızda telefonunuza kısa mesaj yoluyla 2FA kodu alın.
-
-          '
+      title: 2FA ayarları
     sns:
       delivery_failed: 'SNS teslimi başarısız oldu:'
-    message_bird:
-      sms_delivery_failed: MessageBird SMS gönderimi başarısız oldu.
-      voice_delivery_failed: MessageBird sesli arama başarısız oldu.
     strategies:
-      totp: Kimlik doğrulayıcı uygulama
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Kimlik doğrulayıcı uygulama
       webauthn: WebAuthn
-    mobile_transmit_notification: Tek kullanımlık parola cep telefonunuza gönderildi.
-    label_two_factor_authentication: İki faktörlü kimlik doğrulama
-    forced_registration:
-      required_to_add_device: İki faktörlü kimlik doğrulayıcıyı etkinleştirmek için aktif bir güvenlik politikası gereklidir. Bir cihazı kaydetmek için lütfen aşağıdaki formu doldurun.
-    remember:
-      active_session_notice: 'Hesabınız %{expires_on}''e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
-
-        '
-      other_active_session_notice: Hesabınızda başka bir oturumda etkin bir hatırlama çerezi var.
-      label: Hatırla
-      clear_cookie: Remove all remembered 2FA sessions.
-      cookie_removed: Tüm hatırlanan 2FA oturumları kaldırıldı.
-      dont_ask_again: Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur.
-  field_otp: Tek kullanımlık parola
-  notice_account_otp_invalid: Geçersiz tek kullanımlık parola.
-  notice_account_otp_expired: Girdiğiniz tek kullanımlık parolanın süresi doldu.
-  notice_developer_strategy_otp: 'Geliştirici stratejisi aşağıdaki tek seferlik parola oluşturdu: %{token} (Kanal: %{channel})'
-  notice_account_otp_send_failed: Tek kullanımlık parolanız gönderilemedi.
-  notice_account_has_no_phone: Hesabınızla ilişkili cep telefonu numarası yok.
-  label_confirmed: Onaylandı
-  button_continue: Devam et
-  button_make_active: Activate
-  button_make_default: Varsayılan olarak işaretleyin
-  notice_phone_number_format: 'Lütfen numaranızı yandaki formatta giriniz: +XX XXXXXXXX.'
-  text_otp_not_receive: Diğer doğrulama yöntemleri
-  text_send_otp_again: 'Tek kullanımlık parolayı yeniden gönder:'
-  button_resend_otp_form: Tekrar gönder
-  button_otp_by_voice: Sesli arama
-  button_otp_by_sms: SMS
-  label_otp_channel: Dağıtım kanalı
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: Her giriş yaptığınızda, varsayılan 2FA cihazınızdan bir OTP belirteci girmeniz istenir.
+    text_otp_delivery_message_sms: "%{app_title} tek kullanımlık parolanız %{token}"
+    text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız: %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause}   %{token} "

@@ -37,7 +37,7 @@ class CustomActions::Conditions::Type < CustomActions::Conditions::Base
 
   def associated
     ::Type
-      .select(:id, :name)
-      .map { |u| [u.id, u.name] }
+      .preload(:parent)
+      .map { |u| [u.id, u.composite_name] }
   end
 end

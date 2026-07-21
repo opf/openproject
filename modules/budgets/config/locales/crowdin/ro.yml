@@ -21,24 +21,22 @@
 #++
 ---
 ro:
-  plugin_budgets_engine:
-    name: Bugete
   activerecord:
     attributes:
       budget:
         author: Autor
         available: Disponibil
+        base_amount: Suma de bază
         budget: Planificat
         budget_ratio: Cheltuit (raport)
         description: Descriere
+        labor_budget: Costurile planificate ale forței de muncă
+        labor_budget_items: Planned labor costs
+        material_budget: Planificat
         spent: Cheltuit
         status: Stare
         subject: Subiect
         type: Tipul de cost
-        labor_budget: Costurile planificate ale forței de muncă
-        labor_budget_items: Planned labor costs
-        material_budget: Planificat
-        base_amount: Suma de bază
       work_package:
         budget_subject: Titlul bugetului
     errors:
@@ -56,49 +54,49 @@ ro:
       budget: Bugete
   attributes:
     budget: Buget
-  button_add_budget_item: Adaugă costurile planificate
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Obține o imagine de ansamblu asupra bugetelor și costurilor pentru a evalua eficient starea proiectului
+          heading: Inițiere monitorizare proiect
+        blankslate_zero:
+          description: Adăugă detalii despre bugetul planificat pentru a vedea datele
+          heading: Fără detalii bugetare
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Buget pe tip de cost
+        view_details: Vezi detaliile bugetului
+      budget_totals:
+        remaining_budget: Buget rămas
+        spent_budget: Buget cheltuit
+        title: Totaluri bugetare
+        total_actual_costs: Costuri reale totale
+        total_planned_budget: Buget total planificat
+  budgets_title: Bugete
   button_add_budget: Adaugă bugetul
+  button_add_budget_item: Adaugă costurile planificate
   button_add_cost_type: Adaugați acest câmp la un pachet de lucru
   button_cancel_edit_budget: Anularea bugetului de editare
   button_cancel_edit_costs: Anularea costurilor de editare
   caption_labor: Muncă
   caption_labor_costs: Costurile reale ale forței de muncă
   caption_material_costs: Costuri unitare reale
-  budgets_title: Bugete
-  budgets:
-    widgets:
-      budget_totals:
-        title: Totaluri bugetare
-        remaining_budget: Buget rămas
-        spent_budget: Buget cheltuit
-        total_actual_costs: Costuri reale totale
-        total_planned_budget: Buget total planificat
-      budget_by_cost_type:
-        title: Buget pe tip de cost
-        blankslate:
-          heading: Inițiere monitorizare proiect
-          description: Obține o imagine de ansamblu asupra bugetelor și costurilor pentru a evalua eficient starea proiectului
-        blankslate_zero:
-          heading: Fără detalii bugetare
-          description: Adăugă detalii despre bugetul planificat pentru a vedea datele
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: Vezi detaliile bugetului
   events:
     budget: Buget editat
   help_click_to_edit: Câmpul %s este gol. Click aici pentru a-l edita.
@@ -106,23 +104,25 @@ ro:
   help_override_rate: Introdu o valoare aici pentru a înlocui rata implicită.
   label_budget: Buget
   label_budget_available: Buget disponibil
+  label_budget_details: Detalii buget
   label_budget_id: 'Buget #%{id}'
   label_budget_new: Buget nou
   label_budget_planned: Buget planificat
   label_budget_plural: Bugete
   label_budget_spent: Buget cheltuit
   label_budget_spent_ratio: Raport buget cheltuit
+  label_budget_totals: Totaluri
   label_deliverable: Buget
   label_example_placeholder: de exemplu, %{decimal}
   label_view_all_budgets: Vezi toate bugetele
   label_yes: Da
-  label_budget_totals: Totaluri
-  label_budget_details: Detalii buget
   notice_budget_conflict: Pachetele de lucru trebuie să fie din același proiect.
   notice_no_budgets_available: Nu există bugete disponibile.
   permission_edit_budgets: Editare bugete
   permission_view_budgets: Vezi bugete
+  plugin_budgets_engine:
+    name: Bugete
   project_module_budgets: Bugete
-  text_budget_reassign_to: 'Reatribuiți-le acestui buget:'
   text_budget_delete: Ștergeți bugetul din toate pachetele de lucru
   text_budget_destroy_assigned_wp: Există %{count} pachete de lucru alocate acestui buget. Ce doriți să faceți?
+  text_budget_reassign_to: 'Reatribuiți-le acestui buget:'

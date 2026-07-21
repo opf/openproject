@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "External link capture", :js, :selenium do
   shared_let(:admin) { create(:admin) }
 
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:external_url) { "https://www.openproject.org/" }
   let!(:wiki_page) do
     create(:wiki_page,

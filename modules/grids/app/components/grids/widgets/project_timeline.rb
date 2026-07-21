@@ -105,9 +105,9 @@ module Grids
           name: phase.definition.name,
           startDate: phase.start_date&.iso8601,
           endDate: phase.finish_date&.iso8601,
-          startGate: phase.definition.start_gate,
+          startGate: phase.definition.start_gate && phase.date_range_set?,
           startGateName: phase.definition.start_gate_name,
-          finishGate: phase.definition.finish_gate,
+          finishGate: phase.definition.finish_gate && phase.date_range_set?,
           finishGateName: phase.definition.finish_gate_name
         }
       end

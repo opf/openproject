@@ -34,7 +34,7 @@ class Project < ApplicationRecord
   include Projects::CustomFields
   include Projects::Hierarchy
   include Projects::Storage
-  include Projects::Types
+  include Projects::EnabledTypes
   include Projects::Versions
   include Projects::WorkPackageCustomFields
   include Projects::CreationWizard
@@ -88,6 +88,7 @@ class Project < ApplicationRecord
   has_many :cost_types_projects, dependent: :delete_all
   has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
+  has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order("position ASC") }, dependent: :destroy
@@ -169,7 +170,7 @@ class Project < ApplicationRecord
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
 
-  validates_associated :repository, :wiki
+  validates_associated :repository
 
   scopes :activated_in_storage,
          :allowed_to,

@@ -5,6 +5,7 @@ pl:
       resource_allocation:
         allocated_hours: Godziny
         allocated_time: Przydzielony czas
+        date_range: Dates
         end_date: Data zakończenia
         entity: Pole
         filter_name: Nazwa filtra zasobów
@@ -13,6 +14,7 @@ pl:
         state: Stan
         user_filter: Filtr użytkownika
       resource_planner:
+        date_range: Dates
         default_view_class_name: Widok domyślny
         end_date: Data zakończenia
         favorite: Ulubione
@@ -29,6 +31,9 @@ pl:
           attributes:
             end_date:
               greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ pl:
       resource_planner: Planista zasobów
       resource_user_card: Karty użytkowników
       resource_work_package_list: Lista pakietów roboczych
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Dalej
   label_resource_management: Resource management
   permission_allocate_user_resources: Przydziel zasoby użytkownika
@@ -60,10 +72,6 @@ pl:
       make_private: Ustaw jako prywatny
       make_public: Ustaw jako publiczny
       unfavorite: Usuń z ulubionych
-    allocation:
-      hours: "%{value} h"
-      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ pl:
       submit: Przydziel
       success_message: Zasób przydzielono.
       title: Przydziel zasób
+    allocation:
+      hours: "%{value} h"
+      no_work: W ramach tego pakietu roboczego nie zaplanowano żadnej pracy
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ pl:
       title: Staffing
     sub_views: Widoki w tym planiście zasobów
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -186,11 +196,11 @@ pl:
         remove: Usuń użytkownika
         remove_confirmation: Usunąć tego użytkownika z widoku?
       fields:
-        working_times: Czasy pracy
-        input_label: Pola
-        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
-        input_placeholder: Dodaj pole
         drag_area_label: Wyświetlane pola
+        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
+        input_label: Pola
+        input_placeholder: Dodaj pole
+        working_times: Czasy pracy
       subheader:
         resource: Zasób
         settings: Konfiguruj widok

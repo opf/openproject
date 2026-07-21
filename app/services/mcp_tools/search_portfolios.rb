@@ -40,7 +40,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :name, filter_class: Queries::Projects::Filters::NameFilter, operator: "~"
+    filter :name, filter_class: "Queries::Projects::Filters::NameFilter", operator: "~"
     filter :identifier
     filter :status_code
 
@@ -50,17 +50,6 @@ module McpTools
         name: { type: "string", description: "Name of the portfolio. Accepts partial names, not case-sensitive." },
         identifier: { type: "string", description: "Portfolio identifier. Case-sensitive, matching exactly." },
         status_code: { type: "string", enum: Project.status_codes.keys, description: "The portfolio status." }
-      }
-    )
-
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("portfolio_model")
-        }
       }
     )
 

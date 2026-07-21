@@ -78,12 +78,12 @@ RSpec.describe Workflows::TabsController do
           get :edit,
               params: {
                 role_ids: [role.id.to_s],
-                workflow_type_id: type.id.to_s,
+                type_id: type.id.to_s,
                 tab: "always"
               }
 
           expect(response).to redirect_to(
-            edit_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
+            edit_type_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
           )
         end
 
@@ -91,13 +91,13 @@ RSpec.describe Workflows::TabsController do
           get :edit,
               params: {
                 role_ids: [role.id.to_s],
-                workflow_type_id: type.id.to_s,
+                type_id: type.id.to_s,
                 tab: "always",
                 status_ids: ["1", "2"]
               }
 
           expect(response).to redirect_to(
-            edit_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
+            edit_type_workflow_path(type, role_ids: [role.id.to_s], tab: "always")
           )
           expect(response.location).not_to include("status_ids")
         end
@@ -117,12 +117,12 @@ RSpec.describe Workflows::TabsController do
           get :edit,
               params: {
                 role_ids: [role.id.to_s, role2.id.to_s],
-                workflow_type_id: type.id.to_s,
+                type_id: type.id.to_s,
                 tab: "always"
               }
 
           expect(response).to redirect_to(
-            edit_workflow_path(type, role_ids: [role.id.to_s, role2.id.to_s], tab: "always")
+            edit_type_workflow_path(type, role_ids: [role.id.to_s, role2.id.to_s], tab: "always")
           )
         end
       end
@@ -146,7 +146,7 @@ RSpec.describe Workflows::TabsController do
         post :confirm_statuses,
              params: {
                role_ids: [role.id.to_s],
-               workflow_type_id: type.id.to_s,
+               type_id: type.id.to_s,
                status_ids: ["1", "2"],
                original_status_ids: ["1", "2"],
                tab: "always"
@@ -165,7 +165,7 @@ RSpec.describe Workflows::TabsController do
         post :confirm_statuses,
              params: {
                role_ids: [role.id.to_s],
-               workflow_type_id: type.id.to_s,
+               type_id: type.id.to_s,
                status_ids: ["1"],
                original_status_ids: ["1", "2"],
                tab: "always"
@@ -199,7 +199,7 @@ RSpec.describe Workflows::TabsController do
         allow(service).to receive(:call).with(status_params).and_return(call_result)
         allow(controller).to receive(:statuses_for_form).and_return([build_stubbed(:status)])
         post :update,
-             params: { role_ids: [role.id.to_s], workflow_type_id: type.id, tab: "always", status: status_params },
+             params: { role_ids: [role.id.to_s], type_id: type.id, tab: "always", status: status_params },
              format: :turbo_stream
       end
 
@@ -239,7 +239,7 @@ RSpec.describe Workflows::TabsController do
         post :update,
              params: {
                role_ids: [role.id.to_s, role2.id.to_s],
-               workflow_type_id: type.id,
+               type_id: type.id,
                tab: "always",
                status: status_params
              },

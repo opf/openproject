@@ -1,37 +1,42 @@
 ---
 ro:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Număr de coloane
+        page: Pagină
+        row_count: Număr de rânduri
+        scope: Scop
+        widgets: Widget-uri
+    errors:
+      models:
+        grids/grid:
+          end_before_start: valoarea finală trebuie să fie mai mare decât valoarea inițială.
+          outside: se află în afara rețelei.
+          overlaps: suprapunere.
   grids:
     label_widget_in_grid: Widget conținut în grila %{grid_name}
     widgets:
       empty: Acest widget este în prezent gol.
-      not_available: Acest widget nu este disponibil.
-      subitems:
-        title: Subelemente
-        no_results: Nu sunt copii vizibili.
-        view_all_subitems: Vezi toate subelementele
-        button_text: Subelement
       members:
-        title: Membri
         no_results: Nu există membri vizibili.
-        view_all_members: Vizualizează toți participanții
         show_members_count: Arată toți membrii %{count}
+        title: Membri
+        view_all_members: Vizualizează toți participanții
         x_more:
           one: şi încă un membru.
           few: şi încă %{count} membrii.
           other: şi încă %{count} membrii.
       news:
         no_results: Nimic nou de raportat.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Pagină
-        row_count: Număr de rânduri
-        column_count: Număr de coloane
-        widgets: Widget-uri
-        scope: Scop
-    errors:
-      models:
-        grids/grid:
-          overlaps: suprapunere.
-          outside: se află în afara rețelei.
-          end_before_start: valoarea finală trebuie să fie mai mare decât valoarea inițială.
+      not_available: Acest widget nu este disponibil.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Subelement
+        no_results: Nu sunt copii vizibili.
+        title: Subelemente
+        view_all_subitems: Vezi toate subelementele

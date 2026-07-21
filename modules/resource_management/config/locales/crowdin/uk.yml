@@ -5,6 +5,7 @@ uk:
       resource_allocation:
         allocated_hours: Години
         allocated_time: Виділений час
+        date_range: Dates
         end_date: Дата завершення
         entity: Сутність
         filter_name: Назва фільтра ресурсів
@@ -13,6 +14,7 @@ uk:
         state: Стан
         user_filter: Фільтр користувачів
       resource_planner:
+        date_range: Dates
         default_view_class_name: Типове подання
         end_date: Дата завершення
         favorite: Вибране
@@ -29,6 +31,9 @@ uk:
           attributes:
             end_date:
               greater_than_start_date: не має передувати даті початку.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ uk:
       resource_planner: Планувальник ресурсів
       resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Далі
   label_resource_management: Resource management
   permission_allocate_user_resources: Призначати ресурси користувачів
@@ -60,10 +72,6 @@ uk:
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
-    allocation:
-      hours: "%{value} год"
-      no_work: Немає запланованих робіт для цього пакета робіт
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ uk:
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
+    allocation:
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ uk:
       title: Staffing
     sub_views: Подання в цьому планувальнику ресурсів
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -186,11 +196,11 @@ uk:
         remove: Вилучити користувача
         remove_confirmation: Вилучити цього користувача з подання?
       fields:
-        working_times: Робочий час
-        input_label: Поля
-        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
-        input_placeholder: Додати поле
         drag_area_label: Відображувані поля
+        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
+        input_label: Поля
+        input_placeholder: Додати поле
+        working_times: Робочий час
       subheader:
         resource: Ресурс
         settings: Налаштувати подання

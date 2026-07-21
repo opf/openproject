@@ -5,6 +5,7 @@ pt-BR:
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
+        date_range: Dates
         end_date: Data de término
         entity: Entidade
         filter_name: Nome do filtro de recursos
@@ -13,6 +14,7 @@ pt-BR:
         state: Estado
         user_filter: Filtro de usuários
       resource_planner:
+        date_range: Dates
         default_view_class_name: Visualização padrão
         end_date: Data de término
         favorite: Favorito
@@ -29,6 +31,9 @@ pt-BR:
           attributes:
             end_date:
               greater_than_start_date: deve ser após a data de início.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ pt-BR:
       resource_planner: Planejador de recursos
       resource_user_card: Cartões de usuário
       resource_work_package_list: Lista de Pacotes de trabalho
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Próximo
   label_resource_management: Resource management
   permission_allocate_user_resources: Alocar recursos do usuário
@@ -60,10 +72,6 @@ pt-BR:
       make_private: Tornar privado
       make_public: Tornar público
       unfavorite: Remover dos favoritos
-    allocation:
-      hours: "%{value}h"
-      no_work: Nenhum trabalho planejado neste pacote de trabalho
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ pt-BR:
       submit: Alocar
       success_message: Recurso alocado.
       title: Alocar recurso
+    allocation:
+      hours: "%{value}h"
+      no_work: Nenhum trabalho planejado neste pacote de trabalho
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ pt-BR:
       title: Staffing
     sub_views: Visualizações neste planejador de recursos
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -184,11 +194,11 @@ pt-BR:
         remove: Remover usuário
         remove_confirmation: Remover este usuário da visualização?
       fields:
-        working_times: Tempo de trabalho
-        input_label: Campos
-        input_caption: Selecione os campos que serão exibidos no cartão do usuário nesta visualização
-        input_placeholder: Adicionar um campo
         drag_area_label: Campos exibidos
+        input_caption: Selecione os campos que serão exibidos no cartão do usuário nesta visualização
+        input_label: Campos
+        input_placeholder: Adicionar um campo
+        working_times: Tempo de trabalho
       subheader:
         resource: Recurso
         settings: Configurar exibição

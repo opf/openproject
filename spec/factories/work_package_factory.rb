@@ -129,11 +129,14 @@ FactoryBot.define do
 
           # Does not yet support overwriting the custom values via the provided attributes.
           work_package_cv_attributes = work_package.custom_values.map { it.attributes.slice("custom_field_id", "value") }
+          version_attributes = work_package.work_package_versions.where(kind: "target")
+                                           .map { it.attributes.slice("version_id", "kind") }
 
           create(:work_package_journal,
                  **journal_attributes,
                  data: build(:journal_work_package_journal, data_attributes),
-                 customizable_journals: work_package_cv_attributes.map { build(:journal_customizable_journal, it) })
+                 customizable_journals: work_package_cv_attributes.map { build(:journal_customizable_journal, it) },
+                 work_package_version_journals: version_attributes.map { build(:journal_work_package_version_journal, it) })
         end
 
         work_package.journals.reload

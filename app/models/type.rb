@@ -33,6 +33,7 @@ class Type < ApplicationRecord
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  prepend ::Type::ConfigurationLinkable
 
   include ::Scopes::Scoped
 
@@ -40,6 +41,7 @@ class Type < ApplicationRecord
 
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
+  store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
 
   before_destroy :check_integrity
 
@@ -85,6 +87,9 @@ class Type < ApplicationRecord
 
   scope :roots, -> { where(parent_id: nil) }
   scope :subtypes, -> { where.not(parent_id: nil) }
+  # All types are global until project-owned sub-types exist; this is the seam the
+  # configuration source picker and contract scope against (see FND-103 :manage_subtypes).
+  scope :global, -> { all }
   scope :without_standard, -> { where(is_standard: false).order(:position) }
   scope :default, -> { where(is_default: true) }
   scope :visible, ->(user = User.current) {
@@ -149,9 +154,59 @@ class Type < ApplicationRecord
     parent || self
   end
 
+  def subtype?
+    parent_id.present?
+  end
+
   def family
     [root, *root.children]
   end
+
+  def name
+    inherited_core_setting(:name)
+  end
+
+  def own_name
+    read_attribute(:name)
+  end
+
+  def composite_name
+    subtype? ? "#{name}: #{own_name}" : name
+  end
+
+  # Validate the type's own name, not the root's name as would happen without this for sub-types
+  def read_attribute_for_validation(key)
+    key.to_sym == :name ? own_name : super
+  end
+
+  # Core settings are inherited from the parent for sub-types. The sub-type's
+  # own columns are ignored while it has a parent.
+  def color
+    subtype? ? root.color : super
+  end
+
+  def color_id
+    inherited_core_setting(:color_id)
+  end
+
+  # rubocop:disable Naming/PredicatePrefix
+  # These override the ActiveRecord attribute readers of the same name, so they
+  # must keep the is_ prefix the rest of the code relies on.
+  def is_milestone
+    inherited_core_setting(:is_milestone)
+  end
+  alias_method :is_milestone?, :is_milestone
+
+  def is_in_roadmap
+    inherited_core_setting(:is_in_roadmap)
+  end
+  alias_method :is_in_roadmap?, :is_in_roadmap
+
+  def is_default
+    inherited_core_setting(:is_default)
+  end
+  alias_method :is_default?, :is_default
+  # rubocop:enable Naming/PredicatePrefix
 
   def replacement_pattern_defined_for?(attribute)
     enabled_patterns.key?(attribute)
@@ -165,7 +220,22 @@ class Type < ApplicationRecord
     @pdf_export_templates ||= ::Type::PdfExportTemplates.new(self)
   end
 
+  # The store_attribute :default is not returned when the JSON key is present
+  # but nil, so mirror the getter-override pattern used elsewhere (see
+  # Projects::CreationWizard) to guarantee a value.
+  def artefact_export_mode
+    super.presence || Type::ArtefactExport::DEFAULT
+  end
+
+  def artefact_export_enabled?
+    artefact_export_mode != Type::ArtefactExport::OFF
+  end
+
   private
+
+  def inherited_core_setting(name)
+    root.read_attribute(name)
+  end
 
   def check_integrity
     throw :abort if is_standard?

@@ -45,10 +45,18 @@ class Queries::Factory
       query = duplicate_query(query) if duplicate || params.any?
 
       if params.any?
-        set_query_attributes(query, query_class, params, user)
+        set_query_attributes(query, query_class, merge_filters(query, params), user)
       else
         query
       end
+    end
+
+    def merge_filters(query, params)
+      return params unless params[:filters]
+
+      existing = query.filters.map { |f| { attribute: f.name.to_s, operator: f.operator, values: f.values } }
+
+      params.merge(filters: existing + params[:filters])
     end
 
     def find_persisted_query_and_set_attributes(id, query_class, params, user, duplicate:)

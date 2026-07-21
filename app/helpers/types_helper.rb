@@ -40,20 +40,24 @@ module ::TypesHelper
         label: I18n.t("types.edit.settings.tab")
       },
       {
+        name: "defaults",
+        path: edit_type_defaults_path(type_id: @type.id),
+        label: I18n.t("types.edit.defaults.tab")
+      },
+      {
         name: "form_configuration",
         path: edit_type_form_configuration_path(@type),
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
+        name: "workflow",
+        path: edit_type_workflow_path(@type),
+        label: I18n.t("types.edit.workflow.tab")
+      },
+      {
         name: "project_attributes",
         path: edit_type_project_attributes_path(@type),
         label: I18n.t("types.edit.project_attributes.tab")
-      },
-      {
-        name: "subject_configuration",
-        path: edit_type_subject_configuration_path(type_id: @type.id),
-        label: I18n.t("types.edit.subject_configuration.tab"),
-        enterprise_feature: :work_package_subject_generation
       },
       {
         name: "projects",
@@ -68,7 +72,6 @@ module ::TypesHelper
       }
     ]
   end
-
   # rubocop:enable Rails/HelperInstanceVariable
 
   def icon_for_type(type)

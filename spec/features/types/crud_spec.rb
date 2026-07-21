@@ -67,19 +67,13 @@ RSpec.describe "Types", :js do
 
     expect(page).to have_content I18n.t(:notice_successful_create)
 
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :index, only_path: true))
-    within "li", text: "A new type" do
-      click_link "A new type"
-    end
-
-    from_id = existing_workflow.old_status_id
-    to_id = existing_workflow.new_status_id
-
-    checkbox = page.find("input[data-old-status=\"#{from_id}\"][data-new-status=\"#{to_id}\"][value=always]")
-
-    expect(checkbox).to be_checked
+    # Workflow should be copied over from the source type.
+    new_type = Type.find_by!(name: "A new type")
+    expect(
+      Workflow.exists?(type_id: new_type.id,
+                       old_status_id: existing_workflow.old_status_id,
+                       new_status_id: existing_workflow.new_status_id)
+    ).to be true
 
     index_page.visit!
 
@@ -120,9 +114,41 @@ RSpec.describe "Types", :js do
 
     index_page.visit!
 
+    expect(page).to have_link("Phase", visible: :all)
+  end
+
+  it "lists a sub-type in the flat table when the feature flag is disabled", with_flag: { subtypes: false } do
+    create(:type, name: "Phase", parent: existing_type)
+
+    index_page.visit!
+
     within "table" do
       expect(page).to have_link("Phase")
     end
+  end
+
+  it "hides the inherited core settings while a parent is selected", with_flag: { subtypes: true } do
+    index_page.visit!
+    index_page.click_new
+
+    # For a root type the inherited core settings are editable.
+    expect(page).to have_field("Is milestone")
+    expect(page).to have_field("Displayed in roadmap by default")
+    expect(page).to have_field("Activated for new projects by default")
+
+    # Selecting a parent turns this into a sub-type, so they are hidden.
+    select existing_type.name, from: "Parent type"
+
+    expect(page).to have_no_field("Is milestone")
+    expect(page).to have_no_field("Displayed in roadmap by default")
+    expect(page).to have_no_field("Activated for new projects by default")
+
+    # Clearing the parent reveals them again.
+    select "", from: "Parent type"
+
+    expect(page).to have_field("Is milestone")
+    expect(page).to have_field("Displayed in roadmap by default")
+    expect(page).to have_field("Activated for new projects by default")
   end
 
   context "when a work package of a given type is part of an archived project" do

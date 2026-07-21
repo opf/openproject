@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Editing a new wiki page", :js do
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:user) { create(:admin) }
 
   before do

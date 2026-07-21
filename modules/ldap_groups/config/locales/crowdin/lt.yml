@@ -1,72 +1,76 @@
 ---
 lt:
-  ee:
-    upsell:
-      ldap_groups:
-        title: LDAP grupės sinchronizacija
-        description: Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.
-  plugin_openproject_ldap_groups:
-    name: OpenProject LDAP grupės
-    description: LDAP grupių narysčių sinchronizavimas.
   activerecord:
     attributes:
-      ldap_groups/synchronized_group:
-        dn: DN
-        auth_source: Auth source
-        ldap_auth_source: LDAP jungtis
-        sync_users: Sinchronizuoti naudotojus
       ldap_groups/synchronized_filter:
-        filter_string: LDAP filtras
         auth_source: Auth source
-        ldap_auth_source: LDAP jungtis
-        group_name_attribute: Grupės pavadinimo atributas
-        sync_users: Sinchronizuoti naudotojus
         base_dn: Paieškos pagrindo DN
+        filter_string: LDAP filtras
+        group_name_attribute: Grupės pavadinimo atributas
+        ldap_auth_source: LDAP jungtis
         member_lookup_attribute: Group member attribute
-    models:
-      ldap_groups/synchronized_group: Sinchronizuota LDAP grupė
-      ldap_groups/synchronized_filter: LDAP grupių sinchronizavimo filtras
+        sync_users: Sinchronizuoti naudotojus
+      ldap_groups/synchronized_group:
+        auth_source: Auth source
+        dn: DN
+        ldap_auth_source: LDAP jungtis
+        sync_users: Sinchronizuoti naudotojus
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Filtro pagrindo DN turi būti LDAP jungties pagrindo DN viduje
+    models:
+      ldap_groups/synchronized_filter: LDAP grupių sinchronizavimo filtras
+      ldap_groups/synchronized_group: Sinchronizuota LDAP grupė
+  ee:
+    upsell:
+      ldap_groups:
+        description: Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.
+        title: LDAP grupės sinchronizacija
   ldap_groups:
-    label_menu_item: LDAP grupės sinchronizacija
     label_group_key: LDAP grupės filtro raktas
+    label_menu_item: LDAP grupės sinchronizacija
     label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP grupės pavadinimo atributas
       name_attribute_text: LDAP atributas, kuris bus naudojamas OpenProject grupės, sukurtos pagal filtrą, pavadinimui
     synchronized_filters:
       add_new: Pridėti sinchronizuotą LDAP filtrą
-      singular: LDAP grupių sinchronizavimo filtras
-      plural: LDAP grupių sinchronizavimo filtrai
+      destroy:
+        confirmation: Jei tęsite, sinchronizavimo filtras %{name} ir visos grupės (%{groups_count}), kurias jis sukūrė, bus panaikintos.
+        heading: Remove synchronized filter %{name}?
+        removed_groups: 'Dėmesio: Tai OpenProjecte panaikins tokias grupes ir ištrins jas iš visų projektų!'
+        title: Panaikinti sinchronizavimo filtrą %{name}
+        verification_html: Enter the filter name %{name} to verify the deletion.
+      form:
+        base_dn_text: 'Įveskite paieškos pagrindo DN norėdami naudoti šį filtrą. Jis turi būti pasirinktos LDAP jungties pagrindo DN viduje. Palikite šį nustatymą tuščia, jei norite naudoti LDAP jungties pagrindo DN.
+
+          '
+        filter_string_text: Įveskite RFC4515 LDAP filtrą, kuris iš jūsų LDAP grąžina sinchronizavimui su OpenProjectu reikalingas grupes.
+        group_name_attribute_text: Įveskite LDAP grupės atributą, kuris bus naudojamas nustatant OpenProject grupės pavadinimą.
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
       label_n_groups_found:
         one: 1 grupė rasta pagal filtrą
         other: "%{count} grupės rastos pagal filtrą"
         zero: Nei vienos grupės nerasta pagal filtrą
-      destroy:
-        title: Panaikinti sinchronizavimo filtrą %{name}
-        heading: Remove synchronized filter %{name}?
-        confirmation: Jei tęsite, sinchronizavimo filtras %{name} ir visos grupės (%{groups_count}), kurias jis sukūrė, bus panaikintos.
-        removed_groups: 'Dėmesio: Tai OpenProjecte panaikins tokias grupes ir ištrins jas iš visų projektų!'
-        verification_html: Enter the filter name %{name} to verify the deletion.
-      form:
-        group_name_attribute_text: Įveskite LDAP grupės atributą, kuris bus naudojamas nustatant OpenProject grupės pavadinimą.
-        filter_string_text: Įveskite RFC4515 LDAP filtrą, kuris iš jūsų LDAP grąžina sinchronizavimui su OpenProjectu reikalingas grupes.
-        base_dn_text: 'Įveskite paieškos pagrindo DN norėdami naudoti šį filtrą. Jis turi būti pasirinktos LDAP jungties pagrindo DN viduje. Palikite šį nustatymą tuščia, jei norite naudoti LDAP jungties pagrindo DN.
-
-          '
-        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
-
-          '
+      plural: LDAP grupių sinchronizavimo filtrai
+      singular: LDAP grupių sinchronizavimo filtras
     synchronized_groups:
       add_new: Pridėti sinchronizuotą LDAP grupę
       destroy:
-        title: Išimti sinchronizuotą grupę %{name}
-        heading: Remove synchronized group %{name}?
         confirmation: Jei tęsite, sinchronizuota grupė %{name} ir visi %{users_count} per ją sinchronizuotų naudotojų bus pašalinti.
+        heading: Remove synchronized group %{name}?
         info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
+        title: Išimti sinchronizuotą grupę %{name}
+      form:
+        auth_source_text: Pasirinkite kuri LDAP jungtis turėtų būti naudojama.
+        dn_text: Įveskite LDAP grupės pilną DN.
+        group_text: Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai
+        sync_users_text: 'Jei jūs įjungsite šį nustatymą, visiems rastiems naudotojams bus automatiškai sukurti OpenProject naudotojai. Neįjungus, tik dabar esantys OpenProject naudotojai bus pridėti į grupes.
+
+          '
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
         <br/>
@@ -78,16 +82,12 @@ lt:
         <br/>
         Groups are synchronized hourly through a cron job.
         [Please see our documentation on this topic](docs_url).
-      no_results: Nerasta sinchronizuotų grupių.
       no_members: Grupė dar neturi sinchronizuotų narių.
+      no_results: Nerasta sinchronizuotų grupių.
       plural: Sinchronizuotos LDAP grupės
       singular: Sinchronizuota LDAP grupė
-      form:
-        auth_source_text: Pasirinkite kuri LDAP jungtis turėtų būti naudojama.
-        sync_users_text: 'Jei jūs įjungsite šį nustatymą, visiems rastiems naudotojams bus automatiškai sukurti OpenProject naudotojai. Neįjungus, tik dabar esantys OpenProject naudotojai bus pridėti į grupes.
-
-          '
-        dn_text: Įveskite LDAP grupės pilną DN.
-        group_text: Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai
       upsell:
         description: Pasinaudokite sinchronizuotomis LDAP grupėmis naudotojų tvarkymui, jų teisių keitimui ir tarpgrupiniam naudotjų valdymui.
+  plugin_openproject_ldap_groups:
+    description: LDAP grupių narysčių sinchronizavimas.
+    name: OpenProject LDAP grupės

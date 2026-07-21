@@ -49,7 +49,7 @@ module OpenProject
 
       only_path = options.delete(:only_path) { true }
       name = options.delete(:name) { user.name }
-      options[:title] ||= I18n.t(:label_user_named, name:)
+      options[:title] = I18n.t(:label_user_named, name:) unless options.key?(:title)
 
       add_hover_card_options(user, options, only_path:)
 
@@ -63,7 +63,7 @@ module OpenProject
       name = group.name
       href = show_group_url(group,
                             only_path: options.delete(:only_path) { true })
-      options[:title] ||= I18n.t(:label_group_named, name:)
+      options[:title] = I18n.t(:label_group_named, name:) unless options.key?(:title)
 
       link_to(name, href, options)
     end

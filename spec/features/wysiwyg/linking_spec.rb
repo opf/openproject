@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg linking", :js do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  shared_let(:project) { create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking]) }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do

@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# English strings go here for Rails i18n
 ---
 en:
   activerecord:

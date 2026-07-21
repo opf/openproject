@@ -5,6 +5,7 @@ kk:
       resource_allocation:
         allocated_hours: Hours
         allocated_time: Allocated time
+        date_range: Dates
         end_date: Finish date
         entity: Entity
         filter_name: Resource filter name
@@ -13,6 +14,7 @@ kk:
         state: State
         user_filter: User filter
       resource_planner:
+        date_range: Dates
         default_view_class_name: Default view
         end_date: Finish date
         favorite: Favorite
@@ -29,6 +31,9 @@ kk:
           attributes:
             end_date:
               greater_than_start_date: must be after the start date.
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ kk:
       resource_planner: Resource Planner
       resource_user_card: User cards
       resource_work_package_list: Work packages list
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Next
   label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
@@ -60,10 +72,6 @@ kk:
       make_private: Make private
       make_public: Make public
       unfavorite: Remove from favorites
-    allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
-      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ kk:
       submit: Allocate
       success_message: Resource allocated.
       title: Allocate resource
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ kk:
       title: Staffing
     sub_views: Views in this resource planner
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -184,11 +194,11 @@ kk:
         remove: Remove user
         remove_confirmation: Remove this user from the view?
       fields:
-        working_times: Working times
-        input_label: Fields
-        input_caption: Select the fields that will be displayed in the user card for this view
-        input_placeholder: Add a field
         drag_area_label: Displayed fields
+        input_caption: Select the fields that will be displayed in the user card for this view
+        input_label: Fields
+        input_placeholder: Add a field
+        working_times: Working times
       subheader:
         resource: Resource
         settings: Configure view

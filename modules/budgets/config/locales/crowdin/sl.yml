@@ -21,24 +21,22 @@
 #++
 ---
 sl:
-  plugin_budgets_engine:
-    name: Proračuni
   activerecord:
     attributes:
       budget:
         author: Avtor
         available: Na voljo
+        base_amount: Base amount
         budget: Načrtovano
         budget_ratio: Poraba (razmerje)
         description: Opis
+        labor_budget: Načrtovani stroški dela
+        labor_budget_items: Planned labor costs
+        material_budget: Načrtovani stroški enote
         spent: Porabljeno
         status: Stanje
         subject: Zadeva
         type: Vrsta stroška
-        labor_budget: Načrtovani stroški dela
-        labor_budget_items: Planned labor costs
-        material_budget: Načrtovani stroški enote
-        base_amount: Base amount
       work_package:
         budget_subject: Naslov proračuna
     errors:
@@ -56,49 +54,49 @@ sl:
       budget: Proračuni
   attributes:
     budget: Proračun
-  button_add_budget_item: Vnesi planirane stroške
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+          heading: Start project controlling
+        blankslate_zero:
+          description: Add details about your planned budget to see data here
+          heading: Budget details missing
+        count_caption:
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+          zero: No budget data.
+        count_caption_with_subitems:
+          portfolio:
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+            zero: No budget data.
+          program:
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+            zero: No budget data.
+          project:
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+            zero: No budget data.
+        title: Budget by cost type
+        view_details: View budget details
+      budget_totals:
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        title: Budget totals
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+  budgets_title: Proračuni
   button_add_budget: Dodaj proračun
+  button_add_budget_item: Vnesi planirane stroške
   button_add_cost_type: Dodaj vrsto stroška
   button_cancel_edit_budget: Prekliči urejanje proračuna
   button_cancel_edit_costs: Prekliči urejanje stroškov
   caption_labor: Delo
   caption_labor_costs: Dejanski stroški dela
   caption_material_costs: Dejanski stroški enote
-  budgets_title: Proračuni
-  budgets:
-    widgets:
-      budget_totals:
-        title: Budget totals
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
-      budget_by_cost_type:
-        title: Budget by cost type
-        blankslate:
-          heading: Start project controlling
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-        blankslate_zero:
-          heading: Budget details missing
-          description: Add details about your planned budget to see data here
-        count_caption:
-          zero: No budget data.
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-        count_caption_with_subitems:
-          project:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-          program:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-          portfolio:
-            zero: No budget data.
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-        view_details: View budget details
   events:
     budget: Proračun urejen
   help_click_to_edit: Kliknite tukaj, za urejanje
@@ -106,23 +104,25 @@ sl:
   help_override_rate: Vnesite vrednost, da nadomestite privzeto stopnjo.
   label_budget: Proračun
   label_budget_available: Budget available
+  label_budget_details: Budget details
   label_budget_id: 'Proračun #%{id}'
   label_budget_new: Nov proračun
   label_budget_planned: Budget planned
   label_budget_plural: Proračuni
   label_budget_spent: Budget spent
   label_budget_spent_ratio: Budget spent ratio
+  label_budget_totals: Totals
   label_deliverable: Proračun
   label_example_placeholder: npr., %{decimal}
   label_view_all_budgets: Oglejte si vse proračune
   label_yes: Da
-  label_budget_totals: Totals
-  label_budget_details: Budget details
   notice_budget_conflict: Delovni paketi morajo biti v istem projektu.
   notice_no_budgets_available: Proračuni niso na voljo.
   permission_edit_budgets: Uredi proračun
   permission_view_budgets: Oglejte si proračune
+  plugin_budgets_engine:
+    name: Proračuni
   project_module_budgets: Proračuni
-  text_budget_reassign_to: 'Prerazporedi jih k temu proračunu:'
   text_budget_delete: Izbriši proračun iz vseh delovnih paketov
   text_budget_destroy_assigned_wp: Obstaja %{count} delovnih paketov, ki so prirejeni temu proračunu. Kaj bi radi naredili?
+  text_budget_reassign_to: 'Prerazporedi jih k temu proračunu:'

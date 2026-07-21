@@ -35,6 +35,7 @@ RSpec.describe "Projects copy", :js,
   describe "with a full copy example" do
     let!(:project) do
       create(:project,
+             :with_internal_wiki,
              parent: parent_project,
              types: active_types,
              members: { user => role },
@@ -46,9 +47,6 @@ RSpec.describe "Projects copy", :js,
              }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
-
-        # Enable wiki
-        p.enabled_module_names += ["wiki"]
 
         # Enable the project custom field mappings
         p.project_custom_field_project_mappings
@@ -193,8 +191,8 @@ RSpec.describe "Projects copy", :js,
       it "renders only required project attribute" do
         expect(page).to have_heading "Copy project \"#{project.name}\""
 
-        expect(page).to have_content "Required Foo"
-        expect(page).to have_content "Required User"
+        expect(page).to have_text "Required Foo"
+        expect(page).to have_text "Required User"
         expect(page).to have_no_text "Optional Foo"
       end
     end
@@ -331,7 +329,7 @@ RSpec.describe "Projects copy", :js,
         it "shows invisible fields in the form and allows their activation" do
           expect(page).to have_heading "Copy project \"#{project.name}\""
 
-          expect(page).to have_content "Text for Admins only"
+          expect(page).to have_text "Text for Admins only"
 
           fill_in "Name", with: "Copied project"
 
@@ -358,7 +356,7 @@ RSpec.describe "Projects copy", :js,
         it "does not show invisible fields in the form but still activates them" do
           expect(page).to have_heading "Copy project \"#{project.name}\""
 
-          expect(page).to have_no_content "Text for Admins only"
+          expect(page).to have_no_text "Text for Admins only"
 
           fill_in "Name", with: "Copied project"
 
@@ -472,12 +470,12 @@ RSpec.describe "Projects copy", :js,
           # User has no permission to edit project attributes.
           expect(page).to have_no_css("[data-test-selector*='inplace-edit-dialog-button-']")
           # The custom fields are still copied from the parent project.
-          expect(page).to have_content(project_custom_field.name)
-          expect(page).to have_content("some text cf")
-          expect(page).to have_content(optional_project_custom_field.name)
-          expect(page).to have_content("some optional text cf")
-          expect(page).to have_content(optional_project_custom_field_with_default.name)
-          expect(page).to have_content("foo")
+          expect(page).to have_text(project_custom_field.name)
+          expect(page).to have_text("some text cf")
+          expect(page).to have_text(optional_project_custom_field.name)
+          expect(page).to have_text("some optional text cf")
+          expect(page).to have_text(optional_project_custom_field_with_default.name)
+          expect(page).to have_text("foo")
         end
       end
     end

@@ -22,9 +22,9 @@
 ---
 ar:
   js:
-    work_packages:
-      properties:
-        storyPoints: نقاط القصة
     burndown:
       day: يوم
       points: نِقَاط
+    work_packages:
+      properties:
+        storyPoints: نقاط القصة

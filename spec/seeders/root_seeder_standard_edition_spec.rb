@@ -53,14 +53,14 @@ RSpec.describe RootSeeder,
 
     it "creates the demo data" do # rubocop:disable RSpec/MultipleExpectations
       expect(Project.count).to eq 2
-      expect(EnabledModule.count).to eq 19
+      expect(EnabledModule.count).to eq 18
       expect(WorkPackage.count).to eq 37
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      expect(Query.count).to eq 26
+      expect(Query.count).to eq 28
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
@@ -306,7 +306,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
         expect(View.where(type: "gantt").count).to eq 2
-        expect(Query.count).to eq 26
+        expect(Query.count).to eq 28
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2

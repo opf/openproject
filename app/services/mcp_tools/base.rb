@@ -86,12 +86,6 @@ module McpTools
         @input_schema
       end
 
-      def output_schema(schema = nil)
-        @output_schema = schema if schema.present?
-
-        @output_schema
-      end
-
       ##
       # Defines a filter for selecting results through input parameters. Only one of filter_proc and filter_class are allowed at
       # the same time. If none is provided, a default where-based filter is created, using name as the filtered attribute name.
@@ -99,7 +93,8 @@ module McpTools
       # Filters defined here can later be applied by the tool implementation using #apply_filters.
       #
       # @param name [Symbol] The name of the input parameter used for filtering.
-      # @param filter_class [Queries::Filters::Base] A shared filter implementation to be used to perform filtering.
+      # @param filter_class [String] Class name of a shared filter implementation to be used to perform filtering,
+      #                              inheriting from Queries::Filters::Base.
       # @param operator [String] When using a filter_class, this is the operator that will be used for filtering. Default: "="
       # @param filter_proc [Proc] A callback procedure used for filtering that must accept two arguments:
       #                           The base scope that the filter applies to and the value that's used as a filter input.
@@ -117,7 +112,7 @@ module McpTools
         end
 
         if filter_class
-          filter_proc = ->(scope, value) { filter_class.create!(operator:, values: Array(value)).apply_to(scope) }
+          filter_proc = ->(scope, value) { filter_class.constantize.create!(operator:, values: Array(value)).apply_to(scope) }
         elsif !filter_proc
           filter_proc = ->(scope, value) { scope.where(name.to_sym => value) }
         end
@@ -155,7 +150,6 @@ module McpTools
           title: config.title,
           description: config.description,
           input_schema:,
-          output_schema:,
           annotations: read_annotations
         ) do |server_context: {}, **opts|
           implementation.new(server_context:, tool_context: self).handle_request(**opts)
@@ -170,12 +164,6 @@ module McpTools
 
     def handle_request(**)
       result = call(**)
-
-      if Rails.env.local? && @tool_context.output_schema
-        # We are only validating the output during development, so we can see errors during dev, but do not break the
-        # API in production due to minor schema differences.
-        @tool_context.output_schema.validate_result(JSON.parse(result.to_json))
-      end
 
       format_response(result)
     end

@@ -1,20 +1,28 @@
 ---
 pl:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: Liczba kolumn
+        page: Strona
+        row_count: Liczba wierszy
+        scope: Zakres
+        widgets: Widżety
+    errors:
+      models:
+        grids/grid:
+          end_before_start: wartość końcowa musi być większa niż wartość początkowa.
+          outside: jest poza siatką.
+          overlaps: nałożenie.
   grids:
     label_widget_in_grid: Widżet zawarty w siatce %{grid_name}
     widgets:
       empty: Ten widżet jest obecnie pusty.
-      not_available: Ten widżet jest niedostępny.
-      subitems:
-        title: Podpozycje
-        no_results: Nie ma żadnych widocznych elementów podrzędnych.
-        view_all_subitems: Wyświetl wszystkie podpozycje
-        button_text: Podelement
       members:
-        title: Członkowie
         no_results: Brak widocznych członków.
-        view_all_members: Zobacz wszystkich członków
         show_members_count: Pokaż wszystkich %{count} członków
+        title: Członkowie
+        view_all_members: Zobacz wszystkich członków
         x_more:
           one: i jeszcze jeden członek.
           few: i jeszcze %{count} członków.
@@ -22,17 +30,14 @@ pl:
           other: i jeszcze %{count} członka.
       news:
         no_results: Utwórz nowy raport.
-  activerecord:
-    attributes:
-      grids/grid:
-        page: Strona
-        row_count: Liczba wierszy
-        column_count: Liczba kolumn
-        widgets: Widżety
-        scope: Zakres
-    errors:
-      models:
-        grids/grid:
-          overlaps: nałożenie.
-          outside: jest poza siatką.
-          end_before_start: wartość końcowa musi być większa niż wartość początkowa.
+      not_available: Ten widżet jest niedostępny.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: Podelement
+        no_results: Nie ma żadnych widocznych elementów podrzędnych.
+        title: Podpozycje
+        view_all_subitems: Wyświetl wszystkie podpozycje

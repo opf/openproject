@@ -45,7 +45,7 @@ module WorkPackageTypes
       end
 
       def name
-        link = link_to(model.name, edit_type_settings_path(type_id: model.id))
+        link = link_to(model.own_name, edit_type_settings_path(type_id: model.id))
         return link unless OpenProject::FeatureDecisions.subtypes_active? && model.parent_id.present?
 
         render(Primer::Box.new(pl: 4)) { link }
@@ -58,7 +58,7 @@ module WorkPackageTypes
                     op_icon("icon3 icon-warning"),
                     t(:text_type_no_workflow),
                     " (",
-                    link_to(t(:button_edit), edit_workflow_path(model)),
+                    link_to(t(:button_edit), edit_type_workflow_path(model)),
                     ")"
                   ])
       end

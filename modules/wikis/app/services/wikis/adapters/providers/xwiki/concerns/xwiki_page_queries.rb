@@ -36,7 +36,13 @@ module Wikis
           module XWikiPageQueries
             def canonical_page_info(identifier:, auth_strategy:)
               Input::PageInfo.build(identifier:).bind do |input_data|
-                Queries::Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+                Queries::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+              end
+            end
+
+            def canonical_page_hierarchy(identifier:, auth_strategy:)
+              Input::PageHierarchy.build(identifier:).bind do |input_data|
+                Queries::CanonicalPageHierarchy.new(model: provider).call(input_data:, auth_strategy:)
               end
             end
           end

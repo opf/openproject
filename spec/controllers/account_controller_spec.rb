@@ -1004,6 +1004,80 @@ RSpec.describe AccountController, :skip_2fa_stage do
       it_behaves_like "registration disabled"
     end
 
+    context "with an ongoing invitation activation",
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
+      let(:user) { create(:invited_user, mail: "invited@example.com") }
+      let(:token) { Token::Invitation.create!(user:) }
+
+      before do
+        session[:invitation_token] = token.value
+
+        post :register,
+             params: {
+               user: {
+                 password: "adminADMIN!",
+                 password_confirmation: "adminADMIN!",
+                 firstname: "John",
+                 lastname: "Doe",
+                 mail: "self.chosen@example.com"
+               }
+             }
+      end
+
+      context "when users may change their email", with_settings: { user_can_change_email: true } do
+        it "activates the account with the email the user entered" do
+          expect(user.reload.mail).to eq "self.chosen@example.com"
+          expect(user).to be_active
+        end
+      end
+
+      context "when users may not change their email", with_settings: { user_can_change_email: false } do
+        it "activates the account with the invited email, ignoring the submitted one" do
+          expect(user.reload.mail).to eq "invited@example.com"
+          expect(user).to be_active
+        end
+      end
+    end
+
+    context "with self registration and no invitation",
+            with_settings: { self_registration: Setting::SelfRegistration.automatic } do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+
+        post :register,
+             params: {
+               user: {
+                 login: "register",
+                 password: "adminADMIN!",
+                 password_confirmation: "adminADMIN!",
+                 firstname: "John",
+                 lastname: "Doe",
+                 mail: "self.chosen@example.com"
+               }
+             }
+      end
+
+      shared_examples "self registration with a freely chosen email" do
+        it "creates the account with the email the user entered" do
+          user = User.find_by(login: "register")
+
+          expect(user).to be_present
+          expect(user.mail).to eq "self.chosen@example.com"
+          expect(user).to be_active
+        end
+      end
+
+      context "when users may change their email", with_settings: { user_can_change_email: true } do
+        it_behaves_like "self registration with a freely chosen email"
+      end
+
+      # Self-registration creates a new account rather than changing an existing one, so there is
+      # no invited address to pin the user to. They must still be able to pick their own email.
+      context "when users may not change their email", with_settings: { user_can_change_email: false } do
+        it_behaves_like "self registration with a freely chosen email"
+      end
+    end
+
     context "with on-the-fly registration",
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do

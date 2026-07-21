@@ -1,35 +1,40 @@
 ---
 ko:
+  activerecord:
+    attributes:
+      grids/grid:
+        column_count: 열 수
+        page: 페이지
+        row_count: 행 수
+        scope: 범위
+        widgets: 위젯
+    errors:
+      models:
+        grids/grid:
+          end_before_start: 종료 값은 시작 값보다 커야 합니다.
+          outside: "- 그리드의 외부에 있습니다."
+          overlaps: 오버랩
   grids:
     label_widget_in_grid: 그리드 %{grid_name}에 포함된 위젯
     widgets:
       empty: 이 위젯은 현재 비어 있습니다.
-      not_available: 이 위젯은 사용할 수 없습니다.
-      subitems:
-        title: 하위 항목
-        no_results: 표시되는 자식이 없습니다.
-        view_all_subitems: 모든 하위 항목 보기
-        button_text: 하위 항목
       members:
-        title: 멤버
         no_results: 표시할 멤버가 없습니다.
-        view_all_members: 모든 회원 보기
         show_members_count: "%{count}명 멤버 모두 표시"
+        title: 멤버
+        view_all_members: 모든 회원 보기
         x_more:
           other: 및 기타 멤버 %{count}명.
       news:
         no_results: 새로 보고할 것이 없음
-  activerecord:
-    attributes:
-      grids/grid:
-        page: 페이지
-        row_count: 행 수
-        column_count: 열 수
-        widgets: 위젯
-        scope: 범위
-    errors:
-      models:
-        grids/grid:
-          overlaps: 오버랩
-          outside: "- 그리드의 외부에 있습니다."
-          end_before_start: 종료 값은 시작 값보다 커야 합니다.
+      not_available: 이 위젯은 사용할 수 없습니다.
+      project_timeline:
+        no_lifecycle_results: No project life cycle phases configured
+        title: Project timeline
+        title_portfolio: Portfolio timeline
+        title_program: Program timeline
+      subitems:
+        button_text: 하위 항목
+        no_results: 표시되는 자식이 없습니다.
+        title: 하위 항목
+        view_all_subitems: 모든 하위 항목 보기

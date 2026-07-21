@@ -59,6 +59,10 @@ module Wikis
                     .map { page_info(provider: it.provider, identifier: it.identifier) }
     end
 
+    def relation_page_link_keys_for(linkable:)
+      RelationPageLink.where(linkable:).pluck(:provider_id, :identifier).to_set
+    end
+
     def referencing_wiki_page_references_for(linkable:)
       referenced_in = []
 

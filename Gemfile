@@ -39,7 +39,7 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
 gem "activerecord-import", "~> 2.2.0"
-gem "activerecord-session_store", "~> 2.2.0"
+gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3"
 gem "responders", "~> 3.2"
@@ -87,7 +87,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.2"
+gem "commonmarker", "~> 2.8.3"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -112,10 +112,10 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "ruby-duration", "~> 3.2.0"
 gem "msgpack", "~> 1.8.3"
+gem "ruby-duration", "~> 3.2.0"
 
-gem "mail", "2.9.0"
+gem "mail", "2.9.1"
 
 gem "csv", "~> 3.3"
 
@@ -144,7 +144,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.19.1"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.14.0"
+gem "lograge", "~> 0.15.0"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -208,7 +208,7 @@ gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.225"
 
-gem "openproject-token", "~> 8.11.0"
+gem "openproject-token", "~> 8.12.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -251,10 +251,10 @@ gem "factory_bot", "~> 6.6.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.5.0", require: false
 
-gem "turbo_power", "~> 0.7.0"
+gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.7.5"
+gem "httpx", "~> 1.8.0"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -385,7 +385,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.1"
+gem "grape", "~> 3.3.2"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -403,7 +403,7 @@ gem "disposable", "~> 0.6.2"
 gem "dentaku", "~> 3.5"
 
 # Used for more powerful counter caches
-gem "counter_culture", "~> 3.13"
+gem "counter_culture", "~> 3.14"
 
 group :postgres do
   gem "pg", "~> 1.6.2"
@@ -432,5 +432,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.89.1"
+  gem "openproject-primer_view_components", "~>0.89.2"
 end

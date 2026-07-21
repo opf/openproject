@@ -1,29 +1,28 @@
-#English strings go here
 ---
 vi:
-  plugin_openproject_avatars:
-    name: hình đại diện
-    description: Plugin này cho phép người dùng OpenProject tải lên hình ảnh để sử dụng làm hình đại diện hoặc sử dụng hình ảnh đã đăng ký từ Gravatar.
-  label_avatar: Hình đại diện
-  label_avatar_plural: Các hình đại diện
-  label_current_avatar: Hình đại diện hiện tại
-  label_choose_avatar: Chọn hình đại diện từ tập tin
-  message_avatar_uploaded: Hình đại diện đã thay đổi thành công
-  error_image_upload: Lỗi khi lưu ảnh!
-  error_image_size: Ảnh quá lớn
   are_you_sure_delete_avatar: Bạn có chắc muốn xóa hình đại diện của bạn ?
   avatar_deleted: Hình đại diện đã xóa thành công
-  unable_to_delete_avatar: Hình đại diện không thể bị xóa
-  wrong_file_format: 'Định dạng ảnh được chấp nhận: jpg, png, gif'
-  empty_file_error: Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)
   avatars:
     label_avatar: hình đại diện
     label_gravatar: Nhóm ảnh đại diện
     label_local_avatar: Tùy chỉnh hình đại diện
+    settings:
+      enable_gravatars: Bật gravatars của người dùng
+      enable_local_avatars: Cho phép người dùng tùy chỉnh hình đại diện
+      gravatar_default: Hình ảnh Gravatar mặc định
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Bật gravatars của người dùng
-      gravatar_default: Hình ảnh Gravatar mặc định
-      enable_local_avatars: Cho phép người dùng tùy chỉnh hình đại diện
+  empty_file_error: Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)
+  error_image_size: Ảnh quá lớn
+  error_image_upload: Lỗi khi lưu ảnh!
+  label_avatar: Hình đại diện
+  label_avatar_plural: Các hình đại diện
+  label_choose_avatar: Chọn hình đại diện từ tập tin
+  label_current_avatar: Hình đại diện hiện tại
+  message_avatar_uploaded: Hình đại diện đã thay đổi thành công
+  plugin_openproject_avatars:
+    description: Plugin này cho phép người dùng OpenProject tải lên hình ảnh để sử dụng làm hình đại diện hoặc sử dụng hình ảnh đã đăng ký từ Gravatar.
+    name: hình đại diện
+  unable_to_delete_avatar: Hình đại diện không thể bị xóa
+  wrong_file_format: 'Định dạng ảnh được chấp nhận: jpg, png, gif'

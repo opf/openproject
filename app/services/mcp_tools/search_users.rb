@@ -39,7 +39,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :search_term, filter_class: Queries::Users::Filters::AnyNameAttributeFilter, operator: "~"
+    filter :search_term, filter_class: "Queries::Users::Filters::AnyNameAttributeFilter", operator: "~"
 
     input_schema(
       properties: {
@@ -47,17 +47,6 @@ module McpTools
           type: "string",
           description: "A search term to find the user by. Accepts first name and last name. Also accepts email address, " \
                        "if instance settings allow it."
-        }
-      }
-    )
-
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("user_model")
         }
       }
     )

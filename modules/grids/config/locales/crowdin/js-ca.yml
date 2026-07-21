@@ -3,58 +3,61 @@ ca:
   js:
     grid:
       add_widget: Afegeix widget
-      widget_menu_label: Show menu options for %{widgetName} widget
-      remove: Elimina els widgets
       configure: Configurar widget
+      remove: Elimina els widgets
+      widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
-        missing_permission: You don't have the necessary permissions to view this widget.
-        not_available: This widget is currently unavailable.
         custom_text:
           title: Text personalitzat
         documents:
-          title: Documents
           no_results: Sense documents de moment.
+          title: Documents
         members:
           title: Membres
+        missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: Notícies
+        not_available: This widget is currently unavailable.
         project_description:
           title: Description
+        project_favorites:
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          title: Projectes preferits
         project_status:
-          title: Status
-          not_started: No començat
-          on_track: Pel bon camí
-          off_track: En mal camí
           at_risk: En risc
-          not_set: No configurat
-          finished: Finalitzat
           discontinued: Discontinuat
+          finished: Finalitzat
+          not_set: No configurat
+          not_started: No començat
+          off_track: En mal camí
+          on_track: Pel bon camí
+          title: Status
+        project_timeline:
+          tooltip_type_gate: Phase gate
+          tooltip_type_phase: Phase
         subprojects:
           title: Subitems
-        project_favorites:
-          title: Projectes preferits
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
-          title: El meu temps invertit
           displayed_days: Dies mostrats en el widget
+          title: El meu temps invertit
         time_entries_list:
-          title: Temps invertit (últims 7 dies)
           no_results: Sense entrades de temps els últims 7 dies.
+          title: Temps invertit (últims 7 dies)
         work_packages_accountable:
           title: Paquets de treball dels que en sóc responsable
         work_packages_assigned:
           title: Paquets de treball assignats a mi
-        work_packages_created:
-          title: Paquets de treball creats per vosté
-        work_packages_watched:
-          title: Paquets de treball seguiment per vosté
-        work_packages_table:
-          title: Taula de paquets de treball
-        work_packages_graph:
-          title: Gràfica de paquets de treball
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: Calendari
+        work_packages_created:
+          title: Paquets de treball creats per vosté
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: Gràfica de paquets de treball
         work_packages_overview:
-          title: Visió general de paquets de treball
           placeholder: Clica per editar...
+          title: Visió general de paquets de treball
+        work_packages_table:
+          title: Taula de paquets de treball
+        work_packages_watched:
+          title: Paquets de treball seguiment per vosté

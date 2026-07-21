@@ -83,6 +83,10 @@ module Pages
         submenu.expect_item(filter_name, selected:, favorited:, visible:)
       end
 
+      def expect_no_sidebar_filter_selected
+        submenu.expect_no_selected_item
+      end
+
       def expect_no_sidebar_filter(filter_name)
         submenu.expect_no_item(filter_name)
       end

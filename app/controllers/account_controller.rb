@@ -145,7 +145,7 @@ class AccountController < ApplicationController
   end
 
   # User self-registration
-  def register
+  def register # rubocop:disable Metrics/AbcSize
     return self_registration_disabled unless allow_registration?
 
     @user = invited_user
@@ -153,8 +153,10 @@ class AccountController < ApplicationController
     if request.get?
       registration_through_invitation!
     else
+      enforce_invited_mail!
+
       if Setting.email_login?
-        params[:user][:login] = params[:user][:mail]
+        params[:user][:login] = params[:user][:mail] # rubocop:disable Rails/StrongParametersExpect
       end
 
       self_registration!
@@ -325,6 +327,14 @@ class AccountController < ApplicationController
       @user.firstname = nil
       @user.lastname = nil
     end
+  end
+
+  # Invited users activate an account the administrator created for them. Unless users may change
+  # their email address, they are pinned to the invited address, no matter what the form submitted.
+  def enforce_invited_mail!
+    return if @user.nil? || Setting.user_can_change_email? || params[:user].blank?
+
+    params[:user][:mail] = @user.mail # rubocop:disable Rails/StrongParametersExpect
   end
 
   def self_registration!

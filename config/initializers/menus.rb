@@ -430,12 +430,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_progress_tracking,
             parent: :admin_work_packages
 
-  menu.push :workflows,
-            { controller: "/workflows", action: "index" },
-            if: ->(_) { User.current.admin? },
-            caption: ->(_) { I18n.t(:label_workflow_plural) },
-            parent: :admin_work_packages
-
   menu.push :admin_projects_settings,
             { controller: "/admin/settings/project_phase_definitions", action: :index },
             if: ->(_) { User.current.admin? },
@@ -678,12 +672,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_custom_style,
             icon: "paintbrush",
             enterprise_feature: "define_custom_style"
-
-  menu.push :colors,
-            { controller: "/colors", action: "index" },
-            if: ->(_) { User.current.admin? },
-            caption: :label_color_plural,
-            icon: "meter"
 
   menu.push :enterprise,
             { controller: "/enterprise_tokens", action: :index },

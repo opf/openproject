@@ -5,6 +5,7 @@ ko:
       resource_allocation:
         allocated_hours: 시간
         allocated_time: 할당된 시간
+        date_range: Dates
         end_date: 완료 날짜
         entity: 엔티티
         filter_name: 리소스 필터 이름
@@ -13,6 +14,7 @@ ko:
         state: 상태
         user_filter: 사용자 필터
       resource_planner:
+        date_range: Dates
         default_view_class_name: 기본 보기
         end_date: 완료 날짜
         favorite: 즐겨찾기
@@ -29,6 +31,9 @@ ko:
           attributes:
             end_date:
               greater_than_start_date: "- 시작 날짜 후여야 합니다."
+              required_with_start_date: must be set when a start date is set.
+            start_date:
+              required_with_end_date: must be set when a finish date is set.
         resource_work_package_list:
           attributes:
             query:
@@ -38,6 +43,13 @@ ko:
       resource_planner: 리소스 플래너
       resource_user_card: 사용자 카드
       resource_work_package_list: 작업 패키지 목록
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: 다음
   label_resource_management: Resource management
   permission_allocate_user_resources: 사용자 리소스 할당
@@ -60,10 +72,6 @@ ko:
       make_private: 비공개로 설정
       make_public: 공개로 설정
       unfavorite: 즐겨찾기에서 제거
-    allocation:
-      hours: "%{value}시간"
-      no_work: 이 작업 패키지에 대해 계획된 작업이 없습니다
-      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -87,6 +95,10 @@ ko:
       submit: 할당
       success_message: 리소스가 할당되었습니다.
       title: 리소스 할당
+    allocation:
+      hours: "%{value}시간"
+      no_work: 이 작업 패키지에 대해 계획된 작업이 없습니다
+      summary: "%{allocated}/%{scheduled}"
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
@@ -149,9 +161,7 @@ ko:
       title: Staffing
     sub_views: 이 리소스 플래너의 보기
     timeframe:
-      end_only: Until %{end}
       full: From %{start} to %{end}
-      start_only: From %{start}
     timeline:
       granularity:
         day: Day
@@ -183,11 +193,11 @@ ko:
         remove: 사용자 제거
         remove_confirmation: 보기에서 이 사용자를 제거하시겠습니까?
       fields:
-        working_times: 작업 시간
-        input_label: 필드
-        input_caption: 이 보기의 사용자 카드에 표시할 필드 선택
-        input_placeholder: 필드 추가
         drag_area_label: 표시된 필드
+        input_caption: 이 보기의 사용자 카드에 표시할 필드 선택
+        input_label: 필드
+        input_placeholder: 필드 추가
+        working_times: 작업 시간
       subheader:
         resource: 리소스
         settings: 보기 구성

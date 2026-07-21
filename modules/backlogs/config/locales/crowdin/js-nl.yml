@@ -22,9 +22,9 @@
 ---
 nl:
   js:
-    work_packages:
-      properties:
-        storyPoints: Story points
     burndown:
       day: Dag
       points: Points
+    work_packages:
+      properties:
+        storyPoints: Story points

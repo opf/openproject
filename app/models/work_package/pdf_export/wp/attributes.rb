@@ -65,6 +65,54 @@ module WorkPackage::PDFExport::Wp::Attributes
   end
 
   def write_query_group(group, work_package)
+    return write_query_group_as_table(group, work_package) if query_group_as_table?(group)
+
+    write_query_group_as_attributes(group, work_package)
+  end
+
+  # to be overridden in subclasses
+  def query_group_as_table?(_group)
+    true
+  end
+
+  def write_query_group_as_attributes(group, work_package)
+    prepare_query_group(group, work_package)
+    related_work_packages = group.query.results.work_packages
+    write_group_title(group)
+    if related_work_packages.empty?
+      write_inline_hint("[No work packages]")
+      return
+    end
+
+    column_entries = query_group_column_entries(group.query)
+    related_work_packages.each do |related_work_package|
+      write_related_work_package_attributes(related_work_package, column_entries)
+    end
+  end
+
+  def query_group_column_entries(query)
+    limit_table_columns_objects(query)
+      .reject { |column| column.name == :subject }
+      .map { |column| { label: column.caption || "", name: column.name } }
+  end
+
+  def write_related_work_package_attributes(work_package, column_entries)
+    write_optional_page_break
+    write_related_work_package_subject(work_package)
+    list = column_entries.map do |entry|
+      entry.merge({ value: get_column_value_cell(work_package, entry[:name]) })
+    end
+    write_attributes_table(form_config_group_to_column_entries_rows(list))
+  end
+
+  def write_related_work_package_subject(work_package)
+    style = styles.wp_attributes_subject
+    with_margin(styles.wp_attributes_subject_margins) do
+      pdf.formatted_text([style.merge({ text: get_column_value(work_package, :subject) })], style)
+    end
+  end
+
+  def write_query_group_as_table(group, work_package)
     prepare_query_group(group, work_package)
     related_work_packages = group.query.results.work_packages
     write_group_title(group)
@@ -115,7 +163,10 @@ module WorkPackage::PDFExport::Wp::Attributes
   end
 
   def write_attributes_group_table(list, work_package)
-    rows = attributes_to_rows(list, work_package)
+    write_attributes_table(attributes_to_rows(list, work_package))
+  end
+
+  def write_attributes_table(rows)
     return if rows.empty?
 
     with_margin(styles.wp_attributes_table_margins) do
@@ -173,7 +224,7 @@ module WorkPackage::PDFExport::Wp::Attributes
     cf = form_key_to_custom_field(form_key)
     return false if cf.nil?
 
-    cf.formattable? && custom_field_allowed(cf, work_package)
+    cf.formattable? && custom_field_allowed?(cf, work_package)
   end
 
   def write_group_title(group, with_hr: true)
@@ -212,13 +263,13 @@ module WorkPackage::PDFExport::Wp::Attributes
     CustomField.find_by(id:)
   end
 
-  def custom_field_allowed(custom_field, work_package)
+  def custom_field_allowed?(custom_field, work_package)
     custom_field.is_for_all? || work_package.project.work_package_custom_field_ids.include?(custom_field.id)
   end
 
   def form_key_custom_field_to_column_entries(form_key, work_package)
     cf = form_key_to_custom_field(form_key)
-    return [] if cf.nil? || cf.formattable? || !custom_field_allowed(cf, work_package)
+    return [] if cf.nil? || cf.formattable? || !custom_field_allowed?(cf, work_package)
 
     [{ label: cf.name || form_key, name: form_key.to_s.sub("custom_field_", "cf_") }]
   end

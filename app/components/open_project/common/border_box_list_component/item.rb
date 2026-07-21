@@ -33,6 +33,10 @@ module OpenProject
     class BorderBoxListComponent
       # Generic BorderBox list row that renders the slot content directly.
       class Item < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include Primer::AttributesHelper
+        include HasMenu
+
         # @param system_arguments [Hash] forwarded to Primer's BorderBox row.
         def initialize(**system_arguments)
           super()
@@ -43,10 +47,6 @@ module OpenProject
         # @return [Hash] arguments forwarded to Primer's BorderBox row.
         def row_args
           @system_arguments.deep_dup
-        end
-
-        def call
-          content
         end
       end
     end

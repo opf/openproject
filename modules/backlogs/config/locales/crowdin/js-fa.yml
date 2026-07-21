@@ -22,9 +22,9 @@
 ---
 fa:
   js:
-    work_packages:
-      properties:
-        storyPoints: وزن دهی کار
     burndown:
       day: روز
       points: امتیاز ها
+    work_packages:
+      properties:
+        storyPoints: وزن دهی کار

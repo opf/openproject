@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Wysiwyg bold behavior", :js do
   current_user { create(:admin) }
 
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:editor) { Components::WysiwygEditor.new }
 
   def mac_osx?

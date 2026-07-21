@@ -1,15 +1,11 @@
-#English strings go here for Rails i18n
 ---
 fi:
-  plugin_openproject_two_factor_authentication:
-    name: OpenProject Two-factor authentication
-    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: Tunnistaa
-        default: Käytä oletuksena
         channel: Kanava
+        default: Käytä oletuksena
+        identifier: Tunnistaa
       two_factor_authentication/device/sms:
         phone_number: Puhelinnumero
       two_factor_authentication/device/webauthn:
@@ -28,32 +24,138 @@ fi:
       two_factor_authentication/device/sms: Matkapuhelin
       two_factor_authentication/device/totp: Kaksivaiheisen kirjautumisen salasanasovellus
       two_factor_authentication/device/webauthn: WebAuthn
+  button_continue: Jatka
+  button_make_active: Activate
+  button_make_default: Merkitse oletusarvo
+  button_otp_by_sms: SMS
+  button_otp_by_voice: Äänipuhelu
+  button_resend_otp_form: Lähetä uudelleen
+  field_otp: Kertakäyttösalasana
+  label_confirmed: Vahvistettu
+  label_otp_channel: Toimituskanava
+  notice_account_has_no_phone: No cell phone number is associated with your account.
+  notice_account_otp_expired: The one-time password you entered expired.
+  notice_account_otp_invalid: Virheellinen kertakäyttösalasana.
+  notice_account_otp_send_failed: Your one-time password could not be sent.
+  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
+  notice_phone_number_format: Anna numero esim. +358 40 1234567.
+  plugin_openproject_two_factor_authentication:
+    description: This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+    name: OpenProject Two-factor authentication
+  text_otp_not_receive: Muut tunnistustavat
+  text_send_otp_again: 'Lähetä kertakäyttösalasana uudelleen:'
   two_factor_authentication:
+    admin:
+      all_devices_deleted: Tämän käyttäjän kaikki 2FA-laitteet on poistettu
+      button_delete_all_devices: Poista rekisteröidyt 2FA-laitteet
+      button_register_mobile_phone_for_user: Rekisteröi matkapuhelin
+      delete_all_are_you_sure: Haluatko varmasti poistaa kaikki tämän käyttäjän 2FA-laitteet?
+      no_devices_for_user: Tätä käyttäjää varten ei ole rekisteröity tunnistuslaitetta.
+      only_sms_allowed: Only SMS delivery can be set up for other users.
+      self_edit_forbidden: Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Tiliasetukset> Kaksi tekijän todennusta sijaan.
+      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      text_2fa_disabled: The user did not set up a 2FA device through their 'My account page'
+      text_2fa_enabled: Upon every login, this user will be requested to enter a OTP token from their default 2FA device.
+    backup_codes:
+      generate:
+        keep_safe_as_password: Tärkeä! Käsittele näitä koodeja salasanoina.
+        keep_safe_warning: Joko tallenna ne salasanahallintaasi tai tulosta sivu ja säilytä se turvallisessa paikassa.
+        regenerate_warning: 'Varoitus: Jos olet luonut varmuuskopiokoodit aiemmin, ne mitätöidään ja eivät enää toimi.'
+        title: Luo palautuskoodit
+      overview_description: 'Jos et pysty käyttämään tunnistuslaitettasi, voit käyttää palautuskoodia. Luo palautuskoodit seuraavalla painikkeella.
+
+        '
+      plural: Varmistuskoodi
+      singular: Palautuskoodi
+    channel_unavailable: Toimituskanava %{channel} ei ole käytettävissä.
+    devices:
+      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      add_new: Lisää tunnistuslaite
+      button_complete_registration: Viimeistele tunnistuslaitteen rekisteröinti
+      cannot_delete_default: Et voi poistaa oletuslaitetta
+      confirm_default: Vahvista oletuslaitteen muuttaminen
+      confirm_device: Vahvista laite
+      confirm_now: Ei vahvistanut, aktivoi tästä napsauttamalla tätä
+      confirm_send_failed: Tunnistuslaitteen vahvistus epäonnistui.
+      deletion_are_you_sure: Haluatko varmasti poistaa tämän 2FA laitteen?
+      failed_to_delete: Tunnistuslaitteen poistaminen epäonnistui
+      is_default_cannot_delete: The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.
+      make_default_are_you_sure: Haluatko varmasti tehdä tämän 2FA-laitteen oletusarvoksi?
+      make_default_failed: Oletusarvoisen 2FA-laitteen päivitys epäonnistui.
+      not_existing: Käyttäjätilillesi ei ole rekisteröity tunnistuslaitetta.
+      register: Rekisteröi laite
+      registration_complete: 2FA laitteen rekisteröinti on valmis!
+      registration_failed_token_invalid: 2FA laitteen rekisteröinti epäonnistui, merkki oli virheellinen.
+      registration_failed_update: Tunnistuslaitteen rekisteröinti epäonnistui, token oli voimassa mutta laitetta ei voitu päivittää.
+      sms:
+        description: 'Receive 2FA code via a text message on your phone each time you log in.
+
+          '
+        redacted_identifier: Matkapuhelin (%{redacted_number})
+        request_2fa_identifier: "%{redacted_identifier}, lähetimme sinulle tunnistautumiskoodin %{delivery_channel} kautta"
+        title: Mobile device
+      text_confirm_to_change_default_html: Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device.
+      text_confirm_to_complete_html: Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana.
+      text_identifier: Voit antaa laitteelle mukautetun tunnisteen.
+      totp:
+        account: Tilin nimi
+        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
+
+          '
+        provisioning_uri: Sovelluksen URI
+        question_cannot_scan: 'Koodin skannaaminen sovelluksella epäonnistuu?
+
+          '
+        secret_key: Salainen avain
+        setup: |
+          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
+          After opening the app, you can scan the following QR code to register the device.
+        text_cannot_scan: 'Jos et voi skannata koodia, voit lisätä tiedot käsin:
+
+          '
+        time_based: Aikaperusteinen
+        title: App-based authenticator
+      webauthn:
+        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
+        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        title: WebAuthn
     error_2fa_disabled: 2FA-toimitus on poistettu käytöstä.
-    notice_not_writable: 2FA asetukset toimitettiin ympäristömuuttujien kautta eikä niitä voi ylikirjoittaa.
+    error_invalid_backup_code: Virheellinen palautuskoodi
+    error_is_enforced_not_active: 'Konfigurointivirhe: Kaksivaiheinen tunnistautuminen on pakotettu, mutta aktiivisia strategioita ei ole.'
     error_no_device: Tälle käyttäjälle ei ole rekisteröity tunnistuslaitetta, vaikka se vaaditaan.
     error_no_matching_strategy: Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi.
-    error_is_enforced_not_active: 'Konfigurointivirhe: Kaksivaiheinen tunnistautuminen on pakotettu, mutta aktiivisia strategioita ei ole.'
-    error_invalid_backup_code: Virheellinen palautuskoodi
-    channel_unavailable: Toimituskanava %{channel} ei ole käytettävissä.
-    no_valid_phone_number: Mitään voimassa olevaa puhelinnumeroa ei ole.
-    label_device_type: Laitetyyppi
+    forced_registration:
+      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+    label_2fa_disabled: Kaksivaiheinen tunnistautuminen ei ole käytössä
+    label_2fa_enabled: Kaksivaiheinen tunnistautuminen on käytössä
     label_default_device: Oletus tunnistuslaite
     label_device: 2FA-laite
+    label_device_type: Laitetyyppi
     label_devices: 2FA laitteet
-    label_2fa_enabled: Kaksivaiheinen tunnistautuminen on käytössä
-    label_2fa_disabled: Kaksivaiheinen tunnistautuminen ei ole käytössä
-    text_otp_delivery_message_sms: "%{app_title} -palvelun kertakäyttöinen salasanasi on %{token}"
-    text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
-    text_2fa_enabled: Sisäänkirjautumisen yhteydessä sinun on annettava koodi oletuksesi määritellystä tunnistuslaitteestasi.
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    label_two_factor_authentication: Kaksivaiheinen tunnistautuminen
     login:
-      enter_backup_code_title: Syötä palautuskoodi
       enter_backup_code_text: Syötä voimassa oleva vahvistuskoodi koodiluettelosta, jos sinulla ei ole enää pääsyä rekisteröityihin 2FA laitteisiin.
+      enter_backup_code_title: Syötä palautuskoodi
       other_device: Käytä toista laitetta tai palautuskoodia
+    message_bird:
+      sms_delivery_failed: MessageBird SMS delivery failed.
+      voice_delivery_failed: MessageBird voice call failed.
+    mobile_transmit_notification: A one-time password has been sent to your cell phone.
+    no_valid_phone_number: Mitään voimassa olevaa puhelinnumeroa ei ole.
+    notice_not_writable: 2FA asetukset toimitettiin ympäristömuuttujien kautta eikä niitä voi ylikirjoittaa.
+    remember:
+      active_session_notice: 'Tilisi kaksivaiheinen kirjautuminen on muistissa %{expires_on} asti.
+
+        '
+      clear_cookie: Remove all remembered 2FA sessions.
+      cookie_removed: Kaikki muistissa olevat kaksivaiheiset todennusistunnot poistettu.
+      dont_ask_again: Muista tunnistautuminen tällä laitteella seuraavat %{days} päivää.
+      label: Muista
+      other_active_session_notice: Your account has an active remember cookie on another session.
     settings:
-      title: Kaksivaiheisen tunnistautumisen asetukset
       current_configuration: Current configuration
+      failed_to_save_settings: 'Kaksivaiheisen tunnistautumisen asetusten päivitys epäonnistui: %{message}'
       label_active_strategies: Aktiiviset kaksivaiheisen tunnistautumisen strategiat
       label_enforced: Vaadi kaksivaiheinen kirjautuminen
       label_remember: Muista kaksivaiheinen tunnistautuminen
@@ -65,118 +167,15 @@ fi:
       text_remember: 'Aseta tämä suuremmaksi kuin nolla mikäli haluat sallia käyttäjien kaksivaiheisen tunnistautumisen muistamisen annettujen päivien verran. Kaksivaiheista tunnistautumista ei vaadita kyseisenä aikana. Voidaan asettaa vain jos tätä ei ole pakotettu konfiguraatiossa.
 
         '
-      failed_to_save_settings: 'Kaksivaiheisen tunnistautumisen asetusten päivitys epäonnistui: %{message}'
-    admin:
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
-      self_edit_forbidden: Et voi muokata omia 2FA-laitteitasi tällä polulla. Siirry Tiliasetukset> Kaksi tekijän todennusta sijaan.
-      no_devices_for_user: Tätä käyttäjää varten ei ole rekisteröity tunnistuslaitetta.
-      all_devices_deleted: Tämän käyttäjän kaikki 2FA-laitteet on poistettu
-      delete_all_are_you_sure: Haluatko varmasti poistaa kaikki tämän käyttäjän 2FA-laitteet?
-      button_delete_all_devices: Poista rekisteröidyt 2FA-laitteet
-      button_register_mobile_phone_for_user: Rekisteröi matkapuhelin
-      text_2fa_enabled: Upon every login, this user will be requested to enter a OTP token from their default 2FA device.
-      text_2fa_disabled: The user did not set up a 2FA device through their 'My account page'
-      only_sms_allowed: Only SMS delivery can be set up for other users.
-    backup_codes:
-      singular: Palautuskoodi
-      plural: Varmistuskoodi
-      overview_description: 'Jos et pysty käyttämään tunnistuslaitettasi, voit käyttää palautuskoodia. Luo palautuskoodit seuraavalla painikkeella.
-
-        '
-      generate:
-        title: Luo palautuskoodit
-        keep_safe_as_password: Tärkeä! Käsittele näitä koodeja salasanoina.
-        keep_safe_warning: Joko tallenna ne salasanahallintaasi tai tulosta sivu ja säilytä se turvallisessa paikassa.
-        regenerate_warning: 'Varoitus: Jos olet luonut varmuuskopiokoodit aiemmin, ne mitätöidään ja eivät enää toimi.'
-    devices:
-      add_new: Lisää tunnistuslaite
-      register: Rekisteröi laite
-      confirm_default: Vahvista oletuslaitteen muuttaminen
-      confirm_device: Vahvista laite
-      confirm_now: Ei vahvistanut, aktivoi tästä napsauttamalla tätä
-      cannot_delete_default: Et voi poistaa oletuslaitetta
-      make_default_are_you_sure: Haluatko varmasti tehdä tämän 2FA-laitteen oletusarvoksi?
-      make_default_failed: Oletusarvoisen 2FA-laitteen päivitys epäonnistui.
-      deletion_are_you_sure: Haluatko varmasti poistaa tämän 2FA laitteen?
-      registration_complete: 2FA laitteen rekisteröinti on valmis!
-      registration_failed_token_invalid: 2FA laitteen rekisteröinti epäonnistui, merkki oli virheellinen.
-      registration_failed_update: Tunnistuslaitteen rekisteröinti epäonnistui, token oli voimassa mutta laitetta ei voitu päivittää.
-      confirm_send_failed: Tunnistuslaitteen vahvistus epäonnistui.
-      button_complete_registration: Viimeistele tunnistuslaitteen rekisteröinti
-      text_confirm_to_complete_html: Vahvista laitteen <strong>%{identifier}</strong> rekisteröinti antamalla kertakäyttösalasana.
-      text_confirm_to_change_default_html: Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device.
-      text_identifier: Voit antaa laitteelle mukautetun tunnisteen.
-      failed_to_delete: Tunnistuslaitteen poistaminen epäonnistui
-      is_default_cannot_delete: The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.
-      not_existing: Käyttäjätilillesi ei ole rekisteröity tunnistuslaitetta.
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
-      webauthn:
-        title: WebAuthn
-        description: Register a FIDO2 device (like YubiKey) or the secure enclave of your mobile device.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
-      totp:
-        title: App-based authenticator
-        provisioning_uri: Sovelluksen URI
-        secret_key: Salainen avain
-        time_based: Aikaperusteinen
-        account: Tilin nimi
-        setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
-        question_cannot_scan: 'Koodin skannaaminen sovelluksella epäonnistuu?
-
-          '
-        text_cannot_scan: 'Jos et voi skannata koodia, voit lisätä tiedot käsin:
-
-          '
-        description: 'Use a one-time code generated by an authenticator like Authy or Google Authenticator.
-
-          '
-      sms:
-        title: Mobile device
-        redacted_identifier: Matkapuhelin (%{redacted_number})
-        request_2fa_identifier: "%{redacted_identifier}, lähetimme sinulle tunnistautumiskoodin %{delivery_channel} kautta"
-        description: 'Receive 2FA code via a text message on your phone each time you log in.
-
-          '
+      title: Kaksivaiheisen tunnistautumisen asetukset
     sns:
       delivery_failed: 'SNS delivery failed:'
-    message_bird:
-      sms_delivery_failed: MessageBird SMS delivery failed.
-      voice_delivery_failed: MessageBird voice call failed.
     strategies:
-      totp: Kaksivaiheisen kirjautumisen salasanasovellus
-      sns: Amazon SNS
       resdt: SMS Rest API
+      sns: Amazon SNS
+      totp: Kaksivaiheisen kirjautumisen salasanasovellus
       webauthn: WebAuthn
-    mobile_transmit_notification: A one-time password has been sent to your cell phone.
-    label_two_factor_authentication: Kaksivaiheinen tunnistautuminen
-    forced_registration:
-      required_to_add_device: Tietoturva-asetukset vaativat kaksivaiheisen todennuksen käyttöönoton. Ole hyvä ja rekisteröi laitteesi.
-    remember:
-      active_session_notice: 'Tilisi kaksivaiheinen kirjautuminen on muistissa %{expires_on} asti.
-
-        '
-      other_active_session_notice: Your account has an active remember cookie on another session.
-      label: Muista
-      clear_cookie: Remove all remembered 2FA sessions.
-      cookie_removed: Kaikki muistissa olevat kaksivaiheiset todennusistunnot poistettu.
-      dont_ask_again: Muista tunnistautuminen tällä laitteella seuraavat %{days} päivää.
-  field_otp: Kertakäyttösalasana
-  notice_account_otp_invalid: Virheellinen kertakäyttösalasana.
-  notice_account_otp_expired: The one-time password you entered expired.
-  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
-  notice_account_otp_send_failed: Your one-time password could not be sent.
-  notice_account_has_no_phone: No cell phone number is associated with your account.
-  label_confirmed: Vahvistettu
-  button_continue: Jatka
-  button_make_active: Activate
-  button_make_default: Merkitse oletusarvo
-  notice_phone_number_format: Anna numero esim. +358 40 1234567.
-  text_otp_not_receive: Muut tunnistustavat
-  text_send_otp_again: 'Lähetä kertakäyttösalasana uudelleen:'
-  button_resend_otp_form: Lähetä uudelleen
-  button_otp_by_voice: Äänipuhelu
-  button_otp_by_sms: SMS
-  label_otp_channel: Toimituskanava
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_enabled: Sisäänkirjautumisen yhteydessä sinun on annettava koodi oletuksesi määritellystä tunnistuslaitteestasi.
+    text_otp_delivery_message_sms: "%{app_title} -palvelun kertakäyttöinen salasanasi on %{token}"
+    text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'

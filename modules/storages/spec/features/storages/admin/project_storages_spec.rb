@@ -183,7 +183,7 @@ RSpec.describe "Admin lists project mappings for a storage",
 
       within_test_selector("op-storages--destroy-confirm-dialog") do
         expect(page).to have_text("Delete file storage")
-        expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed")
+        expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed.")
         expect(page).to have_button("Delete permanently", disabled: true)
       end
     end
@@ -399,7 +399,7 @@ RSpec.describe "Admin lists project mappings for a storage",
         page.within("dialog") do
           expect(page).to have_button("Remove", disabled: true)
           Retryable.repeat_until_success do
-            check "I understand that this removal cannot be reversed", allow_label_click: true
+            check "I understand that this removal cannot be reversed.", allow_label_click: true
             expect(page).to have_button("Remove", disabled: false) # ensure button is clickable
             click_on "Remove permanently"
           end

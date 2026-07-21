@@ -283,6 +283,10 @@ RSpec.describe Type do
       it ".subtypes returns only nested types" do
         expect(described_class.subtypes).to contain_exactly(child)
       end
+
+      it ".global returns every type (all types are global until project-owned types exist)" do
+        expect(described_class.global).to include(parent, child)
+      end
     end
 
     describe "#root" do
@@ -378,6 +382,104 @@ RSpec.describe Type do
         expect(parent.destroy).to be_falsey
         expect(parent).to be_persisted
       end
+    end
+  end
+
+  describe "core settings and display helpers" do
+    let(:color) { create(:color) }
+    let!(:parent) do
+      create(:type,
+             name: "Task",
+             color:,
+             is_milestone: true,
+             is_in_roadmap: false,
+             is_default: true)
+    end
+    let!(:child) do
+      create(:type,
+             name: "Bug",
+             parent:,
+             color: nil,
+             is_milestone: false,
+             is_in_roadmap: true,
+             is_default: false)
+    end
+
+    describe "#subtype?" do
+      it "is true for a child and false for a root" do
+        expect(child).to be_subtype
+        expect(parent).not_to be_subtype
+      end
+    end
+
+    describe "display helpers" do
+      it "#name returns the root name" do
+        expect(child.name).to eq("Task")
+        expect(parent.name).to eq("Task")
+      end
+
+      it "#own_name returns the type's own stored label" do
+        expect(child.own_name).to eq("Bug")
+        expect(parent.own_name).to eq("Task")
+      end
+
+      it "#color returns the root color" do
+        expect(child.color).to eq(color)
+        expect(parent.color).to eq(color)
+      end
+
+      it "#composite_name prefixes the parent name for a sub-type" do
+        expect(child.composite_name).to eq("Task: Bug")
+        expect(parent.composite_name).to eq("Task")
+      end
+    end
+
+    describe "inherited core settings" do
+      it "reads color through to the parent" do
+        expect(child.color).to eq(color)
+        expect(child.color_id).to eq(color.id)
+      end
+
+      it "reads the boolean settings through to the parent, ignoring its own columns" do
+        expect(child.is_milestone?).to be(true)
+        expect(child.is_in_roadmap?).to be(false)
+        expect(child.is_default?).to be(true)
+      end
+
+      it "keeps the sub-type's own name as the variant label" do
+        expect(child.own_name).to eq("Bug")
+      end
+
+      it "leaves a root's own settings untouched" do
+        expect(parent.color).to eq(color)
+        expect(parent.is_milestone?).to be(true)
+        expect(parent.is_in_roadmap?).to be(false)
+        expect(parent.is_default?).to be(true)
+      end
+    end
+  end
+
+  describe "#artefact_export_mode" do
+    it "defaults to 'off'" do
+      expect(build(:type).artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+    end
+
+    it "persists the value into the pdf_export_templates_config jsonb column" do
+      persisted = create(:type)
+      persisted.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
+
+      expect(persisted.reload.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
+      expect(persisted.pdf_export_templates_config).to include("artefact_export_mode" => "attachment")
+    end
+  end
+
+  describe "#artefact_export_enabled?" do
+    it "is false when off" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "off" })).not_to be_artefact_export_enabled
+    end
+
+    it "is true when a storing mode is set" do
+      expect(build(:type, pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
     end
   end
 end

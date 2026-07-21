@@ -106,6 +106,14 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       )
     end
 
+    context "when the phase has only a start_date but no finish_date" do
+      let!(:phase) { create(:project_phase, project:, definition:, finish_date: nil) }
+
+      it "does not include start or finish gates" do
+        expect(data.first).to include("startGate" => false, "finishGate" => false)
+      end
+    end
+
     context "with an additional inactive phase" do
       before { create(:project_phase, :inactive, project:) }
 

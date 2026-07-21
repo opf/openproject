@@ -11,7 +11,7 @@ keywords: edit work packages, reminders, work package reminders, attachment, int
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.            |
-| [Link to create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
+| [Link to or create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
 | [Add an internal comment (Enterprise add-on)](#internal-comments-enterprise-add-on) | How to leave work package comments with limited visibility.  |
 | [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
 | [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.               |
@@ -73,8 +73,6 @@ Depending on your system configuration, you can choose between:
 > [!NOTE]
 > If only one wiki provider is configured, OpenProject automatically uses it and skips the **Wiki provider** selection step.
 
-
-
 ![Select wiki provider when creating or linking a wiki page](openproject_user_guide_wp_wiki_provider.png)
 
 4. Select the parent wiki page.
@@ -114,7 +112,6 @@ The **Mentioned in description** and **Referenced in** sections are informationa
 All wiki page entries are clickable and open the corresponding wiki page.
 
 ![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab.png)
-
 
 ### Assign a team member to a work package
 
@@ -171,7 +168,6 @@ It is possible to add comments that are only visible to a select group of people
 
 Please refer to [this part of the user guide](../../activity/#internal-comments-enterprise-add-on) for more details.
 
-
 ### @ notification (mention)
 
 You can mention and notify team members via [@notification](../../notifications/). They will receive a notification in OpenProject about the updates (according to their [notification settings](../../../user-guide/notifications/) in the **Account settings**).
@@ -185,18 +181,19 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
 ### Linking work packages
+
 To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/).
 
 ## Attach files to work packages
 
 > [!IMPORTANT]
-> Please note, that this option needs to activated by your project administrator under [*Project settings*](../../projects/project-settings/files/).
+> Please note, that this option needs to activated by your project administrator under [_Project settings_](../../projects/project-settings/files/).
 
-You can manually upload files to work packages directly under the *Files* tab in the work package detailed view. You can either attach files by dragging and dropping or by using the **+Attach files** option.
+You can manually upload files to work packages directly under the _Files_ tab in the work package detailed view. You can either attach files by dragging and dropping or by using the **+Attach files** option.
 
 ![Manual attachment upload in an OpenProject work package](openproject_user_guide_wp_file_upload.png)
 
-Under the *Files* tab you will see the list of the all previously uploaded attachments, including file names, as well as which user uploaded an attachment and when. If no files were attached yet, the list will be empty.
+Under the _Files_ tab you will see the list of the all previously uploaded attachments, including file names, as well as which user uploaded an attachment and when. If no files were attached yet, the list will be empty.
 
 Attachments include files or images added to work package descriptions.
 
@@ -246,7 +243,7 @@ At the configured date and time, you will receive the reminder in [Notification 
 > In case a work package has both a reminder and date alert  notification set up, then the date alert is combined with the reminder note, so that both are visible.
 
 > [!TIP]
-> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/#email-reminders) accordingly.
+> You can set to receive immediate notifications via e-mail for personal reminders. To do that, adjust your [account settings](../../account-settings/notification-and-email/#email-reminders) accordingly.
 
 ## Watchers
 
@@ -258,7 +255,7 @@ At the configured date and time, you will receive the reminder in [Notification 
 
 </div>
 
-To add watchers, open the work package [detailed view](../../work-packages/work-package-views/#full-screen-view), select the *Watchers* tab on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
+To add watchers, open the work package [detailed view](../../work-packages/work-package-views/#full-screen-view), select the _Watchers_ tab on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
 
 It is also possible to add oneself as watcher (if you have sufficient permissions).
 
@@ -266,8 +263,8 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 
 ### Remove watchers from a work package
 
-To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the *Watchers* tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
-The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notification-settings) for more information.
+To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the _Watchers_ tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
+The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/notification-and-email/#notification-settings) for more information.
 
 ![Remove watchers from OpenProject work packages](openproject_user_guide_wp_watchers_remove.png)
 
@@ -287,12 +284,12 @@ To open the quick context menu, **press the RIGHT mouse button**.
 
 Then you have the possibility to:
 
-* Open details view of all selected work packages.
-* Open the fullscreen view of all selected work packages.
-* Bulk edit all selected work packages.
-* Bulk change of the project of all selected work packages.
-* Bulk duplicate all selected work packages, incl. the hierarchy relations (parent-child relations).
-* Bulk delete all selected work packages.
+- Open details view of all selected work packages.
+- Open the fullscreen view of all selected work packages.
+- Bulk edit all selected work packages.
+- Bulk change of the project of all selected work packages.
+- Bulk duplicate all selected work packages, incl. the hierarchy relations (parent-child relations).
+- Bulk delete all selected work packages.
 
 ![Bulk edit work packages in OpenProject](openproject_user_guide_wp_bulk_edit.png)
 
@@ -323,7 +320,7 @@ You have the following options:
 - **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.
 
 > [!TIP]
-> In OpenProject 14.5 the term *Copy a work package* was replaced by *Duplicate a work package*. *Change project* was replaced by *Move to another project*.
+> In OpenProject 14.5 the term _Copy a work package_ was replaced by _Duplicate a work package_. _Change project_ was replaced by _Move to another project_.
 
 If you have opened the quick context menu for a work package that has a parent work package, you will also see:
 

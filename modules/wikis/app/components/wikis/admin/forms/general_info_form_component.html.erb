@@ -22,7 +22,9 @@
               Wikis::Admin::NameInputForm.new(form),
               Wikis::Admin::UrlInputForm.new(form),
               Wikis::Admin::XWikiAuthenticationMethodSelectForm.new(form),
-              Wikis::Admin::SubmitOrCancelForm.new(form, wiki_provider:)
+              Wikis::Admin::SubmitOrCancelForm.new(
+                form, wiki_provider:, submit_button_options: { disabled: model.configured_from_env? }
+              )
             )
           )
         end

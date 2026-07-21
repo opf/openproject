@@ -71,12 +71,17 @@ module ActsAsCustomizable::CalculatedValue
 
       calculation = calculator.solve(to_compute, &:itself)
 
-      result = calculation.transform_values do |value|
-        value.is_a?(Numeric) ? value : nil
-      end
+      result = {}
+      errors = {}
 
-      errors = calculation.reject do |_, value|
-        value.is_a?(Numeric)
+      calculation.each do |key, value|
+        case value
+        when Numeric, true, false
+          result[key] = value
+        else
+          result[key] = nil
+          errors[key] = value
+        end
       end
 
       { result:, errors: }

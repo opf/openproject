@@ -72,16 +72,26 @@ module Wikis
     end
 
     def search
-      provider = Provider.visible.enabled.find(params.expect(:provider_id))
       query = params[:query]
       form_name = params[:name]
-      builder = ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
-      search_result = search_pages(query, provider)
+      builder = form_builder
+      search_result = search_pages(query, fetch_provider)
 
-      render layout: false, locals: { search_result:, builder:, name: form_name }
+      search_result.either(
+        ->(pages) { render(Wikis::SearchPagesResultComponent.new(pages, form_name:, builder:), layout: false) },
+        ->(failure) { render "search_error", layout: false, locals: { message: humanize_error_message(failure) } }
+      )
     end
 
     private
+
+    def fetch_provider
+      Provider.visible.enabled.find(params.expect(:provider_id))
+    end
+
+    def form_builder
+      ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
+    end
 
     def search_pages(query, provider)
       PageSearchService.new(provider:, user: current_user).search_pages(query)
