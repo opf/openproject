@@ -1130,7 +1130,6 @@ zh-CN:
 
           '
         description: 此 Jira Migrator 目前处于测试阶段。我们目前仅支持 Jira Server/Data Center 版本 10.x 和 11.x。目前不支持云实例。
-        supported_versions: ''
         title: 测试版 - 试试吧！
       blank:
         description: 配置 Jira 主机，以开始将 Jira 中的条目导入此 OpenProject 实例。

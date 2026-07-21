@@ -1182,7 +1182,6 @@ hu:
 
           '
         description: Ez a Jira Migrator jelenleg béta verzióban van. Jelenleg kizárólag a Jira Server/Data Center 10.x és 11.x verzióit támogatjuk. A felhőalapú példányokat jelenleg nem támogatjuk.
-        supported_versions: ''
         title: Béta – Próbáld ki!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.

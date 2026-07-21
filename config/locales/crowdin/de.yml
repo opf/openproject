@@ -1148,7 +1148,6 @@ de:
 
           '
         description: Dieser Jira Migrator befindet sich derzeit in der Beta-Phase. Wir unterstützen derzeit nur Jira Server/Data Center Versionen 10.x und 11.x. Cloud-Instanzen werden derzeit nicht unterstützt.
-        supported_versions: ''
         title: Beta - Probieren Sie es aus!
       blank:
         description: Konfigurieren Sie einen Jira-Host, um mit dem Import von Elementen aus Jira in diese OpenProject-Instanz zu beginnen.
@@ -1580,7 +1579,7 @@ de:
     attributes:
       property: Eigenschaft
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Deprecated: Dieses unäre Feld wird durch `targetVersions` ersetzt. Verwenden Sie stattdessen `targetVersions` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `targetVersions` höchstens einen Wert und darf nicht zusammen mit `version` in derselben Anfrage angegeben werden.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
@@ -1772,8 +1771,8 @@ de:
     reset_token:
       action_create: Erstellen
       action_reset: Zurücksetzen
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Ich nehme zur Kenntnis, dass das Backup-Token den Zugriff zum Herunterladen aller Daten dieser Installation gewährt
+      checkbox_confirmation_reset: Ich nehme zur Kenntnis, dass das bestehende Backup-Token ungültig wird
       heading_create: Backup-Token erstellen
       heading_reset: Backup-Token zurücksetzen
       implications: 'Das Aktivieren von Backups erlaubt jedem Benutzer mit den erforderlichen Berechtigungen und diesem Backup-Token ein Backup herunterzuladen, das alle Daten dieser OpenProject-Installation enthält. Dies schließt die Daten aller anderen Benutzer ein.
@@ -2043,7 +2042,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -5900,47 +5899,47 @@ de:
           success: Die Konfiguration wurde kopiert.
         independent:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
+            check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
+            description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
+            title: Konfigurationsmodus wechseln?
           copy_from_type: Kopiere vom Typ
           description: Es werden keine Einstellungen übernommen. Falls gewünscht, können Sie dennoch einmalig Einstellungen von einem anderen Typ kopieren.
           dialog:
-            submit: Switch
-            title: Independent mode
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Wechseln
+            title: Unabhängiger Modus
+          invalid_mode: Der ausgewählte Modus ist für diese Konfiguration nicht verfügbar. Bitte wählen Sie einen anderen Modus aus.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Beginnen Sie mit einer einmaligen Kopie der aktuellen Einstellungen, die im verknüpften Modus festgelegt wurden.
+              label: Aus verknüpftem Typ kopieren
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Standardeinstellungen für neue Typen verwenden.
+              label: Standardeinstellungen
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
-          success: The configuration mode was switched.
+              caption: Richten Sie alles von Grund auf ein, beginnend mit einer leeren Konfiguration.
+              label: Leer
+          success: Der Konfigurationsmodus wurde gewechselt.
           switch_to_linked: In den verknüpften Modus wechseln
           title: Unabhängiger Modus
         linked:
           change_source: Quelltyp ändern
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
+              description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
+              title: Quelltyp ändern?
+            check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
+              description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
+              title: Konfigurationsmodus wechseln?
           description: Diese Konfiguration ist mit dem Quelltyp [%{source_name}](source_url)%{source_suffix} verknüpft und übernimmt dessen Einstellungen.
           dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or sub-type
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
+            description: Kopieren Sie diese Einstellungen von einer Quelle und übernehmen Sie sie. Alle neuen Konfigurationen, die der Quelle hinzugefügt werden, werden auch hier hinzugefügt.
+            source_label: Verknüpfte Quelle
+            source_placeholder: Wählen Sie einen Typ oder eine Variante aus
+            submit: Wechseln
+            title: Verknüpfter Modus
+          invalid_source: Die Konfiguration kann nicht mit dem ausgewählten Typ verknüpft werden. Bitte wählen Sie einen anderen Quelltyp aus.
+          success: Der Konfigurationsmodus wurde gewechselt.
           switch_to_independent: Zum unabhängigen Modus wechseln
           title: Verknüpfter Modus
         parent_suffix: " (übergeordneter Typ)"

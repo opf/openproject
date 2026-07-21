@@ -1188,7 +1188,6 @@ uk:
 
           '
         description: Інструмент Jira Migrator зараз доступний тільки як бета-версія. Зараз ми підтримуємо лише версії Jira Server / Data Center 10.x і 11.x. Хмарні екземпляри поки що не підтримуються.
-        supported_versions: ''
         title: Спробуйте бета-версію!
       blank:
         description: Налаштуйте хост Jira, щоб почати імпорт елементів із Jira в цей екземпляр OpenProject.

@@ -1148,7 +1148,6 @@ es:
 
           '
         description: Este Migrador de Jira se encuentra actualmente en fase beta. En este momento solo es compatible con las versiones 10.x y 11.x de Jira Server/Data Center. Por el momento, no es compatible con instancias en la nube.
-        supported_versions: ''
         title: Beta - ¡Pruébelo!
       blank:
         description: Configure un host de Jira para comenzar a importar elementos desde Jira a esta instancia de OpenProject.

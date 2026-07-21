@@ -1130,7 +1130,6 @@ ko:
 
           '
         description: 이 Jira Migrator는 현재 베타 버전입니다. Jira Server/Data Center 버전 10.x 및 11.x만 현재 지원되며, Cloud 인스턴스는 현재 지원되지 않습니다.
-        supported_versions: ''
         title: 베타 - 사용해 보세요!
       blank:
         description: Jira에서 이 OpenProject 인스턴스로 항목 가져오기를 시작하려면 Jira 호스트를 구성합니다.
