@@ -2862,7 +2862,7 @@ en:
             line_1: "Better organizational management with Departments, user attributes such as job titles, and working hours."
             line_2: "Multiple active sprints without sharing (Basic plan)."
             line_3: "Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages."
-            line_4: "PM²/PMflex artifact export and a new widget for project phases and gates overview."
+            line_4: "PM²/PMflex artefact export and a new widget for project phases and gates overview."
             line_5: "Global wiki page index and easier navigation between related pages."
           new_features_title: >
             The release contains various new features and improvements, such as:
