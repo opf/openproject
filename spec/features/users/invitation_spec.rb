@@ -38,20 +38,7 @@ RSpec.describe "invitations", :js do
       login_with current_user.login, "adminADMIN!"
 
       visit user_path(user)
-      page.execute_script <<~JS
-        const form = document.createElement("form");
-        const token = document.querySelector("meta[name='csrf-token']").content;
-        const input = document.createElement("input");
-
-        form.method = "post";
-        form.action = "#{resend_invitation_user_path(user)}";
-        input.type = "hidden";
-        input.name = "authenticity_token";
-        input.value = token;
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
-      JS
+      click_on I18n.t(:label_send_invitation)
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
       expect(page).to have_text "An invitation has been sent to holly@openproject.com."
 

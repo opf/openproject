@@ -33,6 +33,8 @@ require "uri"
 ##
 # Intended to be used by the AccountController and OmniAuthLoginController to handle registration flows
 module Accounts::Registration
+  include ::UserConsentHelper
+
   ##
   # Sends a user who was just registered to the activation stages
   # or to the signin page if the user could not be activated
@@ -95,7 +97,7 @@ module Accounts::Registration
       flash[:notice] = call.message if call.message.present?
       login_user_if_active(call.result, just_registered: call.result.just_created?)
     elsif call.includes_error?(:base, :failed_to_activate)
-      redirect_omniauth_register_modal(call.result, auth_hash)
+      render_omniauth_registration_form(call.result, auth_hash)
     else
       error = call.message
       Rails.logger.error "Authorization request failed: #{error}"
@@ -103,12 +105,22 @@ module Accounts::Registration
     end
   end
 
-  def redirect_omniauth_register_modal(user, auth_hash)
+  def render_omniauth_registration_form(user, auth_hash)
     # Store a timestamp so we can later make sure that authentication information can
     # only be reused for a short time.
     session[:auth_source_registration] = auth_hash.merge(omniauth: true, timestamp: Time.current)
     @user = user
     render template: "/account/register"
+  end
+
+  def consent_given_for_registration?(user)
+    return true unless user_consent_required?
+    return true if consent_param?
+
+    user.errors.add(:base, I18n.t("consent.failure_message"))
+    onthefly_creation_failed(user)
+
+    false
   end
 
   def respond_for_registered_user(user)

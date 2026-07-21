@@ -362,16 +362,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def consent_given_for_registration?(user)
-    return true unless helpers.user_consent_required?
-    return true if consent_param?
-
-    user.errors.add(:base, I18n.t("consent.failure_message"))
-    onthefly_creation_failed(user)
-
-    false
-  end
-
   def assign_user_attributes(attrs)
     Users::SetAttributesService
       .new(model: User.new, user: current_user, contract_class: EmptyContract)
