@@ -618,7 +618,7 @@ GEM
     friendly_id (5.7.0)
       activerecord (>= 4.0.0)
     front_matter_parser (1.0.1)
-    fugit (1.12.2)
+    fugit (1.13.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     fuubar (2.5.1)
@@ -1926,7 +1926,7 @@ CHECKSUMS
   formatador (1.2.3) sha256=19fa898133c2c26cdbb5d09f6998c1e137ad9427a046663e55adfe18b950d894
   friendly_id (5.7.0) sha256=b8994416ebaceebc7c60bc556e84ef32a3a663e2e582eb04c429216cc98de4c4
   front_matter_parser (1.0.1) sha256=bae298bda01db95788a4d6452f1670a3d198c6716c8d3727db9a95533deb7b7b
-  fugit (1.12.2) sha256=643f2bf28db263bd400cbf8e0dd8b76b2c9b94bdb130e12d2394de04d9c20e5e
+  fugit (1.13.0) sha256=a4f093fce740da52f216740a5041e2a594ea763cdb89e8b2754ca4399634ab18
   fuubar (2.5.1) sha256=b272a7804b282661c7fab583a3764f92543cb482c365ae39c685cd218fdd4880
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
