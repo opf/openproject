@@ -6018,6 +6018,7 @@ en:
   types:
     creation_wizard:
       create_subtype: "Create sub-type"
+      create_type: "Create type"
       fields:
         inherited_from_parent_html: "Inherited from parent type <b>%{parent}</b>."
       finish: "Finish"
