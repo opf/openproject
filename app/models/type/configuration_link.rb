@@ -34,7 +34,7 @@ class Type
   class ConfigurationLink < ApplicationRecord
     ASPECTS = [
       PDF_EXPORT = "pdf_export",
-      PATTERNS = "patterns",
+      DEFAULTS = "defaults",
       WORKFLOWS = "workflows",
       AUTOMATIONS = "automations",
       PROJECTS = "projects",
@@ -43,7 +43,7 @@ class Type
 
     # Aspects a new sub-type links to its parent on creation. The remaining aspects
     # start Independent until their linked behaviour is implemented.
-    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, PATTERNS].freeze
+    DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, DEFAULTS].freeze
 
     belongs_to :type, optional: false
     belongs_to :source, class_name: "Type", optional: false

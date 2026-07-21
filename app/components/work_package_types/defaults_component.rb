@@ -29,40 +29,37 @@
 #++
 
 module WorkPackageTypes
-  class UpdateSubjectPatternContract < BaseContract
-    attribute :patterns
+  class DefaultsComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-    validate :enterprise_edition
-    validate :validate_subject_generation_pattern
+    def initialize(model, subject_configuration_form_data: nil, readonly: false, **)
+      @subject_configuration_form_data = subject_configuration_form_data
+      @readonly = readonly
+      super(model, **)
+    end
+
+    def form_options
+      {
+        url: type_defaults_path(type_id: model.id),
+        method: :put,
+        model: subject_form_object,
+        readonly: @readonly,
+        data: form_data
+      }
+    end
 
     private
 
-    def enterprise_edition
-      action = :work_package_subject_generation
-      if model.patterns.subject&.enabled && !EnterpriseToken.allows_to?(action)
-        errors.add(:patterns, :error_enterprise_only, action: action.to_s.titleize)
-      end
+    def form_data
+      return {} if @readonly
+
+      subject_form_object.stimulus_data
     end
 
-    def validate_subject_generation_pattern
-      blueprint = model.patterns.subject&.blueprint
-      return if blueprint.nil?
-
-      valid_tokens = flat_valid_token_list
-      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
-                                .reduce([]) do |acc, match|
-        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
-        valid_tokens.include?(token) ? acc : acc << token
-      end
-
-      if invalid_tokens.any?
-        errors.add(:patterns, :invalid_tokens)
-      end
-    end
-
-    def flat_valid_token_list
-      enabled, _disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
-      enabled.map(&:key)
+    def subject_form_object
+      Forms::DefaultsFormModel.build(model, form_data: @subject_configuration_form_data)
     end
   end
 end

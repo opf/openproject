@@ -68,7 +68,13 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
 
     subtype = complete_details_step("Critical")
 
-    click_on I18n.t(:button_continue) # Form configuration -> Workflows
+    # Step 2 - Defaults: linked to the parent on creation, so it renders read-only and
+    # the footer, not a Save button, drives submission.
+    expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
+    expect(page).to have_no_button(I18n.t(:button_save))
+
+    click_on I18n.t(:button_continue) # Defaults -> Form configuration
+    click_on I18n.t(:button_continue) # -> Workflows
     click_on I18n.t(:button_continue) # -> Automations
     click_on I18n.t(:button_continue) # -> Projects
     click_on I18n.t(:button_continue) # -> PDF generation
@@ -76,6 +82,20 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
 
     expect(page).to have_current_path(types_path)
     expect(subtype.reload.parent).to eq(bug_type)
+  end
+
+  it "persists the defaults step through the wizard footer once the aspect is independent" do
+    start_wizard
+    subtype = complete_details_step("Critical")
+
+    # Independent mode is what makes the fields editable; linked mode renders read-only.
+    subtype.configuration_links.where(aspect: Type::ConfigurationLink::DEFAULTS).destroy_all
+    visit type_creation_wizard_path(subtype, step: :defaults)
+
+    Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
+    click_on I18n.t(:button_continue)
+
+    expect(subtype.reload.description).to eq("Reproduce the bug first")
   end
 
   it "links the aspects a sub-type inherits from its parent on creation" do

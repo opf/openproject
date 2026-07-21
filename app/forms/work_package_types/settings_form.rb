@@ -90,12 +90,6 @@ module WorkPackageTypes
         end
       end
 
-      settings_form.rich_text_area(
-        name: :description,
-        label: label(:description),
-        rich_text_options: { showAttachments: false }
-      )
-
       settings_form.group(**core_settings_group_options) do |flags_group|
         flags_group.check_box(
           name: :is_milestone,

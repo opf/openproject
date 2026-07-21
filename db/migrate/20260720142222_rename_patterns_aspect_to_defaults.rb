@@ -28,52 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module Wizard
-    class SidebarComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+class RenamePatternsAspectToDefaults < ActiveRecord::Migration[8.1]
+  def up
+    execute <<~SQL.squish
+      UPDATE type_configuration_links SET aspect = 'defaults' WHERE aspect = 'patterns'
+    SQL
+  end
 
-      def initialize(type:, current_step:)
-        super(type)
-
-        @current_step = current_step
-      end
-
-      LEADING_ICONS = {
-        details: :info,
-        defaults: :"file-diff",
-        form_configuration: :"list-unordered",
-        workflows: :"git-branch",
-        automations: :zap,
-        projects: :table,
-        pdf: :file
-      }.freeze
-
-      private
-
-      attr_reader :current_step
-
-      def type = model
-
-      def steps = Steps.all
-
-      def leading_icon(step) = LEADING_ICONS.fetch(step)
-
-      def title(step) = Steps.title(step)
-
-      def current?(step) = step == current_step
-
-      # Steps ordered before the current one are considered done. Until the
-      # record is created (step 1) nothing is navigable or completed yet.
-      def completed?(step)
-        type.persisted? && Steps.index(step) < Steps.index(current_step)
-      end
-
-      # Only visited/creatable steps are navigable: before the record exists we
-      # cannot address a step by its type id.
-      def href_for(step)
-        type_creation_wizard_path(type, step:) if type.persisted?
-      end
-    end
+  def down
+    execute <<~SQL.squish
+      UPDATE type_configuration_links SET aspect = 'patterns' WHERE aspect = 'defaults'
+    SQL
   end
 end

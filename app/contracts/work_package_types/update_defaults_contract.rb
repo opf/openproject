@@ -29,16 +29,41 @@
 #++
 
 module WorkPackageTypes
-  module CopyConfiguration
-    class PatternsService < BaseService
-      private
+  class UpdateDefaultsContract < BaseContract
+    attribute :patterns
+    attribute :description
 
-      def aspect = Type::ConfigurationLink::PATTERNS
+    validate :enterprise_edition
+    validate :validate_subject_generation_pattern
 
-      def copy_from(source)
-        # deep_dup keeps the copy from aliasing the source's stored value.
-        type.update!(patterns: source.patterns.deep_dup)
+    private
+
+    def enterprise_edition
+      action = :work_package_subject_generation
+      if model.patterns.subject&.enabled && !EnterpriseToken.allows_to?(action)
+        errors.add(:patterns, :error_enterprise_only, action: action.to_s.titleize)
       end
+    end
+
+    def validate_subject_generation_pattern
+      blueprint = model.patterns.subject&.blueprint
+      return if blueprint.nil?
+
+      valid_tokens = flat_valid_token_list
+      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
+                                .reduce([]) do |acc, match|
+        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
+        valid_tokens.include?(token) ? acc : acc << token
+      end
+
+      if invalid_tokens.any?
+        errors.add(:patterns, :invalid_tokens)
+      end
+    end
+
+    def flat_valid_token_list
+      enabled, _disabled = WorkPackageTypes::Patterns::TokenPropertyMapper.new.partitioned_tokens_for_type(model)
+      enabled.map(&:key)
     end
   end
 end

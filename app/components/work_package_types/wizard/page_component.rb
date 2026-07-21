@@ -72,13 +72,38 @@ module WorkPackageTypes
 
       # Editors whose fields belong to the wizard form itself, so that "Continue"
       # persists them when advancing to the next step.
-      def step_editor_form
-        case current_step
-        when :details
-          DetailsForm
-        when :workflows
-          WorkflowsForm
-        end
+      def step_editor
+        @step_editor ||= StepEditors.for(current_step, type)
+      end
+
+      # The wizard footer replaces the form's own submit button on every editor step.
+      def step_form_options
+        {
+          model: step_editor.model,
+          url: step_form_url,
+          method: step_form_method,
+          submit: false,
+          readonly: step_editor.readonly?,
+          html: {
+            id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+            # Advancing replaces the whole page, so submission must escape the frame.
+            data: { turbo_frame: "_top" }.merge(step_editor.form_data)
+          }
+        }
+      end
+
+      # Only a step with a reuse mode needs the frame, and only those steps are reached
+      # with a persisted type — step_url has no route while the record is still new.
+      def within_step_frame(&)
+        return capture(&) unless step_editor.linkable_aspect?
+
+        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url: step_url), &)
+      end
+
+      def reuse_mode_banner
+        return unless step_editor.linkable_aspect?
+
+        render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: step_editor.aspect))
       end
 
       # Editors that self-persist through their own turbo endpoints.

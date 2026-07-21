@@ -36,7 +36,7 @@ class Type
   module ConfigurationLinkable
     extend ActiveSupport::Concern
 
-    included do
+    prepended do
       has_many :configuration_links,
                class_name: "Type::ConfigurationLink",
                dependent: :destroy
@@ -78,15 +78,60 @@ class Type
       node
     end
 
-    def effective_patterns
-      effective_source_for(Type::ConfigurationLink::PATTERNS).patterns
+    # Readers of linked aspects resolve through the link, so plain `type.patterns`
+    # is always the configuration in force. Separate `effective_*` readers only stay
+    # correct while every caller remembers they exist, and a root type behaves the
+    # same either way — so a missed call site still passes its tests.
+    #
+    # Writers stay untouched: assigning always writes this type's own row.
+    def patterns
+      source = linked_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      return super if source.nil?
+
+      source.patterns
     end
 
-    def effective_pdf_export_templates
-      effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
+    def description
+      source = linked_configuration_source(Type::ConfigurationLink::DEFAULTS)
+      return super if source.nil?
+
+      source.description
+    end
+
+    def artefact_export_mode
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.artefact_export_mode
+    end
+
+    # Resolved here rather than on #pdf_export_templates so that the object handed out
+    # always wraps the receiving type: it is a mutator as much as a reader, and
+    # returning the source's would let a linked sub-type write the source's config.
+    def export_templates_disabled
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_disabled
+    end
+
+    def export_templates_order
+      source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_order
     end
 
     private
+
+    # The type an aspect is linked to, or nil when this type owns it. The nil is
+    # what keeps the readers above from recursing: effective_source_for returns self
+    # both for an unlinked aspect and while the subtypes flag is off.
+    def linked_configuration_source(aspect)
+      source = effective_source_for(aspect)
+
+      source unless source == self
+    end
 
     def link_default_aspects_to_parent
       Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each { |aspect| link!(aspect, source: parent) }

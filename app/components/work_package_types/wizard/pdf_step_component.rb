@@ -47,7 +47,7 @@ module WorkPackageTypes
                    aspect: Type::ConfigurationLink::PDF_EXPORT
                  )) +
             render(WorkPackageTypes::ExportConfigurationComponent.new(
-                     model.effective_source_for(Type::ConfigurationLink::PDF_EXPORT),
+                     model,
                      readonly: model.linked?(Type::ConfigurationLink::PDF_EXPORT)
                    ))
         end
