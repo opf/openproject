@@ -1148,7 +1148,6 @@ fr:
 
           '
         description: Ce Jira Migrator est actuellement en version bêta. Nous ne prenons actuellement en charge que les versions 10.x et 11.x de Jira Server/Data Center. Les instances Cloud ne sont pas prises en charge pour le moment.
-        supported_versions: ''
         title: Version bêta disponible. Essayez-la !
       blank:
         description: Configurez un hôte Jira pour commencer à importer des éléments de Jira vers cette instance d'OpenProject.

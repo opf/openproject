@@ -33,7 +33,8 @@ require "spec_helper"
 RSpec.describe WorkPackages::WorkflowJob do
   let(:work_package) { build_stubbed(:work_package) }
   let(:changes) { { "status_id" => [1, 2] } }
-  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial) }
+  let(:journal_user) { build_stubbed(:user) }
+  let(:journal) { instance_double(Journal, journable: work_package, initial?: initial, user: journal_user) }
   let(:initial) { false }
 
   let(:reupload_service) do
@@ -43,11 +44,14 @@ RSpec.describe WorkPackages::WorkflowJob do
     instance_double(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService, call!: nil)
   end
 
+  let(:reupload_applicable) { true }
+  let(:type_export_applicable) { true }
+
   before do
     allow(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService)
-      .to receive(:new).and_return(reupload_service)
+      .to receive_messages(new: reupload_service, applicable?: reupload_applicable)
     allow(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService)
-      .to receive(:new).and_return(type_export_service)
+      .to receive_messages(new: type_export_service, applicable?: type_export_applicable)
   end
 
   subject(:perform) { described_class.new.perform(journal, changes) }
@@ -58,6 +62,41 @@ RSpec.describe WorkPackages::WorkflowJob do
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
+    end
+
+    it "acts as the journal's user so generated artefacts are attributed to them" do
+      current_user_during_call = nil
+      allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
+
+      perform
+
+      expect(current_user_during_call).to eq(journal_user)
+    end
+
+    context "when only one service is applicable" do
+      let(:reupload_applicable) { false }
+
+      it "only instantiates and invokes the applicable service" do
+        perform
+
+        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(type_export_service).to have_received(:call!).with(changes:)
+      end
+    end
+
+    context "when no service is applicable" do
+      let(:reupload_applicable) { false }
+      let(:type_export_applicable) { false }
+
+      it "does not set up a user context or instantiate any service" do
+        allow(User).to receive(:execute_as)
+
+        perform
+
+        expect(User).not_to have_received(:execute_as)
+        expect(Projects::CreationWizard::ReuploadArtifactOnStatusChangesService).not_to have_received(:new)
+        expect(WorkPackages::TypeArtefactExport::ExportOnStatusChangeService).not_to have_received(:new)
+      end
     end
   end
 

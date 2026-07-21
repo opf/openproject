@@ -101,6 +101,14 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
         expect(attachment.filename).to end_with(".pdf")
         expect(attachment.author).to eq(current_user)
       end
+
+      it "journalizes the work package so the attachment shows up in the Activity tab" do
+        expect { instance.call!(changes:) }
+          .to change { work_package.reload.journals.count }.by(1)
+
+        expect(work_package.last_journal.attachable_journals.map(&:attachment))
+          .to include(work_package.attachments.last)
+      end
     end
 
     context "when the mode is 'file_link'" do
