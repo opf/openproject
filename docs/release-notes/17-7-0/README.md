@@ -119,7 +119,7 @@ A new Project phases and gates widget is available for project overviews. It pro
 
 When working with the BlockNote editor in Documents, links to work packages now display rich previews instead of plain URLs. This makes it easier to identify referenced work packages and understand their context without leaving the document.
 
-### Semantic identifiers now support BCF import and export
+### The BCF import and export now support the semantic identifier (ABC-123)
 
 Semantic identifiers are now considered production-ready and are no longer marked as Beta. OpenProject 17.7 also adds support for importing and exporting semantic identifiers in BCF files.
 
