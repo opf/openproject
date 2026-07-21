@@ -293,4 +293,42 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       end
     end
   end
+
+  describe "#available_custom_fields with a linked form configuration", with_flag: { subtypes: true } do
+    let(:source_type) { create(:type) }
+    let(:linked_type) { create(:type) }
+    let(:project) { create(:project, types: [linked_type]) }
+    let(:work_package) { build(:work_package, project:, type: linked_type) }
+
+    let!(:source_cf) do
+      create(:work_package_custom_field, name: "Source CF").tap do |cf|
+        project.work_package_custom_fields << cf
+        source_type.custom_fields << cf
+      end
+    end
+    let!(:linked_own_cf) do
+      create(:work_package_custom_field, name: "Linked own CF").tap do |cf|
+        project.work_package_custom_fields << cf
+        linked_type.custom_fields << cf
+      end
+    end
+
+    before do
+      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+    end
+
+    it "surfaces the source type's custom fields for the linked type's work package" do
+      expect(described_class.available_custom_fields(work_package)).to include(source_cf)
+    end
+
+    it "does not surface the linked type's own leftover custom fields" do
+      expect(described_class.available_custom_fields(work_package)).not_to include(linked_own_cf)
+    end
+
+    it "matches on the physical type id when preloading a batch" do
+      described_class.preload_available_custom_fields([work_package])
+
+      expect(described_class.available_custom_fields(work_package)).to include(source_cf)
+    end
+  end
 end

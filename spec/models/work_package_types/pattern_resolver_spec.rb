@@ -118,4 +118,24 @@ RSpec.describe WorkPackageTypes::PatternResolver do
       end
     end
   end
+
+  context "when the type links its form configuration to a source type", with_flag: { subtypes: true } do
+    let(:source_cf) { create(:string_wp_custom_field) }
+    let(:source_type) { create(:type, custom_fields: [source_cf]) }
+    let(:linked_type) { create(:type) }
+    let(:project) { create(:project, types: [linked_type], work_package_custom_fields: [source_cf]) }
+    let(:subject_pattern) { "CF: {{custom_field_#{source_cf.id}}}" }
+
+    let(:work_package) do
+      create(:work_package, type: linked_type, project:, custom_values: { source_cf.id => "Borrowed Value" })
+    end
+
+    before do
+      linked_type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+    end
+
+    it "resolves the custom field token via the linked source type" do
+      expect(subject.resolve(work_package)).to eq("CF: Borrowed Value")
+    end
+  end
 end
