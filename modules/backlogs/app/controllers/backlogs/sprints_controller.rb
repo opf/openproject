@@ -120,11 +120,7 @@ module Backlogs
       result = start_sprint
 
       if result.success?
-        @sprint = result.result
-        flash[:notice] = I18n.t(:notice_successful_start)
-        render turbo_stream: turbo_stream.redirect_to(
-          project_work_package_board_path(@project, @sprint.task_board_for(@project))
-        )
+        respond_with_start_success(sprint: result.result)
       else
         respond_with_start_finish_failure(message: start_finish_failure_message(:start, result.message))
       end
@@ -144,6 +140,19 @@ module Backlogs
     end
 
     private
+
+    def respond_with_start_success(sprint:)
+      flash[:notice] = I18n.t(:notice_successful_start)
+
+      # Update sprint component so that it shows the correct state for users
+      # that navigate back via the browser's back button:
+      update_sprint_component_via_turbo_stream(sprint:)
+
+      turbo_streams << turbo_stream.redirect_to(
+        project_work_package_board_path(@project, sprint.task_board_for(@project))
+      )
+      respond_with_turbo_streams
+    end
 
     def update_sprint_component_via_turbo_stream(sprint:)
       update_via_turbo_stream(
