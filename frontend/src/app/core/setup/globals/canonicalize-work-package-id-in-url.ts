@@ -33,20 +33,22 @@ import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-patte
 
 // Compiled once: matches a work package id anywhere in the pathname, reusing the
 // shared WP_ID_URL_PATTERN so numeric ("42") and semantic ("PROJ-42") ids both match.
-const workPackageIdPathPattern = new URLPattern({
-  pathname: `{*}/work_packages/:id(${WP_ID_URL_PATTERN}){/*}?`,
-});
+const workPackageIdPathRegex = new RegExp(`/work_packages/(${WP_ID_URL_PATTERN})(?:/|$)`);
+
+function extractWorkPackageId(pathname:string):string | undefined {
+  return workPackageIdPathRegex.exec(pathname)?.[1];
+}
 
 export function canonicalizeWorkPackageIdInUrl():void {
   const currentPath = window.location.pathname;
-  const currentId = workPackageIdPathPattern.exec({ pathname: currentPath })?.pathname.groups.id;
+  const currentId = extractWorkPackageId(currentPath);
   if (!currentId) return;
 
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!canonical?.href) return;
 
   const canonicalPath = new URL(canonical.href).pathname;
-  const canonicalId = workPackageIdPathPattern.exec({ pathname: canonicalPath })?.pathname.groups.id;
+  const canonicalId = extractWorkPackageId(canonicalPath);
   if (!canonicalId || canonicalId === currentId) return;
 
   const newPath = currentPath.replace(`/work_packages/${currentId}`, `/work_packages/${canonicalId}`);
