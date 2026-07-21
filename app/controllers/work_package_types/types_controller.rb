@@ -50,7 +50,7 @@ module WorkPackageTypes
           root_types
         else
           ::Type
-            .includes(:workflows, :projects, :custom_fields, :color)
+            .includes(:own_workflows, :projects, :custom_fields, :color)
             .page(page_param)
             .per_page(per_page_param)
         end
@@ -123,8 +123,8 @@ module WorkPackageTypes
     def root_types
       ::Type
         .roots
-        .includes(:workflows, :projects, :custom_fields, :color,
-                  children: %i[workflows projects custom_fields color])
+        .includes(:own_workflows, :projects, :custom_fields, :color,
+                  children: %i[own_workflows projects custom_fields color])
         .page(page_param)
         .per_page(per_page_param)
     end
