@@ -2722,16 +2722,15 @@ zh-CN:
     blocks:
       community: OpenProject 社区
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki 集成（公司方案）。
-            line_1: 冲刺目标。
-            line_2: "“所有冲刺”概览页面。"
-            line_3: 在工作包和工作包表中显示积压工作存储桶。
-            line_4: 改进了对基于项目的（语义）标识符的支持。
-            line_5: 将会议议程条目转换为工作包。
-            line_6: 按项目配置成本类型。
-          new_features_title: '此版本包含各种新功能和改进，例如：
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
