@@ -45,10 +45,12 @@ module WorkPackageTypes
 
       def type = model
 
-      # The wizard also creates root types once the feature flag replaces the
-      # single-page creation form, and those have no parent to be a sub-type of.
       def title
-        type.parent.nil? ? I18n.t("types.creation_wizard.create_type") : I18n.t("types.creation_wizard.create_subtype")
+        if type.subtype?
+          I18n.t("types.creation_wizard.create_subtype")
+        else
+          I18n.t("types.creation_wizard.create_type")
+        end
       end
 
       def breadcrumb_items
@@ -61,8 +63,6 @@ module WorkPackageTypes
         ]
       end
 
-      # The wizard is always entered from a parent type, but the crumb is skipped
-      # rather than rendered blank if it ever is not.
       def parent_breadcrumb_item
         return [] if type.parent.nil?
 

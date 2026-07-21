@@ -51,7 +51,6 @@ module WorkPackageTypes
 
     private
 
-    # The parent can only be chosen while creating a type, so it is not accepted here.
     def permitted_details_params
       params.expect(type: %i[name color_id is_milestone is_in_roadmap])
     end
