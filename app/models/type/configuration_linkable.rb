@@ -122,6 +122,25 @@ class Type
       source.export_templates_order
     end
 
+    # attribute_groups resolution is opt-in here via effective_attribute_groups.
+    def effective_form_source
+      effective_source_for(Type::ConfigurationLink::FORM_CONFIGURATION)
+    end
+
+    def effective_attribute_groups
+      effective_form_source.attribute_groups
+    end
+
+    # custom_fields resolves through the form source. Beware of reader-driven mutation:
+    # currently, the only one is Jira import's `custom_fields <<`, but it runs on
+    # a FORM_CONFIGURATION-independent type, so it reaches super.
+    def custom_fields
+      source = linked_configuration_source(Type::ConfigurationLink::FORM_CONFIGURATION)
+      return super if source.nil?
+
+      source.custom_fields
+    end
+
     private
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is

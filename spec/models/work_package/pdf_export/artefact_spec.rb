@@ -262,4 +262,26 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       end
     end
   end
+
+  describe "linked form configuration", with_flag: { subtypes: true } do
+    let(:source_type) do
+      create(:type_bug).tap do |t|
+        t.attribute_groups = t.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        t.save!
+      end
+    end
+    # type_bug is looked up by name (see the factory's initialize_with), so a second
+    # plain create(:type_bug) here would resolve to the SAME row as source_type and
+    # make link! reject itself as a cycle. A distinct name keeps it a separate type.
+    let(:type) do
+      create(:type_bug, name: "Bug (linked)").tap do |t|
+        t.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source: source_type)
+      end
+    end
+
+    it "renders the source type's groups for the linked type's work package" do
+      joined = pdf_strings.join(" ")
+      expect(joined).to include(source_type.effective_attribute_groups.find { |g| g.key == "borrowed_group" }.translated_key)
+    end
+  end
 end

@@ -217,7 +217,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
       toc_entry("project_section_#{section[:section_id]}", section[:caption])
     end
-    work_package.type.attribute_groups.each do |group|
+    work_package.type.effective_attribute_groups.each do |group|
       entries << toc_entry("wp_group_#{group.key}", group.translated_key)
     end
     entries

@@ -360,7 +360,7 @@ module API
                                          }
 
           def attribute_groups
-            (represented.type&.attribute_groups || []).map do |group|
+            (represented.type&.effective_attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
                 form_config_query_representation(group)
               else
@@ -374,7 +374,7 @@ module API
           def attribute_group_map(key)
             return nil if represented.type.nil?
 
-            @attribute_group_map ||= represented.type.attribute_groups.each_with_object({}) do |group, hash|
+            @attribute_group_map ||= represented.type.effective_attribute_groups.each_with_object({}) do |group, hash|
               Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
             end
 

@@ -1243,6 +1243,19 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
+  describe "linked form configuration", with_flag: { subtypes: true } do
+    it "renders the effective (source) attribute groups, not the type's own" do
+      allow(wp_type)
+        .to receive(:effective_attribute_groups)
+        .and_return([Type::AttributeGroup.new(wp_type, "Linked group", %w(assignee))])
+
+      parsed = JSON.parse(representer.to_json)
+
+      group_names = parsed["_attributeGroups"].pluck("name")
+      expect(group_names).to include("Linked group")
+    end
+  end
+
   describe "caching" do
     context "for a SpecificWorkPackageSchema" do
       # do not interfere with the representer cache fetching
