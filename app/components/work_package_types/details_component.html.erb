@@ -27,8 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  settings_primer_form_with(**form_options) do |f|
-    render(WorkPackageTypes::DetailsForm.new(f))
-  end
-%>
+<%= settings_primer_form_with(**form_options) do |f| %>
+  <%= render(WorkPackageTypes::DetailsForm.new(f)) %>
+  <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3)) { t(:button_save) } %>
+<% end %>

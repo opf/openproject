@@ -29,12 +29,6 @@
 #++
 
 module WorkPackageTypes
-  # The core settings (color, milestone, roadmap) are inherited from the parent, so a
-  # sub-type shows them read-only to explain where their values come from.
-  #
-  # Rendered by the creation wizard's Details step, the standalone create page and the
-  # Details tab. A type's parent is only ever set by the wizard, which picks it before
-  # the wizard starts, so no host offers it for editing.
   class DetailsForm < ApplicationForm
     form do |details_form|
       details_form.hidden(name: :parent_id) if carries_parent?
@@ -68,19 +62,10 @@ module WorkPackageTypes
                              label: label(:is_in_roadmap),
                              disabled: inherited?,
                              caption: inherited_caption)
-
-      if submittable?
-        details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
-      end
     end
 
     private
 
-    # The creation wizard submits through its footer instead of a Save button.
-    def submittable? = @builder.options[:submit] != false
-
-    # Only the wizard reaches this form with a parent already chosen, and it has to
-    # carry it into the request that creates the sub-type.
     def carries_parent? = model.new_record? && model.parent_id.present?
 
     def inherited? = model.subtype?

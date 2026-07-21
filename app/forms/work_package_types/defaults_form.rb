@@ -88,23 +88,11 @@ module WorkPackageTypes
           )
         end
       end
-
-      if submittable?
-        subject_form.submit(
-          name: :submit,
-          label: I18n.t(:button_save),
-          scheme: :primary
-        )
-      end
     end
 
     private
 
     def readonly? = @builder.options[:readonly] == true
-
-    # The creation wizard submits through its footer, so it opts out of the Save button
-    # this form carries on the edit tab.
-    def submittable? = !readonly? && @builder.options[:submit] != false
 
     def subject_configuration_manual?
       model.subject_configuration == :manual

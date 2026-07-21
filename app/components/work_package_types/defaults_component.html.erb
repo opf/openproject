@@ -29,4 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= settings_primer_form_with(**form_options) do |f| %>
   <%= render(WorkPackageTypes::DefaultsForm.new(f)) %>
+  <% unless readonly? %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3)) { t(:button_save) } %>
+  <% end %>
 <% end %>

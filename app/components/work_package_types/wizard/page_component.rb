@@ -89,13 +89,11 @@ module WorkPackageTypes
         @step_editor ||= StepEditors.for(current_step, type)
       end
 
-      # The wizard footer replaces the form's own submit button on every editor step.
       def step_form_options
         {
           model: step_editor.model,
           url: step_form_url,
           method: step_form_method,
-          submit: false,
           readonly: step_editor.readonly?,
           html: {
             id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
