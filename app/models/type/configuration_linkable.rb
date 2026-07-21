@@ -36,7 +36,7 @@ class Type
   module ConfigurationLinkable
     extend ActiveSupport::Concern
 
-    included do
+    prepended do
       has_many :configuration_links,
                class_name: "Type::ConfigurationLink",
                dependent: :destroy
@@ -98,8 +98,28 @@ class Type
       source.description
     end
 
-    def effective_pdf_export_templates
-      effective_source_for(Type::ConfigurationLink::PDF_EXPORT).pdf_export_templates
+    def artefact_export_mode
+      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.artefact_export_mode
+    end
+
+    # Resolved here rather than on #pdf_export_templates so that the object handed out
+    # always wraps the receiving type: it is a mutator as much as a reader, and
+    # returning the source's would let a linked sub-type write the source's config.
+    def export_templates_disabled
+      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_disabled
+    end
+
+    def export_templates_order
+      source = inherited_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_order
     end
 
     private

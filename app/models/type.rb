@@ -33,7 +33,7 @@ class Type < ApplicationRecord
   # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
-  include ::Type::ConfigurationLinkable
+  prepend ::Type::ConfigurationLinkable
 
   include ::Scopes::Scoped
 
@@ -228,13 +228,7 @@ class Type < ApplicationRecord
   end
 
   def artefact_export_enabled?
-    effective_artefact_export_mode != Type::ArtefactExport::OFF
-  end
-
-  # Sub-types inherit the artefact export configuration from their linked source
-  # for the PDF_EXPORT aspect, consistent with the export templates.
-  def effective_artefact_export_mode
-    effective_source_for(Type::ConfigurationLink::PDF_EXPORT).artefact_export_mode
+    artefact_export_mode != Type::ArtefactExport::OFF
   end
 
   private
