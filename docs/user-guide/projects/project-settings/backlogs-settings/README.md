@@ -101,3 +101,13 @@ The following remain project-specific:
 Even when using shared sprints, each project keeps its own work items and configuration.
 
 Read more on [how to work with Backlogs in OpenProject](../../../backlogs-scrum/).
+
+## Multiple active sprints
+
+Multiple active sprints is a **project-level setting** that allows you to enable more than one active sprint within a project. To enable this setting, toggle the **Allow multiple active sprints** switch to **On**.
+
+> [!NOTE] 
+>
+> There is no limit to the number of sprints that can be activated or run in parallel within a project. To access this setting, **Don't share** option in the sprint sharing tab must be selected. 
+
+![Activate multiple active sprints under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_allow_multiple_active_sprints.png)
