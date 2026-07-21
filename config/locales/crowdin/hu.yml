@@ -6093,7 +6093,7 @@ hu:
     invite_user_modal:
       invite: Meghívás
       message:
-        description: Küldünk egy e-mailt a %{principal} címre, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet egy magyarázat a meghívóhoz, vagy esetleg egy kis információ a projekttel kapcsolatban, hogy segítsen az elindulásban.
+        description: Küldünk egy e-mailt a felhasználónak, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet a meghívás indoklása, vagy esetleg néhány információ a projektről, hogy megkönnyítse a kezdő lépéseket.
         label: Meghívó üzenet
       principal:
         create_new_placeholder: Új teszt felhasználó létrehozása

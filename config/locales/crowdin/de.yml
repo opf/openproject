@@ -1572,7 +1572,7 @@ de:
     attributes:
       property: Eigenschaft
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Deprecated: Dieses unäre Feld wird durch `targetVersions` ersetzt. Verwenden Sie stattdessen `targetVersions` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `targetVersions` höchstens einen Wert und darf nicht zusammen mit `version` in derselben Anfrage angegeben werden.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
@@ -1764,8 +1764,8 @@ de:
     reset_token:
       action_create: Erstellen
       action_reset: Zurücksetzen
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Ich nehme zur Kenntnis, dass das Backup-Token den Zugriff zum Herunterladen aller Daten dieser Installation gewährt
+      checkbox_confirmation_reset: Ich nehme zur Kenntnis, dass das bestehende Backup-Token ungültig wird
       heading_create: Backup-Token erstellen
       heading_reset: Backup-Token zurücksetzen
       implications: 'Das Aktivieren von Backups erlaubt jedem Benutzer mit den erforderlichen Berechtigungen und diesem Backup-Token ein Backup herunterzuladen, das alle Daten dieser OpenProject-Installation enthält. Dies schließt die Daten aller anderen Benutzer ein.
@@ -2035,7 +2035,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -5816,7 +5816,7 @@ de:
           label: Verknüpft
           warning: Durch die Verknüpfung werden die eigenen Einstellungen dieses Typs durch die des Quelltyps ersetzt. Die aktuellen Einstellungen gehen dabei verloren, und Arbeitspakete dieses Typs können davon betroffen sein. Bitte gehen Sie mit Bedacht vor.
         source:
-          label: Source type
+          label: Quelltyp
       export_configuration:
         artefact_export:
           attachment:
