@@ -199,7 +199,7 @@ gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.19.4"
 
-gem "carrierwave", "~> 2.2.7"
+gem "carrierwave", "~> 3.1.3"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
