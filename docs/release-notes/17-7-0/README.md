@@ -75,23 +75,23 @@ The Staffing view allows project managers to assign work while taking each team 
 
 [feature: multiple_active_sprints]
 
-OpenProject 17.7 introduces support for multiple active sprints without requiring work packages to be shared between projects. Teams can now run multiple active sprints independently while keeping work packages within their respective projects. This provides greater flexibility for organizations managing multiple Scrum teams or parallel development efforts.
+OpenProject 17.7 introduces support for multiple active sprints within a single project, eliminating the need to share sprints across projects. Teams can now manage multiple active sprints while keeping all sprint planning in one project. This also provides a consolidated overview of active sprints and backlog items on the Backlogs and Sprints page.
 
 ### Community improvements for Backlog and Sprints
 
-OpenProject 17.7 also includes several community-contributed improvements for Backlog and Sprints that make sprint planning and backlog management more efficient.
+OpenProject 17.7 also includes several other improvements for Backlog and Sprints that make sprint planning and backlog management more efficient.
 
 **Add existing work packages to a sprint**
 
-You can now add existing work packages to a sprint directly from the Backlog view. This makes it easier to move planned work into a sprint without changing the work package hierarchy or creating duplicate work packages.
+You can now add existing work packages directly to sprints, backlog buckets, and the backlog inbox from the Backlogs view. This lets you organize work without leaving the page, helping you stay focused and maintain context while planning your backlog.
 
-**Multi-select filters**
+**Multi-select for sprint and backlog filters**
 
-Backlog and Sprint filters now support selecting multiple values for the same filter criterion. This makes it easier to filter work packages by multiple assignees, priorities, statuses, versions, or other attributes.
+Backlog and Sprint views now support selecting multiple sprints and backlog buckets at once. This makes it easier to focus on the work that matters most by displaying only the relevant sprints and backlog buckets.
 
 **Improved drag and drop**
 
-Drag-and-drop interactions in the Backlog and Sprint views have been improved to provide a smoother planning experience. Moving work packages between the backlog and sprints, changing their order, or reorganizing the hierarchy is now more intuitive and reliable.
+Drag-and-drop interactions in the Backlogs and Sprints view have been improved to provide a smoother planning experience across desktop and mobile devices. Moving work packages between the backlog and sprints, changing their order, or reorganizing the hierarchy is now more intuitive and reliable.
 
 ### Improvements for PM² and PMflex management
 
@@ -131,7 +131,7 @@ Project lists now support filtering by portfolio and program. This makes it easi
 
 ### Additional calculation operators for calculated fields
 
-Calculated custom fields now support additional calculation operators, allowing you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
+Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
 
 ### Wiki improvements
 
