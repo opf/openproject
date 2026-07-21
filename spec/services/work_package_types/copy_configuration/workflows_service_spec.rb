@@ -89,6 +89,31 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
       end
 
       it "adopts the resolved owner's transitions" do
+        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+                                old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
+
+        expect(service_call).to be_success
+        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+                                old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
+      end
+    end
+
+    context "when the source resolves through a longer chain", with_flag: { subtypes: true } do
+      let(:owner) { create(:type) }
+      let(:middle) { create(:type) }
+      let(:source) { create(:type) }
+
+      before do
+        create(:workflow, role_id: role.id, type_id: owner.id,
+                          old_status_id: statuses[0].id, new_status_id: statuses[1].id,
+                          author: false, assignee: false)
+        middle.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
+        source.link!(Type::ConfigurationLink::WORKFLOWS, source: middle)
+      end
+
+      it "adopts the resolved owner's transitions" do
+        expect(Workflow.exists?(type_id: type.id, role_id: role.id,
+                                old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
         expect(service_call).to be_success
         expect(Workflow.exists?(type_id: type.id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
