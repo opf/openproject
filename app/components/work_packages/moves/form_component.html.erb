@@ -104,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%# Always write through target_version_ids (version_id is synced from it on save); the feature only toggles single vs. multiple select. %>
             <% multiple_versions = Setting::WorkPackageMultipleVersions.active? %>
             <div class="form--field">
-              <label class="form--label" for="target_version_ids_">
+              <label class="form--label" for="target_version_ids">
                 <%= WorkPackage.human_attribute_name(multiple_versions ? :target_versions : :version) %>
               </label>
               <div class="form--field-container">
@@ -112,6 +112,7 @@ See COPYRIGHT and LICENSE files for more details.
                       "target_version_ids[]",
                       content_tag("option", t(:label_no_change_option), value: "") +
                         version_options_for_select(available_versions, selected_target_version),
+                      id: "target_version_ids",
                       multiple: multiple_versions
                     ) %>
               </div>
