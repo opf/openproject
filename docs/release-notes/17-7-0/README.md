@@ -78,17 +78,17 @@ OpenProject 17.7 introduces support for multiple active sprints within a single 
 
 OpenProject 17.7 also includes several other improvements for Backlog and Sprints that make sprint planning and backlog management more efficient.
 
-**Add existing work packages to a sprint**
+**Add existing work packages to a sprint, backlog bucket or backlog inbox**
 
 You can now add existing work packages directly to sprints, backlog buckets, and the backlog inbox from the Backlogs view. This lets you organize work without leaving the page, helping you stay focused and maintain context while planning your backlog.
 
 **Multi-select for sprint and backlog filters**
 
-Backlog and Sprint views now support selecting multiple sprints and backlog buckets at once. This makes it easier to focus on the work that matters most by displaying only the relevant sprints and backlog buckets.
+Backlog and Sprint views now support selecting multiple sprints and backlog buckets to show. This makes it easier to focus on the work that matters most by displaying only the relevant sprints and backlog buckets.
 
 **Improved drag and drop**
 
-Drag-and-drop interactions in the Backlogs and Sprints view have been improved to provide a smoother planning experience across desktop and mobile devices. Moving work packages between the backlog and sprints, changing their order, or reorganizing the hierarchy is now more intuitive and reliable.
+Drag-and-drop interactions in the Backlogs and Sprints view have been improved to provide a smoother planning experience across desktop and mobile devices. Moving work packages between the backlog and sprints or changing their order is now more intuitive and reliable.
 
 ### Improvements for PM² and PMflex management
 
