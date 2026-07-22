@@ -81,19 +81,19 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     visit types_path
 
     within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      expect(page).to have_css(".Label", text: I18n.t(:label_default))
+      expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      expect(page).to have_no_css(".Label", text: I18n.t(:label_default))
+      expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
 
     within(".Box-row", text: alfa_variant.own_name, visible: :all) do
-      expect(page).to have_css(".Label", text: I18n.t(:label_default), visible: :all)
+      expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"), visible: :all)
     end
 
     within(".Box-row", text: zeta_variant.own_name, visible: :all) do
-      expect(page).to have_no_css(".Label", text: I18n.t(:label_default), visible: :all)
+      expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"), visible: :all)
     end
   end
 
