@@ -29,19 +29,19 @@
 #++
 
 module Projects::Copy
-  class VersionsDependentService < Dependency
+  class BacklogBucketsDependentService < Dependency
     def self.human_name
-      I18n.t(:label_version_plural)
+      I18n.t("projects.copy.backlog_buckets")
     end
 
     def source_count
-      source.versions.count
+      source.backlog_buckets.count
     end
 
     protected
 
     def copy_dependency(*)
-      state.version_id_lookup = copy_collection_with_id_map(:versions)
+      state.backlog_bucket_id_lookup = copy_collection_with_id_map(:backlog_buckets)
     end
   end
 end

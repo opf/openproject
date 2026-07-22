@@ -156,6 +156,7 @@ RSpec.describe "Projects copy", :js,
     end
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
+    let(:general_settings_page) { Pages::Projects::Settings::General.new(project) }
 
     let(:storage) { create(:nextcloud_storage) }
     let(:project_storage) do
@@ -185,7 +186,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -201,7 +201,6 @@ RSpec.describe "Projects copy", :js,
 
     context "with correct project custom field activations" do
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -219,7 +218,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
 
@@ -243,7 +242,6 @@ RSpec.describe "Projects copy", :js,
           optional_project_custom_field_with_default.id
         )
 
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
@@ -253,7 +251,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
 
@@ -293,7 +291,7 @@ RSpec.describe "Projects copy", :js,
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -320,7 +318,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -339,7 +336,7 @@ RSpec.describe "Projects copy", :js,
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -364,7 +361,7 @@ RSpec.describe "Projects copy", :js,
 
           click_on "Copy"
 
-          wait_for_copy_to_finish
+          general_settings_page.wait_for_copy_to_finish
 
           copied_project = Project.find_by(name: "Copied project")
 
@@ -409,7 +406,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       before do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
       end
@@ -427,7 +423,7 @@ RSpec.describe "Projects copy", :js,
 
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
         typed_values =
@@ -451,7 +447,6 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "copies the project attributes" do
-        general_settings_page = Pages::Projects::Settings::General.new(project)
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
@@ -460,7 +455,7 @@ RSpec.describe "Projects copy", :js,
         fill_in "Name", with: "Copied project"
         click_on "Copy"
 
-        wait_for_copy_to_finish
+        general_settings_page.wait_for_copy_to_finish
 
         copied_project = Project.find_by(name: "Copied project")
         expect(copied_project).to be_present
@@ -483,7 +478,6 @@ RSpec.describe "Projects copy", :js,
     end
 
     it "copies projects and the associated objects" do
-      general_settings_page = Pages::Projects::Settings::General.new(project)
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
@@ -496,7 +490,7 @@ RSpec.describe "Projects copy", :js,
 
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       copied_project = Project.find_by(name: "Copied project")
 
@@ -617,7 +611,7 @@ RSpec.describe "Projects copy", :js,
       fill_in "Name", with: "Copied project"
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       expect(copied_project)
         .to be_present
@@ -656,6 +650,7 @@ RSpec.describe "Projects copy", :js,
     TABLE
 
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:general_settings_page) { Pages::Projects::Settings::General.new(project) }
 
     before do
       # Clear all jobs that would later on to having emails send.
@@ -667,7 +662,6 @@ RSpec.describe "Projects copy", :js,
     end
 
     it "copies work packages preserving original dates and scheduling modes" do
-      general_settings_page = Pages::Projects::Settings::General.new(project)
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
@@ -676,7 +670,7 @@ RSpec.describe "Projects copy", :js,
       fill_in "Name", with: "Copied project"
       click_on "Copy"
 
-      wait_for_copy_to_finish
+      general_settings_page.wait_for_copy_to_finish
 
       copied_project = Project.find_by(name: "Copied project")
       expect(copied_project).to be_present
@@ -698,15 +692,4 @@ RSpec.describe "Projects copy", :js,
     end
   end
 
-  def wait_for_copy_to_finish
-    expect(page).to have_dialog "Background job status"
-
-    within_dialog "Background job status" do
-      expect(page).to have_heading "Copy project"
-      expect(page).to have_text "The job has been queued and will be processed shortly."
-    end
-
-    # ensure all jobs are run especially emails which might be sent later on
-    GoodJob.perform_inline
-  end
 end

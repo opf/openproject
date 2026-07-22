@@ -28,20 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Copy
-  class VersionsDependentService < Dependency
-    def self.human_name
-      I18n.t(:label_version_plural)
-    end
+module OpenProject::Backlogs::Patches::FiltersMapperPatch
+  extend ActiveSupport::Concern
 
-    def source_count
-      source.versions.count
-    end
+  included do
+    prepend InstanceMethods
+  end
 
+  module InstanceMethods
     protected
 
-    def copy_dependency(*)
-      state.version_id_lookup = copy_collection_with_id_map(:versions)
+    # Sprints and backlog buckets are recreated with new ids when a project is
+    # copied (see Projects::Copy::SprintsDependentService and
+    # BacklogBucketsDependentService). A copied query's sprint_id /
+    # backlog_bucket_id filters must be remapped to those copies just like
+    # version_id, otherwise they keep pointing at the source project's records
+    # and the copied query matches nothing.
+    def build_filter_mappers
+      super.merge(
+        sprint_id: state_mapper(:sprint_id_lookup),
+        backlog_bucket_id: state_mapper(:backlog_bucket_id_lookup)
+      )
     end
   end
 end
