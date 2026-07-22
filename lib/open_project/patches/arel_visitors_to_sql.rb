@@ -31,14 +31,28 @@
 # Necessary extension of Arel::Visitors::ToSql to support the CTE provider/collector
 # pattern for moving CTEs from somewhere within the subquery to the topmost
 # statement for increased performance.
+#
+# ⚠ Coupled to Arel internals. This method is dispatched by Arel's visitor
+# naming convention (`visit_<node class with :: replaced by _>`), and the wider
+# mechanism depends on more than that: `ProviderStatement` subclasses
+# `Arel::Nodes::SelectStatement`, and `CteCollector` walks and rewrites the AST
+# (WITH-clause bodies, join sources, `IN (subquery)` nodes). None of it is public
+# API, so on a Rails/Arel upgrade re-run the provider/collector specs before
+# assuming it still works:
+#
+#   spec/models/ar_cte_provider_and_collector_spec.rb
+#   spec/models/authorization/shared_user_permissions_cte_equivalence_spec.rb
+#
+# A silent failure here changes permission SQL, so treat those specs as the gate
+# rather than a formality.
 module OpenProject::Patches::ArelVisitorsToSql
   def visit_OpenProject_ActiveRecordExtensions_ProviderStatement(node, collector) # rubocop:disable Naming/MethodName
     # Since there might not always be a provider to collect the CTE from within
     # the arel ast, fall back to inlining the registered sql.
     collector << if node.provided_cte_collected?
-                   "SELECT * from #{nod.provided_cte}"
+                   "SELECT * from #{node.provided_cte}"
                  else
-                   OpenProject::ActiveRecordExtensions::Cte::Aggregation.registered[node.provided_cte]
+                   node.provided_cte_sql
                  end
 
     collector

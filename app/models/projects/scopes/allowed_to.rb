@@ -68,6 +68,16 @@ module Projects::Scopes
                                   allowed_to_non_member_relation(user, permissions).select(*non_member_selects).arel)
       end
 
+      # Wraps the member-permission UNION in a provider so it can be hoisted into a
+      # shared CTE. Identical derivations share an alias derived from the rendered SQL.
+      # Public because WorkPackages.allowed_to emits it for the member_projects CTE too.
+      def allowed_to_member_union_provider(user, permissions, entity_types: [])
+        body = allowed_to_member_union(user, permissions, entity_types:).to_sql
+        alias_name = "user_permissions_#{Digest::SHA256.hexdigest(body)[0, 16]}"
+
+        OpenProject::ActiveRecordExtensions::CteProvider.new(model: Project, with: alias_name, body:)
+      end
+
       private
 
       def allowed_to_non_member_relation(user, permissions)
@@ -123,7 +133,11 @@ module Projects::Scopes
       end
 
       def allowed_to_member(user, permissions)
-        where(arel_table[:id].in(allowed_to_member_union(user, permissions)))
+        if OpenProject::FeatureDecisions.shared_user_permissions_cte_active?
+          where(id: allowed_to_member_union_provider(user, permissions))
+        else
+          where(arel_table[:id].in(allowed_to_member_union(user, permissions)))
+        end
       end
 
       def allowed_to_admin_relation(permissions)

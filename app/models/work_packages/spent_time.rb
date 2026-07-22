@@ -51,8 +51,9 @@ module WorkPackages::SpentTime
   private
 
   def compute_spent_hours(user)
-    WorkPackage.include_spent_time(user, self)
-      .pluck(Arel.sql("SUM(hours)"))
-      .first
+    scope = OpenProject::ActiveRecordExtensions::CteCollector
+              .collect(WorkPackage.include_spent_time(user, self))
+
+    scope.pick(Arel.sql("SUM(hours)"))
   end
 end
