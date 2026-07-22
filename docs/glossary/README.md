@@ -366,7 +366,7 @@ A phase gate is a decision point between two [project phases](#phase) within the
 
 In OpenProject, you can choose from several plugins or [integrations](#integration), or add your own plugins to the Community. In contrast to an integration, a plugin is installed on top of / as part of the OpenProject installation. As an open source software, OpenProject is open to Community-created plugins. Please note that we do not guarantee error-free and seamless use of those plugins.
 
-Your activated plugins are listed together with your [modules](#module) in your instance under → Administration → Plugins.
+Your activated plugins are listed together with your [modules](#module) in your instance under *→ Administration → Plugins*.
 
 **More information on plugins in OpenProject**
 
@@ -413,8 +413,6 @@ In the OpenProject application, the project home page is defined as a start page
 The default view is the **Overview** – a page that shows the project description, project status, subitems, members and news. While you can edit the content, the widgets themselves are fixed. On a second tab, you can access the **Dashboard**. Here, [widgets](#widget) can be added, edited and removed by a project [admin](#admin).
 
 Open the project home by navigating to "Project home" in the project menu on the left. [Read more about the project home in OpenProject](../user-guide/projects/project-home/#project-overview).
-
-### Project identifier
 
 ### Project identifier
 
@@ -487,6 +485,14 @@ OpenProject also allows you to set **work package reminders**: Simply activate t
 
 A repository is defined as a document or source code management system that allows users to manage files and folders via different version control systems (such as Subversion or Git). [Read more about Repository for source code control](../user-guide/repository/).
 
+### Resource management
+
+Resource management in OpenProject is a [module](#module) available as an [Enterprise add-on](#enterprise-add-on). Users can add Resource planners to plan and allocate work in different views based on team members’ availability and capacity. The module also supports staffing by helping users identify and assign suitable team members based on their skills and availability.
+
+Apart from the Resource management module, users on all plans can view their work schedule, including their availability, future schedule changes, and effective work hours.
+
+[Read more about resource management with OpenProject](../user-guide/resource-management/).
+
 ### Roadmap
 
 In OpenProject, a roadmap is defined as an overview page displaying the [versions](#versions) sorted alphabetically and the [work packages](#work-package) assigned to them. The roadmap is displayed in the [project navigation](#project-navigation) when the work package module is activated and a version has been created ([project settings](#project-settings)).
@@ -521,7 +527,9 @@ Story points is a term known in Scrum. They are defined as numbers assigned to a
 
 ### Team planner
 
-The team planner in OpenProject is defined as a [module](#module) ([Enterprise add-on](#enterprise-add-on)) that helps you get a complete overview of what each [member](#member) of your team is working on – in different timeframes. You can use it to track the current progress of [work packages](#work-package) your team is working on, schedule new tasks, reschedule them or even reassign them to different members. [Read more about the OpenProject team planner](../user-guide/team-planner/).
+The team planner in OpenProject is a [module](#module) available as an [Enterprise add-on](#enterprise-add-on) that helps you get a complete overview of what each [member](#member) of your team is working on – in different timeframes. You can use it to track the current progress of [work packages](#work-package) your team is working on, schedule new tasks, reschedule them or even reassign them to different members. [Read more about the OpenProject team planner](../user-guide/team-planner/).
+
+For planning and allocating work based on team members’ availability and capacity, use the [Resource management](#resource-management) module, which is also available as an Enterprise add-on.
 
 ### Time and costs
 
@@ -539,7 +547,7 @@ A theme is a visual customization setting that changes the overall look and feel
 
 ### User
 
-In OpenProject, a user is defined as a person who uses OpenProject, described by an identifier. New users can be created in the admin settings. Users can become project [members](#member) by either assigning them a role and adding them via the [project settings](#project-settings). Or by adding them to a project by the system admin at: Administration → Users and permissions → Users. Then clicking on the username and navigating to the tab "Projects".
+In OpenProject, a user is defined as a person who uses OpenProject, described by an identifier. New users can be created in the admin settings. Users can become project [members](#member) by either assigning them a role and adding them via the [project settings](#project-settings). Or by adding them to a project by the system admin at: *Administration → Users and permissions → Users*. Then clicking on the username and navigating to the tab "Projects".
 
 ### User guide
 
