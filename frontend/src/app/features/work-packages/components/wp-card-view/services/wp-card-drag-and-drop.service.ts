@@ -4,8 +4,11 @@ import { WorkPackageViewOrderService } from 'core-app/features/work-packages/rou
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
-import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { reorderById } from 'core-common/drag-and-drop/reorder';
+import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
+import type {
+  SortableListsDropEvent,
+  SortableListsRemovedEvent,
+} from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -22,7 +25,6 @@ export class WorkPackageCardDragAndDropService {
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly currentProject = inject(CurrentProjectService);
-  readonly dragService = inject(DragAndDropService, { optional: true });
   readonly wpInlineCreate = inject(WorkPackageInlineCreateService);
 
   private _workPackages:WorkPackageResource[];
@@ -33,64 +35,15 @@ export class WorkPackageCardDragAndDropService {
   /** A reference to the component in use, to have access to the current input variables */
   public cardView:WorkPackageCardViewComponent;
 
+  /** Set once torn down, so a late-resolving async continuation is a no-op rather than touching a dead view */
+  private destroyed = false;
+
   public init(componentRef:WorkPackageCardViewComponent) {
     this.cardView = componentRef;
   }
 
   public destroy() {
-    if (this.dragService !== null) {
-      this.dragService.remove(this.cardView.container.nativeElement);
-    }
-  }
-
-  public registerDragAndDrop() {
-    // The DragService may not have been provided
-    // in which case we do not provide drag and drop
-    if (this.dragService === null) {
-      return;
-    }
-
-    this.dragService.register({
-      dragContainer: this.cardView.container.nativeElement,
-      scrollContainers: [this.cardView.container.nativeElement],
-      itemIdOf: (card:HTMLElement) => card.dataset.workPackageId ?? null,
-      canPickup: (card:HTMLElement) => {
-        const wpId:string = card.dataset.workPackageId!;
-        const workPackage = this.states.workPackages.get(wpId).value;
-
-        return !!workPackage && this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
-      },
-      accepts: () => this.cardView.dragInto,
-      // Single-list reorder only: the engine's per-member root scoping means
-      // a drop can never land in a *different* registered container, so the
-      // cross-list add/remove handshake the Dragula version had here no
-      // longer has anything to fire on.
-      onMoved: (intent:DragIntent, complete:(success:boolean) => void) => {
-        void (async () => {
-          try {
-            const wpId = intent.sourceId;
-            const newOrder = reorderById({
-              list: this.currentOrder,
-              getId: (id) => id,
-              sourceId: wpId,
-              targetId: intent.targetId,
-              closestEdge: intent.edge,
-              axis: 'vertical',
-            });
-            const toIndex = newOrder.indexOf(wpId);
-
-            const persistedOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
-            this.updateOrder(persistedOrder);
-
-            this.cardView.onMoved.emit();
-            complete(true);
-          } catch (e) {
-            this.notificationService.handleRawError(e);
-            complete(false);
-          }
-        })();
-      },
-    });
+    this.destroyed = true;
   }
 
   /**
@@ -131,7 +84,166 @@ export class WorkPackageCardDragAndDropService {
   }
 
   /**
-   * Update current order
+   * Apply an id order to the view synchronously from already-loaded States —
+   * no API round trip before render. A later successful persist may still
+   * reconcile from the server in the background via `updateOrder`.
+   */
+  private applyLocalOrder(order:string[]):void {
+    if (this.destroyed) {
+      return;
+    }
+
+    this.workPackages = order
+      .map((id) => this.states.workPackages.get(id).value)
+      .filter((wp):wp is WorkPackageResource => !!wp);
+    this.cardView.cdRef.detectChanges();
+  }
+
+  private currentOrderEquals(order:string[]):boolean {
+    const current = this.currentOrder;
+    return current.length === order.length && current.every((id, index) => id === order[index]);
+  }
+
+  /**
+   * Handle a drop resolved by the sortable-lists directives. Same-list is a
+   * pure reorder; cross-list resolves the moved item from States and inserts
+   * it on this (target) list's side.
+   */
+  handleDrop(event:SortableListsDropEvent):void {
+    // The event carries the SOURCE list id only — it is always routed to
+    // THIS list's own output when resolving as the target, so "cross-list"
+    // means the source differs from this list's own id.
+    if (event.sourceListId !== this.cardView.resolvedListId) {
+      this.handleCrossListDrop(event);
+      return;
+    }
+
+    try {
+      const before = this.currentOrder;
+      const after = reorderById({
+        list: before,
+        getId: (id) => id,
+        sourceId: event.sourceId,
+        targetId: event.targetId,
+        closestEdge: event.edge,
+        axis: 'vertical',
+      });
+
+      if (after === before) {
+        event.complete(true); // no-op: nothing moved, nothing to persist
+        return;
+      }
+
+      this.applyLocalOrder(after);
+      void this.persistMove(before, after, event);
+    } catch (e) {
+      // Guarantee settlement on a sync throw too, or the engine's busy flag never clears.
+      this.notificationService.handleRawError(e);
+      event.complete(false);
+    }
+  }
+
+  /**
+   * Handle a removal resolved by the sortable-lists directives on the
+   * SOURCE list's side of a cross-list move. Applies the removal optimistically,
+   * then persists only once the target side has settled (`event.completion`).
+   */
+  handleRemoved(event:SortableListsRemovedEvent):void {
+    let before:string[];
+    let optimistic:string[];
+
+    try {
+      before = this.currentOrder;
+      optimistic = before.filter((id) => id !== event.itemId);
+      this.applyLocalOrder(optimistic);
+    } catch (e) {
+      // Guarantee settlement on a sync throw too, or the engine's busy flag never clears.
+      this.notificationService.handleRawError(e);
+      event.finalize();
+      return;
+    }
+
+    void event.completion
+      .then(async (ok) => {
+        if (ok) {
+          // Target succeeded: persist the removal here; a failure here does not
+          // undo the target's already-completed insert.
+          await this.reorderService
+            .removePersisted(before, event.itemId)
+            .catch((e) => this.refreshAfterSourceFailure(e));
+        } else if (this.currentOrderEquals(optimistic)) {
+          // Target rejected: restore, but only if nothing fresher (e.g. a
+          // results update) has since changed the local order.
+          this.applyLocalOrder(before);
+        }
+      })
+      .finally(() => event.finalize());
+  }
+
+  private async persistMove(before:string[], after:string[], event:SortableListsDropEvent):Promise<void> {
+    let success = false;
+
+    try {
+      const toIndex = after.indexOf(event.sourceId);
+      // Defensive copy: `move` mutates its `order` arg in place, and `before`
+      // is the rollback reference on failure below.
+      await this.reorderService.move([...before], event.sourceId, toIndex);
+      this.cardView.onMoved.emit();
+      success = true;
+      void this.updateOrder(after);
+    } catch (e) {
+      this.notificationService.handleRawError(e);
+      this.applyLocalOrder(before);
+    } finally {
+      event.complete(success);
+    }
+  }
+
+  private handleCrossListDrop(event:SortableListsDropEvent):void {
+    try {
+      const workPackage = this.states.workPackages.get(event.sourceId).value;
+      if (!workPackage) {
+        event.complete(false);
+        return;
+      }
+
+      const toIndex = this.insertionIndexFor(this.currentOrder, event.targetId, event.edge);
+      void this
+        .addWorkPackageToQuery(workPackage, toIndex)
+        .then((success) => event.complete(success))
+        .catch((e) => {
+          this.notificationService.handleRawError(e);
+          event.complete(false);
+        });
+    } catch (e) {
+      // Guarantee settlement on a sync throw too, or the engine's busy flag never clears.
+      this.notificationService.handleRawError(e);
+      event.complete(false);
+    }
+  }
+
+  // `null` targetId (container/empty-list drop) maps to `addWorkPackageToQuery`'s own -1 = append convention.
+  private insertionIndexFor(order:string[], targetId:string|null, edge:Edge|null):number {
+    if (targetId === null) {
+      return -1;
+    }
+
+    const index = order.indexOf(targetId);
+    if (index === -1) {
+      return -1;
+    }
+
+    return edge === 'bottom' ? index + 1 : index;
+  }
+
+  private refreshAfterSourceFailure(e:unknown):void {
+    this.notificationService.handleRawError(e);
+    this.applyLocalOrder(this.reorderService.orderedWorkPackages().map((wp) => wp.id!));
+  }
+
+  /**
+   * Update current order from the API (background reconciliation only —
+   * never a prerequisite for rendering the optimistic local order).
    */
   private updateOrder(newOrder:string[]) {
     newOrder = Array.from(new Set(newOrder));
@@ -144,6 +256,9 @@ export class WorkPackageCardDragAndDropService {
         .get()
         .toPromise()))
       .then((workPackages:WorkPackageResource[]) => {
+        if (this.destroyed) {
+          return;
+        }
         this.workPackages = workPackages;
         this.cardView.cdRef.detectChanges();
       });
@@ -163,19 +278,30 @@ export class WorkPackageCardDragAndDropService {
   }
 
   /**
-   * Add the given work package to the query
+   * Add the given work package to the query: applied to the view
+   * optimistically, rolled back on a persistence failure.
    */
   async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1):Promise<boolean> {
+    const before = this.currentOrder;
+    const insertIndex = toIndex === -1 ? before.length : toIndex;
+    const after = [...before];
+    after.splice(insertIndex, 0, workPackage.id!);
+
+    this.states.workPackages.get(workPackage.id!).putValue(workPackage);
+    this.applyLocalOrder(after);
+
     try {
       await this.cardView.workPackageAddedHandler(workPackage);
-      const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);
-      this.updateOrder(newOrder);
+      // Defensive copy: `add` mutates its `order` arg in place, and `before`
+      // is the rollback reference on failure below.
+      await this.reorderService.add([...before], workPackage.id!, insertIndex);
+      void this.updateOrder(after);
       return true;
     } catch (e) {
       this.notificationService.handleRawError(e, workPackage);
+      this.applyLocalOrder(before);
+      return false;
     }
-
-    return false;
   }
 
   /**

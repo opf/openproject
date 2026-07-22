@@ -66,8 +66,8 @@
       flex-grow: 1
       @include text-shortener
 
-  // Style shadow element while dragging
-  wp-single-card:host.gu-transit &
+  // Style the source card as a placeholder while dragging
+  wp-single-card:host([data-dragging='source']) &
     @include modifying--placeholder
 
   &--content

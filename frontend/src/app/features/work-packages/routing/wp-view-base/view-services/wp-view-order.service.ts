@@ -28,7 +28,6 @@
 
 import { sortBy } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -85,9 +84,18 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Pull an item from the rendered list
    */
   public remove(order:string[], wpId:string):string[] {
-    order = order.filter((id) => id !== wpId);
-    this.update({ [wpId]: -1 });
-    return order;
+    const filteredOrder = this.filterOrder(order, wpId);
+    void this.update({ [wpId]: -1 });
+    return filteredOrder;
+  }
+
+  /**
+   * Pull an item from the rendered list and await the update
+   */
+  public async removePersisted(order:string[], wpId:string):Promise<string[]> {
+    const filteredOrder = this.filterOrder(order, wpId);
+    await this.update({ [wpId]: -1 });
+    return filteredOrder;
   }
 
   /**
@@ -218,5 +226,12 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   hasChanged(query:QueryResource):boolean {
     return false;
+  }
+
+  /**
+   * Filter a work package from the order array
+   */
+  private filterOrder(order:string[], wpId:string):string[] {
+    return order.filter((id) => id !== wpId);
   }
 }

@@ -32,6 +32,10 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import type {
+  SortableListsDropEvent,
+  SortableListsRemovedEvent,
+} from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -66,6 +70,9 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public dragInto:boolean;
 
+  /** Stable list id for callers managing more than one card view under a shared root (e.g. boards) */
+  @Input() public listId?:string;
+
   @Input() public highlightingMode:CardHighlightingMode;
 
   @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
@@ -97,6 +104,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public trackByHref = trackByHrefAndProperty('lockVersion');
+
+  private static nextListId = 0;
+
+  /** Default list id when the caller (e.g. wp-grid) does not pass one via `listId` */
+  private readonly internalListId = `wp-card-view-list-${WorkPackageCardViewComponent.nextListId += 1}`;
 
   public query:QueryResource;
 
@@ -160,11 +172,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   ngAfterViewInit() {
     this.cardDragDrop.init(this);
 
-    // Register Drag & Drop only on desktop
-    if (!this.deviceService.isMobile) {
-      this.cardDragDrop.registerDragAndDrop();
-    }
-
     // Register event handlers for the cards
     const registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
     if (registry instanceof CardViewHandlerRegistry) {
@@ -204,6 +211,24 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   async onCardSaved(wp:WorkPackageResource) {
     await this.cardDragDrop.onCardSaved(wp);
+  }
+
+  /** Desktop-only, gated by the caller's drag-out check and never for an unsaved (new) card */
+  public itemCanDrag = (wp:WorkPackageResource):boolean => !this.deviceService.isMobile && this.canDragOutOf(wp) && !isNewResource(wp);
+
+  public acceptsDrops = ():boolean => this.dragInto;
+
+  public handleDrop(event:SortableListsDropEvent):void {
+    this.cardDragDrop.handleDrop(event);
+  }
+
+  public handleRemoved(event:SortableListsRemovedEvent):void {
+    this.cardDragDrop.handleRemoved(event);
+  }
+
+  /** Falls back to a stable per-instance id when the caller does not manage more than one list */
+  public get resolvedListId():string {
+    return this.listId ?? this.internalListId;
   }
 
   public classes() {

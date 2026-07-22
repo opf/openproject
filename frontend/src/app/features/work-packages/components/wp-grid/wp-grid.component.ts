@@ -42,7 +42,8 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
 @Component({
   selector: 'wp-grid',
   template: `
-    <wp-card-view [dragOutOfHandler]="canDragOutOf"
+    <wp-card-view opSortableLists
+      [dragOutOfHandler]="canDragOutOf"
       [dragInto]="dragInto"
       [cardsRemovable]="false"
       [highlightingMode]="highlightingMode"
