@@ -132,6 +132,15 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     let(:params) do
       { target_project_params:, send_notifications: false, only: %w[sprints] }
     end
+    # Scoped to this describe so each context picks its sharing mode via
+    # +sprint_sharing+ instead of mutating the outer shared_let project.
+    let(:sprint_sharing) { Projects::SprintSharing::NO_SHARING }
+    let(:source) do
+      create(:project,
+             name: "Source Project Name",
+             enabled_module_names: %i[work_package_tracking backlogs],
+             sprint_sharing:)
+    end
     let(:sprint_project) { source }
     let!(:source_sprint) { create(:sprint, project: sprint_project, name: "Sprint A") }
 
@@ -157,19 +166,19 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
 
     context "when source has NO_SHARING" do
-      before { source.update!(sprint_sharing: Projects::SprintSharing::NO_SHARING) }
+      let(:sprint_sharing) { Projects::SprintSharing::NO_SHARING }
 
       include_examples "copies sprints decoupled from the source"
     end
 
     context "when source has SHARE_SUBPROJECTS" do
-      before { source.update!(sprint_sharing: Projects::SprintSharing::SHARE_SUBPROJECTS) }
+      let(:sprint_sharing) { Projects::SprintSharing::SHARE_SUBPROJECTS }
 
       include_examples "copies sprints decoupled from the source"
     end
 
     context "when source has SHARE_ALL_PROJECTS" do
-      before { source.update!(sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+      let(:sprint_sharing) { Projects::SprintSharing::SHARE_ALL_PROJECTS }
 
       # The project copy is set to NO_SHARING in the
       # OpenProject::Backlogs::Patches::CopyServicePatch#clean_settings_attributes!,
@@ -178,13 +187,12 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
 
     context "when source has RECEIVE_SHARED" do
+      let(:sprint_sharing) { Projects::SprintSharing::RECEIVE_SHARED }
       let(:sprint_project) do
         create(:project,
                enabled_module_names: %i[work_package_tracking backlogs],
                sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
       end
-
-      before { source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
 
       it "does not copy the shared sprint it only receives" do
         expect(subject).to be_success
@@ -211,14 +219,12 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     context "when a RECEIVE_SHARED source still owns a sprint (stale data)" do
       # source_sprint is owned by source (created through the factory, which
       # bypasses the create contract that forbids sprints on a receiving project).
-      before { source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+      let(:sprint_sharing) { Projects::SprintSharing::RECEIVE_SHARED }
 
       include_examples "copies sprints decoupled from the source"
     end
 
     context "when the source sprint has goals" do
-      before { source.update!(sprint_sharing: Projects::SprintSharing::NO_SHARING) }
-
       let!(:owned_goal) do
         create(:sprint_goal, sprint: source_sprint, project: source, text: "Ship it")
       end
@@ -256,6 +262,13 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     let(:params) do
       { target_project_params:, send_notifications: false, only: %w[work_packages sprints] }
     end
+    let(:sprint_sharing) { Projects::SprintSharing::NO_SHARING }
+    let(:source) do
+      create(:project,
+             name: "Source Project Name",
+             enabled_module_names: %i[work_package_tracking backlogs],
+             sprint_sharing:)
+    end
     let!(:work_package) { create(:work_package, project: source, subject: "On shared") }
 
     subject { instance.call(params) }
@@ -265,6 +278,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
     end
 
     context "when the sprint is shared with all projects and the copy receives it" do
+      let(:sprint_sharing) { Projects::SprintSharing::RECEIVE_SHARED }
       let!(:sharer) do
         create(:project,
                enabled_module_names: %i[work_package_tracking backlogs],
@@ -272,10 +286,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       end
       let!(:shared_sprint) { create(:sprint, project: sharer, name: "Global Sprint") }
 
-      before do
-        source.update!(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
-        work_package.update_column(:sprint_id, shared_sprint.id)
-      end
+      before { work_package.update_column(:sprint_id, shared_sprint.id) }
 
       it "preserves the assignment to the shared sprint" do
         expect(subject).to be_success
