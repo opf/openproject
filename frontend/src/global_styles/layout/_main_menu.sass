@@ -110,6 +110,10 @@ $arrow-left-width: 36px
     &:hover
       text-decoration: none
 
+  a.TreeViewItemContent
+    &, &:visited, &:hover, &:focus, &:active
+      text-decoration: none
+
   .toggler
     width: $arrow-left-width
     height: var(--main-menu-item-height)
@@ -129,7 +133,7 @@ $arrow-left-width: 36px
   .toggler:hover
     @include main-menu-hover(false)
 
-  a:not(.Button)
+  a:not(.Button):not(.TreeViewItemContent)
     border: 1px solid transparent
 
     &.selected, &.selected + a
