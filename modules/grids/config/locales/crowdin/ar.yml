@@ -34,7 +34,7 @@ ar:
         no_results: لا شيء جديد للتقرير.
       not_available: This widget is not available.
       project_timeline:
-        no_lifecycle_results: No project life cycle phases configured
+        no_lifecycle_results: No life cycle phases
         title: Project timeline
         title_portfolio: Portfolio timeline
         title_program: Program timeline

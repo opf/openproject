@@ -2766,13 +2766,13 @@ de:
       new_features:
         '17_7':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Neues Ressourcenmanagementmodul für Kapazitätsplanung und Personalplanung (Premium Plan).
+            line_1: Bessere Organisationsverwaltung mit Abteilungen, Benutzerattributen wie Jobtiteln und Arbeitszeiten.
+            line_2: Mehrere aktive Sprints ohne Sprints zu teilen (Basic Plan).
+            line_3: Verbesserte "Backlog und Sprints"-Ansicht mit Mehrfachauswahlfiltern, besserem Drag & Drop und der Möglichkeit, bestehende Arbeitspakete hinzuzufügen.
+            line_4: PM2/PMflex Artefakt-Export und ein neues Widget für Projektphasen und -gates Übersicht.
+            line_5: Globaler Wiki-Seitenindex und einfachere Navigation zwischen verwandten Seiten.
+          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
