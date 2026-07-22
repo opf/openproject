@@ -66,6 +66,57 @@ RSpec.describe WikiController do
       end
     end
 
+    describe "menu" do
+      render_views
+
+      let!(:parent_page) { create(:wiki_page, wiki:, title: "Parent page", author: admin) }
+      let!(:child_page) { create(:wiki_page, wiki:, title: "Child page", parent: parent_page, author: admin) }
+      let!(:grandchild_page) { create(:wiki_page, wiki:, title: "Grandchild page", parent: child_page, author: admin) }
+      let!(:great_grandchild_page) do
+        create(:wiki_page, wiki:, title: "Great-grandchild page", parent: grandchild_page, author: admin)
+      end
+      let!(:sibling_page) { create(:wiki_page, wiki:, title: "Sibling page", author: admin) }
+
+      it "renders all nodes collapsed by default" do
+        get :menu, params: { project_id: project.identifier }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_css(".TreeViewItemContent[aria-expanded='false']", text: "Parent page")
+        expect(response.body).to have_css(".TreeViewItemContent", text: "Sibling page")
+        expect(response.body).to have_no_css(".TreeViewItemContent[aria-current='true']")
+      end
+
+      it "renders the project wiki hierarchy as a tree view" do
+        get :menu, params: { project_id: project.identifier, current_page_id: child_page.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_css("tree-view")
+        expect(response.body).to have_css(".TreeViewItemContent[aria-expanded='true']", text: "Parent page")
+        expect(response.body).to have_css(".TreeViewItemContent[aria-current='true'][aria-expanded='true']",
+                                          text: "Child page")
+        expect(response.body).to have_css(".TreeViewItemContent[aria-expanded='false']", text: "Grandchild page")
+        expect(response.body).to have_no_css(".TreeViewItemContent", text: "Great-grandchild page")
+      end
+
+      it "filters pages and keeps immediate ancestors visible as disabled nodes" do
+        get :menu, params: { project_id: project.identifier, current_page_id: child_page.id, query: "Child" }
+
+        expect(response.body).to have_css(".TreeViewItemContent", text: "Child page")
+        expect(response.body).to have_css(".TreeViewItemContent[aria-disabled='true']", text: "Parent page")
+        expect(response.body).to have_no_css(".TreeViewItemContent", text: "Sibling page")
+      end
+
+      context "with a user without permission to view wiki pages" do
+        current_user { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+        it "is forbidden" do
+          get :menu, params: { project_id: project.identifier }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+
     shared_examples_for "a 'new' action" do
       it "assigns @project to the current project" do
         get_page

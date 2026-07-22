@@ -118,7 +118,10 @@ class WikiController < ApplicationController
   end
 
   def menu
-    @page = @wiki.pages.find_by(id: params[:id])
+    @page = @wiki.pages.find_by(id: params[:current_page_id])
+    @query = params[:query].to_s.strip
+    @tree = WikiPages::SidemenuTree.new(wiki: @wiki, current_page: @page, query: @query).nodes
+
     render layout: nil
   end
 
