@@ -213,11 +213,6 @@ class Type < ApplicationRecord
     inherited_core_setting(:is_in_roadmap)
   end
   alias_method :is_in_roadmap?, :is_in_roadmap
-
-  def is_default
-    inherited_core_setting(:is_default)
-  end
-  alias_method :is_default?, :is_default
   # rubocop:enable Naming/PredicatePrefix
 
   def replacement_pattern_defined_for?(attribute)
