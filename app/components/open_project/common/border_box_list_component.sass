@@ -131,12 +131,18 @@
     // Unfortunately, the invisible button style bites us here again.
     margin-top: -6px
 
-  // Labels carry no such padding, and unlike buttons they are narrower than the
-  // 5rem minimum track, so they need the nudge undone and pinning to the track end
-  &--actions:not(:has(.Button))
-    align-self: center
-    justify-self: end
-    margin-top: 0
+  &--actions
+    display: flex
+    align-items: center
+    gap: var(--stack-gap-condensed)
+
+    // Labels carry no such padding, and unlike buttons they are narrower than
+    // the 5rem minimum track, so a label-only area needs the nudge undone and
+    // pinning to the track end to line up with the labels on the list items
+    &:not(:has(.Button))
+      align-self: center
+      justify-self: end
+      margin-top: 0
 
   &--heading-line
     display: flex
