@@ -31,17 +31,25 @@
 module OpenProject
   module ActiveRecordExtensions
     module Cte
+      # Process-global registry of static CTE SQL templates, keyed by CTE name.
+      # Templates are callables (->(params) { sql }); per-user values are supplied
+      # as params at render time and never stored here, so the shared registry
+      # holds no request-specific SQL. Serves as the fallback template source when
+      # a provider node carries no inline body.
       module Aggregation
         module_function
 
+        # Register the CTE template +cte+ (a callable ->(params) { sql }) under +name+.
         def register(name, cte)
           registered[name] = cte
         end
 
+        # Remove the template registered under +name+.
         def deregister(name)
           registered.delete(name)
         end
 
+        # The registry: a name => template hash with indifferent access.
         def registered
           @registered ||= {}.with_indifferent_access
         end
