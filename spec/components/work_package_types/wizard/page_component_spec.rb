@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { subtypes: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
   let(:parent) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
@@ -47,7 +47,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
   end
 
   describe "breadcrumbs" do
-    it "links the parent the sub-type is being created under" do
+    it "links the parent the variant is being created under" do
       render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
 
       expect(page).to have_link("Phase",

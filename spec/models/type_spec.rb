@@ -194,17 +194,17 @@ RSpec.describe Type do
 
       before { type.link!(Type::ConfigurationLink::WORKFLOWS, source:) }
 
-      it "resolves the source's statuses", with_flag: { subtypes: true } do
+      it "resolves the source's statuses", with_flag: { type_variants: true } do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
 
       it "ignores the link and resolves its own statuses with the feature disabled",
-         with_flag: { subtypes: false } do
+         with_flag: { type_variants: false } do
         expect(subject).to be_empty
       end
     end
 
-    context "when linked through a longer chain", with_flag: { subtypes: true } do
+    context "when linked through a longer chain", with_flag: { type_variants: true } do
       let(:role) { create(:project_role) }
       let(:statuses) { create_list(:status, 2) }
       let!(:owner) { create(:type) }
@@ -245,7 +245,7 @@ RSpec.describe Type do
     end
   end
 
-  describe "#workflows", with_flag: { subtypes: true } do
+  describe "#workflows", with_flag: { type_variants: true } do
     let(:role) { create(:project_role) }
     let(:statuses) { create_list(:status, 2) }
     let!(:type) { create(:type) }
@@ -286,7 +286,7 @@ RSpec.describe Type do
     end
 
     it "ignores the link and returns its own workflows with the feature disabled",
-       with_flag: { subtypes: false } do
+       with_flag: { type_variants: false } do
       own = create(:workflow, type_id: type.id, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
       type.link!(Type::ConfigurationLink::WORKFLOWS, source: owner)
@@ -392,8 +392,8 @@ RSpec.describe Type do
         expect(described_class.roots).not_to include(child)
       end
 
-      it ".subtypes returns only nested types" do
-        expect(described_class.subtypes).to contain_exactly(child)
+      it ".variants returns only nested types" do
+        expect(described_class.variants).to contain_exactly(child)
       end
 
       it ".global returns every type (all types are global until project-owned types exist)" do
@@ -517,10 +517,10 @@ RSpec.describe Type do
              is_default: false)
     end
 
-    describe "#subtype?" do
+    describe "#variant?" do
       it "is true for a child and false for a root" do
-        expect(child).to be_subtype
-        expect(parent).not_to be_subtype
+        expect(child).to be_variant
+        expect(parent).not_to be_variant
       end
     end
 
@@ -540,7 +540,7 @@ RSpec.describe Type do
         expect(parent.color).to eq(color)
       end
 
-      it "#composite_name prefixes the parent name for a sub-type" do
+      it "#composite_name prefixes the parent name for a variant" do
         expect(child.composite_name).to eq("Task: Bug")
         expect(parent.composite_name).to eq("Task")
       end
@@ -558,7 +558,7 @@ RSpec.describe Type do
         expect(child.is_default?).to be(true)
       end
 
-      it "keeps the sub-type's own name as the variant label" do
+      it "keeps the variant's own name as the variant label" do
         expect(child.own_name).to eq("Bug")
       end
 

@@ -44,11 +44,11 @@ module WorkPackageTypes
 
       attr_reader :types
 
-      def subtypes_count_label(root)
-        t("types.index.subtypes_count", count: root.children.size)
+      def variants_count_label(root)
+        t("types.index.variants_count", count: root.children.size)
       end
 
-      def add_subtype_path(root)
+      def add_variant_path(root)
         new_creation_wizard_types_path(parent_id: root.id)
       end
 
@@ -82,7 +82,7 @@ module WorkPackageTypes
       end
 
       def reorderable?(type)
-        !type.subtype? && !(type.first? && type.last?)
+        !type.variant? && !(type.first? && type.last?)
       end
 
       def move_action(menu, type)
@@ -126,7 +126,7 @@ module WorkPackageTypes
         }
       end
 
-      # Sub-types need to be displayed alphabetically sorted
+      # variants need to be displayed alphabetically sorted
       def sorted_children(root)
         root.children.sort_by { |child| child.own_name.downcase }
       end

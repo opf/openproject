@@ -1794,7 +1794,7 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
-    context "when the type is linked to a source", with_flag: { subtypes: true } do
+    context "when the type is linked to a source", with_flag: { type_variants: true } do
       let(:role) { create(:project_role) }
       let(:source) { create(:type) }
       let(:type) { create(:type) }
@@ -1820,7 +1820,7 @@ RSpec.describe WorkPackages::BaseContract do
         expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
 
-      it "ignores the link with the subtypes feature disabled", with_flag: { subtypes: false } do
+      it "ignores the link with the variants feature disabled", with_flag: { type_variants: false } do
         expect(contract.assignable_statuses.pluck(:id)).not_to include(target_status.id)
       end
     end

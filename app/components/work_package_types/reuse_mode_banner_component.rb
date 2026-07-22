@@ -40,7 +40,7 @@ module WorkPackageTypes
       super(type)
     end
 
-    def render? = OpenProject::FeatureDecisions.subtypes_active?
+    def render? = OpenProject::FeatureDecisions.type_variants_active?
 
     private
 

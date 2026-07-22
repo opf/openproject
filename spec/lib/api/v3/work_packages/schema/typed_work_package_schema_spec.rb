@@ -134,7 +134,7 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
   end
 
-  describe "#available_custom_fields with a linked form configuration", with_flag: { subtypes: true } do
+  describe "#available_custom_fields with a linked form configuration", with_flag: { type_variants: true } do
     let(:source_type) { create(:type) }
     let(:linked_type) { create(:type) }
     let(:project) { create(:project, types: [linked_type]) }

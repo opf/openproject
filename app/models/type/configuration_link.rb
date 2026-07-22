@@ -41,7 +41,7 @@ class Type
       FORM_CONFIGURATION = "form_configuration"
     ].freeze
 
-    # Aspects a new sub-type links to its parent on creation. The remaining aspects
+    # Aspects a new variant links to its parent on creation. The remaining aspects
     # start Independent until their linked behaviour is implemented.
     DEFAULT_PARENT_LINK_ASPECTS = [PDF_EXPORT, DEFAULTS].freeze
 

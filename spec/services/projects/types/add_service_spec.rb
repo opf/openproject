@@ -62,32 +62,32 @@ RSpec.describe Projects::Types::AddService do
     end
   end
 
-  context "with a subtype" do
+  context "with a variant" do
     let(:parent_type) { create(:type) }
     let(:type) { create(:type, parent: parent_type) }
 
-    context "and the subtypes feature is not active", with_flag: { subtypes: false } do
+    context "and the variants feature is not active", with_flag: { type_variants: false } do
       it "fails and does not enable the type" do
         expect(service_call).to be_failure
-        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtypes_yet)
+        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
         expect(project.reload.types).to be_empty
       end
     end
 
-    context "and the subtypes feature is active", with_flag: { subtypes: true } do
-      it "enables the subtype on the project" do
+    context "and the variants feature is active", with_flag: { type_variants: true } do
+      it "enables the variant on the project" do
         expect(service_call).to be_success
         expect(project.reload.types).to contain_exactly(type)
       end
 
-      context "when a sibling subtype is already enabled" do
+      context "when a sibling variant is already enabled" do
         let(:sibling) { create(:type, parent: parent_type) }
         let(:project) { create(:project, types: [sibling]) }
 
         it "fails and keeps only the sibling enabled" do
           expect(service_call).to be_failure
           expect(service_call.errors.symbols_for(:types))
-            .to contain_exactly(:cannot_assign_multiple_subtypes_of_parent)
+            .to contain_exactly(:cannot_assign_multiple_variants_of_parent)
           expect(project.reload.types).to contain_exactly(sibling)
         end
       end
@@ -97,22 +97,22 @@ RSpec.describe Projects::Types::AddService do
 
         it "fails and keeps only the parent enabled" do
           expect(service_call).to be_failure
-          expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtype_and_parent)
+          expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
           expect(project.reload.types).to contain_exactly(parent_type)
         end
       end
     end
   end
 
-  context "with a root type whose subtype is already enabled", with_flag: { subtypes: true } do
+  context "with a root type whose variant is already enabled", with_flag: { type_variants: true } do
     let(:type) { create(:type) }
-    let(:subtype) { create(:type, parent: type) }
-    let(:project) { create(:project, types: [subtype]) }
+    let(:variant) { create(:type, parent: type) }
+    let(:project) { create(:project, types: [variant]) }
 
-    it "fails and keeps only the subtype enabled" do
+    it "fails and keeps only the variant enabled" do
       expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_subtype_and_parent)
-      expect(project.reload.types).to contain_exactly(subtype)
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
+      expect(project.reload.types).to contain_exactly(variant)
     end
   end
 

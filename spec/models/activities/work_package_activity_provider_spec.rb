@@ -189,12 +189,12 @@ RSpec.describe Activities::WorkPackageActivityProvider do
       end
     end
 
-    context "when the work package has a sub-type" do
+    context "when the work package has a variant" do
       let(:root_type) { create(:type, name: "Task") }
-      let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+      let(:variant) { create(:type, name: "Bug", parent: root_type) }
       let(:work_package) do
         User.execute_as(user) do
-          create(:work_package, subject: "Neutral subject", type: sub_type)
+          create(:work_package, subject: "Neutral subject", type: variant)
         end
       end
       let!(:work_packages) { [work_package] }
