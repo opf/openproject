@@ -153,7 +153,7 @@ module CustomField::CalculatedValue
         .where(field_format: FIELD_FORMATS_FOR_FORMULA)
         .where.not(id:)
         .visible
-        .reject { it.formula_references_id?(id, cache) }
+        .select { it.can_be_referenced_by?(id, cache) }
     end
 
     def validate_referenced_custom_fields
@@ -171,16 +171,16 @@ module CustomField::CalculatedValue
       end
     end
 
-    def formula_references_id?(original_id, cache = {})
-      return false unless field_format_calculated_value?
+    def can_be_referenced_by?(target_id, cache = {})
+      return true unless field_format_calculated_value?
 
       cache.fetch(id) do
-        cache[id] = true # break infinite loop while recursing
+        cache[id] = false # assume it cannot be referenced until proven otherwise during recursion
 
         referenced_ids = formula_referenced_custom_field_ids
 
-        cache[id] = referenced_ids.intersect?([original_id, id]) ||
-          ProjectCustomField.where(id: referenced_ids).any? { it.formula_references_id?(original_id, cache) }
+        cache[id] = !referenced_ids.intersect?([target_id, id]) &&
+          ProjectCustomField.where(id: referenced_ids).all? { it.can_be_referenced_by?(target_id, cache) }
       end
     end
 
