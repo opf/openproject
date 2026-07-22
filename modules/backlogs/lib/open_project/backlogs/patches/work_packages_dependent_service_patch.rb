@@ -28,20 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Copy
-  class VersionsDependentService < Dependency
-    def self.human_name
-      I18n.t(:label_version_plural)
+module OpenProject::Backlogs::Patches::WorkPackagesDependentServicePatch
+  extend ActiveSupport::Concern
+
+  included do
+    prepend InstanceMethods
+  end
+
+  module InstanceMethods
+    def copy_work_package(source_work_package, parent_id, user_cf_ids)
+      return super unless source.backlogs_enabled?
+
+      # Disable the acts_as_list callbacks so the position is carried over from
+      # the source work package unchanged instead of being reappended.
+      WorkPackage.acts_as_list_no_update { super }
     end
 
-    def source_count
-      source.versions.count
+    def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
+      return super unless source.backlogs_enabled?
+
+      super.merge(
+        sprint_id: work_package_sprint_id(source_work_package),
+        backlog_bucket_id: work_package_backlog_bucket_id(source_work_package),
+        position: source_work_package.position
+      )
     end
 
-    protected
+    def work_package_sprint_id(source_work_package)
+      return unless source_work_package.sprint_id
 
-    def copy_dependency(*)
-      state.version_id_lookup = copy_collection_with_id_map(:versions)
+      state.sprint_id_lookup&.[](source_work_package.sprint_id)
+    end
+
+    def work_package_backlog_bucket_id(source_work_package)
+      return unless source_work_package.backlog_bucket_id
+
+      state.backlog_bucket_id_lookup&.[](source_work_package.backlog_bucket_id)
     end
   end
 end
