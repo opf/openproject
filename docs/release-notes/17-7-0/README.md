@@ -10,10 +10,7 @@ release_date: 2026-08-05
 
 Release date: 2026-08-05
 
-We released [OpenProject 17.7.0](https://community.openproject.org/versions/2304).
-The release contains several bug fixes and we recommend updating to the newest version.
-In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
-
+We released [OpenProject 17.7.0](https://community.openproject.org/versions/2304). The release contains several bug fixes and we recommend updating to the newest version. In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
 
 ## Important feature changes
 
@@ -25,7 +22,7 @@ Take a look at our release video showing the most important features introduced 
 
 ### Organizational management
 
-OpenProject 17.7 introduces new organizational management capabilities that provide the foundation for the new [Resource management module](#resource-management-module-enterprise-add-on). Departments, work-related user attributes, and individual working hours help organizations represent their workforce more accurately and enable realistic capacity planning and staffing.
+OpenProject 17.7 introduces new organizational management capabilities that provide the foundation for the new [Resource management module](#resource-management-module-enterprise-add-on). Departments, work-related user attributes, and individual work schedules help organizations represent their workforce more accurately and enable realistic capacity planning and staffing.
 
 These features are also available independently of the Resource management module, allowing organizations on other OpenProject plans to better structure user information and organizational data. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](/blog/resource-management-capacity-planning).
 
@@ -45,7 +42,7 @@ Under *Administration → Users and permissions → Users*, you can now set orga
 
 **Work schedule**
 
-Under *Administration → Users and permissions → Users*, you can now configure individual work schedules for every user, including working days, working hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
+Under *Administration → Users and permissions → Users*, you can now configure individual work schedules for every user, including working days, work hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
 
 ![OpenProject's Work schedule page shows a user's work hours, availability factor, effective work hours, and future schedule changes used for resource planning.](openproject-resource-management-user-work-schedule.png)
 
@@ -129,7 +126,9 @@ Semantic identifiers are now considered production-ready and are no longer marke
 
 Project lists now support filtering by portfolio and program. This makes it easier to find projects within large project portfolios and provides greater flexibility when creating project overviews and reports.
 
-### Additional calculation operators for calculated fields
+### Additional calculation operators for calculated fields (Enterprise add-on)
+
+[feature: calculated_values]
 
 Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
 
@@ -284,20 +283,12 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn, ZenDiS, and STEF for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
 
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Walid Ibrahim, Daniel Paulo Dos Santos, Christophe GESCHÉ, Gábor Alexovics, David Masshardt, and Katja Zedel.
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Walid Ibrahim, Daniel Paulo Dos Santos, Christophe GESCHÉ, Gábor Alexovics, David Masshardt, and Katja Zedel.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
-Would you like to help out with translations yourself?
-Then take a look at our translation guide and find out exactly how you can contribute.
-It is very much appreciated!
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings. This release we would like to particularly thank the following users:
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
-
-\- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Hungarian,
-
-\- [Adam Siemienski](https://crowdin.com/profile/siemienas) for translations to Polish,
-
-\- [Yuliia Pavliuk](https://crowdin.com/profile/pav.yulia) for translations to Ukrainian.
+- [erdei.p](https://crowdin.com/profile/erdei.p), for translations into Hungarian,
+- [Adam Siemienski](https://crowdin.com/profile/siemienas) for translations to Polish,
+- [Yuliia Pavliuk](https://crowdin.com/profile/pav.yulia) for translations to Ukrainian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
