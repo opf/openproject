@@ -142,10 +142,21 @@ RSpec.describe ActsAsCustomizable::CalculatedValue, with_ee: %i[calculated_value
       let(:formulae_and_results) do
         {
           "1 <> 2 AND 2 <> 3" => true,
+          "TRUE AND TRUE AND TRUE" => true,
+          "TRUE AND TRUE AND FALSE" => false,
           "1 = 2 OR 2 <> 3" => true,
+          "FALSE OR FALSE OR TRUE" => true,
+          "FALSE OR FALSE OR FALSE" => false,
           "AND(1 <> 2, 2 <> 3)" => true,
+          "AND(TRUE, TRUE, TRUE)" => true,
+          "AND(TRUE, TRUE, FALSE)" => false,
           "OR(1 = 2, 2 <> 3)" => true,
+          "OR(FALSE, FALSE, TRUE)" => true,
+          "OR(FALSE, FALSE, FALSE)" => false,
           "XOR(1 <> 2, 2 = 3)" => true,
+          "XOR(TRUE, FALSE, FALSE)" => true,
+          "XOR(TRUE, TRUE, FALSE)" => false,
+          "XOR(TRUE, TRUE, TRUE)" => true, # see OP-19806
           "NOT(1 = 2)" => true
         }
       end

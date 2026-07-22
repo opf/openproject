@@ -7,6 +7,15 @@ GIT
       capybara (~> 3.36)
 
 GIT
+  remote: https://github.com/opf/dentaku
+  revision: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
+  ref: 78eece45bf3f4ed021c05dd2f5411d1c3f9b168a
+  specs:
+    dentaku (3.5.7)
+      bigdecimal
+      concurrent-ruby
+
+GIT
   remote: https://github.com/opf/md-to-pdf
   revision: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
   ref: 0cb4597becd2243b810e7ce53bbbbf28b5f05844
@@ -483,9 +492,6 @@ GEM
     deckar01-task_list (2.3.4)
       html-pipeline (~> 2.0)
     declarative (0.0.20)
-    dentaku (3.5.7)
-      bigdecimal
-      concurrent-ruby
     diff-lcs (1.6.2)
     disposable (0.6.3)
       declarative (>= 0.0.9, < 1.0.0)
@@ -1595,7 +1601,7 @@ DEPENDENCIES
   dalli (~> 5.0.0)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
-  dentaku (~> 3.5)
+  dentaku (~> 3.5)!
   disposable (~> 0.6.2)
   doorkeeper (~> 5.9.3)
   dotenv-rails
@@ -1873,7 +1879,7 @@ CHECKSUMS
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
-  dentaku (3.5.7) sha256=8d15a4a801ac8e1491dd2842bb76e38dd2794e9c8aa0f6e06f59d7ec62727db0
+  dentaku (3.5.7)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   disposable (0.6.3) sha256=7f2a3fb251bff6cd83f25b164043d4ec3531209b51b066ed476a9df9c2d384cc
   doorkeeper (5.9.3) sha256=e6d120235bd134494bd02d08e8063c994fc1a58a681285077e671529bfc5d90b
