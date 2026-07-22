@@ -53,15 +53,13 @@ module Projects::Copy
       end
     end
 
-    # Shared sprints (owned by another project) that the source's work packages
-    # reference: keep the assignment only when the copied project will also
-    # receive that sprint, otherwise leave it unmapped so the work-package copy
-    # clears it rather than pointing at a sprint the copy cannot see. Resolved in
-    # a single query against the sprints the target natively receives (its own
-    # sprint source), producing an id => id identity map.
+    # Sprints owned by another project that the source's work packages
+    # reference — through sharing, or because a work package moved into the
+    # source while keeping its sprint. That association is valid state, so the
+    # copy keeps it: each foreign sprint id maps to itself, while owned sprints
+    # remap to their copies above.
     def preserved_shared_sprints
-      Sprint.native_to_sprint_source(target)
-            .where(id: source.work_packages.select(:sprint_id))
+      Sprint.where(id: source.work_packages.select(:sprint_id))
             .where.not(project_id: source.id)
             .pluck(:id)
             .index_with { |id| id }

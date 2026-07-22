@@ -190,6 +190,22 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
         expect(subject).to be_success
         expect(project_copy.sprints).to be_empty
       end
+
+      context "and work packages are copied along" do
+        let(:params) do
+          { target_project_params:, send_notifications: false, only: %w[work_packages sprints] }
+        end
+        let!(:work_package) { create(:work_package, project: source, subject: "On received") }
+
+        before { work_package.update_column(:sprint_id, source_sprint.id) }
+
+        it "keeps the copied work package on the original shared sprint" do
+          expect(subject).to be_success
+
+          copied = project_copy.work_packages.find_by(subject: "On received")
+          expect(copied.sprint_id).to eq(source_sprint.id)
+        end
+      end
     end
 
     context "when a RECEIVE_SHARED source still owns a sprint (stale data)" do
@@ -293,9 +309,11 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
           { name: "Target Project Name", identifier: "some-identifier", parent_id: nil }
         end
 
-        it "clears the assignment because the copy no longer receives the sprint" do
+        it "keeps the assignment to the borrowed sprint" do
+          # The copy no longer receives the sprint through sharing, but the
+          # borrowed association is valid state and is carried over as-is.
           expect(subject).to be_success
-          expect(copied_wp("On shared").sprint_id).to be_nil
+          expect(copied_wp("On shared").sprint_id).to eq(shared_sprint.id)
         end
       end
     end
@@ -343,10 +361,12 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
       expect(copied.sprint.project).to eq(project_copy)
     end
 
-    it "clears the sprint when it belongs to another project (anomalous data for NO_SHARING)" do
+    it "keeps the sprint when it belongs to another project" do
+      # A work package can legitimately borrow a sprint from another project,
+      # e.g. after being moved between projects; the copy keeps that link.
       expect(subject).to be_success
 
-      expect(copied_wp("In shared").sprint_id).to be_nil
+      expect(copied_wp("In shared").sprint_id).to eq(shared_sprint.id)
     end
 
     it "does not add the copied work package to the source sprint" do
