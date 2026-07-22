@@ -45,11 +45,14 @@ module Projects::Copy
     end
 
     # Sprints owned by the source project are recreated on the copy; the lookup
-    # maps each source id to its copy so the copied work packages follow. Goals
-    # are eager-loaded so +copied_goal_attributes+ does not query per sprint.
+    # maps each source id to its copy so the copied work packages follow. Only
+    # the source's own goal is carried over (a shared sprint may hold goals
+    # owned by other projects); a sprint without one is handled by the model's
+    # +reject_if+ on blank text. Goals are eager-loaded so +goal_text_for+ does
+    # not query per sprint.
     def copy_owned_sprints
       copy_collection_with_id_map(:sprints, source_scope: source.sprints.includes(:goals)) do |source_sprint|
-        { goals_attributes: copied_goal_attributes(source_sprint) }
+        { goals_attributes: [{ text: source_sprint.goal_text_for(source), project_id: target.id }] }
       end
     end
 
@@ -63,15 +66,6 @@ module Projects::Copy
             .where.not(project_id: source.id)
             .pluck(:id)
             .index_with { |id| id }
-    end
-
-    # Only the source project's own goals are carried over; a shared sprint may
-    # also hold goals owned by other projects, which are not ours to copy.
-    # Filtered in Ruby to reuse the eager-loaded goals association.
-    def copied_goal_attributes(source_sprint)
-      source_sprint.goals
-                   .select { |goal| goal.project_id == source.id }
-                   .map { |goal| { text: goal.text, project_id: target.id } }
     end
   end
 end

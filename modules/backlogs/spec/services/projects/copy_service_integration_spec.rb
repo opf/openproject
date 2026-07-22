@@ -240,6 +240,13 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
         copied_sprint = project_copy.sprints.find_by(name: "Sprint A")
         expect(copied_sprint.goals.pluck(:text)).to contain_exactly("Ship it")
       end
+
+      it "leaves the goal on the source sprint intact" do
+        expect(subject).to be_success
+
+        expect(source_sprint.reload.goals.pluck(:text, :project_id))
+          .to contain_exactly(["Ship it", source.id])
+      end
     end
   end
 
