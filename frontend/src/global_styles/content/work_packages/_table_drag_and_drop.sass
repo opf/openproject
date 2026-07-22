@@ -1,19 +1,39 @@
 //
 // Drag & Drop styles for the table
 //
-.wp--row.gu-mirror
+
+// Drop indicator: an accent line on the top/bottom edge of the row or card the
+// dragged item would be inserted next to. Driven by the data-drop-position
+// attribute set by the pragmatic drop-indicator helper.
+.wp-table--row[data-drop-position],
+wp-single-card[data-drop-position]
+  position: relative
+
+  &::after
+    content: ''
+    position: absolute
+    left: 0
+    right: 0
+    height: 2px
+    background: var(--fgColor-accent)
+    pointer-events: none
+    z-index: 1
+
+  &[data-drop-position="top"]::after
+    top: 0
+
+  &[data-drop-position="bottom"]::after
+    bottom: 0
+
+// The custom native drag preview is mounted in a detached container outside
+// any table/list context, so it carries its own card-like chrome.
+.op-drag-preview
+  background: var(--overlay-bgColor)
   border: 1px solid var(--borderColor-default)
   border-radius: 5px
-  background: white !important
-
-  // Add some padding to avoid overlapping
-  // The subject with the cursor
-  padding-left: 20px
-
-  // Align the items correctly since
-  // we're no longer in a table context
-  display: flex
-  align-items: center
+  box-shadow: var(--shadow-floating-small)
+  padding: 5px 10px
+  overflow: hidden
 
 // Hide the context menu button outside mobile
 html:not(.-browser-mobile)
