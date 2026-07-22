@@ -23,41 +23,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "open_project/server_side_request_forgery_error"
+
 module OpenProject
-  module Common
-    module InplaceEditFields
-      class BooleanInputComponent < BaseFieldComponent
-        def call
-          @system_arguments[:data] = merge_data(
-            @system_arguments,
-            **additional_arguments
-          )
-
-          form.check_box name: attribute,
-                         **@system_arguments
-
-          comment_field_if_enabled(form)
-        end
-
-        private
-
-        def additional_arguments
-          if show_action_buttons
-            {
-              data: { controller: "inplace-edit",
-                      inplace_edit_url_value: reset_url,
-                      action: "click->inplace-edit#submitForm keydown.esc->inplace-edit#request",
-                      test_selector: }
-            }
-          else
-            { data: { test_selector: } }
-          end
-        end
+  module HttpxSsrfCustomErrorMessage
+    module ConnectionMethods
+      def addresses=(addrs)
+        super
+      rescue HTTPX::ServerSideRequestForgeryError
+        raise OpenProject::ServerSideRequestForgeryError,
+              "#{origin.host} resolves only to private IP addresses, blocked to prevent SSRF. " \
+              "To allow this host, add its IP addresses to OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST."
       end
     end
   end

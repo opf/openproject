@@ -28,37 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    module InplaceEditFields
-      class BooleanInputComponent < BaseFieldComponent
-        def call
-          @system_arguments[:data] = merge_data(
-            @system_arguments,
-            **additional_arguments
-          )
+module OpenProject::Users
+  # @logical_path OpenProject/Users
+  class StatusLabelComponentPreview < Lookbook::Preview
+    # @!group Statuses
 
-          form.check_box name: attribute,
-                         **@system_arguments
+    def active
+      render(Users::StatusLabelComponent.new(user: build_user(:active)))
+    end
 
-          comment_field_if_enabled(form)
-        end
+    def locked
+      render(Users::StatusLabelComponent.new(user: build_user(:locked)))
+    end
 
-        private
+    def registered
+      render(Users::StatusLabelComponent.new(user: build_user(:registered)))
+    end
 
-        def additional_arguments
-          if show_action_buttons
-            {
-              data: { controller: "inplace-edit",
-                      inplace_edit_url_value: reset_url,
-                      action: "click->inplace-edit#submitForm keydown.esc->inplace-edit#request",
-                      test_selector: }
-            }
-          else
-            { data: { test_selector: } }
-          end
-        end
-      end
+    def invited
+      render(Users::StatusLabelComponent.new(user: build_user(:invited)))
+    end
+
+    # @!endgroup
+
+    private
+
+    def build_user(status)
+      FactoryBot.build_stubbed(:user, status: User.statuses[status])
     end
   end
 end

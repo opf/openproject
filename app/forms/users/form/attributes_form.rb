@@ -60,31 +60,12 @@ module Users
         return unless show_account_section?
 
         form.fieldset_group(title: I18n.t(:label_account)) do |group|
-          account_status(group) if @user.persisted?
           admin_flag(group) if User.current.admin?
         end
       end
 
       def show_account_section?
         @user.persisted? || User.current.admin?
-      end
-
-      # The current status (e.g. active, locked) as a read-only line rather than
-      # folded into the section title.
-      def account_status(group)
-        status = helpers.full_user_status(@user, true)
-        scheme = if @user.active?
-                   :success
-                 elsif @user.invited?
-                   :accent
-                 elsif @user.locked? || @user.deleted?
-                   :attention
-                 else
-                   :secondary
-                 end
-        group.html_content do
-          render(Primer::Beta::Label.new(scheme:, align_self: :start)) { status }
-        end
       end
 
       def admin_flag(group)

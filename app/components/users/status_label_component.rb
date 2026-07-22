@@ -28,36 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Common
-    module InplaceEditFields
-      class BooleanInputComponent < BaseFieldComponent
-        def call
-          @system_arguments[:data] = merge_data(
-            @system_arguments,
-            **additional_arguments
-          )
+module Users
+  class StatusLabelComponent < ApplicationComponent
+    def initialize(user:, **system_arguments)
+      super
 
-          form.check_box name: attribute,
-                         **@system_arguments
+      @user = user
+      @system_arguments = system_arguments
+    end
 
-          comment_field_if_enabled(form)
-        end
+    def call
+      render(Primer::Beta::Label.new(scheme:, **@system_arguments)) { label }
+    end
 
-        private
+    private
 
-        def additional_arguments
-          if show_action_buttons
-            {
-              data: { controller: "inplace-edit",
-                      inplace_edit_url_value: reset_url,
-                      action: "click->inplace-edit#submitForm keydown.esc->inplace-edit#request",
-                      test_selector: }
-            }
-          else
-            { data: { test_selector: } }
-          end
-        end
+    def label
+      helpers.full_user_status(@user)
+    end
+
+    def scheme
+      case @user.status.to_sym
+      when :active then :success
+      when :registered, :invited then :attention
+      else :secondary
       end
     end
   end
