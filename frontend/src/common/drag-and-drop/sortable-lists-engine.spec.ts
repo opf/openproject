@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { vi } from 'vitest';
 import {
   NativeDragSimulation,
   centerOf,
@@ -37,6 +38,31 @@ import {
   type SortableDropTransaction,
   type SortableSource,
 } from './sortable-lists-engine';
+
+const { autoScrollRegistrations } = vi.hoisted(() => ({
+  autoScrollRegistrations: [] as {
+    element:Element;
+    getAllowedAxis:() => string;
+    cleanup:() => void;
+    cleaned:boolean;
+  }[],
+}));
+
+vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+  autoScrollForElements: (args:{ element:Element; getAllowedAxis:() => string }) => {
+    const entry = {
+      element: args.element,
+      getAllowedAxis: args.getAllowedAxis,
+      cleaned: false,
+      cleanup: () => undefined,
+    };
+    entry.cleanup = () => { entry.cleaned = true; };
+    autoScrollRegistrations.push(entry);
+    return entry.cleanup;
+  },
+}));
+
+const liveRegistrations = () => autoScrollRegistrations.filter((r) => !r.cleaned);
 
 function buildList(items:string[]):{ root:HTMLElement; rows:HTMLElement[] } {
   const root = document.createElement('div');
@@ -99,6 +125,8 @@ function buildWrappingHorizontalList(items:string[], containerWidth:number):{ ro
 
 describe('createSortableRoot', () => {
   let cleanupFns:(() => void)[] = [];
+
+  beforeEach(() => { autoScrollRegistrations.length = 0; });
 
   afterEach(() => {
     cleanupFns.forEach((fn) => fn());
@@ -853,6 +881,106 @@ describe('createSortableRoot', () => {
       expect(rows[1].dataset.dragging).toBe('source');
 
       await allowed.cancel();
+    });
+
+    it('drag starts from an activation surface opting in via data-draggable-surface', async () => {
+      const { rows } = setup(['a']);
+      const surface = document.createElement('div');
+      surface.setAttribute('role', 'button');
+      surface.tabIndex = 0;
+      surface.setAttribute('data-draggable-surface', '');
+      surface.style.cssText = 'display:block; height:20px;';
+      surface.textContent = 'card body';
+      rows[0].appendChild(surface);
+
+      const simulation = new NativeDragSimulation(rows[0]);
+      await simulation.start(centerOf(surface));
+
+      expect(rows[0].dataset.dragging).toBe('source');
+      await simulation.cancel();
+    });
+
+    it('a button nested inside an exempt activation surface still blocks drag start', async () => {
+      const { rows } = setup(['a']);
+      const surface = document.createElement('div');
+      surface.setAttribute('role', 'button');
+      surface.tabIndex = 0;
+      surface.setAttribute('data-draggable-surface', '');
+      surface.style.cssText = 'display:block;';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = 'Details';
+      button.style.cssText = 'display:block; width:16px; height:16px;';
+      surface.appendChild(button);
+      rows[0].appendChild(surface);
+
+      const simulation = new NativeDragSimulation(rows[0]);
+      await simulation.start(centerOf(button));
+
+      expect(rows[0].hasAttribute('data-dragging')).toBe(false);
+    });
+  });
+
+  describe('autoscroll registration dedupe', () => {
+    it('keeps a shared scroll container registered until the last holder releases', () => {
+      const { root } = buildList(['a']);
+      const scroller = document.createElement('div');
+      scroller.style.cssText = 'overflow-y:auto; height:100px;';
+      document.body.appendChild(scroller);
+
+      const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
+      cleanupFns.push(() => sortableRoot.destroy());
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1', scrollContainer: scroller });
+      const extraCleanup = sortableRoot.addScrollContainer(scroller);
+
+      expect(liveRegistrations()).toHaveLength(1);
+
+      // Pragmatic's registry is keyed by element; without refcounting, the
+      // first release would delete the survivor's registration with it.
+      listCleanup();
+      expect(liveRegistrations()).toHaveLength(1);
+
+      extraCleanup();
+      expect(liveRegistrations()).toHaveLength(0);
+    });
+
+    it('unions axes across acquisitions and keeps one live registration', () => {
+      const { root } = buildList(['a']);
+      const scroller = document.createElement('div');
+      scroller.style.cssText = 'overflow-y:auto; height:100px;';
+      document.body.appendChild(scroller);
+
+      const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
+      cleanupFns.push(() => sortableRoot.destroy());
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1', scrollContainer: scroller });
+      const extraCleanup = sortableRoot.addScrollContainer(scroller, 'horizontal');
+
+      // vertical (registerList default) + horizontal => union 'all'
+      expect(liveRegistrations()).toHaveLength(1);
+      expect(liveRegistrations()[0].getAllowedAxis()).toBe('all');
+
+      listCleanup(); // release in acquisition order: registration survives
+      expect(liveRegistrations()).toHaveLength(1);
+      extraCleanup();
+      expect(liveRegistrations()).toHaveLength(0);
+    });
+
+    it('reverse release order and destroy-after-partial-release both clean up fully', () => {
+      const { root } = buildList(['a']);
+      const scroller = document.createElement('div');
+      scroller.style.cssText = 'overflow-y:auto; height:100px;';
+      document.body.appendChild(scroller);
+
+      const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1', scrollContainer: scroller });
+      const extraCleanup = sortableRoot.addScrollContainer(scroller);
+
+      extraCleanup(); // reverse order first
+      expect(liveRegistrations()).toHaveLength(1);
+
+      sortableRoot.destroy(); // destroy while listCleanup is still held
+      expect(liveRegistrations()).toHaveLength(0);
+      listCleanup(); // idempotent afterwards — must not throw
     });
   });
 

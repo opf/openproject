@@ -43,7 +43,7 @@ import {
   type Edge,
   type SortableAxis,
 } from 'core-common/drag-and-drop/reorder';
-import { closestInteractiveElement } from 'core-common/interactive-element-helper';
+import { closestDragBlockingElement } from 'core-common/interactive-element-helper';
 
 export type CleanupFn = () => void;
 
@@ -123,6 +123,61 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   let transactionCounter = 0;
   let destroyed = false;
   const cleanups:CleanupFn[] = [];
+
+  // Autoscroll registrations of this root, deduplicated per element:
+  // Pragmatic's own registry is keyed by element and last-write-wins, so two
+  // live registrations on one element (e.g. a board container that is both
+  // the implicit list's closest scrollable ancestor and an explicit extra
+  // scroll container) would first warn, then silently lose autoscroll for
+  // the survivor once either side cleans up. Axes merge to 'all' when
+  // registrants disagree; a release never narrows the axis back down — a
+  // broader-than-needed allowance is harmless, a re-registration is not free.
+  const scrollRegistrations = new Map<Element, { axes:AutoScrollAllowedAxis[]; cleanup:CleanupFn }>();
+
+  const unionAxis = (axes:AutoScrollAllowedAxis[]):AutoScrollAllowedAxis => (
+    axes.every((a) => a === axes[0]) ? axes[0] : 'all'
+  );
+
+  const acquireAutoScroll = (element:Element, axis:AutoScrollAllowedAxis):CleanupFn => {
+    const register = (axes:AutoScrollAllowedAxis[]):CleanupFn => registerAutoScroll({
+      element,
+      canScroll: ({ source }) => scope.isItemData(source.data),
+      axis: unionAxis(axes),
+    });
+
+    const existing = scrollRegistrations.get(element);
+    if (existing) {
+      const axisBefore = unionAxis(existing.axes);
+      existing.axes.push(axis);
+      if (unionAxis(existing.axes) !== axisBefore) {
+        existing.cleanup();
+        existing.cleanup = register(existing.axes);
+      }
+    } else {
+      scrollRegistrations.set(element, { axes: [axis], cleanup: register([axis]) });
+    }
+
+    let released = false;
+    return () => {
+      if (released) {
+        return;
+      }
+      released = true;
+
+      const registration = scrollRegistrations.get(element);
+      if (!registration) {
+        return;
+      }
+      const index = registration.axes.indexOf(axis);
+      if (index !== -1) {
+        registration.axes.splice(index, 1);
+      }
+      if (registration.axes.length === 0) {
+        registration.cleanup();
+        scrollRegistrations.delete(element);
+      }
+    };
+  };
 
   // Registers `fn` for `destroy()`; the returned handle deregisters itself
   // too, so a caller-invoked cleanup never double-runs.
@@ -357,11 +412,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         onDrop: clearContainerIndicator,
       });
 
-      const autoScrollCleanup = registerAutoScroll({
-        element: scrollContainer ?? element,
-        canScroll: ({ source }) => scope.isItemData(source.data),
-        axis,
-      });
+      const autoScrollCleanup = acquireAutoScroll(scrollContainer ?? element, axis);
 
       return track(combine(dropTargetCleanup, autoScrollCleanup, () => {
         lists.delete(listId);
@@ -402,7 +453,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           }
           const target = element.ownerDocument.elementFromPoint(input.clientX, input.clientY);
           if (target instanceof Element && element.contains(target)
-              && closestInteractiveElement(target, element) !== null) {
+              && closestDragBlockingElement(target, element) !== null) {
             return false;
           }
           return canDrag ? canDrag({ element, pointer: { clientX: input.clientX, clientY: input.clientY } }) : true;
@@ -475,11 +526,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         return () => undefined;
       }
 
-      return track(registerAutoScroll({
-        element,
-        canScroll: ({ source }) => scope.isItemData(source.data),
-        axis: scrollAxis,
-      }));
+      return track(acquireAutoScroll(element, scrollAxis));
     },
 
     destroy():void {
@@ -490,6 +537,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
       [...cleanups].forEach((fn) => fn());
       lists.clear();
       listItems.clear();
+      scrollRegistrations.clear();
       if (frameCacheToken !== null) {
         cancelAnimationFrame(frameCacheToken);
         clearFrameCache();

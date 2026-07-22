@@ -85,3 +85,22 @@ export function closestInteractiveElement(el:Element|null, stopAt:Element|null =
 
   return null;
 }
+
+// Drag-start gating variant: an interactive ancestor blocks a drag from
+// starting on it, UNLESS it opts back in via `data-draggable-surface` — for
+// an activation surface that doubles as the drag surface, e.g. a card made
+// keyboard-activatable with role="button"/tabindex spanning the entire
+// draggable item. Buttons and links nested inside such a surface still block.
+export function closestDragBlockingElement(el:Element|null, stopAt:Element|null = null):HTMLElement|null {
+  let current = el;
+
+  while (current && current !== stopAt) {
+    if (isInteractiveElement(current) && !current.hasAttribute('data-draggable-surface')) {
+      return current;
+    }
+
+    current = current.parentElement;
+  }
+
+  return null;
+}
