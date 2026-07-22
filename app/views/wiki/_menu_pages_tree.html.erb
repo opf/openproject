@@ -1,6 +1,1 @@
-<%= turbo_frame_tag "wiki_main_menu",
-                    src: url_for({ controller: "/wiki", action: :menu, project_id: @project.id, id: @page&.id }),
-                    target: "_top",
-                    data: { turbo: false },
-                    loading: :lazy do %>
-<% end %>
+<%= render WikiPages::SidemenuTreeViewComponent.new(project: @project, current_page: @page) %>
