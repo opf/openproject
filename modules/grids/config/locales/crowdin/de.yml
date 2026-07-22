@@ -30,7 +30,7 @@ de:
         no_results: Nichts Neues zu berichten.
       not_available: Dieses Widget ist nicht verfügbar.
       project_timeline:
-        no_lifecycle_results: Keine Projektlebenszyklus-Phasen konfiguriert
+        no_lifecycle_results: No life cycle phases
         title: Projektzeitleiste
         title_portfolio: Zeitleiste des Portfolios
         title_program: Zeitleiste des Programms
