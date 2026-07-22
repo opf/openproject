@@ -690,6 +690,9 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewComponent,
     BackButtonComponent,
     OpWpDatePickerModalComponent,
+
+    // Needed so boards can put its lists under a shared sortable root.
+    OpSortableListsDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

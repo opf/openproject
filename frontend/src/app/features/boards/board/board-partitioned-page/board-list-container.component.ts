@@ -19,7 +19,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Board, BoardWidgetOption } from 'core-app/features/boards/board/board';
@@ -66,7 +66,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   readonly apiV3Service = inject(ApiV3Service);
   readonly Boards = inject(BoardService);
   readonly boardListCrossSelectionService = inject(BoardListCrossSelectionService);
-  readonly Drag = inject(DragAndDropService);
   readonly apiv3Service = inject(ApiV3Service);
   readonly QueryUpdated = inject(QueryUpdatedService);
   readonly pathHelper = inject(PathHelperService);
@@ -87,13 +86,18 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   /** Container reference */
   public _container:HTMLElement;
 
+  /** Shared sortable root spanning all board lists, for cross-column card drags */
+  @ViewChild(OpSortableListsDirective) private sortableRoot?:OpSortableListsDirective;
+
   @ViewChild('container')
   set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
       if (this._container === undefined) {
-        this.Drag.addScrollContainer(v.nativeElement);
+        // Deferred one microtask so `sortableRoot` (same element, resolved in
+        // the same query pass) is guaranteed to be set before this runs.
+        void Promise.resolve().then(() => this.sortableRoot?.addScrollContainer(v.nativeElement));
       }
       setTimeout(() => (this._container = v.nativeElement));
     }

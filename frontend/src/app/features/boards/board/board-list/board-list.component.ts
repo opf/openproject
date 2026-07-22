@@ -407,6 +407,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return (this.resource.options.queryId as number|string).toString();
   }
 
+  /** Stable id for this list's wp-card-view under the shared board sortable root */
+  public get listId():string {
+    return `board-${this.queryId}`;
+  }
+
   private loadQuery(visibly = true) {
     let observable = this
       .apiv3Service

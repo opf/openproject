@@ -59,13 +59,6 @@ function generateListId():string {
 export class DragAndDropService implements OnDestroy {
   private readonly bindings = new Map<HTMLElement, Binding>();
 
-  // Containers passed to `addScrollContainer` before any `register()` call
-  // exists yet — applied to every root created afterwards too. Mirrors the
-  // Dragula version's single shared autoscroll instance, whose `elements`
-  // list persisted regardless of whether it was seeded via a container
-  // registration or a bare `addScrollContainer` call first.
-  private readonly pendingScrollContainers:Element[] = [];
-
   ngOnDestroy():void {
     this.bindings.forEach((binding) => this.teardown(binding));
     this.bindings.clear();
@@ -114,9 +107,6 @@ export class DragAndDropService implements OnDestroy {
     // further ones (none of today's consumers pass more than one) are
     // additional autoscroll targets only.
     member.scrollContainers.slice(1).forEach((container) => root.addScrollContainer(container));
-
-    // Containers registered before this member existed still apply to it.
-    this.pendingScrollContainers.forEach((container) => root.addScrollContainer(container, 'all'));
   }
 
   public remove(container:HTMLElement):void {
@@ -127,21 +117,6 @@ export class DragAndDropService implements OnDestroy {
 
     this.teardown(binding);
     this.bindings.delete(container);
-  }
-
-  public member(container:HTMLElement):DragMember|undefined {
-    return this.bindings.get(container)?.member;
-  }
-
-  // Passthrough autoscroll target: applied to every currently registered
-  // root AND buffered for any root created afterwards (see
-  // `pendingScrollContainers`) — a container added before the first
-  // `register()` call must still take effect once one exists.
-  public addScrollContainer(element:Element):void {
-    if (!this.pendingScrollContainers.includes(element)) {
-      this.pendingScrollContainers.push(element);
-    }
-    this.bindings.forEach(({ root }) => root.addScrollContainer(element, 'all'));
   }
 
   // Diffs the container's direct item rows against the tracked registrations —

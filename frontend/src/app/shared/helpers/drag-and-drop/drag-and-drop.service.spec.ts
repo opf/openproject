@@ -394,7 +394,6 @@ describe('DragAndDropService', () => {
       service.register(buildMember(container, { onMoved, onDragStarted }));
 
       service.remove(container);
-      expect(service.member(container)).toBeUndefined();
 
       const simulation = new NativeDragSimulation(rows[0]);
       await simulation.start();
