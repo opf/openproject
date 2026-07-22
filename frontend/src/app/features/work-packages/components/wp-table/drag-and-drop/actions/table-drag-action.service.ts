@@ -44,18 +44,4 @@ export class TableDragActionService {
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
     return Promise.resolve(undefined);
   }
-
-  /**
-   * Manipulate the shadow element
-   * @param shadowElement
-   * @param backToDefault: Shall the modifications be made undone
-   */
-  public changeShadowElement(shadowElement:HTMLElement, backToDefault = false) {
-    if (backToDefault) {
-      shadowElement.classList.remove('-dragged');
-    } else {
-      shadowElement.classList.add('-dragged');
-    }
-    return true;
-  }
 }
