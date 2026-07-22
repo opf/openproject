@@ -751,4 +751,39 @@ RSpec.describe "Workflow edit", :js do
       end
     end
   end
+
+  describe "reuse mode banner", with_flag: { type_variants: true } do
+    let(:source_type) { create(:type, name: "Feature") }
+
+    context "when the workflow configuration is independent" do
+      before { visit_workflow_edit(roles: [role]) }
+
+      it "shows the independent banner offering to switch to linked, or to copy from type" do
+        expect(page).to have_text("Independent mode")
+        expect(page).to have_link("Switch to linked mode")
+        expect(page).to have_link("Copy from type")
+      end
+    end
+
+    context "when the workflow configuration is linked to a source" do
+      before do
+        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        visit_workflow_edit(roles: [role])
+      end
+
+      it "shows the linked banner naming the source with change and switch actions" do
+        expect(page).to have_text("Linked mode")
+        expect(page).to have_link("Change source type")
+        expect(page).to have_link("Switch to independent mode")
+      end
+    end
+
+    context "when the variants feature is disabled", with_flag: { type_variants: false } do
+      before { visit_workflow_edit(roles: [role]) }
+
+      it "does not show the reuse mode banner" do
+        expect(page).to have_no_text("Independent mode")
+      end
+    end
+  end
 end

@@ -41,6 +41,7 @@ module WorkPackageTypes
 
       LEADING_ICONS = {
         details: :info,
+        defaults: :"file-diff",
         form_configuration: :"list-unordered",
         workflows: :"git-branch",
         automations: :zap,

@@ -768,12 +768,14 @@ module WorkPackages
     end
 
     def new_statuses_by_workflow(status)
-      workflows = Workflow
-                  .from_status(status.id,
-                               model.type_id,
-                               user_roles.map(&:id),
-                               user_is_author?,
-                               user_was_or_is_assignee?)
+      return Status.none unless model.type
+
+      workflows = model.type
+                       .workflows
+                       .from_status(status.id,
+                                    user_roles.map(&:id),
+                                    author: user_is_author?,
+                                    assignee: user_was_or_is_assignee?)
 
       Status.where(id: workflows.select(:new_status_id))
     end

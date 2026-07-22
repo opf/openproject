@@ -210,7 +210,7 @@ cs:
         wiki_page: Wiki page
       search:
         no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        placeholder: Vyhledejte stránku na wiki (nebo zadat její URL)
     page_links:
       aria_label: A dynamic link to a wiki page placed using a macro.
       errors:

@@ -192,7 +192,7 @@ module OpenProject::Wikis
 
       menu :project_menu,
            :settings_project_wiki,
-           { controller: "wikis/project_settings/wiki", action: :show },
+           { controller: "/wikis/project_settings/wiki", action: :show },
            parent: :settings,
            if: ->(_) { Wikis::InternalProvider.enabled? }, # What to do on projects that have a wiki but later disabled it?
            after: :settings_backlogs,

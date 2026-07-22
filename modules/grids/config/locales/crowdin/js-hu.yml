@@ -31,7 +31,7 @@ hu:
           not_started: El nem kezdett
           off_track: Kisiklott
           on_track: Terv szerint
-          title: Status
+          title: Állapot
         project_timeline:
           tooltip_type_gate: Phase gate
           tooltip_type_phase: Phase

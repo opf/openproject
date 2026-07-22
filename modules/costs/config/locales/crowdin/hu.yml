@@ -66,7 +66,7 @@ hu:
         spent_units: Elköltött egység
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: nem lehet letiltani, mert ehhez a projekthez már rögzítettek költségeket.
       models:
         cost_types_project:
           attributes:
@@ -143,7 +143,7 @@ hu:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
         heading: Cost types
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: Ez a költségtípus nem kapcsolható ki, mivel ehhez a projekthez már rögzítettek költségeket.
         none_active: No cost types are currently active in this project.
       time_and_costs: Time and costs
   costs:
@@ -249,18 +249,18 @@ hu:
   permission_view_own_time_entries: Az eltöltött idő megtekintése
   placeholder_activity_select_work_package_first: Először a munkacsomag(ok) kiválasztása szükséges
   plugin_costs:
-    description: This module adds features for planning and tracking costs of projects.
+    description: Ez a modul a projektek költségeinek tervezéséhez és nyomon követéséhez szükséges funkciókat biztosít.
     name: Idő és költség
   project_module_costs: Idő és költség
   setting_allow_tracking_start_and_end_times: Engedélyezze a kezdési és befejezési időpontokat
-  setting_allow_tracking_start_and_end_times_caption: Enables entering start and finish times when logging time.
+  setting_allow_tracking_start_and_end_times_caption: Lehetővé teszi a kezdési és befejezési idők megadását az időnyilvántartás során.
   setting_costs_currency: Pénznem
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
   setting_costs_currency_format: Currency format
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Kezdési és befejezési idő megadása kötelező
-  setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
+  setting_enforce_tracking_start_and_end_times_caption: A munkaidő-nyilvántartás során kötelezővé teszi a kezdési és befejezési idők megadását.
   setting_enforce_without_allow: A kezdési és befejezési idő megkövetelése nem lehetséges anélkül, hogy engedélyeznénk azok megadását
   text_assign_time_and_cost_entries_to_project: Idők és költségek projekthez rendelése
   text_destroy_cost_entries_question: A work package-hez rögzített %{cost_entries} törlése. Mit szeretnél tenni?

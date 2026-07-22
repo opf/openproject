@@ -96,10 +96,10 @@ See COPYRIGHT and LICENSE files for more details.
               </td>
               <td>
                 <% if current_user.admin? %>
-                  <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_form_configuration_path(t)) } %>
+                  <% type_links = custom_field.types.map { |t| link_to(t.composite_name, edit_type_form_configuration_path(t)) } %>
                   <%= safe_join type_links, ", " %>
                 <% else %>
-                  <%= custom_field.types.map(&:name).join(", ") %>
+                  <%= custom_field.types.map(&:composite_name).join(", ") %>
                 <% end %>
               </td>
             </tr>

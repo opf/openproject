@@ -38,9 +38,13 @@ import {
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { DataSet } from 'vis-data';
 import { Timeline } from 'vis-timeline/standalone';
 import type { DataItem } from 'vis-timeline/standalone';
@@ -69,6 +73,8 @@ export interface ProjectTimelineItem {
   type:'range'|'point'|'background';
   className:string;
   definitionId?:number;
+  isCluster?:boolean;
+  items?:ProjectTimelineItem[];
 }
 
 const GROUP_GATES = 'gates';
@@ -80,6 +86,7 @@ const GROUP_LIFECYCLE = 'lifecycle';
   styleUrls: ['./project-timeline-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [OpenprojectContentLoaderModule],
 })
 export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
@@ -93,7 +100,12 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
 
+  protected readonly ready = signal(false);
+
   private timeline:Timeline | null = null;
+  private destroyed = false;
+  private readyHandler:(() => void) | null = null;
+  private readonly destroyed$ = new Subject<void>();
 
   constructor() {
     effect(() => {
@@ -105,10 +117,18 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit():void {
-    this.initTimeline(this.phases());
+    requestAnimationFrame(() => {
+      if (!this.destroyed) {
+        this.initTimeline(this.phases());
+      }
+    });
   }
 
   ngOnDestroy():void {
+    this.destroyed = true;
+    this.destroyed$.next();
+    this.destroyed$.complete();
+    if (this.readyHandler) this.timeline?.off('changed', this.readyHandler);
     this.timeline?.destroy();
     this.timeline = null;
   }
@@ -197,29 +217,51 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
+        showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltipTemplate.bind(this) } as any,
       },
     );
+    this.revealWhenReady();
+  }
+
+  // Hides the skeleton once vis-timeline has stopped firing 'changed' events.
+  // Multiple render passes occur on an initial load, so we debounce
+  private revealWhenReady():void {
+    const changed$ = new Subject<void>();
+
+    this.readyHandler = () => changed$.next();
+    this.timeline!.on('changed', this.readyHandler);
+
+    changed$.pipe(
+      debounceTime(1000),
+      take(1),
+      takeUntil(this.destroyed$),
+    ).subscribe(() => {
+      this.timeline!.off('changed', this.readyHandler!);
+      this.readyHandler = null;
+      this.timeline!.setOptions({ showCurrentTime: true });
+      this.ready.set(true);
+    });
   }
 
   private tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
     if (item.type === 'background') return '';
 
-    const isGate = item.type === 'point';
-    const formatDate = (d:Date | string) => this.timezone.formattedDate(d as string);
-    const dateStr = isGate
-      ? formatDate(item.start)
-      : item.originalEnd
-        ? formatDate(item.originalEnd)
-        : `${formatDate(item.start)} – ${formatDate(item.end!)}`;
+    const isCluster = item.isCluster === true;
+    const isGate = item.type === 'point' || isCluster; // Currently only gates are clustered
+
+    const { dateStr, titleText, definitionId } = isCluster && item.items?.length
+      ? { ...this.tooltipClusterData(item.items), definitionId: undefined }
+      : this.tooltipItemData(item, isGate);
+
     const typeLabel = isGate
       ? this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_gate')
       : this.i18n.t('js.grid.widgets.project_timeline.tooltip_type_phase');
 
-    const hlInlineClass = `__hl_inline_project_phase_definition_${item.definitionId!}`;
+    const hlInlineClass = definitionId != undefined ? `__hl_inline_project_phase_definition_${definitionId}` : '';
 
     const icon = octiconElement(isGate ? opGateIconData : opPhaseIconData, 'small', `octicon ${hlInlineClass}`);
     const typeSpan = document.createElement('span');
@@ -232,7 +274,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
     const name = document.createElement('div');
     name.className = 'op-timeline-tooltip--name';
-    name.textContent = item.title;
+    name.textContent = titleText;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'op-timeline-tooltip';
@@ -251,5 +293,32 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   private updateTimeline(phases:ProjectPhaseData[]):void {
     const { items, groups } = this.buildData(phases);
     this.timeline!.setData({ items: new DataSet(items as unknown as DataItem[]), groups: new DataSet(groups) });
+  }
+
+  private tooltipClusterData(items:ProjectTimelineItem[]):{dateStr:string; titleText:string} {
+    const sorted = items.slice().sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    const minDate = sorted[0].start;
+    const maxDate = sorted[sorted.length - 1].start;
+    const dateStr = minDate === maxDate
+      ? this.timezone.formattedDate(minDate as string)
+      : `${this.timezone.formattedDate(minDate as string)} – ${this.timezone.formattedDate(maxDate as string)}`;
+
+    return { dateStr, titleText: items.map((i) => i.title).join(', ') };
+  }
+
+  private tooltipItemData(item:ProjectTimelineItem, isGate:boolean):{dateStr:string; titleText:string; definitionId:number | undefined} {
+    const formatDate = (d:Date | string) => this.timezone.formattedDate(d as string);
+
+    let dateStr:string;
+    if (isGate) {
+      dateStr = formatDate(item.start);
+    } else if (item.originalEnd) {
+      // One-day phase: visual start/end were adjusted, show the real date
+      dateStr = formatDate(item.originalEnd);
+    } else {
+      dateStr = `${formatDate(item.start)} – ${formatDate(item.end!)}`;
+    }
+
+    return { dateStr, titleText: item.title, definitionId: item.definitionId };
   }
 }

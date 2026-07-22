@@ -184,14 +184,27 @@ Rails.application.routes.draw do
       put :enable_all_of_section
       put :disable_all_of_section
     end
-    resource :settings, controller: "settings_tab", only: %i[update edit]
-    resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
+    resource :details, controller: "details_tab", only: %i[update edit]
+    resource :defaults, controller: "defaults_tab", only: %i[update edit]
 
-    # One configuration link per (type, aspect): a singular resource nested under its aspect.
-    resources :aspects,
-              only: [],
-              constraints: { aspect_id: Regexp.union(Type::ConfigurationLink::ASPECTS) } do
-      resource :configuration_link, only: %i[update destroy]
+    nested do
+      scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "independent_config/:aspect", controller: "configuration_independence", as: :configuration_independence do
+        get :dialog
+        post :confirm
+        post :switch
+      end
+
+      scope "copy_config/:aspect", controller: "configuration_copies", as: :configuration_copy do
+        get :dialog
+        post :confirm
+        post :copy
+      end
     end
 
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]

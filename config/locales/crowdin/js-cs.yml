@@ -129,7 +129,7 @@ cs:
     button_continue: Pokračovat
     button_copy: Kopírovat
     button_copy_link_to_clipboard: Kopírovat odkaz do schránky
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Kopírovat numerické ID do schránky
     button_copy_to_clipboard: Kopírovat do schránky
     button_copy_to_other_project: Duplikovat v jiném projektu
     button_create: Vytvořit
@@ -142,9 +142,9 @@ cs:
     button_expand_all: Rozbalit vše
     button_export-atom: Stáhnout Atom
     button_filter: Filtr
-    button_generate_pdf: ''
+    button_generate_pdf: Generovat PDF
     button_list_view: Zobrazit jako seznam
-    button_log_time: Čas protokolu
+    button_log_time: Vykázat čas
     button_more: Více
     button_more_actions: Další akce
     button_open_details: Otevřít podrobností - panel
@@ -617,7 +617,7 @@ cs:
     notice_bad_request: Chybný požadavek.
     notice_job_started: Úloha byla zahájena
     notice_no_results_to_display: Žádné viditelné výsledky k zobrazení.
-    notice_successful_create: Úspěšné vytvoření.
+    notice_successful_create: Úspěšně vytvořeno.
     notice_successful_delete: Úspěšné odstranění.
     notice_successful_update: Úspěšná aktualizace.
     notifications:
@@ -832,7 +832,7 @@ cs:
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
       stop: Zastavit
-      title: Čas protokolu
+      title: Vykázat čas
       tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:

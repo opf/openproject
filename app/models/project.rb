@@ -88,6 +88,7 @@ class Project < ApplicationRecord
   has_many :cost_types_projects, dependent: :delete_all
   has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
+  has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order("position ASC") }, dependent: :destroy

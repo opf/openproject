@@ -42,7 +42,7 @@ hu:
       external_wiki_providers: Wiki providers
       internal_wiki_provider: Internal wiki
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: A wiki-oldalak linkjeinek kezelése
   project_module_wiki_internal: Project wiki
   project_module_wiki_platforms: Wiki providers
   projects_settings_wiki:
@@ -138,11 +138,11 @@ hu:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
+      connection_error: Nem sikerült csatlakozni a wiki-szolgáltatóhoz.
+      invalid_parent: A kiválasztott oldal nem érvényes szülőoldal.
+      invalid_response: A wiki-szolgáltató váratlan módon válaszolt.
+      missing_token: A felhasználói fiók még nincs összekapcsolva a wiki-szolgáltatóval.
+      request_failed: A wiki-szolgáltatónál váratlan hiba történt.
       unauthorized: An authorization error occurred.
     health_checks:
       authentication:

@@ -820,8 +820,8 @@ pt-PT:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de os guardar.
         type/configuration_link:
           attributes:
-            source:
-              must_differ_from_type: can't be the type itself.
+            source_id:
+              would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
             base:
@@ -1148,7 +1148,6 @@ pt-PT:
 
           '
         description: Este Jira Migrator está em fase beta. Neste momento, só tempo suporte para oJira Server/Data Center nas versões 10.x e 11.x. As instâncias na nuvem não têm suporte neste momento.
-        supported_versions: ''
         title: Beta - Experimente!
       blank:
         description: Configure um anfitrião do Jira para começar a importar elementos do Jira para esta instância do OpenProject.
@@ -1525,6 +1524,7 @@ pt-PT:
     workflows:
       blankslate:
         description: Adicione estados para começar a configurar fluxos de trabalho para esta função
+        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
         title: Não há transições de estado configuradas
       leave_confirmation:
         description: Está prestes a sair desta página, mas tem alterações por guardar. Gostaria de as guardar antes de continuar?
@@ -2773,16 +2773,15 @@ pt-PT:
     blocks:
       community: Comunidade de OpenProject
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: Integração com XWiki (plano Corporate).
-            line_1: Objetivos do sprint
-            line_2: Página de visão geral 'Todos os sprints'.
-            line_3: Apresentar os grupos de backlog nos pacotes de trabalho e nas tabelas de pacotes de trabalho.
-            line_4: Melhoria do suporte a identificadores (semânticos) baseados em projetos.
-            line_5: Converter os pontos da ordem de trabalhos da reunião em pacotes de trabalho.
-            line_6: Configurar os tipos de custos por projeto.
-          new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novas funcionalidades e atualizações de produtos.
@@ -4479,10 +4478,10 @@ pt-PT:
       templates:
         label: Modelo
         none_enabled: Nenhum modelo foi ativado para este tipo de pacote de trabalho
+      title: Gerar PDF
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
-      title: Gerar PDF
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -5784,8 +5783,8 @@ pt-PT:
   total_progress: Progresso total
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
       create_subtype: Create sub-type
+      create_type: Create type
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
@@ -5793,6 +5792,7 @@ pt-PT:
       progress_label: Step %{number} of %{total}
       steps:
         automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
@@ -5802,18 +5802,46 @@ pt-PT:
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
-      configuration_link:
-        independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
-        linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
-        source:
-          label: Source type
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
+        artefact_export:
+          attachment:
+            caption: The generated PDF is saved as a file attachment on the work package.
+            label: Save as work package file attachment
+          file_link:
+            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
+            label: Upload file to external file storage and add file link to work package
+          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artefact export mode.
+          label: Automatic artefact export
+          off_mode:
+            caption: No PDF is generated automatically.
+            label: 'Off'
+          section_title: Automatic artefact export
+          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         intro: Selecione os modelos disponíveis que pretende ativar para este tipo. O modelo determina o design e os atributos visíveis no PDF exportado de um pacote de trabalho que utiliza este tipo. O primeiro modelo da lista é selecionado por predefinição.
         pdf_export_templates:
           actions:
@@ -5821,6 +5849,8 @@ pt-PT:
             label_enable_all: Ativar todos
           label: Modelos de Exportação PDF
         tab: Gerar PDF
+        templates:
+          section_title: PDF export templates
       form_configuration:
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -5867,28 +5897,66 @@ pt-PT:
         select_projects: Selecionar projetos
         select_projects_description: Selecione os projetos em que pretende utilizar este tipo.
         tab: Projetos
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: Definições
-        type_color_text: A cor selecionada distingue diferentes tipos em gráficos de Gantt ou tabelas de pacotes de trabalho. Portanto é recomendado usar uma cor forte.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Defina um padrão ao utilizar atributos referenciados e texto para gerar automaticamente temas dod pacotes de trabalho. Os utilizadores não poderão editar manualmente os temas.
-          label: Temas gerados automaticamente
-        manually_editable_subjects:
-          caption: Os utilizadores podem introduzir e editar manualmente os temas dos pacotes de trabalho sem restrições.
-          label: Temas editáveis manualmente
-        pattern:
-          caption: Crie padrões adicionando texto ou escreva "/" para procurar [atributos suportados](attributes_url).
-          insert_as_text: 'Não foram encontrados atributos. Adicionar como texto: "%{word}"'
-          label: Padrão do tema
-        tab: Configuração do tema
-        token:
-          context:
-            parent: Mãe
-            project: Projecto
-            work_package: Pacote de trabalho
-          label_with_context: "%{attribute_context}: %{attribute_label}"
+      reuse_mode:
+        copy:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+            title: Copy configuration?
+          dialog:
+            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
+            source_label: Copy source
+            source_placeholder: Select a type or sub-type
+            submit: Save and copy
+            title: Copy configuration
+          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
+          success: The configuration was copied.
+        independent:
+          confirm_dialog:
+            check_box: I understand that this will override the current settings
+            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+            title: Switch configuration mode?
+          copy_from_type: Copy from type
+          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          dialog:
+            submit: Switch
+            title: Independent mode
+          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+          modes:
+            copy:
+              caption: Start with a one-time copy of the current settings set in the linked mode.
+              label: Copy from linked
+            default:
+              caption: Use the default settings for new types.
+              label: Default settings
+            empty:
+              caption: Set everything up from scratch, beginning from a blank configuration.
+              label: Empty
+          success: The configuration mode was switched.
+          switch_to_linked: Switch to linked mode
+          title: Independent mode
+        linked:
+          change_source: Change source type
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              title: Change source type?
+            check_box: I understand that this will override the current settings
+            from_independent:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              title: Switch configuration mode?
+          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
+          dialog:
+            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
+            source_label: Linked source
+            source_placeholder: Select a type or sub-type
+            submit: Switch
+            title: Linked mode
+          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          switch_to_independent: Switch to independent mode
+          title: Linked mode
+        parent_suffix: " (parent)"
       workflow:
         tab: Workflows
     index:

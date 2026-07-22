@@ -45,6 +45,10 @@ RSpec.describe API::V3::Types::TypeRepresenter do
         let(:href) { api_v3_paths.type(type.id) }
         let(:title) { type.name }
       end
+
+      it "has no parent link for a root type" do
+        expect(generated).not_to have_json_path("_links/parent")
+      end
     end
 
     it "fulfills the documented schema" do
@@ -57,6 +61,10 @@ RSpec.describe API::V3::Types::TypeRepresenter do
 
     it "indicates its name" do
       expect(subject).to be_json_eql(type.name.to_json).at_path("name")
+    end
+
+    it "indicates its own name" do
+      expect(subject).to be_json_eql(type.own_name.to_json).at_path("ownName")
     end
 
     it "indicates its color" do
@@ -135,11 +143,41 @@ RSpec.describe API::V3::Types::TypeRepresenter do
         end
 
         it "changes when the type is updated" do
-          type.updated_at = Time.now + 20.seconds
+          type.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
+      end
+    end
+
+    context "for a variant" do
+      let(:parent) { build_stubbed(:type, name: "Task", color: build_stubbed(:color)) }
+      let(:type) { build_stubbed(:type, name: "Bug", parent:) }
+
+      it "shows the root name as its name" do
+        expect(subject).to be_json_eql("Task".to_json).at_path("name")
+      end
+
+      it "shows its own name, not the root name" do
+        expect(subject).to be_json_eql("Bug".to_json).at_path("ownName")
+      end
+
+      it "shows the root color" do
+        expect(subject).to be_json_eql(parent.color.hexcode.to_json).at_path("color")
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "parent" }
+        let(:href) { api_v3_paths.type(parent.id) }
+        let(:title) { parent.name }
+      end
+
+      it "busts the cache when the parent changes" do
+        former_cache_key = representer.json_cache_key
+        parent.updated_at = 20.seconds.from_now
+
+        expect(representer.json_cache_key).not_to eql former_cache_key
       end
     end
   end

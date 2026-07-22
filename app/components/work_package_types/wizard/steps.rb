@@ -30,24 +30,12 @@
 
 module WorkPackageTypes
   module Wizard
-    # The steps of the sub-type creation wizard, in order. Every step submits its form
+    # The steps of the variant creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[details form_configuration workflows automations projects pdf].freeze
-
-      # The configuration aspect each step chooses a reuse mode for. Details has none:
-      # it names the type, so there is nothing to reuse from a source.
-      STEP_ASPECTS = {
-        form_configuration: Type::ConfigurationLink::FORM_CONFIGURATION,
-        workflows: Type::ConfigurationLink::WORKFLOWS,
-        automations: Type::ConfigurationLink::AUTOMATIONS,
-        projects: Type::ConfigurationLink::PROJECTS,
-        pdf: Type::ConfigurationLink::PDF_EXPORT
-      }.freeze
+      ALL = %i[details defaults form_configuration workflows automations projects pdf].freeze
 
       module_function
-
-      def aspect_for(step) = STEP_ASPECTS[step]
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
 

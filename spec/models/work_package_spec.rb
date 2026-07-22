@@ -600,6 +600,41 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe "target version scopes" do
+    shared_let(:project) { create(:project) }
+    shared_let(:version) { create(:version, project:) }
+    shared_let(:other_version) { create(:version, project:) }
+
+    # Targets `version` and, additionally, is observed in `other_version`. The
+    # observed_in row must not confuse either scope.
+    shared_let(:wp_targeting) do
+      create(:work_package, project:, version:).tap do |wp|
+        WorkPackageVersion.create!(work_package: wp, version: other_version, kind: "observed_in")
+      end
+    end
+    shared_let(:wp_without_target) { create(:work_package, project:, version: nil) }
+
+    describe ".with_target_version" do
+      it "returns only work packages targeting the given version" do
+        expect(described_class.with_target_version(version.id)).to contain_exactly(wp_targeting)
+      end
+
+      it "does not match on an observed_in version" do
+        expect(described_class.with_target_version(other_version.id)).to be_empty
+      end
+    end
+
+    describe ".without_target_version" do
+      it "returns only work packages without any target version" do
+        expect(described_class.without_target_version).to contain_exactly(wp_without_target)
+      end
+
+      it "excludes a work package that targets a version but is observed in another" do
+        expect(described_class.without_target_version).not_to include(wp_targeting)
+      end
+    end
+  end
+
   describe "#on_active_project" do
     shared_let(:work_package) { create(:work_package, project:) }
 
@@ -991,6 +1026,22 @@ RSpec.describe WorkPackage do
           expect(standard_work_package.to_fs(:caption))
             .to eq("#{type.name}: Hello world (##{standard_work_package.id})")
         end
+      end
+    end
+
+    describe "for a variant" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:variant) { create(:type, name: "Bug", parent: root_type) }
+      let(:sub_work_package) { create(:work_package, project:, type: variant, subject: "Hello world") }
+
+      it "renders the root type's name in the :heading style" do
+        expect(sub_work_package.to_fs(:heading)).to include("Task")
+        expect(sub_work_package.to_fs(:heading)).not_to include("Bug")
+      end
+
+      it "renders the root type's name in the :caption style" do
+        expect(sub_work_package.to_fs(:caption)).to start_with("Task:")
+        expect(sub_work_package.to_fs(:caption)).not_to include("Bug")
       end
     end
 

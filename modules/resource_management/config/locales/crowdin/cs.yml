@@ -43,6 +43,13 @@ cs:
       resource_planner: Resource Planner
       resource_user_card: User cards
       resource_work_package_list: Work packages list
+  ee:
+    features:
+      resource_management: Resource management
+    upsell:
+      resource_management:
+        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
+        title: Resource management
   button_next: Next
   label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
@@ -61,10 +68,10 @@ cs:
     action:
       delete: Delete
       edit: Edit
-      favorite: Add to favorites
+      favorite: Přidat k oblíbeným
       make_private: Make private
       make_public: Make public
-      unfavorite: Remove from favorites
+      unfavorite: Odstranit z oblíbených
     allocate_resource_dialog:
       kind:
         filter:
@@ -73,7 +80,7 @@ cs:
         label: Allocation type
         principal:
           caption: Allocate hours for a specific user.
-          label: User
+          label: Uživatel
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:
