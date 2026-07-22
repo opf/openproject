@@ -71,3 +71,7 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :shared_user_permissions_cte,
+                                  description: "Emits the per-user permission derivation as a provider-backed " \
+                                               "CTE so repeated derivations in one query can be collapsed."
