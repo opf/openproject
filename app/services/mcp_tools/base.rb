@@ -199,7 +199,9 @@ module McpTools
     end
 
     def format_structured_content(result)
-      result
+      # performing a useless JSON roundtrip to ensure that our representers get converted into proper Ruby hashes,
+      # because the mcp gem performs strict type checks on the structured content
+      JSON.parse(result.to_json)
     end
 
     def current_user
