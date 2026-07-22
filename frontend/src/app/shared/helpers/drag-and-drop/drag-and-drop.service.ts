@@ -1,215 +1,230 @@
-import { Injectable, Injector, OnDestroy, DOCUMENT, inject } from '@angular/core';
-import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
-import { findIndex, reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
-import dragula, { Drake } from 'dragula';
+import { Injectable, OnDestroy } from '@angular/core';
+import {
+  createSortableRoot,
+  type CleanupFn,
+  type SortableDropTransaction,
+  type SortableRoot,
+} from 'core-common/drag-and-drop/sortable-lists-engine';
+import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
+
+// Same selector the row/card markup has always relied on for drag rows —
+// kept as the boundary between "draggable item" and structural children
+// (group headers, the inline-create reference container, …).
+const ROW_SELECTOR = ':scope > [data-work-package-id]';
+
+export interface DragIntent {
+  sourceId:string;
+  targetId:string|null;
+  edge:Edge|null;
+}
 
 export interface DragMember {
   dragContainer:HTMLElement;
   scrollContainers:HTMLElement[];
-  /** Whether this element moves */
-  moves:(element:HTMLElement, fromContainer:HTMLElement, handle:HTMLElement, sibling?:HTMLElement|null) => boolean;
-  /** Move element in container */
-  onMoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
-  /** Add element to this container */
-  onAdded:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => Promise<boolean>;
-  /** Remove element from this container */
-  onRemoved:(element:HTMLElement, target:any, source:HTMLElement, sibling:HTMLElement|null) => void;
-
-  /** Move this container accepts elements */
-  accepts?:(row:HTMLElement, container:any) => boolean;
-
-  /** Callback when the element got cloned */
-  onCloned?:(clone:HTMLElement, original:HTMLElement) => void;
-
-  /** Callback when the shadow element got inserted into a container */
-  onShadowInserted?:(row:HTMLElement) => void;
-
-  /** Callback when the shadow element got inserted into a container */
-  onCancel?:(element:HTMLElement) => void;
+  /** Row → its stable id, or null if the row is not a draggable item. */
+  itemIdOf(row:HTMLElement):string|null;
+  /** Whether this row may be picked up; `handle` is the exact element under the pointer. */
+  canPickup(row:HTMLElement, handle:HTMLElement|null):boolean;
+  /** Whether this container currently accepts drops. */
+  accepts():boolean;
+  onDragStarted?(row:HTMLElement):void;
+  onCancel?(row:HTMLElement):void;
+  /** Called synchronously while Pragmatic captures the native drag image. */
+  onPreviewRendered?(row:HTMLElement, container:HTMLElement):void;
+  /** `targetId` null means "append at the end". Must settle `complete`. */
+  onMoved(intent:DragIntent, complete:(success:boolean) => void):void;
 }
 
-@Injectable()
+interface Binding {
+  member:DragMember;
+  root:SortableRoot;
+  listId:string;
+  listCleanup:CleanupFn;
+  observer:MutationObserver;
+  rowCleanups:Map<HTMLElement, CleanupFn>;
+}
+
+let lastListId = 0;
+
+function generateListId():string {
+  lastListId += 1;
+  return `wp-drag-and-drop-${lastListId}`;
+}
+
+// Thin binding of the shared sortable engine to the container-registration
+// API this class has always exposed. One engine root per registered member —
+// every consumer here drags within a single container, never across two, so
+// isolated per-member scopes cost nothing.
+@Injectable({ providedIn: 'root' })
 export class DragAndDropService implements OnDestroy {
-  private document = inject<Document>(DOCUMENT);
-  readonly injector = inject(Injector);
+  private readonly bindings = new Map<HTMLElement, Binding>();
 
-  public drake:Drake|null = null;
-
-  public members:DragMember[] = [];
-
-  private autoscroll:any;
-
-  private escapeListener = (evt:KeyboardEvent) => {
-    if (this.drake && evt.key === 'Escape') {
-      this.drake.cancel(true);
-    }
-  };
-
-  constructor() {
-    this.document.documentElement.addEventListener('keydown', this.escapeListener);
-  }
+  // Containers passed to `addScrollContainer` before any `register()` call
+  // exists yet — applied to every root created afterwards too. Mirrors the
+  // Dragula version's single shared autoscroll instance, whose `elements`
+  // list persisted regardless of whether it was seeded via a container
+  // registration or a bare `addScrollContainer` call first.
+  private readonly pendingScrollContainers:Element[] = [];
 
   ngOnDestroy():void {
-    this.document.documentElement.removeEventListener('keydown', this.escapeListener);
-
-    if (this.autoscroll) {
-      this.autoscroll.destroy();
-    }
-
-    if (this.drake) {
-      this.drake.destroy();
-    }
+    this.bindings.forEach((binding) => this.teardown(binding));
+    this.bindings.clear();
   }
 
-  public remove(container:HTMLElement) {
-    if (this.initialized) {
-      this.drake!.containers = this.drake!.containers.filter((el) => el !== container);
-      this.members = this.members.filter((el) => el.dragContainer !== container);
+  public register(member:DragMember):void {
+    const listId = generateListId();
+
+    const root = createSortableRoot({
+      element: member.dragContainer,
+      axis: 'vertical',
+      preview: ({ source, container }) => {
+        container.classList.add('op-drag-preview');
+        container.appendChild(source.element.cloneNode(true));
+        member.onPreviewRendered?.(source.element, container);
+      },
+      onDragStarted: (source) => member.onDragStarted?.(source.element),
+      onCancel: (source) => member.onCancel?.(source.element),
+      onDrop: (transaction) => this.handleDrop(member, transaction),
+    });
+
+    const listCleanup = root.registerList({
+      element: member.dragContainer,
+      listId,
+      accepts: () => member.accepts(),
+      scrollContainer: member.scrollContainers[0],
+    });
+
+    const binding:Binding = {
+      member,
+      root,
+      listId,
+      listCleanup,
+      // Replaced synchronously below; MutationObserver has no no-op ctor.
+      observer: null as unknown as MutationObserver,
+      rowCleanups: new Map<HTMLElement, CleanupFn>(),
+    };
+
+    binding.observer = new MutationObserver(() => this.syncRows(binding));
+    this.bindings.set(member.dragContainer, binding);
+
+    this.syncRows(binding);
+    binding.observer.observe(member.dragContainer, { childList: true });
+
+    // The primary scroll container is wired via registerList above; any
+    // further ones (none of today's consumers pass more than one) are
+    // additional autoscroll targets only.
+    member.scrollContainers.slice(1).forEach((container) => root.addScrollContainer(container));
+
+    // Containers registered before this member existed still apply to it.
+    this.pendingScrollContainers.forEach((container) => root.addScrollContainer(container, 'all'));
+  }
+
+  public remove(container:HTMLElement):void {
+    const binding = this.bindings.get(container);
+    if (!binding) {
+      return;
     }
+
+    this.teardown(binding);
+    this.bindings.delete(container);
   }
 
   public member(container:HTMLElement):DragMember|undefined {
-    return this.members.find((el) => el.dragContainer === container);
+    return this.bindings.get(container)?.member;
   }
 
-  public get initialized() {
-    return this.drake !== null;
+  // Passthrough autoscroll target: applied to every currently registered
+  // root AND buffered for any root created afterwards (see
+  // `pendingScrollContainers`) — a container added before the first
+  // `register()` call must still take effect once one exists.
+  public addScrollContainer(element:Element):void {
+    if (!this.pendingScrollContainers.includes(element)) {
+      this.pendingScrollContainers.push(element);
+    }
+    this.bindings.forEach(({ root }) => root.addScrollContainer(element, 'all'));
   }
 
-  public register(member:DragMember) {
-    this.members.push(member);
-    const { scrollContainers } = member;
+  // Diffs the container's direct item rows against the tracked registrations —
+  // called on register and on every subsequent childList mutation.
+  private syncRows(binding:Binding):void {
+    const {
+      member, root, listId, rowCleanups,
+    } = binding;
+    const rows = new Set(Array.from(member.dragContainer.querySelectorAll<HTMLElement>(ROW_SELECTOR)));
 
-    if (this.autoscroll) {
-      this.autoscroll.add(scrollContainers);
-    } else {
-      this.setupAutoscroll(scrollContainers);
+    rowCleanups.forEach((cleanup, row) => {
+      if (!rows.has(row)) {
+        cleanup();
+        rowCleanups.delete(row);
+      }
+    });
+
+    rows.forEach((row) => {
+      if (rowCleanups.has(row)) {
+        return;
+      }
+
+      const itemId = member.itemIdOf(row);
+      if (!itemId) {
+        return;
+      }
+
+      rowCleanups.set(row, root.registerItem({
+        element: row,
+        itemId,
+        listId,
+        canDrag: ({ element, pointer }) => member.canPickup(element, this.handleUnderPointer(element, pointer)),
+      }));
+    });
+  }
+
+  // The exact element under the pointer, scoped to the row — the engine's own
+  // canDrag wrapper already suppresses interactive descendants (buttons,
+  // inputs, links) before this ever runs; a consumer's `canPickup` gates on
+  // the result itself (e.g. requiring a specific handle class).
+  private handleUnderPointer(row:HTMLElement, pointer:{ clientX:number; clientY:number }):HTMLElement|null {
+    const target = row.ownerDocument.elementFromPoint(pointer.clientX, pointer.clientY);
+    return target instanceof HTMLElement && row.contains(target) ? target : null;
+  }
+
+  private handleDrop(member:DragMember, transaction:SortableDropTransaction):void {
+    const { intent } = transaction;
+    const idOrder = this.rowIdOrder(member);
+
+    const reordered = reorderById({
+      list: idOrder,
+      getId: (id) => id,
+      sourceId: intent.sourceId,
+      targetId: intent.targetItemId,
+      closestEdge: intent.edge,
+      axis: 'vertical',
+    });
+
+    // Genuine no-op (e.g. dropped back adjacent to its own original spot):
+    // settle immediately without bothering the consumer.
+    if (reordered === idOrder) {
+      transaction.complete(true);
+      return;
     }
 
-    const { dragContainer } = member;
-    if (this.drake === null) {
-      this.initializeDrake([dragContainer]);
-    } else {
-      this.drake.containers.push(dragContainer);
-    }
-  }
-
-  public addScrollContainer(el:Element) {
-    if (this.autoscroll) {
-      this.autoscroll.add(el);
-    } else {
-      this.setupAutoscroll([el]);
-    }
-    this.autoscroll.setOuterScrollContainer(el);
-  }
-
-  protected setupAutoscroll(containers:Element[]) {
-    // Setup autoscroll
-    this.autoscroll = new DomAutoscrollService(
-      containers,
-      {
-        margin: 100,
-        maxSpeed: 10,
-        scrollWhenOutside: true,
-        autoScroll: () => this.drake && this.drake.dragging,
-      },
+    member.onMoved(
+      { sourceId: intent.sourceId, targetId: intent.targetItemId, edge: intent.edge },
+      (success) => transaction.complete(success),
     );
   }
 
-  /**
-   * Retrieve a member from the container, if one exists.
-   * @param container
-   */
-  protected getMember(container:Element):DragMember|undefined {
-    return this.members.find((member) => member.dragContainer === container);
+  private rowIdOrder(member:DragMember):string[] {
+    return Array
+      .from(member.dragContainer.querySelectorAll<HTMLElement>(ROW_SELECTOR))
+      .map((row) => member.itemIdOf(row))
+      .filter((id):id is string => !!id);
   }
 
-  protected initializeDrake(containers:Element[]) {
-    this.drake = dragula(containers, {
-      moves: (el:any, container:any, handle:any, sibling:any) => {
-        const member = this.getMember(container);
-        return member ? member.moves(el, container, handle, sibling) : false;
-      },
-      accepts: (el:any, container:any) => {
-        const member = this.getMember(container);
-        return (member?.accepts) ? member.accepts(el, container) : true;
-      },
-      invalid: () => false,
-      direction: 'vertical', // Y axis is considered when determining where an element would be dropped
-      copy: false, // elements are moved by default, not copied
-      revertOnSpill: true, // spilling will put the element back where it was dragged from, if this is true
-      removeOnSpill: false, // spilling will `.remove` the element, if this is true
-      mirrorContainer: document.body, // set the element that gets mirror elements appended
-      ignoreInputTextSelection: true, // allows users to select input text, see details below
-    });
-
-    this.drake.on('drag', (el:HTMLElement) => {
-      el.dataset.sourceIndex = findIndex(el).toString();
-    });
-
-    this.drake.on('over', (_, container:HTMLElement) => {
-      const zone = container.closest('.drop-zone');
-      if (zone) {
-        zone.classList.add('-dragged-over');
-      }
-    });
-
-    this.drake.on('out', (_, container:HTMLElement) => {
-      const zone = container.closest('.drop-zone');
-      if (zone) {
-        zone.classList.remove('-dragged-over');
-      }
-    });
-
-    this.drake.on('cloned', (clone:HTMLElement, original:HTMLElement) => {
-      const member = this.member(original.parentElement!);
-      if (member?.onCloned) {
-        member.onCloned(clone, original);
-      }
-    });
-
-    this.drake.on('drop', (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
-      try {
-        void this.handleDrop(el, target, source, sibling);
-      } catch (e) {
-        console.error('Failed to handle drop of %O, %O', el, e);
-      }
-    });
-
-    this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
-      const member = this.member(container);
-      if (member?.onShadowInserted) {
-        member.onShadowInserted(shadowElement);
-      }
-    });
-
-    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement) => {
-      const member = this.member(container);
-      if (member?.onCancel) {
-        member.onCancel(el);
-      }
-    });
-  }
-
-  private async handleDrop(el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) {
-    const to = this.member(target);
-    const from = this.member(source);
-
-    if (!(to && from)) {
-      return;
-    }
-
-    if (to === from) {
-      to.onMoved(el, target, source, sibling);
-      return;
-    }
-
-    const result = await to.onAdded(el, target, source, sibling);
-    if (result) {
-      from.onRemoved(el, target, source, sibling);
-    } else {
-      // Restore element in from container
-      reinsert(el, el.dataset.sourceIndex || -1, source);
-    }
+  private teardown(binding:Binding):void {
+    binding.observer.disconnect();
+    binding.rowCleanups.forEach((cleanup) => cleanup());
+    binding.rowCleanups.clear();
+    binding.listCleanup();
+    binding.root.destroy();
   }
 }

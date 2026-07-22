@@ -4,15 +4,14 @@ import { WorkPackageViewOrderService } from 'core-app/features/work-packages/rou
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { findIndex } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { reorderById } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -54,40 +53,42 @@ export class WorkPackageCardDragAndDropService {
     this.dragService.register({
       dragContainer: this.cardView.container.nativeElement,
       scrollContainers: [this.cardView.container.nativeElement],
-      moves: (card:HTMLElement) => {
+      itemIdOf: (card:HTMLElement) => card.dataset.workPackageId ?? null,
+      canPickup: (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value;
 
         return !!workPackage && this.cardView.canDragOutOf(workPackage) && !card.dataset.isNew;
       },
       accepts: () => this.cardView.dragInto,
-      onMoved: async (card:HTMLElement) => {
-        const wpId:string = card.dataset.workPackageId!;
-        const toIndex = findIndex(card);
+      // Single-list reorder only: the engine's per-member root scoping means
+      // a drop can never land in a *different* registered container, so the
+      // cross-list add/remove handshake the Dragula version had here no
+      // longer has anything to fire on.
+      onMoved: (intent:DragIntent, complete:(success:boolean) => void) => {
+        void (async () => {
+          try {
+            const wpId = intent.sourceId;
+            const newOrder = reorderById({
+              list: this.currentOrder,
+              getId: (id) => id,
+              sourceId: wpId,
+              targetId: intent.targetId,
+              closestEdge: intent.edge,
+              axis: 'vertical',
+            });
+            const toIndex = newOrder.indexOf(wpId);
 
-        const newOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
-        this.updateOrder(newOrder);
+            const persistedOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
+            this.updateOrder(persistedOrder);
 
-        this.cardView.onMoved.emit();
-      },
-      onRemoved: (card:HTMLElement) => {
-        const wpId:string = card.dataset.workPackageId!;
-
-        const newOrder = this.reorderService.remove(this.currentOrder, wpId);
-        this.updateOrder(newOrder);
-      },
-      onAdded: async (card:HTMLElement) => {
-        const wpId:string = card.dataset.workPackageId!;
-        const toIndex = findIndex(card);
-
-        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-        const result = await this.addWorkPackageToQuery(workPackage, toIndex);
-
-        if (card.parentElement) {
-          card.parentElement.removeChild(card);
-        }
-
-        return result;
+            this.cardView.onMoved.emit();
+            complete(true);
+          } catch (e) {
+            this.notificationService.handleRawError(e);
+            complete(false);
+          }
+        })();
       },
     });
   }

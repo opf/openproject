@@ -7,16 +7,15 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { States } from 'core-app/core/states/states.service';
-import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
-import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import { isInsideCollapsedGroup, locateTableRow } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { firstValueFrom } from 'rxjs';
 
@@ -67,80 +66,27 @@ export class DragAndDropTransformer {
     this.dragService.register({
       dragContainer: this.table.tbody,
       scrollContainers: [this.table.scrollContainer],
+      itemIdOf: (row) => row.dataset.workPackageId ?? null,
       accepts: () => true,
-      moves: (el:any, source:any, handle:HTMLElement) => {
-        if (!handle.classList.contains('wp-table--drag-and-drop-handle')) {
+      canPickup: (row, handle) => {
+        if (!handle?.classList.contains('wp-table--drag-and-drop-handle')) {
           return false;
         }
 
-        const wpId:string = el.dataset.workPackageId;
+        const wpId:string = row.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
-        const wpId:string = el.dataset.workPackageId!;
-        let rowIndex;
-
-        try {
-          const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-
-          if (isInsideCollapsedGroup(sibling)) {
-            const collapsedGroupCSSClass = Array.from(sibling!.classList).find((listClass) => listClass.includes(collapsedGroupClass()))!;
-            const collapsedGroupId = collapsedGroupCSSClass.replace(collapsedGroupClass(), '');
-            const collapsedGroupElements = source.getElementsByClassName(collapsedGroupClass(collapsedGroupId));
-            const collapsedGroupLastChild = collapsedGroupElements[collapsedGroupElements.length - 1];
-            rowIndex = this.findRowIndex(collapsedGroupLastChild as HTMLElement);
-          } else {
-            rowIndex = this.findRowIndex(el);
-          }
-
-          const newOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
-
-          await this.actionService.handleDrop(workPackage, el);
-          this.updateRenderedOrder(newOrder);
-          this.actionService.onNewOrder(newOrder);
-
-          // Save the query when switching to manual
-          const query = this.querySpace.query.value;
-          if (query && this.wpTableSortBy.switchToManualSorting(query)) {
-            await this.wpListService.createOrSave(query);
-          }
-        } catch (e) {
-          this.halNotification.handleRawError(e);
-
-          // Restore original element's styles
-          this.actionService.changeShadowElement(el, true);
-          // Restore element in from container
-          reinsert(el, el.dataset.sourceIndex || -1, source);
+      // Custom native preview: the row was cloned into `container` already;
+      // collapse it to a single subject cell, since a bare `<tr>` clone
+      // outside the table loses its column widths.
+      onPreviewRendered: (row, container) => {
+        const wpId:string = row.dataset.workPackageId!;
+        const workPackage = this.states.workPackages.get(wpId).value;
+        const clone = container.firstElementChild as HTMLElement|null;
+        if (!workPackage || !clone) {
+          return;
         }
-      },
-      onRemoved: (el:HTMLElement) => {
-        const wpId:string = el.dataset.workPackageId!;
-        const newOrder = this.wpTableOrder.remove(this.currentOrder, wpId);
-        this.updateRenderedOrder(newOrder);
-      },
-      onAdded: async (el:HTMLElement) => {
-        const wpId:string = el.dataset.workPackageId!;
-        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-        const rowIndex = this.findRowIndex(el);
-
-        return this.actionService
-          .handleDrop(workPackage, el)
-          .then(async () => {
-            const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId, rowIndex);
-            this.updateRenderedOrder(newOrder);
-            this.actionService.onNewOrder(newOrder);
-
-            return true;
-          })
-          .catch(() => false);
-      },
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onCloned: async (clone:HTMLElement, original:HTMLElement) => {
-        // Replace clone with one TD of the subject
-        const wpId:string = original.dataset.workPackageId!;
-        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
 
         const colspan = clone.children.length;
         const td = document.createElement('td');
@@ -151,17 +97,137 @@ export class DragAndDropTransformer {
         clone.style.maxWidth = '500px';
         clone.innerHTML = td.outerHTML;
       },
-      onShadowInserted: (el:HTMLElement) => {
+      onDragStarted: (row) => {
         if (!this.browserDetector.isEdge) {
-          this.actionService.changeShadowElement(el);
+          this.actionService.changeShadowElement(row);
         }
       },
-      onCancel: (el:HTMLElement) => {
+      onCancel: (row) => {
         if (!this.browserDetector.isEdge) {
-          this.actionService.changeShadowElement(el, true);
+          this.actionService.changeShadowElement(row, true);
         }
       },
+      onMoved: (intent, complete) => this.performMove(intent, complete),
     });
+  }
+
+  /**
+   * Resolve and persist a same-list move, then re-render from the
+   * persisted order. `complete` must always be called to settle the
+   * transaction.
+   */
+  private performMove(intent:DragIntent, complete:(success:boolean) => void):void {
+    void (async () => {
+      const wpId = intent.sourceId;
+
+      try {
+        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
+        const { targetId, edge } = this.resolveEffectiveTarget(intent);
+
+        const newOrder = reorderById({
+          list: this.currentOrder,
+          getId: (id) => id,
+          sourceId: wpId,
+          targetId,
+          closestEdge: edge,
+          axis: 'vertical',
+        });
+        const rowIndex = newOrder.indexOf(wpId);
+
+        const persistedOrder = await this.wpTableOrder.move(this.currentOrder, wpId, rowIndex);
+
+        const el = locateTableRow(wpId);
+        await this.withRowAtTarget(el, newOrder[rowIndex + 1] ?? null, async () => {
+          if (el) {
+            await this.actionService.handleDrop(workPackage, el);
+          }
+        });
+
+        // Awaited so the transaction (and the engine's busy gate) stays open
+        // across the rebuild, not just the DOM-order computation above.
+        await this.updateRenderedOrder(persistedOrder);
+        this.actionService.onNewOrder(persistedOrder);
+
+        // Save the query when switching to manual
+        const query = this.querySpace.query.value;
+        if (query && this.wpTableSortBy.switchToManualSorting(query)) {
+          await this.wpListService.createOrSave(query);
+        }
+
+        complete(true);
+      } catch (e) {
+        this.halNotification.handleRawError(e);
+        complete(false);
+      }
+    })();
+  }
+
+  /**
+   * The hierarchy/group-by action services infer the drop's new parent or
+   * group from the row's DOM neighbors (`previousElementSibling` etc). The
+   * engine itself never relocates the row, so it is moved to the resolved
+   * position for the span of `fn`. Restored ONLY on failure — on success
+   * `updateRenderedOrder` tears the row back out via `replaceChildren()`
+   * moments later, so restoring first would visibly snap it back before
+   * that rebuild moves it again.
+   */
+  private async withRowAtTarget(el:HTMLElement|null, siblingId:string|null, fn:() => Promise<void>):Promise<void> {
+    if (!el) {
+      await fn();
+      return;
+    }
+
+    const { parentNode, nextSibling } = el;
+    const sibling = siblingId ? locateTableRow(siblingId) : null;
+
+    if (sibling) {
+      this.table.tbody.insertBefore(el, sibling);
+    } else {
+      this.table.tbody.appendChild(el);
+    }
+
+    try {
+      await fn();
+    } catch (e) {
+      parentNode?.insertBefore(el, nextSibling);
+      throw e;
+    }
+  }
+
+  /**
+   * Translate the intent's target/edge into id-order terms, redirecting a
+   * drop that lands on a collapsed (hidden) group member to after that
+   * group's last row instead — dropping "inside" a collapsed group is
+   * meaningless since its members aren't individually visible.
+   */
+  private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
+    const siblingId = this.siblingIdFor(intent);
+    const siblingRow = siblingId ? locateTableRow(siblingId) : null;
+
+    if (!isInsideCollapsedGroup(siblingRow)) {
+      return { targetId: intent.targetId, edge: intent.edge };
+    }
+
+    const collapsedGroupCssClass = Array.from(siblingRow!.classList).find((cls) => cls.includes(collapsedGroupClass()))!;
+    const collapsedGroupId = collapsedGroupCssClass.replace(collapsedGroupClass(), '');
+    const groupMembers = this.table.tbody.getElementsByClassName(collapsedGroupClass(collapsedGroupId));
+    const lastMember = groupMembers[groupMembers.length - 1] as HTMLElement;
+
+    return { targetId: lastMember.dataset.workPackageId!, edge: 'bottom' };
+  }
+
+  /** The id that would immediately follow the source row once dropped, before collapsed-group redirection. */
+  private siblingIdFor(intent:DragIntent):string|null {
+    if (intent.targetId === null) {
+      return null;
+    }
+    if (intent.edge === 'top') {
+      return intent.targetId;
+    }
+
+    const order = this.currentOrder;
+    const index = order.indexOf(intent.targetId);
+    return index === -1 ? null : (order[index + 1] ?? null);
   }
 
   /**
@@ -195,15 +261,5 @@ export class DragAndDropTransformer {
       .querySpace
       .renderedWorkPackages
       .getValueOr([]);
-  }
-
-  /**
-   * Find the index of the row in the set of rendered work packages.
-   * This will skip non-work-package rows such as group headers
-   * @param el
-   */
-  private findRowIndex(el:HTMLElement):number {
-    const rows = Array.from(this.table.tbody.getElementsByClassName(tableRowClassName));
-    return rows.indexOf(el) || 0;
   }
 }
