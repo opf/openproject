@@ -39,6 +39,15 @@ import type {
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
+export interface WorkPackageAddedResult {
+  /**
+   * Whether the handler itself persisted this work package's membership in
+   * the target query. Action boards do; free boards rely on ordered work
+   * package persistence for membership.
+   */
+  membershipPersisted:boolean;
+}
+
 @Component({
   selector: 'wp-card-view',
   styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
@@ -75,7 +84,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public highlightingMode:CardHighlightingMode;
 
-  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
+  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<WorkPackageAddedResult>;
 
   @Input() public showStatusButton = true;
 

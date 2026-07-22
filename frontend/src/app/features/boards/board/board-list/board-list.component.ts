@@ -24,7 +24,10 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { Board } from 'core-app/features/boards/board/board';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import {
+  WorkPackageCardViewComponent,
+  type WorkPackageAddedResult,
+} from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
@@ -168,7 +171,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public initiallyFocused = false;
 
   /** Editing handler to be passed into card component */
-  public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
+  public workPackageAddedHandler = async (workPackage:WorkPackageResource):Promise<WorkPackageAddedResult> => {
+    await this.addWorkPackage(workPackage);
+
+    return { membershipPersisted: this.board.isAction };
+  };
 
   /** Move check to be passed into card component */
   public canDragOutOf = false;

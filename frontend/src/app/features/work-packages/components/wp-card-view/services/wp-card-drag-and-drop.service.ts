@@ -29,6 +29,15 @@ export class WorkPackageCardDragAndDropService {
 
   private _workPackages:WorkPackageResource[];
 
+  /**
+   * Bumped on every `workPackages` assignment. Lets an async continuation
+   * (rollback, source-failure refresh, background reconciliation) tell
+   * whether anything newer has landed since it captured its snapshot — an
+   * order-equality check alone cannot see a same-order refresh delivering
+   * fresher resource objects.
+   */
+  private orderRevision = 0;
+
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
@@ -58,6 +67,8 @@ export class WorkPackageCardDragAndDropService {
    * remembering to keep the active inline-create
    */
   public set workPackages(workPackages:WorkPackageResource[]) {
+    this.orderRevision += 1;
+
     if (this.activeInlineCreateWp) {
       const existingNewWp = this._workPackages.find((o) => isNewResource(o));
 
@@ -102,6 +113,16 @@ export class WorkPackageCardDragAndDropService {
   private currentOrderEquals(order:string[]):boolean {
     const current = this.currentOrder;
     return current.length === order.length && current.every((id, index) => id === order[index]);
+  }
+
+  /**
+   * True while no `workPackages` assignment has happened since `revision`
+   * was captured and the order still matches — the gate every rollback,
+   * source-failure refresh and background reconciliation batch checks
+   * before overwriting the (possibly fresher) current state.
+   */
+  private stillAt(revision:number, order:string[]):boolean {
+    return this.orderRevision === revision && this.currentOrderEquals(order);
   }
 
   /**
@@ -151,11 +172,13 @@ export class WorkPackageCardDragAndDropService {
   handleRemoved(event:SortableListsRemovedEvent):void {
     let before:string[];
     let optimistic:string[];
+    let revision:number;
 
     try {
       before = this.currentOrder;
       optimistic = before.filter((id) => id !== event.itemId);
       this.applyLocalOrder(optimistic);
+      revision = this.orderRevision;
     } catch (e) {
       // Guarantee settlement on a sync throw too, or the engine's busy flag never clears.
       this.notificationService.handleRawError(e);
@@ -170,8 +193,15 @@ export class WorkPackageCardDragAndDropService {
           // undo the target's already-completed insert.
           await this.reorderService
             .removePersisted(before, event.itemId)
-            .catch((e) => this.refreshAfterSourceFailure(e));
-        } else if (this.currentOrderEquals(optimistic)) {
+            .catch((e) => {
+              // Failure is always reported; the refresh fallback only fires if
+              // nothing fresher (e.g. a results update) has landed meanwhile.
+              this.notificationService.handleRawError(e);
+              if (this.stillAt(revision, optimistic)) {
+                this.applyLocalOrder(this.reorderService.orderedWorkPackages().map((wp) => wp.id!));
+              }
+            });
+        } else if (this.stillAt(revision, optimistic)) {
           // Target rejected: restore, but only if nothing fresher (e.g. a
           // results update) has since changed the local order.
           this.applyLocalOrder(before);
@@ -181,6 +211,7 @@ export class WorkPackageCardDragAndDropService {
   }
 
   private async persistMove(before:string[], after:string[], event:SortableListsDropEvent):Promise<void> {
+    const revision = this.orderRevision;
     let success = false;
 
     try {
@@ -190,10 +221,12 @@ export class WorkPackageCardDragAndDropService {
       await this.reorderService.move([...before], event.sourceId, toIndex);
       this.cardView.onMoved.emit();
       success = true;
-      void this.updateOrder(after);
+      void this.updateOrder(after, revision);
     } catch (e) {
       this.notificationService.handleRawError(e);
-      this.applyLocalOrder(before);
+      if (this.stillAt(revision, after)) {
+        this.applyLocalOrder(before);
+      }
     } finally {
       event.complete(success);
     }
@@ -209,7 +242,7 @@ export class WorkPackageCardDragAndDropService {
 
       const toIndex = this.insertionIndexFor(this.currentOrder, event.targetId, event.edge);
       void this
-        .addWorkPackageToQuery(workPackage, toIndex)
+        .addWorkPackageToQuery(workPackage, toIndex, true)
         .then((success) => event.complete(success))
         .catch((e) => {
           this.notificationService.handleRawError(e);
@@ -236,16 +269,14 @@ export class WorkPackageCardDragAndDropService {
     return edge === 'bottom' || edge === 'right' ? index + 1 : index;
   }
 
-  private refreshAfterSourceFailure(e:unknown):void {
-    this.notificationService.handleRawError(e);
-    this.applyLocalOrder(this.reorderService.orderedWorkPackages().map((wp) => wp.id!));
-  }
-
   /**
    * Update current order from the API (background reconciliation only —
-   * never a prerequisite for rendering the optimistic local order).
+   * never a prerequisite for rendering the optimistic local order). Discards
+   * the fetched batch if anything newer has landed since `revision` was
+   * captured, and reports its own fetch failures rather than leaving them
+   * an unhandled rejection.
    */
-  private updateOrder(newOrder:string[]) {
+  private updateOrder(newOrder:string[], revision:number) {
     newOrder = Array.from(new Set(newOrder));
 
     Promise
@@ -256,12 +287,13 @@ export class WorkPackageCardDragAndDropService {
         .get()
         .toPromise()))
       .then((workPackages:WorkPackageResource[]) => {
-        if (this.destroyed) {
+        if (this.destroyed || !this.stillAt(revision, newOrder)) {
           return;
         }
         this.workPackages = workPackages;
         this.cardView.cdRef.detectChanges();
-      });
+      })
+      .catch((e) => this.notificationService.handleRawError(e));
   }
 
   /**
@@ -278,29 +310,61 @@ export class WorkPackageCardDragAndDropService {
   }
 
   /**
-   * Add the given work package to the query: applied to the view
-   * optimistically, rolled back on a persistence failure.
+   * Add the given work package to the query.
+   *
+   * With `optimistic` (the cross-list drag path, whose source side is also
+   * removed optimistically) the card renders before persistence and rolls
+   * back on failure. Without it (the autocomplete/reference path, where the
+   * source list keeps its card until the board attribute PATCH lands) the
+   * card only renders once `workPackageAddedHandler` has persisted —
+   * rendering earlier would show the card in both lists.
    */
-  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1):Promise<boolean> {
-    const before = this.currentOrder;
-    const insertIndex = toIndex === -1 ? before.length : toIndex;
-    const after = [...before];
-    after.splice(insertIndex, 0, workPackage.id!);
+  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1, optimistic = false):Promise<boolean> {
+    const insertionOrder = () => {
+      const before = this.currentOrder.filter((id) => id !== workPackage.id);
+      const insertIndex = toIndex === -1 ? before.length : toIndex;
+      const after = [...before];
+      after.splice(insertIndex, 0, workPackage.id!);
+
+      return { before, after, insertIndex };
+    };
+    let { before, after, insertIndex } = insertionOrder();
 
     this.states.workPackages.get(workPackage.id!).putValue(workPackage);
-    this.applyLocalOrder(after);
+    if (optimistic) {
+      this.applyLocalOrder(after);
+    }
+    let revision = this.orderRevision;
+    let membershipPersisted:boolean;
 
     try {
-      await this.cardView.workPackageAddedHandler(workPackage);
+      const result = await this.cardView.workPackageAddedHandler(workPackage);
+      membershipPersisted = result.membershipPersisted;
+      if (!optimistic) {
+        ({ before, after, insertIndex } = insertionOrder());
+        this.applyLocalOrder(after);
+        revision = this.orderRevision;
+      }
+    } catch (e) {
+      this.notificationService.handleRawError(e, workPackage);
+      if (this.stillAt(revision, after)) {
+        this.applyLocalOrder(before);
+      }
+      return false;
+    }
+
+    try {
       // Defensive copy: `add` mutates its `order` arg in place, and `before`
       // is the rollback reference on failure below.
       await this.reorderService.add([...before], workPackage.id!, insertIndex);
-      void this.updateOrder(after);
+      void this.updateOrder(after, revision);
       return true;
     } catch (e) {
       this.notificationService.handleRawError(e, workPackage);
-      this.applyLocalOrder(before);
-      return false;
+      if (!membershipPersisted && this.stillAt(revision, after)) {
+        this.applyLocalOrder(before);
+      }
+      return membershipPersisted;
     }
   }
 
@@ -320,7 +384,8 @@ export class WorkPackageCardDragAndDropService {
 
     if (!isNewResource(wp)) {
       const newOrder = this.reorderService.remove(this.currentOrder, wp.id!);
-      this.updateOrder(newOrder);
+      const revision = this.orderRevision;
+      this.updateOrder(newOrder, revision);
     }
   }
 
@@ -333,9 +398,25 @@ export class WorkPackageCardDragAndDropService {
     if (index !== -1) {
       this.activeInlineCreateWp = undefined;
 
-      // Add this item to the results
-      const newOrder = await this.reorderService.add(this.currentOrder, wp.id!, index);
-      this.updateOrder(newOrder);
+      const before = this.currentOrder;
+      const newOrder = [...before];
+      newOrder.splice(index, 0, wp.id!);
+
+      // Replace the synthetic `new` card with the persisted resource
+      // synchronously: `updateOrder`'s guard compares against the rendered
+      // order, which must already contain the persisted id or the fetched
+      // batch would always be discarded.
+      this.states.workPackages.get(wp.id!).putValue(wp);
+      this.applyLocalOrder(newOrder);
+      const revision = this.orderRevision;
+
+      try {
+        // Defensive copy: `add` mutates its `order` arg in place.
+        await this.reorderService.add([...before], wp.id!, index);
+        void this.updateOrder(newOrder, revision);
+      } catch (e) {
+        this.notificationService.handleRawError(e, wp);
+      }
 
       // Notify inline create service
       this.wpInlineCreate.newInlineWorkPackageCreated.next(wp.id!);

@@ -31,6 +31,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Observable, of, throwError } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
@@ -39,7 +40,10 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import {
+  WorkPackageCardViewComponent,
+  type WorkPackageAddedResult,
+} from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import {
   NativeDragSimulation,
   towardsEdgeOf,
@@ -80,6 +84,19 @@ function deferred<T>():{ promise:Promise<T>; resolve:(value:T) => void; reject:(
 // hops is fragile against chain length changes; a macrotask boundary is not).
 function flush():Promise<void> {
   return new Promise((resolve) => { setTimeout(resolve, 0); });
+}
+
+// An Observable that only emits once its per-id resolver is invoked — used to
+// prove a stale `updateOrder` reconciliation batch is discarded rather than
+// applied. One deferred PER id: a single shared resolver would be overwritten
+// by the last `id()` call and leave the batch's `Promise.all` pending forever.
+function deferredObservableFor(id:string, resolvers:Map<string, () => void>):Observable<WorkPackageResource> {
+  return new Observable<WorkPackageResource>((subscriber) => {
+    resolvers.set(id, () => {
+      subscriber.next(buildWp(id));
+      subscriber.complete();
+    });
+  });
 }
 
 // Mirrors WorkPackageViewOrderService#move/#add mutating `order` in place —
@@ -156,6 +173,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     orderedWorkPackages:ReturnType<typeof vi.fn>;
   };
   let notificationStub:{ handleRawError:ReturnType<typeof vi.fn> };
+  let apiV3ServiceStub:{ work_packages:{ id:ReturnType<typeof vi.fn> } };
   let cardView:{
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
@@ -176,6 +194,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       orderedWorkPackages: vi.fn().mockReturnValue([]),
     };
     notificationStub = { handleRawError: vi.fn() };
+    apiV3ServiceStub = { work_packages: { id: vi.fn((id:string) => ({ get: () => of(buildWp(id)) })) } };
 
     await TestBed.configureTestingModule({
       providers: [
@@ -184,7 +203,7 @@ describe('WorkPackageCardDragAndDropService', () => {
         { provide: WorkPackageNotificationService, useValue: notificationStub },
         { provide: WorkPackageCreateService, useValue: { createOrContinueWorkPackage: vi.fn() } },
         { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: { next: vi.fn() } } },
-        { provide: ApiV3Service, useValue: { work_packages: { id: (id:string) => ({ get: () => ({ toPromise: () => Promise.resolve(buildWp(id)) }) }) } } },
+        { provide: ApiV3Service, useValue: apiV3ServiceStub },
         { provide: CurrentProjectService, useValue: { identifier: 'test-project' } },
         WorkPackageCardDragAndDropService,
       ],
@@ -196,7 +215,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     cardView = {
       cdRef: { detectChanges: vi.fn() },
       onMoved: { emit: vi.fn() },
-      workPackageAddedHandler: vi.fn().mockResolvedValue(undefined),
+      workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
       resolvedListId: LIST_ID,
     };
     service.init(cardView as unknown as WorkPackageCardViewComponent);
@@ -296,9 +315,41 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(complete).toHaveBeenCalledWith(false);
     });
 
+    it('does not roll back a failed move when a refresh changed the order meanwhile', async () => {
+      let rejectMove!:(e:unknown) => void;
+      reorderServiceStub.move.mockReturnValue(new Promise((_resolve, reject) => { rejectMove = reject; }));
+      const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
+
+      service.handleDrop(event);
+      // A refresh landed while the move was still in flight, with a
+      // different order than the optimistic one.
+      service.workPackages = ['b', 'c', 'a', 'd'].map(buildWp);
+
+      rejectMove(new Error('move failed'));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['b', 'c', 'a', 'd']);
+    });
+
+    it('does not roll back after a same-order refresh either (revision guard)', async () => {
+      let rejectMove!:(e:unknown) => void;
+      reorderServiceStub.move.mockReturnValue(new Promise((_resolve, reject) => { rejectMove = reject; }));
+      const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
+
+      service.handleDrop(event);
+      // Same order as the optimistic one, but fresher resource objects — an
+      // order-equality check alone cannot see this, hence the revision token.
+      service.workPackages = ['b', 'c', 'a'].map(buildWp);
+
+      rejectMove(new Error('move failed'));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['b', 'c', 'a']);
+    });
+
     it('does not reconcile from the API when persistence fails', async () => {
       const updateOrderSpy = vi
-        .spyOn(service as unknown as { updateOrder(order:string[]):void }, 'updateOrder')
+        .spyOn(service as unknown as { updateOrder(order:string[], revision:number):void }, 'updateOrder')
         .mockImplementation(():void => undefined);
       mockRejectAfterMutating(reorderServiceStub.move, mutateMove, new Error('move failed'));
       const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
@@ -311,19 +362,50 @@ describe('WorkPackageCardDragAndDropService', () => {
 
     it('reconciles from the API with the optimistic order once persistence succeeds', async () => {
       const updateOrderSpy = vi
-        .spyOn(service as unknown as { updateOrder(order:string[]):void }, 'updateOrder')
+        .spyOn(service as unknown as { updateOrder(order:string[], revision:number):void }, 'updateOrder')
         .mockImplementation(():void => undefined);
       const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
 
       service.handleDrop(event);
       await flush();
 
-      expect(updateOrderSpy).toHaveBeenCalledWith(['b', 'c', 'a']);
+      expect(updateOrderSpy).toHaveBeenCalledWith(['b', 'c', 'a'], expect.any(Number));
+    });
+
+    it('drops a stale updateOrder reconciliation batch', async () => {
+      const resolvers = new Map<string, () => void>();
+      apiV3ServiceStub.work_packages.id.mockImplementation((id:string) => ({
+        get: () => deferredObservableFor(id, resolvers),
+      }));
+      const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
+
+      service.handleDrop(event);
+      await flush(); // persist settles, updateOrder's fetches are now pending
+
+      // A fresher refresh replaces the list before the background fetches resolve.
+      service.workPackages = ['x', 'y'].map(buildWp);
+
+      resolvers.forEach((resolve) => resolve());
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['x', 'y']); // stale batch discarded
+    });
+
+    it('surfaces an updateOrder fetch failure instead of an unhandled rejection', async () => {
+      apiV3ServiceStub.work_packages.id.mockImplementation(() => ({
+        get: () => throwError(() => new Error('fetch failed')),
+      }));
+      const event = buildDropEvent({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
+
+      service.handleDrop(event);
+      await flush();
+
+      expect(notificationStub.handleRawError).toHaveBeenCalled();
     });
 
     it('does not reconcile from the API on a same-reference no-op', () => {
       const updateOrderSpy = vi
-        .spyOn(service as unknown as { updateOrder(order:string[]):void }, 'updateOrder')
+        .spyOn(service as unknown as { updateOrder(order:string[], revision:number):void }, 'updateOrder')
         .mockImplementation(():void => undefined);
       const event = buildDropEvent({ sourceId: 'c', targetId: null });
 
@@ -368,14 +450,14 @@ describe('WorkPackageCardDragAndDropService', () => {
       seed('x');
       service.workPackages = [];
       const updateOrderSpy = vi
-        .spyOn(service as unknown as { updateOrder(order:string[]):void }, 'updateOrder')
+        .spyOn(service as unknown as { updateOrder(order:string[], revision:number):void }, 'updateOrder')
         .mockImplementation(():void => undefined);
       const event = buildDropEvent({ sourceId: 'x', sourceListId: 'source-list', targetId: null });
 
       service.handleDrop(event);
       await flush();
 
-      expect(updateOrderSpy).toHaveBeenCalledWith(['x']);
+      expect(updateOrderSpy).toHaveBeenCalledWith(['x'], expect.any(Number));
     });
 
     it('inserts before/after the target item according to the edge', () => {
@@ -414,7 +496,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       service.workPackages = [];
       cardView.workPackageAddedHandler.mockRejectedValue(new Error('add failed'));
       const updateOrderSpy = vi
-        .spyOn(service as unknown as { updateOrder(order:string[]):void }, 'updateOrder')
+        .spyOn(service as unknown as { updateOrder(order:string[], revision:number):void }, 'updateOrder')
         .mockImplementation(():void => undefined);
       const event = buildDropEvent({ sourceId: 'x', sourceListId: 'source-list', targetId: null });
 
@@ -445,6 +527,66 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(complete).toHaveBeenCalledWith(false);
     });
 
+    it('keeps an action-board insert and completes true when only order persistence fails', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      const addError = new Error('add persistence failed');
+      reorderServiceStub.add.mockRejectedValue(addError);
+      const complete = vi.fn();
+      const event = buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top', complete,
+      });
+
+      service.handleDrop(event);
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
+      expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(complete).toHaveBeenCalledWith(true);
+    });
+
+    it('does not roll back a failed add when a refresh changed the order meanwhile', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      let rejectAdd!:(e:unknown) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      const event = buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top',
+      });
+
+      service.handleDrop(event);
+      await flush(); // let the synchronous workPackageAddedHandler await settle
+      // A refresh landed while the add was still in flight, with a
+      // different order than the optimistic one.
+      service.workPackages = ['m', 'n'].map(buildWp);
+
+      rejectAdd(new Error('add failed'));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['m', 'n']);
+    });
+
+    it('does not roll back an add after a same-order refresh either (revision guard)', async () => {
+      seed('x', 'p', 'q');
+      service.workPackages = ['p', 'q'].map(buildWp);
+      let rejectAdd!:(e:unknown) => void;
+      reorderServiceStub.add.mockReturnValue(new Promise((_resolve, reject) => { rejectAdd = reject; }));
+      const event = buildDropEvent({
+        sourceId: 'x', sourceListId: 'source-list', targetId: 'q', edge: 'top',
+      });
+
+      service.handleDrop(event);
+      await flush();
+      // Same order as the optimistic one, but fresher resource objects.
+      service.workPackages = ['p', 'x', 'q'].map(buildWp);
+
+      rejectAdd(new Error('add failed'));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
+    });
+
     it('completes false without inserting when the source id cannot be resolved from States', () => {
       service.workPackages = [];
       const complete = vi.fn();
@@ -471,6 +613,131 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(complete).toHaveBeenCalledWith(false);
       getSpy.mockRestore();
+    });
+  });
+
+  describe('addWorkPackageToQuery — reference path (non-optimistic)', () => {
+    beforeEach(() => {
+      seed('a', 'x');
+      service.workPackages = [buildWp('a')];
+    });
+
+    it('renders the card only after workPackageAddedHandler has persisted', async () => {
+      const handler = deferred<WorkPackageAddedResult>();
+      cardView.workPackageAddedHandler.mockReturnValue(handler.promise);
+
+      const result = service.addWorkPackageToQuery(buildWp('x'), 0);
+
+      // Not optimistic: the reference path has no source-side removal, so
+      // rendering before the board attribute PATCH lands would show the
+      // card in both lists.
+      expect(idsOf(service.workPackages)).toEqual(['a']);
+
+      handler.resolve({ membershipPersisted: false });
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['x', 'a']);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a'], 'x', 0);
+      await expect(result).resolves.toBe(true);
+    });
+
+    it('inserts into the latest order when a refresh lands while the handler is pending', async () => {
+      const handler = deferred<WorkPackageAddedResult>();
+      cardView.workPackageAddedHandler.mockReturnValue(handler.promise);
+
+      const result = service.addWorkPackageToQuery(buildWp('x'), 0);
+
+      seed('b');
+      service.workPackages = ['a', 'b'].map(buildWp);
+      handler.resolve({ membershipPersisted: false });
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['x', 'a', 'b']);
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], 'x', 0);
+      await expect(result).resolves.toBe(true);
+    });
+
+    it('does not render at all when the handler rejects', async () => {
+      cardView.workPackageAddedHandler.mockRejectedValue(new Error('add failed'));
+
+      const result = await service.addWorkPackageToQuery(buildWp('x'), 0);
+
+      expect(result).toBe(false);
+      expect(idsOf(service.workPackages)).toEqual(['a']);
+      expect(notificationStub.handleRawError).toHaveBeenCalled();
+    });
+
+    it('keeps an action-board card when membership persists but order persistence fails', async () => {
+      cardView.workPackageAddedHandler.mockResolvedValue({ membershipPersisted: true });
+      const addError = new Error('add persistence failed');
+      reorderServiceStub.add.mockRejectedValue(addError);
+
+      const result = await service.addWorkPackageToQuery(buildWp('x'), 0);
+
+      expect(result).toBe(true);
+      expect(idsOf(service.workPackages)).toEqual(['x', 'a']);
+      expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+    });
+  });
+
+  describe('onCardSaved — inline-create reconciliation', () => {
+    beforeEach(() => {
+      seed('a', 'b');
+      service.workPackages = ['a', 'b'].map(buildWp);
+      service.activeInlineCreateWp = buildWp('new');
+      // Re-assign so the setter prepends the active inline-create card, as
+      // the card view's results subscription does in production.
+      service.workPackages = ['a', 'b'].map(buildWp);
+    });
+
+    it('replaces the synthetic card synchronously and persists the insert at its position', async () => {
+      await service.onCardSaved(buildWp('42'));
+
+      expect(idsOf(service.workPackages)).toEqual(['42', 'a', 'b']);
+      expect(service.activeInlineCreateWp).toBeUndefined();
+      expect(reorderServiceStub.add).toHaveBeenCalledWith(['a', 'b'], '42', 0);
+    });
+
+    it('applies the background reconciliation batch (the guard order contains the persisted id)', async () => {
+      apiV3ServiceStub.work_packages.id.mockImplementation((id:string) => ({
+        get: () => of({ ...buildWp(id), fetched: true } as unknown as WorkPackageResource),
+      }));
+
+      await service.onCardSaved(buildWp('42'));
+      await flush();
+
+      expect(idsOf(service.workPackages)).toEqual(['42', 'a', 'b']);
+      expect((service.workPackages[0] as unknown as { fetched?:boolean }).fetched).toBe(true);
+    });
+
+    it('notifies the inline-create service of the persisted id', async () => {
+      const inlineCreate = TestBed.inject(WorkPackageInlineCreateService) as unknown as {
+        newInlineWorkPackageCreated:{ next:ReturnType<typeof vi.fn> };
+      };
+
+      await service.onCardSaved(buildWp('42'));
+
+      expect(inlineCreate.newInlineWorkPackageCreated.next).toHaveBeenCalledWith('42');
+    });
+
+    it('keeps the replaced card rendered and reports the error when order persistence fails', async () => {
+      const addError = new Error('add failed');
+      reorderServiceStub.add.mockRejectedValue(addError);
+
+      await service.onCardSaved(buildWp('42'));
+
+      expect(idsOf(service.workPackages)).toEqual(['42', 'a', 'b']);
+      expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+    });
+
+    it('does nothing without an active synthetic card', async () => {
+      service.activeInlineCreateWp = undefined;
+      service.workPackages = ['a', 'b'].map(buildWp);
+
+      await service.onCardSaved(buildWp('42'));
+
+      expect(reorderServiceStub.add).not.toHaveBeenCalled();
+      expect(idsOf(service.workPackages)).toEqual(['a', 'b']);
     });
   });
 
@@ -526,6 +793,22 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(finalize).toHaveBeenCalledTimes(1);
     });
 
+    it('skips the source-refresh fallback when a newer state already landed', async () => {
+      const removeError = new Error('remove failed');
+      reorderServiceStub.removePersisted.mockRejectedValue(removeError);
+      const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(true) });
+
+      service.handleRemoved(event);
+      // A fresher refresh landed before the target's completion promise (and
+      // thus the removePersisted rejection) resolved.
+      service.workPackages = ['x', 'y'].map(buildWp);
+
+      await flush();
+
+      expect(notificationStub.handleRawError).toHaveBeenCalledWith(removeError); // failure still reported
+      expect(idsOf(service.workPackages)).toEqual(['x', 'y']); // refresh not overwritten
+    });
+
     it('restores the local order with no compensating API call when the target rejects', async () => {
       const finalize = vi.fn();
       const event = buildRemovedEvent({ itemId: 'a', completion: Promise.resolve(false), finalize });
@@ -536,6 +819,26 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(idsOf(service.workPackages)).toEqual(['a', 'b']);
       expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
       expect(finalize).toHaveBeenCalledTimes(1);
+    });
+
+    it('skips restoring after a same-order refresh either (revision guard)', async () => {
+      const completion = deferred<boolean>();
+      const event = buildRemovedEvent({ itemId: 'a', completion: completion.promise });
+
+      service.handleRemoved(event);
+      expect(idsOf(service.workPackages)).toEqual(['b']);
+
+      // Same order as the optimistic removal (['b']), but a fresher refresh —
+      // an order-equality check alone cannot tell this apart from the
+      // optimistic snapshot it captured, so it would wrongly roll back to
+      // `before` (['a', 'b']) here. The revision guard can tell them apart.
+      service.workPackages = ['b'].map(buildWp);
+
+      completion.resolve(false);
+      await flush();
+
+      expect(reorderServiceStub.removePersisted).not.toHaveBeenCalled();
+      expect(idsOf(service.workPackages)).toEqual(['b']);
     });
 
     it('skips restoring when a fresher order already changed the list mid-flight', async () => {
