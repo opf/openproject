@@ -36,9 +36,11 @@ module WorkPackageTypes
   # seeding result is aggregated with the severing, so a failed seed leaves the
   # link untouched.
   class SwitchToIndependentModeService
-    # Writes the blank configuration for the EMPTY mode, per aspect.
+    # How the EMPTY mode blanks each aspect.
+    # Column-backed aspects assign blank values, association-backed aspects delete their rows.
     EMPTY_CONFIGURATION = {
       Type::ConfigurationLink::DEFAULTS => ->(type) { type.update!(patterns: {}, description: nil) },
+      Type::ConfigurationLink::WORKFLOWS => ->(type) { type.own_workflows.destroy_all },
       Type::ConfigurationLink::PROJECT_ATTRIBUTES => ->(type) { type.own_project_custom_field_type_mappings.delete_all }
     }.freeze
 
