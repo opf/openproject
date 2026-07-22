@@ -30,14 +30,17 @@
 
 module OpenProject
   module ActiveRecordExtensions
+    # An Arel SelectManager whose statement is a ProviderStatement. Arel sheds a
+    # plain SelectManager when it is embedded in a join or subselect, so the CTE
+    # name, params and body are carried on the statement node, which survives.
     class ProviderManager < Arel::SelectManager
       attr_accessor :provided_cte
 
-      # TODO: is the ProviderStatement still necesary?
-      # Probably is since arel seems to shed the ProviderManager
-      # upon joining/subselect of this.
-      def initialize(cte_name) # rubocop:disable Lint/MissingSuper
-        @ast = OpenProject::ActiveRecordExtensions::ProviderStatement.new(cte_name)
+      def initialize(cte_name, params = {}, body = nil)
+        super()
+
+        # Replace the parent's SelectStatement with a ProviderStatement holding the CTE name, params and body.
+        @ast = OpenProject::ActiveRecordExtensions::ProviderStatement.new(cte_name, params, body)
         @ctx = @ast.cores.last
       end
     end

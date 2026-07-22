@@ -60,6 +60,12 @@ module WorkPackages::SpentTime
   # Especially, `pluck` and `except(:select)` need to be avoided.
   # This is because the visibility check is carried out on the sum aliased as `hours`
   def compute_spent_hours(user)
-    WorkPackage.include_spent_time(user, self).first&.hours
+    scope = OpenProject::ActiveRecordExtensions::CteCollector
+              .collect(WorkPackage.include_spent_time(user, self))
+
+    # `take` rather than `first`, because the collapsed scope reads from a FROM-subquery
+    # that projects only `hours`, and ordering by `id` would reference a column it does
+    # not expose. Either way exactly one row is returned, the scope being filtered by id.
+    scope.take&.hours
   end
 end
