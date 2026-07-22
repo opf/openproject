@@ -60,7 +60,7 @@ RSpec.describe RootSeeder,
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      expect(Query.count).to eq 28
+      expect(Query.count).to eq 30
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
@@ -353,7 +353,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
         expect(View.where(type: "gantt").count).to eq 2
-        expect(Query.count).to eq 28
+        expect(Query.count).to eq 30
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2
