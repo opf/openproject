@@ -28,6 +28,7 @@
 
 import { Component, signal, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   NativeDragSimulation,
   towardsEdgeOf,
@@ -40,12 +41,32 @@ import {
   type SortableListsRemovedEvent,
 } from './sortable-lists.directive';
 
+// Deliberately does NOT `vi.mock` Pragmatic's autoscroll module: under the
+// repo's `isolate:false` vitest config, spec files share a module registry
+// within a worker, and this specifier is also `vi.mock`-ed (independently)
+// by `sortable-lists-engine.spec.ts` for its own, unrelated engine-level
+// tests. Two spec files independently mocking the same specifier crashes the
+// shared worker (an unhandled "error when mocking a module" rejection,
+// reproducible regardless of factory shape); the mock is also effectively
+// global for the whole worker once registered, so even a "compatible" mock
+// here would fight with that file's synthetic (non-real) replacement in
+// combined runs. Instead this suite observes the REAL implementation's own
+// documented side effects directly:
+//   - the scroll-fallback tests below assert on `data-auto-scrollable`, the
+//     attribute Pragmatic's real `autoScrollForElements` sets on registration
+//     and removes on cleanup (see `@atlaskit/pragmatic-drag-and-drop-auto-scroll`'s
+//     `addScrollableAttribute`) — no interception needed to observe it.
+//   - the `opSortableListsScrollContainer` suite further down already spies
+//     on `console.warn` directly to see the real "not scrollable" warning.
+const SCROLLABLE_ATTR = 'data-auto-scrollable';
+
 // Behavioral suite for the directive group: scope resolution (collapsed vs.
 // explicit lists, nested roots), the cross-list removed/drop ordering
 // contract, and the completion/finalize → busy lifecycle. Single-root
 // mechanics live in `sortable-lists.directive.spec.ts`.
 
 describe('sortable-lists directive group behavior', () => {
+
   describe('single-list collapse (implicit list)', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsItemDirective],
@@ -102,7 +123,9 @@ describe('sortable-lists directive group behavior', () => {
       await simulation.drop(item(2), towardsEdgeOf(item(2), 'bottom'));
 
       expect(host.drops).toHaveLength(1);
-      expect(host.drops[0]).toMatchObject({ sourceId: 'a', targetId: 'c', edge: 'bottom' });
+      expect(host.drops[0]).toMatchObject({
+        sourceId: 'a', targetId: 'c', edge: 'bottom', axis: 'vertical',
+      });
       expect(root().hasAttribute('data-sortable-lists-busy')).toBe(true);
 
       host.drops[0].complete(true);
@@ -741,6 +764,168 @@ describe('sortable-lists directive group behavior', () => {
       } finally {
         warn.mockRestore();
       }
+    });
+  });
+
+  describe('opSortableListsAxis', () => {
+    // The engine captures the placement axis once, at root creation (see
+    // `createSortableRoot`), so a horizontal vs. default root needs two
+    // separate directive instances — a signal input flip on one instance
+    // cannot retroactively change what its engine root was created with.
+
+    // Fixed-width inline chips so a horizontal drag resolves a left/right
+    // edge — a vertical-axis layout (block rows) would never produce one.
+    @Component({
+      imports: [OpSortableListsDirective, OpSortableListsItemDirective],
+      template: `
+        <div
+          class="root"
+          opSortableLists
+          [opSortableListsAxis]="'horizontal'"
+          (opSortableListsDrop)="drops.push($event)"
+          style="white-space: nowrap;"
+        >
+          @for (id of ids(); track id) {
+            <div
+              class="item"
+              [opSortableListsItem]="id"
+              style="display: inline-block; width: 40px; height: 20px;"
+            >{{ id }}</div>
+          }
+        </div>
+      `,
+    })
+    class HorizontalAxisHostComponent {
+      ids = signal(['a', 'b']);
+
+      drops:SortableListsDropEvent[] = [];
+    }
+
+    @Component({
+      imports: [OpSortableListsDirective, OpSortableListsItemDirective],
+      template: `
+        <div class="root" opSortableLists (opSortableListsDrop)="drops.push($event)">
+          @for (id of ids(); track id) {
+            <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+          }
+        </div>
+      `,
+    })
+    class DefaultAxisHostComponent {
+      ids = signal(['a', 'b']);
+
+      drops:SortableListsDropEvent[] = [];
+    }
+
+    function item(fixture:ComponentFixture<unknown>, index:number):HTMLElement {
+      return (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('.item')[index];
+    }
+
+    it("emits drop events with the root's horizontal placement axis", async () => {
+      await TestBed.configureTestingModule({ imports: [HorizontalAxisHostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(HorizontalAxisHostComponent);
+      const host = fixture.componentInstance;
+      fixture.detectChanges();
+
+      const simulation = new NativeDragSimulation(item(fixture, 0));
+      await simulation.start();
+      await simulation.drop(item(fixture, 1), towardsEdgeOf(item(fixture, 1), 'right'));
+
+      expect(host.drops).toHaveLength(1);
+      expect(host.drops[0]).toMatchObject({ axis: 'horizontal' });
+    });
+
+    it('a default root (no axis input) emits vertical', async () => {
+      await TestBed.configureTestingModule({ imports: [DefaultAxisHostComponent] }).compileComponents();
+      const fixture = TestBed.createComponent(DefaultAxisHostComponent);
+      const host = fixture.componentInstance;
+      fixture.detectChanges();
+
+      const simulation = new NativeDragSimulation(item(fixture, 0));
+      await simulation.start();
+      await simulation.drop(item(fixture, 1), towardsEdgeOf(item(fixture, 1), 'bottom'));
+
+      expect(host.drops).toHaveLength(1);
+      expect(host.drops[0]).toMatchObject({ axis: 'vertical' });
+    });
+  });
+
+  describe('explicit-list scroll-container fallback', () => {
+    // Three explicit lists sharing one root: `list-scrollable` is itself a
+    // valid scroll target; `list-a`/`list-b` are not and share the same
+    // scrollable ancestor — proving both the per-list fallback and the
+    // engine's root-level dedupe (one live registration for the shared
+    // ancestor, not two).
+    @Component({
+      imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
+      template: `
+        <div
+          class="scrollable-list"
+          opSortableLists
+          opSortableListsList
+          style="overflow: auto; height: 100px;"
+        >
+          <div class="item" opSortableListsItem="s1" style="height: 40px; width: 200px;">s1</div>
+        </div>
+
+        <div class="ancestor" style="overflow: auto; height: 200px;">
+          <div class="root" opSortableLists>
+            <div class="list-a" opSortableListsList opSortableListsListId="list-a">
+              <div class="item" opSortableListsItem="a1" style="height: 40px; width: 200px;">a1</div>
+            </div>
+            <div class="list-b" opSortableListsList opSortableListsListId="list-b">
+              <div class="item" opSortableListsItem="b1" style="height: 40px; width: 200px;">b1</div>
+            </div>
+          </div>
+        </div>
+      `,
+    })
+    class ScrollFallbackHostComponent {}
+
+    let fixture:ComponentFixture<ScrollFallbackHostComponent>;
+    let warn:ReturnType<typeof vi.spyOn>;
+
+    beforeEach(async () => {
+      warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      await TestBed.configureTestingModule({ imports: [ScrollFallbackHostComponent] }).compileComponents();
+      fixture = TestBed.createComponent(ScrollFallbackHostComponent);
+      fixture.detectChanges();
+    });
+
+    afterEach(() => { warn.mockRestore(); });
+
+    function elementFor(selector:string):Element {
+      return (fixture.nativeElement as HTMLElement).querySelector(selector)!;
+    }
+
+    it('a scrollable explicit list registers itself as its own scroll container', () => {
+      const scrollableList = elementFor('.scrollable-list');
+      expect(scrollableList.hasAttribute(SCROLLABLE_ATTR)).toBe(true);
+    });
+
+    it('a non-scrollable explicit list registers its nearest scrollable ancestor', () => {
+      const ancestor = elementFor('.ancestor');
+      const listA = elementFor('.list-a');
+
+      expect(listA.hasAttribute(SCROLLABLE_ATTR)).toBe(false);
+      expect(ancestor.hasAttribute(SCROLLABLE_ATTR)).toBe(true);
+    });
+
+    it('two non-scrollable sibling lists sharing one ancestor yield one live registration', () => {
+      const ancestor = elementFor('.ancestor');
+      expect(ancestor.hasAttribute(SCROLLABLE_ATTR)).toBe(true);
+
+      // The engine's own dedupe (`scrollRegistrations`, keyed by element in
+      // `sortable-lists-engine.ts`) acquires the shared ancestor once and
+      // unions axes on top of the existing registration rather than
+      // registering it again. Pragmatic's real implementation warns via
+      // console.warn when the same element is registered twice without an
+      // intervening cleanup, so that warning's absence confirms there is
+      // exactly one live registration on the ancestor, not two.
+      const warnedTwice = (warn.mock.calls as unknown[][]).some(
+        (call) => typeof call[0] === 'string' && call[0].includes('already registered'),
+      );
+      expect(warnedTwice).toBe(false);
     });
   });
 });

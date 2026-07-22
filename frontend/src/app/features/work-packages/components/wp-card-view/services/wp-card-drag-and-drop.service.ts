@@ -126,7 +126,7 @@ export class WorkPackageCardDragAndDropService {
         sourceId: event.sourceId,
         targetId: event.targetId,
         closestEdge: event.edge,
-        axis: 'vertical',
+        axis: event.axis,
       });
 
       if (after === before) {
@@ -233,7 +233,7 @@ export class WorkPackageCardDragAndDropService {
       return -1;
     }
 
-    return edge === 'bottom' ? index + 1 : index;
+    return edge === 'bottom' || edge === 'right' ? index + 1 : index;
   }
 
   private refreshAfterSourceFailure(e:unknown):void {

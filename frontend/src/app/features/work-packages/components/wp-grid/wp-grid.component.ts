@@ -42,6 +42,8 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
   selector: 'wp-grid',
   template: `
     <wp-card-view opSortableLists
+      [opSortableListsAxis]="'horizontal'"
+      [opSortableListsAutoScrollAxis]="'all'"
       [dragOutOfHandler]="canDragOutOf"
       [dragInto]="dragInto"
       [cardsRemovable]="false"

@@ -59,6 +59,7 @@ export interface SortableDropIntent {
   targetListId:string;
   targetItemId:string|null;   // null = container drop → append
   edge:Edge|null;
+  axis:SortableAxis;          // the root's placement axis, captured at creation
 }
 
 export interface SortableDropTransaction {
@@ -77,6 +78,10 @@ export type PreviewFactory = (args:{
 export interface SortableRootOptions {
   element:HTMLElement;
   axis?:SortableAxis;               // default 'vertical'
+  // Independent from the placement axis above: a wrapped-grid root can place
+  // items horizontally while still only auto-scrolling its vertical page
+  // scroller. Defaults to the placement axis when unset.
+  autoScrollAxis?:AutoScrollAllowedAxis;
   preview?:'native'|PreviewFactory; // default 'native'
   onDragStarted?:(source:SortableSource) => void;
   onCancel?:(source:SortableSource) => void;
@@ -114,6 +119,7 @@ interface UnionRect {
 export function createSortableRoot(options:SortableRootOptions):SortableRoot {
   const axis = options.axis ?? 'vertical';
   const allowedEdges = allowedEdgesForAxis(axis);
+  const autoScrollAxis = options.autoScrollAxis ?? axis;
   const scope = createSortableItemPayloadScope();
   const listDataKey = Symbol('op-sortable-list');
   const lists = new Map<string, { element:HTMLElement; accepts?:(args:{ source:SortableSource }) => boolean }>();
@@ -369,6 +375,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           ?? (listTarget!.data as unknown as { listId:string }).listId,
         targetItemId: targetItemData?.itemId ?? null,
         edge: itemTarget ? extractClosestEdge(itemTarget.data) : null,
+        axis,
       };
       options.onDrop(createTransaction(intent));
     },
@@ -412,7 +419,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         onDrop: clearContainerIndicator,
       });
 
-      const autoScrollCleanup = acquireAutoScroll(scrollContainer ?? element, axis);
+      const autoScrollCleanup = acquireAutoScroll(scrollContainer ?? element, autoScrollAxis);
 
       return track(combine(dropTargetCleanup, autoScrollCleanup, () => {
         lists.delete(listId);

@@ -25,6 +25,21 @@ wp-single-card[data-drop-position]
   &[data-drop-position="bottom"]::after
     bottom: 0
 
+  &[data-drop-position="left"]::after,
+  &[data-drop-position="right"]::after
+    top: 0
+    bottom: 0
+    height: auto
+    width: 2px
+
+  &[data-drop-position="left"]::after
+    right: auto
+    left: 0
+
+  &[data-drop-position="right"]::after
+    left: auto
+    right: 0
+
 // The custom native drag preview is mounted in a detached container outside
 // any table/list context, so it carries its own card-like chrome.
 .op-drag-preview

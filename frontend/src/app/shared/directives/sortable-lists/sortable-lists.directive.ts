@@ -54,6 +54,7 @@ export interface SortableListsDropEvent {
   sourceListId:string;
   targetId:string|null;
   edge:Edge|null;
+  axis:SortableListsAxis;
   complete(success:boolean):void;
 }
 
@@ -89,6 +90,12 @@ export class OpSortableListsDirective implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
 
   axis = input<SortableListsAxis>('vertical', { alias: 'opSortableListsAxis' });
+
+  // Independent from `axis` above: overrides the axis auto-scroll containers
+  // are allowed to scroll along, for a root whose placement axis (e.g. a
+  // wrapped grid's horizontal layout) differs from its scroll direction.
+  // Defaults to the placement axis when unset — see `createSortableRoot`.
+  autoScrollAxis = input<AutoScrollAllowedAxis|null>(null, { alias: 'opSortableListsAutoScrollAxis' });
 
   // Autoscroll container for the collapsed (implicit-list) case — see
   // `registerImplicitList`. An explicit `opSortableListsList` child has its
@@ -140,7 +147,9 @@ export class OpSortableListsDirective implements AfterViewInit {
       element: list.elementRef.nativeElement,
       listId,
       accepts: this.wrapAccepts(list.accepts()),
-      scrollContainer: list.scrollContainer() ?? undefined,
+      scrollContainer: list.scrollContainer()
+        ?? this.closestScrollableAncestorOf(list.elementRef.nativeElement)
+        ?? undefined,
     });
 
     return () => {
@@ -185,6 +194,7 @@ export class OpSortableListsDirective implements AfterViewInit {
       this.engineRoot = createSortableRoot({
         element: this.elementRef.nativeElement,
         axis: this.axis(),
+        autoScrollAxis: this.autoScrollAxis() ?? undefined,
         onDrop: (transaction) => this.dispatch(transaction),
       });
       this.destroyRef.onDestroy(() => {
@@ -219,11 +229,14 @@ export class OpSortableListsDirective implements AfterViewInit {
   // the draggable autocompleter) is not itself a valid scroll target and
   // Pragmatic would warn — else undefined, so the engine's own default applies.
   private resolveScrollContainer():Element|undefined {
-    return this.scrollContainer() ?? this.closestScrollableAncestor() ?? undefined;
+    return this.scrollContainer() ?? this.closestScrollableAncestorOf(this.elementRef.nativeElement) ?? undefined;
   }
 
-  private closestScrollableAncestor():Element|null {
-    let element:HTMLElement|null = this.elementRef.nativeElement;
+  // Shared by the collapsed-root fallback above and `attachList`'s explicit-
+  // list fallback: a non-scrollable list element (e.g. wp-grid's
+  // `.wp-cards-container`) resolves to the real page scroller instead.
+  private closestScrollableAncestorOf(start:HTMLElement):Element|null {
+    let element:HTMLElement|null = start;
 
     while (element) {
       const { overflowX, overflowY } = window.getComputedStyle(element);
@@ -252,6 +265,7 @@ export class OpSortableListsDirective implements AfterViewInit {
       sourceListId: intent.sourceListId,
       targetId: intent.targetItemId,
       edge: intent.edge,
+      axis: intent.axis,
       complete: (success) => transaction.complete(success),
     };
 

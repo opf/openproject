@@ -116,6 +116,7 @@ function buildDropEvent(overrides:{
   sourceListId?:string;
   targetId?:string|null;
   edge?:SortableListsDropEvent['edge'];
+  axis?:SortableListsDropEvent['axis'];
   complete?:SortableListsDropEvent['complete'];
 }):SortableListsDropEvent {
   return {
@@ -124,6 +125,7 @@ function buildDropEvent(overrides:{
     sourceListId: overrides.sourceListId ?? LIST_ID,
     targetId: overrides.targetId ?? null,
     edge: overrides.edge ?? null,
+    axis: overrides.axis ?? 'vertical',
     complete: overrides.complete ?? vi.fn(),
   };
 }
@@ -222,6 +224,17 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['c', 'a', 'b']);
       expect(reorderServiceStub.move).toHaveBeenCalledWith(['a', 'b', 'c'], 'c', 0);
+    });
+
+    it('moves the source after the target on a right-edge drop (horizontal axis)', () => {
+      const event = buildDropEvent({
+        sourceId: 'a', targetId: 'c', edge: 'right', axis: 'horizontal',
+      });
+
+      service.handleDrop(event);
+
+      expect(idsOf(service.workPackages)).toEqual(['b', 'c', 'a']);
+      expect(reorderServiceStub.move).toHaveBeenCalledWith(['a', 'b', 'c'], 'a', 2);
     });
 
     it('appends the source on a null-target (container) drop', () => {

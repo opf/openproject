@@ -222,6 +222,7 @@ describe('createSortableRoot', () => {
       targetListId: 'l1',
       targetItemId: 'c',
       edge: 'bottom',
+      axis: 'vertical',
     }]);
   });
 
@@ -241,6 +242,7 @@ describe('createSortableRoot', () => {
       targetListId: 'l1',
       targetItemId: null,
       edge: null,
+      axis: 'vertical',
     }]);
   });
 
@@ -372,7 +374,7 @@ describe('createSortableRoot', () => {
       await freshSimulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
 
       expect(freshIntents).toEqual([{
-        sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom',
+        sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom', axis: 'vertical',
       }]);
     });
 
@@ -620,6 +622,7 @@ describe('createSortableRoot', () => {
         targetListId: 'l2',
         targetItemId: null,
         edge: null,
+        axis: 'vertical',
       });
 
       const transaction = transactions[0];
@@ -645,6 +648,7 @@ describe('createSortableRoot', () => {
         targetListId: 'l2',
         targetItemId: null,
         edge: null,
+        axis: 'vertical',
       });
 
       const transaction = transactions[0];
@@ -777,6 +781,7 @@ describe('createSortableRoot', () => {
         targetListId: 'l1',
         targetItemId: null,
         edge: null,
+        axis: 'horizontal',
       }]);
     });
 
@@ -843,6 +848,98 @@ describe('createSortableRoot', () => {
         targetListId: 'l1',
         targetItemId: null,
         edge: null,
+        axis: 'horizontal',
+      }]);
+    });
+
+    it('crossing a row boundary resolves a left/right edge on the target chip', async () => {
+      // Container fits exactly two 40px chips per row (44px with margin), so
+      // 'a'/'b' occupy row one and 'c' wraps onto row two.
+      const { root, chips } = buildWrappingHorizontalList(['a', 'b', 'c'], 92);
+      const intents:SortableDropIntent[] = [];
+
+      const sortableRoot = createSortableRoot({
+        element: root,
+        axis: 'horizontal',
+        onDrop: (transaction) => intents.push(transaction.intent),
+      });
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1' });
+      const itemCleanups = chips.map((chip, index) => sortableRoot.registerItem({
+        element: chip,
+        itemId: ['a', 'b', 'c'][index],
+        listId: 'l1',
+      }));
+      cleanupFns.push(listCleanup, ...itemCleanups, () => sortableRoot.destroy());
+
+      // Dragging row-two's only chip onto row-one's second chip: the closest
+      // edge is still resolved along the horizontal (row-local) axis, not the
+      // vertical row boundary the two chips actually straddle.
+      const simulation = new NativeDragSimulation(chips[2]);
+      await simulation.start();
+      await simulation.drop(chips[1], towardsEdgeOf(chips[1], 'right'));
+
+      expect(intents[0]).toMatchObject({ targetItemId: 'b', edge: 'right', axis: 'horizontal' });
+    });
+
+    it('resolves left at the first chip and right at the last chip at their quarter points', async () => {
+      const { root, chips } = buildWrappingHorizontalList(['a', 'b', 'c'], 92);
+      const intents:SortableDropIntent[] = [];
+
+      const sortableRoot = createSortableRoot({
+        element: root,
+        axis: 'horizontal',
+        onDrop: (transaction) => { intents.push(transaction.intent); transaction.complete(true); },
+      });
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1' });
+      const itemCleanups = chips.map((chip, index) => sortableRoot.registerItem({
+        element: chip,
+        itemId: ['a', 'b', 'c'][index],
+        listId: 'l1',
+      }));
+      cleanupFns.push(listCleanup, ...itemCleanups, () => sortableRoot.destroy());
+
+      const first = new NativeDragSimulation(chips[2]);
+      await first.start();
+      await first.drop(chips[0], towardsEdgeOf(chips[0], 'left'));
+      expect(intents[0]).toMatchObject({ targetItemId: 'a', edge: 'left' });
+
+      const second = new NativeDragSimulation(chips[0]);
+      await second.start();
+      await second.drop(chips[2], towardsEdgeOf(chips[2], 'right'));
+      expect(intents[1]).toMatchObject({ targetItemId: 'c', edge: 'right' });
+    });
+
+    it('resolves a container append for the trailing blank space of a wrapped list', async () => {
+      const { root, chips } = buildWrappingHorizontalList(['a', 'b', 'c'], 92);
+      const intents:SortableDropIntent[] = [];
+
+      const sortableRoot = createSortableRoot({
+        element: root,
+        axis: 'horizontal',
+        onDrop: (transaction) => intents.push(transaction.intent),
+      });
+      const listCleanup = sortableRoot.registerList({ element: root, listId: 'l1' });
+      const itemCleanups = chips.map((chip, index) => sortableRoot.registerItem({
+        element: chip,
+        itemId: ['a', 'b', 'c'][index],
+        listId: 'l1',
+      }));
+      cleanupFns.push(listCleanup, ...itemCleanups, () => sortableRoot.destroy());
+
+      const lastRowRect = chips[2].getBoundingClientRect();
+      const belowUnion = { x: centerOf(chips[0]).x, y: lastRowRect.bottom + 30 };
+
+      const simulation = new NativeDragSimulation(chips[0]);
+      await simulation.start();
+      await simulation.drop(root, belowUnion);
+
+      expect(intents).toEqual([{
+        sourceId: 'a',
+        sourceListId: 'l1',
+        targetListId: 'l1',
+        targetItemId: null,
+        edge: null,
+        axis: 'horizontal',
       }]);
     });
   });
@@ -981,6 +1078,41 @@ describe('createSortableRoot', () => {
       sortableRoot.destroy(); // destroy while listCleanup is still held
       expect(liveRegistrations()).toHaveLength(0);
       listCleanup(); // idempotent afterwards — must not throw
+    });
+
+    it('autoScrollAxis overrides the placement axis for list scroll containers', () => {
+      const { root } = buildList(['a']);
+      const scroller = document.createElement('div');
+      scroller.style.cssText = 'overflow-y:auto; height:100px;';
+      document.body.appendChild(scroller);
+
+      const sortableRoot = createSortableRoot({
+        element: root, axis: 'horizontal', autoScrollAxis: 'all', onDrop: () => undefined,
+      });
+      cleanupFns.push(() => sortableRoot.destroy());
+      sortableRoot.registerList({ element: root, listId: 'l1', scrollContainer: scroller });
+
+      expect(liveRegistrations()[0].getAllowedAxis()).toBe('all');
+    });
+  });
+
+  describe('drop intent axis', () => {
+    it('drop intents carry the root placement axis', async () => {
+      const { root, chips } = buildHorizontalList(['a', 'b']);
+      const intents:SortableDropIntent[] = [];
+      const sortableRoot = createSortableRoot({
+        element: root, axis: 'horizontal', onDrop: (t) => { intents.push(t.intent); t.complete(true); },
+      });
+      cleanupFns.push(() => sortableRoot.destroy());
+      sortableRoot.registerList({ element: root, listId: 'l1' });
+      sortableRoot.registerItem({ element: chips[0], itemId: 'a', listId: 'l1' });
+      sortableRoot.registerItem({ element: chips[1], itemId: 'b', listId: 'l1' });
+
+      const simulation = new NativeDragSimulation(chips[0]);
+      await simulation.start();
+      await simulation.drop(chips[1], towardsEdgeOf(chips[1], 'right'));
+
+      expect(intents[0].axis).toBe('horizontal');
     });
   });
 
