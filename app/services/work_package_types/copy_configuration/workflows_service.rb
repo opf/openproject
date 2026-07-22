@@ -36,7 +36,7 @@ module WorkPackageTypes
       def aspect = Type::ConfigurationLink::WORKFLOWS
 
       def copy_from(source)
-        type.workflows.copy_from_type(source)
+        type.own_workflows.copy_from_type(source)
       end
     end
   end

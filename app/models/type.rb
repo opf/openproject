@@ -51,7 +51,13 @@ class Type < ApplicationRecord
   has_many :project_custom_field_type_mappings, dependent: :destroy
   has_many :project_custom_fields, through: :project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
-  has_many :workflows, dependent: :delete_all do
+  # The write target and the eager-loadable association
+  # Reads go through #workflows, which resolves workflows based on linking mode
+  has_many :own_workflows,
+           class_name: "Workflow",
+           foreign_key: :type_id,
+           inverse_of: :type,
+           dependent: :delete_all do
     def copy_from_type(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)
     end
@@ -136,14 +142,20 @@ class Type < ApplicationRecord
     includes(:projects).where(projects: { id: project })
   end
 
+  # Writers use #own_workflows, which is why the fallback is that association rather than `super`
+  def workflows
+    source = linked_configuration_source(Type::ConfigurationLink::WORKFLOWS)
+    return own_workflows if source.nil?
+
+    source.own_workflows
+  end
+
   def statuses(include_default: false, role: nil, tab: nil)
-    if new_record?
-      Status.none
-    elsif include_default
-      self.class.statuses([id], role:, tab:).or(Status.where_default)
-    else
-      self.class.statuses([id], role:, tab:)
-    end
+    return Status.none if new_record?
+
+    source = linked_configuration_source(Type::ConfigurationLink::WORKFLOWS) || self
+    scope = self.class.statuses([source.id], role:, tab:)
+    include_default ? scope.or(Status.where_default) : scope
   end
 
   def enabled_in?(object)

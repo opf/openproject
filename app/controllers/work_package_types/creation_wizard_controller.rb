@@ -114,7 +114,7 @@ module WorkPackageTypes
       return if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
 
       source = ::Type.find_by(id: params.dig(:type, :copy_workflow_from))
-      @type.workflows.copy_from_type(source) if source
+      @type.own_workflows.copy_from_type(source) if source
     end
 
     def advance
