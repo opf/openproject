@@ -103,6 +103,13 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
+    it "removes html from the description" do
+      subject
+      result_items.each do |work_package|
+        expect(work_package.fetch("description")).not_to have_key("html")
+      end
+    end
+
     describe "filtering by id" do
       let(:call_args) { { id: work_package_a.id } }
 
