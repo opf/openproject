@@ -542,6 +542,25 @@ RSpec.describe WorkPackage do
       let(:groups) { described_class.by_version(project) }
 
       it_behaves_like "group by"
+
+      context "with a work package assigned to multiple target versions" do
+        shared_let(:multi_version_work_package) do
+          create(:work_package, project:, type:, version: version1)
+            .tap { |wp| wp.work_package_versions.create!(version: version2, kind: "target") }
+        end
+
+        def total_for(version)
+          groups.select { |row| row["version_id"].to_i == version.id }
+                .sum { |row| row["total"].to_i }
+        end
+
+        it "counts the work package under each of its target versions" do
+          # version1: work_package1 + multi_version_work_package
+          expect(total_for(version1)).to eq(2)
+          # version2: work_package2 + multi_version_work_package
+          expect(total_for(version2)).to eq(2)
+        end
+      end
     end
 
     describe "by priority" do
