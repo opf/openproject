@@ -225,6 +225,40 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           expect(subject).to redirect_to(work_package_path(work_package))
         end
       end
+
+      context "when the move fails validation, with semantic identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:outsider) { create(:user) }
+        let(:unmovable_work_package) do
+          create(:work_package,
+                 project_id: project.id,
+                 type:,
+                 author: user,
+                 priority:,
+                 responsible: outsider)
+        end
+
+        before do
+          # outsider is not a member of target_project, so the move fails
+          # contract validation before anything is persisted.
+          unmovable_work_package.update_columns(identifier: "SRC-1", sequence_number: 1)
+
+          post :create,
+               params: {
+                 work_package_id: unmovable_work_package.id,
+                 new_project_id: target_project.id
+               }
+        end
+
+        it "shows the semantic identifier in the error flash, not the bare numeric id" do
+          expect(flash[:error]).to include("SRC-1")
+          expect(flash[:error]).not_to include("##{unmovable_work_package.id}")
+        end
+
+        it "does not persist the move" do
+          expect(unmovable_work_package.reload.project_id).to eq(project.id)
+        end
+      end
     end
 
     describe "bulk move" do
