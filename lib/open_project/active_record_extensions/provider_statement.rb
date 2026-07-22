@@ -32,12 +32,16 @@ module OpenProject
   module ActiveRecordExtensions
     class ProviderStatement < Arel::Nodes::SelectStatement
       attr_accessor :provided_cte,
+                    :provided_cte_params,
+                    :provided_cte_body,
                     :provided_cte_collected
 
-      def initialize(cte_name)
-        super
+      def initialize(cte_name, params = {}, body = nil)
+        super()
         @cores = []
         self.provided_cte = cte_name
+        self.provided_cte_params = params
+        self.provided_cte_body = body
         self.provided_cte_collected = false
       end
 
@@ -45,6 +49,31 @@ module OpenProject
         self.provided_cte_collected = true
         provided_cte
       end
+
+      # The CTE body: the inline body when present, otherwise the registered
+      # template rendered with the stored params.
+      def provided_cte_sql
+        provided_cte_body ||
+          OpenProject::ActiveRecordExtensions::Cte::Aggregation
+            .registered[provided_cte]
+            .call(provided_cte_params)
+      end
+
+      # Identify providers by their CTE (name/params/body) rather than by the empty
+      # SelectStatement they inherit from. Without this two different providers compare
+      # equal, and ActiveRecord's `.or` (which ORs only the non-common predicates)
+      # collapses `where(id: provider_a).or(where(id: provider_b))` down to one branch.
+      def hash
+        [self.class, provided_cte, provided_cte_params, provided_cte_body].hash
+      end
+
+      def eql?(other)
+        other.is_a?(ProviderStatement) &&
+          provided_cte == other.provided_cte &&
+          provided_cte_params == other.provided_cte_params &&
+          provided_cte_body == other.provided_cte_body
+      end
+      alias_method :==, :eql?
 
       alias_method :provided_cte_collected?, :provided_cte_collected
     end
