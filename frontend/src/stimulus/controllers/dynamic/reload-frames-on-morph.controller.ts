@@ -83,8 +83,6 @@ export default class ReloadFramesOnMorphController extends Controller<HTMLElemen
     const newSrc = morphEvent.detail.newElement.getAttribute('src');
     if (newSrc && !frame.getAttribute('src')?.endsWith(newSrc)) {
       frame.setAttribute('src', newSrc);
-    } else {
-      void frame.reload();
     }
   };
 }
