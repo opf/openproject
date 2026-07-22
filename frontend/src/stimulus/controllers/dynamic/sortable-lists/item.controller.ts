@@ -120,9 +120,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // The drag handle (and preview) live on the card, which is loaded into a
-  // turbo-frame lazily and reloaded on every move (its `src` carries a hash of
-  // the card state). registerDraggable() binds the dragHandle at registration
+  // On reloading of the page, the item, e.g. a WorkPackageCardComponent, might be reloaded.
+  // registerDraggable() binds the dragHandle at registration
   // time, so a reloaded card leaves the draggable pointing at a now-detached
   // handle and the row stops being draggable. Re-register whenever a fresh
   // handle connects so the binding follows the live element — this is what keeps
