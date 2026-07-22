@@ -34,15 +34,20 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(types:)
+      def initialize(types:, expanded_type_id: nil)
         super()
 
         @types = types
+        @expanded_type_id = expanded_type_id
       end
 
       private
 
-      attr_reader :types
+      attr_reader :types, :expanded_type_id
+
+      def collapsed?(root)
+        root.id != expanded_type_id
+      end
 
       def variants_count_label(root)
         t("types.index.variants_count", count: root.children.size)
@@ -54,6 +59,7 @@ module WorkPackageTypes
 
       def type_actions(menu, type)
         configure_action(menu, type)
+        make_default_action(menu, type) unless type.is_default?
         menu.with_divider
 
         if reorderable?(type)
@@ -67,6 +73,16 @@ module WorkPackageTypes
       def configure_action(menu, type)
         menu.with_item(label: t(:button_configure), href: edit_type_details_path(type_id: type.id)) do |item|
           item.with_leading_visual_icon(icon: :gear)
+        end
+      end
+
+      def make_default_action(menu, type)
+        menu.with_item(
+          label: t("types.index.make_default"),
+          href: make_default_type_path(type),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"north-star")
         end
       end
 

@@ -6197,13 +6197,15 @@ en:
       description: >
         Each configuration area inside types and variants can be independently configured, limited
         from another type, or fully linked to a source.
+      make_default: "Set as default for new projects"
+      make_default_notice: "%{name} is now set as default for new projects"
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      type_label: "Type"
       variant_label: "Variant"
       variants_count:
         one: "1 variant"
         other: "%{count} variants"
-      type_label: "Type"
 
   unsupported_browser:
     close_warning: "Ignore this warning."

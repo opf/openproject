@@ -245,6 +245,7 @@ Rails.application.routes.draw do
 
     member do
       put :drop
+      post :make_default
     end
   end
 

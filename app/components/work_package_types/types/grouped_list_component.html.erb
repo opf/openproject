@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
                 collapsible: true
               )
             ) do |list| %>
-          <% list.with_header(collapsed: true, show_drag_handle: reorderable?(root)) do |header| %>
+          <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>
             <% header.with_title do %>
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
               <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
