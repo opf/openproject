@@ -6202,7 +6202,8 @@ en:
       make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
-      remove_default: "Don't enable in new projects"
+      remove_default: "Do not activate in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects"
       type_label: "Type"
       variant_label: "Variant"
       variants_count:

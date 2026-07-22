@@ -97,22 +97,43 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     end
   end
 
-  it "offers 'Set as default' on every type and variant except the current default" do
+  it "offers activating on every type and variant, and deactivating on the current default" do
     alfa_variant.update!(is_default: true)
 
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
       expect(page).to have_button(I18n.t("types.index.make_default"), visible: :all)
+      expect(page).to have_no_button(I18n.t("types.index.remove_default"), visible: :all)
     end
 
     within(".Box-row", text: zeta_variant.own_name, visible: :all) do
       expect(page).to have_button(I18n.t("types.index.make_default"), visible: :all)
+      expect(page).to have_no_button(I18n.t("types.index.remove_default"), visible: :all)
     end
 
     within(".Box-row", text: alfa_variant.own_name, visible: :all) do
+      expect(page).to have_button(I18n.t("types.index.remove_default"), visible: :all)
       expect(page).to have_no_button(I18n.t("types.index.make_default"), visible: :all)
     end
+  end
+
+  it "removes the default from the chosen variant" do
+    alfa_variant.update!(is_default: true)
+
+    visit types_path
+
+    find(".Box-header", text: bug_type.name).click
+
+    within(".Box-row", text: alfa_variant.own_name) do
+      find("action-menu > button").click
+      click_on I18n.t("types.index.remove_default")
+    end
+
+    expect(page).to have_text(
+      I18n.t("types.index.remove_default_notice", name: alfa_variant.own_name)
+    )
+    expect(alfa_variant.reload).not_to be_is_default
   end
 
   it "moves the default to the chosen variant" do
@@ -147,6 +168,18 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page).to have_text(I18n.t("types.index.make_default_notice", name: alfa_variant.own_name))
     expect(page).to have_link(alfa_variant.own_name)
     expect(page).to have_link(zeta_variant.own_name)
+  end
+
+  it "leaves the groups collapsed after setting a root type as default" do
+    visit types_path
+
+    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+      find("action-menu > button").click
+      click_on I18n.t("types.index.make_default")
+    end
+
+    expect(page).to have_text(I18n.t("types.index.make_default_notice", name: bug_type.own_name))
+    expect(page).to have_no_link(alfa_variant.own_name)
   end
 
   it "expands the group named by the expand param" do

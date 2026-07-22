@@ -59,7 +59,7 @@ module WorkPackageTypes
 
       def type_actions(menu, type)
         configure_action(menu, type)
-        make_default_action(menu, type) unless type.is_default?
+        default_action(menu, type)
         menu.with_divider
 
         if reorderable?(type)
@@ -76,13 +76,31 @@ module WorkPackageTypes
         end
       end
 
+      def default_action(menu, type)
+        if type.is_default?
+          remove_default_action(menu, type)
+        else
+          make_default_action(menu, type)
+        end
+      end
+
       def make_default_action(menu, type)
         menu.with_item(
           label: t("types.index.make_default"),
           href: make_default_type_path(type),
           form_arguments: { method: :post }
         ) do |item|
-          item.with_leading_visual_icon(icon: :"north-star")
+          item.with_leading_visual_icon(icon: :"check-circle")
+        end
+      end
+
+      def remove_default_action(menu, type)
+        menu.with_item(
+          label: t("types.index.remove_default"),
+          href: remove_default_type_path(type),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"circle-slash")
         end
       end
 

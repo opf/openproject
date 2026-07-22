@@ -246,6 +246,7 @@ Rails.application.routes.draw do
     member do
       put :drop
       post :make_default
+      post :remove_default
     end
   end
 
