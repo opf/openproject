@@ -116,6 +116,12 @@ RSpec.describe McpTools::SearchWorkPackages do
         # Spec is based on the assumption that we might have to increase this number over time, but rather not reduce it.
         # When you are here to increase it, maybe reflect on whether we should've filtered more links by now.
         expect(work_package.fetch("_links").size).to be < 40
+
+        # it keeps non-action links, because they are still useful (non-exhaustive examples) ...
+        expect(work_package.fetch("_links").keys).to include("status", "type", "assignee")
+
+        # ... but rejects links that merely tell the client "what's possible to do" (non-exhaustive examples)
+        expect(work_package.fetch("_links").keys).not_to include("logTime", "generate_pdf", "copy")
       end
     end
 
