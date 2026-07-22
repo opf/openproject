@@ -263,7 +263,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
-  describe "linked form configuration", with_flag: { subtypes: true } do
+  describe "linked form configuration", with_flag: { type_variants: true } do
     let(:source_type) do
       create(:type_bug).tap do |t|
         t.attribute_groups = t.default_attribute_groups + [["borrowed_group", %w(assignee)]]

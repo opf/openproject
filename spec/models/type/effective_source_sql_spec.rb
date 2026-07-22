@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe Type::EffectiveSourceSql do
   let(:aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
 
-  describe ".form_configuration_remap", with_flag: { subtypes: true } do
+  describe ".form_configuration_remap", with_flag: { type_variants: true } do
     it "returns the identity expression when there are no links" do
       join, expr = described_class.form_configuration_remap("pt.type_id")
 
@@ -67,7 +67,7 @@ RSpec.describe Type::EffectiveSourceSql do
     end
   end
 
-  describe ".form_configuration_source_table", with_flag: { subtypes: true } do
+  describe ".form_configuration_source_table", with_flag: { type_variants: true } do
     it "maps each type id to itself when unlinked" do
       first = create(:type)
       second = create(:type)
@@ -89,7 +89,7 @@ RSpec.describe Type::EffectiveSourceSql do
     end
   end
 
-  describe "with the subtypes flag off", with_flag: { subtypes: false } do
+  describe "with the variants flag off", with_flag: { type_variants: false } do
     it "keys joins on the own type id without remapping" do
       source = create(:type)
       linked = create(:type)

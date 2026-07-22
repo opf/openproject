@@ -133,28 +133,28 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
     describe "#where" do
       let(:project) { nil }
       let!(:root) { create(:type) }
-      let!(:sub_type) { create(:type, parent: root) }
+      let!(:variant) { create(:type, parent: root) }
 
       before do
         instance.operator = "="
         instance.values = [root.id.to_s]
       end
 
-      it "expands a root type to include its sub-types" do
+      it "expands a root type to include its variants" do
         expect(instance.where)
-          .to include(root.id.to_s, sub_type.id.to_s)
+          .to include(root.id.to_s, variant.id.to_s)
       end
 
       it "leaves a childless type unchanged" do
-        instance.values = [sub_type.id.to_s]
+        instance.values = [variant.id.to_s]
 
         expect(instance.where)
           .not_to include(root.id.to_s)
       end
 
-      it "returns work packages of the root type and its sub-types, but not unrelated types" do
+      it "returns work packages of the root type and its variants, but not unrelated types" do
         root_work_package = create(:work_package, type: root)
-        sub_work_package = create(:work_package, type: sub_type)
+        sub_work_package = create(:work_package, type: variant)
         create(:work_package, type: create(:type))
 
         expect(WorkPackage.where(instance.where))

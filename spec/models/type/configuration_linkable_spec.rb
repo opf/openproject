@@ -67,8 +67,8 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "sub-type default parent links" do
-    it "links the default aspects to the parent when a sub-type is created" do
+  describe "variant default parent links" do
+    it "links the default aspects to the parent when a variant is created" do
       parent = create(:type)
       child = create(:type, parent:)
 
@@ -111,7 +111,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "#effective_source_for", with_flag: { subtypes: true } do
+  describe "#effective_source_for", with_flag: { type_variants: true } do
     it "returns itself when Independent" do
       expect(type.effective_source_for(aspect)).to eq(type)
     end
@@ -139,7 +139,7 @@ RSpec.describe Type::ConfigurationLinkable do
   # Each aspect's readers are overridden so that plain `type.patterns` etc. is the
   # configuration in force. The own_* attributes below are what the type stores
   # itself, and must stay visible through read_attribute even while linked.
-  describe "resolved configuration readers", with_flag: { subtypes: true } do
+  describe "resolved configuration readers", with_flag: { type_variants: true } do
     let(:owner_attributes) do
       {
         patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -229,7 +229,7 @@ RSpec.describe Type::ConfigurationLinkable do
 
   # These read through the overridden attribute readers rather than resolving a
   # source themselves, so they are what proves the indirection actually pays off.
-  describe "consumers of the resolved readers", with_flag: { subtypes: true } do
+  describe "consumers of the resolved readers", with_flag: { type_variants: true } do
     let(:owner) do
       create(:type,
              patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -262,7 +262,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
 
     # The templates object mutates whatever type it wraps, so it must never be the
-    # owner's — otherwise a linked sub-type would rewrite the source's configuration.
+    # owner's — otherwise a linked variant would rewrite the source's configuration.
     it "writes template changes to this type rather than the owner" do
       type.link!(Type::ConfigurationLink::PDF_EXPORT, source: owner)
       type.pdf_export_templates.disable_all
@@ -274,7 +274,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "feature flag gating", with_flag: { subtypes: false } do
+  describe "feature flag gating", with_flag: { type_variants: false } do
     let(:owner) do
       create(:type,
              patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
@@ -296,7 +296,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "form configuration resolution", with_flag: { subtypes: true } do
+  describe "form configuration resolution", with_flag: { type_variants: true } do
     let(:form_aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
     let(:source) do
       create(:type).tap do |t|
@@ -346,7 +346,7 @@ RSpec.describe Type::ConfigurationLinkable do
     end
   end
 
-  describe "form configuration with the flag off", with_flag: { subtypes: false } do
+  describe "form configuration with the flag off", with_flag: { type_variants: false } do
     it "ignores the link and reads its own attribute_groups" do
       source = create(:type).tap do |t|
         t.attribute_groups = [["source_only_group", %w(assignee)]]

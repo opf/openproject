@@ -77,7 +77,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
       end
     end
 
-    context "when the source resolves through a link", with_flag: { subtypes: true } do
+    context "when the source resolves through a link", with_flag: { type_variants: true } do
       let(:owner) { create(:type) }
       let(:source) { create(:type) }
 
@@ -98,7 +98,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
       end
     end
 
-    context "when the source resolves through a longer chain", with_flag: { subtypes: true } do
+    context "when the source resolves through a longer chain", with_flag: { type_variants: true } do
       let(:owner) { create(:type) }
       let(:middle) { create(:type) }
       let(:source) { create(:type) }

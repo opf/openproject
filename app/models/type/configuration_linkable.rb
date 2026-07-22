@@ -46,9 +46,9 @@ class Type
                inverse_of: :source,
                dependent: :restrict_with_error
 
-      # A sub-type defaults to Linked-to-parent for the aspects whose linked
+      # A variant defaults to Linked-to-parent for the aspects whose linked
       # behaviour is implemented; see DEFAULT_PARENT_LINK_ASPECTS.
-      after_create :link_default_aspects_to_parent, if: :subtype?
+      after_create :link_default_aspects_to_parent, if: :variant?
     end
 
     def linked?(aspect)
@@ -67,10 +67,10 @@ class Type
     # The visited-set guard tolerates cyclic rows created before write-time cycle
     # prevention (FND-133) existed, keeping resolution terminating.
     #
-    # Guarded by the subtypes feature flag: with the flag off, links are ignored
+    # Guarded by the type_variants feature flag: with the flag off, links are ignored
     # and every type resolves to its own stored configuration.
     def effective_source_for(aspect)
-      return self unless OpenProject::FeatureDecisions.subtypes_active?
+      return self unless OpenProject::FeatureDecisions.type_variants_active?
 
       node = self
       seen = Set.new
@@ -108,7 +108,7 @@ class Type
 
     # Resolved here rather than on #pdf_export_templates so that the object handed out
     # always wraps the receiving type: it is a mutator as much as a reader, and
-    # returning the source's would let a linked sub-type write the source's config.
+    # returning the source's would let a linked variant write the source's config.
     def export_templates_disabled
       source = linked_configuration_source(Type::ConfigurationLink::PDF_EXPORT)
       return super if source.nil?
@@ -148,7 +148,7 @@ class Type
 
     # The type an aspect is linked to, or nil when this type owns it. The nil is
     # what keeps the readers above from recursing: effective_source_for returns self
-    # both for an unlinked aspect and while the subtypes flag is off.
+    # both for an unlinked aspect and while the variants flag is off.
     def linked_configuration_source(aspect)
       source = effective_source_for(aspect)
 

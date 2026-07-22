@@ -28,41 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+# Shared gating for the work package variants feature flag.
+module WorkPackageTypes
+  module TypeVariantsFeature
+    extend ActiveSupport::Concern
 
-RSpec.describe "Sub-type shown as its root in the work package table type column", :js,
-               with_flag: { subtypes: true } do
-  let(:user) { create(:admin) }
+    private
 
-  let(:root_type) { create(:type, name: "Task") }
-  let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+    def type_variants_enabled?
+      OpenProject::FeatureDecisions.type_variants_active?
+    end
 
-  let(:project) { create(:project, types: [sub_type]) }
-  let(:work_package) do
-    create(:work_package, subject: "A sub-typed work package", type: sub_type, project:)
-  end
-
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:query) do
-    query = build(:query, user:, project:)
-    query.column_names = %w[id subject type]
-    query.save!
-    query
-  end
-
-  before do
-    login_as(user)
-    query
-    work_package
-
-    wp_table.visit_query(query)
-    wp_table.expect_work_package_listed(work_package)
-  end
-
-  it "renders the root type's name in the type column, not the sub-type's" do
-    type_field = wp_table.edit_field(work_package, :type)
-
-    type_field.expect_state_text(root_type.name.upcase)
-    expect(type_field.display_element.text).not_to include(sub_type.own_name.upcase)
+    def require_type_variants_feature
+      render_404 unless type_variants_enabled?
+    end
   end
 end

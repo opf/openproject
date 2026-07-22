@@ -119,7 +119,7 @@ RSpec.describe WorkPackageTypes::PatternResolver do
     end
   end
 
-  context "when the type links its form configuration to a source type", with_flag: { subtypes: true } do
+  context "when the type links its form configuration to a source type", with_flag: { type_variants: true } do
     let(:source_cf) { create(:string_wp_custom_field) }
     let(:source_type) { create(:type, custom_fields: [source_cf]) }
     let(:linked_type) { create(:type) }

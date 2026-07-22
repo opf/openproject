@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
+RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
 
@@ -39,9 +39,9 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
   def start_wizard
     visit types_path
 
-    # The type's group is collapsed by default, hiding its "Add sub-type" footer link.
+    # The type's group is collapsed by default, hiding its "Add variant" footer link.
     find("[role='button'][aria-expanded='false']", text: bug_type.name).click
-    click_on I18n.t("types.index.add_subtype", name: bug_type.name)
+    click_on I18n.t("types.index.add_variant", name: bug_type.name)
   end
 
   def inherited_caption
@@ -54,10 +54,10 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    bug_type.children.find_by(name:).tap { |subtype| expect(subtype).to be_present }
+    bug_type.children.find_by(name:).tap { |variant| expect(variant).to be_present }
   end
 
-  it "guides the admin through creating a sub-type with defaults" do
+  it "guides the admin through creating a variant with defaults" do
     start_wizard
 
     # Step 1 - Details: the core settings are inherited from the parent and shown read-only.
@@ -66,7 +66,7 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     expect(page).to have_field(Type.human_attribute_name(:is_in_roadmap), disabled: true)
     expect(page).to have_css(".colors-autocomplete .ng-select-disabled")
 
-    subtype = complete_details_step("Critical")
+    variant = complete_details_step("Critical")
 
     # Step 2 - Defaults: linked to the parent on creation, so it renders read-only and
     # the footer, not a Save button, drives submission.
@@ -81,7 +81,7 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
     click_on I18n.t("types.creation_wizard.finish")
 
     expect(page).to have_current_path(types_path)
-    expect(subtype.reload.parent).to eq(bug_type)
+    expect(variant.reload.parent).to eq(bug_type)
   end
 
   it "creates a root type with the core settings editable" do
@@ -101,26 +101,26 @@ RSpec.describe "Sub-type creation wizard", :js, with_flag: { subtypes: true } do
 
   it "persists the defaults step through the wizard footer once the aspect is independent" do
     start_wizard
-    subtype = complete_details_step("Critical")
+    variant = complete_details_step("Critical")
 
     # Independent mode is what makes the fields editable; linked mode renders read-only.
-    subtype.configuration_links.where(aspect: Type::ConfigurationLink::DEFAULTS).destroy_all
-    visit type_creation_wizard_path(subtype, step: :defaults)
+    variant.configuration_links.where(aspect: Type::ConfigurationLink::DEFAULTS).destroy_all
+    visit type_creation_wizard_path(variant, step: :defaults)
 
     Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
     click_on I18n.t(:button_continue)
 
-    expect(subtype.reload.description).to eq("Reproduce the bug first")
+    expect(variant.reload.description).to eq("Reproduce the bug first")
   end
 
-  it "links the aspects a sub-type inherits from its parent on creation" do
+  it "links the aspects a variant inherits from its parent on creation" do
     start_wizard
-    subtype = complete_details_step("Critical")
+    variant = complete_details_step("Critical")
 
-    # Reuse mode is no longer chosen in the wizard: a new sub-type simply defaults
+    # Reuse mode is no longer chosen in the wizard: a new variant simply defaults
     # to Linked-to-parent for the aspects it inherits (see Type::ConfigurationLinkable).
     Type::ConfigurationLink::DEFAULT_PARENT_LINK_ASPECTS.each do |aspect|
-      expect(subtype.source_for(aspect)).to eq(bug_type)
+      expect(variant.source_for(aspect)).to eq(bug_type)
     end
   end
 end

@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
        t(:label_type_plural)]
     )
-    if OpenProject::FeatureDecisions.subtypes_active?
+    if OpenProject::FeatureDecisions.type_variants_active?
       header.with_description { t("types.index.description") }
     end
 
@@ -56,8 +56,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 <%# The wizard replaces the single-page creation form; the latter stays for as long
-    as the subtypes feature flag can be off. %>
-<% type_creation_path = OpenProject::FeatureDecisions.subtypes_active? ? new_creation_wizard_types_path : new_type_path %>
+    as the variants feature flag can be off. %>
+<% type_creation_path = OpenProject::FeatureDecisions.type_variants_active? ? new_creation_wizard_types_path : new_type_path %>
 <%=
   render(Primer::OpenProject::SubHeader.new) do |subheader|
     subheader.with_action_button(
@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if @types.any? %>
-  <% if OpenProject::FeatureDecisions.subtypes_active? %>
+  <% if OpenProject::FeatureDecisions.type_variants_active? %>
     <%= render WorkPackageTypes::Types::GroupedListComponent.new(types: @types) %>
   <% else %>
     <%= render WorkPackageTypes::Types::TableComponent.new(rows: @types) %>

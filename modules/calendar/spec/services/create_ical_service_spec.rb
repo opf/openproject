@@ -214,11 +214,11 @@ RSpec.describe Calendar::CreateICalService, type: :model do
     end
   end
 
-  context "with a work package of a sub-type" do
+  context "with a work package of a variant" do
     let(:root_type) { create(:type, name: "Task") }
-    let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+    let(:variant) { create(:type, name: "Bug", parent: root_type) }
     let(:sub_work_package) do
-      create(:work_package, project:, type: sub_type, due_date: Time.zone.today + 7.days)
+      create(:work_package, project:, type: variant, due_date: Time.zone.today + 7.days)
     end
     let(:work_packages) { [sub_work_package] }
 

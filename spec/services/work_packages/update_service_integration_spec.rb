@@ -1802,7 +1802,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   end
 
   context "with a type whose subject configuration is linked to a source type",
-          with_flag: { subtypes: true } do
+          with_flag: { type_variants: true } do
     shared_let(:linked_type) do
       create(:type, name: "Linked").tap do |t|
         t.link!(Type::ConfigurationLink::DEFAULTS, source: autosubject_type)

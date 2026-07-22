@@ -191,10 +191,10 @@ RSpec.describe WorkPackageTypes::TypesController do
         end
       end
 
-      describe "WITH a parent", with_flag: { subtypes: true } do
+      describe "WITH a parent", with_flag: { type_variants: true } do
         let!(:parent) { create(:type, name: "Parent type") }
         let(:params) do
-          { "type" => { name: "New sub-type", parent_id: parent.id } }
+          { "type" => { name: "New variant", parent_id: parent.id } }
         end
 
         before { post :create, params: }
@@ -202,7 +202,7 @@ RSpec.describe WorkPackageTypes::TypesController do
         it { expect(response).to be_redirect }
 
         it "nests the created type under the parent" do
-          expect(Type.find_by(name: "New sub-type").parent).to eq(parent)
+          expect(Type.find_by(name: "New variant").parent).to eq(parent)
         end
       end
     end
@@ -225,10 +225,10 @@ RSpec.describe WorkPackageTypes::TypesController do
         end
       end
 
-      context "when reordering a sub-type within its family" do
+      context "when reordering a variant within its family" do
         let!(:parent) { create(:type, name: "Parent type") }
-        let!(:child1) { create(:type, name: "Sub-type 1", parent:, position: "1") }
-        let!(:child2) { create(:type, name: "Sub-type 2", parent:, position: "2") }
+        let!(:child1) { create(:type, name: "Variant 1", parent:, position: "1") }
+        let!(:child2) { create(:type, name: "Variant 2", parent:, position: "2") }
         let(:params) { { "id" => child1.id, "type" => { move_to: "lower" } } }
 
         before do
@@ -339,9 +339,9 @@ RSpec.describe WorkPackageTypes::TypesController do
         it { expect(response).to redirect_to(types_path) }
       end
 
-      describe "destroy a parent that still has sub-types should fail" do
+      describe "destroy a parent that still has variants should fail" do
         let!(:parent) { create(:type, name: "Parent type") }
-        let!(:child) { create(:type, name: "Sub-type", parent:) }
+        let!(:child) { create(:type, name: "Variant", parent:) }
         let(:params) { { "id" => parent.id } }
 
         before { delete :destroy, params: }
@@ -358,9 +358,9 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "GET index with sub-types", with_flag: { subtypes: true } do
+    describe "GET index with variants", with_flag: { type_variants: true } do
       let!(:parent) { create(:type, name: "Parent type") }
-      let!(:child) { create(:type, name: "Sub-type", parent:) }
+      let!(:child) { create(:type, name: "Variant", parent:) }
       let!(:other_root) { create(:type, name: "Other root") }
 
       before { get :index }
@@ -370,13 +370,13 @@ RSpec.describe WorkPackageTypes::TypesController do
         expect(assigns(:types)).not_to include(child)
       end
 
-      it "exposes each root's sub-types through its children" do
+      it "exposes each root's variants through its children" do
         assigned_parent = assigns(:types).detect { |type| type == parent }
         expect(assigned_parent.children).to contain_exactly(child)
       end
     end
 
-    describe "PUT drop", with_flag: { subtypes: true } do
+    describe "PUT drop", with_flag: { type_variants: true } do
       let!(:first_type) { create(:type, name: "First") }
       let!(:second_type) { create(:type, name: "Second") }
 
@@ -390,7 +390,7 @@ RSpec.describe WorkPackageTypes::TypesController do
         expect(second_type.position).to be < first_type.reload.position
       end
 
-      context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+      context "when the variants feature is disabled", with_flag: { type_variants: false } do
         it "is not available" do
           put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
 
@@ -399,14 +399,14 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "GET index without the sub-types feature", with_flag: { subtypes: false } do
+    describe "GET index without the variants feature", with_flag: { type_variants: false } do
       let!(:parent) { create(:type, name: "Parent type") }
-      let!(:child) { create(:type, name: "Sub-type", parent:) }
+      let!(:child) { create(:type, name: "Variant", parent:) }
       let!(:other_root) { create(:type, name: "Other root") }
 
       before { get :index }
 
-      it "lists roots and sub-types together" do
+      it "lists roots and variants together" do
         expect(assigns(:types)).to include(parent, child, other_root)
       end
     end

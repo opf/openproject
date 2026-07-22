@@ -28,19 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared gating for the work package sub-types feature flag.
-module WorkPackageTypes
-  module SubtypesFeature
-    extend ActiveSupport::Concern
+require "spec_helper"
 
-    private
+RSpec.describe "Variant shown as its root in the work package table type column", :js,
+               with_flag: { type_variants: true } do
+  let(:user) { create(:admin) }
 
-    def subtypes_enabled?
-      OpenProject::FeatureDecisions.subtypes_active?
-    end
+  let(:root_type) { create(:type, name: "Task") }
+  let(:variant) { create(:type, name: "Bug", parent: root_type) }
 
-    def require_subtypes_feature
-      render_404 unless subtypes_enabled?
-    end
+  let(:project) { create(:project, types: [variant]) }
+  let(:work_package) do
+    create(:work_package, subject: "A variantd work package", type: variant, project:)
+  end
+
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:query) do
+    query = build(:query, user:, project:)
+    query.column_names = %w[id subject type]
+    query.save!
+    query
+  end
+
+  before do
+    login_as(user)
+    query
+    work_package
+
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(work_package)
+  end
+
+  it "renders the root type's name in the type column, not the variant's" do
+    type_field = wp_table.edit_field(work_package, :type)
+
+    type_field.expect_state_text(root_type.name.upcase)
+    expect(type_field.display_element.text).not_to include(variant.own_name.upcase)
   end
 end

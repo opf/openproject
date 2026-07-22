@@ -46,8 +46,8 @@ module WorkPackageTypes
       def type = model
 
       def title
-        if type.subtype?
-          I18n.t("types.creation_wizard.create_subtype")
+        if type.variant?
+          I18n.t("types.creation_wizard.create_variant")
         else
           I18n.t("types.creation_wizard.create_type")
         end
@@ -73,7 +73,7 @@ module WorkPackageTypes
 
       def step_url = type_creation_wizard_path(type, step: current_step)
 
-      # A brand-new sub-type is created on the first step's submit; every later
+      # A brand-new variant is created on the first step's submit; every later
       # submit patches the existing record for its step.
       def step_form_url
         type.new_record? ? creation_wizard_types_path : step_url

@@ -19,7 +19,7 @@ properties:
     exclusiveMinimum: 0
   name:
     type: string
-    description: The name shown to users. For a sub-type this is its root type's name
+    description: The name shown to users. For a variant this is its root type's name
     readOnly: true
   ownName:
     type: string
@@ -69,7 +69,7 @@ properties:
         allOf:
         - "$ref": "./link.yml"
         - description: |-
-            The root type this type belongs to (if sub-type)
+            The root type this type belongs to (if variant)
 
             **Resource**: Type
           readOnly: true

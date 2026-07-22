@@ -62,16 +62,16 @@ module WorkPackageTypes
       attr_reader :type
 
       # Order as the type hierarchy: each root immediately followed by its
-      # sub-types, families ordered by name, so related types stay together
+      # variants, families ordered by name, so related types stay together
       # instead of a flat alphabetical mix.
       def source_options
         Type.global
             .where.not(id: type.id)
             .includes(:parent)
-            .sort_by { |source| [source.root.name.downcase, source.subtype? ? 1 : 0, source.name.downcase] }
+            .sort_by { |source| [source.root.name.downcase, source.variant? ? 1 : 0, source.name.downcase] }
       end
 
-      # Sub-types carry their parent in the composite name; the current type's
+      # Variants carry their parent in the composite name; the current type's
       # own parent is additionally flagged as the most likely copy source.
       def label_for(source)
         label = source.composite_name

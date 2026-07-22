@@ -1029,10 +1029,10 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe "for a sub-type" do
+    describe "for a variant" do
       let(:root_type) { create(:type, name: "Task") }
-      let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
-      let(:sub_work_package) { create(:work_package, project:, type: sub_type, subject: "Hello world") }
+      let(:variant) { create(:type, name: "Bug", parent: root_type) }
+      let(:sub_work_package) { create(:work_package, project:, type: variant, subject: "Hello world") }
 
       it "renders the root type's name in the :heading style" do
         expect(sub_work_package.to_fs(:heading)).to include("Task")

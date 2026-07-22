@@ -57,7 +57,7 @@ class Queries::WorkPackages::Filter::TypeFilter <
       .filter_map { |type_id| available_types[type_id.to_i] }
   end
 
-  # Filtering by a root type includes work packages of any of its sub-types
+  # Filtering by a root type includes work packages of any of its variants
   def where
     operator_strategy.sql_for_field(expanded_values, self.class.model.table_name, self.class.key)
   end

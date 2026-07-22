@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Work package type configuration source",
                :skip_csrf,
                type: :rails_request,
-               with_flag: { subtypes: true } do
+               with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -42,7 +42,7 @@ RSpec.describe "Work package type configuration source",
 
   before { login_as admin }
 
-  context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+  context "when the variants feature is disabled", with_flag: { type_variants: false } do
     it "renders the tab's own editor without the reuse mode banner" do
       get edit_type_pdf_export_template_index_path(type_id: type.id)
 
@@ -124,11 +124,11 @@ RSpec.describe "Work package type configuration source",
       expect(response.body).to include("Switch")
     end
 
-    it "leads with the parent type for sub-types" do
+    it "leads with the parent type for variants" do
       parent = create(:type, name: "Feature")
-      subtype = create(:type, parent:)
+      variant = create(:type, parent:)
 
-      get type_configuration_link_dialog_path(type_id: subtype.id, aspect:), as: :turbo_stream
+      get type_configuration_link_dialog_path(type_id: variant.id, aspect:), as: :turbo_stream
 
       expect(response.body).to include("Feature (parent)")
     end
@@ -139,7 +139,7 @@ RSpec.describe "Work package type configuration source",
       expect(response).to have_http_status(:not_found)
     end
 
-    it "is not found when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
       get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)

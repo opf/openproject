@@ -62,10 +62,10 @@ module Type::EffectiveSourceSql
   end
 
   # Maps each type linking its form configuration to the id of the type that
-  # owns it, excluding identity; empty (identity everywhere) when the subtypes
+  # owns it, excluding identity; empty (identity everywhere) when the variants
   # feature is off or no links exist.
   def form_configuration_map
-    return {} unless OpenProject::FeatureDecisions.subtypes_active?
+    return {} unless OpenProject::FeatureDecisions.type_variants_active?
 
     aspect = Type::ConfigurationLink::FORM_CONFIGURATION
     linked_type_ids = Type::ConfigurationLink.where(aspect:).distinct.pluck(:type_id)

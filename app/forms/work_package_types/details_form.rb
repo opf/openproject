@@ -68,7 +68,7 @@ module WorkPackageTypes
 
     def carries_parent? = model.new_record? && model.parent_id.present?
 
-    def inherited? = model.subtype?
+    def inherited? = model.variant?
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")

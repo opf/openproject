@@ -29,7 +29,7 @@
 #++
 
 # @deprecated Bulk-assigning the full set of type ids is being replaced by the
-#   granular Projects::Types::AddService, RemoveService and SwitchSubtypeService.
+#   granular Projects::Types::AddService, RemoveService and SwitchVariantService.
 #   This service remains only until the project settings UI is migrated to them.
 class UpdateProjectsTypesService < BaseProjectService
   def call(type_ids) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -40,14 +40,14 @@ class UpdateProjectsTypesService < BaseProjectService
                          :in_use_by_work_packages,
                          types: missing_types(type_ids).map(&:name).join(", "))
       false
-    elsif any_type_is_a_subtype?(type_ids) && !OpenProject::FeatureDecisions.subtypes_active?
-      project.errors.add(:types, :cannot_assign_subtypes_yet)
+    elsif any_type_is_a_variant?(type_ids) && !OpenProject::FeatureDecisions.type_variants_active?
+      project.errors.add(:types, :cannot_assign_variants_yet)
       false
-    elsif multiple_subtypes_of_parent?(type_ids)
-      project.errors.add(:types, :cannot_assign_multiple_subtypes_of_parent)
+    elsif multiple_variants_of_parent?(type_ids)
+      project.errors.add(:types, :cannot_assign_multiple_variants_of_parent)
       false
-    elsif subtype_and_parent_enabled?(type_ids)
-      project.errors.add(:types, :cannot_assign_subtype_and_parent)
+    elsif variant_and_parent_enabled?(type_ids)
+      project.errors.add(:types, :cannot_assign_variant_and_parent)
       false
     else
       update_project_types(type_ids)
@@ -67,11 +67,11 @@ class UpdateProjectsTypesService < BaseProjectService
     end
   end
 
-  def any_type_is_a_subtype?(type_ids)
+  def any_type_is_a_variant?(type_ids)
     Type.where(id: type_ids).where.not(parent_id: nil).exists?
   end
 
-  def multiple_subtypes_of_parent?(type_ids)
+  def multiple_variants_of_parent?(type_ids)
     Type
       .reorder(nil)
       .where(id: type_ids)
@@ -81,7 +81,7 @@ class UpdateProjectsTypesService < BaseProjectService
       .exists?
   end
 
-  def subtype_and_parent_enabled?(type_ids)
+  def variant_and_parent_enabled?(type_ids)
     parent_ids = Type.where(id: type_ids).pluck(:parent_id).compact
 
     parent_ids.intersect?(type_ids.map(&:to_i))
