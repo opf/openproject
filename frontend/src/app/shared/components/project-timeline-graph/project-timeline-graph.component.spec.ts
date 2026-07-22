@@ -391,6 +391,12 @@ describe('ProjectTimelineGraphComponent', () => {
   });
 
   describe('template', () => {
+    it('does not render an empty screen reader list', () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      expect(element.querySelector('ul.sr-only')).toBeNull();
+    });
+
     it('renders screen reader text and hides the visual graph from assistive technology', () => {
       fixture.componentRef.setInput('phasesData', JSON.stringify([phaseWithGates]));
       fixture.detectChanges();

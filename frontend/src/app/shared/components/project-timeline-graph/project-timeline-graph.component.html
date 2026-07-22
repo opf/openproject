@@ -1,7 +1,9 @@
-<ul class="sr-only">
-  @for (item of accessibleItems(); track item.id) {
-    <li [textContent]="item.text"></li>
-  }
-</ul>
+@if (accessibleItems().length > 0) {
+  <ul class="sr-only">
+    @for (item of accessibleItems(); track item.id) {
+      <li [textContent]="item.text"></li>
+    }
+  </ul>
+}
 
 <div #container class="op-project-timeline-graph" aria-hidden="true"></div>
