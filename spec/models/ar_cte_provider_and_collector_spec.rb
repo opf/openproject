@@ -36,11 +36,13 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
   shared_let(:work_package_not_in_cte) { create(:work_package) }
 
   before do
+    # Register a SQL template whose per-query values arrive as `params` and are bound
+    # via sanitize_sql_array.
     OpenProject::ActiveRecordExtensions::Cte::Aggregation.register :cte_aggregation_spec,
-                                                                   ->(id) {
-                                                                     <<~SQL.squish
-                                                                       SELECT #{id} id
-                                                                     SQL
+                                                                   ->(params) {
+                                                                     ActiveRecord::Base.sanitize_sql_array(
+                                                                       ["SELECT :id id", params]
+                                                                     )
                                                                    }
   end
 
@@ -60,12 +62,12 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       # FROM work_packages
       # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
 
-      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(model: WorkPackage,
                                                                       params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: provider)
 
-      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
+      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(relation: scope)
 
       expect(collected_scope)
         .to contain_exactly(work_package_in_cte)
@@ -86,12 +88,12 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       #   WHERE work_packges.id IN (SELECT id FROM cte_aggregation_spec)
       # )
 
-      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(model: WorkPackage,
                                                                       params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: WorkPackage.where(id: provider))
 
-      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
+      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(relation: scope)
 
       expect(collected_scope)
         .to contain_exactly(work_package_in_cte)
@@ -108,7 +110,7 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       #   WHERE work_packges.id IN (SELECT :id id)
       # )
 
-      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(model: WorkPackage,
                                                                       params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: WorkPackage.where(id: provider))
