@@ -71,9 +71,6 @@ module WorkPackageTypes
         update_details
       when :defaults
         update_defaults
-      when :workflows
-        copy_workflows
-        advance
       else
         advance
       end
@@ -108,15 +105,6 @@ module WorkPackageTypes
       else
         render :show, status: :unprocessable_entity
       end
-    end
-
-    # The copy source is only offered in Independent mode; a Linked aspect inherits
-    # its workflows from the source instead.
-    def copy_workflows
-      return if @type.linked?(Type::ConfigurationLink::WORKFLOWS)
-
-      source = ::Type.find_by(id: params.dig(:type, :copy_workflow_from))
-      @type.own_workflows.copy_from_type(source) if source
     end
 
     def advance

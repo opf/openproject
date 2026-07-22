@@ -29,6 +29,7 @@
 #++
 
 module WorkPackageTypes
+  # TODO: Remove with type_variants feature flag
   class CopyWorkflowAttributeContract < DryApplicationContract
     params do
       optional(:copy_workflow_from).filled(:string)
