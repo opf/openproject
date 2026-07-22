@@ -110,10 +110,10 @@ module WorkPackages
         @possible_assignees ||= Principal.possible_assignee(target_project)
       end
 
-      def selected_target_version
+      def selected_target_versions
         selected_ids = Array(selected_values[:target_version_ids]).map(&:to_s)
 
-        available_versions.find { |version| selected_ids.include?(version.id.to_s) }
+        available_versions.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
       def selected_custom_field_value(custom_field)

@@ -103,6 +103,24 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
+  context "with multiple selected versions" do
+    let!(:other_version) { create(:version, project: target_project, name: "Other version") }
+
+    let(:component) do
+      build_component(
+        selected_values: {
+          type_id: type.id.to_s,
+          target_version_ids: [version.id.to_s, other_version.id.to_s]
+        }
+      )
+    end
+
+    it "preserves every selected version so a refresh does not reset the multi-select" do
+      expect(rendered_component)
+        .to have_select("target_version_ids[]", selected: [version.name, other_version.name])
+    end
+  end
+
   context "when the user's roles differ between source and target project" do
     let(:source_status) { create(:status, name: "Source only") }
     let(:target_status) { create(:status, name: "Target only") }
