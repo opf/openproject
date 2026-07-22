@@ -6205,6 +6205,7 @@ en:
       remove_default: "Do not activate in new projects"
       remove_default_notice: "%{name} is no longer activated in new projects"
       type_label: "Type"
+      variant_enabled_in_new_projects: "Variant %{name} active in new projects"
       variant_label: "Variant"
       variants_count:
         one: "1 variant"

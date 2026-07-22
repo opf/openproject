@@ -46,9 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
               <% end %>
             <% end %>
-            <% if root.is_default? %>
-              <% header.with_action_label { t("types.index.enabled_in_new_projects") } %>
-            <% end %>
+            <% add_default_label(header, root) %>
             <% header.with_menu do |menu| %>
               <% type_actions(menu, root) %>
             <% end %>

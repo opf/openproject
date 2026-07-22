@@ -97,6 +97,33 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     end
   end
 
+  it "names the default variant in the collapsed header of its group" do
+    alfa_variant.update!(is_default: true)
+
+    visit types_path
+
+    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+      expect(page).to have_css(
+        ".Label",
+        text: I18n.t("types.index.variant_enabled_in_new_projects", name: alfa_variant.own_name)
+      )
+    end
+
+    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+      expect(page).to have_no_css(".Label")
+    end
+  end
+
+  it "shows the type's own label rather than a variant's when the root is the default" do
+    bug_type.update!(is_default: true)
+
+    visit types_path
+
+    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+      expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
+    end
+  end
+
   it "offers activating on every type and variant, and deactivating on the current default" do
     alfa_variant.update!(is_default: true)
 
