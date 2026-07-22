@@ -1,0 +1,155 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe WorkPackages::BulkController, "sprint and backlog bucket" do
+  shared_let(:project) { create(:project, enabled_module_names: %i[backlogs work_package_tracking]) }
+  shared_let(:sprint) { create(:sprint, project:) }
+  shared_let(:bucket) { create(:backlog_bucket, project:) }
+
+  shared_let(:work_package1) { create(:work_package, project:) }
+  shared_let(:work_package2) { create(:work_package, project:) }
+
+  let(:permissions) do
+    %i[view_work_packages edit_work_packages view_sprints manage_sprint_items]
+  end
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+
+  current_user { user }
+
+  describe "#edit" do
+    render_views
+
+    before { get :edit, params: { ids: [work_package1.id, work_package2.id] } }
+
+    it "displays the sprint and backlog bucket selects" do
+      assert_select "select", attributes: { name: "work_package[sprint_id]" }
+      assert_select "select", attributes: { name: "work_package[backlog_bucket_id]" }
+    end
+
+    context "without the manage_sprint_items permission" do
+      let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
+
+      it "does not display the fields" do
+        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
+        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+      end
+    end
+
+    context "when the project does not have backlogs enabled" do
+      before { project.enabled_module_names -= ["backlogs"] }
+
+      it "does not display the fields" do
+        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
+        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+      end
+    end
+
+    context "when the selected work packages span multiple projects" do
+      shared_let(:other_project) { create(:project, enabled_module_names: %i[work_package_tracking]) }
+      shared_let(:work_package3) { create(:work_package, project: other_project) }
+
+      before do
+        create(:member, project: other_project, principal: user,
+                        roles: [create(:project_role, permissions:)])
+
+        get :edit, params: { ids: [work_package1.id, work_package2.id, work_package3.id] }
+      end
+
+      it "does not display the fields" do
+        assert_select "select", { attributes: { name: "work_package[sprint_id]" } }, false
+        assert_select "select", { attributes: { name: "work_package[backlog_bucket_id]" } }, false
+      end
+    end
+  end
+
+  describe "#update" do
+    let(:work_package_ids) { [work_package1.id, work_package2.id] }
+
+    it "assigns the sprint to all selected work packages" do
+      put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+
+      expect(work_package1.reload.sprint).to eq sprint
+      expect(work_package2.reload.sprint).to eq sprint
+    end
+
+    it "assigns the backlog bucket to all selected work packages" do
+      put :update, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
+
+      expect(work_package1.reload.backlog_bucket).to eq bucket
+      expect(work_package2.reload.backlog_bucket).to eq bucket
+    end
+
+    it "clears the sprint when 'none' is selected" do
+      work_package1.update!(sprint:)
+
+      put :update, params: { ids: work_package_ids, work_package: { sprint_id: "none" } }
+
+      expect(work_package1.reload.sprint).to be_nil
+    end
+
+    it "clears an existing sprint when a backlog bucket is assigned instead" do
+      work_package1.update!(sprint:)
+
+      put :update, params: { ids: work_package_ids, work_package: { backlog_bucket_id: bucket.id } }
+
+      expect(work_package1.reload).to have_attributes(sprint: nil, backlog_bucket: bucket)
+    end
+
+    it "clears an existing backlog bucket when a sprint is assigned instead" do
+      work_package1.update!(backlog_bucket: bucket)
+
+      put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+
+      expect(work_package1.reload).to have_attributes(sprint:, backlog_bucket: nil)
+    end
+
+    it "rejects assigning both a sprint and a backlog bucket in the same submission" do
+      put :update,
+          params: { ids: work_package_ids, work_package: { sprint_id: sprint.id, backlog_bucket_id: bucket.id } }
+
+      expect(flash[:error])
+        .to include(I18n.t(:"work_packages.bulk.none_could_be_saved", total: work_package_ids.size))
+      expect(work_package1.reload).to have_attributes(sprint: nil, backlog_bucket: nil)
+      expect(work_package2.reload).to have_attributes(sprint: nil, backlog_bucket: nil)
+    end
+
+    context "without the manage_sprint_items permission" do
+      let(:permissions) { %i[view_work_packages edit_work_packages view_sprints] }
+
+      it "does not assign the sprint" do
+        put :update, params: { ids: work_package_ids, work_package: { sprint_id: sprint.id } }
+
+        expect(work_package1.reload.sprint).to be_nil
+      end
+    end
+  end
+end
