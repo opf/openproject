@@ -28,33 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class SettingsTabController < BaseTabController
-    layout "admin"
+module Users
+  class StatusLabelComponent < ApplicationComponent
+    def initialize(user:, **system_arguments)
+      super
 
-    current_menu_item %i[edit update] do
-      :types
+      @user = user
+      @system_arguments = system_arguments
     end
 
-    def edit; end
-
-    def update
-      result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateSettingsContract)
-                            .call(permitted_settings_params)
-
-      if result.success?
-        redirect_to edit_type_settings_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    def call
+      render(Primer::Beta::Label.new(scheme:, **@system_arguments)) { label }
     end
 
     private
 
-    def permitted_settings_params
-      permitted = params.expect(type: %i[name parent_id color_id description is_milestone is_in_roadmap is_default])
-      permitted = permitted.except(:parent_id) unless OpenProject::FeatureDecisions.subtypes_active?
-      permitted
+    def label
+      helpers.full_user_status(@user)
+    end
+
+    def scheme
+      case @user.status.to_sym
+      when :active then :success
+      when :registered, :invited then :attention
+      else :secondary
+      end
     end
   end
 end

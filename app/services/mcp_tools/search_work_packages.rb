@@ -89,6 +89,8 @@ module McpTools
       }
     )
 
+    output_filter McpOutputFilters::RemoveFormattableHtml
+
     def call(page: nil, **filters)
       filtered = apply_filters(WorkPackage.visible, filters)
       work_packages = apply_pagination(filtered, page)

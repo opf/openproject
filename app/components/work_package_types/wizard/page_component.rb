@@ -45,22 +45,35 @@ module WorkPackageTypes
 
       def type = model
 
-      def title = I18n.t("types.creation_wizard.create_subtype")
+      def title
+        if type.variant?
+          I18n.t("types.creation_wizard.create_variant")
+        else
+          I18n.t("types.creation_wizard.create_type")
+        end
+      end
 
       def breadcrumb_items
         [
           { href: admin_index_path, text: I18n.t("label_administration") },
           { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
           { href: types_path, text: I18n.t(:label_type_plural) },
+          *parent_breadcrumb_item,
           title
         ]
+      end
+
+      def parent_breadcrumb_item
+        return [] if type.parent.nil?
+
+        [{ href: edit_type_details_path(type_id: type.parent_id), text: type.parent.name }]
       end
 
       def step_title = Steps.title(current_step)
 
       def step_url = type_creation_wizard_path(type, step: current_step)
 
-      # A brand-new sub-type is created on the first step's submit; every later
+      # A brand-new variant is created on the first step's submit; every later
       # submit patches the existing record for its step.
       def step_form_url
         type.new_record? ? creation_wizard_types_path : step_url
@@ -76,13 +89,11 @@ module WorkPackageTypes
         @step_editor ||= StepEditors.for(current_step, type)
       end
 
-      # The wizard footer replaces the form's own submit button on every editor step.
       def step_form_options
         {
           model: step_editor.model,
           url: step_form_url,
           method: step_form_method,
-          submit: false,
           readonly: step_editor.readonly?,
           html: {
             id: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,

@@ -30,12 +30,12 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true } do
+RSpec.describe "Work package variants index", :js, with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }
-  shared_let(:zeta_subtype) { create(:type, name: "Zeta sub-type", parent: bug_type) }
-  shared_let(:alfa_subtype) { create(:type, name: "Alfa sub-type", parent: bug_type) }
+  shared_let(:zeta_variant) { create(:type, name: "Zeta variant", parent: bug_type) }
+  shared_let(:alfa_variant) { create(:type, name: "Alfa variant", parent: bug_type) }
 
   before { login_as(admin) }
 
@@ -48,17 +48,17 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
     expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
     expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
 
-    subtype_row = page.find(".Box-row", text: alfa_subtype.own_name, visible: :all)
-    expect(subtype_row).to have_no_css(".DragHandle", visible: :all)
+    variant_row = page.find(".Box-row", text: alfa_variant.own_name, visible: :all)
+    expect(variant_row).to have_no_css(".DragHandle", visible: :all)
   end
 
   it "links a root type's header to its settings page" do
     visit types_path
 
-    expect(page).to have_link(bug_type.name, href: edit_type_settings_path(type_id: bug_type.id))
+    expect(page).to have_link(bug_type.name, href: edit_type_details_path(type_id: bug_type.id))
   end
 
-  it "offers 'Move' only on roots, while both roots and sub-types can be configured and deleted" do
+  it "offers 'Move' only on roots, while both roots and variants can be configured and deleted" do
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
@@ -67,19 +67,19 @@ RSpec.describe "Work package sub-types index", :js, with_flag: { subtypes: true 
       expect(page).to have_button(I18n.t(:button_delete), visible: :all)
     end
 
-    within(".Box-row", text: alfa_subtype.own_name, visible: :all) do
+    within(".Box-row", text: alfa_variant.own_name, visible: :all) do
       expect(page).to have_link(I18n.t(:button_configure), visible: :all)
       expect(page).to have_button(I18n.t(:button_delete), visible: :all)
       expect(page).to have_no_button(I18n.t(:button_move), visible: :all)
     end
   end
 
-  it "lists a group's sub-types alphabetically" do
+  it "lists a group's variants alphabetically" do
     visit types_path
 
-    expect(page).to have_link(alfa_subtype.own_name, visible: :all)
-    expect(page).to have_link(zeta_subtype.own_name, visible: :all)
-    expect(page.body.index(alfa_subtype.own_name)).to be < page.body.index(zeta_subtype.own_name)
+    expect(page).to have_link(alfa_variant.own_name, visible: :all)
+    expect(page).to have_link(zeta_variant.own_name, visible: :all)
+    expect(page.body.index(alfa_variant.own_name)).to be < page.body.index(zeta_variant.own_name)
   end
 
   it "reorders root types via drag and drop", :selenium do

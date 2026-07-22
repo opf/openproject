@@ -29,24 +29,24 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Types::SwitchSubtypeService, with_flag: { subtypes: true } do
+RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants: true } do
   subject(:service_call) { described_class.new(user:, model: project).call(source:, target:) }
 
   let(:user) { create(:admin) }
   let(:parent_type) { create(:type) }
-  let(:subtype) { create(:type, parent: parent_type) }
-  let(:sibling_subtype) { create(:type, parent: parent_type) }
-  let(:project) { create(:project, types: [subtype]) }
-  let!(:work_package) { create(:work_package, project:, type: subtype) }
+  let(:variant) { create(:type, parent: parent_type) }
+  let(:sibling_variant) { create(:type, parent: parent_type) }
+  let(:project) { create(:project, types: [variant]) }
+  let!(:work_package) { create(:work_package, project:, type: variant) }
 
-  let(:source) { subtype }
-  let(:target) { sibling_subtype }
+  let(:source) { variant }
+  let(:target) { sibling_variant }
 
-  context "when switching to a sibling subtype" do
+  context "when switching to a sibling variant" do
     it "moves the work packages, enables the target and removes the source" do
       expect(service_call).to be_success
-      expect(work_package.reload.type).to eq(sibling_subtype)
-      expect(project.reload.types).to contain_exactly(sibling_subtype)
+      expect(work_package.reload.type).to eq(sibling_variant)
+      expect(project.reload.types).to contain_exactly(sibling_variant)
     end
   end
 
@@ -60,20 +60,20 @@ RSpec.describe Projects::Types::SwitchSubtypeService, with_flag: { subtypes: tru
     end
   end
 
-  context "when the source is not a subtype" do
+  context "when the source is not a variant" do
     let(:source) { parent_type }
-    let(:target) { subtype }
+    let(:target) { variant }
 
     it "fails without changing anything" do
       expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_subtype)
-      expect(work_package.reload.type).to eq(subtype)
-      expect(project.reload.types).to contain_exactly(subtype)
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_variant)
+      expect(work_package.reload.type).to eq(variant)
+      expect(project.reload.types).to contain_exactly(variant)
     end
   end
 
   context "when the target is identical to the source" do
-    let(:target) { subtype }
+    let(:target) { variant }
 
     it "fails" do
       expect(service_call).to be_failure
@@ -96,8 +96,8 @@ RSpec.describe Projects::Types::SwitchSubtypeService, with_flag: { subtypes: tru
     it "fails without changing anything" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:base)).to contain_exactly(:error_unauthorized)
-      expect(work_package.reload.type).to eq(subtype)
-      expect(project.reload.types).to contain_exactly(subtype)
+      expect(work_package.reload.type).to eq(variant)
+      expect(project.reload.types).to contain_exactly(variant)
     end
   end
 
@@ -109,8 +109,8 @@ RSpec.describe Projects::Types::SwitchSubtypeService, with_flag: { subtypes: tru
 
     it "rolls back the entire switch" do
       expect(service_call).to be_failure
-      expect(work_package.reload.type).to eq(subtype)
-      expect(project.reload.types).to contain_exactly(subtype)
+      expect(work_package.reload.type).to eq(variant)
+      expect(project.reload.types).to contain_exactly(variant)
     end
   end
 end

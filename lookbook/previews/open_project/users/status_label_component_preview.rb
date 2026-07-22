@@ -28,41 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module OpenProject::Users
+  # @logical_path OpenProject/Users
+  class StatusLabelComponentPreview < Lookbook::Preview
+    # @!group Statuses
 
-RSpec.describe "Sub-type shown as its root in the work package table type column", :js,
-               with_flag: { subtypes: true } do
-  let(:user) { create(:admin) }
+    def active
+      render(Users::StatusLabelComponent.new(user: build_user(:active)))
+    end
 
-  let(:root_type) { create(:type, name: "Task") }
-  let(:sub_type) { create(:type, name: "Bug", parent: root_type) }
+    def locked
+      render(Users::StatusLabelComponent.new(user: build_user(:locked)))
+    end
 
-  let(:project) { create(:project, types: [sub_type]) }
-  let(:work_package) do
-    create(:work_package, subject: "A sub-typed work package", type: sub_type, project:)
-  end
+    def registered
+      render(Users::StatusLabelComponent.new(user: build_user(:registered)))
+    end
 
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:query) do
-    query = build(:query, user:, project:)
-    query.column_names = %w[id subject type]
-    query.save!
-    query
-  end
+    def invited
+      render(Users::StatusLabelComponent.new(user: build_user(:invited)))
+    end
 
-  before do
-    login_as(user)
-    query
-    work_package
+    # @!endgroup
 
-    wp_table.visit_query(query)
-    wp_table.expect_work_package_listed(work_package)
-  end
+    private
 
-  it "renders the root type's name in the type column, not the sub-type's" do
-    type_field = wp_table.edit_field(work_package, :type)
-
-    type_field.expect_state_text(root_type.name.upcase)
-    expect(type_field.display_element.text).not_to include(sub_type.own_name.upcase)
+    def build_user(status)
+      FactoryBot.build_stubbed(:user, status: User.statuses[status])
+    end
   end
 end

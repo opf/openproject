@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { subtypes: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
   let(:parent) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
@@ -44,5 +44,20 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
     expect(page).to have_text("Linked mode")
     expect(page).to have_text("Phase")
+  end
+
+  describe "breadcrumbs" do
+    it "links the parent the variant is being created under" do
+      render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
+
+      expect(page).to have_link("Phase",
+                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
+    end
+
+    it "omits the parent crumb when there is none" do
+      render_inline(described_class.new(type: build(:type), current_step: :details))
+
+      expect(page).to have_no_link("Phase")
+    end
   end
 end

@@ -23,47 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class SettingsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
-    def initialize(model, copy_workflow_from: nil, **)
-      @copy_workflow_from = copy_workflow_from
-      super(model, **)
-    end
-
-    def form_options
-      if model.new_record?
-        create_form_options
-      else
-        update_form_options
+module McpOutputFilters
+  class RemoveFormattableHtml
+    class << self
+      def filter(hash_or_array)
+        case hash_or_array
+        when Hash
+          filter_hash(hash_or_array)
+        when Array
+          hash_or_array.each { |value| filter(value) }
+        end
       end
-    end
 
-    private
+      private
 
-    attr_reader :copy_workflow_from
+      def filter_hash(hash)
+        if formattable?(hash)
+          hash.delete("html")
+        else
+          hash.each_value { |value| filter(value) }
+        end
+      end
 
-    def create_form_options
-      { url: types_path, method: :post, model:, copy_workflow_from:, data: core_settings_toggle_data }
-    end
-
-    def update_form_options
-      { url: type_settings_path(type_id: model.id), method: :patch, model:, data: core_settings_toggle_data }
-    end
-
-    def core_settings_toggle_data
-      {
-        controller: "admin--work-package-type-settings",
-        "admin--work-package-type-settings-inherited-value": model.subtype?
-      }
+      def formattable?(hash)
+        hash.key?("format") && hash.key?("raw") && hash.key?("html")
+      end
     end
   end
 end

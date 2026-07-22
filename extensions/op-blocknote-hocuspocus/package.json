@@ -41,7 +41,7 @@
     "globals": "^17.7.0",
     "msw": "^2.12.7",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.1",
+    "typescript-eslint": "^8.63.0",
     "vitest": "^4.1.10"
   },
   "allowScripts": {

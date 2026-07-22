@@ -35,9 +35,9 @@ module ::TypesHelper
   def types_tabs
     [
       {
-        name: "settings",
-        path: edit_type_settings_path(@type),
-        label: I18n.t("types.edit.settings.tab")
+        name: "details",
+        path: edit_type_details_path(type_id: @type.id),
+        label: I18n.t("types.edit.details.tab")
       },
       {
         name: "defaults",

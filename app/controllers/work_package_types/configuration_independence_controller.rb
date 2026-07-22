@@ -34,10 +34,10 @@ module WorkPackageTypes
   # configuration from the chosen IndependentMode and severs the link. Built to
   # mirror ConfigurationLinksController.
   class ConfigurationIndependenceController < BaseTabController
-    include SubtypesFeature
+    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_subtypes_feature
+    before_action :require_type_variants_feature
     before_action :require_valid_aspect
 
     current_menu_item do

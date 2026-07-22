@@ -45,8 +45,8 @@ module WorkPackageTypes
       end
 
       def name
-        link = link_to(model.own_name, edit_type_settings_path(type_id: model.id))
-        return link unless OpenProject::FeatureDecisions.subtypes_active? && model.parent_id.present?
+        link = link_to(model.own_name, edit_type_details_path(type_id: model.id))
+        return link unless OpenProject::FeatureDecisions.type_variants_active? && model.parent_id.present?
 
         render(Primer::Box.new(pl: 4)) { link }
       end
