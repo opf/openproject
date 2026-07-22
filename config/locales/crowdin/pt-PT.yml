@@ -1148,7 +1148,6 @@ pt-PT:
 
           '
         description: Este Jira Migrator está em fase beta. Neste momento, só tempo suporte para oJira Server/Data Center nas versões 10.x e 11.x. As instâncias na nuvem não têm suporte neste momento.
-        supported_versions: ''
         title: Beta - Experimente!
       blank:
         description: Configure um anfitrião do Jira para começar a importar elementos do Jira para esta instância do OpenProject.
@@ -2767,16 +2766,15 @@ pt-PT:
     blocks:
       community: Comunidade de OpenProject
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: Integração com XWiki (plano Corporate).
-            line_1: Objetivos do sprint
-            line_2: Página de visão geral 'Todos os sprints'.
-            line_3: Apresentar os grupos de backlog nos pacotes de trabalho e nas tabelas de pacotes de trabalho.
-            line_4: Melhoria do suporte a identificadores (semânticos) baseados em projetos.
-            line_5: Converter os pontos da ordem de trabalhos da reunião em pacotes de trabalho.
-            line_6: Configurar os tipos de custos por projeto.
-          new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novas funcionalidades e atualizações de produtos.

@@ -1182,7 +1182,6 @@ hu:
 
           '
         description: Ez a Jira Migrator jelenleg béta verzióban van. Jelenleg kizárólag a Jira Server/Data Center 10.x és 11.x verzióit támogatjuk. A felhőalapú példányokat jelenleg nem támogatjuk.
-        supported_versions: ''
         title: Béta – Próbáld ki!
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -2823,15 +2822,14 @@ hu:
     blocks:
       community: OpenProject Közösség
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -6094,7 +6092,7 @@ hu:
     invite_user_modal:
       invite: Meghívás
       message:
-        description: Küldünk egy e-mailt a %{principal} címre, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet egy magyarázat a meghívóhoz, vagy esetleg egy kis információ a projekttel kapcsolatban, hogy segítsen az elindulásban.
+        description: Küldünk egy e-mailt a felhasználónak, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet a meghívás indoklása, vagy esetleg néhány információ a projektről, hogy megkönnyítse a kezdő lépéseket.
         label: Meghívó üzenet
       principal:
         create_new_placeholder: Új teszt felhasználó létrehozása

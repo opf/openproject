@@ -1130,7 +1130,6 @@ ko:
 
           '
         description: 이 Jira Migrator는 현재 베타 버전입니다. Jira Server/Data Center 버전 10.x 및 11.x만 현재 지원되며, Cloud 인스턴스는 현재 지원되지 않습니다.
-        supported_versions: ''
         title: 베타 - 사용해 보세요!
       blank:
         description: Jira에서 이 OpenProject 인스턴스로 항목 가져오기를 시작하려면 Jira 호스트를 구성합니다.
@@ -2730,16 +2729,15 @@ ko:
     blocks:
       community: OpenProject 커뮤니티
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki 통합(기업 플랜).
-            line_1: 스프린트 목표.
-            line_2: "'모든 스프린트' 개요 페이지."
-            line_3: 작업 패키지 및 작업 패키지 테이블에 백로그 버킷을 표시합니다.
-            line_4: 프로젝트 기반(시맨틱) 식별자에 대한 지원이 개선되었습니다.
-            line_5: 미팅 의제 항목을 작업 패키지로 변환합니다.
-            line_6: 프로젝트별 비용 유형을 구성합니다.
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.

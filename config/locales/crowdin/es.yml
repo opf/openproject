@@ -1148,7 +1148,6 @@ es:
 
           '
         description: Este Migrador de Jira se encuentra actualmente en fase beta. En este momento solo es compatible con las versiones 10.x y 11.x de Jira Server/Data Center. Por el momento, no es compatible con instancias en la nube.
-        supported_versions: ''
         title: Beta - ¡Pruébelo!
       blank:
         description: Configure un host de Jira para comenzar a importar elementos desde Jira a esta instancia de OpenProject.
@@ -2761,16 +2760,15 @@ es:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: Integración con XWiki (plan Corporate).
-            line_1: Objetivos de sprint.
-            line_2: Página de resumen de «Todos los sprints».
-            line_3: Visualización de los buckets de backlog en los paquetes de trabajo y en las tablas de paquetes de trabajo.
-            line_4: Mejora de la compatibilidad con los identificadores (semánticos) basados en proyectos.
-            line_5: Conversión de los puntos del orden del día de la reunión en paquetes de trabajo.
-            line_6: Configuración de los tipos de coste por proyecto.
-          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.

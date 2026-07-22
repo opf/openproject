@@ -24,7 +24,7 @@ pt-BR:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Permitir vários sprints ativos
         backlog_excluded_types: Tipos de pacote de trabalho excluídos
         sprint_sharing: Compartilhamento de sprints
         statuses_considered_closed: Estados considerados fechados
@@ -43,7 +43,7 @@ pt-BR:
         text: Objetivo da sprint
       work_package:
         backlog_bucket: Grupo de backlog
-        backlog_inbox: Backlog inbox
+        backlog_inbox: Caixa de pendências
         backlogs_work_package_type: Tipo de backlog
         position: Posição
         sprint: Sprint
@@ -57,8 +57,8 @@ pt-BR:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: não pode ser alterado enquanto vários sprints ativos estão sendo executados.
+              requires_no_sharing: só pode ser habilitado quando o compartilhamento de sprint está definido como "Não compartilhar".
             sprint_sharing:
               locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
               share_all_projects_already_taken: não pode ser definido, pois o projeto “%{name}” já está compartilhando com todos os projetos.

@@ -25,20 +25,20 @@ de:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
-        work_package: A dynamic link to a work package placed using a macro.
+        attachment: Ein dynamischer Link zu einem Anhang, der mithilfe eines Makros eingefügt wurde.
+        commit: Ein dynamischer Link zu einem Commit, der mithilfe eines Makros eingefügt wurde.
+        document: Ein dynamischer Link zu einem Dokument, das mithilfe eines Makros eingefügt wurde.
+        export: Ein dynamischer Link auf einen Quelldatei-Export, der mithilfe eines Makros eingefügt wurde.
+        group: Ein dynamischer Link auf eine Gruppe, der mithilfe eines Makros eingefügt wurde.
+        meeting: Ein dynamischer Link zu einer Besprechung, der mithilfe eines Makros eingefügt wurde.
+        message: Ein dynamischer Link zu einer Nachricht, die mithilfe eines Makros eingefügt wurde.
+        project: Ein dynamischer Link auf ein Projekt, der mithilfe eines Makros eingefügt wurde.
+        revision: Ein dynamischer Link auf eine Revision, der mithilfe eines Makros eingefügt wurde.
+        source: Ein dynamischer Link auf eine Quelldatei, der mithilfe eines Makros eingefügt wurde.
+        user: Ein dynamischer Link zu einem Benutzer, der mithilfe eines Makros eingefügt wurde.
+        version: Ein dynamischer Link auf eine Version, der mithilfe eines Makros eingefügt wurde.
+        view: Ein dynamischer Link zu einer Ansicht, der mithilfe eines Makros eingefügt wurde.
+        work_package: Ein dynamischer Link auf ein Arbeitspaket, der mithilfe eines Makros eingefügt wurde.
   account:
     auth_source_login_html: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.
     delete: Konto löschen
@@ -227,7 +227,7 @@ de:
         latest_activity_at: Letzte Aktivität am
         parent: Unterprojekt von
         portfolio: Portfolio
-        program: Program
+        program: Programm
         project_creation_wizard_assignee_custom_field: Zuweisung bei Einreichung
         project_creation_wizard_enabled: Projektinitiierungsantrag
         project_creation_wizard_notification_text: Benachrichtigungstext
@@ -342,17 +342,17 @@ de:
         token_name: Tokenname
       type:
         attribute_groups: Formularkonfiguration
-        children: Sub-types
+        children: Variante
         color: Farbe
-        dependent_configuration_links: Linked types
+        dependent_configuration_links: Verknüpfte Typen
         description: Standardtext für Beschreibung
         is_default: Typ für neue Projekte standardmäßig aktiviert
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
-        parent: Parent type
+        parent: Übergeordneter Typ
         patterns: Muster
       type/configuration_link:
-        source: Source type
+        source: Quelltyp
       user:
         admin: Administrator
         auth_source: Authentifizierungsquelle
@@ -591,7 +591,7 @@ de:
               blank: Die Formel kann nicht leer sein.
               format: "%{message}"
               invalid: Die Formel ist ungültig.
-              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Nur numerische Werte, mathematische Operatoren, Funktionen, Schlüsselworte und Projektattribute vom Typ Integer, Float, Berechneter Wert und Gewichtete Liste sind erlaubt.
               not_allowed_custom_fields_referenced: Das Attribut %{custom_fields} kann nicht verwendet werden, da es zu einem Zirkelbezug führt; ein Attribut hängt vom anderen ab.
             required:
               cannot_be_true: kann nicht auf 'wahr' gesetzt werden.
@@ -693,13 +693,13 @@ de:
               must_start_with_letter: muss mit einem Buchstaben beginnen
               no_special_characters: darf nur Großbuchstaben, Zahlen und Unterstriche enthalten
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_subtypes_of_parent: Pro Projekt kann jeweils nur eine Variante eines Typs aktiviert werden
+              cannot_assign_subtype_and_parent: 'Eine Variante und sein übergeordneter Typ können nicht zugewiesen werden '
+              cannot_assign_subtypes_yet: Varianten können derzeit noch nicht auf Projektebene aktiviert werden. Aktivieren Sie die Beta-Funktion, um Varianten auszuprobieren
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_subtype: Es ist nur möglich, von einer Variante auf eine andere zu wechseln
+              switch_target_identical: Der Zieltyp muss sich von der aktuellen Variante unterscheiden
+              switch_target_not_in_family: Kann nur zu einer anderen Variante desselben Typs oder seinem übergeordneten Typ wechseln
           cannot_be_assigned_to_artifact_work_package: Der gewählte Nutzer darf im Arbeitspaket nicht zugewiesen werden.
           foreign_wps_reference_version: Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.
         project/phase:
@@ -811,17 +811,17 @@ de:
               group_without_name: Gruppenname darf nicht leer sein.
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              cannot_be_self: kann nicht der Typ selbst sein.
+              cannot_change_with_work_packages: kann nicht geändert werden, da bereits Arbeitspakete dieses Typs vorhanden sind.
+              cannot_have_children: kann nicht festgelegt werden, da dieser Typ bereits Varianten hat.
+              must_be_a_root: muss selbst ein Typ der obersten Ebene sein. Typen dürfen nur eine Ebene tief verschachtelt werden.
+              standard_type_must_be_root: kann nicht für den Standardtyp gesetzt werden.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
         type/configuration_link:
           attributes:
             source:
-              must_differ_from_type: can't be the type itself.
+              must_differ_from_type: kann nicht der Typ selbst sein.
         user:
           attributes:
             base:
@@ -1101,7 +1101,7 @@ de:
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
-      tab_default_colors: Default colors
+      tab_default_colors: Standardfarben
       tab_interface: Benutzeroberfläche
       tab_pdf_export_font: Schriftart für den PDF-Export
       tab_pdf_export_styles: PDF-Exportstile
@@ -1148,7 +1148,6 @@ de:
 
           '
         description: Dieser Jira Migrator befindet sich derzeit in der Beta-Phase. Wir unterstützen derzeit nur Jira Server/Data Center Versionen 10.x und 11.x. Cloud-Instanzen werden derzeit nicht unterstützt.
-        supported_versions: ''
         title: Beta - Probieren Sie es aus!
       blank:
         description: Konfigurieren Sie einen Jira-Host, um mit dem Import von Elementen aus Jira in diese OpenProject-Instanz zu beginnen.
@@ -1573,7 +1572,7 @@ de:
     attributes:
       property: Eigenschaft
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Deprecated: Dieses unäre Feld wird durch `targetVersions` ersetzt. Verwenden Sie stattdessen `targetVersions` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `targetVersions` höchstens einen Wert und darf nicht zusammen mit `version` in derselben Anfrage angegeben werden.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Dieser Aktivitätstyp unterstützt keine Emoji-Reaktionen.
@@ -1765,8 +1764,8 @@ de:
     reset_token:
       action_create: Erstellen
       action_reset: Zurücksetzen
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Ich nehme zur Kenntnis, dass das Backup-Token den Zugriff zum Herunterladen aller Daten dieser Installation gewährt
+      checkbox_confirmation_reset: Ich nehme zur Kenntnis, dass das bestehende Backup-Token ungültig wird
       heading_create: Backup-Token erstellen
       heading_reset: Backup-Token zurücksetzen
       implications: 'Das Aktivieren von Backups erlaubt jedem Benutzer mit den erforderlichen Berechtigungen und diesem Backup-Token ein Backup herunterzuladen, das alle Daten dieser OpenProject-Installation enthält. Dies schließt die Daten aller anderen Benutzer ein.
@@ -2036,7 +2035,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Fügen Sie numerische Werte hinzu oder geben Sie / ein, um nach einem Attribut, einem Operator, einer Funktion oder einem Schlüsselwort zu suchen.
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -2474,8 +2473,8 @@ de:
   error_attribute_not_highlightable: 'Nicht hervorhebbare Attribut(e): %{attributes}'
   error_auth_source_sso_failed: Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen
   error_can_not_archive_project: 'Dieses Projekt kann nicht archiviert werden: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type: Der Typ "%{type}" kann nicht deaktiviert werden, da er noch von %{work_packages_link} verwendet wird
+  error_can_not_deactivate_type_invisible_projects: Es existieren auch Arbeitspakete in für Sie nicht sichtbaren Projekten.
   error_can_not_delete_custom_field: Benutzerdefiniertes Feld kann nicht gelöscht werden.
   error_can_not_delete_entry: Eintrag kann nicht gelöscht werden
   error_can_not_delete_in_use_archived_undisclosed: Es gibt auch Arbeitspakete in archivierten Projekten. Sie müssen einen Administrator bitten, die Löschung durchzuführen, um zu sehen, welche Projekte betroffen sind.
@@ -2765,15 +2764,14 @@ de:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki-Integration (Corporate-Plan).
-            line_1: Sprint-Ziele.
-            line_2: Übersichtsseite „Alle Sprints“.
-            line_3: Zeige Backlog Buckets in Arbeitspaketen und Arbeitspaket-Tabellen.
-            line_4: Verbesserte Unterstützung für projektbezogene (semantische) Identifikatoren.
-            line_5: Tagesordnungspunkte einer Besprechung in Arbeitspakete umwandeln.
-            line_6: Kostenarten pro Projekt konfigurieren.
+            line_0: Neues Ressourcenmanagementmodul für Kapazitätsplanung und Personalplanung (Premium Plan).
+            line_1: Bessere Organisationsverwaltung mit Abteilungen, Benutzerattributen wie Jobtiteln und Arbeitszeiten.
+            line_2: Mehrere aktive Sprints ohne Sprints zu teilen (Basic Plan).
+            line_3: Verbesserte "Backlog und Sprints"-Ansicht mit Mehrfachauswahlfiltern, besserem Drag & Drop und der Möglichkeit, bestehende Arbeitspakete hinzuzufügen.
+            line_4: PM2/PMflex Artefakt-Export und ein neues Widget für Projektphasen und -gates Übersicht.
+            line_5: Globaler Wiki-Seitenindex und einfachere Navigation zwischen verwandten Seiten.
           new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
@@ -2928,8 +2926,8 @@ de:
   label_blog: Blog
   label_board_plural: Boards
   label_boolean: Boolesch
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: ist nicht
+  label_boolean_true: ist
   label_branch: Zweig
   label_browse: Codebrowser
   label_builtin: Vordefiniert
@@ -2976,7 +2974,7 @@ de:
   label_configuration: Konfiguration
   label_confirmation: Bestätigung
   label_consent_settings: Nutzer-Einwilligung
-  label_constant_plural: Constants
+  label_constant_plural: Konstanten
   label_contains: enthält
   label_content: Inhalt
   label_continued_from_previous_year: fortgeführt vom Vorjahr
@@ -3114,7 +3112,7 @@ de:
   label_forum_plural: Foren
   label_forum_sticky: Angepinnt
   label_forums_locked: Gesperrt
-  label_function_plural: Functions
+  label_function_plural: Funktionen
   label_gantt_chart: Gantt-Diagramm
   label_gantt_chart_plural: Gantt Diagramme
   label_general: Allgemein
@@ -3304,7 +3302,7 @@ de:
   label_operator_equals_all: ist (UND)
   label_operator_equals_or: ist (ODER)
   label_operator_none: ist leer
-  label_operator_plural: Operators
+  label_operator_plural: Operatoren
   label_operator_shared_with_user_any: beliebig
   label_optional_description: Beschreibung
   label_options: Optionen
@@ -3385,7 +3383,7 @@ de:
   label_projects_disk_usage_information: "%{count} Projekte, die %{used_disk_space} Speicherplatz belegen"
   label_projects_menu: Projekte
   label_public_projects: Öffentliche Projekte
-  label_punctuation: Punctuation
+  label_punctuation: Zeichensetzung
   label_query_new: Neuer Bericht
   label_query_plural: Benutzerdefinierte Berichte
   label_read: Lesen ...
@@ -4479,13 +4477,13 @@ de:
         label: Vorlage
         none_enabled: Für diesen Arbeitspakettyp ist keine Vorlage aktiv
       toc:
-        caption: Add a table of contents page indexing the section headers.
-        label: Table of contents
+        caption: Fügen Sie ein Inhaltsverzeichnis ein, in dem die Überschriften der Abschnitte aufgeführt sind.
+        label: Inhaltsverzeichnis
       title: PDF generieren
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Details zum Arbeitspaket, dargestellt als PMflex-Artefakt.
+      label: PMflex-Artefakt
     template_attributes:
       caption: Alle Attribute, die in der aktuellen Formularkonfiguration mit der Standardvorlage vorhanden sind.
       label: Attribute und Beschreibung
@@ -4772,11 +4770,11 @@ de:
           no_status_when_submitted: Der Antrag auf Projektinitiierung konnte nicht aktiviert werden, da für den Arbeitspaket-Typ %{type} mindestens ein Status erforderlich ist, der mit ihm verknüpft ist. Bitte aktivieren Sie mindestens einen Status-Workflow für diesen Arbeitspaket-Typ.
           no_work_package_type: Die Anfrage zur Projektinitiierung konnte nicht aktiviert werden, da dafür mindestens ein aktiver Arbeitspaket-Typ erforderlich ist und dieses Projekt keinen hat. Bitte fügen Sie diesem Projekt mindestens einen Arbeitspaket-Typ hinzu.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Das erstellte Artefakt wird als PDF-Anhang zum Artefakt-Arbeitspaket gespeichert.
+          description_file_link_export: Das erstellte Arbeitspaket enthält einen Dateilink zu einer PDF-Datei, die in einem externen Dateispeicher gespeichert ist. Erfordert einen aktiven Dateispeicher mit automatisch verwalteten Projektordnern. Im Moment werden nur Nextcloud-Dateispeicher unterstützt.
           description_file_storage_selection: Wählen Sie, welcher der konfigurierten externen Dateispeicher verwendet werden soll.
           external_file_storage: Externe Dateispeicher
-          label_artifact_export: Artefact export
+          label_artifact_export: Artefakt-Export
           label_attachment_export: Als Dateianhang des Arbeitspakets speichern
           label_file_link_export: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
           pdf_file_storage: PDF-Datei-Speicherort
@@ -4867,13 +4865,13 @@ de:
     status:
       button_edit: Status bearbeiten
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
+      create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
       sidebar_content_title: Inhalt
-      success: Project attributes saved and artefact work package created successfully.
+      success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
       title: Projektinitiierungsantrag
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
@@ -5244,7 +5242,7 @@ de:
   setting_total_percent_complete_mode_work_weighted_average: Nach Aufwand gewichtet
   setting_total_percent_complete_mode_work_weighted_average_caption_html: Der <i>Gesamtwert % abgeschlossen</i> wird gegen den <i>Aufwand</i> der einzelnen Arbeitspakete in der Hierarchie gewichtet. Arbeitspakete ohne <i>Aufwand</i> werden ignoriert.
   setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen für Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Nutzer dürfen ihre E-Mail-Adresse ändern
   setting_user_default_timezone: Standard-Zeitzone für Benutzer
   setting_user_format: Format des Benutzernamens
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
@@ -5381,12 +5379,12 @@ de:
         confirmation_message: Der Projektinitiierungsantrag wird für neue Projekte, die auf dieser Vorlage basieren, nicht mehr verfügbar sein. Projektmanager und Projektverantwortliche müssen die entsprechenden Informationen in der Projektübersicht manuell konfigurieren und ausfüllen.
         heading: Diesen Projektinitiationsantrag deaktivieren?
         title: Projektinitiierungsantrag deaktivieren
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject kann einen Schritt-für-Schritt-Assistenten erstellen, der beim Ausfüllen eines Projektinitiierungsantrags unterstützt. Sie können die abgefragten Projektattribute wählen und ein Artefakt als Ergebnis erzeugen lassen.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Name des Artefakts
+        artifact_name_caption: Wählen Sie den Namen für dieses Artefakt, passend zu Ihrer Projektmanagement-Methodik.
         options:
           project_creation_wizard: Projekterstellungs-Assistent
           project_initiation_request: Projektinitiierungsantrag
@@ -5406,8 +5404,8 @@ de:
           Sie haben einen Antrag auf Projektinitiierung für **%{project_name}** eingereicht. Dieser wartet nun auf seine Überprüfung.
           Klicken Sie auf den untenstehenden Link, um das Arbeitspaket mit Ihrem Antrag aufzurufen.
         confirmation_email_text: Text der Bestätigungs-E-Mail
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Wenn ein Benutzer eine Anfrage zur Projektinitiierung einreicht, wird ein neues Arbeitspaket erstellt, an das ein Artefakt der Anfrage als PDF-Datei angehängt wird. Die folgenden Einstellungen definieren den Typ, den Status und den Empfänger für dieses neue Arbeitspaket.
+        description_template: "**Dieses Arbeitspaket wurde automatisch nach Abschluss des %{wizard_name} Workflows erstellt.** Ein PDF-Artefakt mit allen eingereichten Informationen wurde generiert und zu Referenz- und Prüfzwecken an dieses Arbeitspaket angehängt. Wenn Sie die Einleitungsschritte aktualisieren oder erneut ausführen müssen, können Sie den Assistenten jederzeit über den unten stehenden Link erneut öffnen:\n"
         send_confirmation_email: Senden Sie eine Bestätigungs-E-Mail an den Benutzer, der den Projektinitiierungsantrag gestellt hat
         status_when_submitted: Status bei Einreichung
         status_when_submitted_caption: Der Status, in den das erstellte Arbeitspaket übergeht, sobald der Antrag eingereicht wird.
@@ -5415,7 +5413,7 @@ de:
         work_package_comment_caption: Der oben ausgewählte Empfänger wird automatisch in dem Kommentar @erwähnt.
         work_package_comment_default: Ein Antrag auf Projektinitiierung für **%{project_name}** wurde eingereicht und wartet auf seine Prüfung.
         work_package_type: Arbeitspaket-Typ
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: Der Arbeitspaket-Typ, der zum Speichern des Artefakts verwendet wird.
       wizard_status_button:
         project_creation_wizard: Projekterstellungs-Assistent öffnen
         project_initiation_request: Projektinitiierungsantrag öffnen
@@ -5445,7 +5443,7 @@ de:
       section_project_overview: Einstellungen für Projektlisten
     session: Sitzung
     user:
-      account: Account
+      account: Konto
       default_preferences: Standardeinstellungen
       deletion: Löschen
       display_format: Anzeigeformat
@@ -5699,8 +5697,8 @@ de:
   text_own_membership_delete_confirmation: |-
     Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.
     Sind Sie sicher, dass Sie dies tun möchten?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Ich verstehe, dass diese Löschung nicht rückgängig gemacht werden kann.
+  text_permanent_remove_confirmation_checkbox_label: Ich verstehe, dass das Entfernen nicht rückgängig gemacht werden kann.
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_powered_by: Powered by %{link}
   text_project_custom_field_html: 'Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
@@ -5789,51 +5787,51 @@ de:
   total_progress: Gesamtfortschritt
   types:
     creation_wizard:
-      configuration_link_error: The reuse mode could not be saved. Please select a source type.
-      create_subtype: Create sub-type
+      configuration_link_error: Der Wiederverwendungsmodus konnte nicht gespeichert werden. Bitte wählen Sie einen Quelltyp aus.
+      create_subtype: Variante anlegen
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        inherited_from_parent_html: Vom übergeordneten Typ <b>%{parent}</b> gesetzt.
+      finish: Beenden
+      placeholder_description: Dieser Schritt wird in Kürze verfügbar sein.
+      progress_label: Schritt %{number} von %{total}
       steps:
-        automations: Automations
+        automations: Automatisierungen
         details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        projects: Projects
+        form_configuration: Formularkonfiguration
+        pdf: PDF-Erstellung
+        projects: Projekte
         workflows: Workflows
-      success: Sub-type created successfully.
+      success: Variante erfolgreich erstellt.
       workflows:
-        copy_caption: Copy the workflow configuration from an existing type as a starting point.
+        copy_caption: Kopieren Sie die Workflow-Konfiguration eines vorhandenen Typs als Ausgangspunkt.
     edit:
       configuration_link:
         independent:
-          caption: These settings belong to this type and are edited here. They are not linked to any other type.
-          label: Independent
-          warning: Switching to Independent copies the selected source type's current settings onto this type, then removes the link. You can edit them freely afterwards. Please proceed with caution.
+          caption: Diese Einstellungen gehören zu diesem Typ und werden hier bearbeitet. Sie sind mit keinem anderen Typ verknüpft.
+          label: Unabhängig
+          warning: Der Wechsel auf den unabhängigen Modus kopiert die aktuellen Einstellungen des ausgewählten Quelltyps auf diesen Typ und entfernt dann den Link. Sie können diese danach frei bearbeiten. Bitte fahren Sie mit Vorsicht fort.
         linked:
-          caption: These settings are reused from a source type and stay in sync with it. To change them, edit the source type.
-          label: Linked
-          warning: Linking replaces this type's own settings with the source type's. The current settings are discarded and work packages of this type may be affected. Please proceed with caution.
+          caption: Diese Einstellungen werden von einem Quelltyp übernommen und bleiben mit diesem synchronisiert. Um sie zu ändern, bearbeiten Sie bitte den Quelltyp.
+          label: Verknüpft
+          warning: Durch die Verknüpfung werden die eigenen Einstellungen dieses Typs durch die des Quelltyps ersetzt. Die aktuellen Einstellungen gehen dabei verloren, und Arbeitspakete dieses Typs können davon betroffen sein. Bitte gehen Sie mit Bedacht vor.
         source:
-          label: Source type
+          label: Quelltyp
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: Das erzeugte PDF wird als Anhang zum erstellten Arbeitspaket gespeichert.
+            label: Als Dateianhang des Arbeitspakets speichern
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: Die erstellte PDF-Datei wird in den automatisch verwalteten Nextcloud-Speicher des Projekts hochgeladen und vom Arbeitspaket aus verlinkt. Arbeitspakete in Projekten ohne einen solchen Speicher werden übersprungen.
+            label: Datei in externen Dateispeicher hochladen und Dateilink zum Arbeitspaket hinzufügen
+          intro: Automatisch ein PDF-Artefakt eines Arbeitspakets dieses Typs generieren, wenn sich dessen Status ändert.
+          invalid_mode: Ungültiger Artefakt-Exportmodus.
+          label: Automatischer Export von Artefakten
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: Es wird kein PDF automatisch generiert.
+            label: Aus
+          section_title: Automatischer Export von Artefakten
+          unavailable: Nicht verfügbar; es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
         intro: Wählen Sie aus den verfügbaren Vorlagen diejenige aus, die Sie für diesen Typ aktivieren möchten. Die Vorlage bestimmt das Design und die Attribute, die in der exportierten PDF-Datei eines Arbeitspakets mit diesem Typ sichtbar sind. Die erste Vorlage in der Liste ist standardmäßig ausgewählt.
         pdf_export_templates:
           actions:
@@ -5842,7 +5840,7 @@ de:
           label: PDF-Exportvorlagen
         tab: PDF generieren
         templates:
-          section_title: PDF export templates
+          section_title: PDF-Exportvorlagen
       form_configuration:
         add_attribute_group: Abschnitt
         add_query_group: Zugehörige Arbeitspaket-Tabelle
@@ -5890,7 +5888,7 @@ de:
         select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         tab: Projekte
       settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
+        parent_type_text: Sie können diese Variante optional als Untertyp verschachteln, indem Sie einen übergeordneten Typ auswählen.
         tab: Einstellungen
         type_color_text: |-
           Die ausgewählte Farbe unterscheidet verschiedene Typen
@@ -5914,17 +5912,17 @@ de:
             work_package: Arbeitspaket
           label_with_context: "%{attribute_context}: %{attribute_label}"
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_subtype: Variante hinzufügen zu %{name}
+      description: 'Jeder Konfigurationsbereich innerhalb von Typen und Varianten kann unabhängig konfiguriert, gegenüber einem anderen Typ eingeschränkt oder vollständig mit einer Quelle verknüpft werden.
 
         '
       no_results_content_text: Neuen Typ erstellen
       no_results_title_text: Derzeit gibt es keine Typen.
-      subtype_label: Sub-type
+      subtype_label: Variante
       subtypes_count:
-        one: 1 sub-type
-        other: "%{count} sub-types"
-      type_label: Type
+        one: 1 Variante
+        other: "%{count} Varianten"
+      type_label: Typ
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
     message: Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein.
@@ -5964,7 +5962,7 @@ de:
     status_change: Status geändert
     status_user_and_brute_force: "%{user} und %{brute_force}"
     text_change_disabled_for_provider_login: Der Login-Anbieter legt den Namen und die E-Mail-Adresse fest. Daher können sie nicht geändert werden.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: Das Ändern der E-Mail-Adresse wurde vom Administrator deaktiviert.
     unlock: Entsperren
     unlock_and_reset_failed_logins: Entsperren und fehlgeschlagene Logins zurücksetzen
   user_preferences:
@@ -6343,10 +6341,10 @@ de:
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       title: Arbeitspaket löschen
     move:
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 
         '
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'Der Typ dieses Arbeitspakets oder eines seiner Unterelemente ist im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 
         '
       no_common_statuses_exists: Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden.

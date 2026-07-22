@@ -1184,7 +1184,6 @@ ru:
 
           '
         description: Этот мигратор Jira в настоящее время находится в бета-версии. В настоящее время мы поддерживаем только Jira Server/Data Center версии 10. и 11.x. Облачные экземпляры в данный момент не поддерживаются.
-        supported_versions: ''
         title: Бета-версия - попробовать!
       blank:
         description: Настройте хост Jira, чтобы начать импортировать элементы из Jira в этот экземпляр OpenProject.
@@ -2873,15 +2872,14 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_6':
+        '17_7':
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: New Resource management module for capacity planning and staffing (Premium plan).
+            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
+            line_2: Multiple active sprints without sharing (Basic plan).
+            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
+            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
+            line_5: Global wiki page index and easier navigation between related pages.
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
