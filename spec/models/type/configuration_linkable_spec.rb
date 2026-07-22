@@ -295,4 +295,69 @@ RSpec.describe Type::ConfigurationLinkable do
       expect(type).not_to be_replacement_pattern_defined_for(:subject)
     end
   end
+
+  describe "form configuration resolution", with_flag: { subtypes: true } do
+    let(:form_aspect) { Type::ConfigurationLink::FORM_CONFIGURATION }
+    let(:source) do
+      create(:type).tap do |t|
+        t.attribute_groups = [["source_only_group", %w(assignee)]]
+        t.save!
+      end
+    end
+
+    before { type.update!(attribute_groups: [["own_group", %w(assignee)]]) }
+
+    it "reads attribute_groups from the linked owner" do
+      type.link!(form_aspect, source:)
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("source_only_group")
+      expect(keys).not_to include("own_group")
+    end
+
+    it "reads its own attribute_groups when Independent" do
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("own_group")
+      expect(keys).not_to include("source_only_group")
+    end
+
+    it "reads its own attribute_groups while an assignment is pending, even when linked" do
+      type.link!(form_aspect, source:)
+      type.attribute_groups = [["pending_group", %w(assignee)]]
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("pending_group")
+      expect(keys).not_to include("source_only_group")
+    end
+
+    it "reads custom_fields from the linked owner" do
+      cf = create(:integer_wp_custom_field)
+      source.custom_fields << cf
+      type.link!(form_aspect, source:)
+
+      expect(type.custom_fields).to include(cf)
+    end
+
+    it "still appends custom_fields to its own record when Independent" do
+      cf = create(:integer_wp_custom_field)
+      type.custom_fields << cf
+
+      expect(type.custom_fields).to include(cf)
+    end
+  end
+
+  describe "form configuration with the flag off", with_flag: { subtypes: false } do
+    it "ignores the link and reads its own attribute_groups" do
+      source = create(:type).tap do |t|
+        t.attribute_groups = [["source_only_group", %w(assignee)]]
+        t.save!
+      end
+      type.update!(attribute_groups: [["own_group", %w(assignee)]])
+      type.link!(Type::ConfigurationLink::FORM_CONFIGURATION, source:)
+
+      keys = type.attribute_groups.map(&:key)
+      expect(keys).to include("own_group")
+      expect(keys).not_to include("source_only_group")
+    end
+  end
 end

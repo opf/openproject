@@ -50,7 +50,7 @@ module WorkPackageCustomFields::Scopes
         visible_projects = Project.visible(user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
-        source_join, source_type_id = effective_form_source_sql
+        source_join, source_type_id = Type::EffectiveSourceSql.form_configuration_remap("pt.type_id")
 
         where(<<~SQL.squish)
           EXISTS (
@@ -69,35 +69,6 @@ module WorkPackageCustomFields::Scopes
                OR cfp.custom_field_id IS NOT NULL
           )
         SQL
-      end
-
-      private
-
-      # Returns [join_sql, type_id_expression] used to key the custom_fields_types
-      # join. When some type links its form configuration elsewhere, the join is
-      # redirected through the link's terminal source; otherwise the physical
-      # type is used unchanged.
-      def effective_form_source_sql
-        map = form_source_map
-        return ["", "pt.type_id"] if map.empty?
-
-        values = map.map { |type_id, source_id| "(#{type_id}, #{source_id})" }.join(", ")
-        join = "LEFT JOIN (VALUES #{values}) AS effective(type_id, source_id) " \
-               "ON effective.type_id = pt.type_id"
-        [join, "COALESCE(effective.source_id, pt.type_id)"]
-      end
-
-      # Maps each type linking its form configuration to the id of the type that
-      # owns it. Reuses Type#effective_source_for so the feature-flag gate and
-      # cycle tolerance stay in one place; the map is empty (identity everywhere)
-      # when the subtypes feature is off.
-      def form_source_map
-        aspect = Type::ConfigurationLink::FORM_CONFIGURATION
-        linked_type_ids = Type::ConfigurationLink.where(aspect:).distinct.pluck(:type_id)
-
-        Type.where(id: linked_type_ids)
-            .to_h { |type| [type.id, type.effective_source_for(aspect).id] }
-            .reject { |type_id, source_id| type_id == source_id }
       end
     end
   end
