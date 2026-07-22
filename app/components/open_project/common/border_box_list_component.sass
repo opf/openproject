@@ -100,6 +100,13 @@
   > .Box-list > .Box-row[data-empty-list-item]:not(:only-child)
     display: none
 
+  // Query context for the header reflow below. The header has to respond to the
+  // width of its own box, not the viewport: a list can sit in a narrow column on
+  // a wide screen.
+  > .Box-header
+    container-type: inline-size
+    container-name: op-border-box-list-header
+
 .op-border-box-list-header
   display: grid
   grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
@@ -143,6 +150,38 @@
       align-self: center
       justify-self: end
       margin-top: 0
+
+  // Too narrow to fit the title, the actions and the menu on one line: the
+  // actions get a row of their own so the title is never squeezed away. Same
+  // breakpoint the Primer fork uses for CollapsibleHeader.
+  @container op-border-box-list-header (width < 544px)
+    grid-template-columns: minmax(0, 1fr) auto
+    grid-template-areas: "heading menu" "actions actions" "description description"
+
+    &_collapsible
+      grid-template-areas: "heading menu" "actions actions"
+
+    &_with-drag-handle
+      grid-template-columns: 2rem minmax(0, 1fr) auto
+      grid-template-areas: "drag_handle heading menu" ". actions actions" ". description description"
+      &.op-border-box-list-header_collapsible
+        grid-template-areas: "drag_handle heading menu" ". actions actions"
+
+    // Spaced like the description row, so an absent actions area leaves no gap
+    // behind: the empty grid rows collapse to zero and headers without actions
+    // keep their original height.
+    &--actions
+      flex-wrap: wrap
+      margin-left: 0
+      margin-top: var(--op-border-box-list-header-row-gap)
+      align-self: center
+
+      &:not(:has(.Button))
+        justify-self: start
+
+      // A label pinned to one line is what pushed the title out in the first place
+      .Label
+        white-space: normal
 
   &--heading-line
     display: flex
