@@ -17,15 +17,18 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(type:, project_custom_field_section:, project_custom_fields:)
+      def initialize(type:, project_custom_field_section:, project_custom_fields:, readonly: false)
         super
 
         @type = type
         @project_custom_field_section = project_custom_field_section
         @project_custom_fields = project_custom_fields
+        @readonly = readonly
       end
 
       private
+
+      attr_reader :readonly
 
       def enable_all_path
         enable_all_of_section_type_project_attributes_path(
