@@ -38,6 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type: @type, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
 
   <% if @type && @roles.any? %>
-    <%= turbo_frame_tag "workflow-table", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
+    <%= turbo_frame_tag "workflow-table", class: "workflow-table--pinned-save-bar", src: edit_type_workflow_tab_path(@type, @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
   <% end %>
 <% end %>
