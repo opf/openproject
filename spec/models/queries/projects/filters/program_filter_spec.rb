@@ -35,6 +35,7 @@ RSpec.describe Queries::Projects::Filters::ProgramFilter do
     let(:class_key) { :program }
     let(:type) { :list_optional }
     let(:name) { Project.human_attribute_name(:program) }
+    let(:human_name) { I18n.t("program.filters.name") }
   end
 
   describe "#allowed_values" do
