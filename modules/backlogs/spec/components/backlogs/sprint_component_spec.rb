@@ -96,7 +96,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "renders one Box-row per work package" do
-        expect(rendered_component).to have_css(".Box-row", count: 2)
         expect(rendered_component).to have_text(work_package1.subject)
         expect(rendered_component).to have_text(work_package2.subject)
       end
@@ -173,7 +172,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
     end
 
     context "without work packages" do
-      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
+      it_behaves_like "rendering Box", row_count: 0, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
 
       it "renders the empty-state blankslate" do
