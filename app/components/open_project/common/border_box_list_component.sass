@@ -139,6 +139,23 @@
     // Unfortunately, the invisible button style bites us here again.
     margin-top: -6px
 
+  &--actions
+    display: flex
+    align-items: center
+    gap: var(--stack-gap-condensed)
+
+    // A label-only area pins to the track end. It keeps the base flex-start
+    // anchor (not the -6px button nudge) so the label's centre lands on the
+    // same line as the adjacent kebab glyph, independent of the row height.
+    &:not(:has(.Button))
+      justify-self: end
+      margin-top: 0
+
+      // An informational label has no room next to the title on a phone, so it
+      // is dropped there. Action buttons stay, as they are functional.
+      @media screen and (max-width: $breakpoint-sm)
+        display: none
+
   &--heading-line
     display: flex
     align-items: center

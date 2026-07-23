@@ -75,7 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if @types.any? %>
   <% if OpenProject::FeatureDecisions.type_variants_active? %>
-    <%= render WorkPackageTypes::Types::GroupedListComponent.new(types: @types) %>
+    <%= render WorkPackageTypes::Types::GroupedListComponent.new(types: @types, expanded_type_id: @expanded_type_id) %>
   <% else %>
     <%= render WorkPackageTypes::Types::TableComponent.new(rows: @types) %>
   <% end %>

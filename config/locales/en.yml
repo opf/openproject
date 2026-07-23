@@ -6197,13 +6197,19 @@ en:
       description: >
         Each configuration area inside types and variants can be independently configured, limited
         from another type, or fully linked to a source.
+      enabled_in_new_projects: "Active in new projects"
+      make_default: "Activate in new projects"
+      make_default_notice: "%{name} is now activated in new projects"
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      remove_default: "Do not activate in new projects"
+      remove_default_notice: "%{name} is no longer activated in new projects"
+      type_label: "Type"
+      variant_enabled_in_new_projects: "Variant %{name} active in new projects"
       variant_label: "Variant"
       variants_count:
         one: "1 variant"
         other: "%{count} variants"
-      type_label: "Type"
 
   unsupported_browser:
     close_warning: "Ignore this warning."

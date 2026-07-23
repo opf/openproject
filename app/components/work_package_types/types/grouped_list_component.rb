@@ -34,18 +34,39 @@ module WorkPackageTypes
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(types:)
+      def initialize(types:, expanded_type_id: nil)
         super()
 
         @types = types
+        @expanded_type_id = expanded_type_id
       end
 
       private
 
-      attr_reader :types
+      attr_reader :types, :expanded_type_id
+
+      def collapsed?(root)
+        root.id != expanded_type_id
+      end
 
       def variants_count_label(root)
         t("types.index.variants_count", count: root.children.size)
+      end
+
+      # A default variant is only visible once the group is expanded, so the
+      # collapsed header names it instead.
+      def add_default_label(header, root)
+        if root.is_default?
+          header.with_action_label { t("types.index.enabled_in_new_projects") }
+        elsif (variant = default_variant(root))
+          header.with_action_label(scheme: :secondary) do
+            t("types.index.variant_enabled_in_new_projects", name: variant.own_name)
+          end
+        end
+      end
+
+      def default_variant(root)
+        root.children.find(&:is_default?)
       end
 
       def add_variant_path(root)
@@ -54,6 +75,7 @@ module WorkPackageTypes
 
       def type_actions(menu, type)
         configure_action(menu, type)
+        default_action(menu, type)
         menu.with_divider
 
         if reorderable?(type)
@@ -67,6 +89,34 @@ module WorkPackageTypes
       def configure_action(menu, type)
         menu.with_item(label: t(:button_configure), href: edit_type_details_path(type_id: type.id)) do |item|
           item.with_leading_visual_icon(icon: :gear)
+        end
+      end
+
+      def default_action(menu, type)
+        if type.is_default?
+          remove_default_action(menu, type)
+        else
+          make_default_action(menu, type)
+        end
+      end
+
+      def make_default_action(menu, type)
+        menu.with_item(
+          label: t("types.index.make_default"),
+          href: make_default_type_path(type),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"check-circle")
+        end
+      end
+
+      def remove_default_action(menu, type)
+        menu.with_item(
+          label: t("types.index.remove_default"),
+          href: remove_default_type_path(type),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"circle-slash")
         end
       end
 

@@ -38,13 +38,14 @@ module WorkPackageTypes
 
     before_action :require_admin
     before_action :require_type_variants_feature, only: %i[drop]
-    before_action :find_type, only: %i[move destroy drop]
+    before_action :find_type, only: %i[move destroy drop make_default remove_default]
 
     current_menu_item do
       :types
     end
 
     def index
+      @expanded_type_id = params[:expand].presence&.to_i
       @types =
         if type_variants_enabled?
           root_types
@@ -97,6 +98,30 @@ module WorkPackageTypes
         flash[:error] = @type.errors.full_messages
       end
       redirect_to action: "index", status: :see_other
+    end
+
+    def make_default
+      service_call = WorkPackageTypes::MakeDefaultService.new(type: @type, user: current_user).call
+
+      if service_call.success?
+        flash[:notice] = t("types.index.make_default_notice", name: @type.own_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+
+      redirect_to types_path(expand: @type.parent_id), status: :see_other
+    end
+
+    def remove_default
+      service_call = WorkPackageTypes::RemoveDefaultService.new(type: @type, user: current_user).call
+
+      if service_call.success?
+        flash[:notice] = t("types.index.remove_default_notice", name: @type.own_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+
+      redirect_to types_path(expand: @type.parent_id), status: :see_other
     end
 
     def drop
