@@ -1209,13 +1209,13 @@ en:
         button_add: "Add configuration"
         button_delete_token: "Delete token"
         button_save: "Save configuration"
-        button_test: "Test configuration"
         delete_token_confirm: "Are you sure you want to delete the token? This will disable the Jira connection."
         fields:
           name: "Name"
           personal_access_token: "Personal Access Token"
           url: "Jira Server/Data Center URL"
         label_testing: "Testing configuration..."
+        test_configuration_caption: "You can test this configuration by [clicking here](test)"
       run:
         blank:
           description: "Create an import run to start importing information from this Jira instance"
