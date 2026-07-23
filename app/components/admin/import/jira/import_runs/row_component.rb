@@ -43,6 +43,10 @@ module Admin::Import::Jira::ImportRuns
         render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.current_state))
     end
 
+    def creator
+      render(Users::AvatarComponent.new(user: model.author, size: :mini, link: true, show_name: true))
+    end
+
     def last_changed
       helpers.format_time(model.updated_at)
     end

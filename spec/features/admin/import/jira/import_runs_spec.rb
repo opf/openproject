@@ -32,7 +32,9 @@ require "spec_helper"
 
 RSpec.describe "Jira import runs page", :js do
   shared_let(:admin) { create(:admin) }
+  shared_let(:author) { create(:user, firstname: "Jane", lastname: "Doe") }
   let!(:jira) { create(:jira, name: "My Jira") }
+  let!(:jira_import) { create(:jira_import, jira:, author:) }
 
   current_user { admin }
 
@@ -47,6 +49,14 @@ RSpec.describe "Jira import runs page", :js do
       within "anchored-position" do
         expect(page).to have_link("Edit configuration", href: edit_admin_import_jira_path(jira))
       end
+    end
+  end
+
+  describe "creator column" do
+    it "shows the import run author next to the avatar" do
+      expect(page).to have_text("Creator")
+      expect(page).to have_text("Jane Doe")
+      expect(page).to have_css(".op-avatar")
     end
   end
 end

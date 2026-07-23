@@ -1191,6 +1191,7 @@ en:
           environment variable.
       columns:
         added: "Added"
+        creator: "Creator"
         label_ago: "%{amount} ago"
         last_change: "Last change"
         projects: "Projects"
