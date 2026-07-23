@@ -79,7 +79,7 @@ module CustomField::CalculatedValue
   FIELD_FORMATS_FOR_FORMULA = %w[int float calculated_value weighted_item_list].freeze
 
   def self.calculator_instance
-    Dentaku::Calculator.new(case_sensitive: true)
+    Dentaku::Calculator.new(case_sensitive: true, raw_date_literals: false)
   end
 
   class_methods do
