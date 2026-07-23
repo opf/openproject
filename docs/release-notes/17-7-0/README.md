@@ -24,7 +24,7 @@ Take a look at our release video showing the most important features introduced 
 
 OpenProject 17.7 introduces new organizational management capabilities that provide the foundation for the new [Resource management module](#resource-management-module-enterprise-add-on). Departments, work-related user attributes, and individual work schedules help organizations represent their workforce more accurately and enable realistic capacity planning and staffing.
 
-These features are also available independently of the Resource management module, allowing organizations on other OpenProject plans to better structure user information and organizational data. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](/blog/resource-management-capacity-planning).
+These features are also available independently of the Resource management module, allowing organizations on other OpenProject plans to better structure user information and organizational data.
 
 **Departments**
 
@@ -36,13 +36,13 @@ Organizations using LDAP (Enterprise add-on) can automatically synchronize depar
 
 **Work-related user attributes**
 
-Under *Administration → Users and permissions → Users*, you can now set organization-specific user attributes such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
+Under *Administration → Users and permissions → Users*, you can now set organization-specific [user attributes](../d..ocs/system-admin-guide/users-permissions/user-attributes/) such as job title, key skills, spoken languages, or employment information. Depending on their permissions, users can update these attributes for themselves or on behalf of others, making it easier to keep workforce information up to date.
 
 ![OpenProject's user profile shows user attributes such as department, job title, spoken languages, and key skills.](openproject-resource-management-user-attributes.png)
 
 **Work schedule**
 
-Under *Administration → Users and permissions → Users*, you can now configure individual work schedules for every user, including working days, work hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
+Under *Administration → Users and permissions → Users*, you can now [configure individual work schedules](../../user-guide/account-settings/schedule-and-availability/) for every user, including working days, work hours, availability factors, and future schedule changes. Users can also update their own work schedules or those of others, depending on their permissions.
 
 ![OpenProject's Work schedule page shows a user's work hours, availability factor, effective work hours, and future schedule changes used for resource planning.](openproject-resource-management-user-work-schedule.png)
 
@@ -50,7 +50,7 @@ Under *Administration → Users and permissions → Users*, you can now configur
 
 [feature: resource_management ]
 
-The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization.
+The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](/blog/resource-management-capacity-planning). For a detailed documentation, please refer to our [user guide on resource management](../../user-guide/resource-management/).
 
 **Resource planner**
 
@@ -166,7 +166,7 @@ The user administration page now provides improved status filters, making it eas
 
 SCIM configuration options can now be provided through environment variables, making automated deployments and infrastructure management easier.
 
-### Important technical changes
+## Important technical changes
 
 **Agenda API: Fetch agenda items by work package ID**
 
