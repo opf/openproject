@@ -100,13 +100,6 @@
   > .Box-list > .Box-row[data-empty-list-item]:not(:only-child)
     display: none
 
-  // Query context for the header reflow below. The header has to respond to the
-  // width of its own box, not the viewport: a list can sit in a narrow column on
-  // a wide screen.
-  > .Box-header
-    container-type: inline-size
-    container-name: op-border-box-list-header
-
 .op-border-box-list-header
   display: grid
   grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
@@ -143,45 +136,17 @@
     align-items: center
     gap: var(--stack-gap-condensed)
 
-    // Labels carry no such padding, and unlike buttons they are narrower than
-    // the 5rem minimum track, so a label-only area needs the nudge undone and
-    // pinning to the track end to line up with the labels on the list items
+    // A label-only area pins to the track end. It keeps the base flex-start
+    // anchor (not the -6px button nudge) so the label's centre lands on the
+    // same line as the adjacent kebab glyph, independent of the row height.
     &:not(:has(.Button))
-      align-self: center
       justify-self: end
       margin-top: 0
 
-  // Too narrow to fit the title, the actions and the menu on one line: the
-  // actions get a row of their own so the title is never squeezed away. Same
-  // breakpoint the Primer fork uses for CollapsibleHeader.
-  @container op-border-box-list-header (width < 544px)
-    grid-template-columns: minmax(0, 1fr) auto
-    grid-template-areas: "heading menu" "actions actions" "description description"
-
-    &_collapsible
-      grid-template-areas: "heading menu" "actions actions"
-
-    &_with-drag-handle
-      grid-template-columns: 2rem minmax(0, 1fr) auto
-      grid-template-areas: "drag_handle heading menu" ". actions actions" ". description description"
-      &.op-border-box-list-header_collapsible
-        grid-template-areas: "drag_handle heading menu" ". actions actions"
-
-    // Spaced like the description row, so an absent actions area leaves no gap
-    // behind: the empty grid rows collapse to zero and headers without actions
-    // keep their original height.
-    &--actions
-      flex-wrap: wrap
-      margin-left: 0
-      margin-top: var(--op-border-box-list-header-row-gap)
-      align-self: center
-
-      &:not(:has(.Button))
-        justify-self: start
-
-      // A label pinned to one line is what pushed the title out in the first place
-      .Label
-        white-space: normal
+      // An informational label has no room next to the title on a phone, so it
+      // is dropped there. Action buttons stay, as they are functional.
+      @media screen and (max-width: $breakpoint-sm)
+        display: none
 
   &--heading-line
     display: flex
