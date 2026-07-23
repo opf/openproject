@@ -37,6 +37,6 @@ class Queries::Views::Filters::ProjectFilter < Queries::Views::Filters::ViewFilt
   end
 
   def where
-    operator_strategy.sql_for_field(values, Query.table_name, self.class.key)
+    operator_strategy.sql_for_field(values, Query.table_name, key)
   end
 end

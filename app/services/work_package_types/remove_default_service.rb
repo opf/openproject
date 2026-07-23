@@ -28,26 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::Filters::UserFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  include Queries::Filters::Shared::MeValueFilter
+module WorkPackageTypes
+  # Clears the "active in new projects" flag from a type or variant.
+  class RemoveDefaultService
+    def initialize(type:, user:)
+      @type = type
+      @user = user
+    end
 
-  def allowed_values
-    # We don't care for the first value as we do not display the values visibly
-    @allowed_values ||= me_allowed_value + ::Principal
-                       .in_visible_project
-                       .pluck(:id)
-                       .map { |id| [id, id.to_s] }
-  end
+    def call
+      type.update!(is_default: false)
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, key)
-  end
+      ServiceResult.success(result: type)
+    rescue ActiveRecord::RecordInvalid => e
+      ServiceResult.failure(result: type, errors: e.record.errors)
+    end
 
-  def type
-    :list_optional
-  end
+    private
 
-  def self.key
-    :user_id
+    attr_reader :type, :user
   end
 end

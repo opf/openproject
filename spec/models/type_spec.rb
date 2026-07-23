@@ -555,7 +555,10 @@ RSpec.describe Type do
       it "reads the boolean settings through to the parent, ignoring its own columns" do
         expect(child.is_milestone?).to be(true)
         expect(child.is_in_roadmap?).to be(false)
-        expect(child.is_default?).to be(true)
+      end
+
+      it "keeps is_default on the variant itself" do
+        expect(child.is_default?).to be(false)
       end
 
       it "keeps the variant's own name as the variant label" do

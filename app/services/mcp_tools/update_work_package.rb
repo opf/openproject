@@ -29,26 +29,43 @@
 #++
 
 module McpTools
-  class CreateWorkPackage < Base
-    default_title "Create work package"
-    default_description "Create a new work package."
+  class UpdateWorkPackage < Base
+    default_title "Update work package"
+    default_description "Updates a work package in-place."
 
-    name "create_work_package"
+    name "update_work_package"
     annotations read_only: false, idempotent: false, destructive: false
 
     input_schema(
+      required: %w[id data],
       properties: {
+        id: {
+          type: :number,
+          description: "The ID of the work package that shall be updated."
+        },
         data: {
           type: %w[object],
-          description: "JSON Representation of the work package to be created. The format is the same as accepted by APIv3."
+          description: "JSON Representation of the work package to be updated. Only attributes that shall be changed need " \
+                       "to be included. The format is the same as accepted by APIv3.",
+          required: %w[lockVersion],
+          properties: {
+            lockVersion: {
+              type: :number,
+              description: "The lock version as indicated by the work package when reading it. This value is used for " \
+                           "optimistic locking, if a change is rejected because of a conflict, " \
+                           "re-read the work package and apply changes based on its new state."
+            }
+          }
         }
       }
     )
 
-    def call(data:)
-      attributes = parse_work_package(data)
+    def call(id:, data:)
+      work_package = WorkPackage.visible(current_user).find_by(id:)
+      return { error: "The given work package could not be found." } if work_package.nil?
 
-      result = WorkPackages::CreateService.new(user: current_user).call(**attributes)
+      attributes = parse_work_package(data)
+      result = WorkPackages::UpdateService.new(user: current_user, model: work_package).call(**attributes)
 
       if result.success?
         API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)

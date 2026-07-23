@@ -28,26 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::Filters::UserFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  include Queries::Filters::Shared::MeValueFilter
+# Shared normalization for the array-valued +target_version_ids+ parameter used
+# by the work package move and bulk-edit forms. It is pulled out of the generic
+# scalar "none"/blank attribute transforms (which are built for scalar values)
+# and normalized here instead.
+module WorkPackages::TargetVersionNormalization
+  extend ActiveSupport::Concern
 
-  def allowed_values
-    # We don't care for the first value as we do not display the values visibly
-    @allowed_values ||= me_allowed_value + ::Principal
-                       .in_visible_project
-                       .pluck(:id)
-                       .map { |id| [id, id.to_s] }
-  end
+  included do
+    private
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, key)
-  end
-
-  def type
-    :list_optional
-  end
-
-  def self.key
-    :user_id
+    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
+    #   * blank selection  -> nil  (leave existing target_versions untouched)
+    #   * "none" selection -> []   (clear all target_versions)
+    #   * a version id      -> [id]
+    def normalized_target_version_ids(raw)
+      values = Array(raw).compact_blank
+      values == ["none"] ? [] : values.presence
+    end
   end
 end

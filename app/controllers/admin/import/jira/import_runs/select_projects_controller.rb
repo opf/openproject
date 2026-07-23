@@ -131,7 +131,7 @@ module Admin::Import::Jira::ImportRuns
               method: "morph"
             )
           end
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
       end
     end
@@ -143,7 +143,7 @@ module Admin::Import::Jira::ImportRuns
             component: project_list_counter_component,
             method: "morph"
           )
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
       end
     end

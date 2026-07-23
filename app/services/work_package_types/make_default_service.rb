@@ -28,26 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::Filters::UserFilter < Queries::TimeEntries::Filters::TimeEntryFilter
-  include Queries::Filters::Shared::MeValueFilter
+module WorkPackageTypes
+  # Marks a type or variant as the default for new projects. The flag is unique
+  # within a family, so the previous holder among the root and its variants is
+  # unmarked in the same transaction.
+  class MakeDefaultService
+    def initialize(type:, user:)
+      @type = type
+      @user = user
+    end
 
-  def allowed_values
-    # We don't care for the first value as we do not display the values visibly
-    @allowed_values ||= me_allowed_value + ::Principal
-                       .in_visible_project
-                       .pluck(:id)
-                       .map { |id| [id, id.to_s] }
-  end
+    def call
+      Type.transaction do
+        previous_defaults.each { |member| member.update!(is_default: false) }
+        type.update!(is_default: true)
+      end
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, key)
-  end
+      ServiceResult.success(result: type)
+    rescue ActiveRecord::RecordInvalid => e
+      ServiceResult.failure(result: type, errors: e.record.errors)
+    end
 
-  def type
-    :list_optional
-  end
+    private
 
-  def self.key
-    :user_id
+    attr_reader :type, :user
+
+    def previous_defaults
+      type.family.select { |member| member != type && member.is_default? }
+    end
   end
 end

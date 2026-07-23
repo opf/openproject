@@ -104,7 +104,17 @@ describe('Sortable lists item controller', () => {
 
   function connectedControllerFor(
     element:HTMLElement,
-    { handle = null, root = fakeRoot() }:{ handle?:HTMLElement|null; root?:SortableListsRoot|null } = {},
+    {
+      handle = null,
+      root = fakeRoot(),
+      externalUrl = null,
+      label = null,
+    }:{
+      handle?:HTMLElement|null;
+      root?:SortableListsRoot|null;
+      externalUrl?:string|null;
+      label?:string|null;
+    } = {},
   ) {
     const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
 
@@ -113,6 +123,10 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasIdValue', { value: true });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
     Object.defineProperty(controller, 'hasTypeValue', { value: true });
+    Object.defineProperty(controller, 'externalUrlValue', { value: externalUrl ?? '' });
+    Object.defineProperty(controller, 'hasExternalUrlValue', { value: externalUrl !== null });
+    Object.defineProperty(controller, 'labelValue', { value: label ?? '' });
+    Object.defineProperty(controller, 'hasLabelValue', { value: label !== null });
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
       Object.defineProperty(controller, 'handleTarget', { value: handle });
@@ -440,10 +454,66 @@ describe('Sortable lists item controller', () => {
     })).toBe(false);
   });
 
-  it('does not expose native external drag data', () => {
+  it('exposes the external URL as native drag data for external consumers', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, { externalUrl: 'http://example.org/work_packages/123' });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData).toEqual({
+      'text/uri-list': 'http://example.org/work_packages/123',
+      'text/plain': 'http://example.org/work_packages/123',
+    });
+  });
+
+  it('adds a text/html link flavour when the item has a label', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, {
+      externalUrl: 'http://example.org/work_packages/123',
+      label: 'Feature #123: Card subject',
+    });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData).toEqual({
+      'text/uri-list': 'http://example.org/work_packages/123',
+      'text/plain': 'http://example.org/work_packages/123',
+      'text/html': '<a href="http://example.org/work_packages/123">Feature #123: Card subject</a>',
+    });
+  });
+
+  it('escapes HTML-sensitive characters in the external link label', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, {
+      externalUrl: 'http://example.org/work_packages/123',
+      label: '<script>alert("x")</script> & more',
+    });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0]
+      .getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData?.['text/html']).toBe(
+      '<a href="http://example.org/work_packages/123">&lt;script&gt;alert("x")&lt;/script&gt; &amp; more</a>',
+    );
+  });
+
+  it('does not expose native external drag data without an external URL', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element);
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
+  });
+
+  it('does not expose native external drag data for a blank external URL', () => {
+    const element = document.createElement('article');
+
+    connectedControllerFor(element, { externalUrl: '' });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
   });

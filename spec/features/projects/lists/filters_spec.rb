@@ -680,9 +680,9 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         it "offers only portfolios in the autocomplete and filters for their descendants" do
           load_and_open_filters admin
 
-          projects_page.expect_filter_available("Portfolio")
+          projects_page.expect_filter_available("Part of Portfolio")
 
-          selected_filter = projects_page.select_filter("portfolio", "Portfolio")
+          selected_filter = projects_page.select_filter("portfolio", "Part of Portfolio")
           within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
 
           projects_page.expect_ng_option(selected_filter, portfolio.name)
@@ -690,7 +690,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_no_ng_option(selected_filter, program.name)
           projects_page.expect_no_ng_option(selected_filter, project.name)
 
-          projects_page.set_filter("portfolio", "Portfolio", "is (OR)", [portfolio.name])
+          projects_page.set_filter("portfolio", "Part of Portfolio", "is (OR)", [portfolio.name])
 
           wait_for_network_idle
 
@@ -707,7 +707,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         it "does not offer the filter" do
           load_and_open_filters manager
 
-          projects_page.expect_filter_not_available("Portfolio")
+          projects_page.expect_filter_not_available("Part of Portfolio")
         end
       end
     end
@@ -718,7 +718,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       it "does not offer the filter" do
         load_and_open_filters admin
 
-        projects_page.expect_filter_not_available("Portfolio")
+        projects_page.expect_filter_not_available("Part of Portfolio")
       end
     end
   end
@@ -736,9 +736,9 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         it "offers only programs in the autocomplete and filters for their descendants" do
           load_and_open_filters admin
 
-          projects_page.expect_filter_available("Program")
+          projects_page.expect_filter_available("Part of Program")
 
-          selected_filter = projects_page.select_filter("program", "Program")
+          selected_filter = projects_page.select_filter("program", "Part of Program")
           within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
 
           projects_page.expect_ng_option(selected_filter, program.name)
@@ -746,7 +746,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
           projects_page.expect_no_ng_option(selected_filter, portfolio.name)
           projects_page.expect_no_ng_option(selected_filter, project.name)
 
-          projects_page.set_filter("program", "Program", "is (OR)", [program.name])
+          projects_page.set_filter("program", "Part of Program", "is (OR)", [program.name])
 
           wait_for_network_idle
 
@@ -763,7 +763,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         it "does not offer the filter" do
           load_and_open_filters manager
 
-          projects_page.expect_filter_not_available("Program")
+          projects_page.expect_filter_not_available("Part of Program")
         end
       end
     end
@@ -774,7 +774,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       it "does not offer the filter" do
         load_and_open_filters admin
 
-        projects_page.expect_filter_not_available("Program")
+        projects_page.expect_filter_not_available("Part of Program")
       end
     end
   end

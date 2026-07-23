@@ -90,6 +90,11 @@ export interface ProjectTimelineItem {
   items?:ProjectTimelineItem[];
 }
 
+interface AccessibleProjectTimelineItem {
+  id:string;
+  text:string;
+}
+
 const GROUP_GATES = 'gates';
 const GROUP_PHASES = 'phases';
 const GROUP_MILESTONES = 'milestones';
@@ -114,6 +119,10 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
 
   readonly milestones = computed<ProjectMilestoneData[]>(
     () => JSON.parse(this.milestonesData()) as ProjectMilestoneData[],
+  );
+
+  readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
+    () => this.buildAccessibleItems(this.phases()),
   );
 
   private readonly i18n = inject(I18nService);
@@ -185,6 +194,38 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     ];
 
     return { items, groups };
+  }
+
+  private buildAccessibleItems(phases:ProjectPhaseData[]):AccessibleProjectTimelineItem[] {
+    const items:AccessibleProjectTimelineItem[] = [];
+
+    for (const phase of phases) {
+      if (phase.startDate && phase.endDate) {
+        items.push({
+          id: `phase-${phase.id}`,
+          text: this.i18n.t('js.grid.widgets.project_timeline.accessible_phase', {
+            name: phase.name,
+            date: this.accessiblePhaseDate(phase),
+          }),
+        });
+      }
+
+      if (phase.startGate && phase.startDate) {
+        items.push({
+          id: `gate-start-${phase.id}`,
+          text: this.accessibleGateText(phase.startGateName ?? phase.name, phase.startDate),
+        });
+      }
+
+      if (phase.finishGate && phase.endDate) {
+        items.push({
+          id: `gate-finish-${phase.id}`,
+          text: this.accessibleGateText(phase.finishGateName ?? phase.name, phase.endDate),
+        });
+      }
+    }
+
+    return items;
   }
 
   private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[]):void {
@@ -324,6 +365,24 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     }
     const iconData = item.itemType === 'gate' ? opGateIconData : opPhaseIconData;
     return octiconElement(iconData, 'small', `octicon __hl_inline_project_phase_definition_${item.definitionId!}`);
+  }
+
+  private accessiblePhaseDate(phase:ProjectPhaseData):string {
+    const start = this.timezone.formattedDate(phase.startDate!);
+    const end = this.timezone.formattedDate(phase.endDate!);
+
+    if (phase.startDate === phase.endDate) {
+      return start;
+    }
+
+    return this.i18n.t('js.grid.widgets.project_timeline.accessible_date_range', { start, end });
+  }
+
+  private accessibleGateText(name:string, date:string):string {
+    return this.i18n.t('js.grid.widgets.project_timeline.accessible_gate', {
+      name,
+      date: this.timezone.formattedDate(date),
+    });
   }
 
   private tooltipClusterData(items:ProjectTimelineItem[]):{dateStr:string; titleText:string} {
