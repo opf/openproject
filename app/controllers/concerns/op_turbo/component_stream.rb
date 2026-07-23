@@ -162,6 +162,10 @@ module OpTurbo
       turbo_streams << turbo_stream.turbo_frame_reload(target)
     end
 
+    def set_frame_src_via_turbo_stream(target, src)
+      turbo_streams << turbo_stream.turbo_frame_set_src(target, src)
+    end
+
     # Prefix required for all events dispatched via the `dispatchEvent` turbo
     # stream action. The client-side action refuses any event without it; see
     # `frontend/src/turbo/dispatch-event-stream-action.ts` for the rationale.

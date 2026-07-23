@@ -88,11 +88,11 @@ RSpec.describe Workflows::Copies::FromRolesController do
               .with(source_type, source_role, [source_type], target_roles)
     end
 
-    it "reloads the configuration frame with a flash notice" do
+    it "points the matrix frame at the first target role with a flash notice" do
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
       expect(response.body).to include("Successfully copied workflow to 2 roles.")
-      expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
+      expect(response).to have_turbo_stream(action: "turbo_frame_set_src", target: "workflow-table")
     end
   end
 end
