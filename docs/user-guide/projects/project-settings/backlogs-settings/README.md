@@ -108,6 +108,6 @@ Multiple active sprints is a **project-level setting** that allows you to enable
 
 > [!NOTE] 
 >
-> There is no limit to the number of sprints that can be activated or run in parallel within a project. To access this setting, **Don't share** option in the sprint sharing tab must be selected. 
+> Having multiple active sprints is only possible when the project is neither sharing nor receiving sprints. To activate this setting, **Don't share** option in the sprint sharing tab must be selected. 
 
 ![Activate multiple active sprints under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_allow_multiple_active_sprints.png)
