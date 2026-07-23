@@ -4465,7 +4465,6 @@ en:
       oauth_code_not_present_explanation: >
         This error appears if you have selected the wrong response_type
         in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_reported: "OAuth2 provider reported"
       oauth_returned_error: "OAuth2 returned an error"
       oauth_returned_http_error: "OAuth2 returned a network error"
