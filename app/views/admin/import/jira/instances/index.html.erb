@@ -112,7 +112,8 @@ See COPYRIGHT and LICENSE files for more details.
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.sprints"),
             ].map { |label| { label:, checked: false } },
             h: :full,
-          ))
+            icon: :"op-flag"
+            ))
         end
         flex.with_column(flex: 1, ml: 1) do
           render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
@@ -123,6 +124,7 @@ See COPYRIGHT and LICENSE files for more details.
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.schemes")
             ].map { |label| { label:, checked: false } },
             h: :full,
+            icon: :"arrow-right"
           ))
         end
       end
