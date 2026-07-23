@@ -241,7 +241,6 @@ class OAuthClientsController < ApplicationController
     if User.current.admin && redirect_uri && oauth_integration.try(:supports_oauth_redirect?)
       yield
     elsif redirect_uri
-      flash[:error] = [t(:"oauth_client.errors.oauth_issue_contact_admin")]
       redirect_to redirect_uri
     else
       redirect_to root_url
