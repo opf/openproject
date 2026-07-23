@@ -1191,6 +1191,7 @@ en:
         label_ago: "%{amount} ago"
         last_change: "Last change"
         projects: "Projects"
+        server_url: "Server URL"
       configuration:
         new: "New configuration"
         title: "Jira configuration"

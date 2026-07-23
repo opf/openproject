@@ -49,5 +49,9 @@ module Admin::Import::Jira
     def added
       helpers.format_date(model.created_at)
     end
+
+    def server_url
+      model.url
+    end
   end
 end
