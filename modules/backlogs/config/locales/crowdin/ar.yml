@@ -300,6 +300,9 @@ ar:
     name: OpenProject Backlogs
   project_module_backlogs: الأعمال المتراكمة غير المنجزة
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

@@ -31,7 +31,7 @@ es:
       not_available: Este widget no está disponible.
       project_timeline:
         no_lifecycle_results: No life cycle phases
-        title: Project timeline
+        title: Cronograma del proyecto
         title_portfolio: Portfolio timeline
         title_program: Program timeline
       subitems:

@@ -290,6 +290,9 @@ uk:
     name: Невиконані завдання в OpenProject
   project_module_backlogs: Невиконані завдання
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

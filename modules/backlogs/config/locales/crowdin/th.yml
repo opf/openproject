@@ -275,6 +275,9 @@ th:
     name: OpenProject Backlogs
   project_module_backlogs: รายการงานคงค้าง
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
