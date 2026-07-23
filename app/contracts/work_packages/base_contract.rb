@@ -443,7 +443,13 @@ module WorkPackages
     end
 
     def validate_version_and_target_version_not_contradict
-      if model.version_id_changed? && model.version_id != model.target_version_ids_replacements.first
+      # Only a user writing both fields is a real contradiction. version_id is
+      # also cleared by the system (e.g. on a project move, when the old version
+      # is not shared with the target project); that change is driven by the
+      # target_versions override and must not be flagged here.
+      return unless changed_by_user.include?("version_id")
+
+      if model.version_id != model.target_version_ids_replacements.first
         errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end

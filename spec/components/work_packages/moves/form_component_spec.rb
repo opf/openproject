@@ -71,6 +71,10 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     expect(rendered_component).to have_field(:notes, with: "Move notes")
   end
 
+  it "defaults the version select to '(no change)' when nothing is selected" do
+    expect(rendered_component).to have_select("target_version_ids[]", selected: I18n.t(:label_no_change_option))
+  end
+
   it "wires the refresh-on-form-changes controller" do
     expect(rendered_component).to have_css(
       "form[data-controller='refresh-on-form-changes']" \
@@ -86,7 +90,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       build_component(
         selected_values: {
           status_id: status.id.to_s,
-          version_id: version.id.to_s,
+          target_version_ids: [version.id.to_s],
           priority_id: priority.id.to_s
         }
       )
@@ -94,8 +98,26 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
 
     it "preserves the selected form values" do
       expect(rendered_component).to have_select(:status_id, selected: status.name)
-      expect(rendered_component).to have_select(:version_id, selected: version.name)
+      expect(rendered_component).to have_select("target_version_ids[]", selected: version.name)
       expect(rendered_component).to have_select(:priority_id, selected: priority.name)
+    end
+  end
+
+  context "with multiple selected versions" do
+    let!(:other_version) { create(:version, project: target_project, name: "Other version") }
+
+    let(:component) do
+      build_component(
+        selected_values: {
+          type_id: type.id.to_s,
+          target_version_ids: [version.id.to_s, other_version.id.to_s]
+        }
+      )
+    end
+
+    it "preserves every selected version so a refresh does not reset the multi-select" do
+      expect(rendered_component)
+        .to have_select("target_version_ids[]", selected: [version.name, other_version.name])
     end
   end
 
