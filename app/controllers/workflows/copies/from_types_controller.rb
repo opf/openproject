@@ -38,7 +38,7 @@ class Workflows::Copies::FromTypesController < ApplicationController
   before_action :set_source_type
   before_action :set_target_types
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     if @source_type.nil?
       render_flash_message_via_turbo_stream(
         message: I18n.t(:error_workflow_copy_source),
@@ -53,9 +53,16 @@ class Workflows::Copies::FromTypesController < ApplicationController
       @turbo_status = :unprocessable_entity
     else
       Workflow.copy(@source_type, nil, @target_types, Workflow.eligible_roles)
-      redirect_to edit_type_workflow_path(@target_types.first),
-                  notice: t(".notice", count: @target_types.size, type_name: @target_types.first.name)
-      return
+      # Reload the outer frame in place instead of redirecting, so the
+      # copy result appears wherever the matrix is embedded (tab or wizard)
+      close_dialog_via_turbo_stream("#copy_from_type_dialog")
+      render_success_flash_message_via_turbo_stream(
+        message: t(".notice", count: @target_types.size, type_name: @target_types.first.name)
+      )
+      dispatch_event_via_turbo_stream(
+        WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
+        detail: { type_id: @target_types.first.id, aspect: Type::ConfigurationLink::WORKFLOWS }
+      )
     end
 
     respond_with_turbo_streams

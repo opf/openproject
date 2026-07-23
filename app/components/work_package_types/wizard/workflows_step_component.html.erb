@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
+<%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:, reload_from_location: true)) do %>
   <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(type:, aspect: Type::ConfigurationLink::WORKFLOWS)) %>
 
   <% if roles.any? %>

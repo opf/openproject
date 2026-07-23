@@ -88,9 +88,11 @@ RSpec.describe Workflows::Copies::FromRolesController do
               .with(source_type, source_role, [source_type], target_roles)
     end
 
-    it "redirects with a flash notice" do
-      expect(response).to redirect_to(edit_type_workflow_path(source_type, role_id: target_roles.first.id))
-      expect(flash[:notice]).to eq("Successfully copied workflow to 2 roles.")
+    it "reloads the configuration frame with a flash notice" do
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
+      expect(response.body).to include("Successfully copied workflow to 2 roles.")
+      expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
     end
   end
 end

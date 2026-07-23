@@ -77,6 +77,25 @@ describe('ReloadFrameOnEventController', () => {
     expect(calls.count).toBe(1);
   });
 
+  it('reloads from the current location when reloadFromLocation is set', async () => {
+    await ctx.mount(`
+      <turbo-frame id="location-frame"
+                   data-controller="reload-frame-on-event"
+                   data-reload-frame-on-event-event-name-value="op-dispatched:resource-allocations:changed"
+                   data-reload-frame-on-event-url-value="/planner/view"
+                   data-reload-frame-on-event-reload-from-location-value="true">
+        content
+      </turbo-frame>
+    `);
+
+    const frame = ctx.container.querySelector('#location-frame') as unknown as ReloadableFrame;
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
+
+    expect(frame.src).toBe(window.location.href);
+    expect(frame.src).not.toContain('/planner/view');
+  });
+
   it('ignores unrelated events', async () => {
     const { frame, calls } = await mountFrame();
 

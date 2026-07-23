@@ -54,9 +54,16 @@ class Workflows::Copies::FromRolesController < ApplicationController
       @turbo_status = :unprocessable_entity
     else
       Workflow.copy(@source_type, @source_role, [@source_type], @target_roles)
-      redirect_to edit_type_workflow_path(@source_type, role_id: @target_roles.first.id),
-                  notice: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
-      return
+      # Reload the outer frame in place instead of redirecting, so the
+      # copy result appears wherever the matrix is embedded (tab or wizard)
+      close_dialog_via_turbo_stream("#copy_from_type_dialog")
+      render_success_flash_message_via_turbo_stream(
+        message: t(".notice", count: @target_roles.size, role_name: @target_roles.first.name)
+      )
+      dispatch_event_via_turbo_stream(
+        WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME,
+        detail: { type_id: @source_type.id, aspect: Type::ConfigurationLink::WORKFLOWS }
+      )
     end
 
     respond_with_turbo_streams

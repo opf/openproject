@@ -50,30 +50,47 @@ export default class WorkflowRoleSelectController extends Controller {
     const selectedIds = panel.items
       .filter((item) => panel.isItemChecked(item))
       .map((item) => item.getAttribute('data-item-id'))
-      .filter(Boolean);
+      .filter(Boolean) as string[];
 
     // For when all roles are deselected
     if (!selectedIds.length) {
-      this.navigateTo(this.buildUrl([]));
+      this.navigate([]);
       return;
     }
 
     if (selectedIds.slice().sort().join(',') === this.currentRoleIdsValue.slice().sort().join(',')) return;
 
-    this.navigateTo(this.buildUrl(selectedIds as string[]));
+    this.navigate(selectedIds);
   }
 
-  private buildUrl(roleIds:string[]):string {
-    const url = new URL(this.baseUrlValue, window.location.origin);
+  // Reloads the matrix frame from its base url while keeping the host
+  // page in the address bar, making it possible for reload/back behaviour
+  // to correctly keep the selected options without knowing/caring where
+  // the matrix is being rendered (edit tab or wizard step)
+  private navigate(roleIds:string[]) {
+    const frameUrl = this.buildUrl(this.baseUrlValue, roleIds);
+    const historyUrl = this.buildUrl(window.location.href, roleIds);
+    const run = ():void => this.navigateFrame(frameUrl, historyUrl);
+
+    if (this.hasAdminWorkflowCheckboxStateOutlet) {
+      this.adminWorkflowCheckboxStateOutlet.confirmNavigation(run);
+    } else {
+      run();
+    }
+  }
+
+  private navigateFrame(frameUrl:string, historyUrl:string) {
+    const frame = this.element.closest('turbo-frame') as HTMLElement | null;
+    if (!frame) return;
+
+    frame.setAttribute('src', frameUrl);
+    history.pushState({}, '', historyUrl);
+  }
+
+  private buildUrl(base:string, roleIds:string[]):string {
+    const url = new URL(base, window.location.origin);
+    url.searchParams.delete('role_ids[]');
     roleIds.forEach((id) => url.searchParams.append('role_ids[]', id));
     return url.toString();
-  }
-
-  private navigateTo(url:string) {
-    if (this.hasAdminWorkflowCheckboxStateOutlet) {
-      this.adminWorkflowCheckboxStateOutlet.navigateTo(url);
-    } else {
-      Turbo.visit(url);
-    }
   }
 }
