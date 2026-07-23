@@ -77,7 +77,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
     subject { WorkPackageCustomField.on_visible_type_and_project(linked_user) }
 
-    context "when the subtypes feature is enabled", with_flag: { subtypes: true } do
+    context "when the variants feature is enabled", with_flag: { type_variants: true } do
       before do
         create(:type_configuration_link,
                type: linked_type,
@@ -94,7 +94,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       end
     end
 
-    context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    context "when the variants feature is disabled", with_flag: { type_variants: false } do
       before do
         create(:type_configuration_link,
                type: linked_type,
@@ -107,7 +107,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       end
     end
 
-    context "with a multi-hop link chain", with_flag: { subtypes: true } do
+    context "with a multi-hop link chain", with_flag: { type_variants: true } do
       shared_let(:mid_type) { create(:type) }
 
       before do
@@ -124,7 +124,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       end
     end
 
-    context "with cyclic link rows", with_flag: { subtypes: true } do
+    context "with cyclic link rows", with_flag: { type_variants: true } do
       before do
         create(:type_configuration_link,
                type: linked_type, source: source_type,

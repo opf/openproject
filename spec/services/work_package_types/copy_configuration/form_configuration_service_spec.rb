@@ -142,7 +142,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "with a Linked source", with_flag: { subtypes: true } do
+  describe "with a Linked source", with_flag: { type_variants: true } do
     let(:owner) { create(:type) }
 
     before do

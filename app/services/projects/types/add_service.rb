@@ -38,31 +38,31 @@ module Projects
 
         if model.types.include?(type)
           service_call
-        elsif subtype_without_feature?(type)
-          failure(:cannot_assign_subtypes_yet)
-        elsif sibling_subtype_enabled?(type)
-          failure(:cannot_assign_multiple_subtypes_of_parent)
+        elsif variant_without_feature?(type)
+          failure(:cannot_assign_variants_yet)
+        elsif sibling_variant_enabled?(type)
+          failure(:cannot_assign_multiple_variants_of_parent)
         elsif family_conflict?(type)
-          failure(:cannot_assign_subtype_and_parent)
+          failure(:cannot_assign_variant_and_parent)
         else
           add_type(type)
           service_call
         end
       end
 
-      def subtype_without_feature?(type)
-        type.subtype? && !OpenProject::FeatureDecisions.subtypes_active?
+      def variant_without_feature?(type)
+        type.variant? && !OpenProject::FeatureDecisions.type_variants_active?
       end
 
-      def sibling_subtype_enabled?(type)
-        return false unless type.subtype?
+      def sibling_variant_enabled?(type)
+        return false unless type.variant?
 
         model.types.exists?(parent_id: type.parent_id)
       end
 
-      # A subtype may not be enabled alongside its parent, and vice versa.
+      # A variant may not be enabled alongside its parent, and vice versa.
       def family_conflict?(type)
-        if type.subtype?
+        if type.variant?
           model.types.exists?(id: type.parent_id)
         else
           model.types.exists?(parent_id: type.id)

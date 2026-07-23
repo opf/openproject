@@ -342,7 +342,7 @@ pl:
         token_name: Nazwa tokena
       type:
         attribute_groups: Konfiguracja formularza
-        children: Sub-types
+        children: Variants
         color: Kolor
         dependent_configuration_links: Linked types
         description: Domyślny tekst opisu
@@ -695,13 +695,13 @@ pl:
               must_start_with_letter: musi zaczynać się literą
               no_special_characters: może zawierać tylko wielkie litery, cyfry i znaki podkreślenia
             types:
-              cannot_assign_multiple_subtypes_of_parent: Can only enable a single subtype of a Type on the project
-              cannot_assign_subtype_and_parent: 'Cannot assign a subtype and its parent '
-              cannot_assign_subtypes_yet: Subtypes cannot be enabled on a project yet. Enable the beta feature to try out subtypes
+              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
+              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
+              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
-              switch_source_not_a_subtype: Can only switch away from a subtype
-              switch_target_identical: The target Type must be different from the current subtype
-              switch_target_not_in_family: Can only switch to another subtype of the same Type or to its parent Type
+              switch_source_not_a_variant: Can only switch away from a variant
+              switch_target_identical: The target Type must be different from the current variant
+              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
           cannot_be_assigned_to_artifact_work_package: Wybranemu użytkownikowi nie można przypisywać pakietów roboczych.
           foreign_wps_reference_version: Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.
         project/phase:
@@ -815,7 +815,7 @@ pl:
             parent:
               cannot_be_self: can't be the type itself.
               cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has sub-types.
+              cannot_have_children: can't be set because this type already has variants.
               must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
               standard_type_must_be_root: can't be set for the standard type.
             patterns:
@@ -5921,7 +5921,8 @@ pl:
   total_progress: Całkowity postęp
   types:
     creation_wizard:
-      create_subtype: Create sub-type
+      create_type: Create type
+      create_variant: Create variant
       fields:
         inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
       finish: Finish
@@ -5929,15 +5930,40 @@ pl:
       progress_label: Step %{number} of %{total}
       steps:
         automations: Automations
+        defaults: Defaults
         details: Details
         form_configuration: Form configuration
         pdf: PDF generation
         projects: Projects
         workflows: Workflows
-      success: Sub-type created successfully.
+      success: Variant created successfully.
       workflows:
         copy_caption: Copy the workflow configuration from an existing type as a starting point.
     edit:
+      defaults:
+        automatically_generated_subjects:
+          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
+          label: Automatically generated subjects
+        description:
+          caption: Add the text that will be added to the description field of all new work packages with this type.
+          label: Default description text
+        manually_editable_subjects:
+          caption: Users can manually enter and edit work package subjects without restrictions.
+          label: Manually editable subjects
+        pattern:
+          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          insert_as_text: 'No attributes found. Add as text: "%{word}"'
+          label: Subject pattern
+        tab: Defaults
+        token:
+          context:
+            parent: Parent
+            project: Project
+            work_package: Work package
+          label_with_context: "%{attribute_context}: %{attribute_label}"
+      details:
+        tab: Details
+        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
       export_configuration:
         artefact_export:
           attachment:
@@ -6018,7 +6044,7 @@ pl:
           dialog:
             description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
             source_label: Copy source
-            source_placeholder: Select a type or sub-type
+            source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
@@ -6061,7 +6087,7 @@ pl:
           dialog:
             description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
             source_label: Linked source
-            source_placeholder: Select a type or sub-type
+            source_placeholder: Select a type or variant
             submit: Switch
             title: Linked mode
           invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
@@ -6069,43 +6095,21 @@ pl:
           switch_to_independent: Switch to independent mode
           title: Linked mode
         parent_suffix: " (parent)"
-      settings:
-        parent_type_text: Optionally nest this type as a sub-type by selecting a parent type.
-        tab: Ustawienia
-        type_color_text: Wybrany kolor odróżnia różne typy na wykresach Gantta lub w tabelach pakietów roboczych. W związku z tym zalecane jest stosowanie mocnego koloru.
-      subject_configuration:
-        automatically_generated_subjects:
-          caption: Zdefiniuj wzorzec za pomocą wywoływanych atrybutów i tekstu, aby automatycznie generować tematy pakietów roboczych. Użytkownicy nie będą mogli ręcznie edytować tematów.
-          label: Automatycznie generowane tematy
-        manually_editable_subjects:
-          caption: Użytkownicy mogą bez ograniczeń ręcznie wprowadzać i edytować tematy pakietów roboczych.
-          label: Ręcznie edytowane tematy
-        pattern:
-          caption: Utwórz wzorce, dodając tekst lub wpisz znak „/”, aby wyszukać [obsługiwane atrybuty](attributes_url).
-          insert_as_text: 'Nie znaleziono atrybutów. Dodaj jako tekst: „%{word}”'
-          label: Wzorzec tematu
-        tab: Konfiguracja tematu
-        token:
-          context:
-            parent: Rodzic
-            project: Projekt
-            work_package: Zadanie
-          label_with_context: "%{attribute_context}: %{attribute_label}"
       workflow:
         tab: Workflows
     index:
-      add_subtype: Add sub-type to %{name}
-      description: 'Each configuration area inside types and sub-types can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add variant to %{name}
+      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
-      subtype_label: Sub-type
-      subtypes_count:
-        one: 1 sub-type
-        few: "%{count} sub-types"
-        many: "%{count} sub-types"
-        other: "%{count} sub-types"
+      variant_label: Variant
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
       type_label: Type
   unsupported_browser:
     close_warning: Zignoruj to ostrzeżenie.

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% if available? %>
+<% if setting_available? %>
   <% if too_many_active_sprints? %>
     <%=
       flex_layout(mb: 3, color: :attention) do |flex|

@@ -58,7 +58,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
     end
   end
 
-  describe ".visible with a linked form configuration", with_flag: { subtypes: true } do
+  describe ".visible with a linked form configuration", with_flag: { type_variants: true } do
     shared_let(:source_type) { create(:type) }
     shared_let(:linked_type) { create(:type) }
     shared_let(:linked_project) { create(:project, types: [linked_type]) }

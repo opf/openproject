@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::SprintSharing
+module Projects::SprintSettings
   extend ActiveSupport::Concern
 
   NO_SHARING         = "no_sharing"
@@ -64,7 +64,7 @@ module Projects::SprintSharing
     # 2. The closest share_subprojects ancestor of each receiving allowed project
     # 3. The global sharer for receiving projects that have no share_subprojects ancestor
     def sprint_source_for(projects) # rubocop:disable Metrics/AbcSize
-      share_subprojects = Projects::SprintSharing::SHARE_SUBPROJECTS
+      share_subprojects = Projects::SprintSettings::SHARE_SUBPROJECTS
 
       receiving_in_allowed = projects.receive_shared_sprints
       receiving_ids_sql = receiving_in_allowed.select(:id).to_sql
@@ -72,7 +72,7 @@ module Projects::SprintSharing
       # Case 1: Non-receiving allowed projects (sprint_source = self)
       direct = projects
                  .where("settings->>'sprint_sharing' IS DISTINCT FROM ?",
-                        Projects::SprintSharing::RECEIVE_SHARED)
+                        Projects::SprintSettings::RECEIVE_SHARED)
                  .select(:id)
 
       # Case 2: Closest share_subprojects ancestor for each receiving project.

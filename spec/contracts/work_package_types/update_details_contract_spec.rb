@@ -31,7 +31,7 @@
 require "spec_helper"
 
 module WorkPackageTypes
-  RSpec.describe UpdateSettingsContract do
+  RSpec.describe UpdateDetailsContract do
     let(:user) { create(:admin) }
     let(:model) { create(:type, name: "O-Negative") }
     let(:updated_attributes) { {} }
@@ -112,7 +112,7 @@ module WorkPackageTypes
       end
     end
 
-    describe "inherited core settings on a sub-type" do
+    describe "inherited core settings on a variant" do
       let(:parent) { create(:type) }
       let(:model) { create(:type, parent:) }
 
@@ -130,7 +130,7 @@ module WorkPackageTypes
         end
       end
 
-      context "when only the sub-type's own attributes change" do
+      context "when only the variant's own attributes change" do
         let(:updated_attributes) { { name: "Renamed variant", description: "A variant" } }
 
         it "is valid" do

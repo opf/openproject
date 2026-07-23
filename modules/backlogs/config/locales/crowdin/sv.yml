@@ -280,6 +280,9 @@ sv:
     name: Backloggar för OpenProject
   project_module_backlogs: Backloggar
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:

@@ -752,7 +752,7 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
-  describe "reuse mode banner", with_flag: { subtypes: true } do
+  describe "reuse mode banner", with_flag: { type_variants: true } do
     let(:source_type) { create(:type, name: "Feature") }
 
     context "when the workflow configuration is independent" do
@@ -778,7 +778,7 @@ RSpec.describe "Workflow edit", :js do
       end
     end
 
-    context "when the subtypes feature is disabled", with_flag: { subtypes: false } do
+    context "when the variants feature is disabled", with_flag: { type_variants: false } do
       before { visit_workflow_edit(roles: [role]) }
 
       it "does not show the reuse mode banner" do

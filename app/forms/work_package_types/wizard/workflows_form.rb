@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   module Wizard
-    # Independent-mode workflows: optionally seed the sub-type's workflows by
+    # Independent-mode workflows: optionally seed the variant's workflows by
     # copying them from another type, otherwise start from an empty workflow.
     class WorkflowsForm < ApplicationForm
       form do |workflows_form|

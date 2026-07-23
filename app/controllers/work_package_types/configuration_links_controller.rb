@@ -35,10 +35,10 @@ module WorkPackageTypes
   # switch itself. Built to mirror ConfigurationCopiesController; the reverse
   # switch back to Independent lives in ConfigurationIndependenceController.
   class ConfigurationLinksController < BaseTabController
-    include SubtypesFeature
+    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_subtypes_feature
+    before_action :require_type_variants_feature
     before_action :require_valid_aspect
 
     current_menu_item do

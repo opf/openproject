@@ -28,19 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared gating for the work package sub-types feature flag.
-module WorkPackageTypes
-  module SubtypesFeature
-    extend ActiveSupport::Concern
+module OpenProject::Users
+  # @logical_path OpenProject/Users
+  class StatusLabelComponentPreview < Lookbook::Preview
+    # @!group Statuses
+
+    def active
+      render(Users::StatusLabelComponent.new(user: build_user(:active)))
+    end
+
+    def locked
+      render(Users::StatusLabelComponent.new(user: build_user(:locked)))
+    end
+
+    def registered
+      render(Users::StatusLabelComponent.new(user: build_user(:registered)))
+    end
+
+    def invited
+      render(Users::StatusLabelComponent.new(user: build_user(:invited)))
+    end
+
+    # @!endgroup
 
     private
 
-    def subtypes_enabled?
-      OpenProject::FeatureDecisions.subtypes_active?
-    end
-
-    def require_subtypes_feature
-      render_404 unless subtypes_enabled?
+    def build_user(status)
+      FactoryBot.build_stubbed(:user, status: User.statuses[status])
     end
   end
 end

@@ -161,7 +161,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.21.0"
+gem "mcp", "~> 0.23.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -214,7 +214,7 @@ gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.0", require: false
+gem "mini_magick", "~> 5.3.2", require: false
 
 gem "validate_url"
 
@@ -400,7 +400,7 @@ gem "googleauth", require: false
 gem "disposable", "~> 0.6.2"
 
 # Used for formula evaluation of calculated values
-gem "dentaku", "~> 3.5"
+gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf3f4ed021c05dd2f5411d1c3f9b168a"
 
 # Used for more powerful counter caches
 gem "counter_culture", "~> 3.14"

@@ -28,42 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class SettingsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module OpenProject::Backlogs::Patches::FiltersMapperPatch
+  extend ActiveSupport::Concern
 
-    def initialize(model, copy_workflow_from: nil, **)
-      @copy_workflow_from = copy_workflow_from
-      super(model, **)
-    end
+  included do
+    prepend InstanceMethods
+  end
 
-    def form_options
-      if model.new_record?
-        create_form_options
-      else
-        update_form_options
-      end
-    end
+  module InstanceMethods
+    protected
 
-    private
-
-    attr_reader :copy_workflow_from
-
-    def create_form_options
-      { url: types_path, method: :post, model:, copy_workflow_from:, data: core_settings_toggle_data }
-    end
-
-    def update_form_options
-      { url: type_settings_path(type_id: model.id), method: :patch, model:, data: core_settings_toggle_data }
-    end
-
-    def core_settings_toggle_data
-      {
-        controller: "admin--work-package-type-settings",
-        "admin--work-package-type-settings-inherited-value": model.subtype?
-      }
+    # Sprints and backlog buckets are recreated with new ids when a project is
+    # copied (see Projects::Copy::SprintsDependentService and
+    # BacklogBucketsDependentService). A copied query's sprint_id /
+    # backlog_bucket_id filters must be remapped to those copies just like
+    # version_id, otherwise they keep pointing at the source project's records
+    # and the copied query matches nothing.
+    def build_filter_mappers
+      super.merge(
+        sprint_id: state_mapper(:sprint_id_lookup),
+        backlog_bucket_id: state_mapper(:backlog_bucket_id_lookup)
+      )
     end
   end
 end

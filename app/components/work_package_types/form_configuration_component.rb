@@ -43,7 +43,7 @@ module WorkPackageTypes
     end
 
     def readonly?
-      OpenProject::FeatureDecisions.subtypes_active? && @type.linked?(ASPECT)
+      OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(ASPECT)
     end
 
     def source

@@ -58,9 +58,9 @@ RSpec.describe "API v3 Type resource" do
 
         it_behaves_like "API V3 collection response", 4, 4, "Type"
 
-        context "with a sub-type" do
+        context "with a variant" do
           # a 5th type exists but the collection still returns the 4 roots only
-          let!(:sub_type) { create(:type, parent: types.first) }
+          let!(:variant) { create(:type, parent: types.first) }
 
           it_behaves_like "API V3 collection response", 4, 4, "Type"
         end
@@ -94,7 +94,7 @@ RSpec.describe "API v3 Type resource" do
           it { expect(response).to have_http_status(:ok) }
         end
 
-        context "for a sub-type" do
+        context "for a variant" do
           let(:root) { create(:type, name: "Task") }
           let(:type) { create(:type, name: "Bug", parent: root) }
 

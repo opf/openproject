@@ -58,7 +58,7 @@ module OpenProject
                               **@system_arguments)
 
           comment_field_if_enabled(form)
-          render_action_buttons if show_action_buttons
+          render_action_buttons(form) if show_action_buttons
         end
 
         def test_selector
@@ -79,20 +79,12 @@ module OpenProject
           }
         end
 
-        def render_action_buttons
-          form.group(layout: :horizontal, justify_content: :flex_end) do |button_group|
-            button_group.submit(name: :reset,
-                                type: :submit,
-                                label: I18n.t(:button_cancel),
-                                scheme: :default,
-                                formaction: inplace_edit_field_reset_path(model: model.class.name, id: model.id, attribute:),
-                                formmethod: :get,
-                                test_selector: "op-inplace-edit-field--textarea-cancel")
-            button_group.submit(name: :submit,
-                                label: I18n.t(:button_save),
-                                scheme: :primary,
-                                test_selector: "op-inplace-edit-field--textarea-save")
-          end
+        def cancel_button_options
+          super.merge(test_selector: "op-inplace-edit-field--textarea-cancel")
+        end
+
+        def submit_button_options
+          { test_selector: "op-inplace-edit-field--textarea-save" }
         end
       end
     end

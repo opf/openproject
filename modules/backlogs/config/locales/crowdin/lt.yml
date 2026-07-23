@@ -290,6 +290,9 @@ lt:
     name: OpenProject žurnalai
   project_module_backlogs: Darbų sąrašai
   projects:
+    copy:
+      backlog_buckets: Backlog buckets
+      sprints: Sprints
     settings:
       backlog_sharing:
         options:
