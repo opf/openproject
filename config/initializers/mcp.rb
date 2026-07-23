@@ -54,7 +54,8 @@ Rails.application.config.after_initialize do
                     McpTools::SearchProjects,
                     McpTools::SearchUsers,
                     McpTools::SearchVersions,
-                    McpTools::SearchWorkPackages
+                    McpTools::SearchWorkPackages,
+                    McpTools::UpdateWorkPackage
 
   McpResources.register McpResources::CurrentUser,
                         McpResources::Project,
