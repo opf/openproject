@@ -40,7 +40,8 @@ RSpec.describe Type::ConfigurationLink do
           workflows: "workflows",
           automations: "automations",
           projects: "projects",
-          form_configuration: "form_configuration"
+          form_configuration: "form_configuration",
+          project_attributes: "project_attributes"
         )
         .backed_by_column_of_type(:string)
     end
@@ -49,12 +50,14 @@ RSpec.describe Type::ConfigurationLink do
       expect(described_class::ASPECTS)
         .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS,
                             described_class::WORKFLOWS, described_class::AUTOMATIONS,
-                            described_class::PROJECTS, described_class::FORM_CONFIGURATION)
+                            described_class::PROJECTS, described_class::FORM_CONFIGURATION,
+                            described_class::PROJECT_ATTRIBUTES)
     end
 
     it "links only the aspects whose linked behaviour is implemented to the parent by default" do
       expect(described_class::DEFAULT_PARENT_LINK_ASPECTS)
-        .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS)
+        .to contain_exactly(described_class::PDF_EXPORT, described_class::DEFAULTS,
+                            described_class::PROJECT_ATTRIBUTES)
     end
 
     it "rejects an unknown aspect" do

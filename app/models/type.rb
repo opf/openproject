@@ -48,8 +48,13 @@ class Type < ApplicationRecord
   belongs_to :color, optional: true, class_name: "Color"
 
   has_many :work_packages
-  has_many :project_custom_field_type_mappings, dependent: :destroy
-  has_many :project_custom_fields, through: :project_custom_field_type_mappings,
+  # The write target and the eager-loadable association.
+  # Reads go through #project_custom_field_type_mappings, which resolves the
+  # mappings based on the PROJECT_ATTRIBUTES linking mode.
+  has_many :own_project_custom_field_type_mappings,
+           class_name: "ProjectCustomFieldTypeMapping",
+           dependent: :destroy
+  has_many :project_custom_fields, through: :own_project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
   # The write target and the eager-loadable association
   # Reads go through #workflows, which resolves workflows based on linking mode
@@ -148,6 +153,15 @@ class Type < ApplicationRecord
     return own_workflows if source.nil?
 
     source.own_workflows
+  end
+
+  # Writers use #own_project_custom_field_type_mappings, which is why the fallback
+  # is that association rather than `super`.
+  def project_custom_field_type_mappings
+    source = linked_configuration_source(Type::ConfigurationLink::PROJECT_ATTRIBUTES)
+    return own_project_custom_field_type_mappings if source.nil?
+
+    source.own_project_custom_field_type_mappings
   end
 
   def statuses(include_default: false, role: nil, tab: nil)
