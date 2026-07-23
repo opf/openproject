@@ -31,6 +31,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-timeline-graph.component';
+import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
+import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
 
 describe('ProjectTimelineGraphComponent', () => {
   const i18nStub = {
@@ -106,6 +108,7 @@ describe('ProjectTimelineGraphComponent', () => {
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let component:ProjectTimelineGraphComponent;
 
   let buildData:(phases:unknown[], milestones:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
@@ -130,12 +133,13 @@ describe('ProjectTimelineGraphComponent', () => {
     fixture.componentRef.setInput('milestonesData', '[]');
     fixture.detectChanges();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    buildData = (component as any).buildData.bind(component);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    tooltipTemplate = (component as any).tooltipTemplate.bind(component);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-    buildAccessibleItems = (component as any).buildAccessibleItems.bind(component);
+    const injector = fixture.debugElement.injector;
+    const itemBuilder = injector.get(ProjectTimelineItemBuilder);
+    const tooltipBuilder = injector.get(ProjectTimelineTooltipBuilder);
+
+    buildData = itemBuilder.buildData.bind(itemBuilder);
+    tooltipTemplate = tooltipBuilder.tooltipTemplate.bind(tooltipBuilder);
+    buildAccessibleItems = itemBuilder.buildAccessibleItems.bind(itemBuilder);
   });
 
   describe('buildData', () => {

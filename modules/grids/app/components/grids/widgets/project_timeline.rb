@@ -75,7 +75,7 @@ module Grids
 
         params = JSON.parse(result[:query_props])
         params["hi"] = false
-        helpers.gantt_index_path(query_props: params.to_json)
+        helpers.project_gantt_index_path(project, query_props: params.to_json)
       end
 
       def wrapper_arguments
