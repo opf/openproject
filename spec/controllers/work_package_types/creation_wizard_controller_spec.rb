@@ -96,6 +96,14 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
         end
       end
 
+      describe "GET show with an unrecognised step" do
+        it "falls back to the first step" do
+          get :show, params: { type_id: variant.id, step: "does-not-exist" }
+
+          expect(assigns(:current_step)).to eq(WorkPackageTypes::Wizard::Steps.first)
+        end
+      end
+
       describe "PATCH update on the details step" do
         it "updates and advances to the next step" do
           patch :update, params: { type_id: variant.id, step: :details, type: { name: "Blocker" } }

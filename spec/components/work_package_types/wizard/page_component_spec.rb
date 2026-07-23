@@ -34,16 +34,29 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
   let(:parent) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
-  before do
-    login_as(create(:admin))
-    type.link!(Type::ConfigurationLink::PDF_EXPORT, source: parent)
-  end
+  before { login_as(create(:admin)) }
 
-  it "shows the linked PDF banner on the pdf step" do
-    render_inline(described_class.new(type:, current_step: :pdf))
+  describe "step dispatch" do
+    # The page's job is to render the right body per step; each body's own content is
+    # its responsibility, so we stub it. Inline-form steps (details/defaults/workflows)
+    # render through StepEditors and are covered by their editors' specs.
+    {
+      form_configuration: WorkPackageTypes::Wizard::FormConfigurationStepComponent,
+      projects: WorkPackageTypes::ProjectsComponent,
+      pdf: WorkPackageTypes::Wizard::PdfStepComponent,
+      # A known step with no dedicated body yet falls back to the placeholder.
+      automations: WorkPackageTypes::Wizard::PlaceholderComponent
+    }.each do |step, component|
+      it "renders #{component} on the #{step} step" do
+        stubbed = instance_double(component, render_in: "STUB[#{step}]")
+        allow(component).to receive(:new).and_return(stubbed)
 
-    expect(page).to have_text("Linked mode")
-    expect(page).to have_text("Phase")
+        render_inline(described_class.new(type:, current_step: step))
+
+        expect(component).to have_received(:new)
+        expect(page).to have_text("STUB[#{step}]")
+      end
+    end
   end
 
   describe "sidebar step markers" do
