@@ -1165,6 +1165,9 @@ en:
 
     jemalloc_allocator: Jemalloc memory allocator
     jira:
+      actions:
+        button_edit: "Edit configuration"
+        button_open: "Open runs"
       banner:
         contribution_callout: >
           Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.

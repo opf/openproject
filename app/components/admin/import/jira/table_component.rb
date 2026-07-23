@@ -44,6 +44,10 @@ module Admin::Import::Jira
       rows.any?
     end
 
+    def has_actions?
+      true
+    end
+
     def headers
       [
         [:name, { caption: Import::Jira.human_attribute_name(:name) }],
