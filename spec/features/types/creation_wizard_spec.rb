@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true } do
   shared_let(:admin) { create(:admin) }
-  shared_let(:bug_type) { create(:type, name: "Bug") }
+  shared_let(:bug_type) { create(:type, name: "Bug", color: create(:color)) }
 
   before { login_as(admin) }
 
@@ -50,9 +50,20 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     )
   end
 
+  # There is no flash message; a step's sidebar marker turning into a success check is
+  # what tells us its submission was accepted. Asserting the completed step's own state
+  # (rather than the next step's content) keeps the specs correct if the order changes.
+  def expect_step_saved(step)
+    within_test_selector("wizard-step-#{step}") do
+      expect(page).to have_css(".octicon-check-circle-fill")
+    end
+  end
+
   def complete_details_step(name)
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
+
+    expect_step_saved(:details)
 
     bug_type.children.find_by(name:).tap { |variant| expect(variant).to be_present }
   end
@@ -72,14 +83,32 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     # the footer, not a Save button, drives submission.
     expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
     expect(page).to have_no_button(I18n.t(:button_save))
+    click_on I18n.t(:button_continue)
 
-    click_on I18n.t(:button_continue) # Defaults -> Form configuration
-    click_on I18n.t(:button_continue) # -> Workflows
-    click_on I18n.t(:button_continue) # -> Automations
-    click_on I18n.t(:button_continue) # -> Projects
-    click_on I18n.t(:button_continue) # -> PDF generation
+    # Step 3 - Form configuration: independent on creation,
+    # so it renders the whole form and the footer drives submission.
+    expect(page).to have_heading("Form configuration") # the main content, not the sidebar entry
+    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Inactive attributes")
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:form_configuration)
+
+    # Step 4 - Workflow
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:workflows)
+
+    # Step 5 - Automations
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:automations)
+
+    # Step 6 - Projects
+    click_on I18n.t(:button_continue)
+    expect_step_saved(:projects)
+
+    # Step 7 - PDF generation
     click_on I18n.t("types.creation_wizard.finish")
 
+    expect_flash(message: "Variant created successfully.")
     expect(page).to have_current_path(types_path)
     expect(variant.reload.parent).to eq(bug_type)
   end
@@ -96,6 +125,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     check Type.human_attribute_name(:is_milestone)
     click_on I18n.t(:button_continue)
 
+    expect_step_saved(:details)
     expect(Type.find_by(name: "Incident")).to have_attributes(parent: nil, is_milestone: true)
   end
 
@@ -110,6 +140,7 @@ RSpec.describe "Variant creation wizard", :js, with_flag: { type_variants: true 
     Components::WysiwygEditor.new.set_markdown("Reproduce the bug first")
     click_on I18n.t(:button_continue)
 
+    expect_step_saved(:defaults)
     expect(variant.reload.description).to eq("Reproduce the bug first")
   end
 

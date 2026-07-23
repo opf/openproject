@@ -46,6 +46,16 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     expect(page).to have_text("Phase")
   end
 
+  describe "sidebar step markers" do
+    it "distinguishes completed, current, and pending steps" do
+      render_inline(described_class.new(type:, current_step: :defaults))
+
+      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-check-circle-fill")
+      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-dot-fill")
+      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-circle")
+    end
+  end
+
   describe "breadcrumbs" do
     it "links the parent the variant is being created under" do
       render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
