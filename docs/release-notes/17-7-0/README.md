@@ -50,7 +50,7 @@ Under *Administration → Users and permissions → Users*, you can now [configu
 
 [feature: resource_management ]
 
-The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](/blog/resource-management-capacity-planning). For a detailed documentation, please refer to our [user guide on resource management](../../user-guide/resource-management/).
+The new Resource management module helps organizations plan capacity, allocate work, and balance workloads across teams. It provides dedicated tools for resource planning and staffing while giving project managers greater visibility into team availability and utilization. [Learn more about the new capabilities and the Resource management module in our dedicated blog article](https://www.openproject.org/blog/resource-management-capacity-planning/). For a detailed documentation, please refer to our [user guide on resource management](../../user-guide/resource-management/).
 
 **Resource planner**
 
